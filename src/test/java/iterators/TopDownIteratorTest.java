@@ -1,6 +1,8 @@
 package iterators;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 
@@ -18,7 +20,7 @@ public class TopDownIteratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		TopDownIterator iterator = new TopDownIterator(tablero);
+		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
 		SimpleImmutableEntry<Square, Pieza> entry =  null;
 		

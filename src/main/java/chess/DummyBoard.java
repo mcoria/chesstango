@@ -1,5 +1,12 @@
 package chess;
 
+import java.util.Iterator;
+
+import iterators.BoardIterator;
+import iterators.SquareIterator;
+
+import java.util.AbstractMap.SimpleImmutableEntry;
+
 public class DummyBoard {
 	//56,57,58,59,60,61,62,63,
 	//48,49,50,51,52,53,54,55,
@@ -24,11 +31,28 @@ public class DummyBoard {
 	}
 
 	public Pieza getPieza(Square square) {
-		// TODO Auto-generated method stub
 		return tablero[square.getFile()][square.getRank()];
 	}
 
 	public boolean isEmtpy(Square square) {
 		return getPieza(square) == null;
+	}
+	
+	public BoardIterator iterator(SquareIterator squareIterator){
+		
+		return new BoardIterator(){
+			@Override
+			public boolean hasNext() {
+				return squareIterator.hasNext();
+			}
+			
+			@Override
+			public SimpleImmutableEntry<Square, Pieza> next() {
+				Square currentSquare = squareIterator.next();
+				Pieza pieza = getPieza(currentSquare);
+				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
+			}
+			
+		};
 	}
 }

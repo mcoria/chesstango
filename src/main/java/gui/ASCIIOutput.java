@@ -1,13 +1,15 @@
 package gui;
 
 import java.io.PrintStream;
+import java.util.Iterator;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.Board;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
-import iterators.TopDownIterator;
+import iterators.BoardIterator;
+import iterators.TopDownSquareIterator;
 
 public class ASCIIOutput {
 	
@@ -23,7 +25,7 @@ public class ASCIIOutput {
 	
 	public void printBoard(Board board) {
 		DummyBoard tablero = board.getTablero();
-		TopDownIterator iterator = new TopDownIterator(tablero);
+		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 
 		printStream.println("  -------------------------------");
 		do {
