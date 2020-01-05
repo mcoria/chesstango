@@ -2,7 +2,9 @@ package chess;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import gui.ASCIIOutput;
@@ -24,17 +26,17 @@ public class Board {
 	
 	public Set<Move> getMoves(Color color){
 		Set<Move> moves = new HashSet<Move>();
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; i < 8; i++) {
-				Pieza currentPieza = null; //tablero[i][j];
-				if(currentPieza != null){
-					if(Color.BLANCO.equals(color) && currentPieza.isBlanco()){
-						moves.addAll(getMoves(currentPieza, i));
-					} else if(Color.NEGRO.equals(color) && currentPieza.isNegro()) {
-						moves.addAll(getMoves(currentPieza, i));
-					}
+
+		for (Map.Entry<Square, Pieza> entry : tablero) {
+			Square currentSquare = entry.getKey();
+			Pieza currentPieza = entry.getValue();
+			if(currentPieza != null){
+				if(Color.BLANCO.equals(color) && currentPieza.isBlanco()){
+					//moves.addAll(getMoves(currentPieza, i));
+				} else if(Color.NEGRO.equals(color) && currentPieza.isNegro()) {
+					//moves.addAll(getMoves(currentPieza, i));
 				}
-			}
+			}			
 		}
 		return moves;
 	}

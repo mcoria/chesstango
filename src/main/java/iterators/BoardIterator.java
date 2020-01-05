@@ -1,11 +1,11 @@
 package iterators;
 
 import java.util.Iterator;
-import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
 
 import chess.Pieza;
 import chess.Square;
 
-public interface BoardIterator extends Iterator<SimpleImmutableEntry<Square, Pieza>>{
+public interface BoardIterator extends Iterator<Map.Entry<Square, Pieza>>{
 
 }

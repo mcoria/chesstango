@@ -2,6 +2,7 @@ package gui;
 
 import java.io.PrintStream;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.Board;
@@ -29,7 +30,7 @@ public class ASCIIOutput {
 
 		printStream.println("  -------------------------------");
 		do {
-			SimpleImmutableEntry<Square, Pieza> element = iterator.next();
+			Map.Entry<Square, Pieza> element = iterator.next();
 			Square square = element.getKey();
 			Pieza pieza = element.getValue();
 
