@@ -1,6 +1,7 @@
 package parsers;
 
 import chess.Board;
+import chess.DummyBoard;
 import chess.Pieza;
 
 public class FENParser {
@@ -12,23 +13,23 @@ public class FENParser {
 		String piecePlacement = fields[0];
 		//String activeColor= fields[1];
 		
-		Pieza[] tablero = parsePiecePlacement(piecePlacement);
+		DummyBoard tablero = parsePiecePlacement(piecePlacement);
 		
 		return new Board(tablero);
 	}
 	
-	protected Pieza[] parsePiecePlacement(String piecePlacement){
-		Pieza[] tablero = new Pieza[64];
+	public DummyBoard  parsePiecePlacement(String piecePlacement){
+		Pieza[][] tablero = new Pieza[8][8];
 		String ranks[] = piecePlacement.split("/");
 		int currentRank = 7;
 		for (int i = 0; i < 8; i++) {
 			Pieza[] rankPiezas = parseRank(ranks[i]);
 			for (int j = 0; j < 8; j++) {
-				tablero[currentRank * 8 + j] = rankPiezas[j];
+				tablero[j][currentRank] = rankPiezas[j];
 			}
 			currentRank--;
 		}
-		return tablero;
+		return new DummyBoard(tablero);
 	}
 
 	protected Pieza[] parseRank(String rank) {

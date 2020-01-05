@@ -16,21 +16,23 @@ public class Board {
 	//16,17,18,19,20,21,22,23,
     //08,09,10,11,12,13,14,15,
     //00,01,02,03,04,05,06,07,	
-	private Pieza[] tablero;
+	private DummyBoard tablero;
 	
-	public Board(Pieza[] tablero){
+	public Board(DummyBoard tablero){
 		this.tablero = tablero;
 	}
 	
 	public Set<Move> getMoves(Color color){
 		Set<Move> moves = new HashSet<Move>();
-		for (int i = 0; i < tablero.length; i++) {
-			Pieza currentPieza = tablero[i];
-			if(currentPieza != null){
-				if(Color.BLANCO.equals(color) && currentPieza.isBlanco()){
-					moves.addAll(getMoves(currentPieza, i));
-				} else if(Color.NEGRO.equals(color) && currentPieza.isNegro()) {
-					moves.addAll(getMoves(currentPieza, i));
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; i < 8; i++) {
+				Pieza currentPieza = null; //tablero[i][j];
+				if(currentPieza != null){
+					if(Color.BLANCO.equals(color) && currentPieza.isBlanco()){
+						moves.addAll(getMoves(currentPieza, i));
+					} else if(Color.NEGRO.equals(color) && currentPieza.isNegro()) {
+						moves.addAll(getMoves(currentPieza, i));
+					}
 				}
 			}
 		}
@@ -63,11 +65,11 @@ public class Board {
 		return null;
 	}
 
-	public final Pieza[] getTablero() {
+	public final DummyBoard getTablero() {
 		return tablero;
 	}
 
-	public void setTablero(Pieza[] tablero) {
+	public void setTablero(DummyBoard tablero) {
 		this.tablero = tablero;
 	}
 	

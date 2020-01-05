@@ -4,7 +4,9 @@ import java.io.PrintStream;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.Board;
+import chess.DummyBoard;
 import chess.Pieza;
+import chess.Square;
 import iterators.TopDownIterator;
 
 public class ASCIIOutput {
@@ -20,22 +22,22 @@ public class ASCIIOutput {
 	}
 	
 	public void printBoard(Board board) {
-		Pieza[] tablero = board.getTablero();
+		DummyBoard tablero = board.getTablero();
 		TopDownIterator iterator = new TopDownIterator(tablero);
 
 		printStream.println("  -------------------------------");
 		do {
-			SimpleImmutableEntry<Integer, Pieza> element = iterator.next();
-			Integer idx = element.getKey();
+			SimpleImmutableEntry<Square, Pieza> element = iterator.next();
+			Square square = element.getKey();
 			Pieza pieza = element.getValue();
 
-			if (idx % 8 == 0) {
-				printStream.print((idx / 8 + 1));
+			if (square.getFile() == 0) {
+				printStream.print((square.getRank() + 1));
 			}
 
 			printStream.print("| " + getChar(pieza) + " ");
 
-			if (idx % 8 == 7) {
+			if (square.getFile() == 7) {
 				printStream.println("|");
 				printStream.println("  -------------------------------");
 			}
