@@ -1,11 +1,9 @@
 package chess;
 
-import java.util.Iterator;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import iterators.BoardIterator;
 import iterators.SquareIterator;
-
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 public class DummyBoard {
 	//56,57,58,59,60,61,62,63,

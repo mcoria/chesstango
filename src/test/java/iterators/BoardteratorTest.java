@@ -1,6 +1,7 @@
 package iterators;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +14,7 @@ import chess.Pieza;
 import chess.Square;
 import parsers.FENParser;
 
-public class TopDownIteratorTest {
+public class BoardteratorTest {
 
 	@Test
 	public void test() {
@@ -351,7 +352,10 @@ public class TopDownIteratorTest {
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h1, entry.getKey());
-		assertEquals(Pieza.TORRE_BLANCO, entry.getValue());		
+		assertEquals(Pieza.TORRE_BLANCO, entry.getValue());
+		
+		//END
+		assertFalse(iterator.hasNext());		
 	}
 
 }
