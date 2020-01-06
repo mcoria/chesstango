@@ -1,8 +1,10 @@
 package chess;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import iterators.BoardIterator;
 import iterators.BottomUpSquareIterator;
@@ -23,12 +25,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 		this.tablero = tablero;
 	}
 
-	public Pieza[][] getTablero() {
-		return tablero;
-	}
-
-	public void setTablero(Pieza[][] tablero) {
-		this.tablero = tablero;
+	public DummyBoard(DummyBoard tablero) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public Pieza getPieza(Square square) {
@@ -40,7 +38,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 	}
 	
 	public BoardIterator iterator(SquareIterator squareIterator){
-		
 		return new BoardIterator(){
 			@Override
 			public boolean hasNext() {
@@ -53,7 +50,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 				Pieza pieza = getPieza(currentSquare);
 				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
 			}
-			
 		};
 	}
 
@@ -61,4 +57,41 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 	public Iterator<Map.Entry<Square, Pieza>> iterator() {
 		return iterator(new BottomUpSquareIterator());
 	}
+
+	public void move(Move move) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private Square getKingSquare(Color color) {
+		Square kingSquare = null;
+		for (Map.Entry<Square, Pieza> entry : this) {
+			Square currentSquare = entry.getKey();
+			Pieza currentPieza = entry.getValue();
+			if(currentPieza != null){
+				if(currentPieza.isRey() && color.equals(currentPieza.getColor())){
+					kingSquare = currentSquare;
+					break;
+				}
+			}			
+		}
+		return kingSquare;
+	}
+	
+	public boolean isKingInCheck(Color color) {
+		Square kingSquare = getKingSquare(color.opositeColor());
+		for (Map.Entry<Square, Pieza> entry : this) {
+			Square currentSquare = entry.getKey();
+			Pieza currentPieza = entry.getValue();
+			if(currentPieza != null){
+				if(color.equals(currentPieza.getColor().opositeColor())){
+					if(currentPieza.puedeCapturarRey(this, currentSquare, kingSquare)){
+						return true;
+					}
+				}
+			}			
+		}
+		return false;
+	}
+
 }

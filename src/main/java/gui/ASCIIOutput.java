@@ -1,9 +1,7 @@
 package gui;
 
 import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.Board;
 import chess.DummyBoard;

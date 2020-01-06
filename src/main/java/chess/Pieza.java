@@ -1,23 +1,33 @@
 package chess;
 
-public enum Pieza {
-	PEON_BLANCO,
-	PEON_NEGRO,
+import java.util.Set;
+
+import movegenerators.MoveGenerator;
+
+public enum Pieza implements MoveGenerator {
+	PEON_BLANCO(null),
+	PEON_NEGRO(null),
 	
-	TORRE_BLANCO,
-	TORRE_NEGRO,
+	TORRE_BLANCO(null),
+	TORRE_NEGRO(null),
 	
-	CABALLO_BLANCO,
-	CABALLO_NEGRO,
+	CABALLO_BLANCO(null),
+	CABALLO_NEGRO(null),
 	
-	ALFIL_BLANCO,
-	ALFIL_NEGRO,
+	ALFIL_BLANCO(null),
+	ALFIL_NEGRO(null),
 	
-	REINA_BLANCO,
-	REINA_NEGRO,
+	REINA_BLANCO(null),
+	REINA_NEGRO(null),
 	
-	REY_BLANCO,
-	REY_NEGRO;
+	REY_BLANCO(null),
+	REY_NEGRO(null);
+	
+	private MoveGenerator generator;
+	
+	private Pieza(MoveGenerator generator) {
+		this.generator = generator;
+	}
 	
 	public boolean isBlanco(){
 		return this.equals(PEON_BLANCO) || 
@@ -30,6 +40,13 @@ public enum Pieza {
 	
 	public boolean isNegro(){
 		return !isBlanco();
+	}
+	
+	public Color getColor(){
+		if(isBlanco()) 
+			return Color.BLANCO;
+		else
+			return Color.NEGRO;
 	}
 	
 	public boolean isPeon(){
@@ -54,5 +71,20 @@ public enum Pieza {
 	
 	public boolean isRey(){
 		return this.equals(REY_BLANCO) || this.equals(REY_NEGRO);
+	}
+
+	@Override
+	public Set<Move> getLegalMoves(DummyBoard tablero, Square currentSquare) {
+		return generator.getLegalMoves(tablero, currentSquare);
+	}
+	
+	@Override
+	public Set<Move> getPseudoMoves(DummyBoard tablero, Square casillero) {
+		return generator.getPseudoMoves(tablero, casillero);
+	}
+
+	@Override
+	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
+		return generator.puedeCapturarRey(dummyBoard, casillero, kingSquare);
 	}	
 }
