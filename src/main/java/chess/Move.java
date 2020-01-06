@@ -17,4 +17,18 @@ public class Move {
 	public Square getTo() {
 		return to;
 	}
+	
+	@Override
+	public int hashCode() {
+		return from.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Move){
+			Move theOther = (Move) obj;
+			return from.equals(theOther.from) &&  to.equals(theOther.to);
+		}
+		return false;
+	}
 }

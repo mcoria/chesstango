@@ -1,14 +1,11 @@
 package chess;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-
-import gui.ASCIIOutput;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Iterator;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 
+import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.BottomUpSquareIterator;
 import iterators.SquareIterator;
@@ -57,7 +54,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 	}
 
 	@Override
-	public Iterator<Map.Entry<Square, Pieza>> iterator() {
+	public BoardIterator iterator() {
 		return iterator(new BottomUpSquareIterator());
 	}
 

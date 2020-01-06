@@ -38,12 +38,14 @@ public class FENParser {
 		Pieza piezas[] = new Pieza[8];
 		int position = 0;
 		for (int i = 0; i < rank.length(); i++) {
-			Pieza currentPieza =  getCode(rank.charAt(i));
+			char theCharCode = rank.charAt(i);
+			Pieza currentPieza =  getCode(theCharCode);
 			if(currentPieza != null){
-				piezas[i] = currentPieza;
+				piezas[position] = currentPieza;
 				position++;
 			} else {
-				position = position + Integer.parseUnsignedInt(rank.substring(i, i+1));
+				int offset = Integer.parseInt(String.valueOf(theCharCode)); 
+				position += offset;
 			}
 		}
 		if(position != 8) {

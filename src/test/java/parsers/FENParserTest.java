@@ -44,6 +44,23 @@ public class FENParserTest {
 	}
 	
 	@Test
+	public void testParseRankBlakRank03() {
+		FENParser parser = new FENParser();
+		
+		Pieza[] piezas = parser.parseRank("4R3");
+		
+		assertNull(piezas[0]);
+		assertNull(piezas[1]);
+		assertNull(piezas[2]);
+		assertNull(piezas[3]);
+		assertEquals(Pieza.TORRE_BLANCO, piezas[4]);
+		assertNull(piezas[5]);
+		assertNull(piezas[6]);
+		assertNull(piezas[7]);
+	}
+	
+	
+	@Test
 	public void testParseRankWhiteRank01() {
 		FENParser parser = new FENParser();
 		

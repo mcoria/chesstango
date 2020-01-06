@@ -1,14 +1,10 @@
 package chess;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import gui.ASCIIOutput;
 
 public class Board {
 	private DummyBoard tablero;
