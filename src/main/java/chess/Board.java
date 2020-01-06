@@ -2,6 +2,8 @@ package chess;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -11,11 +13,50 @@ import gui.ASCIIOutput;
 public class Board {
 	private DummyBoard tablero;
 	
-	public Board(DummyBoard tablero){
-		this.tablero = tablero;
-	}
+	private Color turnoActual;
 	
-	public Set<Move> getMoves(Color color){
+	private Deque<Move> stackMoves = new ArrayDeque<Move>();
+	
+	private Set<Move> movimientosPosibles;
+	
+	private GameStatus status;
+	
+	public Board(DummyBoard tablero, Color turno){
+		this.tablero = tablero;
+		this.turnoActual = turno;
+		updateGameStatus();
+	}
+
+	public GameStatus move(Move move) {
+		if(this.status.equals(GameStatus.IN_PROGRESS)){
+			if ( movimientosPosibles.contains(move) ) {
+				tablero.move(move);
+				stackMoves.push(move);
+				turnoActual = turnoActual.opositeColor();
+				updateGameStatus();
+			} else {
+				throw new RuntimeException("Invalid move");
+			}
+		} else {
+			throw new RuntimeException("Invalid game state");
+		}
+		return this.status;
+	}
+
+	protected void updateGameStatus() {
+		movimientosPosibles = getMoves(turnoActual);
+		if(movimientosPosibles.isEmpty()){
+			if( tablero.isKingInCheck(turnoActual) ){
+				this.status = GameStatus.JAQUE_MATE;
+			} else {
+				this.status = GameStatus.TABLAS;
+			}
+		} else {
+			this.status = GameStatus.IN_PROGRESS;
+		}
+	}
+
+	protected Set<Move> getMoves(Color color){
 		Set<Move> moves = new HashSet<Move>();
 		for (Map.Entry<Square, Pieza> entry : tablero) {
 			Square currentSquare = entry.getKey();
@@ -28,23 +69,15 @@ public class Board {
 		}
 		return moves;
 	}
-
+	
 	public final DummyBoard getTablero() {
 		return tablero;
 	}
-
-	public void setTablero(DummyBoard tablero) {
-		this.tablero = tablero;
-	}
 	
-	@Override
-	public String toString() {
-	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    try (PrintStream ps = new PrintStream(baos)) {
-	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	output.printBoard(this);
-	    	ps.flush();
-	    }
-	    return new String(baos.toByteArray());
-	}
+	private final Set<Move> getMovimientosPosibles() {
+		return movimientosPosibles;
+	}	
+	
+
+
 }

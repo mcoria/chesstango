@@ -1,10 +1,13 @@
 package chess;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.HashSet;
+
+import gui.ASCIIOutput;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import iterators.BoardIterator;
 import iterators.BottomUpSquareIterator;
@@ -93,5 +96,16 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 		}
 		return false;
 	}
+	
+	@Override
+	public String toString() {
+	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    try (PrintStream ps = new PrintStream(baos)) {
+	    	ASCIIOutput output = new ASCIIOutput(ps);
+	    	output.printDummyBoard(this);
+	    	ps.flush();
+	    }
+	    return new String(baos.toByteArray());
+	}	
 
 }

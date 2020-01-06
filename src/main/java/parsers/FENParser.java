@@ -1,6 +1,7 @@
 package parsers;
 
 import chess.Board;
+import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 
@@ -11,11 +12,12 @@ public class FENParser {
 		String fields[] = input.split(" ");
 		
 		String piecePlacement = fields[0];
-		//String activeColor= fields[1];
+		String activeColor= fields[1];
 		
 		DummyBoard tablero = parsePiecePlacement(piecePlacement);
+		Color color = parseColor(activeColor);
 		
-		return new Board(tablero);
+		return new Board(tablero, color);
 	}
 	
 	public DummyBoard  parsePiecePlacement(String piecePlacement){
@@ -31,7 +33,7 @@ public class FENParser {
 		}
 		return new DummyBoard(tablero);
 	}
-
+	
 	protected Pieza[] parseRank(String rank) {
 		Pieza piezas[] = new Pieza[8];
 		int position = 0;
@@ -104,6 +106,22 @@ public class FENParser {
 
 		return pieza;
 	}
+	
+	public Color parseColor(String activeColor) {
+		char colorChar = activeColor.charAt(0);
+		Color color = null;
+		switch (colorChar) {
+		case 'w':
+			color = Color.BLANCO;
+			break;	
+		case 'b':
+			color = Color.NEGRO;
+			break;				
+		default:
+			throw new RuntimeException("Unknown FEN code " + activeColor);			
+		}
+		return color;
+	}	
 
 	private static FENParser fenParser = new FENParser();
 	

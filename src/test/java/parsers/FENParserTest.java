@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
@@ -153,6 +154,26 @@ public class FENParserTest {
 		assertEquals(Pieza.CABALLO_NEGRO, tablero.getPieza(Square.g8));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
 		
-	}		
+	}
+	
+	@Test
+	public void testParseColorBlanco() {
+		FENParser parser = new FENParser();
+		
+		Color actualColor = parser.parseColor("w");
+		
+		assertEquals(Color.BLANCO, actualColor);
+		
+	}	
+	
+	@Test
+	public void testParseColorNegro() {
+		FENParser parser = new FENParser();
+		
+		Color actualColor = parser.parseColor("b");
+		
+		assertEquals(Color.NEGRO, actualColor);
+		
+	}	
 
 }

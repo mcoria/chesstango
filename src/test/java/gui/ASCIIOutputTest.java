@@ -7,7 +7,7 @@ import java.io.PrintStream;
 
 import org.junit.Test;
 
-import chess.Board;
+import chess.DummyBoard;
 import parsers.FENParser;
 
 public class ASCIIOutputTest {
@@ -39,11 +39,12 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
-	    	output.printBoard(board);
+			output.printDummyBoard(tablero);
 	    	ps.flush();
 	    }    
 	    
