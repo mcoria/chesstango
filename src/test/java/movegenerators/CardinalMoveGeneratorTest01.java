@@ -140,21 +140,38 @@ public class CardinalMoveGeneratorTest01 {
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
 		
-		assertEquals(4, moves.size());
+		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h5)));
 	}	
 	
 	@Test
 	public void testEste01() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/B3R3/8/8/8/8");
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4R2B/8/8/8/8");
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.a5));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.h5));
+	
+		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este});
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		
+		assertEquals(2, moves.size());
+		
+		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
+	}	
+	
+	@Test
+	public void testEste02() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4R2b/8/8/8/8");
+		
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
+		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.h5));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este});
 		
@@ -162,29 +179,9 @@ public class CardinalMoveGeneratorTest01 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
-	}	
-	
-	@Test
-	public void testEste02() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/b3R3/8/8/8/8");
-		
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.a5));
-	
-		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este});
-		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
-		
-		assertEquals(4, moves.size());
-		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h5)));
 	}
 	
 	@Test
@@ -198,38 +195,21 @@ public class CardinalMoveGeneratorTest01 {
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
 		
-		assertEquals(3, moves.size());
+		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.a5)));
 	}
 	
 	@Test
 	public void testOeste01() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4R2B/8/8/8/8");
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/B3R3/8/8/8/8");
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.h5));
-	
-		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
-		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
-		
-		assertEquals(2, moves.size());
-		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
-	}	
-	
-	@Test
-	public void testOeste02() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4R2b/8/8/8/8");
-		
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.h5));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.a5));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
@@ -237,9 +217,29 @@ public class CardinalMoveGeneratorTest01 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h5)));		
+		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
+	}	
+	
+	@Test
+	public void testOeste02() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/b3R3/8/8/8/8");
+		
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
+		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.a5));
+	
+		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		
+		assertEquals(4, moves.size());
+		
+		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.a5)));
 	}
 	
 	@Test

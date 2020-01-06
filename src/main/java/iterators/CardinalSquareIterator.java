@@ -24,12 +24,12 @@ public class CardinalSquareIterator implements SquareIterator {
 		case Sur:
 			this.nextPoint =  Square.getSquare(from.getFile(), from.getRank() - 1);	
 			break;
-		case Oeste:
-			this.nextPoint =  Square.getSquare(from.getFile() + 1, from.getRank());	
-			break;				
 		case Este:
+			this.nextPoint =  Square.getSquare(from.getFile() + 1, from.getRank());	
+			break;			
+		case Oeste:
 			this.nextPoint =  Square.getSquare(from.getFile() - 1, from.getRank());	
-			break;		
+			break;
 		default:
 			throw new RuntimeException("Cardinal not defined");
 		}
