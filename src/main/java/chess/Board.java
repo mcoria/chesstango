@@ -22,7 +22,7 @@ public class Board {
 			Pieza currentPieza = entry.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getLegalMoves(tablero, currentSquare));
+					moves.addAll(currentPieza.getLegalMoves(this, currentSquare));
 				}
 			}
 		}
