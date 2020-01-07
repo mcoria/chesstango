@@ -5,7 +5,8 @@ import chess.Square;
 public class CardinalSquareIterator implements SquareIterator {
 	
 	public enum Cardinal{
-		Norte, Sur, Este, Oeste
+		Norte, Sur, Este, Oeste,
+		NorteEste, SurEste, SurOeste, NorteOeste
 	}
 	
 	private Square nextPoint;
@@ -30,6 +31,18 @@ public class CardinalSquareIterator implements SquareIterator {
 		case Oeste:
 			this.nextPoint =  Square.getSquare(from.getFile() - 1, from.getRank());	
 			break;
+		case NorteEste:
+			this.nextPoint =  Square.getSquare(from.getFile() + 1, from.getRank() + 1);
+			break;
+		case SurEste:
+			this.nextPoint =  Square.getSquare(from.getFile() + 1, from.getRank() - 1);
+			break;	
+		case SurOeste:
+			this.nextPoint =  Square.getSquare(from.getFile() - 1, from.getRank() - 1);
+			break;	
+		case NorteOeste:
+			this.nextPoint =  Square.getSquare(from.getFile() - 1, from.getRank() + 1);
+			break;			
 		default:
 			throw new RuntimeException("Cardinal not defined");
 		}
