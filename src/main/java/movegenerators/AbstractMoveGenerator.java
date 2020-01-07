@@ -9,7 +9,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 
-public abstract class AbstractMoveGenerator implements MoveGenerator{
+public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
 	public Set<Move> getLegalMoves(Board board, Square currentSquare) {

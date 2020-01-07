@@ -2,26 +2,30 @@ package chess;
 
 import java.util.Set;
 
+import iterators.CardinalSquareIterator.Cardinal;
+import movegenerators.CardinalMoveGenerator;
+import movegenerators.DummyMoveGenerator;
 import movegenerators.MoveGenerator;
+import movegenerators.PeonBlancoMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
-	PEON_BLANCO(null),
-	PEON_NEGRO(null),
+	PEON_BLANCO(new PeonBlancoMoveGenerator()),
+	PEON_NEGRO(new DummyMoveGenerator()),
 	
-	TORRE_BLANCO(null),
-	TORRE_NEGRO(null),
+	TORRE_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
+	TORRE_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	
-	CABALLO_BLANCO(null),
-	CABALLO_NEGRO(null),
+	CABALLO_BLANCO(new DummyMoveGenerator()),
+	CABALLO_NEGRO(new DummyMoveGenerator()),
 	
-	ALFIL_BLANCO(null),
-	ALFIL_NEGRO(null),
+	ALFIL_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste})),
+	ALFIL_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste})),
 	
-	REINA_BLANCO(null),
-	REINA_NEGRO(null),
+	REINA_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
+	REINA_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	
-	REY_BLANCO(null),
-	REY_NEGRO(null);
+	REY_BLANCO(new DummyMoveGenerator()),
+	REY_NEGRO(new DummyMoveGenerator());
 	
 	private MoveGenerator generator;
 	

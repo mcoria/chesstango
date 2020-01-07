@@ -3,7 +3,13 @@ package chess;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -79,7 +85,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 	}
 	
 	public boolean isKingInCheck(Color color) {
-		Square kingSquare = getKingSquare(color.opositeColor());
+		Square kingSquare = getKingSquare(color);
 		for (Map.Entry<Square, Pieza> entry : this) {
 			Square currentSquare = entry.getKey();
 			Pieza currentPieza = entry.getValue();
@@ -89,9 +95,40 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 						return true;
 					}
 				}
-			}			
+			}
 		}
 		return false;
+	}
+	
+	// Metodo con propositos de Testing
+	protected Set<Move> getPseudoMoves(Color color){
+		Set<Move> moves = new HashSet<Move>(){			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6937596099247521750L;
+
+			@Override
+			public String toString() {
+				String str = "Size: " + this.size() + "\n";
+				TreeSet<Move> sortedSet = new TreeSet<Move>(this);
+				
+				for (Move move : sortedSet) {
+					str = str + move.getFrom().toString() + " " + move.getTo().toString() + "\n";
+				}
+				return str;
+			};
+		};
+		for (Map.Entry<Square, Pieza> entry : this) {
+			Square currentSquare = entry.getKey();
+			Pieza currentPieza = entry.getValue();
+			if(currentPieza != null){
+				if(color.equals(currentPieza.getColor())){
+					moves.addAll(currentPieza.getPseudoMoves(this, currentSquare));
+				}
+			}
+		}
+		return moves;
 	}
 	
 	@Override
