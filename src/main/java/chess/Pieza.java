@@ -7,6 +7,7 @@ import movegenerators.CardinalMoveGenerator;
 import movegenerators.DummyMoveGenerator;
 import movegenerators.MoveGenerator;
 import movegenerators.PeonMoveGenerator;
+import movegenerators.ReyMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
 	PEON_BLANCO(new PeonMoveGenerator(Color.BLANCO)),
@@ -24,8 +25,8 @@ public enum Pieza implements MoveGenerator {
 	REINA_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	REINA_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	
-	REY_BLANCO(new DummyMoveGenerator()),
-	REY_NEGRO(new DummyMoveGenerator());
+	REY_BLANCO(new ReyMoveGenerator(Color.BLANCO)),
+	REY_NEGRO(new ReyMoveGenerator(Color.NEGRO));
 	
 	private MoveGenerator generator;
 	

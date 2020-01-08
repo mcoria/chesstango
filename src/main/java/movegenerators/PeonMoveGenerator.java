@@ -9,7 +9,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 
-public class PeonMoveGenerator extends AbstractMoveGenerator{
+public class PeonMoveGenerator extends AbstractMoveGenerator {
 
 	private Color color;
 	
