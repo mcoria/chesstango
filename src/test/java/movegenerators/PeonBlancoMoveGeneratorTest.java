@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -20,15 +21,16 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/P7/8/8");
 		
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.a3));
+		Square from = Square.a3;		
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 	
-		PeonBlancoMoveGenerator moveGenerator = new PeonBlancoMoveGenerator();
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.a3);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.a3, Square.a4)));
+		assertTrue(moves.contains(new Move(from, Square.a4)));
 	}
 	
 	@Test
@@ -36,26 +38,57 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/P7/8");
 		
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.a2));
+		Square from = Square.a2;
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 	
-		PeonBlancoMoveGenerator moveGenerator = new PeonBlancoMoveGenerator();
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.a2);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.a2, Square.a3)));
-		assertTrue(moves.contains(new Move(Square.a2, Square.a4)));
+		assertTrue(moves.contains(new Move(from, Square.a3)));
+		assertTrue(moves.contains(new Move(from, Square.a4)));
 	}
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		org.junit.Assert.fail("Not implemented");
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3p4/4P3/8");
+		
+		Square from = Square.e2;
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d3));
+	
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		
+		assertEquals(3, moves.size());
+		
+		assertTrue(moves.contains(new Move(from, Square.e3)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));
+		assertTrue(moves.contains(new Move(from, Square.d3)));
 	}
 	
 	@Test
 	public void testAtaqueDerecha() {
-		org.junit.Assert.fail("Not implemented");
-	}	
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5p2/4P3/8");
+		
+		Square from = Square.e2;
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.f3));
+	
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		
+		assertEquals(3, moves.size());
+		
+		assertTrue(moves.contains(new Move(from, Square.e3)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));
+		assertTrue(moves.contains(new Move(from, Square.f3)));
+	}
 
 }

@@ -6,11 +6,11 @@ import iterators.CardinalSquareIterator.Cardinal;
 import movegenerators.CardinalMoveGenerator;
 import movegenerators.DummyMoveGenerator;
 import movegenerators.MoveGenerator;
-import movegenerators.PeonBlancoMoveGenerator;
+import movegenerators.PeonMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
-	PEON_BLANCO(new PeonBlancoMoveGenerator()),
-	PEON_NEGRO(new DummyMoveGenerator()),
+	PEON_BLANCO(new PeonMoveGenerator(Color.BLANCO)),
+	PEON_NEGRO(new PeonMoveGenerator(Color.NEGRO)),
 	
 	TORRE_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	TORRE_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
@@ -33,17 +33,13 @@ public enum Pieza implements MoveGenerator {
 		this.generator = generator;
 	}
 	
-	public boolean isBlanco(){
+	private boolean isBlanco(){
 		return this.equals(PEON_BLANCO) || 
 				this.equals(TORRE_BLANCO) || 
 				this.equals(CABALLO_BLANCO) || 
 				this.equals(ALFIL_BLANCO) || 
 				this.equals(REINA_BLANCO) || 
 				this.equals(REY_BLANCO);
-	}
-	
-	public boolean isNegro(){
-		return !isBlanco();
 	}
 	
 	public Color getColor(){
