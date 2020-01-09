@@ -41,7 +41,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 		return tablero[square.getFile()][square.getRank()];
 	}
 	
-	public void setPieza(Pieza pieza, Square square) {
+	public void setPieza(Square square, Pieza pieza) {
 		tablero[square.getFile()][square.getRank()] = pieza;
 	}
 	

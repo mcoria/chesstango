@@ -23,19 +23,27 @@ public class Board {
 		updateGameStatus();
 	}
 
-	public GameStatus move(Move move) {
-		if(this.status.equals(GameStatus.IN_PROGRESS)){
-			if ( movimientosPosibles.contains(move) ) {
-				move.execute(this);
-				stackMoves.push(move);
-				turnoActual = turnoActual.opositeColor();
-				updateGameStatus();
+	public GameStatus executeMove(Square from, Square to) {
+		if(GameStatus.IN_PROGRESS.equals(this.status)){
+			Move move = getMovimiento(from, to);
+			if(move != null) {
+				executeMove(move);
 			} else {
-				throw new RuntimeException("Invalid move");
+				throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
 			}
 		} else {
 			throw new RuntimeException("Invalid game state");
 		}
+		return this.status;
+	}
+	
+
+	protected GameStatus executeMove(Move move) {
+		assert(movimientosPosibles.contains(move));
+		move.execute(this);
+		stackMoves.push(move);
+		turnoActual = turnoActual.opositeColor();
+		updateGameStatus();
 		return this.status;
 	}
 
@@ -66,14 +74,30 @@ public class Board {
 		return moves;
 	}
 	
+	private Move getMovimiento(Square from, Square to) {
+		Move moveResult = null;
+		for (Move move : movimientosPosibles) {
+			if(from.equals(move.getFrom()) && to.equals(move.getTo())){
+				moveResult = move;
+			}
+		}
+		return moveResult;
+	}	
+	
 	public final DummyBoard getTablero() {
 		return tablero;
 	}
-	
+
 	public final Set<Move> getMovimientosPosibles() {
 		return movimientosPosibles;
-	}	
-	
+	}
 
+	public final Color getTurnoActual() {
+		return turnoActual;
+	}
+
+	public final GameStatus getGameStatus() {
+		return this.status;
+	}
 
 }

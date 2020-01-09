@@ -1,5 +1,7 @@
 package chess;
 
+import moveexecutors.MoveExecutor;
+import moveexecutors.SimpleMoveExecutor;
 
 public class Move implements Comparable<Move>{
 	private Square from;
@@ -7,9 +9,18 @@ public class Move implements Comparable<Move>{
 	private MoveType type;
 	
 	public enum MoveType {
-		SIMPLE,
-		CAPTURA,
-		ENROQUE
+		SIMPLE(new SimpleMoveExecutor()),
+		CAPTURA(new SimpleMoveExecutor()),
+		ENROQUE(null);
+		
+		private MoveExecutor executor = null;
+		private MoveType(MoveExecutor executor) {
+			this.executor = executor;
+		}
+		
+		public MoveExecutor getMoveExecutor() {
+			return executor;
+		}
 	}
 	
 	public Move(Square from, Square to, MoveType type) {
@@ -47,11 +58,12 @@ public class Move implements Comparable<Move>{
 	}
 
 	public void execute(Board board) {
-		
+		this.type.getMoveExecutor().execute(board, from, to);
 	}
 
 	public void execute(DummyBoard tablero) {
-		// TODO Auto-generated method stub
-		
+		this.type.getMoveExecutor().execute(tablero, from, to);
 	}
+
+
 }
