@@ -10,7 +10,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
-import iterators.ReySquareIterator;
+import iterators.SaltoSquareIterator;
 
 public class ReyMoveGenerator extends AbstractMoveGenerator {
 	
@@ -21,7 +21,7 @@ public class ReyMoveGenerator extends AbstractMoveGenerator {
 	
 	@Override
 	public Set<Move> getPseudoMoves(DummyBoard tablero, Square casillero) {
-		BoardIterator iterator = tablero.iterator(new ReySquareIterator(casillero));
+		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, SaltoSquareIterator.SALTOS_REY));
 		Set<Move> moves = new HashSet<Move>();
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> entry = iterator.next();

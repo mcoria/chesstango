@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import chess.Square;
 
-public class ReySquareIteratorTest {
+public class SaltoSquareIteratorTest01 {
 
 	@Test
 	public void test01() {
-		ReySquareIterator iterator = new ReySquareIterator(Square.e5);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, SaltoSquareIterator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -36,7 +36,7 @@ public class ReySquareIteratorTest {
 
 	@Test
 	public void test02() {
-		ReySquareIterator iterator = new ReySquareIterator(Square.a1);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, SaltoSquareIterator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -54,7 +54,7 @@ public class ReySquareIteratorTest {
 	
 	@Test
 	public void test03() {
-		ReySquareIterator iterator = new ReySquareIterator(Square.h1);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, SaltoSquareIterator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -71,7 +71,7 @@ public class ReySquareIteratorTest {
 	
 	@Test
 	public void test04() {
-		ReySquareIterator iterator = new ReySquareIterator(Square.a8);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, SaltoSquareIterator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -89,7 +89,7 @@ public class ReySquareIteratorTest {
 	
 	@Test
 	public void test05() {
-		ReySquareIterator iterator = new ReySquareIterator(Square.h8);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, SaltoSquareIterator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
