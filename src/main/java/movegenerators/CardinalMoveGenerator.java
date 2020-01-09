@@ -9,6 +9,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import chess.Move.MoveType;
 import iterators.BoardIterator;
 import iterators.CardinalSquareIterator;
 import iterators.CardinalSquareIterator.Cardinal;
@@ -48,12 +49,12 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    Square destino = entry.getKey();
 		    Pieza pieza = entry.getValue();
 		    if(pieza == null){
-		    	Move move = new Move(casillero, destino);
+		    	Move move = new Move(casillero, destino, MoveType.SIMPLE);
 		    	moves.add(move);
 		    } else if(color.equals(pieza.getColor())){
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(casillero, destino);
+		    	Move move = new Move(casillero, destino, MoveType.SIMPLE);
 		    	moves.add(move);		    	
 		    }
 		}

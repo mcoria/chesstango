@@ -19,7 +19,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		Set<Move> pseudoMoves = getPseudoMoves(tablero, currentSquare);
 		for (Move move : pseudoMoves) {
 			DummyBoard tableroNew = new DummyBoard(tablero);
-			tableroNew.move(move);
+			move.execute(tableroNew);
 			if(! tableroNew.isKingInCheck(currentPieza.getColor()) ) {
 				moves.add(move);
 			}

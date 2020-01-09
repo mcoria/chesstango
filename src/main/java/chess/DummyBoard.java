@@ -40,6 +40,14 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 	public Pieza getPieza(Square square) {
 		return tablero[square.getFile()][square.getRank()];
 	}
+	
+	public void setPieza(Pieza pieza, Square square) {
+		tablero[square.getFile()][square.getRank()] = pieza;
+	}
+	
+	public void setEmptySquare(Square square){
+		tablero[square.getFile()][square.getRank()] = null;
+	}
 
 	public boolean isEmtpy(Square square) {
 		return getPieza(square) == null;
@@ -64,11 +72,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 	@Override
 	public BoardIterator iterator() {
 		return iterator(new BottomUpSquareIterator());
-	}
-
-	public void move(Move move) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private Square getKingSquare(Color color) {

@@ -26,7 +26,7 @@ public class Board {
 	public GameStatus move(Move move) {
 		if(this.status.equals(GameStatus.IN_PROGRESS)){
 			if ( movimientosPosibles.contains(move) ) {
-				tablero.move(move);
+				move.execute(this);
 				stackMoves.push(move);
 				turnoActual = turnoActual.opositeColor();
 				updateGameStatus();
@@ -70,7 +70,7 @@ public class Board {
 		return tablero;
 	}
 	
-	private final Set<Move> getMovimientosPosibles() {
+	public final Set<Move> getMovimientosPosibles() {
 		return movimientosPosibles;
 	}	
 	

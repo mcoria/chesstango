@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import chess.Move.MoveType;
 import parsers.FENParser;
 
 public class DummyBoardTest {
@@ -19,30 +20,30 @@ public class DummyBoardTest {
 		
 		assertEquals(20, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.a2, Square.a3)));
-		assertTrue(moves.contains(new Move(Square.a2, Square.a4)));
-		assertTrue(moves.contains(new Move(Square.b2, Square.b3)));
-		assertTrue(moves.contains(new Move(Square.b2, Square.b4)));
-		assertTrue(moves.contains(new Move(Square.c2, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.c2, Square.c4)));
-		assertTrue(moves.contains(new Move(Square.d2, Square.d3)));
-		assertTrue(moves.contains(new Move(Square.d2, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e2, Square.e3)));
-		assertTrue(moves.contains(new Move(Square.e2, Square.e4)));
-		assertTrue(moves.contains(new Move(Square.f2, Square.f3)));
-		assertTrue(moves.contains(new Move(Square.f2, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.g2, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.g2, Square.g4)));
-		assertTrue(moves.contains(new Move(Square.h2, Square.h3)));
-		assertTrue(moves.contains(new Move(Square.h2, Square.h4)));
+		assertTrue(moves.contains(new Move(Square.a2, Square.a3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.a2, Square.a4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.b2, Square.b3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.b2, Square.b4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.c2, Square.c3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.c2, Square.c4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.d2, Square.d3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.d2, Square.d4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e2, Square.e3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e2, Square.e4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.f2, Square.f3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.f2, Square.f4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.g2, Square.g3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.g2, Square.g4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.h2, Square.h3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.h2, Square.h4, MoveType.SIMPLE)));
 		
 		//Caballo Reyna
-		assertTrue(moves.contains(new Move(Square.b1, Square.a3)));
-		assertTrue(moves.contains(new Move(Square.b1, Square.c3)));
+		assertTrue(moves.contains(new Move(Square.b1, Square.a3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.b1, Square.c3, MoveType.SIMPLE)));
 		
 		//Caballo Rey
-		assertTrue(moves.contains(new Move(Square.g1, Square.f3)));
-		assertTrue(moves.contains(new Move(Square.g1, Square.h3)));
+		assertTrue(moves.contains(new Move(Square.g1, Square.f3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.g1, Square.h3, MoveType.SIMPLE)));
 	}
 
 }

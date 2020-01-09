@@ -8,6 +8,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import chess.Move.MoveType;
 
 public class PeonMoveGenerator extends AbstractMoveGenerator {
 
@@ -28,24 +29,24 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
 		if(saltoSimpleCasillero != null && dummyBoard.isEmtpy(saltoSimpleCasillero)){
-			moves.add( new Move(casillero, saltoSimpleCasillero) );
+			moves.add( new Move(casillero, saltoSimpleCasillero, MoveType.SIMPLE) );
 		}
 		
 		if(saltoDobleCasillero != null && dummyBoard.isEmtpy(saltoDobleCasillero)){
-			moves.add( new Move(casillero, saltoDobleCasillero) );
+			moves.add( new Move(casillero, saltoDobleCasillero, MoveType.SIMPLE) );
 		}
 		
 		if (casilleroAtaqueIzquirda != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				moves.add(new Move(casillero, casilleroAtaqueIzquirda));
+				moves.add(new Move(casillero, casilleroAtaqueIzquirda, MoveType.SIMPLE));
 			}
 		}	
 		
 		if (casilleroAtaqueDerecha != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				moves.add(new Move(casillero, casilleroAtaqueDerecha));
+				moves.add(new Move(casillero, casilleroAtaqueDerecha, MoveType.SIMPLE));
 			}
 		}
 		

@@ -11,6 +11,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import chess.Move.MoveType;
 import iterators.CardinalSquareIterator.Cardinal;
 import parsers.FENParser;
 
@@ -29,9 +30,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h8)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g7, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h8, MoveType.SIMPLE)));
 	}
 	
 	
@@ -50,8 +51,8 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g7, MoveType.SIMPLE)));
 	}
 	
 	@Test
@@ -68,9 +69,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h8)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g7, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h8, MoveType.SIMPLE)));
 	}	
 	
 	
@@ -87,9 +88,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h2)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h2, MoveType.SIMPLE)));
 	}
 	
 	
@@ -107,8 +108,8 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g3, MoveType.SIMPLE)));
 	}	
 	
 	
@@ -126,9 +127,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h2)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h2, MoveType.SIMPLE)));
 	}
 	
 
@@ -145,10 +146,10 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a1)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b2, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.a1, MoveType.SIMPLE)));
 	}
 	
 
@@ -166,9 +167,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b2, MoveType.SIMPLE)));
 	}	
 	
 
@@ -186,10 +187,10 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));	
-		assertTrue(moves.contains(new Move(Square.e5, Square.a1)));	
+		assertTrue(moves.contains(new Move(Square.e5, Square.d4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b2, MoveType.SIMPLE)));	
+		assertTrue(moves.contains(new Move(Square.e5, Square.a1, MoveType.SIMPLE)));	
 	}	
 
 
@@ -206,9 +207,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b8)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c7, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b8, MoveType.SIMPLE)));
 	}
 	
 	
@@ -227,8 +228,8 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c7, MoveType.SIMPLE)));
 	}
 	
 	
@@ -246,9 +247,9 @@ public class CardinalMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b8)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c7, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b8, MoveType.SIMPLE)));
 	}
 
 	
@@ -266,24 +267,24 @@ public class CardinalMoveGeneratorTest02 {
 		assertEquals(13, moves.size());
 		
 		//NorteEste
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h8)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g7, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h8, MoveType.SIMPLE)));
 		
 		//SurEste
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h2)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.f4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.g3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.h2, MoveType.SIMPLE)));
 		
 		//SurOeste
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a1)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.d4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b2, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.a1, MoveType.SIMPLE)));
 		
 		//NorteOeste
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b8)));		
+		assertTrue(moves.contains(new Move(Square.e5, Square.d6, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.c7, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(Square.e5, Square.b8, MoveType.SIMPLE)));		
 	}
 }
