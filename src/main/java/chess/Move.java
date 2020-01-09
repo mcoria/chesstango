@@ -4,6 +4,7 @@ package chess;
 public class Move implements Comparable<Move>{
 	private Square from;
 	private Square to;
+	private MoveType type;
 	
 	public enum MoveType {
 		SIMPLE,
@@ -14,6 +15,7 @@ public class Move implements Comparable<Move>{
 	public Move(Square from, Square to, MoveType type) {
 		this.from = from;
 		this.to = to;
+		this.type = type;
 	}
 
 	public Square getFrom() {
@@ -33,7 +35,7 @@ public class Move implements Comparable<Move>{
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
 			Move theOther = (Move) obj;
-			return from.equals(theOther.from) &&  to.equals(theOther.to);
+			return from.equals(theOther.from) &&  to.equals(theOther.to) && type.equals(theOther.type);
 		}
 		return false;
 	}

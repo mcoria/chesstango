@@ -69,7 +69,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains(new Move(from, Square.e3, MoveType.SIMPLE)));
 		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.d3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(from, Square.d3, MoveType.CAPTURA)));
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains(new Move(from, Square.e3, MoveType.SIMPLE)));
 		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.f3, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(from, Square.f3, MoveType.CAPTURA)));
 	}
 
 }

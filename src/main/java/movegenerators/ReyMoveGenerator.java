@@ -34,7 +34,7 @@ public class ReyMoveGenerator extends AbstractMoveGenerator {
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(casillero, destino, MoveType.SIMPLE);
+		    	Move move = new Move(casillero, destino, MoveType.CAPTURA);
 		    	moves.add(move);		    	
 		    }
 		}
