@@ -3,10 +3,7 @@ package chess;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -31,8 +28,13 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 		this.tablero = tablero;
 	}
 
-	public DummyBoard(DummyBoard tablero) {
-		// TODO Auto-generated constructor stub
+	public DummyBoard(DummyBoard theBoard) {
+		tablero = new Pieza[8][8];
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				tablero[i][j] = theBoard.tablero[i][j];
+			}
+		}
 	}
 
 	public Pieza getPieza(Square square) {

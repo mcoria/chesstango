@@ -18,7 +18,7 @@ public class SaltoSquareIteratorTest02 {
 
 		while (iterator.hasNext()) {
 			Square square = iterator.next();
-			System.out.println(square);
+			//System.out.println(square);
 			squares.add(square);
 		}
 

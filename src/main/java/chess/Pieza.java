@@ -3,8 +3,8 @@ package chess;
 import java.util.Set;
 
 import iterators.CardinalSquareIterator.Cardinal;
+import movegenerators.CaballoMoveGenerator;
 import movegenerators.CardinalMoveGenerator;
-import movegenerators.DummyMoveGenerator;
 import movegenerators.MoveGenerator;
 import movegenerators.PeonMoveGenerator;
 import movegenerators.ReyMoveGenerator;
@@ -16,8 +16,8 @@ public enum Pieza implements MoveGenerator {
 	TORRE_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	TORRE_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
 	
-	CABALLO_BLANCO(new DummyMoveGenerator()),
-	CABALLO_NEGRO(new DummyMoveGenerator()),
+	CABALLO_BLANCO(new CaballoMoveGenerator(Color.BLANCO)),
+	CABALLO_NEGRO(new CaballoMoveGenerator(Color.NEGRO)),
 	
 	ALFIL_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste})),
 	ALFIL_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste})),

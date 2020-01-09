@@ -17,7 +17,7 @@ public class DummyBoardTest {
 		
 		Set<Move> moves = tablero.getPseudoMoves(Color.BLANCO);
 		
-		assertEquals(16, moves.size());
+		assertEquals(20, moves.size());
 		
 		assertTrue(moves.contains(new Move(Square.a2, Square.a3)));
 		assertTrue(moves.contains(new Move(Square.a2, Square.a4)));
@@ -35,6 +35,14 @@ public class DummyBoardTest {
 		assertTrue(moves.contains(new Move(Square.g2, Square.g4)));
 		assertTrue(moves.contains(new Move(Square.h2, Square.h3)));
 		assertTrue(moves.contains(new Move(Square.h2, Square.h4)));
+		
+		//Caballo Reyna
+		assertTrue(moves.contains(new Move(Square.b1, Square.a3)));
+		assertTrue(moves.contains(new Move(Square.b1, Square.c3)));
+		
+		//Caballo Rey
+		assertTrue(moves.contains(new Move(Square.g1, Square.f3)));
+		assertTrue(moves.contains(new Move(Square.g1, Square.h3)));
 	}
 
 }
