@@ -33,12 +33,6 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		}
 		return moves;
 	}
-
-	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 	public Set<Move> getPseudoMoves(DummyBoard tablero, Square casillero, Cardinal cardinal) {

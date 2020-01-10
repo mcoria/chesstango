@@ -9,6 +9,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 
+//Templeate  Method Pattern GoF
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
@@ -25,6 +26,17 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 			}
 		}
 		return moves;
+	}
+	
+	@Override
+	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
+		Set<Move> pseudoMoves = getPseudoMoves(dummyBoard, casillero);
+		for (Move move : pseudoMoves) {
+			if(kingSquare.equals(move.getTo())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

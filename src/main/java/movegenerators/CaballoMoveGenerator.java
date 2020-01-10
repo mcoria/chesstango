@@ -41,10 +41,4 @@ public class CaballoMoveGenerator extends AbstractMoveGenerator {
 		return moves;
 	}
 
-	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

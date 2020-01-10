@@ -105,10 +105,4 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		return value;		
 	}
 
-	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
