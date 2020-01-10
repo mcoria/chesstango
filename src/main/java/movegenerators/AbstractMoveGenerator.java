@@ -9,7 +9,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 
-//Templeate  Method Pattern GoF
+//Template  Method Pattern GoF
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
@@ -20,7 +20,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		Set<Move> pseudoMoves = getPseudoMoves(tablero, currentSquare);
 		for (Move move : pseudoMoves) {
 			DummyBoard tableroNew = new DummyBoard(tablero);
-			move.execute(tableroNew);
+			move.execute(tableroNew.getMediator());
 			if(! tableroNew.isKingInCheck(currentPieza.getColor()) ) {
 				moves.add(move);
 			}

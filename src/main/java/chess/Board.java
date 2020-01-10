@@ -17,9 +17,12 @@ public class Board {
 	
 	private GameStatus status;
 	
+	private BoardMediator mediator;
+	
 	public Board(DummyBoard tablero, Color turno){
 		this.tablero = tablero;
 		this.turnoActual = turno;
+		this.mediator = createMediator();
 		updateGameStatus();
 	}
 
@@ -40,7 +43,7 @@ public class Board {
 
 	protected GameStatus executeMove(Move move) {
 		assert(movimientosPosibles.contains(move));
-		move.execute(this);
+		move.execute(mediator);
 		stackMoves.push(move);
 		turnoActual = turnoActual.opositeColor();
 		updateGameStatus();
@@ -83,6 +86,27 @@ public class Board {
 		}
 		return moveResult;
 	}	
+	
+	private BoardMediator createMediator() {
+		return new BoardMediator(){
+
+			@Override
+			public Pieza getPieza(Square from) {
+				return tablero.getPieza(from);
+			}
+
+			@Override
+			public void setEmptySquare(Square from) {
+				tablero.setEmptySquare(from);
+			}
+
+			@Override
+			public void setPieza(Square to, Pieza pieza) {
+				tablero.setPieza(to, pieza);
+			}
+			
+		};
+	}
 	
 	public final DummyBoard getTablero() {
 		return tablero;

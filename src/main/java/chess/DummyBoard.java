@@ -13,7 +13,7 @@ import iterators.BoardIterator;
 import iterators.BottomUpSquareIterator;
 import iterators.SquareIterator;
 
-public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
+public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	//56,57,58,59,60,61,62,63,
 	//48,49,50,51,52,53,54,55,
 	//40,41,42,43,44,45,46,47,
@@ -24,8 +24,11 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
     //00,01,02,03,04,05,06,07,	
 	private Pieza[][] tablero;
 	
+	private BoardMediator mediator;	
+	
 	public DummyBoard(Pieza[][] tablero){
 		this.tablero = tablero;
+		this.mediator = createMediator();
 	}
 
 	public DummyBoard(DummyBoard theBoard) {
@@ -35,6 +38,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 				tablero[i][j] = theBoard.tablero[i][j];
 			}
 		}
+		this.mediator = createMediator();
 	}
 
 	public Pieza getPieza(Square square) {
@@ -136,6 +140,31 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>{
 		return moves;
 	}
 	
+	private BoardMediator createMediator() {
+		return new BoardMediator(){
+
+			@Override
+			public Pieza getPieza(Square from) {
+				return getPieza(from);
+			}
+
+			@Override
+			public void setEmptySquare(Square from) {
+				setEmptySquare(from);
+			}
+
+			@Override
+			public void setPieza(Square to, Pieza pieza) {
+				setPieza(to, pieza);
+			}
+			
+		};
+	}
+	
+	public BoardMediator getMediator() {
+		return mediator;
+	}
+
 	@Override
 	public String toString() {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();

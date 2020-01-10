@@ -57,13 +57,8 @@ public class Move implements Comparable<Move>{
 				   (this.to.getRank() - theOther.to.getRank()) * 8 + (this.to.getFile() - theOther.to.getFile());
 	}
 
-	public void execute(Board board) {
+	public void execute(BoardMediator board) {
 		this.type.getMoveExecutor().execute(board, from, to);
 	}
-
-	public void execute(DummyBoard tablero) {
-		this.type.getMoveExecutor().execute(tablero, from, to);
-	}
-
 
 }
