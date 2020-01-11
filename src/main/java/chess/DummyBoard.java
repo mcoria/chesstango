@@ -145,17 +145,22 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 
 			@Override
 			public Pieza getPieza(Square from) {
-				return getPieza(from);
+				return DummyBoard.this.getPieza(from);
 			}
 
 			@Override
 			public void setEmptySquare(Square from) {
-				setEmptySquare(from);
+				DummyBoard.this.setEmptySquare(from);
 			}
 
 			@Override
 			public void setPieza(Square to, Pieza pieza) {
-				setPieza(to, pieza);
+				DummyBoard.this.setPieza(to, pieza);
+			}
+			
+			@Override
+			public String toString() {
+				return DummyBoard.this.toString();
 			}
 			
 		};

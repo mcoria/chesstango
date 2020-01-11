@@ -6,9 +6,9 @@ import java.util.Set;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
+import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import chess.Move.MoveType;
 
 public class PeonMoveGenerator extends AbstractMoveGenerator {
 
