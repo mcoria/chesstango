@@ -12,7 +12,6 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
-import chess.Move.MoveType;
 import parsers.FENParser;
 
 public class PeonBlancoMoveGeneratorTest {
@@ -31,7 +30,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.a4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(from, Square.a4)));
 	}
 	
 	@Test
@@ -48,8 +47,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.a3, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.a4, MoveType.SIMPLE)));
+		assertTrue(moves.contains(new Move(from, Square.a3)));
+		assertTrue(moves.contains(new Move(from, Square.a4)));
 	}
 	
 	@Test
@@ -67,9 +66,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e3, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.d3, MoveType.CAPTURA)));
+		assertTrue(moves.contains(new Move(from, Square.e3)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));
+		assertTrue(moves.contains(new Move(from, Square.d3, Pieza.PEON_NEGRO)));
 	}
 	
 	@Test
@@ -87,9 +86,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e3, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.f3, MoveType.CAPTURA)));
+		assertTrue(moves.contains(new Move(from, Square.e3)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));
+		assertTrue(moves.contains(new Move(from, Square.f3, Pieza.PEON_NEGRO)));
 	}
 
 }

@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Objects;
+
 import moveexecutors.MoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 
@@ -7,6 +9,7 @@ public class Move implements Comparable<Move>{
 	private Square from;
 	private Square to;
 	private MoveType type;
+	private Pieza capturada;
 	
 	public enum MoveType {
 		SIMPLE(new SimpleMoveExecutor()),
@@ -23,11 +26,18 @@ public class Move implements Comparable<Move>{
 		}
 	}
 	
-	public Move(Square from, Square to, MoveType type) {
+	public Move(Square from, Square to) {
 		this.from = from;
 		this.to = to;
-		this.type = type;
+		this.type = MoveType.SIMPLE;
 	}
+	
+	public Move(Square from, Square to, Pieza capturada) {
+		this.from = from;
+		this.to = to;
+		this.type = MoveType.CAPTURA;
+		this.capturada = capturada;
+	}	
 
 	public Square getFrom() {
 		return from;
@@ -46,7 +56,7 @@ public class Move implements Comparable<Move>{
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
 			Move theOther = (Move) obj;
-			return from.equals(theOther.from) &&  to.equals(theOther.to) && type.equals(theOther.type);
+			return from.equals(theOther.from) &&  to.equals(theOther.to) && type.equals(theOther.type) && Objects.equals(capturada, theOther.capturada);
 		}
 		return false;
 	}
@@ -58,7 +68,20 @@ public class Move implements Comparable<Move>{
 	}
 
 	public void execute(BoardMediator board) {
-		this.type.getMoveExecutor().execute(board, from, to);
+		this.type.getMoveExecutor().execute(board, this);
+	}
+
+	public void undo(BoardMediator board) {
+		this.type.getMoveExecutor().undo(board, this);
+	}
+	
+	public void setCapturada(Pieza pieza) {
+		this.capturada = pieza;
+		
+	}
+
+	public Pieza getCapturada() {
+		return capturada;
 	}
 
 }

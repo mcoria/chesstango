@@ -1,6 +1,7 @@
 package movegenerators;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -11,7 +12,6 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
-import chess.Move.MoveType;
 import parsers.FENParser;
 
 public class ReyMoveGeneratorTest {
@@ -30,14 +30,14 @@ public class ReyMoveGeneratorTest {
 		
 		assertEquals(8, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e6, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e6, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e6, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.d5, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.f5, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));
-		assertTrue(moves.contains(new Move(from, Square.e4, MoveType.SIMPLE)));			
+		assertTrue(moves.contains(new Move(from, Square.e6)));
+		assertTrue(moves.contains(new Move(from, Square.e6)));
+		assertTrue(moves.contains(new Move(from, Square.e6)));
+		assertTrue(moves.contains(new Move(from, Square.d5)));
+		assertTrue(moves.contains(new Move(from, Square.f5)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));
+		assertTrue(moves.contains(new Move(from, Square.e4)));			
 	}
 
 }

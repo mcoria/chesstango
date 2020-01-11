@@ -29,24 +29,24 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
 		if(saltoSimpleCasillero != null && dummyBoard.isEmtpy(saltoSimpleCasillero)){
-			moves.add( new Move(casillero, saltoSimpleCasillero, MoveType.SIMPLE) );
+			moves.add( new Move(casillero, saltoSimpleCasillero) );
 		}
 		
 		if(saltoDobleCasillero != null && dummyBoard.isEmtpy(saltoDobleCasillero)){
-			moves.add( new Move(casillero, saltoDobleCasillero, MoveType.SIMPLE) );
+			moves.add( new Move(casillero, saltoDobleCasillero) );
 		}
 		
 		if (casilleroAtaqueIzquirda != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				moves.add(new Move(casillero, casilleroAtaqueIzquirda, MoveType.CAPTURA));
+				moves.add(new Move(casillero, casilleroAtaqueIzquirda, pieza));
 			}
 		}	
 		
 		if (casilleroAtaqueDerecha != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				moves.add(new Move(casillero, casilleroAtaqueDerecha, MoveType.CAPTURA));
+				moves.add(new Move(casillero, casilleroAtaqueDerecha, pieza));
 			}
 		}
 		
