@@ -1,6 +1,6 @@
 package movegenerators;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import chess.Color;
@@ -8,6 +8,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.SimpleMoveExecutor;
 
 public class PeonMoveGenerator extends AbstractMoveGenerator {
 
@@ -18,8 +19,10 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Square casillero) {
-		Set<Move> moves = new HashSet<Move>();
+	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+		Square casillero = origen.getKey();
+		Pieza peon = origen.getValue();
+		Set<Move> moves = createMoveContainer();
 		
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
 		Square saltoDobleCasillero = getCasilleroSaltoDoble(casillero);
@@ -28,24 +31,24 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
 		if(saltoSimpleCasillero != null && dummyBoard.isEmtpy(saltoSimpleCasillero)){
-			moves.add( new Move(casillero, saltoSimpleCasillero) );
+			moves.add( new Move(casillero, saltoSimpleCasillero, new SimpleMoveExecutor(peon)) );
 		}
 		
 		if(saltoDobleCasillero != null && dummyBoard.isEmtpy(saltoDobleCasillero)){
-			moves.add( new Move(casillero, saltoDobleCasillero) );
+			moves.add( new Move(casillero, saltoDobleCasillero, new SimpleMoveExecutor(peon)) );
 		}
 		
 		if (casilleroAtaqueIzquirda != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				moves.add(new Move(casillero, casilleroAtaqueIzquirda, pieza));
+				moves.add(new Move(casillero, casilleroAtaqueIzquirda, new SimpleMoveExecutor(peon)));
 			}
 		}	
 		
 		if (casilleroAtaqueDerecha != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				moves.add(new Move(casillero, casilleroAtaqueDerecha, pieza));
+				moves.add(new Move(casillero, casilleroAtaqueDerecha, new SimpleMoveExecutor(peon)));
 			}
 		}
 		

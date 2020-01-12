@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.junit.Test;
 
@@ -13,6 +14,8 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import iterators.CardinalSquareIterator.Cardinal;
+import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
 public class CardinalMoveGeneratorTest02 {
@@ -22,17 +25,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h8)));
+		assertTrue(moves.contains(new Move(from, Square.f6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	
@@ -42,17 +46,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("7R/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h8));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
+		assertTrue(moves.contains(new Move(from, Square.f6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	@Test
@@ -60,18 +65,19 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("7r/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h8, Pieza.TORRE_NEGRO)));
+		assertTrue(moves.contains(new Move(from, Square.f6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h8, new CaptureMoveExecutor(Pieza.ALFIL_BLANCO, Pieza.TORRE_NEGRO))));
 	}	
 	
 	
@@ -80,17 +86,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h2)));
+		assertTrue(moves.contains(new Move(from, Square.f4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	
@@ -99,17 +106,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/7R/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h2));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
+		assertTrue(moves.contains(new Move(from, Square.f4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}	
 	
 	
@@ -118,18 +126,19 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/7r/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h2));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h2, Pieza.TORRE_NEGRO)));
+		assertTrue(moves.contains(new Move(from, Square.f4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h2, new CaptureMoveExecutor(Pieza.ALFIL_BLANCO, Pieza.TORRE_NEGRO))));
 	}
 	
 
@@ -138,18 +147,19 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurOeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a1)));
+		assertTrue(moves.contains(new Move(from, Square.d4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.a1, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 
@@ -158,18 +168,19 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/R7");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurOeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));
+		assertTrue(moves.contains(new Move(from, Square.d4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}	
 	
 
@@ -178,19 +189,20 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/r7");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a1));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurOeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));	
-		assertTrue(moves.contains(new Move(Square.e5, Square.a1, Pieza.TORRE_NEGRO)));	
+		assertTrue(moves.contains(new Move(from, Square.d4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));	
+		assertTrue(moves.contains(new Move(from, Square.a1, new CaptureMoveExecutor(Pieza.ALFIL_BLANCO, Pieza.TORRE_NEGRO))));	
 	}	
 
 
@@ -199,17 +211,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteOeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b8)));
+		assertTrue(moves.contains(new Move(from, Square.d6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	
@@ -219,17 +232,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("1R6/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.b8));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteOeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
+		assertTrue(moves.contains(new Move(from, Square.d6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	
@@ -238,17 +252,18 @@ public class CardinalMoveGeneratorTest02 {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("1r6/8/8/4B3/8/8/8/8");
 		
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.b8));
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteOeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b8, Pieza.TORRE_NEGRO)));
+		assertTrue(moves.contains(new Move(from, Square.d6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b8, new CaptureMoveExecutor(Pieza.ALFIL_BLANCO, Pieza.TORRE_NEGRO))));
 	}
 }

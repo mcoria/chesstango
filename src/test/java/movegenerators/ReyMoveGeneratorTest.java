@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
 public class ReyMoveGeneratorTest {
@@ -26,18 +28,18 @@ public class ReyMoveGeneratorTest {
 	
 		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO));
 		
 		assertEquals(8, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e6)));
-		assertTrue(moves.contains(new Move(from, Square.e6)));
-		assertTrue(moves.contains(new Move(from, Square.e6)));
-		assertTrue(moves.contains(new Move(from, Square.d5)));
-		assertTrue(moves.contains(new Move(from, Square.f5)));
-		assertTrue(moves.contains(new Move(from, Square.e4)));
-		assertTrue(moves.contains(new Move(from, Square.e4)));
-		assertTrue(moves.contains(new Move(from, Square.e4)));			
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.f5, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.REY_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.REY_BLANCO))));			
 	}
 
 }

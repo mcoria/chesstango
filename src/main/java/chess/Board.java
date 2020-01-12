@@ -65,12 +65,11 @@ public class Board {
 
 	protected Set<Move> getMoves(Color color){
 		Set<Move> moves = new HashSet<Move>();
-		for (Map.Entry<Square, Pieza> entry : tablero) {
-			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
+		for (Map.Entry<Square, Pieza> origen : tablero) {
+			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getLegalMoves(this, currentSquare));
+					moves.addAll(currentPieza.getLegalMoves(this, origen));
 				}
 			}
 		}

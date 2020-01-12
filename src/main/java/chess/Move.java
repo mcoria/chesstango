@@ -2,42 +2,18 @@ package chess;
 
 import java.util.Objects;
 
-import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.MoveExecutor;
-import moveexecutors.SimpleMoveExecutor;
 
 public class Move implements Comparable<Move>{
 	private Square from;
 	private Square to;
-	private MoveType type;
-	private Pieza capturada;
 	
-	public enum MoveType {
-		SIMPLE(new SimpleMoveExecutor()),
-		CAPTURA(new CaptureMoveExecutor()),
-		ENROQUE(null);
-		
-		private MoveExecutor executor = null;
-		private MoveType(MoveExecutor executor) {
-			this.executor = executor;
-		}
-		
-		public MoveExecutor getMoveExecutor() {
-			return executor;
-		}
-	}
+	private MoveExecutor moveExecutor;	
 	
-	public Move(Square from, Square to) {
+	public Move(Square from, Square to, MoveExecutor moveExecutor) {
 		this.from = from;
 		this.to = to;
-		this.type = MoveType.SIMPLE;
-	}
-	
-	public Move(Square from, Square to, Pieza capturada) {
-		this.from = from;
-		this.to = to;
-		this.type = MoveType.CAPTURA;
-		this.capturada = capturada;
+		this.moveExecutor = moveExecutor;
 	}	
 
 	public Square getFrom() {
@@ -57,7 +33,7 @@ public class Move implements Comparable<Move>{
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
 			Move theOther = (Move) obj;
-			return from.equals(theOther.from) &&  to.equals(theOther.to) && type.equals(theOther.type) && Objects.equals(capturada, theOther.capturada);
+			return from.equals(theOther.from) &&  to.equals(theOther.to) && Objects.equals(moveExecutor, theOther.moveExecutor);
 		}
 		return false;
 	}
@@ -69,20 +45,24 @@ public class Move implements Comparable<Move>{
 	}
 
 	public void execute(BoardMediator board) {
-		this.type.getMoveExecutor().execute(board, this);
+		moveExecutor.execute(board, this);
 	}
 
 	public void undo(BoardMediator board) {
-		this.type.getMoveExecutor().undo(board, this);
-	}
-	
-	public void setCapturada(Pieza pieza) {
-		this.capturada = pieza;
-		
+		moveExecutor.undo(board, this);
 	}
 
-	public Pieza getCapturada() {
-		return capturada;
+	public MoveExecutor getMoveExecutor() {
+		return moveExecutor;
+	}
+
+	public void setMoveExecutor(MoveExecutor moveExecutor) {
+		this.moveExecutor = moveExecutor;
+	}
+
+	@Override
+	public String toString() {
+		return from.toString() + " " + to.toString() + "; " + (moveExecutor == null ? "ERROR" : moveExecutor.toString());
 	}
 
 }

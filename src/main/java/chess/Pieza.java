@@ -1,11 +1,10 @@
 package chess;
 
+import java.util.Map;
 import java.util.Set;
 
-import iterators.CardinalSquareIterator.Cardinal;
 import movegenerators.AlfilMoveGenerator;
 import movegenerators.CaballoMoveGenerator;
-import movegenerators.CardinalMoveGenerator;
 import movegenerators.MoveGenerator;
 import movegenerators.PeonMoveGenerator;
 import movegenerators.ReinaMoveGenerator;
@@ -78,17 +77,17 @@ public enum Pieza implements MoveGenerator {
 	}
 
 	@Override
-	public Set<Move> getLegalMoves(Board board, Square currentSquare) {
-		return generator.getLegalMoves(board, currentSquare);
+	public Set<Move> getLegalMoves(Board board, Map.Entry<Square, Pieza> origen) {
+		return generator.getLegalMoves(board, origen);
 	}
 	
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard tablero, Square casillero) {
-		return generator.getPseudoMoves(tablero, casillero);
+	public Set<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen) {
+		return generator.getPseudoMoves(tablero, origen);
 	}
 
 	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
-		return generator.puedeCapturarRey(dummyBoard, casillero, kingSquare);
+	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
+		return generator.puedeCapturarRey(dummyBoard, origen, kingSquare);
 	}	
 }

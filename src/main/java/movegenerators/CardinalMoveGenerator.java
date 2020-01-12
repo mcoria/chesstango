@@ -1,6 +1,7 @@
 package movegenerators;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -12,6 +13,8 @@ import chess.Square;
 import iterators.BoardIterator;
 import iterators.CardinalSquareIterator;
 import iterators.CardinalSquareIterator.Cardinal;
+import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.SimpleMoveExecutor;
 
 public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
@@ -25,16 +28,17 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Square casillero) {
-		Set<Move> moves = new HashSet<Move>();
+	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+		Set<Move> moves = createMoveContainer();
 		for (Cardinal cardinal : this.direcciones) {
-			moves.addAll(getPseudoMoves(dummyBoard, casillero, cardinal));
+			moves.addAll(getPseudoMoves(dummyBoard, origen, cardinal));
 		}
 		return moves;
 	}
 	
 	
-	public Set<Move> getPseudoMoves(DummyBoard tablero, Square casillero, Cardinal cardinal) {
+	public Set<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
+		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		Set<Move> moves = new HashSet<Move>();
 		while (iterator.hasNext()) {
@@ -42,13 +46,12 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    Square destino = entry.getKey();
 		    Pieza pieza = entry.getValue();
 		    if(pieza == null){
-		    	Move move = new Move(casillero, destino);
+		    	Move move = new Move(casillero, destino, new SimpleMoveExecutor(origen.getValue()));
 		    	moves.add(move);
 		    } else if(color.equals(pieza.getColor())){
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(casillero, destino, pieza);
-		    	move.setCapturada(pieza);
+		    	Move move = new Move(casillero, destino, new CaptureMoveExecutor(origen.getValue(), pieza));
 		    	moves.add(move);		    	
 		    }
 		}

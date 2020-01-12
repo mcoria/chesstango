@@ -1,6 +1,7 @@
 package movegenerators;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import chess.Board;
@@ -13,11 +14,11 @@ import chess.Square;
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
-	public Set<Move> getLegalMoves(Board board, Square currentSquare) {
+	public Set<Move> getLegalMoves(Board board, Map.Entry<Square, Pieza> origen) {
 		DummyBoard tablero = board.getTablero();
 		Set<Move> moves = new HashSet<Move>();
-		Pieza currentPieza = tablero.getPieza(currentSquare);
-		Set<Move> pseudoMoves = getPseudoMoves(tablero, currentSquare);
+		Pieza currentPieza = origen.getValue();
+		Set<Move> pseudoMoves = getPseudoMoves(tablero, origen);
 		for (Move move : pseudoMoves) {
 			move.execute(tablero.getMediator());
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
@@ -29,8 +30,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	}
 	
 	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Square casillero, Square kingSquare) {
-		Set<Move> pseudoMoves = getPseudoMoves(dummyBoard, casillero);
+	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
+		Set<Move> pseudoMoves = getPseudoMoves(dummyBoard, origen);
 		for (Move move : pseudoMoves) {
 			if(kingSquare.equals(move.getTo())){
 				return true;
@@ -39,4 +40,21 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return false;
 	}
 
+	protected Set<Move> createMoveContainer(){
+		return new HashSet<Move>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
+
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (Move move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
+	}
 }

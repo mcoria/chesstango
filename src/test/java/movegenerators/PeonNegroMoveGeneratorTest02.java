@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
 public class PeonNegroMoveGeneratorTest02 {
@@ -26,11 +28,11 @@ public class PeonNegroMoveGeneratorTest02 {
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.a5)));
+		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	@Test
@@ -43,12 +45,12 @@ public class PeonNegroMoveGeneratorTest02 {
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.a6)));
-		assertTrue(moves.contains(new Move(from, Square.a5)));
+		assertTrue(moves.contains(new Move(from, Square.a6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	@Test
@@ -62,13 +64,13 @@ public class PeonNegroMoveGeneratorTest02 {
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e6)));
-		assertTrue(moves.contains(new Move(from, Square.e5)));
-		assertTrue(moves.contains(new Move(from, Square.d6, Pieza.PEON_BLANCO)));
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.d6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 	
 	@Test
@@ -82,13 +84,13 @@ public class PeonNegroMoveGeneratorTest02 {
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, from);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e6)));
-		assertTrue(moves.contains(new Move(from, Square.e5)));
-		assertTrue(moves.contains(new Move(from, Square.f6, Pieza.PEON_BLANCO)));
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.f6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
 
 }

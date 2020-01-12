@@ -3,6 +3,7 @@ package movegenerators;
 import static org.junit.Assert.*;
 
 import java.util.Set;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import org.junit.Test;
 
@@ -11,6 +12,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
 public class ReinaMoveGeneratorTest {
@@ -20,56 +22,57 @@ public class ReinaMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4Q3/8/8/8/8");
 
-		assertEquals(Pieza.REINA_BLANCO, tablero.getPieza(Square.e5));
+		Square from = Square.e5;
+		assertEquals(Pieza.REINA_BLANCO, tablero.getPieza(from));
 
 		ReinaMoveGenerator moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
 
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, Square.e5);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
 
 		assertEquals(27, moves.size());
 
 		// NorteEste
-		assertTrue(moves.contains(new Move(Square.e5, Square.f6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h8)));
+		assertTrue(moves.contains(new Move(from, Square.f6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 
 		// SurEste
-		assertTrue(moves.contains(new Move(Square.e5, Square.f4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h2)));
+		assertTrue(moves.contains(new Move(from, Square.f4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 
 		// SurOeste
-		assertTrue(moves.contains(new Move(Square.e5, Square.d4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b2)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a1)));
+		assertTrue(moves.contains(new Move(from, Square.d4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.a1, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 
 		// NorteOeste
-		assertTrue(moves.contains(new Move(Square.e5, Square.d6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b8)));
+		assertTrue(moves.contains(new Move(from, Square.d6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 		
 		//Norte
-		assertTrue(moves.contains(new Move(Square.e5, Square.e6)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.e7)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.e8)));
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 		
 		//Sur
-		assertTrue(moves.contains(new Move(Square.e5, Square.e4)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.e3)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.e2)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.e1)));
+		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e1, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 		
 		//Este
-		assertTrue(moves.contains(new Move(Square.e5, Square.d5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.c5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.b5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.a5)));
+		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.c5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.b5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 		
 		//Oeste
-		assertTrue(moves.contains(new Move(Square.e5, Square.f5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.g5)));
-		assertTrue(moves.contains(new Move(Square.e5, Square.h5)));			
+		assertTrue(moves.contains(new Move(from, Square.f5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.h5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));			
 	}
 
 }

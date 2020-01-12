@@ -273,4 +273,9 @@ public enum Square {
 		}
 		return value;
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }

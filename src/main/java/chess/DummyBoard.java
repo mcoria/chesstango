@@ -95,12 +95,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	public boolean isKingInCheck(Color color) {
 		Square kingSquare = getKingSquare(color);
-		for (Map.Entry<Square, Pieza> entry : this) {
-			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
+		for (Map.Entry<Square, Pieza> origen : this) {
+			Square currentSquare = origen.getKey();
+			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor().opositeColor())){
-					if(currentPieza.puedeCapturarRey(this, currentSquare, kingSquare)){
+					if(currentPieza.puedeCapturarRey(this, origen, kingSquare)){
 						return true;
 					}
 				}
@@ -109,7 +109,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;
 	}
 	
-	// Metodo con propositos de Testing
+/////////Metodo con propositos de Testing
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	protected Set<Move> getPseudoMoves(Color color){
 		Set<Move> moves = new HashSet<Move>(){			
 			/**
@@ -128,17 +129,38 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 				return str;
 			};
 		};
-		for (Map.Entry<Square, Pieza> entry : this) {
-			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
+		for (Map.Entry<Square, Pieza> origen : this) {
+			Square currentSquare = origen.getKey();
+			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getPseudoMoves(this, currentSquare));
+					moves.addAll(currentPieza.getPseudoMoves(this, origen));
 				}
 			}
 		}
 		return moves;
 	}
+	
+	protected void executeMove(Square from, Square to) {
+		Move move = getMovimiento(from, to);
+		if(move != null) {
+			move.execute(this.mediator);
+		} else {
+			throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
+		}
+	}	
+	
+	private Move getMovimiento(Square from, Square to) {
+		Move moveResult = null;
+		for (Move move : getPseudoMoves(this.getPieza(from).getColor())) {
+			if(from.equals(move.getFrom()) && to.equals(move.getTo())){
+				moveResult = move;
+			}
+		}
+		return moveResult;
+	}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	private BoardMediator createMediator() {
 		return new BoardMediator(){

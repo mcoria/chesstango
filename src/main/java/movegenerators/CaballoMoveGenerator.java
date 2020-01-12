@@ -1,6 +1,6 @@
 package movegenerators;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -11,6 +11,8 @@ import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.SaltoSquareIterator;
+import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.SimpleMoveExecutor;
 
 public class CaballoMoveGenerator extends AbstractMoveGenerator {
 	
@@ -20,20 +22,21 @@ public class CaballoMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard tablero, Square casillero) {
+	public Set<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen) {
+		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, SaltoSquareIterator.SALTOS_CABALLO));
-		Set<Move> moves = new HashSet<Move>();
+		Set<Move> moves = createMoveContainer();
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> entry = iterator.next();
 		    Square destino = entry.getKey();
 		    Pieza pieza = entry.getValue();
 		    if(pieza == null){
-		    	Move move = new Move(casillero, destino);
+		    	Move move = new Move(casillero, destino, new SimpleMoveExecutor(origen.getValue()));
 		    	moves.add(move);
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(casillero, destino, pieza);
+		    	Move move = new Move(casillero, destino, new CaptureMoveExecutor(origen.getValue(), pieza));
 		    	moves.add(move);		    	
 		    }
 		}
