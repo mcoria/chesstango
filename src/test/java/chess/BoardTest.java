@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import parsers.FENCoder;
 import parsers.FENParser;
 
 public class BoardTest {
@@ -25,7 +26,7 @@ public class BoardTest {
 		
 		board.executeMove(Square.e2, Square.e4);
 		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);
+		board.executeMove(Square.f1, Square.c4);	
 		board.executeMove(Square.b8, Square.c6);
 		board.executeMove(Square.d1, Square.f3);
 		board.executeMove(Square.f8, Square.c5);
@@ -54,8 +55,6 @@ public class BoardTest {
 		assertEquals(Color.NEGRO, board.getTurnoActual());
 		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
 		assertEquals(1, board.getMovimientosPosibles().size());
-		
-		System.out.println("OK");
 	}
 	
 }

@@ -12,7 +12,7 @@ import parsers.FENParser;
 public class DummyBoardTest {
 
 	@Test
-	public void test() {
+	public void test01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
@@ -44,6 +44,5 @@ public class DummyBoardTest {
 		//Caballo Rey
 		assertTrue(moves.contains(new Move(Square.g1, Square.f3)));
 		assertTrue(moves.contains(new Move(Square.g1, Square.h3)));
-	}
-
+	}	
 }

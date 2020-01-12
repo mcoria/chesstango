@@ -2,6 +2,7 @@ package moveexecutors;
 
 import chess.BoardMediator;
 import chess.Move;
+import chess.Pieza;
 
 public class CaptureMoveExecutor implements MoveExecutor {
 
@@ -13,8 +14,10 @@ public class CaptureMoveExecutor implements MoveExecutor {
 
 	@Override
 	public void undo(BoardMediator board, Move move) {
-		board.setPieza(move.getFrom(), board.getPieza(move.getTo()));
-		board.setPieza(move.getTo(), move.getCapturada());
+		Pieza movedPieza = board.getPieza(move.getTo());
+		Pieza capturada = move.getCapturada();
+		board.setPieza(move.getFrom(), movedPieza);
+		board.setPieza(move.getTo(), capturada);
 	}
 
 }

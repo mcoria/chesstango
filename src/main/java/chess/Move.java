@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Objects;
 
+import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.MoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 
@@ -13,7 +14,7 @@ public class Move implements Comparable<Move>{
 	
 	public enum MoveType {
 		SIMPLE(new SimpleMoveExecutor()),
-		CAPTURA(new SimpleMoveExecutor()),
+		CAPTURA(new CaptureMoveExecutor()),
 		ENROQUE(null);
 		
 		private MoveExecutor executor = null;

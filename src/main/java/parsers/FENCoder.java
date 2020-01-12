@@ -2,6 +2,7 @@ package parsers;
 
 import java.util.Map.Entry;
 
+import chess.Board;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
@@ -10,6 +11,10 @@ import iterators.TopDownSquareIterator;
 
 public class FENCoder {
 
+	public String code(Board input) {
+		return codePiecePlacement(input.getTablero());
+	}
+	
 	public String codePiecePlacement(DummyBoard board) {
 		int idx = 0;
 		int idxLinea = 0;
@@ -99,4 +104,10 @@ public class FENCoder {
 		}
 		return result;
 	}
+	
+	private static FENCoder fenParser = new FENCoder();
+	
+	public static String codeFEN(Board input){
+		return fenParser.code(input);
+	}	
 }
