@@ -3,27 +3,30 @@ package chess;
 import java.util.Set;
 
 import iterators.CardinalSquareIterator.Cardinal;
+import movegenerators.AlfilMoveGenerator;
 import movegenerators.CaballoMoveGenerator;
 import movegenerators.CardinalMoveGenerator;
 import movegenerators.MoveGenerator;
 import movegenerators.PeonMoveGenerator;
+import movegenerators.ReinaMoveGenerator;
 import movegenerators.ReyMoveGenerator;
+import movegenerators.TorreMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
 	PEON_BLANCO(new PeonMoveGenerator(Color.BLANCO)),
 	PEON_NEGRO(new PeonMoveGenerator(Color.NEGRO)),
 	
-	TORRE_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
-	TORRE_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
+	TORRE_BLANCO(new TorreMoveGenerator(Color.BLANCO)),
+	TORRE_NEGRO(new TorreMoveGenerator(Color.NEGRO)),
 	
 	CABALLO_BLANCO(new CaballoMoveGenerator(Color.BLANCO)),
 	CABALLO_NEGRO(new CaballoMoveGenerator(Color.NEGRO)),
 	
-	ALFIL_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste})),
-	ALFIL_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste})),
+	ALFIL_BLANCO(new AlfilMoveGenerator(Color.BLANCO)),
+	ALFIL_NEGRO(new AlfilMoveGenerator(Color.NEGRO)),
 	
-	REINA_BLANCO(new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
-	REINA_NEGRO(new CardinalMoveGenerator(Color.NEGRO, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur})),
+	REINA_BLANCO(new ReinaMoveGenerator(Color.BLANCO)),
+	REINA_NEGRO(new ReinaMoveGenerator(Color.NEGRO)),
 	
 	REY_BLANCO(new ReyMoveGenerator(Color.BLANCO)),
 	REY_NEGRO(new ReyMoveGenerator(Color.NEGRO));
