@@ -106,7 +106,15 @@ public class Board {
 			
 		};
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(tablero.toString());
+		buffer.append("Turno: " + this.turnoActual + "\n");
+		return buffer.toString();
+	}
+
 	public final DummyBoard getTablero() {
 		return tablero;
 	}

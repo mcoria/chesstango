@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import parsers.FENCoder;
 import parsers.FENParser;
 
 public class BoardTest {
@@ -57,4 +56,16 @@ public class BoardTest {
 		assertEquals(1, board.getMovimientosPosibles().size());
 	}
 	
+	@Test
+	public void testJuegoTablas() {
+		Board board = FENParser.parseFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1");
+		
+		assertEquals(Color.BLANCO, board.getTurnoActual());
+		
+		board.executeMove(Square.h7, Square.c7);
+
+		assertEquals(Color.NEGRO, board.getTurnoActual());
+		assertEquals(GameStatus.TABLAS, board.getGameStatus());
+		assertEquals(0, board.getMovimientosPosibles().size());
+	}	
 }
