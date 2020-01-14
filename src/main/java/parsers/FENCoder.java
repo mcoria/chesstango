@@ -3,6 +3,7 @@ package parsers;
 import java.util.Map.Entry;
 
 import chess.Board;
+import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
@@ -12,7 +13,8 @@ import iterators.TopDownSquareIterator;
 public class FENCoder {
 
 	public String code(Board input) {
-		return codePiecePlacement(input.getTablero());
+		char colorActual = input.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
+		return codePiecePlacement(input.getTablero()) + " " + colorActual;
 	}
 	
 	public String codePiecePlacement(DummyBoard board) {

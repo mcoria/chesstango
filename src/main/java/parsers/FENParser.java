@@ -8,7 +8,7 @@ import chess.Pieza;
 public class FENParser {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 	
-	protected Board parse(String input) {
+	public Board parse(String input) {
 		String fields[] = input.split(" ");
 		
 		String piecePlacement = fields[0];

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import chess.Board;
 import chess.DummyBoard;
 import chess.Pieza;
 
@@ -38,4 +39,13 @@ public class FENCoderTest {
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", actual);		
 	}
 
+	@Test
+	public void testCodeBoard() {
+		FENParser parser = new FENParser();
+		Board tablero = parser.parse("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w");
+		FENCoder coder = new FENCoder();
+		String actual = coder.code(tablero);
+		
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w", actual);		
+	}	
 }
