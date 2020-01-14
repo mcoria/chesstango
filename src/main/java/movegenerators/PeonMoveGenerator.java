@@ -9,6 +9,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.SimpleMoveExecutor;
 
 public class PeonMoveGenerator extends AbstractMoveGenerator {
@@ -31,6 +32,9 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
+		Square casilleroIzquierda = getCasilleroIzquirda(casillero);
+		Square casilleroDerecha = getCasilleroDerecha(casillero);
+		
 		if(saltoSimpleCasillero != null && dummyBoard.isEmtpy(saltoSimpleCasillero)){
 			moves.add( new Move(casillero, saltoSimpleCasillero, new SimpleMoveExecutor(peon)) );
 			
@@ -52,6 +56,20 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 				moves.add(new Move(casillero, casilleroAtaqueDerecha, new CaptureMoveExecutor(peon, pieza)));
 			}
 		}
+		
+		if(casilleroIzquierda != null) {
+			Pieza pieza = dummyBoard.getPieza(casilleroIzquierda);
+			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
+				moves.add(new Move(casillero, casilleroAtaqueIzquirda, new CapturePeonPasanteExecutor(casilleroIzquierda)));
+			}			
+		}
+		
+		if(casilleroDerecha != null) {
+			Pieza pieza = dummyBoard.getPieza(casilleroDerecha);
+			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
+				moves.add(new Move(casillero, casilleroAtaqueDerecha, new CapturePeonPasanteExecutor(casilleroDerecha)));
+			}			
+		}		
 		
 		return moves;
 	}
@@ -107,5 +125,32 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		}
 		return value;		
 	}
+	
+
+	private Square getCasilleroIzquirda(Square casillero) {
+		Square value = null;
+		switch (color) {
+		case BLANCO:
+			value = casillero.getRank() == 4 ? Square.getSquare(casillero.getFile() - 1, 4) : null;
+			break;
+		case NEGRO:
+			value = casillero.getRank() == 3 ? Square.getSquare(casillero.getFile() - 1, 3) : null;
+			break;
+		}
+		return value;
+	}
+	
+	private Square getCasilleroDerecha(Square casillero) {
+		Square value = null;
+		switch (color) {
+		case BLANCO:
+			value = casillero.getRank() == 4 ? Square.getSquare(casillero.getFile() + 1, 4) : null;
+			break;
+		case NEGRO:
+			value = casillero.getRank() == 3 ? Square.getSquare(casillero.getFile() + 1, 3) : null;
+			break;
+		}
+		return value;	
+	}	
 
 }

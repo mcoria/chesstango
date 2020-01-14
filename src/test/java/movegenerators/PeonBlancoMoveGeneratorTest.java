@@ -14,6 +14,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
@@ -92,6 +93,26 @@ public class PeonBlancoMoveGeneratorTest {
 	}
 	
 	@Test
+	public void testPeonPasanteIzquierda() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3pP3/8/8/8/8");
+		
+		Square from = Square.e5;
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d5));
+	
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO));
+		
+		assertEquals(2, moves.size());
+		
+		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.d6, new CapturePeonPasanteExecutor(Square.d5))));
+	}
+	
+	
+	@Test
 	public void testAtaqueDerecha() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5p2/4P3/8");
@@ -110,5 +131,24 @@ public class PeonBlancoMoveGeneratorTest {
 		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
 		assertTrue(moves.contains(new Move(from, Square.f3, new CaptureMoveExecutor(Pieza.PEON_BLANCO, Pieza.PEON_NEGRO))));
 	}
+	
+	@Test
+	public void testPeonPasanteDerecha() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3Pp3/8/8/8/8");
+		
+		Square from = Square.d5;
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e5));
+	
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO));
+		
+		assertEquals(2, moves.size());
+		
+		assertTrue(moves.contains(new Move(from, Square.d6, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e6, new CapturePeonPasanteExecutor(Square.e5))));
+	}	
 
 }
