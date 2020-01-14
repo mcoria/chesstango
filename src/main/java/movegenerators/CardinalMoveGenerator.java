@@ -52,7 +52,8 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
 		    	Move move = new Move(casillero, destino, new CaptureMoveExecutor(origen.getValue(), pieza));
-		    	moves.add(move);		    	
+		    	moves.add(move);
+		    	break;
 		    }
 		}
 		return moves;	

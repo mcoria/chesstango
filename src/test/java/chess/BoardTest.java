@@ -67,5 +67,18 @@ public class BoardTest {
 		assertEquals(Color.NEGRO, board.getTurnoActual());
 		assertEquals(GameStatus.TABLAS, board.getGameStatus());
 		assertEquals(0, board.getMovimientosPosibles().size());
-	}	
+	}
+	
+	@Test
+	public void testJuegoUndo() {
+		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, board.getTurnoActual());
+		
+		board.executeMove(Square.e2, Square.e4);
+		
+		board.undoMove();
+		assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, board.getTurnoActual());
+	}
 }

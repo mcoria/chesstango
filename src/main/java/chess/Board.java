@@ -41,7 +41,7 @@ public class Board {
 	}
 	
 
-	protected GameStatus executeMove(Move move) {
+	public GameStatus executeMove(Move move) {
 		assert(movimientosPosibles.contains(move));
 		move.execute(mediator);
 		stackMoves.push(move);
@@ -50,6 +50,15 @@ public class Board {
 		return this.status;
 	}
 
+
+	public GameStatus undoMove() {
+		Move lastMove = stackMoves.pop();
+		lastMove.undo(mediator);
+		turnoActual = turnoActual.opositeColor();
+		updateGameStatus();
+		return this.status;		
+	}
+	
 	protected void updateGameStatus() {
 		movimientosPosibles = getMoves(turnoActual);
 		if(movimientosPosibles.isEmpty()){
