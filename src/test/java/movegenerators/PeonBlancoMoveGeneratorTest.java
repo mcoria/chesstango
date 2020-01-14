@@ -13,6 +13,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
@@ -54,6 +55,23 @@ public class PeonBlancoMoveGeneratorTest {
 	}
 	
 	@Test
+	public void testSaltoDoble01() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/N7/P7/8");
+		
+		Square from = Square.a2;
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+	
+		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.BLANCO);
+		
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO));
+		
+		assertEquals(0, moves.size());
+		
+
+	}	
+	
+	@Test
 	public void testAtaqueIzquierda() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3p4/4P3/8");
@@ -70,7 +88,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
 		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.d3, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.d3, new CaptureMoveExecutor(Pieza.PEON_BLANCO, Pieza.PEON_NEGRO))));
 	}
 	
 	@Test
@@ -90,7 +108,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
 		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.f3, new SimpleMoveExecutor(Pieza.PEON_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.f3, new CaptureMoveExecutor(Pieza.PEON_BLANCO, Pieza.PEON_NEGRO))));
 	}
 
 }
