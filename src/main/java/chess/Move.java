@@ -40,8 +40,36 @@ public class Move implements Comparable<Move>{
 
 	@Override
 	public int compareTo(Move theOther) {
-		return (this.from.getRank() - theOther.from.getRank()) * 8 + (this.from.getFile() - theOther.from.getFile()) * 64 +
-				   (this.to.getRank() - theOther.to.getRank()) * 8 + (this.to.getFile() - theOther.to.getFile());
+		//Comparamos from
+		if(this.from.getRank() > theOther.from.getRank()){
+			return 1;
+		} else if (this.from.getRank() < theOther.from.getRank()){
+			return -1;
+		}
+		
+
+		if(this.from.getFile() <  theOther.from.getFile()){
+			return 1;
+		} else if(this.from.getFile() >  theOther.from.getFile()){
+			return -1;
+		}
+		
+		//---------------
+		//Son iguales asi que comparamos to
+		if(this.to.getRank() < theOther.to.getRank()){
+			return 1;
+		} else if (this.to.getRank() > theOther.to.getRank()){
+			return -1;
+		}
+		
+
+		if(this.to.getFile() <  theOther.to.getFile()){
+			return -1;
+		} else if(this.to.getFile() >  theOther.to.getFile()){
+			return 1;
+		}		
+		
+		return 0;
 	}
 
 	public void execute(BoardMediator board) {

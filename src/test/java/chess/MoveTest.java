@@ -27,6 +27,26 @@ public class MoveTest {
 		assertEquals("e5 e7; ERROR", move.toString());
 	}	
 	
+	
+	@Test
+	public void testCompare01() {
+		Move move1 = new Move(Square.a2, Square.a3, null);
+		Move move2 = new Move(Square.a2, Square.a4, null);
+		Move move3 = new Move(Square.b2, Square.b3, null);
+		Move move4 = new Move(Square.b1, Square.a3, null);
+		
+		assertTrue(move1.compareTo(move2) > 0);
+		assertTrue(move1.compareTo(move3) > 0);
+		assertTrue(move1.compareTo(move4) > 0);
+		
+		assertTrue(move2.compareTo(move3) > 0);
+		
+		assertTrue(move3.compareTo(move4) > 0);
+		
+		System.out.println("" + new Integer(10).compareTo(5));
+	}	
+	
+	
 	@Test
 	public void testSimple() {
 		FENParser parser = new FENParser();
