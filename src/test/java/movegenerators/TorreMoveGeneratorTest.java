@@ -70,12 +70,11 @@ public class TorreMoveGeneratorTest {
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
 		
-		assertEquals(14, moves.size());
+		assertEquals(13, moves.size());
 		
 		//Norte
 		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
 		assertTrue(moves.contains(new Move(from, Square.e7, new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.e8, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
 		
 		//Sur
 		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));

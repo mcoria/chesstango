@@ -13,13 +13,14 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
 public class AlfilMoveGeneratorTest {
 
 	@Test
-	public void testGetPseudoMoves() {
+	public void testGetPseudoMoves01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
 
@@ -53,5 +54,27 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains(new Move(from, Square.c7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 		assertTrue(moves.contains(new Move(from, Square.b8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
 	}
+	
+	
+	@Test
+	public void testGetPseudoMoves02() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/6p1/8/8/PPP1PPPP/2B5");
+
+		Square from = Square.c1;
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.g5));
+
+		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
+
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));  
+
+		assertEquals(4, moves.size());
+		assertTrue(moves.contains(new Move(from, Square.d2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.f4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains(new Move(from, Square.g5, new CaptureMoveExecutor(Pieza.ALFIL_BLANCO, Pieza.PEON_NEGRO))));
+
+	}	
 
 }
