@@ -31,7 +31,7 @@ public class ChessMain {
 	}
 
 	private void printNode(Board board, Node rootNode) {
-		System.out.println("Total Nodes: " + rootNode.getChildTotal());
+		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
 		System.out.println("Total Moves: " + board.getMovimientosPosibles().size());
 		
 		Map<Move, Node> childs = rootNode.getChilds();
@@ -42,7 +42,7 @@ public class ChessMain {
 			
 			for (Move move : moves) {
 	            System.out.println("Move = " + move.toString() + 
-                        ", Total = " + childs.get(move).getChildTotal()); 				
+                        ", Total = " + childs.get(move).getChildNodesCounter()); 				
 			}
 		} else {
 			List<Move> moves = new ArrayList<Move>(board.getMovimientosPosibles());
@@ -59,7 +59,7 @@ public class ChessMain {
 	private int maxLevel;
 	private FENCoder coder = new FENCoder();
 
-	private Node start(Board board, int maxLevel) {
+	Node start(Board board, int maxLevel) {
 		this.maxLevel = maxLevel;
 		
 		String rootId = coder.code(board);
@@ -81,7 +81,7 @@ public class ChessMain {
 				String id = coder.code(board);
 				Node node = new Node(id, 0);
 				visitChilds(board, currentLevel + 1, node);
-				totalMoves += node.getChildTotal();
+				totalMoves += node.getChildNodesCounter();
 				
 				board.undoMove();
 				
@@ -91,7 +91,7 @@ public class ChessMain {
 		} else {
 			totalMoves = posibles.size();
 		}
-		currentNode.setChildTotal(totalMoves);
+		currentNode.setChildNodesCounter(totalMoves);
 	}
 
 }

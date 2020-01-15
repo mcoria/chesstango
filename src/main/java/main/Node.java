@@ -3,6 +3,7 @@ package main;
 import java.util.Map;
 
 import chess.Move;
+import chess.Square;
 
 public class Node {
 	
@@ -12,7 +13,7 @@ public class Node {
 	
 	private Map<Move, Node> childs;
 	
-	private int childTotal;
+	private int childNodesCounter;
 	
 	public Node(String id, int level) {
 		this.id = id;
@@ -43,12 +44,23 @@ public class Node {
 		this.level = level;
 	}
 
-	public int getChildTotal() {
-		return childTotal;
+	public int getChildNodesCounter() {
+		return childNodesCounter;
 	}
 
-	public void setChildTotal(int childTotal) {
-		this.childTotal = childTotal;
+	public void setChildNodesCounter(int childTotal) {
+		this.childNodesCounter = childTotal;
+	}
+
+	public Node getChildNode(Square from, Square to) {
+		Node node = null;
+		for (Map.Entry<Move, Node> entry : childs.entrySet()) {
+			Move move = entry.getKey();
+			if(move.getFrom().equals(from) && move.getTo().equals(to)){
+				node = entry.getValue();
+			}
+		}
+		return node;
 	}
 
 }
