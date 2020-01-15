@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import chess.BoardMediator;
 import chess.Move;
-import chess.Pieza;
 import chess.Square;
 
 public class CapturePeonPasanteExecutor implements MoveExecutor {
@@ -18,13 +17,11 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 	@Override
 	public void execute(BoardMediator board, Move move) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void undo(BoardMediator board, Move move) {
 		// TODO Auto-generated method stub
-
 	}
 	
 	@Override
@@ -38,7 +35,6 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 	
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
 		return casilleroPeonPasante.hashCode();
 	}
 	
