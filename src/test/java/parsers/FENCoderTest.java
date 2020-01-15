@@ -42,11 +42,11 @@ public class FENCoderTest {
 	@Test
 	public void testCodeBoard01() {
 		FENParser parser = new FENParser();
-		Board tablero = parser.parse("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -");
+		Board tablero = parser.parse("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		FENCoder coder = new FENCoder();
 		String actual = coder.code(tablero);
 		
-		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", actual);		
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", actual);		
 	}
 	
 	@Test
