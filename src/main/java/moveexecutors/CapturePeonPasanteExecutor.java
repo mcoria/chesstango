@@ -2,7 +2,7 @@ package moveexecutors;
 
 import java.util.Objects;
 
-import chess.BoardMediator;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Square;
 
@@ -15,12 +15,12 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 	}
 
 	@Override
-	public void execute(BoardMediator board, Move move) {
+	public void execute(DummyBoard board, Move move) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void undo(BoardMediator board, Move move) {
+	public void undo(DummyBoard board, Move move) {
 		// TODO Auto-generated method stub
 	}
 	

@@ -24,11 +24,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
     //00,01,02,03,04,05,06,07,	
 	private Pieza[][] tablero;
 	
-	private BoardMediator mediator;	
-	
 	public DummyBoard(Pieza[][] tablero){
 		this.tablero = tablero;
-		this.mediator = createMediator();
 	}
 
 	public DummyBoard(DummyBoard theBoard) {
@@ -38,7 +35,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 				tablero[i][j] = theBoard.tablero[i][j];
 			}
 		}
-		this.mediator = createMediator();
 	}
 
 	public Pieza getPieza(Square square) {
@@ -144,7 +140,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	protected void executeMove(Square from, Square to) {
 		Move move = getMovimiento(from, to);
 		if(move != null) {
-			move.execute(this.mediator);
+			move.execute(this);
 		} else {
 			throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
 		}
@@ -160,37 +156,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return moveResult;
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	private BoardMediator createMediator() {
-		return new BoardMediator(){
-
-			@Override
-			public Pieza getPieza(Square from) {
-				return DummyBoard.this.getPieza(from);
-			}
-
-			@Override
-			public void setEmptySquare(Square from) {
-				DummyBoard.this.setEmptySquare(from);
-			}
-
-			@Override
-			public void setPieza(Square to, Pieza pieza) {
-				DummyBoard.this.setPieza(to, pieza);
-			}
-			
-			@Override
-			public String toString() {
-				return DummyBoard.this.toString();
-			}
-			
-		};
-	}
-	
-	public BoardMediator getMediator() {
-		return mediator;
-	}
 
 	@Override
 	public String toString() {

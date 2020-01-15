@@ -2,7 +2,7 @@ package moveexecutors;
 
 import java.util.Objects;
 
-import chess.BoardMediator;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 
@@ -17,13 +17,13 @@ public class CaptureMoveExecutor implements MoveExecutor {
 	}
 	
 	@Override
-	public void execute(BoardMediator board, Move move) {
+	public void execute(DummyBoard board, Move move) {
 		board.setPieza(move.getTo(), origen);
 		board.setEmptySquare(move.getFrom());
 	}
 
 	@Override
-	public void undo(BoardMediator board, Move move) {
+	public void undo(DummyBoard board, Move move) {
 		board.setPieza(move.getFrom(), origen);
 		board.setPieza(move.getTo(), capturada);
 	}

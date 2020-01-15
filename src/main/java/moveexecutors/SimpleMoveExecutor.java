@@ -2,7 +2,7 @@ package moveexecutors;
 
 import java.util.Objects;
 
-import chess.BoardMediator;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 
@@ -15,13 +15,13 @@ public class SimpleMoveExecutor implements MoveExecutor {
 	}
 	
 	@Override
-	public void execute(BoardMediator board, Move move) {
+	public void execute(DummyBoard board, Move move) {
 		board.setPieza(move.getTo(), origen);
 		board.setEmptySquare(move.getFrom());
 	}
 
 	@Override
-	public void undo(BoardMediator board, Move move) {
+	public void undo(DummyBoard board, Move move) {
 		board.setPieza(move.getFrom(), origen);
 		board.setEmptySquare(move.getTo());
 	}
@@ -37,7 +37,6 @@ public class SimpleMoveExecutor implements MoveExecutor {
 	
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
 		return origen.hashCode();
 	}
 	

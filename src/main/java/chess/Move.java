@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import moveexecutors.MoveExecutor;
 
-public class Move implements Comparable<Move>{
+public class Move implements Comparable<Move> {
 	private Square from;
 	private Square to;
 	
@@ -72,11 +72,11 @@ public class Move implements Comparable<Move>{
 		return 0;
 	}
 
-	public void execute(BoardMediator board) {
+	public void execute(DummyBoard board) {
 		moveExecutor.execute(board, this);
 	}
 
-	public void undo(BoardMediator board) {
+	public void undo(DummyBoard board) {
 		moveExecutor.undo(board, this);
 	}
 

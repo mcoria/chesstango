@@ -1,12 +1,12 @@
 package moveexecutors;
 
-import chess.BoardMediator;
+import chess.DummyBoard;
 import chess.Move;
 
 public interface MoveExecutor {
 
-	void execute(BoardMediator board, Move move);
+	void execute(DummyBoard board, Move move);
 
-	void undo(BoardMediator board, Move move);
+	void undo(DummyBoard board, Move move);
 
 }

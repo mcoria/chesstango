@@ -56,11 +56,11 @@ public class MoveTest {
 		
 		Move move = new Move(Square.e5, Square.e7, new SimpleMoveExecutor(Pieza.TORRE_BLANCO));
 		
-		move.execute(tablero.getMediator());
+		move.execute(tablero);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e5));
 		
-		move.undo(tablero.getMediator());
+		move.undo(tablero);
 		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e7));
 		
@@ -76,11 +76,11 @@ public class MoveTest {
 		
 		Move move = new Move(Square.e5, Square.e7, new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO));
 		
-		move.execute(tablero.getMediator());
+		move.execute(tablero);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e5));
 		
-		move.undo(tablero.getMediator());
+		move.undo(tablero);
 		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.PEON_NEGRO);
 		

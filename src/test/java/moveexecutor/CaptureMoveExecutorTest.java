@@ -26,7 +26,7 @@ public class CaptureMoveExecutorTest {
 		
 		CaptureMoveExecutor moveExecutor = new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO);
 		
-		moveExecutor.execute(tablero.getMediator(), new Move(Square.e5, Square.e7, null)); //Pieza.PEON_NEGRO
+		moveExecutor.execute(tablero, new Move(Square.e5, Square.e7, null)); //Pieza.PEON_NEGRO
 		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e5));
 	}

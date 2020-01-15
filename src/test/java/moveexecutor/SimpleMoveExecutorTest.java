@@ -5,20 +5,18 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import chess.BoardMediator;
 import chess.Pieza;
 import moveexecutors.SimpleMoveExecutor;
 
 public class SimpleMoveExecutorTest {
 
-	@Mock
-	private BoardMediator mediator;
+	//@Mock
+	//private BoardMediator mediator;
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		//MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
