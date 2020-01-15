@@ -14,9 +14,10 @@ public class FENCoder {
 
 	public String code(Board input) {
 		char colorActual = input.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
-		return codePiecePlacement(input.getTablero()) + " " + colorActual;
+		String peonPasante = codePeonPasante(input.getPeonPasanteSquare());
+		return codePiecePlacement(input.getTablero()) + " " + colorActual + " KQkq " + peonPasante + " 0 1";
 	}
-	
+
 	public String codePiecePlacement(DummyBoard board) {
 		int idx = 0;
 		int idxLinea = 0;
@@ -103,6 +104,14 @@ public class FENCoder {
 			break;
 		default:
 			throw new RuntimeException("Falta pieza");
+		}
+		return result;
+	}
+	
+	public String codePeonPasante(Square peonPasanteSquare) {
+		String result = "-";
+		if (peonPasanteSquare != null) {
+			result = peonPasanteSquare.toString();
 		}
 		return result;
 	}

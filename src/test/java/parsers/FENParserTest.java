@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import chess.Board;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
@@ -221,6 +222,16 @@ public class FENParserTest {
 		
 		assertEquals(Square.h6, peonPasanteSquare);
 		
-	}		
+	}
 	
+	
+	@Test
+	public void testParse() {
+		FENParser parser = new FENParser();
+		
+		Board board = parser.parse("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+		
+		assertEquals(Color.NEGRO, board.getTurnoActual());
+		assertEquals(Square.e3, board.getPeonPasanteSquare());
+	}	
 }
