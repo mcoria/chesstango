@@ -193,4 +193,34 @@ public class FENParserTest {
 		
 	}	
 
+	@Test
+	public void testParsePeonPasanteSquare01() {
+		FENParser parser = new FENParser();
+		
+		Square peonPasanteSquare = parser.parsePeonPasanteSquare("-");
+		
+		assertNull(peonPasanteSquare);
+		
+	}
+	
+	@Test
+	public void testParsePeonPasanteSquare02() {
+		FENParser parser = new FENParser();
+		
+		Square peonPasanteSquare = parser.parsePeonPasanteSquare("a3");
+		
+		assertEquals(Square.a3, peonPasanteSquare);
+		
+	}	
+	
+	@Test
+	public void testParsePeonPasanteSquare03() {
+		FENParser parser = new FENParser();
+		
+		Square peonPasanteSquare = parser.parsePeonPasanteSquare("h6");
+		
+		assertEquals(Square.h6, peonPasanteSquare);
+		
+	}		
+	
 }

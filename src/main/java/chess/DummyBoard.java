@@ -92,7 +92,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	public boolean isKingInCheck(Color color) {
 		Square kingSquare = getKingSquare(color);
 		for (Map.Entry<Square, Pieza> origen : this) {
-			Square currentSquare = origen.getKey();
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor().opositeColor())){
@@ -126,7 +125,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			};
 		};
 		for (Map.Entry<Square, Pieza> origen : this) {
-			Square currentSquare = origen.getKey();
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){

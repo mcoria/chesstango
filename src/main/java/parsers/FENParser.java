@@ -4,6 +4,7 @@ import chess.Board;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
+import chess.Square;
 
 public class FENParser {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -13,13 +14,57 @@ public class FENParser {
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
+		String enroques = fields[2];
+		String peonPasante = fields[3];
 		
 		DummyBoard tablero = parsePiecePlacement(piecePlacement);
 		Color color = parseColor(activeColor);
 		
-		return new Board(tablero, color);
+		Square peonPasanteSquare = parsePeonPasanteSquare(peonPasante);
+		
+		return new Board(tablero, color, peonPasanteSquare);
 	}
 	
+	protected Square parsePeonPasanteSquare(String peonPasante) {
+		Square result = null;
+		if( ! "-".equals(peonPasante)){
+			char file = peonPasante.charAt(0);
+			char rank = peonPasante.charAt(1);
+			int fileNumber = -1;
+			int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
+			switch (file) {
+			case 'a':
+				fileNumber = 0;
+				break;
+			case 'b':
+				fileNumber = 1;
+				break;
+			case 'c':
+				fileNumber = 2;
+				break;
+			case 'd':
+				fileNumber = 3;
+				break;
+			case 'e':
+				fileNumber = 4;
+				break;
+			case 'f':
+				fileNumber = 5;
+				break;
+			case 'g':
+				fileNumber = 6;
+				break;
+			case 'h':
+				fileNumber = 7;
+				break;				
+			default:
+				throw new RuntimeException("Invalid FEV code");
+			}
+			result = Square.getSquare(fileNumber, rankNumber);
+		}; 
+		return result;
+	}
+
 	public DummyBoard  parsePiecePlacement(String piecePlacement){
 		Pieza[][] tablero = new Pieza[8][8];
 		String ranks[] = piecePlacement.split("/");
