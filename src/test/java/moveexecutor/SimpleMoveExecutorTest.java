@@ -3,6 +3,9 @@ package moveexecutor;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
+import java.util.Map;
+import java.util.AbstractMap.SimpleImmutableEntry;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -32,8 +35,11 @@ public class SimpleMoveExecutorTest {
 	
 	@Test
 	public void test() {
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
+		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		
 		SimpleMoveExecutor moveExecutor =  new SimpleMoveExecutor(Pieza.TORRE_BLANCO);
-		moveExecutor.execute(board, new Move(Square.e5, Square.e7, null));
+		moveExecutor.execute(board, new Move(origen, destino, moveExecutor));
 		
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
