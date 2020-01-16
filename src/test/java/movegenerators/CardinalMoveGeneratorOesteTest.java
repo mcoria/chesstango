@@ -3,8 +3,10 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -18,7 +20,7 @@ import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
-public class CardinalMoveGeneratorTest01 {
+public class CardinalMoveGeneratorOesteTest {
 	
 	@Test
 	public void testOeste() {
@@ -27,17 +29,19 @@ public class CardinalMoveGeneratorTest01 {
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);	
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.c5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.b5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
 	}
 	
 	@Test
@@ -48,16 +52,18 @@ public class CardinalMoveGeneratorTest01 {
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.a5));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);	
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.c5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.b5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
 	}	
 	
 	@Test
@@ -68,6 +74,8 @@ public class CardinalMoveGeneratorTest01 {
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.a5));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);	
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
@@ -75,10 +83,17 @@ public class CardinalMoveGeneratorTest01 {
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.c5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.b5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.a5, new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.ALFIL_NEGRO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.a5, Pieza.ALFIL_NEGRO) ));
 	}
 		
+	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleMoveExecutor(origen.getValue()));
+	}
+	
+	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), new CaptureMoveExecutor(origen.getValue(), destinoPieza));
+	}	
 }
