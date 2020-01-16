@@ -3,8 +3,10 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -26,34 +28,36 @@ public class TorreMoveGeneratorTest {
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
 		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
 		
 		assertEquals(14, moves.size());
 		
 		//Norte
-		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e7, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e8, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e8) ));
 		
 		//Sur
-		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e2, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e1, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e4) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e1) ));
 		
 		//Este
-		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.c5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.b5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
 		
 		//Oeste
-		assertTrue(moves.contains(new Move(from, Square.f5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.g5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.h5, new SimpleMoveExecutor(Pieza.ALFIL_BLANCO))));		
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.g5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));		
 	}
 	
 	
@@ -65,6 +69,8 @@ public class TorreMoveGeneratorTest {
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e7));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
 		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		
@@ -73,25 +79,33 @@ public class TorreMoveGeneratorTest {
 		assertEquals(13, moves.size());
 		
 		//Norte
-		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e7, new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.e7, Pieza.PEON_NEGRO) ));
 		
 		//Sur
-		assertTrue(moves.contains(new Move(from, Square.e4, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e2, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.e1, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e4) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e1) ));
 		
 		//Este
-		assertTrue(moves.contains(new Move(from, Square.d5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.c5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.b5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
 		
 		//Oeste
-		assertTrue(moves.contains(new Move(from, Square.f5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.g5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));
-		assertTrue(moves.contains(new Move(from, Square.h5, new SimpleMoveExecutor(Pieza.TORRE_BLANCO))));		
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.g5) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));		
 	}	
 
+	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleMoveExecutor(origen.getValue()));
+	}
+	
+	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), new CaptureMoveExecutor(origen.getValue(), destinoPieza));
+	}	
+	
 }
