@@ -59,7 +59,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		if (casilleroAtaqueDerecha != null) {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, pieza);
+				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);
 				moves.add(new Move(origen, destino, new CaptureMoveExecutor(peon, pieza)));
 			}
 		}
