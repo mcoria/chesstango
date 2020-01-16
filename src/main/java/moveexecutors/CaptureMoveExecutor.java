@@ -18,14 +18,14 @@ public class CaptureMoveExecutor implements MoveExecutor {
 	
 	@Override
 	public void execute(DummyBoard board, Move move) {
-		board.setPieza(move.getTo(), origen);
-		board.setEmptySquare(move.getFrom());
+		board.setPieza(move.getTo().getKey(), origen);
+		board.setEmptySquare(move.getFrom().getKey());
 	}
 
 	@Override
 	public void undo(DummyBoard board, Move move) {
-		board.setPieza(move.getFrom(), origen);
-		board.setPieza(move.getTo(), capturada);
+		board.setPieza(move.getFrom().getKey(), origen);
+		board.setPieza(move.getTo().getKey(), capturada);
 	}
 
 	@Override

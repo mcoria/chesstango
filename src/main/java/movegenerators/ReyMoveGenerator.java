@@ -27,16 +27,15 @@ public class ReyMoveGenerator extends AbstractMoveGenerator {
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, SaltoSquareIterator.SALTOS_REY));
 		Set<Move> moves = createMoveContainer();
 		while (iterator.hasNext()) {
-		    Entry<Square, Pieza> entry = iterator.next();
-		    Square destino = entry.getKey();
-		    Pieza pieza = entry.getValue();
+		    Entry<Square, Pieza> destino = iterator.next();
+		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-		    	Move move = new Move(casillero, destino, new SimpleMoveExecutor(origen.getValue()));
+		    	Move move = new Move(origen, destino, new SimpleMoveExecutor(origen.getValue()));
 		    	moves.add(move);
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(casillero, destino, new CaptureMoveExecutor(origen.getValue(), pieza));
+		    	Move move = new Move(origen, destino, new CaptureMoveExecutor(origen.getValue(), pieza));
 		    	moves.add(move);		    	
 		    }
 		}

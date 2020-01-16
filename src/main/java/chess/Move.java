@@ -1,26 +1,27 @@
 package chess;
 
+import java.util.Map;
 import java.util.Objects;
 
 import moveexecutors.MoveExecutor;
 
 public class Move implements Comparable<Move> {
-	private Square from;
-	private Square to;
+	private Map.Entry<Square, Pieza> from;
+	private Map.Entry<Square, Pieza> to;
 	
 	private MoveExecutor moveExecutor;	
 	
-	public Move(Square from, Square to, MoveExecutor moveExecutor) {
+	public Move(Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to, MoveExecutor moveExecutor) {
 		this.from = from;
 		this.to = to;
 		this.moveExecutor = moveExecutor;
 	}	
 
-	public Square getFrom() {
+	public Map.Entry<Square, Pieza> getFrom() {
 		return from;
 	}
 
-	public Square getTo() {
+	public Map.Entry<Square, Pieza> getTo() {
 		return to;
 	}
 	
@@ -41,31 +42,31 @@ public class Move implements Comparable<Move> {
 	@Override
 	public int compareTo(Move theOther) {
 		//Comparamos from
-		if(this.from.getRank() > theOther.from.getRank()){
+		if(this.from.getKey().getRank() > theOther.from.getKey().getRank()){
 			return 1;
-		} else if (this.from.getRank() < theOther.from.getRank()){
+		} else if (this.from.getKey().getRank() < theOther.from.getKey().getRank()){
 			return -1;
 		}
 		
 
-		if(this.from.getFile() <  theOther.from.getFile()){
+		if(this.from.getKey().getFile() <  theOther.from.getKey().getFile()){
 			return 1;
-		} else if(this.from.getFile() >  theOther.from.getFile()){
+		} else if(this.from.getKey().getFile() >  theOther.from.getKey().getFile()){
 			return -1;
 		}
 		
 		//---------------
 		//Son iguales asi que comparamos to
-		if(this.to.getRank() < theOther.to.getRank()){
+		if(this.to.getKey().getRank() < theOther.to.getKey().getRank()){
 			return 1;
-		} else if (this.to.getRank() > theOther.to.getRank()){
+		} else if (this.to.getKey().getRank() > theOther.to.getKey().getRank()){
 			return -1;
 		}
 		
 
-		if(this.to.getFile() <  theOther.to.getFile()){
+		if(this.to.getKey().getFile() <  theOther.to.getKey().getFile()){
 			return -1;
-		} else if(this.to.getFile() >  theOther.to.getFile()){
+		} else if(this.to.getKey().getFile() >  theOther.to.getKey().getFile()){
 			return 1;
 		}		
 		
