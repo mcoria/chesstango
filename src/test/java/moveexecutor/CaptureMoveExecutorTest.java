@@ -1,18 +1,28 @@
 package moveexecutor;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CaptureMoveExecutor;
-import parsers.FENParser;
 
 public class CaptureMoveExecutorTest {
+	
+	@Mock
+	private DummyBoard board;
+
+	@Before
+	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+	}
 	
 	@Test
 	public void testEquals01() {
@@ -21,14 +31,12 @@ public class CaptureMoveExecutorTest {
 	
 	@Test
 	public void testExecute() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/4p3/8/4R3/8/8/8/8");
-		
 		CaptureMoveExecutor moveExecutor = new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO);
+		moveExecutor.execute(board, new Move(Square.e5, Square.e7, null));
 		
-		moveExecutor.execute(tablero, new Move(Square.e5, Square.e7, null)); //Pieza.PEON_NEGRO
-		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
-		assertTrue(tablero.isEmtpy(Square.e5));
+		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
+		verify(board).setEmptySquare(Square.e5);
+		
 	}
 
 }

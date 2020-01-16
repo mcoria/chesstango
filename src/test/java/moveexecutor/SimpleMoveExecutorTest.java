@@ -1,22 +1,27 @@
 package moveexecutor;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import chess.DummyBoard;
+import chess.Move;
 import chess.Pieza;
+import chess.Square;
 import moveexecutors.SimpleMoveExecutor;
 
 public class SimpleMoveExecutorTest {
 
-	//@Mock
-	//private BoardMediator mediator;
+	@Mock
+	private DummyBoard board;
 
 	@Before
 	public void setUp() throws Exception {
-		//MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@Test
@@ -27,12 +32,13 @@ public class SimpleMoveExecutorTest {
 	
 	@Test
 	public void test() {
+		SimpleMoveExecutor moveExecutor =  new SimpleMoveExecutor(Pieza.TORRE_BLANCO);
+		moveExecutor.execute(board, new Move(Square.e5, Square.e7, null));
 		
-		//SimpleMoveExecutor moveExecutor =  new SimpleMoveExecutor();
-		//moveExecutor.execute(mediator, new Move(Square.e5, Square.e7));
 		
+		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
+		verify(board).setEmptySquare(Square.e5);
 		
-		//verify(mediator).setPieza(to, pieza);
 	}
 
 }
