@@ -3,8 +3,10 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -18,7 +20,7 @@ import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
-public class PeonNegroMoveGeneratorTest02 {
+public class PeonNegroMoveGeneratorTest {
 
 	@Test
 	public void testSaltoSimple() {
@@ -27,6 +29,8 @@ public class PeonNegroMoveGeneratorTest02 {
 		
 		Square from = Square.a6;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
@@ -34,7 +38,7 @@ public class PeonNegroMoveGeneratorTest02 {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
 	}
 	
 	@Test
@@ -47,12 +51,14 @@ public class PeonNegroMoveGeneratorTest02 {
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
+		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO));
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.a6, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.a5, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.a6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
 	}
 	
 	@Test
@@ -63,6 +69,8 @@ public class PeonNegroMoveGeneratorTest02 {
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.d6));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
@@ -70,9 +78,9 @@ public class PeonNegroMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.e5, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.d6, new CaptureMoveExecutor(Pieza.PEON_NEGRO, Pieza.PEON_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e5) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.d6, Pieza.PEON_BLANCO) ));
 	}
 	
 	@Test
@@ -83,6 +91,8 @@ public class PeonNegroMoveGeneratorTest02 {
 		Square from = Square.e4;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.d4));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
@@ -90,8 +100,8 @@ public class PeonNegroMoveGeneratorTest02 {
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e3, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.d3, new CapturePeonPasanteExecutor(Square.d4))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
+		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.d3, Square.d4) ));
 	}
 	
 	@Test
@@ -102,6 +112,8 @@ public class PeonNegroMoveGeneratorTest02 {
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.f6));
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
@@ -109,9 +121,9 @@ public class PeonNegroMoveGeneratorTest02 {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.e6, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.e5, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.f6, new CaptureMoveExecutor(Pieza.PEON_NEGRO, Pieza.PEON_BLANCO))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e5) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.f6, Pieza.PEON_BLANCO) ));
 	}
 	
 	@Test
@@ -122,6 +134,8 @@ public class PeonNegroMoveGeneratorTest02 {
 		Square from = Square.d4;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e4));
+
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 	
 		PeonMoveGenerator moveGenerator = new PeonMoveGenerator(Color.NEGRO);
 		
@@ -129,8 +143,21 @@ public class PeonNegroMoveGeneratorTest02 {
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains(new Move(from, Square.d3, new SimpleMoveExecutor(Pieza.PEON_NEGRO))));
-		assertTrue(moves.contains(new Move(from, Square.e3, new CapturePeonPasanteExecutor(Square.e4))));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d3) ));
+		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.e3, Square.e4) ));
+	}	
+	
+	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleMoveExecutor(origen.getValue()));
+	}
+	
+	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), new CaptureMoveExecutor(origen.getValue(), destinoPieza));
+	}
+	
+
+	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare, Square casilleroPeonPasante) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new CapturePeonPasanteExecutor(casilleroPeonPasante));
 	}	
 
 }
