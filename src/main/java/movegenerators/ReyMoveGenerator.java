@@ -7,12 +7,11 @@ import java.util.Set;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
+import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.SaltoSquareIterator;
-import moveexecutors.CaptureMoveExecutor;
-import moveexecutors.SimpleMoveExecutor;
 
 public class ReyMoveGenerator extends AbstractMoveGenerator {
 	
@@ -30,12 +29,12 @@ public class ReyMoveGenerator extends AbstractMoveGenerator {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-		    	Move move = new Move(origen, destino, new SimpleMoveExecutor(origen.getValue()));
+		    	Move move = new Move(origen, destino, MoveType.SIMPLE);
 		    	moves.add(move);
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(origen, destino, new CaptureMoveExecutor(origen.getValue(), pieza));
+		    	Move move = new Move(origen, destino, MoveType.CAPTURA);
 		    	moves.add(move);		    	
 		    }
 		}

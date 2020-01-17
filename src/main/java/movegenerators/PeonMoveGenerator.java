@@ -9,6 +9,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import chess.Move.MoveType;
 import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.SimpleMoveExecutor;
@@ -40,11 +41,11 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 				
 		if(saltoSimpleCasillero != null && dummyBoard.isEmtpy(saltoSimpleCasillero)){
 			destino = new SimpleImmutableEntry<Square, Pieza>(saltoSimpleCasillero, null);
-			moves.add( new Move(origen, destino, new SimpleMoveExecutor(peon)) );
+			moves.add( new Move(origen, destino, MoveType.SIMPLE) );
 			
 			if(saltoDobleCasillero != null && dummyBoard.isEmtpy(saltoDobleCasillero)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(saltoDobleCasillero, null);
-				moves.add( new Move(origen, destino, new SimpleMoveExecutor(peon)) );
+				moves.add( new Move(origen, destino,MoveType.SIMPLE) );
 			}			
 		}
 		
@@ -52,7 +53,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, pieza);
-				moves.add(new Move(origen, destino, new CaptureMoveExecutor(peon, pieza)));
+				moves.add(new Move(origen, destino, MoveType.CAPTURA));
 			}
 		}	
 		
@@ -60,7 +61,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);
-				moves.add(new Move(origen, destino, new CaptureMoveExecutor(peon, pieza)));
+				moves.add(new Move(origen, destino, MoveType.CAPTURA));
 			}
 		}
 		
@@ -68,7 +69,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = dummyBoard.getPieza(casilleroIzquierda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-				moves.add(new Move(origen, destino, new CapturePeonPasanteExecutor(casilleroIzquierda)));
+				moves.add(new Move(origen, destino, null));
 			}			
 		}
 		
@@ -76,7 +77,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = dummyBoard.getPieza(casilleroDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-				moves.add(new Move(origen, destino, new CapturePeonPasanteExecutor(casilleroDerecha)));
+				moves.add(new Move(origen, destino, null));
 			}			
 		}		
 		

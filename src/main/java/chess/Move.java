@@ -3,18 +3,41 @@ package chess;
 import java.util.Map;
 import java.util.Objects;
 
+import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.MoveExecutor;
+import moveexecutors.SimpleMoveExecutor;
 
 public class Move implements Comparable<Move> {
 	private Map.Entry<Square, Pieza> from;
 	private Map.Entry<Square, Pieza> to;
+	private MoveType moveType;
 	
-	private MoveExecutor moveExecutor;	
 	
-	public Move(Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to, MoveExecutor moveExecutor) {
+	public enum MoveType implements MoveExecutor{
+		SIMPLE(new SimpleMoveExecutor()),
+		CAPTURA(new CaptureMoveExecutor()),
+		ENROQUE(null);
+		
+		private MoveExecutor executor = null;
+		private MoveType(MoveExecutor executor) {
+			this.executor = executor;
+		}
+		
+		@Override
+		public void execute(DummyBoard board, Move move, BoardState boardState) {
+			executor.execute(board, move, boardState);
+		}
+		
+		@Override
+		public void undo(DummyBoard board, Move move, BoardState boardState) {
+			executor.undo(board, move, boardState);
+		}
+	}
+	
+	public Move(Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to, MoveType moveType) {
 		this.from = from;
 		this.to = to;
-		this.moveExecutor = moveExecutor;
+		this.moveType = moveType;
 	}	
 
 	public Map.Entry<Square, Pieza> getFrom() {
@@ -34,7 +57,7 @@ public class Move implements Comparable<Move> {
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
 			Move theOther = (Move) obj;
-			return from.equals(theOther.from) &&  to.equals(theOther.to) && Objects.equals(moveExecutor, theOther.moveExecutor);
+			return from.equals(theOther.from) &&  to.equals(theOther.to) && Objects.equals(this.moveType, this.moveType);
 		}
 		return false;
 	}
@@ -74,24 +97,24 @@ public class Move implements Comparable<Move> {
 	}
 
 	public void execute(DummyBoard board, BoardState boardState) {
-		moveExecutor.execute(board, this, boardState);
+		this.moveType.execute(board, this, boardState);
 	}
 
 	public void undo(DummyBoard board, BoardState boardState) {
-		moveExecutor.undo(board, this, boardState);
-	}
-
-	public MoveExecutor getMoveExecutor() {
-		return moveExecutor;
-	}
-
-	public void setMoveExecutor(MoveExecutor moveExecutor) {
-		this.moveExecutor = moveExecutor;
+		this.moveType.undo(board, this, boardState);
 	}
 
 	@Override
 	public String toString() {
-		return from.toString() + " " + to.toString() + "; " + (moveExecutor == null ? "ERROR" : moveExecutor.toString());
+		return from.toString() + " " + to.toString() + "; " + moveType.toString();
+	}
+
+	public MoveType getMoveType() {
+		return moveType;
+	}
+
+	public void setMoveType(MoveType moveType) {
+		this.moveType = moveType;
 	}
 
 }

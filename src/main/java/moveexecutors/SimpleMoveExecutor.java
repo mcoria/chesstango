@@ -9,24 +9,19 @@ import chess.Pieza;
 
 public class SimpleMoveExecutor implements MoveExecutor {
 	
-	private Pieza origen;
-
-	public SimpleMoveExecutor(Pieza origen) {
-		this.origen = origen;
-	}
-	
 	@Override
 	public void execute(DummyBoard board, Move move, BoardState boardState) {
-		board.setPieza(move.getTo().getKey(), origen);
+		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());
 		board.setEmptySquare(move.getFrom().getKey());
 	}
 
 	@Override
 	public void undo(DummyBoard board, Move move, BoardState boardState) {
-		board.setPieza(move.getFrom().getKey(), origen);
+		board.setPieza(move.getFrom().getKey(), move.getTo().getValue());
 		board.setEmptySquare(move.getTo().getKey());
 	}
 
+	/*
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof SimpleMoveExecutor){
@@ -44,5 +39,5 @@ public class SimpleMoveExecutor implements MoveExecutor {
 	@Override
 	public String toString() {
 		return "Simple: " + origen.toString();
-	}
+	}*/
 }

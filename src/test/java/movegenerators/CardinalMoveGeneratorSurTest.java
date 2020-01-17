@@ -15,6 +15,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import chess.Move.MoveType;
 import iterators.CardinalSquareIterator.Cardinal;
 import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
@@ -90,11 +91,11 @@ public class CardinalMoveGeneratorSurTest {
 	}	
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleMoveExecutor(origen.getValue()));
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
 	}
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), new CaptureMoveExecutor(origen.getValue(), destinoPieza));
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
 	}	
 		
 }

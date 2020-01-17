@@ -15,6 +15,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import chess.Move.MoveType;
 import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.SimpleMoveExecutor;
@@ -166,16 +167,16 @@ public class PeonBlancoMoveGeneratorTest {
 	}	
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleMoveExecutor(origen.getValue()));
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
 	}
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), new CaptureMoveExecutor(origen.getValue(), destinoPieza));
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
 	}
 	
 
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare, Square casilleroPeonPasante) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new CapturePeonPasanteExecutor(casilleroPeonPasante));
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), null);
 	}	
 	
 }
