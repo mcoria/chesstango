@@ -232,6 +232,6 @@ public class FENParserTest {
 		Board board = parser.parse("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
 		
 		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(Square.e3, board.getPeonPasanteSquare());
+		assertEquals(Square.e3, board.getBoardState().getPeonPasanteSquare());
 	}	
 }

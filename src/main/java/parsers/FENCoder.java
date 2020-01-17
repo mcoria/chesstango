@@ -3,6 +3,7 @@ package parsers;
 import java.util.Map.Entry;
 
 import chess.Board;
+import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
@@ -13,8 +14,9 @@ import iterators.TopDownSquareIterator;
 public class FENCoder {
 
 	public String code(Board input) {
+		BoardState state = input.getBoardState();
 		char colorActual = input.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
-		String peonPasante = codePeonPasante(input.getPeonPasanteSquare());
+		String peonPasante = codePeonPasante(state.getPeonPasanteSquare());
 		return codePiecePlacement(input.getTablero()) + " " + colorActual + " KQkq " + peonPasante + " 0 1";
 	}
 

@@ -1,6 +1,7 @@
 package parsers;
 
 import chess.Board;
+import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
@@ -22,7 +23,10 @@ public class FENParser {
 		
 		Square peonPasanteSquare = parsePeonPasanteSquare(peonPasante);
 		
-		return new Board(tablero, color, peonPasanteSquare);
+		BoardState boardState = new BoardState();
+		boardState.setPeonPasanteSquare(peonPasanteSquare);
+		
+		return new Board(tablero, color, boardState);
 	}
 	
 	protected Square parsePeonPasanteSquare(String peonPasante) {
