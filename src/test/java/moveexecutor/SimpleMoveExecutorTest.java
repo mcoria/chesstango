@@ -39,7 +39,7 @@ public class SimpleMoveExecutorTest {
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
 		
 		SimpleMoveExecutor moveExecutor =  new SimpleMoveExecutor(Pieza.TORRE_BLANCO);
-		moveExecutor.execute(board, new Move(origen, destino, moveExecutor));
+		moveExecutor.execute(board, new Move(origen, destino, moveExecutor), null);
 		
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);

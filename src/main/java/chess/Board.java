@@ -19,6 +19,8 @@ public class Board {
 
 	private Square peonPasanteSquare;
 	
+	private BoardState boardState;
+	
 	public Board(DummyBoard tablero, Color turno, Square peonPasanteSquare){
 		this.tablero = tablero;
 		this.turnoActual = turno;
@@ -43,7 +45,7 @@ public class Board {
 
 	public GameStatus executeMove(Move move) {
 		assert(movimientosPosibles.contains(move));
-		move.execute(tablero);
+		move.execute(tablero, boardState);
 		stackMoves.push(move);
 		turnoActual = turnoActual.opositeColor();
 		updateGameStatus();
@@ -53,7 +55,7 @@ public class Board {
 
 	public GameStatus undoMove() {
 		Move lastMove = stackMoves.pop();
-		lastMove.undo(tablero);
+		lastMove.undo(tablero, boardState);
 		turnoActual = turnoActual.opositeColor();
 		updateGameStatus();
 		return this.status;		
@@ -143,6 +145,10 @@ public class Board {
 				return buffer.toString();
 			}
 		};
-	}	
+	}
+
+	public BoardState getBoardState() {
+		return boardState;
+	}
 
 }

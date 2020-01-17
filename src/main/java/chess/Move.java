@@ -73,12 +73,12 @@ public class Move implements Comparable<Move> {
 		return 0;
 	}
 
-	public void execute(DummyBoard board) {
-		moveExecutor.execute(board, this);
+	public void execute(DummyBoard board, BoardState boardState) {
+		moveExecutor.execute(board, this, boardState);
 	}
 
-	public void undo(DummyBoard board) {
-		moveExecutor.undo(board, this);
+	public void undo(DummyBoard board, BoardState boardState) {
+		moveExecutor.undo(board, this, boardState);
 	}
 
 	public MoveExecutor getMoveExecutor() {

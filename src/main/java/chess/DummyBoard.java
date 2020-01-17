@@ -138,7 +138,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	protected void executeMove(Square from, Square to) {
 		Move move = getMovimiento(from, to);
 		if(move != null) {
-			move.execute(this);
+			move.execute(this, null);
 		} else {
 			throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
 		}

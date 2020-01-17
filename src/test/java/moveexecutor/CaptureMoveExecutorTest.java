@@ -38,7 +38,7 @@ public class CaptureMoveExecutorTest {
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 		
 		CaptureMoveExecutor moveExecutor = new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO);
-		moveExecutor.execute(board, new Move(origen, destino, moveExecutor));
+		moveExecutor.execute(board, new Move(origen, destino, moveExecutor), null);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);

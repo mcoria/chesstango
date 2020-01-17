@@ -2,6 +2,7 @@ package moveexecutors;
 
 import java.util.Objects;
 
+import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Square;
@@ -15,12 +16,12 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 	}
 
 	@Override
-	public void execute(DummyBoard board, Move move) {
+	public void execute(DummyBoard board, Move move, BoardState boardState) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void undo(DummyBoard board, Move move) {
+	public void undo(DummyBoard board, Move move, BoardState boardState) {
 		// TODO Auto-generated method stub
 	}
 	

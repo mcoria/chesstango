@@ -20,11 +20,11 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		Pieza currentPieza = origen.getValue();
 		Set<Move> pseudoMoves = getPseudoMoves(tablero, origen);
 		for (Move move : pseudoMoves) {
-			move.execute(tablero);
+			move.execute(tablero, board.getBoardState());
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
 				moves.add(move);
 			}
-			move.undo(tablero);
+			move.undo(tablero, board.getBoardState());
 		}
 		return moves;
 	}
