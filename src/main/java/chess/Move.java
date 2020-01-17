@@ -106,7 +106,7 @@ public class Move implements Comparable<Move> {
 
 	@Override
 	public String toString() {
-		return from.toString() + " " + to.toString() + "; " + moveType.toString();
+		return from.toString() + " " + to.toString() + "; " + (moveType == null ? "ERROR" : moveType.toString());
 	}
 
 	public MoveType getMoveType() {
