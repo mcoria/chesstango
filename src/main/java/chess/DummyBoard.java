@@ -119,7 +119,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 				TreeSet<Move> sortedSet = new TreeSet<Move>(this);
 				
 				for (Move move : sortedSet) {
-					str = str + move.getFrom().toString() + " " + move.getTo().toString() + "\n";
+					str = str + move.getFrom().getKey().toString() + " " + move.getTo().getKey().toString() + "\n";
 				}
 				return str;
 			};
@@ -147,7 +147,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	private Move getMovimiento(Square from, Square to) {
 		Move moveResult = null;
 		for (Move move : getPseudoMoves(this.getPieza(from).getColor())) {
-			if(from.equals(move.getFrom()) && to.equals(move.getTo())){
+			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				moveResult = move;
 			}
 		}

@@ -56,7 +56,7 @@ public class Node {
 		Node node = null;
 		for (Map.Entry<Move, Node> entry : childs.entrySet()) {
 			Move move = entry.getKey();
-			if(move.getFrom().equals(from) && move.getTo().equals(to)){
+			if(move.getFrom().getKey().equals(from) && move.getTo().getKey().equals(to)){
 				node = entry.getValue();
 			}
 		}

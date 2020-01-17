@@ -73,7 +73,7 @@ public class Board {
 	}
 
 	protected Set<Move> getMoves(Color color){
-		Set<Move> moves = new HashSet<Move>();
+		Set<Move> moves = createMoveContainer();
 		for (Map.Entry<Square, Pieza> origen : tablero) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
@@ -88,7 +88,7 @@ public class Board {
 	private Move getMovimiento(Square from, Square to) {
 		Move moveResult = null;
 		for (Move move : movimientosPosibles) {
-			if(from.equals(move.getFrom()) && to.equals(move.getTo())){
+			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				moveResult = move;
 			}
 		}
@@ -126,5 +126,23 @@ public class Board {
 	public void setPeonPasanteSquare(Square peonPasanteSquare) {
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
+	
+	protected Set<Move> createMoveContainer(){
+		return new HashSet<Move>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
+
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (Move move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
+	}	
 
 }

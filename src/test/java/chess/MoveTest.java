@@ -60,8 +60,7 @@ public class MoveTest {
 		assertTrue(move2.compareTo(move3) > 0);
 		
 		assertTrue(move3.compareTo(move4) > 0);
-		
-		System.out.println("" + new Integer(10).compareTo(5));
+
 	}	
 	
 	
