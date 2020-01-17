@@ -1,11 +1,8 @@
 package moveexecutors;
 
-import java.util.Objects;
-
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Pieza;
 
 public class CaptureMoveExecutor implements MoveExecutor {
 	
@@ -18,10 +15,7 @@ public class CaptureMoveExecutor implements MoveExecutor {
 	@Override
 	public void undo(DummyBoard board, Move move, BoardState boardState) {
 		board.setPieza(move.getFrom().getKey(), move.getFrom().getValue());
-		
-		throw new RuntimeException("Error");
-		//Pieza capturada = boardState; 
-		//board.setPieza(move.getTo().getKey(), capturada);
+		board.setPieza(move.getTo().getKey(), move.getTo().getValue());
 	}
 
 	/*

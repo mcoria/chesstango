@@ -1,10 +1,10 @@
 package moveexecutor;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.util.Map;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,28 +21,49 @@ public class CaptureMoveExecutorTest {
 	
 	@Mock
 	private DummyBoard board;
+	
+	@Mock
+	private Move move;	
+	
+	private CaptureMoveExecutor moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
+		
+		moveExecutor = new CaptureMoveExecutor();
 	}
-	
-	@Test
-	public void testEquals01() {
-		assertEquals(new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.ALFIL_NEGRO), new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.ALFIL_NEGRO));
-	}
+
 	
 	@Test
 	public void testExecute() {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 		
-		CaptureMoveExecutor moveExecutor = new CaptureMoveExecutor(Pieza.TORRE_BLANCO, Pieza.PEON_NEGRO);
-		moveExecutor.execute(board, new Move(origen, destino, moveExecutor), null);
+		when(move.getFrom()).thenReturn(origen);
+		when(move.getTo()).thenReturn(destino);		
+
+		moveExecutor.execute(board, move, null);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);
 		
 	}
+	
+	
+	@Test
+	public void testUndo() {
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
+		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
+		
+		when(move.getFrom()).thenReturn(origen);
+		when(move.getTo()).thenReturn(destino);		
+
+		moveExecutor.undo(board, move, null);
+		
+		verify(board).setPieza(Square.e5, Pieza.TORRE_BLANCO);
+		verify(board).setPieza(Square.e7, Pieza.PEON_NEGRO);
+		
+	}	
 
 }
