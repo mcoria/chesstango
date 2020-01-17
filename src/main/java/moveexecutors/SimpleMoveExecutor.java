@@ -8,14 +8,18 @@ public class SimpleMoveExecutor implements MoveExecutor {
 	
 	@Override
 	public void execute(DummyBoard board, Move move, BoardState boardState) {
-		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());
-		board.setEmptySquare(move.getFrom().getKey());
+		board.setEmptySquare(move.getFrom().getKey());						//Dejamos origen
+		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());	//Vamos a destino
+		
+		
+		boardState.setCaptura(null);
+		boardState.setPeonPasanteSquare(null);
 	}
 
 	@Override
 	public void undo(DummyBoard board, Move move, BoardState boardState) {
-		board.setPieza(move.getFrom().getKey(), move.getFrom().getValue());
-		board.setEmptySquare(move.getTo().getKey());
+		board.setEmptySquare(move.getTo().getKey());						//Reestablecemos destino
+		board.setPieza(move.getFrom());										//Volvemos a origen
 	}
 
 	/*

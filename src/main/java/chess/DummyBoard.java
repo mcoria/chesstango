@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -37,6 +38,10 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		}
 	}
 
+	public void setPieza(Entry<Square, Pieza> entry) {
+		this.setPieza(entry.getKey(), entry.getValue());
+	}
+	
 	public Pieza getPieza(Square square) {
 		return tablero[square.getFile()][square.getRank()];
 	}

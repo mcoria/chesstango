@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -25,6 +26,8 @@ public class SimpleMoveExecutorTest {
 	@Mock
 	private Move move;	
 	
+	@Mock
+	private BoardState boardState;
 	
 	private SimpleMoveExecutor moveExecutor;
 
@@ -43,12 +46,14 @@ public class SimpleMoveExecutorTest {
 		when(move.getFrom()).thenReturn(origen);
 		when(move.getTo()).thenReturn(destino);
 		
-		moveExecutor.execute(board, move, null);
+		moveExecutor.execute(board, move, boardState);
 		
 		
-		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
-		verify(board).setEmptySquare(Square.e5);
+		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
+		verify(board).setEmptySquare(origen.getKey());
 		
+		verify(boardState).setCaptura(null);
+		verify(boardState).setPeonPasanteSquare(null);		
 	}
 	
 	
@@ -64,7 +69,7 @@ public class SimpleMoveExecutorTest {
 		moveExecutor.undo(board, move, null);
 		
 		
-		verify(board).setPieza(Square.e5, Pieza.TORRE_BLANCO);
+		verify(board).setPieza(origen);
 		verify(board).setEmptySquare(Square.e7);
 		
 	}	

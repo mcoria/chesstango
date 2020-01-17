@@ -1,25 +1,78 @@
 package moveexecutor;
 
-import org.junit.Test;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
+import chess.Pieza;
 import chess.Square;
 import moveexecutors.CapturePeonPasanteExecutor;
-import parsers.FENParser;
 
 public class CapturePeonPasanteExecutorTest {
 
+	@Mock
+	private DummyBoard board;
+	
+	@Mock
+	private Move move;	
+	
+	@Mock
+	private BoardState boardState;
+	
+	private CapturePeonPasanteExecutor moveExecutor;
+
+	@Before
+	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		
+		moveExecutor = new CapturePeonPasanteExecutor();
+	}
+	
 	@Test
-	public void test() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3pP3/8/8/8/8");
+	public void testExecute() {
+		Map.Entry<Square, Pieza> peonBlanco = new SimpleImmutableEntry<Square, Pieza>(Square.b5, Pieza.PEON_BLANCO);
+		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
+		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
+
+		when(move.getFrom()).thenReturn(peonBlanco);
+		when(move.getTo()).thenReturn(peonPasanteSquare);
+		when(boardState.getPeonPasanteSquare()).thenReturn(peonPasanteSquare.getKey());
+
+		moveExecutor.execute(board, move, boardState);
+
+		verify(board).setEmptySquare(peonBlanco.getKey());						//Dejamos el origen
+		verify(board).setPieza(peonPasanteSquare.getKey(), Pieza.PEON_BLANCO);  //Vamos al destino
+		verify(board).setEmptySquare(peonNegro.getKey());						//Capturamos peon		
 		
-		CapturePeonPasanteExecutor moveExecutor = new CapturePeonPasanteExecutor(Square.d5);
+		verify(boardState).setCaptura(peonNegro);
+	}
+	
+	
+	@Test
+	public void testUndo() {
+		Map.Entry<Square, Pieza> peonBlanco = new SimpleImmutableEntry<Square, Pieza>(Square.b5, Pieza.PEON_BLANCO);
+		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
+		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
 		
-		//moveExecutor.execute(tablero.getMediator(), new Move(Square.e5, Square.d6, null)); //Pieza.PEON_NEGRO
-		//assertEquals(tablero.getPieza(Square.d6), Pieza.PEON_BLANCO);
-		//assertTrue(tablero.isEmtpy(Square.e5));
+		when(move.getFrom()).thenReturn(peonBlanco);
+		when(move.getTo()).thenReturn(peonPasanteSquare);
+		when(boardState.getCaptura()).thenReturn(peonNegro);
+
+		moveExecutor.undo(board, move, boardState);
+		
+		verify(board).setPieza(peonBlanco);									//Volvemos al origen
+		verify(board).setEmptySquare(peonPasanteSquare.getKey());			//Dejamos el destino
+		verify(board).setPieza(peonNegro);									//Devolvemos peon
 	}
 
 }

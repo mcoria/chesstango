@@ -16,15 +16,14 @@ public class Board {
 	private Set<Move> movimientosPosibles;
 	
 	private GameStatus status;
-
-	private Square peonPasanteSquare;
 	
 	private BoardState boardState;
 	
 	public Board(DummyBoard tablero, Color turno, Square peonPasanteSquare){
 		this.tablero = tablero;
 		this.turnoActual = turno;
-		this.peonPasanteSquare = peonPasanteSquare;
+		this.boardState = new BoardState();
+		this.boardState.setPeonPasanteSquare(peonPasanteSquare);
 		updateGameStatus();
 	}
 
@@ -119,14 +118,6 @@ public class Board {
 
 	public final GameStatus getGameStatus() {
 		return this.status;
-	}
-
-	public Square getPeonPasanteSquare() {
-		return peonPasanteSquare;
-	}
-
-	public void setPeonPasanteSquare(Square peonPasanteSquare) {
-		this.peonPasanteSquare = peonPasanteSquare;
 	}
 	
 	protected Set<Move> createMoveContainer(){

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import moveexecutors.SimpleMoveExecutor;
+import chess.Move.MoveType;
 import parsers.FENParser;
 
 public class DummyBoardTest {
@@ -49,7 +49,7 @@ public class DummyBoardTest {
 	}
 	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
-		return new Move(new SimpleImmutableEntry<Square, Pieza>(origenSquare, origenPieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleMoveExecutor(origenPieza));
+		return new Move(new SimpleImmutableEntry<Square, Pieza>(origenSquare, origenPieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
 	}	
 		
 }
