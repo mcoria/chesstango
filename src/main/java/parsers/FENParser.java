@@ -27,6 +27,8 @@ public class FENParser {
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
 		boardState.setEnroqueBlancoReinaPermitido(isEnroqueBlancoReinaPermitido(enroquesPermitidos));
 		boardState.setEnroqueBlancoReyPermitido(isEnroqueBlancoReyPermitido(enroquesPermitidos));
+		boardState.setEnroqueNegroReinaPermitido(isEnroqueNegroReinaPermitido(enroquesPermitidos));
+		boardState.setEnroqueNegroReyPermitido(isEnroqueNegroReyPermitido(enroquesPermitidos));		
 		
 		return new Board(tablero, color, boardState);
 	}
@@ -40,6 +42,20 @@ public class FENParser {
 	
 	protected boolean isEnroqueBlancoReyPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("K")){
+			return true;
+		}
+		return false;
+	}	
+	
+	protected boolean isEnroqueNegroReinaPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("q")){
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean isEnroqueNegroReyPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("k")){
 			return true;
 		}
 		return false;
