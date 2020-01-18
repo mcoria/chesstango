@@ -3,22 +3,20 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.junit.Test;
 
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
+import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import chess.Move.MoveType;
 import iterators.CardinalSquareIterator.Cardinal;
-import moveexecutors.CaptureMoveExecutor;
-import moveexecutors.SimpleMoveExecutor;
 import parsers.FENParser;
 
 public class CardinalMoveGeneratorOesteTest {
