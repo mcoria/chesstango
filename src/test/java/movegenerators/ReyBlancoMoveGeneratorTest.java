@@ -11,7 +11,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import chess.BoardState;
-import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Move.MoveType;
@@ -19,7 +18,7 @@ import chess.Pieza;
 import chess.Square;
 import parsers.FENParser;
 
-public class ReyMoveGeneratorTest {
+public class ReyBlancoMoveGeneratorTest {
 
 	@Test
 	public void test01() {
@@ -31,7 +30,7 @@ public class ReyMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 	
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
@@ -57,7 +56,7 @@ public class ReyMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e6));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e4));
 	
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -87,7 +86,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -116,7 +115,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -144,7 +143,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -170,7 +169,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -199,7 +198,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -227,7 +226,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -255,7 +254,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		

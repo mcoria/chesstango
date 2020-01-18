@@ -15,6 +15,9 @@ public class Move implements Comparable<Move> {
 	public static final Move ENROQUE_BLANCO_REYNA = new Move(new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO), new SimpleImmutableEntry<Square, Pieza>(Square.c1, null), MoveType.ENROQUE);
 	public static final Move ENROQUE_BLANCO_REY = new Move(new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO), new SimpleImmutableEntry<Square, Pieza>(Square.g1, null), MoveType.ENROQUE);
 	
+	public static final Move ENROQUE_NEGRO_REYNA = new Move(new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO), new SimpleImmutableEntry<Square, Pieza>(Square.c8, null), MoveType.ENROQUE);
+	public static final Move ENROQUE_NEGRO_REY = new Move(new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO), new SimpleImmutableEntry<Square, Pieza>(Square.g8, null), MoveType.ENROQUE);	
+	
 	private Map.Entry<Square, Pieza> from;
 	private Map.Entry<Square, Pieza> to;
 	private MoveType moveType;

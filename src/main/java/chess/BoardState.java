@@ -8,8 +8,12 @@ import java.util.Optional;
 public class BoardState {
 	private Square peonPasanteSquare;
 	private Map.Entry<Square, Pieza> captura;
+	
 	private boolean enroqueBlancoReinaPermitido;
 	private boolean enroqueBlancoReyPermitido;
+	
+	private boolean enroqueNegroReinaPermitido;
+	private boolean enroqueNegroReyPermitido;	
 	
 	private Deque<Optional<Square>> peonPasanteSquarePila = new ArrayDeque<Optional<Square>>();
 	private Deque<Optional<Map.Entry<Square, Pieza>>> capturadasPila = new ArrayDeque<Optional<Map.Entry<Square, Pieza>>> ();
@@ -45,6 +49,22 @@ public class BoardState {
 	public void setEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
 		this.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
 	}
+	
+	public boolean isEnroqueNegroReinaPermitido() {
+		return enroqueNegroReinaPermitido;
+	}
+
+	public void setEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
+		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+	}
+
+	public boolean isEnroqueNegroReyPermitido() {
+		return enroqueNegroReyPermitido;
+	}
+
+	public void setEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
+		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+	}	
 	
 	public void pushState() {
 		Optional<Square> square = Optional.ofNullable(peonPasanteSquare);
