@@ -97,11 +97,13 @@ public class Move implements Comparable<Move> {
 	}
 
 	public void execute(DummyBoard board, BoardState boardState) {
+		boardState.pushState();
 		this.moveType.execute(board, this, boardState);
 	}
 
 	public void undo(DummyBoard board, BoardState boardState) {
 		this.moveType.undo(board, this, boardState);
+		boardState.popState();
 	}
 
 	@Override

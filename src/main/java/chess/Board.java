@@ -19,11 +19,10 @@ public class Board {
 	
 	private BoardState boardState;
 	
-	public Board(DummyBoard tablero, Color turno, Square peonPasanteSquare){
+	public Board(DummyBoard tablero, Color turno, BoardState boardState){
 		this.tablero = tablero;
 		this.turnoActual = turno;
-		this.boardState = new BoardState();
-		this.boardState.setPeonPasanteSquare(peonPasanteSquare);
+		this.boardState = boardState;
 		updateGameStatus();
 	}
 

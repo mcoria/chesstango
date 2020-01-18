@@ -1,6 +1,7 @@
 package chess;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
@@ -70,20 +71,30 @@ public class MoveTest {
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4R3/8/8/8/8");
 		
 		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
-		
+
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		Map.Entry<Square, Pieza> capturada = new SimpleImmutableEntry<Square, Pieza>(Square.e6, Pieza.TORRE_NEGRO);
 		
+		BoardState boardState = new BoardState();
+		boardState.setCaptura(capturada);
+		boardState.setPeonPasanteSquare(Square.a3);
+		
+
 		Move move = new Move(origen, destino, MoveType.SIMPLE);
 		
-		move.execute(tablero, null);
+		move.execute(tablero, boardState);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e5));
+		assertNull(boardState.getCaptura());
+		assertNull(boardState.getPeonPasanteSquare());
 		
-		move.undo(tablero, null);
-		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
+		
+		move.undo(tablero, boardState);
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertTrue(tablero.isEmtpy(Square.e7));
-		
+		assertEquals(capturada, boardState.getCaptura());
+		assertEquals(Square.a3, boardState.getPeonPasanteSquare());
 	}
 	
 	@Test
@@ -96,16 +107,23 @@ public class MoveTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
+		Map.Entry<Square, Pieza> capturada = new SimpleImmutableEntry<Square, Pieza>(Square.e6, Pieza.ALFIL_NEGRO);
+		
+		BoardState boardState = new BoardState();
+		boardState.setCaptura(capturada);
+		boardState.setPeonPasanteSquare(Square.a3);
 		
 		Move move = new Move(origen, destino, MoveType.CAPTURA);
 		
-		move.execute(tablero, null);
-		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
+		move.execute(tablero, boardState);
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e7));
 		assertTrue(tablero.isEmtpy(Square.e5));
 		
-		move.undo(tablero, null);
-		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
-		assertEquals(tablero.getPieza(Square.e7), Pieza.PEON_NEGRO);
+		move.undo(tablero, boardState);
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e7));
+		assertEquals(capturada, boardState.getCaptura());
+		assertEquals(Square.a3, boardState.getPeonPasanteSquare());		
 		
 	}
 
