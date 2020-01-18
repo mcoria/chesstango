@@ -8,7 +8,8 @@ import movegenerators.CaballoMoveGenerator;
 import movegenerators.MoveGenerator;
 import movegenerators.PeonMoveGenerator;
 import movegenerators.ReinaMoveGenerator;
-import movegenerators.ReyMoveGenerator;
+import movegenerators.ReyBlancoMoveGenerator;
+import movegenerators.ReyNegroMoveGenerator;
 import movegenerators.TorreMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
@@ -27,8 +28,8 @@ public enum Pieza implements MoveGenerator {
 	REINA_BLANCO(new ReinaMoveGenerator(Color.BLANCO)),
 	REINA_NEGRO(new ReinaMoveGenerator(Color.NEGRO)),
 	
-	REY_BLANCO(new ReyMoveGenerator(Color.BLANCO)),
-	REY_NEGRO(new ReyMoveGenerator(Color.NEGRO));
+	REY_BLANCO(new ReyBlancoMoveGenerator()),
+	REY_NEGRO(new ReyNegroMoveGenerator());
 	
 	private MoveGenerator generator;
 	

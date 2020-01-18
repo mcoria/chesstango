@@ -31,7 +31,7 @@ public class ReyMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 	
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
@@ -57,7 +57,7 @@ public class ReyMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e6));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e4));
 	
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -87,7 +87,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -116,7 +116,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -144,7 +144,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -170,7 +170,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -199,7 +199,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -227,7 +227,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -255,7 +255,7 @@ public class ReyMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
+		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
