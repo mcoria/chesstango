@@ -17,7 +17,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	public Set<Move> getLegalMoves(DummyBoard tablero, BoardState boardState, Map.Entry<Square, Pieza> origen) {
 		Set<Move> moves = new HashSet<Move>();
 		Pieza currentPieza = origen.getValue();
-		Set<Move> pseudoMoves = getPseudoMoves(tablero, origen);
+		Set<Move> pseudoMoves = getPseudoMoves(tablero, boardState, origen);
 		for (Move move : pseudoMoves) {
 			move.execute(tablero, boardState);
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
@@ -26,6 +26,10 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 			move.undo(tablero, boardState);
 		}
 		return moves;
+	}
+	
+	public Set<Move> getPseudoMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen){
+		return getPseudoMoves(board, origen);
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
+import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
@@ -24,18 +25,14 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 	
 	@Override
 	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
-		Square casillero = origen.getKey();
-		Pieza peon = origen.getValue();
 		Set<Move> moves = createMoveContainer();
 		
+		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
 		Square saltoDobleCasillero = getCasilleroSaltoDoble(casillero);
 		
 		Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
-		
-		Square casilleroIzquierda = getCasilleroIzquirda(casillero);
-		Square casilleroDerecha = getCasilleroDerecha(casillero);
 		
 		Map.Entry<Square, Pieza> destino = null;
 				
@@ -63,26 +60,45 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);
 				moves.add(new Move(origen, destino, MoveType.CAPTURA));
 			}
-		}
-		
-		if(casilleroIzquierda != null) {
-			Pieza pieza = dummyBoard.getPieza(casilleroIzquierda);
-			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-				moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
-			}			
-		}
-		
-		if(casilleroDerecha != null) {
-			Pieza pieza = dummyBoard.getPieza(casilleroDerecha);
-			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-				moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
-			}			
-		}		
+		}	
 		
 		return moves;
 	}
+	
+	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen){
+		Set<Move> moves = getPseudoMoves(dummyBoard, origen);
+		
+		if (boardState.getPeonPasanteSquare() != null) {
+			Square casillero = origen.getKey();
+			Square casilleroIzquierda = getCasilleroIzquirda(casillero);
+			Square casilleroDerecha = getCasilleroDerecha(casillero);
+
+			Map.Entry<Square, Pieza> destino = null;
+			if (casilleroIzquierda != null) {
+				Pieza pieza = dummyBoard.getPieza(casilleroIzquierda);
+				if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
+					Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
+					if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
+						destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
+						moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
+					}
+				}
+			}
+
+			if (casilleroDerecha != null) {
+				Pieza pieza = dummyBoard.getPieza(casilleroDerecha);
+				if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
+					Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
+					if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
+						destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
+						moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
+					}
+				}
+			}
+		}
+		
+		return moves;
+	}	
 
 	private Square getCasilleroSaltoSimple(Square casillero) {
 		Square value = null;
