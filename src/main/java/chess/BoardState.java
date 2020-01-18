@@ -9,6 +9,7 @@ public class BoardState {
 	private Square peonPasanteSquare;
 	private Map.Entry<Square, Pieza> captura;
 	private boolean enroqueBlancoReinaPermitido;
+	private boolean enroqueBlancoReyPermitido;
 	
 	private Deque<Optional<Square>> peonPasanteSquarePila = new ArrayDeque<Optional<Square>>();
 	private Deque<Optional<Map.Entry<Square, Pieza>>> capturadasPila = new ArrayDeque<Optional<Map.Entry<Square, Pieza>>> ();
@@ -36,6 +37,14 @@ public class BoardState {
 	public void setEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
 		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 	}	
+	
+	public boolean isEnroqueBlancoReyPermitido() {
+		return enroqueBlancoReyPermitido;
+	}
+
+	public void setEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
+		this.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+	}
 	
 	public void pushState() {
 		Optional<Square> square = Optional.ofNullable(peonPasanteSquare);
