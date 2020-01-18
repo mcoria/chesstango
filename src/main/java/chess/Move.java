@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.MoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 
@@ -16,6 +17,7 @@ public class Move implements Comparable<Move> {
 	public enum MoveType implements MoveExecutor{
 		SIMPLE(new SimpleMoveExecutor()),
 		CAPTURA(new CaptureMoveExecutor()),
+		PEON_PASANTE(new CapturePeonPasanteExecutor()),
 		ENROQUE(null);
 		
 		private MoveExecutor executor = null;

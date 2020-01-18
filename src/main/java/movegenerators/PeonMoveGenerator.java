@@ -69,7 +69,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = dummyBoard.getPieza(casilleroIzquierda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-				moves.add(new Move(origen, destino, null));
+				moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
 			}			
 		}
 		
@@ -77,7 +77,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = dummyBoard.getPieza(casilleroDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-				moves.add(new Move(origen, destino, null));
+				moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
 			}			
 		}		
 		
