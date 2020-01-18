@@ -68,7 +68,7 @@ public class Move implements Comparable<Move> {
 	
 	@Override
 	public int hashCode() {
-		return from.hashCode();
+		return from.getKey().hashCode();
 	}
 	
 	@Override
