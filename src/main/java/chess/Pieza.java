@@ -77,13 +77,13 @@ public enum Pieza implements MoveGenerator {
 	}
 
 	@Override
-	public Set<Move> getLegalMoves(Board board, Map.Entry<Square, Pieza> origen) {
-		return generator.getLegalMoves(board, origen);
+	public Set<Move> getLegalMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen) {
+		return generator.getLegalMoves(board, boardState, origen);
 	}
 	
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen) {
-		return generator.getPseudoMoves(tablero, origen);
+	public Set<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen) {
+		return generator.getPseudoMoves(board, origen);
 	}
 
 	@Override

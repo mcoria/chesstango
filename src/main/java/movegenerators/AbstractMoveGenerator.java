@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import chess.Board;
+import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -14,17 +14,16 @@ import chess.Square;
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
-	public Set<Move> getLegalMoves(Board board, Map.Entry<Square, Pieza> origen) {
-		DummyBoard tablero = board.getTablero();
+	public Set<Move> getLegalMoves(DummyBoard tablero, BoardState boardState, Map.Entry<Square, Pieza> origen) {
 		Set<Move> moves = new HashSet<Move>();
 		Pieza currentPieza = origen.getValue();
 		Set<Move> pseudoMoves = getPseudoMoves(tablero, origen);
 		for (Move move : pseudoMoves) {
-			move.execute(tablero, board.getBoardState());
+			move.execute(tablero, boardState);
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
 				moves.add(move);
 			}
-			move.undo(tablero, board.getBoardState());
+			move.undo(tablero, boardState);
 		}
 		return moves;
 	}

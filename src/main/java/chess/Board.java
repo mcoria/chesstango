@@ -78,7 +78,7 @@ public class Board {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getLegalMoves(this, origen));
+					moves.addAll(currentPieza.getLegalMoves(tablero, boardState, origen));
 				}
 			}
 		}
