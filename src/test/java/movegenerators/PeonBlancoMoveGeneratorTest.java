@@ -181,7 +181,6 @@ public class PeonBlancoMoveGeneratorTest {
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
 	}
-	
 
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.CAPTURA_PEON_PASANTE);
