@@ -89,5 +89,14 @@ public class BoardTest {
 		board.executeMove(Square.b6, Square.b5);
 		
 		assertEquals(22, board.getMovimientosPosibles().size());
+	}
+	
+	@Test
+	public void testJuegoPeonPasante() {
+		Board board = FENParser.parseFEN("rnbqkbnr/p1pppppp/8/1P6/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2");
+		
+		board.executeMove(Square.a7, Square.a5);
+		
+		assertEquals(24, board.getMovimientosPosibles().size());
 	}	
 }

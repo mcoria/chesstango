@@ -42,7 +42,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 			
 			if(saltoDobleCasillero != null && dummyBoard.isEmtpy(saltoDobleCasillero)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(saltoDobleCasillero, null);
-				moves.add( new Move(origen, destino,MoveType.SIMPLE) );
+				moves.add( new Move(origen, destino, MoveType.SALTO_DOBLE_PEON) );
 			}			
 		}
 		
@@ -80,7 +80,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 					Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 					if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
 						destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-						moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
+						moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
 					}
 				}
 			}
@@ -91,7 +91,7 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 					Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 					if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
 						destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-						moves.add(new Move(origen, destino, MoveType.PEON_PASANTE));
+						moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
 					}
 				}
 			}

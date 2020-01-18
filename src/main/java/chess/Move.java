@@ -1,11 +1,11 @@
 package chess;
 
 import java.util.Map;
-import java.util.Objects;
 
 import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.CapturePeonPasanteExecutor;
 import moveexecutors.MoveExecutor;
+import moveexecutors.SaltoDoblePeonMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 
 public class Move implements Comparable<Move> {
@@ -16,8 +16,9 @@ public class Move implements Comparable<Move> {
 	
 	public enum MoveType implements MoveExecutor{
 		SIMPLE(new SimpleMoveExecutor()),
+		SALTO_DOBLE_PEON(new SaltoDoblePeonMoveExecutor()),
 		CAPTURA(new CaptureMoveExecutor()),
-		PEON_PASANTE(new CapturePeonPasanteExecutor()),
+		CAPTURA_PEON_PASANTE(new CapturePeonPasanteExecutor()),
 		ENROQUE(null);
 		
 		private MoveExecutor executor = null;

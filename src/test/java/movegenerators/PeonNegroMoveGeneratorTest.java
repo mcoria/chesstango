@@ -57,7 +57,7 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(2, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.a6) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
+		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.a5) ));
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(3, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e5) ));
+		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.d6, Pieza.PEON_BLANCO) ));
 	}
 	
@@ -124,7 +124,7 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(3, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e5) ));
+		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f6, Pieza.PEON_BLANCO) ));
 	}
 	
@@ -156,12 +156,16 @@ public class PeonNegroMoveGeneratorTest {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
 	}
 	
+	private Move createSaltoDobleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SALTO_DOBLE_PEON);
+	}	
+	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
 	}
 	
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.PEON_PASANTE);
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.CAPTURA_PEON_PASANTE);
 	}	
 
 }
