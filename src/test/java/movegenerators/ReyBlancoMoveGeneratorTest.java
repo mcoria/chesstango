@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.BoardState;
@@ -20,6 +21,13 @@ import parsers.FENParser;
 
 public class ReyBlancoMoveGeneratorTest {
 
+	private ReyBlancoMoveGenerator moveGenerator;
+
+	@Before
+	public void setUp() throws Exception {
+		moveGenerator = new ReyBlancoMoveGenerator();
+	}
+	
 	@Test
 	public void test01() {
 		FENParser parser = new FENParser();
@@ -29,8 +37,6 @@ public class ReyBlancoMoveGeneratorTest {
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
-	
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
@@ -51,12 +57,11 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/4P3/4K3/4p3/8/8/8");
 		
+		
 		Square from = Square.e5;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));		
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e6));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e4));
-	
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
@@ -79,16 +84,13 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/R3K3");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);	
+		boardState.setEnroqueBlancoReinaPermitido(true);
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
@@ -106,18 +108,15 @@ public class ReyBlancoMoveGeneratorTest {
 	public void testEnroqueReyBlancoReina02() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5b2/8/R3K3");
-		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f3));
 	
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
@@ -135,17 +134,14 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/5b2/8/8/R3K3");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f4));
 	
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
@@ -162,16 +158,13 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/4K2R");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 	
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
@@ -190,17 +183,14 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3b4/8/4K2R");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d3));
 	
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
@@ -218,17 +208,14 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/3b4/8/8/4K2R");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d4));
 	
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReyPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
@@ -245,8 +232,7 @@ public class ReyBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/4r3/8/8/R3K2R");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.e4));
@@ -254,9 +240,7 @@ public class ReyBlancoMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueBlancoReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
 		
 		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		

@@ -1,8 +1,8 @@
 package movegenerators;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.Set;
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.BoardState;
 import chess.Color;
@@ -10,9 +10,8 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
-import iterators.SaltoSquareIterator;
 
-public class ReyNegroMoveGenerator extends SaltoMoveGenerator {
+public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	
 	protected static final Map.Entry<Square, Pieza> TORRE_NEGRA_REYNA_SQUARE = new SimpleImmutableEntry<Square, Pieza>(Square.a8, Pieza.TORRE_NEGRO);
 	protected static final Square DESTINO_ENROQUE_REYNA_SQUARE = Square.c8;
@@ -26,7 +25,7 @@ public class ReyNegroMoveGenerator extends SaltoMoveGenerator {
 	
 	
 	public ReyNegroMoveGenerator() {
-		super(Color.NEGRO, SaltoSquareIterator.SALTOS_REY);
+		super(Color.NEGRO);
 	}
 	
 	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen) {
@@ -45,20 +44,5 @@ public class ReyNegroMoveGenerator extends SaltoMoveGenerator {
 		return moves;
 	}
 
-	protected boolean puedeEnroque(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square casilleroRey,
-			Square casilleroIntermedio, Square casilleroDestino, Map.Entry<Square, Pieza> torre) {
-		if ( color.equals(origen.getValue().getColor()) && casilleroRey.equals(origen.getKey()) ) {           	//El rey se encuentra en su lugar
-			if (torre.getValue().equals(dummyBoard.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( dummyBoard.isEmtpy(casilleroIntermedio)												  	//El casillero intermedio esta vacio
-				  && dummyBoard.isEmtpy(casilleroDestino) ) {										  			//El casillero intermedio esta vacio
-					if ( !dummyBoard.sepuedeCapturarReyEnSquare(color, casilleroRey) 							//El rey no esta en jaque
-					  && !dummyBoard.sepuedeCapturarReyEnSquare(color, casilleroIntermedio)) {					//El rey no puede ser atacado en casillero intermedio
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
 
 }
