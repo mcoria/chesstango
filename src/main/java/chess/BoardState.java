@@ -18,6 +18,13 @@ public class BoardState {
 	private Deque<Optional<Square>> peonPasanteSquarePila = new ArrayDeque<Optional<Square>>();
 	private Deque<Optional<Map.Entry<Square, Pieza>>> capturadasPila = new ArrayDeque<Optional<Map.Entry<Square, Pieza>>> ();
 	
+	private Deque<Boolean> enroqueBlancoReinaPermitidoPila = new ArrayDeque<Boolean>();
+	private Deque<Boolean> enroqueBlancoReyPermitidoPila = new ArrayDeque<Boolean>();
+	private Deque<Boolean> enroqueNegroReinaPermitidoPila = new ArrayDeque<Boolean>();
+	private Deque<Boolean> enroqueNegroReyPermitidoPila = new ArrayDeque<Boolean>();
+	
+	
+	
 	public Square getPeonPasanteSquare() {
 		return peonPasanteSquare;
 	}
@@ -71,6 +78,10 @@ public class BoardState {
 		Optional<Map.Entry<Square, Pieza>> source = Optional.ofNullable(captura);
 		peonPasanteSquarePila.push(square);
 		capturadasPila.push(source);
+		enroqueBlancoReinaPermitidoPila.push(enroqueBlancoReinaPermitido);
+		enroqueBlancoReyPermitidoPila.push(enroqueBlancoReyPermitido);
+		enroqueNegroReinaPermitidoPila.push(enroqueNegroReinaPermitido);
+		enroqueNegroReyPermitidoPila.push(enroqueNegroReyPermitido);
 	}
 
 	public void popState() {
@@ -78,5 +89,10 @@ public class BoardState {
 		Optional<Map.Entry<Square, Pieza>> source = capturadasPila.pop();
 		peonPasanteSquare = square.isPresent() ? square.get() : null;
 		captura = source.isPresent() ? source.get() : null;
+		
+		enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitidoPila.pop();
+		enroqueBlancoReyPermitido = enroqueBlancoReyPermitidoPila.pop();
+		enroqueNegroReinaPermitido = enroqueNegroReinaPermitidoPila.pop();
+		enroqueNegroReyPermitido = enroqueNegroReyPermitidoPila.pop();
 	}
 }
