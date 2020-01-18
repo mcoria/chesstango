@@ -46,7 +46,7 @@ public class SimpleMoveExecutorTest {
 		when(move.getFrom()).thenReturn(origen);
 		when(move.getTo()).thenReturn(destino);
 		
-		moveExecutor.execute(board, move, boardState);
+		moveExecutor.execute(board, boardState, move);
 		
 		
 		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
@@ -66,7 +66,7 @@ public class SimpleMoveExecutorTest {
 		when(move.getFrom()).thenReturn(origen);
 		when(move.getTo()).thenReturn(destino);
 		
-		moveExecutor.undo(board, move, null);
+		moveExecutor.undo(board, boardState, move);
 		
 		
 		verify(board).setPieza(origen);

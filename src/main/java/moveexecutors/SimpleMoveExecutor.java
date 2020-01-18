@@ -7,7 +7,7 @@ import chess.Move;
 public class SimpleMoveExecutor implements MoveExecutor {
 	
 	@Override
-	public void execute(DummyBoard board, Move move, BoardState boardState) {
+	public void execute(DummyBoard board, BoardState boardState, Move move) {
 		board.setEmptySquare(move.getFrom().getKey());						//Dejamos origen
 		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());	//Vamos a destino
 		
@@ -17,7 +17,7 @@ public class SimpleMoveExecutor implements MoveExecutor {
 	}
 
 	@Override
-	public void undo(DummyBoard board, Move move, BoardState boardState) {
+	public void undo(DummyBoard board, BoardState boardState, Move move) {
 		board.setEmptySquare(move.getTo().getKey());						//Reestablecemos destino
 		board.setPieza(move.getFrom());										//Volvemos a origen
 	}
