@@ -233,5 +233,7 @@ public class FENParserTest {
 		
 		assertEquals(Color.NEGRO, board.getTurnoActual());
 		assertEquals(Square.e3, board.getBoardState().getPeonPasanteSquare());
+		assertTrue(board.getBoardState().isEnroqueBlancoReyPermitido());
+		assertTrue(board.getBoardState().isEnroqueBlancoReyPermitido());
 	}	
 }

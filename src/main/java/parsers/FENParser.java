@@ -15,7 +15,7 @@ public class FENParser {
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
-		String enroques = fields[2];
+		String enroquesPermitidos = fields[2];
 		String peonPasante = fields[3];
 		
 		DummyBoard tablero = parsePiecePlacement(piecePlacement);
@@ -25,9 +25,25 @@ public class FENParser {
 		
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
+		boardState.setEnroqueBlancoReinaPermitido(isEnroqueBlancoReinaPermitido(enroquesPermitidos));
+		boardState.setEnroqueBlancoReyPermitido(isEnroqueBlancoReyPermitido(enroquesPermitidos));
 		
 		return new Board(tablero, color, boardState);
 	}
+	
+	protected boolean isEnroqueBlancoReinaPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("Q")){
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean isEnroqueBlancoReyPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("K")){
+			return true;
+		}
+		return false;
+	}	
 	
 	protected Square parsePeonPasanteSquare(String peonPasante) {
 		Square result = null;
