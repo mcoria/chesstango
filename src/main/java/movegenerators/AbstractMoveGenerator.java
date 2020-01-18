@@ -15,7 +15,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
 	public Set<Move> getLegalMoves(DummyBoard tablero, BoardState boardState, Map.Entry<Square, Pieza> origen) {
-		Set<Move> moves = new HashSet<Move>();
+		Set<Move> moves = createMoveContainer();
 		Pieza currentPieza = origen.getValue();
 		Set<Move> pseudoMoves = getPseudoMoves(tablero, boardState, origen);
 		for (Move move : pseudoMoves) {
