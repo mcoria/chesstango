@@ -161,7 +161,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
 		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.e6, Square.e5) ));
-	}	
+	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
@@ -173,7 +173,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare, Square casilleroPeonPasante) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), null);
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.PEON_PASANTE);
 	}	
 	
 }

@@ -81,4 +81,13 @@ public class BoardTest {
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 	}
+	
+	@Test
+	public void testJuegoNoPeonPasante() {
+		Board board = FENParser.parseFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2");
+		
+		board.executeMove(Square.b6, Square.b5);
+		
+		assertEquals(22, board.getMovimientosPosibles().size());
+	}	
 }

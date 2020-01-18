@@ -59,7 +59,7 @@ public class Move implements Comparable<Move> {
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
 			Move theOther = (Move) obj;
-			return from.equals(theOther.from) &&  to.equals(theOther.to) && Objects.equals(this.moveType, this.moveType);
+			return from.equals(theOther.from) &&  to.equals(theOther.to) && this.moveType.equals(theOther.moveType);
 		}
 		return false;
 	}

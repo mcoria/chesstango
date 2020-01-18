@@ -154,7 +154,7 @@ public class PeonNegroMoveGeneratorTest {
 	}
 	
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare, Square casilleroPeonPasante) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), null);
+		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.PEON_PASANTE);
 	}	
 
 }
