@@ -17,7 +17,8 @@ public class FENCoder {
 		BoardState state = input.getBoardState();
 		char colorActual = input.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
 		String peonPasante = codePeonPasante(state.getPeonPasanteSquare());
-		return codePiecePlacement(input.getTablero()) + " " + colorActual + " KQkq " + peonPasante + " 0 1";
+		String enroques = codeEnroques(state);
+		return codePiecePlacement(input.getTablero()) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
 	public String codePiecePlacement(DummyBoard board) {
@@ -116,6 +117,13 @@ public class FENCoder {
 			result = peonPasanteSquare.toString();
 		}
 		return result;
+	}
+	
+	protected String codeEnroques(BoardState state) {
+		String result =  ((state.isEnroqueBlancoReyPermitido() ? "K" : "") + (state.isEnroqueBlancoReinaPermitido() ? "Q" : "")
+				+ (state.isEnroqueNegroReyPermitido() ? "k" : "") + (state.isEnroqueNegroReinaPermitido() ? "q" : ""));
+		
+		return "".equals(result) ? "-" : result;
 	}
 	
 	private static FENCoder fenParser = new FENCoder();
