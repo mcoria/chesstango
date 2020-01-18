@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 
 import moveexecutors.CaptureMoveExecutor;
@@ -9,6 +10,9 @@ import moveexecutors.SaltoDoblePeonMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
 
 public class Move implements Comparable<Move> {
+	
+	public static final Move ENROQUE_TORRE_BLANCA_REYNA = new Move(new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO), new SimpleImmutableEntry<Square, Pieza>(Square.b1, null), MoveType.ENROQUE);
+	
 	private Map.Entry<Square, Pieza> from;
 	private Map.Entry<Square, Pieza> to;
 	private MoveType moveType;

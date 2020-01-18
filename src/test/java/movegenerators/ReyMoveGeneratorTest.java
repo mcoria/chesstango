@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
@@ -75,31 +76,40 @@ public class ReyMoveGeneratorTest {
 	
 	
 	@Test
-	public void testEnroque() {
+	public void testEnroqueReyBlancoReina() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/R3K2R");
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/R3K3");
 		
 		Square from = Square.e1;
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 	
+		BoardState boardState = new BoardState();
+		boardState.setEnroqueBlancoReinaPermitido(true);	
+		
 		ReyMoveGenerator moveGenerator = new ReyMoveGenerator(Color.BLANCO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
-		assertEquals(7, moves.size());
-					
+		assertEquals(6, moves.size());
+		
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+		assertTrue(moves.contains( Move.ENROQUE_TORRE_BLANCA_REYNA ));
+
 	}
-	
+
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
 	}
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
-	}
+	}	
 	
 }

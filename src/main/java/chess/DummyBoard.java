@@ -96,6 +96,10 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	public boolean isKingInCheck(Color color) {
 		Square kingSquare = getKingSquare(color);
+		return sepuedeCapturarReyEnSquare(color, kingSquare);
+	}
+	
+	public boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){
 		for (Map.Entry<Square, Pieza> origen : this) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
@@ -106,7 +110,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 				}
 			}
 		}
-		return false;
+		return false;		
 	}
 	
 /////////Metodo con propositos de Testing
