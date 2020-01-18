@@ -32,7 +32,7 @@ public class ReinaMoveGeneratorTest {
 
 		ReinaMoveGenerator moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
 
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REINA_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 
 		assertEquals(27, moves.size());
 

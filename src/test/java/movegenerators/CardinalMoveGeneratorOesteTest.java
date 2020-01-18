@@ -33,7 +33,7 @@ public class CardinalMoveGeneratorOesteTest {
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -56,7 +56,7 @@ public class CardinalMoveGeneratorOesteTest {
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -78,7 +78,7 @@ public class CardinalMoveGeneratorOesteTest {
 	
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(4, moves.size());
 		

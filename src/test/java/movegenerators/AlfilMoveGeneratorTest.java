@@ -32,7 +32,7 @@ public class AlfilMoveGeneratorTest {
 
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));  
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
 
 		assertEquals(13, moves.size());
 
@@ -74,7 +74,7 @@ public class AlfilMoveGeneratorTest {
 
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO));  
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

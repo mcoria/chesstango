@@ -34,7 +34,7 @@ public class CaballoMoveGeneratorTest {
 		
 		CaballoMoveGenerator moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, new SimpleImmutableEntry<Square, Pieza>(from, Pieza.CABALLO_BLANCO));
+		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(7, moves.size());
 		
