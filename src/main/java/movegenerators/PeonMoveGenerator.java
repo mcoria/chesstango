@@ -1,19 +1,16 @@
 package movegenerators;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.Set;
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
+import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import chess.Move.MoveType;
-import moveexecutors.CaptureMoveExecutor;
-import moveexecutors.CapturePeonPasanteExecutor;
-import moveexecutors.SimpleMoveExecutor;
 
 public class PeonMoveGenerator extends AbstractMoveGenerator {
 

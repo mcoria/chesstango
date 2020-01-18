@@ -5,6 +5,7 @@ import java.util.Map;
 
 import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.CapturePeonPasanteExecutor;
+import moveexecutors.EnroqueMoveExecutor;
 import moveexecutors.MoveExecutor;
 import moveexecutors.SaltoDoblePeonMoveExecutor;
 import moveexecutors.SimpleMoveExecutor;
@@ -24,7 +25,7 @@ public class Move implements Comparable<Move> {
 		SALTO_DOBLE_PEON(new SaltoDoblePeonMoveExecutor()),
 		CAPTURA(new CaptureMoveExecutor()),
 		CAPTURA_PEON_PASANTE(new CapturePeonPasanteExecutor()),
-		ENROQUE(null);
+		ENROQUE(new EnroqueMoveExecutor());
 		
 		private MoveExecutor executor = null;
 		private MoveType(MoveExecutor executor) {

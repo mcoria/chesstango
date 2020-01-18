@@ -3,7 +3,6 @@ package movegenerators;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 import chess.BoardState;
 import chess.Color;
@@ -53,7 +52,6 @@ public class ReyMoveGenerator extends AbstractMoveGenerator {
 				if(Pieza.TORRE_BLANCO.equals(dummyBoard.getPieza(TORRE_BLANCA_REYNA_SQUARE))){
 					if(dummyBoard.isEmtpy(Square.c1) && dummyBoard.isEmtpy(Square.d1)){
 						if( !dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.e1) && 
-							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.c1) &&
 							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.d1) ){
 							moves.add(Move.ENROQUE_BLANCO_REYNA);
 						}
@@ -65,8 +63,7 @@ public class ReyMoveGenerator extends AbstractMoveGenerator {
 				if(Pieza.TORRE_BLANCO.equals(dummyBoard.getPieza(TORRE_BLANCA_REY_SQUARE))){
 					if(dummyBoard.isEmtpy(Square.f1) && dummyBoard.isEmtpy(Square.g1)){
 						if( !dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.e1) && 
-							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.f1) &&
-							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.g1) ){
+							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.f1) ){
 							moves.add(Move.ENROQUE_BLANCO_REY);
 						}
 					}			
