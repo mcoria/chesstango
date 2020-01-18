@@ -51,182 +51,159 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( Move.ENROQUE_NEGRO_REYNA ));
+		assertTrue(moves.contains( Move.MOVE_ENROQUE_NEGRO_REYNA ));
 	}
 	
 	@Test
-	public void testEnroqueReyBlancoReina02() {
+	public void testEnroqueNegroReina02() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5b2/8/R3K3");
-		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f3));
+		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/5B2/8/8/8/8/8");		
+	
+		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(ReyNegroMoveGenerator.REY_NEGRO_SQUARE));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.f6));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);	
+		boardState.setEnroqueNegroReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyNegroMoveGenerator.REY_NEGRO_SQUARE, Pieza.REY_NEGRO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(5, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 	}
 	
 	@Test
-	public void testEnroqueReyBlancoReina03() {
+	public void testEnroqueNegroReina03() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/5b2/8/8/R3K3");
+		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/8/5B2/8/8/8/8");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f4));
+		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(ReyNegroMoveGenerator.REY_NEGRO_SQUARE));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.f5));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);	
+		boardState.setEnroqueNegroReinaPermitido(true);	
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyNegroMoveGenerator.REY_NEGRO_SQUARE, Pieza.REY_NEGRO);
 		
 		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 	}		
 	
 	@Test
-	public void testEnroqueReyBlancoRey01() {
+	public void testEnroqueNegroRey01() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/4K2R");
+		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/8/8/8/8/8");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
+		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(ReyNegroMoveGenerator.REY_NEGRO_SQUARE));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReyPermitido(true);	
+		boardState.setEnroqueNegroReyPermitido(true);
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyNegroMoveGenerator.REY_NEGRO_SQUARE, Pieza.REY_NEGRO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(6, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( Move.ENROQUE_BLANCO_REY ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
+		assertTrue(moves.contains( Move.MOVE_ENROQUE_NEGRO_REY ));
 	}	
 	
 	@Test
-	public void testEnroqueReyBlancoRey02() {
+	public void testEnroqueNegroRey02() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3b4/8/4K2R");
+		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/3B4/8/8/8/8/8");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d3));
+		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(ReyNegroMoveGenerator.REY_NEGRO_SQUARE));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.d6));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReyPermitido(true);	
+		boardState.setEnroqueNegroReyPermitido(true);
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyNegroMoveGenerator.REY_NEGRO_SQUARE, Pieza.REY_NEGRO);
 		
 		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(5, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 	}
 	
 	@Test
-	public void testEnroqueReyBlancoRey03() {
+	public void testEnroqueNegroRey03() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/3b4/8/8/4K2R");
+		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/3B4/8/8/8/8");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d4));
+		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(ReyNegroMoveGenerator.REY_NEGRO_SQUARE));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.d5));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReyPermitido(true);	
+		boardState.setEnroqueNegroReyPermitido(true);
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
-		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyNegroMoveGenerator.REY_NEGRO_SQUARE, Pieza.REY_NEGRO);
 		
 		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
 		assertEquals(4, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 	}		
 
 	@Test
-	public void testEnroqueReyBlancoJaque() {
+	public void testEnroqueNegroJaque() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/4r3/8/8/R3K2R");
+		DummyBoard tablero = parser.parsePiecePlacement("r3k2r/8/8/4R3/8/8/8/8");
 		
-		Square from = Square.e1;
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
-		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.e4));
+		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(ReyNegroMoveGenerator.REY_NEGRO_SQUARE));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);	
+		boardState.setEnroqueBlancoReinaPermitido(true);
 		
-		ReyBlancoMoveGenerator moveGenerator = new ReyBlancoMoveGenerator();
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyNegroMoveGenerator.REY_NEGRO_SQUARE, Pieza.REY_NEGRO);
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
+		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		assertEquals(4, moves.size());
 		
-		assertEquals(5, moves.size());
-		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
 		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
-	}
-	
-	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
 	}	
 	
 }

@@ -29,7 +29,7 @@ public class ReyBlancoMoveGenerator extends SaltoMoveGenerator {
 					if(dummyBoard.isEmtpy(Square.c1) && dummyBoard.isEmtpy(Square.d1)){
 						if( !dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.e1) && 
 							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.d1) ){
-							moves.add(Move.ENROQUE_BLANCO_REYNA);
+							moves.add(Move.MOVE_ENROQUE_BLANCO_REINA);
 						}
 					}			
 				}
@@ -40,7 +40,7 @@ public class ReyBlancoMoveGenerator extends SaltoMoveGenerator {
 					if(dummyBoard.isEmtpy(Square.f1) && dummyBoard.isEmtpy(Square.g1)){
 						if( !dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.e1) && 
 							!dummyBoard.sepuedeCapturarReyEnSquare(Color.BLANCO, Square.f1) ){
-							moves.add(Move.ENROQUE_BLANCO_REY);
+							moves.add(Move.MOVE_ENROQUE_BLANCO_REY);
 						}
 					}			
 				}

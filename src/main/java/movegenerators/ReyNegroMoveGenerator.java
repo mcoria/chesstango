@@ -34,12 +34,12 @@ public class ReyNegroMoveGenerator extends SaltoMoveGenerator {
 		Set<Move> moves = getPseudoMoves(dummyBoard, origen);
 		if (boardState.isEnroqueNegroReinaPermitido() && puedeEnroque(dummyBoard, origen, REY_NEGRO_SQUARE,
 				INTERMEDIO_ENROQUE_REYNA_SQUARE, DESTINO_ENROQUE_REYNA_SQUARE, TORRE_NEGRA_REYNA_SQUARE)) {
-			moves.add(Move.ENROQUE_NEGRO_REYNA);
+			moves.add(Move.MOVE_ENROQUE_NEGRO_REYNA);
 		}
 		
 		if (boardState.isEnroqueNegroReyPermitido() && puedeEnroque(dummyBoard, origen, REY_NEGRO_SQUARE,
 				INTERMEDIO_ENROQUE_REY_SQUARE, DESTINO_ENROQUE_REY_SQUARE, TORRE_NEGRA_REY_SQUARE)) {
-			moves.add(Move.ENROQUE_NEGRO_REY);
+			moves.add(Move.MOVE_ENROQUE_NEGRO_REY);
 		}		
 
 		return moves;

@@ -99,7 +99,7 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( Move.ENROQUE_BLANCO_REYNA ));
+		assertTrue(moves.contains( Move.MOVE_ENROQUE_BLANCO_REINA ));
 	}
 	
 	@Test
@@ -158,7 +158,7 @@ public class ReyBlancoMoveGeneratorTest {
 	}		
 	
 	@Test
-	public void testEnroqueReyBlancoRey01() {
+	public void testEnroqueBlancoRey01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/4K2R");
 		
@@ -182,11 +182,11 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( Move.ENROQUE_BLANCO_REY ));
+		assertTrue(moves.contains( Move.MOVE_ENROQUE_BLANCO_REY ));
 	}	
 	
 	@Test
-	public void testEnroqueReyBlancoRey02() {
+	public void testEnroqueBlancoRey02() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3b4/8/4K2R");
 		
@@ -214,7 +214,7 @@ public class ReyBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testEnroqueReyBlancoRey03() {
+	public void testEnroqueBlancoRey03() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/3b4/8/8/4K2R");
 		
@@ -241,7 +241,7 @@ public class ReyBlancoMoveGeneratorTest {
 	}		
 
 	@Test
-	public void testEnroqueReyBlancoJaque() {
+	public void testEnroqueBlancoJaque() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/4r3/8/8/R3K2R");
 		
@@ -258,13 +258,12 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
-		assertEquals(5, moves.size());
+		assertEquals(4, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
 	}
