@@ -14,7 +14,6 @@ public class SaltoDoblePeonMoveExecutor implements MoveExecutor {
 		board.setEmptySquare(move.getFrom().getKey());						//Dejamos origen
 		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());	//Vamos a destino
 		
-		
 		boardState.setCaptura(null);
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
 	}

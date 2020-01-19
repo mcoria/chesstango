@@ -15,8 +15,11 @@ public class EnroqueNegroReyMoveExecutor implements MoveExecutor{
 		board.setPieza(Square.g8, Pieza.REY_NEGRO);
 		board.setPieza(Square.f8, Pieza.TORRE_NEGRO);
 		
+
 		boardState.setEnroqueNegroReyPermitido(false);
 		boardState.setEnroqueNegroReinaPermitido(false);
+		boardState.setCaptura(null);
+		boardState.setPeonPasanteSquare(null);			
 	}
 
 	@Override
