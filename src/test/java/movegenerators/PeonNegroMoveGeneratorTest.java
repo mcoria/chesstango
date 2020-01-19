@@ -152,7 +152,7 @@ public class PeonNegroMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/6p1/4K2R");
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(Square.e1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.g2));
 

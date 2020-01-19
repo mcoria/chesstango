@@ -48,6 +48,10 @@ public class Node {
 		return childNodesCounter;
 	}
 
+	public int getMoves() {
+		return childs.size();
+	}
+	
 	public void setChildNodesCounter(int childTotal) {
 		this.childNodesCounter = childTotal;
 	}
@@ -58,6 +62,8 @@ public class Node {
 			Move move = entry.getKey();
 			if(move.getFrom().getKey().equals(from) && move.getTo().getKey().equals(to)){
 				node = entry.getValue();
+				childs.remove(move);
+				break;
 			}
 		}
 		return node;
