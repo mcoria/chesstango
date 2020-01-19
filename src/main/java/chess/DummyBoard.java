@@ -15,6 +15,15 @@ import iterators.BottomUpSquareIterator;
 import iterators.SquareIterator;
 
 public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
+	
+	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a8, Pieza.TORRE_NEGRO);
+	public static final Map.Entry<Square, Pieza> REY_NEGRO = new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO);
+	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h8, Pieza.TORRE_NEGRO);
+	
+	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a1, Pieza.TORRE_BLANCO);
+	public static final Map.Entry<Square, Pieza> REY_BLANCO = new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO);
+	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h1, Pieza.TORRE_BLANCO);
+	
 	//56,57,58,59,60,61,62,63,
 	//48,49,50,51,52,53,54,55,
 	//40,41,42,43,44,45,46,47,
