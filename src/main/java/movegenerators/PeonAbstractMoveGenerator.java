@@ -12,11 +12,11 @@ import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
 
-public class PeonMoveGenerator extends AbstractMoveGenerator {
+public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
-	private Color color;
+	protected Color color;
 	
-	public PeonMoveGenerator(Color color) {
+	public PeonAbstractMoveGenerator(Color color) {
 		this.color = color;
 	}
 	
@@ -95,85 +95,27 @@ public class PeonMoveGenerator extends AbstractMoveGenerator {
 		}
 		
 		return moves;
-	}	
-
-	private Square getCasilleroSaltoSimple(Square casillero) {
-		Square value = null;
-		switch (color) {
-		case BLANCO:
-			value = Square.getSquare(casillero.getFile(), casillero.getRank() + 1);
-			break;
-		case NEGRO:
-			value = Square.getSquare(casillero.getFile(), casillero.getRank() - 1);
-			break;
-		}
-		return value;
-	}
-
-	private Square getCasilleroSaltoDoble(Square casillero) {
-		Square value = null;
-		switch (color) {
-		case BLANCO:
-			value = casillero.getRank() == 1 ? Square.getSquare(casillero.getFile(), 3) : null;
-			break;
-		case NEGRO:
-			value = casillero.getRank() == 6 ? Square.getSquare(casillero.getFile(), 4) : null;
-			break;
-		}
-		return value;		
-	}
-
-	private Square getCasilleroAtaqueIzquirda(Square casillero) {
-		Square value = null;
-		switch (color) {
-		case BLANCO:
-			value = Square.getSquare(casillero.getFile() - 1, casillero.getRank() + 1);
-			break;
-		case NEGRO:
-			value = Square.getSquare(casillero.getFile() - 1, casillero.getRank() - 1);
-			break;
-		}
-		return value;			
 	}
 	
-	private Square getCasilleroAtaqueDerecha(Square casillero) {
-		Square value = null;
-		switch (color) {
-		case BLANCO:
-			value = Square.getSquare(casillero.getFile() + 1, casillero.getRank() + 1);
-			break;
-		case NEGRO:
-			value = Square.getSquare(casillero.getFile() + 1, casillero.getRank() - 1);
-			break;
+	@Override
+	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
+		if(kingSquare.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
+		   kingSquare.equals(getCasilleroAtaqueDerecha(origen.getKey())) ){
+			return true;
 		}
-		return value;		
+		return false;
 	}
-	
 
-	private Square getCasilleroIzquirda(Square casillero) {
-		Square value = null;
-		switch (color) {
-		case BLANCO:
-			value = casillero.getRank() == 4 ? Square.getSquare(casillero.getFile() - 1, 4) : null;
-			break;
-		case NEGRO:
-			value = casillero.getRank() == 3 ? Square.getSquare(casillero.getFile() - 1, 3) : null;
-			break;
-		}
-		return value;
-	}
+	protected abstract Square getCasilleroSaltoSimple(Square casillero);
+
+	protected abstract Square getCasilleroSaltoDoble(Square casillero);
+
+	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
 	
-	private Square getCasilleroDerecha(Square casillero) {
-		Square value = null;
-		switch (color) {
-		case BLANCO:
-			value = casillero.getRank() == 4 ? Square.getSquare(casillero.getFile() + 1, 4) : null;
-			break;
-		case NEGRO:
-			value = casillero.getRank() == 3 ? Square.getSquare(casillero.getFile() + 1, 3) : null;
-			break;
-		}
-		return value;	
-	}	
+	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
+	
+	protected abstract Square getCasilleroIzquirda(Square casillero);
+	
+	protected abstract Square getCasilleroDerecha(Square casillero);
 
 }

@@ -6,15 +6,16 @@ import java.util.Set;
 import movegenerators.AlfilMoveGenerator;
 import movegenerators.CaballoMoveGenerator;
 import movegenerators.MoveGenerator;
-import movegenerators.PeonMoveGenerator;
+import movegenerators.PeonBlancoMoveGenerator;
+import movegenerators.PeonNegroMoveGenerator;
 import movegenerators.ReinaMoveGenerator;
 import movegenerators.ReyBlancoMoveGenerator;
 import movegenerators.ReyNegroMoveGenerator;
 import movegenerators.TorreMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
-	PEON_BLANCO(new PeonMoveGenerator(Color.BLANCO)),
-	PEON_NEGRO(new PeonMoveGenerator(Color.NEGRO)),
+	PEON_BLANCO(new PeonBlancoMoveGenerator()),
+	PEON_NEGRO(new PeonNegroMoveGenerator()),
 	
 	TORRE_BLANCO(new TorreMoveGenerator(Color.BLANCO)),
 	TORRE_NEGRO(new TorreMoveGenerator(Color.NEGRO)),
