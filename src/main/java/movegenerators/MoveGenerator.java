@@ -13,8 +13,6 @@ public interface MoveGenerator {
 
 	public Set<Move> getLegalMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen);
 
-	public Set<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);
-
 	public boolean puedeCapturarRey(DummyBoard board, Map.Entry<Square, Pieza> origen, Square kingSquare);
 
 }

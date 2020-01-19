@@ -18,7 +18,9 @@ public class DummyBoardTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		Set<Move> moves = tablero.getPseudoMoves(Color.BLANCO);
+		BoardState boardState = new BoardState();
+		
+		Set<Move> moves = tablero.getLegalMoves(Color.BLANCO, boardState);
 		
 		assertEquals(20, moves.size());
 		

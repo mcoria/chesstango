@@ -32,6 +32,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return getPseudoMoves(board, origen);
 	}
 	
+	public abstract Set<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
+	
 	@Override
 	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
 		Set<Move> pseudoMoves = getPseudoMoves(dummyBoard, origen);
@@ -60,4 +62,5 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 			}
 		};
 	}
+
 }

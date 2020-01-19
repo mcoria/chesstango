@@ -30,9 +30,9 @@ public class ChessMain {
 		
 	}
 
-	private void printNode(Board board, Node rootNode) {
+	public void printNode(Board board, Node rootNode) {
 		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
-		System.out.println("Total Moves: " + board.getMovimientosPosibles().size());
+		System.out.println("Total Moves: " + rootNode.getMoves());
 		
 		Map<Move, Node> childs = rootNode.getChilds();
 		if(childs != null){
@@ -51,6 +51,8 @@ public class ChessMain {
 
 	private int maxLevel;
 	private FENCoder coder = new FENCoder();
+	
+	private Map<String, Node> nodeMap = new HashMap<String, Node>();
 
 	Node start(Board board, int maxLevel) {
 		this.maxLevel = maxLevel;
@@ -69,17 +71,20 @@ public class ChessMain {
 		Set<Move> posibles = board.getMovimientosPosibles();
 		for (Move move : posibles) {
 			String id = coder.code(board);
-			Node node = new Node(id, 0);
-			if(currentLevel < this.maxLevel){
-				board.executeMove(move);
-				
-				visitChilds(board, currentLevel + 1, node);
-				
-				board.undoMove();
-			} else if(currentLevel == this.maxLevel){
-				node.setChildNodesCounter(1);
-			} else {
-				throw new RuntimeException("Error");
+			Node node = nodeMap.get(id);
+			if (node == null) {
+				node = new Node(id, currentLevel);
+				if (currentLevel < this.maxLevel) {
+					board.executeMove(move);
+
+					visitChilds(board, currentLevel + 1, node);
+
+					board.undoMove();
+				} else if (currentLevel == this.maxLevel) {
+					node.setChildNodesCounter(1);
+				} else {
+					throw new RuntimeException("Error");
+				}
 			}
 			childNodes.put(move, node);
 			totalMoves += node.getChildNodesCounter();

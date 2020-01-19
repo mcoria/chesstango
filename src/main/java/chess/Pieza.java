@@ -82,11 +82,6 @@ public enum Pieza implements MoveGenerator {
 	public Set<Move> getLegalMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen) {
 		return generator.getLegalMoves(board, boardState, origen);
 	}
-	
-	@Override
-	public Set<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen) {
-		return generator.getPseudoMoves(board, origen);
-	}
 
 	@Override
 	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {

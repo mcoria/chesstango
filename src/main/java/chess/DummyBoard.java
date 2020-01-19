@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -122,56 +121,18 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 	
-/////////Metodo con propositos de Testing
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	protected Set<Move> getPseudoMoves(Color color){
-		Set<Move> moves = new HashSet<Move>(){			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 6937596099247521750L;
-
-			@Override
-			public String toString() {
-				String str = "Size: " + this.size() + "\n";
-				TreeSet<Move> sortedSet = new TreeSet<Move>(this);
-				
-				for (Move move : sortedSet) {
-					str = str + move.getFrom().getKey().toString() + " " + move.getTo().getKey().toString() + "\n";
-				}
-				return str;
-			};
-		};
+	public Set<Move> getLegalMoves(Color color, BoardState boardState){
+		Set<Move> moves = createMoveContainer();
 		for (Map.Entry<Square, Pieza> origen : this) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getPseudoMoves(this, origen));
+					moves.addAll(currentPieza.getLegalMoves(this, boardState, origen));
 				}
 			}
 		}
 		return moves;
 	}
-	
-	protected void executeMove(Square from, Square to) {
-		Move move = getMovimiento(from, to);
-		if(move != null) {
-			move.execute(this, null);
-		} else {
-			throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
-		}
-	}	
-	
-	private Move getMovimiento(Square from, Square to) {
-		Move moveResult = null;
-		for (Move move : getPseudoMoves(this.getPieza(from).getColor())) {
-			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
-				moveResult = move;
-			}
-		}
-		return moveResult;
-	}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String toString() {
@@ -182,6 +143,24 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	    	ps.flush();
 	    }
 	    return new String(baos.toByteArray());
+	}
+	
+	private Set<Move> createMoveContainer(){
+		return new HashSet<Move>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
+
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (Move move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
 	}	
 
 }
