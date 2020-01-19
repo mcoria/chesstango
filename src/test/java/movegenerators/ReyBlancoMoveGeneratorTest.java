@@ -80,7 +80,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	
 	@Test
-	public void testEnroqueReyBlancoReina01() {
+	public void testEnroqueBlancoReina01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/8/R3K3");
 		
@@ -105,7 +105,7 @@ public class ReyBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testEnroqueReyBlancoReina02() {
+	public void testEnroqueBlancoReina02() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5b2/8/R3K3");
 
@@ -130,7 +130,7 @@ public class ReyBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testEnroqueReyBlancoReina03() {
+	public void testEnroqueBlancoReina03() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/5b2/8/8/R3K3");
 		
@@ -225,6 +225,30 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
+	}		
+	
+	@Test
+	public void testEnroqueBlancoRey04() {
+		FENParser parser = new FENParser();
+		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/6p1/4K2R");
+		
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE));
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
+		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.g2));
+	
+		BoardState boardState = new BoardState();
+		boardState.setEnroqueBlancoReyPermitido(true);	
+		
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(ReyBlancoMoveGenerator.REY_BLANCO_SQUARE, Pieza.REY_BLANCO);
+		
+		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		
+		assertEquals(4, moves.size());
+		
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 	}		
 
 	@Test
