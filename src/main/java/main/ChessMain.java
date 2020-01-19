@@ -16,18 +16,18 @@ import parsers.FENParser;
 public class ChessMain {
 
 	public static void main(String[] args) {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		//Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = FENParser.parseFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
 		
-		board.executeMove(Square.a2, Square.a4);
-		board.executeMove(Square.a7, Square.a6);
-		board.executeMove(Square.a4, Square.a5);
-		board.executeMove(Square.b7, Square.b5);
+		board.executeMove(Square.d5, Square.d6);
+		board.executeMove(Square.h3, Square.g2);
 		
 		ChessMain main = new ChessMain();
 		
 		Node rootNode = main.start(board, 1);
 		
 		main.printNode(board, rootNode);
+		
 	}
 
 	private void printNode(Board board, Node rootNode) {
@@ -44,16 +44,9 @@ public class ChessMain {
 	            System.out.println("Move = " + move.toString() + 
                         ", Total = " + childs.get(move).getChildNodesCounter()); 				
 			}
-		} else {
-			List<Move> moves = new ArrayList<Move>(board.getMovimientosPosibles());
-			Collections.sort(moves);
-			Collections.reverse(moves);
-			
-			for (Move move : moves) {
-	            System.out.println("Move = " + move.toString() + 
-                        ", Total = 1"); 				
-			}			
 		}
+		
+		System.out.println(FENCoder.codeFEN(board));
 	}
 
 	private int maxLevel;
@@ -72,25 +65,27 @@ public class ChessMain {
 
 	private void visitChilds(Board board, int currentLevel, Node currentNode) {
 		int totalMoves = 0;
+		Map<Move, Node> childNodes = new HashMap<Move, Node>();
 		Set<Move> posibles = board.getMovimientosPosibles();
-		if(currentLevel < this.maxLevel){
-			Map<Move, Node> childNodes = new HashMap<Move, Node>();
-			for (Move move : posibles) {
+		for (Move move : posibles) {
+			String id = coder.code(board);
+			Node node = new Node(id, 0);
+			if(currentLevel < this.maxLevel){
 				board.executeMove(move);
 				
-				String id = coder.code(board);
-				Node node = new Node(id, 0);
 				visitChilds(board, currentLevel + 1, node);
-				totalMoves += node.getChildNodesCounter();
 				
 				board.undoMove();
-				
-				childNodes.put(move, node);
+			} else if(currentLevel == this.maxLevel){
+				node.setChildNodesCounter(1);
+			} else {
+				throw new RuntimeException("Error");
 			}
-			currentNode.setChilds(childNodes);
-		} else {
-			totalMoves = posibles.size();
+			childNodes.put(move, node);
+			totalMoves += node.getChildNodesCounter();
 		}
+			
+		currentNode.setChilds(childNodes);
 		currentNode.setChildNodesCounter(totalMoves);
 	}
 
