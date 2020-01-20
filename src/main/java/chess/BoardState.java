@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class BoardState {
-	
 	private Color turnoActual;
 	
 	private Square peonPasanteSquare;
+	private Map.Entry<Square, Pieza> captura;	
 	
 	private boolean enroqueBlancoReinaPermitido;
 	private boolean enroqueBlancoReyPermitido;
@@ -25,8 +25,6 @@ public class BoardState {
 	private Deque<Boolean> enroqueNegroReinaPermitidoPila = new ArrayDeque<Boolean>();
 	private Deque<Boolean> enroqueNegroReyPermitidoPila = new ArrayDeque<Boolean>();
 	
-	//Buffer
-	private Map.Entry<Square, Pieza> captura;
 	
 	
 	public Square getPeonPasanteSquare() {

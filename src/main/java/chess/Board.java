@@ -1,20 +1,14 @@
 package chess;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Board {
 	private DummyBoard tablero;
 	
-	private Deque<Move> stackMoves = new ArrayDeque<Move>();
-	
-	private Set<Move> movimientosPosibles;
-	
-	private GameStatus status;
-	
 	private BoardState boardState;
+	
+	private BoardPila boardPila = new BoardPila();
 	
 	public Board(DummyBoard tablero, BoardState boardState){
 		this.tablero = tablero;
@@ -23,52 +17,57 @@ public class Board {
 	}
 
 	public GameStatus executeMove(Square from, Square to) {
-		if(GameStatus.IN_PROGRESS.equals(this.status)){
+		if(GameStatus.IN_PROGRESS.equals(boardPila.getStatus())){
 			Move move = getMovimiento(from, to);
 			if(move != null) {
-				executeMove(move);
+				return executeMove(move);
 			} else {
 				throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
 			}
 		} else {
 			throw new RuntimeException("Invalid game state");
 		}
-		return this.status;
 	}
 	
 
 	public GameStatus executeMove(Move move) {
-		assert(movimientosPosibles.contains(move));
+		assert(boardPila.getMovimientosPosibles().contains(move));
 		move.execute(tablero, boardState);
-		stackMoves.push(move);
-		updateGameStatus();
-		return this.status;
+		boardPila.setMovimientoSeleccionado(move);
+		boardPila.push();
+		return updateGameStatus();
 	}
 
 
 	public GameStatus undoMove() {
-		Move lastMove = stackMoves.pop();
+		boardPila.pop();
+		Move lastMove = boardPila.getMovimientoSeleccionado();
 		lastMove.undo(tablero, boardState);
-		updateGameStatus();
-		return this.status;
+		return getGameStatus();
 	}
 	
-	protected void updateGameStatus() {
-		movimientosPosibles = tablero.getLegalMoves(boardState);
+	protected GameStatus updateGameStatus() {
+		Set<Move> movimientosPosibles = tablero.getLegalMoves(boardState);
+		GameStatus status = null;
+		
 		if(movimientosPosibles.isEmpty()){
 			if( tablero.isKingInCheck(boardState.getTurnoActual()) ){
-				this.status = GameStatus.JAQUE_MATE;
+				status = GameStatus.JAQUE_MATE;
 			} else {
-				this.status = GameStatus.TABLAS;
+				status = GameStatus.TABLAS;
 			}
 		} else {
-			this.status = GameStatus.IN_PROGRESS;
+			status = GameStatus.IN_PROGRESS;
 		}
+		
+		boardPila.setMovimientosPosibles(movimientosPosibles);
+		boardPila.setStatus(status);
+		return status;
 	}
 	
 	protected Move getMovimiento(Square from, Square to) {
 		Move moveResult = null;
-		for (Move move : movimientosPosibles) {
+		for (Move move : boardPila.getMovimientosPosibles()) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				moveResult = move;
 			}
@@ -89,7 +88,7 @@ public class Board {
 	}
 
 	public final Set<Move> getMovimientosPosibles() {
-		return movimientosPosibles;
+		return boardPila.getMovimientosPosibles();
 	}
 
 	public final Color getTurnoActual() {
@@ -97,7 +96,7 @@ public class Board {
 	}
 
 	public final GameStatus getGameStatus() {
-		return this.status;
+		return boardPila.getStatus();
 	}
 	
 	protected Set<Move> createMoveContainer(){
