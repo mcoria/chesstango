@@ -3,7 +3,6 @@ package chess;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class Board {
@@ -56,11 +55,11 @@ public class Board {
 		lastMove.undo(tablero, boardState);
 		turnoActual = turnoActual.opositeColor();
 		updateGameStatus();
-		return this.status;		
+		return this.status;
 	}
 	
 	protected void updateGameStatus() {
-		movimientosPosibles = getMoves(turnoActual);
+		movimientosPosibles = tablero.getLegalMoves(turnoActual, boardState);
 		if(movimientosPosibles.isEmpty()){
 			if( tablero.isKingInCheck(turnoActual) ){
 				this.status = GameStatus.JAQUE_MATE;
@@ -71,21 +70,8 @@ public class Board {
 			this.status = GameStatus.IN_PROGRESS;
 		}
 	}
-
-	protected Set<Move> getMoves(Color color){
-		Set<Move> moves = createMoveContainer();
-		for (Map.Entry<Square, Pieza> origen : tablero) {
-			Pieza currentPieza = origen.getValue();
-			if(currentPieza != null){
-				if(color.equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getLegalMoves(tablero, boardState, origen));
-				}
-			}
-		}
-		return moves;
-	}
 	
-	private Move getMovimiento(Square from, Square to) {
+	protected Move getMovimiento(Square from, Square to) {
 		Move moveResult = null;
 		for (Move move : movimientosPosibles) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){

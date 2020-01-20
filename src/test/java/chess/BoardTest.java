@@ -1,6 +1,7 @@
 package chess;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -93,10 +94,11 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoPeonPasante() {
-		Board board = FENParser.parseFEN("rnbqkbnr/p1pppppp/8/1P6/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2");
+		Board board = FENParser.parseFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 		
-		board.executeMove(Square.a7, Square.a5);
+		board.executeMove(Square.c7, Square.c5);
 		
-		assertEquals(24, board.getMovimientosPosibles().size());
+		assertNotNull(board.getMovimiento(Square.b5, Square.c6));
+		assertEquals(22, board.getMovimientosPosibles().size());
 	}	
 }
