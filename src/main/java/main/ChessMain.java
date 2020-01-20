@@ -70,10 +70,10 @@ public class ChessMain {
 		Map<Move, Node> childNodes = new HashMap<Move, Node>();
 		Set<Move> posibles = board.getMovimientosPosibles();
 		for (Move move : posibles) {
-			String id = coder.code(board);
-			Node node = nodeMap.get(id);
+			//String id = coder.code(board);
+			Node node = null; //nodeMap.get(id);
 			if (node == null) {
-				node = new Node(id, currentLevel);
+				node = new Node(null, currentLevel);
 				if (currentLevel < this.maxLevel) {
 					board.executeMove(move);
 
