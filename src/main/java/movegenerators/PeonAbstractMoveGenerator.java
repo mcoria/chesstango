@@ -67,30 +67,19 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		
 		if (boardState.getPeonPasanteSquare() != null) {
 			Square casillero = origen.getKey();
-			Square casilleroIzquierda = getCasilleroIzquirda(casillero);
-			Square casilleroDerecha = getCasilleroDerecha(casillero);
 
 			Map.Entry<Square, Pieza> destino = null;
-			if (casilleroIzquierda != null) {
-				Pieza pieza = dummyBoard.getPieza(casilleroIzquierda);
-				if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
-					Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
-					if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
-						destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-						moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
-					}
-				}
+
+			Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
+			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
+				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
+				moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
 			}
 
-			if (casilleroDerecha != null) {
-				Pieza pieza = dummyBoard.getPieza(casilleroDerecha);
-				if (pieza != null && color.opositeColor().equals(pieza.getColor()) && pieza.isPeon()) {
-					Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
-					if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
-						destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-						moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
-					}
-				}
+			Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
+			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
+				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
+				moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
 			}
 		}
 		
@@ -113,9 +102,5 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
-	
-	protected abstract Square getCasilleroIzquirda(Square casillero);
-	
-	protected abstract Square getCasilleroDerecha(Square casillero);
 
 }

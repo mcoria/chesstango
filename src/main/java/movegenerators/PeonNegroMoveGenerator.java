@@ -28,17 +28,6 @@ public class PeonNegroMoveGenerator extends PeonAbstractMoveGenerator {
 	@Override
 	protected Square getCasilleroAtaqueDerecha(Square casillero) {
 		return Square.getSquare(casillero.getFile() + 1, casillero.getRank() - 1);
-	}
-	
-
-	@Override
-	protected Square getCasilleroIzquirda(Square casillero) {
-		return casillero.getRank() == 3 ? Square.getSquare(casillero.getFile() - 1, 3) : null;
-	}
-	
-	@Override
-	protected Square getCasilleroDerecha(Square casillero) {
-		return casillero.getRank() == 3 ? Square.getSquare(casillero.getFile() + 1, 3) : null;
 	}	
 
 }
