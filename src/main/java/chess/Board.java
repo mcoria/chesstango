@@ -16,10 +16,9 @@ public class Board {
 	
 	private BoardState boardState;
 	
-	public Board(DummyBoard tablero, Color turno, BoardState boardState){
+	public Board(DummyBoard tablero, BoardState boardState){
 		this.tablero = tablero;
 		this.boardState = boardState;
-		boardState.setTurnoActual(turno); 
 		updateGameStatus();
 	}
 

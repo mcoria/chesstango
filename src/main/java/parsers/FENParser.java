@@ -24,13 +24,14 @@ public class FENParser {
 		Square peonPasanteSquare = parsePeonPasanteSquare(peonPasante);
 		
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(color);
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
 		boardState.setEnroqueBlancoReinaPermitido(isEnroqueBlancoReinaPermitido(enroquesPermitidos));
 		boardState.setEnroqueBlancoReyPermitido(isEnroqueBlancoReyPermitido(enroquesPermitidos));
 		boardState.setEnroqueNegroReinaPermitido(isEnroqueNegroReinaPermitido(enroquesPermitidos));
 		boardState.setEnroqueNegroReyPermitido(isEnroqueNegroReyPermitido(enroquesPermitidos));		
 		
-		return new Board(tablero, color, boardState);
+		return new Board(tablero, boardState);
 	}
 	
 	protected boolean isEnroqueBlancoReinaPermitido(String enroquesPermitidos){
