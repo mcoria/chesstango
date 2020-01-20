@@ -14,68 +14,34 @@ import movegenerators.ReyNegroMoveGenerator;
 import movegenerators.TorreMoveGenerator;
 
 public enum Pieza implements MoveGenerator {
-	PEON_BLANCO(new PeonBlancoMoveGenerator()),
-	PEON_NEGRO(new PeonNegroMoveGenerator()),
+	PEON_BLANCO(Color.BLANCO, new PeonBlancoMoveGenerator()),
+	PEON_NEGRO(Color.NEGRO, new PeonNegroMoveGenerator()),
 	
-	TORRE_BLANCO(new TorreMoveGenerator(Color.BLANCO)),
-	TORRE_NEGRO(new TorreMoveGenerator(Color.NEGRO)),
+	TORRE_BLANCO(Color.BLANCO, new TorreMoveGenerator(Color.BLANCO)),
+	TORRE_NEGRO(Color.NEGRO, new TorreMoveGenerator(Color.NEGRO)),
 	
-	CABALLO_BLANCO(new CaballoMoveGenerator(Color.BLANCO)),
-	CABALLO_NEGRO(new CaballoMoveGenerator(Color.NEGRO)),
+	CABALLO_BLANCO(Color.BLANCO, new CaballoMoveGenerator(Color.BLANCO)),
+	CABALLO_NEGRO(Color.NEGRO, new CaballoMoveGenerator(Color.NEGRO)),
 	
-	ALFIL_BLANCO(new AlfilMoveGenerator(Color.BLANCO)),
-	ALFIL_NEGRO(new AlfilMoveGenerator(Color.NEGRO)),
+	ALFIL_BLANCO(Color.BLANCO, new AlfilMoveGenerator(Color.BLANCO)),
+	ALFIL_NEGRO(Color.NEGRO, new AlfilMoveGenerator(Color.NEGRO)),
 	
-	REINA_BLANCO(new ReinaMoveGenerator(Color.BLANCO)),
-	REINA_NEGRO(new ReinaMoveGenerator(Color.NEGRO)),
+	REINA_BLANCO(Color.BLANCO, new ReinaMoveGenerator(Color.BLANCO)),
+	REINA_NEGRO(Color.NEGRO, new ReinaMoveGenerator(Color.NEGRO)),
 	
-	REY_BLANCO(new ReyBlancoMoveGenerator()),
-	REY_NEGRO(new ReyNegroMoveGenerator());
+	REY_BLANCO(Color.BLANCO, new ReyBlancoMoveGenerator()),
+	REY_NEGRO(Color.NEGRO, new ReyNegroMoveGenerator());
 	
 	private MoveGenerator generator;
+	private Color color;
 	
-	private Pieza(MoveGenerator generator) {
+	private Pieza(Color color, MoveGenerator generator) {
 		this.generator = generator;
-	}
-	
-	private boolean isBlanco(){
-		return this.equals(PEON_BLANCO) || 
-				this.equals(TORRE_BLANCO) || 
-				this.equals(CABALLO_BLANCO) || 
-				this.equals(ALFIL_BLANCO) || 
-				this.equals(REINA_BLANCO) || 
-				this.equals(REY_BLANCO);
+		this.color = color;
 	}
 	
 	public Color getColor(){
-		if(isBlanco()) 
-			return Color.BLANCO;
-		else
-			return Color.NEGRO;
-	}
-	
-	public boolean isPeon(){
-		return this.equals(PEON_BLANCO) || this.equals(PEON_NEGRO);
-	}
-	
-	public boolean isTorre(){
-		return this.equals(TORRE_BLANCO) || this.equals(TORRE_NEGRO);
-	}
-	
-	public boolean isCaballo(){
-		return this.equals(CABALLO_BLANCO) || this.equals(CABALLO_NEGRO);
-	}	
-	
-	public boolean isAlfil(){
-		return this.equals(ALFIL_BLANCO) || this.equals(ALFIL_NEGRO);
-	}	
-	
-	public boolean isReina(){
-		return this.equals(REINA_BLANCO) || this.equals(REINA_NEGRO);
-	}	
-	
-	public boolean isRey(){
-		return this.equals(REY_BLANCO) || this.equals(REY_NEGRO);
+		return color;
 	}
 
 	@Override
@@ -86,5 +52,16 @@ public enum Pieza implements MoveGenerator {
 	@Override
 	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
 		return generator.puedeCapturarRey(dummyBoard, origen, kingSquare);
-	}	
+	}
+	
+	public static Pieza getRey(Color color){
+		switch (color) {
+		case  BLANCO:
+			return REY_BLANCO;
+		case  NEGRO:
+			return REY_NEGRO;
+		default:
+			throw new RuntimeException("Invalid color");
+		}
+	}
 }

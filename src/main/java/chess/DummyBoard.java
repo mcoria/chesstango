@@ -93,7 +93,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			Square currentSquare = entry.getKey();
 			Pieza currentPieza = entry.getValue();
 			if(currentPieza != null){
-				if(currentPieza.isRey() && color.equals(currentPieza.getColor())){
+				if(Pieza.getRey(color).equals(currentPieza)){
 					kingSquare = currentSquare;
 					break;
 				}
