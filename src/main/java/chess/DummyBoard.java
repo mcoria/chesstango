@@ -121,12 +121,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 	
-	public Set<Move> getLegalMoves(Color color, BoardState boardState){
+	public Set<Move> getLegalMoves(BoardState boardState){
 		Set<Move> moves = createMoveContainer();
 		for (Map.Entry<Square, Pieza> origen : this) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
-				if(color.equals(currentPieza.getColor())){
+				if(boardState.getTurnoActual().equals(currentPieza.getColor())){
 					moves.addAll(currentPieza.getLegalMoves(this, boardState, origen));
 				}
 			}

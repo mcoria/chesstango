@@ -19,8 +19,9 @@ public class DummyBoardTest {
 		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(Color.BLANCO);
 		
-		Set<Move> moves = tablero.getLegalMoves(Color.BLANCO, boardState);
+		Set<Move> moves = tablero.getLegalMoves(boardState);
 		
 		assertEquals(20, moves.size());
 		

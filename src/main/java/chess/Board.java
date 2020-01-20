@@ -8,8 +8,6 @@ import java.util.Set;
 public class Board {
 	private DummyBoard tablero;
 	
-	private Color turnoActual;
-	
 	private Deque<Move> stackMoves = new ArrayDeque<Move>();
 	
 	private Set<Move> movimientosPosibles;
@@ -20,8 +18,8 @@ public class Board {
 	
 	public Board(DummyBoard tablero, Color turno, BoardState boardState){
 		this.tablero = tablero;
-		this.turnoActual = turno;
 		this.boardState = boardState;
+		boardState.setTurnoActual(turno); 
 		updateGameStatus();
 	}
 
@@ -44,7 +42,6 @@ public class Board {
 		assert(movimientosPosibles.contains(move));
 		move.execute(tablero, boardState);
 		stackMoves.push(move);
-		turnoActual = turnoActual.opositeColor();
 		updateGameStatus();
 		return this.status;
 	}
@@ -53,15 +50,14 @@ public class Board {
 	public GameStatus undoMove() {
 		Move lastMove = stackMoves.pop();
 		lastMove.undo(tablero, boardState);
-		turnoActual = turnoActual.opositeColor();
 		updateGameStatus();
 		return this.status;
 	}
 	
 	protected void updateGameStatus() {
-		movimientosPosibles = tablero.getLegalMoves(turnoActual, boardState);
+		movimientosPosibles = tablero.getLegalMoves(boardState);
 		if(movimientosPosibles.isEmpty()){
-			if( tablero.isKingInCheck(turnoActual) ){
+			if( tablero.isKingInCheck(boardState.getTurnoActual()) ){
 				this.status = GameStatus.JAQUE_MATE;
 			} else {
 				this.status = GameStatus.TABLAS;
@@ -85,7 +81,7 @@ public class Board {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(tablero.toString());
-		buffer.append("Turno: " + this.turnoActual + "\n");
+		buffer.append("Turno: " + boardState.getTurnoActual() + "\n");
 		return buffer.toString();
 	}
 
@@ -98,7 +94,7 @@ public class Board {
 	}
 
 	public final Color getTurnoActual() {
-		return turnoActual;
+		return boardState.getTurnoActual();
 	}
 
 	public final GameStatus getGameStatus() {

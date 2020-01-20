@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.BoardState;
+import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Move.MoveType;
@@ -89,6 +90,7 @@ public class ReyNegroMoveGeneratorTest {
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.f5));
 	
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReinaPermitido(true);	
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
@@ -163,6 +165,7 @@ public class ReyNegroMoveGeneratorTest {
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.d5));
 	
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReyPermitido(true);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
@@ -188,6 +191,7 @@ public class ReyNegroMoveGeneratorTest {
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 	
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueBlancoReinaPermitido(true);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);

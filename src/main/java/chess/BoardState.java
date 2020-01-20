@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class BoardState {
+	
+	private Color turnoActual;
+	
 	private Square peonPasanteSquare;
-	private Map.Entry<Square, Pieza> captura;
 	
 	private boolean enroqueBlancoReinaPermitido;
 	private boolean enroqueBlancoReyPermitido;
@@ -23,6 +25,8 @@ public class BoardState {
 	private Deque<Boolean> enroqueNegroReinaPermitidoPila = new ArrayDeque<Boolean>();
 	private Deque<Boolean> enroqueNegroReyPermitidoPila = new ArrayDeque<Boolean>();
 	
+	//Buffer
+	private Map.Entry<Square, Pieza> captura;
 	
 	
 	public Square getPeonPasanteSquare() {
@@ -71,7 +75,19 @@ public class BoardState {
 
 	public void setEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
 		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+	}
+	
+	public Color getTurnoActual() {
+		return turnoActual;
+	}
+
+	public void setTurnoActual(Color turnoActual) {
+		this.turnoActual = turnoActual;
 	}	
+	
+	public void rollTurno() {
+		this.turnoActual = this.turnoActual.opositeColor();
+	}
 	
 	public void pushState() {
 		Optional<Square> square = Optional.ofNullable(peonPasanteSquare);
@@ -95,4 +111,5 @@ public class BoardState {
 		enroqueNegroReinaPermitido = enroqueNegroReinaPermitidoPila.pop();
 		enroqueNegroReyPermitido = enroqueNegroReyPermitidoPila.pop();
 	}
+
 }

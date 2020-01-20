@@ -77,6 +77,7 @@ public class MoveTest {
 		Map.Entry<Square, Pieza> capturada = new SimpleImmutableEntry<Square, Pieza>(Square.e6, Pieza.TORRE_NEGRO);
 		
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(Color.BLANCO);
 		boardState.setCaptura(capturada);
 		boardState.setPeonPasanteSquare(Square.a3);
 		
@@ -110,6 +111,7 @@ public class MoveTest {
 		Map.Entry<Square, Pieza> capturada = new SimpleImmutableEntry<Square, Pieza>(Square.e6, Pieza.ALFIL_NEGRO);
 		
 		BoardState boardState = new BoardState();
+		boardState.setTurnoActual(Color.BLANCO);
 		boardState.setCaptura(capturada);
 		boardState.setPeonPasanteSquare(Square.a3);
 		
