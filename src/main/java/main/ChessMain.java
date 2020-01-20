@@ -9,22 +9,17 @@ import java.util.Set;
 
 import chess.Board;
 import chess.Move;
-import chess.Square;
 import parsers.FENCoder;
 import parsers.FENParser;
 
 public class ChessMain {
 
 	public static void main(String[] args) {
-		//Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
-		Board board = FENParser.parseFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
-		
-		board.executeMove(Square.d5, Square.d6);
-		board.executeMove(Square.h3, Square.g2);
+		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		
 		ChessMain main = new ChessMain();
 		
-		Node rootNode = main.start(board, 1);
+		Node rootNode = main.start(board, 6);
 		
 		main.printNode(board, rootNode);
 		
