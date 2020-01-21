@@ -19,7 +19,7 @@ public class ChessMainTest {
 	}
 
 	@Test
-	public void test01() {
+	public void test_divide1() {
 		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		Node rootNode = main.start(board, 1);
 		
@@ -28,7 +28,7 @@ public class ChessMainTest {
 	}
 	
 	@Test
-	public void test02() {
+	public void test_divide2() {
 		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		
 		Node rootNode = main.start(board, 2);
@@ -60,7 +60,7 @@ public class ChessMainTest {
 	} 
 	
 	@Test
-	public void test03() {
+	public void test_divide3() {
 		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		
 		Node rootNode = main.start(board, 3);
@@ -92,7 +92,7 @@ public class ChessMainTest {
 	
 	
 	@Test
-	public void test04() {
+	public void test_divide4() {
 		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		
 		Node rootNode = main.start(board, 4);
@@ -123,7 +123,7 @@ public class ChessMainTest {
 	} 	
 	
 	@Test
-	public void test05() {
+	public void test_divide5() {
 		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		
 		Node rootNode = main.start(board, 5);

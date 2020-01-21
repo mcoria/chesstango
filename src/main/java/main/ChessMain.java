@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import chess.Board;
 import chess.Move;
@@ -19,7 +18,7 @@ public class ChessMain {
 		
 		ChessMain main = new ChessMain();
 		
-		Node rootNode = main.start(board, 6);
+		Node rootNode = main.start(board, 3);
 		
 		main.printNode(board, rootNode);
 		
@@ -47,13 +46,14 @@ public class ChessMain {
 	private int maxLevel;
 	private FENCoder coder = new FENCoder();
 	
-	private Map<String, Node> nodeMap = new HashMap<String, Node>();
+	private List<Map<String, Node>> nodeListMap; 
 
 	Node start(Board board, int maxLevel) {
 		this.maxLevel = maxLevel;
+		this.nodeListMap = new  ArrayList<Map<String, Node>>(maxLevel);
 		
 		String rootId = coder.code(board);
-		Node rootNode = new Node(rootId, 1);
+		Node rootNode = new Node(rootId, 0);
 		visitChilds(board, 1, rootNode);
 		
 		return rootNode;
@@ -62,31 +62,42 @@ public class ChessMain {
 
 	private void visitChilds(Board board, int currentLevel, Node currentNode) {
 		int totalMoves = 0;
+		Map<String, Node> nodeMap = getNodeMap(currentLevel);
 		Map<Move, Node> childNodes = new HashMap<Move, Node>();
-		Set<Move> posibles = board.getMovimientosPosibles();
-		for (Move move : posibles) {
-			//String id = coder.code(board);
-			Node node = null; //nodeMap.get(id);
-			if (node == null) {
-				node = new Node(null, currentLevel);
+		for (Move move : board.getMovimientosPosibles()) {
+			board.executeMove(move);
+			
+			String id = coder.code(board);
+			Node node = nodeMap.get(id);
+			if(node==null){
+				node = new Node(id, currentLevel + 1);
 				if (currentLevel < this.maxLevel) {
-					board.executeMove(move);
-
 					visitChilds(board, currentLevel + 1, node);
-
-					board.undoMove();
 				} else if (currentLevel == this.maxLevel) {
 					node.setChildNodesCounter(1);
 				} else {
 					throw new RuntimeException("Error");
 				}
+				nodeMap.put(id, node);
 			}
+			
 			childNodes.put(move, node);
 			totalMoves += node.getChildNodesCounter();
+
+			board.undoMove();
 		}
 			
 		currentNode.setChilds(childNodes);
 		currentNode.setChildNodesCounter(totalMoves);
+	}
+
+	private Map<String, Node> getNodeMap(int currentLevel) {
+		Map<String, Node> nodeMap = null;
+		if(nodeListMap.size() <  currentLevel){
+			nodeMap = new HashMap<String, Node>();
+			nodeListMap.add(nodeMap);
+		}
+		return nodeListMap.get(currentLevel - 1);
 	}
 
 }

@@ -69,4 +69,17 @@ public class Node {
 		return node;
 	}
 
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Node){
+			Node theOther = (Node) obj;
+			return id.equals(theOther.id);
+		}
+		return false;
+	}
 }
