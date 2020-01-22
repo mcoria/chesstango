@@ -1,7 +1,7 @@
 package chess;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import movegenerators.AlfilMoveGenerator;
 import movegenerators.CaballoMoveGenerator;
@@ -45,7 +45,7 @@ public enum Pieza implements MoveGenerator {
 	}
 
 	@Override
-	public Set<Move> getLegalMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> getLegalMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen) {
 		return generator.getLegalMoves(board, boardState, origen);
 	}
 

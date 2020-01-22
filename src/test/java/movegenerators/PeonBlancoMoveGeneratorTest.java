@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(1, moves.size());
 		
@@ -55,7 +55,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -73,7 +73,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(0, moves.size());
 		
@@ -91,7 +91,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -114,7 +114,7 @@ public class PeonBlancoMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(Square.d6);		
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -134,7 +134,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -157,7 +157,7 @@ public class PeonBlancoMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(Square.e6);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(2, moves.size());
 		

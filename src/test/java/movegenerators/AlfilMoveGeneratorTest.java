@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class AlfilMoveGeneratorTest {
 
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
 
 		assertEquals(13, moves.size());
 
@@ -74,7 +74,7 @@ public class AlfilMoveGeneratorTest {
 
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

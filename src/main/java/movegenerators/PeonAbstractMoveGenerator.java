@@ -1,8 +1,8 @@
 package movegenerators;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import chess.BoardState;
 import chess.Color;
@@ -21,8 +21,8 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
-		Set<Move> moves = createMoveContainer();
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+		Collection<Move> moves = createMoveContainer();
 		
 		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
@@ -62,8 +62,8 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		return moves;
 	}
 	
-	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen){
-		Set<Move> moves = getPseudoMoves(dummyBoard, origen);
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen){
+		Collection<Move> moves = getPseudoMoves(dummyBoard, origen);
 		
 		if (boardState.getPeonPasanteSquare() != null) {
 			Square casillero = origen.getKey();

@@ -1,7 +1,7 @@
 package movegenerators;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 import chess.BoardState;
 import chess.Color;
@@ -27,10 +27,10 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 		super(Color.NEGRO);
 	}
 	
-	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen) {
 		assert (Pieza.REY_NEGRO.equals(origen.getValue()));
 		
-		Set<Move> moves = getPseudoMoves(dummyBoard, origen);
+		Collection<Move> moves = getPseudoMoves(dummyBoard, origen);
 		
 		if (boardState.isEnroqueNegroReinaPermitido() && 
 			puedeEnroqueReina(	dummyBoard, 

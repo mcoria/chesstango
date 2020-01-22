@@ -5,9 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(8, moves.size());
 		
@@ -67,7 +67,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(7, moves.size());
 		
@@ -94,7 +94,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(6, moves.size());
 		
@@ -120,7 +120,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(5, moves.size());
 		
@@ -146,7 +146,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -170,7 +170,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -195,7 +195,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -221,7 +221,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
 		
 		assertEquals(5, moves.size());
 		
@@ -247,7 +247,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -272,7 +272,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -298,7 +298,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
 		assertEquals(4, moves.size());
 		

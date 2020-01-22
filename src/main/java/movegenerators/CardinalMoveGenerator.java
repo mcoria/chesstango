@@ -1,5 +1,6 @@
 package movegenerators;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,8 +28,8 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public Set<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
-		Set<Move> moves = createMoveContainer();
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+		Collection<Move> moves = createMoveContainer();
 		for (Cardinal cardinal : this.direcciones) {
 			moves.addAll(getPseudoMoves(dummyBoard, origen, cardinal));
 		}

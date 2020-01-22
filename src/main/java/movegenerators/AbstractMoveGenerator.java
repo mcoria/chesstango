@@ -1,8 +1,8 @@
 package movegenerators;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import chess.BoardState;
 import chess.DummyBoard;
@@ -14,10 +14,10 @@ import chess.Square;
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
-	public Set<Move> getLegalMoves(DummyBoard tablero, BoardState boardState, Map.Entry<Square, Pieza> origen) {
-		Set<Move> moves = createMoveContainer();
+	public Collection<Move> getLegalMoves(DummyBoard tablero, BoardState boardState, Map.Entry<Square, Pieza> origen) {
+		Collection<Move> moves = createMoveContainer();
 		Pieza currentPieza = origen.getValue();
-		Set<Move> pseudoMoves = getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> pseudoMoves = getPseudoMoves(tablero, boardState, origen);
 		for (Move move : pseudoMoves) {
 			move.execute(tablero, boardState);
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
@@ -28,18 +28,15 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return moves;
 	}
 	
-	public Set<Move> getPseudoMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen){
+	public Collection<Move> getPseudoMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen){
 		return getPseudoMoves(board, origen);
 	}
 	
-	public abstract Set<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
+	public abstract Collection<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
 	
 
-	protected Set<Move> createMoveContainer(){
+	protected Collection<Move> createMoveContainer(){
 		return new HashSet<Move>() {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 2237718042714336104L;
 
 			@Override
@@ -52,5 +49,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 			}
 		};
 	}
+	
 
 }
