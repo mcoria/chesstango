@@ -63,10 +63,11 @@ public class SaltoSquareIteratorTest01 {
 			squares.add(square);
 		}
 
-		assertEquals(3, squares.size());
+		
 		assertTrue(squares.contains(Square.h2));
 		assertTrue(squares.contains(Square.g2));
 		assertTrue(squares.contains(Square.g1));
+		assertEquals(3, squares.size());
 	}
 	
 	@Test
