@@ -11,6 +11,7 @@ import java.util.Set;
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.BottomUpSquareIterator;
+import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
 
 public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
@@ -37,15 +38,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		this.tablero = tablero;
 	}
 
-	public DummyBoard(DummyBoard theBoard) {
-		tablero = new Pieza[8][8];
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				tablero[i][j] = theBoard.tablero[i][j];
-			}
-		}
-	}
-
 	public void setPieza(Entry<Square, Pieza> entry) {
 		this.setPieza(entry.getKey(), entry.getValue());
 	}
@@ -67,19 +59,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	}
 	
 	public BoardIterator iterator(SquareIterator squareIterator){
-		return new BoardIterator(){
-			@Override
-			public boolean hasNext() {
-				return squareIterator.hasNext();
-			}
-			
-			@Override
-			public SimpleImmutableEntry<Square, Pieza> next() {
-				Square currentSquare = squareIterator.next();
-				Pieza pieza = getPieza(currentSquare);
-				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
-			}
-		};
+		return new DummyBoardIterator(this, squareIterator);
 	}
 
 	@Override
