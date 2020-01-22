@@ -18,7 +18,7 @@ public class ChessMain {
 		
 		ChessMain main = new ChessMain();
 		
-		Node rootNode = main.start(board, 5);
+		Node rootNode = main.start(board, 6);
 		
 		main.printNode(board, rootNode);
 		
@@ -79,7 +79,9 @@ public class ChessMain {
 					throw new RuntimeException("Error");
 				}
 				nodeMap.put(id, node);
-			}
+			} /*else {
+				System.out.println("Found");
+			}*/
 			
 			childNodes.put(move, node);
 			totalMoves += node.getChildNodesCounter();

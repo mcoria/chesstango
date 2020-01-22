@@ -1,7 +1,7 @@
 package movegenerators;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 
 import chess.BoardState;
@@ -36,7 +36,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 
 	protected Collection<Move> createMoveContainer(){
-		return new HashSet<Move>() {
+		return new ArrayList<Move>() {
 			private static final long serialVersionUID = 2237718042714336104L;
 
 			@Override
