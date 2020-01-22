@@ -1,6 +1,7 @@
 package movegenerators;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
@@ -198,12 +199,14 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Set<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
 		
-		assertEquals(4, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
+		assertFalse(moves.contains( createSimpleMove(origen, Square.e7) ));
+		
+		assertEquals(4, moves.size());
 	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {

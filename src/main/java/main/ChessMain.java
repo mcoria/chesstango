@@ -18,7 +18,7 @@ public class ChessMain {
 		
 		ChessMain main = new ChessMain();
 		
-		Node rootNode = main.start(board, 3);
+		Node rootNode = main.start(board, 5);
 		
 		main.printNode(board, rootNode);
 		

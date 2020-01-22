@@ -7,7 +7,7 @@ import org.junit.Test;
 import chess.Square;
 import iterators.CardinalSquareIterator.Cardinal;
 
-public class CardinalSquareIteratorTest {
+public class CardinalSquareIteratorTest01 {
 
 	@Test
 	public void testNorte() {

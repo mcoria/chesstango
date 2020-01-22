@@ -57,5 +57,42 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		return moves;	
 	}
 
+	@Override
+	public boolean puedeCapturarRey(DummyBoard dummyBoard, Entry<Square, Pieza> origen, Square kingSquare) {
+		boolean result = false;
+		for (Cardinal cardinal : this.direcciones) {
+			if(cardinal.isInDirection(origen.getKey(), kingSquare)){
+				result = puedeCapturarRey(dummyBoard, origen, kingSquare, cardinal);
+				if(result != false){
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	protected boolean puedeCapturarRey(DummyBoard dummyBoard, Entry<Square, Pieza> origen, Square kingSquare,
+			Cardinal cardinal) {
+		Square casillero = origen.getKey();
+		BoardIterator iterator = dummyBoard.iterator(new CardinalSquareIterator(cardinal, casillero));
+		while (iterator.hasNext()) {
+		    Entry<Square, Pieza> destino = iterator.next();
+		    Pieza pieza = destino.getValue();
+		    if(pieza == null){
+		    	if(kingSquare.equals(destino.getKey())){
+		    		return true;
+		    	}
+		    	continue;
+		    } else if(color.equals(pieza.getColor())){
+		    	break;
+		    } else if(color.opositeColor().equals(pieza.getColor())){
+		    	if(kingSquare.equals(destino.getKey())){
+		    		return true;
+		    	}
+		    	break;
+		    }
+		}
+		return false;
+	}
 
 }
