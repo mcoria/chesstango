@@ -10,7 +10,6 @@ import java.util.Set;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
-import iterators.BottomUpSquareIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
 
@@ -59,12 +58,24 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	}
 	
 	public BoardIterator iterator(SquareIterator squareIterator){
-		return new DummyBoardIterator(this, squareIterator);
+		return new BoardIterator(){
+			@Override
+			public boolean hasNext() {
+				return squareIterator.hasNext();
+			}
+			
+			@Override
+			public SimpleImmutableEntry<Square, Pieza> next() {
+				Square currentSquare = squareIterator.next();
+				Pieza pieza = getPieza(currentSquare);
+				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
+			}
+		};
 	}
 
 	@Override
 	public BoardIterator iterator() {
-		return iterator(new BottomUpSquareIterator());
+		return new DummyBoardIterator(this);
 	}
 
 	private Square getKingSquare(Color color) {
