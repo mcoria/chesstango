@@ -34,16 +34,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	public abstract Set<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
 	
-	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
-		Set<Move> pseudoMoves = getPseudoMoves(dummyBoard, origen);
-		for (Move move : pseudoMoves) {
-			if(kingSquare.equals(move.getTo().getKey())){
-				return true;
-			}
-		}
-		return false;
-	}
 
 	protected Set<Move> createMoveContainer(){
 		return new HashSet<Move>() {

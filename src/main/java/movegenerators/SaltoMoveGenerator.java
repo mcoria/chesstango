@@ -13,7 +13,7 @@ import chess.Move.MoveType;
 import iterators.BoardIterator;
 import iterators.SaltoSquareIterator;
 
-public abstract class SaltoMoveGenerator extends AbstractMoveGenerator{
+public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
 	protected Color color;
 	private int[][] saltos;
@@ -42,6 +42,28 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator{
 		    }
 		}
 		return moves;
+	}
+	
+	@Override
+	public boolean puedeCapturarRey(DummyBoard tablero, Entry<Square, Pieza> origen, Square kingSquare) {
+		Square casillero = origen.getKey();
+		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
+		while (iterator.hasNext()) {
+		    Entry<Square, Pieza> destino = iterator.next();
+		    Pieza pieza = destino.getValue();
+		    if(pieza == null){
+		    	if(kingSquare.equals(destino.getKey())){
+		    		return true;
+		    	}
+		    } else if(color.equals(pieza.getColor())){
+		    	continue;
+		    } else if(color.opositeColor().equals(pieza.getColor())){
+		    	if(kingSquare.equals(destino.getKey())){
+		    		return true;
+		    	}	    	
+		    }
+		}
+		return false;		
 	}
 		
 }
