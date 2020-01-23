@@ -1,23 +1,28 @@
 package moveexecutors;
 
+import java.util.Map;
+
 import chess.BoardState;
 import chess.DummyBoard;
-import chess.Move;
+import chess.Pieza;
+import chess.Square;
 
 public class SimpleMoveExecutor implements MoveExecutor {
 	
 	@Override
-	public void execute(DummyBoard board, BoardState boardState, Move move) {
-		board.setEmptySquare(move.getFrom().getKey());						//Dejamos origen
-		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());	//Vamos a destino
+	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+		board.setEmptySquare(from.getKey());					//Dejamos origen
+		board.setPieza(to.getKey(), from.getValue());			//Vamos a destino
 		
+		boardState.setFrom(from);
+		boardState.setTo(to);
 		boardState.setCaptura(null);
 		boardState.setPeonPasanteSquare(null);
 	}
 
 	@Override
-	public void undo(DummyBoard board, BoardState boardState, Move move) {
-		board.setEmptySquare(move.getTo().getKey());						//Reestablecemos destino
-		board.setPieza(move.getFrom());										//Volvemos a origen
+	public void undo(DummyBoard board, BoardState boardState) {
+		board.setEmptySquare(boardState.getTo().getKey());		//Reestablecemos destino
+		board.setPieza(boardState.getFrom());					//Volvemos a origen
 	}
 }

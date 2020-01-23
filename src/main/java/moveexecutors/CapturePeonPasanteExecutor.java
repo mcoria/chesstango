@@ -6,31 +6,32 @@ import java.util.Map;
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
-import chess.Move;
 import chess.Pieza;
 import chess.Square;
 
 public class CapturePeonPasanteExecutor implements MoveExecutor {
 
 	@Override
-	public void execute(DummyBoard board, BoardState boardState, Move move) {
-		Square captureSquare = Square.getSquare(move.getTo().getKey().getFile(),  Color.BLANCO.equals(move.getFrom().getValue().getColor()) ? move.getTo().getKey().getRank() - 1 : move.getTo().getKey().getRank() + 1);
-		Pieza peonCapturado = Color.BLANCO.equals(move.getFrom().getValue().getColor()) ? Pieza.PEON_NEGRO : Pieza.PEON_BLANCO;		
+	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+		Square captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
+		Pieza peonCapturado = Color.BLANCO.equals(from.getValue().getColor()) ? Pieza.PEON_NEGRO : Pieza.PEON_BLANCO;		
 		Map.Entry<Square, Pieza> captura = new SimpleImmutableEntry<Square, Pieza>(captureSquare, peonCapturado);
 		
-		board.setEmptySquare(move.getFrom().getKey()); 						//Dejamos el origen
-		board.setPieza(move.getTo().getKey(), move.getFrom().getValue());	//Vamos al destino
-		board.setEmptySquare(captureSquare);								//Capturamos peon
+		boardState.setFrom(from);
+		boardState.setTo(to);		
+		board.setEmptySquare(from.getKey()); 						//Dejamos el origen
+		board.setPieza(to.getKey(), from.getValue());				//Vamos al destino
+		board.setEmptySquare(captureSquare);						//Capturamos peon
 		
 		boardState.setCaptura(captura);
 		boardState.setPeonPasanteSquare(null);	
 	}
 
 	@Override
-	public void undo(DummyBoard board, BoardState boardState, Move move) {
-		board.setPieza(boardState.getCaptura());							//Devolvemos peon
-		board.setEmptySquare(move.getTo().getKey());						//Reestablecemos destino
-		board.setPieza(move.getFrom());										//Volvemos a origen
+	public void undo(DummyBoard board, BoardState boardState) {
+		board.setPieza(boardState.getCaptura());					//Devolvemos peon
+		board.setEmptySquare(boardState.getTo().getKey());			//Reestablecemos destino
+		board.setPieza(boardState.getFrom());						//Volvemos a origen
 	}
 
 }

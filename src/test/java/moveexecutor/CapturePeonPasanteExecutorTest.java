@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 
 import chess.BoardState;
 import chess.DummyBoard;
-import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CapturePeonPasanteExecutor;
@@ -22,9 +21,6 @@ public class CapturePeonPasanteExecutorTest {
 
 	@Mock
 	private DummyBoard board;
-	
-	@Mock
-	private Move move;	
 	
 	@Mock
 	private BoardState boardState;
@@ -44,16 +40,14 @@ public class CapturePeonPasanteExecutorTest {
 		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
 		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
 
-		when(move.getFrom()).thenReturn(peonBlanco);
-		when(move.getTo()).thenReturn(peonPasanteSquare);
-		//when(boardState.getPeonPasanteSquare()).thenReturn(peonPasanteSquare.getKey());
-
-		moveExecutor.execute(board, boardState, move);
+		moveExecutor.execute(board, boardState, peonBlanco, peonPasanteSquare);
 
 		verify(board).setEmptySquare(peonBlanco.getKey());						//Dejamos el origen
 		verify(board).setPieza(peonPasanteSquare.getKey(), Pieza.PEON_BLANCO);  //Vamos al destino
 		verify(board).setEmptySquare(peonNegro.getKey());						//Capturamos peon		
 		
+		verify(boardState).setFrom(peonBlanco);
+		verify(boardState).setTo(peonPasanteSquare);			
 		verify(boardState).setCaptura(peonNegro);
 		verify(boardState).setPeonPasanteSquare(null);
 	}
@@ -65,11 +59,11 @@ public class CapturePeonPasanteExecutorTest {
 		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
 		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
 		
-		when(move.getFrom()).thenReturn(peonBlanco);
-		when(move.getTo()).thenReturn(peonPasanteSquare);
+		when(boardState.getFrom()).thenReturn(peonBlanco);	
+		when(boardState.getTo()).thenReturn(peonPasanteSquare);	
 		when(boardState.getCaptura()).thenReturn(peonNegro);
 
-		moveExecutor.undo(board, boardState, move);
+		moveExecutor.undo(board, boardState);
 		
 		verify(board).setPieza(peonBlanco);									//Volvemos al origen
 		verify(board).setEmptySquare(peonPasanteSquare.getKey());			//Dejamos el destino

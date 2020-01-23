@@ -26,7 +26,7 @@ public class Move implements Comparable<Move> {
 	private MoveType moveType;
 	
 	
-	public enum MoveType implements MoveExecutor{
+	public enum MoveType implements MoveExecutor {
 		SIMPLE(new SimpleMoveExecutor()),
 		SALTO_DOBLE_PEON(new SaltoDoblePeonMoveExecutor()),
 		CAPTURA(new CaptureMoveExecutor()),
@@ -42,13 +42,13 @@ public class Move implements Comparable<Move> {
 		}
 		
 		@Override
-		public void execute(DummyBoard board, BoardState boardState, Move move) {
-			executor.execute(board, boardState, move);
+		public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+			executor.execute(board, boardState, from, to);
 		}
 		
 		@Override
-		public void undo(DummyBoard board, BoardState boardState, Move move) {
-			executor.undo(board, boardState, move);
+		public void undo(DummyBoard board, BoardState boardState) {
+			executor.undo(board, boardState);
 		}
 	}
 	
@@ -116,13 +116,13 @@ public class Move implements Comparable<Move> {
 
 	public void execute(DummyBoard board, BoardState boardState) {
 		boardState.pushState();
-		this.moveType.execute(board, boardState, this);
+		moveType.execute(board, boardState, from, to);
 		boardState.rollTurno();
 	}
 
 	public void undo(DummyBoard board, BoardState boardState) {
 		boardState.rollTurno();
-		this.moveType.undo(board, boardState, this);
+		moveType.undo(board, boardState);
 		boardState.popState();
 	}
 

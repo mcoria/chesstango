@@ -13,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 
 import chess.BoardState;
 import chess.DummyBoard;
-import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CaptureMoveExecutor;
@@ -22,9 +21,6 @@ public class CaptureMoveExecutorTest {
 	
 	@Mock
 	private DummyBoard board;
-	
-	@Mock
-	private Move move;	
 	
 	@Mock
 	private BoardState boardState;
@@ -43,15 +39,14 @@ public class CaptureMoveExecutorTest {
 	public void testExecute() {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
-		
-		when(move.getFrom()).thenReturn(origen);
-		when(move.getTo()).thenReturn(destino);		
 
-		moveExecutor.execute(board, boardState, move);
+		moveExecutor.execute(board, boardState, origen, destino);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);
 		
+		verify(boardState).setFrom(origen);
+		verify(boardState).setTo(destino);		
 		verify(boardState).setCaptura(destino);
 		verify(boardState).setPeonPasanteSquare(null);
 		
@@ -63,10 +58,11 @@ public class CaptureMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 		
-		when(move.getFrom()).thenReturn(origen);
 		when(boardState.getCaptura()).thenReturn(destino);		
+		when(boardState.getFrom()).thenReturn(origen);	
+		when(boardState.getTo()).thenReturn(destino);	
 
-		moveExecutor.undo(board, boardState, move);
+		moveExecutor.undo(board, boardState);
 		
 		verify(board).setPieza(origen);
 		verify(board).setPieza(destino);

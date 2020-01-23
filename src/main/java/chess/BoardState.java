@@ -3,13 +3,26 @@ package chess;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
-import java.util.Optional;
 
 public class BoardState {
+	
+	private static class BoardStateNode {
+		private Square peonPasanteSquare;
+		
+		private boolean enroqueBlancoReinaPermitido;
+		private boolean enroqueBlancoReyPermitido;
+		
+		private boolean enroqueNegroReinaPermitido;
+		private boolean enroqueNegroReyPermitido;
+		
+		private Map.Entry<Square, Pieza> from;
+		private Map.Entry<Square, Pieza> to;
+		private Map.Entry<Square, Pieza> captura;		
+	}
+	
 	private Color turnoActual;
 	
 	private Square peonPasanteSquare;
-	private Map.Entry<Square, Pieza> captura;	
 	
 	private boolean enroqueBlancoReinaPermitido;
 	private boolean enroqueBlancoReyPermitido;
@@ -17,15 +30,12 @@ public class BoardState {
 	private boolean enroqueNegroReinaPermitido;
 	private boolean enroqueNegroReyPermitido;	
 	
-	private Deque<Optional<Square>> peonPasanteSquarePila = new ArrayDeque<Optional<Square>>();
-	private Deque<Optional<Map.Entry<Square, Pieza>>> capturadasPila = new ArrayDeque<Optional<Map.Entry<Square, Pieza>>> ();
 	
-	private Deque<Boolean> enroqueBlancoReinaPermitidoPila = new ArrayDeque<Boolean>();
-	private Deque<Boolean> enroqueBlancoReyPermitidoPila = new ArrayDeque<Boolean>();
-	private Deque<Boolean> enroqueNegroReinaPermitidoPila = new ArrayDeque<Boolean>();
-	private Deque<Boolean> enroqueNegroReyPermitidoPila = new ArrayDeque<Boolean>();
+	private Map.Entry<Square, Pieza> from;
+	private Map.Entry<Square, Pieza> to;
+	private Map.Entry<Square, Pieza> captura;
 	
-	
+	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
 	
 	public Square getPeonPasanteSquare() {
 		return peonPasanteSquare;
@@ -82,32 +92,54 @@ public class BoardState {
 	public void setTurnoActual(Color turnoActual) {
 		this.turnoActual = turnoActual;
 	}	
+
 	
 	public void rollTurno() {
 		this.turnoActual = this.turnoActual.opositeColor();
 	}
 	
+	public Map.Entry<Square, Pieza> getFrom() {
+		return from;
+	}
+
+	public void setFrom(Map.Entry<Square, Pieza> from) {
+		this.from = from;
+	}
+
+	public Map.Entry<Square, Pieza> getTo() {
+		return to;
+	}
+
+	public void setTo(Map.Entry<Square, Pieza> to) {
+		this.to = to;
+	}
+	
 	public void pushState() {
-		Optional<Square> square = Optional.ofNullable(peonPasanteSquare);
-		Optional<Map.Entry<Square, Pieza>> source = Optional.ofNullable(captura);
-		peonPasanteSquarePila.push(square);
-		capturadasPila.push(source);
-		enroqueBlancoReinaPermitidoPila.push(enroqueBlancoReinaPermitido);
-		enroqueBlancoReyPermitidoPila.push(enroqueBlancoReyPermitido);
-		enroqueNegroReinaPermitidoPila.push(enroqueNegroReinaPermitido);
-		enroqueNegroReyPermitidoPila.push(enroqueNegroReyPermitido);
+		BoardStateNode node = new BoardStateNode();
+		node.from = from;
+		node.to = to;
+		node.peonPasanteSquare = peonPasanteSquare;
+		node.captura = captura;
+		node.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		node.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+		node.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		node.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		
+		boardStateNodePila.push(node);
+		
 	}
 
 	public void popState() {
-		Optional<Square> square = peonPasanteSquarePila.pop();
-		Optional<Map.Entry<Square, Pieza>> source = capturadasPila.pop();
-		peonPasanteSquare = square.isPresent() ? square.get() : null;
-		captura = source.isPresent() ? source.get() : null;
+		BoardStateNode node = boardStateNodePila.pop();
 		
-		enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitidoPila.pop();
-		enroqueBlancoReyPermitido = enroqueBlancoReyPermitidoPila.pop();
-		enroqueNegroReinaPermitido = enroqueNegroReinaPermitidoPila.pop();
-		enroqueNegroReyPermitido = enroqueNegroReyPermitidoPila.pop();
+		from = node.from;
+		to =  node.to;
+		peonPasanteSquare = node.peonPasanteSquare;
+		captura = node.captura;
+		enroqueBlancoReinaPermitido = node.enroqueBlancoReinaPermitido;
+		enroqueBlancoReyPermitido = node.enroqueBlancoReyPermitido;
+		enroqueNegroReinaPermitido = node.enroqueNegroReinaPermitido;
+		enroqueNegroReyPermitido = node.enroqueNegroReyPermitido;
 	}
 
 }
