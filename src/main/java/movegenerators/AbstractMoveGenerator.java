@@ -24,6 +24,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 				moves.add(move);
 			}
 			move.undo(tablero, boardState);
+			boardState.restoreState();
 		}
 		return moves;
 	}

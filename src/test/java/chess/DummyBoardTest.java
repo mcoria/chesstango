@@ -20,6 +20,7 @@ public class DummyBoardTest {
 		
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.BLANCO);
+		boardState.saveState();
 		
 		Set<Move> moves = tablero.getLegalMoves(boardState);
 		

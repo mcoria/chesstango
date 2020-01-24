@@ -1,10 +1,8 @@
 package movegenerators;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import chess.Color;
 import chess.DummyBoard;
@@ -37,10 +35,10 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	
-	public Set<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
+	public Collection<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
-		Set<Move> moves = new HashSet<Move>();
+		Collection<Move> moves = createMoveContainer();
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();

@@ -93,6 +93,7 @@ public class ReyNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReinaPermitido(true);	
+		boardState.saveState();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
@@ -168,6 +169,7 @@ public class ReyNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReyPermitido(true);
+		boardState.saveState();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
@@ -194,6 +196,7 @@ public class ReyNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueBlancoReinaPermitido(true);
+		boardState.saveState();
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		

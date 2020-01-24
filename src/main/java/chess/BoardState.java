@@ -20,6 +20,8 @@ public class BoardState {
 		private Map.Entry<Square, Pieza> captura;		
 	}
 	
+	private BoardStateNode currentNode;
+	
 	private Color turnoActual;
 	
 	private Square peonPasanteSquare;
@@ -115,6 +117,20 @@ public class BoardState {
 	}
 	
 	public void pushState() {
+		boardStateNodePila.push( this.currentNode );
+		
+		this.currentNode = null;
+	}
+
+	public void popState() {
+		BoardStateNode node = boardStateNodePila.pop();
+		
+		this.currentNode = node;
+		
+		restoreState();
+	}
+
+	public void saveState() {
 		BoardStateNode node = new BoardStateNode();
 		node.from = from;
 		node.to = to;
@@ -125,21 +141,18 @@ public class BoardState {
 		node.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
 		node.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
 		
-		boardStateNodePila.push(node);
-		
+		this.currentNode = node;
 	}
-
-	public void popState() {
-		BoardStateNode node = boardStateNodePila.pop();
-		
-		from = node.from;
-		to =  node.to;
-		peonPasanteSquare = node.peonPasanteSquare;
-		captura = node.captura;
-		enroqueBlancoReinaPermitido = node.enroqueBlancoReinaPermitido;
-		enroqueBlancoReyPermitido = node.enroqueBlancoReyPermitido;
-		enroqueNegroReinaPermitido = node.enroqueNegroReinaPermitido;
-		enroqueNegroReyPermitido = node.enroqueNegroReyPermitido;
+	
+	public void restoreState(){
+		from = this.currentNode.from;
+		to =  this.currentNode.to;
+		peonPasanteSquare = this.currentNode.peonPasanteSquare;
+		captura = this.currentNode.captura;
+		enroqueBlancoReinaPermitido = this.currentNode.enroqueBlancoReinaPermitido;
+		enroqueBlancoReyPermitido = this.currentNode.enroqueBlancoReyPermitido;
+		enroqueNegroReinaPermitido = this.currentNode.enroqueNegroReinaPermitido;
+		enroqueNegroReyPermitido = this.currentNode.enroqueNegroReyPermitido;		
 	}
 
 }

@@ -13,6 +13,7 @@ public class Board {
 	public Board(DummyBoard tablero, BoardState boardState){
 		this.tablero = tablero;
 		this.boardState = boardState;
+		boardState.saveState();
 		updateGameStatus();
 	}
 
@@ -32,17 +33,26 @@ public class Board {
 
 	public GameStatus executeMove(Move move) {
 		assert(boardPila.getMovimientosPosibles().contains(move));
-		move.execute(tablero, boardState);
-		boardPila.setMovimientoSeleccionado(move);
+		
+		boardState.pushState();
 		boardPila.push();
+		
+		move.execute(tablero, boardState);
+		
+		boardState.saveState();
+		boardPila.setMovimientoSeleccionado(move);
+		
 		return updateGameStatus();
 	}
 
 
 	public GameStatus undoMove() {
-		boardPila.pop();
 		Move lastMove = boardPila.getMovimientoSeleccionado();
 		lastMove.undo(tablero, boardState);
+		
+		boardPila.pop();
+		boardState.popState();
+		
 		return getGameStatus();
 	}
 	
@@ -62,6 +72,7 @@ public class Board {
 		
 		boardPila.setMovimientosPosibles(movimientosPosibles);
 		boardPila.setStatus(status);
+		
 		return status;
 	}
 	
