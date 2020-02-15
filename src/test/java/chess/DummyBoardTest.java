@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Set;
+import java.util.Collection;
 
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class DummyBoardTest {
 		boardState.setTurnoActual(Color.BLANCO);
 		boardState.saveState();
 		
-		Set<Move> moves = tablero.getLegalMoves(boardState);
+		Collection<Move> moves = tablero.getLegalMoves(boardState);
 		
 		assertEquals(20, moves.size());
 		

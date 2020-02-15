@@ -3,10 +3,10 @@ package chess;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -112,8 +112,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 	
-	public Set<Move> getLegalMoves(BoardState boardState){
-		Set<Move> moves = createMoveContainer();
+	public Collection<Move>  getLegalMoves(BoardState boardState){
+		Collection<Move> moves = createMoveContainer();
 		for (Map.Entry<Square, Pieza> origen : this) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
@@ -136,8 +136,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	    return new String(baos.toByteArray());
 	}
 	
-	private Set<Move> createMoveContainer(){
-		return new HashSet<Move>() {
+	private Collection<Move> createMoveContainer(){
+		return new ArrayList<Move>() {
 			/**
 			 * 
 			 */

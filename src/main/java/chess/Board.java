@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,7 +58,7 @@ public class Board {
 	}
 	
 	protected GameStatus updateGameStatus() {
-		Set<Move> movimientosPosibles = tablero.getLegalMoves(boardState);
+		Collection<Move> movimientosPosibles = tablero.getLegalMoves(boardState);
 		GameStatus status = null;
 		
 		if(movimientosPosibles.isEmpty()){
@@ -98,7 +99,7 @@ public class Board {
 		return tablero;
 	}
 
-	public final Set<Move> getMovimientosPosibles() {
+	public final Collection<Move> getMovimientosPosibles() {
 		return boardPila.getMovimientosPosibles();
 	}
 

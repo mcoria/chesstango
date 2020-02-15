@@ -1,13 +1,14 @@
 package chess;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.Set;
 
 public class BoardPila {
 	
 	private class Node {
-		private Set<Move> movimientosPosibles;
+		private Collection<Move> movimientosPosibles;
 		
 		private Move movimientoSeleccionado;
 		
@@ -16,17 +17,17 @@ public class BoardPila {
 	
 	private Deque<Node> stackNode = new ArrayDeque<Node>();
 	
-	private Set<Move> movimientosPosibles;
+	private Collection<Move> movimientosPosibles;
 	
 	private Move movimientoSeleccionado;
 	
 	private GameStatus status;
 
-	public Set<Move> getMovimientosPosibles() {
+	public Collection<Move> getMovimientosPosibles() {
 		return movimientosPosibles;
 	}
 
-	public void setMovimientosPosibles(Set<Move> movimientosPosibles) {
+	public void setMovimientosPosibles(Collection<Move> movimientosPosibles) {
 		this.movimientosPosibles = movimientosPosibles;
 	}
 

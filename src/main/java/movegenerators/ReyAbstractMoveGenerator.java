@@ -8,12 +8,13 @@ import chess.Pieza;
 import chess.Square;
 import iterators.SaltoSquareIterator;
 
-public class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
+public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	public ReyAbstractMoveGenerator(Color color) {
 		super(color, SaltoSquareIterator.SALTOS_REY);
 	}
-
+	
+	
 	protected boolean puedeEnroqueReina(
 			DummyBoard dummyBoard, 
 			Map.Entry<Square, Pieza> origen, 
