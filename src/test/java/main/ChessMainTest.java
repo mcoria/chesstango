@@ -122,7 +122,7 @@ public class ChessMainTest {
 		assertEquals(197281, rootNode.getChildNodesCounter());
 	} 	
 	
-	@Test //126segs
+	//@Test //126segs
 	public void test_divide5() {
 		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
 		
