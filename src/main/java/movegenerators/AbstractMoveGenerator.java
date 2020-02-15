@@ -14,10 +14,11 @@ import chess.Square;
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	@Override
-	public Collection<Move> getLegalMoves(DummyBoard tablero, BoardState boardState, Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> getLegalMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		Pieza currentPieza = origen.getValue();
-		Collection<Move> pseudoMoves = getPseudoMoves(tablero, boardState, origen);
+		BoardState boardState = tablero.getBoardState();
+		Collection<Move> pseudoMoves = getPseudoMoves(tablero, origen);
 		for (Move move : pseudoMoves) {
 			move.execute(tablero, boardState);
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
@@ -27,10 +28,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 			boardState.restoreState();
 		}
 		return moves;
-	}
-	
-	public Collection<Move> getPseudoMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen){
-		return getPseudoMoves(board, origen);
 	}
 	
 	public abstract Collection<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	

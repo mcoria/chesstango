@@ -32,6 +32,7 @@ public class PeonNegroMoveGeneratorTest {
 	public void testSaltoSimple() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/p7/8/8/8/8/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.a6;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -49,6 +50,7 @@ public class PeonNegroMoveGeneratorTest {
 	public void testSaltoDoble() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/p7/8/8/8/8/8/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.a7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -67,6 +69,7 @@ public class PeonNegroMoveGeneratorTest {
 	public void testAtaqueIzquierda() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/4p3/3P4/8/8/8/8/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -97,7 +100,9 @@ public class PeonNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(Square.d3);		
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		tablero.setBoardState(boardState);
+		
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -109,6 +114,8 @@ public class PeonNegroMoveGeneratorTest {
 	public void testAtaqueDerecha() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/4p3/5P2/8/8/8/8/8");
+		
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -139,7 +146,9 @@ public class PeonNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(Square.e3);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		tablero.setBoardState(boardState);
+		
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(2, moves.size());
 		

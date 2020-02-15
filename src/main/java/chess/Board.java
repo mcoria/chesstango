@@ -14,6 +14,7 @@ public class Board {
 	public Board(DummyBoard tablero, BoardState boardState){
 		this.tablero = tablero;
 		this.boardState = boardState;
+		tablero.setBoardState(boardState);
 		boardState.saveState();
 		updateGameStatus();
 	}
@@ -58,7 +59,7 @@ public class Board {
 	}
 	
 	protected GameStatus updateGameStatus() {
-		Collection<Move> movimientosPosibles = tablero.getLegalMoves(boardState);
+		Collection<Move> movimientosPosibles = tablero.getLegalMoves();
 		GameStatus status = null;
 		
 		if(movimientosPosibles.isEmpty()){

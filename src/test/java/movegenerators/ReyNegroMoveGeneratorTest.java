@@ -40,11 +40,13 @@ public class ReyNegroMoveGeneratorTest {
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
 	
 		BoardState boardState = new BoardState();
-		boardState.setEnroqueNegroReinaPermitido(true);	
+		boardState.setEnroqueNegroReinaPermitido(true);
+		
+		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -68,9 +70,11 @@ public class ReyNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueNegroReinaPermitido(true);	
 		
+		tablero.setBoardState(boardState);
+		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(5, moves.size());
 		
@@ -95,9 +99,11 @@ public class ReyNegroMoveGeneratorTest {
 		boardState.setEnroqueNegroReinaPermitido(true);	
 		boardState.saveState();
 		
+		tablero.setBoardState(boardState);
+		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -118,9 +124,11 @@ public class ReyNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueNegroReyPermitido(true);
 		
+		tablero.setBoardState(boardState);
+		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -144,9 +152,11 @@ public class ReyNegroMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setEnroqueNegroReyPermitido(true);
 		
+		tablero.setBoardState(boardState);
+		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(5, moves.size());
 		
@@ -171,9 +181,11 @@ public class ReyNegroMoveGeneratorTest {
 		boardState.setEnroqueNegroReyPermitido(true);
 		boardState.saveState();
 		
+		tablero.setBoardState(boardState);
+		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -198,9 +210,11 @@ public class ReyNegroMoveGeneratorTest {
 		boardState.setEnroqueBlancoReinaPermitido(true);
 		boardState.saveState();
 		
+		tablero.setBoardState(boardState);
+		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, boardState, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, origen);
 		
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));

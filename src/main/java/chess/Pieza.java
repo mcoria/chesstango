@@ -45,8 +45,8 @@ public enum Pieza implements MoveGenerator {
 	}
 
 	@Override
-	public Collection<Move> getLegalMoves(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> origen) {
-		return generator.getLegalMoves(board, boardState, origen);
+	public Collection<Move> getLegalMoves(DummyBoard board, Map.Entry<Square, Pieza> origen) {
+		return generator.getLegalMoves(board, origen);
 	}
 
 	@Override

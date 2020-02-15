@@ -23,6 +23,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	public static final Map.Entry<Square, Pieza> REY_BLANCO = new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO);
 	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h1, Pieza.TORRE_BLANCO);
 	
+	private BoardState boardState;
+	
 	//56,57,58,59,60,61,62,63,
 	//48,49,50,51,52,53,54,55,
 	//40,41,42,43,44,45,46,47,
@@ -112,13 +114,13 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 	
-	public Collection<Move>  getLegalMoves(BoardState boardState){
+	public Collection<Move>  getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		for (Map.Entry<Square, Pieza> origen : this) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(boardState.getTurnoActual().equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getLegalMoves(this, boardState, origen));
+					moves.addAll(currentPieza.getLegalMoves(this, origen));
 				}
 			}
 		}
@@ -152,6 +154,14 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 				return buffer.toString();
 			}
 		};
+	}
+
+	public BoardState getBoardState() {
+		return boardState;
+	}
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
 	}	
 
 }

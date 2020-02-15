@@ -32,6 +32,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testSaltoSimple() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/P7/8/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.a3;		
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -49,6 +50,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testSaltoDoble() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/P7/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -67,6 +69,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testSaltoDoble01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/N7/P7/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -84,6 +87,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testAtaqueIzquierda() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3p4/4P3/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.e2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -114,7 +118,9 @@ public class PeonBlancoMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(Square.d6);		
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		tablero.setBoardState(boardState);
+		
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -127,6 +133,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testAtaqueDerecha() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5p2/4P3/8");
+		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.e2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -157,7 +164,9 @@ public class PeonBlancoMoveGeneratorTest {
 		BoardState boardState = new BoardState();
 		boardState.setPeonPasanteSquare(Square.e6);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, boardState, origen);
+		tablero.setBoardState(boardState);
+		
+		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
 		
 		assertEquals(2, moves.size());
 		

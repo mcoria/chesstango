@@ -25,8 +25,11 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		super(Color.BLANCO);
 	}
 	
-	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen) {
-		Collection<Move> moves = getPseudoMoves(dummyBoard, origen);
+	@Override
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+		Collection<Move> moves = super.getPseudoMoves(dummyBoard, origen);
+		
+		BoardState boardState = dummyBoard.getBoardState();
 		
 		if (boardState.isEnroqueBlancoReinaPermitido() && 
 			puedeEnroqueReina(	dummyBoard, 

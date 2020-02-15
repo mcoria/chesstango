@@ -20,8 +20,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		this.color = color;
 	}
 	
-	@Override
-	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+	protected Collection<Move> getBasePseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		
 		Square casillero = origen.getKey();
@@ -62,8 +61,10 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		return moves;
 	}
 	
-	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen){
-		Collection<Move> moves = getPseudoMoves(dummyBoard, origen);
+	@Override
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen){
+		BoardState boardState = dummyBoard.getBoardState();
+		Collection<Move> moves = getBasePseudoMoves(dummyBoard, origen);
 		
 		if (boardState.getPeonPasanteSquare() != null) {
 			Square casillero = origen.getKey();

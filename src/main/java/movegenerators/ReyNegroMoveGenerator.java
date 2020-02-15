@@ -27,10 +27,13 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 		super(Color.NEGRO);
 	}
 	
-	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, BoardState boardState, Map.Entry<Square, Pieza> origen) {
+	@Override
+	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
 		assert (Pieza.REY_NEGRO.equals(origen.getValue()));
 		
-		Collection<Move> moves = getPseudoMoves(dummyBoard, origen);
+		Collection<Move> moves = super.getPseudoMoves(dummyBoard, origen);
+		
+		BoardState boardState = dummyBoard.getBoardState();
 		
 		if (boardState.isEnroqueNegroReinaPermitido() && 
 			puedeEnroqueReina(	dummyBoard, 

@@ -22,7 +22,9 @@ public class DummyBoardTest {
 		boardState.setTurnoActual(Color.BLANCO);
 		boardState.saveState();
 		
-		Collection<Move> moves = tablero.getLegalMoves(boardState);
+		tablero.setBoardState(boardState);
+		
+		Collection<Move> moves = tablero.getLegalMoves();
 		
 		assertEquals(20, moves.size());
 		
