@@ -20,7 +20,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		this.color = color;
 	}
 	
-	protected Collection<Move> getBasePseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+	protected Collection<Move> getBasePseudoMoves(Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		
 		Square casillero = origen.getKey();
@@ -32,18 +32,18 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		
 		Map.Entry<Square, Pieza> destino = null;
 				
-		if(saltoSimpleCasillero != null && dummyBoard.isEmtpy(saltoSimpleCasillero)){
+		if(saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)){
 			destino = new SimpleImmutableEntry<Square, Pieza>(saltoSimpleCasillero, null);
 			moves.add( new Move(origen, destino, MoveType.SIMPLE) );
 			
-			if(saltoDobleCasillero != null && dummyBoard.isEmtpy(saltoDobleCasillero)){
+			if(saltoDobleCasillero != null && this.tablero.isEmtpy(saltoDobleCasillero)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(saltoDobleCasillero, null);
 				moves.add( new Move(origen, destino, MoveType.SALTO_DOBLE_PEON) );
 			}			
 		}
 		
 		if (casilleroAtaqueIzquirda != null) {
-			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueIzquirda);
+			Pieza pieza = this.tablero.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, pieza);
 				moves.add(new Move(origen, destino, MoveType.CAPTURA));
@@ -51,7 +51,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}	
 		
 		if (casilleroAtaqueDerecha != null) {
-			Pieza pieza = dummyBoard.getPieza(casilleroAtaqueDerecha);
+			Pieza pieza = this.tablero.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);
 				moves.add(new Move(origen, destino, MoveType.CAPTURA));
@@ -62,9 +62,9 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	protected Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen){
-		BoardState boardState = dummyBoard.getBoardState();
-		Collection<Move> moves = getBasePseudoMoves(dummyBoard, origen);
+	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen){
+		BoardState boardState = this.tablero.getBoardState();
+		Collection<Move> moves = getBasePseudoMoves(origen);
 		
 		if (boardState.getPeonPasanteSquare() != null) {
 			Square casillero = origen.getKey();

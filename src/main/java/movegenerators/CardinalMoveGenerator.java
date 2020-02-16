@@ -26,18 +26,18 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	protected Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		for (Cardinal cardinal : this.direcciones) {
-			moves.addAll(getPseudoMoves(dummyBoard, origen, cardinal));
+			moves.addAll(getPseudoMoves(origen, cardinal));
 		}
 		return moves;
 	}
 	
 	
-	protected Collection<Move> getPseudoMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
+	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
-		BoardIterator iterator = tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
+		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		Collection<Move> moves = createMoveContainer();
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> destino = iterator.next();

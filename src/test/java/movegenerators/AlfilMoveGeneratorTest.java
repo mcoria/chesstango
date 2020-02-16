@@ -31,8 +31,9 @@ public class AlfilMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
+		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);  
 
 		assertEquals(13, moves.size());
 
@@ -73,8 +74,9 @@ public class AlfilMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
+		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);  
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);  
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

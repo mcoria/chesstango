@@ -26,14 +26,14 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	protected Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen) {
 		assert (Pieza.REY_BLANCO.equals(origen.getValue()));
-		Collection<Move> moves = super.getPseudoMoves(dummyBoard, origen);
+		Collection<Move> moves = super.getPseudoMoves(origen);
 		
-		BoardState boardState = dummyBoard.getBoardState();
+		BoardState boardState = this.tablero.getBoardState();
 		
 		if (boardState.isEnroqueBlancoReinaPermitido() && 
-			puedeEnroqueReina(	dummyBoard, 
+			puedeEnroqueReina(	this.tablero, 
 								origen, 
 								DummyBoard.REY_BLANCO, 
 								DummyBoard.TORRE_BLANCA_REYNA,
@@ -45,7 +45,7 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		
 		
 		if (boardState.isEnroqueBlancoReyPermitido() && 
-			puedeEnroqueRey(dummyBoard, 
+			puedeEnroqueRey(this.tablero, 
 							origen, 
 							DummyBoard.REY_BLANCO, 
 							DummyBoard.TORRE_BLANCA_REY,

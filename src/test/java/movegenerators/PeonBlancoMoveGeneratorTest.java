@@ -33,13 +33,14 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/P7/8/8");
 		tablero.setBoardState(new BoardState());
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a3;		
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(1, moves.size());
 		
@@ -51,13 +52,14 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/P7/8");
 		tablero.setBoardState(new BoardState());
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -70,13 +72,14 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/N7/P7/8");
 		tablero.setBoardState(new BoardState());
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(0, moves.size());
 		
@@ -88,6 +91,7 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3p4/4P3/8");
 		tablero.setBoardState(new BoardState());
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -95,7 +99,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -108,6 +112,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testPeonPasanteIzquierda() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3pP3/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -120,7 +125,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		tablero.setBoardState(boardState);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -134,6 +139,7 @@ public class PeonBlancoMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5p2/4P3/8");
 		tablero.setBoardState(new BoardState());
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -141,7 +147,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -154,6 +160,7 @@ public class PeonBlancoMoveGeneratorTest {
 	public void testPeonPasanteDerecha() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3Pp3/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d5;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -166,7 +173,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		tablero.setBoardState(boardState);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(2, moves.size());
 		

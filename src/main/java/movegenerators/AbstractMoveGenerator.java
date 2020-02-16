@@ -13,14 +13,14 @@ import chess.Square;
 //Template  Method Pattern GoF
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
-	private DummyBoard tablero;
+	protected DummyBoard tablero;
 
 	@Override
 	public Collection<Move> getLegalMoves(Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		Pieza currentPieza = origen.getValue();
 		BoardState boardState = tablero.getBoardState();
-		Collection<Move> pseudoMoves = getPseudoMoves(tablero, origen);
+		Collection<Move> pseudoMoves = getPseudoMoves(origen);
 		for (Move move : pseudoMoves) {
 			move.execute(tablero, boardState);
 			if(! tablero.isKingInCheck(currentPieza.getColor()) ) {
@@ -32,7 +32,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return moves;
 	}
 	
-	protected abstract Collection<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
+	protected abstract Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen);	
 	
 
 	protected Collection<Move> createMoveContainer(){

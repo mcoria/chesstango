@@ -31,8 +31,9 @@ public class TorreMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
 		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
+		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(14, moves.size());
 		
@@ -72,8 +73,9 @@ public class TorreMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
 		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
+		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(13, moves.size());
 		

@@ -33,8 +33,9 @@ public class CaballoMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.CABALLO_BLANCO);
 		
 		CaballoMoveGenerator moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
+		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(7, moves.size());
 		

@@ -31,8 +31,9 @@ public class ReinaMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REINA_BLANCO);
 
 		ReinaMoveGenerator moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
+		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 
 		assertEquals(27, moves.size());
 

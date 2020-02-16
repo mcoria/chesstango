@@ -35,6 +35,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroReina01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/8/8/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -46,7 +47,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -61,7 +62,8 @@ public class ReyNegroMoveGeneratorTest {
 	@Test
 	public void testEnroqueNegroReina02() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/5B2/8/8/8/8/8");		
+		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/5B2/8/8/8/8/8");	
+		moveGenerator.setTablero(tablero);
 	
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -74,7 +76,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(5, moves.size());
 		
@@ -118,6 +120,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroRey01() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/8/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -129,7 +132,8 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -145,6 +149,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroRey02() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/3B4/8/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -157,7 +162,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
 		
 		assertEquals(5, moves.size());
 		
