@@ -34,7 +34,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -59,7 +59,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -81,7 +81,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		

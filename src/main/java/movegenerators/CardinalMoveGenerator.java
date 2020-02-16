@@ -26,7 +26,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		for (Cardinal cardinal : this.direcciones) {
 			moves.addAll(getPseudoMoves(origen, cardinal));

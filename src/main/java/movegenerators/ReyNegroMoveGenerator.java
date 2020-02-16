@@ -28,10 +28,10 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen) {
 		assert (Pieza.REY_NEGRO.equals(origen.getValue()));
 		
-		Collection<Move> moves = super.getPseudoMoves(origen);
+		Collection<Move> moves = super.generateMoves(origen);
 		
 		BoardState boardState = this.tablero.getBoardState();
 		

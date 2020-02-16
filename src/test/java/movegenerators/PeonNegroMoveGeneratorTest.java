@@ -40,7 +40,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(1, moves.size());
 		
@@ -59,7 +59,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -80,7 +80,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -106,7 +106,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		tablero.setBoardState(boardState);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -128,7 +128,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -154,7 +154,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		tablero.setBoardState(boardState);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		

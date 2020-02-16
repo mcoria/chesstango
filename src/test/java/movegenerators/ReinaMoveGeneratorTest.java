@@ -33,7 +33,7 @@ public class ReinaMoveGeneratorTest {
 		ReinaMoveGenerator moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 
 		assertEquals(27, moves.size());
 

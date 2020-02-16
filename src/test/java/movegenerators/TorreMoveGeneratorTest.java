@@ -33,7 +33,7 @@ public class TorreMoveGeneratorTest {
 		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(14, moves.size());
 		
@@ -75,7 +75,7 @@ public class TorreMoveGeneratorTest {
 		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(13, moves.size());
 		

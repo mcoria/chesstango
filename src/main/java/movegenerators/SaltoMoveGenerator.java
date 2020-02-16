@@ -24,7 +24,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		Collection<Move> moves = createMoveContainer();

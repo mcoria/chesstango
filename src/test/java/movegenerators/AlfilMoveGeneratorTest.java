@@ -33,7 +33,7 @@ public class AlfilMoveGeneratorTest {
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);  
+		Collection<Move> moves = moveGenerator.generateMoves(origen);  
 
 		
 		// NorteEste
@@ -76,7 +76,7 @@ public class AlfilMoveGeneratorTest {
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);  
+		Collection<Move> moves = moveGenerator.generateMoves(origen);  
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

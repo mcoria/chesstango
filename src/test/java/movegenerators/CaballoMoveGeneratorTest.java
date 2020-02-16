@@ -35,7 +35,7 @@ public class CaballoMoveGeneratorTest {
 		CaballoMoveGenerator moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 		
-		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertEquals(7, moves.size());
 		
