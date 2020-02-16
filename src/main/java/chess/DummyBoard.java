@@ -12,6 +12,8 @@ import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
+import movegenerators.MoveGenerator;
+import movegenerators.MoveGeneratorStrategy;
 
 public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
@@ -24,6 +26,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h1, Pieza.TORRE_BLANCO);
 	
 	private BoardState boardState;
+	private MoveGeneratorStrategy strategy;
 	
 	//56,57,58,59,60,61,62,63,
 	//48,49,50,51,52,53,54,55,
@@ -37,6 +40,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	public DummyBoard(Pieza[][] tablero){
 		this.tablero = tablero;
+		this.strategy = new MoveGeneratorStrategy(this);
 	}
 
 	public void setPieza(Entry<Square, Pieza> entry) {
@@ -105,7 +109,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor().opositeColor())){
-					if(currentPieza.puedeCapturarRey(this, origen, kingSquare)){
+					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+					if(moveGenerator.puedeCapturarRey(this, origen, kingSquare)){
 						return true;
 					}
 				}
@@ -120,7 +125,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(boardState.getTurnoActual().equals(currentPieza.getColor())){
-					moves.addAll(currentPieza.getLegalMoves(this, origen));
+					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+					moves.addAll(moveGenerator.getLegalMoves(origen));
 				}
 			}
 		}

@@ -12,9 +12,11 @@ import chess.Square;
 
 //Template  Method Pattern GoF
 public abstract class AbstractMoveGenerator implements MoveGenerator {
+	
+	private DummyBoard tablero;
 
 	@Override
-	public Collection<Move> getLegalMoves(DummyBoard tablero, Map.Entry<Square, Pieza> origen) {
+	public Collection<Move> getLegalMoves(Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		Pieza currentPieza = origen.getValue();
 		BoardState boardState = tablero.getBoardState();
@@ -46,6 +48,10 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 				return buffer.toString();
 			}
 		};
+	}
+
+	public void setTablero(DummyBoard tablero) {
+		this.tablero = tablero;
 	}
 	
 

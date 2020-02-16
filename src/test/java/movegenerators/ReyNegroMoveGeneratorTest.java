@@ -89,6 +89,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroReina03() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/8/5B2/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -103,7 +104,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -171,6 +172,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroRey03() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/3B4/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -185,7 +187,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -199,6 +201,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroJaque() {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("r3k2r/8/8/4R3/8/8/8/8");
+		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -214,7 +217,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.getLegalMoves(tablero, origen);
+		Collection<Move> moves = moveGenerator.getLegalMoves(origen);
 		
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
