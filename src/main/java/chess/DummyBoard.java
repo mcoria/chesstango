@@ -97,7 +97,18 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 	
+	private Square squareCache = Square.e1;
+	
 	private Square getKingSquare(Color color) {
+		Pieza rey = Pieza.getRey(color);
+		Pieza posiblePieza = this.getPieza(squareCache);
+		if(rey.equals(posiblePieza)){
+			return squareCache;
+		}		
+		return getKingSquareRecorrer(color);
+	}
+	
+	private Square getKingSquareRecorrer(Color color) {
 		Square kingSquare = null;
 		Pieza rey = Pieza.getRey(color);
 		for (Map.Entry<Square, Pieza> entry : this) {
@@ -105,11 +116,14 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			Pieza currentPieza = entry.getValue();
 			if(rey.equals(currentPieza)){
 				kingSquare = currentSquare;
+				squareCache = currentSquare;
 				break;
 			}
 		}
 		return kingSquare;
 	}	
+	
+	
 
 	@Override
 	public String toString() {
