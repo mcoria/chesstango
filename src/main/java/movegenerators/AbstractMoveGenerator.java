@@ -32,7 +32,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return moves;
 	}
 	
-	public abstract Collection<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
+	protected abstract Collection<Move> getPseudoMoves(DummyBoard board, Map.Entry<Square, Pieza> origen);	
 	
 
 	protected Collection<Move> createMoveContainer(){

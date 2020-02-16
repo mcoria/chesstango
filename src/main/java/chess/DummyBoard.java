@@ -63,46 +63,24 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return getPieza(square) == null;
 	}
 	
-	public BoardIterator iterator(SquareIterator squareIterator){
-		return new BoardIterator(){
-			@Override
-			public boolean hasNext() {
-				return squareIterator.hasNext();
-			}
-			
-			@Override
-			public SimpleImmutableEntry<Square, Pieza> next() {
-				Square currentSquare = squareIterator.next();
-				Pieza pieza = getPieza(currentSquare);
-				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
-			}
-		};
-	}
-
-	@Override
-	public BoardIterator iterator() {
-		return new DummyBoardIterator(this);
-	}
-
-	private Square getKingSquare(Color color) {
-		Square kingSquare = null;
-		for (Map.Entry<Square, Pieza> entry : this) {
-			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
+	public Collection<Move>  getLegalMoves(){
+		Collection<Move> moves = createMoveContainer();
+		for (Map.Entry<Square, Pieza> origen : this) {
+			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
-				if(Pieza.getRey(color).equals(currentPieza)){
-					kingSquare = currentSquare;
-					break;
+				if(boardState.getTurnoActual().equals(currentPieza.getColor())){
+					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+					moves.addAll(moveGenerator.getLegalMoves(origen));
 				}
-			}			
+			}
 		}
-		return kingSquare;
+		return moves;
 	}
 	
 	public boolean isKingInCheck(Color color) {
 		Square kingSquare = getKingSquare(color);
 		return sepuedeCapturarReyEnSquare(color, kingSquare);
-	}
+	}	
 	
 	public boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){
 		for (Map.Entry<Square, Pieza> origen : this) {
@@ -119,19 +97,19 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 	
-	public Collection<Move>  getLegalMoves(){
-		Collection<Move> moves = createMoveContainer();
-		for (Map.Entry<Square, Pieza> origen : this) {
-			Pieza currentPieza = origen.getValue();
-			if(currentPieza != null){
-				if(boardState.getTurnoActual().equals(currentPieza.getColor())){
-					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-					moves.addAll(moveGenerator.getLegalMoves(origen));
-				}
+	private Square getKingSquare(Color color) {
+		Square kingSquare = null;
+		Pieza rey = Pieza.getRey(color);
+		for (Map.Entry<Square, Pieza> entry : this) {
+			Square currentSquare = entry.getKey();
+			Pieza currentPieza = entry.getValue();
+			if(rey.equals(currentPieza)){
+				kingSquare = currentSquare;
+				break;
 			}
 		}
-		return moves;
-	}
+		return kingSquare;
+	}	
 
 	@Override
 	public String toString() {
@@ -161,6 +139,27 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			}
 		};
 	}
+	
+	public BoardIterator iterator(SquareIterator squareIterator){
+		return new BoardIterator(){
+			@Override
+			public boolean hasNext() {
+				return squareIterator.hasNext();
+			}
+			
+			@Override
+			public SimpleImmutableEntry<Square, Pieza> next() {
+				Square currentSquare = squareIterator.next();
+				Pieza pieza = getPieza(currentSquare);
+				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
+			}
+		};
+	}
+
+	@Override
+	public BoardIterator iterator() {
+		return new DummyBoardIterator(this);
+	}	
 
 	public BoardState getBoardState() {
 		return boardState;

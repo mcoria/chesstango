@@ -26,7 +26,8 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+	protected Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen) {
+		assert (Pieza.REY_BLANCO.equals(origen.getValue()));
 		Collection<Move> moves = super.getPseudoMoves(dummyBoard, origen);
 		
 		BoardState boardState = dummyBoard.getBoardState();

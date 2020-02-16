@@ -62,7 +62,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen){
+	protected Collection<Move> getPseudoMoves(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen){
 		BoardState boardState = dummyBoard.getBoardState();
 		Collection<Move> moves = getBasePseudoMoves(dummyBoard, origen);
 		
