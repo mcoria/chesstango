@@ -34,11 +34,11 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 				
 		if(saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)){
 			destino = new SimpleImmutableEntry<Square, Pieza>(saltoSimpleCasillero, null);
-			moves.add( new Move(origen, destino, MoveType.SIMPLE) );
+			this.filter.filterMove(moves, new Move(origen, destino, MoveType.SIMPLE));
 			
 			if(saltoDobleCasillero != null && this.tablero.isEmtpy(saltoDobleCasillero)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(saltoDobleCasillero, null);
-				moves.add( new Move(origen, destino, MoveType.SALTO_DOBLE_PEON) );
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.SALTO_DOBLE_PEON));
 			}			
 		}
 		
@@ -46,15 +46,15 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = this.tablero.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, pieza);
-				moves.add(new Move(origen, destino, MoveType.CAPTURA));
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));
 			}
 		}	
 		
 		if (casilleroAtaqueDerecha != null) {
 			Pieza pieza = this.tablero.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);
-				moves.add(new Move(origen, destino, MoveType.CAPTURA));
+				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);				
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));
 			}
 		}	
 		
@@ -74,13 +74,13 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-				moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
 			}
 
 			Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-				moves.add(new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));		
 			}
 		}
 		

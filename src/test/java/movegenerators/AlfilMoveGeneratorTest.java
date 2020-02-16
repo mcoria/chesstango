@@ -35,8 +35,6 @@ public class AlfilMoveGeneratorTest {
 
 		Collection<Move> moves = moveGenerator.getPseudoMoves(origen);  
 
-		assertEquals(13, moves.size());
-
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -58,6 +56,8 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.b8) ));
+		
+		assertEquals(13, moves.size());		
 	}
 	
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -14,9 +13,12 @@ import chess.Square;
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected DummyBoard tablero;
+	
+	protected MoveFilter filter = (Collection<Move> moves, Move move) -> moves.add(move);
 
 	@Override
 	public Collection<Move> getLegalMoves(Map.Entry<Square, Pieza> origen) {
+		/*
 		Collection<Move> moves = createMoveContainer();
 		Pieza currentPieza = origen.getValue();
 		BoardState boardState = tablero.getBoardState();
@@ -28,11 +30,11 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 			}
 			move.undo(tablero, boardState);
 			boardState.restoreState();
-		}
-		return moves;
+		}*/
+		return getPseudoMoves(origen);
 	}
 	
-	protected abstract Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen);	
+	protected abstract Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen);
 	
 
 	protected Collection<Move> createMoveContainer(){
@@ -52,6 +54,10 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	public void setTablero(DummyBoard tablero) {
 		this.tablero = tablero;
+	}
+
+	public void setFilter(MoveFilter filter) {
+		this.filter = filter;
 	}
 	
 

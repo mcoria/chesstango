@@ -32,13 +32,11 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-		    	Move move = new Move(origen, destino, MoveType.SIMPLE);
-		    	moves.add(move);
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.SIMPLE));
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new Move(origen, destino, MoveType.CAPTURA);
-		    	moves.add(move);		    	
+				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));
 		    }
 		}
 		return moves;

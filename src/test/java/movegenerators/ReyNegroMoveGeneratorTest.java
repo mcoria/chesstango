@@ -92,6 +92,7 @@ public class ReyNegroMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/8/5B2/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setFilter(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -108,12 +109,12 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Collection<Move> moves = moveGenerator.getLegalMoves(origen);
 		
-		assertEquals(4, moves.size());
-		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
+		
+		assertEquals(4, moves.size());
 	}		
 	
 	@Test
@@ -178,6 +179,7 @@ public class ReyNegroMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/3B4/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setFilter(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -194,12 +196,12 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Collection<Move> moves = moveGenerator.getLegalMoves(origen);
 		
-		assertEquals(4, moves.size());
-		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
+		
+		assertEquals(4, moves.size());
 	}		
 
 	@Test
@@ -207,6 +209,7 @@ public class ReyNegroMoveGeneratorTest {
 		FENParser parser = new FENParser();
 		DummyBoard tablero = parser.parsePiecePlacement("r3k2r/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setFilter(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));

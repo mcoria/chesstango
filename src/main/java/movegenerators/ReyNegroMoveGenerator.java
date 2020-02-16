@@ -43,7 +43,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			moves.add(Move.MOVE_ENROQUE_NEGRO_REYNA);
+			this.filter.filterMove(moves, Move.MOVE_ENROQUE_NEGRO_REYNA);
 		}
 			
 			
@@ -54,7 +54,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 							DummyBoard.TORRE_NEGRO_REY,
 							DESTINO_REY_SQUARE, 
 							INTERMEDIO_REY_REY_SQUARE)) {
-			moves.add(Move.MOVE_ENROQUE_NEGRO_REY);
+			this.filter.filterMove(moves, Move.MOVE_ENROQUE_NEGRO_REY);
 		}
 
 		return moves;

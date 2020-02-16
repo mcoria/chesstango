@@ -12,10 +12,11 @@ import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
+import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
+public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilter {
 	
 	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a8, Pieza.TORRE_NEGRO);
 	public static final Map.Entry<Square, Pieza> REY_NEGRO = new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO);
@@ -38,7 +39,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
     //00,01,02,03,04,05,06,07,	
 	private Pieza[][] tablero;
 	
-	public DummyBoard(Pieza[][] tablero){
+	public DummyBoard(Pieza[][] tablero) {
 		this.tablero = tablero;
 		this.strategy = new MoveGeneratorStrategy(this);
 	}
@@ -77,6 +78,17 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return moves;
 	}
 	
+	@Override
+	public void filterMove(Collection<Move> moves, Move move) {
+		Color turno = boardState.getTurnoActual();
+		move.execute(this, boardState);
+		if(! this.isKingInCheck(turno) ) {
+			moves.add(move);
+		}
+		move.undo(this, boardState);
+		boardState.restoreState();
+	}
+
 	public boolean isKingInCheck(Color color) {
 		Square kingSquare = getKingSquare(color);
 		return sepuedeCapturarReyEnSquare(color, kingSquare);
