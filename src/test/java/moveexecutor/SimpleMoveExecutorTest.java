@@ -44,9 +44,7 @@ public class SimpleMoveExecutorTest {
 		
 		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(origen.getKey());
-		
-		verify(boardState).setFrom(origen);
-		verify(boardState).setTo(destino);				
+					
 		verify(boardState).setCaptura(null);
 		verify(boardState).setPeonPasanteSquare(null);		
 	}
@@ -57,10 +55,8 @@ public class SimpleMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
 
-		when(boardState.getFrom()).thenReturn(origen);	
-		when(boardState.getTo()).thenReturn(destino);	
 		
-		moveExecutor.undo(board);
+		moveExecutor.undo(board, origen, destino);
 		
 		
 		verify(board).setPosicion(origen);

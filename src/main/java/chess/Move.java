@@ -2,6 +2,7 @@ package chess;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import moveexecutors.CaptureMoveExecutor;
 import moveexecutors.CapturePeonPasanteExecutor;
@@ -47,8 +48,8 @@ public class Move implements Comparable<Move> {
 		}
 		
 		@Override
-		public void undo(DummyBoard board) {
-			executor.undo(board);
+		public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+			executor.undo(board, from, to);
 		}
 	}
 	
@@ -114,14 +115,14 @@ public class Move implements Comparable<Move> {
 		return 0;
 	}
 
-	public void execute(DummyBoard board, BoardState boardState) {
+	public void execute(DummyBoard board) {
 		moveType.execute(board, from, to);
-		boardState.rollTurno();
+		board.getBoardState().rollTurno();
 	}
 
-	public void undo(DummyBoard board, BoardState boardState) {
-		boardState.rollTurno();
-		moveType.undo(board);
+	public void undo(DummyBoard board) {
+		board.getBoardState().rollTurno();
+		moveType.undo(board, from, to);
 	}
 
 	@Override

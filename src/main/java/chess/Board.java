@@ -39,7 +39,7 @@ public class Board {
 		boardState.pushState();
 		boardPila.push();
 		
-		move.execute(tablero, boardState);
+		move.execute(tablero);
 		
 		boardState.saveState();
 		boardPila.setMovimientoSeleccionado(move);
@@ -50,7 +50,7 @@ public class Board {
 
 	public GameStatus undoMove() {
 		Move lastMove = boardPila.getMovimientoSeleccionado();
-		lastMove.undo(tablero, boardState);
+		lastMove.undo(tablero);
 		
 		boardPila.pop();
 		boardState.popState();

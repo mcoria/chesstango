@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.DummyBoard;
@@ -15,16 +16,13 @@ public class SimpleMoveExecutor implements MoveExecutor {
 		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos a destino
 		
 		BoardState boardState = board.getBoardState();
-		boardState.setFrom(from);
-		boardState.setTo(to);
 		boardState.setCaptura(null);
 		boardState.setPeonPasanteSquare(null);
 	}
 
 	@Override
-	public void undo(DummyBoard board) {
-		BoardState boardState = board.getBoardState();
-		board.setPosicion(boardState.getTo());					//Reestablecemos destino
-		board.setPosicion(boardState.getFrom());				//Volvemos a origen
+	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+		board.setPosicion(to);							//Reestablecemos destino
+		board.setPosicion(from);						//Volvemos a origen
 	}
 }

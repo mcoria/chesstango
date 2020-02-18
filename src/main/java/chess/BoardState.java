@@ -15,8 +15,6 @@ public class BoardState {
 		private boolean enroqueNegroReinaPermitido;
 		private boolean enroqueNegroReyPermitido;
 		
-		private Map.Entry<Square, Pieza> from;
-		private Map.Entry<Square, Pieza> to;
 		private Map.Entry<Square, Pieza> captura;		
 	}
 	
@@ -32,9 +30,6 @@ public class BoardState {
 	private boolean enroqueNegroReinaPermitido;
 	private boolean enroqueNegroReyPermitido;	
 	
-	
-	private Map.Entry<Square, Pieza> from;
-	private Map.Entry<Square, Pieza> to;
 	private Map.Entry<Square, Pieza> captura;
 	
 	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
@@ -100,21 +95,6 @@ public class BoardState {
 		this.turnoActual = this.turnoActual.opositeColor();
 	}
 	
-	public Map.Entry<Square, Pieza> getFrom() {
-		return from;
-	}
-
-	public void setFrom(Map.Entry<Square, Pieza> from) {
-		this.from = from;
-	}
-
-	public Map.Entry<Square, Pieza> getTo() {
-		return to;
-	}
-
-	public void setTo(Map.Entry<Square, Pieza> to) {
-		this.to = to;
-	}
 	
 	public void pushState() {
 		boardStateNodePila.push( this.currentNode );
@@ -132,8 +112,6 @@ public class BoardState {
 
 	public void saveState() {
 		BoardStateNode node = new BoardStateNode();
-		node.from = from;
-		node.to = to;
 		node.peonPasanteSquare = peonPasanteSquare;
 		node.captura = captura;
 		node.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
@@ -145,8 +123,6 @@ public class BoardState {
 	}
 	
 	public void restoreState(){
-		from = this.currentNode.from;
-		to =  this.currentNode.to;
 		peonPasanteSquare = this.currentNode.peonPasanteSquare;
 		captura = this.currentNode.captura;
 		enroqueBlancoReinaPermitido = this.currentNode.enroqueBlancoReinaPermitido;

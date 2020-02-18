@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.DummyBoard;
@@ -16,9 +17,7 @@ public class EnroqueBlancoReynaMoveExecutor implements MoveExecutor{
 		board.setPieza(Square.c1, Pieza.REY_BLANCO);
 		board.setPieza(Square.d1, Pieza.TORRE_BLANCO);
 		
-		BoardState boardState = board.getBoardState();
-		boardState.setFrom(from);
-		boardState.setTo(to);		
+		BoardState boardState = board.getBoardState();		
 		boardState.setEnroqueBlancoReyPermitido(false);
 		boardState.setEnroqueBlancoReinaPermitido(false);
 		boardState.setCaptura(null);
@@ -26,7 +25,7 @@ public class EnroqueBlancoReynaMoveExecutor implements MoveExecutor{
 	}
 
 	@Override
-	public void undo(DummyBoard board) {
+	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
 		board.setEmptySquare(Square.c1);
 		board.setEmptySquare(Square.d1);
 		board.setPieza(Square.e1, Pieza.REY_BLANCO);

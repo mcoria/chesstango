@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.Color;
@@ -20,18 +21,16 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 		board.setEmptySquare(captureSquare);						//Capturamos peon
 		
 		BoardState boardState = board.getBoardState();
-		boardState.setFrom(from);
-		boardState.setTo(to);
 		boardState.setCaptura(captura);
 		boardState.setPeonPasanteSquare(null);	
 	}
 
 	@Override
-	public void undo(DummyBoard board) {
+	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
 		BoardState boardState = board.getBoardState();
 		board.setPosicion(boardState.getCaptura());					//Devolvemos peon
-		board.setPosicion(boardState.getTo());						//Reestablecemos destino
-		board.setPosicion(boardState.getFrom());					//Volvemos a origen
+		board.setPosicion(to);							//Reestablecemos destino
+		board.setPosicion(from);						//Volvemos a origen
 	}
 
 }
