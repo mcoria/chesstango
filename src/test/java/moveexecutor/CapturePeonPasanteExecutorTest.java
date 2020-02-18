@@ -39,6 +39,8 @@ public class CapturePeonPasanteExecutorTest {
 		Map.Entry<Square, Pieza> peonBlanco = new SimpleImmutableEntry<Square, Pieza>(Square.b5, Pieza.PEON_BLANCO);
 		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
 		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
+		
+		when(board.getPosicion(Square.a5)).thenReturn(peonNegro);	
 
 		moveExecutor.execute(board, boardState, peonBlanco, peonPasanteSquare);
 
@@ -66,7 +68,7 @@ public class CapturePeonPasanteExecutorTest {
 		moveExecutor.undo(board, boardState);
 		
 		verify(board).setPosicion(peonBlanco);									//Volvemos al origen
-		verify(board).setEmptySquare(peonPasanteSquare.getKey());			//Dejamos el destino
+		verify(board).setPosicion(peonPasanteSquare);							//Dejamos el destino
 		verify(board).setPosicion(peonNegro);									//Devolvemos peon
 	}
 

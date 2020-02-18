@@ -63,7 +63,7 @@ public class SimpleMoveExecutorTest {
 		
 		
 		verify(board).setPosicion(origen);
-		verify(board).setEmptySquare(Square.e7);
+		verify(board).setPosicion(destino);
 		
 	}	
 
