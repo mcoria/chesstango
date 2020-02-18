@@ -32,6 +32,8 @@ public class CaptureMoveExecutorTest {
 		MockitoAnnotations.initMocks(this);
 		
 		moveExecutor = new CaptureMoveExecutor();
+		
+		when(board.getBoardState()).thenReturn(boardState);
 	}
 
 	
@@ -40,7 +42,7 @@ public class CaptureMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 
-		moveExecutor.execute(board, boardState, origen, destino);
+		moveExecutor.execute(board, origen, destino);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);

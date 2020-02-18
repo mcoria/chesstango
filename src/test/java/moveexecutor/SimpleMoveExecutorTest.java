@@ -31,6 +31,7 @@ public class SimpleMoveExecutorTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		moveExecutor =  new SimpleMoveExecutor();
+		when(board.getBoardState()).thenReturn(boardState);	
 	}
 	
 	
@@ -39,7 +40,7 @@ public class SimpleMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
 
-		moveExecutor.execute(board, boardState, origen, destino);
+		moveExecutor.execute(board, origen, destino);
 		
 		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(origen.getKey());

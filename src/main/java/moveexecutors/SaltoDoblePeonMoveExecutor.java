@@ -11,11 +11,12 @@ import chess.Square;
 public class SaltoDoblePeonMoveExecutor implements MoveExecutor {
 
 	@Override
-	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
 		Square peonPasanteSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
 		board.setEmptySquare(from.getKey());								//Dejamos origen
 		board.setPieza(to.getKey(), from.getValue());						//Vamos a destino
 		
+		BoardState boardState = board.getBoardState();
 		boardState.setFrom(from);
 		boardState.setTo(to);		
 		boardState.setCaptura(null);

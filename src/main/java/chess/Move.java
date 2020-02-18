@@ -42,8 +42,8 @@ public class Move implements Comparable<Move> {
 		}
 		
 		@Override
-		public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
-			executor.execute(board, boardState, from, to);
+		public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+			executor.execute(board, from, to);
 		}
 		
 		@Override
@@ -115,7 +115,7 @@ public class Move implements Comparable<Move> {
 	}
 
 	public void execute(DummyBoard board, BoardState boardState) {
-		moveType.execute(board, boardState, from, to);
+		moveType.execute(board, from, to);
 		boardState.rollTurno();
 	}
 

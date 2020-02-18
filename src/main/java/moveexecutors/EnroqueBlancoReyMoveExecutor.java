@@ -10,12 +10,13 @@ import chess.Square;
 public class EnroqueBlancoReyMoveExecutor implements MoveExecutor{
 
 	@Override
-	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
 		board.setEmptySquare(Square.e1);
 		board.setEmptySquare(Square.h1);
 		board.setPieza(Square.g1, Pieza.REY_BLANCO);
 		board.setPieza(Square.f1, Pieza.TORRE_BLANCO);
 		
+		BoardState boardState = board.getBoardState();
 		boardState.setFrom(from);
 		boardState.setTo(to);		
 		boardState.setEnroqueBlancoReyPermitido(false);

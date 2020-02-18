@@ -11,7 +11,7 @@ import chess.Square;
 public class CapturePeonPasanteExecutor implements MoveExecutor {
 
 	@Override
-	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
 		Square captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);		
 		Map.Entry<Square, Pieza> captura = board.getPosicion(captureSquare);
 				
@@ -19,6 +19,7 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 		board.setPieza(to.getKey(), from.getValue());				//Vamos al destino
 		board.setEmptySquare(captureSquare);						//Capturamos peon
 		
+		BoardState boardState = board.getBoardState();
 		boardState.setFrom(from);
 		boardState.setTo(to);
 		boardState.setCaptura(captura);

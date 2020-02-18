@@ -10,10 +10,11 @@ import chess.Square;
 public class SimpleMoveExecutor implements MoveExecutor {
 	
 	@Override
-	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
 		board.setEmptySquare(from.getKey());					//Dejamos origen
 		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos a destino
 		
+		BoardState boardState = board.getBoardState();
 		boardState.setFrom(from);
 		boardState.setTo(to);
 		boardState.setCaptura(null);

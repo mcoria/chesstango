@@ -32,6 +32,8 @@ public class CapturePeonPasanteExecutorTest {
 		MockitoAnnotations.initMocks(this);
 		
 		moveExecutor = new CapturePeonPasanteExecutor();
+		
+		when(board.getBoardState()).thenReturn(boardState);
 	}
 	
 	@Test
@@ -42,7 +44,7 @@ public class CapturePeonPasanteExecutorTest {
 		
 		when(board.getPosicion(Square.a5)).thenReturn(peonNegro);	
 
-		moveExecutor.execute(board, boardState, peonBlanco, peonPasanteSquare);
+		moveExecutor.execute(board, peonBlanco, peonPasanteSquare);
 
 		verify(board).setEmptySquare(peonBlanco.getKey());						//Dejamos el origen
 		verify(board).setPieza(peonPasanteSquare.getKey(), Pieza.PEON_BLANCO);  //Vamos al destino
