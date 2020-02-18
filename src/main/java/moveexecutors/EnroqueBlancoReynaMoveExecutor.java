@@ -26,7 +26,7 @@ public class EnroqueBlancoReynaMoveExecutor implements MoveExecutor{
 	}
 
 	@Override
-	public void undo(DummyBoard board, BoardState boardState) {
+	public void undo(DummyBoard board) {
 		board.setEmptySquare(Square.c1);
 		board.setEmptySquare(Square.d1);
 		board.setPieza(Square.e1, Pieza.REY_BLANCO);

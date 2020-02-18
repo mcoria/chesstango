@@ -60,7 +60,7 @@ public class SimpleMoveExecutorTest {
 		when(boardState.getFrom()).thenReturn(origen);	
 		when(boardState.getTo()).thenReturn(destino);	
 		
-		moveExecutor.undo(board, boardState);
+		moveExecutor.undo(board);
 		
 		
 		verify(board).setPosicion(origen);

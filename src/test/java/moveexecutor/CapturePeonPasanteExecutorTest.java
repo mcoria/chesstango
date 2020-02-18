@@ -67,7 +67,7 @@ public class CapturePeonPasanteExecutorTest {
 		when(boardState.getTo()).thenReturn(peonPasanteSquare);	
 		when(boardState.getCaptura()).thenReturn(peonNegro);
 
-		moveExecutor.undo(board, boardState);
+		moveExecutor.undo(board);
 		
 		verify(board).setPosicion(peonBlanco);									//Volvemos al origen
 		verify(board).setPosicion(peonPasanteSquare);							//Dejamos el destino

@@ -79,6 +79,8 @@ public class MoveTest {
 		
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.BLANCO);
+		
+		tablero.setBoardState(boardState);
 
 
 		Move move = new Move(origen, destino, MoveType.SIMPLE);
@@ -112,6 +114,8 @@ public class MoveTest {
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.BLANCO);
 		boardState.saveState();
+		
+		tablero.setBoardState(boardState);
 
 		
 		Move move = new Move(origen, destino, MoveType.CAPTURA);

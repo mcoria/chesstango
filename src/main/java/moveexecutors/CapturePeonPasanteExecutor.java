@@ -27,7 +27,8 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 	}
 
 	@Override
-	public void undo(DummyBoard board, BoardState boardState) {
+	public void undo(DummyBoard board) {
+		BoardState boardState = board.getBoardState();
 		board.setPosicion(boardState.getCaptura());					//Devolvemos peon
 		board.setPosicion(boardState.getTo());						//Reestablecemos destino
 		board.setPosicion(boardState.getFrom());					//Volvemos a origen
