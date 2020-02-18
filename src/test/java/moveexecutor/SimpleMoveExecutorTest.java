@@ -44,8 +44,7 @@ public class SimpleMoveExecutorTest {
 		
 		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(origen.getKey());
-					
-		verify(boardState).setCaptura(null);
+
 		verify(boardState).setPeonPasanteSquare(null);		
 	}
 	

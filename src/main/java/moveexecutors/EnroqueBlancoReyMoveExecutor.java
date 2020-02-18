@@ -20,7 +20,6 @@ public class EnroqueBlancoReyMoveExecutor implements MoveExecutor{
 		BoardState boardState = board.getBoardState();	
 		boardState.setEnroqueBlancoReyPermitido(false);
 		boardState.setEnroqueBlancoReinaPermitido(false);
-		boardState.setCaptura(null);
 		boardState.setPeonPasanteSquare(null);		
 	}
 

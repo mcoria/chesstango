@@ -89,14 +89,12 @@ public class MoveTest {
 		
 		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e5));
-		assertNull(boardState.getCaptura());
 		assertNull(boardState.getPeonPasanteSquare());
 		
 		
 		move.undo(tablero);
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertTrue(tablero.isEmtpy(Square.e7));
-		assertNull(boardState.getCaptura());
 		assertNull(boardState.getPeonPasanteSquare());
 	}
 	
@@ -127,7 +125,6 @@ public class MoveTest {
 		move.undo(tablero);
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e7));
-		assertEquals(destino, boardState.getCaptura());
 		
 	}
 

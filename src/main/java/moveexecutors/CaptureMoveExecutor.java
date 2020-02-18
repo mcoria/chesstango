@@ -15,8 +15,7 @@ public class CaptureMoveExecutor implements MoveExecutor {
 		board.setEmptySquare(from.getKey());								//Dejamos el origen
 		board.setPieza(to.getKey(), from.getValue());						//Vamos al destino	
 		
-		BoardState boardState = board.getBoardState();	
-		boardState.setCaptura(to);
+		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(null);
 	}
 

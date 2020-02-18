@@ -46,8 +46,7 @@ public class CaptureMoveExecutorTest {
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);
-				
-		verify(boardState).setCaptura(destino);
+
 		verify(boardState).setPeonPasanteSquare(null);
 		
 	}
@@ -57,8 +56,6 @@ public class CaptureMoveExecutorTest {
 	public void testUndo() {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
-		
-		when(boardState.getCaptura()).thenReturn(destino);
 
 		moveExecutor.undo(board, origen, destino);
 		

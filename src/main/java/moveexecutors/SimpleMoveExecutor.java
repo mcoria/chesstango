@@ -16,7 +16,6 @@ public class SimpleMoveExecutor implements MoveExecutor {
 		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos a destino
 		
 		BoardState boardState = board.getBoardState();
-		boardState.setCaptura(null);
 		boardState.setPeonPasanteSquare(null);
 	}
 

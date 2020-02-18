@@ -2,7 +2,6 @@ package chess;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Map;
 
 public class BoardState {
 	
@@ -14,8 +13,6 @@ public class BoardState {
 		
 		private boolean enroqueNegroReinaPermitido;
 		private boolean enroqueNegroReyPermitido;
-		
-		private Map.Entry<Square, Pieza> captura;		
 	}
 	
 	private BoardStateNode currentNode;
@@ -28,9 +25,7 @@ public class BoardState {
 	private boolean enroqueBlancoReyPermitido;
 	
 	private boolean enroqueNegroReinaPermitido;
-	private boolean enroqueNegroReyPermitido;	
-	
-	private Map.Entry<Square, Pieza> captura;
+	private boolean enroqueNegroReyPermitido;
 	
 	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
 	
@@ -40,14 +35,6 @@ public class BoardState {
 
 	public void setPeonPasanteSquare(Square peonPasanteSquare) {
 		this.peonPasanteSquare = peonPasanteSquare;
-	}
-
-	public Map.Entry<Square, Pieza> getCaptura() {
-		return captura;
-	}
-
-	public void setCaptura(Map.Entry<Square, Pieza> captura) {
-		this.captura = captura;
 	}
 	
 	public boolean isEnroqueBlancoReinaPermitido() {
@@ -113,7 +100,6 @@ public class BoardState {
 	public void saveState() {
 		BoardStateNode node = new BoardStateNode();
 		node.peonPasanteSquare = peonPasanteSquare;
-		node.captura = captura;
 		node.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 		node.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
 		node.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
@@ -124,7 +110,6 @@ public class BoardState {
 	
 	public void restoreState(){
 		peonPasanteSquare = this.currentNode.peonPasanteSquare;
-		captura = this.currentNode.captura;
 		enroqueBlancoReinaPermitido = this.currentNode.enroqueBlancoReinaPermitido;
 		enroqueBlancoReyPermitido = this.currentNode.enroqueBlancoReyPermitido;
 		enroqueNegroReinaPermitido = this.currentNode.enroqueNegroReinaPermitido;
