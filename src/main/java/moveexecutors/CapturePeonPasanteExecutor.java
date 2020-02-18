@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 
 import chess.BoardState;
@@ -13,9 +12,8 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 
 	@Override
 	public void execute(DummyBoard board, BoardState boardState, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
-		Square captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
-		Pieza peonCapturado = Color.BLANCO.equals(from.getValue().getColor()) ? Pieza.PEON_NEGRO : Pieza.PEON_BLANCO;		
-		Map.Entry<Square, Pieza> captura = new SimpleImmutableEntry<Square, Pieza>(captureSquare, peonCapturado);
+		Square captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);		
+		Map.Entry<Square, Pieza> captura = board.getPosicion(captureSquare);
 		
 		boardState.setFrom(from);
 		boardState.setTo(to);		
@@ -29,9 +27,9 @@ public class CapturePeonPasanteExecutor implements MoveExecutor {
 
 	@Override
 	public void undo(DummyBoard board, BoardState boardState) {
-		board.setPieza(boardState.getCaptura());					//Devolvemos peon
+		board.setPosicion(boardState.getCaptura());					//Devolvemos peon
 		board.setEmptySquare(boardState.getTo().getKey());			//Reestablecemos destino
-		board.setPieza(boardState.getFrom());						//Volvemos a origen
+		board.setPosicion(boardState.getFrom());						//Volvemos a origen
 	}
 
 }

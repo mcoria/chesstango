@@ -25,7 +25,7 @@ public class SaltoDoblePeonMoveExecutor implements MoveExecutor {
 	@Override
 	public void undo(DummyBoard board, BoardState boardState) {
 		board.setEmptySquare(boardState.getTo().getKey());					//Reestablecemos destino
-		board.setPieza(boardState.getFrom());								//Volvemos a origen
+		board.setPosicion(boardState.getFrom());							//Volvemos a origen
 	}
 
 }

@@ -130,11 +130,11 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
-		assertEquals(3, moves.size());
-		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
 		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f6, Pieza.PEON_BLANCO) ));
+		
+		assertEquals(3, moves.size());
 	}
 	
 	@Test

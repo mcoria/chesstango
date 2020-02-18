@@ -64,8 +64,8 @@ public class CaptureMoveExecutorTest {
 
 		moveExecutor.undo(board, boardState);
 		
-		verify(board).setPieza(origen);
-		verify(board).setPieza(destino);
+		verify(board).setPosicion(origen);
+		verify(board).setPosicion(destino);
 	}	
 
 }

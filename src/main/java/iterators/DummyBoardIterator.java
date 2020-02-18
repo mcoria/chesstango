@@ -1,6 +1,6 @@
 package iterators;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Map;
 
 import chess.DummyBoard;
 import chess.Pieza;
@@ -32,10 +32,9 @@ public class DummyBoardIterator implements BoardIterator {
 	}
 	
 	@Override
-	public SimpleImmutableEntry<Square, Pieza> next() {
+	public Map.Entry<Square, Pieza> next() {
 		Square currentSquare = array[nextIdx++];
-		Pieza pieza = board.getPieza(currentSquare);
-		return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
+		return board.getPosicion(currentSquare);
 	}
 
 }

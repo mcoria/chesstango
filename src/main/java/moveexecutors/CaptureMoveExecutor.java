@@ -22,7 +22,7 @@ public class CaptureMoveExecutor implements MoveExecutor {
 
 	@Override
 	public void undo(DummyBoard board, BoardState boardState) {
-		board.setPieza(boardState.getCaptura());							//Reestablecemos destino
-		board.setPieza(boardState.getFrom());								//Volvemos a origen
+		board.setPosicion(boardState.getCaptura());							//Reestablecemos destino
+		board.setPosicion(boardState.getFrom());								//Volvemos a origen
 	}
 }

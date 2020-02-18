@@ -6,7 +6,6 @@ import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -39,24 +38,45 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
     //00,01,02,03,04,05,06,07,	
 	private Pieza[][] tablero;
 	
+	//@SuppressWarnings("unchecked")
+	//private Map.Entry<Square, Pieza>[][] tablero = new Map.Entry[8][8];
+	
+	private final CachePosiciones cachePosiciones = new CachePosiciones();
+	
 	public DummyBoard(Pieza[][] tablero) {
+		//crearTablero(tablero);
 		this.tablero = tablero;
 		this.strategy = new MoveGeneratorStrategy(this);
 	}
 
-	public void setPieza(Entry<Square, Pieza> entry) {
-		this.setPieza(entry.getKey(), entry.getValue());
-	}
+	/*
+	private void crearTablero(Pieza[][] sourceTablero) {		
+		for (int file = 0; file < 8; file++) {
+			for (int rank = 0; rank < 8; rank++) {
+				tablero[file][rank] =  new SimpleImmutableEntry<Square, Pieza>(Square.getSquare(file, rank), sourceTablero[file][rank]);
+				//cachePosiciones.getPosicion(Square.getSquare(file, rank), sourceTablero[file][rank]);
+			}
+		}
+	}*/
 	
+	public Map.Entry<Square, Pieza> getPosicion(Square square) {
+		return cachePosiciones.getPosicion(square, tablero[square.getFile()][square.getRank()]);
+		//new SimpleImmutableEntry<Square, Pieza>(square, tablero[square.getFile()][square.getRank()]);
+	}
+
+	public void setPosicion(Map.Entry<Square, Pieza> entry) {
+		tablero[entry.getKey().getFile()][entry.getKey().getRank()] = entry.getValue();
+	}
+
 	public Pieza getPieza(Square square) {
 		return tablero[square.getFile()][square.getRank()];
 	}
-	
+
 	public void setPieza(Square square, Pieza pieza) {
 		tablero[square.getFile()][square.getRank()] = pieza;
 	}
-	
-	public void setEmptySquare(Square square){
+
+	public void setEmptySquare(Square square) {
 		tablero[square.getFile()][square.getRank()] = null;
 	}
 
@@ -109,13 +129,13 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		return false;		
 	}
 	
-	private Square squareCache = Square.e1;
+	private Square squareKingCache = Square.e1;
 	
 	private Square getKingSquare(Color color) {
 		Pieza rey = Pieza.getRey(color);
-		Pieza posiblePieza = this.getPieza(squareCache);
+		Pieza posiblePieza = this.getPieza(squareKingCache);
 		if(rey.equals(posiblePieza)){
-			return squareCache;
+			return squareKingCache;
 		}		
 		return getKingSquareRecorrer(color);
 	}
@@ -128,14 +148,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 			Pieza currentPieza = entry.getValue();
 			if(rey.equals(currentPieza)){
 				kingSquare = currentSquare;
-				squareCache = currentSquare;
+				squareKingCache = currentSquare;
 				break;
 			}
 		}
 		return kingSquare;
-	}	
-	
-	
+	}
 
 	@Override
 	public String toString() {
@@ -174,10 +192,9 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 			}
 			
 			@Override
-			public SimpleImmutableEntry<Square, Pieza> next() {
+			public Map.Entry<Square, Pieza> next() {
 				Square currentSquare = squareIterator.next();
-				Pieza pieza = getPieza(currentSquare);
-				return new SimpleImmutableEntry<Square, Pieza>(currentSquare, pieza);
+				return getPosicion(currentSquare);
 			}
 		};
 	}

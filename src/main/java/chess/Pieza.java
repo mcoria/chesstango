@@ -29,18 +29,6 @@ public enum Pieza {
 		return color;
 	}
 	
-	/*
-
-	@Override
-	public Collection<Move> getLegalMoves(DummyBoard board, Map.Entry<Square, Pieza> origen) {
-		return generator.getLegalMoves(board, origen);
-	}
-
-	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
-		return generator.puedeCapturarRey(dummyBoard, origen, kingSquare);
-	}*/
-	
 	public static Pieza getRey(Color color){
 		switch (color) {
 		case  BLANCO:

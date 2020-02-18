@@ -62,7 +62,7 @@ public class SimpleMoveExecutorTest {
 		moveExecutor.undo(board, boardState);
 		
 		
-		verify(board).setPieza(origen);
+		verify(board).setPosicion(origen);
 		verify(board).setEmptySquare(Square.e7);
 		
 	}	
