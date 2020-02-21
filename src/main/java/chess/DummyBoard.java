@@ -36,49 +36,48 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	//16,17,18,19,20,21,22,23,
     //08,09,10,11,12,13,14,15,
     //00,01,02,03,04,05,06,07,	
-	private Pieza[][] tablero;
+	//private Pieza[][] tablero;
 	
-	//@SuppressWarnings("unchecked")
-	//private Map.Entry<Square, Pieza>[][] tablero = new Map.Entry[8][8];
+	@SuppressWarnings("unchecked")
+	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];
 	
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
 	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
-		//crearTablero(tablero);
-		this.tablero = tablero;
+		crearTablero(tablero);
+		//this.tablero = tablero;
 		this.boardState = boardState;
 		this.strategy = new MoveGeneratorStrategy(this);
 	}
 
-	/*
+	
 	private void crearTablero(Pieza[][] sourceTablero) {		
 		for (int file = 0; file < 8; file++) {
 			for (int rank = 0; rank < 8; rank++) {
-				tablero[file][rank] =  new SimpleImmutableEntry<Square, Pieza>(Square.getSquare(file, rank), sourceTablero[file][rank]);
-				//cachePosiciones.getPosicion(Square.getSquare(file, rank), sourceTablero[file][rank]);
+				tablero[Square.getSquare(file, rank).toIdx()] = cachePosiciones.getPosicion(Square.getSquare(file, rank), sourceTablero[file][rank]);
 			}
 		}
-	}*/
+	}
 	
 	public Map.Entry<Square, Pieza> getPosicion(Square square) {
-		return cachePosiciones.getPosicion(square, tablero[square.getFile()][square.getRank()]);
-		//new SimpleImmutableEntry<Square, Pieza>(square, tablero[square.getFile()][square.getRank()]);
+		return tablero[square.toIdx()];
 	}
 
 	public void setPosicion(Map.Entry<Square, Pieza> entry) {
-		tablero[entry.getKey().getFile()][entry.getKey().getRank()] = entry.getValue();
+		Square square = entry.getKey();
+		tablero[square.toIdx()] = entry;
 	}
 
 	public Pieza getPieza(Square square) {
-		return tablero[square.getFile()][square.getRank()];
+		return tablero[square.toIdx()].getValue();
 	}
 
 	public void setPieza(Square square, Pieza pieza) {
-		tablero[square.getFile()][square.getRank()] = pieza;
+		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, pieza);
 	}
 
 	public void setEmptySquare(Square square) {
-		tablero[square.getFile()][square.getRank()] = null;
+		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, null);
 	}
 
 	public boolean isEmtpy(Square square) {
@@ -131,7 +130,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	}
 	
 	private Square squareKingCache = Square.e1;
-	
 	private Square getKingSquare(Color color) {
 		Pieza rey = Pieza.getRey(color);
 		Pieza posiblePieza = this.getPieza(squareKingCache);

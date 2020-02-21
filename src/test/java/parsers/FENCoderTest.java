@@ -43,11 +43,10 @@ public class FENCoderTest {
 	}
 
 	@Test
-	public void testCodeBoard01() {
-		FENParser parser = new FENParser();
-		parser.parseFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	public void testCodeBoard01() {		
+		DummyBoard tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1").buildDummyBoard();
 		
-		String actual = coder.getTablero();
+		String actual = coder.code(tablero);
 		
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", actual);		
 	}

@@ -26,6 +26,16 @@ public enum Square {
 		return file;
 	}
 
+	
+	public int toIdx(){
+		return rank * 8 + file;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString();
+	}
+	
 	private static Square[] array = {  
 			Square.a1, Square.b1, Square.c1, Square.d1, Square.e1, Square.f1, Square.g1, Square.h1,
 			Square.a2, Square.b2, Square.c2, Square.d2, Square.e2, Square.f2, Square.g2, Square.h2,
@@ -44,10 +54,5 @@ public enum Square {
 			return null;
 		}
 		return array[rank * 8 + file];
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString();
 	}
 }
