@@ -1,16 +1,27 @@
 package parsers;
 
-import chess.Board;
-import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
 
 public class FENParser {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 	
-	public Board parse(String input) {
+	private Pieza[][] tablero;
+
+	private Color turno;
+
+	private Square peonPasanteSquare;
+
+	private boolean enroqueBlancoReinaPermitido;
+
+	private boolean enroqueBlancoReyPermitido;
+
+	private boolean enroqueNegroReinaPermitido;
+
+	private boolean enroqueNegroReyPermitido;
+			
+	protected void parseFEN(String input) {
 		String fields[] = input.split(" ");
 		
 		String piecePlacement = fields[0];
@@ -18,48 +29,11 @@ public class FENParser {
 		String enroquesPermitidos = fields[2];
 		String peonPasante = fields[3];
 		
-		DummyBoard tablero = parsePiecePlacement(piecePlacement);
-		Color color = parseColor(activeColor);
+		parsePiecePlacement(piecePlacement);
+		parseTurno(activeColor);
+		parsePeonPasanteSquare(peonPasante);
+		parseEnroquesPermitidos(enroquesPermitidos);	
 		
-		Square peonPasanteSquare = parsePeonPasanteSquare(peonPasante);
-		
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(color);
-		boardState.setPeonPasanteSquare(peonPasanteSquare);
-		boardState.setEnroqueBlancoReinaPermitido(isEnroqueBlancoReinaPermitido(enroquesPermitidos));
-		boardState.setEnroqueBlancoReyPermitido(isEnroqueBlancoReyPermitido(enroquesPermitidos));
-		boardState.setEnroqueNegroReinaPermitido(isEnroqueNegroReinaPermitido(enroquesPermitidos));
-		boardState.setEnroqueNegroReyPermitido(isEnroqueNegroReyPermitido(enroquesPermitidos));		
-		
-		return new Board(tablero, boardState);
-	}
-	
-	protected boolean isEnroqueBlancoReinaPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("Q")){
-			return true;
-		}
-		return false;
-	}
-	
-	protected boolean isEnroqueBlancoReyPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("K")){
-			return true;
-		}
-		return false;
-	}	
-	
-	protected boolean isEnroqueNegroReinaPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("q")){
-			return true;
-		}
-		return false;
-	}
-	
-	protected boolean isEnroqueNegroReyPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("k")){
-			return true;
-		}
-		return false;
 	}	
 	
 	protected Square parsePeonPasanteSquare(String peonPasante) {
@@ -99,10 +73,11 @@ public class FENParser {
 			}
 			result = Square.getSquare(fileNumber, rankNumber);
 		}; 
-		return result;
+		this.peonPasanteSquare =  result;
+		return this.peonPasanteSquare;
 	}
 
-	public DummyBoard  parsePiecePlacement(String piecePlacement){
+	protected Pieza[][] parsePiecePlacement(String piecePlacement){
 		Pieza[][] tablero = new Pieza[8][8];
 		String ranks[] = piecePlacement.split("/");
 		int currentRank = 7;
@@ -113,10 +88,11 @@ public class FENParser {
 			}
 			currentRank--;
 		}
-		return new DummyBoard(tablero);
+		this.tablero =  tablero;
+		return this.tablero;
 	}
 	
-	protected Pieza[] parseRank(String rank) {
+	Pieza[] parseRank(String rank) {
 		Pieza piezas[] = new Pieza[8];
 		int position = 0;
 		for (int i = 0; i < rank.length(); i++) {
@@ -191,25 +167,86 @@ public class FENParser {
 		return pieza;
 	}
 	
-	public Color parseColor(String activeColor) {
+	protected Color parseTurno(String activeColor) {
 		char colorChar = activeColor.charAt(0);
-		Color color = null;
+		Color turno = null;
 		switch (colorChar) {
 		case 'w':
-			color = Color.BLANCO;
+			turno = Color.BLANCO;
 			break;	
 		case 'b':
-			color = Color.NEGRO;
+			turno = Color.NEGRO;
 			break;				
 		default:
 			throw new RuntimeException("Unknown FEN code " + activeColor);			
 		}
-		return color;
+		this.turno = turno;
+		return this.turno;
 	}	
 
-	private static FENParser fenParser = new FENParser();
-	
-	public static Board parseFEN(String input){
-		return fenParser.parse(input);
+	private void parseEnroquesPermitidos(String enroquesPermitidos) {
+		this.enroqueBlancoReinaPermitido = isEnroqueBlancoReinaPermitido(enroquesPermitidos);
+		this.enroqueBlancoReyPermitido = isEnroqueBlancoReyPermitido(enroquesPermitidos);
+		this.enroqueNegroReinaPermitido = isEnroqueNegroReinaPermitido(enroquesPermitidos);
+		this.enroqueNegroReyPermitido = isEnroqueNegroReyPermitido(enroquesPermitidos);	
 	}
+
+	protected boolean isEnroqueBlancoReinaPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("Q")){
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean isEnroqueBlancoReyPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("K")){
+			return true;
+		}
+		return false;
+	}	
+	
+	protected boolean isEnroqueNegroReinaPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("q")){
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean isEnroqueNegroReyPermitido(String enroquesPermitidos){
+		if(enroquesPermitidos.contains("k")){
+			return true;
+		}
+		return false;
+	}
+	
+	public Pieza[][] getTablero() {
+		return tablero;
+	}
+
+	public Color getTurno() {
+		return turno;
+	}
+
+	public Square getPeonPasanteSquare() {
+		return peonPasanteSquare;
+	}
+
+	public boolean isEnroqueBlancoReinaPermitido() {
+		return enroqueBlancoReinaPermitido;
+	}
+
+
+	public boolean isEnroqueBlancoReyPermitido() {
+		return enroqueBlancoReyPermitido;
+	}
+
+	public boolean isEnroqueNegroReinaPermitido() {
+		return enroqueNegroReinaPermitido;
+	}
+
+
+	public boolean isEnroqueNegroReyPermitido() {
+		return enroqueNegroReyPermitido;
+	}
+
 }

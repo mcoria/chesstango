@@ -11,10 +11,9 @@ public class Board {
 	
 	private BoardPila boardPila = new BoardPila();
 	
-	public Board(DummyBoard tablero, BoardState boardState){
+	public Board(DummyBoard tablero){
 		this.tablero = tablero;
-		this.boardState = boardState;
-		tablero.setBoardState(boardState);
+		this.boardState = tablero.getBoardState();
 		boardState.saveState();
 		updateGameStatus();
 	}
@@ -92,7 +91,7 @@ public class Board {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(tablero.toString());
-		buffer.append("Turno: " + boardState.getTurnoActual() + "\n");
+		buffer.append("Turno: " + getTurnoActual() + "\n");
 		return buffer.toString();
 	}
 
@@ -105,7 +104,7 @@ public class Board {
 	}
 
 	public final Color getTurnoActual() {
-		return boardState.getTurnoActual();
+		return tablero.getBoardState().getTurnoActual();
 	}
 
 	public final GameStatus getGameStatus() {

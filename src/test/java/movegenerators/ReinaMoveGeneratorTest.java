@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
@@ -16,14 +17,20 @@ import chess.Move;
 import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class ReinaMoveGeneratorTest {
 
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
+	
 	@Test
 	public void testGetPseudoMoves() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4Q3/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildDummyBoard();
 
 		Square from = Square.e5;
 		assertEquals(Pieza.REINA_BLANCO, tablero.getPieza(from));

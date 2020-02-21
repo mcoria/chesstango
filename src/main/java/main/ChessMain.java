@@ -8,13 +8,13 @@ import java.util.Map;
 
 import chess.Board;
 import chess.Move;
+import parsers.FENBoarBuilder;
 import parsers.FENCoder;
-import parsers.FENParser;
 
 public class ChessMain {
 
 	public static void main(String[] args) {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = new FENBoarBuilder().withDefaultBoard().buildBoard();
 		
 		ChessMain main = new ChessMain();
 		
@@ -40,7 +40,7 @@ public class ChessMain {
 			}
 		}
 		
-		System.out.println(FENCoder.codeFEN(board));
+		//System.out.println(FENCoder.codeFEN(board));
 	}
 
 	private int maxLevel;

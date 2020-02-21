@@ -19,22 +19,24 @@ import chess.Move;
 import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class ReyNegroMoveGeneratorTest {
 	
+	private FENBoarBuilder builder;
 	
 	private ReyNegroMoveGenerator moveGenerator;
 
 	@Before
 	public void setUp() throws Exception {
 		moveGenerator = new ReyNegroMoveGenerator();
+		builder = new FENBoarBuilder();
 	}
 	
 	@Test
 	public void testEnroqueNegroReina01() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/8/8/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
@@ -61,8 +63,8 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina02() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/5B2/8/8/8/8/8");	
+		DummyBoard tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 	
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
@@ -89,8 +91,8 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina03() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("r3k3/8/8/5B2/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("r3k3/8/8/5B2/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
 		
@@ -119,8 +121,8 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey01() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/8/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
@@ -148,8 +150,8 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey02() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/3B4/8/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
@@ -176,8 +178,8 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey03() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("4k2r/8/8/3B4/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("4k2r/8/8/3B4/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
 		
@@ -206,8 +208,8 @@ public class ReyNegroMoveGeneratorTest {
 
 	@Test
 	public void testEnroqueNegroJaque() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("r3k2r/8/8/4R3/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
 		

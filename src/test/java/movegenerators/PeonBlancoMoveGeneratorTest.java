@@ -17,22 +17,24 @@ import chess.Move;
 import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class PeonBlancoMoveGeneratorTest {
+	
+	private FENBoarBuilder builder;
 
 	private PeonBlancoMoveGenerator moveGenerator;
 
 	@Before
 	public void setUp() throws Exception {
 		moveGenerator = new PeonBlancoMoveGenerator();
+		builder = new FENBoarBuilder();
 	}
 	
 	@Test
 	public void testSaltoSimple() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/P7/8/8");
-		tablero.setBoardState(new BoardState());
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a3;		
@@ -49,9 +51,8 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/8/P7/8");
-		tablero.setBoardState(new BoardState());
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a2;
@@ -69,9 +70,8 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/N7/P7/8");
-		tablero.setBoardState(new BoardState());
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a2;
@@ -88,9 +88,8 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/3p4/4P3/8");
-		tablero.setBoardState(new BoardState());
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e2;
@@ -110,8 +109,8 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3pP3/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("8/8/8/3pP3/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -136,9 +135,8 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/8/8/5p2/4P3/8");
-		tablero.setBoardState(new BoardState());
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e2;
@@ -158,8 +156,8 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/3Pp3/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("8/8/8/3Pp3/8/8/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d5;

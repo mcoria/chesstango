@@ -1,22 +1,30 @@
 package chess;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.Move.MoveType;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class DummyBoardTest {
 
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
+	
 	@Test
 	public void test01() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
 		BoardState boardState = new BoardState();
 		boardState.setTurnoActual(Color.BLANCO);
@@ -52,6 +60,10 @@ public class DummyBoardTest {
 		//Caballo Rey
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.f3) ));
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.h3) ));
+		
+		//State
+		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
+		assertNull(tablero.getBoardState().getPeonPasanteSquare());
 	}
 	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {

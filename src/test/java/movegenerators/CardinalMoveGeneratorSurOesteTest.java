@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
@@ -17,15 +18,20 @@ import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
 import iterators.CardinalSquareIterator.Cardinal;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class CardinalMoveGeneratorSurOesteTest {	
 	
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}		
 
 	@Test
 	public void testSurOeste() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -48,8 +54,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 
 	@Test
 	public void testSurOeste01() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/R7");
+		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/R7").buildDummyBoard();
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -72,8 +77,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 
 	@Test
 	public void testSurOeste02() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/r7");
+		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/r7").buildDummyBoard();
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));

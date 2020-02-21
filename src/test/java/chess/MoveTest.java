@@ -7,13 +7,21 @@ import static org.junit.Assert.assertTrue;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.Move.MoveType;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class MoveTest {
 
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
+	
 	@Test
 	public void testEquals01() {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
@@ -67,21 +75,13 @@ public class MoveTest {
 	
 	@Test
 	public void testSimple() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4R3/8/8/8/8");
+		DummyBoard tablero = builder.withFEN("8/8/8/4R3/8/8/8/8 w KQkq - 0 1").buildDummyBoard();
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertTrue(tablero.isEmtpy(Square.e7));
 		
-
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
-		
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		
-		tablero.setBoardState(boardState);
-
 
 		Move move = new Move(origen, destino, MoveType.SIMPLE);
 		
@@ -89,31 +89,24 @@ public class MoveTest {
 		
 		assertEquals(tablero.getPieza(Square.e7), Pieza.TORRE_BLANCO);
 		assertTrue(tablero.isEmtpy(Square.e5));
-		assertNull(boardState.getPeonPasanteSquare());
+		assertNull(tablero.getBoardState().getPeonPasanteSquare());
 		
 		
 		move.undo(tablero);
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertTrue(tablero.isEmtpy(Square.e7));
-		assertNull(boardState.getPeonPasanteSquare());
+		assertNull(tablero.getBoardState().getPeonPasanteSquare());
 	}
 	
 	@Test
 	public void testCapture() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/4p3/8/4R3/8/8/8/8");
+		DummyBoard tablero = builder.withFEN("8/4p3/8/4R3/8/8/8/8 w KQkq - 0 1").buildDummyBoard();
 		
 		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.PEON_NEGRO);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
-		
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.saveState();
-		
-		tablero.setBoardState(boardState);
 
 		
 		Move move = new Move(origen, destino, MoveType.CAPTURA);

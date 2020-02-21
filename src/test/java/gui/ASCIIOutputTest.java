@@ -5,13 +5,21 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.DummyBoard;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class ASCIIOutputTest {
 
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
+		
 	@Test
 	public void test() {	    
 	    // Expected
@@ -39,8 +47,7 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);

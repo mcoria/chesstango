@@ -12,13 +12,26 @@ import iterators.BoardIterator;
 import iterators.TopDownSquareIterator;
 
 public class FENCoder {
+	
+	private String tablero;
 
+	private String turno;
+
+	private String peonPasanteSquare;
+
+	private String enroques;	
+	
+	
 	public String code(Board input) {
+		return code(input.getTablero());
+	}
+
+	public String code(DummyBoard input) {
 		BoardState state = input.getBoardState();
-		char colorActual = input.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
+		char colorActual = state.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
 		String peonPasante = codePeonPasante(state.getPeonPasanteSquare());
 		String enroques = codeEnroques(state);
-		return codePiecePlacement(input.getTablero()) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
+		return codePiecePlacement(input) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
 	public String codePiecePlacement(DummyBoard board) {
@@ -125,10 +138,20 @@ public class FENCoder {
 		
 		return "".equals(result) ? "-" : result;
 	}
-	
-	private static FENCoder fenParser = new FENCoder();
-	
-	public static String codeFEN(Board input){
-		return fenParser.code(input);
-	}	
+
+	public String getTablero() {
+		return tablero;
+	}
+
+	public String getTurno() {
+		return turno;
+	}
+
+	public String getPeonPasanteSquare() {
+		return peonPasanteSquare;
+	}
+
+	public String getEnroques() {
+		return enroques;
+	}
 }

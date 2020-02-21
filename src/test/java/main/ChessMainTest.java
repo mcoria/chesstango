@@ -7,21 +7,45 @@ import org.junit.Test;
 
 import chess.Board;
 import chess.Square;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class ChessMainTest {
 
 	private ChessMain main;
+	private FENBoarBuilder builder;
 	
 	@Before
 	public void setUp() throws Exception {
 		main = new ChessMain();
+		builder = new FENBoarBuilder();
 	}
 
 	@Test
 	public void test_divide1() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
+		
 		Node rootNode = main.start(board, 1);
+		
+		assertEquals(1, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());		
 		
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(20, rootNode.getChildNodesCounter());
@@ -29,7 +53,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide2() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 2);
 		
@@ -61,7 +85,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide3() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 3);
 		
@@ -93,7 +117,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide4() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 4);
 
@@ -124,7 +148,7 @@ public class ChessMainTest {
 	
 	@Test //126segs 104segs 87segs
 	public void test_divide5() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 5);
 		

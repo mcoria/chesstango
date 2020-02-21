@@ -7,19 +7,26 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class BoardteratorTest {
+	
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
 
 	@Test
 	public void testTopDownSquareIterator() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -360,8 +367,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		BoardIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		

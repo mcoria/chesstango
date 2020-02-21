@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
@@ -16,14 +17,20 @@ import chess.Move;
 import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class AlfilMoveGeneratorTest {
 
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
+	
 	@Test
 	public void testGetPseudoMoves01() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/4B3/8/8/8/8");
+		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
 
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -33,8 +40,7 @@ public class AlfilMoveGeneratorTest {
 		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 		moveGenerator.setTablero(tablero);
 
-		Collection<Move> moves = moveGenerator.generateMoves(origen);  
-
+		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -64,8 +70,7 @@ public class AlfilMoveGeneratorTest {
 
 	@Test
 	public void testGetPseudoMoves02() {
-		FENParser parser = new FENParser();
-		DummyBoard tablero = parser.parsePiecePlacement("8/8/8/6p1/8/8/PPP1PPPP/2B5");
+		DummyBoard tablero = builder.withTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").buildDummyBoard();
 
 		Square from = Square.c1;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));

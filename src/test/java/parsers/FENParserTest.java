@@ -1,10 +1,12 @@
 package parsers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
@@ -12,11 +14,16 @@ import chess.Square;
 
 public class FENParserTest {
 
+	private FENParser parser;
+			
+	@Before
+	public void setUp() throws Exception {
+		parser = new FENParser();
+	}
+	
 	@Test
 	public void testParseRankBlakRank01() {
-		FENParser parser = new FENParser();
-		
-		Pieza[] piezas = parser.parseRank("rnbqkbnr");
+		Pieza[] piezas = parser.parseRank("rnbqkbnr"); 
 		
 		assertEquals(Pieza.TORRE_NEGRO, piezas[0]);
 		assertEquals(Pieza.CABALLO_NEGRO, piezas[1]);
@@ -30,9 +37,7 @@ public class FENParserTest {
 	
 	@Test
 	public void testParseRankBlakRank02() {
-		FENParser parser = new FENParser();
-		
-		Pieza[] piezas = parser.parseRank("pppppppp");
+		Pieza[] piezas = parser.parseRank("pppppppp"); 
 		
 		assertEquals(Pieza.PEON_NEGRO, piezas[0]);
 		assertEquals(Pieza.PEON_NEGRO, piezas[1]);
@@ -46,8 +51,6 @@ public class FENParserTest {
 	
 	@Test
 	public void testParseRankBlakRank03() {
-		FENParser parser = new FENParser();
-		
 		Pieza[] piezas = parser.parseRank("4R3");
 		
 		assertNull(piezas[0]);
@@ -63,8 +66,6 @@ public class FENParserTest {
 	
 	@Test
 	public void testParseRankWhiteRank01() {
-		FENParser parser = new FENParser();
-		
 		Pieza[] piezas = parser.parseRank("RNBQKBNR");
 		
 		assertEquals(Pieza.TORRE_BLANCO, piezas[0]);
@@ -79,8 +80,6 @@ public class FENParserTest {
 	
 	@Test
 	public void testParseRankWhiteRank02() {
-		FENParser parser = new FENParser();
-		
 		Pieza[] piezas = parser.parseRank("PPPPPPPP");
 		
 		assertEquals(Pieza.PEON_BLANCO, piezas[0]);
@@ -95,9 +94,7 @@ public class FENParserTest {
 	
 	@Test
 	public void testParsePiecePlacement() {
-		FENParser parser = new FENParser();
-		
-		DummyBoard tablero = parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		DummyBoard tablero = new DummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), null);
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));
@@ -171,69 +168,57 @@ public class FENParserTest {
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f8));
 		assertEquals(Pieza.CABALLO_NEGRO, tablero.getPieza(Square.g8));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
-		
 	}
 	
 	@Test
 	public void testParseColorBlanco() {
-		FENParser parser = new FENParser();
-		
-		Color actualColor = parser.parseColor("w");
+		Color actualColor = parser.parseTurno("w");
 		
 		assertEquals(Color.BLANCO, actualColor);
-		
 	}	
 	
 	@Test
 	public void testParseColorNegro() {
-		FENParser parser = new FENParser();
-		
-		Color actualColor = parser.parseColor("b");
+		Color actualColor = parser.parseTurno("b");
 		
 		assertEquals(Color.NEGRO, actualColor);
-		
 	}	
 
 	@Test
 	public void testParsePeonPasanteSquare01() {
-		FENParser parser = new FENParser();
-		
 		Square peonPasanteSquare = parser.parsePeonPasanteSquare("-");
 		
 		assertNull(peonPasanteSquare);
-		
+		assertNull(parser.getPeonPasanteSquare());
 	}
 	
 	@Test
 	public void testParsePeonPasanteSquare02() {
-		FENParser parser = new FENParser();
-		
 		Square peonPasanteSquare = parser.parsePeonPasanteSquare("a3");
 		
 		assertEquals(Square.a3, peonPasanteSquare);
-		
+		assertEquals(Square.a3, parser.getPeonPasanteSquare());
 	}	
 	
 	@Test
 	public void testParsePeonPasanteSquare03() {
-		FENParser parser = new FENParser();
-		
 		Square peonPasanteSquare = parser.parsePeonPasanteSquare("h6");
 		
 		assertEquals(Square.h6, peonPasanteSquare);
-		
+		assertEquals(Square.h6, parser.getPeonPasanteSquare());
 	}
 	
-	
 	@Test
-	public void testParse() {
-		FENParser parser = new FENParser();
+	public void testParseInitialFen() {
+		parser.parseFEN(FENParser.INITIAL_FEN);
 		
-		Board board = parser.parse("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+		assertEquals(Color.BLANCO, parser.getTurno());
+		assertNull(parser.getPeonPasanteSquare());
 		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(Square.e3, board.getBoardState().getPeonPasanteSquare());
-		assertTrue(board.getBoardState().isEnroqueBlancoReyPermitido());
-		assertTrue(board.getBoardState().isEnroqueBlancoReyPermitido());
+		assertTrue(parser.isEnroqueBlancoReinaPermitido());
+		assertTrue(parser.isEnroqueBlancoReyPermitido());
+		
+		assertTrue(parser.isEnroqueNegroReinaPermitido());
+		assertTrue(parser.isEnroqueNegroReyPermitido());		
 	}	
 }

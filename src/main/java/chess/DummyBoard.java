@@ -43,9 +43,10 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
-	public DummyBoard(Pieza[][] tablero) {
+	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
 		//crearTablero(tablero);
 		this.tablero = tablero;
+		this.boardState = boardState;
 		this.strategy = new MoveGeneratorStrategy(this);
 	}
 

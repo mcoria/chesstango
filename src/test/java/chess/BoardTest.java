@@ -4,15 +4,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import parsers.FENParser;
+import parsers.FENBoarBuilder;
 
 public class BoardTest {
 	
+	private FENBoarBuilder builder;
+
+	@Before
+	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
+	}
+	
 	@Test
 	public void testPosicionInicial() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
+		
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
 		assertEquals(20, board.getMovimientosPosibles().size());
@@ -20,7 +29,7 @@ public class BoardTest {
 
 	@Test
 	public void testJuegoJaqueMate() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -40,7 +49,8 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoJaque() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
+		
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -59,7 +69,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoTablas() {
-		Board board = FENParser.parseFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1");
+		Board board = builder.withFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").buildBoard();
 		
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -72,7 +82,8 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoUndo() {
-		Board board = FENParser.parseFEN(FENParser.INITIAL_FEN);
+		Board board = builder.withDefaultBoard().buildBoard();
+		
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -85,7 +96,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoNoPeonPasante() {
-		Board board = FENParser.parseFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2");
+		Board board = builder.withFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
 		
 		board.executeMove(Square.b6, Square.b5);
 		
@@ -94,7 +105,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoPeonPasante() {
-		Board board = FENParser.parseFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
+		Board board = builder.withFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
 		
 		board.executeMove(Square.c7, Square.c5);
 		
