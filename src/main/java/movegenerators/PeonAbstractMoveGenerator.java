@@ -69,13 +69,9 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}	
 		
 		if (peonPasanteSquare != null) {
-			if(peonPasanteSquare.equals(casilleroAtaqueIzquirda)){
-				destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
+			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
+				destino = this.tablero.getPosicion(peonPasanteSquare);
 				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));
-			}
-			if(peonPasanteSquare.equals(casilleroAtaqueDerecha)){
-				destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
-				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));		
 			}
 		}
 		
