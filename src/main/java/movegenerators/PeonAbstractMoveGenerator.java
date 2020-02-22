@@ -1,6 +1,5 @@
 package movegenerators;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collection;
 import java.util.Map;
 
@@ -23,7 +22,9 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		this.color = color;
 	}
 	
-	protected Collection<Move> getBasePseudoMoves(Map.Entry<Square, Pieza> origen) {
+	@Override
+	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen){
+		BoardState boardState = this.tablero.getBoardState();
 		Collection<Move> moves = createMoveContainer();
 		
 		Square casillero = origen.getKey();
@@ -33,8 +34,11 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
+		Square peonPasanteSquare = boardState.getPeonPasanteSquare();
+		
 			
 		Map.Entry<Square, Pieza> destino = null;
+		
 		if (saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
 			if (destino.getValue() == null) {
@@ -49,43 +53,28 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 		
 		if (casilleroAtaqueIzquirda != null) {
-			Pieza pieza = this.tablero.getPieza(casilleroAtaqueIzquirda);
+			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
+			Pieza pieza = destino.getValue();
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, pieza);
 				this.filter.filterMove(moves, new CaptureMove(origen, destino));
 			}
 		}	
 		
 		if (casilleroAtaqueDerecha != null) {
-			Pieza pieza = this.tablero.getPieza(casilleroAtaqueDerecha);
-			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);				
+			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
+			Pieza pieza = destino.getValue();
+			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {				
 				this.filter.filterMove(moves, new CaptureMove(origen, destino));
 			}
 		}	
 		
-		return moves;
-	}
-	
-	@Override
-	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen){
-		BoardState boardState = this.tablero.getBoardState();
-		Collection<Move> moves = getBasePseudoMoves(origen);
-		
-		if (boardState.getPeonPasanteSquare() != null) {
-			Square casillero = origen.getKey();
-
-			Map.Entry<Square, Pieza> destino = null;
-
-			Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
-			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
+		if (peonPasanteSquare != null) {
+			if(peonPasanteSquare.equals(casilleroAtaqueIzquirda)){
+				destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
 				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));
 			}
-
-			Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
-			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
-				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
+			if(peonPasanteSquare.equals(casilleroAtaqueDerecha)){
+				destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
 				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));		
 			}
 		}
