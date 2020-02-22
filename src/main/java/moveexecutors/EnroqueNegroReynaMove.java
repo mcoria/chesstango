@@ -52,6 +52,9 @@ public class EnroqueNegroReynaMove extends AbstractMove {
 		board.setEmptySquare(Square.d8);
 		board.setPieza(Square.e8, Pieza.REY_NEGRO);
 		board.setPieza(Square.a8, Pieza.TORRE_NEGRO);
+		
+		BoardState boardState = board.getBoardState();		
+		boardState.restoreState();		
 	}
 
 }

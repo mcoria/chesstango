@@ -44,6 +44,9 @@ public class SaltoDoblePeonMove extends AbstractMove {
 	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen
+		
+		BoardState boardState = board.getBoardState();		
+		boardState.restoreState();		
 	}
 
 }

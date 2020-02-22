@@ -14,7 +14,6 @@ public class Board {
 	public Board(DummyBoard tablero){
 		this.tablero = tablero;
 		this.boardState = tablero.getBoardState();
-		boardState.saveState();
 		updateGameStatus();
 	}
 

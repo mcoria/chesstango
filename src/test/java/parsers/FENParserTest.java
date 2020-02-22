@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
@@ -94,7 +95,7 @@ public class FENParserTest {
 	
 	@Test
 	public void testParsePiecePlacement() {
-		DummyBoard tablero = new DummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), null);
+		DummyBoard tablero = new DummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState());
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));

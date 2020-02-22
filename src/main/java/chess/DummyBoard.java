@@ -46,8 +46,9 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		//this.tablero = tablero;
-		this.boardState = boardState;
 		this.strategy = new MoveGeneratorStrategy(this);
+		this.boardState = boardState;
+		boardState.saveState();
 	}
 
 	
@@ -106,7 +107,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 			moves.add(move);
 		}
 		move.undo(this);
-		boardState.restoreState();
 	}
 
 	public boolean isKingInCheck(Color color) {

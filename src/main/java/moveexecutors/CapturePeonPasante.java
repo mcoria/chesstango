@@ -50,6 +50,9 @@ public class CapturePeonPasante extends AbstractMove {
 		board.setPosicion(captura);			//Devolvemos peon
 		board.setPosicion(to);				//Reestablecemos destino
 		board.setPosicion(from);			//Volvemos a origen
+		
+		BoardState boardState = board.getBoardState();		
+		boardState.restoreState();		
 	}
 
 }
