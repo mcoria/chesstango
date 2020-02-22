@@ -41,7 +41,7 @@ public class SimpleMoveExecutorTest {
 		
 		moveExecutor =  new SimpleMove(origen, destino);
 
-		moveExecutor.execute(board, origen, destino);
+		moveExecutor.execute(board);
 		
 		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(origen.getKey());

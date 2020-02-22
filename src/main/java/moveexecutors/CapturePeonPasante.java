@@ -19,11 +19,18 @@ public class CapturePeonPasante extends AbstractMove {
 	@Override
 	public void execute(DummyBoard board) {
 		this.execute(board, from, to);
+		
+		BoardState boardState = board.getBoardState();
+		boardState.setPeonPasanteSquare(null);	
+		boardState.rollTurno();		
 	}
 
 	@Override
 	public void undo(DummyBoard board) {
 		this.undo(board, from, to);
+		
+		BoardState boardState = board.getBoardState();		
+		boardState.restoreState();			
 	}
 
 	@Override
@@ -37,10 +44,6 @@ public class CapturePeonPasante extends AbstractMove {
 		board.setEmptySquare(from.getKey()); 						//Dejamos el origen
 		board.setPieza(to.getKey(), from.getValue());				//Vamos al destino
 		board.setEmptySquare(captureSquare);						//Capturamos peon
-		
-		BoardState boardState = board.getBoardState();
-		boardState.setPeonPasanteSquare(null);	
-		boardState.rollTurno();
 	}
 
 	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
@@ -49,10 +52,7 @@ public class CapturePeonPasante extends AbstractMove {
 		
 		board.setPosicion(captura);			//Devolvemos peon
 		board.setPosicion(to);				//Reestablecemos destino
-		board.setPosicion(from);			//Volvemos a origen
-		
-		BoardState boardState = board.getBoardState();		
-		boardState.restoreState();		
+		board.setPosicion(from);			//Volvemos a origen	
 	}
 
 }

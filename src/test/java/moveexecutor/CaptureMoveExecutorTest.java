@@ -42,7 +42,7 @@ public class CaptureMoveExecutorTest {
 
 		moveExecutor = new CaptureMove(origen, destino);
 		
-		moveExecutor.execute(board, origen, destino);
+		moveExecutor.execute(board);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);
