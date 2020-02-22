@@ -2,6 +2,7 @@ package movegenerators;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.Color;
@@ -71,13 +72,13 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		if (peonPasanteSquare != null) {
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
 				destino = this.tablero.getPosicion(peonPasanteSquare);
-				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));
+				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare)));
 			}
 		}
 		
 		return moves;
 	}
-	
+
 	@Override
 	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
 		if(kingSquare.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
@@ -94,5 +95,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
+	
+	protected abstract Entry<Square, Pieza> getCapturaPeonPasante(Square peonPasanteSquare);
 
 }

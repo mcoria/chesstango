@@ -42,7 +42,7 @@ public class CapturePeonPasanteExecutorTest {
 		
 		when(board.getPosicion(Square.a5)).thenReturn(peonNegro);
 		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare);
+		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
 
 		moveExecutor.execute(board);
 
@@ -60,7 +60,7 @@ public class CapturePeonPasanteExecutorTest {
 		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
 		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
 
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare);
+		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
 
 		moveExecutor.undo(board);
 		

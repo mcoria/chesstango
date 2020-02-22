@@ -1,23 +1,19 @@
 package moveexecutors;
 
-import java.util.Map;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
 
 import chess.BoardState;
-import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
 
 public class CapturePeonPasante extends AbstractMove {
 
-	private Square captureSquare;
+	private final Entry<Square, Pieza> captura;
 			
-	public CapturePeonPasante(Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	public CapturePeonPasante(Entry<Square, Pieza> from, Entry<Square, Pieza> to, Entry<Square, Pieza> captura) {
 		super(from, to);
-		
-		captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
+		this.captura = captura;
 	}
 
 	@Override
@@ -46,16 +42,23 @@ public class CapturePeonPasante extends AbstractMove {
 	public void executeMove(DummyBoard board) {
 		board.setEmptySquare(from.getKey()); 						//Dejamos el origen
 		board.setPieza(to.getKey(), from.getValue());				//Vamos al destino
-		board.setEmptySquare(captureSquare);						//Capturamos peon
+		board.setEmptySquare(captura.getKey());						//Capturamos peon
 	}
 
 	@Override
-	public void undoMove(DummyBoard board) {
-		Map.Entry<Square, Pieza> captura = new SimpleImmutableEntry<Square, Pieza>(captureSquare, Color.BLANCO.equals(from.getValue().getColor()) ? Pieza.PEON_NEGRO : Pieza.PEON_BLANCO);
-		
+	public void undoMove(DummyBoard board) {	
 		board.setPosicion(captura);			//Devolvemos peon
 		board.setPosicion(to);				//Reestablecemos destino
 		board.setPosicion(from);			//Volvemos a origen	
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(super.equals(obj) && obj instanceof CapturePeonPasante){
+			CapturePeonPasante theOther = (CapturePeonPasante) obj;
+			return captura.equals(theOther.captura) ;
+		}
+		return false;
 	}
 
 }

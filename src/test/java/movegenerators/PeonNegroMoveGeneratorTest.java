@@ -191,7 +191,7 @@ public class PeonNegroMoveGeneratorTest {
 	}
 
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new CapturePeonPasante(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
+		return new CapturePeonPasante(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleImmutableEntry<Square, Pieza>(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_BLANCO));
 	}	
 
 }
