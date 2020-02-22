@@ -33,16 +33,19 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
-		Map.Entry<Square, Pieza> destino = null;
-				
-		if(saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)){
-			destino = new SimpleImmutableEntry<Square, Pieza>(saltoSimpleCasillero, null);
-			this.filter.filterMove(moves, new SimpleMove(origen, destino));
 			
-			if(saltoDobleCasillero != null && this.tablero.isEmtpy(saltoDobleCasillero)){
-				destino = new SimpleImmutableEntry<Square, Pieza>(saltoDobleCasillero, null);
-				this.filter.filterMove(moves, new SaltoDoblePeonMove(origen, destino));
-			}			
+		Map.Entry<Square, Pieza> destino = null;
+		if (saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)) {
+			destino = this.tablero.getPosicion(saltoSimpleCasillero);
+			if (destino.getValue() == null) {
+				this.filter.filterMove(moves, new SimpleMove(origen, destino));
+				if (saltoDobleCasillero != null) {
+					destino = this.tablero.getPosicion(saltoDobleCasillero);
+					if (destino.getValue() == null) {
+						this.filter.filterMove(moves, new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero));
+					}
+				}
+			}
 		}
 		
 		if (casilleroAtaqueIzquirda != null) {

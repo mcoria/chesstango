@@ -68,7 +68,7 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(2, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.a6) ));
-		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.a5) ));
+		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.a5, Square.a6) ));
 	}
 	
 	@Test
@@ -88,7 +88,7 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(3, moves.size());
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5) ));
+		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5, Square.a6) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.d6, Pieza.PEON_BLANCO) ));
 	}
 	
@@ -134,7 +134,7 @@ public class PeonNegroMoveGeneratorTest {
 		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5) ));
+		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5, Square.e6) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f6, Pieza.PEON_BLANCO) ));
 		
 		assertEquals(3, moves.size());
@@ -182,8 +182,8 @@ public class PeonNegroMoveGeneratorTest {
 		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}
 	
-	private Move createSaltoDobleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new SaltoDoblePeonMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
+	private Move createSaltoDobleMove(Entry<Square, Pieza> origen, Square destinoSquare, Square squarePasante) {
+		return new SaltoDoblePeonMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {

@@ -4,15 +4,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.BoardState;
-import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
 
 public class SaltoDoblePeonMove extends AbstractMove {
+	
+	private final Square peonPasanteSquare;
 
-	public SaltoDoblePeonMove(Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	public SaltoDoblePeonMove(Entry<Square, Pieza> from, Entry<Square, Pieza> to, Square peonPasanteSquare) {
 		super(from, to);
+		this.peonPasanteSquare = peonPasanteSquare;
 	}
 
 	@Override
@@ -31,7 +33,6 @@ public class SaltoDoblePeonMove extends AbstractMove {
 	}
 	
 	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
-		Square peonPasanteSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
 		board.setEmptySquare(from.getKey());								//Dejamos origen
 		board.setPieza(to.getKey(), from.getValue());						//Vamos a destino
 		
