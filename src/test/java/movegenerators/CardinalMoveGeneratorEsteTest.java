@@ -14,10 +14,11 @@ import org.junit.Test;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
 import iterators.CardinalSquareIterator.Cardinal;
+import moveexecutors.CaptureMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class CardinalMoveGeneratorEsteTest {
@@ -94,11 +95,11 @@ public class CardinalMoveGeneratorEsteTest {
 	}	
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
+		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
-	}	
+		return new CaptureMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza));
+	}
 		
 }

@@ -9,6 +9,8 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.EnroqueNegroReyMove;
+import moveexecutors.EnroqueNegroReynaMove;
 
 public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	
@@ -43,7 +45,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			this.filter.filterMove(moves, Move.MOVE_ENROQUE_NEGRO_REYNA);
+			this.filter.filterMove(moves, new EnroqueNegroReynaMove());
 		}
 			
 			
@@ -54,7 +56,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 							DummyBoard.TORRE_NEGRO_REY,
 							DESTINO_REY_SQUARE, 
 							INTERMEDIO_REY_REY_SQUARE)) {
-			this.filter.filterMove(moves, Move.MOVE_ENROQUE_NEGRO_REY);
+			this.filter.filterMove(moves, new EnroqueNegroReyMove());
 		}
 
 		return moves;

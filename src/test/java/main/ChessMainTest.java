@@ -146,7 +146,7 @@ public class ChessMainTest {
 		assertEquals(197281, rootNode.getChildNodesCounter());
 	} 	
 	
-	@Test //126segs 104segs 87segs
+	@Test //126segs 104segs 87segs 83segs
 	public void test_divide5() {
 		Board board = builder.withDefaultBoard().buildBoard();
 		

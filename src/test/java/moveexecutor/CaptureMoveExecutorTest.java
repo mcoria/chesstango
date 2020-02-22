@@ -15,7 +15,7 @@ import chess.BoardState;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
-import moveexecutors.CaptureMoveExecutor;
+import moveexecutors.CaptureMove;
 
 public class CaptureMoveExecutorTest {
 	
@@ -25,13 +25,11 @@ public class CaptureMoveExecutorTest {
 	@Mock
 	private BoardState boardState;
 	
-	private CaptureMoveExecutor moveExecutor;
+	private CaptureMove moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		
-		moveExecutor = new CaptureMoveExecutor();
 		
 		when(board.getBoardState()).thenReturn(boardState);
 	}
@@ -42,6 +40,8 @@ public class CaptureMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 
+		moveExecutor = new CaptureMove(origen, destino);
+		
 		moveExecutor.execute(board, origen, destino);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
@@ -57,6 +57,8 @@ public class CaptureMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 
+		moveExecutor = new CaptureMove(origen, destino);
+		
 		moveExecutor.undo(board, origen, destino);
 		
 		verify(board).setPosicion(origen);

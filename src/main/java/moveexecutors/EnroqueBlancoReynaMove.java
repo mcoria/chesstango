@@ -1,5 +1,6 @@
 package moveexecutors;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -8,9 +9,32 @@ import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
 
-public class EnroqueBlancoReynaMoveExecutor implements MoveExecutor{
+public class EnroqueBlancoReynaMove extends AbstractMove {
+	
+	public static final Map.Entry<Square, Pieza> FROM = new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO);
+	
+	public static final Map.Entry<Square, Pieza> TO = new SimpleImmutableEntry<Square, Pieza>(Square.c1, null);
+	
+
+	public EnroqueBlancoReynaMove() {
+		super(FROM, TO);
+	}
 
 	@Override
+	public void execute(DummyBoard board) {
+		this.execute(board, from, to);
+	}
+
+	@Override
+	public void undo(DummyBoard board) {
+		this.undo(board, from, to);
+	}
+
+	@Override
+	protected String getType() {
+		return "EnroqueBlancoReynaMove";
+	}
+	
 	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
 		board.setEmptySquare(Square.e1);
 		board.setEmptySquare(Square.a1);
@@ -21,9 +45,9 @@ public class EnroqueBlancoReynaMoveExecutor implements MoveExecutor{
 		boardState.setEnroqueBlancoReyPermitido(false);
 		boardState.setEnroqueBlancoReinaPermitido(false);
 		boardState.setPeonPasanteSquare(null);	
+		boardState.rollTurno();
 	}
 
-	@Override
 	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
 		board.setEmptySquare(Square.c1);
 		board.setEmptySquare(Square.d1);

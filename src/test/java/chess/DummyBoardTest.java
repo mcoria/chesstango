@@ -10,7 +10,8 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Move.MoveType;
+import moveexecutors.SaltoDoblePeonMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class DummyBoardTest {
@@ -67,11 +68,11 @@ public class DummyBoardTest {
 	}
 	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
-		return new Move(new SimpleImmutableEntry<Square, Pieza>(origenSquare, origenPieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
+		return new SimpleMove(new SimpleImmutableEntry<Square, Pieza>(origenSquare, origenPieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare) {
-		return new Move(new SimpleImmutableEntry<Square, Pieza>(origen, pieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SALTO_DOBLE_PEON);
+		return new SaltoDoblePeonMove(new SimpleImmutableEntry<Square, Pieza>(origen, pieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}		
 		
 }

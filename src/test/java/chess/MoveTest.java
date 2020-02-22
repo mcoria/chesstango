@@ -10,7 +10,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Move.MoveType;
+import moveexecutors.AbstractMove;
+import moveexecutors.CaptureMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class MoveTest {
@@ -27,23 +29,15 @@ public class MoveTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
 		
-		assertEquals(new Move(origen, destino, MoveType.SIMPLE), new Move(origen, destino, MoveType.SIMPLE));
+		assertEquals(new SimpleMove(origen, destino), new SimpleMove(origen, destino));
 	}
 	
 	@Test
 	public void testToString01() {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
-		Move move = new Move(origen, destino, MoveType.SIMPLE);
-		assertEquals("e5=TORRE_BLANCO e7=null; SIMPLE", move.toString());
-	}
-	
-	@Test
-	public void testToString02() {
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
-		Move move = new Move(origen, destino, null);
-		assertEquals("e5=TORRE_BLANCO e7=null; ERROR", move.toString());
+		Move move = new SimpleMove(origen, destino);
+		assertEquals("e5=TORRE_BLANCO e7=null; SimpleMove", move.toString());
 	}	
 	
 	
@@ -57,10 +51,10 @@ public class MoveTest {
 		Map.Entry<Square, Pieza> b3 = new SimpleImmutableEntry<Square, Pieza>(Square.b3, null);
 		
 		
-		Move move1 = new Move(a2, a3, null);
-		Move move2 = new Move(a2, a4, null);
-		Move move3 = new Move(b2, b3, null);
-		Move move4 = new Move(b1, a3, null);
+		AbstractMove move1 = new SimpleMove(a2, a3);
+		AbstractMove move2 = new SimpleMove(a2, a4);
+		AbstractMove move3 = new SimpleMove(b2, b3);
+		AbstractMove move4 = new SimpleMove(b1, a3);
 		
 		assertTrue(move1.compareTo(move2) > 0);
 		assertTrue(move1.compareTo(move3) > 0);
@@ -83,7 +77,7 @@ public class MoveTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
 
-		Move move = new Move(origen, destino, MoveType.SIMPLE);
+		Move move = new SimpleMove(origen, destino);
 		
 		move.execute(tablero);
 		
@@ -109,7 +103,7 @@ public class MoveTest {
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
 
 		
-		Move move = new Move(origen, destino, MoveType.CAPTURA);
+		Move move = new CaptureMove(origen, destino);
 		
 		move.execute(tablero);
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e7));

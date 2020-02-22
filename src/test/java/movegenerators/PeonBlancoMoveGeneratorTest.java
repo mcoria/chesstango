@@ -14,9 +14,12 @@ import org.junit.Test;
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMove;
+import moveexecutors.CapturePeonPasante;
+import moveexecutors.SaltoDoblePeonMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class PeonBlancoMoveGeneratorTest {
@@ -180,19 +183,19 @@ public class PeonBlancoMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
+		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SALTO_DOBLE_PEON);
+		return new SaltoDoblePeonMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}	
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
+		return new CaptureMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza));
 	}
 
 	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.CAPTURA_PEON_PASANTE);
+		return new CapturePeonPasante(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}	
 	
 }

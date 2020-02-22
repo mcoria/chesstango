@@ -8,9 +8,12 @@ import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMove;
+import moveexecutors.CapturePeonPasante;
+import moveexecutors.SaltoDoblePeonMove;
+import moveexecutors.SimpleMove;
 
 public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
@@ -34,11 +37,11 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 				
 		if(saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)){
 			destino = new SimpleImmutableEntry<Square, Pieza>(saltoSimpleCasillero, null);
-			this.filter.filterMove(moves, new Move(origen, destino, MoveType.SIMPLE));
+			this.filter.filterMove(moves, new SimpleMove(origen, destino));
 			
 			if(saltoDobleCasillero != null && this.tablero.isEmtpy(saltoDobleCasillero)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(saltoDobleCasillero, null);
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.SALTO_DOBLE_PEON));
+				this.filter.filterMove(moves, new SaltoDoblePeonMove(origen, destino));
 			}			
 		}
 		
@@ -46,7 +49,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = this.tablero.getPieza(casilleroAtaqueIzquirda);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, pieza);
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));
+				this.filter.filterMove(moves, new CaptureMove(origen, destino));
 			}
 		}	
 		
@@ -54,7 +57,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = this.tablero.getPieza(casilleroAtaqueDerecha);
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, pieza);				
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));
+				this.filter.filterMove(moves, new CaptureMove(origen, destino));
 			}
 		}	
 		
@@ -74,13 +77,13 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueIzquirda)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueIzquirda, null);
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));
+				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));
 			}
 
 			Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 			if(boardState.getPeonPasanteSquare().equals(casilleroAtaqueDerecha)){
 				destino = new SimpleImmutableEntry<Square, Pieza>(casilleroAtaqueDerecha, null);
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA_PEON_PASANTE));		
+				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino));		
 			}
 		}
 		

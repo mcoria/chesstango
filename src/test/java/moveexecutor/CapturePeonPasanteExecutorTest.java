@@ -15,7 +15,7 @@ import chess.BoardState;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
-import moveexecutors.CapturePeonPasanteExecutor;
+import moveexecutors.CapturePeonPasante;
 
 public class CapturePeonPasanteExecutorTest {
 
@@ -25,13 +25,11 @@ public class CapturePeonPasanteExecutorTest {
 	@Mock
 	private BoardState boardState;
 	
-	private CapturePeonPasanteExecutor moveExecutor;
+	private CapturePeonPasante moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		
-		moveExecutor = new CapturePeonPasanteExecutor();
 		
 		when(board.getBoardState()).thenReturn(boardState);
 	}
@@ -42,7 +40,9 @@ public class CapturePeonPasanteExecutorTest {
 		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
 		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
 		
-		when(board.getPosicion(Square.a5)).thenReturn(peonNegro);	
+		when(board.getPosicion(Square.a5)).thenReturn(peonNegro);
+		
+		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare);
 
 		moveExecutor.execute(board, peonBlanco, peonPasanteSquare);
 
@@ -60,6 +60,7 @@ public class CapturePeonPasanteExecutorTest {
 		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
 		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
 
+		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare);
 
 		moveExecutor.undo(board, peonBlanco, peonPasanteSquare);
 		

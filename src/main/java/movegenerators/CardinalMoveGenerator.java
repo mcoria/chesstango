@@ -7,12 +7,13 @@ import java.util.Map.Entry;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.CardinalSquareIterator;
 import iterators.CardinalSquareIterator.Cardinal;
+import moveexecutors.CaptureMove;
+import moveexecutors.SimpleMove;
 
 public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
@@ -43,11 +44,11 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.SIMPLE));
+				this.filter.filterMove(moves, new SimpleMove(origen, destino));
 		    } else if(color.equals(pieza.getColor())){
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));	
+		    	this.filter.filterMove(moves, new CaptureMove(origen, destino));	
 		    	break;
 		    }
 		}

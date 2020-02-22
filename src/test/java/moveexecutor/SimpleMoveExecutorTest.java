@@ -15,7 +15,7 @@ import chess.BoardState;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
-import moveexecutors.SimpleMoveExecutor;
+import moveexecutors.SimpleMove;
 
 public class SimpleMoveExecutorTest {
 
@@ -25,12 +25,11 @@ public class SimpleMoveExecutorTest {
 	@Mock
 	private BoardState boardState;
 	
-	private SimpleMoveExecutor moveExecutor;
+	private SimpleMove moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		moveExecutor =  new SimpleMoveExecutor();
 		when(board.getBoardState()).thenReturn(boardState);	
 	}
 	
@@ -39,6 +38,8 @@ public class SimpleMoveExecutorTest {
 	public void testExecute() {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		
+		moveExecutor =  new SimpleMove(origen, destino);
 
 		moveExecutor.execute(board, origen, destino);
 		
@@ -54,6 +55,7 @@ public class SimpleMoveExecutorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
 		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
 
+		moveExecutor =  new SimpleMove(origen, destino);
 		
 		moveExecutor.undo(board, origen, destino);
 		

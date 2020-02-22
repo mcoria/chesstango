@@ -16,9 +16,11 @@ import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.EnroqueNegroReyMove;
+import moveexecutors.EnroqueNegroReynaMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class ReyNegroMoveGeneratorTest {
@@ -56,7 +58,7 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( Move.MOVE_ENROQUE_NEGRO_REYNA ));
+		assertTrue(moves.contains( new EnroqueNegroReynaMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -143,7 +145,7 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( Move.MOVE_ENROQUE_NEGRO_REY ));
+		assertTrue(moves.contains( new EnroqueNegroReyMove() ));
 		
 		assertEquals(6, moves.size());
 	}	
@@ -240,7 +242,7 @@ public class ReyNegroMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
+		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}	
 	
 }

@@ -14,9 +14,9 @@ import org.junit.Test;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class ReinaMoveGeneratorTest {
@@ -89,7 +89,7 @@ public class ReinaMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
+		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}
 	
 	/*

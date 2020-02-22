@@ -31,7 +31,7 @@ public class ChessMain {
 		Map<Move, Node> childs = rootNode.getChilds();
 		if(childs != null){
 			List<Move> moves = new ArrayList<Move>(childs.keySet());
-			Collections.sort(moves);
+			//Collections.sort(moves);
 			Collections.reverse(moves);
 			
 			for (Move move : moves) {

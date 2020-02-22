@@ -7,11 +7,12 @@ import java.util.Map.Entry;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.SaltoSquareIterator;
+import moveexecutors.CaptureMove;
+import moveexecutors.SimpleMove;
 
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
@@ -32,11 +33,11 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.SIMPLE));
+				this.filter.filterMove(moves, new SimpleMove(origen, destino));
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-				this.filter.filterMove(moves, new Move(origen, destino, MoveType.CAPTURA));
+				this.filter.filterMove(moves, new CaptureMove(origen, destino));
 		    }
 		}
 		return moves;

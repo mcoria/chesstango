@@ -13,6 +13,8 @@ public class BoardState {
 		
 		private boolean enroqueNegroReinaPermitido;
 		private boolean enroqueNegroReyPermitido;
+		
+		private Color turnoActual;
 	}
 	
 	private BoardStateNode currentNode;
@@ -104,6 +106,7 @@ public class BoardState {
 		node.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
 		node.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
 		node.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		node.turnoActual = turnoActual;
 		
 		this.currentNode = node;
 	}
@@ -113,7 +116,8 @@ public class BoardState {
 		enroqueBlancoReinaPermitido = this.currentNode.enroqueBlancoReinaPermitido;
 		enroqueBlancoReyPermitido = this.currentNode.enroqueBlancoReyPermitido;
 		enroqueNegroReinaPermitido = this.currentNode.enroqueNegroReinaPermitido;
-		enroqueNegroReyPermitido = this.currentNode.enroqueNegroReyPermitido;		
+		enroqueNegroReyPermitido = this.currentNode.enroqueNegroReyPermitido;	
+		turnoActual = this.currentNode.turnoActual;	
 	}
 
 }

@@ -16,9 +16,12 @@ import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.Move.MoveType;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMove;
+import moveexecutors.EnroqueBlancoReyMove;
+import moveexecutors.EnroqueBlancoReynaMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class ReyBlancoMoveGeneratorTest {
@@ -110,7 +113,7 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( Move.MOVE_ENROQUE_BLANCO_REINA ));
+		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
 	}
 	
 	@Test
@@ -195,7 +198,7 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( Move.MOVE_ENROQUE_BLANCO_REINA ));
+		assertFalse(moves.contains( new EnroqueBlancoReynaMove() ));
 		
 		assertEquals(5, moves.size());
 	}	
@@ -223,7 +226,7 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( Move.MOVE_ENROQUE_BLANCO_REY ));
+		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
 		
 		assertEquals(6, moves.size());
 	}	
@@ -348,11 +351,11 @@ public class ReyBlancoMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), MoveType.SIMPLE);
+		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza), MoveType.CAPTURA);
+		return new CaptureMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza));
 	}	
 	
 }
