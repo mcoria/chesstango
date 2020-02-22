@@ -1,8 +1,7 @@
 package moveexecutors;
 
-import java.util.Map;
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import chess.BoardState;
 import chess.DummyBoard;
@@ -21,7 +20,7 @@ public class EnroqueNegroReyMove extends AbstractMove {
 
 	@Override
 	public void execute(DummyBoard board) {
-		this.execute(board, from, to);
+		this.executeMove(board);
 		BoardState boardState = board.getBoardState();
 		boardState.setEnroqueNegroReyPermitido(false);
 		boardState.setEnroqueNegroReinaPermitido(false);
@@ -31,25 +30,26 @@ public class EnroqueNegroReyMove extends AbstractMove {
 
 	@Override
 	public void undo(DummyBoard board) {
-		this.undo(board, from, to);
+		this.undoMove(board);
 		BoardState boardState = board.getBoardState();		
 		boardState.restoreState();			
 	}
-
+	
 	@Override
 	protected String getType() {
 		return "EnroqueNegroReyMove";
 	}
 	
-
-	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	@Override
+	public void executeMove(DummyBoard board) {
 		board.setEmptySquare(Square.e8);
 		board.setEmptySquare(Square.h8);
 		board.setPieza(Square.g8, Pieza.REY_NEGRO);
 		board.setPieza(Square.f8, Pieza.TORRE_NEGRO);
 	}
 
-	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	@Override
+	public void undoMove(DummyBoard board) {
 		board.setEmptySquare(Square.g8);
 		board.setEmptySquare(Square.f8);
 		board.setPieza(Square.e8, Pieza.REY_NEGRO);

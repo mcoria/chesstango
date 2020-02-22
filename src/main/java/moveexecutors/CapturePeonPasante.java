@@ -18,7 +18,7 @@ public class CapturePeonPasante extends AbstractMove {
 
 	@Override
 	public void execute(DummyBoard board) {
-		this.execute(board, from, to);
+		this.executeMove(board);
 		
 		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(null);	
@@ -27,18 +27,19 @@ public class CapturePeonPasante extends AbstractMove {
 
 	@Override
 	public void undo(DummyBoard board) {
-		this.undo(board, from, to);
+		this.undoMove(board);
 		
 		BoardState boardState = board.getBoardState();		
 		boardState.restoreState();			
 	}
-
+	
 	@Override
 	protected String getType() {
 		return "CapturePeonPasante";
 	}
 	
-	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	@Override
+	public void executeMove(DummyBoard board) {
 		Square captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
 				
 		board.setEmptySquare(from.getKey()); 						//Dejamos el origen
@@ -46,7 +47,8 @@ public class CapturePeonPasante extends AbstractMove {
 		board.setEmptySquare(captureSquare);						//Capturamos peon
 	}
 
-	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	@Override
+	public void undoMove(DummyBoard board) {
 		Square captureSquare = Square.getSquare(to.getKey().getFile(),  Color.BLANCO.equals(from.getValue().getColor()) ? to.getKey().getRank() - 1 : to.getKey().getRank() + 1);
 		Map.Entry<Square, Pieza> captura = new SimpleImmutableEntry<Square, Pieza>(captureSquare, Color.BLANCO.equals(from.getValue().getColor()) ? Pieza.PEON_NEGRO : Pieza.PEON_BLANCO);
 		

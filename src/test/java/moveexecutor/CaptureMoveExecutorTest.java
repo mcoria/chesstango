@@ -59,7 +59,7 @@ public class CaptureMoveExecutorTest {
 
 		moveExecutor = new CaptureMove(origen, destino);
 		
-		moveExecutor.undo(board, origen, destino);
+		moveExecutor.undo(board);
 		
 		verify(board).setPosicion(origen);
 		verify(board).setPosicion(destino);

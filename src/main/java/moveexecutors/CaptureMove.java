@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.BoardState;
@@ -16,7 +15,7 @@ public class CaptureMove extends AbstractMove {
 
 	@Override
 	public void execute(DummyBoard board) {
-		this.execute(board, from, to);
+		this.executeMove(board);
 		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(null);
 		boardState.rollTurno();		
@@ -24,7 +23,7 @@ public class CaptureMove extends AbstractMove {
 
 	@Override
 	public void undo(DummyBoard board) {
-		this.undo(board, from, to);
+		this.undoMove(board);
 		BoardState boardState = board.getBoardState();		
 		boardState.restoreState();		
 	}
@@ -34,13 +33,16 @@ public class CaptureMove extends AbstractMove {
 		return "CaptureMove";
 	}	
 	
-	public void execute(DummyBoard board, Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {			
+	@Override
+	public void executeMove(DummyBoard board) {		
 		board.setEmptySquare(from.getKey());								//Dejamos el origen
 		board.setPieza(to.getKey(), from.getValue());						//Vamos al destino	
 	}
 
-	public void undo(DummyBoard board, Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	@Override
+	public void undoMove(DummyBoard board) {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen
 	}
+
 }
