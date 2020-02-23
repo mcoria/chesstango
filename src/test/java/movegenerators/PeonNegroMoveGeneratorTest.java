@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -94,7 +93,11 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/3Pp3/8/8/8").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/8/8/8/3Pp3/8/8/8")
+				.withPeonPasanteSquare(Square.d3)
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -104,10 +107,6 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		BoardState boardState = new BoardState();
-		boardState.setPeonPasanteSquare(Square.d3);		
-		
-		tablero.setBoardState(boardState);
 		
 		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
@@ -119,11 +118,12 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		DummyBoard tablero = builder.withTablero("8/4p3/5P2/8/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/4p3/5P2/8/8/8/8/8")
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
-		
-		tablero.setBoardState(new BoardState());
 		
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -142,7 +142,11 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/3pP3/8/8/8").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/8/8/8/3pP3/8/8/8")
+				.withPeonPasanteSquare(Square.e3)
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -151,11 +155,7 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e4));
 
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
-		
-		BoardState boardState = new BoardState();
-		boardState.setPeonPasanteSquare(Square.e3);
-		
-		tablero.setBoardState(boardState);
+
 		
 		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		

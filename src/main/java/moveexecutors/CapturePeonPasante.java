@@ -23,15 +23,11 @@ public class CapturePeonPasante extends AbstractMove {
 		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(null);	
 		boardState.rollTurno();
-		boardState.saveState();
 	}
 
 	@Override
 	public void undo(DummyBoard board) {
-		this.undoMove(board);
-		
-		BoardState boardState = board.getBoardState();		
-		boardState.restoreState();			
+		this.undoMove(board);		
 	}
 	
 	@Override

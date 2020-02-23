@@ -48,7 +48,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		//this.tablero = tablero;
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.boardState = boardState;
-		boardState.saveState();
 	}
 
 	
@@ -206,9 +205,5 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	public BoardState getBoardState() {
 		return boardState;
 	}
-
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
-	}	
 
 }

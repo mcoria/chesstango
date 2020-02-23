@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -112,7 +111,11 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		DummyBoard tablero = builder.withTablero("8/8/8/3pP3/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/8/8/3pP3/8/8/8/8")
+				.withPeonPasanteSquare(Square.d6)
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -121,11 +124,6 @@ public class PeonBlancoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d5));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
-		
-		BoardState boardState = new BoardState();
-		boardState.setPeonPasanteSquare(Square.d6);		
-		
-		tablero.setBoardState(boardState);
 		
 		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		
@@ -159,7 +157,11 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		DummyBoard tablero = builder.withTablero("8/8/8/3Pp3/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/8/8/3Pp3/8/8/8/8")
+				.withPeonPasanteSquare(Square.e6)
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -168,11 +170,6 @@ public class PeonBlancoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e5));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
-		
-		BoardState boardState = new BoardState();
-		boardState.setPeonPasanteSquare(Square.e6);
-		
-		tablero.setBoardState(boardState);
 		
 		Collection<Move> moves = moveGenerator.generateMoves(origen);
 		

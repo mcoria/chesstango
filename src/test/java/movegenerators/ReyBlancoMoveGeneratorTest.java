@@ -12,8 +12,6 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
-import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -90,17 +88,16 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina01() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/R3K3").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/8/8/8/8/8/8/R3K3")
+				.withEnroqueBlancoReinaPermitido(true)
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
-	
-		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -118,18 +115,17 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina02() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/5b2/8/R3K3").buildDummyBoard();
+		DummyBoard tablero = 
+				builder
+				.withTablero("8/8/8/8/8/5b2/8/R3K3")
+				.withEnroqueBlancoReinaPermitido(true)
+				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f3));
-	
-		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);	
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -146,7 +142,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina03() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/5b2/8/8/R3K3").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/5b2/8/8/R3K3").withEnroqueBlancoReinaPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
@@ -154,13 +150,6 @@ public class ReyBlancoMoveGeneratorTest {
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f4));
-	
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReinaPermitido(true);	
-		boardState.saveState();
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -176,18 +165,13 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina04() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/RN2K3").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/RN2K3").withEnroqueBlancoReinaPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));
-	
-		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReinaPermitido(true);
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -205,17 +189,12 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey01() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/4K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/4K2R").withEnroqueBlancoReyPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
-	
-		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReyPermitido(true);	
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -233,18 +212,13 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey02() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/3b4/8/4K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/3b4/8/4K2R").withEnroqueBlancoReyPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d3));
-	
-		BoardState boardState = new BoardState();
-		boardState.setEnroqueBlancoReyPermitido(true);	
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -261,7 +235,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey03() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/3b4/8/8/4K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/3b4/8/8/4K2R").withEnroqueBlancoReyPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
@@ -269,13 +243,6 @@ public class ReyBlancoMoveGeneratorTest {
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d4));
-	
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReyPermitido(true);	
-		boardState.saveState();
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -291,7 +258,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey04() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").withEnroqueBlancoReyPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
@@ -299,13 +266,6 @@ public class ReyBlancoMoveGeneratorTest {
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.g2));
-	
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReyPermitido(true);	
-		boardState.saveState();
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
@@ -321,7 +281,7 @@ public class ReyBlancoMoveGeneratorTest {
 
 	@Test
 	public void testEnroqueBlancoJaque() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/4r3/8/8/R3K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/4r3/8/8/R3K2R").withEnroqueBlancoReinaPermitido(true).buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero);
@@ -330,13 +290,6 @@ public class ReyBlancoMoveGeneratorTest {
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.e4));
-	
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReinaPermitido(true);	
-		boardState.saveState();
-		
-		tablero.setBoardState(boardState);
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		

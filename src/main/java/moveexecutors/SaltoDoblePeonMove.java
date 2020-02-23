@@ -21,15 +21,12 @@ public class SaltoDoblePeonMove extends AbstractMove {
 		this.executeMove(board);
 		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
-		boardState.rollTurno();	
-		boardState.saveState();
+		boardState.rollTurno();
 	}
 
 	@Override
 	public void undo(DummyBoard board) {
-		this.undoMove(board);
-		BoardState boardState = board.getBoardState();		
-		boardState.restoreState();		
+		this.undoMove(board);	
 	}
 	
 	@Override

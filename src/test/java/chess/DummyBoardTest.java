@@ -27,12 +27,6 @@ public class DummyBoardTest {
 	public void test01() {
 		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
-		BoardState boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.saveState();
-		
-		tablero.setBoardState(boardState);
-		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
 		assertEquals(20, moves.size());

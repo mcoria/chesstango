@@ -26,15 +26,12 @@ public class EnroqueBlancoReynaMove extends AbstractMove {
 		boardState.setEnroqueBlancoReyPermitido(false);
 		boardState.setEnroqueBlancoReinaPermitido(false);
 		boardState.setPeonPasanteSquare(null);	
-		boardState.rollTurno();	
-		boardState.saveState();
+		boardState.rollTurno();
 	}
 
 	@Override
 	public void undo(DummyBoard board) {
-		this.undoMove(board);
-		BoardState boardState = board.getBoardState();		
-		boardState.restoreState();		
+		this.undoMove(board);	
 	}
 
 	@Override
