@@ -35,7 +35,6 @@ public class Board {
 		assert(boardPila.getMovimientosPosibles().contains(move));
 		
 		boardPila.push();
-		boardState.pushState();
 		
 		tablero.execute(move);
 
@@ -50,7 +49,6 @@ public class Board {
 		
 		tablero.undo(lastMove);
 		
-		boardState.popState();
 		boardPila.pop();
 		
 		return getGameStatus();

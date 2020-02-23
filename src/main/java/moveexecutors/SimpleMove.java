@@ -27,13 +27,10 @@ public class SimpleMove extends AbstractMove {
 	
 	@Override
 	public void executeState(BoardState boardState) {
+		boardState.pushState();
 		boardState.setPeonPasanteSquare(null);
 		boardState.rollTurno();
 	}
-
-	@Override
-	public void undoState(BoardState boardState) {
-	}	
 	
 	@Override
 	protected String getType() {

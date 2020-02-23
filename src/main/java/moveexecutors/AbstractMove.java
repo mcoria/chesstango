@@ -2,6 +2,7 @@ package moveexecutors;
 
 import java.util.Map;
 
+import chess.BoardState;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -16,21 +17,20 @@ public abstract class AbstractMove implements Comparable<AbstractMove>, Move {
 		this.to = to;
 	}	
 
-	/* (non-Javadoc)
-	 * @see moveexecutors.Move#getFrom()
-	 */
 	@Override
 	public Map.Entry<Square, Pieza> getFrom() {
 		return from;
 	}
 
-	/* (non-Javadoc)
-	 * @see moveexecutors.Move#getTo()
-	 */
 	@Override
 	public Map.Entry<Square, Pieza> getTo() {
 		return to;
 	}
+	
+	@Override
+	public void undoState(BoardState boardState) {
+		boardState.popState();		
+	}	
 	
 	@Override
 	public int hashCode() {

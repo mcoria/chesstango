@@ -30,13 +30,10 @@ public class SaltoDoblePeonMove extends AbstractMove {
 	
 	@Override
 	public void executeState(BoardState boardState) {
+		boardState.pushState();
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
 		boardState.rollTurno();
 	}
-
-	@Override
-	public void undoState(BoardState boardState) {
-	}	
 	
 	@Override
 	protected String getType() {

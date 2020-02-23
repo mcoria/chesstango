@@ -36,15 +36,12 @@ public class EnroqueNegroReyMove extends AbstractMove {
 	
 	@Override
 	public void executeState(BoardState boardState) {
+		boardState.pushState();
 		boardState.setEnroqueNegroReyPermitido(false);
 		boardState.setEnroqueNegroReinaPermitido(false);
 		boardState.setPeonPasanteSquare(null);		
 		boardState.rollTurno();
 	}
-
-	@Override
-	public void undoState(BoardState boardState) {
-	}	
 	
 	@Override
 	protected String getType() {
