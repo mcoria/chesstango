@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.List;
 import java.util.Map;
 
 public interface Move {
@@ -13,5 +14,6 @@ public interface Move {
 	void executeState(BoardState boardState);
 	void undoState(BoardState boardState);
 
-
+	void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente);
+	void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente);	
 }

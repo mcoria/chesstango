@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.List;
 import java.util.Map;
 
 import chess.BoardState;
@@ -42,6 +43,22 @@ public class EnroqueBlancoReyMove extends AbstractMove {
 		boardState.setPeonPasanteSquare(null);	
 		boardState.rollTurno();
 	}	
+	
+	@Override
+	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.remove(Square.e1);
+		squaresTurno.remove(Square.h1);
+		squaresTurno.add(Square.g1);
+		squaresTurno.add(Square.f1);
+	}
+
+	@Override
+	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.add(Square.e1);
+		squaresTurno.add(Square.h1);
+		squaresTurno.remove(Square.g1);
+		squaresTurno.remove(Square.f1);
+	}
 	
 	@Override
 	protected String getType() {

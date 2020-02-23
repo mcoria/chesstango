@@ -1,5 +1,6 @@
 package moveexecutors;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 import chess.BoardState;
@@ -36,6 +37,22 @@ public class CapturePeonPasante extends AbstractMove {
 		boardState.setPeonPasanteSquare(null);	
 		boardState.rollTurno();
 	}
+	
+	@Override
+	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.remove(from.getKey());
+		squaresTurno.add(to.getKey());
+		
+		squaresOpenente.remove(captura.getKey());
+	}
+
+	@Override
+	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.add(from.getKey());
+		squaresTurno.remove(to.getKey());
+		
+		squaresOpenente.add(captura.getKey());
+	}	
 	
 	@Override
 	public boolean equals(Object obj) {
