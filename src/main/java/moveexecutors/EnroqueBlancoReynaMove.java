@@ -55,10 +55,10 @@ public class EnroqueBlancoReynaMove extends AbstractMove {
 
 	@Override
 	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.remove(Square.c1);
+		squaresTurno.remove(Square.d1);		
 		squaresTurno.add(Square.e1);
 		squaresTurno.add(Square.a1);
-		squaresTurno.remove(Square.c1);
-		squaresTurno.remove(Square.d1);
 	}
 	
 	@Override

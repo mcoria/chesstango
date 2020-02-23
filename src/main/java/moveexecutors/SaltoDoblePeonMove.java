@@ -44,8 +44,8 @@ public class SaltoDoblePeonMove extends AbstractMove {
 
 	@Override
 	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.add(from.getKey());
 		squaresTurno.remove(to.getKey());
+		squaresTurno.add(from.getKey());
 	}	
 	
 	@Override

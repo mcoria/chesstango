@@ -104,7 +104,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	public Collection<Move>  getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
-		for (Map.Entry<Square, Pieza> origen : this) {
+		for (SquareIterator iterator = this.iteratorSquare(turnoActual); iterator.hasNext();) {
+			Entry<Square, Pieza> origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(turnoActual.equals(currentPieza.getColor())){
@@ -132,7 +133,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	}	
 	
 	public boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){
-		for (Map.Entry<Square, Pieza> origen : this) {
+		for (SquareIterator iterator = this.iteratorSquare(color.opositeColor()); iterator.hasNext();) {
+			Entry<Square, Pieza> origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor().opositeColor())){
@@ -243,26 +245,30 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 
 	public void execute(Move move) {
 		move.executeMove(this);
+		
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareBlancos : this.squareNegros;
 		List<Square> squaresOpenente = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareNegros : this.squareBlancos;
 		move.executeSquareLists(squaresTurno, squaresOpenente);
+		
 		move.executeState(boardState);
 		
-		assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
+		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
 
 
 	public void undo(Move move) {
 		move.undoMove(this);
+		
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareNegros : this.squareBlancos;
 		List<Square> squaresOpenente = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareBlancos : this.squareNegros;
-		move.undoSquareLists(squaresTurno, squaresOpenente);		
+		move.undoSquareLists(squaresTurno, squaresOpenente);	
+		
 		move.undoState(boardState);
 		
-		assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
+		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
 
-
+	/*
 	private boolean validarSquares(List<Square> squares, Color colorFiltro) {
 		List<Square> copia = new ArrayList<Square>();
 		copia.addAll(squares);
@@ -278,7 +284,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 			}
 		}
 		return copia.isEmpty();
-	}
+	}*/
 	
 
 

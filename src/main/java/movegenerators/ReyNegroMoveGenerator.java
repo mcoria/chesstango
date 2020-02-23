@@ -31,7 +31,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	
 	@Override
 	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen) {
-		assert (Pieza.REY_NEGRO.equals(origen.getValue()));
+		//assert (Pieza.REY_NEGRO.equals(origen.getValue()));
 		
 		Collection<Move> moves = super.generateMoves(origen);
 		

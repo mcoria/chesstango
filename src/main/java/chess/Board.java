@@ -32,7 +32,7 @@ public class Board {
 	
 
 	public GameStatus executeMove(Move move) {
-		assert(boardPila.getMovimientosPosibles().contains(move));
+		//assert(boardPila.getMovimientosPosibles().contains(move));
 		
 		boardPila.push();
 		
