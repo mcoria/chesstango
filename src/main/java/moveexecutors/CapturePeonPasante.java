@@ -22,7 +22,8 @@ public class CapturePeonPasante extends AbstractMove {
 		
 		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(null);	
-		boardState.rollTurno();		
+		boardState.rollTurno();
+		boardState.saveState();
 	}
 
 	@Override

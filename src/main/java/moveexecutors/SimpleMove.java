@@ -18,7 +18,8 @@ public class SimpleMove extends AbstractMove {
 		this.executeMove(board);
 		BoardState boardState = board.getBoardState();
 		boardState.setPeonPasanteSquare(null);
-		boardState.rollTurno();		
+		boardState.rollTurno();	
+		boardState.saveState();
 	}
 
 	@Override
