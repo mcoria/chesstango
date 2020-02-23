@@ -44,7 +44,8 @@ public class CapturePeonPasanteExecutorTest {
 		
 		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
 
-		moveExecutor.execute(board);
+		moveExecutor.executeMove(board);
+		moveExecutor.executeState(boardState);
 
 		verify(board).setEmptySquare(peonBlanco.getKey());						//Dejamos el origen
 		verify(board).setPieza(peonPasanteSquare.getKey(), Pieza.PEON_BLANCO);  //Vamos al destino
@@ -62,7 +63,7 @@ public class CapturePeonPasanteExecutorTest {
 
 		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
 
-		moveExecutor.undo(board);
+		moveExecutor.undoMove(board);
 		
 		verify(board).setPosicion(peonBlanco);									//Volvemos al origen
 		verify(board).setPosicion(peonPasanteSquare);							//Dejamos el destino

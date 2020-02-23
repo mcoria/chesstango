@@ -15,24 +15,6 @@ public class SaltoDoblePeonMove extends AbstractMove {
 		super(from, to);
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
-
-	@Override
-	public void execute(DummyBoard board) {
-		this.executeMove(board);
-		BoardState boardState = board.getBoardState();
-		boardState.setPeonPasanteSquare(peonPasanteSquare);
-		boardState.rollTurno();
-	}
-
-	@Override
-	public void undo(DummyBoard board) {
-		this.undoMove(board);	
-	}
-	
-	@Override
-	protected String getType() {
-		return "SaltoDoblePeonMove";
-	}
 	
 	@Override
 	public void executeMove(DummyBoard board) {
@@ -45,5 +27,19 @@ public class SaltoDoblePeonMove extends AbstractMove {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen		
 	}
+	
+	@Override
+	public void executeState(BoardState boardState) {
+		boardState.setPeonPasanteSquare(peonPasanteSquare);
+		boardState.rollTurno();
+	}
 
+	@Override
+	public void undoState(BoardState boardState) {
+	}	
+	
+	@Override
+	protected String getType() {
+		return "SaltoDoblePeonMove";
+	}
 }

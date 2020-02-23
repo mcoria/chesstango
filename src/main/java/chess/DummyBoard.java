@@ -240,4 +240,16 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		return boardState;
 	}
 
+
+	public void execute(Move move) {
+		move.executeMove(this);
+		move.executeState(boardState);
+	}
+
+
+	public void undo(Move move) {
+		move.undoMove(this);
+		move.undoState(boardState);
+	}
+
 }

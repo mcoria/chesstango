@@ -42,7 +42,8 @@ public class CaptureMoveExecutorTest {
 
 		moveExecutor = new CaptureMove(origen, destino);
 		
-		moveExecutor.execute(board);
+		moveExecutor.executeMove(board);
+		moveExecutor.executeState(boardState);
 		
 		verify(board).setPieza(Square.e7, Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(Square.e5);
@@ -59,7 +60,7 @@ public class CaptureMoveExecutorTest {
 
 		moveExecutor = new CaptureMove(origen, destino);
 		
-		moveExecutor.undo(board);
+		moveExecutor.undoMove(board);
 		
 		verify(board).setPosicion(origen);
 		verify(board).setPosicion(destino);

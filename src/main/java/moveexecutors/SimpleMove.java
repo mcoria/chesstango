@@ -12,24 +12,6 @@ public class SimpleMove extends AbstractMove {
 	public SimpleMove(Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
 		super(from, to);
 	}
-
-	@Override
-	public void execute(DummyBoard board) {
-		this.executeMove(board);
-		BoardState boardState = board.getBoardState();
-		boardState.setPeonPasanteSquare(null);
-		boardState.rollTurno();
-	}
-
-	@Override
-	public void undo(DummyBoard board) {
-		this.undoMove(board);		
-	}
-	
-	@Override
-	protected String getType() {
-		return "SimpleMove";
-	}
 	
 	@Override
 	public void executeMove(DummyBoard board) {
@@ -42,4 +24,19 @@ public class SimpleMove extends AbstractMove {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen	
 	}
+	
+	@Override
+	public void executeState(BoardState boardState) {
+		boardState.setPeonPasanteSquare(null);
+		boardState.rollTurno();
+	}
+
+	@Override
+	public void undoState(BoardState boardState) {
+	}	
+	
+	@Override
+	protected String getType() {
+		return "SimpleMove";
+	}	
 }

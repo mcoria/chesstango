@@ -15,25 +15,6 @@ public class CapturePeonPasante extends AbstractMove {
 		super(from, to);
 		this.captura = captura;
 	}
-
-	@Override
-	public void execute(DummyBoard board) {
-		this.executeMove(board);
-		
-		BoardState boardState = board.getBoardState();
-		boardState.setPeonPasanteSquare(null);	
-		boardState.rollTurno();
-	}
-
-	@Override
-	public void undo(DummyBoard board) {
-		this.undoMove(board);		
-	}
-	
-	@Override
-	protected String getType() {
-		return "CapturePeonPasante";
-	}
 	
 	@Override
 	public void executeMove(DummyBoard board) {
@@ -50,6 +31,16 @@ public class CapturePeonPasante extends AbstractMove {
 	}
 	
 	@Override
+	public void executeState(BoardState boardState) {
+		boardState.setPeonPasanteSquare(null);	
+		boardState.rollTurno();
+	}
+
+	@Override
+	public void undoState(BoardState boardState) {
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if(super.equals(obj) && obj instanceof CapturePeonPasante){
 			CapturePeonPasante theOther = (CapturePeonPasante) obj;
@@ -57,5 +48,10 @@ public class CapturePeonPasante extends AbstractMove {
 		}
 		return false;
 	}
+	
+	@Override
+	protected String getType() {
+		return "CapturePeonPasante";
+	}	
 
 }

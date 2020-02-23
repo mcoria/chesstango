@@ -17,26 +17,6 @@ public class EnroqueNegroReyMove extends AbstractMove {
 	public EnroqueNegroReyMove() {
 		super(FROM, TO);
 	}
-
-	@Override
-	public void execute(DummyBoard board) {
-		this.executeMove(board);
-		BoardState boardState = board.getBoardState();
-		boardState.setEnroqueNegroReyPermitido(false);
-		boardState.setEnroqueNegroReinaPermitido(false);
-		boardState.setPeonPasanteSquare(null);		
-		boardState.rollTurno();
-	}
-
-	@Override
-	public void undo(DummyBoard board) {
-		this.undoMove(board);		
-	}
-	
-	@Override
-	protected String getType() {
-		return "EnroqueNegroReyMove";
-	}
 	
 	@Override
 	public void executeMove(DummyBoard board) {
@@ -53,5 +33,22 @@ public class EnroqueNegroReyMove extends AbstractMove {
 		board.setPieza(Square.e8, Pieza.REY_NEGRO);
 		board.setPieza(Square.h8, Pieza.TORRE_NEGRO);	
 	}
+	
+	@Override
+	public void executeState(BoardState boardState) {
+		boardState.setEnroqueNegroReyPermitido(false);
+		boardState.setEnroqueNegroReinaPermitido(false);
+		boardState.setPeonPasanteSquare(null);		
+		boardState.rollTurno();
+	}
+
+	@Override
+	public void undoState(BoardState boardState) {
+	}	
+	
+	@Override
+	protected String getType() {
+		return "EnroqueNegroReyMove";
+	}	
 
 }
