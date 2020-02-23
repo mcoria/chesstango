@@ -5,7 +5,10 @@ import java.io.PrintStream;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -25,9 +28,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	public static final Map.Entry<Square, Pieza> REY_BLANCO = new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO);
 	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h1, Pieza.TORRE_BLANCO);
 	
-	private BoardState boardState;
-	private MoveGeneratorStrategy strategy;
-	
 	//56,57,58,59,60,61,62,63,
 	//48,49,50,51,52,53,54,55,
 	//40,41,42,43,44,45,46,47,
@@ -39,22 +39,39 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	//private Pieza[][] tablero;
 	
 	@SuppressWarnings("unchecked")
-	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];
+	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];	
+	
+	private BoardState boardState;
+	
+	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this);
 	
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
+	private List<Square> squareBlancos = new ArrayList<Square>();
+	
+	private List<Square> squareNegros = new ArrayList<Square>();
+	
 	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
-		//this.tablero = tablero;
-		this.strategy = new MoveGeneratorStrategy(this);
 		this.boardState = boardState;
 	}
 
 	
-	private void crearTablero(Pieza[][] sourceTablero) {		
+	private void crearTablero(Pieza[][] sourceTablero) {
 		for (int file = 0; file < 8; file++) {
 			for (int rank = 0; rank < 8; rank++) {
-				tablero[Square.getSquare(file, rank).toIdx()] = cachePosiciones.getPosicion(Square.getSquare(file, rank), sourceTablero[file][rank]);
+				Entry<Square, Pieza> posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
+						sourceTablero[file][rank]);
+				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
+
+				Pieza pieza = posicion.getValue();
+				if (pieza != null) {
+					if (Color.BLANCO.equals(pieza.getColor())) {
+						squareBlancos.add(posicion.getKey());
+					} else if (Color.NEGRO.equals(pieza.getColor())) {
+						squareNegros.add(posicion.getKey());
+					}
+				}
 			}
 		}
 	}
@@ -86,10 +103,11 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	
 	public Collection<Move>  getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
+		Color turnoActual = boardState.getTurnoActual();
 		for (Map.Entry<Square, Pieza> origen : this) {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
-				if(boardState.getTurnoActual().equals(currentPieza.getColor())){
+				if(turnoActual.equals(currentPieza.getColor())){
 					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 					moves.addAll(moveGenerator.generateMoves(origen));
 				}
@@ -195,6 +213,22 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 				return getPosicion(currentSquare);
 			}
 		};
+	}
+	
+	protected SquareIterator iteratorSquare(Color color){
+		return new SquareIterator(){
+			private Iterator<Square> iterator = Color.BLANCO.equals(color) ? squareBlancos.iterator() : squareNegros.iterator();
+			
+			@Override
+			public boolean hasNext() {
+				return iterator.hasNext();
+			}
+			
+			@Override
+			public Square next() {
+				return iterator.next();
+			}
+		};		
 	}
 
 	@Override
