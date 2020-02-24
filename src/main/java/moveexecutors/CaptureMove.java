@@ -45,14 +45,21 @@ public class CaptureMove extends AbstractMove {
 	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
 		squaresTurno.remove(to.getKey());
 		squaresTurno.add(from.getKey());
-		
-		
+
 		squaresOpenente.add(to.getKey());
+	}	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(super.equals(obj)  && obj instanceof CaptureMove){
+			return true;
+		}
+		return false;
 	}	
 	
 	@Override
 	protected String getType() {
 		return "CaptureMove";
-	}		
+	}
 
 }
