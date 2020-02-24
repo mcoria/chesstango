@@ -46,6 +46,34 @@ public class BoardTest {
 		assertTrue(board.getMovimientosPosibles().isEmpty());
 	}
 
+	@Test
+	public void testJuegoJaqueMateUndo() {
+		Board board = builder.withDefaultBoard().buildBoard();
+		assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, board.getTurnoActual());
+		
+		board.executeMove(Square.e2, Square.e4);
+		board.executeMove(Square.e7, Square.e5);
+		board.executeMove(Square.f1, Square.c4);	
+		board.executeMove(Square.b8, Square.c6);
+		board.executeMove(Square.d1, Square.f3);
+		board.executeMove(Square.f8, Square.c5);
+		board.executeMove(Square.f3, Square.f7);
+		
+		assertEquals(Color.NEGRO, board.getTurnoActual());
+		assertEquals(GameStatus.JAQUE_MATE, board.getGameStatus());
+		assertTrue(board.getMovimientosPosibles().isEmpty());
+		
+		board.undoMove();
+		board.undoMove();
+		board.undoMove();	
+		board.undoMove();
+		board.undoMove();
+		board.undoMove();
+		board.undoMove();
+		assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, board.getTurnoActual());		
+	}	
 	
 	@Test
 	public void testJuegoJaque() {

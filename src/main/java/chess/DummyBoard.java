@@ -119,17 +119,17 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	
 	@Override
 	public void filterMove(Collection<Move> moves, Move move) {
-		Color turno = boardState.getTurnoActual();
 		move.executeMove(this);
-		if(! this.isKingInCheck(turno) ) {
+		if(! this.isKingInCheck() ) {
 			moves.add(move);
 		}
 		move.undoMove(this);
 	}
 
-	public boolean isKingInCheck(Color color) {
-		Square kingSquare = getKingSquare(color);
-		return sepuedeCapturarReyEnSquare(color, kingSquare);
+	public boolean isKingInCheck() {
+		Color turno = boardState.getTurnoActual();
+		Square kingSquare = getKingSquare(turno);
+		return sepuedeCapturarReyEnSquare(turno, kingSquare);
 	}	
 	
 	public boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){

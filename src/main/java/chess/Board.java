@@ -7,13 +7,10 @@ import java.util.Set;
 public class Board {
 	private DummyBoard tablero;
 	
-	private BoardState boardState;
-	
 	private BoardPila boardPila = new BoardPila();
 	
 	public Board(DummyBoard tablero){
 		this.tablero = tablero;
-		this.boardState = tablero.getBoardState();
 		updateGameStatus();
 	}
 
@@ -34,22 +31,22 @@ public class Board {
 	public GameStatus executeMove(Move move) {
 		//assert(boardPila.getMovimientosPosibles().contains(move));
 		
+		boardPila.setMovimientoSeleccionado(move);
+		
 		boardPila.push();
 		
 		tablero.execute(move);
-
-		boardPila.setMovimientoSeleccionado(move);
 		
 		return updateGameStatus();
 	}
 
 
 	public GameStatus undoMove() {
+		boardPila.pop();
+		
 		Move lastMove = boardPila.getMovimientoSeleccionado();
 		
 		tablero.undo(lastMove);
-		
-		boardPila.pop();
 		
 		return getGameStatus();
 	}
@@ -59,7 +56,7 @@ public class Board {
 		GameStatus status = null;
 		
 		if(movimientosPosibles.isEmpty()){
-			if( tablero.isKingInCheck(boardState.getTurnoActual()) ){
+			if( tablero.isKingInCheck() ){
 				status = GameStatus.JAQUE_MATE;
 			} else {
 				status = GameStatus.TABLAS;
@@ -124,10 +121,6 @@ public class Board {
 				return buffer.toString();
 			}
 		};
-	}
-
-	public BoardState getBoardState() {
-		return boardState;
 	}
 
 }

@@ -6,21 +6,16 @@ import java.util.Deque;
 
 public class BoardPila {
 	
-	private class Node {
+	private Collection<Move> movimientosPosibles;
+	private Move movimientoSeleccionado;
+	private GameStatus status;
+	
+	private static class Node {
 		private Collection<Move> movimientosPosibles;
-		
 		private Move movimientoSeleccionado;
-		
 		private GameStatus status;		
 	}
-	
 	private Deque<Node> stackNode = new ArrayDeque<Node>();
-	
-	private Collection<Move> movimientosPosibles;
-	
-	private Move movimientoSeleccionado;
-	
-	private GameStatus status;
 
 	public Collection<Move> getMovimientosPosibles() {
 		return movimientosPosibles;
