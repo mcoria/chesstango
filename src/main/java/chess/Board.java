@@ -1,8 +1,6 @@
 package chess;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Board {
 	private DummyBoard tablero;
@@ -103,24 +101,6 @@ public class Board {
 
 	public final GameStatus getGameStatus() {
 		return boardPila.getStatus();
-	}
-	
-	protected Set<Move> createMoveContainer(){
-		return new HashSet<Move>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
 	}
 
 }

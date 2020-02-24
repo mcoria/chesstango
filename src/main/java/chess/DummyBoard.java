@@ -55,26 +55,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		crearTablero(tablero);
 		this.boardState = boardState;
 	}
-
-	
-	private void crearTablero(Pieza[][] sourceTablero) {
-		for (int file = 0; file < 8; file++) {
-			for (int rank = 0; rank < 8; rank++) {
-				Entry<Square, Pieza> posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
-						sourceTablero[file][rank]);
-				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
-
-				Pieza pieza = posicion.getValue();
-				if (pieza != null) {
-					if (Color.BLANCO.equals(pieza.getColor())) {
-						squareBlancos.add(posicion.getKey());
-					} else if (Color.NEGRO.equals(pieza.getColor())) {
-						squareNegros.add(posicion.getKey());
-					}
-				}
-			}
-		}
-	}
 	
 	public Map.Entry<Square, Pieza> getPosicion(Square square) {
 		return tablero[square.toIdx()];
@@ -100,6 +80,10 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	public boolean isEmtpy(Square square) {
 		return getPieza(square) == null;
 	}
+	
+	public BoardState getBoardState() {
+		return boardState;
+	}	
 	
 	public Collection<Move>  getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
@@ -185,7 +169,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	    return new String(baos.toByteArray());
 	}
 	
-	private Collection<Move> createMoveContainer(){
+	private static Collection<Move> createMoveContainer(){
 		return new ArrayList<Move>() {
 			/**
 			 * 
@@ -237,10 +221,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	@Override
 	public BoardIterator iterator() {
 		return new DummyBoardIterator(this);
-	}	
-
-	public BoardState getBoardState() {
-		return boardState;
 	}
 
 
@@ -288,5 +268,23 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	}*/
 	
 
+	private void crearTablero(Pieza[][] sourceTablero) {
+		for (int file = 0; file < 8; file++) {
+			for (int rank = 0; rank < 8; rank++) {
+				Entry<Square, Pieza> posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
+						sourceTablero[file][rank]);
+				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
+
+				Pieza pieza = posicion.getValue();
+				if (pieza != null) {
+					if (Color.BLANCO.equals(pieza.getColor())) {
+						squareBlancos.add(posicion.getKey());
+					} else if (Color.NEGRO.equals(pieza.getColor())) {
+						squareNegros.add(posicion.getKey());
+					}
+				}
+			}
+		}
+	}	
 
 }
