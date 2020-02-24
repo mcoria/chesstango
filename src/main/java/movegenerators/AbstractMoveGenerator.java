@@ -13,7 +13,15 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected MoveFilter filter = (Collection<Move> moves, Move move) -> moves.add(move);
 
-	protected Collection<Move> createMoveContainer(){
+	public void setTablero(DummyBoard tablero) {
+		this.tablero = tablero;
+	}
+
+	public void setFilter(MoveFilter filter) {
+		this.filter = filter;
+	}
+	
+	protected static Collection<Move> createMoveContainer(){
 		return new ArrayList<Move>() {
 			private static final long serialVersionUID = 2237718042714336104L;
 
@@ -26,15 +34,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 				return buffer.toString();
 			}
 		};
-	}
-
-	public void setTablero(DummyBoard tablero) {
-		this.tablero = tablero;
-	}
-
-	public void setFilter(MoveFilter filter) {
-		this.filter = filter;
-	}
-	
+	}	
 
 }

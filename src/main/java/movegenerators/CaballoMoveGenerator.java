@@ -1,12 +1,29 @@
 package movegenerators;
 
 import chess.Color;
-import iterators.SaltoSquareIterator;
 
 public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
+	public final static int[][] SALTOS_CABALLO = { 
+			//Arriba
+			{ -1, 2 }, 
+			{ 1, 2 },
+			
+			//Derecha
+			{ 2, -1 },
+			{ 2, 1 },
+			
+			//Izquierda
+			{ -2, -1 },
+			{ -2, 1 },
+			
+			//Abajo
+			{ -1, -2 }, 
+			{ 1, -2 },
+	};	
+	
 	public CaballoMoveGenerator(Color color) {
-		super(color, SaltoSquareIterator.SALTOS_CABALLO);
+		super(color, SALTOS_CABALLO);
 	}
 
 }

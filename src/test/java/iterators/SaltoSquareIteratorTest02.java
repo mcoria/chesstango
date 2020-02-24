@@ -8,12 +8,13 @@ import java.util.Set;
 import org.junit.Test;
 
 import chess.Square;
+import movegenerators.CaballoMoveGenerator;
 
 public class SaltoSquareIteratorTest02 {
 
 	@Test
 	public void test01() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, SaltoSquareIterator.SALTOS_CABALLO);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, CaballoMoveGenerator.SALTOS_CABALLO);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -36,7 +37,7 @@ public class SaltoSquareIteratorTest02 {
 
 	@Test
 	public void test02() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, SaltoSquareIterator.SALTOS_CABALLO);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, CaballoMoveGenerator.SALTOS_CABALLO);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -53,7 +54,7 @@ public class SaltoSquareIteratorTest02 {
 	
 	@Test
 	public void test03() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, SaltoSquareIterator.SALTOS_CABALLO);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, CaballoMoveGenerator.SALTOS_CABALLO);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -69,7 +70,7 @@ public class SaltoSquareIteratorTest02 {
 	
 	@Test
 	public void test04() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, SaltoSquareIterator.SALTOS_CABALLO);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, CaballoMoveGenerator.SALTOS_CABALLO);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -86,7 +87,7 @@ public class SaltoSquareIteratorTest02 {
 	
 	@Test
 	public void test05() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, SaltoSquareIterator.SALTOS_CABALLO);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, CaballoMoveGenerator.SALTOS_CABALLO);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {

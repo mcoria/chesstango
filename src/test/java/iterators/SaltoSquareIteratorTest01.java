@@ -8,12 +8,13 @@ import java.util.Set;
 import org.junit.Test;
 
 import chess.Square;
+import movegenerators.ReyAbstractMoveGenerator;
 
 public class SaltoSquareIteratorTest01 {
 
 	@Test
 	public void test01() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, SaltoSquareIterator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, ReyAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -36,7 +37,7 @@ public class SaltoSquareIteratorTest01 {
 
 	@Test
 	public void test02() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, SaltoSquareIterator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, ReyAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -54,7 +55,7 @@ public class SaltoSquareIteratorTest01 {
 	
 	@Test
 	public void test03() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, SaltoSquareIterator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, ReyAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -72,7 +73,7 @@ public class SaltoSquareIteratorTest01 {
 	
 	@Test
 	public void test04() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, SaltoSquareIterator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, ReyAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -90,7 +91,7 @@ public class SaltoSquareIteratorTest01 {
 	
 	@Test
 	public void test05() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, SaltoSquareIterator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, ReyAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {

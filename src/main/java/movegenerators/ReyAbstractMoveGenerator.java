@@ -6,12 +6,21 @@ import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
-import iterators.SaltoSquareIterator;
 
 public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
+	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
+			{ 1, 1 }, // NE
+			{ -1, 1 }, // NO
+			{ 0, -1 }, // Sur
+			{ 1, -1 }, // SE
+			{ -1, -1 }, // SO
+			{ 1, 0 }, // Este
+			{ -1, 0 }, // Oeste
+	};
+	
 	public ReyAbstractMoveGenerator(Color color) {
-		super(color, SaltoSquareIterator.SALTOS_REY);
+		super(color, SALTOS_REY);
 	}
 	
 	

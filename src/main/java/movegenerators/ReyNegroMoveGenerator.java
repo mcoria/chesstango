@@ -13,13 +13,10 @@ import moveexecutors.EnroqueNegroReyMove;
 import moveexecutors.EnroqueNegroReynaMove;
 
 public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
-	
-	
+
 	protected static final Square INTERMEDIO_TORRE_REYNA_SQUARE = Square.b8;
 	protected static final Square DESTINO_REYNA_SQUARE = Square.c8;
 	protected static final Square INTERMEDIO_REY_REYNA_SQUARE = Square.d8;
-	
-	
 	
 	protected static final Square INTERMEDIO_REY_REY_SQUARE = Square.f8;	
 	protected static final Square DESTINO_REY_SQUARE = Square.g8;

@@ -13,8 +13,7 @@ import moveexecutors.EnroqueBlancoReyMove;
 import moveexecutors.EnroqueBlancoReynaMove;
 
 public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
-	
-	
+
 	protected static final Square INTERMEDIO_TORRE_REYNA_SQUARE = Square.b1;
 	protected static final Square DESTINO_REYNA_SQUARE = Square.c1;
 	protected static final Square INTERMEDIO_REY_REYNA_SQUARE = Square.d1;

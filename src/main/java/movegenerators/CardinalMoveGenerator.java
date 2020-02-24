@@ -30,16 +30,15 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen) {
 		Collection<Move> moves = createMoveContainer();
 		for (Cardinal cardinal : this.direcciones) {
-			moves.addAll(getPseudoMoves(origen, cardinal));
+			getPseudoMoves(origen, cardinal, moves);
 		}
 		return moves;
 	}
 	
 	
-	protected Collection<Move> getPseudoMoves(Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
+	protected void getPseudoMoves(Map.Entry<Square, Pieza> origen, Cardinal cardinal, Collection<Move> moves) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
-		Collection<Move> moves = createMoveContainer();
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
@@ -52,7 +51,6 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    	break;
 		    }
 		}
-		return moves;	
 	}
 
 	@Override
