@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,19 +25,22 @@ import parsers.FENBoarBuilder;
 public class PeonNegroMoveGeneratorTest {
 	
 	private FENBoarBuilder builder;
-
+	
 	private PeonNegroMoveGenerator moveGenerator;
+	
+	private Collection<Move> moves; 
 
 	@Before
 	public void setUp() throws Exception {
-		moveGenerator = new PeonNegroMoveGenerator();
 		builder = new FENBoarBuilder();
+		moveGenerator = new PeonNegroMoveGenerator();
+		moves = new ArrayList<Move>();
+		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
 	public void testSaltoSimple() {
 		DummyBoard tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildDummyBoard();
-		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a6;
@@ -44,7 +48,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(1, moves.size());
 		
@@ -54,7 +58,6 @@ public class PeonNegroMoveGeneratorTest {
 	@Test
 	public void testSaltoDoble() {		
 		DummyBoard tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildDummyBoard();
-		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a7;
@@ -62,7 +65,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -73,7 +76,6 @@ public class PeonNegroMoveGeneratorTest {
 	@Test
 	public void testAtaqueIzquierda() {
 		DummyBoard tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildDummyBoard();
-		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e7;
@@ -82,7 +84,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -98,7 +100,6 @@ public class PeonNegroMoveGeneratorTest {
 				.withTablero("8/8/8/8/3Pp3/8/8/8")
 				.withPeonPasanteSquare(Square.d3)
 				.buildDummyBoard();
-		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e4;
@@ -108,7 +109,7 @@ public class PeonNegroMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
 		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -122,7 +123,6 @@ public class PeonNegroMoveGeneratorTest {
 				builder
 				.withTablero("8/4p3/5P2/8/8/8/8/8")
 				.buildDummyBoard();
-		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e7;
@@ -131,7 +131,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
 		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5, Square.e6) ));
@@ -147,7 +147,6 @@ public class PeonNegroMoveGeneratorTest {
 				.withTablero("8/8/8/8/3pP3/8/8/8")
 				.withPeonPasanteSquare(Square.e3)
 				.buildDummyBoard();
-		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d4;
@@ -155,9 +154,8 @@ public class PeonNegroMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e4));
 
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
-
 		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		

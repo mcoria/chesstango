@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,25 +24,30 @@ import parsers.FENBoarBuilder;
 public class AlfilMoveGeneratorTest {
 
 	private FENBoarBuilder builder;
+	
+	private AlfilMoveGenerator moveGenerator;
+	
+	private Collection<Move> moves; 
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
+		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
+		moves = new ArrayList<Move>();
+		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
 	public void testGetPseudoMoves01() {
 		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 
-		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
-		moveGenerator.setTablero(tablero);
-
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -72,6 +78,7 @@ public class AlfilMoveGeneratorTest {
 	@Test
 	public void testGetPseudoMoves02() {
 		DummyBoard tablero = builder.withTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 
 		Square from = Square.c1;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -79,10 +86,7 @@ public class AlfilMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 
-		AlfilMoveGenerator moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
-		moveGenerator.setTablero(tablero);
-
-		Collection<Move> moves = moveGenerator.generateMoves(origen);  
+		moveGenerator.generateMoves(origen);  
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

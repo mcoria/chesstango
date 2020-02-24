@@ -110,7 +110,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 			if(currentPieza != null){
 				if(turnoActual.equals(currentPieza.getColor())){
 					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-					moves.addAll(moveGenerator.generateMoves(origen));
+					moveGenerator.setMoveContainer(moves);
+					moveGenerator.generateMoves(origen);
 				}
 			}
 		}

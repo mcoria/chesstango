@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,25 +25,30 @@ import parsers.FENBoarBuilder;
 public class CardinalMoveGeneratorSurEsteTest {	
 	
 	private FENBoarBuilder builder;
+	
+	private CardinalMoveGenerator moveGenerator;
+	
+	private Collection<Move> moves; 
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
+		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
+		moves = new ArrayList<Move>();
+		moveGenerator.setMoveContainer(moves);
 	}	
 	
 	@Test
 	public void testSurEste() {
 		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 	
-		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
-		moveGenerator.setTablero(tablero);
-		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -55,6 +61,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 	@Test
 	public void testSurEste01() {
 		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/7R/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -62,10 +69,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 	
-		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
-		moveGenerator.setTablero(tablero);
-		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
 		
@@ -77,6 +81,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 	@Test
 	public void testSurEste02() {
 		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/7r/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -84,10 +89,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 	
-		CardinalMoveGenerator moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
-		moveGenerator.setTablero(tablero);
-		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		

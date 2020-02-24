@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,25 +24,30 @@ import parsers.FENBoarBuilder;
 public class TorreMoveGeneratorTest {
 
 	private FENBoarBuilder builder;
+	
+	private TorreMoveGenerator moveGenerator;
+	
+	private Collection<Move> moves; 
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
+		moveGenerator = new TorreMoveGenerator(Color.BLANCO);
+		moves = new ArrayList<Move>();
+		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
 	public void testGetPseudoMoves01() {
 		DummyBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
-		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
-		moveGenerator.setTablero(tablero);
-		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(14, moves.size());
 		
@@ -72,6 +78,7 @@ public class TorreMoveGeneratorTest {
 	@Test
 	public void testGetPseudoMoves02() {		
 		DummyBoard tablero = builder.withTablero("8/4p3/8/4R3/8/8/8/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
@@ -79,10 +86,7 @@ public class TorreMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
-		TorreMoveGenerator moveGenerator = new TorreMoveGenerator(Color.BLANCO);
-		moveGenerator.setTablero(tablero);
-		
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(13, moves.size());
 		

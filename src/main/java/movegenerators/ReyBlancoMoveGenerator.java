@@ -1,12 +1,10 @@
 package movegenerators;
 
-import java.util.Collection;
 import java.util.Map;
 
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
-import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.EnroqueBlancoReyMove;
@@ -27,9 +25,10 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen) {
+	public void generateMoves(Map.Entry<Square, Pieza> origen) {
 		//assert (Pieza.REY_BLANCO.equals(origen.getValue()));
-		Collection<Move> moves = super.generateMoves(origen);
+		
+		super.generateMoves(origen);
 		
 		BoardState boardState = this.tablero.getBoardState();
 		
@@ -41,7 +40,7 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			this.filter.filterMove(moves, new EnroqueBlancoReynaMove());
+			this.filter.filterMove(this.moveContainer, new EnroqueBlancoReynaMove());
 		}
 		
 		
@@ -52,11 +51,8 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 							DummyBoard.TORRE_BLANCA_REY,
 							DESTINO_REY_SQUARE, 
 							INTERMEDIO_REY_REY_SQUARE)) {			
-			this.filter.filterMove(moves, new EnroqueBlancoReyMove());
+			this.filter.filterMove(this.moveContainer, new EnroqueBlancoReyMove());
 		}
-		
-
-		return moves;
 	}
 
 }

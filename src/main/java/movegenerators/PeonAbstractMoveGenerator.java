@@ -1,12 +1,10 @@
 package movegenerators;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CaptureMove;
@@ -23,9 +21,8 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generateMoves(Map.Entry<Square, Pieza> origen){
+	public void generateMoves(Map.Entry<Square, Pieza> origen){
 		BoardState boardState = this.tablero.getBoardState();
-		Collection<Move> moves = createMoveContainer();
 		
 		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
@@ -42,11 +39,11 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		if (saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
 			if (destino.getValue() == null) {
-				this.filter.filterMove(moves, new SimpleMove(origen, destino));
+				this.filter.filterMove(this.moveContainer, new SimpleMove(origen, destino));
 				if (saltoDobleCasillero != null) {
 					destino = this.tablero.getPosicion(saltoDobleCasillero);
 					if (destino.getValue() == null) {
-						this.filter.filterMove(moves, new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero));
+						this.filter.filterMove(this.moveContainer, new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero));
 					}
 				}
 			}
@@ -56,7 +53,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
 			Pieza pieza = destino.getValue();
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				this.filter.filterMove(moves, new CaptureMove(origen, destino));
+				this.filter.filterMove(this.moveContainer, new CaptureMove(origen, destino));
 			}
 		}	
 		
@@ -64,18 +61,16 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
 			Pieza pieza = destino.getValue();
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {				
-				this.filter.filterMove(moves, new CaptureMove(origen, destino));
+				this.filter.filterMove(this.moveContainer, new CaptureMove(origen, destino));
 			}
 		}	
 		
 		if (peonPasanteSquare != null) {
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
 				destino = this.tablero.getPosicion(peonPasanteSquare);
-				this.filter.filterMove(moves, new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare)));
+				this.filter.filterMove(this.moveContainer, new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare)));
 			}
 		}
-		
-		return moves;
 	}
 
 	@Override

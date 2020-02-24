@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,25 +23,30 @@ import parsers.FENBoarBuilder;
 public class ReinaMoveGeneratorTest {
 
 	private FENBoarBuilder builder;
+	
+	private ReinaMoveGenerator moveGenerator;
+	
+	private Collection<Move> moves; 
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
+		moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
+		moves = new ArrayList<Move>();
+		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
 	public void testGetPseudoMoves() {
 		DummyBoard tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildDummyBoard();
+		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
 		assertEquals(Pieza.REINA_BLANCO, tablero.getPieza(from));
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REINA_BLANCO);
 
-		ReinaMoveGenerator moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
-		moveGenerator.setTablero(tablero);
-
-		Collection<Move> moves = moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen);
 
 		assertEquals(27, moves.size());
 
