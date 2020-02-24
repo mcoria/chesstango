@@ -139,7 +139,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor().opositeColor())){
 					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-					if(moveGenerator.puedeCapturarRey(this, origen, kingSquare)){
+					if(moveGenerator.puedeCapturarRey(origen, kingSquare)){
 						return true;
 					}
 				}

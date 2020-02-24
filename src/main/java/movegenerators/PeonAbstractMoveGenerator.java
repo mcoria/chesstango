@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -80,7 +79,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Map.Entry<Square, Pieza> origen, Square kingSquare) {
+	public boolean puedeCapturarRey(Map.Entry<Square, Pieza> origen, Square kingSquare) {
 		if(kingSquare.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
 		   kingSquare.equals(getCasilleroAtaqueDerecha(origen.getKey())) ){
 			return true;

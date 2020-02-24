@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -44,7 +43,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public boolean puedeCapturarRey(DummyBoard tablero, Entry<Square, Pieza> origen, Square kingSquare) {
+	public boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {

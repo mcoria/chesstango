@@ -175,7 +175,7 @@ public class PeonNegroMoveGeneratorTest {
 
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.g2, Pieza.PEON_NEGRO);
 
-		assertTrue( moveGenerator.puedeCapturarRey(tablero, origen, Square.f1) );
+		assertTrue( moveGenerator.puedeCapturarRey(origen, Square.f1) );
 	}	
 	
 	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {

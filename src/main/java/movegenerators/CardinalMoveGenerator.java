@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -54,11 +53,11 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarRey(DummyBoard dummyBoard, Entry<Square, Pieza> origen, Square kingSquare) {
+	public boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare) {
 		boolean result = false;
 		for (Cardinal cardinal : this.direcciones) {
 			if(cardinal.isInDirection(origen.getKey(), kingSquare)){
-				result = puedeCapturarRey(dummyBoard, origen, kingSquare, cardinal);
+				result = puedeCapturarRey(origen, kingSquare, cardinal);
 				if(result != false){
 					break;
 				}
@@ -67,10 +66,10 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		return result;
 	}
 
-	protected boolean puedeCapturarRey(DummyBoard dummyBoard, Entry<Square, Pieza> origen, Square kingSquare,
+	protected boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();
-		BoardIterator iterator = dummyBoard.iterator(new CardinalSquareIterator(cardinal, casillero));
+		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
