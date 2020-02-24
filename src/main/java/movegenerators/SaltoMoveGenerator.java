@@ -45,21 +45,12 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	@Override
 	public boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare) {
 		Square casillero = origen.getKey();
-		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
+		SaltoSquareIterator iterator = new SaltoSquareIterator(casillero, saltos);
 		while (iterator.hasNext()) {
-		    Entry<Square, Pieza> destino = iterator.next();
-		    Pieza pieza = destino.getValue();
-		    if(pieza == null){
-		    	if(kingSquare.equals(destino.getKey())){
-		    		return true;
-		    	}
-		    } else if(color.equals(pieza.getColor())){
-		    	continue;
-		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	if(kingSquare.equals(destino.getKey())){
-		    		return true;
-		    	}	    	
-		    }
+		    Square salto = iterator.next();
+	    	if(kingSquare.equals(salto)){
+	    		return true;
+	    	}
 		}
 		return false;		
 	}
