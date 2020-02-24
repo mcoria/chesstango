@@ -24,6 +24,6 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
 	public CaballoMoveGenerator(Color color) {
 		super(color, SALTOS_CABALLO);
-	}
+	}	
 
 }

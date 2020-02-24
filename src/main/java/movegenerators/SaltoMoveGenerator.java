@@ -38,18 +38,22 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 	
-	// ESTO SE PUEDE MEJORAR, NO HACE FALTA INSTANCIAR SaltoSquareIterator
 	@Override
 	public boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare) {
-		Square casillero = origen.getKey();
-		SaltoSquareIterator iterator = new SaltoSquareIterator(casillero, saltos);
-		while (iterator.hasNext()) {
-		    Square salto = iterator.next();
-	    	if(kingSquare.equals(salto)){
-	    		return true;
-	    	}
+		Square squareOrigen = origen.getKey();
+		int fileOrigen = squareOrigen.getFile();
+		int rankOrigen = squareOrigen.getRank();
+		
+		int fileKing = kingSquare.getFile();
+		int rankKing = kingSquare.getRank();
+
+		for (int i = 0; i < saltos.length; i++) {
+			if(fileOrigen + saltos[i][0] == fileKing && rankOrigen + saltos[i][1] == rankKing) {
+				return true;
+			}
+				
 		}
 		return false;		
-	}
+	}	
 
 }
