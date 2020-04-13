@@ -35,7 +35,6 @@ public class PeonNegroMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new PeonNegroMoveGenerator();
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -48,7 +47,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(1, moves.size());
 		
@@ -65,7 +64,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		
@@ -84,7 +83,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(3, moves.size());
 		
@@ -109,7 +108,7 @@ public class PeonNegroMoveGeneratorTest {
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		
@@ -131,7 +130,7 @@ public class PeonNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
 		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e5, Square.e6) ));
@@ -155,7 +154,7 @@ public class PeonNegroMoveGeneratorTest {
 
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		

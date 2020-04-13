@@ -35,7 +35,6 @@ public class PeonBlancoMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new PeonBlancoMoveGenerator();
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -48,7 +47,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(1, moves.size());
 		
@@ -65,7 +64,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		
@@ -83,7 +82,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(0, moves.size());
 		
@@ -101,7 +100,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(3, moves.size());
 		
@@ -125,7 +124,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		
@@ -145,7 +144,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(3, moves.size());
 		
@@ -169,7 +168,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		

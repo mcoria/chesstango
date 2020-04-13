@@ -35,7 +35,6 @@ public class CardinalMoveGeneratorSurEsteTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste});
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}	
 	
 	@Test
@@ -48,7 +47,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 	
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(3, moves.size());
 		
@@ -69,7 +68,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 	
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(2, moves.size());
 		
@@ -89,7 +88,7 @@ public class CardinalMoveGeneratorSurEsteTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 	
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(3, moves.size());
 		

@@ -10,14 +10,12 @@ import chess.Square;
 
 public interface MoveGenerator {
 
-	public void generateMoves(Map.Entry<Square, Pieza> origen);
+	public void generateMoves(Map.Entry<Square, Pieza> origen, Collection<Move> moveContainer);
 
 	public boolean puedeCapturarRey(Map.Entry<Square, Pieza> origen, Square kingSquare);
 	
 	public void setTablero(DummyBoard tablero);
 
 	public void setFilter(MoveFilter filter);
-	
-	public void setMoveContainer(Collection<Move> moveContainer); 
 
 }

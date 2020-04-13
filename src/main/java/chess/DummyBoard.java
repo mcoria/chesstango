@@ -89,13 +89,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		for (SquareIterator iterator = this.iteratorSquare(turnoActual); iterator.hasNext();) {
 			Entry<Square, Pieza> origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
-			if(currentPieza != null){
-				if(turnoActual.equals(currentPieza.getColor())){
-					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-					moveGenerator.setMoveContainer(moves);
-					moveGenerator.generateMoves(origen);
-				}
-			}
+			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+			moveGenerator.generateMoves(origen, moves);
 		}
 		return moves;
 	}

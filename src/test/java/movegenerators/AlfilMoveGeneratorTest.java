@@ -34,7 +34,6 @@ public class AlfilMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -47,7 +46,7 @@ public class AlfilMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -86,7 +85,7 @@ public class AlfilMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.generateMoves(origen);  
+		moveGenerator.generateMoves(origen, moves);  
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

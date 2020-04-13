@@ -1,9 +1,11 @@
 package movegenerators;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.Color;
+import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
@@ -24,25 +26,25 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(Map.Entry<Square, Pieza> origen) {
+	public void generateMoves(Map.Entry<Square, Pieza> origen, Collection<Move> moveContainer) {
 		for (Cardinal cardinal : this.direcciones) {
-			getPseudoMoves(origen, cardinal);
+			getPseudoMoves(origen, cardinal, moveContainer);
 		}
 	}
 	
 	
-	protected void getPseudoMoves(Map.Entry<Square, Pieza> origen, Cardinal cardinal) {
+	protected void getPseudoMoves(Map.Entry<Square, Pieza> origen, Cardinal cardinal, Collection<Move> moveContainer) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(this.moveContainer, new SimpleMove(origen, destino));
+				this.filter.filterMove(moveContainer, new SimpleMove(origen, destino));
 		    } else if(color.equals(pieza.getColor())){
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	this.filter.filterMove(this.moveContainer, new CaptureMove(origen, destino));	
+		    	this.filter.filterMove(moveContainer, new CaptureMove(origen, destino));	
 		    	break;
 		    }
 		}

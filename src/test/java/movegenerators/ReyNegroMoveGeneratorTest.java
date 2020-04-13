@@ -36,7 +36,6 @@ public class ReyNegroMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new ReyNegroMoveGenerator();
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -49,7 +48,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -72,7 +71,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(5, moves.size());
 		
@@ -99,7 +98,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
@@ -119,7 +118,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -142,7 +141,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(5, moves.size());
 		
@@ -171,7 +170,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -198,7 +197,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));

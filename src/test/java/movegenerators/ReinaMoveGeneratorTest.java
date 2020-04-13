@@ -33,7 +33,6 @@ public class ReinaMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -46,7 +45,7 @@ public class ReinaMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.REINA_BLANCO);
 
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 
 		assertEquals(27, moves.size());
 

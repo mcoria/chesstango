@@ -34,7 +34,6 @@ public class CaballoMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -49,7 +48,7 @@ public class CaballoMoveGeneratorTest {
 	
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.CABALLO_BLANCO);
 		
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(7, moves.size());
 		

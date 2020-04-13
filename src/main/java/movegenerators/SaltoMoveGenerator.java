@@ -1,9 +1,11 @@
 package movegenerators;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.Color;
+import chess.Move;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
@@ -22,18 +24,18 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(Map.Entry<Square, Pieza> origen) {
+	public void generateMoves(Map.Entry<Square, Pieza> origen, Collection<Move> moveContainer) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(this.moveContainer, new SimpleMove(origen, destino));
+				this.filter.filterMove(moveContainer, new SimpleMove(origen, destino));
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-				this.filter.filterMove(this.moveContainer, new CaptureMove(origen, destino));
+				this.filter.filterMove(moveContainer, new CaptureMove(origen, destino));
 		    }
 		}
 	}

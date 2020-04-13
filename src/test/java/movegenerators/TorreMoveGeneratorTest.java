@@ -34,7 +34,6 @@ public class TorreMoveGeneratorTest {
 		builder = new FENBoarBuilder();
 		moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
-		moveGenerator.setMoveContainer(moves);
 	}
 	
 	@Test
@@ -47,7 +46,7 @@ public class TorreMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(14, moves.size());
 		
@@ -86,7 +85,7 @@ public class TorreMoveGeneratorTest {
 		
 		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
 	
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generateMoves(origen, moves);
 		
 		assertEquals(13, moves.size());
 		
