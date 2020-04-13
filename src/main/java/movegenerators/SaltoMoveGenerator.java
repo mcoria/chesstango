@@ -59,5 +59,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	protected abstract SimpleMove createSimpleMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
+	
+	protected abstract SimpleMove createCaptureMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
 
 }
