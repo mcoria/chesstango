@@ -31,7 +31,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		    Entry<Square, Pieza> destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(moveContainer, new SimpleMove(origen, destino));
+				this.filter.filterMove(moveContainer, createSimpleMove(origen, destino));
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
@@ -56,6 +56,8 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 				
 		}
 		return false;		
-	}	
+	}
+	
+	protected abstract SimpleMove createSimpleMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
 
 }

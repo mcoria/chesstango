@@ -1,6 +1,11 @@
 package movegenerators;
 
+import java.util.Map;
+
 import chess.Color;
+import chess.Pieza;
+import chess.Square;
+import moveexecutors.SimpleMove;
 
 public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
@@ -24,6 +29,9 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
 	public CaballoMoveGenerator(Color color) {
 		super(color, SALTOS_CABALLO);
+	}
+	
+	protected SimpleMove createSimpleMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino){
+		return new SimpleMove(origen, destino);
 	}	
-
 }

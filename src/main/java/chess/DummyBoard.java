@@ -53,6 +53,8 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
+		setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO));
+		setSquareKingNegroCache(getKingSquareRecorrer(Color.NEGRO));
 	}
 	
 	
@@ -124,15 +126,21 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		}
 		return false;		
 	}
-	
-	private Square squareKingCache = Square.e1;
+
+	///////////////////////////// START getKingSquare Logic /////////////////////////////	
 	private Square getKingSquare(Color color) {
-		Pieza rey = Pieza.getRey(color);
-		Pieza posiblePieza = this.getPieza(squareKingCache);
-		if(rey.equals(posiblePieza)){
-			return squareKingCache;
-		}		
-		return getKingSquareRecorrer(color);
+		return Color.BLANCO.equals(color) ? squareKingBlancoCache : squareKingNegroCache;
+	}
+	
+	private Square squareKingBlancoCache = null;
+	private Square squareKingNegroCache = null;
+	
+	public void setSquareKingBlancoCache(Square square){
+		this.squareKingBlancoCache = square;
+	}
+	
+	public void setSquareKingNegroCache(Square square){
+		this.squareKingNegroCache = square;
 	}
 	
 	private Square getKingSquareRecorrer(Color color) {
@@ -143,12 +151,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			Pieza currentPieza = entry.getValue();
 			if(rey.equals(currentPieza)){
 				kingSquare = currentSquare;
-				squareKingCache = currentSquare;
 				break;
 			}
 		}
 		return kingSquare;
-	}
+	}	
+	///////////////////////////// END getKingSquare Logic /////////////////////////////	
 
 	///////////////////////////// START Board Iteration Logic /////////////////////////////	
 	public BoardIterator iterator(SquareIterator squareIterator){
