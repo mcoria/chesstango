@@ -18,7 +18,7 @@ import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilter {
+public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a8, Pieza.TORRE_NEGRO);
 	public static final Map.Entry<Square, Pieza> REY_NEGRO = new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO);
@@ -39,23 +39,24 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	//private Pieza[][] tablero;
 	
 	@SuppressWarnings("unchecked")
-	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];	
-	
-	private BoardState boardState;
-	
-	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this);
-	
+	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
 	private List<Square> squareBlancos = new ArrayList<Square>();
-	
 	private List<Square> squareNegros = new ArrayList<Square>();
+	
+	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this, (Collection<Move> moves, Move move) -> filterMove(moves, move) );
+	
+	private BoardState boardState = null;
+
 	
 	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
 	}
 	
+	
+	///////////////////////////// START positioning logic /////////////////////////////
 	public Map.Entry<Square, Pieza> getPosicion(Square square) {
 		return tablero[square.toIdx()];
 	}
@@ -80,10 +81,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 	public boolean isEmtpy(Square square) {
 		return getPieza(square) == null;
 	}
-	
-	public BoardState getBoardState() {
-		return boardState;
-	}	
+	///////////////////////////// END positioning logic /////////////////////////////
 	
 	public Collection<Move>  getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
@@ -102,8 +100,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		return moves;
 	}
 	
-	@Override
-	public void filterMove(Collection<Move> moves, Move move) {
+	private void filterMove(Collection<Move> moves, Move move) {
 		move.executeMove(this);
 		if(! this.isKingInCheck() ) {
 			moves.add(move);
@@ -158,35 +155,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		return kingSquare;
 	}
 
-	@Override
-	public String toString() {
-	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    try (PrintStream ps = new PrintStream(baos)) {
-	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	output.printDummyBoard(this);
-	    	ps.flush();
-	    }
-	    return new String(baos.toByteArray());
-	}
-	
-	private static Collection<Move> createMoveContainer(){
-		return new ArrayList<Move>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
-	}
-	
+	///////////////////////////// START Board Iteration Logic /////////////////////////////	
 	public BoardIterator iterator(SquareIterator squareIterator){
 		return new BoardIterator(){
 			@Override
@@ -223,7 +192,9 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		return new DummyBoardIterator(this);
 	}
 
+	///////////////////////////// END Board Iteration Logic /////////////////////////////	
 
+	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
 		move.executeMove(this);
 		
@@ -248,26 +219,46 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
-
-	/*
-	private boolean validarSquares(List<Square> squares, Color colorFiltro) {
-		List<Square> copia = new ArrayList<Square>();
-		copia.addAll(squares);
-
-		for (Entry<Square, Pieza> posicion : this) {
-			Pieza pieza = posicion.getValue();
-			if (pieza != null) {
-				if (colorFiltro.equals(pieza.getColor())) {
-					if (copia.remove(posicion.getKey()) == false) {
-						return false;
-					}
-				}
-			}
-		}
-		return copia.isEmpty();
-	}*/
+	///////////////////////////// END Move execution Logic /////////////////////////////
 	
+	
+	public BoardState getBoardState() {
+		return boardState;
+	}
+	
+	public MoveFilter getDefaultFilter(){
+		return (Collection<Move> moves, Move move) -> filterMove(moves, move);
+	}
+	
+	@Override
+	public String toString() {
+	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    try (PrintStream ps = new PrintStream(baos)) {
+	    	ASCIIOutput output = new ASCIIOutput(ps);
+	    	output.printDummyBoard(this);
+	    	ps.flush();
+	    }
+	    return new String(baos.toByteArray());
+	}
+	
+	private static Collection<Move> createMoveContainer(){
+		return new ArrayList<Move>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
 
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (Move move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
+	}	
+	
 	private void crearTablero(Pieza[][] sourceTablero) {
 		for (int file = 0; file < 8; file++) {
 			for (int rank = 0; rank < 8; rank++) {

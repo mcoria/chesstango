@@ -91,7 +91,7 @@ public class ReyNegroMoveGeneratorTest {
 				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setFilter(tablero);
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -163,7 +163,7 @@ public class ReyNegroMoveGeneratorTest {
 				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setFilter(tablero);
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -189,7 +189,7 @@ public class ReyNegroMoveGeneratorTest {
 				.buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setFilter(tablero);
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(DummyBoard.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
