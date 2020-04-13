@@ -45,7 +45,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	private List<Square> squareBlancos = new ArrayList<Square>();
 	private List<Square> squareNegros = new ArrayList<Square>();
 	
-	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this, (Collection<Move> moves, Move move) -> filterMove(moves, move) );
+	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this, getDefaultFilter() );
 	
 	private BoardState boardState = null;
 
@@ -117,7 +117,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(colorRey.equals(currentPieza.getColor().opositeColor())){
-					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
 					if(moveGenerator.puedeCapturarRey(origen, kingSquare)){
 						return true;
 					}
@@ -202,7 +202,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		move.executeMove(this);
 		
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareBlancos : this.squareNegros;
-		List<Square> squaresOpenente = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareNegros : this.squareBlancos;
+		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
 		move.executeSquareLists(squaresTurno, squaresOpenente);
 		
 		move.executeState(boardState);
@@ -215,7 +215,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		move.undoMove(this);
 		
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareNegros : this.squareBlancos;
-		List<Square> squaresOpenente = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareBlancos : this.squareNegros;
+		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
 		move.undoSquareLists(squaresTurno, squaresOpenente);	
 		
 		move.undoState(boardState);
