@@ -117,12 +117,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>>, MoveFilte
 		return sepuedeCapturarReyEnSquare(turno, kingSquare);
 	}	
 	
-	public boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){
-		for (SquareIterator iterator = this.iteratorSquare(color.opositeColor()); iterator.hasNext();) {
+	public boolean sepuedeCapturarReyEnSquare(Color colorRey, Square kingSquare){
+		for (SquareIterator iterator = this.iteratorSquare(colorRey.opositeColor()); iterator.hasNext();) {
 			Entry<Square, Pieza> origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
-				if(color.equals(currentPieza.getColor().opositeColor())){
+				if(colorRey.equals(currentPieza.getColor().opositeColor())){
 					MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 					if(moveGenerator.puedeCapturarRey(origen, kingSquare)){
 						return true;

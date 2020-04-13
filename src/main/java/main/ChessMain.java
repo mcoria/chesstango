@@ -12,18 +12,85 @@ import parsers.FENBoarBuilder;
 import parsers.FENCoder;
 
 public class ChessMain {
-
+	
+	private int maxLevel;
+	
+	private FENCoder coder = new FENCoder();
+	
+	private List<Map<String, Node>> nodeListMap;
+	private int[] repetedNodes;
+	
 	public static void main(String[] args) {
 		Board board = new FENBoarBuilder().withDefaultBoard().buildBoard();
 		
 		ChessMain main = new ChessMain();
 		
-		Node rootNode = main.start(board, 6);
+		Node rootNode = main.start(board, 5);
 		
 		main.printNode(board, rootNode);
 		
 	}
 
+	public Node start(Board board, int maxLevel) {
+		this.maxLevel = maxLevel;
+		this.nodeListMap = new  ArrayList<Map<String, Node>>(maxLevel);
+		this.repetedNodes = new int[maxLevel];
+		
+		String rootId = coder.code(board);
+		Node rootNode = new Node(rootId, 0);
+		visitChilds(board, rootNode);
+		
+		return rootNode;
+		
+	}
+
+	private void visitChilds(Board board, Node currentNode) {
+		int totalMoves = 0;
+		
+		int currentLevel = currentNode.getLevel() + 1;
+		
+		Map<String, Node> nodeMap = getNodeMap(currentLevel);
+		
+		Map<Move, Node> childNodes = new HashMap<Move, Node>();
+		
+		for (Move move : board.getMovimientosPosibles()) {
+			board.executeMove(move);
+
+			String id = coder.code(board);
+			Node node = nodeMap.get(id);
+			if (node == null) {
+				node = new Node(id, currentLevel);
+				if (currentLevel < this.maxLevel) {
+					visitChilds(board, node);
+				} else if (currentLevel == this.maxLevel) {
+					node.setChildNodesCounter(1);
+				} else {
+					throw new RuntimeException("Error");
+				}
+				nodeMap.put(id, node);
+			}else {
+				repetedNodes[currentLevel - 1]++;
+			}
+
+			childNodes.put(move, node);
+			totalMoves += node.getChildNodesCounter();
+
+			board.undoMove();
+		}
+
+		currentNode.setChilds(childNodes);
+		currentNode.setChildNodesCounter(totalMoves);
+	}
+
+	private Map<String, Node> getNodeMap(int currentLevel) {
+		Map<String, Node> nodeMap = null;
+		if(nodeListMap.size() <  currentLevel){
+			nodeMap = new HashMap<String, Node>();
+			nodeListMap.add(nodeMap);
+		}
+		return nodeListMap.get(currentLevel - 1);
+	}
+	
 	public void printNode(Board board, Node rootNode) {
 		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
 		System.out.println("Total Moves: " + rootNode.getMoves());
@@ -40,66 +107,9 @@ public class ChessMain {
 			}
 		}
 		
-		//System.out.println(FENCoder.codeFEN(board));
-	}
-
-	private int maxLevel;
-	private FENCoder coder = new FENCoder();
-	
-	private List<Map<String, Node>> nodeListMap; 
-
-	Node start(Board board, int maxLevel) {
-		this.maxLevel = maxLevel;
-		this.nodeListMap = new  ArrayList<Map<String, Node>>(maxLevel);
-		
-		String rootId = coder.code(board);
-		Node rootNode = new Node(rootId, 0);
-		visitChilds(board, 1, rootNode);
-		
-		return rootNode;
-		
-	}
-
-	private void visitChilds(Board board, int currentLevel, Node currentNode) {
-		int totalMoves = 0;
-		Map<String, Node> nodeMap = getNodeMap(currentLevel);
-		Map<Move, Node> childNodes = new HashMap<Move, Node>();
-		for (Move move : board.getMovimientosPosibles()) {
-			board.executeMove(move);
-			
-			String id = coder.code(board);
-			Node node = nodeMap.get(id);
-			if(node==null){
-				node = new Node(id, currentLevel + 1);
-				if (currentLevel < this.maxLevel) {
-					visitChilds(board, currentLevel + 1, node);
-				} else if (currentLevel == this.maxLevel) {
-					node.setChildNodesCounter(1);
-				} else {
-					throw new RuntimeException("Error");
-				}
-				nodeMap.put(id, node);
-			} /*else {
-				System.out.println("Found");
-			}*/
-			
-			childNodes.put(move, node);
-			totalMoves += node.getChildNodesCounter();
-
-			board.undoMove();
+		for (int i = 0; i < repetedNodes.length; i++) {
+			System.out.println("Level " + i + " Nodes=" + nodeListMap.get(i).size() + " repeated=" + repetedNodes[i]);
 		}
-			
-		currentNode.setChilds(childNodes);
-		currentNode.setChildNodesCounter(totalMoves);
-	}
-
-	private Map<String, Node> getNodeMap(int currentLevel) {
-		Map<String, Node> nodeMap = null;
-		if(nodeListMap.size() <  currentLevel){
-			nodeMap = new HashMap<String, Node>();
-			nodeListMap.add(nodeMap);
-		}
-		return nodeListMap.get(currentLevel - 1);
-	}
+	}	
 
 }
