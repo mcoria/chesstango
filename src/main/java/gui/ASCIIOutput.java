@@ -3,7 +3,7 @@ package gui;
 import java.io.PrintStream;
 import java.util.Map;
 
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
@@ -21,7 +21,7 @@ public class ASCIIOutput {
 		this.printStream = printStream;
 	}
 	
-	public void printDummyBoard(DummyBoard tablero) {
+	public void printDummyBoard(Board tablero) {
 		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 
 		printStream.println("  -------------------------------");

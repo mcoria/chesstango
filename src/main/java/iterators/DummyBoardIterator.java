@@ -2,7 +2,7 @@ package iterators;
 
 import java.util.Map;
 
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 
@@ -20,9 +20,9 @@ public class DummyBoardIterator implements BoardIterator {
 	
     private int nextIdx = 0;
 	
-	private DummyBoard board;
+	private Board board;
 	
-	public DummyBoardIterator(DummyBoard board) {
+	public DummyBoardIterator(Board board) {
 		this.board = board;
 	}
 

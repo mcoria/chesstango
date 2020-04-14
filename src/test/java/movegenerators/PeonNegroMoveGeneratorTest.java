@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.DummyBoard;
+import chess.Board;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -39,7 +39,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		DummyBoard tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a6;
@@ -56,7 +56,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {		
-		DummyBoard tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a7;
@@ -74,7 +74,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		DummyBoard tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e7;
@@ -94,7 +94,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		DummyBoard tablero = 
+		Board tablero = 
 				builder
 				.withTablero("8/8/8/8/3Pp3/8/8/8")
 				.withPeonPasanteSquare(Square.d3)
@@ -118,7 +118,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		DummyBoard tablero = 
+		Board tablero = 
 				builder
 				.withTablero("8/4p3/5P2/8/8/8/8/8")
 				.buildDummyBoard();
@@ -141,7 +141,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		DummyBoard tablero = 
+		Board tablero = 
 				builder
 				.withTablero("8/8/8/8/3pP3/8/8/8")
 				.withPeonPasanteSquare(Square.e3)
@@ -164,7 +164,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPuedeCapturarRey() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(Square.e1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));

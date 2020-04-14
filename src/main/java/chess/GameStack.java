@@ -4,7 +4,9 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
-public class BoardPila {
+import chess.Game.GameStatus;
+
+public class GameStack {
 	
 	private Collection<Move> movimientosPosibles;
 	private Move movimientoSeleccionado;

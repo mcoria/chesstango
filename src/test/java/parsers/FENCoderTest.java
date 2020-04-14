@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.BoardState;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 
 public class FENCoderTest {
@@ -36,7 +36,7 @@ public class FENCoderTest {
 	@Test
 	public void testCodePiecePlacement03() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = new DummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState());
+		Board tablero = new Board(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState());
 		FENCoder coder = new FENCoder();
 		String actual = coder.codePiecePlacement(tablero);
 		
@@ -45,7 +45,7 @@ public class FENCoderTest {
 
 	@Test
 	public void testCodeBoard01() {		
-		DummyBoard tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1").buildDummyBoard();
+		Board tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1").buildDummyBoard();
 		
 		String actual = coder.code(tablero);
 		
@@ -54,7 +54,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testCodeBoard02() {
-		DummyBoard tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildDummyBoard();
+		Board tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildDummyBoard();
 		
 		String actual = coder.code(tablero);
 		

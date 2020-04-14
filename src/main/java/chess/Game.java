@@ -3,11 +3,18 @@ package chess;
 import java.util.Collection;
 
 public class Game {
-	private DummyBoard tablero;
 	
-	private BoardPila boardPila = new BoardPila();
+	public static enum GameStatus {
+		IN_PROGRESS,
+		TABLAS,
+		JAQUE_MATE
+	}
 	
-	public Game(DummyBoard tablero){
+	private Board tablero;
+	
+	private GameStack boardPila = new GameStack();
+	
+	public Game(Board tablero){
 		this.tablero = tablero;
 		updateGameStatus();
 	}
@@ -87,7 +94,7 @@ public class Game {
 		return buffer.toString();
 	}
 
-	public final DummyBoard getTablero() {
+	public final Board getTablero() {
 		return tablero;
 	}
 

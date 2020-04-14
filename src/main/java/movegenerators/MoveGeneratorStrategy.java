@@ -1,7 +1,7 @@
 package movegenerators;
 
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 
 public class MoveGeneratorStrategy {
@@ -19,7 +19,7 @@ public class MoveGeneratorStrategy {
 	private ReyBlancoMoveGenerator rbmg;
 	private ReyNegroMoveGenerator rnmg;
 
-	public MoveGeneratorStrategy(DummyBoard board, MoveFilter filter) {
+	public MoveGeneratorStrategy(Board board, MoveFilter filter) {
 		pbmg =  new PeonBlancoMoveGenerator();
 		pbmg.setTablero(board);
 		pbmg.setFilter(filter);

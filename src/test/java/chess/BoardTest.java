@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.Game.GameStatus;
 import parsers.FENBoarBuilder;
 
 public class BoardTest {

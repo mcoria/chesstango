@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -38,7 +38,7 @@ public class AlfilMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves01() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
@@ -76,7 +76,7 @@ public class AlfilMoveGeneratorTest {
 
 	@Test
 	public void testGetPseudoMoves02() {
-		DummyBoard tablero = builder.withTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.c1;

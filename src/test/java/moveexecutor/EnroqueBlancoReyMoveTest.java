@@ -6,7 +6,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.EnroqueBlancoReyMove;
@@ -26,7 +26,7 @@ public class EnroqueBlancoReyMoveTest {
 	
 	@Test
 	public void testExecute() {
-		DummyBoard board = builder.withFEN("4k3/8/8/8/8/8/8/4K2R w KQkq - 0 1").buildDummyBoard();
+		Board board = builder.withFEN("4k3/8/8/8/8/8/8/4K2R w KQkq - 0 1").buildDummyBoard();
 
 		moveExecutor.executeMove(board);
 		assertEquals(Pieza.REY_BLANCO, board.getPieza(Square.g1));

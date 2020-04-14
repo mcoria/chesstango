@@ -2,7 +2,7 @@ package moveexecutors;
 
 import java.util.Map.Entry;
 
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 
@@ -13,7 +13,7 @@ public class SimpleReyMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(Board board) {
 		super.executeMove(board);
 		SquareKingCacheSetter kingCacheSetter = board.getSquareKingCacheSetter(from.getValue().getColor());
 		kingCacheSetter.setSquareKingCache(to.getKey());
@@ -21,7 +21,7 @@ public class SimpleReyMove extends SimpleMove {
 	
 	
 	@Override
-	public void undoMove(DummyBoard board) {
+	public void undoMove(Board board) {
 		super.undoMove(board);
 		SquareKingCacheSetter kingCacheSetter = board.getSquareKingCacheSetter(from.getValue().getColor());
 		kingCacheSetter.setSquareKingCache(from.getKey());

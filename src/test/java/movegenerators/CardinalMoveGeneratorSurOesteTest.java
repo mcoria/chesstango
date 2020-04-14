@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -39,7 +39,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 
 	@Test
 	public void testSurOeste() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -60,7 +60,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 
 	@Test
 	public void testSurOeste01() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/R7").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/4B3/8/8/8/R7").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -81,7 +81,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 
 	@Test
 	public void testSurOeste02() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/r7").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/4B3/8/8/8/r7").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

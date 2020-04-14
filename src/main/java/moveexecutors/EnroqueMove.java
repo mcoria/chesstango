@@ -3,7 +3,7 @@ package moveexecutors;
 import java.util.List;
 
 import chess.BoardState;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Move;
 import chess.Square;
 
@@ -13,14 +13,14 @@ public abstract class EnroqueMove implements Comparable<Move>, Move {
 	protected abstract Move getTorreMove();
 	
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(Board board) {
 		getReyMove().executeMove(board);
 		getTorreMove().executeMove(board);
 	}
 
 
 	@Override
-	public void undoMove(DummyBoard board) {
+	public void undoMove(Board board) {
 		getReyMove().undoMove(board);
 		getTorreMove().undoMove(board);
 	}	

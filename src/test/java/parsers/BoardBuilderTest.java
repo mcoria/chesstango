@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Square;
 import parsers.FENBoarBuilder;
 
@@ -21,7 +21,7 @@ public class BoardBuilderTest {
 	
 	@Test
 	public void testParse() {
-		DummyBoard board = builder.withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildDummyBoard();
+		Board board = builder.withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildDummyBoard();
 		
 		assertEquals(Color.NEGRO, board.getBoardState().getTurnoActual());
 		assertEquals(Square.e3, board.getBoardState().getPeonPasanteSquare());

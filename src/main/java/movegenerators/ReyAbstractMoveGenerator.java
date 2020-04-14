@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.CaptureMove;
@@ -30,7 +30,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	
 	protected boolean puedeEnroqueReina(
-			DummyBoard dummyBoard, 
+			Board dummyBoard, 
 			Map.Entry<Square, Pieza> origen, 
 			Map.Entry<Square, Pieza> rey,
 			Map.Entry<Square, Pieza> torre,
@@ -53,7 +53,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	}
 	
 	protected boolean puedeEnroqueRey(
-			DummyBoard dummyBoard, 
+			Board dummyBoard, 
 			Map.Entry<Square, Pieza> origen, 
 			Map.Entry<Square, Pieza> rey,
 			Map.Entry<Square, Pieza> torre,

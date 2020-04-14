@@ -18,7 +18,7 @@ import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
+public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
 	
@@ -26,14 +26,14 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	private BoardState boardState = null;
 
-	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
+	public Board(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
 		setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO));
 		setSquareKingNegroCache(getKingSquareRecorrer(Color.NEGRO));
 	}
 	
-	
+
 	///////////////////////////// START positioning logic /////////////////////////////
 	// Quizas podria encapsular estas operaciones en su propia clase.
 	// Bitboard podria ser mas rapido? Un word por tipo de ficha
@@ -112,7 +112,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	}
 
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
-	
 	private Square squareKingBlancoCache = null;
 	private Square squareKingNegroCache = null;
 	

@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import chess.CachePosiciones;
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -41,7 +41,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina01() {
-		DummyBoard tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
@@ -63,7 +63,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina02() {
-		DummyBoard tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 	
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
@@ -85,7 +85,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina03() {
-		DummyBoard tablero = builder.withTablero("r3k3/8/8/5B2/8/8/8/8")
+		Board tablero = builder.withTablero("r3k3/8/8/5B2/8/8/8/8")
 				.withTurno(Color.NEGRO)
 				.withEnroqueNegroReinaPermitido(true)
 				.buildDummyBoard();
@@ -111,7 +111,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey01() {
-		DummyBoard tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
@@ -133,7 +133,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey02() {
-		DummyBoard tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
@@ -155,7 +155,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey03() {
-		DummyBoard tablero = 
+		Board tablero = 
 				builder
 				.withTablero("4k2r/8/8/3B4/8/8/8/8")
 				.withEnroqueNegroReyPermitido(true)
@@ -183,7 +183,7 @@ public class ReyNegroMoveGeneratorTest {
 
 	@Test
 	public void testEnroqueNegroJaque() {
-		DummyBoard tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8")
+		Board tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8")
 				.withTurno(Color.NEGRO)
 				.withEnroqueBlancoReinaPermitido(true)
 				.buildDummyBoard();

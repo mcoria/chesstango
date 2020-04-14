@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import chess.Game;
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 import iterators.BoardIterator;
@@ -26,7 +26,7 @@ public class FENCoder {
 		return code(input.getTablero());
 	}
 
-	public String code(DummyBoard input) {
+	public String code(Board input) {
 		BoardState state = input.getBoardState();
 		char colorActual = state.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
 		String peonPasante = codePeonPasante(state.getPeonPasanteSquare());
@@ -34,7 +34,7 @@ public class FENCoder {
 		return codePiecePlacement(input) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
-	public String codePiecePlacement(DummyBoard board) {
+	public String codePiecePlacement(Board board) {
 		int idx = 0;
 		int idxLinea = 0;
 		Pieza[] piezas = new Pieza[8];

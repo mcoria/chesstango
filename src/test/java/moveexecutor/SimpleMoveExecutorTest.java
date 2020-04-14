@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import chess.BoardState;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.SimpleMove;
@@ -20,7 +20,7 @@ import moveexecutors.SimpleMove;
 public class SimpleMoveExecutorTest {
 
 	@Mock
-	private DummyBoard board;
+	private Board board;
 	
 	@Mock
 	private BoardState boardState;

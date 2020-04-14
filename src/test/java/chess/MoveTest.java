@@ -69,7 +69,7 @@ public class MoveTest {
 	
 	@Test
 	public void testSimple() {
-		DummyBoard tablero = builder.withFEN("8/8/8/4R3/8/8/8/8 w KQkq - 0 1").buildDummyBoard();
+		Board tablero = builder.withFEN("8/8/8/4R3/8/8/8/8 w KQkq - 0 1").buildDummyBoard();
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertTrue(tablero.isEmtpy(Square.e7));
@@ -94,7 +94,7 @@ public class MoveTest {
 	
 	@Test
 	public void testCapture() {
-		DummyBoard tablero = builder.withFEN("8/4p3/8/4R3/8/8/8/8 w KQkq - 0 1").buildDummyBoard();
+		Board tablero = builder.withFEN("8/4p3/8/4R3/8/8/8/8 w KQkq - 0 1").buildDummyBoard();
 		
 		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.PEON_NEGRO);

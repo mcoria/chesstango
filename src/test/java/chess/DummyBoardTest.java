@@ -26,7 +26,7 @@ public class DummyBoardTest {
 	
 	@Test
 	public void test01() {
-		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
+		Board tablero = builder.withDefaultBoard().buildDummyBoard();
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
@@ -72,7 +72,7 @@ public class DummyBoardTest {
 	@Test
 	public void test02() {
 		int totalPiezas = 0;
-		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
+		Board tablero = builder.withDefaultBoard().buildDummyBoard();
 		for (SquareIterator iterator = tablero.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());
 			assertEquals(Color.BLANCO, pieza.getColor());

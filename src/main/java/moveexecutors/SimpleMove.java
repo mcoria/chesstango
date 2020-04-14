@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import chess.BoardState;
-import chess.DummyBoard;
+import chess.Board;
 import chess.Pieza;
 import chess.Square;
 
@@ -15,13 +15,13 @@ public class SimpleMove extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(Board board) {
 		board.setEmptySquare(from.getKey());					//Dejamos origen
 		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos a destino
 	}
 
 	@Override
-	public void undoMove(DummyBoard board) {
+	public void undoMove(Board board) {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen	
 	}
