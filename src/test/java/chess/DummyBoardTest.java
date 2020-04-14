@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -83,11 +82,11 @@ public class DummyBoardTest {
 	
 
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
-		return new SimpleMove(new SimpleImmutableEntry<Square, Pieza>(origenSquare, origenPieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
+		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
-		return new SaltoDoblePeonMove(new SimpleImmutableEntry<Square, Pieza>(origen, pieza), new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), squarePasante);
+		return new SaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null), squarePasante);
 	}		
 		
 }

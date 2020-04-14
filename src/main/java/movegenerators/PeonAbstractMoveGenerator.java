@@ -1,13 +1,12 @@
 package movegenerators;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
@@ -23,7 +22,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMoves(Map.Entry<Square, Pieza> origen, Collection<Move> moveContainer){
+	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer){
 		BoardState boardState = this.tablero.getBoardState();
 		
 		Square casillero = origen.getKey();
@@ -36,7 +35,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		Square peonPasanteSquare = boardState.getPeonPasanteSquare();
 		
 			
-		Map.Entry<Square, Pieza> destino = null;
+		PosicionPieza destino = null;
 		
 		if (saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
@@ -76,7 +75,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarRey(Map.Entry<Square, Pieza> origen, Square kingSquare) {
+	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
 		if(kingSquare.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
 		   kingSquare.equals(getCasilleroAtaqueDerecha(origen.getKey())) ){
 			return true;
@@ -92,6 +91,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
 	
-	protected abstract Entry<Square, Pieza> getCapturaPeonPasante(Square peonPasanteSquare);
+	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);
 
 }

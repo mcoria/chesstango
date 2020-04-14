@@ -1,29 +1,26 @@
 package moveexecutors;
 
-import java.util.Map;
-
 import chess.BoardState;
 import chess.Move;
-import chess.Pieza;
-import chess.Square;
+import chess.PosicionPieza;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
-	protected Map.Entry<Square, Pieza> from;
-	protected Map.Entry<Square, Pieza> to;
+	protected PosicionPieza from;
+	protected PosicionPieza to;
 	
 	
-	public AbstractMove(Map.Entry<Square, Pieza> from, Map.Entry<Square, Pieza> to) {
+	public AbstractMove(PosicionPieza from, PosicionPieza to) {
 		this.from = from;
 		this.to = to;
 	}	
 
 	@Override
-	public Map.Entry<Square, Pieza> getFrom() {
+	public PosicionPieza getFrom() {
 		return from;
 	}
 
 	@Override
-	public Map.Entry<Square, Pieza> getTo() {
+	public PosicionPieza getTo() {
 		return to;
 	}
 	

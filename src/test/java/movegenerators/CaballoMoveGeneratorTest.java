@@ -3,19 +3,17 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Color;
 import chess.Board;
+import chess.Color;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
@@ -46,7 +44,7 @@ public class CaballoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.d7));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.f7));		
 	
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.CABALLO_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.CABALLO_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -62,12 +60,12 @@ public class CaballoMoveGeneratorTest {
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PEON_NEGRO) ));
 	}
 
-	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
+	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
+		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza));
+	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
+		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}	
 	
 }

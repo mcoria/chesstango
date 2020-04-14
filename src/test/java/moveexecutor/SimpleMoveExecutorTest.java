@@ -3,17 +3,15 @@ package moveexecutor;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import chess.BoardState;
 import chess.Board;
+import chess.BoardState;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.SimpleMove;
 
@@ -36,8 +34,8 @@ public class SimpleMoveExecutorTest {
 	
 	@Test
 	public void testExecute() {
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		
 		moveExecutor =  new SimpleMove(origen, destino);
 
@@ -53,8 +51,8 @@ public class SimpleMoveExecutorTest {
 	
 	@Test
 	public void testUndo() {
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 
 		moveExecutor =  new SimpleMove(origen, destino);
 		

@@ -1,11 +1,8 @@
 package movegenerators;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import chess.Color;
 import chess.Board;
-import chess.Pieza;
+import chess.Color;
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
@@ -31,9 +28,9 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected boolean puedeEnroqueReina(
 			Board dummyBoard, 
-			Map.Entry<Square, Pieza> origen, 
-			Map.Entry<Square, Pieza> rey,
-			Map.Entry<Square, Pieza> torre,
+			PosicionPieza origen, 
+			PosicionPieza rey,
+			PosicionPieza torre,
 			Square casilleroIntermedioTorre,
 			Square casilleroDestinoRey, 
 			Square casilleroIntermedioRey) {
@@ -54,9 +51,9 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected boolean puedeEnroqueRey(
 			Board dummyBoard, 
-			Map.Entry<Square, Pieza> origen, 
-			Map.Entry<Square, Pieza> rey,
-			Map.Entry<Square, Pieza> torre,
+			PosicionPieza origen, 
+			PosicionPieza rey,
+			PosicionPieza torre,
 			Square casilleroDestinoRey, 
 			Square casilleroIntermedioRey) {
 		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
@@ -74,12 +71,12 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	}
 	
 	@Override
-	protected SimpleMove createSimpleMove(Entry<Square, Pieza> origen, Entry<Square, Pieza> destino) {
+	protected SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
 		return new SimpleReyMove(origen, destino);
 	}
 
 	@Override
-	protected CaptureMove createCaptureMove(Entry<Square, Pieza> origen, Entry<Square, Pieza> destino) {
+	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureReyMove(origen, destino);
 	}	
 

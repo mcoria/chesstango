@@ -3,11 +3,8 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,13 +12,13 @@ import org.junit.Test;
 import chess.Board;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
-
 public class PeonBlancoMoveGeneratorTest {
 	
 	private FENBoarBuilder builder;
@@ -45,7 +42,7 @@ public class PeonBlancoMoveGeneratorTest {
 		Square from = Square.a3;		
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -62,7 +59,7 @@ public class PeonBlancoMoveGeneratorTest {
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -80,7 +77,7 @@ public class PeonBlancoMoveGeneratorTest {
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -98,7 +95,7 @@ public class PeonBlancoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d3));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -122,7 +119,7 @@ public class PeonBlancoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d5));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -142,7 +139,7 @@ public class PeonBlancoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.f3));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -166,7 +163,7 @@ public class PeonBlancoMoveGeneratorTest {
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e5));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -176,20 +173,20 @@ public class PeonBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.e6) ));
 	}
 	
-	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
+	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
+		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
-	private Move createSaltoDobleMove(Entry<Square, Pieza> origen, Square destinoSquare, Square squarePasante) {
-		return new SaltoDoblePeonMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), squarePasante);
+	private Move createSaltoDobleMove(PosicionPieza origen, Square destinoSquare, Square squarePasante) {
+		return new SaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
 	}	
 	
-	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza));
+	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
+		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 
-	private Move createCapturePeonPasanteMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new CapturePeonPasante(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null), new SimpleImmutableEntry<Square, Pieza>(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
+	private Move createCapturePeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
+		return new CapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
 	}	
 	
 }

@@ -1,18 +1,17 @@
 package moveexecutors;
 
 import java.util.List;
-import java.util.Map.Entry;
 
-import chess.BoardState;
 import chess.Board;
-import chess.Pieza;
+import chess.BoardState;
+import chess.PosicionPieza;
 import chess.Square;
 
 public class CapturePeonPasante extends AbstractMove {
 
-	private final Entry<Square, Pieza> captura;
+	private final PosicionPieza captura;
 			
-	public CapturePeonPasante(Entry<Square, Pieza> from, Entry<Square, Pieza> to, Entry<Square, Pieza> captura) {
+	public CapturePeonPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
 		super(from, to);
 		this.captura = captura;
 	}

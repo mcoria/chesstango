@@ -1,21 +1,18 @@
 package moveexecutors;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import chess.BoardState;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 
 public class EnroqueNegroReyMove extends EnroqueMove {
 
-	public static final Map.Entry<Square, Pieza> FROM = new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO);
-	public static final Map.Entry<Square, Pieza> TO = new SimpleImmutableEntry<Square, Pieza>(Square.g8, null);
+	public static final PosicionPieza FROM = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
+	public static final PosicionPieza TO = new PosicionPieza(Square.g8, null);
 	
-	public static final Map.Entry<Square, Pieza> TORRE_FROM = new SimpleImmutableEntry<Square, Pieza>(Square.h8, Pieza.TORRE_NEGRO);
-	public static final Map.Entry<Square, Pieza> TORRE_TO = new SimpleImmutableEntry<Square, Pieza>(Square.f8, null);
+	public static final PosicionPieza TORRE_FROM = new PosicionPieza(Square.h8, Pieza.TORRE_NEGRO);
+	public static final PosicionPieza TORRE_TO = new PosicionPieza(Square.f8, null);
 	
 	private static final SimpleMove REY_MOVE = new SimpleReyMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
@@ -30,12 +27,12 @@ public class EnroqueNegroReyMove extends EnroqueMove {
 	}
 
 	@Override
-	public Entry<Square, Pieza> getFrom() {
+	public PosicionPieza getFrom() {
 		return FROM;
 	}
 
 	@Override
-	public Entry<Square, Pieza> getTo() {
+	public PosicionPieza getTo() {
 		return TO;
 	}
 

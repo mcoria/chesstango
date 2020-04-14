@@ -1,18 +1,17 @@
 package moveexecutors;
 
 import java.util.List;
-import java.util.Map.Entry;
 
-import chess.BoardState;
 import chess.Board;
-import chess.Pieza;
+import chess.BoardState;
+import chess.PosicionPieza;
 import chess.Square;
 
 public class SaltoDoblePeonMove extends AbstractMove {
 	
 	private final Square peonPasanteSquare;
 
-	public SaltoDoblePeonMove(Entry<Square, Pieza> from, Entry<Square, Pieza> to, Square peonPasanteSquare) {
+	public SaltoDoblePeonMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
 		super(from, to);
 		this.peonPasanteSquare = peonPasanteSquare;
 	}

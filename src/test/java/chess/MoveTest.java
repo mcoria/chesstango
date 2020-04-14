@@ -4,9 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,16 +23,16 @@ public class MoveTest {
 	
 	@Test
 	public void testEquals01() {
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		
 		assertEquals(new SimpleMove(origen, destino), new SimpleMove(origen, destino));
 	}
 	
 	@Test
 	public void testToString01() {
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		Move move = new SimpleMove(origen, destino);
 		assertEquals("e5=TORRE_BLANCO e7=null; SimpleMove", move.toString());
 	}	
@@ -43,12 +40,12 @@ public class MoveTest {
 	
 	@Test
 	public void testCompare01() {
-		Map.Entry<Square, Pieza> a2 = new SimpleImmutableEntry<Square, Pieza>(Square.a2, null);
-		Map.Entry<Square, Pieza> a3 = new SimpleImmutableEntry<Square, Pieza>(Square.a3, null);
-		Map.Entry<Square, Pieza> a4 = new SimpleImmutableEntry<Square, Pieza>(Square.a4, null);
-		Map.Entry<Square, Pieza> b1 = new SimpleImmutableEntry<Square, Pieza>(Square.b1, null);
-		Map.Entry<Square, Pieza> b2 = new SimpleImmutableEntry<Square, Pieza>(Square.b2, null);
-		Map.Entry<Square, Pieza> b3 = new SimpleImmutableEntry<Square, Pieza>(Square.b3, null);
+		PosicionPieza a2 = new PosicionPieza(Square.a2, null);
+		PosicionPieza a3 = new PosicionPieza(Square.a3, null);
+		PosicionPieza a4 = new PosicionPieza(Square.a4, null);
+		PosicionPieza b1 = new PosicionPieza(Square.b1, null);
+		PosicionPieza b2 = new PosicionPieza(Square.b2, null);
+		PosicionPieza b3 = new PosicionPieza(Square.b3, null);
 		
 		
 		AbstractMove move1 = new SimpleMove(a2, a3);
@@ -74,8 +71,8 @@ public class MoveTest {
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.e5));
 		assertTrue(tablero.isEmtpy(Square.e7));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, null);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 
 		Move move = new SimpleMove(origen, destino);
 		
@@ -99,8 +96,8 @@ public class MoveTest {
 		assertEquals(tablero.getPieza(Square.e5), Pieza.TORRE_BLANCO);
 		assertEquals(tablero.getPieza(Square.e7), Pieza.PEON_NEGRO);
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(Square.e5, Pieza.TORRE_BLANCO);
-		Map.Entry<Square, Pieza> destino = new SimpleImmutableEntry<Square, Pieza>(Square.e7, Pieza.PEON_NEGRO);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
 
 		
 		Move move = new CaptureMove(origen, destino);

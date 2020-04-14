@@ -1,10 +1,10 @@
 package gui;
 
 import java.io.PrintStream;
-import java.util.Map;
 
 import chess.Board;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.TopDownSquareIterator;
@@ -26,7 +26,7 @@ public class ASCIIOutput {
 
 		printStream.println("  -------------------------------");
 		do {
-			Map.Entry<Square, Pieza> element = iterator.next();
+			PosicionPieza element = iterator.next();
 			Square square = element.getKey();
 			Pieza pieza = element.getValue();
 

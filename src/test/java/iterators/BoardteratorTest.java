@@ -5,13 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import chess.Board;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import parsers.FENBoarBuilder;
 
@@ -30,7 +29,7 @@ public class BoardteratorTest {
 		
 		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
-		Map.Entry<Square, Pieza> entry =  null;
+		PosicionPieza entry =  null;
 		
 		// Rank 8
 		assertTrue(iterator.hasNext());
@@ -371,7 +370,7 @@ public class BoardteratorTest {
 		
 		BoardIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		
-		Map.Entry<Square, Pieza> entry =  null;
+		PosicionPieza entry =  null;
 		
 		// Rank 1
 		assertTrue(iterator.hasNext());

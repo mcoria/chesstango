@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -18,7 +16,7 @@ import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class Board implements Iterable<Map.Entry<Square, Pieza>> {
+public class Board implements Iterable<PosicionPieza> {
 	
 	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
 	
@@ -38,16 +36,15 @@ public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 	// Quizas podria encapsular estas operaciones en su propia clase.
 	// Bitboard podria ser mas rapido? Un word por tipo de ficha
 	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
-	// 
-	@SuppressWarnings("unchecked")
-	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];
+	//
+	private PosicionPieza[] tablero = new PosicionPieza[64];
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
-	public Map.Entry<Square, Pieza> getPosicion(Square square) {
+	public PosicionPieza getPosicion(Square square) {
 		return tablero[square.toIdx()];
 	}
 
-	public void setPosicion(Map.Entry<Square, Pieza> entry) {
+	public void setPosicion(PosicionPieza entry) {
 		Square square = entry.getKey();
 		tablero[square.toIdx()] = entry;
 	}
@@ -73,7 +70,7 @@ public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
 		for (SquareIterator iterator = this.iteratorSquare(turnoActual); iterator.hasNext();) {
-			Entry<Square, Pieza> origen = this.getPosicion(iterator.next());
+			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 			moveGenerator.generateMoves(origen, moves);
@@ -89,7 +86,7 @@ public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	public boolean sepuedeCapturarReyEnSquare(Color colorRey, Square kingSquare){
 		for (SquareIterator iterator = this.iteratorSquare(colorRey.opositeColor()); iterator.hasNext();) {
-			Entry<Square, Pieza> origen = this.getPosicion(iterator.next());
+			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(colorRey.equals(currentPieza.getColor().opositeColor())){
@@ -137,7 +134,7 @@ public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 	private Square getKingSquareRecorrer(Color color) {
 		Square kingSquare = null;
 		Pieza rey = Pieza.getRey(color);
-		for (Map.Entry<Square, Pieza> entry : this) {
+		for (PosicionPieza entry : this) {
 			Square currentSquare = entry.getKey();
 			Pieza currentPieza = entry.getValue();
 			if(rey.equals(currentPieza)){
@@ -163,7 +160,7 @@ public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 			}
 			
 			@Override
-			public Map.Entry<Square, Pieza> next() {
+			public PosicionPieza next() {
 				Square currentSquare = squareIterator.next();
 				return getPosicion(currentSquare);
 			}
@@ -262,7 +259,7 @@ public class Board implements Iterable<Map.Entry<Square, Pieza>> {
 	private void crearTablero(Pieza[][] sourceTablero) {
 		for (int file = 0; file < 8; file++) {
 			for (int rank = 0; rank < 8; rank++) {
-				Entry<Square, Pieza> posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
+				PosicionPieza posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
 						sourceTablero[file][rank]);
 				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
 

@@ -3,19 +3,17 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Color;
 import chess.Board;
+import chess.Color;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import iterators.CardinalSquareIterator.Cardinal;
 import moveexecutors.CaptureMove;
@@ -45,7 +43,7 @@ public class CardinalMoveGeneratorEsteTest {
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);	
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -65,7 +63,7 @@ public class CardinalMoveGeneratorEsteTest {
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.h5));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
 	
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -84,7 +82,7 @@ public class CardinalMoveGeneratorEsteTest {
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.h5));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(from, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
 	
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -95,12 +93,12 @@ public class CardinalMoveGeneratorEsteTest {
 		assertTrue(moves.contains( createCaptureMove(origen, Square.h5, Pieza.ALFIL_NEGRO) ));
 	}	
 	
-	private Move createSimpleMove(Entry<Square, Pieza> origen, Square destinoSquare) {
-		return new SimpleMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, null));
+	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
+		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(Entry<Square, Pieza> origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new SimpleImmutableEntry<Square, Pieza>(destinoSquare, destinoPieza));
+	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
+		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 		
 }

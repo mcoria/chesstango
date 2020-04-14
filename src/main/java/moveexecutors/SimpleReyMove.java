@@ -1,14 +1,11 @@
 package moveexecutors;
 
-import java.util.Map.Entry;
-
 import chess.Board;
-import chess.Pieza;
-import chess.Square;
+import chess.PosicionPieza;
 
 public class SimpleReyMove extends SimpleMove {
 
-	public SimpleReyMove(Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

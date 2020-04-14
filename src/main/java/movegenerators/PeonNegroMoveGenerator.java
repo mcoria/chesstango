@@ -1,10 +1,8 @@
 package movegenerators;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map.Entry;
-
 import chess.Color;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 
 public class PeonNegroMoveGenerator extends PeonAbstractMoveGenerator {
@@ -35,7 +33,7 @@ public class PeonNegroMoveGenerator extends PeonAbstractMoveGenerator {
 	}	
 
 	@Override
-	protected Entry<Square, Pieza> getCapturaPeonPasante(Square peonPasanteSquare) {
-		return new SimpleImmutableEntry<Square, Pieza>(Square.getSquare(peonPasanteSquare.getFile(), 3), Pieza.PEON_BLANCO);
+	protected PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare) {
+		return new PosicionPieza(Square.getSquare(peonPasanteSquare.getFile(), 3), Pieza.PEON_BLANCO);
 	}	
 }

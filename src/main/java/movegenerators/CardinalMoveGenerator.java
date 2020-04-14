@@ -1,12 +1,11 @@
 package movegenerators;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.CardinalSquareIterator;
@@ -26,18 +25,18 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(Map.Entry<Square, Pieza> origen, Collection<Move> moveContainer) {
+	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer) {
 		for (Cardinal cardinal : this.direcciones) {
 			getPseudoMoves(origen, cardinal, moveContainer);
 		}
 	}
 	
 	
-	protected void getPseudoMoves(Map.Entry<Square, Pieza> origen, Cardinal cardinal, Collection<Move> moveContainer) {
+	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal, Collection<Move> moveContainer) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
-		    Entry<Square, Pieza> destino = iterator.next();
+		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
 				this.filter.filterMove(moveContainer, new SimpleMove(origen, destino));
@@ -51,7 +50,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare) {
+	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
 		boolean result = false;
 		for (Cardinal cardinal : this.direcciones) {
 			if(cardinal.isInDirection(origen.getKey(), kingSquare)){
@@ -64,12 +63,12 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		return result;
 	}
 
-	protected boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare,
+	protected boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
-		    Entry<Square, Pieza> destino = iterator.next();
+		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
 		    	if(kingSquare.equals(destino.getKey())){

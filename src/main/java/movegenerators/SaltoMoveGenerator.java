@@ -1,12 +1,11 @@
 package movegenerators;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import iterators.BoardIterator;
 import iterators.SaltoSquareIterator;
@@ -24,11 +23,11 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(Map.Entry<Square, Pieza> origen, Collection<Move> moveContainer) {
+	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer) {
 		Square casillero = origen.getKey();
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {
-		    Entry<Square, Pieza> destino = iterator.next();
+		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
 				this.filter.filterMove(moveContainer, createSimpleMove(origen, destino));
@@ -41,7 +40,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public boolean puedeCapturarRey(Entry<Square, Pieza> origen, Square kingSquare) {
+	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
 		Square squareOrigen = origen.getKey();
 		int fileOrigen = squareOrigen.getFile();
 		int rankOrigen = squareOrigen.getRank();
@@ -58,8 +57,8 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		return false;		
 	}
 	
-	protected abstract SimpleMove createSimpleMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
+	protected abstract SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
-	protected abstract CaptureMove createCaptureMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
+	protected abstract CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino);
 
 }

@@ -1,14 +1,11 @@
 package moveexecutors;
 
-import java.util.Map.Entry;
-
 import chess.Board;
-import chess.Pieza;
-import chess.Square;
+import chess.PosicionPieza;
 
 public class CaptureReyMove extends CaptureMove {
 
-	public CaptureReyMove(Entry<Square, Pieza> from, Entry<Square, Pieza> to) {
+	public CaptureReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

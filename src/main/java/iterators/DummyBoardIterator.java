@@ -1,9 +1,7 @@
 package iterators;
 
-import java.util.Map;
-
 import chess.Board;
-import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 
 public class DummyBoardIterator implements BoardIterator {
@@ -32,7 +30,7 @@ public class DummyBoardIterator implements BoardIterator {
 	}
 	
 	@Override
-	public Map.Entry<Square, Pieza> next() {
+	public PosicionPieza next() {
 		Square currentSquare = array[nextIdx++];
 		return board.getPosicion(currentSquare);
 	}

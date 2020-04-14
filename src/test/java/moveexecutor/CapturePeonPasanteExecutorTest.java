@@ -3,17 +3,15 @@ package moveexecutor;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import chess.BoardState;
 import chess.Board;
+import chess.BoardState;
 import chess.Pieza;
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.CapturePeonPasante;
 
@@ -36,9 +34,9 @@ public class CapturePeonPasanteExecutorTest {
 	
 	@Test
 	public void testExecute() {
-		Map.Entry<Square, Pieza> peonBlanco = new SimpleImmutableEntry<Square, Pieza>(Square.b5, Pieza.PEON_BLANCO);
-		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
-		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
+		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
+		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
+		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
 		
 		when(board.getPosicion(Square.a5)).thenReturn(peonNegro);
 		
@@ -57,9 +55,9 @@ public class CapturePeonPasanteExecutorTest {
 	
 	@Test
 	public void testUndo() {
-		Map.Entry<Square, Pieza> peonBlanco = new SimpleImmutableEntry<Square, Pieza>(Square.b5, Pieza.PEON_BLANCO);
-		Map.Entry<Square, Pieza> peonNegro = new SimpleImmutableEntry<Square, Pieza>(Square.a5, Pieza.PEON_NEGRO);
-		Map.Entry<Square, Pieza> peonPasanteSquare = new SimpleImmutableEntry<Square, Pieza>(Square.a6, null);
+		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
+		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
+		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
 
 		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
 

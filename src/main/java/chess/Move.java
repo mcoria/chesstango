@@ -1,12 +1,11 @@
 package chess;
 
 import java.util.List;
-import java.util.Map;
 
 public interface Move {
 
-	Map.Entry<Square, Pieza> getFrom();
-	Map.Entry<Square, Pieza> getTo();
+	PosicionPieza getFrom();
+	PosicionPieza getTo();
 
 	void executeMove(Board board);
 	void undoMove(Board board);
