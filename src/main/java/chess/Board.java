@@ -16,7 +16,7 @@ import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class Board implements Iterable<PosicionPieza> {
+public class Board implements DummyBoard {
 	
 	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
 	
@@ -40,27 +40,51 @@ public class Board implements Iterable<PosicionPieza> {
 	private PosicionPieza[] tablero = new PosicionPieza[64];
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#getPosicion(chess.Square)
+	 */
+	@Override
 	public PosicionPieza getPosicion(Square square) {
 		return tablero[square.toIdx()];
 	}
 
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#setPosicion(chess.PosicionPieza)
+	 */
+	@Override
 	public void setPosicion(PosicionPieza entry) {
 		Square square = entry.getKey();
 		tablero[square.toIdx()] = entry;
 	}
 
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#getPieza(chess.Square)
+	 */
+	@Override
 	public Pieza getPieza(Square square) {
 		return tablero[square.toIdx()].getValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#setPieza(chess.Square, chess.Pieza)
+	 */
+	@Override
 	public void setPieza(Square square, Pieza pieza) {
 		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, pieza);
 	}
 
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#setEmptySquare(chess.Square)
+	 */
+	@Override
 	public void setEmptySquare(Square square) {
 		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, null);
 	}
 
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#isEmtpy(chess.Square)
+	 */
+	@Override
 	public boolean isEmtpy(Square square) {
 		return getPieza(square) == null;
 	}
@@ -147,11 +171,18 @@ public class Board implements Iterable<PosicionPieza> {
 	///////////////////////////// END getKingSquare Logic /////////////////////////////	
 
 	///////////////////////////// START Board Iteration Logic /////////////////////////////
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#iterator()
+	 */
 	@Override
 	public BoardIterator iterator() {
 		return new DummyBoardIterator(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see chess.DummyBoard#iterator(iterators.SquareIterator)
+	 */
+	@Override
 	public BoardIterator iterator(SquareIterator squareIterator){
 		return new BoardIterator(){
 			@Override

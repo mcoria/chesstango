@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.BoardState;
+import chess.DummyBoard;
 import chess.Board;
 import chess.Pieza;
 
@@ -36,7 +37,7 @@ public class FENCoderTest {
 	@Test
 	public void testCodePiecePlacement03() {
 		FENParser parser = new FENParser();
-		Board tablero = new Board(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState());
+		DummyBoard tablero = new Board(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState());
 		FENCoder coder = new FENCoder();
 		String actual = coder.codePiecePlacement(tablero);
 		

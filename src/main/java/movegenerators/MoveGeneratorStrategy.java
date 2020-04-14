@@ -1,7 +1,7 @@
 package movegenerators;
 
-import chess.Color;
 import chess.Board;
+import chess.Color;
 import chess.Pieza;
 
 public class MoveGeneratorStrategy {

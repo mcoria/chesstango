@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Board;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -161,7 +162,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPuedeCapturarRey() {
-		Board tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(Square.e1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));

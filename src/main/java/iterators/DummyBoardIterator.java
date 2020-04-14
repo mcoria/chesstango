@@ -1,6 +1,6 @@
 package iterators;
 
-import chess.Board;
+import chess.DummyBoard;
 import chess.PosicionPieza;
 import chess.Square;
 
@@ -18,9 +18,9 @@ public class DummyBoardIterator implements BoardIterator {
 	
     private int nextIdx = 0;
 	
-	private Board board;
+	private DummyBoard board;
 	
-	public DummyBoardIterator(Board board) {
+	public DummyBoardIterator(DummyBoard board) {
 		this.board = board;
 	}
 

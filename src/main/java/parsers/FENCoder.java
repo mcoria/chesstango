@@ -3,6 +3,7 @@ package parsers;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
+import chess.DummyBoard;
 import chess.Game;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -33,7 +34,7 @@ public class FENCoder {
 		return codePiecePlacement(input) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
-	public String codePiecePlacement(Board board) {
+	public String codePiecePlacement(DummyBoard board) {
 		int idx = 0;
 		int idxLinea = 0;
 		Pieza[] piezas = new Pieza[8];

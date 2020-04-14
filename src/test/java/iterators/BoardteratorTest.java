@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
+import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -25,7 +25,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testTopDownSquareIterator() {
-		Board tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -366,7 +366,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		Board tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		BoardIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		
