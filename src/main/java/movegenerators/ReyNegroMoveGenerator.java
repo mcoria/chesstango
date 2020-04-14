@@ -2,7 +2,6 @@ package movegenerators;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import chess.BoardState;
 import chess.Color;
@@ -12,8 +11,6 @@ import chess.Pieza;
 import chess.Square;
 import moveexecutors.EnroqueNegroReyMove;
 import moveexecutors.EnroqueNegroReynaMove;
-import moveexecutors.SimpleMove;
-import moveexecutors.SimpleReyNegroMove;
 
 public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 
@@ -58,11 +55,6 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 							INTERMEDIO_REY_REY_SQUARE)) {
 			this.filter.filterMove(moveContainer, new EnroqueNegroReyMove());
 		}
-	}
-
-	@Override
-	protected SimpleMove createSimpleMove(Entry<Square, Pieza> origen, Entry<Square, Pieza> destino) {
-		return new SimpleReyNegroMove(origen, destino);
 	}
 
 

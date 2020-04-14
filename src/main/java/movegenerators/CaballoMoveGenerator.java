@@ -1,10 +1,12 @@
 package movegenerators;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 
 public class CaballoMoveGenerator extends SaltoMoveGenerator {
@@ -33,5 +35,10 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
 	protected SimpleMove createSimpleMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino){
 		return new SimpleMove(origen, destino);
+	}
+
+	@Override
+	protected CaptureMove createCaptureMove(Entry<Square, Pieza> origen, Entry<Square, Pieza> destino) {
+		return new CaptureMove(origen, destino);
 	}	
 }

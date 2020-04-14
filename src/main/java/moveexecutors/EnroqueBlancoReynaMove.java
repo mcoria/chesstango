@@ -17,7 +17,7 @@ public class EnroqueBlancoReynaMove extends EnroqueMove {
 	public static final Map.Entry<Square, Pieza> TORRE_FROM = new SimpleImmutableEntry<Square, Pieza>(Square.a1, Pieza.TORRE_BLANCO);
 	public static final Map.Entry<Square, Pieza> TORRE_TO = new SimpleImmutableEntry<Square, Pieza>(Square.d1, null);
 	
-	private static final SimpleMove REY_MOVE = new SimpleReyBlancoMove(FROM, TO);
+	private static final SimpleMove REY_MOVE = new SimpleReyMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
 	@Override

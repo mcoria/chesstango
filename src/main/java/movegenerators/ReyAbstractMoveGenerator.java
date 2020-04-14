@@ -1,11 +1,16 @@
 package movegenerators;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
+import moveexecutors.CaptureMove;
+import moveexecutors.CaptureReyMove;
+import moveexecutors.SimpleMove;
+import moveexecutors.SimpleReyMove;
 
 public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
@@ -67,6 +72,15 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		}
 		return false;
 	}
-		
+	
+	@Override
+	protected SimpleMove createSimpleMove(Entry<Square, Pieza> origen, Entry<Square, Pieza> destino) {
+		return new SimpleReyMove(origen, destino);
+	}
+
+	@Override
+	protected CaptureMove createCaptureMove(Entry<Square, Pieza> origen, Entry<Square, Pieza> destino) {
+		return new CaptureReyMove(origen, destino);
+	}	
 
 }

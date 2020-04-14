@@ -35,7 +35,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-				this.filter.filterMove(moveContainer, new CaptureMove(origen, destino));
+				this.filter.filterMove(moveContainer, createCaptureMove(origen, destino));
 		    }
 		}
 	}
@@ -60,6 +60,6 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract SimpleMove createSimpleMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
 	
-	protected abstract SimpleMove createCaptureMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
+	protected abstract CaptureMove createCaptureMove(Map.Entry<Square, Pieza> origen, Map.Entry<Square, Pieza> destino);
 
 }

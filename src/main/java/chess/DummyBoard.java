@@ -18,6 +18,8 @@ import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
+import moveexecutors.SquareKingCacheSetter;
+
 public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a8, Pieza.TORRE_NEGRO);
@@ -45,7 +47,9 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	private List<Square> squareBlancos = new ArrayList<Square>();
 	private List<Square> squareNegros = new ArrayList<Square>();
 	
-	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this, getDefaultFilter() );
+	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
+	
+	private MoveGeneratorStrategy strategy = new MoveGeneratorStrategy(this, this.defaultFilter);
 	
 	private BoardState boardState = null;
 
@@ -127,7 +131,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		return false;		
 	}
 
-	///////////////////////////// START getKingSquare Logic /////////////////////////////	
+	///////////////////////////// START getKingSquare Logic /////////////////////////////
+	
+	public SquareKingCacheSetter getSquareKingCacheSetter(Color color){
+		return Color.BLANCO.equals(color) ? kingBlancoSetter : kingNegroSetter;
+	}
+	
 	private Square getKingSquare(Color color) {
 		return Color.BLANCO.equals(color) ? squareKingBlancoCache : squareKingNegroCache;
 	}
@@ -135,11 +144,14 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	private Square squareKingBlancoCache = null;
 	private Square squareKingNegroCache = null;
 	
-	public void setSquareKingBlancoCache(Square square){
+	private SquareKingCacheSetter kingBlancoSetter = (Square square) -> setSquareKingBlancoCache(square);
+	private SquareKingCacheSetter kingNegroSetter = (Square square) -> setSquareKingNegroCache(square);
+	
+	private void setSquareKingBlancoCache(Square square){
 		this.squareKingBlancoCache = square;
 	}
 	
-	public void setSquareKingNegroCache(Square square){
+	private void setSquareKingNegroCache(Square square){
 		this.squareKingNegroCache = square;
 	}
 	
@@ -230,7 +242,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	}
 	
 	public MoveFilter getDefaultFilter(){
-		return (Collection<Move> moves, Move move) -> filterMove(moves, move);
+		return defaultFilter;
 	}
 	
 	@Override
