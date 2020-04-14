@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.CachePosiciones;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -97,10 +98,10 @@ public class ReyBlancoMoveGeneratorTest {
 				.buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -123,11 +124,11 @@ public class ReyBlancoMoveGeneratorTest {
 				.buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f3));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -146,11 +147,11 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.f4));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -167,11 +168,11 @@ public class ReyBlancoMoveGeneratorTest {
 		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/RN2K3").withEnroqueBlancoReinaPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -190,10 +191,10 @@ public class ReyBlancoMoveGeneratorTest {
 		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/4K2R").withEnroqueBlancoReyPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -212,11 +213,11 @@ public class ReyBlancoMoveGeneratorTest {
 		DummyBoard tablero = builder.withTablero("8/8/8/8/8/3b4/8/4K2R").withEnroqueBlancoReyPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d3));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -236,11 +237,11 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d4));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -258,11 +259,11 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.g2));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		
@@ -280,12 +281,12 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
-		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(DummyBoard.REY_BLANCO.getKey()));
+		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.e4));
 		
-		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(DummyBoard.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
+		Map.Entry<Square, Pieza> origen = new SimpleImmutableEntry<Square, Pieza>(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
 		moveGenerator.generateMoves(origen, moves);
 		

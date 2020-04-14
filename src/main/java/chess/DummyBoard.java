@@ -2,7 +2,6 @@ package chess;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,38 +13,12 @@ import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
+import moveexecutors.SquareKingCacheSetter;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-import moveexecutors.SquareKingCacheSetter;
-
 public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
-	
-	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a8, Pieza.TORRE_NEGRO);
-	public static final Map.Entry<Square, Pieza> REY_NEGRO = new SimpleImmutableEntry<Square, Pieza>(Square.e8, Pieza.REY_NEGRO);
-	public static final Map.Entry<Square, Pieza> TORRE_NEGRO_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h8, Pieza.TORRE_NEGRO);
-	
-	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REYNA = new SimpleImmutableEntry<Square, Pieza>(Square.a1, Pieza.TORRE_BLANCO);
-	public static final Map.Entry<Square, Pieza> REY_BLANCO = new SimpleImmutableEntry<Square, Pieza>(Square.e1, Pieza.REY_BLANCO);
-	public static final Map.Entry<Square, Pieza> TORRE_BLANCA_REY = new SimpleImmutableEntry<Square, Pieza>(Square.h1, Pieza.TORRE_BLANCO);
-	
-	//56,57,58,59,60,61,62,63,
-	//48,49,50,51,52,53,54,55,
-	//40,41,42,43,44,45,46,47,
-	//32,33,34,35,36,37,38,39,
-	//24,25,26,27,28,29,30,31,
-	//16,17,18,19,20,21,22,23,
-    //08,09,10,11,12,13,14,15,
-    //00,01,02,03,04,05,06,07,	
-	//private Pieza[][] tablero;
-	
-	@SuppressWarnings("unchecked")
-	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];
-	private final CachePosiciones cachePosiciones = new CachePosiciones();
-	
-	private List<Square> squareBlancos = new ArrayList<Square>();
-	private List<Square> squareNegros = new ArrayList<Square>();
 	
 	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
 	
@@ -53,7 +26,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	private BoardState boardState = null;
 
-	
 	public DummyBoard(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
@@ -63,6 +35,14 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	
 	
 	///////////////////////////// START positioning logic /////////////////////////////
+	// Quizas podria encapsular estas operaciones en su propia clase.
+	// Bitboard podria ser mas rapido? Un word por tipo de ficha
+	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
+	// 
+	@SuppressWarnings("unchecked")
+	private Map.Entry<Square, Pieza>[] tablero = new Map.Entry[64];
+	private final CachePosiciones cachePosiciones = new CachePosiciones();
+	
 	public Map.Entry<Square, Pieza> getPosicion(Square square) {
 		return tablero[square.toIdx()];
 	}
@@ -89,7 +69,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	}
 	///////////////////////////// END positioning logic /////////////////////////////
 	
-	public Collection<Move>  getLegalMoves(){
+	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
 		for (SquareIterator iterator = this.iteratorSquare(turnoActual); iterator.hasNext();) {
@@ -99,14 +79,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			moveGenerator.generateMoves(origen, moves);
 		}
 		return moves;
-	}
-	
-	private void filterMove(Collection<Move> moves, Move move) {
-		move.executeMove(this);
-		if(! this.isKingInCheck() ) {
-			moves.add(move);
-		}
-		move.undoMove(this);
 	}
 
 	public boolean isKingInCheck() {
@@ -130,8 +102,22 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 		}
 		return false;		
 	}
+	
+	private void filterMove(Collection<Move> moves, Move move) {
+		move.executeMove(this);
+		if(! this.isKingInCheck() ) {
+			moves.add(move);
+		}
+		move.undoMove(this);
+	}
 
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
+	
+	private Square squareKingBlancoCache = null;
+	private Square squareKingNegroCache = null;
+	
+	private SquareKingCacheSetter kingBlancoSetter = (Square square) -> setSquareKingBlancoCache(square);
+	private SquareKingCacheSetter kingNegroSetter = (Square square) -> setSquareKingNegroCache(square);
 	
 	public SquareKingCacheSetter getSquareKingCacheSetter(Color color){
 		return Color.BLANCO.equals(color) ? kingBlancoSetter : kingNegroSetter;
@@ -140,12 +126,6 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	private Square getKingSquare(Color color) {
 		return Color.BLANCO.equals(color) ? squareKingBlancoCache : squareKingNegroCache;
 	}
-	
-	private Square squareKingBlancoCache = null;
-	private Square squareKingNegroCache = null;
-	
-	private SquareKingCacheSetter kingBlancoSetter = (Square square) -> setSquareKingBlancoCache(square);
-	private SquareKingCacheSetter kingNegroSetter = (Square square) -> setSquareKingNegroCache(square);
 	
 	private void setSquareKingBlancoCache(Square square){
 		this.squareKingBlancoCache = square;
@@ -170,7 +150,12 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 	}	
 	///////////////////////////// END getKingSquare Logic /////////////////////////////	
 
-	///////////////////////////// START Board Iteration Logic /////////////////////////////	
+	///////////////////////////// START Board Iteration Logic /////////////////////////////
+	@Override
+	public BoardIterator iterator() {
+		return new DummyBoardIterator(this);
+	}
+
 	public BoardIterator iterator(SquareIterator squareIterator){
 		return new BoardIterator(){
 			@Override
@@ -185,6 +170,13 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			}
 		};
 	}
+	///////////////////////////// END Board Iteration Logic /////////////////////////////	
+	
+	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
+	// Bien podriamos encapsular este cache en su propia clase
+	// Prestar atencion que este cache se actualiza una vez que realmente se mueven las fichas
+	private List<Square> squareBlancos = new ArrayList<Square>();
+	private List<Square> squareNegros = new ArrayList<Square>();
 	
 	protected SquareIterator iteratorSquare(Color color){
 		return new SquareIterator(){
@@ -201,13 +193,7 @@ public class DummyBoard implements Iterable<Map.Entry<Square, Pieza>> {
 			}
 		};		
 	}
-
-	@Override
-	public BoardIterator iterator() {
-		return new DummyBoardIterator(this);
-	}
-
-	///////////////////////////// END Board Iteration Logic /////////////////////////////	
+	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {

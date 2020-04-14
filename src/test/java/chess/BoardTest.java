@@ -20,7 +20,7 @@ public class BoardTest {
 	
 	@Test
 	public void testPosicionInicial() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
@@ -29,7 +29,7 @@ public class BoardTest {
 
 	@Test
 	public void testJuegoJaqueMate() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -48,7 +48,7 @@ public class BoardTest {
 
 	@Test
 	public void testJuegoJaqueMateUndo() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -77,7 +77,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoJaque() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
@@ -97,7 +97,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoTablas() {
-		Board board = builder.withFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").buildBoard();
+		Game board = builder.withFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").buildBoard();
 		
 		assertEquals(Color.BLANCO, board.getTurnoActual());
 		
@@ -110,7 +110,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoUndo() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, board.getTurnoActual());
@@ -124,7 +124,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoNoPeonPasante() {
-		Board board = builder.withFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
+		Game board = builder.withFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
 		
 		board.executeMove(Square.b6, Square.b5);
 		
@@ -133,7 +133,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJuegoPeonPasante() {
-		Board board = builder.withFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
+		Game board = builder.withFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
 		
 		board.executeMove(Square.c7, Square.c5);
 		

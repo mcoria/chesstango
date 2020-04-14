@@ -2,12 +2,12 @@ package chess;
 
 import java.util.Collection;
 
-public class Board {
+public class Game {
 	private DummyBoard tablero;
 	
 	private BoardPila boardPila = new BoardPila();
 	
-	public Board(DummyBoard tablero){
+	public Game(DummyBoard tablero){
 		this.tablero = tablero;
 		updateGameStatus();
 	}

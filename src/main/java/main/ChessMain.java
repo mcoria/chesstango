@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import chess.Board;
+import chess.Game;
 import chess.Move;
 import parsers.FENBoarBuilder;
 import parsers.FENCoder;
@@ -21,7 +21,7 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		Board board = new FENBoarBuilder().withDefaultBoard().buildBoard();
+		Game board = new FENBoarBuilder().withDefaultBoard().buildBoard();
 		
 		ChessMain main = new ChessMain();
 		
@@ -31,7 +31,7 @@ public class ChessMain {
 		
 	}
 
-	public Node start(Board board, int maxLevel) {
+	public Node start(Game board, int maxLevel) {
 		this.maxLevel = maxLevel;
 		this.nodeListMap = new  ArrayList<Map<String, Node>>(maxLevel);
 		this.repetedNodes = new int[maxLevel];
@@ -44,7 +44,7 @@ public class ChessMain {
 		
 	}
 
-	private void visitChilds(Board board, Node currentNode) {
+	private void visitChilds(Game board, Node currentNode) {
 		int totalMoves = 0;
 		
 		int currentLevel = currentNode.getLevel() + 1;
@@ -91,7 +91,7 @@ public class ChessMain {
 		return nodeListMap.get(currentLevel - 1);
 	}
 	
-	public void printNode(Board board, Node rootNode) {
+	public void printNode(Game board, Node rootNode) {
 		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
 		System.out.println("Total Moves: " + rootNode.getMoves());
 		

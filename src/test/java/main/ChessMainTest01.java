@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
+import chess.Game;
 import chess.Square;
 import parsers.FENBoarBuilder;
 
@@ -15,7 +15,7 @@ public class ChessMainTest01 {
 
 	private ChessMain main;
 	
-	private Board board;
+	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {

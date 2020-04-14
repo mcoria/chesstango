@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
+import chess.Game;
 import chess.Square;
 import parsers.FENBoarBuilder;
 
@@ -22,7 +22,7 @@ public class ChessMainTest {
 
 	@Test
 	public void test_divide1() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 1);
 		
@@ -53,7 +53,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide2() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 2);
 		
@@ -85,7 +85,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide3() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 3);
 		
@@ -117,7 +117,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide4() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 4);
 
@@ -146,9 +146,9 @@ public class ChessMainTest {
 		assertEquals(197281, rootNode.getChildNodesCounter());
 	} 	
 	
-	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs
+	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs
 	public void test_divide5() {
-		Board board = builder.withDefaultBoard().buildBoard();
+		Game board = builder.withDefaultBoard().buildBoard();
 		
 		Node rootNode = main.start(board, 5);
 		

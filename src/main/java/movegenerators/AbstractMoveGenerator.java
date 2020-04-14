@@ -5,7 +5,6 @@ import java.util.Collection;
 import chess.DummyBoard;
 import chess.Move;
 
-//Template  Method Pattern GoF
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected DummyBoard tablero;

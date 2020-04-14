@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 
 import chess.BoardState;
+import chess.CachePosiciones;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.Square;
@@ -37,8 +37,8 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		if (boardState.isEnroqueBlancoReinaPermitido() && 
 			puedeEnroqueReina(	this.tablero, 
 								origen, 
-								DummyBoard.REY_BLANCO, 
-								DummyBoard.TORRE_BLANCA_REYNA,
+								CachePosiciones.REY_BLANCO, 
+								CachePosiciones.TORRE_BLANCA_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
@@ -49,8 +49,8 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		if (boardState.isEnroqueBlancoReyPermitido() && 
 			puedeEnroqueRey(this.tablero, 
 							origen, 
-							DummyBoard.REY_BLANCO, 
-							DummyBoard.TORRE_BLANCA_REY,
+							CachePosiciones.REY_BLANCO, 
+							CachePosiciones.TORRE_BLANCA_REY,
 							DESTINO_REY_SQUARE, 
 							INTERMEDIO_REY_REY_SQUARE)) {			
 			this.filter.filterMove(moveContainer, new EnroqueBlancoReyMove());

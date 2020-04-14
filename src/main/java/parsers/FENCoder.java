@@ -2,7 +2,7 @@ package parsers;
 
 import java.util.Map.Entry;
 
-import chess.Board;
+import chess.Game;
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
@@ -22,7 +22,7 @@ public class FENCoder {
 	private String enroques;	
 	
 	
-	public String code(Board input) {
+	public String code(Game input) {
 		return code(input.getTablero());
 	}
 
