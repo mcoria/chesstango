@@ -5,6 +5,11 @@ import iterators.SquareIterator;
 
 public interface DummyBoard extends Iterable<PosicionPieza> {
 
+	///////////////////////////// START positioning logic /////////////////////////////
+	// Quizas podria encapsular estas operaciones en su propia clase.
+	// Bitboard podria ser mas rapido? Un word por tipo de ficha
+	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
+	//	
 	PosicionPieza getPosicion(Square square);
 
 	void setPosicion(PosicionPieza entry);

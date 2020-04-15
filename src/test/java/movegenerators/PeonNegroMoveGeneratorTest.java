@@ -39,6 +39,8 @@ public class PeonNegroMoveGeneratorTest {
 	public void testSaltoSimple() {
 		Board tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.a6;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -56,6 +58,8 @@ public class PeonNegroMoveGeneratorTest {
 	public void testSaltoDoble() {		
 		Board tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.a7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -74,6 +78,8 @@ public class PeonNegroMoveGeneratorTest {
 	public void testAtaqueIzquierda() {
 		Board tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -98,6 +104,8 @@ public class PeonNegroMoveGeneratorTest {
 				.withPeonPasanteSquare(Square.d3)
 				.buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.e4;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -121,6 +129,8 @@ public class PeonNegroMoveGeneratorTest {
 				.withTablero("8/4p3/5P2/8/8/8/8/8")
 				.buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.e7;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
@@ -144,7 +154,10 @@ public class PeonNegroMoveGeneratorTest {
 				.withTablero("8/8/8/8/3pP3/8/8/8")
 				.withPeonPasanteSquare(Square.e3)
 				.buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.d4;
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));

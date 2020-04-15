@@ -19,54 +19,42 @@ public class MoveGeneratorStrategy {
 	private ReyBlancoMoveGenerator rbmg;
 	private ReyNegroMoveGenerator rnmg;
 
-	public MoveGeneratorStrategy(Board board, MoveFilter filter) {
+	public MoveGeneratorStrategy(Board board) {
 		pbmg =  new PeonBlancoMoveGenerator();
-		pbmg.setTablero(board);
-		pbmg.setFilter(filter);
+		board.settupMoveGenerator(pbmg);
 		
 		pnmg = new PeonNegroMoveGenerator();
-		pnmg.setTablero(board);
-		pnmg.setFilter(filter);
+		board.settupMoveGenerator(pnmg);
 		
 		tbmg = new TorreMoveGenerator(Color.BLANCO);
-		tbmg.setTablero(board);
-		tbmg.setFilter(filter);
+		board.settupMoveGenerator(tbmg);
 		
 		tnmg = new TorreMoveGenerator(Color.NEGRO);
-		tnmg.setTablero(board);
-		tnmg.setFilter(filter);
+		board.settupMoveGenerator(tnmg);
 		
 		cbmg = new CaballoMoveGenerator(Color.BLANCO);
-		cbmg.setTablero(board);
-		cbmg.setFilter(filter);
+		board.settupMoveGenerator(cbmg);
 		
 		cnmg = new CaballoMoveGenerator(Color.NEGRO);
-		cnmg.setTablero(board);
-		cnmg.setFilter(filter);
+		board.settupMoveGenerator(cnmg);
 		
 		abmg = new AlfilMoveGenerator(Color.BLANCO);
-		abmg.setTablero(board);
-		abmg.setFilter(filter);
+		board.settupMoveGenerator(abmg);
 		
 		anmg = new AlfilMoveGenerator(Color.NEGRO);
-		anmg.setTablero(board);
-		anmg.setFilter(filter);
+		board.settupMoveGenerator(anmg);
 		
 		rebmg = new ReinaMoveGenerator(Color.BLANCO);
-		rebmg.setTablero(board);
-		rebmg.setFilter(filter);
+		board.settupMoveGenerator(rebmg);
 		
 		renmg = new ReinaMoveGenerator(Color.NEGRO);
-		renmg.setTablero(board);
-		renmg.setFilter(filter);
+		board.settupMoveGenerator(renmg);
 		
 		rbmg = new ReyBlancoMoveGenerator();
-		rbmg.setTablero(board);
-		rbmg.setFilter(filter);
+		board.settupMoveGenerator(rbmg);
 		
 		rnmg = new ReyNegroMoveGenerator();
-		rnmg.setTablero(board);
-		rnmg.setFilter(filter);
+		board.settupMoveGenerator(rnmg);
 	}
 	
 	public MoveGenerator getMoveGenerator(Pieza pieza){

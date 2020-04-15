@@ -2,7 +2,6 @@ package movegenerators;
 
 import java.util.Collection;
 
-import chess.BoardState;
 import chess.CachePosiciones;
 import chess.Color;
 import chess.Move;
@@ -31,9 +30,8 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		
 		super.generateMoves(origen, moveContainer);
 		
-		BoardState boardState = this.tablero.getBoardState();
 		
-		if (boardState.isEnroqueBlancoReinaPermitido() && 
+		if (this.boardState.isEnroqueBlancoReinaPermitido() && 
 			puedeEnroqueReina(	this.tablero, 
 								origen, 
 								CachePosiciones.REY_BLANCO, 
@@ -45,7 +43,7 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		}
 		
 		
-		if (boardState.isEnroqueBlancoReyPermitido() && 
+		if (this.boardState.isEnroqueBlancoReyPermitido() && 
 			puedeEnroqueRey(this.tablero, 
 							origen, 
 							CachePosiciones.REY_BLANCO, 

@@ -40,6 +40,8 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroReina01() {
 		Board tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setPositionCaptured(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -62,6 +64,8 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroReina02() {
 		Board tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setPositionCaptured(tablero);
 	
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -89,6 +93,8 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setPositionCaptured(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -110,6 +116,8 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroRey01() {
 		Board tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setPositionCaptured(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -132,6 +140,8 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroRey02() {
 		Board tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setPositionCaptured(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -161,6 +171,8 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
+		moveGenerator.setBoardState(tablero.getBoardState());
+		moveGenerator.setPositionCaptured(tablero);
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -187,6 +199,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
+		moveGenerator.setBoardState(tablero.getBoardState());
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));

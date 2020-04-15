@@ -2,7 +2,7 @@ package movegenerators;
 
 import java.util.Collection;
 
-import chess.Board;
+import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
@@ -13,7 +13,7 @@ public interface MoveGenerator {
 
 	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare);
 	
-	public void setTablero(Board tablero);
+	public void setTablero(DummyBoard tablero);
 
 	public void setFilter(MoveFilter filter);
 

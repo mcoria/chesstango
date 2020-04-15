@@ -17,13 +17,24 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
 	protected Color color;
 	
+	protected BoardState boardState;
+
+	protected abstract Square getCasilleroSaltoSimple(Square casillero);
+
+	protected abstract Square getCasilleroSaltoDoble(Square casillero);
+
+	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
+	
+	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
+	
+	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);	
+	
 	public PeonAbstractMoveGenerator(Color color) {
 		this.color = color;
 	}
 	
 	@Override
 	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer){
-		BoardState boardState = this.tablero.getBoardState();
 		
 		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
@@ -83,14 +94,9 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		return false;
 	}
 
-	protected abstract Square getCasilleroSaltoSimple(Square casillero);
 
-	protected abstract Square getCasilleroSaltoDoble(Square casillero);
-
-	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
-	
-	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
-	
-	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+	}
 
 }
