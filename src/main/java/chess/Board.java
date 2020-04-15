@@ -18,7 +18,7 @@ import movegenerators.MoveGeneratorStrategy;
 import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
 
-public class Board implements DummyBoard, PositionCaptured {
+public class Board implements DummyBoard {
 	
 	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
 	
@@ -116,8 +116,7 @@ public class Board implements DummyBoard, PositionCaptured {
 	/* (non-Javadoc)
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
-	@Override
-	public boolean check(Color colorRey, Square kingSquare){
+	protected boolean check(Color colorRey, Square kingSquare){
 		for (SquareIterator iterator = this.iteratorSquare(colorRey.opositeColor()); iterator.hasNext();) {
 			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
@@ -280,7 +279,7 @@ public class Board implements DummyBoard, PositionCaptured {
 		if(moveGenerator instanceof ReyAbstractMoveGenerator){
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setPositionCaptured(this);
+			generator.setPositionCaptured((Color color, Square square) -> check(color, square));
 		}		
 	}
 	

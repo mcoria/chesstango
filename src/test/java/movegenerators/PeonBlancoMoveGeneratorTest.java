@@ -9,7 +9,8 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
+import chess.BoardState;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -26,20 +27,24 @@ public class PeonBlancoMoveGeneratorTest {
 	private PeonBlancoMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
+	
+	private BoardState state;
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
-		moveGenerator = new PeonBlancoMoveGenerator();
 		moves = new ArrayList<Move>();
+		state = new BoardState();
+		
+		moveGenerator = new PeonBlancoMoveGenerator();
+		moveGenerator.setBoardState(state);
 	}
 	
 	@Test
 	public void testSaltoSimple() {
-		Board tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
-		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.a3;		
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -55,10 +60,9 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		Board tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
-		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -75,10 +79,9 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		Board tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
-		moveGenerator.setFilter(tablero.getDefaultFilter());
 		
 		Square from = Square.a2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -94,9 +97,9 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		Board tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
 		
 		Square from = Square.e2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -115,14 +118,12 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		Board tablero = 
-				builder
-				.withTablero("8/8/8/3pP3/8/8/8/8")
-				.withPeonPasanteSquare(Square.d6)
-				.buildBoard();
-		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
+		DummyBoard tablero =  builder.withTablero("8/8/8/3pP3/8/8/8/8").buildDummyBoard();
 		
+		state.setPeonPasanteSquare(Square.d6);
+		
+		moveGenerator.setTablero(tablero);
+
 		Square from = Square.e5;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
 		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d5));
@@ -140,9 +141,9 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		Board tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildDummyBoard();
+		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
 		
 		Square from = Square.e2;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
@@ -161,13 +162,11 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		Board tablero = 
-				builder
-				.withTablero("8/8/8/3Pp3/8/8/8/8")
-				.withPeonPasanteSquare(Square.e6)
-				.buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/3Pp3/8/8/8/8").buildDummyBoard();
+		
+		state.setPeonPasanteSquare(Square.e6);
+		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setBoardState(tablero.getBoardState());
 		
 		Square from = Square.d5;
 		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
