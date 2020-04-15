@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
+import chess.DummyBoard;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -36,7 +36,7 @@ public class CaballoMoveGeneratorTest {
 	
 	@Test
 	public void test() {
-		Board tablero = builder.withTablero("8/3P1p2/8/4N3/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/3P1p2/8/4N3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

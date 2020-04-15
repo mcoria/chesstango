@@ -1,17 +1,21 @@
 package chess;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Game.GameStatus;
+import iterators.SquareIterator;
+import moveexecutors.SaltoDoblePeonMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class BoardTest {
-	
+
 	private FENBoarBuilder builder;
 
 	@Before
@@ -20,125 +24,69 @@ public class BoardTest {
 	}
 	
 	@Test
-	public void testPosicionInicial() {
-		Game board = builder.withDefaultBoard().buildBoard();
+	public void test01() {
+		Board tablero = builder.withDefaultBoard().buildBoard();
 		
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
-		assertEquals(20, board.getMovimientosPosibles().size());
+		Collection<Move> moves = tablero.getLegalMoves();
+		
+		assertEquals(20, moves.size());
+		
+		assertTrue(moves.contains( createSimpleMove(Square.a2, Pieza.PEON_BLANCO, Square.a3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Pieza.PEON_BLANCO, Square.a4, Square.a3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.b2, Pieza.PEON_BLANCO, Square.b3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.b2, Pieza.PEON_BLANCO, Square.b4, Square.b3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.c2, Pieza.PEON_BLANCO, Square.c3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.c2, Pieza.PEON_BLANCO, Square.c4, Square.c3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.d2, Pieza.PEON_BLANCO, Square.d3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.d2, Pieza.PEON_BLANCO, Square.d4, Square.d3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.e2, Pieza.PEON_BLANCO, Square.e3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.e2, Pieza.PEON_BLANCO, Square.e4, Square.e3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.f2, Pieza.PEON_BLANCO, Square.f3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.f2, Pieza.PEON_BLANCO, Square.f4, Square.f3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.g2, Pieza.PEON_BLANCO, Square.g3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.g2, Pieza.PEON_BLANCO, Square.g4, Square.g3) ));
+		
+		assertTrue(moves.contains( createSimpleMove(Square.h2, Pieza.PEON_BLANCO, Square.h3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.h2, Pieza.PEON_BLANCO, Square.h4, Square.h3) ));
+		
+		//Caballo Reyna
+		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.a3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.c3) ));
+		
+		//Caballo Rey
+		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.f3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.h3) ));
+		
+		//State
+		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
+		assertNull(tablero.getBoardState().getPeonPasanteSquare());
 	}
+	
+	@Test
+	public void test02() {
+		int totalPiezas = 0;
+		Board tablero = builder.withDefaultBoard().buildBoard();
+		for (SquareIterator iterator = tablero.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
+			Pieza pieza = tablero.getPieza(iterator.next());
+			assertEquals(Color.BLANCO, pieza.getColor());
+			totalPiezas++;
+		}
+		assertEquals(16, totalPiezas);
+	}
+	
 
-	@Test
-	public void testJuegoJaqueMate() {
-		Game board = builder.withDefaultBoard().buildBoard();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		
-		board.executeMove(Square.e2, Square.e4);
-		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);	
-		board.executeMove(Square.b8, Square.c6);
-		board.executeMove(Square.d1, Square.f3);
-		board.executeMove(Square.f8, Square.c5);
-		board.executeMove(Square.f3, Square.f7);
-		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.JAQUE_MATE, board.getGameStatus());
-		assertTrue(board.getMovimientosPosibles().isEmpty());
-	}
-
-	@Test
-	public void testJuegoJaqueMateUndo() {
-		Game board = builder.withDefaultBoard().buildBoard();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		
-		board.executeMove(Square.e2, Square.e4);
-		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);	
-		board.executeMove(Square.b8, Square.c6);
-		board.executeMove(Square.d1, Square.f3);
-		board.executeMove(Square.f8, Square.c5);
-		board.executeMove(Square.f3, Square.f7);
-		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.JAQUE_MATE, board.getGameStatus());
-		assertTrue(board.getMovimientosPosibles().isEmpty());
-		
-		board.undoMove();
-		board.undoMove();
-		board.undoMove();	
-		board.undoMove();
-		board.undoMove();
-		board.undoMove();
-		board.undoMove();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());		
-	}	
-	
-	@Test
-	public void testJuegoJaque() {
-		Game board = builder.withDefaultBoard().buildBoard();
-		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		
-		board.executeMove(Square.e2, Square.e4);
-		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);
-		board.executeMove(Square.b8, Square.c6);
-		board.executeMove(Square.d1, Square.f3);
-		board.executeMove(Square.g8, Square.h6);
-		board.executeMove(Square.f3, Square.f7);
-		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
-		assertEquals(1, board.getMovimientosPosibles().size());
+	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
+		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
 	}
 	
-	@Test
-	public void testJuegoTablas() {
-		Game board = builder.withFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").buildBoard();
+	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
+		return new SaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null), squarePasante);
+	}		
 		
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		
-		board.executeMove(Square.h7, Square.c7);
-
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.TABLAS, board.getGameStatus());
-		assertEquals(0, board.getMovimientosPosibles().size());
-	}
-	
-	@Test
-	public void testJuegoUndo() {
-		Game board = builder.withDefaultBoard().buildBoard();
-		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		
-		board.executeMove(Square.e2, Square.e4);
-		
-		board.undoMove();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-	}
-	
-	@Test
-	public void testJuegoNoPeonPasante() {
-		Game board = builder.withFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
-		
-		board.executeMove(Square.b6, Square.b5);
-		
-		assertEquals(22, board.getMovimientosPosibles().size());
-	}
-	
-	@Test
-	public void testJuegoPeonPasante() {
-		Game board = builder.withFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
-		
-		board.executeMove(Square.c7, Square.c5);
-		
-		assertNotNull(board.getMovimiento(Square.b5, Square.c6));
-		assertEquals(22, board.getMovimientosPosibles().size());
-	}	
 }

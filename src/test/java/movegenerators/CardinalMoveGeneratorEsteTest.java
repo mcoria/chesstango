@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
+import chess.DummyBoard;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -37,7 +37,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste() {
-		Board tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -56,7 +56,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste01() {
-		Board tablero = builder.withTablero("8/8/8/4R2B/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/4R2B/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -75,7 +75,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste02() {
-		Board tablero = builder.withTablero("8/8/8/4R2b/8/8/8/8").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/4R2b/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

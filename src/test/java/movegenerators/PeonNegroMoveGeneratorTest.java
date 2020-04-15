@@ -37,7 +37,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		Board tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -56,7 +56,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {		
-		Board tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -76,7 +76,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		Board tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -102,7 +102,7 @@ public class PeonNegroMoveGeneratorTest {
 				builder
 				.withTablero("8/8/8/8/3Pp3/8/8/8")
 				.withPeonPasanteSquare(Square.d3)
-				.buildDummyBoard();
+				.buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -127,7 +127,7 @@ public class PeonNegroMoveGeneratorTest {
 		Board tablero = 
 				builder
 				.withTablero("8/4p3/5P2/8/8/8/8/8")
-				.buildDummyBoard();
+				.buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -153,7 +153,7 @@ public class PeonNegroMoveGeneratorTest {
 				builder
 				.withTablero("8/8/8/8/3pP3/8/8/8")
 				.withPeonPasanteSquare(Square.e3)
-				.buildDummyBoard();
+				.buildBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
@@ -175,7 +175,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPuedeCapturarRey() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildBoard();
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(Square.e1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));

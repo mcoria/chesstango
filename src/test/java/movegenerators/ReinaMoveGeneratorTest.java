@@ -34,7 +34,7 @@ public class ReinaMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves() {
-		Board tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;

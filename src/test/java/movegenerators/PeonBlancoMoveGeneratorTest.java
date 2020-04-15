@@ -36,7 +36,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		Board tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -55,7 +55,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		Board tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -75,7 +75,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		Board tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -94,7 +94,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		Board tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		
@@ -119,7 +119,7 @@ public class PeonBlancoMoveGeneratorTest {
 				builder
 				.withTablero("8/8/8/3pP3/8/8/8/8")
 				.withPeonPasanteSquare(Square.d6)
-				.buildDummyBoard();
+				.buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		
@@ -140,7 +140,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		Board tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildDummyBoard();
+		Board tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		
@@ -165,7 +165,7 @@ public class PeonBlancoMoveGeneratorTest {
 				builder
 				.withTablero("8/8/8/3Pp3/8/8/8/8")
 				.withPeonPasanteSquare(Square.e6)
-				.buildDummyBoard();
+				.buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		

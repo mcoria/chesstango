@@ -21,7 +21,7 @@ public class BoardBuilderTest {
 	
 	@Test
 	public void testParse() {
-		Board board = builder.withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildDummyBoard();
+		Board board = builder.withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildBoard();
 		
 		assertEquals(Color.NEGRO, board.getBoardState().getTurnoActual());
 		assertEquals(Square.e3, board.getBoardState().getPeonPasanteSquare());

@@ -3,6 +3,7 @@ package builder;
 import chess.Game;
 import chess.BoardState;
 import chess.Color;
+import chess.DummyBoard;
 import chess.Board;
 import chess.Pieza;
 import chess.Square;
@@ -23,11 +24,15 @@ public abstract class BoardBuilder {
 
 	private boolean enroqueNegroReyPermitido;
 	
-	public Game buildBoard(){
-		return new Game(buildDummyBoard());
+	public Game buildGame(){
+		return new Game(buildBoard());
 	}
 	
-	public Board buildDummyBoard(){
+	public Board buildBoard(){
+		return new Board(getTablero(), getState());
+	}
+	
+	public DummyBoard  buildDummyBoard(){
 		return new Board(getTablero(), getState());
 	}
 	

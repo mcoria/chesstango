@@ -21,7 +21,7 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		Game board = new FENBoarBuilder().withDefaultBoard().buildBoard();
+		Game board = new FENBoarBuilder().withDefaultBoard().buildGame();
 		
 		ChessMain main = new ChessMain();
 		

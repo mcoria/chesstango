@@ -38,7 +38,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina01() {
-		Board tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setPositionCaptured(tablero);
@@ -62,7 +62,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina02() {
-		Board tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setPositionCaptured(tablero);
@@ -89,7 +89,7 @@ public class ReyNegroMoveGeneratorTest {
 		Board tablero = builder.withTablero("r3k3/8/8/5B2/8/8/8/8")
 				.withTurno(Color.NEGRO)
 				.withEnroqueNegroReinaPermitido(true)
-				.buildDummyBoard();
+				.buildBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -114,7 +114,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey01() {
-		Board tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setPositionCaptured(tablero);
@@ -138,7 +138,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey02() {
-		Board tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
+		Board tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildBoard();
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setBoardState(tablero.getBoardState());
 		moveGenerator.setPositionCaptured(tablero);
@@ -167,7 +167,7 @@ public class ReyNegroMoveGeneratorTest {
 				.withTablero("4k2r/8/8/3B4/8/8/8/8")
 				.withEnroqueNegroReyPermitido(true)
 				.withTurno(Color.NEGRO)
-				.buildDummyBoard();
+				.buildBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());
@@ -195,7 +195,7 @@ public class ReyNegroMoveGeneratorTest {
 		Board tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8")
 				.withTurno(Color.NEGRO)
 				.withEnroqueBlancoReinaPermitido(true)
-				.buildDummyBoard();
+				.buildBoard();
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setFilter(tablero.getDefaultFilter());

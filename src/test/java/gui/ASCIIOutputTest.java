@@ -47,7 +47,7 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
-		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildBoard();
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);

@@ -26,7 +26,7 @@ public class EnroqueNegroReynaMoveTest {
 	
 	@Test
 	public void testExecute() {
-		Board board = builder.withFEN("r3k3/8/8/8/8/8/8/4K3 b KQkq - 0 1").buildDummyBoard();
+		Board board = builder.withFEN("r3k3/8/8/8/8/8/8/4K3 b KQkq - 0 1").buildBoard();
 
 		moveExecutor.executeMove(board);
 		assertEquals(Pieza.REY_NEGRO, board.getPieza(Square.c8));
