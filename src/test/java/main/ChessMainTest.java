@@ -147,6 +147,7 @@ public class ChessMainTest {
 	} 	
 	
 	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs
+	// luego de unos cambios: 75segs
 	public void test_divide5() {
 		Game board = builder.withDefaultBoard().buildGame();
 		
