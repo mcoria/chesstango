@@ -5,7 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +47,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina01() {
-		DummyBoard tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("r3k3/8/8/8/8/8/8/8").buildDummyBoard();
 		
 		state.setEnroqueNegroReinaPermitido(true);
 		
@@ -71,38 +73,28 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina02() {
-		DummyBoard tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").withEnroqueNegroReinaPermitido(true).buildBoard();
+		DummyBoard tablero = builder.withTablero("r3k3/8/5B2/8/8/8/8/8").buildDummyBoard();
 		
 		state.setEnroqueNegroReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		
+		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d8, Square.e7});
+		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> {
-			boolean result = false;
-			switch (square) {
-			case d1:
-			case e2:
-				result = true;
-				break;
-			default:
-				break;
+			if(positionCaptured.contains(square)){
+				return true;
+			} else {
+				return false;
 			}
-			return result;
 		});
+		
 		moveGenerator.setFilter(new MoveFilter() {
 			@Override
 			public void filterMove(Collection<Move> moves, Move move) {
-					PosicionPieza to = move.getTo();
-					switch (to.getKey()) {
-					case d8:
-					case d7:
-					case e7:
-					case f7:
-					case f8:
-						moves.add(move);
-						break;
-					default:
-						break;
-					}
+				if(! positionCaptured.contains(move.getTo().getKey())){
+					moves.add(move);
+				}
 				
 			}
 		});
@@ -115,13 +107,13 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.generateMoves(origen, moves);
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertFalse(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertFalse(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(3, moves.size());
 	}
 	
 	@Test
@@ -129,7 +121,7 @@ public class ReyNegroMoveGeneratorTest {
 		DummyBoard tablero = builder.withTablero("r3k3/8/8/5B2/8/8/8/8")
 				.withTurno(Color.NEGRO)
 				.withEnroqueNegroReinaPermitido(true)
-				.buildBoard();
+				.buildDummyBoard();
 		
 		state.setEnroqueNegroReinaPermitido(true);
 		
@@ -182,7 +174,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey01() {
-		DummyBoard tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildBoard();
+		DummyBoard tablero = builder.withTablero("4k2r/8/8/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		
 		state.setEnroqueNegroReyPermitido(true);
 		
@@ -208,7 +200,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey02() {
-		DummyBoard tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildBoard();
+		DummyBoard tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		
 		state.setEnroqueNegroReyPermitido(true);
 		
@@ -266,9 +258,7 @@ public class ReyNegroMoveGeneratorTest {
 		DummyBoard tablero = 
 				builder
 				.withTablero("4k2r/8/8/3B4/8/8/8/8")
-				.withEnroqueNegroReyPermitido(true)
-				.withTurno(Color.NEGRO)
-				.buildBoard();
+				.buildDummyBoard();
 		
 		state.setEnroqueNegroReyPermitido(true);
 		
@@ -321,9 +311,7 @@ public class ReyNegroMoveGeneratorTest {
 
 	@Test
 	public void testEnroqueNegroJaque() {
-		DummyBoard tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8")
-				.withTurno(Color.NEGRO)
-				.buildBoard();
+		DummyBoard tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8").buildDummyBoard();
 		
 		state.setEnroqueNegroReyPermitido(true);
 		

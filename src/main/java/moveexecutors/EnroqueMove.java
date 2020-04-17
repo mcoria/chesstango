@@ -2,25 +2,27 @@ package moveexecutors;
 
 import java.util.List;
 
+import chess.BoardCache;
 import chess.BoardState;
-import chess.Board;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Square;
+import chess.SquareKingCacheSetter;
 
-public abstract class EnroqueMove implements Comparable<Move>, Move {
+public abstract class EnroqueMove implements Comparable<Move>, Move, SquareKingCacheSetter {
 	
-	protected abstract Move getReyMove();
+	protected abstract SimpleReyMove getReyMove();
 	protected abstract Move getTorreMove();
 	
 	@Override
-	public void executeMove(Board board) {
+	public void executeMove(DummyBoard board) {
 		getReyMove().executeMove(board);
 		getTorreMove().executeMove(board);
 	}
 
 
 	@Override
-	public void undoMove(Board board) {
+	public void undoMove(DummyBoard board) {
 		getReyMove().undoMove(board);
 		getTorreMove().undoMove(board);
 	}	
@@ -41,6 +43,16 @@ public abstract class EnroqueMove implements Comparable<Move>, Move {
 		getReyMove().undoSquareLists(squaresTurno, squaresOpenente);
 		getTorreMove().undoSquareLists(squaresTurno, squaresOpenente);
 	}
+	
+	@Override
+	public void executetSquareKingCache(BoardCache cache) {
+		getReyMove().executetSquareKingCache(cache);
+	}
+
+	@Override
+	public void undoSquareKingCache(BoardCache cache) {
+		getReyMove().undoSquareKingCache(cache);
+	}	
 	
 	@Override
 	public int hashCode() {

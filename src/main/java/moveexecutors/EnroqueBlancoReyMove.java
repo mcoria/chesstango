@@ -14,7 +14,7 @@ public class EnroqueBlancoReyMove extends EnroqueMove {
 	public static final PosicionPieza TORRE_FROM = new PosicionPieza(Square.h1, Pieza.TORRE_BLANCO);
 	public static final PosicionPieza TORRE_TO = new PosicionPieza(Square.f1, null);
 	
-	private static final SimpleMove REY_MOVE = new SimpleReyMove(FROM, TO);
+	private static final SimpleReyMove REY_MOVE = new SimpleReyMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
 	@Override
@@ -37,7 +37,7 @@ public class EnroqueBlancoReyMove extends EnroqueMove {
 	}
 
 	@Override
-	protected Move getReyMove() {
+	protected SimpleReyMove getReyMove() {
 		return REY_MOVE;
 	}
 

@@ -25,7 +25,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testTopDownSquareIterator() {
-		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildBoard();
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -366,7 +366,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildBoard();
+		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		BoardIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		

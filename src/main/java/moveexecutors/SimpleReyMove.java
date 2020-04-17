@@ -1,27 +1,33 @@
 package moveexecutors;
 
-import chess.Board;
+import chess.BoardCache;
+import chess.Color;
 import chess.PosicionPieza;
+import chess.SquareKingCacheSetter;
 
-public class SimpleReyMove extends SimpleMove {
+public class SimpleReyMove extends SimpleMove implements SquareKingCacheSetter{
 
+	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
-	
+
 	@Override
-	public void executeMove(Board board) {
-		super.executeMove(board);
-		SquareKingCacheSetter kingCacheSetter = board.getSquareKingCacheSetter(from.getValue().getColor());
-		kingCacheSetter.setSquareKingCache(to.getKey());
+	public void executetSquareKingCache(BoardCache cache) {
+		if(Color.BLANCO.equals(from.getValue().getColor())){
+			cache.setSquareKingBlancoCache(to.getKey());
+		} else {
+			cache.setSquareKingNegroCache(to.getKey());
+		}
 	}
-	
-	
+
 	@Override
-	public void undoMove(Board board) {
-		super.undoMove(board);
-		SquareKingCacheSetter kingCacheSetter = board.getSquareKingCacheSetter(from.getValue().getColor());
-		kingCacheSetter.setSquareKingCache(from.getKey());
+	public void undoSquareKingCache(BoardCache cache) {
+		if(Color.BLANCO.equals(from.getValue().getColor())){
+			cache.setSquareKingBlancoCache(from.getKey());
+		} else {
+			cache.setSquareKingNegroCache(from.getKey());
+		}		
 	}
 
 }

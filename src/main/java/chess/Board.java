@@ -11,7 +11,6 @@ import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
-import moveexecutors.SquareKingCacheSetter;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
@@ -25,13 +24,16 @@ public class Board implements DummyBoard {
 	private MoveGeneratorStrategy strategy = null; 
 	
 	private BoardState boardState = null;
+	
+	private BoardCache boardCache = null;
 
 	public Board(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
 		this.strategy = new MoveGeneratorStrategy(this);
-		setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO));
-		setSquareKingNegroCache(getKingSquareRecorrer(Color.NEGRO));
+		this.boardCache = new BoardCache();
+		boardCache.setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO));
+		boardCache.setSquareKingNegroCache(getKingSquareRecorrer(Color.NEGRO));
 	}
 	
 
@@ -108,7 +110,7 @@ public class Board implements DummyBoard {
 	public boolean isKingInCheck() {
 		Color turno = boardState.getTurnoActual();
 		Square kingSquare = getKingSquare(turno);
-		return check(turno, kingSquare);
+		return sepuedeCapturarReyEnSquare(turno, kingSquare);
 	}
 	
 	
@@ -116,7 +118,7 @@ public class Board implements DummyBoard {
 	/* (non-Javadoc)
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
-	protected boolean check(Color colorRey, Square kingSquare){
+	protected boolean sepuedeCapturarReyEnSquare(Color colorRey, Square kingSquare){
 		for (SquareIterator iterator = this.iteratorSquare(colorRey.opositeColor()); iterator.hasNext();) {
 			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
@@ -132,36 +134,32 @@ public class Board implements DummyBoard {
 		return false;		
 	}
 	
+	/*
+	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
+	 */
 	private void filterMove(Collection<Move> moves, Move move) {
 		move.executeMove(this);
+		
+		if(move instanceof SquareKingCacheSetter){
+			((SquareKingCacheSetter) move).executetSquareKingCache(this.boardCache);
+		}
+		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
 			moves.add(move);
 		}
+		
 		move.undoMove(this);
+		
+		if(move instanceof SquareKingCacheSetter){
+			((SquareKingCacheSetter) move).undoSquareKingCache(this.boardCache);
+		}		
 	}
 
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
-	private Square squareKingBlancoCache = null;
-	private Square squareKingNegroCache = null;
-	
-	private SquareKingCacheSetter kingBlancoSetter = (Square square) -> setSquareKingBlancoCache(square);
-	private SquareKingCacheSetter kingNegroSetter = (Square square) -> setSquareKingNegroCache(square);
-	
-	public SquareKingCacheSetter getSquareKingCacheSetter(Color color){
-		return Color.BLANCO.equals(color) ? kingBlancoSetter : kingNegroSetter;
-	}
 	
 	private Square getKingSquare(Color color) {
-		return Color.BLANCO.equals(color) ? squareKingBlancoCache : squareKingNegroCache;
-	}
-	
-	private void setSquareKingBlancoCache(Square square){
-		this.squareKingBlancoCache = square;
-	}
-	
-	private void setSquareKingNegroCache(Square square){
-		this.squareKingNegroCache = square;
+		return Color.BLANCO.equals(color) ? boardCache.getSquareKingBlancoCache() : boardCache.getSquareKingNegroCache();
 	}
 	
 	private Square getKingSquareRecorrer(Color color) {
@@ -238,6 +236,10 @@ public class Board implements DummyBoard {
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareBlancos : this.squareNegros;
 		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
 		move.executeSquareLists(squaresTurno, squaresOpenente);
+
+		if(move instanceof SquareKingCacheSetter){
+			((SquareKingCacheSetter) move).executetSquareKingCache(this.boardCache);
+		}
 		
 		move.executeState(boardState);
 		
@@ -251,6 +253,10 @@ public class Board implements DummyBoard {
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareNegros : this.squareBlancos;
 		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
 		move.undoSquareLists(squaresTurno, squaresOpenente);	
+		
+		if(move instanceof SquareKingCacheSetter){
+			((SquareKingCacheSetter) move).undoSquareKingCache(this.boardCache);
+		}
 		
 		move.undoState(boardState);
 		
@@ -279,7 +285,7 @@ public class Board implements DummyBoard {
 		if(moveGenerator instanceof ReyAbstractMoveGenerator){
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setPositionCaptured((Color color, Square square) -> check(color, square));
+			generator.setPositionCaptured((Color color, Square square) -> sepuedeCapturarReyEnSquare(color, square));
 		}		
 	}
 	

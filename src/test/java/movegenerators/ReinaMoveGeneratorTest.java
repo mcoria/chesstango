@@ -9,8 +9,8 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Board;
 import chess.Color;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -34,7 +34,7 @@ public class ReinaMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves() {
-		Board tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;

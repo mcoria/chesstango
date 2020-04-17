@@ -2,8 +2,8 @@ package moveexecutors;
 
 import java.util.List;
 
-import chess.Board;
 import chess.BoardState;
+import chess.DummyBoard;
 import chess.PosicionPieza;
 import chess.Square;
 
@@ -17,13 +17,13 @@ public class SaltoDoblePeonMove extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(Board board) {
+	public void executeMove(DummyBoard board) {
 		board.setEmptySquare(from.getKey());								//Dejamos origen
 		board.setPieza(to.getKey(), from.getValue());						//Vamos a destino
 	}
 
 	@Override
-	public void undoMove(Board board) {
+	public void undoMove(DummyBoard board) {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen		
 	}

@@ -2,8 +2,8 @@ package moveexecutors;
 
 import java.util.List;
 
-import chess.Board;
 import chess.BoardState;
+import chess.DummyBoard;
 import chess.PosicionPieza;
 import chess.Square;
 
@@ -17,14 +17,14 @@ public class CapturePeonPasante extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(Board board) {
+	public void executeMove(DummyBoard board) {
 		board.setEmptySquare(from.getKey()); 						//Dejamos el origen
 		board.setPieza(to.getKey(), from.getValue());				//Vamos al destino
 		board.setEmptySquare(captura.getKey());						//Capturamos peon
 	}
 
 	@Override
-	public void undoMove(Board board) {	
+	public void undoMove(DummyBoard board) {	
 		board.setPosicion(captura);			//Devolvemos peon
 		board.setPosicion(to);				//Reestablecemos destino
 		board.setPosicion(from);			//Volvemos a origen	
