@@ -15,14 +15,14 @@ public class SimpleMove extends AbstractMove {
 	
 	@Override
 	public void executeMove(DummyBoard board) {
-		board.setEmptySquare(from.getKey());					//Dejamos origen
-		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos a destino
+		board.setEmptySquare(from.getKey());					//Dejamos el origen
+		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos al destino	
 	}
 
 	@Override
 	public void undoMove(DummyBoard board) {
 		board.setPosicion(to);							//Reestablecemos destino
-		board.setPosicion(from);						//Volvemos a origen	
+		board.setPosicion(from);						//Volvemos a origen
 	}
 	
 	@Override
@@ -45,7 +45,15 @@ public class SimpleMove extends AbstractMove {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if(super.equals(obj)  && obj instanceof SimpleMove){
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	protected String getType() {
 		return "SimpleMove";
-	}	
+	}
 }

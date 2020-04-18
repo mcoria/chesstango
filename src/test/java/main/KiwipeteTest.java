@@ -11,7 +11,7 @@ import chess.Square;
 import parsers.FENBoarBuilder;
 
 //Kiwipete
-public class ChessMainTest01 {
+public class KiwipeteTest {
 
 	private ChessMain main;
 	
