@@ -142,8 +142,8 @@ public class Board implements DummyBoard {
 				
 		move.executeMove(this);
 		
-		if(move instanceof SquareKingCacheSetter){
-			((SquareKingCacheSetter) move).executetSquareKingCache(this.boardCache);
+		if(move instanceof MoveKing){
+			((MoveKing) move).executetSquareKingCache(this.boardCache);
 		}
 		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
@@ -153,8 +153,8 @@ public class Board implements DummyBoard {
 		
 		move.undoMove(this);
 		
-		if(move instanceof SquareKingCacheSetter){
-			((SquareKingCacheSetter) move).undoSquareKingCache(this.boardCache);
+		if(move instanceof MoveKing){
+			((MoveKing) move).undoSquareKingCache(this.boardCache);
 		}		
 		
 		return result;
@@ -241,8 +241,8 @@ public class Board implements DummyBoard {
 		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
 		move.executeSquareLists(squaresTurno, squaresOpenente);
 
-		if(move instanceof SquareKingCacheSetter){
-			((SquareKingCacheSetter) move).executetSquareKingCache(this.boardCache);
+		if(move instanceof MoveKing){
+			((MoveKing) move).executetSquareKingCache(this.boardCache);
 		}
 		
 		move.executeState(boardState);
@@ -258,8 +258,8 @@ public class Board implements DummyBoard {
 		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
 		move.undoSquareLists(squaresTurno, squaresOpenente);	
 		
-		if(move instanceof SquareKingCacheSetter){
-			((SquareKingCacheSetter) move).undoSquareKingCache(this.boardCache);
+		if(move instanceof MoveKing){
+			((MoveKing) move).undoSquareKingCache(this.boardCache);
 		}
 		
 		move.undoState(boardState);

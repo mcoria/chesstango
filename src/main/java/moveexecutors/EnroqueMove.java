@@ -6,13 +6,18 @@ import chess.BoardCache;
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
+import chess.PosicionPieza;
 import chess.Square;
-import chess.SquareKingCacheSetter;
+import chess.MoveKing;
 
-public abstract class EnroqueMove implements Comparable<Move>, Move, SquareKingCacheSetter {
+public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 	
 	protected abstract SimpleReyMove getReyMove();
 	protected abstract Move getTorreMove();
+	
+	public EnroqueMove(PosicionPieza from, PosicionPieza to) {
+		super(from, to);
+	}
 	
 	@Override
 	public void executeMove(DummyBoard board) {
@@ -52,11 +57,6 @@ public abstract class EnroqueMove implements Comparable<Move>, Move, SquareKingC
 	@Override
 	public void undoSquareKingCache(BoardCache cache) {
 		getReyMove().undoSquareKingCache(cache);
-	}	
-	
-	@Override
-	public int hashCode() {
-		return getFrom().getKey().hashCode();
 	}
 	
 	@Override
@@ -66,40 +66,6 @@ public abstract class EnroqueMove implements Comparable<Move>, Move, SquareKingC
 			return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
 		}
 		return false;
-	}
-
-	@Override
-	public int compareTo(Move theOther) {
-		//Comparamos from
-		if(this.getFrom().getKey().getRank() > theOther.getFrom().getKey().getRank()){
-			return 1;
-		} else if (this.getFrom().getKey().getRank() < theOther.getFrom().getKey().getRank()){
-			return -1;
-		}
-		
-
-		if(this.getFrom().getKey().getFile() <  theOther.getFrom().getKey().getFile()){
-			return 1;
-		} else if(this.getFrom().getKey().getFile() >  theOther.getFrom().getKey().getFile()){
-			return -1;
-		}
-		
-		//---------------
-		//Son iguales asi que comparamos to
-		if(this.getTo().getKey().getRank() < theOther.getTo().getKey().getRank()){
-			return 1;
-		} else if (this.getTo().getKey().getRank() > theOther.getTo().getKey().getRank()){
-			return -1;
-		}
-		
-
-		if(this.getTo().getKey().getFile() <  theOther.getTo().getKey().getFile()){
-			return -1;
-		} else if(this.getTo().getKey().getFile() >  theOther.getTo().getKey().getFile()){
-			return 1;
-		}		
-		
-		return 0;
 	}
 
 	@Override

@@ -3,9 +3,9 @@ package moveexecutors;
 import chess.BoardCache;
 import chess.Color;
 import chess.PosicionPieza;
-import chess.SquareKingCacheSetter;
+import chess.MoveKing;
 
-public class SimpleReyMove extends SimpleMove implements SquareKingCacheSetter{
+public class SimpleReyMove extends SimpleMove implements MoveKing {
 
 	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {

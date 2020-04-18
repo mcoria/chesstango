@@ -17,6 +17,10 @@ public class EnroqueBlancoReynaMove extends EnroqueMove {
 	private static final SimpleReyMove REY_MOVE = new SimpleReyMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
+	public EnroqueBlancoReynaMove() {
+		super(FROM, TO);
+	}
+	
 	@Override
 	public void executeState(BoardState boardState) {
 		boardState.pushState();
