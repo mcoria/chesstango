@@ -18,18 +18,11 @@ public class SimpleMove extends AbstractMove {
 		board.setEmptySquare(from.getKey());					//Dejamos el origen
 		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos al destino	
 	}
-
-	@Override
-	public void undoMove(DummyBoard board) {
-		board.setPosicion(to);							//Reestablecemos destino
-		board.setPosicion(from);						//Volvemos a origen
-	}
 	
 	@Override
 	public void executeState(BoardState boardState) {
-		boardState.pushState();
+		super.executeState(boardState);
 		boardState.setPeonPasanteSquare(null);
-		boardState.rollTurno();
 	}
 	
 	@Override

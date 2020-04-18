@@ -30,5 +30,12 @@ public class CaptureReyMove extends CaptureMove implements MoveKing {
 			cache.setSquareKingNegroCache(from.getKey());
 		}		
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(super.equals(obj)  && obj instanceof CaptureReyMove){
+			return true;
+		}
+		return false;
+	}	
 }

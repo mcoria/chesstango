@@ -29,5 +29,13 @@ public class SimpleReyMove extends SimpleMove implements MoveKing {
 			cache.setSquareKingNegroCache(from.getKey());
 		}		
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(super.equals(obj)  && obj instanceof SimpleReyMove){
+			return true;
+		}
+		return false;
+	}	
 
 }

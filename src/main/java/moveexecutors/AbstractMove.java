@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import chess.BoardState;
+import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
 
@@ -22,6 +23,18 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	@Override
 	public PosicionPieza getTo() {
 		return to;
+	}
+	
+	@Override
+	public void undoMove(DummyBoard board) {
+		board.setPosicion(to);							//Reestablecemos destino
+		board.setPosicion(from);						//Volvemos a origen
+	}
+	
+	@Override
+	public void executeState(BoardState boardState) {
+		boardState.pushState();
+		boardState.rollTurno();
 	}
 	
 	@Override
