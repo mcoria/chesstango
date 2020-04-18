@@ -19,7 +19,7 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class Board implements DummyBoard {
 	
-	private MoveFilter defaultFilter = (Collection<Move> moves, Move move) -> filterMove(moves, move);
+	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
 	
 	private MoveGeneratorStrategy strategy = null; 
 	
@@ -137,7 +137,9 @@ public class Board implements DummyBoard {
 	/*
 	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
 	 */
-	private void filterMove(Collection<Move> moves, Move move) {
+	private boolean filterMove(Move move) {
+		boolean result = false;
+				
 		move.executeMove(this);
 		
 		if(move instanceof SquareKingCacheSetter){
@@ -146,7 +148,7 @@ public class Board implements DummyBoard {
 		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
-			moves.add(move);
+			result = true;
 		}
 		
 		move.undoMove(this);
@@ -154,6 +156,8 @@ public class Board implements DummyBoard {
 		if(move instanceof SquareKingCacheSetter){
 			((SquareKingCacheSetter) move).undoSquareKingCache(this.boardCache);
 		}		
+		
+		return result;
 	}
 
 	///////////////////////////// START getKingSquare Logic /////////////////////////////

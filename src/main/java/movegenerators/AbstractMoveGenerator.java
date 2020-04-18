@@ -1,7 +1,5 @@
 package movegenerators;
 
-import java.util.Collection;
-
 import chess.DummyBoard;
 import chess.Move;
 
@@ -9,7 +7,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected DummyBoard tablero;
 	
-	protected MoveFilter filter = (Collection<Move> moves, Move move) -> moves.add(move);
+	protected MoveFilter filter = (Move move) -> true;
 
 	@Override
 	public void setTablero(DummyBoard tablero) {

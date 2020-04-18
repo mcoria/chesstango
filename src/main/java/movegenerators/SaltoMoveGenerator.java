@@ -30,11 +30,17 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(moveContainer, createSimpleMove(origen, destino));
+		    	Move move = createSimpleMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}					
 		    } else if(color.equals(pieza.getColor())){
 		    	continue;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-				this.filter.filterMove(moveContainer, createCaptureMove(origen, destino));
+		    	Move move = createCaptureMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}				
 		    }
 		}
 	}

@@ -39,11 +39,18 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
-				this.filter.filterMove(moveContainer, new SimpleMove(origen, destino));
+		    	Move move = new SimpleMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}
+					
 		    } else if(color.equals(pieza.getColor())){
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	this.filter.filterMove(moveContainer, new CaptureMove(origen, destino));	
+		    	Move move = new CaptureMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}	
 		    	break;
 		    }
 		}

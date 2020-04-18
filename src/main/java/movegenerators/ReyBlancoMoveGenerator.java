@@ -39,7 +39,10 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			this.filter.filterMove(moveContainer, new EnroqueBlancoReynaMove());
+	    	Move move = new EnroqueBlancoReynaMove();
+			if(this.filter.filterMove(move)){
+				moveContainer.add(move);
+			}			
 		}
 		
 		
@@ -49,8 +52,11 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 							CachePosiciones.REY_BLANCO, 
 							CachePosiciones.TORRE_BLANCA_REY,
 							DESTINO_REY_SQUARE, 
-							INTERMEDIO_REY_REY_SQUARE)) {			
-			this.filter.filterMove(moveContainer, new EnroqueBlancoReyMove());
+							INTERMEDIO_REY_REY_SQUARE)) {
+	    	Move move = new EnroqueBlancoReyMove();
+			if(this.filter.filterMove(move)){
+				moveContainer.add(move);
+			}
 		}
 	}
 
