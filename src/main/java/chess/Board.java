@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import gui.ASCIIOutput;
@@ -30,10 +29,8 @@ public class Board implements DummyBoard {
 	public Board(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
+		this.boardCache = new BoardCache(this);
 		this.strategy = new MoveGeneratorStrategy(this);
-		this.boardCache = new BoardCache();
-		boardCache.setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO));
-		boardCache.setSquareKingNegroCache(getKingSquareRecorrer(Color.NEGRO));
 	}
 	
 
@@ -98,7 +95,7 @@ public class Board implements DummyBoard {
 	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
-		for (SquareIterator iterator = this.iteratorSquare(turnoActual); iterator.hasNext();) {
+		for (SquareIterator iterator = boardCache.iteratorSquare(turnoActual); iterator.hasNext();) {
 			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
@@ -109,7 +106,7 @@ public class Board implements DummyBoard {
 
 	public boolean isKingInCheck() {
 		Color turno = boardState.getTurnoActual();
-		Square kingSquare = getKingSquare(turno);
+		Square kingSquare = boardCache.getKingSquare(turno);
 		return positionCaptured(turno.opositeColor(), kingSquare);
 	}
 	
@@ -119,7 +116,7 @@ public class Board implements DummyBoard {
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
 	protected boolean positionCaptured(Color color, Square square){
-		for (SquareIterator iterator = this.iteratorSquare(color); iterator.hasNext();) {
+		for (SquareIterator iterator = boardCache.iteratorSquare(color); iterator.hasNext();) {
 			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
@@ -182,28 +179,7 @@ public class Board implements DummyBoard {
 		move.undoSquareKingCache(this.boardCache);		
 		
 		return result;
-	}	
-
-	///////////////////////////// START getKingSquare Logic /////////////////////////////
-	
-	private Square getKingSquare(Color color) {
-		return Color.BLANCO.equals(color) ? boardCache.getSquareKingBlancoCache() : boardCache.getSquareKingNegroCache();
 	}
-	
-	private Square getKingSquareRecorrer(Color color) {
-		Square kingSquare = null;
-		Pieza rey = Pieza.getRey(color);
-		for (PosicionPieza entry : this) {
-			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
-			if(rey.equals(currentPieza)){
-				kingSquare = currentSquare;
-				break;
-			}
-		}
-		return kingSquare;
-	}	
-	///////////////////////////// END getKingSquare Logic /////////////////////////////	
 
 	///////////////////////////// START Board Iteration Logic /////////////////////////////
 	/* (non-Javadoc)
@@ -233,36 +209,13 @@ public class Board implements DummyBoard {
 		};
 	}
 	///////////////////////////// END Board Iteration Logic /////////////////////////////	
-	
-	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
-	// Bien podriamos encapsular este cache en su propia clase
-	// Prestar atencion que este cache se actualiza una vez que realmente se mueven las fichas
-	private List<Square> squareBlancos = new ArrayList<Square>();
-	private List<Square> squareNegros = new ArrayList<Square>();
-	
-	protected SquareIterator iteratorSquare(Color color){
-		return new SquareIterator(){
-			private Iterator<Square> iterator = Color.BLANCO.equals(color) ? squareBlancos.iterator() : squareNegros.iterator();
-			
-			@Override
-			public boolean hasNext() {
-				return iterator.hasNext();
-			}
-			
-			@Override
-			public Square next() {
-				return iterator.next();
-			}
-		};		
-	}
-	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
 		move.executeMove(this);
 		
-		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareBlancos : this.squareNegros;
-		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
+		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareBlancos : boardCache.squareNegros;
+		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
 		move.executeSquareLists(squaresTurno, squaresOpenente);
 
 		if(move instanceof MoveKing){
@@ -278,8 +231,8 @@ public class Board implements DummyBoard {
 	public void undo(Move move) {
 		move.undoMove(this);
 		
-		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? this.squareNegros : this.squareBlancos;
-		List<Square> squaresOpenente = squaresTurno == this.squareBlancos ? this.squareNegros : this.squareBlancos;
+		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareNegros : boardCache.squareBlancos;
+		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
 		move.undoSquareLists(squaresTurno, squaresOpenente);	
 		
 		if(move instanceof MoveKing){
@@ -354,17 +307,16 @@ public class Board implements DummyBoard {
 				PosicionPieza posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
 						sourceTablero[file][rank]);
 				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
-
-				Pieza pieza = posicion.getValue();
-				if (pieza != null) {
-					if (Color.BLANCO.equals(pieza.getColor())) {
-						squareBlancos.add(posicion.getKey());
-					} else if (Color.NEGRO.equals(pieza.getColor())) {
-						squareNegros.add(posicion.getKey());
-					}
-				}
 			}
 		}
+	}
+
+	public BoardCache getBoardCache() {
+		return boardCache;
+	}
+
+	public void setBoardCache(BoardCache boardCache) {
+		this.boardCache = boardCache;
 	}	
 
 }

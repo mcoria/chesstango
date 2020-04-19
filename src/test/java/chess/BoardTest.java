@@ -73,7 +73,7 @@ public class BoardTest {
 	public void test02() {
 		int totalPiezas = 0;
 		Board tablero = builder.withDefaultBoard().buildBoard();
-		for (SquareIterator iterator = tablero.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
+		for (SquareIterator iterator = tablero.getBoardCache().iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());
 			assertEquals(Color.BLANCO, pieza.getColor());
 			totalPiezas++;
