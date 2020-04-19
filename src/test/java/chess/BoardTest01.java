@@ -2,9 +2,13 @@ package chess;
 
 import static org.junit.Assert.*;
 
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import moveexecutors.SaltoDoblePeonMove;
+import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class BoardTest01 {
@@ -24,4 +28,33 @@ public class BoardTest01 {
 		assertTrue(tablero.isKingInCheck());
 		assertEquals(1, tablero.getLegalMoves().size());
 	}
+
+	
+	@Test
+	public void test02() {
+		Board tablero = builder.withFEN("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1").buildBoard();
+		
+		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
+		assertTrue(tablero.isKingInCheck());
+		
+		Collection<Move> moves = tablero.getLegalMoves();
+		
+		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.c3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.b2, Pieza.PEON_BLANCO, Square.b4, Square.b3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.c2, Pieza.PEON_BLANCO, Square.c3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.d2, Pieza.REY_BLANCO, Square.e3) ));
+		
+		assertFalse(moves.contains( createSimpleMove(Square.d2, Pieza.REY_BLANCO, Square.e1) ));
+		
+		
+		assertEquals(4, tablero.getLegalMoves().size());
+	}
+	
+	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
+		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
+	}
+	
+	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
+		return new SaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null), squarePasante);
+	}	
 }

@@ -110,7 +110,7 @@ public class Board implements DummyBoard {
 	public boolean isKingInCheck() {
 		Color turno = boardState.getTurnoActual();
 		Square kingSquare = getKingSquare(turno);
-		return sepuedeCapturarReyEnSquare(turno.opositeColor(), kingSquare);
+		return positionCaptured(turno.opositeColor(), kingSquare);
 	}
 	
 	
@@ -118,14 +118,14 @@ public class Board implements DummyBoard {
 	/* (non-Javadoc)
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
-	protected boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){
+	protected boolean positionCaptured(Color color, Square square){
 		for (SquareIterator iterator = this.iteratorSquare(color); iterator.hasNext();) {
 			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
 					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
-					if(moveGenerator.puedeCapturarRey(origen, kingSquare)){
+					if(moveGenerator.puedeCapturarRey(origen, square)){
 						return true;
 					}
 				}
@@ -313,7 +313,7 @@ public class Board implements DummyBoard {
 		if(moveGenerator instanceof ReyAbstractMoveGenerator){
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setPositionCaptured((Color color, Square square) -> sepuedeCapturarReyEnSquare(color, square));
+			generator.setPositionCaptured((Color color, Square square) -> positionCaptured(color, square));
 			generator.setFilter((Move move) -> filterMoveKing((MoveKing) move));
 		}		
 	}

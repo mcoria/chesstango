@@ -93,6 +93,7 @@ public class GameTest {
 		
 		assertEquals(Color.NEGRO, board.getTurnoActual());
 		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
+		assertTrue(board.getTablero().isKingInCheck());
 		assertEquals(1, board.getMovimientosPosibles().size());
 	}
 	
@@ -143,7 +144,7 @@ public class GameTest {
 	}
 	
 	@Test // No esta considerando las promociones
-	public void testJuego_Promociones() {
+	public void testJuegoPeonPromocion() {
 		Game board = builder.withFEN("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2").buildGame();
 		
 		assertNotNull(board.getMovimiento(Square.g2, Square.f1));

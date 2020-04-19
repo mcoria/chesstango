@@ -1,6 +1,7 @@
 package main;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import chess.Game;
 import chess.Square;
 import parsers.FENBoarBuilder;
+import parsers.FENCoder;
 
 public class ChessMainTest {
 
@@ -153,6 +155,8 @@ public class ChessMainTest {
 		
 		Node rootNode = main.start(board, 5);
 		
+		//System.out.println(rootNode);
+		
 		assertEquals(181046, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
 		assertEquals(217832, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
 		assertEquals(215255, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
@@ -177,6 +181,73 @@ public class ChessMainTest {
 		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(4865609, rootNode.getChildNodesCounter());
 	} 	
+	
+	@Test
+	public void test_d2d3() {
+		Game board = builder.withDefaultBoard().buildGame();
+		
+		board.executeMove(Square.d2, Square.d3);
+		
+		Node rootNode = main.start(board, 4);
+		
+		//assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(328511, rootNode.getChildNodesCounter());
+	}
+	
+	
+	@Test
+	public void test_d2d3_c7c5() {
+		Game board = builder.withDefaultBoard().buildGame();
+		
+		board.executeMove(Square.d2, Square.d3);
+		board.executeMove(Square.c7, Square.c5);
+		
+		Node rootNode = main.start(board, 3);
+		
+		//assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(15971, rootNode.getChildNodesCounter());
+	}
+	
+	@Test
+	public void test_d2d3_c7c5_e1d2() {
+		Game board = builder.withDefaultBoard().buildGame();
+		
+		board.executeMove(Square.d2, Square.d3);
+		board.executeMove(Square.c7, Square.c5);
+		board.executeMove(Square.e1, Square.d2);
+		
+		Node rootNode = main.start(board, 2);
+		
+		System.out.println(rootNode);
+		
+		//assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(487, rootNode.getChildNodesCounter());
+	}	
+	
+	
+	@Test
+	public void test_d2d3_c7c5_e1d2_d8a5() {
+		Game board = builder.withDefaultBoard().buildGame();
+		
+		board.executeMove(Square.d2, Square.d3);
+		board.executeMove(Square.c7, Square.c5);
+		board.executeMove(Square.e1, Square.d2);
+		board.executeMove(Square.d8, Square.a5);
+		
+		Node rootNode = main.start(board, 1);
+		
+		System.out.println(new FENCoder().code(board));
+		
+		assertEquals(1, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.d2, Square.e3).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
+		
+		assertNull("d2e1 is not valid", rootNode.getChildNode(Square.d2, Square.e1));
+		
+		assertEquals(4, board.getMovimientosPosibles().size());
+		assertEquals(4, rootNode.getChildNodesCounter());
+	}
 	
 	/* NO SE LA BANCA
 	@Test
