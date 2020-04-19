@@ -15,10 +15,12 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
+import moveexecutors.SimplePeonPromocion;
 import parsers.FENBoarBuilder;
 public class PeonBlancoMoveGeneratorTest {
 	
@@ -182,6 +184,52 @@ public class PeonBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.e6) ));
 	}
 	
+	@Test
+	public void testPeonSimplePeonPromocion() {
+		DummyBoard tablero = builder.withTablero("8/3P4/8/8/8/8/8/8").buildDummyBoard();
+		
+		moveGenerator.setTablero(tablero);
+		
+		Square from = Square.d7;
+		
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+		
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
+		
+		moveGenerator.generateMoves(origen, moves);
+		
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.TORRE_BLANCO) ));
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.CABALLO_BLANCO) ));
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.ALFIL_BLANCO) ));
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.REINA_BLANCO) ));
+		
+		assertEquals(4, moves.size());
+	}
+
+	@Test
+	public void testPeonCapturaPeonPromocion() {
+		DummyBoard tablero = builder.withTablero("2rr4/3P4/8/8/8/8/8/8").buildDummyBoard();
+		
+		moveGenerator.setTablero(tablero);
+		
+		Square from = Square.d7;
+		
+		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.c8));
+		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.d8));
+		
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
+		
+		moveGenerator.generateMoves(origen, moves);
+		
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.TORRE_BLANCO) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.CABALLO_BLANCO) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.ALFIL_BLANCO) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.REINA_BLANCO) ));
+		
+		assertEquals(4, moves.size());
+	}
+
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
 		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
@@ -196,6 +244,14 @@ public class PeonBlancoMoveGeneratorTest {
 
 	private Move createCapturePeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
 		return new CapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
+	}
+	
+	private Move createSimplePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza promocion) {
+		return new SimplePeonPromocion(origen, new PosicionPieza(destinoSquare, null), promocion);
+	}	
+	
+	private Move createCapturePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
+		return new CapturaPeonPromocion(origen, new PosicionPieza(destinoSquare, destinoPieza), promocion);
 	}	
 	
 }

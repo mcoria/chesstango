@@ -85,7 +85,10 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 			return -1;
 		} else if(this.to.getKey().getFile() >  theOther.getTo().getKey().getFile()){
 			return 1;
-		}		
+		}
+		
+		//--------------- Desde y hasta coinciden, que hacemos ?
+		
 		
 		return 0;
 	}

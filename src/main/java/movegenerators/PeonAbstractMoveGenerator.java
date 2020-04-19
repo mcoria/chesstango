@@ -8,10 +8,12 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
+import moveexecutors.SimplePeonPromocion;
 
 public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
@@ -28,6 +30,8 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
 	
 	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);	
+	
+	protected abstract Pieza[] getPiezaPromocion();
 	
 	public PeonAbstractMoveGenerator(Color color) {
 		this.color = color;
@@ -53,7 +57,12 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			if (destino.getValue() == null) {
 		    	Move moveSaltoSimple = new SimpleMove(origen, destino);
 				if(this.filter.filterMove(moveSaltoSimple)){
-					moveContainer.add(moveSaltoSimple);
+					int toRank = saltoSimpleCasillero.getRank();
+					if(toRank == 0 || toRank == 7){ // Es una promocion
+						addSaltoSimplePromocion(origen, destino, moveContainer);
+					} else {
+						moveContainer.add(moveSaltoSimple);
+					}
 				}
 				if (saltoDobleCasillero != null) {
 					destino = this.tablero.getPosicion(saltoDobleCasillero);
@@ -71,9 +80,14 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
 			Pieza pieza = destino.getValue();
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-		    	Move move = new CaptureMove(origen, destino);
-				if(this.filter.filterMove(move)){
-					moveContainer.add(move);
+		    	Move moveCaptura = new CaptureMove(origen, destino);
+				if(this.filter.filterMove(moveCaptura)){
+					int toRank = saltoSimpleCasillero.getRank();
+					if(toRank == 0 || toRank == 7){ // Es una promocion
+						addCapturaPromocion(origen, destino, moveContainer);
+					} else {
+						moveContainer.add(moveCaptura);
+					}					
 				}				
 			}
 		}	
@@ -82,9 +96,14 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
 			Pieza pieza = destino.getValue();
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {				
-		    	Move move = new CaptureMove(origen, destino);
-				if(this.filter.filterMove(move)){
-					moveContainer.add(move);
+		    	Move moveCaptura = new CaptureMove(origen, destino);
+				if(this.filter.filterMove(moveCaptura)){
+					int toRank = saltoSimpleCasillero.getRank();
+					if(toRank == 0 || toRank == 7){ // Es una promocion
+						addCapturaPromocion(origen, destino, moveContainer);
+					} else {
+						moveContainer.add(moveCaptura);
+					}
 				}				
 			}
 		}	
@@ -99,6 +118,20 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			}
 		}
 	}
+
+	private void addSaltoSimplePromocion(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer) {
+		Pieza[] promociones = getPiezaPromocion();
+		for (int i = 0; i < promociones.length; i++) {
+			moveContainer.add(new SimplePeonPromocion(origen, destino, promociones[i]));
+		}
+	}
+	
+	private void addCapturaPromocion(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer) {
+		Pieza[] promociones = getPiezaPromocion();
+		for (int i = 0; i < promociones.length; i++) {
+			moveContainer.add(new CapturaPeonPromocion(origen, destino, promociones[i]));
+		}
+	}	
 
 	@Override
 	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
