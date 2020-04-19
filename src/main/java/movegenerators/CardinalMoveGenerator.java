@@ -83,6 +83,9 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    	}
 		    	continue;
 		    } else if(color.equals(pieza.getColor())){
+		    	if(kingSquare.equals(destino.getKey())){
+		    		return true;
+		    	}		    	
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
 		    	if(kingSquare.equals(destino.getKey())){

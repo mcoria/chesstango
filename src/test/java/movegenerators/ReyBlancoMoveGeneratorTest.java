@@ -191,13 +191,13 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina04() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/RN2K3").withEnroqueBlancoReinaPermitido(true).buildDummyBoard();
+		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/8/RN2K3").buildDummyBoard();
 		
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d1, Square.e2});
+		List<Square> positionCaptured = Arrays.asList(new Square[] {});
 		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
 		

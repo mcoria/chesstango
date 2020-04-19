@@ -29,8 +29,6 @@ public class BoardTest {
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
-		assertEquals(20, moves.size());
-		
 		assertTrue(moves.contains( createSimpleMove(Square.a2, Pieza.PEON_BLANCO, Square.a3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Pieza.PEON_BLANCO, Square.a4, Square.a3) ));
 		
@@ -62,6 +60,9 @@ public class BoardTest {
 		//Caballo Rey
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.f3) ));
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.h3) ));
+		
+		//Debe haber 20 movimientos
+		assertEquals(20, moves.size());
 		
 		//State
 		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());

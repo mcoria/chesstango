@@ -1,8 +1,12 @@
 package movegenerators;
 
+import java.util.Collection;
+
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
+import chess.Move;
+import chess.Pieza;
 import chess.PosicionPieza;
 import chess.PositionCaptured;
 import chess.Square;
@@ -13,7 +17,7 @@ import moveexecutors.SimpleReyMove;
 
 public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
-	protected PositionCaptured positionCaptured;
+	protected PositionCaptured positionCaptured = (Color color, Square square) -> false;
 	
 	protected BoardState boardState;
 	
@@ -32,6 +36,28 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	}
 	
 	
+	@Override
+	protected void addMoveIfValid(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer) {
+		Pieza pieza = destino.getValue();
+		if(pieza == null){
+			if(!positionCaptured.check(color.opositeColor(), destino.getKey())){
+				Move move = createSimpleMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}
+			}					
+		} else if(color.equals(pieza.getColor())){
+			return;
+		} else if(color.opositeColor().equals(pieza.getColor())){
+			if(!positionCaptured.check(color.opositeColor(), destino.getKey())){
+				Move move = createCaptureMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}				
+			}				
+		}
+	}	
+	
 	protected boolean puedeEnroqueReina(
 			DummyBoard dummyBoard, 
 			PosicionPieza origen, 
@@ -45,8 +71,9 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 				if ( dummyBoard.isEmtpy(casilleroIntermedioTorre)												//El casillero intermedio TORRE esta vacio
 				  && dummyBoard.isEmtpy(casilleroDestinoRey) 													//El casillero destino REY esta vacio
 				  && dummyBoard.isEmtpy(casilleroIntermedioRey)) {										  		//El casillero intermedio REY esta vacio
-					if ( !positionCaptured.check(color, rey.getKey()) 							//El rey no esta en jaque
-					  && !positionCaptured.check(color, casilleroIntermedioRey)) {				//El rey no puede ser atacado en casillero intermedio
+					if ( !positionCaptured.check(color.opositeColor(), rey.getKey()) 							//El rey no esta en jaque
+					  && !positionCaptured.check(color.opositeColor(), casilleroIntermedioRey) 					//El rey no puede ser atacado en casillero intermedio
+					  && !positionCaptured.check(color.opositeColor(), casilleroDestinoRey)){					//El rey no puede ser atacado en casillero destino
 						return true;
 					}
 				}
@@ -66,8 +93,9 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 			if (torre.getValue().equals(dummyBoard.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( dummyBoard.isEmtpy(casilleroDestinoRey) 													//El casillero destino REY esta vacio
 				  && dummyBoard.isEmtpy(casilleroIntermedioRey)) {										  		//El casillero intermedio REY esta vacio
-					if ( !positionCaptured.check(color, rey.getKey()) 							//El rey no esta en jaque
-					  && !positionCaptured.check(color, casilleroIntermedioRey)) {				//El rey no puede ser atacado en casillero intermedio
+					if ( !positionCaptured.check(color.opositeColor(), rey.getKey()) 							//El rey no esta en jaque
+					  && !positionCaptured.check(color.opositeColor(), casilleroIntermedioRey) 				//El rey no puede ser atacado en casillero intermedio
+					  && !positionCaptured.check(color.opositeColor(), casilleroDestinoRey)){					//El rey no puede ser atacado en casillero destino
 						return true;
 					}
 				}

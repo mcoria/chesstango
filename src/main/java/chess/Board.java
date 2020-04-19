@@ -110,7 +110,7 @@ public class Board implements DummyBoard {
 	public boolean isKingInCheck() {
 		Color turno = boardState.getTurnoActual();
 		Square kingSquare = getKingSquare(turno);
-		return sepuedeCapturarReyEnSquare(turno, kingSquare);
+		return sepuedeCapturarReyEnSquare(turno.opositeColor(), kingSquare);
 	}
 	
 	
@@ -118,12 +118,12 @@ public class Board implements DummyBoard {
 	/* (non-Javadoc)
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
-	protected boolean sepuedeCapturarReyEnSquare(Color colorRey, Square kingSquare){
-		for (SquareIterator iterator = this.iteratorSquare(colorRey.opositeColor()); iterator.hasNext();) {
+	protected boolean sepuedeCapturarReyEnSquare(Color color, Square kingSquare){
+		for (SquareIterator iterator = this.iteratorSquare(color); iterator.hasNext();) {
 			PosicionPieza origen = this.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
-				if(colorRey.equals(currentPieza.getColor().opositeColor())){
+				if(color.equals(currentPieza.getColor())){
 					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
 					if(moveGenerator.puedeCapturarRey(origen, kingSquare)){
 						return true;
@@ -142,9 +142,10 @@ public class Board implements DummyBoard {
 				
 		move.executeMove(this);
 		
+		/*
 		if(move instanceof MoveKing){
 			((MoveKing) move).executetSquareKingCache(this.boardCache);
-		}
+		}*/
 		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
@@ -153,12 +154,35 @@ public class Board implements DummyBoard {
 		
 		move.undoMove(this);
 		
+		/*
 		if(move instanceof MoveKing){
 			((MoveKing) move).undoSquareKingCache(this.boardCache);
-		}		
+		}*/
 		
 		return result;
 	}
+	
+	/*
+	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
+	 */
+	private boolean filterMoveKing(MoveKing move) {
+		boolean result = false;
+				
+		move.executeMove(this);
+		
+		move.executetSquareKingCache(this.boardCache);
+		
+		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
+		if(! this.isKingInCheck() ) {
+			result = true;
+		}
+		
+		move.undoMove(this);
+		
+		move.undoSquareKingCache(this.boardCache);		
+		
+		return result;
+	}	
 
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
 	
@@ -290,6 +314,7 @@ public class Board implements DummyBoard {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured((Color color, Square square) -> sepuedeCapturarReyEnSquare(color, square));
+			generator.setFilter((Move move) -> filterMoveKing((MoveKing) move));
 		}		
 	}
 	

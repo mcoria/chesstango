@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import chess.Color;
 import chess.Move;
-import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.BoardIterator;
@@ -15,9 +14,16 @@ import moveexecutors.SimpleMove;
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
 	protected Color color;
+	
 	private int[][] saltos;
 	
-	 public SaltoMoveGenerator(Color color, int[][] saltos) {
+	protected abstract SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino);
+	
+	protected abstract CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino);
+	
+	protected abstract void addMoveIfValid(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer);
+	
+	public SaltoMoveGenerator(Color color, int[][] saltos) {
 		this.color = color;
 		this.saltos = saltos;
 	}
@@ -28,23 +34,10 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		BoardIterator iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
-		    Pieza pieza = destino.getValue();
-		    if(pieza == null){
-		    	Move move = createSimpleMove(origen, destino);
-				if(this.filter.filterMove(move)){
-					moveContainer.add(move);
-				}					
-		    } else if(color.equals(pieza.getColor())){
-		    	continue;
-		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = createCaptureMove(origen, destino);
-				if(this.filter.filterMove(move)){
-					moveContainer.add(move);
-				}				
-		    }
+		    addMoveIfValid(origen, destino, moveContainer);
 		}
 	}
-	
+
 	@Override
 	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
 		Square squareOrigen = origen.getKey();
@@ -62,9 +55,5 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		}
 		return false;		
 	}
-	
-	protected abstract SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino);
-	
-	protected abstract CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino);
 
 }

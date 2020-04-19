@@ -69,6 +69,17 @@ public class Node {
 		return node;
 	}
 
+	public String divide() {
+		String result = "";
+		for (Map.Entry<Move, Node> entry : childs.entrySet()) {
+			Move move = entry.getKey();
+			Node node = entry.getValue();
+			result += move.getFrom().getKey().toString() + move.getTo().getKey().toString() + " " + node.getChildNodesCounter() + "\n";
+		}
+		return result;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return id.hashCode();
@@ -82,4 +93,5 @@ public class Node {
 		}
 		return false;
 	}
+
 }
