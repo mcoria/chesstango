@@ -1,7 +1,6 @@
 package moveexecutors;
 
 import chess.BoardCache;
-import chess.DummyBoard;
 import chess.PosicionPieza;
 
 public class CaptureMove extends SimpleMove {
@@ -11,22 +10,17 @@ public class CaptureMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(DummyBoard board) {
-		board.move(from, to);
-	}
-	
-	@Override
 	public void executeMove(BoardCache boardCache) {
 		super.executeMove(boardCache);
 		
-		boardCache.removePositions(to.getValue().getColor(), to.getKey());
+		boardCache.removePositions(to);
 	}
 
 	@Override
 	public void undoMove(BoardCache boardCache) {
 		super.undoMove(boardCache);
 
-		boardCache.addPositions(to.getValue().getColor(), to.getKey());
+		boardCache.addPositions(to);
 	}
 	
 	@Override

@@ -7,8 +7,8 @@ import chess.Move;
 import chess.PosicionPieza;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
-	protected PosicionPieza from;
-	protected PosicionPieza to;
+	protected final PosicionPieza from;
+	protected final PosicionPieza to;
 	
 	
 	public AbstractMove(PosicionPieza from, PosicionPieza to) {

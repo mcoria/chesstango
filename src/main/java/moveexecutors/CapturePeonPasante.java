@@ -4,7 +4,7 @@ import chess.BoardCache;
 import chess.DummyBoard;
 import chess.PosicionPieza;
 
-public class CapturePeonPasante extends AbstractMove {
+public class CapturePeonPasante extends SimpleMove {
 
 	private final PosicionPieza captura;
 			
@@ -15,31 +15,29 @@ public class CapturePeonPasante extends AbstractMove {
 	
 	@Override
 	public void executeMove(DummyBoard board) {
-		board.setEmptySquare(from.getKey()); 						//Dejamos el origen
-		board.setPieza(to.getKey(), from.getValue());				//Vamos al destino
-		board.setEmptySquare(captura.getKey());						//Capturamos peon
+		super.executeMove(board);
+		board.setEmptySquare(captura);		//Capturamos peon
 	}
 
 	@Override
-	public void undoMove(DummyBoard board) {	
+	public void undoMove(DummyBoard board) {
+		super.undoMove(board);
 		board.setPosicion(captura);			//Devolvemos peon
-		board.setPosicion(to);				//Reestablecemos destino
-		board.setPosicion(from);			//Volvemos a origen	
 	}
 	
 	@Override
 	public void executeMove(BoardCache boardCache) {
 		super.executeMove(boardCache);
 		
-		boardCache.removePositions(captura.getValue().getColor(), captura.getKey());
+		boardCache.removePositions(captura);
 	}
 
 	@Override
 	public void undoMove(BoardCache boardCache) {
 		super.undoMove(boardCache);
 
-		boardCache.addPositions(captura.getValue().getColor(), captura.getKey());
-	}	
+		boardCache.addPositions(captura);
+	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -53,6 +51,6 @@ public class CapturePeonPasante extends AbstractMove {
 	@Override
 	protected String getType() {
 		return "CapturePeonPasante";
-	}	
+	}
 
 }

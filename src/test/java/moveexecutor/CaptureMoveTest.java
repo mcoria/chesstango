@@ -17,7 +17,7 @@ import moveexecutors.CaptureMove;
 import parsers.FENBoarBuilder;
 
 public class CaptureMoveTest {
-	
+
 	private DummyBoard board;
 	
 	private BoardState boardState;

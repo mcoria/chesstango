@@ -16,6 +16,7 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	Pieza getPieza(Square square);
 	void setPieza(Square square, Pieza pieza);
 
+	void setEmptySquare(PosicionPieza captura);
 	void setEmptySquare(Square square);
 	boolean isEmtpy(Square square);
 	
@@ -25,6 +26,5 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	BoardIterator iterator();
 
 	BoardIterator iterator(SquareIterator squareIterator);
-	///////////////////////////// END Board Iteration Logic /////////////////////////////	
 
 }

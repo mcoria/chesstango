@@ -69,19 +69,19 @@ public class BoardCache {
 		}
 	}
 	
-	public void addPositions(Color color, Square add){
-		if(Color.BLANCO.equals(color)){
-			squareBlancos.add(add);
+	public void addPositions(PosicionPieza position){
+		if(Color.BLANCO.equals(position.getValue().getColor())){
+			squareBlancos.add(position.getKey());
 		} else {
-			squareNegros.add(add);			
+			squareNegros.add(position.getKey());			
 		}
 	}
 	
-	public void removePositions(Color color, Square remove){
-		if(Color.BLANCO.equals(color)){
-			squareBlancos.remove(remove);
+	public void removePositions(PosicionPieza position){
+		if(Color.BLANCO.equals(position.getValue().getColor())){
+			squareBlancos.remove(position.getKey());
 		} else {
-			squareNegros.remove(remove);			
+			squareNegros.remove(position.getKey());			
 		}
 	}		
 	

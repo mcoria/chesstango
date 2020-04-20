@@ -63,6 +63,11 @@ public class DefaultDummyBoard implements DummyBoard{
 		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, null);
 	}
 
+	@Override
+	public void setEmptySquare(PosicionPieza captura) {
+		setEmptySquare(captura.getKey());
+	}	
+	
 	/* (non-Javadoc)
 	 * @see chess.DummyBoard#isEmtpy(chess.Square)
 	 */
@@ -123,5 +128,5 @@ public class DefaultDummyBoard implements DummyBoard{
 	    	ps.flush();
 	    }
 	    return new String(baos.toByteArray());
-	}	
+	}
 }
