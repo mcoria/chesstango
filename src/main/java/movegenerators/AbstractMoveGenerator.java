@@ -3,6 +3,7 @@ package movegenerators;
 import chess.DummyBoard;
 import chess.Move;
 
+// Y si tenemos objetos prototipos de movimientos y lo clonamos de ser validos?
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected DummyBoard tablero;

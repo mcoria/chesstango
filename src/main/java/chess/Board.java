@@ -1,11 +1,8 @@
 package chess;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import gui.ASCIIOutput;
 import iterators.SquareIterator;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
@@ -13,7 +10,7 @@ import movegenerators.MoveGeneratorStrategy;
 import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
 
-//implements DummyBoard
+
 public class Board {
 	
 	private MoveFilter defaultFilter = (Move move) -> filterMove(move);

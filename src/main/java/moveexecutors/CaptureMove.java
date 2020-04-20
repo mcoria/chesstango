@@ -1,12 +1,18 @@
 package moveexecutors;
 
 import chess.BoardCache;
+import chess.DummyBoard;
 import chess.PosicionPieza;
 
 public class CaptureMove extends SimpleMove {
 	
 	public CaptureMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
+	}
+	
+	@Override
+	public void executeMove(DummyBoard board) {
+		board.capture(from, to);
 	}
 	
 	@Override

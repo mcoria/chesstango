@@ -510,7 +510,7 @@ public class KiwipeteTest {
 		assertEquals(49, rootNode.getChildNodesCounter());		
 	}
 	
-	@Test //Este TEST esta fallando
+	@Test
 	public void test_divide4() {
 		Node rootNode = main.start(board, 4);	
 		

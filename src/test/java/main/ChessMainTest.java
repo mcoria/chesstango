@@ -9,7 +9,6 @@ import org.junit.Test;
 import chess.Game;
 import chess.Square;
 import parsers.FENBoarBuilder;
-import parsers.FENCoder;
 
 public class ChessMainTest {
 
@@ -148,7 +147,7 @@ public class ChessMainTest {
 		assertEquals(197281, rootNode.getChildNodesCounter());
 	} 	
 	
-	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs 44segs
+	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs 44segs 42segs
 	public void test_divide5() {
 		Game board = builder.withDefaultBoard().buildGame();
 		
@@ -215,8 +214,6 @@ public class ChessMainTest {
 		
 		Node rootNode = main.start(board, 2);
 		
-		System.out.println(rootNode);
-		
 		//assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(487, rootNode.getChildNodesCounter());
 	}	
@@ -232,8 +229,6 @@ public class ChessMainTest {
 		board.executeMove(Square.d8, Square.a5);
 		
 		Node rootNode = main.start(board, 1);
-		
-		System.out.println(new FENCoder().code(board));
 		
 		assertEquals(1, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
 		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
