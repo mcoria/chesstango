@@ -217,6 +217,8 @@ public class Board implements DummyBoard {
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareBlancos : boardCache.squareNegros;
 		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
 		move.executeSquareLists(squaresTurno, squaresOpenente);
+		
+		boardCache.validarCacheSqueare(this);
 
 		if(move instanceof MoveKing){
 			((MoveKing) move).executetSquareKingCache(this.boardCache);
@@ -234,6 +236,8 @@ public class Board implements DummyBoard {
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareNegros : boardCache.squareBlancos;
 		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
 		move.undoSquareLists(squaresTurno, squaresOpenente);	
+		
+		boardCache.validarCacheSqueare(this);
 		
 		if(move instanceof MoveKing){
 			((MoveKing) move).undoSquareKingCache(this.boardCache);

@@ -39,8 +39,7 @@ public class CapturePeonPasante extends AbstractMove {
 	
 	@Override
 	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.remove(from.getKey());
-		squaresTurno.add(to.getKey());
+		super.executeSquareLists(squaresTurno, squaresOpenente);
 		
 		squaresOpenente.remove(captura.getKey());
 	}

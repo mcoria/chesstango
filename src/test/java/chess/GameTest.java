@@ -21,134 +21,328 @@ public class GameTest {
 	
 	@Test
 	public void testPosicionInicial() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game game = builder.withDefaultBoard().buildGame();
 		
-		assertEquals(Color.BLANCO, board.getTurnoActual());
-		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
-		assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
+		assertEquals(GameStatus.IN_PROGRESS, game.getGameStatus());
+		assertEquals(20, game.getMovimientosPosibles().size());
 	}
 
 	@Test
 	public void testJuegoJaqueMate() {
-		Game board = builder.withDefaultBoard().buildGame();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
+		Game game = builder.withDefaultBoard().buildGame();
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
-		board.executeMove(Square.e2, Square.e4);
-		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);	
-		board.executeMove(Square.b8, Square.c6);
-		board.executeMove(Square.d1, Square.f3);
-		board.executeMove(Square.f8, Square.c5);
-		board.executeMove(Square.f3, Square.f7);
+		game.executeMove(Square.e2, Square.e4);
+		game.executeMove(Square.e7, Square.e5);
+		game.executeMove(Square.f1, Square.c4);	
+		game.executeMove(Square.b8, Square.c6);
+		game.executeMove(Square.d1, Square.f3);
+		game.executeMove(Square.f8, Square.c5);
+		game.executeMove(Square.f3, Square.f7);
 		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.JAQUE_MATE, board.getGameStatus());
-		assertTrue(board.getMovimientosPosibles().isEmpty());
+		assertEquals(Color.NEGRO, game.getTurnoActual());
+		assertEquals(GameStatus.JAQUE_MATE, game.getGameStatus());
+		assertTrue(game.getMovimientosPosibles().isEmpty());
 	}
 
 	@Test
 	public void testJuegoJaqueMateUndo() {
-		Game board = builder.withDefaultBoard().buildGame();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
+		Game game = builder.withDefaultBoard().buildGame();
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
-		board.executeMove(Square.e2, Square.e4);
-		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);	
-		board.executeMove(Square.b8, Square.c6);
-		board.executeMove(Square.d1, Square.f3);
-		board.executeMove(Square.f8, Square.c5);
-		board.executeMove(Square.f3, Square.f7);
+		game.executeMove(Square.e2, Square.e4);
+		game.executeMove(Square.e7, Square.e5);
+		game.executeMove(Square.f1, Square.c4);	
+		game.executeMove(Square.b8, Square.c6);
+		game.executeMove(Square.d1, Square.f3);
+		game.executeMove(Square.f8, Square.c5);
+		game.executeMove(Square.f3, Square.f7);
 		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.JAQUE_MATE, board.getGameStatus());
-		assertTrue(board.getMovimientosPosibles().isEmpty());
+		assertEquals(Color.NEGRO, game.getTurnoActual());
+		assertEquals(GameStatus.JAQUE_MATE, game.getGameStatus());
+		assertTrue(game.getMovimientosPosibles().isEmpty());
 		
-		board.undoMove();
-		board.undoMove();
-		board.undoMove();	
-		board.undoMove();
-		board.undoMove();
-		board.undoMove();
-		board.undoMove();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());		
+		game.undoMove();
+		game.undoMove();
+		game.undoMove();	
+		game.undoMove();
+		game.undoMove();
+		game.undoMove();
+		game.undoMove();
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());		
 	}	
 	
 	@Test
 	public void testJuegoJaque() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game game = builder.withDefaultBoard().buildGame();
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
-		board.executeMove(Square.e2, Square.e4);
-		board.executeMove(Square.e7, Square.e5);
-		board.executeMove(Square.f1, Square.c4);
-		board.executeMove(Square.b8, Square.c6);
-		board.executeMove(Square.d1, Square.f3);
-		board.executeMove(Square.g8, Square.h6);
-		board.executeMove(Square.f3, Square.f7);
+		game.executeMove(Square.e2, Square.e4);
+		game.executeMove(Square.e7, Square.e5);
+		game.executeMove(Square.f1, Square.c4);
+		game.executeMove(Square.b8, Square.c6);
+		game.executeMove(Square.d1, Square.f3);
+		game.executeMove(Square.g8, Square.h6);
+		game.executeMove(Square.f3, Square.f7);
 		
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.IN_PROGRESS, board.getGameStatus());
-		assertTrue(board.getTablero().isKingInCheck());
-		assertEquals(1, board.getMovimientosPosibles().size());
+		assertEquals(Color.NEGRO, game.getTurnoActual());
+		assertEquals(GameStatus.IN_PROGRESS, game.getGameStatus());
+		assertTrue(game.getTablero().isKingInCheck());
+		assertEquals(1, game.getMovimientosPosibles().size());
 	}
 	
 	@Test
 	public void testJuegoTablas() {
-		Game board = builder.withFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").buildGame();
+		Game game = builder.withFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").buildGame();
 		
-		assertEquals(Color.BLANCO, board.getTurnoActual());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
-		board.executeMove(Square.h7, Square.c7);
+		game.executeMove(Square.h7, Square.c7);
 
-		assertEquals(Color.NEGRO, board.getTurnoActual());
-		assertEquals(GameStatus.TABLAS, board.getGameStatus());
-		assertEquals(0, board.getMovimientosPosibles().size());
+		assertEquals(Color.NEGRO, game.getTurnoActual());
+		assertEquals(GameStatus.TABLAS, game.getGameStatus());
+		assertEquals(0, game.getMovimientosPosibles().size());
 	}
 	
 	@Test
 	public void testJuegoUndo() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game game = builder.withDefaultBoard().buildGame();
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
-		board.executeMove(Square.e2, Square.e4);
+		game.executeMove(Square.e2, Square.e4);
 		
-		board.undoMove();
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(Color.BLANCO, board.getTurnoActual());
+		game.undoMove();
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());
 	}
 	
 	@Test
 	public void testJuegoNoPeonPasante() {
-		Game board = builder.withFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").buildGame();
+		Game game = builder.withFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").buildGame();
 		
-		board.executeMove(Square.b6, Square.b5);
+		game.executeMove(Square.b6, Square.b5);
 		
-		assertEquals(22, board.getMovimientosPosibles().size());
+		assertEquals(22, game.getMovimientosPosibles().size());
 	}
 	
 	@Test
 	public void testJuegoPeonPasante() {
-		Game board = builder.withFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildGame();
+		Game game = builder.withFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildGame();
 		
-		board.executeMove(Square.c7, Square.c5);
+		game.executeMove(Square.c7, Square.c5);
 		
-		assertNotNull(board.getMovimiento(Square.b5, Square.c6));
-		assertEquals(22, board.getMovimientosPosibles().size());
+		assertNotNull(game.getMovimiento(Square.b5, Square.c6));
+		assertEquals(22, game.getMovimientosPosibles().size());
 	}
 	
-	@Test // No esta considerando las promociones
-	public void testJuegoPeonPromocion() {
-		Game board = builder.withFEN("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2").buildGame();
+
+	@Test
+	public void testJuegoKiwipeteTestUndo() {
+		Game game = new FENBoarBuilder().withFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").buildGame();
 		
-		assertNotNull(board.getMovimiento(Square.g2, Square.f1));
-		assertEquals(46, board.getMovimientosPosibles().size());
-	}	
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e1, Square.g1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e1, Square.c1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e1, Square.f1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e1, Square.d1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d5, Square.d6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d5, Square.e6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.a2, Square.a3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.a2, Square.a4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.b2, Square.b3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.g2, Square.g3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.g2, Square.g4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.g2, Square.h3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.d3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.f7);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.c4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.g6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.g4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.c6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e5, Square.d7);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.c3, Square.b1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.c3, Square.a4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.c3, Square.d1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.c3, Square.b5);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.g3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.h3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.e3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.d3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.g4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.h5);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.f4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.f5);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.f3, Square.f6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d2, Square.c1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d2, Square.e3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d2, Square.f4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d2, Square.g5);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.d2, Square.h6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e2, Square.d1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e2, Square.f1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e2, Square.d3);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e2, Square.c4);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e2, Square.b5);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.e2, Square.a6);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.a1, Square.b1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.a1, Square.c1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.a1, Square.d1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.h1, Square.g1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+		game.executeMove(Square.h1, Square.f1);
+		game.undoMove();
+		assertEquals(48, game.getMovimientosPosibles().size());
+		
+	}
+	
 	
 }

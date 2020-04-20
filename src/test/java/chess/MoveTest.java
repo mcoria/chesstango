@@ -34,7 +34,7 @@ public class MoveTest {
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		Move move = new SimpleMove(origen, destino);
-		assertEquals("e5=TORRE_BLANCO e7=null; SimpleMove", move.toString());
+		assertEquals("e5=TORRE_BLANCO e7=null - SimpleMove", move.toString());
 	}	
 	
 	

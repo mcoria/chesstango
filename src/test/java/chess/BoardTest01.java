@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
@@ -50,11 +51,29 @@ public class BoardTest01 {
 		assertEquals(4, tablero.getLegalMoves().size());
 	}
 	
+	@Test
+	public void testJuegoPeonPromocion() {
+		Board board = builder.withFEN("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2").buildBoard();
+		
+		Collection<Move> moves = board.getLegalMoves();
+		
+		assertTrue(moves.contains( createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO, Pieza.TORRE_NEGRO) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO, Pieza.CABALLO_NEGRO) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO, Pieza.ALFIL_NEGRO) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO, Pieza.REINA_NEGRO) ));
+		
+		assertEquals(46, board.getLegalMoves().size());
+	}	
+	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
 		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
 		return new SaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null), squarePasante);
+	}
+	
+	private Move createCapturePeonPromocion(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
+		return new CapturaPeonPromocion(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza), promocion);
 	}	
 }

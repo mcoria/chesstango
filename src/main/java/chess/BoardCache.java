@@ -2,7 +2,6 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import iterators.SquareIterator;
 
@@ -57,8 +56,8 @@ public class BoardCache {
 	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
 	// Prestar atencion que este cache se actualiza una vez que realmente se mueven las fichas
-	public List<Square> squareBlancos = new ArrayList<Square>();
-	public List<Square> squareNegros = new ArrayList<Square>();
+	public ArrayList<Square> squareBlancos = new ArrayList<Square>();
+	public ArrayList<Square> squareNegros = new ArrayList<Square>();
 	
 	public SquareIterator iteratorSquare(Color color){
 		return new SquareIterator(){
@@ -89,6 +88,36 @@ public class BoardCache {
 		}
 	}	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
+
+	public void validarCacheSqueare(DummyBoard board) {
+		int posicionesBlancas = 0;
+		int posicionesNegras = 0;
+		for (PosicionPieza posicionPieza : board) {
+			if(posicionPieza.getValue() != null){
+				Color color = posicionPieza.getValue().getColor();
+				if(Color.BLANCO.equals(color)){
+					posicionesBlancas++;
+					if(! squareBlancos.contains(posicionPieza.getKey() )){
+						throw new RuntimeException("La posicion squareBlancos no se encuentra");
+					}
+				} else {
+					posicionesNegras++;
+					if(! squareNegros.contains(posicionPieza.getKey() )){
+						throw new RuntimeException("La posicion squareNegros no se encuentra");
+					}					
+				}
+			}
+		}
+		
+		if( posicionesBlancas != squareBlancos.size() ){
+			throw new RuntimeException("Diferencias en cantidad de posicions blancas");
+		}
+		
+		if( posicionesNegras != squareNegros.size() ){
+			throw new RuntimeException("Diferencias en cantidad de posicions negras");
+		}		
+		
+	}
 }
 
 

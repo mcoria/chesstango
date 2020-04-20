@@ -21,13 +21,12 @@ public class EnroqueNegroReynaMove extends EnroqueMove {
 		super(FROM, TO);
 	}
 	
+	
 	@Override
 	public void executeState(BoardState boardState) {
-		boardState.pushState();
+		super.executeState(boardState);
 		boardState.setEnroqueNegroReyPermitido(false);
 		boardState.setEnroqueNegroReinaPermitido(false);
-		boardState.setPeonPasanteSquare(null);	
-		boardState.rollTurno();
 	}
 
 	@Override

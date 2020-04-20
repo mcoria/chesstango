@@ -1,11 +1,8 @@
 package moveexecutors;
 
-import java.util.List;
-
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.PosicionPieza;
-import chess.Square;
 
 public class SimpleMove extends AbstractMove {
 	
@@ -23,18 +20,6 @@ public class SimpleMove extends AbstractMove {
 	public void executeState(BoardState boardState) {
 		super.executeState(boardState);
 		boardState.setPeonPasanteSquare(null);
-	}
-	
-	@Override
-	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.remove(from.getKey());
-		squaresTurno.add(to.getKey());
-	}
-
-	@Override
-	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.remove(to.getKey());
-		squaresTurno.add(from.getKey());
 	}
 	
 	@Override

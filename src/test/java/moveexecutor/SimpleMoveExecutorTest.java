@@ -58,7 +58,6 @@ public class SimpleMoveExecutorTest {
 		
 		moveExecutor.undoMove(board);
 		
-		
 		verify(board).setPosicion(origen);
 		verify(board).setPosicion(destino);
 		

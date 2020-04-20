@@ -33,4 +33,8 @@ public class SimplePeonPromocion extends SimpleMove {
 		return "SimplePeonPromocion";
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "[" + promocion + "]";
+	}	
 }

@@ -1,9 +1,12 @@
 package moveexecutors;
 
+import java.util.List;
+
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
+import chess.Square;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
 	protected PosicionPieza from;
@@ -30,7 +33,7 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen
 	}
-	
+
 	@Override
 	public void executeState(BoardState boardState) {
 		boardState.pushState();
@@ -40,6 +43,18 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	@Override
 	public void undoState(BoardState boardState) {
 		boardState.popState();		
+	}	
+	
+	@Override
+	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.remove(from.getKey());
+		squaresTurno.add(to.getKey());
+	}
+	
+	@Override
+	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		squaresTurno.remove(to.getKey());
+		squaresTurno.add(from.getKey());
 	}	
 	
 	@Override
@@ -95,7 +110,7 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 
 	@Override
 	public String toString() {
-		return from.toString() + " " + to.toString() + "; " + getType();
+		return from.toString() + " " + to.toString() + " - " + getType();
 	}
 
 	protected abstract String getType();

@@ -32,6 +32,13 @@ public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 		getTorreMove().undoMove(board);
 	}	
 	
+	
+	@Override
+	public void executeState(BoardState boardState) {
+		super.executeState(boardState);
+		boardState.setPeonPasanteSquare(null);	
+	}
+	
 	@Override
 	public void undoState(BoardState boardState) {
 		boardState.popState();		

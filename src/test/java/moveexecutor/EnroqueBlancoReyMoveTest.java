@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Board;
+import chess.Color;
 import chess.Pieza;
 import chess.Square;
 import moveexecutors.EnroqueBlancoReyMove;
@@ -36,6 +37,7 @@ public class EnroqueBlancoReyMoveTest {
 		moveExecutor.executeState(board.getBoardState());
 		assertFalse(board.getBoardState().isEnroqueBlancoReyPermitido());
 		assertFalse(board.getBoardState().isEnroqueBlancoReinaPermitido());
+		assertEquals(Color.NEGRO, board.getBoardState().getTurnoActual());
 	}	
 
 }
