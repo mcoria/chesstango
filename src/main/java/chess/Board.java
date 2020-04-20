@@ -15,6 +15,7 @@ import movegenerators.MoveGeneratorStrategy;
 import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
 
+//implements DummyBoard
 public class Board implements DummyBoard {
 	
 	private MoveFilter defaultFilter = (Move move) -> filterMove(move);

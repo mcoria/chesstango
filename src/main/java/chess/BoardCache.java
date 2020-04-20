@@ -11,7 +11,7 @@ public class BoardCache {
 	
 	private Square squareKingNegroCache = null;
 	
-	public BoardCache(Board board) {
+	public BoardCache(DummyBoard board) {
 		settupSquares(board);
 		
 		setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO, board));
@@ -39,7 +39,7 @@ public class BoardCache {
 		this.squareKingNegroCache = squareKingNegroCache;
 	}
 	
-	private Square getKingSquareRecorrer(Color color, Board board) {
+	private Square getKingSquareRecorrer(Color color, DummyBoard board) {
 		Square kingSquare = null;
 		Pieza rey = Pieza.getRey(color);
 		for (PosicionPieza entry : board) {
@@ -101,7 +101,7 @@ public class BoardCache {
 		};		
 	}
 	
-	public void settupSquares(Board board) {
+	public void settupSquares(DummyBoard board) {
 		for (PosicionPieza posicionPieza : board) {
 			Pieza pieza = posicionPieza.getValue();
 			if (pieza != null) {

@@ -1,24 +1,23 @@
 package moveexecutor;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import chess.Board;
 import chess.BoardState;
+import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.SimpleMove;
 
-public class SimpleMoveExecutorTest {
+public class SimpleMoveTest {
 
 	@Mock
-	private Board board;
+	private DummyBoard board;
 	
 	@Mock
 	private BoardState boardState;
@@ -28,7 +27,6 @@ public class SimpleMoveExecutorTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		when(board.getBoardState()).thenReturn(boardState);	
 	}
 	
 	
@@ -45,7 +43,8 @@ public class SimpleMoveExecutorTest {
 		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
 		verify(board).setEmptySquare(origen.getKey());
 
-		verify(boardState).setPeonPasanteSquare(null);		
+		verify(boardState).setPeonPasanteSquare(null);
+		verify(boardState).rollTurno();
 	}
 	
 	
@@ -57,10 +56,38 @@ public class SimpleMoveExecutorTest {
 		moveExecutor =  new SimpleMove(origen, destino);
 		
 		moveExecutor.undoMove(board);
+		moveExecutor.undoMove(boardState);
 		
 		verify(board).setPosicion(origen);
 		verify(board).setPosicion(destino);
 		
+		verify(boardState).popState();
+	}
+	
+	@Test
+	public void testSimple() {
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+
+		moveExecutor =  new SimpleMove(origen, destino);
+		
+		moveExecutor.executeMove(board);
+		moveExecutor.executeMove(boardState);
+		
+		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
+		verify(board).setEmptySquare(origen.getKey());
+
+		verify(boardState).setPeonPasanteSquare(null);
+		verify(boardState).rollTurno();
+		
+		
+		moveExecutor.undoMove(board);
+		moveExecutor.undoMove(boardState);
+		
+		verify(board).setPosicion(origen);
+		verify(board).setPosicion(destino);
+		
+		verify(boardState).popState();
 	}	
 
 }

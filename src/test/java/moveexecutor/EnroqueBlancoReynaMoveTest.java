@@ -2,42 +2,56 @@ package moveexecutor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import chess.Board;
+import chess.BoardState;
 import chess.Color;
+import chess.DummyBoard;
 import chess.Pieza;
-import chess.Square;
 import moveexecutors.EnroqueBlancoReynaMove;
-import parsers.FENBoarBuilder;
 
 public class EnroqueBlancoReynaMoveTest {	
 	
+	@Mock
+	private DummyBoard board;
+	
+	private BoardState boardState;	
+	
 	private EnroqueBlancoReynaMove moveExecutor;
-
-	private FENBoarBuilder builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		MockitoAnnotations.initMocks(this);
+		
 		moveExecutor = new EnroqueBlancoReynaMove();
+		
+		boardState = new BoardState();		
+		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setEnroqueBlancoReinaPermitido(true);
+		boardState.setEnroqueBlancoReyPermitido(true);
 	}
 	
 	@Test
 	public void testExecute() {
-		Board board = builder.withFEN("4k3/8/8/8/8/8/8/R3K3 w KQkq - 0 1").buildBoard();
-
 		moveExecutor.executeMove(board);
-		assertEquals(Pieza.REY_BLANCO, board.getPieza(Square.c1));
-		assertEquals(Pieza.TORRE_BLANCO, board.getPieza(Square.d1));
+		moveExecutor.executeMove(boardState);
 
-
-		moveExecutor.executeMove(board.getBoardState());
-		assertFalse(board.getBoardState().isEnroqueBlancoReyPermitido());
-		assertFalse(board.getBoardState().isEnroqueBlancoReinaPermitido());
-		assertEquals(Color.NEGRO, board.getBoardState().getTurnoActual());
+		verify(board).setEmptySquare(EnroqueBlancoReynaMove.FROM.getKey());						//Dejamos el origen
+		verify(board).setPieza(EnroqueBlancoReynaMove.TO.getKey(), Pieza.REY_BLANCO);  			//Vamos al destino
+		
+		verify(board).setEmptySquare(EnroqueBlancoReynaMove.TORRE_FROM.getKey());				//Dejamos el origen
+		verify(board).setPieza(EnroqueBlancoReynaMove.TORRE_TO.getKey(), Pieza.TORRE_BLANCO);  	//Vamos al destino		
+		
+		assertNull(boardState.getPeonPasanteSquare());
+		assertFalse(boardState.isEnroqueBlancoReyPermitido());
+		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
+		assertEquals(Color.NEGRO, boardState.getTurnoActual());
 	}	
 
 }

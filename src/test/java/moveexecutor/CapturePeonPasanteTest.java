@@ -8,17 +8,17 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import chess.Board;
 import chess.BoardState;
+import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.CapturePeonPasante;
 
-public class CapturePeonPasanteExecutorTest {
+public class CapturePeonPasanteTest {
 
 	@Mock
-	private Board board;
+	private DummyBoard board;
 	
 	@Mock
 	private BoardState boardState;
@@ -28,8 +28,6 @@ public class CapturePeonPasanteExecutorTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		
-		when(board.getBoardState()).thenReturn(boardState);
 	}
 	
 	@Test
