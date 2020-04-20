@@ -38,6 +38,7 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	public void executeState(BoardState boardState) {
 		boardState.pushState();
 		boardState.rollTurno();
+		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
 	}
 	
 	@Override

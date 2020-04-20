@@ -2,7 +2,6 @@ package moveexecutors;
 
 import java.util.List;
 
-import chess.BoardState;
 import chess.DummyBoard;
 import chess.PosicionPieza;
 import chess.Square;
@@ -28,13 +27,6 @@ public class CapturePeonPasante extends AbstractMove {
 		board.setPosicion(captura);			//Devolvemos peon
 		board.setPosicion(to);				//Reestablecemos destino
 		board.setPosicion(from);			//Volvemos a origen	
-	}
-	
-	@Override
-	public void executeState(BoardState boardState) {
-		boardState.pushState();
-		boardState.setPeonPasanteSquare(null);	
-		boardState.rollTurno();
 	}
 	
 	@Override

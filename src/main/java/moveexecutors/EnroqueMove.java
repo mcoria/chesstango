@@ -3,12 +3,11 @@ package moveexecutors;
 import java.util.List;
 
 import chess.BoardCache;
-import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
+import chess.MoveKing;
 import chess.PosicionPieza;
 import chess.Square;
-import chess.MoveKing;
 
 public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 	
@@ -32,17 +31,6 @@ public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 		getTorreMove().undoMove(board);
 	}	
 	
-	
-	@Override
-	public void executeState(BoardState boardState) {
-		super.executeState(boardState);
-		boardState.setPeonPasanteSquare(null);	
-	}
-	
-	@Override
-	public void undoState(BoardState boardState) {
-		boardState.popState();		
-	}	
 	
 	@Override
 	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
