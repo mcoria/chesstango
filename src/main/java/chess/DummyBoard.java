@@ -20,11 +20,7 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	boolean isEmtpy(Square square);
 	
 	// La operacion move supone que el destino esta VACIO
-	void move(PosicionPieza from, Square to);
-	
-	// La operacion move supone que el destino esta OCUPADO
-	void capture(PosicionPieza from, PosicionPieza to);
-	
+	void move(PosicionPieza from, PosicionPieza to);
 
 	BoardIterator iterator();
 

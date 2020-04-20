@@ -109,13 +109,7 @@ public class DefaultDummyBoard implements DummyBoard{
 	}
 
 	@Override
-	public void move(PosicionPieza from, Square to) {
-		this.setEmptySquare(from.getKey());					//Dejamos el origen
-		this.setPieza(to, from.getValue()) ;				//Vamos al destino
-	}
-
-	@Override
-	public void capture(PosicionPieza from, PosicionPieza to) {
+	public void move(PosicionPieza from, PosicionPieza to) {
 		this.setEmptySquare(from.getKey());							//Dejamos el origen
 		this.setPieza(to.getKey(), from.getValue()) ;				//Vamos al destino
 	}

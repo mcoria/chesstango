@@ -12,7 +12,7 @@ public class CaptureMove extends SimpleMove {
 	
 	@Override
 	public void executeMove(DummyBoard board) {
-		board.capture(from, to);
+		board.move(from, to);
 	}
 	
 	@Override
