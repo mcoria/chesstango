@@ -1,5 +1,9 @@
 package chess;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import gui.ASCIIOutput;
 import iterators.BoardIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
@@ -102,5 +106,28 @@ public class DefaultDummyBoard implements DummyBoard{
 				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
 			}
 		}
+	}
+
+	@Override
+	public void move(PosicionPieza from, Square to) {
+		this.setEmptySquare(from.getKey());					//Dejamos el origen
+		this.setPieza(to, from.getValue()) ;				//Vamos al destino
+	}
+
+	@Override
+	public void capture(PosicionPieza from, PosicionPieza to) {
+		this.setEmptySquare(from.getKey());							//Dejamos el origen
+		this.setPieza(to.getKey(), from.getValue()) ;				//Vamos al destino
+	}
+	
+	@Override
+	public String toString() {
+	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    try (PrintStream ps = new PrintStream(baos)) {
+	    	ASCIIOutput output = new ASCIIOutput(ps);
+	    	output.printDummyBoard(this);
+	    	ps.flush();
+	    }
+	    return new String(baos.toByteArray());
 	}	
 }

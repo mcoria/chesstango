@@ -170,13 +170,7 @@ public class Board {
 	
 	@Override
 	public String toString() {
-	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    try (PrintStream ps = new PrintStream(baos)) {
-	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	output.printDummyBoard(this.dummyBoard);
-	    	ps.flush();
-	    }
-	    return new String(baos.toByteArray());
+	    return this.dummyBoard.toString();
 	}
 	
 	private static Collection<Move> createMoveContainer(){

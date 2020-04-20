@@ -86,7 +86,7 @@ public class BoardState {
 	public void pushState() {
 		BoardStateNode state = saveState();
 		
-		boardStateNodePila.push( state);
+		boardStateNodePila.push( state );
 	}
 
 	public void popState() {

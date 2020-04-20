@@ -11,8 +11,7 @@ public class SimpleMove extends AbstractMove {
 	
 	@Override
 	public void executeMove(DummyBoard board) {
-		board.setEmptySquare(from.getKey());					//Dejamos el origen
-		board.setPieza(to.getKey(), from.getValue()) ;			//Vamos al destino	
+		board.move(from, to.getKey());
 	}
 	
 	@Override

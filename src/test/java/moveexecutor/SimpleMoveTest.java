@@ -1,93 +1,92 @@
 package moveexecutor;
 
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import chess.BoardState;
+import chess.Color;
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.SimpleMove;
+import parsers.FENBoarBuilder;
 
 public class SimpleMoveTest {
 
-	@Mock
 	private DummyBoard board;
 	
-	@Mock
 	private BoardState boardState;
+	
+	private FENBoarBuilder builder;
 	
 	private SimpleMove moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		builder = new FENBoarBuilder();
+		boardState = new BoardState();
 	}
 	
 	
 	@Test
-	public void testExecute() {
+	public void testExecuteMoveBoard() {
+		board = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
+		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		
 		moveExecutor =  new SimpleMove(origen, destino);
 
 		moveExecutor.executeMove(board);
-		moveExecutor.executeMove(boardState);
 		
-		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
-		verify(board).setEmptySquare(origen.getKey());
-
-		verify(boardState).setPeonPasanteSquare(null);
-		verify(boardState).rollTurno();
+		assertEquals(Pieza.TORRE_BLANCO, board.getPieza(Square.e7));
+		assertTrue(board.isEmtpy(Square.e5));
 	}
-	
-	
+		
 	@Test
-	public void testUndo() {
+	public void testExecuteMoveState() {
+		boardState.setTurnoActual(Color.BLANCO);
+		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-
 		moveExecutor =  new SimpleMove(origen, destino);
+
+		moveExecutor.executeMove(boardState);
 		
-		moveExecutor.undoMove(board);
-		moveExecutor.undoMove(boardState);
-		
-		verify(board).setPosicion(origen);
-		verify(board).setPosicion(destino);
-		
-		verify(boardState).popState();
+		assertNull(boardState.getPeonPasanteSquare());
+		assertEquals(Color.NEGRO, boardState.getTurnoActual());
 	}
 	
 	@Test
-	public void testSimple() {
+	public void testUndoMoveBoard() {
+		board = builder.withTablero("8/4R3/8/8/8/8/8/8").buildDummyBoard();
+		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-
 		moveExecutor =  new SimpleMove(origen, destino);
 		
-		moveExecutor.executeMove(board);
-		moveExecutor.executeMove(boardState);
-		
-		verify(board).setPieza(destino.getKey(), Pieza.TORRE_BLANCO);
-		verify(board).setEmptySquare(origen.getKey());
-
-		verify(boardState).setPeonPasanteSquare(null);
-		verify(boardState).rollTurno();
-		
-		
 		moveExecutor.undoMove(board);
+		
+		assertEquals(Pieza.TORRE_BLANCO, board.getPieza(Square.e5));
+		assertTrue(board.isEmtpy(Square.e7));
+	}
+
+	@Test
+	public void testUndoMoveState() {
+		boardState.setTurnoActual(Color.BLANCO);
+		boardState.pushState();
+		boardState.rollTurno();
+		
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+		moveExecutor =  new SimpleMove(origen, destino);
+		
 		moveExecutor.undoMove(boardState);
-		
-		verify(board).setPosicion(origen);
-		verify(board).setPosicion(destino);
-		
-		verify(boardState).popState();
+
+		assertEquals(Color.BLANCO, boardState.getTurnoActual());
 	}	
-
 }
