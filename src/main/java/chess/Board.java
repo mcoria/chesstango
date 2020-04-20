@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import gui.ASCIIOutput;
 import iterators.BoardIterator;
@@ -213,10 +212,8 @@ public class Board implements DummyBoard {
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
 		move.executeMove(this);
-		
-		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareBlancos : boardCache.squareNegros;
-		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
-		move.executeMove(squaresTurno, squaresOpenente);
+
+		move.executeMove(boardCache);
 		
 		//boardCache.validarCacheSqueare(this);
 
@@ -232,10 +229,8 @@ public class Board implements DummyBoard {
 
 	public void undo(Move move) {
 		move.undoMove(this);
-		
-		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareNegros : boardCache.squareBlancos;
-		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
-		move.undoMove(squaresTurno, squaresOpenente);	
+
+		move.undoMove(boardCache);	
 		
 		//boardCache.validarCacheSqueare(this);
 		

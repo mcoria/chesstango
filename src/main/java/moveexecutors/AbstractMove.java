@@ -1,12 +1,10 @@
 package moveexecutors;
 
-import java.util.List;
-
+import chess.BoardCache;
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
-import chess.Square;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
 	protected PosicionPieza from;
@@ -47,15 +45,13 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	}	
 	
 	@Override
-	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.remove(from.getKey());
-		squaresTurno.add(to.getKey());
+	public void executeMove(BoardCache boardCache) {
+		boardCache.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
 	}
 	
 	@Override
-	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.remove(to.getKey());
-		squaresTurno.add(from.getKey());
+	public void undoMove(BoardCache boardCache) {
+		boardCache.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 	}	
 	
 	@Override

@@ -148,14 +148,11 @@ public class ChessMainTest {
 		assertEquals(197281, rootNode.getChildNodesCounter());
 	} 	
 	
-	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs
-	// luego de unos cambios: 75segs
+	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs 44segs
 	public void test_divide5() {
 		Game board = builder.withDefaultBoard().buildGame();
 		
 		Node rootNode = main.start(board, 5);
-		
-		//System.out.println(rootNode);
 		
 		assertEquals(181046, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
 		assertEquals(217832, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());

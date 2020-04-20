@@ -1,13 +1,10 @@
 package moveexecutors;
 
-import java.util.List;
-
 import chess.BoardCache;
 import chess.DummyBoard;
 import chess.Move;
 import chess.MoveKing;
 import chess.PosicionPieza;
-import chess.Square;
 
 public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 	
@@ -33,15 +30,15 @@ public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 	
 	
 	@Override
-	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		getReyMove().executeMove(squaresTurno, squaresOpenente);
-		getTorreMove().executeMove(squaresTurno, squaresOpenente);
+	public void executeMove(BoardCache boardCache) {
+		getReyMove().executeMove(boardCache);
+		getTorreMove().executeMove(boardCache);
 	}
 
 	@Override
-	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		getReyMove().undoMove(squaresTurno, squaresOpenente);
-		getTorreMove().undoMove(squaresTurno, squaresOpenente);
+	public void undoMove(BoardCache boardCache) {
+		getReyMove().undoMove(boardCache);
+		getTorreMove().undoMove(boardCache);
 	}
 	
 	@Override

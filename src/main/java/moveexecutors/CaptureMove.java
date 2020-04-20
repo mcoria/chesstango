@@ -1,9 +1,7 @@
 package moveexecutors;
 
-import java.util.List;
-
+import chess.BoardCache;
 import chess.PosicionPieza;
-import chess.Square;
 
 public class CaptureMove extends SimpleMove {
 	
@@ -12,17 +10,17 @@ public class CaptureMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		super.executeMove(squaresTurno, squaresOpenente);
+	public void executeMove(BoardCache boardCache) {
+		super.executeMove(boardCache);
 		
-		squaresOpenente.remove(to.getKey());
+		boardCache.removePositions(to.getValue().getColor(), to.getKey());
 	}
 
 	@Override
-	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		super.undoMove(squaresTurno, squaresOpenente);
+	public void undoMove(BoardCache boardCache) {
+		super.undoMove(boardCache);
 
-		squaresOpenente.add(to.getKey());
+		boardCache.addPositions(to.getValue().getColor(), to.getKey());
 	}
 	
 	@Override

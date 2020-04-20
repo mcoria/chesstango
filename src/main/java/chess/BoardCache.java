@@ -56,8 +56,34 @@ public class BoardCache {
 	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
 	// Prestar atencion que este cache se actualiza una vez que realmente se mueven las fichas
-	public ArrayList<Square> squareBlancos = new ArrayList<Square>();
-	public ArrayList<Square> squareNegros = new ArrayList<Square>();
+	private ArrayList<Square> squareBlancos = new ArrayList<Square>();
+	private ArrayList<Square> squareNegros = new ArrayList<Square>();
+	
+	public void swapPositions(Color color, Square remove, Square add){
+		if(Color.BLANCO.equals(color)){
+			squareBlancos.remove(remove);
+			squareBlancos.add(add);
+		} else {
+			squareNegros.remove(remove);
+			squareNegros.add(add);			
+		}
+	}
+	
+	public void addPositions(Color color, Square add){
+		if(Color.BLANCO.equals(color)){
+			squareBlancos.add(add);
+		} else {
+			squareNegros.add(add);			
+		}
+	}
+	
+	public void removePositions(Color color, Square remove){
+		if(Color.BLANCO.equals(color)){
+			squareBlancos.remove(remove);
+		} else {
+			squareNegros.remove(remove);			
+		}
+	}		
 	
 	public SquareIterator iteratorSquare(Color color){
 		return new SquareIterator(){

@@ -1,10 +1,8 @@
 package moveexecutors;
 
-import java.util.List;
-
+import chess.BoardCache;
 import chess.DummyBoard;
 import chess.PosicionPieza;
-import chess.Square;
 
 public class CapturePeonPasante extends AbstractMove {
 
@@ -30,18 +28,17 @@ public class CapturePeonPasante extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		super.executeMove(squaresTurno, squaresOpenente);
+	public void executeMove(BoardCache boardCache) {
+		super.executeMove(boardCache);
 		
-		squaresOpenente.remove(captura.getKey());
+		boardCache.removePositions(captura.getValue().getColor(), captura.getKey());
 	}
 
 	@Override
-	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		squaresTurno.remove(to.getKey());
-		squaresTurno.add(from.getKey());
-		
-		squaresOpenente.add(captura.getKey());
+	public void undoMove(BoardCache boardCache) {
+		super.undoMove(boardCache);
+
+		boardCache.addPositions(captura.getValue().getColor(), captura.getKey());
 	}	
 	
 	@Override

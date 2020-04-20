@@ -1,7 +1,5 @@
 package chess;
 
-import java.util.List;
-
 public interface Move {
 
 	PosicionPieza getFrom();
@@ -13,6 +11,6 @@ public interface Move {
 	void executeMove(BoardState boardState);
 	void undoMove(BoardState boardState);
 
-	void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente);
-	void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente);	
+	void executeMove(BoardCache boardCache);
+	void undoMove(BoardCache boardCache);	
 }
