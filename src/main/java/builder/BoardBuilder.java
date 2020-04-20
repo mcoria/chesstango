@@ -3,6 +3,7 @@ package builder;
 import chess.Game;
 import chess.BoardState;
 import chess.Color;
+import chess.DefaultDummyBoard;
 import chess.DummyBoard;
 import chess.Board;
 import chess.Pieza;
@@ -29,11 +30,11 @@ public abstract class BoardBuilder {
 	}
 	
 	public Board buildBoard(){
-		return new Board(getTablero(), getState());
+		return new Board(buildDummyBoard(), getState());
 	}
 	
-	public DummyBoard  buildDummyBoard(){
-		return new Board(getTablero(), getState());
+	public DummyBoard buildDummyBoard() {
+		return new DefaultDummyBoard(getTablero());
 	}
 	
 	protected Pieza[][] getTablero() {

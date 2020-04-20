@@ -21,9 +21,9 @@ public class BoardCacheTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		Board tablero = builder.withDefaultBoard().buildBoard();
+		DummyBoard tablero = builder.withDefaultBoard().buildBoard().getDummyBoard();
 		
-		BoardCache boardCache = new BoardCache(tablero.getDummyBoard());
+		BoardCache boardCache = new BoardCache(tablero);
 		
 		for (SquareIterator iterator = boardCache.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());

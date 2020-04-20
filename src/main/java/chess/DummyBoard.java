@@ -21,9 +21,7 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	void setEmptySquare(Square square);
 
 	boolean isEmtpy(Square square);
-	///////////////////////////// END positioning logic /////////////////////////////
 
-	///////////////////////////// START Board Iteration Logic /////////////////////////////
 	BoardIterator iterator();
 
 	BoardIterator iterator(SquareIterator squareIterator);

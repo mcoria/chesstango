@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import gui.ASCIIOutput;
-import iterators.BoardIterator;
-import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
@@ -16,87 +14,32 @@ import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
 
 //implements DummyBoard
-public class Board implements DummyBoard{
+public class Board {
 	
 	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
+	
+	private MoveFilter moveKingFilter = (Move move) -> filterMoveKing((MoveKing) move);
 	
 	private MoveGeneratorStrategy strategy = null; 
 	
 	private BoardState boardState = null;
 	
 	private BoardCache boardCache = null;
+	
+	private DummyBoard dummyBoard = null;
 
-	public Board(Pieza[][] tablero, BoardState boardState) {
-		crearTablero(tablero);
+	public Board(DummyBoard dummyBoard, BoardState boardState) {
+		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.boardCache = new BoardCache(getDummyBoard());
+		this.boardCache = new BoardCache(this.dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
 	}
-	
-
-	///////////////////////////// START positioning logic /////////////////////////////
-	// Quizas podria encapsular estas operaciones en su propia clase.
-	// Bitboard podria ser mas rapido? Un word por tipo de ficha
-	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
-	//
-	private PosicionPieza[] tablero = new PosicionPieza[64];
-	private final CachePosiciones cachePosiciones = new CachePosiciones();
-	
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#getPosicion(chess.Square)
-	 */
-	@Override
-	public PosicionPieza getPosicion(Square square) {
-		return tablero[square.toIdx()];
-	}
-
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#setPosicion(chess.PosicionPieza)
-	 */
-	@Override
-	public void setPosicion(PosicionPieza entry) {
-		Square square = entry.getKey();
-		tablero[square.toIdx()] = entry;
-	}
-
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#getPieza(chess.Square)
-	 */
-	@Override
-	public Pieza getPieza(Square square) {
-		return tablero[square.toIdx()].getValue();
-	}
-
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#setPieza(chess.Square, chess.Pieza)
-	 */
-	@Override
-	public void setPieza(Square square, Pieza pieza) {
-		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, pieza);
-	}
-
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#setEmptySquare(chess.Square)
-	 */
-	@Override
-	public void setEmptySquare(Square square) {
-		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, null);
-	}
-
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#isEmtpy(chess.Square)
-	 */
-	@Override
-	public boolean isEmtpy(Square square) {
-		return getPieza(square) == null;
-	}
-	///////////////////////////// END positioning logic /////////////////////////////
 	
 	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
 		for (SquareIterator iterator = boardCache.iteratorSquare(turnoActual); iterator.hasNext();) {
-			PosicionPieza origen = this.getPosicion(iterator.next());
+			PosicionPieza origen = dummyBoard.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 			moveGenerator.generateMoves(origen, moves);
@@ -117,7 +60,7 @@ public class Board implements DummyBoard{
 	 */
 	protected boolean positionCaptured(Color color, Square square){
 		for (SquareIterator iterator = boardCache.iteratorSquare(color); iterator.hasNext();) {
-			PosicionPieza origen = this.getPosicion(iterator.next());
+			PosicionPieza origen = dummyBoard.getPosicion(iterator.next());
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
@@ -137,35 +80,25 @@ public class Board implements DummyBoard{
 	private boolean filterMove(Move move) {
 		boolean result = false;
 				
-		move.executeMove(getDummyBoard());
-		
-		/*
-		if(move instanceof MoveKing){
-			((MoveKing) move).executetSquareKingCache(this.boardCache);
-		}*/
+		move.executeMove(this.dummyBoard);
 		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
 			result = true;
 		}
 		
-		move.undoMove(getDummyBoard());
-		
-		/*
-		if(move instanceof MoveKing){
-			((MoveKing) move).undoSquareKingCache(this.boardCache);
-		}*/
+		move.undoMove(this.dummyBoard);
 		
 		return result;
 	}
 	
 	/*
-	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
+	 * Este movimiento es utilizado para filtrar movimientos de rey, se settea el cache para movimientos de rey
 	 */
 	private boolean filterMoveKing(MoveKing move) {
 		boolean result = false;
 				
-		move.executeMove(getDummyBoard());
+		move.executeMove(this.dummyBoard);
 		
 		move.executetSquareKingCache(this.boardCache);
 		
@@ -174,45 +107,16 @@ public class Board implements DummyBoard{
 			result = true;
 		}
 		
-		move.undoMove(getDummyBoard());
+		move.undoMove(this.dummyBoard);
 		
 		move.undoSquareKingCache(this.boardCache);		
 		
 		return result;
 	}
 
-	///////////////////////////// START Board Iteration Logic /////////////////////////////
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#iterator()
-	 */
-	@Override
-	public BoardIterator iterator() {
-		return new DummyBoardIterator(this);
-	}
-
-	/* (non-Javadoc)
-	 * @see chess.DummyBoard#iterator(iterators.SquareIterator)
-	 */
-	@Override
-	public BoardIterator iterator(SquareIterator squareIterator){
-		return new BoardIterator(){
-			@Override
-			public boolean hasNext() {
-				return squareIterator.hasNext();
-			}
-			
-			@Override
-			public PosicionPieza next() {
-				Square currentSquare = squareIterator.next();
-				return getPosicion(currentSquare);
-			}
-		};
-	}
-	///////////////////////////// END Board Iteration Logic /////////////////////////////	
-
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
-		move.executeMove(this);
+		move.executeMove(this.dummyBoard);
 
 		move.executeMove(boardCache);
 		
@@ -229,7 +133,7 @@ public class Board implements DummyBoard{
 
 
 	public void undo(Move move) {
-		move.undoMove(getDummyBoard());
+		move.undoMove(this.dummyBoard);
 
 		move.undoMove(boardCache);	
 		
@@ -246,20 +150,8 @@ public class Board implements DummyBoard{
 	///////////////////////////// END Move execution Logic /////////////////////////////
 	
 	
-	public DummyBoard getDummyBoard() {
-		return this;
-	}
-	
-	public BoardState getBoardState() {
-		return boardState;
-	}
-	
-	public MoveFilter getDefaultFilter(){
-		return defaultFilter;
-	}
-	
 	public void settupMoveGenerator(MoveGenerator moveGenerator){
-		moveGenerator.setTablero(getDummyBoard());
+		moveGenerator.setTablero(this.dummyBoard);
 		moveGenerator.setFilter(defaultFilter);
 		
 		if(moveGenerator instanceof PeonAbstractMoveGenerator){
@@ -271,7 +163,7 @@ public class Board implements DummyBoard{
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured((Color color, Square square) -> positionCaptured(color, square));
-			generator.setFilter((Move move) -> filterMoveKing((MoveKing) move));
+			generator.setFilter(moveKingFilter);
 		}		
 	}
 	
@@ -281,7 +173,7 @@ public class Board implements DummyBoard{
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	output.printDummyBoard(getDummyBoard());
+	    	output.printDummyBoard(this.dummyBoard);
 	    	ps.flush();
 	    }
 	    return new String(baos.toByteArray());
@@ -303,17 +195,18 @@ public class Board implements DummyBoard{
 				return buffer.toString();
 			}
 		};
-	}	
-	
-	private void crearTablero(Pieza[][] sourceTablero) {
-		for (int file = 0; file < 8; file++) {
-			for (int rank = 0; rank < 8; rank++) {
-				PosicionPieza posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
-						sourceTablero[file][rank]);
-				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
-			}
-		}
 	}
 
+	public DummyBoard getDummyBoard() {
+		return this.dummyBoard;
+	}
+	
+	public BoardState getBoardState() {
+		return boardState;
+	}
+	
+	public MoveFilter getDefaultFilter(){
+		return defaultFilter;
+	}	
 
 }

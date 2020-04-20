@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
-import chess.DummyBoard;
 import chess.Board;
+import chess.DefaultDummyBoard;
+import chess.DummyBoard;
 import chess.Pieza;
 
 public class FENCoderTest {
@@ -37,7 +37,7 @@ public class FENCoderTest {
 	@Test
 	public void testCodePiecePlacement03() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = new Board(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState()).getDummyBoard();
+		DummyBoard tablero = new DefaultDummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
 		FENCoder coder = new FENCoder();
 		String actual = coder.codePiecePlacement(tablero);
 		
