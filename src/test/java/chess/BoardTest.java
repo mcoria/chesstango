@@ -9,7 +9,6 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import iterators.SquareIterator;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
@@ -67,18 +66,6 @@ public class BoardTest {
 		//State
 		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
 		assertNull(tablero.getBoardState().getPeonPasanteSquare());
-	}
-	
-	@Test
-	public void test02() {
-		int totalPiezas = 0;
-		Board tablero = builder.withDefaultBoard().buildBoard();
-		for (SquareIterator iterator = tablero.getBoardCache().iteratorSquare(Color.BLANCO); iterator.hasNext();) {
-			Pieza pieza = tablero.getPieza(iterator.next());
-			assertEquals(Color.BLANCO, pieza.getColor());
-			totalPiezas++;
-		}
-		assertEquals(16, totalPiezas);
 	}
 	
 

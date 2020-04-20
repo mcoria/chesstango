@@ -16,7 +16,7 @@ import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
 
 //implements DummyBoard
-public class Board implements DummyBoard {
+public class Board implements DummyBoard{
 	
 	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
 	
@@ -29,7 +29,7 @@ public class Board implements DummyBoard {
 	public Board(Pieza[][] tablero, BoardState boardState) {
 		crearTablero(tablero);
 		this.boardState = boardState;
-		this.boardCache = new BoardCache(this);
+		this.boardCache = new BoardCache(getDummyBoard());
 		this.strategy = new MoveGeneratorStrategy(this);
 	}
 	
@@ -137,7 +137,7 @@ public class Board implements DummyBoard {
 	private boolean filterMove(Move move) {
 		boolean result = false;
 				
-		move.executeMove(this);
+		move.executeMove(getDummyBoard());
 		
 		/*
 		if(move instanceof MoveKing){
@@ -149,7 +149,7 @@ public class Board implements DummyBoard {
 			result = true;
 		}
 		
-		move.undoMove(this);
+		move.undoMove(getDummyBoard());
 		
 		/*
 		if(move instanceof MoveKing){
@@ -165,7 +165,7 @@ public class Board implements DummyBoard {
 	private boolean filterMoveKing(MoveKing move) {
 		boolean result = false;
 				
-		move.executeMove(this);
+		move.executeMove(getDummyBoard());
 		
 		move.executetSquareKingCache(this.boardCache);
 		
@@ -174,7 +174,7 @@ public class Board implements DummyBoard {
 			result = true;
 		}
 		
-		move.undoMove(this);
+		move.undoMove(getDummyBoard());
 		
 		move.undoSquareKingCache(this.boardCache);		
 		
@@ -229,7 +229,7 @@ public class Board implements DummyBoard {
 
 
 	public void undo(Move move) {
-		move.undoMove(this);
+		move.undoMove(getDummyBoard());
 
 		move.undoMove(boardCache);	
 		
@@ -246,6 +246,10 @@ public class Board implements DummyBoard {
 	///////////////////////////// END Move execution Logic /////////////////////////////
 	
 	
+	public DummyBoard getDummyBoard() {
+		return this;
+	}
+	
 	public BoardState getBoardState() {
 		return boardState;
 	}
@@ -255,7 +259,7 @@ public class Board implements DummyBoard {
 	}
 	
 	public void settupMoveGenerator(MoveGenerator moveGenerator){
-		moveGenerator.setTablero(this);
+		moveGenerator.setTablero(getDummyBoard());
 		moveGenerator.setFilter(defaultFilter);
 		
 		if(moveGenerator instanceof PeonAbstractMoveGenerator){
@@ -277,7 +281,7 @@ public class Board implements DummyBoard {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	output.printDummyBoard(this);
+	    	output.printDummyBoard(getDummyBoard());
 	    	ps.flush();
 	    }
 	    return new String(baos.toByteArray());
@@ -311,12 +315,5 @@ public class Board implements DummyBoard {
 		}
 	}
 
-	public BoardCache getBoardCache() {
-		return boardCache;
-	}
-
-	public void setBoardCache(BoardCache boardCache) {
-		this.boardCache = boardCache;
-	}	
 
 }

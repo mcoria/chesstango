@@ -31,7 +31,7 @@ public class FENCoder {
 		char colorActual = state.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
 		String peonPasante = codePeonPasante(state.getPeonPasanteSquare());
 		String enroques = codeEnroques(state);
-		return codePiecePlacement(input) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
+		return codePiecePlacement(input.getDummyBoard()) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
 	public String codePiecePlacement(DummyBoard board) {

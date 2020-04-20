@@ -96,7 +96,7 @@ public class FENParserTest {
 	
 	@Test
 	public void testParsePiecePlacement() {
-		DummyBoard tablero = new Board(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState());
+		DummyBoard tablero = new Board(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), new BoardState()).getDummyBoard();
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));
