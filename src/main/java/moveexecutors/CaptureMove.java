@@ -12,15 +12,15 @@ public class CaptureMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		super.executeSquareLists(squaresTurno, squaresOpenente);
+	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		super.executeMove(squaresTurno, squaresOpenente);
 		
 		squaresOpenente.remove(to.getKey());
 	}
 
 	@Override
-	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		super.undoSquareLists(squaresTurno, squaresOpenente);
+	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		super.undoMove(squaresTurno, squaresOpenente);
 
 		squaresOpenente.add(to.getKey());
 	}

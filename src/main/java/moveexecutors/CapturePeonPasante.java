@@ -30,14 +30,14 @@ public class CapturePeonPasante extends AbstractMove {
 	}
 	
 	@Override
-	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		super.executeSquareLists(squaresTurno, squaresOpenente);
+	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		super.executeMove(squaresTurno, squaresOpenente);
 		
 		squaresOpenente.remove(captura.getKey());
 	}
 
 	@Override
-	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
 		squaresTurno.remove(to.getKey());
 		squaresTurno.add(from.getKey());
 		

@@ -216,15 +216,15 @@ public class Board implements DummyBoard {
 		
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareBlancos : boardCache.squareNegros;
 		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
-		move.executeSquareLists(squaresTurno, squaresOpenente);
+		move.executeMove(squaresTurno, squaresOpenente);
 		
-		boardCache.validarCacheSqueare(this);
+		//boardCache.validarCacheSqueare(this);
 
 		if(move instanceof MoveKing){
 			((MoveKing) move).executetSquareKingCache(this.boardCache);
 		}
 		
-		move.executeState(boardState);
+		move.executeMove(boardState);
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
@@ -235,15 +235,15 @@ public class Board implements DummyBoard {
 		
 		List<Square> squaresTurno = Color.BLANCO.equals(boardState.getTurnoActual()) ? boardCache.squareNegros : boardCache.squareBlancos;
 		List<Square> squaresOpenente = squaresTurno == boardCache.squareBlancos ? boardCache.squareNegros : boardCache.squareBlancos;
-		move.undoSquareLists(squaresTurno, squaresOpenente);	
+		move.undoMove(squaresTurno, squaresOpenente);	
 		
-		boardCache.validarCacheSqueare(this);
+		//boardCache.validarCacheSqueare(this);
 		
 		if(move instanceof MoveKing){
 			((MoveKing) move).undoSquareKingCache(this.boardCache);
 		}
 		
-		move.undoState(boardState);
+		move.undoMove(boardState);
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}

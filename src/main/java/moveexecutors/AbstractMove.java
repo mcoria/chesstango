@@ -35,25 +35,25 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	}
 
 	@Override
-	public void executeState(BoardState boardState) {
+	public void executeMove(BoardState boardState) {
 		boardState.pushState();
 		boardState.rollTurno();
 		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
 	}
 	
 	@Override
-	public void undoState(BoardState boardState) {
+	public void undoMove(BoardState boardState) {
 		boardState.popState();		
 	}	
 	
 	@Override
-	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
 		squaresTurno.remove(from.getKey());
 		squaresTurno.add(to.getKey());
 	}
 	
 	@Override
-	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
+	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
 		squaresTurno.remove(to.getKey());
 		squaresTurno.add(from.getKey());
 	}	

@@ -34,7 +34,7 @@ public class EnroqueBlancoReynaMoveTest {
 		assertEquals(Pieza.TORRE_BLANCO, board.getPieza(Square.d1));
 
 
-		moveExecutor.executeState(board.getBoardState());
+		moveExecutor.executeMove(board.getBoardState());
 		assertFalse(board.getBoardState().isEnroqueBlancoReyPermitido());
 		assertFalse(board.getBoardState().isEnroqueBlancoReinaPermitido());
 		assertEquals(Color.NEGRO, board.getBoardState().getTurnoActual());

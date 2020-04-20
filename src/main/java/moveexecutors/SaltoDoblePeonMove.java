@@ -14,8 +14,8 @@ public class SaltoDoblePeonMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeState(BoardState boardState) {
-		super.executeState(boardState);
+	public void executeMove(BoardState boardState) {
+		super.executeMove(boardState);
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
 	}
 	

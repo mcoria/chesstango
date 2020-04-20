@@ -10,9 +10,9 @@ public interface Move {
 	void executeMove(DummyBoard board);
 	void undoMove(DummyBoard board);
 	
-	void executeState(BoardState boardState);
-	void undoState(BoardState boardState);
+	void executeMove(BoardState boardState);
+	void undoMove(BoardState boardState);
 
-	void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente);
-	void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente);	
+	void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente);
+	void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente);	
 }

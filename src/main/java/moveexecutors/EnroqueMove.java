@@ -33,15 +33,15 @@ public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 	
 	
 	@Override
-	public void executeSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		getReyMove().executeSquareLists(squaresTurno, squaresOpenente);
-		getTorreMove().executeSquareLists(squaresTurno, squaresOpenente);
+	public void executeMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		getReyMove().executeMove(squaresTurno, squaresOpenente);
+		getTorreMove().executeMove(squaresTurno, squaresOpenente);
 	}
 
 	@Override
-	public void undoSquareLists(List<Square> squaresTurno, List<Square> squaresOpenente) {
-		getReyMove().undoSquareLists(squaresTurno, squaresOpenente);
-		getTorreMove().undoSquareLists(squaresTurno, squaresOpenente);
+	public void undoMove(List<Square> squaresTurno, List<Square> squaresOpenente) {
+		getReyMove().undoMove(squaresTurno, squaresOpenente);
+		getTorreMove().undoMove(squaresTurno, squaresOpenente);
 	}
 	
 	@Override
