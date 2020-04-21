@@ -8,19 +8,17 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import iterators.CardinalSquareIterator.Cardinal;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 
 public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
-	private Color color;
-	
-	private Cardinal[] direcciones;
+	private final Cardinal[] direcciones;
 
 	public CardinalMoveGenerator(Color color, Cardinal[] direcciones) {
-		this.color = color;
+		super(color);
 		this.direcciones = direcciones;
 	}
 

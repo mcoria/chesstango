@@ -15,7 +15,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import iterators.CardinalSquareIterator.Cardinal;
+import iterators.Cardinal;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;

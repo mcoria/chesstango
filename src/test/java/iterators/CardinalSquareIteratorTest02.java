@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import chess.Square;
-import iterators.CardinalSquareIterator.Cardinal;
 
 public class CardinalSquareIteratorTest02 {
 

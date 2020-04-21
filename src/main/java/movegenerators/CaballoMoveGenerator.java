@@ -1,10 +1,6 @@
 package movegenerators;
 
-import java.util.Collection;
-
 import chess.Color;
-import chess.Move;
-import chess.Pieza;
 import chess.PosicionPieza;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
@@ -43,21 +39,4 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 		return new CaptureMove(origen, destino);
 	}
 	
-	@Override
-	protected void addMoveIfValid(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer) {
-		Pieza pieza = destino.getValue();
-		if(pieza == null){
-			Move move = createSimpleMove(origen, destino);
-			if(this.filter.filterMove(move)){
-				moveContainer.add(move);
-			}					
-		} else if(color.equals(pieza.getColor())){
-			return;
-		} else if(color.opositeColor().equals(pieza.getColor())){
-			Move move = createCaptureMove(origen, destino);
-			if(this.filter.filterMove(move)){
-				moveContainer.add(move);
-			}				
-		}
-	}	
 }

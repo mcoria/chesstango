@@ -1,7 +1,7 @@
 package movegenerators;
 
 import chess.Color;
-import iterators.CardinalSquareIterator.Cardinal;
+import iterators.Cardinal;
 
 public class TorreMoveGenerator extends CardinalMoveGenerator {
 

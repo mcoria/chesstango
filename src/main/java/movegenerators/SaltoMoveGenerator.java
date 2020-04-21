@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import chess.Color;
 import chess.Move;
+import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.SaltoSquareIterator;
@@ -13,18 +14,14 @@ import moveexecutors.SimpleMove;
 
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
-	protected Color color;
-	
-	private int[][] saltos;
+	private final int[][] saltos;
 	
 	protected abstract SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
 	protected abstract CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino);
 	
-	protected abstract void addMoveIfValid(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer);
-	
 	public SaltoMoveGenerator(Color color, int[][] saltos) {
-		this.color = color;
+		super(color);
 		this.saltos = saltos;
 	}
 
@@ -34,7 +31,20 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		Iterator<PosicionPieza> iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
-		    addMoveIfValid(origen, destino, moveContainer);
+			Pieza pieza = destino.getValue();
+			if(pieza == null){
+				Move move = createSimpleMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}					
+			} else if(color.equals(pieza.getColor())){
+				continue;
+			} else if(color.opositeColor().equals(pieza.getColor())){
+				Move move = createCaptureMove(origen, destino);
+				if(this.filter.filterMove(move)){
+					moveContainer.add(move);
+				}				
+			}
 		}
 	}
 

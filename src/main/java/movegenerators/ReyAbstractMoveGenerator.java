@@ -1,12 +1,8 @@
 package movegenerators;
 
-import java.util.Collection;
-
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
-import chess.Move;
-import chess.Pieza;
 import chess.PosicionPieza;
 import chess.PositionCaptured;
 import chess.Square;
@@ -33,29 +29,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	public ReyAbstractMoveGenerator(Color color) {
 		super(color, SALTOS_REY);
-	}
-	
-	
-	@Override
-	protected void addMoveIfValid(PosicionPieza origen, PosicionPieza destino, Collection<Move> moveContainer) {
-		Pieza pieza = destino.getValue();
-		if(pieza == null){
-			if(!positionCaptured.check(color.opositeColor(), destino.getKey())){
-				Move move = createSimpleMove(origen, destino);
-				if(this.filter.filterMove(move)){
-					moveContainer.add(move);
-				}
-			}					
-		} else if(color.equals(pieza.getColor())){
-			return;
-		} else if(color.opositeColor().equals(pieza.getColor())){
-			if(!positionCaptured.check(color.opositeColor(), destino.getKey())){
-				Move move = createCaptureMove(origen, destino);
-				if(this.filter.filterMove(move)){
-					moveContainer.add(move);
-				}				
-			}				
-		}
 	}	
 	
 	protected boolean puedeEnroqueReina(

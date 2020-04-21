@@ -85,15 +85,15 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.generateMoves(origen, moves);
 		
-		assertEquals(7, moves.size());
-		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f5) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d4) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.e4, Pieza.PEON_NEGRO) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));			
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));
+		
+		assertEquals(7, moves.size());
 	}
 	
 	

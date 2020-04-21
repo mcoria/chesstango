@@ -17,8 +17,6 @@ import moveexecutors.SimpleMove;
 import moveexecutors.SimplePeonPromocion;
 
 public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
-
-	protected Color color;
 	
 	protected BoardState boardState;
 
@@ -37,7 +35,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected CacheMove cacheMove = new CacheMove();
 	
 	public PeonAbstractMoveGenerator(Color color) {
-		this.color = color;
+		super(color);
 	}
 	
 	@Override
