@@ -16,9 +16,9 @@ public class DummyBoardIterator implements BoardIterator {
 			Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
 			Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8};
 	
-    private int nextIdx = 0;
-	
 	private final DummyBoard board;
+	
+    private int nextIdx = 0;
 	
 	public DummyBoardIterator(DummyBoard board) {
 		this.board = board;

@@ -79,8 +79,8 @@ public class CardinalSquareIterator implements SquareIterator {
 		}
 	}
 	
+	private final Cardinal cardinal;
 	private Square nextPoint;
-	private Cardinal cardinal;
 	
 	public CardinalSquareIterator(Cardinal cardinal, Square startingPoint) {
 		this.cardinal = cardinal;
