@@ -2,10 +2,9 @@ package chess;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Iterator;
 
 import gui.ASCIIOutput;
-import iterators.BoardIterator;
-import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
 
 public class DefaultDummyBoard implements DummyBoard {
@@ -80,26 +79,41 @@ public class DefaultDummyBoard implements DummyBoard {
 	 * @see chess.DummyBoard#iterator()
 	 */
 	@Override
-	public BoardIterator iterator() {
-		return new DummyBoardIterator(this);
+	public Iterator<PosicionPieza> iterator() {
+		return new Iterator<PosicionPieza>(){
+			
+			private int idx = 0;
+
+			@Override
+			public boolean hasNext() {
+				return this.idx < 64;
+			}
+
+			@Override
+			public PosicionPieza next() {
+				return tablero[idx++];
+			}
+			
+		};
 	}
 
 	/* (non-Javadoc)
 	 * @see chess.DummyBoard#iterator(iterators.SquareIterator)
 	 */
 	@Override
-	public BoardIterator iterator(SquareIterator squareIterator){
-		return new BoardIterator(){
+	public Iterator<PosicionPieza> iterator(SquareIterator squareIterator){
+		return new Iterator<PosicionPieza>(){
+
 			@Override
 			public boolean hasNext() {
 				return squareIterator.hasNext();
 			}
-			
+
 			@Override
 			public PosicionPieza next() {
-				Square currentSquare = squareIterator.next();
-				return getPosicion(currentSquare);
+				return getPosicion(squareIterator.next());
 			}
+			
 		};
 	}
 	

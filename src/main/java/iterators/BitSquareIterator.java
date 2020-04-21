@@ -16,7 +16,7 @@ public class BitSquareIterator implements SquareIterator {
 	
 	private final long posiciones;
 	
-	private Square nextPoint;
+	private Square nextPoint = null;
 	private int idx = 0;
 	
 	public BitSquareIterator(long posiciones) {

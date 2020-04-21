@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +29,7 @@ public class BoardteratorTest {
 	public void testTopDownSquareIterator() {
 		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
-		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
+		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
 		
 		PosicionPieza entry =  null;
 		
@@ -368,7 +370,7 @@ public class BoardteratorTest {
 	public void testBottomUpSquareIterator() {
 		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
-		BoardIterator iterator = tablero.iterator(new BottomUpSquareIterator());
+		Iterator<PosicionPieza> iterator = tablero.iterator(new BottomUpSquareIterator());
 		
 		PosicionPieza entry =  null;
 		

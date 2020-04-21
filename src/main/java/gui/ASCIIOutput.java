@@ -1,12 +1,12 @@
 package gui;
 
 import java.io.PrintStream;
+import java.util.Iterator;
 
 import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import iterators.BoardIterator;
 import iterators.TopDownSquareIterator;
 
 public class ASCIIOutput {
@@ -22,7 +22,7 @@ public class ASCIIOutput {
 	}
 	
 	public void printDummyBoard(DummyBoard tablero) {
-		BoardIterator iterator = tablero.iterator(new TopDownSquareIterator());
+		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
 
 		printStream.println("  -------------------------------");
 		do {

@@ -2,8 +2,9 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
-import iterators.SquareIterator;
+
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
@@ -35,8 +36,8 @@ public class Board {
 	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
-		for (SquareIterator iterator = boardCache.iteratorSquare(turnoActual); iterator.hasNext();) {
-			PosicionPieza origen = dummyBoard.getPosicion(iterator.next());
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(turnoActual)); iterator.hasNext();) {
+			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 			moveGenerator.generateMoves(origen, moves);
@@ -56,8 +57,8 @@ public class Board {
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
 	protected boolean positionCaptured(Color color, Square square){
-		for (SquareIterator iterator = boardCache.iteratorSquare(color); iterator.hasNext();) {
-			PosicionPieza origen = dummyBoard.getPosicion(iterator.next());
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(color)); iterator.hasNext();) {
+			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
@@ -68,7 +69,7 @@ public class Board {
 				}
 			}
 		}
-		return false;		
+		return false;
 	}
 	
 	/*

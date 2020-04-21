@@ -1,5 +1,7 @@
 package parsers;
 
+import java.util.Iterator;
+
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
@@ -8,7 +10,6 @@ import chess.Game;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import iterators.BoardIterator;
 import iterators.TopDownSquareIterator;
 
 public class FENCoder {
@@ -39,7 +40,7 @@ public class FENCoder {
 		int idxLinea = 0;
 		Pieza[] piezas = new Pieza[8];
 		String[] lineasStr = new String[8];
-		for (BoardIterator iterator = board.iterator(new TopDownSquareIterator()); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator = board.iterator(new TopDownSquareIterator()); iterator.hasNext();) {
 			PosicionPieza element = iterator.next();
 			Pieza pieza = element.getValue();
 			piezas[idx] = pieza;

@@ -1,13 +1,13 @@
 package movegenerators;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import iterators.BoardIterator;
 import iterators.CardinalSquareIterator;
 import iterators.CardinalSquareIterator.Cardinal;
 import moveexecutors.CaptureMove;
@@ -34,7 +34,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal, Collection<Move> moveContainer) {
 		Square casillero = origen.getKey();
-		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
+		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
@@ -73,7 +73,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	protected boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();
-		BoardIterator iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
+		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
 		    Pieza pieza = destino.getValue();
