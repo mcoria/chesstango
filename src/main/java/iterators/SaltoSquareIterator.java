@@ -4,9 +4,9 @@ import chess.Square;
 
 public class SaltoSquareIterator implements SquareIterator {	
 	
-	private int[][] saltos;
-
-	private Square startingPoint;
+	private final int[][] saltos;
+	private final Square startingPoint;
+	
 	private Square nextPoint;
 	private int idx = 0;
 
@@ -14,16 +14,6 @@ public class SaltoSquareIterator implements SquareIterator {
 		this.startingPoint = startingPoint;
 		this.saltos = saltos;
 		calcularNextPoint();
-	}
-
-	private void calcularNextPoint() {
-		this.nextPoint = null;
-		while (this.idx < saltos.length && nextPoint == null) {
-			this.nextPoint = Square.getSquare(startingPoint.getFile() + saltos[idx][0],
-					startingPoint.getRank() + saltos[idx][1]);
-			this.idx++;
-		}
-		;
 	}
 
 	@Override
@@ -37,5 +27,14 @@ public class SaltoSquareIterator implements SquareIterator {
 		calcularNextPoint();
 		return currentPoint;
 	}
+	
+	private void calcularNextPoint() {
+		this.nextPoint = null;
+		while (this.idx < saltos.length && nextPoint == null) {
+			this.nextPoint = Square.getSquare(startingPoint.getFile() + saltos[idx][0],
+					startingPoint.getRank() + saltos[idx][1]);
+			this.idx++;
+		}
+	}	
 
 }

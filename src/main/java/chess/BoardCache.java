@@ -1,8 +1,6 @@
 package chess;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import iterators.BitSquareIterator;
 import iterators.SquareIterator;
 
 public class BoardCache {
@@ -56,65 +54,69 @@ public class BoardCache {
 	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
 	// Prestar atencion que este cache se actualiza una vez que realmente se mueven las fichas
-	private ArrayList<Square> squareBlancos = new ArrayList<Square>();
-	private ArrayList<Square> squareNegros = new ArrayList<Square>();
+	//private ArrayList<Square> squareBlancos = new ArrayList<Square>();
+	//private ArrayList<Square> squareNegros = new ArrayList<Square>();
+	private long squareBlancos = 0;
+	private long squareNegros = 0;
 	
 	public void swapPositions(Color color, Square remove, Square add){
 		if(Color.BLANCO.equals(color)){
-			squareBlancos.remove(remove);
-			squareBlancos.add(add);
+			//squareBlancos.remove(remove);
+			squareBlancos &= ~remove.getPosicion();
+			
+			//squareBlancos.add(add);
+			squareBlancos |= add.getPosicion();
 		} else {
-			squareNegros.remove(remove);
-			squareNegros.add(add);			
+			//squareNegros.remove(remove);
+			squareNegros &= ~remove.getPosicion();
+			
+			//squareNegros.add(add);
+			squareNegros |= add.getPosicion();
 		}
 	}
 	
 	public void addPositions(PosicionPieza position){
 		if(Color.BLANCO.equals(position.getValue().getColor())){
-			squareBlancos.add(position.getKey());
+			//squareBlancos.add(position.getKey());
+			squareBlancos |= position.getKey().getPosicion();
 		} else {
-			squareNegros.add(position.getKey());			
+			//squareNegros.add(position.getKey());
+			squareNegros |= position.getKey().getPosicion();
 		}
 	}
 	
 	public void removePositions(PosicionPieza position){
 		if(Color.BLANCO.equals(position.getValue().getColor())){
-			squareBlancos.remove(position.getKey());
+			//squareBlancos.remove(position.getKey());
+			squareBlancos &= ~position.getKey().getPosicion();
 		} else {
-			squareNegros.remove(position.getKey());			
+			//squareNegros.remove(position.getKey());	
+			squareNegros &= ~position.getKey().getPosicion();
 		}
 	}		
 	
 	public SquareIterator iteratorSquare(Color color){
-		return new SquareIterator(){
-			private Iterator<Square> iterator = Color.BLANCO.equals(color) ? squareBlancos.iterator() : squareNegros.iterator();
-			
-			@Override
-			public boolean hasNext() {
-				return iterator.hasNext();
-			}
-			
-			@Override
-			public Square next() {
-				return iterator.next();
-			}
-		};		
+		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos) : new BitSquareIterator(squareNegros);		
 	}
 	
-	public void settupSquares(DummyBoard board) {
+	
+	protected void settupSquares(DummyBoard board) {
 		for (PosicionPieza posicionPieza : board) {
 			Pieza pieza = posicionPieza.getValue();
 			if (pieza != null) {
 				if (Color.BLANCO.equals(pieza.getColor())) {
-					squareBlancos.add(posicionPieza.getKey());
+					//squareBlancos.add(posicionPieza.getKey());
+					squareBlancos |= posicionPieza.getKey().getPosicion();
 				} else if (Color.NEGRO.equals(pieza.getColor())) {
-					squareNegros.add(posicionPieza.getKey());
+					//squareNegros.add(posicionPieza.getKey());
+					squareNegros |= posicionPieza.getKey().getPosicion();
 				}
 			}			
 		}
 	}	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
 
+	/*
 	public void validarCacheSqueare(DummyBoard board) {
 		int posicionesBlancas = 0;
 		int posicionesNegras = 0;
@@ -141,9 +143,8 @@ public class BoardCache {
 		
 		if( posicionesNegras != squareNegros.size() ){
 			throw new RuntimeException("Diferencias en cantidad de posicions negras");
-		}		
-		
-	}
+		}
+	}*/
 }
 
 

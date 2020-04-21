@@ -86,4 +86,26 @@ public class SquareTest {
 		assertEquals(Square.g8, Square.getSquare(6, 7));
 		assertEquals(Square.h8, Square.getSquare(7, 7));
 	}
+	
+	@Test
+	public void testPosicion() {
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000001L, Square.a1.getPosicion());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000010L, Square.b1.getPosicion());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000001_00000000L, Square.a2.getPosicion());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000010_00000000L, Square.b2.getPosicion());
+		
+		assertEquals(0b01000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L, Square.g8.getPosicion());
+		assertEquals(0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L, Square.h8.getPosicion());		
+	}
+	
+	@Test
+	public void testPosicion01() {
+		long posiciones = 0;
+		Square[] values = Square.values();
+		for (int i = 0; i < values.length; i++) {
+			posiciones &= values[i].getPosicion();
+		}
+		
+		assertEquals(0, posiciones);
+	}
 }

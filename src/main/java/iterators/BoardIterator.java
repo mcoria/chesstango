@@ -4,6 +4,6 @@ import java.util.Iterator;
 
 import chess.PosicionPieza;
 
-public interface BoardIterator extends Iterator<PosicionPieza>{
+public interface BoardIterator extends Iterator<PosicionPieza> {
 
 }
