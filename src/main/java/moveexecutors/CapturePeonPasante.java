@@ -16,7 +16,7 @@ public class CapturePeonPasante extends SimpleMove {
 	@Override
 	public void executeMove(DummyBoard board) {
 		super.executeMove(board);
-		board.setEmptySquare(captura);		//Capturamos peon
+		board.setEmptyPosicion(captura);		//Capturamos peon
 	}
 
 	@Override

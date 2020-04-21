@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import chess.BoardCache;
+import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
 import chess.MoveKing;
@@ -28,6 +29,15 @@ public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 		getTorreMove().undoMove(board);
 	}	
 	
+	@Override
+	public void executeMove(BoardState boardState) {
+		getReyMove().executeMove(boardState);
+	}
+	
+	@Override
+	public void undoMove(BoardState boardState) {
+		getReyMove().undoMove(boardState);
+	}	
 	
 	@Override
 	public void executeMove(BoardCache boardCache) {

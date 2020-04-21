@@ -8,7 +8,7 @@ import iterators.BoardIterator;
 import iterators.DummyBoardIterator;
 import iterators.SquareIterator;
 
-public class DefaultDummyBoard implements DummyBoard{
+public class DefaultDummyBoard implements DummyBoard {
 
 	public DefaultDummyBoard(Pieza[][] tablero) {
 		crearTablero(tablero);
@@ -64,7 +64,7 @@ public class DefaultDummyBoard implements DummyBoard{
 	}
 
 	@Override
-	public void setEmptySquare(PosicionPieza captura) {
+	public void setEmptyPosicion(PosicionPieza captura) {
 		setEmptySquare(captura.getKey());
 	}	
 	

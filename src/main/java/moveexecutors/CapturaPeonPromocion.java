@@ -6,7 +6,7 @@ import chess.PosicionPieza;
 
 public class CapturaPeonPromocion extends CaptureMove {
 
-	protected Pieza promocion;
+	protected final Pieza promocion;
 	
 	public CapturaPeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
@@ -15,7 +15,7 @@ public class CapturaPeonPromocion extends CaptureMove {
 
 	@Override
 	public void executeMove(DummyBoard board) {
-		board.setEmptySquare(from.getKey());					//Dejamos el origen
+		board.setEmptyPosicion(from);								//Dejamos el origen
 		board.setPieza(to.getKey(), this.promocion) ;			//Promocion
 	}
 	

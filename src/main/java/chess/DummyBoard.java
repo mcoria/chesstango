@@ -16,11 +16,11 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	Pieza getPieza(Square square);
 	void setPieza(Square square, Pieza pieza);
 
-	void setEmptySquare(PosicionPieza captura);
+	void setEmptyPosicion(PosicionPieza captura);
 	void setEmptySquare(Square square);
 	boolean isEmtpy(Square square);
 	
-	// La operacion move supone que el destino esta VACIO
+	// La operacion move es una primitiva
 	void move(PosicionPieza from, PosicionPieza to);
 
 	BoardIterator iterator();
