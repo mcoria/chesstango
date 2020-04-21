@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import gui.ASCIIOutput;
+import iterators.BoardBitSquareIterator;
 import iterators.SquareIterator;
 
 public class DefaultDummyBoard implements DummyBoard {
@@ -18,7 +19,7 @@ public class DefaultDummyBoard implements DummyBoard {
 	// Bitboard podria ser mas rapido? Un word por tipo de ficha
 	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
 	//
-	private PosicionPieza[] tablero = new PosicionPieza[64];
+	protected PosicionPieza[] tablero = new PosicionPieza[64];
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
 	/* (non-Javadoc)
@@ -116,6 +117,11 @@ public class DefaultDummyBoard implements DummyBoard {
 			
 		};
 	}
+	
+	@Override
+	public Iterator<PosicionPieza> iterator(long posiciones){
+		return new BoardBitSquareIterator(tablero, posiciones);
+	}	
 	
 	private void crearTablero(Pieza[][] sourceTablero) {
 		for (int file = 0; file < 8; file++) {

@@ -26,5 +26,7 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	void move(PosicionPieza from, PosicionPieza to);
 
 	Iterator<PosicionPieza> iterator(SquareIterator squareIterator);
+	
+	Iterator<PosicionPieza> iterator(long posiciones);
 
 }

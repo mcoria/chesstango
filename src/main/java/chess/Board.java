@@ -36,7 +36,8 @@ public class Board {
 	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(turnoActual)); iterator.hasNext();) {
+		//for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(turnoActual)); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
@@ -57,7 +58,8 @@ public class Board {
 	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
 	 */
 	protected boolean positionCaptured(Color color, Square square){
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(color)); iterator.hasNext();) {
+		//for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(color)); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			if(currentPieza != null){

@@ -95,8 +95,13 @@ public class BoardCache {
 		}
 	}		
 	
+
 	public SquareIterator iteratorSquare(Color color){
 		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos) : new BitSquareIterator(squareNegros);		
+	}
+	
+	protected long getPosiciones (Color color){
+		return Color.BLANCO.equals(color) ? squareBlancos : squareNegros;		
 	}
 	
 	

@@ -21,7 +21,7 @@ public class BoardCacheTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		DummyBoard tablero = builder.withDefaultBoard().buildBoard().getDummyBoard();
+		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
 		BoardCache boardCache = new BoardCache(tablero);
 		
