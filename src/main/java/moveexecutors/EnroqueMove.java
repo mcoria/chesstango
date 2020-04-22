@@ -4,10 +4,9 @@ import chess.BoardCache;
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
-import chess.MoveKing;
 import chess.PosicionPieza;
 
-public abstract class EnroqueMove extends AbstractMove implements MoveKing {
+public abstract class EnroqueMove extends AbstractMove {
 	
 	protected abstract SimpleReyMove getReyMove();
 	protected abstract Move getTorreMove();
@@ -49,16 +48,6 @@ public abstract class EnroqueMove extends AbstractMove implements MoveKing {
 	public void undoMove(BoardCache boardCache) {
 		getReyMove().undoMove(boardCache);
 		getTorreMove().undoMove(boardCache);
-	}
-	
-	@Override
-	public void executetSquareKingCache(BoardCache cache) {
-		getReyMove().executetSquareKingCache(cache);
-	}
-
-	@Override
-	public void undoSquareKingCache(BoardCache cache) {
-		getReyMove().undoSquareKingCache(cache);
 	}
 	
 	@Override

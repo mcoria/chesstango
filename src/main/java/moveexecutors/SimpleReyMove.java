@@ -3,9 +3,8 @@ package moveexecutors;
 import chess.BoardCache;
 import chess.Color;
 import chess.PosicionPieza;
-import chess.MoveKing;
 
-public class SimpleReyMove extends SimpleMove implements MoveKing {
+public class SimpleReyMove extends SimpleMove{
 
 	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
@@ -13,7 +12,8 @@ public class SimpleReyMove extends SimpleMove implements MoveKing {
 	}
 
 	@Override
-	public void executetSquareKingCache(BoardCache cache) {
+	public void executeMove(BoardCache cache) {
+		super.executeMove(cache);
 		if(Color.BLANCO.equals(from.getValue().getColor())){
 			cache.setSquareKingBlancoCache(to.getKey());
 		} else {
@@ -22,7 +22,8 @@ public class SimpleReyMove extends SimpleMove implements MoveKing {
 	}
 
 	@Override
-	public void undoSquareKingCache(BoardCache cache) {
+	public void undoMove(BoardCache cache) {
+		super.undoMove(cache);
 		if(Color.BLANCO.equals(from.getValue().getColor())){
 			cache.setSquareKingBlancoCache(from.getKey());
 		} else {

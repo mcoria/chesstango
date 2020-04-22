@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
@@ -16,7 +15,7 @@ public class Board {
 	
 	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
 	
-	private MoveFilter moveKingFilter = (Move move) -> filterMoveKing((MoveKing) move);
+	private MoveFilter moveKingFilter = (Move move) -> filterMoveKing(move);
 	
 	private MoveGeneratorStrategy strategy = null; 
 	
@@ -95,12 +94,12 @@ public class Board {
 	/*
 	 * Este movimiento es utilizado para filtrar movimientos de rey, se settea el cache para movimientos de rey
 	 */
-	private boolean filterMoveKing(MoveKing move) {
+	private boolean filterMoveKing(Move move) {
 		boolean result = false;
 				
 		move.executeMove(this.dummyBoard);
 		
-		move.executetSquareKingCache(this.boardCache);
+		move.executeMove(this.boardCache);
 		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
@@ -109,7 +108,7 @@ public class Board {
 		
 		move.undoMove(this.dummyBoard);
 		
-		move.undoSquareKingCache(this.boardCache);		
+		move.undoMove(this.boardCache);		
 		
 		return result;
 	}
@@ -121,10 +120,6 @@ public class Board {
 		move.executeMove(boardCache);
 		
 		//boardCache.validarCacheSqueare(this);
-
-		if(move instanceof MoveKing){
-			((MoveKing) move).executetSquareKingCache(this.boardCache);
-		}
 		
 		move.executeMove(boardState);
 		
@@ -138,10 +133,6 @@ public class Board {
 		move.undoMove(boardCache);	
 		
 		//boardCache.validarCacheSqueare(this);
-		
-		if(move instanceof MoveKing){
-			((MoveKing) move).undoSquareKingCache(this.boardCache);
-		}
 		
 		move.undoMove(boardState);
 		
