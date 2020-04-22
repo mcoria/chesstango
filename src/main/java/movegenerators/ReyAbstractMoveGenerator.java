@@ -67,7 +67,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 				if ( dummyBoard.isEmtpy(casilleroDestinoRey) 													//El casillero destino REY esta vacio
 				  && dummyBoard.isEmtpy(casilleroIntermedioRey)) {										  		//El casillero intermedio REY esta vacio
 					if ( !positionCaptured.check(color.opositeColor(), rey.getKey()) 							//El rey no esta en jaque
-					  && !positionCaptured.check(color.opositeColor(), casilleroIntermedioRey) 				//El rey no puede ser atacado en casillero intermedio
+					  && !positionCaptured.check(color.opositeColor(), casilleroIntermedioRey) 					//El rey no puede ser atacado en casillero intermedio
 					  && !positionCaptured.check(color.opositeColor(), casilleroDestinoRey)){					//El rey no puede ser atacado en casillero destino
 						return true;
 					}

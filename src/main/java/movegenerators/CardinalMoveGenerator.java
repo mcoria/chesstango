@@ -57,20 +57,15 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	//Reveer estas dos operaciones, se pueden mejorar
 	@Override
 	public boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare) {
-		boolean result = false;
 		for (Cardinal cardinal : this.direcciones) {
 			if(cardinal.isInDirection(origen.getKey(), kingSquare)){
-				result = puedeCapturarRey(origen, kingSquare, cardinal);
-				if(result != false){
-					break;
-				}
-				//Si kingSquare se encuentra en esta direccion, no deberiamos salir?
+				return puedeCapturarPosicion(origen, kingSquare, cardinal);
 			}
 		}
-		return result;
+		return false;
 	}
 
-	protected boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare,
+	protected boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
@@ -82,19 +77,11 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    		return true;
 		    	}
 		    	continue;
-		    
-		    //Ejecutamos la misma accion independientemente del color
-		    } else if(color.equals(pieza.getColor())){
+		    } else
 		    	if(kingSquare.equals(destino.getKey())){
 		    		return true;
 		    	}		    	
 		    	break;
-		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	if(kingSquare.equals(destino.getKey())){
-		    		return true;
-		    	}
-		    	break;
-		    }
 		}
 		return false;
 	}
