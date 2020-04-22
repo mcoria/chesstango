@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import movegenerators.AbstractMoveGenerator;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
@@ -142,6 +143,11 @@ public class Board {
 	
 	public void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(this.dummyBoard);
+		
+		if(moveGenerator instanceof AbstractMoveGenerator){
+			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGenerator;
+			generator.setBoardCache(boardCache);
+		}
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
 			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;

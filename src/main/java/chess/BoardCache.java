@@ -118,7 +118,19 @@ public class BoardCache {
 				}
 			}			
 		}
+	}
+	
+	
+	public boolean isColor(Color color, Square square) {
+		if(Color.BLANCO.equals(color)){
+			return (squareBlancos & square.getPosicion()) != 0;
+		} else if(Color.NEGRO.equals(color)){
+			return (squareBlancos & square.getPosicion()) != 0;
+		} else{
+			throw new RuntimeException("Color not set");
+		}
 	}	
+	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
 
 	/*

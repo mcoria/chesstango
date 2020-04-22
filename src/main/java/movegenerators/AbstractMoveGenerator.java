@@ -1,5 +1,6 @@
 package movegenerators;
 
+import chess.BoardCache;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
@@ -13,6 +14,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected MoveFilter filter = (Move move) -> true;
 	
+	protected BoardCache boardCache;
+	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;
 	}
@@ -25,6 +28,10 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	@Override
 	public void setFilter(MoveFilter filter) {
 		this.filter = filter;
+	}
+
+	public void setBoardCache(BoardCache boardCache) {
+		this.boardCache = boardCache;
 	}
 
 }

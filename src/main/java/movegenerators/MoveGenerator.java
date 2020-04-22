@@ -11,6 +11,8 @@ public interface MoveGenerator {
 
 	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer);
 
+	// Creo que aca podriamos utilizar el cache, lo que nos importa es el color de los casilleros
+	// Esto implica que debemos actualizar el cache siempre
 	public boolean puedeCapturarPosicion(PosicionPieza origen, Square square);
 	
 	public void setTablero(DummyBoard tablero);

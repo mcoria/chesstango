@@ -41,7 +41,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	@Override
 	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer){
-		
 		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
 		Square saltoDobleCasillero = getCasilleroSaltoDoble(casillero);
@@ -54,54 +53,67 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			
 		PosicionPieza destino = null;
 		
-		if (saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)) {
+		if (saltoSimpleCasillero != null) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
-			Move moveSaltoSimple = new SimpleMove(origen, destino);
-			if(this.filter.filterMove(moveSaltoSimple)){
-				int toRank = saltoSimpleCasillero.getRank();
-				if(toRank == 0 || toRank == 7){ // Es una promocion
-					addSaltoSimplePromocion(origen, destino, moveContainer);
-				} else {
-					moveContainer.add(moveSaltoSimple);
+			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
+			if (destino.getValue() == null) {
+				Move moveSaltoSimple = new SimpleMove(origen, destino);
+				if (this.filter.filterMove(moveSaltoSimple)) {
+					int toRank = saltoSimpleCasillero.getRank();
+					if (toRank == 0 || toRank == 7) { // Es una promocion
+						addSaltoSimplePromocion(origen, destino, moveContainer);
+					} else {
+						moveContainer.add(moveSaltoSimple);
+					}
 				}
-			}
-			if (saltoDobleCasillero != null && this.tablero.isEmtpy(saltoDobleCasillero)) {
-				destino = this.tablero.getPosicion(saltoDobleCasillero);
-		    	Move moveSaltoDoble = new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
-		    	//cacheMove.setFromTo(origen, destino);
-				if(this.filter.filterMove(moveSaltoDoble)){
-					moveContainer.add(moveSaltoDoble);
+				if (saltoDobleCasillero != null) {
+					destino = this.tablero.getPosicion(saltoDobleCasillero);
+					// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
+					if (destino.getValue() == null) {
+						Move moveSaltoDoble = new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
+						// cacheMove.setFromTo(origen, destino);
+						if (this.filter.filterMove(moveSaltoDoble)) {
+							moveContainer.add(moveSaltoDoble);
+						}
+					}
 				}
 			}
 		}
-		
-		if (casilleroAtaqueIzquirda != null && this.tablero.isColor(color.opositeColor(), casilleroAtaqueIzquirda)) {
+
+		if (casilleroAtaqueIzquirda != null) {
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
-	    	Move moveCaptura = new CaptureMove(origen, destino);
-	    	//cacheMove.setFromTo(origen, destino);
-			if(this.filter.filterMove(moveCaptura)){
-				int toRank = saltoSimpleCasillero.getRank();
-				if(toRank == 0 || toRank == 7){ // Es una promocion
-					addCapturaPromocion(origen, destino, moveContainer);
-				} else {
-					moveContainer.add(moveCaptura);
-				}					
-			}
-		}
-		
-		if (casilleroAtaqueDerecha != null && this.tablero.isColor(color.opositeColor(), casilleroAtaqueDerecha)) {
-			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);				
-	    	Move moveCaptura = new CaptureMove(origen, destino);
-	    	//cacheMove.setFromTo(origen, destino);
-			if(this.filter.filterMove(moveCaptura)){
-				int toRank = saltoSimpleCasillero.getRank();
-				if(toRank == 0 || toRank == 7){ // Es una promocion
-					addCapturaPromocion(origen, destino, moveContainer);
-				} else {
-					moveContainer.add(moveCaptura);
+			Pieza pieza = destino.getValue();
+			// El casillero es ocupado por una pieza contraria?
+			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
+				Move moveCaptura = new CaptureMove(origen, destino);
+				if (this.filter.filterMove(moveCaptura)) {
+					int toRank = saltoSimpleCasillero.getRank();
+					if (toRank == 0 || toRank == 7) { // Es una promocion
+						addCapturaPromocion(origen, destino, moveContainer);
+					} else {
+						moveContainer.add(moveCaptura);
+					}
 				}
 			}
-		}	
+		}
+
+		if (casilleroAtaqueDerecha != null) {
+			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
+			Pieza pieza = destino.getValue();
+			// El casillero es ocupado por una pieza contraria?			
+			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
+				Move moveCaptura = new CaptureMove(origen, destino);
+				// cacheMove.setFromTo(origen, destino);
+				if (this.filter.filterMove(moveCaptura)) {
+					int toRank = saltoSimpleCasillero.getRank();
+					if (toRank == 0 || toRank == 7) { // Es una promocion
+						addCapturaPromocion(origen, destino, moveContainer);
+					} else {
+						moveContainer.add(moveCaptura);
+					}
+				}
+			}
+		}
 		
 		if (peonPasanteSquare != null) {
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {

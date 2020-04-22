@@ -54,6 +54,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 
+	//Reveer estas dos operaciones, se pueden mejorar
 	@Override
 	public boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare) {
 		boolean result = false;
@@ -63,6 +64,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 				if(result != false){
 					break;
 				}
+				//Si kingSquare se encuentra en esta direccion, no deberiamos salir?
 			}
 		}
 		return result;
@@ -80,6 +82,8 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		    		return true;
 		    	}
 		    	continue;
+		    
+		    //Ejecutamos la misma accion independientemente del color
 		    } else if(color.equals(pieza.getColor())){
 		    	if(kingSquare.equals(destino.getKey())){
 		    		return true;
