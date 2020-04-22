@@ -55,7 +55,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
+	public boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare) {
 		boolean result = false;
 		for (Cardinal cardinal : this.direcciones) {
 			if(cardinal.isInDirection(origen.getKey(), kingSquare)){

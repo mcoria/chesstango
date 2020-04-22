@@ -49,7 +49,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
+	public boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare) {
 		Square squareOrigen = origen.getKey();
 		int fileOrigen = squareOrigen.getFile();
 		int rankOrigen = squareOrigen.getRank();

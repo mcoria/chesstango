@@ -141,7 +141,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}	
 
 	@Override
-	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare) {
+	public boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare) {
 		if(kingSquare.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
 		   kingSquare.equals(getCasilleroAtaqueDerecha(origen.getKey())) ){
 			return true;

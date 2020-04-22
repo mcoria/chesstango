@@ -176,7 +176,7 @@ public class PeonNegroMoveGeneratorTest {
 
 		PosicionPieza origen = new PosicionPieza(Square.g2, Pieza.PEON_NEGRO);
 
-		assertTrue( moveGenerator.puedeCapturarRey(origen, Square.f1) );
+		assertTrue( moveGenerator.puedeCapturarPosicion(origen, Square.f1) );
 	}	
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

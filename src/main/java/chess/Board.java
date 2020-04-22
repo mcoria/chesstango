@@ -64,7 +64,7 @@ public class Board {
 			if(currentPieza != null){
 				if(color.equals(currentPieza.getColor())){
 					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
-					if(moveGenerator.puedeCapturarRey(origen, square)){
+					if(moveGenerator.puedeCapturarPosicion(origen, square)){
 						return true;
 					}
 				}

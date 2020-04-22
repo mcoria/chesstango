@@ -11,7 +11,7 @@ public interface MoveGenerator {
 
 	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer);
 
-	public boolean puedeCapturarRey(PosicionPieza origen, Square kingSquare);
+	public boolean puedeCapturarPosicion(PosicionPieza origen, Square square);
 	
 	public void setTablero(DummyBoard tablero);
 
