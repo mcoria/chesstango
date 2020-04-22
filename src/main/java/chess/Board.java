@@ -152,15 +152,17 @@ public class Board {
 	
 	public void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(this.dummyBoard);
+		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
 			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
+			moveGenerator.setFilter(defaultFilter);
 			
 		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setPositionCaptured((Color color, Square square) -> positionCaptured(color, square));
 			generator.setFilter(moveKingFilter);
+			generator.setPositionCaptured((Color color, Square square) -> positionCaptured(color, square));
 			
 		} else {
 			moveGenerator.setFilter(defaultFilter);

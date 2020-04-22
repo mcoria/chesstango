@@ -25,9 +25,11 @@ public class BoardTest01 {
 	public void test01() {
 		Board tablero = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").buildBoard();
 		
+		Collection<Move> moves = tablero.getLegalMoves();
+		
 		assertEquals(Color.NEGRO, tablero.getBoardState().getTurnoActual());
 		assertTrue(tablero.isKingInCheck());
-		assertEquals(1, tablero.getLegalMoves().size());
+		assertEquals(1, moves.size());
 	}
 
 	

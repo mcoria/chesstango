@@ -34,6 +34,8 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected CacheMove cacheMove = new CacheMove();
 	
+	protected SimpleMove simpleMovePrototype = new SimpleMove();
+	
 	public PeonAbstractMoveGenerator(Color color) {
 		super(color);
 	}
@@ -57,13 +59,13 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
 			if (destino.getValue() == null) {
 				//Move moveSaltoSimple = new SimpleMove(origen, destino);
-				cacheMove.setFromTo(origen, destino);
-				if(this.filter.filterMove(cacheMove)){
+				simpleMovePrototype.setFromTo(origen, destino);
+				if(this.filter.filterMove(simpleMovePrototype)){
 					int toRank = saltoSimpleCasillero.getRank();
 					if(toRank == 0 || toRank == 7){ // Es una promocion
 						addSaltoSimplePromocion(origen, destino, moveContainer);
 					} else {
-						moveContainer.add(new SimpleMove(origen, destino));
+						moveContainer.add(simpleMovePrototype.clone());
 					}
 				}
 				if (saltoDobleCasillero != null) {

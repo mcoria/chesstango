@@ -3,13 +3,20 @@ package moveexecutors;
 import chess.Move;
 import chess.PosicionPieza;
 
-public abstract class AbstractMove implements Comparable<Move>, Move {
-	protected final PosicionPieza from;
-	protected final PosicionPieza to;
+public abstract class AbstractMove implements Comparable<Move>, Move, Cloneable {
+	protected PosicionPieza from;
+	protected PosicionPieza to;
 	
+	public AbstractMove(){
+	}
 	
 	public AbstractMove(PosicionPieza from, PosicionPieza to) {
 		this.from = from;
+		this.to = to;
+	}
+	
+	public void setFromTo(PosicionPieza from, PosicionPieza to){
+		this.from =  from;
 		this.to = to;
 	}	
 
@@ -78,7 +85,16 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	public String toString() {
 		return from.toString() + " " + to.toString() + " - " + getType();
 	}
-
+	
+	@Override
+	public Move clone() {
+		try {
+			return (Move) super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
+	}		
+	
 	protected abstract String getType();
 
 
