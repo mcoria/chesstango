@@ -8,7 +8,6 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import moveexecutors.CacheMove;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
@@ -32,9 +31,9 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Pieza[] getPiezaPromocion();
 	
-	protected CacheMove cacheMove = new CacheMove();
+	//protected CacheMove cacheMove = new CacheMove();
 	
-	protected SimpleMove simpleMovePrototype = new SimpleMove();
+	//protected SimpleMove simpleMovePrototype = new SimpleMove();
 	
 	public PeonAbstractMoveGenerator(Color color) {
 		super(color);
@@ -57,61 +56,50 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		
 		if (saltoSimpleCasillero != null && this.tablero.isEmtpy(saltoSimpleCasillero)) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
-			if (destino.getValue() == null) {
-				//Move moveSaltoSimple = new SimpleMove(origen, destino);
-				simpleMovePrototype.setFromTo(origen, destino);
-				if(this.filter.filterMove(simpleMovePrototype)){
-					int toRank = saltoSimpleCasillero.getRank();
-					if(toRank == 0 || toRank == 7){ // Es una promocion
-						addSaltoSimplePromocion(origen, destino, moveContainer);
-					} else {
-						moveContainer.add(simpleMovePrototype.clone());
-					}
+			Move moveSaltoSimple = new SimpleMove(origen, destino);
+			if(this.filter.filterMove(moveSaltoSimple)){
+				int toRank = saltoSimpleCasillero.getRank();
+				if(toRank == 0 || toRank == 7){ // Es una promocion
+					addSaltoSimplePromocion(origen, destino, moveContainer);
+				} else {
+					moveContainer.add(moveSaltoSimple);
 				}
-				if (saltoDobleCasillero != null) {
-					destino = this.tablero.getPosicion(saltoDobleCasillero);
-					if (destino.getValue() == null) {
-				    	//Move moveSaltoDoble = new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
-				    	cacheMove.setFromTo(origen, destino);
-						if(this.filter.filterMove(cacheMove)){
-							moveContainer.add(new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero));
-						}
-					}
+			}
+			if (saltoDobleCasillero != null && this.tablero.isEmtpy(saltoDobleCasillero)) {
+				destino = this.tablero.getPosicion(saltoDobleCasillero);
+		    	Move moveSaltoDoble = new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
+		    	//cacheMove.setFromTo(origen, destino);
+				if(this.filter.filterMove(moveSaltoDoble)){
+					moveContainer.add(moveSaltoDoble);
 				}
 			}
 		}
 		
-		if (casilleroAtaqueIzquirda != null) {
+		if (casilleroAtaqueIzquirda != null && this.tablero.isColor(color.opositeColor(), casilleroAtaqueIzquirda)) {
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
-			Pieza pieza = destino.getValue();
-			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-		    	//Move moveCaptura = new CaptureMove(origen, destino);
-		    	cacheMove.setFromTo(origen, destino);
-				if(this.filter.filterMove(cacheMove)){
-					int toRank = saltoSimpleCasillero.getRank();
-					if(toRank == 0 || toRank == 7){ // Es una promocion
-						addCapturaPromocion(origen, destino, moveContainer);
-					} else {
-						moveContainer.add(new CaptureMove(origen, destino));
-					}					
-				}				
+	    	Move moveCaptura = new CaptureMove(origen, destino);
+	    	//cacheMove.setFromTo(origen, destino);
+			if(this.filter.filterMove(moveCaptura)){
+				int toRank = saltoSimpleCasillero.getRank();
+				if(toRank == 0 || toRank == 7){ // Es una promocion
+					addCapturaPromocion(origen, destino, moveContainer);
+				} else {
+					moveContainer.add(moveCaptura);
+				}					
 			}
-		}	
+		}
 		
-		if (casilleroAtaqueDerecha != null) {
-			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
-			Pieza pieza = destino.getValue();
-			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {				
-		    	//Move moveCaptura = new CaptureMove(origen, destino);
-		    	cacheMove.setFromTo(origen, destino);
-				if(this.filter.filterMove(cacheMove)){
-					int toRank = saltoSimpleCasillero.getRank();
-					if(toRank == 0 || toRank == 7){ // Es una promocion
-						addCapturaPromocion(origen, destino, moveContainer);
-					} else {
-						moveContainer.add(new CaptureMove(origen, destino));
-					}
-				}				
+		if (casilleroAtaqueDerecha != null && this.tablero.isColor(color.opositeColor(), casilleroAtaqueDerecha)) {
+			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);				
+	    	Move moveCaptura = new CaptureMove(origen, destino);
+	    	//cacheMove.setFromTo(origen, destino);
+			if(this.filter.filterMove(moveCaptura)){
+				int toRank = saltoSimpleCasillero.getRank();
+				if(toRank == 0 || toRank == 7){ // Es una promocion
+					addCapturaPromocion(origen, destino, moveContainer);
+				} else {
+					moveContainer.add(moveCaptura);
+				}
 			}
 		}	
 		

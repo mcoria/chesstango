@@ -13,7 +13,7 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class Board {
 	
-	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
+	private MoveFilter defaultFilter = (Move move) -> filterMoveKing(move);
 	
 	private MoveFilter moveKingFilter = (Move move) -> filterMoveKing(move);
 	
@@ -75,7 +75,6 @@ public class Board {
 	
 	/*
 	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
-	 */
 	private boolean filterMove(Move move) {
 		boolean result = false;
 				
@@ -89,7 +88,7 @@ public class Board {
 		move.undoMove(this.dummyBoard);
 		
 		return result;
-	}
+	}*/
 	
 	/*
 	 * Este movimiento es utilizado para filtrar movimientos de rey, se settea el cache para movimientos de rey

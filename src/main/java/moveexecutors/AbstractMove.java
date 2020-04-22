@@ -3,7 +3,7 @@ package moveexecutors;
 import chess.Move;
 import chess.PosicionPieza;
 
-public abstract class AbstractMove implements Comparable<Move>, Move, Cloneable {
+public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
 	protected PosicionPieza from;
 	protected PosicionPieza to;
 	
@@ -86,6 +86,7 @@ public abstract class AbstractMove implements Comparable<Move>, Move, Cloneable 
 		return from.toString() + " " + to.toString() + " - " + getType();
 	}
 	
+	/*
 	@Override
 	public Move clone() {
 		try {
@@ -93,7 +94,7 @@ public abstract class AbstractMove implements Comparable<Move>, Move, Cloneable 
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}
-	}		
+	}*/
 	
 	protected abstract String getType();
 

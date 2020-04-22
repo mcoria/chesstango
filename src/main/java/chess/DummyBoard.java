@@ -28,5 +28,8 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	Iterator<PosicionPieza> iterator(SquareIterator squareIterator);
 	
 	Iterator<PosicionPieza> iterator(long posiciones);
+	
+	//Y si esta operacion la movemos para el cache?
+	boolean isColor(Color color, Square square);
 
 }

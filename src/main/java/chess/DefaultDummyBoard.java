@@ -149,4 +149,10 @@ public class DefaultDummyBoard implements DummyBoard {
 	    }
 	    return new String(baos.toByteArray());
 	}
+
+	@Override
+	public boolean isColor(Color color, Square square) {
+		Pieza pieza = tablero[square.toIdx()].getValue();
+		return pieza != null && color.equals(pieza.getColor());
+	}
 }
