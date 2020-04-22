@@ -14,7 +14,7 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class Board {
 	
-	private MoveFilter defaultFilter = (Move move) -> filterMoveKing(move);
+	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
 	
 	private MoveFilter moveKingFilter = (Move move) -> filterMoveKing(move);
 	
@@ -36,7 +36,6 @@ public class Board {
 	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
-		//for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(turnoActual)); iterator.hasNext();) {
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
@@ -49,16 +48,43 @@ public class Board {
 	public boolean isKingInCheck() {
 		Color turno = boardState.getTurnoActual();
 		Square kingSquare = boardCache.getKingSquare(turno);
-		return positionCaptured(turno.opositeColor(), kingSquare);
+
+		PosicionPieza checker = boardCache.getLastChecker();
+
+		if (checker == null) {
+			// Si no existe checker, recalculamos
+			checker = positionCaptured(turno.opositeColor(), kingSquare);
+		} else {
+			if (turno.equals(checker.getValue().getColor())) {
+				// Si existe checker pero es del mismo color que el turno
+				// actual, recalculamos
+				checker = positionCaptured(turno.opositeColor(), kingSquare);
+			} else {
+				// Si existe checker Y es del color contrario
+				if (checker.equals(this.dummyBoard.getPosicion(checker.getKey()))) {
+					// Si sigue estando en la misma posicion
+					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(checker.getValue());
+					if (!moveGenerator.puedeCapturarPosicion(checker, kingSquare)) {
+						// Pero no puede capturar...
+						checker = positionCaptured(turno.opositeColor(), kingSquare);
+					}
+				} else {
+					// Pero no se encuentra en esta posicion
+					checker = positionCaptured(turno.opositeColor(), kingSquare);
+				}
+			}
+		}
+
+		boardCache.setLastChecker(checker);
+
+		return checker != null;
 	}
 	
-	
-	// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
-	/* (non-Javadoc)
-	 * @see chess.PositionCaptured#sepuedeCapturarReyEnSquare(chess.Color, chess.Square)
-	 */
-	protected boolean positionCaptured(Color color, Square square){
-		//for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.iteratorSquare(color)); iterator.hasNext();) {
+	protected boolean isPositionCaptured(Color color, Square square){
+		return positionCaptured(color, square) != null;
+	}	
+
+	protected PosicionPieza positionCaptured(Color color, Square square){
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
@@ -66,16 +92,18 @@ public class Board {
 				if(color.equals(currentPieza.getColor())){
 					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
 					if(moveGenerator.puedeCapturarPosicion(origen, square)){
-						return true;
+						return origen;
 					}
 				}
 			}
 		}
-		return false;
+		return null;
 	}
+	
 	
 	/*
 	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
+	 */
 	private boolean filterMove(Move move) {
 		boolean result = false;
 				
@@ -89,7 +117,7 @@ public class Board {
 		move.undoMove(this.dummyBoard);
 		
 		return result;
-	}*/
+	}
 	
 	/*
 	 * Este movimiento es utilizado para filtrar movimientos de rey, se settea el cache para movimientos de rey
@@ -158,7 +186,7 @@ public class Board {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
 			generator.setFilter(moveKingFilter);
-			generator.setPositionCaptured((Color color, Square square) -> positionCaptured(color, square));
+			generator.setPositionCaptured((Color color, Square square) -> isPositionCaptured(color, square));
 			
 		} else {
 			moveGenerator.setFilter(defaultFilter);

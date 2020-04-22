@@ -129,6 +129,16 @@ public class BoardCache {
 		} else{
 			throw new RuntimeException("Color not set");
 		}
+	}
+
+	
+	private PosicionPieza lastChecker;
+	public PosicionPieza getLastChecker() {
+		return lastChecker;
+	}
+
+	public void setLastChecker(PosicionPieza checker) {
+		this.lastChecker = checker;
 	}	
 	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
