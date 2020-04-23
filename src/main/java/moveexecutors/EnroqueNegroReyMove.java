@@ -29,16 +29,6 @@ public class EnroqueNegroReyMove extends EnroqueMove {
 	}
 
 	@Override
-	public PosicionPieza getFrom() {
-		return FROM;
-	}
-
-	@Override
-	public PosicionPieza getTo() {
-		return TO;
-	}
-
-	@Override
 	protected SimpleReyMove getReyMove() {
 		return REY_MOVE;
 	}

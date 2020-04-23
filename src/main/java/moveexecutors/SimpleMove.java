@@ -7,9 +7,6 @@ import chess.PosicionPieza;
 
 public class SimpleMove extends AbstractMove {
 	
-	public SimpleMove(){
-	}
-	
 	public SimpleMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}

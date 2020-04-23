@@ -4,19 +4,11 @@ import chess.Move;
 import chess.PosicionPieza;
 
 public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
-	protected PosicionPieza from;
-	protected PosicionPieza to;
-	
-	public AbstractMove(){
-	}
+	protected final PosicionPieza from;
+	protected final PosicionPieza to;
 	
 	public AbstractMove(PosicionPieza from, PosicionPieza to) {
 		this.from = from;
-		this.to = to;
-	}
-	
-	public void setFromTo(PosicionPieza from, PosicionPieza to){
-		this.from =  from;
 		this.to = to;
 	}	
 
