@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import movegenerators.AbstractMoveGenerator;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
@@ -14,9 +13,7 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class Board {
 	
-	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
-	
-	private MoveFilter moveKingFilter = (Move move) -> filterMoveKing(move);
+	private MoveFilter defaultFilter = (Move move) -> filterMoveCache(move);
 	
 	private MoveGeneratorStrategy strategy = null; 
 	
@@ -41,6 +38,17 @@ public class Board {
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 			moveGenerator.generateMoves(origen, moves);
+			
+			/*
+			if( origen is affected by lastMoved){
+				Pieza currentPieza = origen.getValue();
+				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+				moveGenerator.generateMoves(origen, moves);
+				cache.addMovimientos(origen, generatedMoves)
+			} else {
+				moves.add (cache.getMovimientos(origen)));
+			}*/
+			
 		}
 		return moves;
 	}
@@ -55,8 +63,10 @@ public class Board {
 			// Si no existe checker, recalculamos
 			checker = positionCaptured(turno.opositeColor(), kingSquare);
 		} else {
-			if (turno.equals(checker.getValue().getColor())) {
+			if (turno.equals(checker.getValue().getColor()) || 
+					this.boardCache.isColor(turno, checker.getKey())) {
 				// Si existe checker pero es del mismo color que el turno
+				// O si la posicion fué capturada por una de nuestras fichas
 				// actual, recalculamos
 				checker = positionCaptured(turno.opositeColor(), kingSquare);
 			} else {
@@ -101,32 +111,9 @@ public class Board {
 	}
 	
 	
-	/*
-	 * NO HACE FALA UTILIZAR ESTE FILTRO CUANDO ES MOVIMEINTO DE REY
-	 */
-	private boolean filterMove(Move move) {
+	private boolean filterMoveCache(Move move) {
 		boolean result = false;
 				
-		move.executeMove(this.dummyBoard);
-		
-		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
-		if(! this.isKingInCheck() ) {
-			result = true;
-		}
-		
-		move.undoMove(this.dummyBoard);
-		
-		return result;
-	}
-	
-	/*
-	 * Este movimiento es utilizado para filtrar movimientos de rey, se settea el cache para movimientos de rey
-	 */
-	private boolean filterMoveKing(Move move) {
-		boolean result = false;
-				
-		move.executeMove(this.dummyBoard);
-		
 		move.executeMove(this.boardCache);
 		
 		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
@@ -134,9 +121,7 @@ public class Board {
 			result = true;
 		}
 		
-		move.undoMove(this.dummyBoard);
-		
-		move.undoMove(this.boardCache);		
+		move.undoMove(this.boardCache);
 		
 		return result;
 	}
@@ -171,25 +156,18 @@ public class Board {
 	
 	public void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(this.dummyBoard);
-		
-		if(moveGenerator instanceof AbstractMoveGenerator){
-			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGenerator;
-			generator.setBoardCache(boardCache);
-		}
+		moveGenerator.setBoardCache(this.boardCache);
+		moveGenerator.setFilter(defaultFilter);
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
 			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			moveGenerator.setFilter(defaultFilter);
 			
 		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setFilter(moveKingFilter);
 			generator.setPositionCaptured((Color color, Square square) -> isPositionCaptured(color, square));
 			
-		} else {
-			moveGenerator.setFilter(defaultFilter);
 		}
 	}
 	

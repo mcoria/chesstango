@@ -120,12 +120,15 @@ public class BoardCache {
 		}
 	}
 	
+	public boolean isEmpty(Square destino) {
+		return ((~(squareBlancos | squareNegros)) &  destino.getPosicion()) != 0 ;
+	}	
 	
 	public boolean isColor(Color color, Square square) {
 		if(Color.BLANCO.equals(color)){
 			return (squareBlancos & square.getPosicion()) != 0;
 		} else if(Color.NEGRO.equals(color)){
-			return (squareBlancos & square.getPosicion()) != 0;
+			return (squareNegros & square.getPosicion()) != 0;
 		} else{
 			throw new RuntimeException("Color not set");
 		}

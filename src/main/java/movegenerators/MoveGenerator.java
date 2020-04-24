@@ -2,6 +2,7 @@ package movegenerators;
 
 import java.util.Collection;
 
+import chess.BoardCache;
 import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
@@ -18,5 +19,7 @@ public interface MoveGenerator {
 	public void setTablero(DummyBoard tablero);
 
 	public void setFilter(MoveFilter filter);
+	
+	public void setBoardCache(BoardCache boardCache); 
 
 }

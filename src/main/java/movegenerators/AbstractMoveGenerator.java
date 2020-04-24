@@ -30,6 +30,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		this.filter = filter;
 	}
 
+	
 	public void setBoardCache(BoardCache boardCache) {
 		this.boardCache = boardCache;
 	}
