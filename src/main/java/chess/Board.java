@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import movegenerators.CardinalMoveGenerator;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
@@ -167,7 +168,6 @@ public class Board {
 	
 	public void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(this.dummyBoard);
-		moveGenerator.setBoardCache(this.boardCache);
 		moveGenerator.setFilter(this.defaultFilter);
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
@@ -179,6 +179,9 @@ public class Board {
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured((Color color, Square square) -> isPositionCaptured(color, square));
 			
+		} else if(moveGenerator instanceof CardinalMoveGenerator){
+			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
+			generator.setBoardCache(this.boardCache);
 		}
 	}
 	
