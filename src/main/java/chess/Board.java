@@ -23,12 +23,15 @@ public class Board {
 	private BoardCache boardCache = null;
 	
 	private DummyBoard dummyBoard = null;
+	
+	private MoveCache moveCache = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = new BoardCache(this.dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
+		this.moveCache = new MoveCache();
 	}
 	
 	public Collection<Move> getLegalMoves(){
@@ -39,11 +42,16 @@ public class Board {
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
+			
+			
+			Collection<Move> container = moveCache.getMoveContainer(origen.getKey());
+			container.clear();
+			
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-			moveGenerator.setMoveColector(moves);
+			moveGenerator.setMoveColector(container);
 			moveGenerator.generateMoves(origen);
 					
-			
+			moves.addAll(container);
 			/*
 			if( origen is affected by lastMoved){
 				Pieza currentPieza = origen.getValue();
@@ -55,7 +63,6 @@ public class Board {
 			}*/
 			
 		}
-		
 		
 		return moves;
 	}
@@ -192,7 +199,19 @@ public class Board {
 	public String toString() {
 	    return this.dummyBoard.toString();
 	}
+
+	public DummyBoard getDummyBoard() {
+		return this.dummyBoard;
+	}
 	
+	public BoardState getBoardState() {
+		return boardState;
+	}
+	
+	public MoveFilter getDefaultFilter(){
+		return defaultFilter;
+	}	
+
 	private static Collection<Move> createMoveContainer(){
 		return new ArrayList<Move>() {
 			/**
@@ -209,18 +228,5 @@ public class Board {
 				return buffer.toString();
 			}
 		};
-	}
-
-	public DummyBoard getDummyBoard() {
-		return this.dummyBoard;
-	}
-	
-	public BoardState getBoardState() {
-		return boardState;
-	}
-	
-	public MoveFilter getDefaultFilter(){
-		return defaultFilter;
 	}	
-
 }
