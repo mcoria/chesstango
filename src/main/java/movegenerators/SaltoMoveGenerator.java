@@ -1,6 +1,5 @@
 package movegenerators;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import chess.Color;
@@ -26,7 +25,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer) {
+	public void generateMoves(PosicionPieza origen) {
 		Square casillero = origen.getKey();
 		Iterator<PosicionPieza> iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {

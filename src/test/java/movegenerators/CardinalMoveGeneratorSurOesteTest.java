@@ -44,7 +44,8 @@ public class CardinalMoveGeneratorSurOesteTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 	
-		moveGenerator.generateMoves(origen, moves);
+		moveGenerator.setMoveColector(moves);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(4, moves.size());
 		
@@ -66,7 +67,8 @@ public class CardinalMoveGeneratorSurOesteTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 	
-		moveGenerator.generateMoves(origen, moves);
+		moveGenerator.setMoveColector(moves);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
 		
@@ -87,7 +89,8 @@ public class CardinalMoveGeneratorSurOesteTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 	
-		moveGenerator.generateMoves(origen, moves);
+		moveGenerator.setMoveColector(moves);
+		moveGenerator.generateMoves(origen);
 		
 		assertEquals(4, moves.size());
 		

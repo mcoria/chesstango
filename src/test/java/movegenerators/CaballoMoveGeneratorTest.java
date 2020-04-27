@@ -46,9 +46,10 @@ public class CaballoMoveGeneratorTest {
 	
 		PosicionPieza origen = new PosicionPieza(from, Pieza.CABALLO_BLANCO);
 		
-		moveGenerator.generateMoves(origen, moves);
+		moveGenerator.setMoveColector(moves);
+		moveGenerator.generateMoves(origen);
 		
-		assertEquals(7, moves.size());
+		
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.g6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.g4) ));
@@ -58,6 +59,8 @@ public class CaballoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c6) ));
 		// Peon Blanco en d7
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PEON_NEGRO) ));
+		
+		assertEquals(7, moves.size());
 	}
 
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

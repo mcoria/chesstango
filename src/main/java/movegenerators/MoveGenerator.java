@@ -10,13 +10,15 @@ import chess.Square;
 public interface MoveGenerator {
 
 	//La generacion de movimientos lo obtenemos en getGeneratedMoves
-	void generateMoves(PosicionPieza origen, Collection<Move> moveContainer);
+	void generateMoves(PosicionPieza origen);
 
 	boolean puedeCapturarPosicion(PosicionPieza origen, Square square);
 	
 	void setTablero(DummyBoard tablero);
 
 	void setFilter(MoveFilter filter);
+	
+	void setMoveColector(Collection<Move> moveContainer);
 	
 	// List<Move> getGeneratedMoves
 	

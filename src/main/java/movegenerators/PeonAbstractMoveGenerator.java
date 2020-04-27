@@ -40,7 +40,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer){
+	public void generateMoves(PosicionPieza origen){
 		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
 		Square saltoDobleCasillero = getCasilleroSaltoDoble(casillero);

@@ -14,7 +14,7 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class Board {
 	
-	private MoveFilter defaultFilter = (Move move) -> filterMoveCache(move);
+	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
 	
 	private MoveGeneratorStrategy strategy = null; 
 	
@@ -40,7 +40,9 @@ public class Board {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-			moveGenerator.generateMoves(origen, moves);
+			moveGenerator.setMoveColector(moves);
+			moveGenerator.generateMoves(origen);
+					
 			
 			/*
 			if( origen is affected by lastMoved){
@@ -116,7 +118,7 @@ public class Board {
 	}
 	
 	
-	private boolean filterMoveCache(Move move) {
+	private boolean filterMove(Move move) {
 		boolean result = false;
 				
 		move.executeMove(this.boardCache);

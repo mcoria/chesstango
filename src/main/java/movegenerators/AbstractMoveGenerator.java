@@ -1,5 +1,7 @@
 package movegenerators;
 
+import java.util.Collection;
+
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
@@ -10,6 +12,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	protected final Color color;
 	
 	protected DummyBoard tablero;
+	
+	protected Collection<Move> moveContainer;
 	
 	protected MoveFilter filter = (Move move) -> true;
 	
@@ -27,4 +31,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		this.filter = filter;
 	}
 
+	@Override
+	public void setMoveColector(Collection<Move> moveContainer){
+		this.moveContainer = moveContainer;
+	}
 }

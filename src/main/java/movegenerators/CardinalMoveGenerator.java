@@ -1,6 +1,5 @@
 package movegenerators;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import chess.BoardCache;
@@ -26,14 +25,14 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer) {
+	public void generateMoves(PosicionPieza origen) {
 		for (Cardinal cardinal : this.direcciones) {
-			getPseudoMoves(origen, cardinal, moveContainer);
+			getPseudoMoves(origen, cardinal);
 		}
 	}
 	
 	
-	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal, Collection<Move> moveContainer) {
+	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {

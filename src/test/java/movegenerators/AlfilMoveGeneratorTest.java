@@ -44,7 +44,8 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.generateMoves(origen, moves);
+		moveGenerator.setMoveColector(moves);
+		moveGenerator.generateMoves(origen);
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -83,7 +84,8 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.generateMoves(origen, moves);  
+		moveGenerator.setMoveColector(moves);
+		moveGenerator.generateMoves(origen);
 
 		assertEquals(4, moves.size());
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

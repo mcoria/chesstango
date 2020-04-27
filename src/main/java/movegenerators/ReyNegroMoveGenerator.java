@@ -1,10 +1,7 @@
 package movegenerators;
 
-import java.util.Collection;
-
 import chess.CachePosiciones;
 import chess.Color;
-import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.EnroqueNegroReyMove;
@@ -25,10 +22,10 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMoves(PosicionPieza origen, Collection<Move> moveContainer) {
+	public void generateMoves(PosicionPieza origen) {
 		//assert (Pieza.REY_NEGRO.equals(origen.getValue()));
 		
-		super.generateMoves(origen, moveContainer);
+		super.generateMoves(origen);
 		
 		if (this.boardState.isEnroqueNegroReinaPermitido() && 
 			puedeEnroqueReina(	this.tablero, 
