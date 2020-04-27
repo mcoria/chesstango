@@ -33,6 +33,8 @@ public class Board {
 	public Collection<Move> getLegalMoves(){
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
+		
+		// Iterar por las posiciones que fueron afectadas
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
@@ -50,6 +52,8 @@ public class Board {
 			}*/
 			
 		}
+		
+		
 		return moves;
 	}
 
@@ -59,27 +63,26 @@ public class Board {
 
 		PosicionPieza checker = boardCache.getLastChecker();
 
+		// Si no existe checker, recalculamos
 		if (checker == null) {
-			// Si no existe checker, recalculamos
 			checker = positionCaptured(turno.opositeColor(), kingSquare);
 		} else {
-			if (turno.equals(checker.getValue().getColor()) || 
-					this.boardCache.isColor(turno, checker.getKey())) {
-				// Si existe checker pero es del mismo color que el turno
-				// O si la posicion fué capturada por una de nuestras fichas
-				// actual, recalculamos
+			// Si existe checker pero es del mismo color que el turno
+			// O si la posicion de checker fué capturada por una de nuestras fichas			
+			if (turno.equals(checker.getValue().getColor()) || boardCache.isColor(turno, checker.getKey())) {
+				// recalculamos...
 				checker = positionCaptured(turno.opositeColor(), kingSquare);
 			} else {
-				// Si existe checker Y es del color contrario
-				if (checker.equals(this.dummyBoard.getPosicion(checker.getKey()))) {
-					// Si sigue estando en la misma posicion
-					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(checker.getValue());
+				// Si checker sigue estando en la misma posicion
+				if (checker.equals(dummyBoard.getPosicion(checker.getKey()))) {
+					// Checker todavia puede capturar al Rey...
+					MoveGenerator moveGenerator = strategy.getMoveGenerator(checker.getValue());
 					if (!moveGenerator.puedeCapturarPosicion(checker, kingSquare)) {
 						// Pero no puede capturar...
 						checker = positionCaptured(turno.opositeColor(), kingSquare);
 					}
 				} else {
-					// Pero no se encuentra en esta posicion
+					// Checker todavia puede capturar al Rey...
 					checker = positionCaptured(turno.opositeColor(), kingSquare);
 				}
 			}
@@ -94,17 +97,18 @@ public class Board {
 		return positionCaptured(color, square) != null;
 	}	
 
+	/*
+	 * Observar que este método itera las posiciones en base a boardCache.
+	 * Luego obtiene la posicion de dummyBoard.
+	 * Esto implica que puede boardCache esta actualizado en todo momento. 
+	 */
 	protected PosicionPieza positionCaptured(Color color, Square square){
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
-			if(currentPieza != null){
-				if(color.equals(currentPieza.getColor())){
-					MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
-					if(moveGenerator.puedeCapturarPosicion(origen, square)){
-						return origen;
-					}
-				}
+			MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
+			if(moveGenerator.puedeCapturarPosicion(origen, square)){
+				return origen;
 			}
 		}
 		return null;
@@ -128,26 +132,33 @@ public class Board {
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
-		move.executeMove(this.dummyBoard);
+		
+		move.executeMove(dummyBoard);
+		
 
 		move.executeMove(boardCache);
 		
-		//boardCache.validarCacheSqueare(this);
 		
 		move.executeMove(boardState);
+		
+		//boardCache.validarCacheSqueare(this);		
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
 
 
 	public void undo(Move move) {
-		move.undoMove(this.dummyBoard);
-
-		move.undoMove(boardCache);	
-		
-		//boardCache.validarCacheSqueare(this);
 		
 		move.undoMove(boardState);
+		
+		
+		move.undoMove(boardCache);
+		
+		
+		move.undoMove(dummyBoard);
+
+
+		//boardCache.validarCacheSqueare(this);
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
@@ -157,7 +168,7 @@ public class Board {
 	public void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(this.dummyBoard);
 		moveGenerator.setBoardCache(this.boardCache);
-		moveGenerator.setFilter(defaultFilter);
+		moveGenerator.setFilter(this.defaultFilter);
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
 			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;
