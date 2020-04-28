@@ -1,7 +1,9 @@
 package moveexecutors;
 
 import chess.Move;
+import chess.MoveCache;
 import chess.PosicionPieza;
+import chess.Square;
 
 public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
 	protected final PosicionPieza from;
@@ -25,6 +27,23 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	@Override
 	public int hashCode() {
 		return from.getKey().hashCode();
+	}
+	
+	@Override
+	public void executeMove(MoveCache moveCache) {
+		updateMoveChache(moveCache);
+	}
+
+	@Override
+	public void undoMove(MoveCache moveCache) {
+		updateMoveChache(moveCache);
+	}
+	
+	public void updateMoveChache(MoveCache moveCache) {
+		Square[] squares = Square.values();
+		for (Square square : squares) {
+			moveCache.emptyContainversAffectedBy(square);
+		}
 	}
 	
 	@Override

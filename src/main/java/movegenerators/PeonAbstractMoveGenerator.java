@@ -54,6 +54,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		PosicionPieza destino = null;
 		
 		if (saltoSimpleCasillero != null) {
+			squareContainer.add(saltoSimpleCasillero);
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
@@ -67,6 +68,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 					}
 				}
 				if (saltoDobleCasillero != null) {
+					squareContainer.add(saltoDobleCasillero);
 					destino = this.tablero.getPosicion(saltoDobleCasillero);
 					// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 					if (destino.getValue() == null) {
@@ -81,6 +83,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 
 		if (casilleroAtaqueIzquirda != null) {
+			squareContainer.add(casilleroAtaqueIzquirda);
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
 			Pieza pieza = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
@@ -98,6 +101,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 
 		if (casilleroAtaqueDerecha != null) {
+			squareContainer.add(casilleroAtaqueDerecha);
 			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
 			Pieza pieza = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
@@ -116,6 +120,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 		
 		if (peonPasanteSquare != null) {
+			squareContainer.add(peonPasanteSquare);
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
 				destino = this.tablero.getPosicion(peonPasanteSquare);
 		    	Move move = new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare));

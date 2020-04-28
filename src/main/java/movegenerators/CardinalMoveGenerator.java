@@ -37,13 +37,13 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
+		    squareContainer.add(destino.getKey());
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
 		    	Move move = new SimpleMove(origen, destino);
 				if(this.filter.filterMove(move)){
 					moveContainer.add(move);
 				}
-					
 		    } else if(color.equals(pieza.getColor())){
 		    	break;
 		    } else if(color.opositeColor().equals(pieza.getColor())){
@@ -91,6 +91,6 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 
 	public void setBoardCache(BoardCache boardCache) {
 		this.boardCache = boardCache;
-	}	
+	}
 
 }

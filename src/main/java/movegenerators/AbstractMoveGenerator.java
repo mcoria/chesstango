@@ -5,6 +5,7 @@ import java.util.Collection;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
+import chess.Square;
 
 // Y si tenemos objetos prototipos de movimientos y lo clonamos de ser validos?
 public abstract class AbstractMoveGenerator implements MoveGenerator {
@@ -14,6 +15,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	protected DummyBoard tablero;
 	
 	protected Collection<Move> moveContainer;
+	
+	protected Collection<Square> squareContainer;
 	
 	protected MoveFilter filter = (Move move) -> true;
 	
@@ -35,4 +38,9 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	public void setMoveColector(Collection<Move> moveContainer){
 		this.moveContainer = moveContainer;
 	}
+	
+	@Override
+	public void setSquaresColector(Collection<Square> squareContainer) {
+		this.squareContainer = squareContainer;
+	}		
 }

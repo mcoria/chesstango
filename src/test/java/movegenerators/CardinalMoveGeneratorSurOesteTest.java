@@ -25,7 +25,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 	
 	private CardinalMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves; 
+	private Collection<Move> moves;
 
 	@Before
 	public void setUp() throws Exception {
@@ -45,6 +45,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 	
 		moveGenerator.setMoveColector(moves);
+		moveGenerator.setSquaresColector(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(4, moves.size());
@@ -68,6 +69,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 	
 		moveGenerator.setMoveColector(moves);
+		moveGenerator.setSquaresColector(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
@@ -90,6 +92,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 	
 		moveGenerator.setMoveColector(moves);
+		moveGenerator.setSquaresColector(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(4, moves.size());

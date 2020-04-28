@@ -2,37 +2,42 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class MoveCache {
-	protected List<Collection<Move>> tablero = new ArrayList<Collection<Move>>();
 	
+	@SuppressWarnings("unchecked")
+	protected Collection<Move> tablero[] = new Collection[64];
+	
+	@SuppressWarnings("unchecked")
+	protected Collection<Square> affects[] = new Collection[64];
+	
+
 	public MoveCache() {
 		for (int i = 0; i < 64; i++) {
-			tablero.add(createMoveContainer());
+			affects[i] = new ArrayList<Square>(); 
 		}
 	}
 	
-
 	public Collection<Move> getMoveContainer(Square key) {
-		return tablero.get(key.ordinal());
+		return tablero[key.ordinal()];
 	}
 	
-	private static Collection<Move> createMoveContainer(){
-		return new ArrayList<Move>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
+	public void setMoveContainer(Square key, Collection<Move> container) {
+		tablero[key.ordinal()] = container;
+	}
+	
+	public void setAffectedBy(Square key, Collection<Square> origenSquaresListener) {
+		for (Square square : origenSquaresListener) {
+			 affects[square.ordinal()].add(key);
+		}
+	}
 
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
-	}	
+	public void emptyContainversAffectedBy(Square key) {
+		Collection<Square> affecteds = affects[key.ordinal()];
+		for (Square square : affecteds) {
+			tablero[square.ordinal()] = null;
+		}
+		affecteds.clear();
+	}
+
 }

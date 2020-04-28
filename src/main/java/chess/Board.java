@@ -34,36 +34,36 @@ public class Board {
 		this.moveCache = new MoveCache();
 	}
 	
-	public Collection<Move> getLegalMoves(){
+	public Collection<Move> getLegalMoves() {
 		Collection<Move> moves = createMoveContainer();
 		Color turnoActual = boardState.getTurnoActual();
-		
+
 		// Iterar por las posiciones que fueron afectadas
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator
+				.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
-			
-			
-			Collection<Move> container = moveCache.getMoveContainer(origen.getKey());
-			container.clear();
-			
-			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-			moveGenerator.setMoveColector(container);
-			moveGenerator.generateMoves(origen);
-					
-			moves.addAll(container);
-			/*
-			if( origen is affected by lastMoved){
-				Pieza currentPieza = origen.getValue();
+
+			Collection<Move> origenMoveContainer = moveCache.getMoveContainer(origen.getKey());
+
+			if (origenMoveContainer == null) {
+				origenMoveContainer = createMoveContainer();
+				Collection<Square> origenSquaresListener = createMoveContainer();
+				
 				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-				moveGenerator.generateMoves(origen, moves);
-				cache.addMovimientos(origen, generatedMoves)
-			} else {
-				moves.add (cache.getMovimientos(origen)));
-			}*/
+				moveGenerator.setMoveColector(origenMoveContainer);
+				moveGenerator.setSquaresColector(origenSquaresListener);
+				
+				moveGenerator.generateMoves(origen);
+
+				moveCache.setMoveContainer(origen.getKey(), origenMoveContainer);
+				moveCache.setAffectedBy(origen.getKey(), origenSquaresListener);
+			}
 			
+			// Agregamos todos los movimientos
+			moves.addAll(origenMoveContainer);
 		}
-		
+
 		return moves;
 	}
 
@@ -151,6 +151,9 @@ public class Board {
 		
 		move.executeMove(boardState);
 		
+
+		move.executeMove(moveCache);
+		
 		//boardCache.validarCacheSqueare(this);		
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
@@ -159,6 +162,9 @@ public class Board {
 
 	public void undo(Move move) {
 		
+		move.undoMove(moveCache);		
+		
+		
 		move.undoMove(boardState);
 		
 		
@@ -166,8 +172,8 @@ public class Board {
 		
 		
 		move.undoMove(dummyBoard);
-
-
+		
+		
 		//boardCache.validarCacheSqueare(this);
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
@@ -212,8 +218,8 @@ public class Board {
 		return defaultFilter;
 	}	
 
-	private static Collection<Move> createMoveContainer(){
-		return new ArrayList<Move>() {
+	private static <T> Collection<T> createMoveContainer(){
+		return new ArrayList<T>() {
 			/**
 			 * 
 			 */
@@ -222,7 +228,7 @@ public class Board {
 			@Override
 			public String toString() {
 				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
+				for (T move : this) {
 					buffer.append(move.toString() + "\n");
 				}
 				return buffer.toString();

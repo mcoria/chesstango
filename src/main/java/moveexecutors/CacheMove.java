@@ -4,6 +4,7 @@ import chess.BoardCache;
 import chess.BoardState;
 import chess.DummyBoard;
 import chess.Move;
+import chess.MoveCache;
 import chess.PosicionPieza;
 
 //Lo camos a utilizar para evitar construir los objetos de movimiento de antemano
@@ -20,6 +21,16 @@ public final class CacheMove implements Move {
 		this.from =  from;
 		this.to = to;
 	}
+	
+	@Override
+	public PosicionPieza getFrom() {
+		return from;
+	}
+
+	@Override
+	public PosicionPieza getTo() {
+		return to;
+	}	
 	
 	@Override
 	public void executeMove(DummyBoard board) {
@@ -53,13 +64,14 @@ public final class CacheMove implements Move {
 	}
 
 	@Override
-	public PosicionPieza getFrom() {
-		return from;
+	public void executeMove(MoveCache moveCache) {
+		throw new RuntimeException("Mothod not implemented");
+		
 	}
 
 	@Override
-	public PosicionPieza getTo() {
-		return to;
+	public void undoMove(MoveCache moveCache) {
+		throw new RuntimeException("Mothod not implemented");
 	}
 
 }
