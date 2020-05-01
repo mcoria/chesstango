@@ -84,13 +84,31 @@ public class GameTest {
 		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
 		game.executeMove(Square.e2, Square.e4);
-		game.executeMove(Square.e7, Square.e5);
-		game.executeMove(Square.f1, Square.c4);
-		game.executeMove(Square.b8, Square.c6);
-		game.executeMove(Square.d1, Square.f3);
-		game.executeMove(Square.g8, Square.h6);
-		game.executeMove(Square.f3, Square.f7);
+		assertEquals(20, game.getMovimientosPosibles().size());
+		assertEquals(Color.NEGRO, game.getTurnoActual());		
 		
+		game.executeMove(Square.e7, Square.e5);
+		assertEquals(29, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());			
+		
+		game.executeMove(Square.f1, Square.c4);
+		assertEquals(29, game.getMovimientosPosibles().size());
+		assertEquals(Color.NEGRO, game.getTurnoActual());			
+		
+		game.executeMove(Square.b8, Square.c6);
+		assertEquals(33, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());			
+		
+		game.executeMove(Square.d1, Square.f3);
+		assertEquals(31, game.getMovimientosPosibles().size());
+		assertEquals(Color.NEGRO, game.getTurnoActual());			
+		
+		game.executeMove(Square.g8, Square.h6);
+		assertEquals(42, game.getMovimientosPosibles().size());
+		assertEquals(Color.BLANCO, game.getTurnoActual());			
+		
+		
+		game.executeMove(Square.f3, Square.f7);
 		assertEquals(Color.NEGRO, game.getTurnoActual());
 		assertEquals(GameStatus.IN_PROGRESS, game.getGameStatus());
 		assertTrue(game.getTablero().isKingInCheck());
@@ -342,7 +360,7 @@ public class GameTest {
 		game.undoMove();
 		assertEquals(48, game.getMovimientosPosibles().size());
 		
-	}
+	}	
 	
 	
 }

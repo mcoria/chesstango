@@ -24,44 +24,60 @@ public class Board {
 	
 	private DummyBoard dummyBoard = null;
 	
-	private MoveCache moveCache = null;
+	//private MoveCache moveCache = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = new BoardCache(this.dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
-		this.moveCache = new MoveCache();
+		//this.moveCache = new MoveCache();
 	}
 	
 	public Collection<Move> getLegalMoves() {
-		Collection<Move> moves = createMoveContainer();
+		Collection<Move> moves = createContainer();
 		Color turnoActual = boardState.getTurnoActual();
 
 		// Iterar por las posiciones que fueron afectadas
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator
 				.hasNext();) {
 			PosicionPieza origen = iterator.next();
+			
 			Pieza currentPieza = origen.getValue();
+			
+			assert turnoActual.equals(origen.getValue().getColor());
+			
+			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+			moveGenerator.setMoveContainer(moves);
+			moveGenerator.setAffectedBy(createContainer());
+			
+			moveGenerator.generateMoves(origen);
+			
 
-			Collection<Move> origenMoveContainer = moveCache.getMoveContainer(origen.getKey());
+			//Collection<Move> origenMoveContainer = moveCache.getMoveContainer(origen.getKey());
+			
+			/*
 
 			if (origenMoveContainer == null) {
-				origenMoveContainer = createMoveContainer();
-				Collection<Square> origenSquaresListener = createMoveContainer();
+				origenMoveContainer = createContainer();
+				Collection<Square> affectedBy = createContainer();
 				
 				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-				moveGenerator.setMoveColector(origenMoveContainer);
-				moveGenerator.setSquaresColector(origenSquaresListener);
+				moveGenerator.setMoveContainer(origenMoveContainer);
+				moveGenerator.setAffectedBy(affectedBy);
 				
 				moveGenerator.generateMoves(origen);
 
 				moveCache.setMoveContainer(origen.getKey(), origenMoveContainer);
-				moveCache.setAffectedBy(origen.getKey(), origenSquaresListener);
+				moveCache.setAffectedBy(origen.getKey(), affectedBy);
 			}
 			
-			// Agregamos todos los movimientos
-			moves.addAll(origenMoveContainer);
+			for (Move move : origenMoveContainer) {
+				if(this.filterMove(move)){
+					moves.add(move);
+				}
+			}
+			*/
 		}
 
 		return moves;
@@ -116,9 +132,13 @@ public class Board {
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
-			MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
-			if(moveGenerator.puedeCapturarPosicion(origen, square)){
-				return origen;
+			if(currentPieza != null){
+				MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
+				if(moveGenerator.puedeCapturarPosicion(origen, square)){
+					return origen;
+				}
+			} else {
+				throw new RuntimeException("Epa");
 			}
 		}
 		return null;
@@ -152,9 +172,9 @@ public class Board {
 		move.executeMove(boardState);
 		
 
-		move.executeMove(moveCache);
+		//move.executeMove(moveCache);
 		
-		//boardCache.validarCacheSqueare(this);		
+		boardCache.validarCacheSqueare(dummyBoard);		
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
@@ -162,7 +182,7 @@ public class Board {
 
 	public void undo(Move move) {
 		
-		move.undoMove(moveCache);		
+		//move.undoMove(moveCache);		
 		
 		
 		move.undoMove(boardState);
@@ -174,7 +194,7 @@ public class Board {
 		move.undoMove(dummyBoard);
 		
 		
-		//boardCache.validarCacheSqueare(this);
+		boardCache.validarCacheSqueare(dummyBoard);
 		
 		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
@@ -218,7 +238,7 @@ public class Board {
 		return defaultFilter;
 	}	
 
-	private static <T> Collection<T> createMoveContainer(){
+	private static <T> Collection<T> createContainer(){
 		return new ArrayList<T>() {
 			/**
 			 * 

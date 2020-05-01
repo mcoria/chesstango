@@ -190,6 +190,21 @@ public class ChessMainTest {
 		assertEquals(328511, rootNode.getChildNodesCounter());
 	}
 	
+	@Test
+	public void test_d2d3_a7a6_c1h6_a8a7_h6h5() {
+		Game board = builder.withDefaultBoard().buildGame();
+		
+		board.executeMove(Square.d2, Square.d3);
+		board.executeMove(Square.a7, Square.a6);
+		board.executeMove(Square.c1, Square.h6);
+		board.executeMove(Square.a8, Square.a7);
+		//board.executeMove(Square.h6, Square.h5);
+		
+		//Node rootNode = main.start(board, 1);
+		
+		//assertEquals(328511, rootNode.getChildNodesCounter());
+	}	
+	
 	
 	@Test
 	public void test_d2d3_c7c5() {

@@ -146,7 +146,7 @@ public class BoardCache {
 	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
 
-	/*
+	
 	public void validarCacheSqueare(DummyBoard board) {
 		int posicionesBlancas = 0;
 		int posicionesNegras = 0;
@@ -155,26 +155,26 @@ public class BoardCache {
 				Color color = posicionPieza.getValue().getColor();
 				if(Color.BLANCO.equals(color)){
 					posicionesBlancas++;
-					if(! squareBlancos.contains(posicionPieza.getKey() )){
+					if( (squareBlancos & posicionPieza.getKey().getPosicion()) == 0   ){
 						throw new RuntimeException("La posicion squareBlancos no se encuentra");
 					}
 				} else {
 					posicionesNegras++;
-					if(! squareNegros.contains(posicionPieza.getKey() )){
+					if( (squareNegros & posicionPieza.getKey().getPosicion()) == 0){
 						throw new RuntimeException("La posicion squareNegros no se encuentra");
 					}					
 				}
 			}
 		}
 		
-		if( posicionesBlancas != squareBlancos.size() ){
+		if( Long.bitCount(squareBlancos) != posicionesBlancas ){
 			throw new RuntimeException("Diferencias en cantidad de posicions blancas");
 		}
 		
-		if( posicionesNegras != squareNegros.size() ){
+		if( Long.bitCount(squareNegros) != posicionesNegras ){
 			throw new RuntimeException("Diferencias en cantidad de posicions negras");
 		}
-	}*/
+	}
 }
 
 

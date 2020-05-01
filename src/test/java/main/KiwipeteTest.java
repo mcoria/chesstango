@@ -212,7 +212,7 @@ public class KiwipeteTest {
 		
 		
 		assertEquals(39, board.getMovimientosPosibles().size());
-		assertEquals(39, rootNode.getChildNodesCounter());			
+		assertEquals(39, rootNode.getChildNodesCounter());
 	}
 	
 	@Test

@@ -35,12 +35,12 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	}
 
 	@Override
-	public void setMoveColector(Collection<Move> moveContainer){
+	public void setMoveContainer(Collection<Move> moveContainer){
 		this.moveContainer = moveContainer;
 	}
 	
 	@Override
-	public void setSquaresColector(Collection<Square> squareContainer) {
+	public void setAffectedBy(Collection<Square> squareContainer) {
 		this.squareContainer = squareContainer;
 	}		
 }

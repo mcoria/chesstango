@@ -53,8 +53,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(1, moves.size());
@@ -73,8 +73,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
@@ -94,8 +94,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(0, moves.size());
@@ -115,8 +115,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
@@ -140,8 +140,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
@@ -163,8 +163,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
@@ -188,8 +188,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(2, moves.size());
@@ -210,8 +210,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.TORRE_BLANCO) ));
@@ -236,8 +236,8 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.TORRE_BLANCO) ));

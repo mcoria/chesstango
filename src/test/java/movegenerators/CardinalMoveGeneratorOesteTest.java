@@ -44,8 +44,8 @@ public class CardinalMoveGeneratorOesteTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
 	
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(4, moves.size());
@@ -67,8 +67,8 @@ public class CardinalMoveGeneratorOesteTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
 	
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(3, moves.size());
@@ -89,8 +89,8 @@ public class CardinalMoveGeneratorOesteTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
 	
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertEquals(4, moves.size());

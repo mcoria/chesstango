@@ -42,8 +42,8 @@ public class ReinaMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.REINA_BLANCO);
 
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 
 		assertEquals(27, moves.size());

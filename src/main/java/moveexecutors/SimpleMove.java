@@ -3,6 +3,7 @@ package moveexecutors;
 import chess.BoardCache;
 import chess.BoardState;
 import chess.DummyBoard;
+import chess.MoveCache;
 import chess.PosicionPieza;
 
 public class SimpleMove extends AbstractMove {
@@ -43,6 +44,13 @@ public class SimpleMove extends AbstractMove {
 	public void undoMove(BoardCache boardCache) {
 		boardCache.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 	}	
+	
+	
+	@Override
+	public void updateMoveChache(MoveCache moveCache) {
+		moveCache.emptyContainversAffectedBy(from.getKey());
+		moveCache.emptyContainversAffectedBy(to.getKey());
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

@@ -2,6 +2,7 @@ package moveexecutors;
 
 import chess.BoardCache;
 import chess.DummyBoard;
+import chess.MoveCache;
 import chess.PosicionPieza;
 
 public class CapturePeonPasante extends SimpleMove {
@@ -38,6 +39,14 @@ public class CapturePeonPasante extends SimpleMove {
 
 		boardCache.addPositions(captura);
 	}
+	
+	@Override
+	public void updateMoveChache(MoveCache moveCache) {
+		moveCache.emptyContainversAffectedBy(from.getKey());
+		moveCache.emptyContainversAffectedBy(to.getKey());
+		moveCache.emptyContainversAffectedBy(captura.getKey());
+	}
+		
 	
 	@Override
 	public boolean equals(Object obj) {

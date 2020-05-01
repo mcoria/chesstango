@@ -56,8 +56,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
@@ -85,8 +85,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
@@ -116,8 +116,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -150,8 +150,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertFalse(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -184,8 +184,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -217,8 +217,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -246,8 +246,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -280,8 +280,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -316,8 +316,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -352,8 +352,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
@@ -387,8 +387,8 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(new ArrayList<Square>());
 		moveGenerator.generateMoves(origen);
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));

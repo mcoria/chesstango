@@ -25,13 +25,16 @@ public class AlfilMoveGeneratorTest {
 	
 	private AlfilMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves; 
+	private Collection<Move> moves;
+	
+	private Collection<Square> affectedBySquares;
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
 		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
+		affectedBySquares = new ArrayList<Square>();
 	}
 	
 	@Test
@@ -44,8 +47,8 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(affectedBySquares);
 		moveGenerator.generateMoves(origen);
 		
 		// NorteEste
@@ -69,7 +72,32 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.b8) ));
 		
-		assertEquals(13, moves.size());		
+		assertEquals(13, moves.size());
+		
+		
+		// NorteEste
+		assertTrue(affectedBySquares.contains( Square.f6 ));
+		assertTrue(affectedBySquares.contains( Square.g7 ));
+		assertTrue(affectedBySquares.contains( Square.h8 ));
+		
+		// SurEste
+		assertTrue(affectedBySquares.contains( Square.f4 ));
+		assertTrue(affectedBySquares.contains( Square.g3 ));
+		assertTrue(affectedBySquares.contains( Square.h2 ));
+		
+		// SurOeste
+		assertTrue(affectedBySquares.contains( Square.d4 ));
+		assertTrue(affectedBySquares.contains( Square.c3 ));
+		assertTrue(affectedBySquares.contains( Square.b2 ));
+		assertTrue(affectedBySquares.contains( Square.a1 ));
+		
+		// NorteOeste
+		assertTrue(affectedBySquares.contains( Square.d6 ));
+		assertTrue(affectedBySquares.contains( Square.c7 ));
+		assertTrue(affectedBySquares.contains( Square.b8 ));
+		
+		assertEquals(13, affectedBySquares.size());
+		
 	}
 	
 
@@ -85,15 +113,26 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.setMoveColector(moves);
-		moveGenerator.setSquaresColector(new ArrayList<Square>());
+		moveGenerator.setMoveContainer(moves);
+		moveGenerator.setAffectedBy(affectedBySquares);
 		moveGenerator.generateMoves(origen);
 
-		assertEquals(4, moves.size());
+		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Pieza.PEON_NEGRO) ));
+		assertEquals(4, moves.size());
+		
+		
+		//affectedBySquares
+		assertTrue(affectedBySquares.contains( Square.d2 ));
+		assertTrue(affectedBySquares.contains( Square.e3 ));
+		assertTrue(affectedBySquares.contains( Square.f4 ));
+		assertTrue(affectedBySquares.contains( Square.g5 ));
+		assertTrue(affectedBySquares.contains( Square.b2 ));
+		
+		assertEquals(5, affectedBySquares.size());		
 
 	}	
 

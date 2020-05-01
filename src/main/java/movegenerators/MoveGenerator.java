@@ -18,9 +18,9 @@ public interface MoveGenerator {
 
 	void setFilter(MoveFilter filter);
 	
-	void setMoveColector(Collection<Move> moveContainer);
+	void setMoveContainer(Collection<Move> moveContainer);
 
-	void setSquaresColector(Collection<Square> origenSquaresListener);
+	void setAffectedBy(Collection<Square> origenSquaresListener);
 	
 	// List<Move> getGeneratedMoves
 	
