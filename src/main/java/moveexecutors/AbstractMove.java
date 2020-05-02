@@ -3,11 +3,12 @@ package moveexecutors;
 import chess.Move;
 import chess.MoveCache;
 import chess.PosicionPieza;
-import chess.Square;
 
 public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
+	
+	public abstract void updateMoveChache(MoveCache moveCache);
 	
 	public AbstractMove(PosicionPieza from, PosicionPieza to) {
 		this.from = from;
@@ -38,8 +39,6 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	public void undoMove(MoveCache moveCache) {
 		updateMoveChache(moveCache);
 	}
-	
-	public abstract void updateMoveChache(MoveCache moveCache);
 	
 	@Override
 	public boolean equals(Object obj) {

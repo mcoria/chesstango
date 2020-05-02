@@ -42,13 +42,13 @@ public class Board {
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator
 				.hasNext();) {
 			
-			//boardCache.validarCacheSqueare(dummyBoard);
+			boardCache.validarCacheSqueare(dummyBoard);
 			
 			PosicionPieza origen = iterator.next();
 			
 			Pieza currentPieza = origen.getValue();
 			
-			assert turnoActual.equals(origen.getValue().getColor());
+			//assert turnoActual.equals(origen.getValue().getColor());
 
 			Collection<Move> pseudoMoves = moveCache.getMoveContainer(origen.getKey());
 
@@ -71,7 +71,7 @@ public class Board {
 					throw new RuntimeException("Que paso?!?!?");
 				}*/
 				
-				assert  origen.equals(move.getFrom());
+				//assert  origen.equals(move.getFrom());
 				
 				//boardCache.validarCacheSqueare(dummyBoard);
 				if(this.filterMove(move)){
@@ -80,7 +80,7 @@ public class Board {
 				//boardCache.validarCacheSqueare(dummyBoard);
 			}
 			
-			//boardCache.validarCacheSqueare(dummyBoard);
+			boardCache.validarCacheSqueare(dummyBoard);
 			
 		}
 
@@ -166,7 +166,7 @@ public class Board {
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
-		//boardCache.validarCacheSqueare(dummyBoard);
+		boardCache.validarCacheSqueare(dummyBoard);
 		
 		move.executeMove(dummyBoard);
 		
@@ -179,12 +179,12 @@ public class Board {
 
 		move.executeMove(moveCache);
 		
-		//boardCache.validarCacheSqueare(dummyBoard);		
+		boardCache.validarCacheSqueare(dummyBoard);		
 	}
 
 
 	public void undo(Move move) {
-		//boardCache.validarCacheSqueare(dummyBoard);
+		boardCache.validarCacheSqueare(dummyBoard);
 		
 		move.undoMove(moveCache);		
 		
@@ -198,7 +198,7 @@ public class Board {
 		move.undoMove(dummyBoard);
 		
 		
-		//boardCache.validarCacheSqueare(dummyBoard);
+		boardCache.validarCacheSqueare(dummyBoard);
 	}
 	///////////////////////////// END Move execution Logic /////////////////////////////
 	

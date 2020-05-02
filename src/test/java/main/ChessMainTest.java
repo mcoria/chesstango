@@ -191,6 +191,23 @@ public class ChessMainTest {
 	}
 	
 	@Test
+	public void test_d2d3_a7a5_b1a3_a5a4_c2c3() {
+		Game board = builder.withDefaultBoard().buildGame();
+		
+		board.executeMove(Square.d2, Square.d3);
+		board.executeMove(Square.a7, Square.a5);
+		board.executeMove(Square.b1, Square.a3);
+		board.executeMove(Square.a5, Square.a4);
+		board.executeMove(Square.c2, Square.c3);		
+		
+		//Node rootNode = main.start(board, 1);
+		
+		//assertEquals(20, board.getMovimientosPosibles().size());
+		//assertEquals(328511, rootNode.getChildNodesCounter());
+	}
+	
+	
+	@Test
 	public void test_d2d3_a7a6_c1h6_a8a7_h6h5() {
 		Game board = builder.withDefaultBoard().buildGame();
 		
