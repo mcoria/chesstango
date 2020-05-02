@@ -159,10 +159,15 @@ public class KiwipeteTest {
 		assertEquals(2039, rootNode.getChildNodesCounter());
 	}
 	
+	@Test
+	public void test_e2b5_e7f8() {
+		board.executeMove(Square.e2, Square.c4);
+		board.executeMove(Square.e7, Square.f8);
+	}
 	
 	
 	@Test
-	public void test_e2b5() {
+	public void test_e2b5u() {
 		board.executeMove(Square.e2, Square.c4);
 		board.undoMove();
 		

@@ -48,7 +48,7 @@ public class Board {
 			
 			Pieza currentPieza = origen.getValue();
 			
-			//assert turnoActual.equals(origen.getValue().getColor());
+			assert turnoActual.equals(origen.getValue().getColor());
 
 			Collection<Move> pseudoMoves = moveCache.getMoveContainer(origen.getKey());
 
@@ -66,18 +66,15 @@ public class Board {
 			}
 			
 			for (Move move : pseudoMoves) {
-				/*
 				if(! origen.equals(move.getFrom()) ){
 					throw new RuntimeException("Que paso?!?!?");
-				}*/
+				}
 				
-				//assert  origen.equals(move.getFrom());
+				assert  origen.equals(move.getFrom());
 				
-				//boardCache.validarCacheSqueare(dummyBoard);
 				if(this.filterMove(move)){
 					moves.add(move);
 				}
-				//boardCache.validarCacheSqueare(dummyBoard);
 			}
 			
 			boardCache.validarCacheSqueare(dummyBoard);
@@ -151,6 +148,8 @@ public class Board {
 	
 	private boolean filterMove(Move move) {
 		boolean result = false;
+		
+		boardCache.validarCacheSqueare(dummyBoard);
 				
 		move.executeMove(this.boardCache);
 		
@@ -160,6 +159,8 @@ public class Board {
 		}
 		
 		move.undoMove(this.boardCache);
+		
+		boardCache.validarCacheSqueare(dummyBoard);
 		
 		return result;
 	}

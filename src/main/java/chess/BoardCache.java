@@ -61,36 +61,28 @@ public class BoardCache {
 	
 	public void swapPositions(Color color, Square remove, Square add){
 		if(Color.BLANCO.equals(color)){
-			//squareBlancos.remove(remove);
 			squareBlancos &= ~remove.getPosicion();
 			
-			//squareBlancos.add(add);
 			squareBlancos |= add.getPosicion();
 		} else {
-			//squareNegros.remove(remove);
 			squareNegros &= ~remove.getPosicion();
 			
-			//squareNegros.add(add);
 			squareNegros |= add.getPosicion();
 		}
 	}
 	
 	public void addPositions(PosicionPieza position){
 		if(Color.BLANCO.equals(position.getValue().getColor())){
-			//squareBlancos.add(position.getKey());
 			squareBlancos |= position.getKey().getPosicion();
 		} else {
-			//squareNegros.add(position.getKey());
 			squareNegros |= position.getKey().getPosicion();
 		}
 	}
 	
 	public void removePositions(PosicionPieza position){
 		if(Color.BLANCO.equals(position.getValue().getColor())){
-			//squareBlancos.remove(position.getKey());
 			squareBlancos &= ~position.getKey().getPosicion();
 		} else {
-			//squareNegros.remove(position.getKey());	
 			squareNegros &= ~position.getKey().getPosicion();
 		}
 	}		

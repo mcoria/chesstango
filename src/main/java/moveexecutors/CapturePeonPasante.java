@@ -35,7 +35,6 @@ public class CapturePeonPasante extends SimpleMove {
 	@Override
 	public void undoMove(BoardCache boardCache) {
 		super.undoMove(boardCache);
-
 		boardCache.addPositions(captura);
 	}
 	

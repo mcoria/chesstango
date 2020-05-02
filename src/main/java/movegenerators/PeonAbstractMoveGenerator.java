@@ -118,7 +118,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 		
 		if (peonPasanteSquare != null) {
-			squareContainer.add(peonPasanteSquare);;
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
 				destino = this.tablero.getPosicion(peonPasanteSquare);
 		    	Move move = new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare));

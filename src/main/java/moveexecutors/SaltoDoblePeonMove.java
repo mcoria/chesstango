@@ -1,6 +1,7 @@
 package moveexecutors;
 
 import chess.BoardState;
+import chess.MoveCache;
 import chess.PosicionPieza;
 import chess.Square;
 
@@ -17,6 +18,13 @@ public class SaltoDoblePeonMove extends SimpleMove {
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
 		boardState.setPeonPasanteSquare(peonPasanteSquare);
+	}
+	
+	
+	@Override
+	public void updateMoveChache(MoveCache moveCache) {
+		super.updateMoveChache(moveCache);
+		moveCache.emptyContainversAffectedBy(peonPasanteSquare);
 	}
 	
 	@Override

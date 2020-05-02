@@ -67,6 +67,32 @@ public class BoardTest01 {
 		assertEquals(46, board.getLegalMoves().size());
 	}	
 	
+	
+	@Test
+	public void testJuegoPeonPasanteUndo() {
+		Collection<Move> legalMoves = null;
+		Move move = null;
+		Board board = builder.withFEN("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
+		
+		//Estado inicial
+		legalMoves = board.getLegalMoves();
+		assertEquals(19, legalMoves.size());
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+		
+		move = geteMove(legalMoves, Square.c7, Square.c5);
+		board.execute(move);
+		
+		legalMoves = board.getLegalMoves();
+		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
+		assertEquals(22, legalMoves.size());
+		
+		board.undo(move);
+		
+		legalMoves = board.getLegalMoves();
+		assertEquals(19, legalMoves.size());
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+	}	
+	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
 		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
 	}
@@ -77,5 +103,24 @@ public class BoardTest01 {
 	
 	private Move createCapturePeonPromocion(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
 		return new CapturaPeonPromocion(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza), promocion);
+	}
+	
+	
+	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
+		for (Move move : movimientos) {
+			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected Move geteMove(Collection<Move> movimientos, Square from, Square to) {
+		for (Move move : movimientos) {
+			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
+				return move;
+			}
+		}
+		return null;
 	}	
 }
