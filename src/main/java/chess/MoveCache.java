@@ -38,6 +38,7 @@ public class MoveCache {
 			tablero[square.ordinal()] = null;
 		}
 		affecteds.clear();
+		tablero[key.ordinal()] = null;
 	}
 
 }

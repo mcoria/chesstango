@@ -19,4 +19,6 @@ public interface MoveGenerator {
 
 	Collection<Square> getAffectedBy();
 
+	boolean saveMovesInCache();
+
 }

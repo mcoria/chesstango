@@ -86,6 +86,11 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureReyMove(origen, destino);
 	}
+	
+	@Override
+	public boolean saveMovesInCache() {
+		return false;
+	}	
 
 	public void setPositionCaptured(PositionCaptured positionCaptured) {
 		this.positionCaptured = positionCaptured;

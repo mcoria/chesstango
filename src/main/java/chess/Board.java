@@ -24,14 +24,14 @@ public class Board {
 	
 	private DummyBoard dummyBoard = null;
 	
-	//private MoveCache moveCache = null;
+	private MoveCache moveCache = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = new BoardCache(this.dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
-		//this.moveCache = new MoveCache();
+		this.moveCache = new MoveCache();
 	}
 	
 	public Collection<Move> getLegalMoves() {
@@ -41,48 +41,43 @@ public class Board {
 		// Iterar por las posiciones que fueron afectadas
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator
 				.hasNext();) {
+			
+			boardCache.validarCacheSqueare(dummyBoard);
+			
 			PosicionPieza origen = iterator.next();
 			
 			Pieza currentPieza = origen.getValue();
 			
 			assert turnoActual.equals(origen.getValue().getColor());
-			
-			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-			
-			moveGenerator.generatePseudoMoves(origen);
-			
-			Collection<Move> pseudoMoves = moveGenerator.getMoveContainer();
+
+			Collection<Move> pseudoMoves = moveCache.getMoveContainer(origen.getKey());
+
+			if (pseudoMoves == null) {
+				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+
+				moveGenerator.generatePseudoMoves(origen);
+				
+				pseudoMoves = moveGenerator.getMoveContainer();
+
+				if(moveGenerator.saveMovesInCache()){
+					moveCache.setMoveContainer(origen.getKey(), pseudoMoves);
+					moveCache.setAffectedBy(origen.getKey(), moveGenerator.getAffectedBy());
+				}
+			}
 			
 			for (Move move : pseudoMoves) {
+				if(! origen.equals(move.getFrom()) ){
+					throw new RuntimeException("Que paso?!?!?");
+				}
+				boardCache.validarCacheSqueare(dummyBoard);
 				if(this.filterMove(move)){
 					moves.add(move);
 				}
-			}			
-
-			//Collection<Move> origenMoveContainer = moveCache.getMoveContainer(origen.getKey());
-			
-			/*
-
-			if (origenMoveContainer == null) {
-				origenMoveContainer = createContainer();
-				Collection<Square> affectedBy = createContainer();
-				
-				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-				moveGenerator.setMoveContainer(origenMoveContainer);
-				moveGenerator.setAffectedBy(affectedBy);
-				
-				moveGenerator.generateMoves(origen);
-
-				moveCache.setMoveContainer(origen.getKey(), origenMoveContainer);
-				moveCache.setAffectedBy(origen.getKey(), affectedBy);
+				boardCache.validarCacheSqueare(dummyBoard);
 			}
 			
-			for (Move move : origenMoveContainer) {
-				if(this.filterMove(move)){
-					moves.add(move);
-				}
-			}
-			*/
+			boardCache.validarCacheSqueare(dummyBoard);
+			
 		}
 
 		return moves;
@@ -143,7 +138,7 @@ public class Board {
 					return origen;
 				}
 			} else {
-				throw new RuntimeException("Epa");
+				throw new RuntimeException("El cache quedó desactualizado");
 			}
 		}
 		return null;
@@ -179,7 +174,7 @@ public class Board {
 		move.executeMove(boardState);
 		
 
-		//move.executeMove(moveCache);
+		move.executeMove(moveCache);
 		
 		boardCache.validarCacheSqueare(dummyBoard);		
 	}
@@ -189,7 +184,7 @@ public class Board {
 		
 		boardCache.validarCacheSqueare(dummyBoard);
 		
-		//move.undoMove(moveCache);		
+		move.undoMove(moveCache);		
 		
 		
 		move.undoMove(boardState);

@@ -89,4 +89,9 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		this.boardCache = boardCache;
 	}
 
+	@Override
+	public boolean saveMovesInCache() {
+		return true;
+	}
+
 }

@@ -38,5 +38,10 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureMove(origen, destino);
 	}
+
+	@Override
+	public boolean saveMovesInCache() {
+		return true;
+	}
 	
 }

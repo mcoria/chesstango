@@ -157,6 +157,10 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		return false;
 	}
 
+	@Override
+	public boolean saveMovesInCache() {
+		return false;
+	}	
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;

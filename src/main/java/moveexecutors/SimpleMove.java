@@ -45,7 +45,6 @@ public class SimpleMove extends AbstractMove {
 		boardCache.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 	}	
 	
-	
 	@Override
 	public void updateMoveChache(MoveCache moveCache) {
 		moveCache.emptyContainversAffectedBy(from.getKey());
