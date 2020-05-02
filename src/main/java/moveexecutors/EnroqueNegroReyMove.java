@@ -1,7 +1,6 @@
 package moveexecutors;
 
 import chess.BoardState;
-import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -34,7 +33,7 @@ public class EnroqueNegroReyMove extends EnroqueMove {
 	}
 
 	@Override
-	protected Move getTorreMove() {
+	protected SimpleMove getTorreMove() {
 		return TORRE_MOVE;
 	}	
 	

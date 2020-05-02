@@ -39,12 +39,7 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 		updateMoveChache(moveCache);
 	}
 	
-	public void updateMoveChache(MoveCache moveCache) {
-		Square[] squares = Square.values();
-		for (Square square : squares) {
-			moveCache.emptyContainversAffectedBy(square);
-		}
-	}
+	public abstract void updateMoveChache(MoveCache moveCache);
 	
 	@Override
 	public boolean equals(Object obj) {
