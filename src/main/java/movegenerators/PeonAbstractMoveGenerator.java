@@ -31,6 +31,8 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Pieza[] getPiezaPromocion();
 	
+	private boolean saveMovesInCache;
+	
 	//protected CacheMove cacheMove = new CacheMove();
 	
 	//protected SimpleMove simpleMovePrototype = new SimpleMove();
@@ -41,6 +43,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	@Override
 	public void generateMoves(PosicionPieza origen){
+		this.saveMovesInCache = true;
 		int toRank = -1; //Just in case
 		Square casillero = origen.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
@@ -121,6 +124,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
 				destino = this.tablero.getPosicion(peonPasanteSquare);
 		    	Move move = new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare));
+		    	this.saveMovesInCache = false;
 		    	moveContainer.add(move);
 			}
 		}
@@ -151,7 +155,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
 	@Override
 	public boolean saveMovesInCache() {
-		return false;
+		return this.saveMovesInCache;
 	}	
 
 	public void setBoardState(BoardState boardState) {

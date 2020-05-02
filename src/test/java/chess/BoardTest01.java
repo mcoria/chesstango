@@ -79,19 +79,61 @@ public class BoardTest01 {
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 		
+		//Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
 		board.execute(move);
 		
+		//Podemos capturarlo
 		legalMoves = board.getLegalMoves();
 		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
 		assertEquals(22, legalMoves.size());
 		
+		//Volvemos atras
 		board.undo(move);
+
 		
+		//No podemos capturarlo
 		legalMoves = board.getLegalMoves();
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-	}	
+	}
+	
+	
+	@Test
+	public void testJuegoPeonPasante01() {
+		Collection<Move> legalMoves = null;
+		Move move = null;
+		Board board = builder.withFEN("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
+		
+		//Estado inicial
+		legalMoves = board.getLegalMoves();
+		assertEquals(19, legalMoves.size());
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+		
+		//Mueve el peon pasante
+		move = geteMove(legalMoves, Square.c7, Square.c5);
+		board.execute(move);
+		
+		//Podemos capturarlo
+		legalMoves = board.getLegalMoves();
+		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
+		assertEquals(22, legalMoves.size());
+
+		//Pero NO lo capturamos
+		legalMoves = board.getLegalMoves();
+		move = geteMove(legalMoves, Square.h2, Square.h3);
+		board.execute(move);
+		
+
+		legalMoves = board.getLegalMoves();
+		move = geteMove(legalMoves, Square.h7, Square.h6);
+		board.execute(move);
+		
+		//Ahora no podemos capturar el peon pasante !!!
+		legalMoves = board.getLegalMoves();
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+	}
+	
 	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
 		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
