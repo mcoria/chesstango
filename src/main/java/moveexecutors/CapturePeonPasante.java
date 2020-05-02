@@ -29,7 +29,6 @@ public class CapturePeonPasante extends SimpleMove {
 	@Override
 	public void executeMove(BoardCache boardCache) {
 		super.executeMove(boardCache);
-		
 		boardCache.removePositions(captura);
 	}
 
@@ -42,8 +41,7 @@ public class CapturePeonPasante extends SimpleMove {
 	
 	@Override
 	public void updateMoveChache(MoveCache moveCache) {
-		moveCache.emptyContainversAffectedBy(from.getKey());
-		moveCache.emptyContainversAffectedBy(to.getKey());
+		super.updateMoveChache(moveCache);
 		moveCache.emptyContainversAffectedBy(captura.getKey());
 	}
 		

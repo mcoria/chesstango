@@ -1,12 +1,14 @@
 package main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
+
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import chess.Game;
+import chess.Move;
 import chess.Square;
 import parsers.FENBoarBuilder;
 
@@ -186,7 +188,7 @@ public class ChessMainTest {
 		
 		Node rootNode = main.start(board, 4);
 		
-		//assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(20, board.getMovimientosPosibles().size());
 		assertEquals(328511, rootNode.getChildNodesCounter());
 	}
 	
@@ -200,10 +202,10 @@ public class ChessMainTest {
 		board.executeMove(Square.a5, Square.a4);
 		board.executeMove(Square.c2, Square.c3);		
 		
-		//Node rootNode = main.start(board, 1);
+		Node rootNode = main.start(board, 4);
 		
-		//assertEquals(20, board.getMovimientosPosibles().size());
-		//assertEquals(328511, rootNode.getChildNodesCounter());
+		assertEquals(21, board.getMovimientosPosibles().size());
+		assertEquals(438360, rootNode.getChildNodesCounter());
 	}
 	
 	
@@ -215,11 +217,13 @@ public class ChessMainTest {
 		board.executeMove(Square.a7, Square.a6);
 		board.executeMove(Square.c1, Square.h6);
 		board.executeMove(Square.a8, Square.a7);
-		//board.executeMove(Square.h6, Square.h5);
+
+		assertFalse( contieneMove(board.getMovimientosPosibles(), Square.h6, Square.h5) );
 		
-		//Node rootNode = main.start(board, 1);
+		Node rootNode = main.start(board, 4);
 		
-		//assertEquals(328511, rootNode.getChildNodesCounter());
+		assertEquals(29, board.getMovimientosPosibles().size());
+		assertEquals(319182, rootNode.getChildNodesCounter());		
 	}	
 	
 	
@@ -232,7 +236,7 @@ public class ChessMainTest {
 		
 		Node rootNode = main.start(board, 3);
 		
-		//assertEquals(20, board.getMovimientosPosibles().size());
+		assertEquals(27, board.getMovimientosPosibles().size());
 		assertEquals(15971, rootNode.getChildNodesCounter());
 	}
 	
@@ -244,10 +248,10 @@ public class ChessMainTest {
 		board.executeMove(Square.c7, Square.c5);
 		board.executeMove(Square.e1, Square.d2);
 		
-		Node rootNode = main.start(board, 2);
+		Node rootNode = main.start(board, 4);
 		
-		//assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(487, rootNode.getChildNodesCounter());
+		assertEquals(22, board.getMovimientosPosibles().size());
+		assertEquals(279506, rootNode.getChildNodesCounter());
 	}	
 	
 	
@@ -305,5 +309,14 @@ public class ChessMainTest {
 		assertEquals(4865609, rootNode.getChildNodesCounter());		
 				
 	} */
+	
+	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
+		for (Move move : movimientos) {
+			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
+				return true;
+			}
+		}
+		return false;
+	}	
 
 }
