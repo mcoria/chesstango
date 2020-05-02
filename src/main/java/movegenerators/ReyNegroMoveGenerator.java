@@ -22,10 +22,10 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMoves(PosicionPieza origen) {
-		//assert (Pieza.REY_NEGRO.equals(origen.getValue()));
-		
+	public void generateMoves(PosicionPieza origen) {		
 		super.generateMoves(origen);
+		
+		this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroReyPermitido()) ;
 		
 		if (this.boardState.isEnroqueNegroReinaPermitido() && 
 			puedeEnroqueReina(	this.tablero, 

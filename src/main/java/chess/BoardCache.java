@@ -138,7 +138,7 @@ public class BoardCache {
 	
 	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
 
-	
+	/*
 	public void validarCacheSqueare(DummyBoard board) {
 		int posicionesBlancas = 0;
 		int posicionesNegras = 0;
@@ -167,6 +167,7 @@ public class BoardCache {
 			throw new RuntimeException("Diferencias en cantidad de posicions negras");
 		}
 	}
+	*/
 }
 
 

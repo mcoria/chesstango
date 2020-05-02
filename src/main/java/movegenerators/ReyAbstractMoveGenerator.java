@@ -17,6 +17,8 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected BoardState boardState;
 	
+	protected boolean saveMovesInCache;
+	
 	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
 			{ 1, 1 }, // NE
 			{ -1, 1 }, // NO
@@ -85,13 +87,13 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	@Override
 	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureReyMove(origen, destino);
-	}
-	
-	@Override
-	public boolean saveMovesInCache() {
-		return false;
 	}	
 
+	@Override
+	public boolean saveMovesInCache() {
+		return this.saveMovesInCache;
+	}
+	
 	public void setPositionCaptured(PositionCaptured positionCaptured) {
 		this.positionCaptured = positionCaptured;
 	}
