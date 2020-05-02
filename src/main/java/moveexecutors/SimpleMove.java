@@ -47,8 +47,8 @@ public class SimpleMove extends AbstractMove {
 	
 	@Override
 	public void updateMoveChache(MoveCache moveCache) {
-		moveCache.emptyContainversAffectedBy(from.getKey());
-		moveCache.emptyContainversAffectedBy(to.getKey());
+		moveCache.clearPseudoMovesAffectedBy(from.getKey());
+		moveCache.clearPseudoMovesAffectedBy(to.getKey());
 	}
 	
 	@Override

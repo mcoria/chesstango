@@ -50,7 +50,7 @@ public class Board {
 			
 			//assert turnoActual.equals(origen.getValue().getColor());
 
-			Collection<Move> pseudoMoves = moveCache.getMoveContainer(origen.getKey());
+			Collection<Move> pseudoMoves = moveCache.getPseudoMoves(origen.getKey());
 
 			if (pseudoMoves == null) {
 				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
@@ -60,7 +60,7 @@ public class Board {
 				pseudoMoves = moveGenerator.getMoveContainer();
 
 				if(moveGenerator.saveMovesInCache()){
-					moveCache.setMoveContainer(origen.getKey(), pseudoMoves);
+					moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
 					moveCache.setAffectedBy(origen.getKey(), moveGenerator.getAffectedBy());
 				}
 			}

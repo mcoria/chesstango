@@ -6,7 +6,7 @@ import java.util.Collection;
 public class MoveCache {
 	
 	@SuppressWarnings("unchecked")
-	protected Collection<Move> tablero[] = new Collection[64];
+	protected Collection<Move> pseudoMoves[] = new Collection[64];
 	
 	@SuppressWarnings("unchecked")
 	protected Collection<Square> affects[] = new Collection[64];
@@ -18,12 +18,12 @@ public class MoveCache {
 		}
 	}
 	
-	public Collection<Move> getMoveContainer(Square key) {
-		return tablero[key.ordinal()];
+	public Collection<Move> getPseudoMoves(Square key) {
+		return pseudoMoves[key.ordinal()];
 	}
 	
-	public void setMoveContainer(Square key, Collection<Move> container) {
-		tablero[key.ordinal()] = container;
+	public void setPseudoMoves(Square key, Collection<Move> container) {
+		pseudoMoves[key.ordinal()] = container;
 	}
 	
 	public void setAffectedBy(Square key, Collection<Square> origenSquaresListener) {
@@ -32,13 +32,13 @@ public class MoveCache {
 		}
 	}
 
-	public void emptyContainversAffectedBy(Square key) {
+	public void clearPseudoMovesAffectedBy(Square key) {
 		Collection<Square> affecteds = affects[key.ordinal()];
 		for (Square square : affecteds) {
-			tablero[square.ordinal()] = null;
+			pseudoMoves[square.ordinal()] = null;
 		}
 		affecteds.clear();
-		tablero[key.ordinal()] = null;
+		pseudoMoves[key.ordinal()] = null;
 	}
 
 }
