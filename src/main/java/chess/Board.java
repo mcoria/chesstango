@@ -35,9 +35,22 @@ public class Board {
 	}
 	
 	public Collection<Move> getLegalMoves() {
-		Collection<Move> moves = createContainer();
+		Collection<Square> pinnedSquares = null;
+		
 		Color turnoActual = boardState.getTurnoActual();
 
+		boolean isKingInCheck = isKingInCheck();
+		
+		if(! isKingInCheck ){
+			Square kingSquare = boardCache.getKingSquare(turnoActual);
+			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
+			pinnedSquares = reyMoveGenerator.getPinned(kingSquare);
+		}
+		
+		
+		Collection<Move> moves = createContainer();
+		
+		
 		// Iterar por las posiciones que fueron afectadas
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator
 				.hasNext();) {
@@ -65,18 +78,23 @@ public class Board {
 				}
 			}
 			
-			for (Move move : pseudoMoves) {
-				/*
-				if(! origen.equals(move.getFrom()) ){
-					throw new RuntimeException("Que paso?!?!?");
+			if( isKingInCheck || pinnedSquares.contains(origen.getKey()) ){
+				for (Move move : pseudoMoves) {
+					/*
+					if(! origen.equals(move.getFrom()) ){
+						throw new RuntimeException("Que paso?!?!?");
+					}
+					*/
+					
+					//assert  origen.equals(move.getFrom());
+					
+					if(this.filterMove(move)){
+						moves.add(move);
+					}
 				}
-				*/
 				
-				//assert  origen.equals(move.getFrom());
-				
-				if(this.filterMove(move)){
-					moves.add(move);
-				}
+			} else {
+				moves.addAll(pseudoMoves);
 			}
 			
 			//boardCache.validarCacheSqueare(dummyBoard);

@@ -102,4 +102,8 @@ public class MoveGeneratorStrategy {
 		return value;
 	}
 
+	public ReyAbstractMoveGenerator getReyMoveGenerator(Color color) {
+		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
+	}
+
 }

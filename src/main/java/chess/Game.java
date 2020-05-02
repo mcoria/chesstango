@@ -77,13 +77,12 @@ public class Game {
 	}
 	
 	protected Move getMovimiento(Square from, Square to) {
-		Move moveResult = null;
 		for (Move move : boardPila.getMovimientosPosibles()) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
-				moveResult = move;
+				return move;
 			}
 		}
-		return moveResult;
+		return null;
 	}
 
 	@Override

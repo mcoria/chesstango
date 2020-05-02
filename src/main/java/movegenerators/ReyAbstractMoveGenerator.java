@@ -1,11 +1,18 @@
 package movegenerators;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
+import chess.Pieza;
 import chess.PosicionPieza;
 import chess.PositionCaptured;
 import chess.Square;
+import iterators.Cardinal;
+import iterators.CardinalSquareIterator;
 import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
 import moveexecutors.SimpleMove;
@@ -20,13 +27,13 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	protected boolean saveMovesInCache;
 	
 	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
-			{ 1, 1 }, // NE
-			{ -1, 1 }, // NO
-			{ 0, -1 }, // Sur
-			{ 1, -1 }, // SE
+			{ 1, 1 },   // NE
+			{ -1, 1 },  // NO
+			{ 0, -1 },  // Sur
+			{ 1, -1 },  // SE
 			{ -1, -1 }, // SO
-			{ 1, 0 }, // Este
-			{ -1, 0 }, // Oeste
+			{ 1, 0 },   // Este
+			{ -1, 0 },  // Oeste
 	};
 	
 	public ReyAbstractMoveGenerator(Color color) {
@@ -101,6 +108,35 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
+	}
+
+	private final Cardinal[] direcciones = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
+	
+	public Collection<Square> getPinned(Square kingSquare) {
+		Collection<Square> pinnedCollection = new ArrayList<Square>();
+		for (Cardinal cardinal : this.direcciones) {
+			getPinned(kingSquare, cardinal, pinnedCollection);
+		}
+		pinnedCollection.add(kingSquare);
+		return pinnedCollection;
 	}	
 
+	
+	protected void getPinned(Square kingSquare, Cardinal cardinal, Collection<Square> pinnedCollection) {
+		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, kingSquare));
+		while (iterator.hasNext()) {
+		    PosicionPieza destino = iterator.next();
+		    Pieza pieza = destino.getValue();
+		    if(pieza == null){
+		    	continue;
+		    } else if(color.equals(pieza.getColor())){
+		    	pinnedCollection.add(destino.getKey());
+		    	break;
+		    } else if(color.opositeColor().equals(pieza.getColor())){
+		    	break;
+		    }
+		}
+	}
+	
+	
 }
