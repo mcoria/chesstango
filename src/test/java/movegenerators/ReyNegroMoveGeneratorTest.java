@@ -60,9 +60,9 @@ public class ReyNegroMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -85,8 +85,6 @@ public class ReyNegroMoveGeneratorTest {
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d8, Square.e7});
 		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
-		
-		moveGenerator.setFilter((Move move) -> ! positionCaptured.contains(move.getTo().getKey()));
 	
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -94,17 +92,19 @@ public class ReyNegroMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
 		
-		assertFalse(moves.contains( createSimpleMove(origen, Square.d8) ));
+		moves = moveGenerator.getMoveContainer();
+		
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
-		assertFalse(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertEquals(3, moves.size());
+		assertFalse(moves.contains( new EnroqueNegroReynaMove() ));
+		
+		assertEquals(5, moves.size());
 	}
 	
 	@Test
@@ -119,24 +119,25 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
 		
-		moveGenerator.setFilter((Move move) -> ! positionCaptured.contains(move.getTo().getKey()));
-		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.f5));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertEquals(4, moves.size());
+		assertFalse(moves.contains( new EnroqueNegroReynaMove() ));
+		
+		assertEquals(5, moves.size());
 	}		
 	
 	@Test
@@ -153,9 +154,9 @@ public class ReyNegroMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
@@ -172,7 +173,6 @@ public class ReyNegroMoveGeneratorTest {
 		DummyBoard tablero = builder.withTablero("4k2r/8/3B4/8/8/8/8/8").withEnroqueNegroReyPermitido(true).buildDummyBoard();
 		
 		state.setEnroqueNegroReyPermitido(true);
-		
 
 		moveGenerator.setTablero(tablero);
 		
@@ -180,25 +180,25 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
 		
-		moveGenerator.setFilter((Move move) -> ! positionCaptured.contains(move.getTo().getKey()));
-		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.d6));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
-		assertFalse(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
-		assertFalse(moves.contains( createSimpleMove(origen, Square.f8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertEquals(3, moves.size());
+		assertFalse(moves.contains( new EnroqueNegroReyMove() ));
+		
+		assertEquals(5, moves.size());
 	}
 	
 	@Test
@@ -213,24 +213,25 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
 		
-		moveGenerator.setFilter((Move move) -> ! positionCaptured.contains(move.getTo().getKey()));
-		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.d5));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertEquals(4, moves.size());
+		assertFalse(moves.contains( new EnroqueNegroReyMove() ));
+		
+		assertEquals(5, moves.size());
 	}		
 
 	@Test
@@ -238,14 +239,13 @@ public class ReyNegroMoveGeneratorTest {
 		DummyBoard tablero = builder.withTablero("r3k2r/8/8/4R3/8/8/8/8").buildDummyBoard();
 		
 		state.setEnroqueNegroReyPermitido(true);
+		state.setEnroqueNegroReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e6, Square.e7, Square.e8});
 		
 		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
-		
-		moveGenerator.setFilter((Move move) -> ! positionCaptured.contains(move.getTo().getKey()));	
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.a8));
@@ -254,17 +254,19 @@ public class ReyNegroMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_NEGRO.getKey(), Pieza.REY_NEGRO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertFalse(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertFalse(moves.contains(  new EnroqueNegroReyMove() ));
+		assertFalse(moves.contains(  new EnroqueNegroReynaMove() ));
 		
-		assertEquals(4, moves.size());
+		assertEquals(5, moves.size());
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

@@ -53,9 +53,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(1, moves.size());
 		
@@ -73,9 +73,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(2, moves.size());
 		
@@ -94,9 +94,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(0, moves.size());
 		
@@ -115,9 +115,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(3, moves.size());
 		
@@ -140,9 +140,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(2, moves.size());
 		
@@ -163,9 +163,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(3, moves.size());
 		
@@ -188,9 +188,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertEquals(2, moves.size());
 		
@@ -210,9 +210,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.TORRE_BLANCO) ));
 		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.CABALLO_BLANCO) ));
@@ -236,9 +236,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(new ArrayList<Square>());
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.TORRE_BLANCO) ));
 		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.CABALLO_BLANCO) ));

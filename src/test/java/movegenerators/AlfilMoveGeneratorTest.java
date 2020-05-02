@@ -3,14 +3,13 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.DummyBoard;
 import chess.Color;
+import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -33,8 +32,6 @@ public class AlfilMoveGeneratorTest {
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
 		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
-		moves = new ArrayList<Move>();
-		affectedBySquares = new ArrayList<Square>();
 	}
 	
 	@Test
@@ -47,9 +44,9 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(affectedBySquares);
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -73,7 +70,9 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.b8) ));
 		
 		assertEquals(13, moves.size());
+
 		
+		affectedBySquares = moveGenerator.getAffectedBy();
 		
 		// NorteEste
 		assertTrue(affectedBySquares.contains( Square.f6 ));
@@ -113,18 +112,22 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.setMoveContainer(moves);
-		moveGenerator.setAffectedBy(affectedBySquares);
-		moveGenerator.generateMoves(origen);
+		moveGenerator.generatePseudoMoves(origen);
+		
+		moves = moveGenerator.getMoveContainer();
 
 		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Pieza.PEON_NEGRO) ));
+		
 		assertEquals(4, moves.size());
 		
 		
+
+		affectedBySquares =  moveGenerator.getAffectedBy();
+
 		//affectedBySquares
 		assertTrue(affectedBySquares.contains( Square.d2 ));
 		assertTrue(affectedBySquares.contains( Square.e3 ));

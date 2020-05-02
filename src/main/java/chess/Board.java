@@ -48,11 +48,16 @@ public class Board {
 			assert turnoActual.equals(origen.getValue().getColor());
 			
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
-			moveGenerator.setMoveContainer(moves);
-			moveGenerator.setAffectedBy(createContainer());
 			
-			moveGenerator.generateMoves(origen);
+			moveGenerator.generatePseudoMoves(origen);
 			
+			Collection<Move> pseudoMoves = moveGenerator.getMoveContainer();
+			
+			for (Move move : pseudoMoves) {
+				if(this.filterMove(move)){
+					moves.add(move);
+				}
+			}			
 
 			//Collection<Move> origenMoveContainer = moveCache.getMoveContainer(origen.getKey());
 			
@@ -163,6 +168,8 @@ public class Board {
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
 		
+		boardCache.validarCacheSqueare(dummyBoard);
+		
 		move.executeMove(dummyBoard);
 		
 
@@ -175,12 +182,12 @@ public class Board {
 		//move.executeMove(moveCache);
 		
 		boardCache.validarCacheSqueare(dummyBoard);		
-		
-		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
 
 
 	public void undo(Move move) {
+		
+		boardCache.validarCacheSqueare(dummyBoard);
 		
 		//move.undoMove(moveCache);		
 		
@@ -195,15 +202,12 @@ public class Board {
 		
 		
 		boardCache.validarCacheSqueare(dummyBoard);
-		
-		//assert validarSquares(squareBlancos, Color.BLANCO) && validarSquares(squareNegros, Color.NEGRO);
 	}
 	///////////////////////////// END Move execution Logic /////////////////////////////
 	
 	
 	public void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(this.dummyBoard);
-		moveGenerator.setFilter(this.defaultFilter);
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
 			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;

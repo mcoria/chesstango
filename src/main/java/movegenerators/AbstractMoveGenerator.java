@@ -1,10 +1,12 @@
 package movegenerators;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
+import chess.PosicionPieza;
 import chess.Square;
 
 // Y si tenemos objetos prototipos de movimientos y lo clonamos de ser validos?
@@ -18,10 +20,17 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected Collection<Square> squareContainer;
 	
-	protected MoveFilter filter = (Move move) -> true;
+	public abstract void generateMoves(PosicionPieza origen);
 	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;
+	}
+	
+	@Override
+	public void generatePseudoMoves(PosicionPieza origen){
+		moveContainer = createContainer(); 
+		squareContainer = createContainer();
+		generateMoves(origen);
 	}
 
 	@Override
@@ -30,17 +39,30 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	}
 
 	@Override
-	public void setFilter(MoveFilter filter) {
-		this.filter = filter;
-	}
-
-	@Override
-	public void setMoveContainer(Collection<Move> moveContainer){
-		this.moveContainer = moveContainer;
+	public Collection<Move> getMoveContainer(){
+		return moveContainer;
 	}
 	
 	@Override
-	public void setAffectedBy(Collection<Square> squareContainer) {
-		this.squareContainer = squareContainer;
-	}		
+	public Collection<Square> getAffectedBy() {
+		return squareContainer;
+	}
+	
+	private static <T> Collection<T> createContainer(){
+		return new ArrayList<T>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
+
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (T move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
+	}	
 }
