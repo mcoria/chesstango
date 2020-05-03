@@ -2,12 +2,11 @@ package movegenerators;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
+import chess.BoardCache;
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
-import chess.Pieza;
 import chess.PosicionPieza;
 import chess.PositionCaptured;
 import chess.Square;
@@ -25,6 +24,8 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	protected BoardState boardState;
 	
 	protected boolean saveMovesInCache;
+	
+	protected BoardCache boardCache;
 	
 	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
@@ -100,15 +101,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	public boolean saveMovesInCache() {
 		return this.saveMovesInCache;
 	}
-	
-	public void setPositionCaptured(PositionCaptured positionCaptured) {
-		this.positionCaptured = positionCaptured;
-	}
-
-
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
-	}
 
 	private final Cardinal[] direcciones = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
@@ -122,21 +114,33 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	}	
 
 	
-	protected void getPinned(Square kingSquare, Cardinal cardinal, Collection<Square> pinnedCollection) {
-		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, kingSquare));
-		while (iterator.hasNext()) {
-		    PosicionPieza destino = iterator.next();
-		    Pieza pieza = destino.getValue();
-		    if(pieza == null){
+	protected void getPinned(Square kingSquare, Cardinal cardinal, Collection<Square> pinnedCollection) {		
+		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, kingSquare);
+		while ( iterator.hasNext() ) {
+		    Square destino = iterator.next();
+		    Color colorDestino = boardCache.getColor(destino);
+		    if(colorDestino == null){
 		    	continue;
-		    } else if(color.equals(pieza.getColor())){
-		    	pinnedCollection.add(destino.getKey());
+		    } else if(color.equals(colorDestino)){
+		    	pinnedCollection.add(destino);
 		    	break;
-		    } else if(color.opositeColor().equals(pieza.getColor())){
+		    } else if(color.opositeColor().equals(colorDestino)){
 		    	break;
 		    }
 		}
 	}
 	
+	public void setPositionCaptured(PositionCaptured positionCaptured) {
+		this.positionCaptured = positionCaptured;
+	}
+
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+	}
+	
+	public void setBoardCache(BoardCache boardCache) {
+		this.boardCache = boardCache;
+	}	
 	
 }

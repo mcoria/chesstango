@@ -234,6 +234,7 @@ public class Board {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured((Color color, Square square) -> isPositionCaptured(color, square));
+			generator.setBoardCache(this.boardCache);
 			
 		} else if(moveGenerator instanceof CardinalMoveGenerator){
 			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;

@@ -52,7 +52,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 
-	//Reveer estas dos operaciones, se pueden mejorar
+
 	@Override
 	public boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare) {
 		for (Cardinal cardinal : this.direcciones) {
@@ -69,15 +69,12 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, casillero);
 		while ( iterator.hasNext() ) {
 		    Square destino = iterator.next();
+	    	if(kingSquare.equals(destino)){
+	    		return true;
+	    	}
 		    if(this.boardCache.isEmpty(destino)){
-		    	if(kingSquare.equals(destino)){
-		    		return true;
-		    	}
 		    	continue;
-		    } else {
-		    	if(kingSquare.equals(destino)){
-		    		return true;
-		    	}		    	
+		    } else {		    	
 		    	break;
 			}
 		}

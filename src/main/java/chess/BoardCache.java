@@ -126,6 +126,14 @@ public class BoardCache {
 		}
 	}
 
+	public Color getColor(Square square) {
+		if ((squareBlancos & square.getPosicion()) != 0) {
+			return Color.BLANCO;
+		} else if ((squareNegros & square.getPosicion()) != 0) {
+			return Color.NEGRO;
+		}
+		return null;
+	}
 	
 	private PosicionPieza lastChecker;
 	public PosicionPieza getLastChecker() {
