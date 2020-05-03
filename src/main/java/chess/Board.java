@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import iterators.SquareIterator;
 import movegenerators.CardinalMoveGenerator;
 import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
@@ -47,26 +48,24 @@ public class Board {
 			pinnedSquares = reyMoveGenerator.getPinned(kingSquare);
 		}
 		
-		
 		Collection<Move> moves = createContainer();
 		
-		
-		// Iterar por las posiciones que fueron afectadas
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(turnoActual)); iterator
-				.hasNext();) {
-			
+
+		for (SquareIterator iterator = boardCache.iteratorSquare(turnoActual); iterator.hasNext();) {
+				
 			//boardCache.validarCacheSqueare(dummyBoard);
 			
-			PosicionPieza origen = iterator.next();
-			
-			Pieza currentPieza = origen.getValue();
+			Square origenSquare = iterator.next();
 			
 			//assert turnoActual.equals(origen.getValue().getColor());
 
-			Collection<Move> pseudoMoves = moveCache.getPseudoMoves(origen.getKey());
+			Collection<Move> pseudoMoves = moveCache.getPseudoMoves(origenSquare);
 
 			if (pseudoMoves == null) {
-				MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+				
+				PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
+				
+				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
 
 				moveGenerator.generatePseudoMoves(origen);
 				
@@ -78,7 +77,7 @@ public class Board {
 				}
 			}
 			
-			if( isKingInCheck || pinnedSquares.contains(origen.getKey()) ){
+			if( isKingInCheck || pinnedSquares.contains(origenSquare) ){
 				for (Move move : pseudoMoves) {
 					/*
 					if(! origen.equals(move.getFrom()) ){
