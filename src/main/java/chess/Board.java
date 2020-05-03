@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import iterators.SquareIterator;
 import movegenerators.CardinalMoveGenerator;
-import movegenerators.MoveFilter;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.PeonAbstractMoveGenerator;
@@ -14,8 +13,6 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 
 public class Board {
-	
-	private MoveFilter defaultFilter = (Move move) -> filterMove(move);
 	
 	private MoveGeneratorStrategy strategy = null; 
 	
@@ -87,7 +84,7 @@ public class Board {
 					
 					//assert  origen.equals(move.getFrom());
 					
-					if(this.filterMove(move)){
+					if(this.filterMove(isKingInCheck, move)){
 						moves.add(move);
 					}
 				}
@@ -165,13 +162,14 @@ public class Board {
 	}
 	
 	
-	private boolean filterMove(Move move) {
+	private boolean filterMove(boolean isKingInCheck, Move move) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 				
 		move.executeMove(this.boardCache);
 		
+
 		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
 			result = true;
@@ -248,10 +246,6 @@ public class Board {
 	public BoardState getBoardState() {
 		return boardState;
 	}
-	
-	public MoveFilter getDefaultFilter(){
-		return defaultFilter;
-	}	
 
 	private static <T> Collection<T> createContainer(){
 		return new ArrayList<T>() {
