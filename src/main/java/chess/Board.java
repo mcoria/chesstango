@@ -172,7 +172,7 @@ public class Board {
 				
 		move.executeMove(this.boardCache);
 		
-		// Habria que preguntar si aquellos para los cuales su situacion cambió pueden ahora pueden capturar al rey. 
+		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
 		if(! this.isKingInCheck() ) {
 			result = true;
 		}

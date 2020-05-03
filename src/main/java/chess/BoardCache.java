@@ -122,7 +122,7 @@ public class BoardCache {
 		} else if(Color.NEGRO.equals(color)){
 			return (squareNegros & square.getPosicion()) != 0;
 		} else{
-			throw new RuntimeException("Color not set");
+			throw new RuntimeException("Empty square");
 		}
 	}
 
@@ -135,6 +135,10 @@ public class BoardCache {
 		return null;
 	}
 	
+	///////////////////////////// END Cache Iteration Logic /////////////////////////////	
+	
+	///////////////////////////// START Last Checker Logic /////////////////////////////
+	
 	private PosicionPieza lastChecker;
 	public PosicionPieza getLastChecker() {
 		return lastChecker;
@@ -144,7 +148,7 @@ public class BoardCache {
 		this.lastChecker = checker;
 	}	
 	
-	///////////////////////////// START Cache Iteration Logic /////////////////////////////		
+	///////////////////////////// END Last Checker Logic /////////////////////////////		
 
 	/*
 	public void validarCacheSqueare(DummyBoard board) {
