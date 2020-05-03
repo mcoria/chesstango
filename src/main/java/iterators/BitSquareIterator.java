@@ -16,8 +16,7 @@ public class BitSquareIterator implements SquareIterator {
 	
 	private final long posiciones;
 	
-	private Square nextPoint = null;
-	private int idx = 0;
+	private int idx = -1;
 	
 	public BitSquareIterator(long posiciones) {
 		this.posiciones = posiciones;
@@ -26,23 +25,20 @@ public class BitSquareIterator implements SquareIterator {
 	
 	@Override
 	public boolean hasNext() {
-		return this.nextPoint != null;
+		return idx < 64;
 	}
 
 	@Override
 	public Square next() {
-		Square currentPoint = this.nextPoint;
+		int currentIdx = this.idx;
 		calcularNextPoint();
-		return currentPoint;
+		return array[currentIdx];
 	}
 	
 	private void calcularNextPoint() {
-		this.nextPoint = null;
-		while (this.idx < 64 && nextPoint == null) {
-			Square currentSquare = array[this.idx]; 
-			this.nextPoint = (currentSquare.getPosicion() & this.posiciones) != 0 ? currentSquare : null;
+		do {
 			this.idx++;
-		}
+		} while (this.idx < 64 && (this.posiciones & (1L << this.idx)) == 0);
 	}
 
 }

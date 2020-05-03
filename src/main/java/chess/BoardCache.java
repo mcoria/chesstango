@@ -102,10 +102,8 @@ public class BoardCache {
 			Pieza pieza = posicionPieza.getValue();
 			if (pieza != null) {
 				if (Color.BLANCO.equals(pieza.getColor())) {
-					//squareBlancos.add(posicionPieza.getKey());
 					squareBlancos |= posicionPieza.getKey().getPosicion();
 				} else if (Color.NEGRO.equals(pieza.getColor())) {
-					//squareNegros.add(posicionPieza.getKey());
 					squareNegros |= posicionPieza.getKey().getPosicion();
 				}
 			}			

@@ -35,7 +35,7 @@ public class BoardBitSquareIterator implements Iterator<PosicionPieza> {
 	private void calcularNextPoint() {
 		do {
 			this.idx++;
-		} while (this.idx < 64 && ((posiciones >> this.idx) & 1L) == 0);
+		} while (this.idx < 64 && (posiciones & (1L << this.idx)) == 0);
 	}
 
 }
