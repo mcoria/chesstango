@@ -146,20 +146,20 @@ public class Board {
 	/*
 	 * Observar que este método itera las posiciones en base a boardCache.
 	 * Luego obtiene la posicion de dummyBoard.
-	 * Esto implica que puede boardCache esta actualizado en todo momento. 
+	 * Esto implica que boardCache necesita estar actualizado en todo momento. 
 	 */
 	protected PosicionPieza positionCaptured(Color color, Square square){
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
-			if(currentPieza != null){
-				MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
-				if(moveGenerator.puedeCapturarPosicion(origen, square)){
-					return origen;
-				}
-			} else {
-				throw new RuntimeException("El cache quedó desactualizado");
+			//if(currentPieza != null){
+			MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
+			if(moveGenerator.puedeCapturarPosicion(origen, square)){
+				return origen;
 			}
+			//} else {
+			//	throw new RuntimeException("El cache quedó desactualizado");
+			//}
 		}
 		return null;
 	}
@@ -189,15 +189,12 @@ public class Board {
 		//boardCache.validarCacheSqueare(dummyBoard);
 		
 		move.executeMove(dummyBoard);
-		
 
 		move.executeMove(boardCache);
-		
-		
-		move.executeMove(boardState);
-		
 
 		move.executeMove(moveCache);
+		
+		move.executeMove(boardState);
 		
 		//boardCache.validarCacheSqueare(dummyBoard);		
 	}
@@ -206,17 +203,13 @@ public class Board {
 	public void undo(Move move) {
 		//boardCache.validarCacheSqueare(dummyBoard);
 		
-		move.undoMove(moveCache);		
+		move.undoMove(boardState);		
 		
-		
-		move.undoMove(boardState);
-		
+		move.undoMove(moveCache);
 		
 		move.undoMove(boardCache);
 		
-		
 		move.undoMove(dummyBoard);
-		
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 	}
