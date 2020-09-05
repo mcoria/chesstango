@@ -30,7 +30,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		Iterator<PosicionPieza> iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
-		    squareContainer.add(destino.getKey());
+		    affectedByContainer.add(destino.getKey());
 			Pieza pieza = destino.getValue();
 			if(pieza == null){
 				Move move = createSimpleMove(origen, destino);

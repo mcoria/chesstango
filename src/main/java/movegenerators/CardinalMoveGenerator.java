@@ -37,7 +37,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
-		    squareContainer.add(destino.getKey());
+		    affectedByContainer.add(destino.getKey());
 		    Pieza pieza = destino.getValue();
 		    if(pieza == null){
 		    	Move move = new SimpleMove(origen, destino);

@@ -59,7 +59,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		
 		if (saltoSimpleCasillero != null) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
-			squareContainer.add(saltoSimpleCasillero);
+			affectedByContainer.add(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
 				Move moveSaltoSimple = new SimpleMove(origen, destino);
@@ -73,7 +73,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 					
 					if (saltoDobleCasillero != null) {
 						destino = this.tablero.getPosicion(saltoDobleCasillero);
-						squareContainer.add(saltoDobleCasillero);
+						affectedByContainer.add(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
 							Move moveSaltoDoble = new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
@@ -86,7 +86,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueIzquirda != null) {			
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
-			squareContainer.add(casilleroAtaqueIzquirda);
+			affectedByContainer.add(casilleroAtaqueIzquirda);
 			Pieza pieza = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
@@ -105,7 +105,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueDerecha != null) {
 			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
-			squareContainer.add(casilleroAtaqueDerecha);
+			affectedByContainer.add(casilleroAtaqueDerecha);
 			Pieza pieza = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {

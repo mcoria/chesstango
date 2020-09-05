@@ -18,7 +18,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected Collection<Move> moveContainer;
 	
-	protected Collection<Square> squareContainer;
+	protected Collection<Square> affectedByContainer;
 	
 	public abstract void generateMoves(PosicionPieza origen);
 	
@@ -29,7 +29,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	@Override
 	public void calculatePseudoMoves(PosicionPieza origen){
 		moveContainer = createContainer(); 
-		squareContainer = createContainer();
+		affectedByContainer = createContainer();
 		generateMoves(origen);
 	}
 
@@ -45,7 +45,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	@Override
 	public Collection<Square> getAffectedBy() {
-		return squareContainer;
+		return affectedByContainer;
 	}
 	
 	private static <T> Collection<T> createContainer(){
