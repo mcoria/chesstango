@@ -9,13 +9,13 @@ import chess.Square;
 
 public interface MoveGenerator {
 
-	void generatePseudoMoves(PosicionPieza origen);
+	void calculatePseudoMoves(PosicionPieza origen);
 
 	boolean puedeCapturarPosicion(PosicionPieza origen, Square square);
 	
 	void setTablero(DummyBoard tablero);
 	
-	Collection<Move> getMoveContainer();
+	Collection<Move> getPseudoMoves();
 
 	Collection<Square> getAffectedBy();
 

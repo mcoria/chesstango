@@ -63,9 +63,9 @@ public class Board {
 				
 				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
 
-				moveGenerator.generatePseudoMoves(origen);
+				moveGenerator.calculatePseudoMoves(origen);
 				
-				pseudoMoves = moveGenerator.getMoveContainer();
+				pseudoMoves = moveGenerator.getPseudoMoves();
 
 				if(moveGenerator.saveMovesInCache()){
 					moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);

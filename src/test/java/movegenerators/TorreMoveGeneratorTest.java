@@ -43,9 +43,9 @@ public class TorreMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
 	
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(14, moves.size());
 		
@@ -84,9 +84,9 @@ public class TorreMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
 	
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(13, moves.size());
 		

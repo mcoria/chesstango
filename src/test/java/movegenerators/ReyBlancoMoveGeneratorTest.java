@@ -56,9 +56,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
@@ -85,9 +85,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -116,9 +116,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -148,9 +148,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -181,9 +181,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -213,9 +213,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -242,9 +242,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -274,9 +274,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -306,9 +306,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -339,9 +339,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -373,9 +373,9 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLANCO.getKey(), Pieza.REY_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d1) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));

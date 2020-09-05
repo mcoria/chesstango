@@ -27,7 +27,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	}
 	
 	@Override
-	public void generatePseudoMoves(PosicionPieza origen){
+	public void calculatePseudoMoves(PosicionPieza origen){
 		moveContainer = createContainer(); 
 		squareContainer = createContainer();
 		generateMoves(origen);
@@ -39,7 +39,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	}
 
 	@Override
-	public Collection<Move> getMoveContainer(){
+	public Collection<Move> getPseudoMoves(){
 		return moveContainer;
 	}
 	

@@ -53,9 +53,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -73,9 +73,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(2, moves.size());
 		
@@ -94,9 +94,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(0, moves.size());
 		
@@ -115,9 +115,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(3, moves.size());
 		
@@ -140,9 +140,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(2, moves.size());
 		
@@ -163,9 +163,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(3, moves.size());
 		
@@ -188,9 +188,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertEquals(2, moves.size());
 		
@@ -210,9 +210,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.TORRE_BLANCO) ));
 		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.CABALLO_BLANCO) ));
@@ -236,9 +236,9 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
 		
-		moveGenerator.generatePseudoMoves(origen);
+		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getMoveContainer();
+		moves = moveGenerator.getPseudoMoves();
 		
 		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.TORRE_BLANCO) ));
 		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_NEGRO, Pieza.CABALLO_BLANCO) ));
