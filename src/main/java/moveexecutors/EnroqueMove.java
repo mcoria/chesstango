@@ -55,6 +55,13 @@ public abstract class EnroqueMove extends AbstractMove {
 		getTorreMove().updateMoveChache(moveCache);		
 	}
 	
+	
+	@Override
+	public long getAffecteds() {
+		return from.getKey().getPosicion() & to.getKey().getPosicion();
+	}
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof EnroqueMove){

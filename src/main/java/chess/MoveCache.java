@@ -35,4 +35,14 @@ public class MoveCache {
 		pseudoMoves[key.toIdx()] = null;
 	}
 
+	public long calcularAffectedBy(long positions, long posicionesColor) {
+		long result = 0;
+		for (int i = 0; i < 64; i++) {
+			if ((positions & (1L << i)) != 0) {
+				
+			}
+		}
+		return result;
+	}
+
 }

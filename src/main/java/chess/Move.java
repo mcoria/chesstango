@@ -15,5 +15,7 @@ public interface Move {
 	void undoMove(BoardCache boardCache);
 	
 	void executeMove(MoveCache moveCache);
-	void undoMove(MoveCache moveCache);	
+	void undoMove(MoveCache moveCache);
+	
+	long getAffecteds();	
 }

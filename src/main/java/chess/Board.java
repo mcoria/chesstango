@@ -22,28 +22,18 @@ public class Board {
 	
 	private DummyBoard dummyBoard = null;
 	
-	private MoveCache moveCache = null;
+	//private MoveCache moveCache = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = new BoardCache(this.dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
-		this.moveCache = new MoveCache();
+		//this.moveCache = new MoveCache();
 	}
 	
 	public Collection<Move> getLegalMoves() {
-		Collection<Square> pinnedSquares = null;
-		
 		Color turnoActual = boardState.getTurnoActual();
-
-		boolean isKingInCheck = isKingInCheck();
-		
-		if(! isKingInCheck ){
-			Square kingSquare = boardCache.getKingSquare(turnoActual);
-			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
-			pinnedSquares = reyMoveGenerator.getPinned(kingSquare);
-		}
 		
 		Collection<Move> moves = createContainer();
 		
@@ -56,41 +46,28 @@ public class Board {
 			
 			//assert turnoActual.equals(origen.getValue().getColor());
 
-			Collection<Move> pseudoMoves = moveCache.getPseudoMoves(origenSquare);
-
-			if (pseudoMoves == null) {
 				
-				PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
-				
-				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
-
-				moveGenerator.generatePseudoMoves(origen);
-				
-				pseudoMoves = moveGenerator.getMoveContainer();
-
-				if(moveGenerator.saveMovesInCache()){
-					moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
-					moveCache.setAffectedBy(origen.getKey(), moveGenerator.getAffectedBy());
-				}
-			}
+			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
 			
-			if( isKingInCheck || pinnedSquares.contains(origenSquare) ){
-				for (Move move : pseudoMoves) {
-					/*
-					if(! origen.equals(move.getFrom()) ){
-						throw new RuntimeException("Que paso?!?!?");
-					}
-					*/
-					
-					//assert  origen.equals(move.getFrom());
-					
-					if(this.filterMove(isKingInCheck, move)){
-						moves.add(move);
-					}
+			MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+
+			moveGenerator.generatePseudoMoves(origen);
+			
+			Collection<Move> pseudoMoves = moveGenerator.getMoveContainer();
+
+			
+			for (Move move : pseudoMoves) {
+				/*
+				if(! origen.equals(move.getFrom()) ){
+					throw new RuntimeException("Que paso?!?!?");
 				}
+				*/
 				
-			} else {
-				moves.addAll(pseudoMoves);
+				//assert  origen.equals(move.getFrom());
+				
+				if(this.filterMove(move)){
+					moves.add(move);
+				}
 			}
 			
 			//boardCache.validarCacheSqueare(dummyBoard);
@@ -154,23 +131,19 @@ public class Board {
 			if(moveGenerator.puedeCapturarPosicion(origen, square)){
 				return origen;
 			}
-			//} else {
-			//	throw new RuntimeException("El cache quedó desactualizado");
-			//}
 		}
 		return null;
 	}
 	
 	
-	private boolean filterMove(boolean isKingInCheck, Move move) {
+	private boolean filterMove(Move move) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 				
 		move.executeMove(this.boardCache);
-		
 
-		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
+		// Le largamos con todo
 		if(! this.isKingInCheck() ) {
 			result = true;
 		}
@@ -190,7 +163,7 @@ public class Board {
 
 		move.executeMove(boardCache);
 
-		move.executeMove(moveCache);
+		//move.executeMove(moveCache);
 		
 		move.executeMove(boardState);
 		
@@ -203,7 +176,7 @@ public class Board {
 		
 		move.undoMove(boardState);		
 		
-		move.undoMove(moveCache);
+		//move.undoMove(moveCache);
 		
 		move.undoMove(boardCache);
 		
