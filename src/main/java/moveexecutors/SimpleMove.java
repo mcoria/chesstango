@@ -63,9 +63,4 @@ public class SimpleMove extends AbstractMove {
 	protected String getType() {
 		return "SimpleMove";
 	}
-
-	@Override
-	public long getAffecteds() {
-		return from.getKey().getPosicion() & to.getKey().getPosicion();
-	}
 }

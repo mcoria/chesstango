@@ -73,10 +73,5 @@ public final class CacheMove implements Move {
 	public void undoMove(MoveCache moveCache) {
 		throw new RuntimeException("Mothod not implemented");
 	}
-	
-	@Override
-	public long getAffecteds() {
-		return from.getKey().getPosicion() & to.getKey().getPosicion();
-	}	
 
 }
