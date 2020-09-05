@@ -46,9 +46,9 @@ public class CaballoMoveGeneratorTest {
 	
 		PosicionPieza origen = new PosicionPieza(from, Pieza.CABALLO_BLANCO);
 		
-		moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getPseudoMoves();
+		moves = generatorResult.getPseudoMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.g6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.g4) ));

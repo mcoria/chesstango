@@ -44,9 +44,10 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getPseudoMoves();
+		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		
+		moves = generatorResult.getPseudoMoves();
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -72,7 +73,7 @@ public class AlfilMoveGeneratorTest {
 		assertEquals(13, moves.size());
 
 		
-		affectedBySquares = moveGenerator.getAffectedBy();
+		affectedBySquares = generatorResult.getAffectedBy();
 		
 		// NorteEste
 		assertTrue(affectedBySquares.contains( Square.f6 ));
@@ -112,9 +113,9 @@ public class AlfilMoveGeneratorTest {
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
 
-		moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = moveGenerator.getPseudoMoves();
+		moves = generatorResult.getPseudoMoves();
 
 		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -123,10 +124,8 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Pieza.PEON_NEGRO) ));
 		
 		assertEquals(4, moves.size());
-		
-		
 
-		affectedBySquares =  moveGenerator.getAffectedBy();
+		affectedBySquares =  generatorResult.getAffectedBy();
 
 		//affectedBySquares
 		assertTrue(affectedBySquares.contains( Square.d2 ));

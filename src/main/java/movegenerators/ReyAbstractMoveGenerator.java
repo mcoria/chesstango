@@ -87,6 +87,16 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		return false;
 	}
 	
+	private final Cardinal[] direcciones = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
+	
+	public Collection<Square> getPinnedSquare(Square kingSquare) {
+		Collection<Square> pinnedCollection = new ArrayList<Square>();
+		for (Cardinal cardinal : this.direcciones) {
+			getPinned(kingSquare, cardinal, pinnedCollection);
+		}
+		return pinnedCollection;
+	}		
+	
 	@Override
 	protected SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
 		return new SimpleReyMove(origen, destino);
@@ -101,16 +111,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	public boolean saveMovesInCache() {
 		return this.saveMovesInCache;
 	}
-
-	private final Cardinal[] direcciones = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
-	
-	public Collection<Square> getPinnedSquare(Square kingSquare) {
-		Collection<Square> pinnedCollection = new ArrayList<Square>();
-		for (Cardinal cardinal : this.direcciones) {
-			getPinned(kingSquare, cardinal, pinnedCollection);
-		}
-		return pinnedCollection;
-	}	
 
 	
 	protected void getPinned(Square kingSquare, Cardinal cardinal, Collection<Square> pinnedCollection) {		

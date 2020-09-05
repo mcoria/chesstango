@@ -7,6 +7,7 @@ import java.util.Iterator;
 import iterators.SquareIterator;
 import movegenerators.CardinalMoveGenerator;
 import movegenerators.MoveGenerator;
+import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
@@ -63,21 +64,20 @@ public class Board {
 				
 				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
 
-				moveGenerator.calculatePseudoMoves(origen);
+				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 				
-				pseudoMoves = moveGenerator.getPseudoMoves();
+				pseudoMoves = generatorResult.getPseudoMoves();
 
-				if(moveGenerator.saveMovesInCache()){
+				if(generatorResult.isSaveMovesInCache()){
 					moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
-					moveCache.setAffectedBy(origen.getKey(), moveGenerator.getAffectedBy());
+					moveCache.setAffectedBy(origen.getKey(), generatorResult.getAffectedBy());
 				}
 			}
 			
 			// Si el rey esta en jaque
 			// O se mueve el rey
 			// O se mueve un pieza que protege al Rey
-			
-			if( isKingInCheck || origenSquare.equals(kingSquare)  || pinnedSquares.contains(origenSquare) ){
+			if( isKingInCheck || pinnedSquares.contains(origenSquare) || origenSquare.equals(kingSquare)){
 				for (Move move : pseudoMoves) {
 					/*
 					if(! origen.equals(move.getFrom()) ){
