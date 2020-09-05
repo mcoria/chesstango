@@ -33,16 +33,15 @@ public class Board {
 	}
 	
 	public Collection<Move> getLegalMoves() {
-		Collection<Square> pinnedSquares = null;
-		
-		Color turnoActual = boardState.getTurnoActual();
-
+		Color 	turnoActual = boardState.getTurnoActual();
 		boolean isKingInCheck = isKingInCheck();
-		
+		Square 	kingSquare = null;
+		Collection<Square> pinnedSquares = null; // Casilleros donde se encuentran piezas propias que de moverse pueden desproteger al Rey.
+
 		if(! isKingInCheck ){
-			Square kingSquare = boardCache.getKingSquare(turnoActual);
+			kingSquare = boardCache.getKingSquare(turnoActual);
 			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
-			pinnedSquares = reyMoveGenerator.getPinned(kingSquare);
+			pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 		}
 		
 		Collection<Move> moves = createContainer();
@@ -74,7 +73,11 @@ public class Board {
 				}
 			}
 			
-			if( isKingInCheck || pinnedSquares.contains(origenSquare) ){
+			// Si el rey esta en jaque
+			// O se mueve el rey
+			// O se mueve un pieza que protege al Rey
+			
+			if( isKingInCheck || origenSquare.equals(kingSquare)  || pinnedSquares.contains(origenSquare) ){
 				for (Move move : pseudoMoves) {
 					/*
 					if(! origen.equals(move.getFrom()) ){
@@ -84,7 +87,7 @@ public class Board {
 					
 					//assert  origen.equals(move.getFrom());
 					
-					if(this.filterMove(isKingInCheck, move)){
+					if(this.filterMove(move)){
 						moves.add(move);
 					}
 				}
@@ -162,7 +165,7 @@ public class Board {
 	}
 	
 	
-	private boolean filterMove(boolean isKingInCheck, Move move) {
+	private boolean filterMove(Move move) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);

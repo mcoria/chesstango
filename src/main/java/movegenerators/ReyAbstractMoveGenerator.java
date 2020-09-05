@@ -104,12 +104,11 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 
 	private final Cardinal[] direcciones = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
-	public Collection<Square> getPinned(Square kingSquare) {
+	public Collection<Square> getPinnedSquare(Square kingSquare) {
 		Collection<Square> pinnedCollection = new ArrayList<Square>();
 		for (Cardinal cardinal : this.direcciones) {
 			getPinned(kingSquare, cardinal, pinnedCollection);
 		}
-		pinnedCollection.add(kingSquare);
 		return pinnedCollection;
 	}	
 
