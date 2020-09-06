@@ -25,8 +25,10 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 	public void generateMoves(PosicionPieza origen) {
 		super.generateMoves(origen);
 		
+		//ver KiwipeteTest.test_d5d6_h3g2
 		this.saveMovesInCache =  ! (this.boardState.isEnroqueBlancoReinaPermitido() ||  this.boardState.isEnroqueBlancoReyPermitido()) ;
 		
+		//this.saveMovesInCache = true;
 		
 		if (this.boardState.isEnroqueBlancoReinaPermitido() && 
 			puedeEnroqueReina(	this.tablero, 
@@ -36,7 +38,12 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
+			//result.affectedByContainerAdd(Square.a1);
+			//result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
+			//result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
+			//result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);
 			result.moveContainerAdd(new EnroqueBlancoReynaMove());
+			//this.saveMovesInCache = false;
 		}
 		
 		
@@ -47,7 +54,11 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 							CachePosiciones.TORRE_BLANCA_REY,
 							DESTINO_REY_SQUARE, 
 							INTERMEDIO_REY_REY_SQUARE)) {
+			//result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
+			//result.affectedByContainerAdd(DESTINO_REY_SQUARE);
+			//result.affectedByContainerAdd(Square.h1);
 			result.moveContainerAdd(new EnroqueBlancoReyMove());
+			//this.saveMovesInCache = false;
 		}
 	}
 

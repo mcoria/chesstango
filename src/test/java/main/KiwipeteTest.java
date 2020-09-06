@@ -395,6 +395,7 @@ public class KiwipeteTest {
 		assertEquals(1, rootNode.getChildNode(Square.a1, Square.d1 ).getChildNodesCounter());
 		assertEquals(1, rootNode.getChildNode(Square.h1, Square.g1 ).getChildNodesCounter());
 		assertEquals(1, rootNode.getChildNode(Square.h1, Square.f1 ).getChildNodesCounter());
+		assertNull(rootNode.getChildNode(Square.e1 , Square.g1 ));
 		
 		assertEquals(47, board.getMovimientosPosibles().size());
 		assertEquals(47, rootNode.getChildNodesCounter());		

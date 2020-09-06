@@ -95,23 +95,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 			getPinned(kingSquare, cardinal, pinnedCollection);
 		}
 		return pinnedCollection;
-	}		
-	
-	@Override
-	protected SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
-		return new SimpleReyMove(origen, destino);
 	}
-
-	@Override
-	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureReyMove(origen, destino);
-	}	
-
-	@Override
-	public boolean saveMovesInCache() {
-		return this.saveMovesInCache;
-	}
-
 	
 	protected void getPinned(Square kingSquare, Cardinal cardinal, Collection<Square> pinnedCollection) {		
 		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, kingSquare);
@@ -127,6 +111,21 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		    	break;
 		    }
 		}
+	}	
+	
+	@Override
+	protected SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+		return new SimpleReyMove(origen, destino);
+	}
+
+	@Override
+	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		return new CaptureReyMove(origen, destino);
+	}	
+
+	@Override
+	public boolean saveMovesInCache() {
+		return this.saveMovesInCache;
 	}
 	
 	public void setPositionCaptured(PositionCaptured positionCaptured) {
