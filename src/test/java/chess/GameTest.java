@@ -108,8 +108,7 @@ public class GameTest {
 		
 		game.executeMove(Square.f3, Square.f7);
 		assertEquals(Color.NEGRO, game.getTurnoActual());
-		assertEquals(GameStatus.IN_PROGRESS, game.getGameStatus());
-		assertTrue(game.getTablero().isKingInCheck());
+		assertEquals(GameStatus.JAQUE, game.getGameStatus());
 		assertEquals(1, game.getMovimientosPosibles().size());
 	}
 	

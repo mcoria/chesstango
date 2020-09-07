@@ -17,6 +17,7 @@ public class GameStack {
 		private Move movimientoSeleccionado;
 		private GameStatus status;		
 	}
+	
 	private Deque<Node> stackNode = new ArrayDeque<Node>();
 
 	public Collection<Move> getMovimientosPosibles() {

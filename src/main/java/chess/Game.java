@@ -6,8 +6,9 @@ public class Game {
 	
 	public static enum GameStatus {
 		IN_PROGRESS,
-		TABLAS,
-		JAQUE_MATE
+		JAQUE,
+		JAQUE_MATE, 
+		TABLAS		
 	}
 	
 	private Board tablero;
@@ -20,9 +21,9 @@ public class Game {
 	}
 
 	public GameStatus executeMove(Square from, Square to) {
-		if(GameStatus.IN_PROGRESS.equals(boardPila.getStatus())){
+		if (GameStatus.IN_PROGRESS.equals(boardPila.getStatus()) || GameStatus.JAQUE.equals(boardPila.getStatus())) {
 			Move move = getMovimiento(from, to);
-			if(move != null) {
+			if (move != null) {
 				return executeMove(move);
 			} else {
 				throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
@@ -57,17 +58,22 @@ public class Game {
 	}
 	
 	protected GameStatus updateGameStatus() {
-		Collection<Move> movimientosPosibles = tablero.getLegalMoves();
+		BoardResult result = tablero.getBoardResult();
+		Collection<Move> movimientosPosibles = result.getLegalMoves();
 		GameStatus status = null;
 		
 		if(movimientosPosibles.isEmpty()){
-			if( tablero.isKingInCheck() ){
+			if( result.isKingInCheck() ){
 				status = GameStatus.JAQUE_MATE;
 			} else {
 				status = GameStatus.TABLAS;
 			}
 		} else {
-			status = GameStatus.IN_PROGRESS;
+			if( result.isKingInCheck() ){
+				status = GameStatus.JAQUE;
+			} else {
+				status = GameStatus.IN_PROGRESS;
+			}			
 		}
 		
 		boardPila.setMovimientosPosibles(movimientosPosibles);

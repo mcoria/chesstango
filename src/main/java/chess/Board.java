@@ -14,28 +14,32 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 
 public class Board {
-	
-	private MoveGeneratorStrategy strategy = null; 
-	
-	private BoardState boardState = null;
-	
+
+	// Al final del dia estas son dos representaciones distintas del tablero
+	private DummyBoard dummyBoard = null; 
 	private BoardCache boardCache = null;
 	
-	private DummyBoard dummyBoard = null;
-	
+	// Esta es una capa mas de informacion del tablero
 	private MoveCache moveCache = null;
+	
+	private BoardState boardState = null;	
+	
+	private MoveGeneratorStrategy strategy = null;
+	
+	private final boolean useMoveCache = false;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
-		this.boardState = boardState;
 		this.boardCache = new BoardCache(this.dummyBoard);
+		this.boardState = boardState;
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
+		//this.checkAnalyzer = new CheckAnalyzer(dummyBoard, boardState, boardCache, strategy);
 	}
 	
-	public Collection<Move> getLegalMoves() {
-		Color 	turnoActual = boardState.getTurnoActual();
+	public BoardResult getBoardResult() {
 		boolean isKingInCheck = isKingInCheck();
+		Color 	turnoActual = boardState.getTurnoActual();
 		Square 	kingSquare = null;
 		Collection<Square> pinnedSquares = null; // Casilleros donde se encuentran piezas propias que de moverse pueden desproteger al Rey.
 
@@ -44,7 +48,7 @@ public class Board {
 			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
 			pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 		}
-		
+
 		Collection<Move> moves = createContainer();
 		
 
@@ -56,22 +60,38 @@ public class Board {
 			
 			//assert turnoActual.equals(origen.getValue().getColor());
 
-			Collection<Move> pseudoMoves = moveCache.getPseudoMoves(origenSquare);
+			Collection<Move> pseudoMoves = null;
+			
+			
+			if (useMoveCache) {
 
-			if (pseudoMoves == null) {
-				
+				pseudoMoves = moveCache.getPseudoMoves(origenSquare);
+
+				if (pseudoMoves == null) {
+
+					PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
+
+					MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+
+					MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+
+					pseudoMoves = generatorResult.getPseudoMoves();
+
+					if (generatorResult.isSaveMovesInCache()) {
+						moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
+						moveCache.setAffectedBy(origen.getKey(), generatorResult.getAffectedBy());
+					}
+				}
+			} else {
+
 				PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
-				
+
 				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
 
 				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-				
+
 				pseudoMoves = generatorResult.getPseudoMoves();
 
-				if(generatorResult.isSaveMovesInCache()){
-					moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
-					moveCache.setAffectedBy(origen.getKey(), generatorResult.getAffectedBy());
-				}
 			}
 			
 			// Si el rey esta en jaque
@@ -99,11 +119,15 @@ public class Board {
 			//boardCache.validarCacheSqueare(dummyBoard);
 			
 		}
+		
+		BoardResult result = new BoardResult();
+		result.setKingInCheck(isKingInCheck);
+		result.setLegalMoves(moves);
 
-		return moves;
+		return result;
 	}
 
-	public boolean isKingInCheck() {
+	private boolean isKingInCheck() {
 		Color turno = boardState.getTurnoActual();
 		Square kingSquare = boardCache.getKingSquare(turno);
 
@@ -187,32 +211,35 @@ public class Board {
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
-		//boardCache.validarCacheSqueare(dummyBoard);
-		
+		// boardCache.validarCacheSqueare(dummyBoard);
+
 		move.executeMove(dummyBoard);
 
 		move.executeMove(boardCache);
 
-		move.executeMove(moveCache);
-		
+		if (useMoveCache) {
+			move.executeMove(moveCache);
+		}
+
 		move.executeMove(boardState);
-		
-		//boardCache.validarCacheSqueare(dummyBoard);		
+
+		// boardCache.validarCacheSqueare(dummyBoard);
 	}
 
-
 	public void undo(Move move) {
-		//boardCache.validarCacheSqueare(dummyBoard);
-		
-		move.undoMove(boardState);		
-		
-		move.undoMove(moveCache);
-		
+		// boardCache.validarCacheSqueare(dummyBoard);
+
+		move.undoMove(boardState);
+
+		if (useMoveCache) {
+			move.undoMove(moveCache);
+		}
+
 		move.undoMove(boardCache);
-		
+
 		move.undoMove(dummyBoard);
-		
-		//boardCache.validarCacheSqueare(dummyBoard);
+
+		// boardCache.validarCacheSqueare(dummyBoard);
 	}
 	///////////////////////////// END Move execution Logic /////////////////////////////
 	
