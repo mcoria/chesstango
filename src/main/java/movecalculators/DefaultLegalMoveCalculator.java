@@ -9,7 +9,6 @@ import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
-import chess.MoveCache;
 import chess.PosicionPieza;
 import chess.PositionCaptured;
 import chess.Square;
@@ -17,7 +16,6 @@ import iterators.SquareIterator;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
-import movegenerators.ReyAbstractMoveGenerator;
 
 public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
@@ -27,14 +25,9 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	private DummyBoard dummyBoard = null; 
 	private BoardCache boardCache = null;
 	
-	// Esta es una capa mas de informacion del tablero
-	private MoveCache moveCache = null;	
-	
 	private BoardState boardState = null;	
 	
 	private MoveGeneratorStrategy strategy = null; 		
-	
-	private final boolean useMoveCache = false;
 	
 	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
 			MoveGeneratorStrategy strategy, PositionCaptured positionCaptured) {
@@ -48,17 +41,6 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	@Override
 	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
 		Color 	turnoActual = boardState.getTurnoActual();
-		
-		boolean isKingInCheck = analyzer.isKingInCheck();
-		
-		Square 	kingSquare = null;
-		Collection<Square> pinnedSquares = null; // Casilleros donde se encuentran piezas propias que de moverse pueden desproteger al Rey.
-
-		if(! isKingInCheck ){
-			kingSquare = boardCache.getKingSquare(turnoActual);
-			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
-			pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
-		}
 
 		Collection<Move> moves = createContainer();
 		
@@ -73,27 +55,21 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 			
-			// Si el rey esta en jaque
-			// O se mueve el rey
-			// O se mueve un pieza que protege al Rey
-			if( isKingInCheck || pinnedSquares.contains(origenSquare) || origenSquare.equals(kingSquare)){
-				for (Move move : pseudoMoves) {
-					/*
-					if(! origen.equals(move.getFrom()) ){
-						throw new RuntimeException("Que paso?!?!?");
-					}
-					*/
-					
-					//assert  origen.equals(move.getFrom());
-					
-					if(this.filterMove(move)){
-						moves.add(move);
-					}
+
+			for (Move move : pseudoMoves) {
+				/*
+				if(! origen.equals(move.getFrom()) ){
+					throw new RuntimeException("Que paso?!?!?");
 				}
+				*/
 				
-			} else {
-				moves.addAll(pseudoMoves);
+				//assert  origen.equals(move.getFrom());
+				
+				if(this.filterMove(move)){
+					moves.add(move);
+				}
 			}
+
 			
 			//boardCache.validarCacheSqueare(dummyBoard);
 			
@@ -103,42 +79,15 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		
 	}
 	
-	private Collection<Move> getPseudoMoves(Square origenSquare) {
-		Collection<Move> pseudoMoves = null;
+	private Collection<Move> getPseudoMoves(Square origenSquare) {		
+
+		PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
+
+		MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+
+		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
-		
-		if (useMoveCache) {
-
-			pseudoMoves = moveCache.getPseudoMoves(origenSquare);
-
-			if (pseudoMoves == null) {
-
-				PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
-
-				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
-
-				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-
-				pseudoMoves = generatorResult.getPseudoMoves();
-
-				if (generatorResult.isSaveMovesInCache()) {
-					moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
-					moveCache.setAffectedBy(origen.getKey(), generatorResult.getAffectedBy());
-				}
-			}
-		} else {
-
-			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
-
-			MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
-
-			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-
-			pseudoMoves = generatorResult.getPseudoMoves();
-
-		}
-		
-		return pseudoMoves;
+		return generatorResult.getPseudoMoves();
 	}
 
 	private boolean filterMove(Move move) {
@@ -162,40 +111,11 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	}
 	
 	private boolean isKingInCheck() {
-		boolean result = false;
 		Color turno = boardState.getTurnoActual();
+		
 		Square kingSquare = boardCache.getKingSquare(turno);
 
-		PosicionPieza checker = boardCache.getLastChecker();
-
-		// Si no existe checker, recalculamos
-		if (checker == null) {
-			result = positionCaptured.check(turno.opositeColor(), kingSquare);
-		} else {
-			// Si existe checker pero es del mismo color que el turno
-			// O si la posicion de checker fué capturada por una de nuestras
-			// fichas
-			if (turno.equals(checker.getValue().getColor()) || boardCache.isColor(turno, checker.getKey())) {
-				result = positionCaptured.check(turno.opositeColor(), kingSquare);
-			} else {
-				// Si checker sigue estando en la misma posicion
-				if (checker.equals(dummyBoard.getPosicion(checker.getKey()))) {
-					// Checker todavia puede capturar al Rey...
-					MoveGenerator moveGenerator = strategy.getMoveGenerator(checker.getValue());
-					if (moveGenerator.puedeCapturarPosicion(checker, kingSquare)) {
-						result = true;
-					} else {
-						// Pero no puede capturar...
-						result = positionCaptured.check(turno.opositeColor(), kingSquare);
-					}
-				} else {
-					// Checker todavia puede capturar al Rey...
-					result = positionCaptured.check(turno.opositeColor(), kingSquare);
-				}
-			}
-		}
-
-		return result;
+		return  positionCaptured.check(turno.opositeColor(), kingSquare);
 	}
 	
 	
