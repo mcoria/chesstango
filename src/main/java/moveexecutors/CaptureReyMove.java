@@ -38,5 +38,10 @@ public class CaptureReyMove extends CaptureMove {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	protected String getType() {
+		return "CaptureReyMove";
 	}	
 }

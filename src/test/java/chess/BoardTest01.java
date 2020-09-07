@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import moveexecutors.CapturaPeonPromocion;
+import moveexecutors.CaptureMove;
+import moveexecutors.CaptureReyMove;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
@@ -26,15 +28,16 @@ public class BoardTest01 {
 		Board tablero = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").buildBoard();
 		
 		BoardResult result = tablero.getBoardResult();
-		
 		Collection<Move> moves = result.getLegalMoves();
+		
+		assertTrue(moves.contains( createCaptureMove(Square.h6, Pieza.CABALLO_NEGRO, Square.f7, Pieza.REINA_BLANCO) ));
+		assertFalse(moves.contains( createCaptureMove(Square.e8, Pieza.REY_NEGRO, Square.f7, Pieza.REINA_BLANCO) ));		
 		
 		assertEquals(Color.NEGRO, tablero.getBoardState().getTurnoActual());
 		assertTrue(result.isKingInCheck());
 		assertEquals(1, moves.size());
 	}
 
-	
 	@Test
 	public void test02() {
 		Board tablero = builder.withFEN("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1").buildBoard();
@@ -164,6 +167,13 @@ public class BoardTest01 {
 		return new CapturaPeonPromocion(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza), promocion);
 	}
 	
+	
+	private CaptureMove createCaptureMove(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza) {
+		if(Pieza.REY_NEGRO.equals(origenPieza) || Pieza.REY_BLANCO.equals(origenPieza) ){
+			return new CaptureReyMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza));
+		}
+		return new CaptureMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza));
+	}	
 	
 	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
 		for (Move move : movimientos) {
