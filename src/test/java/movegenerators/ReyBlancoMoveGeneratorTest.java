@@ -361,6 +361,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setKingInCheck( () -> true );
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.e1});
 		

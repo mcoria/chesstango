@@ -41,44 +41,38 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	@Override
 	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
 		Color 	turnoActual = boardState.getTurnoActual();
+		
+		Square 	kingSquare = boardCache.getKingSquare(turnoActual);
 
 		Collection<Move> moves = createContainer();
 		
 
 		for (SquareIterator iterator = boardCache.iteratorSquare(turnoActual); iterator.hasNext();) {
-				
-			//boardCache.validarCacheSqueare(dummyBoard);
 			
 			Square origenSquare = iterator.next();
 			
-			//assert turnoActual.equals(origen.getValue().getColor());
-
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
-			
 
-			for (Move move : pseudoMoves) {
-				/*
-				if(! origen.equals(move.getFrom()) ){
-					throw new RuntimeException("Que paso?!?!?");
+			if(origenSquare.equals(kingSquare)){
+				for (Move move : pseudoMoves) {
+					if(this.filterKingMove(move, turnoActual)){
+						moves.add(move);
+					}
 				}
-				*/
-				
-				//assert  origen.equals(move.getFrom());
-				
-				if(this.filterMove(move)){
-					moves.add(move);
+			} else {			
+				for (Move move : pseudoMoves) {
+					if(this.filterMove(move, turnoActual, kingSquare)){
+						moves.add(move);
+					}
 				}
 			}
-
 			
 			//boardCache.validarCacheSqueare(dummyBoard);
-			
 		}
 		
 		return moves;
-		
 	}
-	
+
 	private Collection<Move> getPseudoMoves(Square origenSquare) {		
 
 		PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
@@ -89,17 +83,15 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		
 		return generatorResult.getPseudoMoves();
 	}
-
-	private boolean filterMove(Move move) {
+	
+	private boolean filterKingMove(Move move, Color turnoActual) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 				
 		move.executeMove(this.boardCache);
-		
-
-		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
-		if(! this.isKingInCheck() ) {
+		 
+		if(! positionCaptured.check(turnoActual.opositeColor(), move.getTo().getKey())) {
 			result = true;
 		}
 		
@@ -108,14 +100,26 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		//boardCache.validarCacheSqueare(dummyBoard);
 		
 		return result;
-	}
-	
-	private boolean isKingInCheck() {
-		Color turno = boardState.getTurnoActual();
-		
-		Square kingSquare = boardCache.getKingSquare(turno);
+	}	
 
-		return  positionCaptured.check(turno.opositeColor(), kingSquare);
+	private boolean filterMove(Move move, Color turnoActual, Square kingSquare) {
+		boolean result = false;
+		
+		//boardCache.validarCacheSqueare(dummyBoard);
+				
+		move.executeMove(this.boardCache);
+		
+
+		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
+		if(! positionCaptured.check(turnoActual.opositeColor(), kingSquare) ) {
+			result = true;
+		}
+		
+		move.undoMove(this.boardCache);
+		
+		//boardCache.validarCacheSqueare(dummyBoard);
+		
+		return result;
 	}
 	
 	

@@ -24,6 +24,8 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		this.saltos = saltos;
 	}
 
+	//El calculo de movimientos lo puede hacer en funcion de BoardCache
+	
 	@Override
 	public void generateMoves(PosicionPieza origen) {
 		Square casillero = origen.getKey();

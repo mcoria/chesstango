@@ -13,7 +13,9 @@ public class BoardAnalyzer {
 	
 	private BoardState boardState = null;	
 	
-	private MoveGeneratorStrategy strategy = null; 	
+	private MoveGeneratorStrategy strategy = null;
+	
+	private boolean isKingInCheck; 	
 
 	public BoardAnalyzer(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
 			MoveGeneratorStrategy strategy) {
@@ -24,11 +26,15 @@ public class BoardAnalyzer {
 	}
 
 	public void analyze() {
-		// TODO Auto-generated method stub
+		this.isKingInCheck = calculateKingInCheck();
 		
 	}
 	
 	public boolean isKingInCheck() {
+		return isKingInCheck;
+	}
+	
+	private boolean calculateKingInCheck() {
 		Color turno = boardState.getTurnoActual();
 		Square kingSquare = boardCache.getKingSquare(turno);
 

@@ -7,6 +7,7 @@ import chess.BoardCache;
 import chess.BoardState;
 import chess.Color;
 import chess.DummyBoard;
+import chess.KingInCheck;
 import chess.PosicionPieza;
 import chess.PositionCaptured;
 import chess.Square;
@@ -19,13 +20,15 @@ import moveexecutors.SimpleReyMove;
 
 public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
-	protected PositionCaptured positionCaptured = (Color color, Square square) -> false;
-	
 	protected BoardState boardState;
 	
-	protected boolean saveMovesInCache;
+	protected PositionCaptured positionCaptured = (Color color, Square square) -> false;
+	
+	protected KingInCheck kingInCheck = () -> false;
 	
 	protected BoardCache boardCache;
+	
+	protected boolean saveMovesInCache;
 	
 	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
@@ -41,20 +44,21 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		super(color, SALTOS_REY);
 	}	
 	
+	//Observar que se valida que el destino no puede ser capturado. No tiene sentido simular el movimiento para validarlo.
 	protected boolean puedeEnroqueReina(
-			DummyBoard dummyBoard, 
-			PosicionPieza origen, 
-			PosicionPieza rey,
-			PosicionPieza torre,
-			Square casilleroIntermedioTorre,
-			Square casilleroDestinoRey, 
-			Square casilleroIntermedioRey) {
+			final DummyBoard dummyBoard, 
+			final PosicionPieza origen, 
+			final PosicionPieza rey,
+			final PosicionPieza torre,
+			final Square casilleroIntermedioTorre,
+			final Square casilleroDestinoRey, 
+			final Square casilleroIntermedioRey) {
 		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
 			if (torre.getValue().equals(dummyBoard.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( dummyBoard.isEmtpy(casilleroIntermedioTorre)												//El casillero intermedio TORRE esta vacio
 				  && dummyBoard.isEmtpy(casilleroDestinoRey) 													//El casillero destino REY esta vacio
 				  && dummyBoard.isEmtpy(casilleroIntermedioRey)) {										  		//El casillero intermedio REY esta vacio
-					if ( !positionCaptured.check(color.opositeColor(), rey.getKey()) 							//El rey no esta en jaque
+					if ( !this.kingInCheck.check() 																//El rey no esta en jaque
 					  && !positionCaptured.check(color.opositeColor(), casilleroIntermedioRey) 					//El rey no puede ser atacado en casillero intermedio
 					  && !positionCaptured.check(color.opositeColor(), casilleroDestinoRey)){					//El rey no puede ser atacado en casillero destino
 						return true;
@@ -66,17 +70,17 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	}
 	
 	protected boolean puedeEnroqueRey(
-			DummyBoard dummyBoard, 
-			PosicionPieza origen, 
-			PosicionPieza rey,
-			PosicionPieza torre,
-			Square casilleroDestinoRey, 
-			Square casilleroIntermedioRey) {
+			final DummyBoard dummyBoard, 
+			final PosicionPieza origen, 
+			final PosicionPieza rey,
+			final PosicionPieza torre,
+			final Square casilleroDestinoRey, 
+			final Square casilleroIntermedioRey) {
 		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
 			if (torre.getValue().equals(dummyBoard.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( dummyBoard.isEmtpy(casilleroDestinoRey) 													//El casillero destino REY esta vacio
 				  && dummyBoard.isEmtpy(casilleroIntermedioRey)) {										  		//El casillero intermedio REY esta vacio
-					if ( !positionCaptured.check(color.opositeColor(), rey.getKey()) 							//El rey no esta en jaque
+					if ( !this.kingInCheck.check()																//El rey no esta en jaque
 					  && !positionCaptured.check(color.opositeColor(), casilleroIntermedioRey) 					//El rey no puede ser atacado en casillero intermedio
 					  && !positionCaptured.check(color.opositeColor(), casilleroDestinoRey)){					//El rey no puede ser atacado en casillero destino
 						return true;
@@ -132,13 +136,16 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		this.positionCaptured = positionCaptured;
 	}
 
-
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
 	}
 	
 	public void setBoardCache(BoardCache boardCache) {
 		this.boardCache = boardCache;
+	}
+
+	public void setKingInCheck(KingInCheck kingInCheck) {
+		this.kingInCheck = kingInCheck;
 	}	
 	
 }

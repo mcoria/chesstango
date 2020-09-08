@@ -25,6 +25,8 @@ public class Board {
 	private MoveGeneratorStrategy strategy = null;
 	
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
+	
+	private BoardAnalyzer analyzer = null; 
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
@@ -33,16 +35,14 @@ public class Board {
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
 		
+		this.analyzer = new BoardAnalyzer(dummyBoard, boardState, boardCache, strategy);
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, boardState, boardCache, strategy, (Color color, Square square) -> isPositionCaptured(color, square));
 	}
 	
 	public BoardResult getBoardResult() {
-		BoardAnalyzer analyzer = new BoardAnalyzer(dummyBoard, boardState, boardCache, strategy);
-		
 		analyzer.analyze();
 		
 		LegalMoveCalculator calculator = selectCalculator(analyzer);
-		
 		
 		BoardResult result = new BoardResult();
 		result.setKingInCheck(analyzer.isKingInCheck());
@@ -122,6 +122,7 @@ public class Board {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured((Color color, Square square) -> isPositionCaptured(color, square));
+			generator.setKingInCheck(() -> this.analyzer.isKingInCheck());
 			generator.setBoardCache(this.boardCache);
 			
 		} else if(moveGenerator instanceof CardinalMoveGenerator){
