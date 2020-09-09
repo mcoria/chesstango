@@ -2,6 +2,7 @@ package chess;
 
 public interface Move {
 
+	//TOOD: Y si en vez de PosicionPieza utilizamos Square ?
 	PosicionPieza getFrom();
 	PosicionPieza getTo();
 

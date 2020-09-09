@@ -11,7 +11,7 @@ import chess.DummyBoard;
 import chess.Move;
 import chess.MoveCache;
 import chess.PosicionPieza;
-import chess.PositionCaptured;
+import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.SquareIterator;
 import movegenerators.MoveGenerator;
@@ -21,7 +21,7 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	
-	protected PositionCaptured positionCaptured = (Color color, Square square) -> false;
+	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
@@ -37,7 +37,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	private final boolean useMoveCache = false;
 	
 	public OldLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
-			MoveGeneratorStrategy strategy, PositionCaptured positionCaptured) {
+			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = boardCache;
@@ -150,9 +150,9 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 		
 
 		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
-		if(! this.isKingInCheck() ) {
-			result = true;
-		}
+		//if(! this.isKingInCheck() ) {
+		//	result = true;
+		//}
 		
 		move.undoMove(this.boardCache);
 		
@@ -161,6 +161,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 		return result;
 	}
 	
+	/*
 	private boolean isKingInCheck() {
 		boolean result = false;
 		Color turno = boardState.getTurnoActual();
@@ -196,7 +197,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 		}
 
 		return result;
-	}
+	}*/
 	
 	
 	private static <T> Collection<T> createContainer(){

@@ -137,6 +137,7 @@ public class BoardCache {
 	
 	///////////////////////////// START Last Checker Logic /////////////////////////////
 	
+	//TODO: Esto es parte de un reporte
 	private PosicionPieza lastChecker;
 	public PosicionPieza getLastChecker() {
 		return lastChecker;

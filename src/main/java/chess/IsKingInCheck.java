@@ -1,6 +1,6 @@
 package chess;
 
 @FunctionalInterface
-public interface KingInCheck {
+public interface IsKingInCheck {
 	boolean check();
 }

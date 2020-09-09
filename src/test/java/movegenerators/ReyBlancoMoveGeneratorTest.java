@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import chess.BoardState;
 import chess.CachePosiciones;
-import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
@@ -109,7 +108,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> false);
+		moveGenerator.setPositionCaptured((Square square) -> false);
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
@@ -140,7 +139,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d1, Square.e2});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));
 
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
@@ -172,7 +171,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.c1, Square.d2});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));
 	
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
@@ -205,7 +204,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
@@ -235,7 +234,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> false );
+		moveGenerator.setPositionCaptured((Square square) -> false );
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
@@ -266,7 +265,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.f1});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));	
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));	
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
@@ -298,7 +297,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f2, Square.g1});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));	
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));	
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
@@ -330,7 +329,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f1});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));
 		
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
@@ -365,7 +364,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.e1});
 		
-		moveGenerator.setPositionCaptured((Color color, Square square) -> positionCaptured.contains(square));
+		moveGenerator.setPositionCaptured((Square square) -> positionCaptured.contains(square));
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));

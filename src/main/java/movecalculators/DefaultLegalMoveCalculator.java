@@ -10,7 +10,7 @@ import chess.Color;
 import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
-import chess.PositionCaptured;
+import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.SquareIterator;
 import movegenerators.MoveGenerator;
@@ -19,7 +19,7 @@ import movegenerators.MoveGeneratorStrategy;
 
 public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
-	protected PositionCaptured positionCaptured = (Color color, Square square) -> false;
+	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
@@ -30,7 +30,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	private MoveGeneratorStrategy strategy = null; 		
 	
 	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
-			MoveGeneratorStrategy strategy, PositionCaptured positionCaptured) {
+			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = boardCache;
@@ -84,6 +84,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		return generatorResult.getPseudoMoves();
 	}
 	
+	//TODO: Esto no tiene sentido, el generador de movimientos de REY debiera generarlos validos
 	private boolean filterKingMove(Move move, Color turnoActual) {
 		boolean result = false;
 		
@@ -91,7 +92,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 				
 		move.executeMove(this.boardCache);
 		 
-		if(! positionCaptured.check(turnoActual.opositeColor(), move.getTo().getKey())) {
+		if(! positionCaptured.check(move.getTo().getKey())) {
 			result = true;
 		}
 		
@@ -100,7 +101,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		//boardCache.validarCacheSqueare(dummyBoard);
 		
 		return result;
-	}	
+	}
 
 	private boolean filterMove(Move move, Color turnoActual, Square kingSquare) {
 		boolean result = false;
@@ -111,7 +112,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		
 
 		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
-		if(! positionCaptured.check(turnoActual.opositeColor(), kingSquare) ) {
+		if(! positionCaptured.check(kingSquare) ) {
 			result = true;
 		}
 		

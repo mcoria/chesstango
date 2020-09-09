@@ -6,6 +6,6 @@ package chess;
  * Esta funcion podria ser ser de utilizad para probar movimientos de Rey.
  */
 @FunctionalInterface
-public interface PositionCaptured {
-	boolean check(Color color, Square square);
+public interface IsPositionCaptured {
+	boolean check(Square square);
 }

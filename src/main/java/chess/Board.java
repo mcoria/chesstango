@@ -13,14 +13,15 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 public class Board {
 
-	// Al final del dia estas son dos representaciones distintas del tablero
+	// Al final del dia estas son dos representaciones distintas del tablero. Uno con mas informacion que el otro.
+	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null; 
 	private BoardCache boardCache = null;
 	
 	// Esta es una capa mas de informacion del tablero
 	private MoveCache moveCache = null;
 	
-	private BoardState boardState = null;	
+	private BoardState boardState = null;
 	
 	private MoveGeneratorStrategy strategy = null;
 	
@@ -36,7 +37,7 @@ public class Board {
 		this.moveCache = new MoveCache();
 		
 		this.analyzer = new BoardAnalyzer(dummyBoard, boardState, boardCache, strategy);
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, boardState, boardCache, strategy, (Color color, Square square) -> isPositionCaptured(color, square));
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, boardState, boardCache, strategy, (Square square) -> isPositionCaptured(square));
 	}
 	
 	public BoardResult getBoardResult() {
@@ -55,8 +56,8 @@ public class Board {
 		return defaultMoveCalculator;
 	}
 
-	protected boolean isPositionCaptured(Color color, Square square){
-		return positionCaptured(color, square) != null;
+	protected boolean isPositionCaptured(Square square){
+		return positionCaptured(boardState.getTurnoActual().opositeColor(), square) != null;
 	}	
 
 	/*
@@ -121,7 +122,7 @@ public class Board {
 		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setPositionCaptured((Color color, Square square) -> isPositionCaptured(color, square));
+			generator.setPositionCaptured((Square square) -> isPositionCaptured(square));
 			generator.setKingInCheck(() -> this.analyzer.isKingInCheck());
 			generator.setBoardCache(this.boardCache);
 			
