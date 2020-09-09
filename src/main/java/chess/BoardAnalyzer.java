@@ -15,7 +15,9 @@ public class BoardAnalyzer {
 	
 	private MoveGeneratorStrategy strategy = null;
 	
-	private boolean isKingInCheck; 	
+	private boolean isKingInCheck;
+	
+	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 
 	public BoardAnalyzer(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
 			MoveGeneratorStrategy strategy) {
@@ -36,7 +38,7 @@ public class BoardAnalyzer {
 	
 	private boolean calculateKingInCheck() {
 		Color turno = boardState.getTurnoActual();
-		Square kingSquare = boardCache.getKingSquare(turno);
+		Square kingSquare = boardCache.getKingSquare();
 
 		PosicionPieza checker = boardCache.getLastChecker();
 

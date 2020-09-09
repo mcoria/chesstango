@@ -23,7 +23,7 @@ public class BoardCacheTest {
 		
 		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
-		BoardCache boardCache = new BoardCache(tablero);
+		BoardCache boardCache = new BoardCache(tablero, null);
 		
 		for (SquareIterator iterator = boardCache.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());

@@ -19,15 +19,15 @@ import movegenerators.MoveGeneratorStrategy;
 
 public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
-	protected IsPositionCaptured positionCaptured = (Square square) -> false;
-	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
 	private BoardCache boardCache = null;
 	
 	private BoardState boardState = null;	
 	
-	private MoveGeneratorStrategy strategy = null; 		
+	private MoveGeneratorStrategy strategy = null;
+	
+	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
 	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
 			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
@@ -42,7 +42,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
 		Color 	turnoActual = boardState.getTurnoActual();
 		
-		Square 	kingSquare = boardCache.getKingSquare(turnoActual);
+		Square 	kingSquare = boardCache.getKingSquare();
 
 		Collection<Move> moves = createContainer();
 		

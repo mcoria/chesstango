@@ -5,11 +5,15 @@ import iterators.SquareIterator;
 
 public class BoardCache {
 	
+	private BoardState boardState = null;
+	
 	private Square squareKingBlancoCache = null;
 	
 	private Square squareKingNegroCache = null;
 	
-	public BoardCache(DummyBoard board) {
+	public BoardCache(DummyBoard board, BoardState boardState) {
+		this.boardState = boardState;
+		
 		settupSquares(board);
 		
 		setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO, board));
@@ -17,8 +21,8 @@ public class BoardCache {
 	}
 	
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
-	public Square getKingSquare(Color color) {
-		return Color.BLANCO.equals(color) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
+	public Square getKingSquare() {
+		return Color.BLANCO.equals(boardState.getTurnoActual()) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
 	}
 	
 	public Square getSquareKingBlancoCache() {

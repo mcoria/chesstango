@@ -55,7 +55,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 		Collection<Square> pinnedSquares = null; // Casilleros donde se encuentran piezas propias que de moverse pueden desproteger al Rey.
 
 		if(! isKingInCheck ){
-			kingSquare = boardCache.getKingSquare(turnoActual);
+			kingSquare = boardCache.getKingSquare();
 			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
 			pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 		}

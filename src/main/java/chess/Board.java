@@ -31,8 +31,8 @@ public class Board {
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
-		this.boardCache = new BoardCache(this.dummyBoard);
 		this.boardState = boardState;
+		this.boardCache = new BoardCache(dummyBoard, boardState);
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
 		
