@@ -137,21 +137,7 @@ public class BoardCache {
 		return null;
 	}
 	
-	///////////////////////////// END Cache Iteration Logic /////////////////////////////	
-	
-	///////////////////////////// START Last Checker Logic /////////////////////////////
-	
-	//TODO: Esto es parte de un reporte
-	private PosicionPieza lastChecker;
-	public PosicionPieza getLastChecker() {
-		return lastChecker;
-	}
-
-	public void setLastChecker(PosicionPieza checker) {
-		this.lastChecker = checker;
-	}	
-	
-	///////////////////////////// END Last Checker Logic /////////////////////////////		
+	///////////////////////////// END Cache Iteration Logic /////////////////////////////		
 
 	/*
 	public void validarCacheSqueare(DummyBoard board) {
