@@ -2,7 +2,6 @@ package movegenerators;
 
 import java.util.Iterator;
 
-import chess.BoardCache;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -10,6 +9,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
+import layers.ColorBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 
@@ -17,7 +17,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	private final Cardinal[] direcciones;
 	
-	protected BoardCache boardCache;
+	protected ColorBoard boardCache;
 
 	public CardinalMoveGenerator(Color color, Cardinal[] direcciones) {
 		super(color);
@@ -81,7 +81,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 
-	public void setBoardCache(BoardCache boardCache) {
+	public void setBoardCache(ColorBoard boardCache) {
 		this.boardCache = boardCache;
 	}
 

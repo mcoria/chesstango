@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.DummyBoard;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 public class ReinaMoveGeneratorTest {

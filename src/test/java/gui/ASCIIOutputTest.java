@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.DummyBoard;
+import layers.DummyBoard;
 import parsers.FENBoarBuilder;
 
 public class ASCIIOutputTest {

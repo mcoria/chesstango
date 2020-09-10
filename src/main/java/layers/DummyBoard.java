@@ -1,8 +1,11 @@
-package chess;
+package layers;
 
 
 import java.util.Iterator;
 
+import chess.Pieza;
+import chess.PosicionPieza;
+import chess.Square;
 import iterators.SquareIterator;
 
 public interface DummyBoard extends Iterable<PosicionPieza> {

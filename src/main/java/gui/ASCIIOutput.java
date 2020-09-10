@@ -3,11 +3,11 @@ package gui;
 import java.io.PrintStream;
 import java.util.Iterator;
 
-import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.TopDownSquareIterator;
+import layers.DummyBoard;
 
 public class ASCIIOutput {
 	

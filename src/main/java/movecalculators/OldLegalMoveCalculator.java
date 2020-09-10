@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.BoardAnalyzer;
-import chess.BoardCache;
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.MoveCache;
 import chess.PosicionPieza;
 import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.SquareIterator;
+import layers.ColorBoard;
+import layers.DummyBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
@@ -25,7 +25,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
-	private BoardCache boardCache = null;
+	private ColorBoard boardCache = null;
 	
 	// Esta es una capa mas de informacion del tablero
 	private MoveCache moveCache = null;	
@@ -36,7 +36,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	
 	private final boolean useMoveCache = false;
 	
-	public OldLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
+	public OldLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
 			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;

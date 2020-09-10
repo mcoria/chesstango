@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Board;
-import chess.DefaultDummyBoard;
-import chess.DummyBoard;
 import chess.Pieza;
+import layers.DefaultDummyBoard;
+import layers.DummyBoard;
 
 public class FENCoderTest {
 

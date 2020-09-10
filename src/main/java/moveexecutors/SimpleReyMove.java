@@ -1,8 +1,8 @@
 package moveexecutors;
 
-import chess.BoardCache;
 import chess.Color;
 import chess.PosicionPieza;
+import layers.ColorBoard;
 
 public class SimpleReyMove extends SimpleMove{
 
@@ -12,7 +12,7 @@ public class SimpleReyMove extends SimpleMove{
 	}
 
 	@Override
-	public void executeMove(BoardCache cache) {
+	public void executeMove(ColorBoard cache) {
 		super.executeMove(cache);
 		if(Color.BLANCO.equals(from.getValue().getColor())){
 			cache.setSquareKingBlancoCache(to.getKey());
@@ -22,7 +22,7 @@ public class SimpleReyMove extends SimpleMove{
 	}
 
 	@Override
-	public void undoMove(BoardCache cache) {
+	public void undoMove(ColorBoard cache) {
 		super.undoMove(cache);
 		if(Color.BLANCO.equals(from.getValue().getColor())){
 			cache.setSquareKingBlancoCache(from.getKey());

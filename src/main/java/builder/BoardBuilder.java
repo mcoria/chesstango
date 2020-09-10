@@ -3,11 +3,11 @@ package builder;
 import chess.Game;
 import chess.BoardState;
 import chess.Color;
-import chess.DefaultDummyBoard;
-import chess.DummyBoard;
 import chess.Board;
 import chess.Pieza;
 import chess.Square;
+import layers.DefaultDummyBoard;
+import layers.DummyBoard;
 
 public abstract class BoardBuilder {
 

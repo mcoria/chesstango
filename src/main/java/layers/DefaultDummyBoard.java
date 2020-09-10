@@ -1,9 +1,13 @@
-package chess;
+package layers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
 
+import chess.CachePosiciones;
+import chess.Pieza;
+import chess.PosicionPieza;
+import chess.Square;
 import gui.ASCIIOutput;
 import iterators.BoardBitSquareIterator;
 import iterators.SquareIterator;

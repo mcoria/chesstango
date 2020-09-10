@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import iterators.SquareIterator;
+import layers.ColorBoard;
+import layers.DummyBoard;
 import parsers.FENBoarBuilder;
 
 public class BoardCacheTest {
@@ -23,7 +25,7 @@ public class BoardCacheTest {
 		
 		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
-		BoardCache boardCache = new BoardCache(tablero, null);
+		ColorBoard boardCache = new ColorBoard(tablero, null);
 		
 		for (SquareIterator iterator = boardCache.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());

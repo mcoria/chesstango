@@ -2,6 +2,8 @@ package chess;
 
 import java.util.Iterator;
 
+import layers.ColorBoard;
+import layers.DummyBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
@@ -10,7 +12,7 @@ public class BoardAnalyzer {
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
 	
-	private BoardCache boardCache = null;
+	private ColorBoard boardCache = null;
 	
 	private BoardState boardState = null;	
 	
@@ -20,7 +22,7 @@ public class BoardAnalyzer {
 	
 	private PosicionPieza currentChecker;	
 
-	public BoardAnalyzer(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
+	public BoardAnalyzer(DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
 			MoveGeneratorStrategy strategy) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;

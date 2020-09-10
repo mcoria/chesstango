@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.DefaultDummyBoard;
-import chess.DummyBoard;
 import chess.Pieza;
 import chess.Square;
+import layers.DefaultDummyBoard;
+import layers.DummyBoard;
 
 public class FENParserTest {
 

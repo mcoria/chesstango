@@ -1,4 +1,4 @@
-package chess;
+package layers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +10,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.Pieza;
+import chess.PosicionPieza;
+import chess.Square;
 import iterators.BoardBitSquareIterator;
+import layers.DefaultDummyBoard;
+import layers.DummyBoard;
 import parsers.FENBoarBuilder;
 
 public class DefaultDummyBoardTest {

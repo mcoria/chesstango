@@ -1,10 +1,10 @@
 package moveexecutors;
 
-import chess.BoardCache;
 import chess.BoardState;
-import chess.DummyBoard;
 import chess.MoveCache;
 import chess.PosicionPieza;
+import layers.ColorBoard;
+import layers.DummyBoard;
 
 public class SimpleMove extends AbstractMove {
 	
@@ -36,12 +36,12 @@ public class SimpleMove extends AbstractMove {
 	}	
 	
 	@Override
-	public void executeMove(BoardCache boardCache) {
+	public void executeMove(ColorBoard boardCache) {
 		boardCache.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
 	}
 	
 	@Override
-	public void undoMove(BoardCache boardCache) {
+	public void undoMove(ColorBoard boardCache) {
 		boardCache.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 	}	
 	

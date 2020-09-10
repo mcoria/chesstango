@@ -1,8 +1,8 @@
 package moveexecutors;
 
-import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
+import layers.DummyBoard;
 
 public class SimplePeonPromocion extends SimpleMove {
 

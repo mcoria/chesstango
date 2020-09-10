@@ -9,10 +9,10 @@ import org.junit.Test;
 
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.DummyBoard;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 

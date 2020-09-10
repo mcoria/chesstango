@@ -3,16 +3,16 @@ package movegenerators;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.BoardCache;
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.IsKingInCheck;
 import chess.PosicionPieza;
 import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
+import layers.ColorBoard;
+import layers.DummyBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
 import moveexecutors.SimpleMove;
@@ -26,7 +26,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected IsKingInCheck kingInCheck = () -> false;
 	
-	protected BoardCache boardCache;
+	protected ColorBoard boardCache;
 	
 	protected boolean saveMovesInCache;
 	
@@ -140,7 +140,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		this.boardState = boardState;
 	}
 	
-	public void setBoardCache(BoardCache boardCache) {
+	public void setBoardCache(ColorBoard boardCache) {
 		this.boardCache = boardCache;
 	}
 

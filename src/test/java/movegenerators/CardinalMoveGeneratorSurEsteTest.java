@@ -9,13 +9,13 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.DummyBoard;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
+import layers.DummyBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;

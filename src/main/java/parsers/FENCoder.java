@@ -5,12 +5,12 @@ import java.util.Iterator;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Game;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.TopDownSquareIterator;
+import layers.DummyBoard;
 
 public class FENCoder {
 	

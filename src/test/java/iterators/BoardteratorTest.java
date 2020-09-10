@@ -10,10 +10,10 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.DummyBoard;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.DummyBoard;
 import parsers.FENBoarBuilder;
 
 public class BoardteratorTest {

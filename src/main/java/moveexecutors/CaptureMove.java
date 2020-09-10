@@ -1,7 +1,7 @@
 package moveexecutors;
 
-import chess.BoardCache;
 import chess.PosicionPieza;
+import layers.ColorBoard;
 
 public class CaptureMove extends SimpleMove {
 	
@@ -10,14 +10,14 @@ public class CaptureMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(BoardCache boardCache) {
+	public void executeMove(ColorBoard boardCache) {
 		super.executeMove(boardCache);
 		
 		boardCache.removePositions(to);
 	}
 
 	@Override
-	public void undoMove(BoardCache boardCache) {
+	public void undoMove(ColorBoard boardCache) {
 		super.undoMove(boardCache);
 
 		boardCache.addPositions(to);

@@ -2,6 +2,8 @@ package chess;
 
 import java.util.Iterator;
 
+import layers.ColorBoard;
+import layers.DummyBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movegenerators.CardinalMoveGenerator;
@@ -16,7 +18,7 @@ public class Board {
 	// Al final del dia estas son dos representaciones distintas del tablero. Uno con mas informacion que el otro.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null; 
-	private BoardCache boardCache = null;
+	private ColorBoard boardCache = null;
 	
 	// Esta es una capa mas de informacion del tablero
 	private MoveCache moveCache = null;
@@ -32,7 +34,7 @@ public class Board {
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.boardCache = new BoardCache(dummyBoard, boardState);
+		this.boardCache = new ColorBoard(dummyBoard, boardState);
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
 		

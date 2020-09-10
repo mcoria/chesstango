@@ -1,9 +1,14 @@
-package chess;
+package layers;
 
+import chess.BoardState;
+import chess.Color;
+import chess.Pieza;
+import chess.PosicionPieza;
+import chess.Square;
 import iterators.BitSquareIterator;
 import iterators.SquareIterator;
 
-public class BoardCache {
+public class ColorBoard {
 	
 	private BoardState boardState = null;
 	
@@ -11,7 +16,7 @@ public class BoardCache {
 	
 	private Square squareKingNegroCache = null;
 	
-	public BoardCache(DummyBoard board, BoardState boardState) {
+	public ColorBoard(DummyBoard board, BoardState boardState) {
 		this.boardState = boardState;
 		
 		settupSquares(board);
@@ -96,7 +101,7 @@ public class BoardCache {
 		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos) : new BitSquareIterator(squareNegros);		
 	}
 	
-	protected long getPosiciones (Color color){
+	public long getPosiciones (Color color){
 		return Color.BLANCO.equals(color) ? squareBlancos : squareNegros;		
 	}
 	

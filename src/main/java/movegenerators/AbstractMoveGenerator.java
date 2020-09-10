@@ -1,8 +1,8 @@
 package movegenerators;
 
 import chess.Color;
-import chess.DummyBoard;
 import chess.PosicionPieza;
+import layers.DummyBoard;
 
 // Y si tenemos objetos prototipos de movimientos y lo clonamos de ser validos?
 public abstract class AbstractMoveGenerator implements MoveGenerator {

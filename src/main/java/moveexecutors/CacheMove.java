@@ -1,11 +1,11 @@
 package moveexecutors;
 
-import chess.BoardCache;
 import chess.BoardState;
-import chess.DummyBoard;
 import chess.Move;
 import chess.MoveCache;
 import chess.PosicionPieza;
+import layers.ColorBoard;
+import layers.DummyBoard;
 
 //Lo camos a utilizar para evitar construir los objetos de movimiento de antemano
 public final class CacheMove implements Move {
@@ -54,12 +54,12 @@ public final class CacheMove implements Move {
 	}
 
 	@Override
-	public void executeMove(BoardCache boardCache) {
+	public void executeMove(ColorBoard boardCache) {
 		throw new RuntimeException("Mothod not implemented");
 	}
 
 	@Override
-	public void undoMove(BoardCache boardCache) {
+	public void undoMove(ColorBoard boardCache) {
 		throw new RuntimeException("Mothod not implemented");
 	}
 

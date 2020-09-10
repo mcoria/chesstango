@@ -1,5 +1,8 @@
 package chess;
 
+import layers.ColorBoard;
+import layers.DummyBoard;
+
 public interface Move {
 
 	//TOOD: Y si en vez de PosicionPieza utilizamos Square ?
@@ -12,8 +15,8 @@ public interface Move {
 	void executeMove(BoardState boardState);
 	void undoMove(BoardState boardState);
 
-	void executeMove(BoardCache boardCache);
-	void undoMove(BoardCache boardCache);
+	void executeMove(ColorBoard boardCache);
+	void undoMove(ColorBoard boardCache);
 	
 	void executeMove(MoveCache moveCache);
 	void undoMove(MoveCache moveCache);	

@@ -1,8 +1,8 @@
 package movegenerators;
 
-import chess.DummyBoard;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.DummyBoard;
 
 public interface MoveGenerator {
 

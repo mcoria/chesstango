@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.BoardAnalyzer;
-import chess.BoardCache;
 import chess.BoardState;
 import chess.Color;
-import chess.DummyBoard;
 import chess.Move;
 import chess.PosicionPieza;
 import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.SquareIterator;
+import layers.ColorBoard;
+import layers.DummyBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
@@ -21,7 +21,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
-	private BoardCache boardCache = null;
+	private ColorBoard boardCache = null;
 	
 	private BoardState boardState = null;	
 	
@@ -29,7 +29,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
 	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
-	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, BoardCache boardCache,
+	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
 			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
@@ -41,8 +41,6 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	@Override
 	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
 		Color 	turnoActual = boardState.getTurnoActual();
-		
-		Square 	kingSquare = boardCache.getKingSquare();
 
 		Collection<Move> moves = createContainer();
 		
@@ -53,17 +51,13 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 			
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
-			if(origenSquare.equals(kingSquare)){
-				for (Move move : pseudoMoves) {
-					if(this.filterKingMove(move)){
-						moves.add(move);
-					}
-				}
-			} else {			
-				for (Move move : pseudoMoves) {
-					if(this.filterMove(move, kingSquare)){
-						moves.add(move);
-					}
+			// De almacenar movimientos en un cache, estos moviemientos son pseudo dado que
+			// Ejemplo supongamos que almacenamos movimientos de torre blanca a5
+			// Reina Negra se mueve desde h7 a e7 y rey e1 queda en jaque 
+			// Solo movimiento de torre a5 e7 es VALIDO, el resto deja al rey en Jaque
+			for (Move move : pseudoMoves) {
+				if(this.filterKingMove(move)){
+					moves.add(move);
 				}
 			}
 			
@@ -83,8 +77,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		
 		return generatorResult.getPseudoMoves();
 	}
-	
-	//TODO: Esto no tiene sentido, el generador de movimientos de REY debiera generarlos validos
+
 	private boolean filterKingMove(Move move) {
 		boolean result = false;
 		
@@ -92,27 +85,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 				
 		move.executeMove(this.boardCache);
 		 
-		if(! positionCaptured.check(move.getTo().getKey())) {
-			result = true;
-		}
-		
-		move.undoMove(this.boardCache);
-		
-		//boardCache.validarCacheSqueare(dummyBoard);
-		
-		return result;
-	}
-
-	private boolean filterMove(Move move, Square kingSquare) {
-		boolean result = false;
-		
-		//boardCache.validarCacheSqueare(dummyBoard);
-				
-		move.executeMove(this.boardCache);
-		
-
-		// Habria que preguntar si aquellos para los cuales su situacion cambió ahora pueden capturar al rey. 
-		if(! positionCaptured.check(kingSquare) ) {
+		if(! positionCaptured.check(boardCache.getKingSquare())) {
 			result = true;
 		}
 		
