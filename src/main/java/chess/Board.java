@@ -60,12 +60,14 @@ public class Board {
 		return positionCaptured(boardState.getTurnoActual().opositeColor(), square) != null;
 	}	
 
+	//TODO: Esto hay que reimplementarlo, observar buscar los peones, caballos; alfiles; torres y reinas que podrian capturar la posicion
+	// EN VEZ DE RECORRER TODO EL TABLERO EN BUSCA DE LA PIESA
 	/*
 	 * Observar que este método itera las posiciones en base a boardCache.
 	 * Luego obtiene la posicion de dummyBoard.
 	 * Esto implica que boardCache necesita estar actualizado en todo momento. 
 	 */
-	protected PosicionPieza positionCaptured(Color color, Square square){
+	private PosicionPieza positionCaptured(Color color, Square square){
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();

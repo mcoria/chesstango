@@ -55,13 +55,13 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 
 			if(origenSquare.equals(kingSquare)){
 				for (Move move : pseudoMoves) {
-					if(this.filterKingMove(move, turnoActual)){
+					if(this.filterKingMove(move)){
 						moves.add(move);
 					}
 				}
 			} else {			
 				for (Move move : pseudoMoves) {
-					if(this.filterMove(move, turnoActual, kingSquare)){
+					if(this.filterMove(move, kingSquare)){
 						moves.add(move);
 					}
 				}
@@ -85,7 +85,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	}
 	
 	//TODO: Esto no tiene sentido, el generador de movimientos de REY debiera generarlos validos
-	private boolean filterKingMove(Move move, Color turnoActual) {
+	private boolean filterKingMove(Move move) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
@@ -103,7 +103,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		return result;
 	}
 
-	private boolean filterMove(Move move, Color turnoActual, Square kingSquare) {
+	private boolean filterMove(Move move, Square kingSquare) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
