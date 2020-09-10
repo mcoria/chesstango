@@ -21,29 +21,30 @@ public class ColorBoard {
 		
 		settupSquares(board);
 		
-		setSquareKingBlancoCache(getKingSquareRecorrer(Color.BLANCO, board));
-		setSquareKingNegroCache(getKingSquareRecorrer(Color.NEGRO, board));		
+		this.squareKingBlancoCache = getKingSquareRecorrer(Color.BLANCO, board);
+		this.squareKingNegroCache = getKingSquareRecorrer(Color.NEGRO, board);		
 	}
 	
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
+	
+	public void setKingSquare(Color color, Square square) {
+		if(Color.BLANCO.equals(color)){
+			this.squareKingBlancoCache = square;
+		} else {
+			this.squareKingNegroCache = square;
+		}
+	}
+	
 	public Square getKingSquare() {
 		return Color.BLANCO.equals(boardState.getTurnoActual()) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
 	}
 	
-	public Square getSquareKingBlancoCache() {
+	protected Square getSquareKingBlancoCache() {
 		return squareKingBlancoCache;
 	}
 	
-	public void setSquareKingBlancoCache(Square squareKingBlancoCache) {
-		this.squareKingBlancoCache = squareKingBlancoCache;
-	}
-	
-	public Square getSquareKingNegroCache() {
+	protected Square getSquareKingNegroCache() {
 		return squareKingNegroCache;
-	}
-	
-	public void setSquareKingNegroCache(Square squareKingNegroCache) {
-		this.squareKingNegroCache = squareKingNegroCache;
 	}
 	
 	private Square getKingSquareRecorrer(Color color, DummyBoard board) {

@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import chess.Color;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 
@@ -15,21 +14,13 @@ public class CaptureReyMove extends CaptureMove {
 	@Override
 	public void executeMove(ColorBoard cache) {
 		super.executeMove(cache);
-		if(Color.BLANCO.equals(from.getValue().getColor())){
-			cache.setSquareKingBlancoCache(to.getKey());
-		} else {
-			cache.setSquareKingNegroCache(to.getKey());
-		}
+		cache.setKingSquare(from.getValue().getColor(), to.getKey());
 	}
 
 	@Override
 	public void undoMove(ColorBoard cache) {
 		super.undoMove(cache);
-		if(Color.BLANCO.equals(from.getValue().getColor())){
-			cache.setSquareKingBlancoCache(from.getKey());
-		} else {
-			cache.setSquareKingNegroCache(from.getKey());
-		}		
+		cache.setKingSquare(from.getValue().getColor(), from.getKey());		
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ public class BoardAnalyzer {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = boardCache;
-		this.strategy =strategy;
+		this.strategy = strategy;
 	}
 
 	public void analyze() {
