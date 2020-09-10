@@ -24,7 +24,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
-	private ColorBoard boardCache = null;
+	private ColorBoard colorBoard = null;
 	
 	private BoardState boardState = null;	
 	
@@ -37,7 +37,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.boardCache = boardCache;
+		this.colorBoard = boardCache;
 		this.strategy = strategy;
 		this.positionCaptured = positionCaptured;
 	}	
@@ -49,18 +49,19 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		Collection<Move> moves = createContainer();
 		
 
-		for (SquareIterator iterator = boardCache.iteratorSquare(turnoActual); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(turnoActual); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
-			// De almacenar movimientos en un cache, estos moviemientos son pseudo dado que
+			// De almacenar movimientos en un cache, estos moviemientos son pseudo, es imposible almacenar movimientos legales en un cache !!!
 			// Ejemplo supongamos que almacenamos movimientos de torre blanca a5
 			// Reina Negra se mueve desde h7 a e7 y rey e1 queda en jaque 
 			// Solo movimiento de torre a5 e7 es VALIDO, el resto deja al rey en Jaque
+			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(this.filterKingMove(move)){
+				if(this.filterMove(move)){
 					moves.add(move);
 				}
 			}
@@ -82,18 +83,18 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		return generatorResult.getPseudoMoves();
 	}
 
-	private boolean filterKingMove(Move move) {
+	private boolean filterMove(Move move) {
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 				
-		move.executeMove(this.boardCache);
+		move.executeMove(this.colorBoard);
 		 
 		if(! positionCaptured.check(board.getKingSquare())) {
 			result = true;
 		}
 		
-		move.undoMove(this.boardCache);
+		move.undoMove(this.colorBoard);
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 		

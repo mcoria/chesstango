@@ -14,7 +14,7 @@ public class BoardAnalyzer {
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
 	
-	private ColorBoard boardCache = null;
+	private ColorBoard colorBoard = null;
 	
 	private BoardState boardState = null;	
 	
@@ -29,7 +29,7 @@ public class BoardAnalyzer {
 		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.boardCache = boardCache;
+		this.colorBoard = boardCache;
 		this.strategy = strategy;
 	}
 
@@ -43,7 +43,7 @@ public class BoardAnalyzer {
 		
 		Color opositeColor = boardState.getTurnoActual().opositeColor();
 		
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(opositeColor)); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(opositeColor)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
