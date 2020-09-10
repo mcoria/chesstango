@@ -9,6 +9,8 @@ import movegenerators.MoveGeneratorStrategy;
 
 public class BoardAnalyzer {
 	
+	private Board board = null;
+	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
 	
@@ -22,8 +24,9 @@ public class BoardAnalyzer {
 	
 	private PosicionPieza currentChecker;	
 
-	public BoardAnalyzer(DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
+	public BoardAnalyzer(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
 			MoveGeneratorStrategy strategy) {
+		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = boardCache;
@@ -36,7 +39,7 @@ public class BoardAnalyzer {
 	}
 	
 	private boolean calculateKingInCheck() {
-		Square kingSquare = boardCache.getKingSquare();		
+		Square kingSquare = board.getKingSquare();		
 		
 		Color opositeColor = boardState.getTurnoActual().opositeColor();
 		

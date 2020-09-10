@@ -1,6 +1,5 @@
 package layers;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -10,15 +9,11 @@ import iterators.SquareIterator;
 
 public class ColorBoard {
 	
-	private BoardState boardState = null;
-	
 	private Square squareKingBlancoCache = null;
 	
 	private Square squareKingNegroCache = null;
 	
-	public ColorBoard(DummyBoard board, BoardState boardState) {
-		this.boardState = boardState;
-		
+	public ColorBoard(DummyBoard board) {
 		settupSquares(board);
 		
 		this.squareKingBlancoCache = getKingSquareRecorrer(Color.BLANCO, board);
@@ -35,15 +30,11 @@ public class ColorBoard {
 		}
 	}
 	
-	public Square getKingSquare() {
-		return Color.BLANCO.equals(boardState.getTurnoActual()) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
-	}
-	
-	protected Square getSquareKingBlancoCache() {
+	public Square getSquareKingBlancoCache() {
 		return squareKingBlancoCache;
 	}
 	
-	protected Square getSquareKingNegroCache() {
+	public Square getSquareKingNegroCache() {
 		return squareKingNegroCache;
 	}
 	

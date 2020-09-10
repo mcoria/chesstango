@@ -3,13 +3,14 @@ package movecalculators;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
+import chess.IsPositionCaptured;
 import chess.Move;
 import chess.MoveCache;
 import chess.PosicionPieza;
-import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.SquareIterator;
 import layers.ColorBoard;
@@ -20,6 +21,8 @@ import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;
 
 public class OldLegalMoveCalculator implements LegalMoveCalculator {
+	
+	private Board board = null;
 	
 	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
@@ -36,7 +39,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	
 	private final boolean useMoveCache = false;
 	
-	public OldLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
+	public OldLegalMoveCalculator(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
 			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
@@ -55,7 +58,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 		Collection<Square> pinnedSquares = null; // Casilleros donde se encuentran piezas propias que de moverse pueden desproteger al Rey.
 
 		if(! isKingInCheck ){
-			kingSquare = boardCache.getKingSquare();
+			kingSquare = board.getKingSquare();
 			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
 			pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 		}

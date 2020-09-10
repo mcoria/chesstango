@@ -3,12 +3,13 @@ package movecalculators;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
+import chess.IsPositionCaptured;
 import chess.Move;
 import chess.PosicionPieza;
-import chess.IsPositionCaptured;
 import chess.Square;
 import iterators.SquareIterator;
 import layers.ColorBoard;
@@ -18,6 +19,8 @@ import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 
 public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
+	
+	private Board board = null;
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
@@ -29,8 +32,9 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
 	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
-	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
+	public DefaultLegalMoveCalculator(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
 			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
+		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = boardCache;
@@ -85,7 +89,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 				
 		move.executeMove(this.boardCache);
 		 
-		if(! positionCaptured.check(boardCache.getKingSquare())) {
+		if(! positionCaptured.check(board.getKingSquare())) {
 			result = true;
 		}
 		

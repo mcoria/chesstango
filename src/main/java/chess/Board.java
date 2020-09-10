@@ -18,7 +18,7 @@ public class Board {
 	// Al final del dia estas son dos representaciones distintas del tablero. Uno con mas informacion que el otro.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null; 
-	private ColorBoard boardCache = null;
+	private ColorBoard colorBoard = null;
 	
 	// Esta es una capa mas de informacion del tablero
 	private MoveCache moveCache = null;
@@ -34,12 +34,12 @@ public class Board {
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.boardCache = new ColorBoard(dummyBoard, boardState);
+		this.colorBoard = new ColorBoard(dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
 		
-		this.analyzer = new BoardAnalyzer(dummyBoard, boardState, boardCache, strategy);
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, boardState, boardCache, strategy, (Square square) -> isPositionCaptured(square));
+		this.analyzer = new BoardAnalyzer(this, dummyBoard, boardState, colorBoard, strategy);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
 	}
 	
 	public BoardResult getBoardResult() {
@@ -70,7 +70,7 @@ public class Board {
 	 * Esto implica que boardCache necesita estar actualizado en todo momento. 
 	 */
 	private PosicionPieza positionCaptured(Color color, Square square){
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(boardCache.getPosiciones(color)); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			//if(currentPieza != null){
@@ -91,7 +91,7 @@ public class Board {
 
 		move.executeMove(dummyBoard);
 
-		move.executeMove(boardCache);
+		move.executeMove(colorBoard);
 
 		move.executeMove(moveCache);
 
@@ -107,7 +107,7 @@ public class Board {
 
 		move.undoMove(moveCache);
 
-		move.undoMove(boardCache);
+		move.undoMove(colorBoard);
 
 		move.undoMove(dummyBoard);
 
@@ -128,14 +128,17 @@ public class Board {
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured((Square square) -> isPositionCaptured(square));
 			generator.setKingInCheck(() -> this.analyzer.isKingInCheck());
-			generator.setBoardCache(this.boardCache);
+			generator.setBoardCache(this.colorBoard);
 			
 		} else if(moveGenerator instanceof CardinalMoveGenerator){
 			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
-			generator.setBoardCache(this.boardCache);
+			generator.setBoardCache(this.colorBoard);
 		}
 	}
 	
+	public Square getKingSquare() {
+		return Color.BLANCO.equals(boardState.getTurnoActual()) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
+	}	
 	
 	@Override
 	public String toString() {
