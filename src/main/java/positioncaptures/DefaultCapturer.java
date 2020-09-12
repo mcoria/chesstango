@@ -11,7 +11,7 @@ import layers.DummyBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class DefaultCapturer {
+public class DefaultCapturer implements Capturer {
 	
 	private DummyBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
@@ -30,6 +30,10 @@ public class DefaultCapturer {
 	 * Luego obtiene la posicion de dummyBoard.
 	 * Esto implica que boardCache necesita estar actualizado en todo momento. 
 	 */
+	/* (non-Javadoc)
+	 * @see positioncaptures.Capturer#positionCaptured(chess.Color, chess.Square)
+	 */
+	@Override
 	public PosicionPieza positionCaptured(Color color, Square square){
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
@@ -40,5 +44,6 @@ public class DefaultCapturer {
 			}
 		}
 		return null;
-	}	
+	}
+	
 }

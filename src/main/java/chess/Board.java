@@ -6,11 +6,8 @@ import layers.ColorBoard;
 import layers.DummyBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
-import movegenerators.CardinalMoveGenerator;
-import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
-import movegenerators.PeonAbstractMoveGenerator;
-import movegenerators.ReyAbstractMoveGenerator;
+import positioncaptures.Capturer;
 import positioncaptures.DefaultCapturer;
 
 
@@ -20,6 +17,7 @@ public class Board {
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
+	//TODO: No debieramos tener un layer de move generators, para evitar el case dentro de MoveGeneratorStrategy
 	
 	// Esta es una capa mas de informacion del tablero
 	private MoveCache moveCache = null;
@@ -32,20 +30,23 @@ public class Board {
 	
 	private BoardAnalyzer analyzer = null; 
 	
-	private DefaultCapturer capturer = null;
+	private Capturer capturer = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.colorBoard = new ColorBoard(dummyBoard);
-		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
+		
+		this.strategy = new MoveGeneratorStrategy(dummyBoard, colorBoard, boardState, () -> isKingInCheck(), (Square square) -> isPositionCaptured(square));
 		this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
 		
 		this.analyzer = new BoardAnalyzer(this, dummyBoard, boardState, colorBoard, strategy);
+		
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
 	}
-	
+
+
 	public BoardResult getBoardResult() {
 		analyzer.analyze();
 		
@@ -60,10 +61,14 @@ public class Board {
 		return result;
 	}
 	
-	private LegalMoveCalculator selectCalculator(BoardAnalyzer analyzer) {
-		return defaultMoveCalculator;
+	public Square getKingSquare() {
+		return Color.BLANCO.equals(boardState.getTurnoActual()) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
 	}
 
+	protected boolean isKingInCheck() {
+		return analyzer.isKingInCheck();
+	}
+	
 	protected boolean isPositionCaptured(Square square){
 		return capturer.positionCaptured(boardState.getTurnoActual().opositeColor(), square) != null;
 	}	
@@ -97,31 +102,10 @@ public class Board {
 		// boardCache.validarCacheSqueare(dummyBoard);
 	}
 	///////////////////////////// END Move execution Logic /////////////////////////////
-	
-	
-	public void settupMoveGenerator(MoveGenerator moveGenerator) {
-		moveGenerator.setTablero(this.dummyBoard);
-		
-		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
-			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;
-			generator.setBoardState(boardState);
-			
-		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
-			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
-			generator.setBoardState(boardState);
-			generator.setPositionCaptured((Square square) -> isPositionCaptured(square));
-			generator.setKingInCheck(() -> this.analyzer.isKingInCheck());
-			generator.setBoardCache(this.colorBoard);
-			
-		} else if(moveGenerator instanceof CardinalMoveGenerator){
-			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
-			generator.setBoardCache(this.colorBoard);
-		}
+
+	private LegalMoveCalculator selectCalculator(BoardAnalyzer analyzer) {
+		return defaultMoveCalculator;
 	}
-	
-	public Square getKingSquare() {
-		return Color.BLANCO.equals(boardState.getTurnoActual()) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
-	}	
 	
 	@Override
 	public String toString() {

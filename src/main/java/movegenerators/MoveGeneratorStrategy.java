@@ -1,8 +1,12 @@
 package movegenerators;
 
-import chess.Board;
+import chess.BoardState;
 import chess.Color;
+import chess.IsKingInCheck;
+import chess.IsPositionCaptured;
 import chess.Pieza;
+import layers.ColorBoard;
+import layers.DummyBoard;
 
 public class MoveGeneratorStrategy {
 	
@@ -19,42 +23,42 @@ public class MoveGeneratorStrategy {
 	private ReyBlancoMoveGenerator rbmg;
 	private ReyNegroMoveGenerator rnmg;
 
-	public MoveGeneratorStrategy(Board board) {
+	public MoveGeneratorStrategy(DummyBoard dummyBoard, ColorBoard colorBoard, BoardState boardState, IsKingInCheck isKingInCheck, IsPositionCaptured positionCaptured) {
 		pbmg =  new PeonBlancoMoveGenerator();
-		board.settupMoveGenerator(pbmg);
+		settupMoveGenerator(pbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		pnmg = new PeonNegroMoveGenerator();
-		board.settupMoveGenerator(pnmg);
+		settupMoveGenerator(pnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		tbmg = new TorreMoveGenerator(Color.BLANCO);
-		board.settupMoveGenerator(tbmg);
+		settupMoveGenerator(tbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		tnmg = new TorreMoveGenerator(Color.NEGRO);
-		board.settupMoveGenerator(tnmg);
+		settupMoveGenerator(tnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		cbmg = new CaballoMoveGenerator(Color.BLANCO);
-		board.settupMoveGenerator(cbmg);
+		settupMoveGenerator(cbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		cnmg = new CaballoMoveGenerator(Color.NEGRO);
-		board.settupMoveGenerator(cnmg);
+		settupMoveGenerator(cnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		abmg = new AlfilMoveGenerator(Color.BLANCO);
-		board.settupMoveGenerator(abmg);
+		settupMoveGenerator(abmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		anmg = new AlfilMoveGenerator(Color.NEGRO);
-		board.settupMoveGenerator(anmg);
+		settupMoveGenerator(anmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		rebmg = new ReinaMoveGenerator(Color.BLANCO);
-		board.settupMoveGenerator(rebmg);
+		settupMoveGenerator(rebmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		renmg = new ReinaMoveGenerator(Color.NEGRO);
-		board.settupMoveGenerator(renmg);
+		settupMoveGenerator(renmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		rbmg = new ReyBlancoMoveGenerator();
-		board.settupMoveGenerator(rbmg);
+		settupMoveGenerator(rbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		rnmg = new ReyNegroMoveGenerator();
-		board.settupMoveGenerator(rnmg);
+		settupMoveGenerator(rnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 	}
 	
 	public MoveGenerator getMoveGenerator(Pieza pieza){
@@ -106,4 +110,24 @@ public class MoveGeneratorStrategy {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
 
+	private void settupMoveGenerator(MoveGenerator moveGenerator, DummyBoard dummyBoard, ColorBoard colorBoard, BoardState boardState, IsKingInCheck isKingInCheck, IsPositionCaptured positionCaptured) {
+		moveGenerator.setTablero(dummyBoard);
+		
+		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
+			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;
+			generator.setBoardState(boardState);
+			
+		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
+			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
+			generator.setBoardState(boardState);
+			generator.setPositionCaptured(positionCaptured);
+			generator.setKingInCheck(isKingInCheck);
+			generator.setBoardCache(colorBoard);
+			
+		} else if(moveGenerator instanceof CardinalMoveGenerator){
+			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
+			generator.setBoardCache(colorBoard);
+		}
+	}
+	
 }
