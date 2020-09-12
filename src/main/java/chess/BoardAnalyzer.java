@@ -24,12 +24,12 @@ public class BoardAnalyzer {
 	
 	private PosicionPieza currentChecker;	
 
-	public BoardAnalyzer(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
+	public BoardAnalyzer(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard colorBoard,
 			MoveGeneratorStrategy strategy) {
 		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.colorBoard = boardCache;
+		this.colorBoard = colorBoard;
 		this.strategy = strategy;
 	}
 

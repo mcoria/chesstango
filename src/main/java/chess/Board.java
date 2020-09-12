@@ -1,6 +1,6 @@
 package chess;
 
-import java.util.Iterator;
+import java.util.Collection;
 
 import layers.ColorBoard;
 import layers.DummyBoard;
@@ -11,6 +11,7 @@ import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.PeonAbstractMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
+import positioncaptures.DefaultCapturer;
 
 
 public class Board {
@@ -30,6 +31,8 @@ public class Board {
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
 	
 	private BoardAnalyzer analyzer = null; 
+	
+	private DefaultCapturer capturer = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
@@ -37,6 +40,7 @@ public class Board {
 		this.colorBoard = new ColorBoard(dummyBoard);
 		this.strategy = new MoveGeneratorStrategy(this);
 		this.moveCache = new MoveCache();
+		this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
 		
 		this.analyzer = new BoardAnalyzer(this, dummyBoard, boardState, colorBoard, strategy);
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
@@ -46,10 +50,12 @@ public class Board {
 		analyzer.analyze();
 		
 		LegalMoveCalculator calculator = selectCalculator(analyzer);
+		boolean check = analyzer.isKingInCheck();
+		Collection<Move> moves = calculator.getLegalMoves(analyzer);
 		
 		BoardResult result = new BoardResult();
-		result.setKingInCheck(analyzer.isKingInCheck());
-		result.setLegalMoves(calculator.getLegalMoves(analyzer));
+		result.setKingInCheck(check);
+		result.setLegalMoves(moves);
 
 		return result;
 	}
@@ -59,30 +65,7 @@ public class Board {
 	}
 
 	protected boolean isPositionCaptured(Square square){
-		return positionCaptured(boardState.getTurnoActual().opositeColor(), square) != null;
-	}	
-
-	//TODO: Esto hay que reimplementarlo, observar buscar los peones, caballos; alfiles; torres y reinas que podrian capturar la posicion
-	// EN VEZ DE RECORRER TODO EL TABLERO EN BUSCA DE LA PIESA
-	/*
-	 * Observar que este método itera las posiciones en base a boardCache.
-	 * Luego obtiene la posicion de dummyBoard.
-	 * Esto implica que boardCache necesita estar actualizado en todo momento. 
-	 */
-	private PosicionPieza positionCaptured(Color color, Square square){
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
-			PosicionPieza origen = iterator.next();
-			Pieza currentPieza = origen.getValue();
-			//if(currentPieza != null){
-			MoveGenerator moveGenerator = this.strategy.getMoveGenerator(currentPieza);
-			if(moveGenerator.puedeCapturarPosicion(origen, square)){
-				return origen;
-			}
-			//} else {
-			//	throw new RuntimeException("El cache quedó desactualizado");
-			//}
-		}
-		return null;
+		return capturer.positionCaptured(boardState.getTurnoActual().opositeColor(), square) != null;
 	}	
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		
