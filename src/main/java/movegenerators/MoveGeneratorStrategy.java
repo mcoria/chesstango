@@ -9,6 +9,11 @@ import layers.ColorBoard;
 import layers.DummyBoard;
 
 public class MoveGeneratorStrategy {
+	private DummyBoard dummyBoard;
+	private ColorBoard colorBoard;
+	private BoardState boardState;
+	private IsKingInCheck isKingInCheck;
+	private IsPositionCaptured positionCaptured;
 	
 	private PeonBlancoMoveGenerator pbmg;
 	private PeonNegroMoveGenerator pnmg;
@@ -23,42 +28,56 @@ public class MoveGeneratorStrategy {
 	private ReyBlancoMoveGenerator rbmg;
 	private ReyNegroMoveGenerator rnmg;
 
-	public MoveGeneratorStrategy(DummyBoard dummyBoard, ColorBoard colorBoard, BoardState boardState, IsKingInCheck isKingInCheck, IsPositionCaptured positionCaptured) {
+	public MoveGeneratorStrategy() {
 		pbmg =  new PeonBlancoMoveGenerator();
-		settupMoveGenerator(pbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		pnmg = new PeonNegroMoveGenerator();
-		settupMoveGenerator(pnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		tbmg = new TorreMoveGenerator(Color.BLANCO);
-		settupMoveGenerator(tbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		tnmg = new TorreMoveGenerator(Color.NEGRO);
-		settupMoveGenerator(tnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		cbmg = new CaballoMoveGenerator(Color.BLANCO);
-		settupMoveGenerator(cbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		cnmg = new CaballoMoveGenerator(Color.NEGRO);
-		settupMoveGenerator(cnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		abmg = new AlfilMoveGenerator(Color.BLANCO);
-		settupMoveGenerator(abmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		anmg = new AlfilMoveGenerator(Color.NEGRO);
-		settupMoveGenerator(anmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		rebmg = new ReinaMoveGenerator(Color.BLANCO);
-		settupMoveGenerator(rebmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		renmg = new ReinaMoveGenerator(Color.NEGRO);
-		settupMoveGenerator(renmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		rbmg = new ReyBlancoMoveGenerator();
-		settupMoveGenerator(rbmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
 		
 		rnmg = new ReyNegroMoveGenerator();
-		settupMoveGenerator(rnmg, dummyBoard, colorBoard, boardState, isKingInCheck, positionCaptured);
+	}
+	
+	public void settupMoveGenerators(){
+		settupMoveGenerator(pbmg);
+
+		settupMoveGenerator(pnmg);
+
+		settupMoveGenerator(tbmg);
+		
+		settupMoveGenerator(tnmg);
+		
+		settupMoveGenerator(cbmg);
+		
+		settupMoveGenerator(cnmg);
+		
+		settupMoveGenerator(abmg);
+		
+		settupMoveGenerator(anmg);
+		
+		settupMoveGenerator(rebmg);
+		
+		settupMoveGenerator(renmg);
+		
+		settupMoveGenerator(rbmg);
+		
+		settupMoveGenerator(rnmg);
 	}
 	
 	public MoveGenerator getMoveGenerator(Pieza pieza){
@@ -110,7 +129,7 @@ public class MoveGeneratorStrategy {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
 
-	private void settupMoveGenerator(MoveGenerator moveGenerator, DummyBoard dummyBoard, ColorBoard colorBoard, BoardState boardState, IsKingInCheck isKingInCheck, IsPositionCaptured positionCaptured) {
+	private void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(dummyBoard);
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
@@ -128,6 +147,46 @@ public class MoveGeneratorStrategy {
 			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
 			generator.setBoardCache(colorBoard);
 		}
+	}
+
+	public DummyBoard getDummyBoard() {
+		return dummyBoard;
+	}
+
+	public void setDummyBoard(DummyBoard dummyBoard) {
+		this.dummyBoard = dummyBoard;
+	}
+
+	public ColorBoard getColorBoard() {
+		return colorBoard;
+	}
+
+	public void setColorBoard(ColorBoard colorBoard) {
+		this.colorBoard = colorBoard;
+	}
+
+	public BoardState getBoardState() {
+		return boardState;
+	}
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+	}
+
+	public IsKingInCheck getIsKingInCheck() {
+		return isKingInCheck;
+	}
+
+	public void setIsKingInCheck(IsKingInCheck isKingInCheck) {
+		this.isKingInCheck = isKingInCheck;
+	}
+
+	public IsPositionCaptured getPositionCaptured() {
+		return positionCaptured;
+	}
+
+	public void setPositionCaptured(IsPositionCaptured positionCaptured) {
+		this.positionCaptured = positionCaptured;
 	}
 	
 }

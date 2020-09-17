@@ -38,12 +38,19 @@ public class Board {
 		this.colorBoard = new ColorBoard(dummyBoard);
 		this.moveCache = new MoveCache();
 		
-		this.strategy = new MoveGeneratorStrategy(dummyBoard, colorBoard, boardState, () -> isKingInCheck(), (Square square) -> isPositionCaptured(square));
-		this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
+		this.strategy = new MoveGeneratorStrategy();
+		this.strategy.setBoardState(boardState);
+		this.strategy.setColorBoard(colorBoard);
+		this.strategy.setDummyBoard(dummyBoard);
+		this.strategy.setIsKingInCheck(() -> isKingInCheck());
+		this.strategy.setPositionCaptured((Square square) -> isPositionCaptured(square));
+		this.strategy.settupMoveGenerators();
 		
-		this.analyzer = new BoardAnalyzer(this, dummyBoard, boardState, colorBoard, strategy);
+		this.analyzer = new BoardAnalyzer(this, dummyBoard, colorBoard, boardState, strategy);
 		
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
+		
+		this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
 	}
 
 
