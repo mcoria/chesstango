@@ -141,7 +141,7 @@ public class MoveGeneratorStrategy {
 			generator.setBoardState(boardState);
 			generator.setPositionCaptured(positionCaptured);
 			generator.setKingInCheck(isKingInCheck);
-			generator.setBoardCache(colorBoard);
+			generator.setColorBoard(colorBoard);
 			
 		} else if(moveGenerator instanceof CardinalMoveGenerator){
 			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
@@ -149,40 +149,20 @@ public class MoveGeneratorStrategy {
 		}
 	}
 
-	public DummyBoard getDummyBoard() {
-		return dummyBoard;
-	}
-
 	public void setDummyBoard(DummyBoard dummyBoard) {
 		this.dummyBoard = dummyBoard;
-	}
-
-	public ColorBoard getColorBoard() {
-		return colorBoard;
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 
-	public BoardState getBoardState() {
-		return boardState;
-	}
-
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
 	}
 
-	public IsKingInCheck getIsKingInCheck() {
-		return isKingInCheck;
-	}
-
 	public void setIsKingInCheck(IsKingInCheck isKingInCheck) {
 		this.isKingInCheck = isKingInCheck;
-	}
-
-	public IsPositionCaptured getPositionCaptured() {
-		return positionCaptured;
 	}
 
 	public void setPositionCaptured(IsPositionCaptured positionCaptured) {

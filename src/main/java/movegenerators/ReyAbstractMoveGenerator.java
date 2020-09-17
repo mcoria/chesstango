@@ -26,7 +26,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected IsKingInCheck kingInCheck = () -> false;
 	
-	protected ColorBoard boardCache;
+	protected ColorBoard colorBoard;
 	
 	protected boolean saveMovesInCache;
 	
@@ -105,7 +105,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, kingSquare);
 		while ( iterator.hasNext() ) {
 		    Square destino = iterator.next();
-		    Color colorDestino = boardCache.getColor(destino);
+		    Color colorDestino = colorBoard.getColor(destino);
 		    if(colorDestino == null){
 		    	continue;
 		    } else if(color.equals(colorDestino)){
@@ -140,8 +140,8 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		this.boardState = boardState;
 	}
 	
-	public void setBoardCache(ColorBoard boardCache) {
-		this.boardCache = boardCache;
+	public void setColorBoard(ColorBoard colorBoard) {
+		this.colorBoard = colorBoard;
 	}
 
 	public void setKingInCheck(IsKingInCheck kingInCheck) {

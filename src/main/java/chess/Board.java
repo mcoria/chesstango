@@ -77,7 +77,7 @@ public class Board {
 	}
 	
 	protected boolean isPositionCaptured(Square square){
-		return capturer.positionCaptured(boardState.getTurnoActual().opositeColor(), square) != null;
+		return capturer.positionCaptured(boardState.getTurnoActual().opositeColor(), square);
 	}	
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		

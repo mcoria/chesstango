@@ -1,7 +1,6 @@
 package positioncaptures;
 
 import chess.Color;
-import chess.PosicionPieza;
 import chess.Square;
 
 public interface Capturer {
@@ -13,6 +12,6 @@ public interface Capturer {
 	 * Luego obtiene la posicion de dummyBoard.
 	 * Esto implica que boardCache necesita estar actualizado en todo momento. 
 	 */
-	PosicionPieza positionCaptured(Color color, Square square);
+	boolean positionCaptured(Color color, Square square);
 
 }

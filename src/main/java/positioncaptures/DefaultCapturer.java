@@ -34,16 +34,16 @@ public class DefaultCapturer implements Capturer {
 	 * @see positioncaptures.Capturer#positionCaptured(chess.Color, chess.Square)
 	 */
 	@Override
-	public PosicionPieza positionCaptured(Color color, Square square){
+	public boolean positionCaptured(Color color, Square square){
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 			if(moveGenerator.puedeCapturarPosicion(origen, square)){
-				return origen;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 	
 }
