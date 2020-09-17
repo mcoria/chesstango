@@ -153,4 +153,9 @@ public class DefaultDummyBoard implements DummyBoard {
 	    }
 	    return new String(baos.toByteArray());
 	}
+
+	@Override
+	public ColorBoard buildColorBoard() {
+		return new ColorBoard(this);
+	}
 }

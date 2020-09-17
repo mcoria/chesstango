@@ -31,5 +31,7 @@ public interface DummyBoard extends Iterable<PosicionPieza> {
 	Iterator<PosicionPieza> iterator(SquareIterator squareIterator);
 	
 	Iterator<PosicionPieza> iterator(long posiciones);
+	
+	ColorBoard buildColorBoard();
 
 }

@@ -35,8 +35,8 @@ public class Board {
 	public Board(DummyBoard dummyBoard, BoardState boardState) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.colorBoard = new ColorBoard(dummyBoard);
 		this.moveCache = new MoveCache();
+		this.colorBoard = dummyBoard.buildColorBoard();
 		
 		this.strategy = new MoveGeneratorStrategy();
 		this.strategy.setBoardState(boardState);
