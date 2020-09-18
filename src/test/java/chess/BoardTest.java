@@ -26,7 +26,7 @@ public class BoardTest {
 	public void test01() {
 		Board tablero = builder.withDefaultBoard().buildBoard();
 		
-		Collection<Move> moves = tablero.getBoardResult().getLegalMoves();
+		Collection<Move> moves = tablero.getBoardStatus().getLegalMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(Square.a2, Pieza.PEON_BLANCO, Square.a3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Pieza.PEON_BLANCO, Square.a4, Square.a3) ));

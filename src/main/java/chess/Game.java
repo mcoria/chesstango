@@ -58,28 +58,28 @@ public class Game {
 	}
 	
 	protected GameStatus updateGameStatus() {
-		BoardResult result = tablero.getBoardResult();
-		Collection<Move> movimientosPosibles = result.getLegalMoves();
-		GameStatus status = null;
+		BoardStatus boardStatus = tablero.getBoardStatus();
+		Collection<Move> movimientosPosibles = boardStatus.getLegalMoves();
+		GameStatus gameStatus = null;
 		
 		if(movimientosPosibles.isEmpty()){
-			if( result.isKingInCheck() ){
-				status = GameStatus.JAQUE_MATE;
+			if( boardStatus.isKingInCheck() ){
+				gameStatus = GameStatus.JAQUE_MATE;
 			} else {
-				status = GameStatus.TABLAS;
+				gameStatus = GameStatus.TABLAS;
 			}
 		} else {
-			if( result.isKingInCheck() ){
-				status = GameStatus.JAQUE;
+			if( boardStatus.isKingInCheck() ){
+				gameStatus = GameStatus.JAQUE;
 			} else {
-				status = GameStatus.IN_PROGRESS;
+				gameStatus = GameStatus.IN_PROGRESS;
 			}			
 		}
 		
 		boardPila.setMovimientosPosibles(movimientosPosibles);
-		boardPila.setStatus(status);
+		boardPila.setStatus(gameStatus);
 		
-		return status;
+		return gameStatus;
 	}
 	
 	protected Move getMovimiento(Square from, Square to) {

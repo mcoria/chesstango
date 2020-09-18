@@ -32,7 +32,7 @@ public class BoardTest01 {
 	public void test01() {
 		Board tablero = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").buildBoard();
 		
-		BoardResult result = tablero.getBoardResult();
+		BoardStatus result = tablero.getBoardStatus();
 		Collection<Move> moves = result.getLegalMoves();
 		
 		assertEquals(Color.NEGRO, tablero.getBoardState().getTurnoActual());
@@ -49,7 +49,7 @@ public class BoardTest01 {
 	public void test02() {
 		Board tablero = builder.withFEN("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1").buildBoard();
 		
-		BoardResult result = tablero.getBoardResult();
+		BoardStatus result = tablero.getBoardStatus();
 		
 		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
 		assertTrue(result.isKingInCheck());
@@ -71,7 +71,7 @@ public class BoardTest01 {
 	public void testJuegoEnroqueBlancoJaque() {
 		Board tablero = builder.withFEN("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1").buildBoard();
 		
-		BoardResult result = tablero.getBoardResult();
+		BoardStatus result = tablero.getBoardStatus();
 		
 		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
 		assertTrue(result.isKingInCheck());			
@@ -94,7 +94,7 @@ public class BoardTest01 {
 	public void testJuegoPeonPromocion() {
 		Board tablero = builder.withFEN("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2").buildBoard();
 		
-		BoardResult result = tablero.getBoardResult();
+		BoardStatus result = tablero.getBoardStatus();
 		
 		Collection<Move> moves = result.getLegalMoves();
 		
@@ -111,13 +111,13 @@ public class BoardTest01 {
 	public void testJuegoPeonPasanteUndo() {
 		Collection<Move> legalMoves = null;
 		Move move = null;
-		BoardResult result = null;
+		BoardStatus result = null;
 		Board tablero = builder.withFEN("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
 		
 		
 		
 		//Estado inicial
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
@@ -127,7 +127,7 @@ public class BoardTest01 {
 		tablero.execute(move);
 		
 		//Podemos capturarlo
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
 		assertEquals(22, legalMoves.size());
@@ -136,7 +136,7 @@ public class BoardTest01 {
 		tablero.undo(move);
 		
 		//No podemos capturarlo
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
@@ -146,12 +146,12 @@ public class BoardTest01 {
 	@Test
 	public void testJuegoPeonPasante01() {
 		Collection<Move> legalMoves = null;
-		BoardResult result = null;
+		BoardStatus result = null;
 		Move move = null;
 		Board tablero = builder.withFEN("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").buildBoard();
 		
 		//Estado inicial
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
@@ -161,25 +161,25 @@ public class BoardTest01 {
 		tablero.execute(move);
 		
 		//Podemos capturarlo
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
 		assertEquals(22, legalMoves.size());
 
 		//Pero NO lo capturamos
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h2, Square.h3);
 		tablero.execute(move);
 		
 
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h7, Square.h6);
 		tablero.execute(move);
 		
 		//Ahora no podemos capturar el peon pasante !!!
-		result = tablero.getBoardResult();
+		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 	}

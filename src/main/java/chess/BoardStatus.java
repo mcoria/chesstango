@@ -2,7 +2,7 @@ package chess;
 
 import java.util.Collection;
 
-public class BoardResult {
+public class BoardStatus {
 	
 	private boolean isKingInCheck;
 	

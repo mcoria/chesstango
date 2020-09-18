@@ -54,14 +54,14 @@ public class Board {
 	}
 
 
-	public BoardResult getBoardResult() {
+	public BoardStatus getBoardStatus() {
 		analyzer.analyze();
 		
 		LegalMoveCalculator calculator = selectCalculator(analyzer);
 		boolean check = analyzer.isKingInCheck();
 		Collection<Move> moves = calculator.getLegalMoves(analyzer);
 		
-		BoardResult result = new BoardResult();
+		BoardStatus result = new BoardStatus();
 		result.setKingInCheck(check);
 		result.setLegalMoves(moves);
 
