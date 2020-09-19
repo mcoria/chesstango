@@ -1,11 +1,11 @@
 package positioncaptures;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Square;
 import layers.ColorBoard;
@@ -14,32 +14,19 @@ import movegenerators.MoveGeneratorStrategy;
 import parsers.FENBoarBuilder;
 
 public class DefaultCapturerTest {
-	private DummyBoard dummyBoard;
-	
-	private BoardState boardState;
-	
 	private FENBoarBuilder builder;
-
-	private MoveGeneratorStrategy strategy;
-
-	private ColorBoard colorBoard;
 
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
-		boardState = new BoardState();
-		strategy = new MoveGeneratorStrategy();
-		strategy.setBoardState(boardState);	
 	}
 	
 	@Test
 	public void testPositionCaptured() {
-		dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
-		colorBoard = dummyBoard.buildColorBoard();
-		
-		strategy.setDummyBoard(dummyBoard);
-		strategy.setColorBoard(colorBoard);
+		DummyBoard dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
+		MoveGeneratorStrategy strategy = builder.buildMoveGeneratorStrategy();
+		ColorBoard colorBoard = builder.buildColorBoard();
 		
 		DefaultCapturer capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
 		

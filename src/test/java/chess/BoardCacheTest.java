@@ -25,9 +25,9 @@ public class BoardCacheTest {
 		
 		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
-		ColorBoard boardCache = tablero.buildColorBoard();
+		ColorBoard colorBoard = builder.buildColorBoard();
 		
-		for (SquareIterator iterator = boardCache.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());
 			assertEquals(Color.BLANCO, pieza.getColor());
 			totalPiezas++;

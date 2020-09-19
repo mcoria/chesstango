@@ -1,9 +1,9 @@
 package builder;
 
-import chess.Game;
+import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Board;
+import chess.Game;
 import chess.Pieza;
 import chess.Square;
 import layers.ColorBoard;
@@ -11,6 +11,11 @@ import layers.DefaultDummyBoard;
 import layers.DummyBoard;
 import movegenerators.MoveGeneratorStrategy;
 
+/*
+ * Esto hay que mejorarlo, se me ocurre implementar un Director
+ * hay pasos intermedios aca que podrian ser encapsulados.
+ * por ejemplo todo aquello que tiene que ver con la creacion del BoardState
+ */
 public abstract class ChessBuilder {
 	
 	private Game game;
@@ -65,7 +70,7 @@ public abstract class ChessBuilder {
 	
 	public ColorBoard buildColorBoard() {
 		if(colorBoard == null){
-			colorBoard = buildDummyBoard().buildColorBoard();
+			colorBoard = new ColorBoard(buildDummyBoard());
 		}
 		return colorBoard;
 	}
