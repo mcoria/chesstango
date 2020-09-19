@@ -1,16 +1,10 @@
 package parsers;
 
-import builder.BoardBuilder;
-import chess.Pieza;
+import builder.ChessBuilder;
 
-public class FENBoarBuilder extends BoardBuilder {
+public class FENBoarBuilder extends ChessBuilder {
 
 	private FENParser parser = new FENParser();
-
-	@Override
-	protected Pieza[][] getTablero() {
-		return parser.getTablero();
-	}
 	
 	public FENBoarBuilder withDefaultBoard(){
 		withFEN(FENParser.INITIAL_FEN);

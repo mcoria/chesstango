@@ -40,7 +40,6 @@ public class DefaultCapturerTest {
 		
 		strategy.setDummyBoard(dummyBoard);
 		strategy.setColorBoard(colorBoard);
-		strategy.settupMoveGenerators();
 		
 		DefaultCapturer capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
 		

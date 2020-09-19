@@ -17,7 +17,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	private final Cardinal[] direcciones;
 	
-	protected ColorBoard boardCache;
+	protected ColorBoard colorBoard;
 
 	public CardinalMoveGenerator(Color color, Cardinal[] direcciones) {
 		super(color);
@@ -71,7 +71,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	    	if(kingSquare.equals(destino)){
 	    		return true;
 	    	}
-		    if(this.boardCache.isEmpty(destino)){
+		    if(this.colorBoard.isEmpty(destino)){
 		    	continue;
 		    } else {		    	
 		    	break;
@@ -81,8 +81,8 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 
-	public void setBoardCache(ColorBoard boardCache) {
-		this.boardCache = boardCache;
+	public void setColorBoard(ColorBoard boardCache) {
+		this.colorBoard = boardCache;
 	}
 
 	@Override

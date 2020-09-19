@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 
+import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.DummyBoard;
 import movecalculators.DefaultLegalMoveCalculator;
@@ -32,19 +33,15 @@ public class Board {
 	
 	private Capturer capturer = null;
 
-	public Board(DummyBoard dummyBoard, BoardState boardState) {
+	public Board(DummyBoard dummyBoard, BoardState boardState, ChessBuilder chessBuilder) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
+		this.colorBoard = chessBuilder.buildColorBoard();
 		this.moveCache = new MoveCache();
-		this.colorBoard = dummyBoard.buildColorBoard();
 		
-		this.strategy = new MoveGeneratorStrategy();
-		this.strategy.setBoardState(boardState);
-		this.strategy.setColorBoard(colorBoard);
-		this.strategy.setDummyBoard(dummyBoard);
+		this.strategy = chessBuilder.buildMoveGeneratorStrategy();
 		this.strategy.setIsKingInCheck(() -> isKingInCheck());
 		this.strategy.setPositionCaptured((Square square) -> isPositionCaptured(square));
-		this.strategy.settupMoveGenerators();
 		
 		this.analyzer = new BoardAnalyzer(this, dummyBoard, colorBoard, boardState, strategy);
 		

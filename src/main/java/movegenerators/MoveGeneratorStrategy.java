@@ -54,32 +54,6 @@ public class MoveGeneratorStrategy {
 		rnmg = new ReyNegroMoveGenerator();
 	}
 	
-	public void settupMoveGenerators(){
-		settupMoveGenerator(pbmg);
-
-		settupMoveGenerator(pnmg);
-
-		settupMoveGenerator(tbmg);
-		
-		settupMoveGenerator(tnmg);
-		
-		settupMoveGenerator(cbmg);
-		
-		settupMoveGenerator(cnmg);
-		
-		settupMoveGenerator(abmg);
-		
-		settupMoveGenerator(anmg);
-		
-		settupMoveGenerator(rebmg);
-		
-		settupMoveGenerator(renmg);
-		
-		settupMoveGenerator(rbmg);
-		
-		settupMoveGenerator(rnmg);
-	}
-	
 	public MoveGenerator getMoveGenerator(Pieza pieza){
 		MoveGenerator value  = null;
 		switch (pieza) {
@@ -129,6 +103,57 @@ public class MoveGeneratorStrategy {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
 
+	public void setDummyBoard(DummyBoard dummyBoard) {
+		this.dummyBoard = dummyBoard;
+		settupMoveGenerators();
+	}
+
+	public void setColorBoard(ColorBoard colorBoard) {
+		this.colorBoard = colorBoard;
+		settupMoveGenerators();
+	}
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+		settupMoveGenerators();
+	}
+
+	public void setIsKingInCheck(IsKingInCheck isKingInCheck) {
+		this.isKingInCheck = isKingInCheck;
+		settupMoveGenerators();
+	}
+
+	public void setPositionCaptured(IsPositionCaptured positionCaptured) {
+		this.positionCaptured = positionCaptured;
+		settupMoveGenerators();
+	}
+	
+	private void settupMoveGenerators(){
+		settupMoveGenerator(pbmg);
+
+		settupMoveGenerator(pnmg);
+
+		settupMoveGenerator(tbmg);
+		
+		settupMoveGenerator(tnmg);
+		
+		settupMoveGenerator(cbmg);
+		
+		settupMoveGenerator(cnmg);
+		
+		settupMoveGenerator(abmg);
+		
+		settupMoveGenerator(anmg);
+		
+		settupMoveGenerator(rebmg);
+		
+		settupMoveGenerator(renmg);
+		
+		settupMoveGenerator(rbmg);
+		
+		settupMoveGenerator(rnmg);
+	}
+	
 	private void settupMoveGenerator(MoveGenerator moveGenerator) {
 		moveGenerator.setTablero(dummyBoard);
 		
@@ -145,28 +170,8 @@ public class MoveGeneratorStrategy {
 			
 		} else if(moveGenerator instanceof CardinalMoveGenerator){
 			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
-			generator.setBoardCache(colorBoard);
+			generator.setColorBoard(colorBoard);
 		}
-	}
-
-	public void setDummyBoard(DummyBoard dummyBoard) {
-		this.dummyBoard = dummyBoard;
-	}
-
-	public void setColorBoard(ColorBoard colorBoard) {
-		this.colorBoard = colorBoard;
-	}
-
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
-	}
-
-	public void setIsKingInCheck(IsKingInCheck isKingInCheck) {
-		this.isKingInCheck = isKingInCheck;
-	}
-
-	public void setPositionCaptured(IsPositionCaptured positionCaptured) {
-		this.positionCaptured = positionCaptured;
-	}
+	}	
 	
 }
