@@ -10,6 +10,7 @@ import movecalculators.LegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.DefaultCapturer;
+import positioncaptures.ImprovedCapturer;
 
 
 public class Board {
@@ -47,7 +48,8 @@ public class Board {
 		
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
 		
-		this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
+		//this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
+		this.capturer = new ImprovedCapturer(dummyBoard);
 	}
 
 

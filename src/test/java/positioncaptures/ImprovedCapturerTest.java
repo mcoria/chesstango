@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import chess.Color;
 import chess.Square;
-import layers.ColorBoard;
 import layers.DummyBoard;
 import parsers.FENBoarBuilder;
 
@@ -24,9 +23,8 @@ public class ImprovedCapturerTest {
 	@Test
 	public void testPositionCapturedByPeonBlanco() {
 		DummyBoard dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
-		ColorBoard colorBoard = builder.buildColorBoard();
 		
-		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard, colorBoard);
+		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
 		assertTrue( capturer.positionCaptured(Color.BLANCO, Square.a6) );
 		assertFalse( capturer.positionCaptured(Color.BLANCO, Square.b6) );
@@ -36,9 +34,8 @@ public class ImprovedCapturerTest {
 	@Test
 	public void testPositionCapturedByPeonNegro() {
 		DummyBoard dummyBoard = builder.withTablero("8/8/8/1p6/8/8/8/8").buildDummyBoard();
-		ColorBoard colorBoard = builder.buildColorBoard();
 		
-		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard, colorBoard);
+		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
 		assertTrue( capturer.positionCaptured(Color.NEGRO, Square.a4) );
 		assertFalse( capturer.positionCaptured(Color.NEGRO, Square.b4) );
@@ -49,9 +46,8 @@ public class ImprovedCapturerTest {
 	@Test
 	public void testPositionCapturedByCaballo() {
 		DummyBoard dummyBoard = builder.withTablero("8/8/8/3N4/8/8/8/8").buildDummyBoard();
-		ColorBoard colorBoard = builder.buildColorBoard();
 		
-		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard, colorBoard);
+		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
 		assertTrue( capturer.positionCaptured(Color.BLANCO, Square.c7) );
 		assertTrue( capturer.positionCaptured(Color.BLANCO, Square.e7) );

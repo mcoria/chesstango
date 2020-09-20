@@ -88,6 +88,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 				
+		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 		 
 		if(! positionCaptured.check(board.getKingSquare())) {
@@ -95,6 +96,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		}
 		
 		move.undoMove(this.colorBoard);
+		move.undoMove(this.dummyBoard);
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 		
