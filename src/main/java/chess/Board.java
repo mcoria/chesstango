@@ -43,7 +43,7 @@ public class Board {
 		this.strategy.setIsKingInCheck(() -> isKingInCheck());
 		this.strategy.setPositionCaptured((Square square) -> isPositionCaptured(square));
 		
-		this.analyzer = new BoardAnalyzer(this, dummyBoard, colorBoard, boardState, strategy);
+		this.analyzer = new BoardAnalyzer(this, (Square square) -> isPositionCaptured(square));
 		
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
 		

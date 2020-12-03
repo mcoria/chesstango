@@ -47,7 +47,7 @@ public class ImprovedCapturer implements Capturer {
 			reyna = Pieza.REINA_NEGRO;;
 		}		
 		for (Cardinal cardinal : this.direccionAlfil) {
-			if(cardinalPositionCapturedByTorre(alfil, reyna, square, cardinal)){
+			if(cardinalPositionCapturedByPieza(alfil, reyna, square, cardinal)){
 				return true;
 			}
 		}
@@ -66,14 +66,14 @@ public class ImprovedCapturer implements Capturer {
 			reyna = Pieza.REINA_NEGRO;;
 		}		
 		for (Cardinal cardinal : this.direccionTorre) {
-			if(cardinalPositionCapturedByTorre(torre, reyna, square, cardinal)){
+			if(cardinalPositionCapturedByPieza(torre, reyna, square, cardinal)){
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean cardinalPositionCapturedByTorre(Pieza torreOalfil, Pieza reyna, Square square, Cardinal cardinal) {
+	private boolean cardinalPositionCapturedByPieza(Pieza torreOalfil, Pieza reyna, Square square, Cardinal cardinal) {
 		Iterator<PosicionPieza> iterator = this.dummyBoard.iterator(new CardinalSquareIterator(cardinal, square));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
