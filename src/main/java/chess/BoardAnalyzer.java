@@ -1,16 +1,21 @@
 package chess;
 
+import positioncaptures.ImprovedCapturer;
+
+/*
+ * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde
+ */
 public class BoardAnalyzer {
 	
 	private Board board = null;
 	
 	private boolean isKingInCheck = false;
-	
-	protected IsPositionCaptured positionCaptured = (Square square) -> false;
 
-	public BoardAnalyzer(Board board, IsPositionCaptured positionCaptured) {
+	private ImprovedCapturer capturer;
+
+	public BoardAnalyzer(Board board) {
 		this.board = board;
-		this.positionCaptured = positionCaptured;
+		this.capturer = new ImprovedCapturer(board.getDummyBoard());
 	}
 
 	public void analyze() {
@@ -18,7 +23,7 @@ public class BoardAnalyzer {
 	}
 	
 	private boolean calculateKingInCheck() {
-		isKingInCheck = positionCaptured.check(board.getKingSquare());
+		isKingInCheck = capturer.positionCaptured(board.getBoardState().getTurnoActual().opositeColor(), board.getKingSquare());
 		return isKingInCheck;
 	}	
 	

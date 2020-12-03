@@ -26,10 +26,10 @@ public class ImprovedCapturer implements Capturer {
 
 	@Override
 	public boolean positionCaptured(Color color, Square square) {
-		if(positionCapturedByPeon(color, square) ||
-		   positionCapturedByCaballo(color, square)	||
+		if(positionCapturedByCaballo(color, square)	||
 		   positionCapturedByTorre(color, square)	||
-		   positionCapturedByAlfil(color, square)){
+		   positionCapturedByAlfil(color, square)   ||
+		   positionCapturedByPeon(color, square)){
 			return true;
 		}
 		return false;
