@@ -11,7 +11,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected DummyBoard tablero;
 	
-	protected MoveGeneratorResult result = new MoveGeneratorResult();
+	protected MoveGeneratorResult result;
 	
 	public abstract void generateMoves(PosicionPieza origen);
 	

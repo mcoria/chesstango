@@ -9,20 +9,19 @@ import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
-import positioncaptures.DefaultCapturer;
 import positioncaptures.ImprovedCapturer;
 
 
 public class Board {
 
-	// Al final del dia estas son dos representaciones distintas del tablero. Uno con mas informacion que el otro.
+	// Dos representaciones distintas del tablero. Uno con mas informacion que la otra.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
 	//TODO: No debieramos tener un layer de move generators, para evitar el case dentro de MoveGeneratorStrategy
 	
 	// Esta es una capa mas de informacion del tablero
-	private MoveCache moveCache = null;
+	//private MoveCache moveCache = null;
 	
 	private BoardState boardState = null;
 	
@@ -38,7 +37,7 @@ public class Board {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.colorBoard = chessBuilder.buildColorBoard();
-		this.moveCache = new MoveCache();
+		//this.moveCache = new MoveCache();
 		
 		this.strategy = chessBuilder.buildMoveGeneratorStrategy();
 		this.strategy.setIsKingInCheck(() -> isKingInCheck());
@@ -87,7 +86,7 @@ public class Board {
 
 		move.executeMove(colorBoard);
 
-		move.executeMove(moveCache);
+		//move.executeMove(moveCache);
 
 		move.executeMove(boardState);
 
@@ -99,7 +98,7 @@ public class Board {
 
 		move.undoMove(boardState);
 
-		move.undoMove(moveCache);
+		//move.undoMove(moveCache);
 
 		move.undoMove(colorBoard);
 

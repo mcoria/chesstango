@@ -3,10 +3,9 @@ package chess;
 import layers.ColorBoard;
 import layers.DummyBoard;
 
-//TOOD: Implementar en terminos de Square a Square
+//TOOD: Y si en vez de PosicionPieza utilizamos Square ?
 public interface Move {
 
-	//TOOD: Y si en vez de PosicionPieza utilizamos Square ?
 	PosicionPieza getFrom();
 	PosicionPieza getTo();
 
