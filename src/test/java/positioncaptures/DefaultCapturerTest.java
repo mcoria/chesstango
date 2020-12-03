@@ -28,7 +28,7 @@ public class DefaultCapturerTest {
 		MoveGeneratorStrategy strategy = builder.buildMoveGeneratorStrategy();
 		ColorBoard colorBoard = builder.buildColorBoard();
 		
-		DefaultCapturer capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
+		IteratorCapturer capturer = new IteratorCapturer(dummyBoard, colorBoard, strategy);
 		
 		assertTrue( capturer.positionCaptured(Color.BLANCO, Square.a6) );
 		assertFalse( capturer.positionCaptured(Color.BLANCO, Square.b6) );
