@@ -76,18 +76,6 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		return moves;
 	}
 	
-	/*
-	private Collection<Move> getPseudoMoves(Square origenSquare) {		
-
-		PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
-
-		MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
-
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-		
-		return generatorResult.getPseudoMoves();
-	}*/
-	
 	private Collection<Move> getPseudoMoves(Square origenSquare) {
 		Collection<Move> pseudoMoves = null;
 
