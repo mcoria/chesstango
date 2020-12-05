@@ -3,7 +3,6 @@ package movecalculators;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
@@ -20,9 +19,6 @@ import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
 
 public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
-	
-	private Board board = null;
-	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
@@ -33,19 +29,21 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
 	protected Capturer capturer = null;
 	
-	public DefaultLegalMoveCalculator(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
+	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, BoardState boardState,
 			MoveGeneratorStrategy strategy) {
-		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
-		this.colorBoard = boardCache;
+		this.colorBoard = colorBoard;
 		this.strategy = strategy;
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
 
+	private Color turnoActual = null;
+	private Color opositeTurnoActual = null;
 	@Override
 	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
-		Color 	turnoActual = boardState.getTurnoActual();
+		turnoActual = boardState.getTurnoActual();
+		opositeTurnoActual = turnoActual.opositeColor();
 
 		Collection<Move> moves = createContainer();
 		
@@ -92,7 +90,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 		 
-		if(! capturer.positionCaptured(this.boardState.getTurnoActual().opositeColor(), board.getKingSquare())) {
+		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}
 		
@@ -105,6 +103,10 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	}
 	
 	
+	private Square getCurrentKingSquare() {
+		return Color.BLANCO.equals(this.turnoActual) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
+	}
+
 	private static <T> Collection<T> createContainer(){
 		return new ArrayList<T>() {
 			/**

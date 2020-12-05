@@ -42,7 +42,7 @@ public class Board {
 		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, boardState, strategy);
 	}
 
 
