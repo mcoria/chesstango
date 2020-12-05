@@ -7,6 +7,7 @@ import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
 import chess.Move;
+import chess.MoveCache;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.SquareIterator;
@@ -23,17 +24,21 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	private DummyBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
 	
+	// Esta es una capa mas de informacion del tablero
+	private MoveCache moveCache = null;		
+	
 	private BoardState boardState = null;	
 	
 	private MoveGeneratorStrategy strategy = null;
 	
 	protected Capturer capturer = null;
 	
-	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, BoardState boardState,
+	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, MoveCache moveCache, BoardState boardState,
 			MoveGeneratorStrategy strategy) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.colorBoard = colorBoard;
+		this.moveCache = moveCache;
 		this.strategy = strategy;
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
@@ -70,7 +75,8 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		
 		return moves;
 	}
-
+	
+	/*
 	private Collection<Move> getPseudoMoves(Square origenSquare) {		
 
 		PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
@@ -80,7 +86,32 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
 		return generatorResult.getPseudoMoves();
-	}
+	}*/
+	
+	private Collection<Move> getPseudoMoves(Square origenSquare) {
+		Collection<Move> pseudoMoves = null;
+
+
+		pseudoMoves = moveCache.getPseudoMoves(origenSquare);
+
+		if (pseudoMoves == null) {
+
+			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
+
+			MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+
+			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+
+			pseudoMoves = generatorResult.getPseudoMoves();
+
+			if (generatorResult.isSaveMovesInCache()) {
+				moveCache.setPseudoMoves(origen.getKey(), pseudoMoves);
+				moveCache.setAffectedBy(origen.getKey(), generatorResult.getAffectedBy());
+			}
+		}
+		
+		return pseudoMoves;
+	}	
 
 	private boolean filterMove(Move move) {
 		boolean result = false;

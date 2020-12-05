@@ -19,7 +19,7 @@ public class Board {
 	//TODO: No debieramos tener un layer de move generators, para evitar el case dentro de MoveGeneratorStrategy
 	
 	// Esta es una capa mas de informacion del tablero
-	//private MoveCache moveCache = null;
+	private MoveCache moveCache = null;
 	
 	private BoardState boardState = null;
 	
@@ -35,14 +35,14 @@ public class Board {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.colorBoard = chessBuilder.buildColorBoard();
-		//this.moveCache = new MoveCache();
+		this.moveCache = new MoveCache();
 		
 		this.strategy = chessBuilder.buildMoveGeneratorStrategy();
 		this.strategy.setIsKingInCheck(() -> isKingInCheck());
 		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, boardState, strategy);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy);
 	}
 
 
@@ -76,7 +76,7 @@ public class Board {
 
 		move.executeMove(colorBoard);
 
-		//move.executeMove(moveCache);
+		move.executeMove(moveCache);
 
 		move.executeMove(boardState);
 
@@ -88,7 +88,7 @@ public class Board {
 
 		move.undoMove(boardState);
 
-		//move.undoMove(moveCache);
+		move.undoMove(moveCache);
 
 		move.undoMove(colorBoard);
 
