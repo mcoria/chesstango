@@ -24,7 +24,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 		this.saltos = saltos;
 	}
 
-	//El calculo de movimientos lo puede hacer en funcion de BoardCache
+	//El calculo de movimientos lo puede hacer en funcion de ColorBoard
 	
 	@Override
 	public void generateMoves(PosicionPieza origen) {

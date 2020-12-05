@@ -6,7 +6,7 @@ import positioncaptures.ImprovedCapturer;
  * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde
  */
 public class BoardAnalyzer {
-	
+
 	private Board board = null;
 	
 	private boolean isKingInCheck = false;
@@ -21,14 +21,14 @@ public class BoardAnalyzer {
 	public void analyze() {
 		this.isKingInCheck = calculateKingInCheck();
 	}
-	
+
 	private boolean calculateKingInCheck() {
 		isKingInCheck = capturer.positionCaptured(board.getBoardState().getTurnoActual().opositeColor(), board.getKingSquare());
 		return isKingInCheck;
 	}	
-	
+
 	public boolean isKingInCheck() {
 		return isKingInCheck;
 	}		
-	
+
 }

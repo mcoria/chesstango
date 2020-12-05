@@ -15,8 +15,8 @@ public interface Move {
 	void executeMove(BoardState boardState);
 	void undoMove(BoardState boardState);
 
-	void executeMove(ColorBoard boardCache);
-	void undoMove(ColorBoard boardCache);
+	void executeMove(ColorBoard coloBoard);
+	void undoMove(ColorBoard colorBoard);
 	
 	void executeMove(MoveCache moveCache);
 	void undoMove(MoveCache moveCache);	

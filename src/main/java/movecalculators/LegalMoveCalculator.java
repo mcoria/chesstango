@@ -11,6 +11,5 @@ import chess.Move;
 // Sin Jaque    -> El enroque está permidito.
 // Movemos la validacion de enroques aqui?
 public interface LegalMoveCalculator {
-
 	Collection<Move> getLegalMoves(BoardAnalyzer analyzer);
 }

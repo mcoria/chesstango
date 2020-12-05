@@ -3,17 +3,16 @@ package movegenerators;
 import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
-import chess.IsPositionCaptured;
 import chess.Pieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
+import positioncaptures.ImprovedCapturer;
 
 public class MoveGeneratorStrategy {
 	private DummyBoard dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
 	private IsKingInCheck isKingInCheck;
-	private IsPositionCaptured positionCaptured;
 	
 	private PeonBlancoMoveGenerator pbmg;
 	private PeonNegroMoveGenerator pnmg;
@@ -122,11 +121,6 @@ public class MoveGeneratorStrategy {
 		this.isKingInCheck = isKingInCheck;
 		settupMoveGenerators();
 	}
-
-	public void setPositionCaptured(IsPositionCaptured positionCaptured) {
-		this.positionCaptured = positionCaptured;
-		settupMoveGenerators();
-	}
 	
 	private void settupMoveGenerators(){
 		settupMoveGenerator(pbmg);
@@ -164,7 +158,7 @@ public class MoveGeneratorStrategy {
 		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setPositionCaptured(positionCaptured);
+			generator.setCapturer(new ImprovedCapturer(dummyBoard));
 			generator.setKingInCheck(isKingInCheck);
 			generator.setColorBoard(colorBoard);
 			

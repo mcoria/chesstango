@@ -8,8 +8,6 @@ import layers.DummyBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
-import positioncaptures.Capturer;
-import positioncaptures.ImprovedCapturer;
 
 
 public class Board {
@@ -31,7 +29,7 @@ public class Board {
 	
 	private BoardAnalyzer analyzer = null; 
 	
-	private Capturer capturer = null;
+	//private Capturer capturer = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState, ChessBuilder chessBuilder) {
 		this.dummyBoard = dummyBoard;
@@ -41,14 +39,10 @@ public class Board {
 		
 		this.strategy = chessBuilder.buildMoveGeneratorStrategy();
 		this.strategy.setIsKingInCheck(() -> isKingInCheck());
-		this.strategy.setPositionCaptured((Square square) -> isPositionCaptured(square));
 		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy, (Square square) -> isPositionCaptured(square));
-		
-		//this.capturer = new DefaultCapturer(dummyBoard, colorBoard, strategy);
-		this.capturer = new ImprovedCapturer(dummyBoard);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, boardState, colorBoard, strategy);
 	}
 
 
@@ -72,10 +66,6 @@ public class Board {
 
 	protected boolean isKingInCheck() {
 		return analyzer.isKingInCheck();
-	}
-	
-	protected boolean isPositionCaptured(Square square){
-		return capturer.positionCaptured(boardState.getTurnoActual().opositeColor(), square);
 	}	
 
 	///////////////////////////// START Move execution Logic /////////////////////////////		

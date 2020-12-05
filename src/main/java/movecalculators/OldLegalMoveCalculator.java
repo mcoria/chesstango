@@ -7,7 +7,6 @@ import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
-import chess.IsPositionCaptured;
 import chess.Move;
 import chess.MoveCache;
 import chess.PosicionPieza;
@@ -24,7 +23,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	
 	private Board board = null;
 	
-	protected IsPositionCaptured positionCaptured = (Square square) -> false;
+	//protected IsPositionCaptured positionCaptured = (Square square) -> false;
 	
 	// Al final del dia estas son dos representaciones distintas del tablero
 	private DummyBoard dummyBoard = null; 
@@ -40,12 +39,12 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	private final boolean useMoveCache = false;
 	
 	public OldLegalMoveCalculator(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
-			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
+			MoveGeneratorStrategy strategy) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.boardCache = boardCache;
 		this.strategy = strategy;
-		this.positionCaptured = positionCaptured;
+		//this.positionCaptured = positionCaptured;
 	}	
 
 	@Override

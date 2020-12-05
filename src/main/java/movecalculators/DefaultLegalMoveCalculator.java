@@ -7,7 +7,6 @@ import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
-import chess.IsPositionCaptured;
 import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
@@ -17,6 +16,8 @@ import layers.DummyBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
+import positioncaptures.Capturer;
+import positioncaptures.ImprovedCapturer;
 
 public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
@@ -30,16 +31,16 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	
 	private MoveGeneratorStrategy strategy = null;
 	
-	protected IsPositionCaptured positionCaptured = (Square square) -> false;
+	protected Capturer capturer = null;
 	
 	public DefaultLegalMoveCalculator(Board board, DummyBoard dummyBoard, BoardState boardState, ColorBoard boardCache,
-			MoveGeneratorStrategy strategy, IsPositionCaptured positionCaptured) {
+			MoveGeneratorStrategy strategy) {
 		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.colorBoard = boardCache;
 		this.strategy = strategy;
-		this.positionCaptured = positionCaptured;
+		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
 
 	@Override
@@ -56,12 +57,12 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
 			// De almacenar movimientos en un cache, estos moviemientos son pseudo, es imposible almacenar movimientos legales en un cache !!!
-			// Ejemplo supongamos que almacenamos movimientos de torre blanca a5
-			// Reina Negra se mueve desde h7 a e7 y rey e1 queda en jaque 
-			// Solo movimiento de torre a5 e7 es VALIDO, el resto deja al rey en Jaque
+			// Ejemplo supongamos que almacenamos movimientos de torre blanca en a5, rey blanco se encuentra en e1 y es turno blancas.
+			// En movimiento anterior Reina Negra se movió desde h7 a e7 y ahora el rey blanco e1 queda en jaque.
+			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(this.filterMove(move)){
+				if(filterMove(move)){
 					moves.add(move);
 				}
 			}
@@ -91,7 +92,7 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 		 
-		if(! positionCaptured.check(board.getKingSquare())) {
+		if(! capturer.positionCaptured(this.boardState.getTurnoActual().opositeColor(), board.getKingSquare())) {
 			result = true;
 		}
 		
