@@ -3,7 +3,6 @@ package movegenerators;
 import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
-import chess.Pieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
 import positioncaptures.ImprovedCapturer;
@@ -16,10 +15,10 @@ public class MoveGeneratorStrategy {
 	
 	private PeonBlancoMoveGenerator pbmg;
 	private PeonNegroMoveGenerator pnmg;
-	private TorreMoveGenerator tnmg;
 	private TorreMoveGenerator tbmg;
-	private CaballoMoveGenerator cnmg;
+	private TorreMoveGenerator tnmg;
 	private CaballoMoveGenerator cbmg;
+	private CaballoMoveGenerator cnmg;
 	private AlfilMoveGenerator abmg;
 	private AlfilMoveGenerator anmg;
 	private ReinaMoveGenerator rebmg;
@@ -52,7 +51,7 @@ public class MoveGeneratorStrategy {
 		
 		rnmg = new ReyNegroMoveGenerator();
 	}
-	
+
 	public MoveGenerator getMoveGenerator(Pieza pieza){
 		MoveGenerator value  = null;
 		switch (pieza) {
@@ -101,7 +100,6 @@ public class MoveGeneratorStrategy {
 	public ReyAbstractMoveGenerator getReyMoveGenerator(Color color) {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
-
 	public void setDummyBoard(DummyBoard dummyBoard) {
 		this.dummyBoard = dummyBoard;
 		settupMoveGenerators();
@@ -166,6 +164,53 @@ public class MoveGeneratorStrategy {
 			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
 			generator.setColorBoard(colorBoard);
 		}
+	}
+
+	public PeonBlancoMoveGenerator getPeonBlancoMoveGenerator() {
+		return pbmg;
+	}
+
+	public PeonNegroMoveGenerator getPeonNegroMoveGenerator() {
+		return pnmg;
+	}
+
+	public TorreMoveGenerator getTorreBlancaMoveGenerator() {
+		return tbmg;
+	}
+
+	public TorreMoveGenerator getTorreNegraMoveGenerator() {
+		return tnmg;
 	}	
 	
+	public CaballoMoveGenerator getCaballoBlancoMoveGenerator() {
+		return cbmg;
+	}
+	
+	public CaballoMoveGenerator getCaballoNegroMoveGenerator() {
+		return cnmg;
+	}	
+	
+	public AlfilMoveGenerator getAlfilBlancoMoveGenerator() {
+		return abmg;
+	}
+	
+	public AlfilMoveGenerator getAlfilNegroMoveGenerator() {
+		return anmg;
+	}	
+	
+	public ReinaMoveGenerator getReinaBlancaMoveGenerator() {
+		return rebmg;
+	}
+	
+	public ReinaMoveGenerator getReinaNegraMoveGenerator() {
+		return renmg;
+	}	
+	
+	public ReyBlancoMoveGenerator getReyBlancoMoveGenerator() {
+		return rbmg;
+	}
+	
+	public ReyNegroMoveGenerator getReyNegroMoveGenerator() {
+		return rnmg;
+	}		
 }

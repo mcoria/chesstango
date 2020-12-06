@@ -1,28 +1,33 @@
 package chess;
 
+import movegenerators.MoveGenerator;
+import movegenerators.MoveGeneratorStrategy;
+
 public enum Pieza {
-	PEON_BLANCO(Color.BLANCO),
-	PEON_NEGRO(Color.NEGRO),
+	PEON_BLANCO(Color.BLANCO, (MoveGeneratorStrategy strategy) -> strategy.getPeonBlancoMoveGenerator()),
+	PEON_NEGRO(Color.NEGRO, (MoveGeneratorStrategy strategy) -> strategy.getPeonNegroMoveGenerator()),
 	
-	TORRE_BLANCO(Color.BLANCO),
-	TORRE_NEGRO(Color.NEGRO),
+	TORRE_BLANCO(Color.BLANCO, (MoveGeneratorStrategy strategy) -> strategy.getTorreBlancaMoveGenerator()),
+	TORRE_NEGRO(Color.NEGRO, (MoveGeneratorStrategy strategy) -> strategy.getTorreNegraMoveGenerator()),
 	
-	CABALLO_BLANCO(Color.BLANCO),
-	CABALLO_NEGRO(Color.NEGRO),
+	CABALLO_BLANCO(Color.BLANCO, (MoveGeneratorStrategy strategy) -> strategy.getCaballoBlancoMoveGenerator()),
+	CABALLO_NEGRO(Color.NEGRO, (MoveGeneratorStrategy strategy) -> strategy.getCaballoNegroMoveGenerator()),
 	
-	ALFIL_BLANCO(Color.BLANCO),
-	ALFIL_NEGRO(Color.NEGRO),
+	ALFIL_BLANCO(Color.BLANCO, (MoveGeneratorStrategy strategy) -> strategy.getAlfilBlancoMoveGenerator()),
+	ALFIL_NEGRO(Color.NEGRO, (MoveGeneratorStrategy strategy) -> strategy.getAlfilNegroMoveGenerator()),
 	
-	REINA_BLANCO(Color.BLANCO),
-	REINA_NEGRO(Color.NEGRO),
+	REINA_BLANCO(Color.BLANCO, (MoveGeneratorStrategy strategy) -> strategy.getReinaBlancaMoveGenerator()),
+	REINA_NEGRO(Color.NEGRO, (MoveGeneratorStrategy strategy) -> strategy.getReinaNegraMoveGenerator()),
 	
-	REY_BLANCO(Color.BLANCO),
-	REY_NEGRO(Color.NEGRO);
+	REY_BLANCO(Color.BLANCO, (MoveGeneratorStrategy strategy) -> strategy.getReyBlancoMoveGenerator()),
+	REY_NEGRO(Color.NEGRO, (MoveGeneratorStrategy strategy) -> strategy.getReyNegroMoveGenerator());
 	
 	private Color color;
+	private StrategySelector selector = null;
 	
-	private Pieza(Color color) {
+	private Pieza(Color color, StrategySelector selector) {
 		this.color = color;
+		this.selector = selector;
 	}
 	
 	public Color getColor(){
@@ -38,5 +43,9 @@ public enum Pieza {
 		default:
 			throw new RuntimeException("Invalid color");
 		}
+	}
+
+	public MoveGenerator getMoveGenerator(MoveGeneratorStrategy strategy) {
+		return this.selector.getMoveGenerator(strategy);
 	}
 }

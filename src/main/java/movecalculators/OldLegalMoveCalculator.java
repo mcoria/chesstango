@@ -17,7 +17,6 @@ import layers.DummyBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
-import movegenerators.ReyAbstractMoveGenerator;
 
 public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	
@@ -58,8 +57,8 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 
 		if(! isKingInCheck ){
 			kingSquare = board.getKingSquare();
-			ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
-			pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
+			//ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
+			//pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 		}
 
 		Collection<Move> moves = createContainer();
@@ -117,7 +116,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 
 				PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
 
-				MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+				MoveGenerator moveGenerator = null;//strategy.getMoveGenerator(origen.getValue());
 
 				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 
@@ -132,7 +131,7 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 
 			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
 
-			MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+			MoveGenerator moveGenerator = null;//strategy.getMoveGenerator(origen.getValue());
 
 			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 

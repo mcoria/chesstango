@@ -8,6 +8,7 @@ import chess.BoardState;
 import chess.Color;
 import chess.Move;
 import chess.MoveCache;
+import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.SquareIterator;
@@ -36,15 +37,16 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, MoveCache moveCache, BoardState boardState,
 			MoveGeneratorStrategy strategy) {
 		this.dummyBoard = dummyBoard;
-		this.boardState = boardState;
 		this.colorBoard = colorBoard;
-		this.moveCache = moveCache;
+		this.moveCache = moveCache;		
+		this.boardState = boardState;
 		this.strategy = strategy;
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
 
 	private Color turnoActual = null;
 	private Color opositeTurnoActual = null;
+
 	@Override
 	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
 		turnoActual = boardState.getTurnoActual();
@@ -85,6 +87,9 @@ public class DefaultLegalMoveCalculator implements LegalMoveCalculator {
 		if (pseudoMoves == null) {
 
 			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
+			
+			//Pieza pieza = origen.getValue();
+			//MoveGenerator moveGenerator = pieza.getMoveGenerator(strategy);
 
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
 

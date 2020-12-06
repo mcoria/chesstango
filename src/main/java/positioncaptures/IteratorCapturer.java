@@ -36,6 +36,7 @@ public class IteratorCapturer implements Capturer {
 		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
+			//MoveGenerator moveGenerator = currentPieza.getMoveGenerator(strategy);
 			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
 			if(moveGenerator.puedeCapturarPosicion(origen, square)){
 				return true;
