@@ -2,7 +2,6 @@ package movecalculators;
 
 import java.util.Collection;
 
-import chess.BoardAnalyzer;
 import chess.Move;
 
 // Doble  Jaque -> Mover el Rey. El enroque no está permitido.
@@ -11,5 +10,5 @@ import chess.Move;
 // Sin Jaque    -> El enroque está permidito.
 // Movemos la validacion de enroques aqui?
 public interface LegalMoveCalculator {
-	Collection<Move> getLegalMoves(BoardAnalyzer analyzer);
+	Collection<Move> getLegalMoves();
 }

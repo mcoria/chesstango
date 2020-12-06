@@ -47,10 +47,10 @@ public class OldLegalMoveCalculator implements LegalMoveCalculator {
 	}	
 
 	@Override
-	public Collection<Move> getLegalMoves(BoardAnalyzer analyzer) {
+	public Collection<Move> getLegalMoves() {
 		Color 	turnoActual = boardState.getTurnoActual();
 		
-		boolean isKingInCheck = analyzer.isKingInCheck();
+		boolean isKingInCheck = true; //analyzer.isKingInCheck();
 		
 		Square 	kingSquare = null;
 		Collection<Square> pinnedSquares = null; // Casilleros donde se encuentran piezas propias que de moverse pueden desproteger al Rey.

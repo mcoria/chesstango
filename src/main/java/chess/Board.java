@@ -16,20 +16,17 @@ public class Board {
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
-	//TODO: No debieramos tener un layer de move generators, para evitar el case dentro de MoveGeneratorStrategy
 	
-	// Esta es una capa mas de informacion del tablero
+	// TODO: Al final del dia, esta es una capa mas de informacion
 	private MoveCache moveCache = null;
 	
 	private BoardState boardState = null;
 	
 	private MoveGeneratorStrategy strategy = null;
 	
+	private BoardAnalyzer analyzer = null;
+	
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
-	
-	private BoardAnalyzer analyzer = null; 
-	
-	//private Capturer capturer = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState, ChessBuilder chessBuilder) {
 		this.dummyBoard = dummyBoard;
@@ -42,16 +39,16 @@ public class Board {
 		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy, analyzer);
 	}
 
 
 	public BoardStatus getBoardStatus() {
 		analyzer.analyze();
 		
-		LegalMoveCalculator calculator = selectCalculator(analyzer);
+		LegalMoveCalculator calculator = selectMoveCalculator();
 		boolean check = analyzer.isKingInCheck();
-		Collection<Move> moves = calculator.getLegalMoves(analyzer);
+		Collection<Move> moves = calculator.getLegalMoves();
 		
 		BoardStatus result = new BoardStatus();
 		result.setKingInCheck(check);
@@ -98,7 +95,7 @@ public class Board {
 	}
 	///////////////////////////// END Move execution Logic /////////////////////////////
 
-	private LegalMoveCalculator selectCalculator(BoardAnalyzer analyzer) {
+	private LegalMoveCalculator selectMoveCalculator() {
 		return defaultMoveCalculator;
 	}
 	
