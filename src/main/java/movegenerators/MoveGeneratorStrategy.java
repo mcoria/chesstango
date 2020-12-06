@@ -3,6 +3,7 @@ package movegenerators;
 import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
+import chess.Pieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
 import positioncaptures.ImprovedCapturer;

@@ -8,7 +8,6 @@ import chess.BoardState;
 import chess.Color;
 import chess.Move;
 import chess.MoveCache;
-import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.SquareIterator;
