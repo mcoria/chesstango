@@ -7,6 +7,7 @@ import layers.ColorBoard;
 import layers.DummyBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
+import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 
 
@@ -27,6 +28,7 @@ public class Board {
 	private BoardAnalyzer analyzer = null;
 	
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
+	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;
 
 	public Board(DummyBoard dummyBoard, BoardState boardState, ChessBuilder chessBuilder) {
 		this.dummyBoard = dummyBoard;
@@ -40,6 +42,7 @@ public class Board {
 		this.analyzer = new BoardAnalyzer(this);
 		
 		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy, analyzer);
+		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy, analyzer);
 	}
 
 
@@ -96,6 +99,9 @@ public class Board {
 	///////////////////////////// END Move execution Logic /////////////////////////////
 
 	private LegalMoveCalculator selectMoveCalculator() {
+		if(! analyzer.isKingInCheck() ){
+			return noCheckLegalMoveCalculator;
+		}
 		return defaultMoveCalculator;
 	}
 	

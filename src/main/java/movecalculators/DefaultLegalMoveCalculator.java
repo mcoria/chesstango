@@ -13,7 +13,7 @@ import layers.DummyBoard;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.ImprovedCapturer;
 
-public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator implements LegalMoveCalculator {
+public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
 	
 	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, MoveCache moveCache, BoardState boardState,

@@ -17,7 +17,7 @@ import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 
-public class AbstractLegalMoveCalculator {
+public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
 
 	protected DummyBoard dummyBoard = null;
 	protected ColorBoard colorBoard = null;
@@ -38,24 +38,6 @@ public class AbstractLegalMoveCalculator {
 		this.boardState = boardState;
 		this.strategy = strategy;
 		this.analyzer = analyzer;
-	}	
-
-	protected static <T> Collection<T> createContainer() {
-		return new ArrayList<T>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-	
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (T move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
 	}
 
 	protected Collection<Move> getPseudoMoves(Square origenSquare) {
@@ -103,12 +85,26 @@ public class AbstractLegalMoveCalculator {
 		return result;
 	}
 
-	private Square getCurrentKingSquare() {
+	protected Square getCurrentKingSquare() {
 		return Color.BLANCO.equals(this.turnoActual) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
 	}
-
-	public AbstractLegalMoveCalculator() {
-		super();
-	}
+	
+	protected static <T> Collection<T> createContainer() {
+		return new ArrayList<T>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
+	
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (T move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
+	}	
 
 }
