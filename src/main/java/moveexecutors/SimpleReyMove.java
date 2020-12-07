@@ -28,6 +28,11 @@ public class SimpleReyMove extends SimpleMove{
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	protected String getType() {
+		return "SimpleReyMove";
 	}	
 
 }

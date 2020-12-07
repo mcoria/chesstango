@@ -20,15 +20,15 @@ public class BoardAnalyzer {
 
 	public void analyze() {
 		this.isKingInCheck = calculateKingInCheck();
-	}
-
-	private boolean calculateKingInCheck() {
-		isKingInCheck = capturer.positionCaptured(board.getBoardState().getTurnoActual().opositeColor(), board.getKingSquare());
-		return isKingInCheck;
 	}	
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
-	}		
+	}
+	
+	private boolean calculateKingInCheck() {
+		isKingInCheck = capturer.positionCaptured(board.getBoardState().getTurnoActual().opositeColor(), board.getKingSquare());
+		return isKingInCheck;
+	}	
 
 }

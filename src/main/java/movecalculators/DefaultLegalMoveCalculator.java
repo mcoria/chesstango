@@ -23,18 +23,18 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}	
 
 	@Override
-	public Collection<Move> getLegalMoves() {
+	public Collection<Move> getLegalMovesNotKing() {
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
 
 		Collection<Move> moves = createContainer();
 		
 
-		for (SquareIterator iterator = colorBoard.iteratorSquare(turnoActual); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			
-			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
+			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);			
 
 			// De almacenar movimientos en un cache, estos moviemientos son pseudo, es imposible almacenar movimientos legales en un cache !!!
 			// Ejemplo supongamos que almacenamos movimientos de torre blanca en a5, rey blanco se encuentra en e1 y es turno blancas.

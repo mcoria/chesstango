@@ -93,6 +93,10 @@ public class ColorBoard {
 		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos) : new BitSquareIterator(squareNegros);		
 	}
 	
+	public SquareIterator iteratorSquareWhitoutKing(Color color){
+		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos & ~squareKingBlancoCache.getPosicion()) : new BitSquareIterator(squareNegros  & ~squareKingNegroCache.getPosicion());		
+	}
+	
 	public long getPosiciones (Color color){
 		return Color.BLANCO.equals(color) ? squareBlancos : squareNegros;		
 	}

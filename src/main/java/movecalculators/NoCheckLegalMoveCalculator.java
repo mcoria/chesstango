@@ -23,7 +23,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 
 	@Override
-	public Collection<Move> getLegalMoves() {
+	public Collection<Move> getLegalMovesNotKing() {
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
 		
@@ -35,30 +35,28 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
 		Collection<Move> moves = createContainer();
-		
 
-		for (SquareIterator iterator = colorBoard.iteratorSquare(turnoActual); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
-			//TODO: Hay que bifurcar cuando queremos validar movimiento de REY, no tiene sentido utilizar ImprovedCapturer cuando mueve una pieza distinta al rey
-			if( pinnedSquares.contains(origenSquare) || origenSquare.equals(kingSquare)){
+
+			if (pinnedSquares.contains(origenSquare)) {
 				for (Move move : pseudoMoves) {
 					/*
-					if(! origen.equals(move.getFrom()) ){
-						throw new RuntimeException("Que paso?!?!?");
-					}
-					*/
-					
-					//assert  origen.equals(move.getFrom());
-					
-					if(this.filterMove(move)){
+					 * if(! origen.equals(move.getFrom()) ){ throw new
+					 * RuntimeException("Que paso?!?!?"); }
+					 */
+
+					// assert origen.equals(move.getFrom());
+
+					if (this.filterMove(move)) {
 						moves.add(move);
 					}
 				}
-				
+
 			} else {
 				moves.addAll(pseudoMoves);
 			}
