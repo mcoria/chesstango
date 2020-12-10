@@ -8,7 +8,8 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
 	
-	public abstract void updateMoveChache(MoveCache moveCache);
+	//TODO: executeMove y undoMove no debieran ser iguales
+	public abstract void updateMoveCache(MoveCache moveCache);
 	
 	public AbstractMove(PosicionPieza from, PosicionPieza to) {
 		this.from = from;
@@ -32,12 +33,12 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	
 	@Override
 	public void executeMove(MoveCache moveCache) {
-		updateMoveChache(moveCache);
+		updateMoveCache(moveCache);
 	}
 
 	@Override
 	public void undoMove(MoveCache moveCache) {
-		updateMoveChache(moveCache);
+		updateMoveCache(moveCache);
 	}
 	
 	@Override
