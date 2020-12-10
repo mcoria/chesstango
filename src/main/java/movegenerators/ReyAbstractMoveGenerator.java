@@ -6,6 +6,7 @@ import java.util.Collection;
 import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
+import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
@@ -91,30 +92,64 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		return false;
 	}
 	
-	private final Cardinal[] direcciones = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
+	private final Cardinal[] cardinalesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
+	private final Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
 	public Collection<Square> getPinnedSquare(Square kingSquare) {
+		Pieza reina = Pieza.getReina(this.color.opositeColor());
+		Pieza torre = Pieza.getTorre(this.color.opositeColor());
+		Pieza alfil = Pieza.getAlfil(this.color.opositeColor());
 		Collection<Square> pinnedCollection = new ArrayList<Square>();
-		for (Cardinal cardinal : this.direcciones) {
-			getPinned(kingSquare, cardinal, pinnedCollection);
+		
+		pinnedCollection.addAll(getPinnedCardinales(kingSquare, alfil, reina, cardinalesAlfil));
+		pinnedCollection.addAll(getPinnedCardinales(kingSquare, torre, reina, cardinalesTorre));
+
+		return pinnedCollection;
+	}
+	
+	protected Collection<Square> getPinnedCardinales(Square kingSquare, Pieza torreOAlfil, Pieza reina,
+			Cardinal[] direcciones) {
+		Collection<Square> pinnedCollection = new ArrayList<Square>();
+		for (Cardinal cardinal : direcciones) {
+			Square pinned = getPinned(kingSquare, torreOAlfil, reina, cardinal);
+			if (pinned != null) {
+				pinnedCollection.add(pinned);
+			}
 		}
 		return pinnedCollection;
 	}
 	
-	protected void getPinned(Square kingSquare, Cardinal cardinal, Collection<Square> pinnedCollection) {		
+	
+	protected Square getPinned(Square kingSquare, Pieza torreOAlfil, Pieza reina, Cardinal cardinal) {
+		Square pinned = null;
 		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, kingSquare);
 		while ( iterator.hasNext() ) {
 		    Square destino = iterator.next();
 		    Color colorDestino = colorBoard.getColor(destino);
 		    if(colorDestino == null){
 		    	continue;
-		    } else if(color.equals(colorDestino)){
-		    	pinnedCollection.add(destino);
-		    	break;
-		    } else if(color.opositeColor().equals(colorDestino)){
-		    	break;
 		    }
+			if (pinned == null) {
+				if (color.equals(colorDestino)) {
+					pinned = destino;
+				} else if (color.opositeColor().equals(colorDestino)) {
+					return null;
+				}
+			} else {
+				if (color.equals(colorDestino)) {
+					return null;
+				} else if (color.opositeColor().equals(colorDestino)) {
+					Pieza pieza = this.tablero.getPieza(destino);
+					if(torreOAlfil.equals(pieza) || reina.equals(pieza)){
+						return pinned;
+					} else{
+						return null;
+					}
+				}
+			}
+		    
 		}
+		return null;
 	}	
 	
 	@Override
@@ -146,6 +181,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 
 	public void setKingInCheck(IsKingInCheck kingInCheck) {
 		this.kingInCheck = kingInCheck;
-	}	
+	}
 	
 }

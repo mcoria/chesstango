@@ -160,6 +160,58 @@ public class KiwipeteTest {
 	}
 	
 	@Test
+	public void test_e2b5() {		
+		board.executeMove(Square.e2, Square.b5);
+		
+		Node rootNode = main.start(board, 1);
+		
+		assertEquals(1, rootNode.getChildNode(Square.e8, Square.g8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e8, Square.c8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e8, Square.f8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e8, Square.d8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.c7, Square.c6 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.c7, Square.c5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e6, Square.d5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g6, Square.g5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b4, Square.b3 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b4, Square.c3 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h3, Square.g2 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a8, Square.b8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a8, Square.c8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a8, Square.d8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h8, Square.g8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h8, Square.f8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h8, Square.h7 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h8, Square.h6 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h8, Square.h5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.h8, Square.h4 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e7, Square.d6 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e7, Square.c5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e7, Square.f8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.e7, Square.d8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g7, Square.h6 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.g7, Square.f8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a6, Square.b7 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a6, Square.c8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.a6, Square.b5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b6, Square.a4 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b6, Square.c8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b6, Square.d5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.b6, Square.c4 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f6, Square.e4 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f6, Square.g8 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f6, Square.d5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f6, Square.h7 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f6, Square.h5 ).getChildNodesCounter());
+		assertEquals(1, rootNode.getChildNode(Square.f6, Square.g4 ).getChildNodesCounter());
+		assertNull(rootNode.getChildNode(Square.d7 , Square.d6 ));	// Si el peon se mueve, el rey negro queda en jaque
+		
+		
+		assertEquals(39, board.getMovimientosPosibles().size());
+		assertEquals(39, rootNode.getChildNodesCounter());
+	}
+	
+	@Test
 	public void test_e2b5_e7f8() {
 		board.executeMove(Square.e2, Square.c4);
 		board.executeMove(Square.e7, Square.f8);
@@ -167,7 +219,7 @@ public class KiwipeteTest {
 	
 	
 	@Test
-	public void test_e2b5u() {
+	public void test_e2c4u_e2b5() {
 		board.executeMove(Square.e2, Square.c4);
 		board.undoMove();
 		

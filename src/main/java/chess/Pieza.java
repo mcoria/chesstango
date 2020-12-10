@@ -44,6 +44,39 @@ public enum Pieza {
 			throw new RuntimeException("Invalid color");
 		}
 	}
+	
+	public static Pieza getReina(Color color){
+		switch (color) {
+		case  BLANCO:
+			return REINA_BLANCO;
+		case  NEGRO:
+			return REINA_NEGRO;
+		default:
+			throw new RuntimeException("Invalid color");
+		}
+	}
+	
+	public static Pieza getAlfil(Color color){
+		switch (color) {
+		case  BLANCO:
+			return ALFIL_BLANCO;
+		case  NEGRO:
+			return ALFIL_NEGRO;
+		default:
+			throw new RuntimeException("Invalid color");
+		}
+	}
+	
+	public static Pieza getTorre(Color color){
+		switch (color) {
+		case  BLANCO:
+			return TORRE_BLANCO;
+		case  NEGRO:
+			return TORRE_NEGRO;
+		default:
+			throw new RuntimeException("Invalid color");
+		}
+	}	
 
 	public MoveGenerator getMoveGenerator(MoveGeneratorStrategy strategy) {
 		return this.selector.getMoveGenerator(strategy);
