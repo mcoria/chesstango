@@ -37,12 +37,12 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 			if(pieza == null){
 				Move move = createSimpleMove(origen, destino);
 				result.moveContainerAdd(move);			
-			} else if(color.equals(pieza.getColor())){
-				continue;
 			} else if(color.opositeColor().equals(pieza.getColor())){
 				Move move = createCaptureMove(origen, destino);
 				result.moveContainerAdd(move);
-			}
+			}//  else if(color.equals(pieza.getColor())){
+			 //	 continue;
+			 //} 
 		}
 	}
 
