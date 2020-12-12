@@ -24,7 +24,7 @@ public class SaltoDoblePeonMove extends SimpleMove {
 	@Override
 	public void updateMoveCache(MoveCache moveCache) {
 		super.updateMoveCache(moveCache);
-		moveCache.clearPseudoMovesAffectedBy(peonPasanteSquare);
+		moveCache.clearPseudoMoves(peonPasanteSquare);
 	}
 	
 	@Override

@@ -140,8 +140,8 @@ public class ColorBoard {
 	
 	///////////////////////////// END Cache Iteration Logic /////////////////////////////		
 
-	/*
-	public void validarCacheSqueare(DummyBoard board) {
+	
+	public void validar(DummyBoard board) {
 		int posicionesBlancas = 0;
 		int posicionesNegras = 0;
 		for (PosicionPieza posicionPieza : board) {
@@ -169,7 +169,7 @@ public class ColorBoard {
 			throw new RuntimeException("Diferencias en cantidad de posicions negras");
 		}
 	}
-	*/
+	
 }
 
 
