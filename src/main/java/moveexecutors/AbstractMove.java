@@ -2,14 +2,14 @@ package moveexecutors;
 
 import chess.Move;
 import chess.PosicionPieza;
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 
 public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
 	
 	//TODO: executeMove y undoMove no debieran ser iguales
-	public abstract void updateMoveCache(MoveCache moveCache);
+	public abstract void updateMoveCache(MoveCacheBoard moveCache);
 	
 	public AbstractMove(PosicionPieza from, PosicionPieza to) {
 		this.from = from;
@@ -32,12 +32,12 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	}
 	
 	@Override
-	public void executeMove(MoveCache moveCache) {
+	public void executeMove(MoveCacheBoard moveCache) {
 		updateMoveCache(moveCache);
 	}
 
 	@Override
-	public void undoMove(MoveCache moveCache) {
+	public void undoMove(MoveCacheBoard moveCache) {
 		updateMoveCache(moveCache);
 	}
 	

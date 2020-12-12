@@ -9,14 +9,14 @@ import chess.Square;
 import iterators.SquareIterator;
 import layers.ColorBoard;
 import layers.DummyBoard;
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;
 import positioncaptures.ImprovedCapturer;
 
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
-	public NoCheckLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, MoveCache moveCache,
+	public NoCheckLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, MoveCacheBoard moveCache,
 			BoardState boardState, MoveGeneratorStrategy strategy, BoardAnalyzer analyzer) {
 		super(dummyBoard, colorBoard, moveCache, boardState, strategy, analyzer);
 		this.capturer = new ImprovedCapturer(dummyBoard);

@@ -4,7 +4,7 @@ import chess.BoardState;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 
 public abstract class EnroqueMove extends AbstractMove {
 	
@@ -50,7 +50,7 @@ public abstract class EnroqueMove extends AbstractMove {
 		getTorreMove().undoMove(boardCache);
 	}	
 	
-	public void updateMoveCache(MoveCache moveCache){
+	public void updateMoveCache(MoveCacheBoard moveCache){
 		getReyMove().updateMoveCache(moveCache);
 		getTorreMove().updateMoveCache(moveCache);		
 	}

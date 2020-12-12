@@ -5,7 +5,7 @@ import java.util.Collection;
 import chess.Move;
 import chess.Square;
 
-public class MoveCache {
+public class MoveCacheBoard {
 	
 	@SuppressWarnings("unchecked")
 	protected Collection<Move> pseudoMoves[] = new Collection[64];

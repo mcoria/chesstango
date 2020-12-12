@@ -9,16 +9,16 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 import moveexecutors.SimpleMove;
 
 public class MoveCacheTest {
 
-	private MoveCache cache;
+	private MoveCacheBoard cache;
 	
 	@Before
 	public void setUp() throws Exception {
-		cache = new MoveCache();
+		cache = new MoveCacheBoard();
 	}
 	
 	@Test

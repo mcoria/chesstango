@@ -4,7 +4,7 @@ import chess.BoardState;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 
 public class SimpleMove extends AbstractMove {
 	
@@ -46,7 +46,7 @@ public class SimpleMove extends AbstractMove {
 	}	
 	
 	@Override
-	public void updateMoveCache(MoveCache moveCache) {
+	public void updateMoveCache(MoveCacheBoard moveCache) {
 		moveCache.clearPseudoMoves(from.getKey());
 		moveCache.clearPseudoMoves(to.getKey());
 	}

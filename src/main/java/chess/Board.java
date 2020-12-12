@@ -5,7 +5,7 @@ import java.util.Collection;
 import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.DummyBoard;
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
@@ -20,7 +20,7 @@ public class Board {
 	private ColorBoard colorBoard = null;
 	
 	// TODO: Al final del dia, esta es una capa mas de informacion
-	private MoveCache moveCache = null;
+	private MoveCacheBoard moveCache = null;
 	
 	private BoardState boardState = null;
 	
@@ -35,7 +35,7 @@ public class Board {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
 		this.colorBoard = chessBuilder.buildColorBoard();
-		this.moveCache = new MoveCache();
+		this.moveCache = new MoveCacheBoard();
 		
 		this.strategy = chessBuilder.buildMoveGeneratorStrategy();
 		this.strategy.setIsKingInCheck(() -> isKingInCheck());

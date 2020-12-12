@@ -3,7 +3,7 @@ package moveexecutors;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
-import layers.MoveCache;
+import layers.MoveCacheBoard;
 
 public class CapturePeonPasante extends SimpleMove {
 
@@ -39,7 +39,7 @@ public class CapturePeonPasante extends SimpleMove {
 	}
 	
 	@Override
-	public void updateMoveCache(MoveCache moveCache) {
+	public void updateMoveCache(MoveCacheBoard moveCache) {
 		super.updateMoveCache(moveCache);
 		moveCache.clearPseudoMoves(captura.getKey());
 	}
