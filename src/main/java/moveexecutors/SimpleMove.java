@@ -1,10 +1,10 @@
 package moveexecutors;
 
 import chess.BoardState;
-import chess.MoveCache;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
+import layers.MoveCache;
 
 public class SimpleMove extends AbstractMove {
 	

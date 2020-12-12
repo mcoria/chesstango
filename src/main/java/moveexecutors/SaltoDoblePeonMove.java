@@ -1,9 +1,9 @@
 package moveexecutors;
 
 import chess.BoardState;
-import chess.MoveCache;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.MoveCache;
 
 public class SaltoDoblePeonMove extends SimpleMove {
 	

@@ -1,6 +1,9 @@
-package chess;
+package layers;
 
 import java.util.Collection;
+
+import chess.Move;
+import chess.Square;
 
 public class MoveCache {
 	
@@ -39,7 +42,7 @@ public class MoveCache {
 		long affectsBySquares = affectedBy[key.toIdx()];
 		for(int i = 0; i < 64; i++){
 			if( (affectsBySquares & (1L << i))  != 0 ) {
-				affects[i] |= ~key.getPosicion();
+				affects[i] &= ~key.getPosicion();
 			}
 		}
 		affectedBy[key.toIdx()] = 0;		

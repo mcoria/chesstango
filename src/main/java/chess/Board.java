@@ -5,6 +5,7 @@ import java.util.Collection;
 import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.DummyBoard;
+import layers.MoveCache;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;

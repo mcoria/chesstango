@@ -1,8 +1,8 @@
 package moveexecutors;
 
 import chess.Move;
-import chess.MoveCache;
 import chess.PosicionPieza;
+import layers.MoveCache;
 
 public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
 	protected final PosicionPieza from;
