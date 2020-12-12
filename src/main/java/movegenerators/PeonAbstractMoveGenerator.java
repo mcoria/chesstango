@@ -37,7 +37,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMoves(PosicionPieza origen){
+	public void generateMovesPseudoMoves(PosicionPieza origen){
 		this.saveMovesInCache = true;
 		int toRank = -1; //Just in case
 		Square casillero = origen.getKey();

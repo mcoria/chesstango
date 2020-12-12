@@ -8,15 +8,14 @@ import chess.Square;
 
 public class MoveGeneratorResult {
 	
-	protected Collection<Move> moveContainer;
+	private Collection<Move> moveContainer;
 	
-	protected Collection<Square> affectedByContainer;
+	private long affectedByContainer;
 
 	private boolean saveMovesInCache;
 
 	public MoveGeneratorResult() {
 		moveContainer = createContainer(); 
-		affectedByContainer = createContainer();
 	}
 	
 	public Collection<Move> getPseudoMoves(){
@@ -24,7 +23,7 @@ public class MoveGeneratorResult {
 	}
 	
 
-	public Collection<Square> getAffectedBy() {
+	public long getAffectedBy() {
 		return affectedByContainer;
 	}
 	
@@ -38,7 +37,7 @@ public class MoveGeneratorResult {
 	}
 	
 	public void affectedByContainerAdd(Square key) {
-		affectedByContainer.add(key);
+		affectedByContainer |= key.getPosicion();
 	}		
 	
 	public void moveContainerAdd(Move move) {

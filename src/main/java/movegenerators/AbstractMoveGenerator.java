@@ -13,7 +13,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected MoveGeneratorResult result;
 	
-	public abstract void generateMoves(PosicionPieza origen);
+	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
 	
 	public abstract boolean saveMovesInCache();
 	
@@ -24,7 +24,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	@Override
 	public MoveGeneratorResult calculatePseudoMoves(PosicionPieza origen){
 		result = new MoveGeneratorResult();
-		generateMoves(origen);
+		generateMovesPseudoMoves(origen);
 		result.setSaveMovesInCache(saveMovesInCache());
 		return result;
 	}

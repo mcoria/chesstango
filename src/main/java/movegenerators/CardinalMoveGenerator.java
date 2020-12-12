@@ -25,7 +25,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public void generateMoves(PosicionPieza origen) {
+	public void generateMovesPseudoMoves(PosicionPieza origen) {
 		for (Cardinal cardinal : this.direcciones) {
 			getPseudoMoves(origen, cardinal);
 		}

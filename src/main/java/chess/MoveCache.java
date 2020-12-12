@@ -15,11 +15,13 @@ public class MoveCache {
 		return pseudoMoves[key.toIdx()];
 	}
 	
-	public void setPseudoMoves(Square key, Collection<Move> pseudoMovesCollection, Collection<Square> affectedByCollection) {
+	public void setPseudoMoves(Square key, Collection<Move> pseudoMovesCollection, long affectedByCollection) {
 		pseudoMoves[key.toIdx()] = pseudoMovesCollection;
-		for (Square square : affectedByCollection) {
-			 affects[square.toIdx()] |= key.getPosicion();
-			 affectedBy[key.toIdx()]  |= square.getPosicion();
+		affectedBy[key.toIdx()] = affectedByCollection;
+		for(int i = 0; i < 64; i++){
+			if( (affectedByCollection & (1L << i))  != 0 ) {
+				 affects[i] |= key.getPosicion();
+			}
 		}
 	}
 

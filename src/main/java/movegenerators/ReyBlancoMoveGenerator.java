@@ -22,8 +22,8 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMoves(PosicionPieza origen) {
-		super.generateMoves(origen);
+	public void generateMovesPseudoMoves(PosicionPieza origen) {
+		super.generateMovesPseudoMoves(origen);
 		
 		//ver KiwipeteTest.test_d5d6_h3g2
 		this.saveMovesInCache =  ! (this.boardState.isEnroqueBlancoReinaPermitido() ||  this.boardState.isEnroqueBlancoReyPermitido()) ;

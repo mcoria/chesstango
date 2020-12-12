@@ -61,4 +61,11 @@ public enum Square {
 		}
 		return array[rank * 8 + file];
 	}
+	
+	public static Square getSquare(int idx){
+		if(idx < 0 || idx >64){
+			return null;
+		}
+		return array[idx];
+	}	
 }

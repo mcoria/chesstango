@@ -1,9 +1,9 @@
 package chess;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -26,13 +26,13 @@ public class MoveCacheTest {
 		Collection<Move> container1 = new ArrayList<Move>();
 		container1.add(new SimpleMove(new PosicionPieza(Square.a2, Pieza.PEON_BLANCO), new PosicionPieza(Square.a3, null)));
 		container1.add(new SimpleMove(new PosicionPieza(Square.a2, Pieza.PEON_BLANCO), new PosicionPieza(Square.a4, null)));
-		cache.setPseudoMoves(Square.a2, container1, Arrays.asList(new Square[] {Square.a1, Square.b1}));
+		cache.setPseudoMoves(Square.a2, container1, Square.a1.getPosicion() | Square.b1.getPosicion() );
 		
 		
 		Collection<Move> container2 = new ArrayList<Move>();
 		container2.add(new SimpleMove(new PosicionPieza(Square.b2, Pieza.PEON_BLANCO), new PosicionPieza(Square.b3, null)));
 		container2.add(new SimpleMove(new PosicionPieza(Square.b2, Pieza.PEON_BLANCO), new PosicionPieza(Square.b4, null)));
-		cache.setPseudoMoves(Square.b2, container2, Arrays.asList(new Square[] {Square.a1, Square.b1}));
+		cache.setPseudoMoves(Square.b2, container2, Square.a1.getPosicion() |  Square.b1.getPosicion() );
 		
 		assertEquals(container1, cache.getPseudoMoves(Square.a2));
 		assertEquals(container2, cache.getPseudoMoves(Square.b2));
@@ -50,13 +50,13 @@ public class MoveCacheTest {
 		Collection<Move> container1 = new ArrayList<Move>();
 		container1.add(new SimpleMove(new PosicionPieza(Square.a2, Pieza.PEON_BLANCO), new PosicionPieza(Square.a3, null)));
 		container1.add(new SimpleMove(new PosicionPieza(Square.a2, Pieza.PEON_BLANCO), new PosicionPieza(Square.a4, null)));
-		cache.setPseudoMoves(Square.a2, container1, Arrays.asList(new Square[] {Square.a1, Square.b1}));
+		cache.setPseudoMoves(Square.a2, container1, Square.a1.getPosicion() |  Square.b1.getPosicion() );
 		
 		
 		Collection<Move> container2 = new ArrayList<Move>();
 		container2.add(new SimpleMove(new PosicionPieza(Square.b2, Pieza.PEON_BLANCO), new PosicionPieza(Square.b3, null)));
 		container2.add(new SimpleMove(new PosicionPieza(Square.b2, Pieza.PEON_BLANCO), new PosicionPieza(Square.b4, null)));
-		cache.setPseudoMoves(Square.b2, container2, Arrays.asList(new Square[] {Square.a1, Square.b1}));
+		cache.setPseudoMoves(Square.b2, container2, Square.a1.getPosicion() |  Square.b1.getPosicion() );
 		
 		
 		assertEquals(container1, cache.getPseudoMoves(Square.a2));

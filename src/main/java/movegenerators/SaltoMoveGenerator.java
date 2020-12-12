@@ -27,7 +27,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	//El calculo de movimientos lo puede hacer en funcion de ColorBoard
 	
 	@Override
-	public void generateMoves(PosicionPieza origen) {
+	public void generateMovesPseudoMoves(PosicionPieza origen) {
 		Square casillero = origen.getKey();
 		Iterator<PosicionPieza> iterator = tablero.iterator(new SaltoSquareIterator(casillero, saltos));
 		while (iterator.hasNext()) {

@@ -3,6 +3,7 @@ package movegenerators;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -23,10 +24,6 @@ public class AlfilMoveGeneratorTest {
 	private FENBoarBuilder builder;
 	
 	private AlfilMoveGenerator moveGenerator;
-	
-	private Collection<Move> moves;
-	
-	private Collection<Square> affectedBySquares;
 
 	@Before
 	public void setUp() throws Exception {
@@ -47,7 +44,7 @@ public class AlfilMoveGeneratorTest {
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = generatorResult.getPseudoMoves();
+		Collection<Move> moves = generatorResult.getPseudoMoves();
 		
 		// NorteEste
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
@@ -73,7 +70,7 @@ public class AlfilMoveGeneratorTest {
 		assertEquals(13, moves.size());
 
 		
-		affectedBySquares = generatorResult.getAffectedBy();
+		Collection<Square> affectedBySquares = toSquareCollection(generatorResult.getAffectedBy());
 		
 		// NorteEste
 		assertTrue(affectedBySquares.contains( Square.f6 ));
@@ -99,8 +96,6 @@ public class AlfilMoveGeneratorTest {
 		assertEquals(13, affectedBySquares.size());
 		
 	}
-	
-
 
 	@Test
 	public void testGetPseudoMoves02() {
@@ -115,7 +110,7 @@ public class AlfilMoveGeneratorTest {
 
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
-		moves = generatorResult.getPseudoMoves();
+		Collection<Move> moves = generatorResult.getPseudoMoves();
 
 		//Moves
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
@@ -125,7 +120,7 @@ public class AlfilMoveGeneratorTest {
 		
 		assertEquals(4, moves.size());
 
-		affectedBySquares =  generatorResult.getAffectedBy();
+		Collection<Square> affectedBySquares =  toSquareCollection(generatorResult.getAffectedBy());
 
 		//affectedBySquares
 		assertTrue(affectedBySquares.contains( Square.d2 ));
@@ -145,5 +140,15 @@ public class AlfilMoveGeneratorTest {
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
 		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+	}
+	
+	private Collection<Square> toSquareCollection(long affectedBy) {
+		Collection<Square> affectedBySquares = new ArrayList<Square>();
+		for(int i = 0; i < 64; i++){
+			if( (affectedBy & (1L << i))  != 0 ) {
+				affectedBySquares.add(Square.getSquare(i));
+			}			
+		}
+		return affectedBySquares;
 	}	
 }
