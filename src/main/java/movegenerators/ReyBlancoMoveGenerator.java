@@ -31,8 +31,7 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		//this.saveMovesInCache = true;
 		
 		if (this.boardState.isEnroqueBlancoReinaPermitido() && 
-			puedeEnroqueReina(	this.tablero, 
-								origen, 
+			puedeEnroqueReina(	origen, 
 								CachePosiciones.REY_BLANCO, 
 								CachePosiciones.TORRE_BLANCA_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
@@ -48,12 +47,11 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 		
 		
 		if (this.boardState.isEnroqueBlancoReyPermitido() && 
-			puedeEnroqueRey(this.tablero, 
-							origen, 
-							CachePosiciones.REY_BLANCO, 
-							CachePosiciones.TORRE_BLANCA_REY,
-							DESTINO_REY_SQUARE, 
-							INTERMEDIO_REY_REY_SQUARE)) {
+			puedeEnroqueRey(	origen, 
+								CachePosiciones.REY_BLANCO, 
+								CachePosiciones.TORRE_BLANCA_REY,
+								DESTINO_REY_SQUARE, 
+								INTERMEDIO_REY_REY_SQUARE)) {
 			//result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
 			//result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			//result.affectedByContainerAdd(Square.h1);

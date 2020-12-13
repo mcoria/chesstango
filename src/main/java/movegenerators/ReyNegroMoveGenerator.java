@@ -28,8 +28,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 		this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroReyPermitido()) ;
 		
 		if (this.boardState.isEnroqueNegroReinaPermitido() && 
-			puedeEnroqueReina(	this.tablero, 
-								origen, 
+			puedeEnroqueReina(	origen, 
 								CachePosiciones.REY_NEGRO, 
 								CachePosiciones.TORRE_NEGRO_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
@@ -40,12 +39,11 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 			
 			
 		if (this.boardState.isEnroqueNegroReyPermitido() && 
-			puedeEnroqueRey(this.tablero, 
-							origen, 
-							CachePosiciones.REY_NEGRO, 
-							CachePosiciones.TORRE_NEGRO_REY,
-							DESTINO_REY_SQUARE, 
-							INTERMEDIO_REY_REY_SQUARE)) {
+			puedeEnroqueRey(	origen, 
+								CachePosiciones.REY_NEGRO, 
+								CachePosiciones.TORRE_NEGRO_REY,
+								DESTINO_REY_SQUARE, 
+								INTERMEDIO_REY_REY_SQUARE)) {
 			result.moveContainerAdd(new EnroqueNegroReyMove());			
 		}
 	}
