@@ -40,8 +40,7 @@ public class CapturePeonPasante extends SimpleMove {
 	
 	@Override
 	public void updateMoveCache(MoveCacheBoard moveCache) {
-		super.updateMoveCache(moveCache);
-		moveCache.clearPseudoMoves(captura.getKey());
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), captura.getKey());
 	}
 		
 	
