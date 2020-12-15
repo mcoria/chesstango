@@ -21,9 +21,10 @@ public class MoveCacheBoard {
 	public void setPseudoMoves(Square key, Collection<Move> pseudoMovesCollection, long affectedByCollection) {
 		pseudoMoves[key.toIdx()] = pseudoMovesCollection;
 		affectedBy[key.toIdx()] = affectedByCollection;
+		long keyAdded = key.getPosicion();
 		for(int i = 0; i < 64; i++){
 			if( (affectedByCollection & (1L << i))  != 0 ) {
-				 affects[i] |= key.getPosicion();
+				 affects[i] |= keyAdded;
 			}
 		}
 	}

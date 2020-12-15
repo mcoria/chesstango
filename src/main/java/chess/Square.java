@@ -10,9 +10,9 @@ public enum Square {
     a2(0,1),b2(1,1),c2(2,1),d2(3,1),e2(4,1),f2(5,1),g2(6,1),h2(7,1),
     a1(0,0),b1(1,0),c1(2,0),d1(3,0),e1(4,0),f1(5,0),g1(6,0),h1(7,0);
 	
-	private int file = 0;
-	private int rank = 0;
-	private long posicion = 0;
+	private final int file;
+	private final int rank;
+	private final long posicion;
 	
 	private Square(int file, int rank){
 		this.file = file;
