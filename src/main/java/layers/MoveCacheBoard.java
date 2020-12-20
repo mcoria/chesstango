@@ -30,84 +30,34 @@ public class MoveCacheBoard {
 	}
 
 	public void clearPseudoMoves(Square key) {
-		// Affects squares
-		long affectsSquares = affects[key.toIdx()];
+		clearPseudoMoves(affects[key.toIdx()] | key.getPosicion());
+	}
+
+	public void clearPseudoMoves(Square key1, Square key2) {
+		clearPseudoMoves(affects[key1.toIdx()] | key1.getPosicion() | affects[key2.toIdx()] | key2.getPosicion());
+	}
+	
+	public void clearPseudoMoves(Square key1, Square key2, Square key3) {
+		clearPseudoMoves(affects[key1.toIdx()] | key1.getPosicion() | affects[key2.toIdx()] | key2.getPosicion() | affects[key3.toIdx()] | key3.getPosicion());
+	}	
+	
+	private void clearPseudoMoves(long clearSquares) {
+		long affectsBySquares = 0;
 		for(int i = 0; i < 64; i++){
-			if( (affectsSquares & (1L << i))  != 0 ) {
+			if( (clearSquares & (1L << i))  != 0 ) {
+				affectsBySquares |= affectedBy[i];
+				affectedBy[i] = 0;
 				pseudoMoves[i] = null;
 			}
 		}
-		affects[key.toIdx()] = 0;
 		
-		// AffectedBy squares
-		long affectsBySquares = affectedBy[key.toIdx()];
-		long keyRemoved = ~key.getPosicion();
+		long keyRemoved = ~clearSquares;
 		for(int i = 0; i < 64; i++){
 			if( (affectsBySquares & (1L << i))  != 0 ) {
 				affects[i] &= keyRemoved;
 			}
-		}
-		affectedBy[key.toIdx()] = 0;		
+		}		
 		
-		//Current square pseudomove
-		pseudoMoves[key.toIdx()] = null;
-	}
-	
-	public void clearPseudoMoves(Square key1, Square key2) {
-		// Affects squares
-		long affectsSquares = affects[key1.toIdx()] | affects[key2.toIdx()] ;
-		for(int i = 0; i < 64; i++){
-			if( (affectsSquares & (1L << i))  != 0 ) {
-				pseudoMoves[i] = null;
-			}
-		}
-		affects[key1.toIdx()] = 0;
-		affects[key2.toIdx()] = 0;
-		
-		// AffectedBy squares
-		long affectsBySquares = affectedBy[key1.toIdx()] | affectedBy[key2.toIdx()];
-		long keyRemoved = ~ (key1.getPosicion() | key2.getPosicion());
-		for(int i = 0; i < 64; i++){
-			if( (affectsBySquares & (1L << i))  != 0 ) {
-				affects[i] &= keyRemoved ;
-			}
-		}
-		affectedBy[key1.toIdx()] = 0;
-		affectedBy[key2.toIdx()] = 0;
-		
-		//Current square pseudomove
-		pseudoMoves[key1.toIdx()] = null;
-		pseudoMoves[key2.toIdx()] = null;
-	}
-	
-	public void clearPseudoMoves(Square key1, Square key2, Square key3) {
-		// Affects squares
-		long affectsSquares = affects[key1.toIdx()] | affects[key2.toIdx()] | affects[key3.toIdx()] ;
-		for(int i = 0; i < 64; i++){
-			if( (affectsSquares & (1L << i))  != 0 ) {
-				pseudoMoves[i] = null;
-			}
-		}
-		affects[key1.toIdx()] = 0;
-		affects[key2.toIdx()] = 0;
-		affects[key3.toIdx()] = 0;
-		
-		// AffectedBy squares
-		long affectsBySquares = affectedBy[key1.toIdx()] | affectedBy[key2.toIdx()] | affectedBy[key3.toIdx()];
-		long keyRemoved = ~ (key1.getPosicion() | key2.getPosicion() | key3.getPosicion());
-		for(int i = 0; i < 64; i++){
-			if( (affectsBySquares & (1L << i))  != 0 ) {
-				affects[i] &= keyRemoved ;
-			}
-		}
-		affectedBy[key1.toIdx()] = 0;
-		affectedBy[key2.toIdx()] = 0;
-		affectedBy[key3.toIdx()] = 0;
-		
-		//Current square pseudomove
-		pseudoMoves[key1.toIdx()] = null;
-		pseudoMoves[key2.toIdx()] = null;
-		pseudoMoves[key3.toIdx()] = null;
-	}		
+	}	
 
 }
