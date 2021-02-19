@@ -57,6 +57,43 @@ public class MoveCacheBoard {
 				affects[i] &= keyRemoved;
 			}
 		}		
+
+	}
+
+	public void validar() {
+		
+		//Validate affectedBy[]
+		for(int i = 0; i < 64; i++){
+			long affectedBySquares = affectedBy[i];
+			if(affectedBySquares != 0) {
+				if(pseudoMoves[i] == null) {
+					throw new RuntimeException("MoveCacheBoard checkConsistence failed, there are not pseudoMoves[i] ");
+				}				
+				for(int j = 0; j < 64; j++){
+					if( (affectedBySquares & (1L << j))  != 0 ) {
+						if((affects[j] & (1L << i)) == 0){
+							throw new RuntimeException("MoveCacheBoard checkConsistence failed");
+						}
+					}
+				}
+			} else {
+				if(pseudoMoves[i] != null) {
+					throw new RuntimeException("MoveCacheBoard checkConsistence failed, there are pseudoMoves[i] ");
+				}
+			}
+		}
+		
+		//Validate affects[]
+		for(int i = 0; i < 64; i++){
+			long affectsSquares = affects[i];
+			for(int j = 0; j < 64; j++){
+				if( (affectsSquares & (1L << j))  != 0 ) {
+					if((affectedBy[j] & (1L << i)) == 0){
+						throw new RuntimeException("MoveCacheBoard checkConsistence failed");
+					}
+				}
+			}
+		}		
 		
 	}	
 
