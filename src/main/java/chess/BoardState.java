@@ -4,93 +4,109 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class BoardState {
+
+	private Color turnoActual;
+	private Square peonPasanteSquare;
+	private boolean enroqueBlancoReinaPermitido;
+	private boolean enroqueBlancoReyPermitido;
+	private boolean enroqueNegroReinaPermitido;
+	private boolean enroqueNegroReyPermitido;
 	
 	private static class BoardStateNode {
+		private Color turnoActual;
 		private Square peonPasanteSquare;
-		
 		private boolean enroqueBlancoReinaPermitido;
 		private boolean enroqueBlancoReyPermitido;
-		
 		private boolean enroqueNegroReinaPermitido;
 		private boolean enroqueNegroReyPermitido;
-		
-		private Color turnoActual;
 	}
-	
-	private BoardStateNode currentBoardState = new BoardStateNode();
-	
 	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
 	
 	public Square getPeonPasanteSquare() {
-		return currentBoardState.peonPasanteSquare;
+		return peonPasanteSquare;
 	}
 
 	public void setPeonPasanteSquare(Square peonPasanteSquare) {
-		this.currentBoardState.peonPasanteSquare = peonPasanteSquare;
+		this.peonPasanteSquare = peonPasanteSquare;
 	}
 	
 	public boolean isEnroqueBlancoReinaPermitido() {
-		return currentBoardState.enroqueBlancoReinaPermitido;
+		return enroqueBlancoReinaPermitido;
 	}
 
 	public void setEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		this.currentBoardState.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 	}	
 	
 	public boolean isEnroqueBlancoReyPermitido() {
-		return currentBoardState.enroqueBlancoReyPermitido;
+		return enroqueBlancoReyPermitido;
 	}
 
 	public void setEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
-		this.currentBoardState.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+		this.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
 	}
 	
 	public boolean isEnroqueNegroReinaPermitido() {
-		return currentBoardState.enroqueNegroReinaPermitido;
+		return enroqueNegroReinaPermitido;
 	}
 
 	public void setEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		this.currentBoardState.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
 	}
 
 	public boolean isEnroqueNegroReyPermitido() {
-		return currentBoardState.enroqueNegroReyPermitido;
+		return enroqueNegroReyPermitido;
 	}
 
 	public void setEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
-		this.currentBoardState.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
 	}
 	
 	public Color getTurnoActual() {
-		return currentBoardState.turnoActual;
+		return turnoActual;
 	}
 
 	public void setTurnoActual(Color turnoActual) {
-		this.currentBoardState.turnoActual = turnoActual;
+		this.turnoActual = turnoActual;
 	}	
 
 	
 	public void rollTurno() {
-		this.currentBoardState.turnoActual = this.currentBoardState.turnoActual.opositeColor();
+		this.turnoActual = this.turnoActual.opositeColor();
 	}
 	
 	
-	public void pushState() {		
-		boardStateNodePila.push( currentBoardState );
+	public void pushState() {
+		BoardStateNode state = saveState();
 		
-		BoardStateNode newState = new BoardStateNode();
-		newState.peonPasanteSquare = currentBoardState.peonPasanteSquare;
-		newState.enroqueBlancoReinaPermitido = currentBoardState.enroqueBlancoReinaPermitido;
-		newState.enroqueBlancoReyPermitido = currentBoardState.enroqueBlancoReyPermitido;
-		newState.enroqueNegroReinaPermitido = currentBoardState.enroqueNegroReinaPermitido;
-		newState.enroqueNegroReyPermitido = currentBoardState.enroqueNegroReyPermitido;
-		newState.turnoActual = currentBoardState.turnoActual;
-		
-		currentBoardState = newState;
+		boardStateNodePila.push( state );
 	}
 
 	public void popState() {
-		currentBoardState = boardStateNodePila.pop();
+		BoardStateNode lastState = boardStateNodePila.pop();
+		
+		restoreState(lastState);
+	}
+
+	private BoardStateNode saveState() {
+		BoardStateNode node = new BoardStateNode();
+		node.peonPasanteSquare = peonPasanteSquare;
+		node.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		node.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+		node.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		node.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		node.turnoActual = turnoActual;
+		
+		return node;
+	}
+	
+	private void restoreState(BoardStateNode lastState){
+		peonPasanteSquare = lastState.peonPasanteSquare;
+		enroqueBlancoReinaPermitido = lastState.enroqueBlancoReinaPermitido;
+		enroqueBlancoReyPermitido = lastState.enroqueBlancoReyPermitido;
+		enroqueNegroReinaPermitido = lastState.enroqueNegroReinaPermitido;
+		enroqueNegroReyPermitido = lastState.enroqueNegroReyPermitido;	
+		turnoActual = lastState.turnoActual;	
 	}
 
 }
