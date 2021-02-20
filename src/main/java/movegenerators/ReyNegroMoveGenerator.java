@@ -34,7 +34,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			result.moveContainerAdd(new EnroqueNegroReynaMove());
+			this.result.moveContainerAdd(new EnroqueNegroReynaMove());
 		}
 			
 			
@@ -44,7 +44,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 								CachePosiciones.TORRE_NEGRO_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
-			result.moveContainerAdd(new EnroqueNegroReyMove());			
+			this.result.moveContainerAdd(new EnroqueNegroReyMove());			
 		}
 	}
 

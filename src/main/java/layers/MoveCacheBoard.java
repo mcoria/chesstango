@@ -1,6 +1,8 @@
 package layers;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 
 import chess.Move;
 import chess.Square;
@@ -8,11 +10,18 @@ import chess.Square;
 public class MoveCacheBoard {
 	
 	@SuppressWarnings("unchecked")
-	protected Collection<Move> pseudoMoves[] = new Collection[64];
+	private Collection<Move> pseudoMoves[] = new Collection[64];
+	private long affects[] = new long[64];
+	private long affectedBy[] = new long[64];
 	
-	protected long affects[] = new long[64];
-	protected long affectedBy[] = new long[64];
+	private static class MoveCacheBoardNode{
+		@SuppressWarnings("unchecked")
+		private Collection<Move> pseudoMoves[] = new Collection[64];
+		private long affects[] = new long[64];
+		private long affectedBy[] = new long[64];		
+	}
 	
+	private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
 	
 	public Collection<Move> getPseudoMoves(Square key) {
 		return pseudoMoves[key.toIdx()];
@@ -39,15 +48,21 @@ public class MoveCacheBoard {
 	
 	public void clearPseudoMoves(Square key1, Square key2, Square key3) {
 		clearPseudoMoves(affects[key1.toIdx()] | key1.getPosicion() | affects[key2.toIdx()] | key2.getPosicion() | affects[key3.toIdx()] | key3.getPosicion());
+	}
+	
+	public void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4) {
+		clearPseudoMoves(affects[key1.toIdx()] | key1.getPosicion() | affects[key2.toIdx()] | key2.getPosicion() | affects[key3.toIdx()] | key3.getPosicion() | affects[key4.toIdx()] | key4.getPosicion());
 	}	
 	
 	private void clearPseudoMoves(long clearSquares) {
 		long affectsBySquares = 0;
 		for(int i = 0; i < 64; i++){
 			if( (clearSquares & (1L << i))  != 0 ) {
-				affectsBySquares |= affectedBy[i];
-				affectedBy[i] = 0;
-				pseudoMoves[i] = null;
+				if(affectedBy[i] != 0){
+					affectsBySquares |= affectedBy[i];
+					affectedBy[i] = 0;
+					pseudoMoves[i] = null;
+				}
 			}
 		}
 		
@@ -59,6 +74,36 @@ public class MoveCacheBoard {
 		}		
 
 	}
+	
+	public void pushState() {
+		MoveCacheBoardNode state = saveState();
+		
+		moveCacheBoardPila.push( state );
+	}
+
+	public void popState() {
+		MoveCacheBoardNode lastState = moveCacheBoardPila.pop();
+		
+		restoreState(lastState);
+	}
+
+	private MoveCacheBoardNode saveState() {
+		MoveCacheBoardNode node = new MoveCacheBoardNode();
+		for(int i = 0; i < 64; i++){
+			node.affectedBy[i] = affectedBy[i];
+			node.affects[i] = affects[i];
+			node.pseudoMoves[i] = pseudoMoves[i];
+		}
+		return node;
+	}
+	
+	private void restoreState(MoveCacheBoardNode lastState){
+		for(int i = 0; i < 64; i++){
+			affectedBy[i] = lastState.affectedBy[i];
+			affects[i] = lastState.affects[i];
+			pseudoMoves[i] = lastState.pseudoMoves[i];
+		}
+	}	
 
 	public void validar() {
 		

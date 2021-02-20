@@ -54,7 +54,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		
 		if (saltoSimpleCasillero != null) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
-			result.affectedByContainerAdd(saltoSimpleCasillero);
+			this.result.affectedByContainerAdd(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
 				Move moveSaltoSimple = new SimpleMove(origen, destino);
@@ -128,14 +128,14 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	private void addSaltoSimplePromocion(PosicionPieza origen, PosicionPieza destino) {
 		Pieza[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			result.moveContainerAdd(new SimplePeonPromocion(origen, destino, promociones[i]));
+			this.result.moveContainerAdd(new SimplePeonPromocion(origen, destino, promociones[i]));
 		}
 	}
 	
 	private void addCapturaPromocion(PosicionPieza origen, PosicionPieza destino) {
 		Pieza[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			result.moveContainerAdd(new CapturaPeonPromocion(origen, destino, promociones[i]));
+			this.result.moveContainerAdd(new CapturaPeonPromocion(origen, destino, promociones[i]));
 		}
 	}	
 

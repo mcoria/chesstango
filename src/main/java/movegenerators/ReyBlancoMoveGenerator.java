@@ -41,7 +41,7 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 			//result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
 			//result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
 			//result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);
-			result.moveContainerAdd(new EnroqueBlancoReynaMove());
+			this.result.moveContainerAdd(new EnroqueBlancoReynaMove());
 			//this.saveMovesInCache = false;
 		}
 		
@@ -55,7 +55,7 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 			//result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
 			//result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			//result.affectedByContainerAdd(Square.h1);
-			result.moveContainerAdd(new EnroqueBlancoReyMove());
+			this.result.moveContainerAdd(new EnroqueBlancoReyMove());
 			//this.saveMovesInCache = false;
 		}
 	}

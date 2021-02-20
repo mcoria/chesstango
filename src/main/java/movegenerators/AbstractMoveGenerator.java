@@ -23,10 +23,10 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	@Override
 	public MoveGeneratorResult calculatePseudoMoves(PosicionPieza origen){
-		result = new MoveGeneratorResult();
+		this.result = new MoveGeneratorResult();
 		generateMovesPseudoMoves(origen);
-		result.setSaveMovesInCache(saveMovesInCache());
-		return result;
+		this.result.setSaveMovesInCache(saveMovesInCache());
+		return this.result;
 	}
 
 	@Override

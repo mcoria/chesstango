@@ -50,11 +50,14 @@ public abstract class EnroqueMove extends AbstractMove {
 		getTorreMove().undoMove(boardCache);
 	}	
 	
-	public void updateMoveCache(MoveCacheBoard moveCache){
-		getReyMove().updateMoveCache(moveCache);
-		getTorreMove().updateMoveCache(moveCache);		
-	}
 	
+	@Override
+	public void executeMove(MoveCacheBoard moveCache) {
+		moveCache.pushState();
+		
+		moveCache.clearPseudoMoves(getReyMove().getFrom().getKey(), getReyMove().getTo().getKey(), getTorreMove().getFrom().getKey(), getTorreMove().getTo().getKey());
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof EnroqueMove){

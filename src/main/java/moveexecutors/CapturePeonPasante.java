@@ -39,10 +39,10 @@ public class CapturePeonPasante extends SimpleMove {
 	}
 	
 	@Override
-	public void updateMoveCache(MoveCacheBoard moveCache) {
+	public void executeMove(MoveCacheBoard moveCache) {
+		moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), captura.getKey());
 	}
-		
 	
 	@Override
 	public boolean equals(Object obj) {

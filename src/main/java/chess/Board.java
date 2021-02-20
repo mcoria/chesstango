@@ -72,6 +72,7 @@ public class Board {
 	///////////////////////////// START Move execution Logic /////////////////////////////		
 	public void execute(Move move) {
 		//colorBoard.validar(dummyBoard);
+		//moveCache.validar();
 
 		move.executeMove(dummyBoard);
 
@@ -81,11 +82,13 @@ public class Board {
 
 		move.executeMove(boardState);
 
+		//moveCache.validar();
 		//colorBoard.validar(dummyBoard);
 	}
 
 	public void undo(Move move) {
 		//colorBoard.validar(dummyBoard);
+		//moveCache.validar();
 
 		move.undoMove(boardState);
 
@@ -95,6 +98,7 @@ public class Board {
 
 		move.undoMove(dummyBoard);
 
+		//moveCache.validar();
 		//colorBoard.validar(dummyBoard);
 	}
 	///////////////////////////// END Move execution Logic /////////////////////////////
