@@ -76,11 +76,9 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 	
+			moveCache.setPseudoMoves(origen.getKey(), generatorResult);
+			
 			pseudoMoves = generatorResult.getPseudoMoves();
-	
-			if (generatorResult.isSaveMovesInCache()) {
-				moveCache.setPseudoMoves(origen.getKey(), pseudoMoves, generatorResult.getAffectedBy());
-			}
 		}
 		
 		return pseudoMoves;

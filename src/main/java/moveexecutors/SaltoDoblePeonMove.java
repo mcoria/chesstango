@@ -22,9 +22,13 @@ public class SaltoDoblePeonMove extends SimpleMove {
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), peonPasanteSquare);
 	}
+	
+	@Override
+	public void undoMove(MoveCacheBoard moveCache) {
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey());
+	}	
 	
 	@Override
 	public boolean equals(Object obj) {

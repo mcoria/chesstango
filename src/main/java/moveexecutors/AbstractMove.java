@@ -30,13 +30,13 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.pushState();
+		//moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey());
 	}
 
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.popState();
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey());
 	}
 	
 	@Override

@@ -1,42 +1,43 @@
 package layers;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 
 import chess.Move;
 import chess.Square;
+import movegenerators.MoveGeneratorResult;
 
 public class MoveCacheBoard {
 	
-	@SuppressWarnings("unchecked")
-	private Collection<Move> pseudoMoves[] = new Collection[64];
+	private MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
 	private long affects[] = new long[64];
-	private long affectedBy[] = new long[64];
 	
+	/*
 	private static class MoveCacheBoardNode{
 		@SuppressWarnings("unchecked")
 		private Collection<Move> pseudoMoves[] = new Collection[64];
 		private long affects[] = new long[64];
 		private long affectedBy[] = new long[64];		
-	}
+	}*/
 	
-	private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
+	//private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
 	
 	public Collection<Move> getPseudoMoves(Square key) {
-		return pseudoMoves[key.toIdx()];
+		MoveGeneratorResult result = pseudoMoves[key.toIdx()];
+		return result == null ? null  : result.getPseudoMoves();
 	}
 	
-	public void setPseudoMoves(Square key, Collection<Move> pseudoMovesCollection, long affectedByCollection) {
-		pseudoMoves[key.toIdx()] = pseudoMovesCollection;
-		affectedBy[key.toIdx()] = affectedByCollection;
-		long keyAdded = key.getPosicion();
-		for(int i = 0; i < 64; i++){
-			if( (affectedByCollection & (1L << i))  != 0 ) {
-				 affects[i] |= keyAdded;
+	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
+		if(generatorResult.isSaveMovesInCache()){
+			pseudoMoves[key.toIdx()] = generatorResult;
+			long keyAdded = key.getPosicion();
+			long affectedByCollection = generatorResult.getAffectedBy();
+			for(int i = 0; i < 64; i++){
+				if( (affectedByCollection & (1L << i))  != 0 ) {
+					 affects[i] |= keyAdded;
+				}
 			}
 		}
-	}
+	}		
 
 	public void clearPseudoMoves(Square key) {
 		clearPseudoMoves(affects[key.toIdx()] | key.getPosicion());
@@ -58,9 +59,9 @@ public class MoveCacheBoard {
 		long affectsBySquares = 0;
 		for(int i = 0; i < 64; i++){
 			if( (clearSquares & (1L << i))  != 0 ) {
-				if(affectedBy[i] != 0){
-					affectsBySquares |= affectedBy[i];
-					affectedBy[i] = 0;
+				MoveGeneratorResult pseudoMove = pseudoMoves[i];
+				if(pseudoMoves[i] != null){
+					affectsBySquares |= pseudoMove.getAffectedBy();
 					pseudoMoves[i] = null;
 				}
 			}
@@ -75,6 +76,9 @@ public class MoveCacheBoard {
 
 	}
 	
+	
+	
+/*
 	public void pushState() {
 		MoveCacheBoardNode state = saveState();
 		
@@ -103,27 +107,24 @@ public class MoveCacheBoard {
 			affects[i] = lastState.affects[i];
 			pseudoMoves[i] = lastState.pseudoMoves[i];
 		}
-	}	
+	}
+	*/
 
 	public void validar() {
 		
 		//Validate affectedBy[]
 		for(int i = 0; i < 64; i++){
-			long affectedBySquares = affectedBy[i];
-			if(affectedBySquares != 0) {
+			if(pseudoMoves[i] != null) {
 				if(pseudoMoves[i] == null) {
 					throw new RuntimeException("MoveCacheBoard checkConsistence failed, there are not pseudoMoves[i] ");
-				}				
+				}
+				long affectedBySquares = pseudoMoves[i].getAffectedBy();
 				for(int j = 0; j < 64; j++){
 					if( (affectedBySquares & (1L << j))  != 0 ) {
 						if((affects[j] & (1L << i)) == 0){
 							throw new RuntimeException("MoveCacheBoard checkConsistence failed");
 						}
 					}
-				}
-			} else {
-				if(pseudoMoves[i] != null) {
-					throw new RuntimeException("MoveCacheBoard checkConsistence failed, there are pseudoMoves[i] ");
 				}
 			}
 		}
@@ -133,13 +134,14 @@ public class MoveCacheBoard {
 			long affectsSquares = affects[i];
 			for(int j = 0; j < 64; j++){
 				if( (affectsSquares & (1L << j))  != 0 ) {
-					if((affectedBy[j] & (1L << i)) == 0){
+					if((pseudoMoves[j].getAffectedBy() & (1L << i)) == 0){
 						throw new RuntimeException("MoveCacheBoard checkConsistence failed");
 					}
 				}
 			}
 		}		
 		
-	}	
+	}
+
 
 }
