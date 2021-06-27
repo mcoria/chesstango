@@ -9,8 +9,8 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import gui.ASCIIOutput;
-import iterators.BoardBitSquareIterator;
 import iterators.SquareIterator;
+import iterators.posicionpieza.BoardBitIterator;
 
 public class DefaultDummyBoard implements DummyBoard {
 
@@ -124,7 +124,7 @@ public class DefaultDummyBoard implements DummyBoard {
 	
 	@Override
 	public Iterator<PosicionPieza> iterator(long posiciones){
-		return new BoardBitSquareIterator(tablero, posiciones);
+		return new BoardBitIterator(tablero, posiciones);
 	}	
 	
 	private void crearTablero(Pieza[][] sourceTablero) {

@@ -13,7 +13,7 @@ import org.junit.Test;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import iterators.BoardBitSquareIterator;
+import iterators.posicionpieza.BoardBitIterator;
 import layers.DefaultDummyBoard;
 import layers.DummyBoard;
 import parsers.FENBoarBuilder;
@@ -42,7 +42,7 @@ public class DefaultDummyBoardTest {
 		
 		List<PosicionPieza> posicionesList = new ArrayList<PosicionPieza>();
 
-		for (Iterator<PosicionPieza> iterator =  new BoardBitSquareIterator(tableroImp.tablero, posiciones); iterator.hasNext();) {
+		for (Iterator<PosicionPieza> iterator =  new BoardBitIterator(tableroImp.tablero, posiciones); iterator.hasNext();) {
 			posicionesList.add(iterator.next());
 		}
 		

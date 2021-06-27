@@ -1,11 +1,11 @@
-package iterators;
+package iterators.posicionpieza;
 
 import java.util.Iterator;
 
 import chess.PosicionPieza;
 
 //Esta implementacion es muy especifica a como se representa un tablero y como se representa un listado de posiciones
-public class BoardBitSquareIterator implements Iterator<PosicionPieza> {
+public class BoardBitIterator implements Iterator<PosicionPieza> {
 
 	private final long posiciones;
 	private final PosicionPieza[] tablero;
@@ -13,7 +13,7 @@ public class BoardBitSquareIterator implements Iterator<PosicionPieza> {
 	private int idx = -1;
 
 	// Observar este constructor
-	public BoardBitSquareIterator(PosicionPieza[] tablero, long posiciones) {
+	public BoardBitIterator(PosicionPieza[] tablero, long posiciones) {
 		this.posiciones = posiciones;
 		this.tablero = tablero;
 		calcularNextPoint();
