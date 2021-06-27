@@ -5,7 +5,7 @@ import layers.ColorBoard;
 import layers.DummyBoard;
 import layers.MoveCacheBoard;
 
-public class CapturePeonPasante extends SimpleMove {
+public class CapturePeonPasante extends AbstractMove {
 
 	private final PosicionPieza captura;
 			
@@ -16,25 +16,26 @@ public class CapturePeonPasante extends SimpleMove {
 	
 	@Override
 	public void executeMove(DummyBoard board) {
-		super.executeMove(board);
+		board.move(from, to);
 		board.setEmptyPosicion(captura);		//Capturamos peon
 	}
 
 	@Override
 	public void undoMove(DummyBoard board) {
-		super.undoMove(board);
+		board.setPosicion(to);				//Reestablecemos destino
+		board.setPosicion(from);			//Volvemos a origen
 		board.setPosicion(captura);			//Devolvemos peon
 	}
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
-		super.executeMove(colorBoard);
+		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
 		colorBoard.removePositions(captura);
 	}
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
-		super.undoMove(colorBoard);
+		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 		colorBoard.addPositions(captura);
 	}
 	
