@@ -15,7 +15,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
@@ -37,7 +37,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -59,7 +59,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste01() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4R2B/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R2B/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -80,7 +80,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste02() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4R2b/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R2b/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

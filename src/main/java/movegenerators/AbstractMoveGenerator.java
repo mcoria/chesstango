@@ -2,14 +2,14 @@ package movegenerators;
 
 import chess.Color;
 import chess.PosicionPieza;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 
 // Y si tenemos objetos prototipos de movimientos y lo clonamos de ser validos?
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected final Color color;
 	
-	protected DummyBoard tablero;
+	protected PosicionPiezaBoard tablero;
 	
 	protected MoveGeneratorResult result;
 	
@@ -30,7 +30,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	}
 
 	@Override
-	public void setTablero(DummyBoard tablero) {
+	public void setTablero(PosicionPiezaBoard tablero) {
 		this.tablero = tablero;
 	}
 	

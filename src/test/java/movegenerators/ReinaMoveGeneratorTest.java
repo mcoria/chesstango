@@ -14,7 +14,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 public class ReinaMoveGeneratorTest {
@@ -34,7 +34,7 @@ public class ReinaMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves() {
-		DummyBoard tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4Q3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;

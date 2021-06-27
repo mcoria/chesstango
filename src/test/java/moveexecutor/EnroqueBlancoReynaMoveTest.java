@@ -12,13 +12,13 @@ import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.EnroqueBlancoReynaMove;
 import parsers.FENBoarBuilder;
 
 public class EnroqueBlancoReynaMoveTest {	
 	
-	private DummyBoard board;
+	private PosicionPiezaBoard board;
 	
 	private BoardState boardState;	
 	

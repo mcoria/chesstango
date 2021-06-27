@@ -2,7 +2,7 @@ package moveexecutors;
 
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import layers.MoveCacheBoard;
 
 public class CapturePeonPasante extends AbstractMove {
@@ -15,13 +15,13 @@ public class CapturePeonPasante extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(PosicionPiezaBoard board) {
 		board.move(from, to);
 		board.setEmptyPosicion(captura);		//Capturamos peon
 	}
 
 	@Override
-	public void undoMove(DummyBoard board) {
+	public void undoMove(PosicionPiezaBoard board) {
 		board.setPosicion(to);				//Reestablecemos destino
 		board.setPosicion(from);			//Volvemos a origen
 		board.setPosicion(captura);			//Devolvemos peon

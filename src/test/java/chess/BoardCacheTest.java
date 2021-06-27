@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import iterators.SquareIterator;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import parsers.FENBoarBuilder;
 
 public class BoardCacheTest {
@@ -23,7 +23,7 @@ public class BoardCacheTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withDefaultBoard().buildDummyBoard();
 		
 		ColorBoard colorBoard = builder.buildColorBoard();
 		

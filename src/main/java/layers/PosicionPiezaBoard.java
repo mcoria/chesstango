@@ -8,7 +8,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.SquareIterator;
 
-public interface DummyBoard extends Iterable<PosicionPieza> {
+public interface PosicionPiezaBoard extends Iterable<PosicionPieza> {
 
 	///////////////////////////// START positioning logic /////////////////////////////
 	// Quizas podria encapsular estas operaciones en su propia clase.

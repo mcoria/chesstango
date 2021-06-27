@@ -5,7 +5,7 @@ import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import layers.MoveCacheBoard;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
@@ -37,8 +37,8 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	public abstract void executeMove(ColorBoard colorBoard);
 	public abstract void undoMove(ColorBoard colorBoard);
 	
-	public abstract void undoMove(DummyBoard dummyBoard);
-	public abstract void executeMove(DummyBoard dummyBoard);
+	public abstract void undoMove(PosicionPiezaBoard dummyBoard);
+	public abstract void executeMove(PosicionPiezaBoard dummyBoard);
 	
 	@Override
 	public void executePseudo(Board board){

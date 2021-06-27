@@ -13,7 +13,7 @@ import org.junit.Test;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import parsers.FENBoarBuilder;
 
 public class BoardteratorTest {
@@ -27,7 +27,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testTopDownSquareIterator() {
-		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -368,7 +368,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		DummyBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildDummyBoard();
 		
 		Iterator<PosicionPieza> iterator = tablero.iterator(new BottomUpSquareIterator());
 		

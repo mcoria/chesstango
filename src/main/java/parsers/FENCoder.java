@@ -10,7 +10,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.TopDownSquareIterator;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 
 public class FENCoder {
 	
@@ -35,7 +35,7 @@ public class FENCoder {
 		return codePiecePlacement(input.getDummyBoard()) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
-	public String codePiecePlacement(DummyBoard board) {
+	public String codePiecePlacement(PosicionPiezaBoard board) {
 		int idx = 0;
 		int idxLinea = 0;
 		Pieza[] piezas = new Pieza[8];

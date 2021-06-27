@@ -10,7 +10,7 @@ import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movegenerators.MoveGenerator;
@@ -21,7 +21,7 @@ import positioncaptures.Capturer;
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
 
 	protected Board board = null;
-	protected DummyBoard dummyBoard = null;
+	protected PosicionPiezaBoard dummyBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;
 	protected ColorBoard colorBoard = null;
 	protected MoveCacheBoard moveCache = null;
@@ -34,7 +34,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected abstract Collection<Move> getLegalMovesNotKing();
 	
-	public AbstractLegalMoveCalculator(Board board, DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+	public AbstractLegalMoveCalculator(Board board, PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
 			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
 		this.board = board;
 		this.dummyBoard = dummyBoard;

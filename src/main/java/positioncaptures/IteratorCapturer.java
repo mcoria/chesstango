@@ -7,7 +7,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
@@ -17,11 +17,11 @@ import movegenerators.MoveGeneratorStrategy;
  */
 public class IteratorCapturer implements Capturer {
 	
-	private DummyBoard dummyBoard = null; 
+	private PosicionPiezaBoard dummyBoard = null; 
 	private ColorBoard colorBoard = null;
 	private MoveGeneratorStrategy strategy = null;
 	
-	public IteratorCapturer(DummyBoard dummyBoard, ColorBoard colorBoard, MoveGeneratorStrategy strategy) {
+	public IteratorCapturer(PosicionPiezaBoard dummyBoard, ColorBoard colorBoard, MoveGeneratorStrategy strategy) {
 		this.dummyBoard = dummyBoard;
 		this.colorBoard = colorBoard;
 		this.strategy = strategy;

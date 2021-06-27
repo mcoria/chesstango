@@ -13,7 +13,7 @@ public class ColorBoard {
 	private long squareNegros = 0;
 	private KingCacheBoard kingCacheBoard = null;
 	
-	public ColorBoard(DummyBoard board, KingCacheBoard kingCacheBoard) {
+	public ColorBoard(PosicionPiezaBoard board, KingCacheBoard kingCacheBoard) {
 		settupSquares(board);
 		this.kingCacheBoard = kingCacheBoard;
 	}
@@ -59,20 +59,6 @@ public class ColorBoard {
 		return Color.BLANCO.equals(color) ? squareBlancos : squareNegros;		
 	}
 	
-	
-	protected void settupSquares(DummyBoard board) {
-		for (PosicionPieza posicionPieza : board) {
-			Pieza pieza = posicionPieza.getValue();
-			if (pieza != null) {
-				if (Color.BLANCO.equals(pieza.getColor())) {
-					squareBlancos |= posicionPieza.getKey().getPosicion();
-				} else if (Color.NEGRO.equals(pieza.getColor())) {
-					squareNegros |= posicionPieza.getKey().getPosicion();
-				}
-			}			
-		}
-	}
-	
 	public boolean isEmpty(Square destino) {
 		return ((~(squareBlancos | squareNegros)) &  destino.getPosicion()) != 0 ;
 	}	
@@ -96,7 +82,7 @@ public class ColorBoard {
 		return null;
 	}
 	
-	public void validar(DummyBoard board) {
+	public void validar(PosicionPiezaBoard board) {
 		int posicionesBlancas = 0;
 		int posicionesNegras = 0;
 		for (PosicionPieza posicionPieza : board) {
@@ -124,6 +110,19 @@ public class ColorBoard {
 			throw new RuntimeException("Diferencias en cantidad de posicions negras");
 		}
 	}
+	
+	protected void settupSquares(PosicionPiezaBoard board) {
+		for (PosicionPieza posicionPieza : board) {
+			Pieza pieza = posicionPieza.getValue();
+			if (pieza != null) {
+				if (Color.BLANCO.equals(pieza.getColor())) {
+					squareBlancos |= posicionPieza.getKey().getPosicion();
+				} else if (Color.NEGRO.equals(pieza.getColor())) {
+					squareNegros |= posicionPieza.getKey().getPosicion();
+				}
+			}			
+		}
+	}	
 	
 }
 

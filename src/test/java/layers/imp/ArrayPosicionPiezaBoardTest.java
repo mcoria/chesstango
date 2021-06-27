@@ -1,4 +1,4 @@
-package layers;
+package layers.imp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,11 +14,11 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.posicionpieza.BoardBitIterator;
-import layers.DefaultDummyBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
+import layers.imp.ArrayPosicionPiezaBoard;
 import parsers.FENBoarBuilder;
 
-public class DefaultDummyBoardTest {
+public class ArrayPosicionPiezaBoardTest {
 
 
 	private FENBoarBuilder builder;
@@ -30,8 +30,8 @@ public class DefaultDummyBoardTest {
 	
 	@Test
 	public void test() {
-		DummyBoard tablero = builder.withDefaultBoard().buildDummyBoard();
-		DefaultDummyBoard tableroImp = (DefaultDummyBoard) tablero;
+		PosicionPiezaBoard tablero = builder.withDefaultBoard().buildDummyBoard();
+		ArrayPosicionPiezaBoard tableroImp = (ArrayPosicionPiezaBoard) tablero;
 		
 		long posiciones = 0;
 		posiciones |= Square.a1.getPosicion();

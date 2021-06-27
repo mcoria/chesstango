@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import chess.Color;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import parsers.FENBoarBuilder;
 
 public class ImprovedCapturerTest {
@@ -22,7 +22,7 @@ public class ImprovedCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPeonBlanco() {
-		DummyBoard dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
@@ -33,7 +33,7 @@ public class ImprovedCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPeonNegro() {
-		DummyBoard dummyBoard = builder.withTablero("8/8/8/1p6/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard dummyBoard = builder.withTablero("8/8/8/1p6/8/8/8/8").buildDummyBoard();
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
@@ -45,7 +45,7 @@ public class ImprovedCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByCaballo() {
-		DummyBoard dummyBoard = builder.withTablero("8/8/8/3N4/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard dummyBoard = builder.withTablero("8/8/8/3N4/8/8/8/8").buildDummyBoard();
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		

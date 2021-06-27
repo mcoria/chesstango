@@ -2,7 +2,7 @@ package moveexecutors;
 
 import chess.Pieza;
 import chess.PosicionPieza;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 
 public class CapturaPeonPromocion extends CaptureMove {
 
@@ -14,7 +14,7 @@ public class CapturaPeonPromocion extends CaptureMove {
 	}
 
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(PosicionPiezaBoard board) {
 		board.setEmptyPosicion(from);								//Dejamos el origen
 		board.setPieza(to.getKey(), this.promocion) ;			//Promocion
 	}

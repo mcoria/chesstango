@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import chess.Board;
 import chess.Pieza;
-import layers.DefaultDummyBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
+import layers.imp.ArrayPosicionPiezaBoard;
 
 public class FENCoderTest {
 
@@ -37,7 +37,7 @@ public class FENCoderTest {
 	@Test
 	public void testCodePiecePlacement03() {
 		FENParser parser = new FENParser();
-		DummyBoard tablero = new DefaultDummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
+		PosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
 		FENCoder coder = new FENCoder();
 		String actual = coder.codePiecePlacement(tablero);
 		

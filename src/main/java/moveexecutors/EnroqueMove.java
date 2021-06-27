@@ -3,7 +3,7 @@ package moveexecutors;
 import chess.Board;
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 
@@ -42,14 +42,14 @@ public abstract class EnroqueMove extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(PosicionPiezaBoard board) {
 		getReyMove().executeMove(board);
 		getTorreMove().executeMove(board);
 	}
 
 
 	@Override
-	public void undoMove(DummyBoard board) {
+	public void undoMove(PosicionPiezaBoard board) {
 		getReyMove().undoMove(board);
 		getTorreMove().undoMove(board);
 	}	

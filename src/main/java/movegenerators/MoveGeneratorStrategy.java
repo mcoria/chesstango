@@ -4,11 +4,11 @@ import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import positioncaptures.ImprovedCapturer;
 
 public class MoveGeneratorStrategy {
-	private DummyBoard dummyBoard;
+	private PosicionPiezaBoard dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
 	private IsKingInCheck isKingInCheck;
@@ -55,7 +55,7 @@ public class MoveGeneratorStrategy {
 	public ReyAbstractMoveGenerator getReyMoveGenerator(Color color) {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
-	public void setDummyBoard(DummyBoard dummyBoard) {
+	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
 		this.dummyBoard = dummyBoard;
 		settupMoveGenerators();
 	}

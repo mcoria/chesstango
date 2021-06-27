@@ -14,7 +14,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
@@ -36,7 +36,7 @@ public class CaballoMoveGeneratorTest {
 	
 	@Test
 	public void test() {
-		DummyBoard tablero = builder.withTablero("8/3P1p2/8/4N3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/3P1p2/8/4N3/8/8/8/8").buildDummyBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

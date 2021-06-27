@@ -9,7 +9,7 @@ import org.junit.Test;
 import chess.Color;
 import chess.Square;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
 import parsers.FENBoarBuilder;
 
@@ -24,7 +24,7 @@ public class DefaultCapturerTest {
 	
 	@Test
 	public void testPositionCaptured() {
-		DummyBoard dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard dummyBoard = builder.withTablero("8/8/8/1P6/8/8/8/8").buildDummyBoard();
 		MoveGeneratorStrategy strategy = builder.buildMoveGeneratorStrategy();
 		ColorBoard colorBoard = builder.buildColorBoard();
 		

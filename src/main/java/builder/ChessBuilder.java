@@ -7,8 +7,8 @@ import chess.Game;
 import chess.Pieza;
 import chess.Square;
 import layers.ColorBoard;
-import layers.DefaultDummyBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
+import layers.imp.ArrayPosicionPiezaBoard;
 import layers.KingCacheBoard;
 import movegenerators.MoveGeneratorStrategy;
 
@@ -29,7 +29,7 @@ public abstract class ChessBuilder {
 	
 	private BoardState boardState;
 	
-	private DummyBoard dummyBoard;
+	private PosicionPiezaBoard dummyBoard;
 	
 	private KingCacheBoard kingCacheBoard;
 
@@ -85,9 +85,9 @@ public abstract class ChessBuilder {
 		return colorBoard;
 	}
 
-	public DummyBoard buildDummyBoard() {
+	public PosicionPiezaBoard buildDummyBoard() {
 		if (dummyBoard == null) {
-			dummyBoard = new DefaultDummyBoard(tablero);
+			dummyBoard = new ArrayPosicionPiezaBoard(tablero);
 		}
 		return dummyBoard;
 	}

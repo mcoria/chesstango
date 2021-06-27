@@ -10,8 +10,8 @@ import org.junit.Test;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
-import layers.DefaultDummyBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
+import layers.imp.ArrayPosicionPiezaBoard;
 
 public class FENParserTest {
 
@@ -95,7 +95,7 @@ public class FENParserTest {
 	
 	@Test
 	public void testParsePiecePlacement() {
-		DummyBoard tablero = new DefaultDummyBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
+		PosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard(parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"));
 		
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));

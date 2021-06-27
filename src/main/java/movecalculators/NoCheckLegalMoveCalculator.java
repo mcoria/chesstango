@@ -8,7 +8,7 @@ import chess.Move;
 import chess.Square;
 import iterators.SquareIterator;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movegenerators.MoveGeneratorStrategy;
@@ -17,7 +17,7 @@ import positioncaptures.ImprovedCapturer;
 
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
-	public NoCheckLegalMoveCalculator(Board board, DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache,
+	public NoCheckLegalMoveCalculator(Board board, PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache,
 			BoardState boardState, MoveGeneratorStrategy strategy) {
 		super(board, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
 		this.capturer = new ImprovedCapturer(dummyBoard);

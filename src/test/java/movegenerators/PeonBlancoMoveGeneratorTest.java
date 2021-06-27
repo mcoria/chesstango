@@ -14,7 +14,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
@@ -44,7 +44,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -64,7 +64,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -85,7 +85,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -105,7 +105,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -128,7 +128,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		DummyBoard tablero =  builder.withTablero("8/8/8/3pP3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero =  builder.withTablero("8/8/8/3pP3/8/8/8/8").buildDummyBoard();
 		
 		state.setPeonPasanteSquare(Square.d6);
 		
@@ -153,7 +153,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		DummyBoard tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -176,7 +176,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		DummyBoard tablero = builder.withTablero("8/8/8/3Pp3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/3Pp3/8/8/8/8").buildDummyBoard();
 		
 		state.setPeonPasanteSquare(Square.e6);
 		
@@ -200,7 +200,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonSimplePeonPromocion() {
-		DummyBoard tablero = builder.withTablero("8/3P4/8/8/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/3P4/8/8/8/8/8/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -224,7 +224,7 @@ public class PeonBlancoMoveGeneratorTest {
 
 	@Test
 	public void testPeonCapturaPeonPromocion() {
-		DummyBoard tablero = builder.withTablero("2rr4/3P4/8/8/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("2rr4/3P4/8/8/8/8/8/8").buildDummyBoard();
 		
 		moveGenerator.setTablero(tablero);
 		

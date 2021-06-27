@@ -2,7 +2,7 @@ package movegenerators;
 
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 
 public interface MoveGenerator {
 
@@ -10,5 +10,5 @@ public interface MoveGenerator {
 
 	boolean puedeCapturarPosicion(PosicionPieza origen, Square square);
 	
-	void setTablero(DummyBoard tablero);
+	void setTablero(PosicionPiezaBoard tablero);
 }

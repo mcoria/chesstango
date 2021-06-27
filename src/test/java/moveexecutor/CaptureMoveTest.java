@@ -12,13 +12,13 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import parsers.FENBoarBuilder;
 
 public class CaptureMoveTest {
 
-	private DummyBoard board;
+	private PosicionPiezaBoard board;
 	
 	private BoardState boardState;
 	

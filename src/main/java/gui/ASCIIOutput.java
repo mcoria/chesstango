@@ -7,7 +7,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.TopDownSquareIterator;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 
 public class ASCIIOutput {
 	
@@ -21,7 +21,7 @@ public class ASCIIOutput {
 		this.printStream = printStream;
 	}
 	
-	public void printDummyBoard(DummyBoard tablero) {
+	public void printDummyBoard(PosicionPiezaBoard tablero) {
 		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
 
 		printStream.println("  -------------------------------");

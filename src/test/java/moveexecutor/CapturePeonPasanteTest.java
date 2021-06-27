@@ -12,13 +12,13 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.CapturePeonPasante;
 import parsers.FENBoarBuilder;
 
 public class CapturePeonPasanteTest {
 
-	private DummyBoard board;
+	private PosicionPiezaBoard board;
 	
 	private BoardState boardState;
 	

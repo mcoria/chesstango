@@ -9,7 +9,7 @@ import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
 import iterators.SaltoSquareIterator;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 import movegenerators.CaballoMoveGenerator;
 
 public class ImprovedCapturer implements Capturer {
@@ -17,7 +17,7 @@ public class ImprovedCapturer implements Capturer {
 	private ImprovedCapturerColor capturerBlanco = null;
 	private ImprovedCapturerColor capturerNegro = null;
 	
-	public ImprovedCapturer(DummyBoard dummyBoard) {
+	public ImprovedCapturer(PosicionPiezaBoard dummyBoard) {
 		this.capturerBlanco = new ImprovedCapturerColor(Color.BLANCO, dummyBoard);
 		this.capturerNegro = new ImprovedCapturerColor(Color.NEGRO, dummyBoard);
 	}	
@@ -42,7 +42,7 @@ public class ImprovedCapturer implements Capturer {
 	
 	private static class ImprovedCapturerColor {
 		
-		private DummyBoard dummyBoard = null; 
+		private PosicionPiezaBoard dummyBoard = null; 
 		
 		private Pieza torre;
 		private Pieza alfil;
@@ -61,7 +61,7 @@ public class ImprovedCapturer implements Capturer {
 			{ 1, 1 }
 		};
 		
-		public ImprovedCapturerColor(Color color, DummyBoard dummyBoard) {
+		public ImprovedCapturerColor(Color color, PosicionPiezaBoard dummyBoard) {
 			this.dummyBoard = dummyBoard;
 			if (Color.BLANCO.equals(color)) {
 				torre = Pieza.TORRE_BLANCO;

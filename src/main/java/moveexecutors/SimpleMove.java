@@ -2,7 +2,7 @@ package moveexecutors;
 
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.DummyBoard;
+import layers.PosicionPiezaBoard;
 
 public class SimpleMove extends AbstractMove {
 	
@@ -11,12 +11,12 @@ public class SimpleMove extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(DummyBoard board) {
+	public void executeMove(PosicionPiezaBoard board) {
 		board.move(from, to);
 	}
 	
 	@Override
-	public void undoMove(DummyBoard board) {
+	public void undoMove(PosicionPiezaBoard board) {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen
 	}
