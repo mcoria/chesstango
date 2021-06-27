@@ -2,6 +2,7 @@ package movecalculators;
 
 import java.util.Collection;
 
+import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Move;
@@ -17,9 +18,9 @@ import positioncaptures.ImprovedCapturer;
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
 	
-	public DefaultLegalMoveCalculator(DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
+	public DefaultLegalMoveCalculator(Board board, DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
 			MoveGeneratorStrategy strategy, BoardAnalyzer analyzer) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, analyzer);
+		super(board, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, analyzer);
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
 

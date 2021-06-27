@@ -3,6 +3,7 @@ package movecalculators;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.Board;
 import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
@@ -20,6 +21,7 @@ import positioncaptures.Capturer;
 
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
 
+	protected Board board = null;
 	protected DummyBoard dummyBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;
 	protected ColorBoard colorBoard = null;
@@ -34,8 +36,9 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected abstract Collection<Move> getLegalMovesNotKing();
 	
-	public AbstractLegalMoveCalculator(DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+	public AbstractLegalMoveCalculator(Board board, DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
 			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, BoardAnalyzer analyzer) {
+		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
@@ -91,18 +94,14 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		boolean result = false;
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
-				
-		move.executeMove(this.dummyBoard);
-		move.executeMove(this.colorBoard);
-		move.executeMove(this.kingCacheBoard);
+		
+		move.executePseudo(this.board);
 		 
 		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}
 		
-		move.undoMove(this.kingCacheBoard);
-		move.undoMove(this.colorBoard);
-		move.undoMove(this.dummyBoard);
+		move.undoPseudo(this.board);
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 		

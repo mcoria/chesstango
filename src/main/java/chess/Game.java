@@ -41,7 +41,7 @@ public class Game {
 		
 		boardPila.push();
 		
-		tablero.execute(move);
+		move.execute(tablero);
 		
 		return updateGameStatus();
 	}
@@ -52,7 +52,7 @@ public class Game {
 		
 		Move lastMove = boardPila.getMovimientoSeleccionado();
 		
-		tablero.undo(lastMove);
+		lastMove.undo(tablero);
 		
 		return getGameStatus();
 	}

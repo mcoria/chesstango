@@ -45,8 +45,8 @@ public class Board {
 		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, analyzer);
-		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, analyzer);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, getKingCacheBoard(), getColorBoard(), getMoveCache(), boardState, strategy, analyzer);
+		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(this, dummyBoard, getKingCacheBoard(), getColorBoard(), getMoveCache(), boardState, strategy, analyzer);
 	}
 
 
@@ -65,50 +65,12 @@ public class Board {
 	}
 	
 	public Square getKingSquare() {
-		return kingCacheBoard.getKingSquare(boardState.getTurnoActual());
+		return getKingCacheBoard().getKingSquare(boardState.getTurnoActual());
 	}
 
 	protected boolean isKingInCheck() {
 		return analyzer.isKingInCheck();
-	}	
-
-	///////////////////////////// START Move execution Logic /////////////////////////////		
-	public void execute(Move move) {
-		//colorBoard.validar(dummyBoard);
-		//moveCache.validar();
-
-		move.executeMove(dummyBoard);
-		
-		move.executeMove(kingCacheBoard);
-
-		move.executeMove(colorBoard);
-
-		move.executeMove(moveCache);
-
-		move.executeMove(boardState);
-
-		//moveCache.validar();
-		//colorBoard.validar(dummyBoard);
 	}
-
-	public void undo(Move move) {
-		//colorBoard.validar(dummyBoard);
-		//moveCache.validar();
-
-		move.undoMove(boardState);
-
-		move.undoMove(moveCache);
-
-		move.undoMove(colorBoard);
-		
-		move.undoMove(kingCacheBoard);
-
-		move.undoMove(dummyBoard);
-
-		//moveCache.validar();
-		//colorBoard.validar(dummyBoard);
-	}
-	///////////////////////////// END Move execution Logic /////////////////////////////
 
 	private LegalMoveCalculator selectMoveCalculator() {
 		if(! analyzer.isKingInCheck() ){
@@ -128,5 +90,21 @@ public class Board {
 	
 	public BoardState getBoardState() {
 		return boardState;
-	}	
+	}
+
+
+	public ColorBoard getColorBoard() {
+		return colorBoard;
+	}
+
+
+	public KingCacheBoard getKingCacheBoard() {
+		return kingCacheBoard;
+	}
+
+
+	public MoveCacheBoard getMoveCache() {
+		return moveCache;
+	}
+	
 }

@@ -124,7 +124,7 @@ public class BoardTest01 {
 		
 		//Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
-		tablero.execute(move);
+		move.execute(tablero);
 		
 		//Podemos capturarlo
 		result = tablero.getBoardStatus();
@@ -133,7 +133,7 @@ public class BoardTest01 {
 		assertEquals(22, legalMoves.size());
 		
 		//Volvemos atras
-		tablero.undo(move);
+		move.undo(tablero);
 		
 		//No podemos capturarlo
 		result = tablero.getBoardStatus();
@@ -158,7 +158,7 @@ public class BoardTest01 {
 		
 		//Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
-		tablero.execute(move);
+		move.execute(tablero);
 		
 		//Podemos capturarlo
 		result = tablero.getBoardStatus();
@@ -170,13 +170,13 @@ public class BoardTest01 {
 		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h2, Square.h3);
-		tablero.execute(move);
+		move.execute(tablero);
 		
 
 		result = tablero.getBoardStatus();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h7, Square.h6);
-		tablero.execute(move);
+		move.execute(tablero);
 		
 		//Ahora no podemos capturar el peon pasante !!!
 		result = tablero.getBoardStatus();

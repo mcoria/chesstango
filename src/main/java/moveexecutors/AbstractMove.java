@@ -1,9 +1,11 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
-import layers.KingCacheBoard;
+import layers.ColorBoard;
+import layers.DummyBoard;
 import layers.MoveCacheBoard;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
@@ -30,35 +32,81 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 		return from.getKey().hashCode();
 	}
 	
+	///////////////////////////// START Move execution Logic /////////////////////////////
+	
+	public abstract void executeMove(ColorBoard colorBoard);
+	public abstract void undoMove(ColorBoard colorBoard);
+	
+	public abstract void undoMove(DummyBoard dummyBoard);
+	public abstract void executeMove(DummyBoard dummyBoard);
+	
 	@Override
+	public void executePseudo(Board tablero){
+		executeMove(tablero.getDummyBoard());
+		executeMove(tablero.getColorBoard());	
+	}
+	
+	@Override
+	public void undoPseudo(Board board){
+		undoMove(board.getColorBoard());
+		undoMove(board.getDummyBoard());	
+	}
+	
+	@Override
+	public void execute(Board board) {
+		//colorBoard.validar(dummyBoard);
+		//moveCache.validar();
+
+		executeMove(board.getDummyBoard());
+
+		executeMove(board.getColorBoard());
+
+		executeMove(board.getMoveCache());
+
+		executeMove(board.getBoardState());
+
+		//moveCache.validar();
+		//colorBoard.validar(dummyBoard);
+	}
+
+	@Override
+	public void undo(Board board) {
+		//colorBoard.validar(dummyBoard);
+		//moveCache.validar();
+
+		undoMove(board.getBoardState());
+
+		undoMove(board.getMoveCache());
+
+		undoMove(board.getColorBoard());
+
+		undoMove(board.getDummyBoard());
+
+		//moveCache.validar();
+		//colorBoard.validar(dummyBoard);
+	}
+	///////////////////////////// END Move execution Logic /////////////////////////////
+
 	public void executeMove(BoardState boardState) {
 		boardState.pushState();
 		boardState.rollTurno();
 		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
 	}
 	
-	@Override
+
 	public void undoMove(BoardState boardState) {
 		boardState.popState();		
 	}
 
-	@Override
+
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey());
 	}
 
-	@Override
+	
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
-	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard){
-	}
-	
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard){
 	}
 	
 	@Override

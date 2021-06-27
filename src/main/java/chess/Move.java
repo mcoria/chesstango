@@ -1,28 +1,14 @@
 package chess;
 
-import layers.ColorBoard;
-import layers.DummyBoard;
-import layers.KingCacheBoard;
-import layers.MoveCacheBoard;
-
 //TOOD: Y si en vez de PosicionPieza utilizamos Square para To? Tiene sentido puesto que las capturas solo son contra piezas contrarias, sin importar que pieza es.
 public interface Move {
 
 	PosicionPieza getFrom();
 	PosicionPieza getTo();
-
-	void executeMove(DummyBoard board);
-	void undoMove(DummyBoard board);
 	
-	void executeMove(BoardState boardState);
-	void undoMove(BoardState boardState);
-
-	void executeMove(ColorBoard coloBoard);
-	void undoMove(ColorBoard colorBoard);
+	void execute(Board tablero);
+	void undo(Board tablero);
 	
-	void executeMove(MoveCacheBoard moveCache);
-	void undoMove(MoveCacheBoard moveCache);
-	
-	void executeMove(KingCacheBoard kingCacheBoard);
-	void undoMove(KingCacheBoard kingCacheBoard);	
+	void executePseudo(Board board);
+	void undoPseudo(Board board);	
 }
