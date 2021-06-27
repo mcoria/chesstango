@@ -37,7 +37,7 @@ public class IteratorCapturer implements Capturer {
 			PosicionPieza origen = iterator.next();
 			Pieza currentPieza = origen.getValue();
 			//MoveGenerator moveGenerator = currentPieza.getMoveGenerator(strategy);
-			MoveGenerator moveGenerator = strategy.getMoveGenerator(currentPieza);
+			MoveGenerator moveGenerator = currentPieza.getMoveGenerator(strategy);
 			if(moveGenerator.puedeCapturarPosicion(origen, square)){
 				return true;
 			}

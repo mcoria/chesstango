@@ -75,7 +75,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
 	
-			MoveGenerator moveGenerator = strategy.getMoveGenerator(origen.getValue());
+			MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy);
 	
 			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 	
