@@ -119,7 +119,7 @@ public class ImprovedCapturer implements Capturer {
 		}
 		
 		private boolean cardinalPositionCapturedByPieza(Pieza torreOalfil, Pieza reyna, Square square, Cardinal cardinal) {
-			Iterator<PosicionPieza> iterator = this.dummyBoard.iterator(new CardinalSquareIterator(cardinal, square));
+			Iterator<PosicionPieza> iterator = this.dummyBoard.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PosicionPieza destino = iterator.next();
 				Pieza pieza = destino.getValue();

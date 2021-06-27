@@ -120,7 +120,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected Square getPinned(Square kingSquare, Pieza torreOAlfil, Pieza reina, Cardinal cardinal) {
 		Square pinned = null;
-		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, kingSquare);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
 		while ( iterator.hasNext() ) {
 		    Square destino = iterator.next();
 		    Color colorDestino = colorBoard.getColor(destino);

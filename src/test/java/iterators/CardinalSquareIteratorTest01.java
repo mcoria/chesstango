@@ -10,7 +10,7 @@ public class CardinalSquareIteratorTest01 {
 
 	@Test
 	public void testNorte() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.Norte, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.Norte);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.e6, iterator.next());
@@ -21,7 +21,7 @@ public class CardinalSquareIteratorTest01 {
 
 	@Test
 	public void testSur() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.Sur, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.Sur);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.e4, iterator.next());
@@ -33,7 +33,7 @@ public class CardinalSquareIteratorTest01 {
 	
 	@Test
 	public void testEste() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.Este, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.Este);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.f5, iterator.next());
@@ -44,7 +44,7 @@ public class CardinalSquareIteratorTest01 {
 	
 	@Test
 	public void testOeste() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.Oeste, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.Oeste);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.d5, iterator.next());
@@ -56,7 +56,7 @@ public class CardinalSquareIteratorTest01 {
 	
 	@Test
 	public void testNorteEste() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.NorteEste, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.NorteEste);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.f6, iterator.next());
@@ -67,7 +67,7 @@ public class CardinalSquareIteratorTest01 {
 	
 	@Test
 	public void testSurEste() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.SurEste, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.SurEste);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.f4, iterator.next());
@@ -78,7 +78,7 @@ public class CardinalSquareIteratorTest01 {
 	
 	@Test
 	public void testSurOeste() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.SurOeste, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.SurOeste);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.d4, iterator.next());
@@ -90,7 +90,7 @@ public class CardinalSquareIteratorTest01 {
 	
 	@Test
 	public void testNorteOeste() {
-		CardinalSquareIterator iterator = new CardinalSquareIterator(Cardinal.NorteOeste, Square.e5);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(Square.e5, Cardinal.NorteOeste);
 		
 		assertTrue(iterator.hasNext());
 		assertEquals(Square.d6, iterator.next());

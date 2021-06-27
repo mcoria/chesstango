@@ -7,7 +7,7 @@ public class CardinalSquareIterator implements SquareIterator {
 	private final Cardinal cardinal;
 	private Square nextPoint;
 	
-	public CardinalSquareIterator(Cardinal cardinal, Square startingPoint) {
+	public CardinalSquareIterator(Square startingPoint, Cardinal cardinal) {
 		this.cardinal = cardinal;
 		this.nextPoint = this.cardinal.calcularNextPoint(startingPoint);
 	}

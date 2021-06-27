@@ -34,7 +34,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
-		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(cardinal, casillero));
+		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(casillero, cardinal));
 		while (iterator.hasNext()) {
 		    PosicionPieza destino = iterator.next();
 		    this.result.affectedByContainerAdd(destino.getKey());
@@ -65,7 +65,7 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	protected boolean puedeCapturarPosicion(PosicionPieza origen, Square kingSquare,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();
-		CardinalSquareIterator iterator = new CardinalSquareIterator(cardinal, casillero);
+		CardinalSquareIterator iterator = new CardinalSquareIterator(casillero, cardinal);
 		while ( iterator.hasNext() ) {
 		    Square destino = iterator.next();
 	    	if(kingSquare.equals(destino)){
