@@ -1,6 +1,8 @@
 package layers;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 
 import chess.Move;
 import chess.Square;
@@ -11,21 +13,19 @@ public class MoveCacheBoard {
 	private MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
 	private long affects[] = new long[64];
 	
-	/*
+
 	private static class MoveCacheBoardNode{
-		@SuppressWarnings("unchecked")
-		private Collection<Move> pseudoMoves[] = new Collection[64];
-		private long affects[] = new long[64];
-		private long affectedBy[] = new long[64];		
-	}*/
+		private MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
+		private long affects[] = new long[64];		
+	}
 	
-	//private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
+	private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
 	
 	public Collection<Move> getPseudoMoves(Square key) {
 		MoveGeneratorResult result = pseudoMoves[key.toIdx()];
 		return result == null ? null  : result.getPseudoMoves();
 	}
-	
+	 
 	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
 		if(generatorResult.isSaveMovesInCache()){
 			pseudoMoves[key.toIdx()] = generatorResult;
@@ -76,9 +76,7 @@ public class MoveCacheBoard {
 
 	}
 	
-	
-	
-/*
+
 	public void pushState() {
 		MoveCacheBoardNode state = saveState();
 		
@@ -94,21 +92,17 @@ public class MoveCacheBoard {
 	private MoveCacheBoardNode saveState() {
 		MoveCacheBoardNode node = new MoveCacheBoardNode();
 		for(int i = 0; i < 64; i++){
-			node.affectedBy[i] = affectedBy[i];
-			node.affects[i] = affects[i];
-			node.pseudoMoves[i] = pseudoMoves[i];
-		}
+			node.pseudoMoves[i] = this.pseudoMoves[i];
+			node.affects[i] = this.affects[i];
+		}		
 		return node;
 	}
 	
 	private void restoreState(MoveCacheBoardNode lastState){
-		for(int i = 0; i < 64; i++){
-			affectedBy[i] = lastState.affectedBy[i];
-			affects[i] = lastState.affects[i];
-			pseudoMoves[i] = lastState.pseudoMoves[i];
-		}
+		this.pseudoMoves = lastState.pseudoMoves.clone();
+		this.affects = lastState.affects;				
 	}
-	*/
+
 
 	public void validar() {
 		

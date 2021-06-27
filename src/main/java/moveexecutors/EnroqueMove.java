@@ -53,11 +53,7 @@ public abstract class EnroqueMove extends AbstractMove {
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(getReyMove().getFrom().getKey(), getReyMove().getTo().getKey(), getTorreMove().getFrom().getKey(), getTorreMove().getTo().getKey());
-	}
-	
-	@Override
-	public void undoMove(MoveCacheBoard moveCache) {
+		moveCache.pushState();
 		moveCache.clearPseudoMoves(getReyMove().getFrom().getKey(), getReyMove().getTo().getKey(), getTorreMove().getFrom().getKey(), getTorreMove().getTo().getKey());
 	}	
 
