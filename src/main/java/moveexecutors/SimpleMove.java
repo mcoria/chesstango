@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import chess.BoardState;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
@@ -22,17 +21,6 @@ public class SimpleMove extends AbstractMove {
 		board.setPosicion(from);						//Volvemos a origen
 	}
 
-	@Override
-	public void executeMove(BoardState boardState) {
-		boardState.pushState();
-		boardState.rollTurno();
-		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
-	}
-	
-	@Override
-	public void undoMove(BoardState boardState) {
-		boardState.popState();		
-	}	
 	
 	@Override
 	public void executeMove(ColorBoard boardCache) {

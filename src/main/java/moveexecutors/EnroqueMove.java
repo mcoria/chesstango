@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import chess.BoardState;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
@@ -26,16 +25,6 @@ public abstract class EnroqueMove extends AbstractMove {
 	public void undoMove(DummyBoard board) {
 		getReyMove().undoMove(board);
 		getTorreMove().undoMove(board);
-	}	
-	
-	@Override
-	public void executeMove(BoardState boardState) {
-		getReyMove().executeMove(boardState);
-	}
-	
-	@Override
-	public void undoMove(BoardState boardState) {
-		getReyMove().undoMove(boardState);
 	}	
 	
 	@Override

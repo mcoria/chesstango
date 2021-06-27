@@ -1,5 +1,6 @@
 package moveexecutors;
 
+import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
 import layers.MoveCacheBoard;
@@ -28,6 +29,18 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 		return from.getKey().hashCode();
 	}
 	
+	@Override
+	public void executeMove(BoardState boardState) {
+		boardState.pushState();
+		boardState.rollTurno();
+		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
+	}
+	
+	@Override
+	public void undoMove(BoardState boardState) {
+		boardState.popState();		
+	}
+
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushState();
