@@ -90,10 +90,4 @@ public abstract class EnroqueMove extends AbstractMove {
 		return false;
 	}
 
-	@Override
-	public String toString() {
-		return getFrom().toString() + " " + getTo().toString() + "; " + getType();
-	}
-
-	protected abstract String getType();
 }

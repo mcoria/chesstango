@@ -41,9 +41,9 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	public abstract void executeMove(DummyBoard dummyBoard);
 	
 	@Override
-	public void executePseudo(Board tablero){
-		executeMove(tablero.getDummyBoard());
-		executeMove(tablero.getColorBoard());	
+	public void executePseudo(Board board){
+		executeMove(board.getDummyBoard());
+		executeMove(board.getColorBoard());	
 	}
 	
 	@Override
