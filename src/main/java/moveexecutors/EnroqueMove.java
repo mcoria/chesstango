@@ -28,15 +28,15 @@ public abstract class EnroqueMove extends AbstractMove {
 	}	
 	
 	@Override
-	public void executeMove(ColorBoard boardCache) {
-		getReyMove().executeMove(boardCache);
-		getTorreMove().executeMove(boardCache);
+	public void executeMove(ColorBoard colorBoard) {
+		getReyMove().executeMove(colorBoard);
+		getTorreMove().executeMove(colorBoard);
 	}
 
 	@Override
-	public void undoMove(ColorBoard boardCache) {
-		getReyMove().undoMove(boardCache);
-		getTorreMove().undoMove(boardCache);
+	public void undoMove(ColorBoard colorBoard) {
+		getReyMove().undoMove(colorBoard);
+		getTorreMove().undoMove(colorBoard);
 	}	
 	
 	

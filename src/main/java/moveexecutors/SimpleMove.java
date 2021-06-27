@@ -23,13 +23,13 @@ public class SimpleMove extends AbstractMove {
 
 	
 	@Override
-	public void executeMove(ColorBoard boardCache) {
-		boardCache.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
+	public void executeMove(ColorBoard colorBoard) {
+		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
 	}
 	
 	@Override
-	public void undoMove(ColorBoard boardCache) {
-		boardCache.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
+	public void undoMove(ColorBoard colorBoard) {
+		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 	}
 	
 	@Override

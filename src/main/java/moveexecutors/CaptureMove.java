@@ -10,17 +10,17 @@ public class CaptureMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(ColorBoard boardCache) {
-		super.executeMove(boardCache);
+	public void executeMove(ColorBoard colorBoard) {
+		super.executeMove(colorBoard);
 		
-		boardCache.removePositions(to);
+		colorBoard.removePositions(to);
 	}
 
 	@Override
-	public void undoMove(ColorBoard boardCache) {
-		super.undoMove(boardCache);
+	public void undoMove(ColorBoard colorBoard) {
+		super.undoMove(colorBoard);
 
-		boardCache.addPositions(to);
+		colorBoard.addPositions(to);
 	}
 	
 	@Override

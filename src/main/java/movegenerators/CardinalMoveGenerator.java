@@ -81,8 +81,8 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 
-	public void setColorBoard(ColorBoard boardCache) {
-		this.colorBoard = boardCache;
+	public void setColorBoard(ColorBoard colorBoard) {
+		this.colorBoard = colorBoard;
 	}
 
 	@Override

@@ -27,15 +27,15 @@ public class CapturePeonPasante extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(ColorBoard boardCache) {
-		super.executeMove(boardCache);
-		boardCache.removePositions(captura);
+	public void executeMove(ColorBoard colorBoard) {
+		super.executeMove(colorBoard);
+		colorBoard.removePositions(captura);
 	}
 
 	@Override
-	public void undoMove(ColorBoard boardCache) {
-		super.undoMove(boardCache);
-		boardCache.addPositions(captura);
+	public void undoMove(ColorBoard colorBoard) {
+		super.undoMove(colorBoard);
+		colorBoard.addPositions(captura);
 	}
 	
 	@Override
