@@ -3,6 +3,7 @@ package moveexecutors;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.DummyBoard;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 
 public abstract class EnroqueMove extends AbstractMove {
@@ -44,6 +45,16 @@ public abstract class EnroqueMove extends AbstractMove {
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushState();
 		moveCache.clearPseudoMoves(getReyMove().getFrom().getKey(), getReyMove().getTo().getKey(), getTorreMove().getFrom().getKey(), getTorreMove().getTo().getKey());
+	}
+	
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard){
+		getReyMove().executeMove(kingCacheBoard);
+	}
+	
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard){
+		getReyMove().undoMove(kingCacheBoard);	
 	}	
 
 	@Override

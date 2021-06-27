@@ -5,6 +5,7 @@ import java.util.Collection;
 import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.DummyBoard;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
@@ -16,7 +17,8 @@ public class Board {
 
 	// Dos representaciones distintas del tablero. Uno con mas informacion que la otra.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
-	private DummyBoard dummyBoard = null; 
+	private DummyBoard dummyBoard = null;
+	private KingCacheBoard kingCacheBoard = null;
 	private ColorBoard colorBoard = null;
 	
 	// TODO: Al final del dia, esta es una capa mas de informacion
@@ -34,6 +36,7 @@ public class Board {
 	public Board(DummyBoard dummyBoard, BoardState boardState, ChessBuilder chessBuilder) {
 		this.dummyBoard = dummyBoard;
 		this.boardState = boardState;
+		this.kingCacheBoard = chessBuilder.buildKingCacheBoard();
 		this.colorBoard = chessBuilder.buildColorBoard();
 		this.moveCache = new MoveCacheBoard();
 		
@@ -42,8 +45,8 @@ public class Board {
 		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy, analyzer);
-		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(dummyBoard, colorBoard, moveCache, boardState, strategy, analyzer);
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, analyzer);
+		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, analyzer);
 	}
 
 
@@ -62,7 +65,7 @@ public class Board {
 	}
 	
 	public Square getKingSquare() {
-		return Color.BLANCO.equals(boardState.getTurnoActual()) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
+		return kingCacheBoard.getKingSquare(boardState.getTurnoActual());
 	}
 
 	protected boolean isKingInCheck() {
@@ -75,6 +78,8 @@ public class Board {
 		//moveCache.validar();
 
 		move.executeMove(dummyBoard);
+		
+		move.executeMove(kingCacheBoard);
 
 		move.executeMove(colorBoard);
 
@@ -95,6 +100,8 @@ public class Board {
 		move.undoMove(moveCache);
 
 		move.undoMove(colorBoard);
+		
+		move.undoMove(kingCacheBoard);
 
 		move.undoMove(dummyBoard);
 

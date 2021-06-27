@@ -9,6 +9,7 @@ import chess.Square;
 import layers.ColorBoard;
 import layers.DefaultDummyBoard;
 import layers.DummyBoard;
+import layers.KingCacheBoard;
 import movegenerators.MoveGeneratorStrategy;
 
 /*
@@ -29,6 +30,8 @@ public abstract class ChessBuilder {
 	private BoardState boardState;
 	
 	private DummyBoard dummyBoard;
+	
+	private KingCacheBoard kingCacheBoard;
 
 	private Pieza[][] tablero;
 	
@@ -68,9 +71,16 @@ public abstract class ChessBuilder {
 		return moveGeneratorStrategy;
 	}
 	
+	public KingCacheBoard buildKingCacheBoard() {
+		if(kingCacheBoard == null){
+			kingCacheBoard = new KingCacheBoard(buildDummyBoard());
+		}
+		return kingCacheBoard;
+	}	
+	
 	public ColorBoard buildColorBoard() {
 		if(colorBoard == null){
-			colorBoard = new ColorBoard(buildDummyBoard());
+			colorBoard = new ColorBoard(buildDummyBoard(), buildKingCacheBoard());
 		}
 		return colorBoard;
 	}

@@ -11,6 +11,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.ColorBoard;
 import layers.DummyBoard;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
@@ -20,6 +21,7 @@ import positioncaptures.Capturer;
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
 
 	protected DummyBoard dummyBoard = null;
+	protected KingCacheBoard kingCacheBoard = null;
 	protected ColorBoard colorBoard = null;
 	protected MoveCacheBoard moveCache = null;
 	protected BoardState boardState = null;
@@ -32,11 +34,12 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected abstract Collection<Move> getLegalMovesNotKing();
 	
-	public AbstractLegalMoveCalculator(DummyBoard dummyBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
-			MoveGeneratorStrategy strategy, BoardAnalyzer analyzer) {
+	public AbstractLegalMoveCalculator(DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, BoardAnalyzer analyzer) {
 		this.dummyBoard = dummyBoard;
+		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
-		this.moveCache = moveCache;		
+		this.moveCache = moveCache;
 		this.boardState = boardState;
 		this.strategy = strategy;
 		this.analyzer = analyzer;
@@ -91,11 +94,13 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 				
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
+		move.executeMove(this.kingCacheBoard);
 		 
 		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}
 		
+		move.undoMove(this.kingCacheBoard);
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
 		
@@ -104,9 +109,9 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		return result;
 	}
 	
-	protected Square getCurrentKingSquare() {
-		return Color.BLANCO.equals(this.turnoActual) ? colorBoard.getSquareKingBlancoCache() : colorBoard.getSquareKingNegroCache();
-	}
+	public Square getCurrentKingSquare() {
+		return kingCacheBoard.getKingSquare(this.turnoActual);
+	}	
 	
 	protected static <T> Collection<T> createContainer() {
 		return new ArrayList<T>() {

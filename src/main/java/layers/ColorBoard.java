@@ -9,56 +9,14 @@ import iterators.SquareIterator;
 
 public class ColorBoard {
 	
-	private Square squareKingBlancoCache = null;
-	
-	private Square squareKingNegroCache = null;
-	
-	public ColorBoard(DummyBoard board) {
-		settupSquares(board);
-		
-		this.squareKingBlancoCache = getKingSquareRecorrer(Color.BLANCO, board);
-		this.squareKingNegroCache = getKingSquareRecorrer(Color.NEGRO, board);		
-	}
-	
-	///////////////////////////// START getKingSquare Logic /////////////////////////////
-	
-	public void setKingSquare(Color color, Square square) {
-		if(Color.BLANCO.equals(color)){
-			this.squareKingBlancoCache = square;
-		} else {
-			this.squareKingNegroCache = square;
-		}
-	}
-	
-	public Square getSquareKingBlancoCache() {
-		return squareKingBlancoCache;
-	}
-	
-	public Square getSquareKingNegroCache() {
-		return squareKingNegroCache;
-	}
-	
-	private Square getKingSquareRecorrer(Color color, DummyBoard board) {
-		Square kingSquare = null;
-		Pieza rey = Pieza.getRey(color);
-		for (PosicionPieza entry : board) {
-			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
-			if(rey.equals(currentPieza)){
-				kingSquare = currentSquare;
-				break;
-			}
-		}
-		return kingSquare;
-	}
-	///////////////////////////// END getKingSquare Logic /////////////////////////////		
-	
-	///////////////////////////// START Cache Iteration Logic /////////////////////////////	
-	// Prestar atencion que este cache se actualiza una vez que realmente se mueven las fichas
-	//private ArrayList<Square> squareBlancos = new ArrayList<Square>();
-	//private ArrayList<Square> squareNegros = new ArrayList<Square>();
 	private long squareBlancos = 0;
 	private long squareNegros = 0;
+	private KingCacheBoard kingCacheBoard = null;
+	
+	public ColorBoard(DummyBoard board, KingCacheBoard kingCacheBoard) {
+		settupSquares(board);
+		this.kingCacheBoard = kingCacheBoard;
+	}
 	
 	public void swapPositions(Color color, Square remove, Square add){
 		if(Color.BLANCO.equals(color)){
@@ -94,7 +52,7 @@ public class ColorBoard {
 	}
 	
 	public SquareIterator iteratorSquareWhitoutKing(Color color){
-		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos & ~squareKingBlancoCache.getPosicion()) : new BitSquareIterator(squareNegros  & ~squareKingNegroCache.getPosicion());		
+		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos & ~kingCacheBoard.getSquareKingBlancoCache().getPosicion()) : new BitSquareIterator(squareNegros  & ~kingCacheBoard.getSquareKingNegroCache().getPosicion());		
 	}
 	
 	public long getPosiciones (Color color){
@@ -137,9 +95,6 @@ public class ColorBoard {
 		}
 		return null;
 	}
-	
-	///////////////////////////// END Cache Iteration Logic /////////////////////////////		
-
 	
 	public void validar(DummyBoard board) {
 		int posicionesBlancas = 0;

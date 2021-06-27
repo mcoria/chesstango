@@ -3,9 +3,10 @@ package moveexecutors;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 
-public abstract class AbstractMove implements Comparable<Move>, Move { //, Cloneable
+public abstract class AbstractMove implements Comparable<Move>, Move {
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
 	
@@ -50,6 +51,14 @@ public abstract class AbstractMove implements Comparable<Move>, Move { //, Clone
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
+	}
+	
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard){
+	}
+	
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard){
 	}
 	
 	@Override
