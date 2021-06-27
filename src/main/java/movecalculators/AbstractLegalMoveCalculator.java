@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.Board;
-import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
 import chess.Move;
@@ -28,7 +27,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected MoveCacheBoard moveCache = null;
 	protected BoardState boardState = null;
 	protected MoveGeneratorStrategy strategy = null;
-	protected BoardAnalyzer analyzer = null;
 	protected Capturer capturer = null;
 	
 	protected Color turnoActual = null;
@@ -37,7 +35,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected abstract Collection<Move> getLegalMovesNotKing();
 	
 	public AbstractLegalMoveCalculator(Board board, DummyBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, BoardAnalyzer analyzer) {
+			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
 		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
@@ -45,7 +43,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		this.moveCache = moveCache;
 		this.boardState = boardState;
 		this.strategy = strategy;
-		this.analyzer = analyzer;
 	}
 	
 	@Override

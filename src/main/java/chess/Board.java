@@ -18,15 +18,10 @@ public class Board {
 	// Dos representaciones distintas del tablero. Uno con mas informacion que la otra.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	private DummyBoard dummyBoard = null;
-	private KingCacheBoard kingCacheBoard = null;
 	private ColorBoard colorBoard = null;
-	
-	// TODO: Al final del dia, esta es una capa mas de informacion
+	private KingCacheBoard kingCacheBoard = null;	
 	private MoveCacheBoard moveCache = null;
-	
 	private BoardState boardState = null;
-	
-	private MoveGeneratorStrategy strategy = null;
 	
 	private BoardAnalyzer analyzer = null;
 	
@@ -40,13 +35,14 @@ public class Board {
 		this.colorBoard = chessBuilder.buildColorBoard();
 		this.moveCache = new MoveCacheBoard();
 		
-		this.strategy = chessBuilder.buildMoveGeneratorStrategy();
-		this.strategy.setIsKingInCheck(() -> isKingInCheck());
-		
 		this.analyzer = new BoardAnalyzer(this);
 		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, getKingCacheBoard(), getColorBoard(), getMoveCache(), boardState, strategy, analyzer);
-		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(this, dummyBoard, getKingCacheBoard(), getColorBoard(), getMoveCache(), boardState, strategy, analyzer);
+		MoveGeneratorStrategy strategy = chessBuilder.buildMoveGeneratorStrategy();
+		strategy.setIsKingInCheck(() -> analyzer.isKingInCheck());
+		
+		
+		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
+		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(this, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
 	}
 
 
@@ -62,14 +58,6 @@ public class Board {
 		result.setLegalMoves(moves);
 
 		return result;
-	}
-	
-	public Square getKingSquare() {
-		return getKingCacheBoard().getKingSquare(boardState.getTurnoActual());
-	}
-
-	protected boolean isKingInCheck() {
-		return analyzer.isKingInCheck();
 	}
 
 	private LegalMoveCalculator selectMoveCalculator() {

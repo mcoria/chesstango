@@ -27,7 +27,10 @@ public class BoardAnalyzer {
 	}
 	
 	private boolean calculateKingInCheck() {
-		isKingInCheck = capturer.positionCaptured(board.getBoardState().getTurnoActual().opositeColor(), board.getKingSquare());
+		Color turnoActual = board.getBoardState().getTurnoActual();
+		
+		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), board.getKingCacheBoard().getKingSquare(turnoActual));
+		
 		return isKingInCheck;
 	}	
 
