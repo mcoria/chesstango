@@ -29,7 +29,7 @@ public class CapturaPeonPromocion extends CaptureMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "CapturaPeonPromocion";
 	}
 	

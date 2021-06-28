@@ -3,10 +3,9 @@ package moveexecutors;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
-import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 
-public abstract class AbstractMove implements Comparable<Move>, Move {
+public abstract class AbstractMove implements Friendly, Move {
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
 	
@@ -53,12 +52,6 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	}
 	
 	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {}	
-	
-	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
 			Move theOther = (Move) obj;
@@ -100,7 +93,6 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 		
 		//--------------- Desde y hasta coinciden, que hacemos ?
 		
-		
 		return 0;
 	}
 
@@ -109,8 +101,6 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 		return from.toString() + " " + to.toString() + " - " + getType();
 	}
 	
-	
-	protected abstract String getType();
 
 
 }

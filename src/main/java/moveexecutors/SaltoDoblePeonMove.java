@@ -35,7 +35,7 @@ public class SaltoDoblePeonMove extends SimpleMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "SaltoDoblePeonMove";
 	}
 }

@@ -41,7 +41,7 @@ public class SimpleMove extends AbstractMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "SimpleMove";
 	}
 }

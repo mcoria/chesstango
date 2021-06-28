@@ -1,23 +1,18 @@
 package moveexecutors;
 
 import chess.PosicionPieza;
-import layers.KingCacheBoard;
 
-public class SimpleReyMove extends SimpleMove {
+public class SimpleReyMove extends AbstractKingMove {
 
 	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
-		super(from, to);
-	}
-	
-	public void executeMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(from.getValue().getColor(), to.getKey());
-	}
-	
-	public void undoMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(from.getValue().getColor(), from.getKey());	
+		super(new SimpleMove(from, to));
 	}	
 	
+	public SimpleReyMove(AbstractMove move) {
+		super(move);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(super.equals(obj)  && obj instanceof SimpleReyMove){
@@ -27,8 +22,9 @@ public class SimpleReyMove extends SimpleMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "SimpleReyMove";
-	}	
+	}
+
 
 }

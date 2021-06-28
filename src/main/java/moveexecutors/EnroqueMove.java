@@ -1,18 +1,19 @@
 package moveexecutors;
 
-import chess.PosicionPieza;
+import chess.Move;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
-public abstract class EnroqueMove extends AbstractMove {
+public abstract class EnroqueMove extends AbstractKingMove  {
 	
 	protected abstract SimpleReyMove getReyMove();
-	protected abstract SimpleMove getTorreMove();
+	protected abstract SimpleMove getTorreMove();	
 	
-	public EnroqueMove(PosicionPieza from, PosicionPieza to) {
-		super(from, to);
+	public EnroqueMove(Move move) {
+		super(move);
+		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -38,7 +39,7 @@ public abstract class EnroqueMove extends AbstractMove {
 	public void undoMove(ColorBoard colorBoard) {
 		getReyMove().undoMove(colorBoard);
 		getTorreMove().undoMove(colorBoard);
-	}	
+	}
 	
 	
 	@Override
@@ -49,12 +50,16 @@ public abstract class EnroqueMove extends AbstractMove {
 		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
 	}
 	
-	public void executeMove(KingCacheBoard kingCacheBoard){
-		getReyMove().executeMove(kingCacheBoard);
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void undoMove(KingCacheBoard kingCacheBoard){
-		getReyMove().undoMove(kingCacheBoard);	
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard) {
+		// TODO Auto-generated method stub
+		
 	}	
 
 	@Override
@@ -65,5 +70,11 @@ public abstract class EnroqueMove extends AbstractMove {
 		}
 		return false;
 	}
+	
+	@Override
+	public int compareTo(Move o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}	
 
 }

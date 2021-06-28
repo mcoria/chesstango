@@ -1,21 +1,12 @@
 package moveexecutors;
 
 import chess.PosicionPieza;
-import layers.KingCacheBoard;
 
-public class CaptureReyMove extends CaptureMove {
+public class CaptureReyMove extends SimpleReyMove {
 
 	
 	public CaptureReyMove(PosicionPieza from, PosicionPieza to) {
-		super(from, to);
-	}
-	
-	public void executeMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(from.getValue().getColor(), to.getKey());
-	}
-
-	public void undoMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(from.getValue().getColor(), from.getKey());	
+		super(new CaptureMove(from, to));
 	}	
 	
 	@Override
@@ -27,7 +18,7 @@ public class CaptureReyMove extends CaptureMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "CaptureReyMove";
 	}	
 }

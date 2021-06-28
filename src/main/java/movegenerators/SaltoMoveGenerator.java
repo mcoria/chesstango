@@ -8,16 +8,14 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.SaltoSquareIterator;
-import moveexecutors.CaptureMove;
-import moveexecutors.SimpleMove;
 
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
 	private final int[][] saltos;
 	
-	protected abstract SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino);
+	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
-	protected abstract CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino);
+	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);
 	
 	public SaltoMoveGenerator(Color color, int[][] saltos) {
 		super(color);

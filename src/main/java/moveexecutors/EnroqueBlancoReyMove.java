@@ -17,7 +17,7 @@ public class EnroqueBlancoReyMove extends EnroqueMove {
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
 	public EnroqueBlancoReyMove() {
-		super(FROM, TO);
+		super(REY_MOVE);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class EnroqueBlancoReyMove extends EnroqueMove {
 		return TORRE_MOVE;
 	}
 	
-	protected String getType() {
+	public String getType() {
 		return "EnroqueBlancoReyMove";
 	}
 

@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import builder.ChessBuilder;
 import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
+import layers.PosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
@@ -106,15 +106,17 @@ public class Board {
 
 		move.executeMove(this.moveCache);
 		
-		move.executeMove(this.kingCacheBoard);
+		//TODO: reemplazar por double dispatcher
+		if(move instanceof KingMove){
+			((KingMove)move).executeMove(this.kingCacheBoard);
+		}
 
-		move.executeMove(this.boardState);
+		move.executeMove(this.boardState);	
 
 		//moveCache.validar();
 		//colorBoard.validar(dummyBoard);
 		
 	}
-
 
 	public void undo(Move move) {
 		//colorBoard.validar(dummyBoard);
@@ -122,7 +124,10 @@ public class Board {
 
 		move.undoMove(this.boardState);
 		
-		move.undoMove(this.kingCacheBoard);
+		//TODO: reemplazar por double dispatcher
+		if(move instanceof KingMove){
+			((KingMove)move).undoMove(this.kingCacheBoard);
+		}
 
 		move.undoMove(this.moveCache);
 

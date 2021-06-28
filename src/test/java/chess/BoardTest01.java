@@ -201,7 +201,7 @@ public class BoardTest01 {
 	}
 	
 	
-	private CaptureMove createCaptureMove(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza) {
+	private Move createCaptureMove(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza) {
 		if(Pieza.REY_NEGRO.equals(origenPieza) || Pieza.REY_BLANCO.equals(origenPieza) ){
 			return new CaptureReyMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza));
 		}

@@ -6,15 +6,14 @@ import java.util.Collection;
 import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
+import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
 import layers.ColorBoard;
-import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
-import moveexecutors.SimpleMove;
 import moveexecutors.SimpleReyMove;
 import positioncaptures.Capturer;
 
@@ -151,12 +150,12 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	}	
 	
 	@Override
-	protected SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
 		return new SimpleReyMove(origen, destino);
 	}
 
 	@Override
-	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureReyMove(origen, destino);
 	}	
 

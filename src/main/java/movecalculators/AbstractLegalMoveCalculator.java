@@ -6,6 +6,7 @@ import java.util.Collection;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
+import chess.KingMove;
 import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
@@ -94,13 +95,20 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
-		move.executeMove(this.kingCacheBoard);
+		
+		//TODO: reemplazar por double dispatcher
+		if(move instanceof KingMove){
+			((KingMove)move).executeMove(this.kingCacheBoard);
+		}		
 		 
 		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}
 		
-		move.undoMove(this.kingCacheBoard);
+		//TODO: reemplazar por double dispatcher
+		if(move instanceof KingMove){
+			((KingMove)move).undoMove(this.kingCacheBoard);
+		}
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
 		

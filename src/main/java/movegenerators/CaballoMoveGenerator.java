@@ -1,6 +1,7 @@
 package movegenerators;
 
 import chess.Color;
+import chess.Move;
 import chess.PosicionPieza;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
@@ -30,12 +31,12 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	}
 	
 	@Override
-	protected SimpleMove createSimpleMove(PosicionPieza origen, PosicionPieza destino){
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
 		return new SimpleMove(origen, destino);
 	}
 
 	@Override
-	protected CaptureMove createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureMove(origen, destino);
 	}
 

@@ -32,7 +32,7 @@ public class CaptureMove extends SimpleMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "CaptureMove";
 	}
 

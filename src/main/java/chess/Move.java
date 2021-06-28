@@ -1,7 +1,6 @@
 package chess;
 
 import layers.ColorBoard;
-import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
@@ -23,6 +22,4 @@ public interface Move {
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
 	
-	void executeMove(KingCacheBoard kingCacheBoard);
-	void undoMove(KingCacheBoard kingCacheBoard);	
 }

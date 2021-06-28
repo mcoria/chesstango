@@ -29,7 +29,7 @@ public class SimplePeonPromocion extends SimpleMove {
 	}
 	
 	@Override
-	protected String getType() {
+	public String getType() {
 		return "SimplePeonPromocion";
 	}
 
