@@ -92,13 +92,17 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 		
-		move.executePseudo(this.board);
+		move.executeMove(this.dummyBoard);
+		move.executeMove(this.colorBoard);
+		move.executeMove(this.kingCacheBoard);
 		 
 		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}
 		
-		move.undoPseudo(this.board);
+		move.undoMove(this.kingCacheBoard);
+		move.undoMove(this.colorBoard);
+		move.undoMove(this.dummyBoard);
 		
 		//boardCache.validarCacheSqueare(dummyBoard);
 		

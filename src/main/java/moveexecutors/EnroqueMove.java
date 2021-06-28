@@ -1,11 +1,10 @@
 package moveexecutors;
 
-import chess.Board;
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
+import layers.PosicionPiezaBoard;
 
 public abstract class EnroqueMove extends AbstractMove {
 	
@@ -14,31 +13,6 @@ public abstract class EnroqueMove extends AbstractMove {
 	
 	public EnroqueMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
-	}
-	
-	
-	@Override
-	public void executePseudo(Board board){
-		super.executePseudo(board);
-		executeMove(board.getKingCacheBoard());	
-	}
-	
-	@Override
-	public void undoPseudo(Board board){
-		super.undoPseudo(board);
-		undoMove(board.getKingCacheBoard());	
-	}
-	
-	@Override
-	public void execute(Board board) {
-		super.execute(board);
-		executeMove(board.getKingCacheBoard());
-	}
-	
-	@Override
-	public void undo(Board board) {
-		super.undo(board);
-		undoMove(board.getKingCacheBoard());
 	}
 	
 	@Override
@@ -70,7 +44,9 @@ public abstract class EnroqueMove extends AbstractMove {
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushState();
-		moveCache.clearPseudoMoves(getReyMove().getFrom().getKey(), getReyMove().getTo().getKey(), getTorreMove().getFrom().getKey(), getTorreMove().getTo().getKey());
+		SimpleReyMove reyMove = getReyMove();
+		SimpleMove torreMove = getTorreMove();
+		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
 	}
 	
 	public void executeMove(KingCacheBoard kingCacheBoard){

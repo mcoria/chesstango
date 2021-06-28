@@ -94,5 +94,45 @@ public class Board {
 	public MoveCacheBoard getMoveCache() {
 		return moveCache;
 	}
+
+
+	public void execute(Move move) {
+		//colorBoard.validar(dummyBoard);
+		//moveCache.validar();
+
+		move.executeMove(this.dummyBoard);
+
+		move.executeMove(this.colorBoard);
+
+		move.executeMove(this.moveCache);
+		
+		move.executeMove(this.kingCacheBoard);
+
+		move.executeMove(this.boardState);
+
+		//moveCache.validar();
+		//colorBoard.validar(dummyBoard);
+		
+	}
+
+
+	public void undo(Move move) {
+		//colorBoard.validar(dummyBoard);
+		//moveCache.validar();
+
+		move.undoMove(this.boardState);
+		
+		move.undoMove(this.kingCacheBoard);
+
+		move.undoMove(this.moveCache);
+
+		move.undoMove(this.colorBoard);
+
+		move.undoMove(this.dummyBoard);
+
+		//moveCache.validar();
+		//colorBoard.validar(dummyBoard);
+		
+	}
 	
 }

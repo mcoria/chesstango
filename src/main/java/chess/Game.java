@@ -11,12 +11,12 @@ public class Game {
 		TABLAS		
 	}
 	
-	private Board tablero;
+	private Board board;
 	
 	private GameStack boardPila = new GameStack();
 	
 	public Game(Board tablero){
-		this.tablero = tablero;
+		this.board = tablero;
 		updateGameStatus();
 	}
 
@@ -41,7 +41,7 @@ public class Game {
 		
 		boardPila.push();
 		
-		move.execute(tablero);
+		board.execute(move);
 		
 		return updateGameStatus();
 	}
@@ -52,13 +52,13 @@ public class Game {
 		
 		Move lastMove = boardPila.getMovimientoSeleccionado();
 		
-		lastMove.undo(tablero);
+		board.undo(lastMove);
 		
 		return getGameStatus();
 	}
 	
 	protected GameStatus updateGameStatus() {
-		BoardStatus boardStatus = tablero.getBoardStatus();
+		BoardStatus boardStatus = board.getBoardStatus();
 		Collection<Move> movimientosPosibles = boardStatus.getLegalMoves();
 		GameStatus gameStatus = null;
 		
@@ -94,13 +94,13 @@ public class Game {
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(tablero.toString());
+		buffer.append(board.toString());
 		buffer.append("Turno: " + getTurnoActual() + "\n");
 		return buffer.toString();
 	}
 
 	public final Board getTablero() {
-		return tablero;
+		return board;
 	}
 
 	public final Collection<Move> getMovimientosPosibles() {
@@ -108,7 +108,7 @@ public class Game {
 	}
 
 	public final Color getTurnoActual() {
-		return tablero.getBoardState().getTurnoActual();
+		return board.getBoardState().getTurnoActual();
 	}
 
 	public final GameStatus getGameStatus() {

@@ -1,11 +1,9 @@
 package moveexecutors;
 
-import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
-import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 
 public abstract class AbstractMove implements Comparable<Move>, Move {
@@ -31,61 +29,6 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	public int hashCode() {
 		return from.getKey().hashCode();
 	}
-	
-	///////////////////////////// START Move execution Logic /////////////////////////////
-	
-	public abstract void executeMove(ColorBoard colorBoard);
-	public abstract void undoMove(ColorBoard colorBoard);
-	
-	public abstract void undoMove(PosicionPiezaBoard dummyBoard);
-	public abstract void executeMove(PosicionPiezaBoard dummyBoard);
-	
-	@Override
-	public void executePseudo(Board board){
-		executeMove(board.getDummyBoard());
-		executeMove(board.getColorBoard());	
-	}
-	
-	@Override
-	public void undoPseudo(Board board){
-		undoMove(board.getColorBoard());
-		undoMove(board.getDummyBoard());	
-	}
-	
-	@Override
-	public void execute(Board board) {
-		//colorBoard.validar(dummyBoard);
-		//moveCache.validar();
-
-		executeMove(board.getDummyBoard());
-
-		executeMove(board.getColorBoard());
-
-		executeMove(board.getMoveCache());
-
-		executeMove(board.getBoardState());
-
-		//moveCache.validar();
-		//colorBoard.validar(dummyBoard);
-	}
-
-	@Override
-	public void undo(Board board) {
-		//colorBoard.validar(dummyBoard);
-		//moveCache.validar();
-
-		undoMove(board.getBoardState());
-
-		undoMove(board.getMoveCache());
-
-		undoMove(board.getColorBoard());
-
-		undoMove(board.getDummyBoard());
-
-		//moveCache.validar();
-		//colorBoard.validar(dummyBoard);
-	}
-	///////////////////////////// END Move execution Logic /////////////////////////////
 
 	public void executeMove(BoardState boardState) {
 		boardState.pushState();
@@ -108,6 +51,12 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
 	}
+	
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard) {}
+
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard) {}	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -160,15 +109,6 @@ public abstract class AbstractMove implements Comparable<Move>, Move {
 		return from.toString() + " " + to.toString() + " - " + getType();
 	}
 	
-	/*
-	@Override
-	public Move clone() {
-		try {
-			return (Move) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException(e);
-		}
-	}*/
 	
 	protected abstract String getType();
 

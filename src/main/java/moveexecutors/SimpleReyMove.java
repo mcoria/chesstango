@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import chess.Board;
 import chess.PosicionPieza;
 import layers.KingCacheBoard;
 
@@ -9,31 +8,6 @@ public class SimpleReyMove extends SimpleMove {
 	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
-	}
-	
-	
-	@Override
-	public void executePseudo(Board board){
-		super.executePseudo(board);
-		executeMove(board.getKingCacheBoard());	
-	}
-	
-	@Override
-	public void undoPseudo(Board board){
-		super.undoPseudo(board);
-		undoMove(board.getKingCacheBoard());	
-	}
-	
-	@Override
-	public void execute(Board board) {
-		super.execute(board);
-		executeMove(board.getKingCacheBoard());
-	}
-	
-	@Override
-	public void undo(Board board) {
-		super.undo(board);
-		undoMove(board.getKingCacheBoard());
 	}
 	
 	public void executeMove(KingCacheBoard kingCacheBoard){

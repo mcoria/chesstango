@@ -2,8 +2,8 @@ package moveexecutors;
 
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
 import layers.MoveCacheBoard;
+import layers.PosicionPiezaBoard;
 
 public class CapturePeonPasante extends AbstractMove {
 
