@@ -17,7 +17,7 @@ public class Board {
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	protected PosicionPiezaBoard dummyBoard = null;
 	private ColorBoard colorBoard = null;
-	private KingCacheBoard kingCacheBoard = null;	
+	protected KingCacheBoard kingCacheBoard = null;	
 	private MoveCacheBoard moveCache = null;
 	private BoardState boardState = null;
 	

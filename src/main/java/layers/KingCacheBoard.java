@@ -16,6 +16,8 @@ public class KingCacheBoard {
 		this.squareKingNegroCache = getKingSquareRecorrer(Color.NEGRO, board);		
 	}
 	
+	private KingCacheBoard(){}
+	
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
 	
 	public void setKingSquare(Color color, Square square) {
@@ -51,7 +53,30 @@ public class KingCacheBoard {
 		}
 		return kingSquare;
 	}
-	///////////////////////////// END getKingSquare Logic /////////////////////////////		
+	///////////////////////////// END getKingSquare Logic /////////////////////////////
+	
+	@Override
+	public KingCacheBoard clone() throws CloneNotSupportedException {
+		KingCacheBoard clone = new KingCacheBoard();
+		clone.squareKingBlancoCache = this.squareKingBlancoCache;
+		clone.squareKingNegroCache = this.squareKingNegroCache;
+		return clone;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof KingCacheBoard){
+			KingCacheBoard theInstance = (KingCacheBoard) obj;
+			return this.squareKingBlancoCache.equals(theInstance.squareKingBlancoCache) && this.squareKingNegroCache.equals(theInstance.squareKingNegroCache); 
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Rey Blanco: " + squareKingBlancoCache.toString() + ", Rey Negro: " + squareKingNegroCache.toString();
+	}
 	
 }
 
