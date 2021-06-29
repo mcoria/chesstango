@@ -2,7 +2,6 @@ package chess;
 
 import java.util.Collection;
 
-import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
@@ -10,14 +9,13 @@ import layers.PosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
-import movegenerators.MoveGeneratorStrategy;
 
 
 public class Board {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
-	private PosicionPiezaBoard dummyBoard = null;
+	protected PosicionPiezaBoard dummyBoard = null;
 	private ColorBoard colorBoard = null;
 	private KingCacheBoard kingCacheBoard = null;	
 	private MoveCacheBoard moveCache = null;
@@ -27,24 +25,6 @@ public class Board {
 	
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
 	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;
-
-	public Board(PosicionPiezaBoard dummyBoard, BoardState boardState, ChessBuilder chessBuilder) {
-		this.dummyBoard = dummyBoard;
-		this.boardState = boardState;
-		this.kingCacheBoard = chessBuilder.buildKingCacheBoard();
-		this.colorBoard = chessBuilder.buildColorBoard();
-		this.moveCache = new MoveCacheBoard();
-		
-		this.analyzer = new BoardAnalyzer(this);
-		
-		MoveGeneratorStrategy strategy = chessBuilder.buildMoveGeneratorStrategy();
-		strategy.setIsKingInCheck(() -> analyzer.isKingInCheck());
-		
-		
-		this.defaultMoveCalculator = new DefaultLegalMoveCalculator(this, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
-		this.noCheckLegalMoveCalculator  = new NoCheckLegalMoveCalculator(this, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
-	}
-
 
 	public BoardStatus getBoardStatus() {
 		analyzer.analyze();
@@ -65,34 +45,6 @@ public class Board {
 			return noCheckLegalMoveCalculator;
 		}
 		return defaultMoveCalculator;
-	}
-	
-	@Override
-	public String toString() {
-	    return this.dummyBoard.toString();
-	}
-
-	public PosicionPiezaBoard getDummyBoard() {
-		return this.dummyBoard;
-	}
-	
-	public BoardState getBoardState() {
-		return boardState;
-	}
-
-
-	public ColorBoard getColorBoard() {
-		return colorBoard;
-	}
-
-
-	public KingCacheBoard getKingCacheBoard() {
-		return kingCacheBoard;
-	}
-
-
-	public MoveCacheBoard getMoveCache() {
-		return moveCache;
 	}
 
 
@@ -141,5 +93,91 @@ public class Board {
 		//colorBoard.validar(dummyBoard);
 		
 	}
+	
+	
+	@Override
+	public String toString() {
+	    return this.dummyBoard.toString();
+	}
+
+
+	public PosicionPiezaBoard getDummyBoard() {
+		return dummyBoard;
+	}
+
+
+	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
+		this.dummyBoard = dummyBoard;
+	}
+
+
+	public ColorBoard getColorBoard() {
+		return colorBoard;
+	}
+
+
+	public void setColorBoard(ColorBoard colorBoard) {
+		this.colorBoard = colorBoard;
+	}
+
+
+	public KingCacheBoard getKingCacheBoard() {
+		return kingCacheBoard;
+	}
+
+
+	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+		this.kingCacheBoard = kingCacheBoard;
+	}
+
+
+	public MoveCacheBoard getMoveCache() {
+		return moveCache;
+	}
+
+
+	public void setMoveCache(MoveCacheBoard moveCache) {
+		this.moveCache = moveCache;
+	}
+
+
+	public BoardState getBoardState() {
+		return boardState;
+	}
+
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+	}
+
+
+	public BoardAnalyzer getAnalyzer() {
+		return analyzer;
+	}
+
+
+	public void setAnalyzer(BoardAnalyzer analyzer) {
+		this.analyzer = analyzer;
+	}
+
+
+	public DefaultLegalMoveCalculator getDefaultMoveCalculator() {
+		return defaultMoveCalculator;
+	}
+
+
+	public void setDefaultMoveCalculator(DefaultLegalMoveCalculator defaultMoveCalculator) {
+		this.defaultMoveCalculator = defaultMoveCalculator;
+	}
+
+
+	public NoCheckLegalMoveCalculator getNoCheckLegalMoveCalculator() {
+		return noCheckLegalMoveCalculator;
+	}
+
+
+	public void setNoCheckLegalMoveCalculator(NoCheckLegalMoveCalculator noCheckLegalMoveCalculator) {
+		this.noCheckLegalMoveCalculator = noCheckLegalMoveCalculator;
+	}	
 	
 }

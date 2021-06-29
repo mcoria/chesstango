@@ -9,6 +9,8 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessFactory;
+import debug.builder.DebugChessFactory;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
@@ -22,10 +24,12 @@ import parsers.FENBoarBuilder;
 public class BoardTest01 {
 
 	private FENBoarBuilder builder;
+	private ChessFactory debugChessFactory;
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new FENBoarBuilder();
+		debugChessFactory = new DebugChessFactory();
 	}
 	
 	@Test
@@ -47,7 +51,7 @@ public class BoardTest01 {
 
 	@Test
 	public void test02() {
-		Board tablero = builder.withFEN("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1").buildBoard();
+		Board tablero = builder.withFEN("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1").withChessFactory(debugChessFactory).buildBoard();
 		
 		BoardStatus result = tablero.getBoardStatus();
 		

@@ -1,5 +1,6 @@
 package chess;
 
+import layers.KingCacheBoard;
 import positioncaptures.ImprovedCapturer;
 
 /*
@@ -7,16 +8,13 @@ import positioncaptures.ImprovedCapturer;
  */
 public class BoardAnalyzer {
 
-	private Board board = null;
+	private BoardState boardState = null;
+	
+	private KingCacheBoard kingCacheBoard = null;	
 	
 	private boolean isKingInCheck = false;
 
 	private ImprovedCapturer capturer;
-
-	public BoardAnalyzer(Board board) {
-		this.board = board;
-		this.capturer = new ImprovedCapturer(board.getDummyBoard());
-	}
 
 	public void analyze() {
 		this.isKingInCheck = calculateKingInCheck();
@@ -27,11 +25,23 @@ public class BoardAnalyzer {
 	}
 	
 	private boolean calculateKingInCheck() {
-		Color turnoActual = board.getBoardState().getTurnoActual();
+		Color turnoActual = boardState.getTurnoActual();
 		
-		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), board.getKingCacheBoard().getKingSquare(turnoActual));
+		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
 		
 		return isKingInCheck;
+	}
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+	}
+
+	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+		this.kingCacheBoard = kingCacheBoard;
+	}
+
+	public void setCapturer(ImprovedCapturer capturer) {
+		this.capturer = capturer;
 	}	
 
 }

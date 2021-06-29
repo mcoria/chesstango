@@ -13,10 +13,14 @@ import iterators.SquareIterator;
 import iterators.posicionpieza.BoardBitIterator;
 import layers.PosicionPiezaBoard;
 
-public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard {
+public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 
 	public ArrayPosicionPiezaBoard(Pieza[][] tablero) {
 		crearTablero(tablero);
+	}
+	
+	private ArrayPosicionPiezaBoard(){
+		
 	}
 	
 	///////////////////////////// START positioning logic /////////////////////////////
@@ -138,5 +142,28 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard {
 				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
 			}
 		}
-	}	
+	}
+	@Override
+	public ArrayPosicionPiezaBoard clone() throws CloneNotSupportedException {
+		ArrayPosicionPiezaBoard clone = new ArrayPosicionPiezaBoard();
+		for(int i = 0; i < 64; i++){
+			clone.tablero[i] = this.tablero[i];
+		}
+		return clone;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof ArrayPosicionPiezaBoard){
+			ArrayPosicionPiezaBoard theInstance = (ArrayPosicionPiezaBoard) obj;
+			for(int i = 0; i < 64; i++){
+				if(! this.tablero[i].equals(theInstance.tablero[i])){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
 }

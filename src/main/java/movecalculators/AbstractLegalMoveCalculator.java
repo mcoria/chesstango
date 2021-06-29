@@ -3,7 +3,6 @@ package movecalculators;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.Board;
 import chess.BoardState;
 import chess.Color;
 import chess.KingMove;
@@ -11,9 +10,9 @@ import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
+import layers.PosicionPiezaBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
@@ -21,7 +20,6 @@ import positioncaptures.Capturer;
 
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
 
-	protected Board board = null;
 	protected PosicionPiezaBoard dummyBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;
 	protected ColorBoard colorBoard = null;
@@ -35,9 +33,8 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected abstract Collection<Move> getLegalMovesNotKing();
 	
-	public AbstractLegalMoveCalculator(Board board, PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+	public AbstractLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
 			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
-		this.board = board;
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
@@ -92,7 +89,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected boolean filterMove(Move move) {
 		boolean result = false;
 		
-		//boardCache.validarCacheSqueare(dummyBoard);
+		colorBoard.validar(dummyBoard);
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
@@ -113,7 +110,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
 		
-		//boardCache.validarCacheSqueare(dummyBoard);
+		colorBoard.validar(dummyBoard);
 		
 		return result;
 	}

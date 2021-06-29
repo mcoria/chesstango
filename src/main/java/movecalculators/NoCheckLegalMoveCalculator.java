@@ -2,24 +2,23 @@ package movecalculators;
 
 import java.util.Collection;
 
-import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.Square;
 import iterators.SquareIterator;
 import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
+import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;
 import positioncaptures.ImprovedCapturer;
 
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
-	public NoCheckLegalMoveCalculator(Board board, PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache,
+	public NoCheckLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache,
 			BoardState boardState, MoveGeneratorStrategy strategy) {
-		super(board, dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}
 

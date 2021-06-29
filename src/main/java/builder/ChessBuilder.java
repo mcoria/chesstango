@@ -1,16 +1,21 @@
 package builder;
 
 import chess.Board;
+import chess.BoardAnalyzer;
 import chess.BoardState;
 import chess.Color;
 import chess.Game;
 import chess.Pieza;
 import chess.Square;
 import layers.ColorBoard;
+import layers.KingCacheBoard;
+import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
-import layers.KingCacheBoard;
+import movecalculators.DefaultLegalMoveCalculator;
+import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
+import positioncaptures.ImprovedCapturer;
 
 /*
  * Esto hay que mejorarlo, se me ocurre implementar un Director
@@ -18,7 +23,7 @@ import movegenerators.MoveGeneratorStrategy;
  * por ejemplo todo aquello que tiene que ver con la creacion del BoardState
  */
 //TODO: Podriamos tener un builder que derive de esta clase en caso que necesitemos activar debugging / validacion
-public abstract class ChessBuilder {
+public class ChessBuilder {
 
 	private Game game;
 
@@ -30,7 +35,7 @@ public abstract class ChessBuilder {
 
 	private BoardState boardState;
 
-	private PosicionPiezaBoard dummyBoard;
+	private PosicionPiezaBoard posicionPiezaBoard;
 
 	private KingCacheBoard kingCacheBoard;
 
@@ -48,6 +53,18 @@ public abstract class ChessBuilder {
 
 	private boolean enroqueNegroReyPermitido;
 
+	private BoardAnalyzer boardAnalyzer;
+
+	private DefaultLegalMoveCalculator defaultMoveCalculator;
+
+	private MoveCacheBoard moveCache;
+
+	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator;
+
+	private ImprovedCapturer improvedCapturer;
+	
+	private ChessFactory chessFactory = new ChessFactory();
+
 	public Game buildGame() {
 		if (game == null) {
 			game = new Game(buildBoard());
@@ -57,9 +74,66 @@ public abstract class ChessBuilder {
 
 	public Board buildBoard() {
 		if (board == null) {
-			board = new Board(buildDummyBoard(), buildState(), this);
+			board = chessFactory.buildBoard();
+
+			board.setDummyBoard(buildDummyBoard());
+
+			board.setBoardState(buildState());
+
+			board.setKingCacheBoard(buildKingCacheBoard());
+
+			board.setColorBoard(buildColorBoard());
+
+			board.setMoveCache(buildMoveCache());
+
+			board.setAnalyzer(buildAnalyzer());
+
+			board.setDefaultMoveCalculator(buildDefaultMoveCalculator());
+
+			board.setNoCheckLegalMoveCalculator(buildNoCheckLegalMoveCalculator());
+
 		}
 		return board;
+	}
+
+	private BoardAnalyzer buildAnalyzer() {
+		if (boardAnalyzer == null) {
+			boardAnalyzer = new BoardAnalyzer();
+			boardAnalyzer.setBoardState(buildState());
+			boardAnalyzer.setKingCacheBoard(buildKingCacheBoard());
+			boardAnalyzer.setCapturer(buildCapturer());
+		}
+		return boardAnalyzer;
+	}
+
+	private ImprovedCapturer buildCapturer() {
+		if(improvedCapturer == null){
+			improvedCapturer = new ImprovedCapturer(buildDummyBoard());
+		}
+		return improvedCapturer;
+	}
+
+	private NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
+		if (noCheckLegalMoveCalculator == null) {
+			noCheckLegalMoveCalculator = new NoCheckLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
+					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
+		}
+		return noCheckLegalMoveCalculator;
+	}
+
+	private MoveCacheBoard buildMoveCache() {
+		if (moveCache == null) {
+			moveCache = new MoveCacheBoard();
+		}
+		return moveCache;
+	}
+
+	private DefaultLegalMoveCalculator buildDefaultMoveCalculator() {
+		if (defaultMoveCalculator == null) {
+			defaultMoveCalculator = new DefaultLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
+					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
+		}
+		return this.defaultMoveCalculator;
 	}
 
 	public MoveGeneratorStrategy buildMoveGeneratorStrategy() {
@@ -68,11 +142,12 @@ public abstract class ChessBuilder {
 			moveGeneratorStrategy.setDummyBoard(buildDummyBoard());
 			moveGeneratorStrategy.setBoardState(buildState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
+			moveGeneratorStrategy.setIsKingInCheck(() -> buildAnalyzer().isKingInCheck());
 		}
 		return moveGeneratorStrategy;
 	}
 
-	public KingCacheBoard buildKingCacheBoard() {
+	private KingCacheBoard buildKingCacheBoard() {
 		if (kingCacheBoard == null) {
 			kingCacheBoard = new KingCacheBoard(buildDummyBoard());
 		}
@@ -87,10 +162,10 @@ public abstract class ChessBuilder {
 	}
 
 	public PosicionPiezaBoard buildDummyBoard() {
-		if (dummyBoard == null) {
-			dummyBoard = new ArrayPosicionPiezaBoard(tablero);
+		if (posicionPiezaBoard == null) {
+			posicionPiezaBoard = new ArrayPosicionPiezaBoard(tablero);
 		}
-		return dummyBoard;
+		return posicionPiezaBoard;
 	}
 
 	public BoardState buildState() {
@@ -138,6 +213,11 @@ public abstract class ChessBuilder {
 
 	public ChessBuilder withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
 		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		return this;
+	}
+	
+	public ChessBuilder withChessFactory(ChessFactory chessFactory) {
+		this.chessFactory = chessFactory;
 		return this;
 	}
 

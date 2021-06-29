@@ -113,6 +113,8 @@ public class ColorBoard {
 		}
 	}
 	
+	
+	//TODO: quitar este metodo de carga
 	protected void settupSquares(PosicionPiezaBoard board) {
 		for (PosicionPieza posicionPieza : board) {
 			Pieza pieza = posicionPieza.getValue();
