@@ -96,6 +96,7 @@ public class Board {
 	}
 
 
+	//TODO: Podriamos implemetar las validaciones en una clase derivada
 	public void execute(Move move) {
 		//colorBoard.validar(dummyBoard);
 		//moveCache.validar();
@@ -118,6 +119,7 @@ public class Board {
 		
 	}
 
+	//TODO: Podriamos implemetar las validaciones en una clase derivada	
 	public void undo(Move move) {
 		//colorBoard.validar(dummyBoard);
 		//moveCache.validar();

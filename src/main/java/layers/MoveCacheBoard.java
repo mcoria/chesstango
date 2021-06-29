@@ -104,6 +104,7 @@ public class MoveCacheBoard {
 	}
 
 
+	//TODO: deberiamos extraer este metodo validar y llevarlo a una clase derivada
 	public void validar() {
 		
 		//Validate affectedBy[]

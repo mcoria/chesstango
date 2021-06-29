@@ -17,26 +17,27 @@ import movegenerators.MoveGeneratorStrategy;
  * hay pasos intermedios aca que podrian ser encapsulados.
  * por ejemplo todo aquello que tiene que ver con la creacion del BoardState
  */
+//TODO: Podriamos tener un builder que derive de esta clase en caso que necesitemos activar debugging / validacion
 public abstract class ChessBuilder {
-	
+
 	private Game game;
-	
+
 	private Board board;
-	
+
 	private MoveGeneratorStrategy moveGeneratorStrategy;
-	
+
 	private ColorBoard colorBoard;
-	
+
 	private BoardState boardState;
-	
+
 	private PosicionPiezaBoard dummyBoard;
-	
+
 	private KingCacheBoard kingCacheBoard;
 
 	private Pieza[][] tablero;
-	
+
 	private Color turno;
-	
+
 	private Square peonPasanteSquare;
 
 	private boolean enroqueBlancoReinaPermitido;
@@ -46,40 +47,40 @@ public abstract class ChessBuilder {
 	private boolean enroqueNegroReinaPermitido;
 
 	private boolean enroqueNegroReyPermitido;
-	
-	public Game buildGame(){
-		if(game == null){
+
+	public Game buildGame() {
+		if (game == null) {
 			game = new Game(buildBoard());
 		}
 		return game;
 	}
-	
-	public Board buildBoard(){
-		if(board == null){
+
+	public Board buildBoard() {
+		if (board == null) {
 			board = new Board(buildDummyBoard(), buildState(), this);
 		}
 		return board;
 	}
-	
+
 	public MoveGeneratorStrategy buildMoveGeneratorStrategy() {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
 			moveGeneratorStrategy.setDummyBoard(buildDummyBoard());
-			moveGeneratorStrategy.setBoardState(buildState() );
-			moveGeneratorStrategy.setColorBoard(buildColorBoard());			
+			moveGeneratorStrategy.setBoardState(buildState());
+			moveGeneratorStrategy.setColorBoard(buildColorBoard());
 		}
 		return moveGeneratorStrategy;
 	}
-	
+
 	public KingCacheBoard buildKingCacheBoard() {
-		if(kingCacheBoard == null){
+		if (kingCacheBoard == null) {
 			kingCacheBoard = new KingCacheBoard(buildDummyBoard());
 		}
 		return kingCacheBoard;
-	}	
-	
+	}
+
 	public ColorBoard buildColorBoard() {
-		if(colorBoard == null){
+		if (colorBoard == null) {
 			colorBoard = new ColorBoard(buildDummyBoard(), buildKingCacheBoard());
 		}
 		return colorBoard;
@@ -93,7 +94,7 @@ public abstract class ChessBuilder {
 	}
 
 	public BoardState buildState() {
-		if(boardState == null) {
+		if (boardState == null) {
 			boardState = new BoardState();
 			boardState.setTurnoActual(this.turno == null ? Color.BLANCO : this.turno);
 			boardState.setPeonPasanteSquare(peonPasanteSquare);

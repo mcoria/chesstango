@@ -16,16 +16,6 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 	public AbstractKingMove(Move move) {
 		this.move = move;
 	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());
-	}
-	
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());	
-	}
 
 	@Override
 	public PosicionPieza getFrom() {
@@ -76,6 +66,26 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 	public void undoMove(MoveCacheBoard moveCache) {
 		move.executeMove(moveCache);
 	}
+	
+	
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard){
+		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());
+	}
+	
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard){
+		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());	
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Move){
+			Move theOther = (Move) obj;
+			return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
+		}
+		return false;
+	}	
 	
 	@Override
 	public int compareTo(Move theOther) {

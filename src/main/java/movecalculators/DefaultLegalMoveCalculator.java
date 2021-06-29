@@ -23,6 +23,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
 
+	//TODO: Podriamos implemetar las validaciones en una clase derivada
 	@Override
 	public Collection<Move> getLegalMovesNotKing() {
 		turnoActual = boardState.getTurnoActual();

@@ -88,6 +88,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		return pseudoMoves;
 	}
 
+	//TODO: Podriamos implemetar las validaciones en una clase derivada
 	protected boolean filterMove(Move move) {
 		boolean result = false;
 		

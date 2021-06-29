@@ -20,10 +20,10 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CaptureMove;
+import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueBlancoReyMove;
 import moveexecutors.EnroqueBlancoReynaMove;
-import moveexecutors.SimpleMove;
+import moveexecutors.SimpleReyMove;
 import parsers.FENBoarBuilder;
 import positioncaptures.Capturer;
 public class ReyBlancoMoveGeneratorTest {
@@ -438,11 +438,11 @@ public class ReyBlancoMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return new SimpleReyMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return new CaptureReyMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}	
 	
 }
