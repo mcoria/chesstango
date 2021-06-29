@@ -1,6 +1,7 @@
 package debug.chess;
 
 import chess.Board;
+import chess.BoardState;
 import chess.BoardStatus;
 import layers.KingCacheBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
@@ -19,8 +20,16 @@ public class DebugBoard extends Board {
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
+			
+			BoardState boardStateInicial = super.boardState.clone();
 
 			BoardStatus result = super.getBoardStatus();
+			
+			if (!super.boardState.equals(boardStateInicial)) {
+				System.out.println("El estado fué modificado");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.boardState.toString() + "]\n");
+				reportError = true;				
+			}			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
 				System.out.println("El cache de rey fué modificado");

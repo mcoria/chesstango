@@ -109,4 +109,39 @@ public class BoardState {
 		turnoActual = lastState.turnoActual;	
 	}
 
+	
+	@Override
+	public BoardState clone() throws CloneNotSupportedException {
+		BoardState clone = new BoardState();
+		clone.peonPasanteSquare = peonPasanteSquare;
+		clone.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		clone.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+		clone.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		clone.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		clone.turnoActual = turnoActual;
+		return clone;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof BoardState){
+			BoardState theInstance = (BoardState) obj;
+			return this.turnoActual.equals(theInstance.turnoActual) && this.peonPasanteSquare.equals(theInstance.peonPasanteSquare) &&  
+					this.enroqueBlancoReinaPermitido == theInstance.enroqueBlancoReinaPermitido &&
+					this.enroqueBlancoReyPermitido == theInstance.enroqueBlancoReyPermitido &&
+					this.enroqueNegroReinaPermitido == theInstance.enroqueNegroReinaPermitido &&
+					this.enroqueNegroReyPermitido == theInstance.enroqueNegroReyPermitido;
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "Turno Actual: " + String.format("%-6s", turnoActual.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
+				", enroqueBlancoReinaPermitido: " + enroqueBlancoReinaPermitido +
+				", enroqueBlancoReyPermitido: " + enroqueBlancoReyPermitido +
+				", enroqueNegroReinaPermitido: " + enroqueNegroReinaPermitido +
+				", enroqueNegroReyPermitido: " + enroqueNegroReyPermitido 
+		;
+	}
 }

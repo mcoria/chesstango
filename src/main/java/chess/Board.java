@@ -16,10 +16,10 @@ public class Board {
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
 	protected PosicionPiezaBoard dummyBoard = null;
-	private ColorBoard colorBoard = null;
+	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
-	private MoveCacheBoard moveCache = null;
-	private BoardState boardState = null;
+	protected MoveCacheBoard moveCache = null;
+	protected BoardState boardState = null;
 	
 	private BoardAnalyzer analyzer = null;
 	

@@ -77,6 +77,16 @@ public class KingCacheBoard {
 		// TODO Auto-generated method stub
 		return "Rey Blanco: " + squareKingBlancoCache.toString() + ", Rey Negro: " + squareKingNegroCache.toString();
 	}
+
+	public void validar(PosicionPiezaBoard dummyBoard) {
+		if(! dummyBoard.getPieza(squareKingBlancoCache).equals(Pieza.REY_BLANCO) ) {
+			throw new RuntimeException("KingCacheBoard - rey blanco quedó desactualizado");
+		}
+
+		if(! dummyBoard.getPieza(squareKingNegroCache).equals(Pieza.REY_NEGRO) ) {
+			throw new RuntimeException("KingCacheBoard - rey negro quedó desactualizado");
+		}		
+	}
 	
 }
 

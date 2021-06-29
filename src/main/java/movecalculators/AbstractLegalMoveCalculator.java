@@ -58,7 +58,9 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 			if(filterMove(move)){
 				moves.add(move);
 			}
-		}		
+		}
+		
+		this.boardState.setTurnoActual(opositeTurnoActual);
 		
 		return moves;
 	}	
@@ -89,7 +91,8 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected boolean filterMove(Move move) {
 		boolean result = false;
 		
-		colorBoard.validar(dummyBoard);
+		colorBoard.validar(this.dummyBoard);
+		kingCacheBoard.validar(this.dummyBoard);
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
@@ -110,7 +113,8 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
 		
-		colorBoard.validar(dummyBoard);
+		colorBoard.validar(this.dummyBoard);
+		kingCacheBoard.validar(this.dummyBoard);
 		
 		return result;
 	}
