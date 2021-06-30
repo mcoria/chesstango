@@ -16,7 +16,8 @@ public class KingCacheBoard {
 		this.squareKingNegroCache = getKingSquareRecorrer(Color.NEGRO, board);		
 	}
 	
-	private KingCacheBoard(){}
+	public KingCacheBoard(){
+	}
 	
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
 	

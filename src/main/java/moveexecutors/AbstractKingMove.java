@@ -75,7 +75,7 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 	
 	@Override
 	public void undoMove(KingCacheBoard kingCacheBoard){
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());	
+		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getFrom().getKey());	
 	}
 	
 	@Override
