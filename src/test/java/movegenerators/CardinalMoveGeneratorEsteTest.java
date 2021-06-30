@@ -37,7 +37,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -59,7 +59,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste01() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R2B/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R2B/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -80,7 +80,7 @@ public class CardinalMoveGeneratorEsteTest {
 	
 	@Test
 	public void testEste02() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R2b/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R2b/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

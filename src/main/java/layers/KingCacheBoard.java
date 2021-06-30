@@ -80,13 +80,13 @@ public class KingCacheBoard {
 	}
 
 	public void validar(PosicionPiezaBoard dummyBoard) {
-		if(! dummyBoard.getPieza(squareKingBlancoCache).equals(Pieza.REY_BLANCO) ) {
+		if (!Pieza.REY_BLANCO.equals(dummyBoard.getPieza(squareKingBlancoCache))) {
 			throw new RuntimeException("KingCacheBoard - rey blanco quedó desactualizado");
 		}
 
-		if(! dummyBoard.getPieza(squareKingNegroCache).equals(Pieza.REY_NEGRO) ) {
+		if (!Pieza.REY_NEGRO.equals(dummyBoard.getPieza(squareKingNegroCache))) {
 			throw new RuntimeException("KingCacheBoard - rey negro quedó desactualizado");
-		}		
+		}
 	}
 	
 }

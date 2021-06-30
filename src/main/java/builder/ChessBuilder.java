@@ -76,7 +76,7 @@ public class ChessBuilder {
 		if (board == null) {
 			board = chessFactory.createBoard();
 
-			board.setDummyBoard(buildDummyBoard());
+			board.setDummyBoard(buildPosicionPiezaBoard());
 
 			board.setBoardState(buildState());
 
@@ -108,7 +108,7 @@ public class ChessBuilder {
 
 	private ImprovedCapturer buildCapturer() {
 		if(improvedCapturer == null){
-			improvedCapturer = new ImprovedCapturer(buildDummyBoard());
+			improvedCapturer = new ImprovedCapturer(buildPosicionPiezaBoard());
 		}
 		return improvedCapturer;
 	}
@@ -123,7 +123,7 @@ public class ChessBuilder {
 
 	private DefaultLegalMoveCalculator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(buildPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
 		}
 		return this.defaultMoveCalculator;
@@ -131,7 +131,7 @@ public class ChessBuilder {
 	
 	private NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
 		if (noCheckLegalMoveCalculator == null) {
-			noCheckLegalMoveCalculator = new NoCheckLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
+			noCheckLegalMoveCalculator = new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
 		}
 		return noCheckLegalMoveCalculator;
@@ -140,7 +140,7 @@ public class ChessBuilder {
 	public MoveGeneratorStrategy buildMoveGeneratorStrategy() {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
-			moveGeneratorStrategy.setDummyBoard(buildDummyBoard());
+			moveGeneratorStrategy.setDummyBoard(buildPosicionPiezaBoard());
 			moveGeneratorStrategy.setBoardState(buildState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
 			moveGeneratorStrategy.setIsKingInCheck(() -> buildAnalyzer().isKingInCheck());
@@ -150,19 +150,19 @@ public class ChessBuilder {
 
 	private KingCacheBoard buildKingCacheBoard() {
 		if (kingCacheBoard == null) {
-			kingCacheBoard = new KingCacheBoard(buildDummyBoard());
+			kingCacheBoard = new KingCacheBoard(buildPosicionPiezaBoard());
 		}
 		return kingCacheBoard;
 	}
 
 	public ColorBoard buildColorBoard() {
 		if (colorBoard == null) {
-			colorBoard = new ColorBoard(buildDummyBoard(), buildKingCacheBoard());
+			colorBoard = new ColorBoard(buildPosicionPiezaBoard(), buildKingCacheBoard());
 		}
 		return colorBoard;
 	}
 
-	public PosicionPiezaBoard buildDummyBoard() {
+	public PosicionPiezaBoard buildPosicionPiezaBoard() {
 		if (posicionPiezaBoard == null) {
 			posicionPiezaBoard = new ArrayPosicionPiezaBoard(tablero);
 		}

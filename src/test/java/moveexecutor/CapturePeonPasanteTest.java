@@ -34,7 +34,7 @@ public class CapturePeonPasanteTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.withTablero("8/8/8/pP6/8/8/8/8").buildDummyBoard();
+		board = builder.withTablero("8/8/8/pP6/8/8/8/8").buildPosicionPiezaBoard();
 		boardState.setPeonPasanteSquare(Square.a6);
 		
 		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);

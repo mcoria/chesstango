@@ -30,7 +30,7 @@ public class ArrayPosicionPiezaBoardTest {
 	
 	@Test
 	public void test() {
-		PosicionPiezaBoard tablero = builder.withDefaultBoard().buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withDefaultBoard().buildPosicionPiezaBoard();
 		ArrayPosicionPiezaBoard tableroImp = (ArrayPosicionPiezaBoard) tablero;
 		
 		long posiciones = 0;

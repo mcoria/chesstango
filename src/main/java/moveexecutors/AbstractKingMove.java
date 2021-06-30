@@ -34,7 +34,7 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 
 	@Override
 	public void undoMove(PosicionPiezaBoard board) {
-		move.executeMove(board);
+		move.undoMove(board);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 
 	@Override
 	public void undoMove(BoardState boardState) {
-		move.executeMove(boardState);
+		move.undoMove(boardState);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
-		move.executeMove(colorBoard);
+		move.undoMove(colorBoard);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		move.executeMove(moveCache);
+		move.undoMove(moveCache);
 	}
 	
 	

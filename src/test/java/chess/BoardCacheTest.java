@@ -23,7 +23,7 @@ public class BoardCacheTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		PosicionPiezaBoard tablero = builder.withDefaultBoard().buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withDefaultBoard().buildPosicionPiezaBoard();
 		
 		ColorBoard colorBoard = builder.buildColorBoard();
 		

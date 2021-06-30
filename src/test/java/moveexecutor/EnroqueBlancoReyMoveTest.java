@@ -40,7 +40,7 @@ public class EnroqueBlancoReyMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.withTablero("8/8/8/8/8/8/8/4K2R").buildDummyBoard();
+		board = builder.withTablero("8/8/8/8/8/8/8/4K2R").buildPosicionPiezaBoard();
 		
 		moveExecutor.executeMove(board);
 		

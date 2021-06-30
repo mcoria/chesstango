@@ -35,7 +35,7 @@ public class SimpleMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.withTablero("8/8/8/4R3/8/8/8/8").buildDummyBoard();
+		board = builder.withTablero("8/8/8/4R3/8/8/8/8").buildPosicionPiezaBoard();
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
@@ -63,7 +63,7 @@ public class SimpleMoveTest {
 	
 	@Test
 	public void testUndoMoveBoard() {
-		board = builder.withTablero("8/4R3/8/8/8/8/8/8").buildDummyBoard();
+		board = builder.withTablero("8/4R3/8/8/8/8/8/8").buildPosicionPiezaBoard();
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);

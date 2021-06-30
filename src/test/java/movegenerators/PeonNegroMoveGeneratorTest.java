@@ -44,7 +44,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/p7/8/8/8/8/8").buildPosicionPiezaBoard();
 
 		moveGenerator.setTablero(tablero);
 		
@@ -64,7 +64,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {		
-		PosicionPiezaBoard tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/p7/8/8/8/8/8/8").buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -85,7 +85,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/4p3/3P4/8/8/8/8/8").buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -108,7 +108,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/3Pp3/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/3Pp3/8/8/8").buildPosicionPiezaBoard();
 		
 		state.setPeonPasanteSquare(Square.d3);
 		
@@ -132,7 +132,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/4p3/5P2/8/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/4p3/5P2/8/8/8/8/8").buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -155,7 +155,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/3pP3/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/3pP3/8/8/8").buildPosicionPiezaBoard();
 		
 		state.setPeonPasanteSquare(Square.e3);
 		
@@ -179,7 +179,7 @@ public class PeonNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPuedeCapturarRey() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/8/6p1/4K2R").buildPosicionPiezaBoard();
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(Square.e1));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));

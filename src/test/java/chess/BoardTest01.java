@@ -34,7 +34,7 @@ public class BoardTest01 {
 	
 	@Test
 	public void test01() {
-		Board tablero = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").buildBoard();
+		Board tablero = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").withChessFactory(debugChessFactory).buildBoard();
 		
 		BoardStatus result = tablero.getBoardStatus();
 		Collection<Move> moves = result.getLegalMoves();

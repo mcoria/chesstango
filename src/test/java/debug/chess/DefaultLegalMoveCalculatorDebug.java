@@ -148,6 +148,9 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 		try {
 			boolean reportError = false;
 			
+			colorBoard.validar(this.dummyBoard);
+			kingCacheBoard.validar(this.dummyBoard);			
+			
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
@@ -178,6 +181,9 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 				System.out.println("El filtrado del moviemiento [" + move + "] causo la inconsistencia");
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
+			
+			colorBoard.validar(this.dummyBoard);
+			kingCacheBoard.validar(this.dummyBoard);			
 			
 			return result;
 		} catch (CloneNotSupportedException e) {

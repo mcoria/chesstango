@@ -37,7 +37,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -60,7 +60,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste01() {
-		PosicionPiezaBoard tablero = builder.withTablero("7R/8/8/4B3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("7R/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -81,7 +81,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste02() {
-		PosicionPiezaBoard tablero = builder.withTablero("7r/8/8/4B3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("7r/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

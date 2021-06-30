@@ -1,30 +1,46 @@
 package moveexecutor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.Board;
 import chess.BoardState;
+import chess.BoardStatus;
 import chess.Color;
+import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.KingCacheBoard;
+import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleReyMove;
+import parsers.FENBoarBuilder;
 
 public class SimpleReyMoveTest {
+	
+	private FENBoarBuilder builder;
 	
 	private BoardState boardState;
 	
 	private SimpleReyMove moveExecutor;
 
 	private KingCacheBoard kingCacheBoard;
+	
+	private PosicionPiezaBoard board = null;
 
 	@Before
 	public void setUp() throws Exception {
+		builder = new FENBoarBuilder();
 		boardState = new BoardState();
 		kingCacheBoard = new KingCacheBoard();
+		moveExecutor = null;
+		board = null;
 	}
 	
 	
@@ -63,5 +79,26 @@ public class SimpleReyMoveTest {
 
 		assertEquals(Square.d2, kingCacheBoard.getSquareKingBlancoCache());
 	}	
+	
+	
+	@Test
+	public void test01() {
+		PosicionPiezaBoard board = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").buildPosicionPiezaBoard();
+		
+		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+
+		moveExecutor =  new SimpleReyMove(origen, destino);
+
+		moveExecutor.executeMove(board);
+		
+		assertEquals(Pieza.REY_BLANCO, board.getPieza(Square.e7));
+		
+		moveExecutor.undoMove(board);
+		
+		assertEquals(Pieza.REY_BLANCO, board.getPieza(Square.e8));
+		assertTrue(board.isEmtpy(Square.e7));
+	}	
+
 
 }

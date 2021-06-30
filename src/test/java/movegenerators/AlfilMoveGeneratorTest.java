@@ -33,7 +33,7 @@ public class AlfilMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves01() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
@@ -99,7 +99,7 @@ public class AlfilMoveGeneratorTest {
 
 	@Test
 	public void testGetPseudoMoves02() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").buildDummyBoard();
+		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.c1;
