@@ -131,7 +131,7 @@ public class ChessBuilder {
 	
 	private NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
 		if (noCheckLegalMoveCalculator == null) {
-			noCheckLegalMoveCalculator = new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
+			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(buildPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
 		}
 		return noCheckLegalMoveCalculator;

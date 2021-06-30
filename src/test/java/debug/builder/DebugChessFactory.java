@@ -3,20 +3,22 @@ package debug.builder;
 import builder.ChessFactory;
 import chess.Board;
 import chess.BoardState;
-import debug.chess.DebugBoard;
+import debug.chess.BoardDebug;
 import debug.chess.DefaultLegalMoveCalculatorDebug;
+import debug.chess.NoCheckLegalMoveCalculatorDebug;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
+import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 
 public class DebugChessFactory extends ChessFactory {
 
 	@Override
 	public Board createBoard() {
-		return  new DebugBoard();
+		return  new BoardDebug();
 	}	
 	
 	@Override
@@ -27,4 +29,11 @@ public class DebugChessFactory extends ChessFactory {
 		return new DefaultLegalMoveCalculatorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy);
 	}
+	
+	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
+			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
+			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
+		return new NoCheckLegalMoveCalculatorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
+				buildMoveCache, buildState, buildMoveGeneratorStrategy);
+	}	
 }

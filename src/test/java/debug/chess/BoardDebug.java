@@ -6,7 +6,7 @@ import chess.BoardStatus;
 import layers.KingCacheBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 
-public class DebugBoard extends Board {
+public class BoardDebug extends Board {
 	
 	@Override
 	// TODO: el metodo getBoardStatus(): 

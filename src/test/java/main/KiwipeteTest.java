@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
+import debug.builder.DebugChessFactory;
 import parsers.FENBoarBuilder;
 
 //Kiwipete
@@ -20,7 +21,8 @@ public class KiwipeteTest {
 	@Before
 	public void setUp() throws Exception {
 		main = new ChessMain();
-		board = new FENBoarBuilder().withFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").buildGame();
+		//board = new FENBoarBuilder().withFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").buildGame();
+		board = new FENBoarBuilder().withFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").withChessFactory(new DebugChessFactory()).buildGame();
 	}
 
 	@Test

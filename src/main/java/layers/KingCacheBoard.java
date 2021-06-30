@@ -75,10 +75,10 @@ public class KingCacheBoard {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Rey Blanco: " + squareKingBlancoCache.toString() + ", Rey Negro: " + squareKingNegroCache.toString();
 	}
 
+	//TODO: mover este metodo a una subclase de debug
 	public void validar(PosicionPiezaBoard dummyBoard) {
 		if (!Pieza.REY_BLANCO.equals(dummyBoard.getPieza(squareKingBlancoCache))) {
 			throw new RuntimeException("KingCacheBoard - rey blanco quedó desactualizado");
