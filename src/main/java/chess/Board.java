@@ -97,7 +97,7 @@ public class Board {
 	
 	@Override
 	public String toString() {
-	    return this.dummyBoard.toString();
+	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString();
 	}
 
 

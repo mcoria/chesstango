@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Objects;
 
 public class BoardState {
 
@@ -126,7 +127,7 @@ public class BoardState {
 	public boolean equals(Object obj) {
 		if(obj instanceof BoardState){
 			BoardState theInstance = (BoardState) obj;
-			return this.turnoActual.equals(theInstance.turnoActual) && this.peonPasanteSquare.equals(theInstance.peonPasanteSquare) &&  
+			return Objects.equals(this.turnoActual, theInstance.turnoActual) && Objects.equals(this.peonPasanteSquare, theInstance.peonPasanteSquare) &&  
 					this.enroqueBlancoReinaPermitido == theInstance.enroqueBlancoReinaPermitido &&
 					this.enroqueBlancoReyPermitido == theInstance.enroqueBlancoReyPermitido &&
 					this.enroqueNegroReinaPermitido == theInstance.enroqueNegroReinaPermitido &&

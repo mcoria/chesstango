@@ -48,22 +48,29 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
 		
-		Collection<Move> moves = getLegalMovesNotKing();
+		Collection<Move> movesNotKing = getLegalMovesNotKing();
+		
+		Collection<Move> movesKing = getLegalMovesKing();
+		
+		movesNotKing.addAll(movesKing);
+		
+		return movesNotKing;
+	}	
+
+	protected Collection<Move> getLegalMovesKing() {
+		Collection<Move> movesKing = createContainer();
 		
 		Square 	kingSquare = getCurrentKingSquare();
 		
-		Collection<Move> pseudoMoves = getPseudoMoves(kingSquare);			
+		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
 
-		for (Move move : pseudoMoves) {
+		for (Move move : pseudoMovesKing) {
 			if(filterMove(move)){
-				moves.add(move);
+				movesKing.add(move);
 			}
 		}
-		
-		this.boardState.setTurnoActual(opositeTurnoActual);
-		
-		return moves;
-	}	
+		return movesKing;
+	}
 
 	protected Collection<Move> getPseudoMoves(Square origenSquare) {
 		Collection<Move> pseudoMoves = null;

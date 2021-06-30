@@ -74,7 +74,7 @@ public class ChessBuilder {
 
 	public Board buildBoard() {
 		if (board == null) {
-			board = chessFactory.buildBoard();
+			board = chessFactory.createBoard();
 
 			board.setDummyBoard(buildDummyBoard());
 
@@ -113,13 +113,6 @@ public class ChessBuilder {
 		return improvedCapturer;
 	}
 
-	private NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
-		if (noCheckLegalMoveCalculator == null) {
-			noCheckLegalMoveCalculator = new NoCheckLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
-		}
-		return noCheckLegalMoveCalculator;
-	}
 
 	private MoveCacheBoard buildMoveCache() {
 		if (moveCache == null) {
@@ -130,11 +123,19 @@ public class ChessBuilder {
 
 	private DefaultLegalMoveCalculator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = new DefaultLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
 		}
 		return this.defaultMoveCalculator;
 	}
+	
+	private NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
+		if (noCheckLegalMoveCalculator == null) {
+			noCheckLegalMoveCalculator = new NoCheckLegalMoveCalculator(buildDummyBoard(), buildKingCacheBoard(), buildColorBoard(),
+					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
+		}
+		return noCheckLegalMoveCalculator;
+	}	
 
 	public MoveGeneratorStrategy buildMoveGeneratorStrategy() {
 		if (moveGeneratorStrategy == null) {

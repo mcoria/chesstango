@@ -62,7 +62,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 				moves.addAll(pseudoMoves);
 			}
 			
-			//boardCache.validarCacheSqueare(dummyBoard);
+			colorBoard.validar(dummyBoard);
 		}
 		
 		return moves;
