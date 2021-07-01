@@ -27,17 +27,5 @@ public class FENBoarBuilder extends ChessBuilder {
 		parser.parsePiecePlacement(piecePlacement);
 		this.withTablero(parser.getTablero());
 		return this;
-	}
-	
-	public FENBoarBuilder withTurno(String activeColor){
-		parser.parseTurno(activeColor);
-		this.withTurno(parser.getTurno());
-		return this;
-	}
-	
-	public FENBoarBuilder withPeonPasanteSquare(String peonPasante){
-		parser.parsePeonPasanteSquare(peonPasante);
-		this.withPeonPasanteSquare(parser.getPeonPasanteSquare());
-		return this;
 	}	
 }

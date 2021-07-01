@@ -14,13 +14,8 @@ import iterators.posicionpieza.BoardBitIterator;
 import layers.PosicionPiezaBoard;
 
 public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
-
-	public ArrayPosicionPiezaBoard(Pieza[][] tablero) {
-		crearTablero(tablero);
-	}
 	
-	private ArrayPosicionPiezaBoard(){
-		
+	public ArrayPosicionPiezaBoard(){
 	}
 	
 	///////////////////////////// START positioning logic /////////////////////////////
@@ -133,16 +128,7 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	    return new String(baos.toByteArray());
 	}
 	
-	//TODO: la carga podria realizarse por afuera de esta clase
-	protected void crearTablero(Pieza[][] sourceTablero) {
-		for (int file = 0; file < 8; file++) {
-			for (int rank = 0; rank < 8; rank++) {
-				PosicionPieza posicion = cachePosiciones.getPosicion(Square.getSquare(file, rank),
-						sourceTablero[file][rank]);
-				tablero[Square.getSquare(file, rank).toIdx()] = posicion;
-			}
-		}
-	}
+	
 	@Override
 	public ArrayPosicionPiezaBoard clone() throws CloneNotSupportedException {
 		ArrayPosicionPiezaBoard clone = new ArrayPosicionPiezaBoard();
@@ -164,6 +150,6 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 			return true;
 		}
 		return false;
-	}
+	}	
 
 }

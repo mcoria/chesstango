@@ -12,6 +12,7 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
+import layers.imp.PosicionPiezaBoardBuilder;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
@@ -164,12 +165,14 @@ public class ChessBuilder {
 
 	public PosicionPiezaBoard buildPosicionPiezaBoard() {
 		if (posicionPiezaBoard == null) {
-			posicionPiezaBoard = new ArrayPosicionPiezaBoard(tablero);
+			PosicionPiezaBoardBuilder builder = new PosicionPiezaBoardBuilder();
+			
+			posicionPiezaBoard = builder.buildPosicionPiezaBoard(ArrayPosicionPiezaBoard.class, tablero);
 		}
 		return posicionPiezaBoard;
 	}
 
-	public BoardState buildState() {
+	protected BoardState buildState() {
 		if (boardState == null) {
 			boardState = new BoardState();
 			boardState.setTurnoActual(this.turno == null ? Color.BLANCO : this.turno);
@@ -182,6 +185,7 @@ public class ChessBuilder {
 		return boardState;
 	}
 
+	//TODO: Si lo descomponemos en primitivas setPosicion ?
 	public ChessBuilder withTablero(Pieza[][] tablero) {
 		this.tablero = tablero;
 		return this;
