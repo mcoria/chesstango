@@ -12,6 +12,7 @@ import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
+import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.EnroqueBlancoReynaMove;
 import parsers.FENBoarBuilder;
@@ -20,7 +21,9 @@ public class EnroqueBlancoReynaMoveTest {
 	
 	private PosicionPiezaBoard board;
 	
-	private BoardState boardState;	
+	private BoardState boardState;
+	
+	private KingCacheBoard kingCacheBoard;
 	
 	private EnroqueBlancoReynaMove moveExecutor;
 	
@@ -36,6 +39,8 @@ public class EnroqueBlancoReynaMoveTest {
 		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueBlancoReinaPermitido(true);
 		boardState.setEnroqueBlancoReyPermitido(true);
+		
+		kingCacheBoard = new KingCacheBoard();
 	}
 	
 	@Test
@@ -61,6 +66,17 @@ public class EnroqueBlancoReynaMoveTest {
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
 		assertFalse(boardState.isEnroqueBlancoReyPermitido());
+	}	
+	
+	@Test
+	public void testKingCacheBoard() {
+		
+		kingCacheBoard.setKingSquare(Color.BLANCO, Square.e1);
+		
+		moveExecutor.executeMove(kingCacheBoard);
+		
+		assertEquals(Square.c1, kingCacheBoard.getSquareKingBlancoCache());
+
 	}	
 
 }

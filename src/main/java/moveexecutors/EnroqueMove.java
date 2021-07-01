@@ -2,7 +2,6 @@ package moveexecutors;
 
 import chess.Move;
 import layers.ColorBoard;
-import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
@@ -13,7 +12,6 @@ public abstract class EnroqueMove extends AbstractKingMove  {
 	
 	public EnroqueMove(Move move) {
 		super(move);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -48,18 +46,6 @@ public abstract class EnroqueMove extends AbstractKingMove  {
 		SimpleReyMove reyMove = getReyMove();
 		SimpleMove torreMove = getTorreMove();
 		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
-	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {
-		// TODO Auto-generated method stub
-		
 	}	
 
 	@Override
