@@ -4,6 +4,7 @@ import builder.ChessFactory;
 import chess.Board;
 import chess.BoardState;
 import debug.chess.BoardDebug;
+import debug.chess.ColorBoardDebug;
 import debug.chess.DefaultLegalMoveCalculatorDebug;
 import debug.chess.NoCheckLegalMoveCalculatorDebug;
 import layers.ColorBoard;
@@ -35,5 +36,9 @@ public class DebugChessFactory extends ChessFactory {
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
 		return new NoCheckLegalMoveCalculatorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy);
+	}	
+	
+	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard, KingCacheBoard buildKingCacheBoard) {
+		return new ColorBoardDebug(buildPosicionPiezaBoard, buildKingCacheBoard);
 	}	
 }

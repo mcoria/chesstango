@@ -24,7 +24,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 
 	@Override
-	public Collection<Move> getLegalMovesNotKing() {
+	protected Collection<Move> getLegalMovesNotKing() {
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
 
@@ -47,8 +47,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 					moves.add(move);
 				}
 			}
-			
-			//boardCache.validarCacheSqueare(dummyBoard);
+
 		}
 		
 		return moves;

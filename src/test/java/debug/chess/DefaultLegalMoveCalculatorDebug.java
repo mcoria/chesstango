@@ -148,7 +148,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 		try {
 			boolean reportError = false;
 			
-			colorBoard.validar(this.dummyBoard);
+			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 			kingCacheBoard.validar(this.dummyBoard);			
 			
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
@@ -182,7 +182,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			colorBoard.validar(this.dummyBoard);
+			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 			kingCacheBoard.validar(this.dummyBoard);			
 			
 			return result;

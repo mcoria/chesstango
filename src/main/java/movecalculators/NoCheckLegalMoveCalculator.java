@@ -22,9 +22,9 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		this.capturer = new ImprovedCapturer(dummyBoard);
 	}
 
-	//TODO: Podriamos implemetar las validaciones en una clase derivada
+
 	@Override
-	public Collection<Move> getLegalMovesNotKing() {
+	protected Collection<Move> getLegalMovesNotKing() {
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
 		
@@ -62,7 +62,6 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 				moves.addAll(pseudoMoves);
 			}
 			
-			colorBoard.validar(dummyBoard);
 		}
 		
 		return moves;

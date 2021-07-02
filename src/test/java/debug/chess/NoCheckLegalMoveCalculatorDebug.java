@@ -148,7 +148,7 @@ public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 		try {
 			boolean reportError = false;
 			
-			colorBoard.validar(this.dummyBoard);
+			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 			kingCacheBoard.validar(this.dummyBoard);			
 			
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
@@ -182,7 +182,7 @@ public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			colorBoard.validar(this.dummyBoard);
+			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 			kingCacheBoard.validar(this.dummyBoard);			
 			
 			return result;

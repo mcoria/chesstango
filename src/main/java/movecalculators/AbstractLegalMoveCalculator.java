@@ -101,6 +101,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
+		
 		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}

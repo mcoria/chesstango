@@ -30,4 +30,8 @@ public class ChessFactory {
 				buildMoveCache, buildState, buildMoveGeneratorStrategy);
 	}
 
+	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard, KingCacheBoard buildKingCacheBoard) {
+		return new ColorBoard(buildPosicionPiezaBoard, buildKingCacheBoard);
+	}
+
 }

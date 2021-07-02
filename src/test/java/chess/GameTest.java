@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Game.GameStatus;
+import debug.builder.DebugChessFactory;
 import parsers.FENBoarBuilder;
 
 public class GameTest {
@@ -76,7 +77,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoJaque() {
-		Game game = builder.withDefaultBoard().buildGame();
+		Game game = builder.withDefaultBoard().withChessFactory(new DebugChessFactory()).buildGame();
 		
 		assertEquals(20, game.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, game.getTurnoActual());
