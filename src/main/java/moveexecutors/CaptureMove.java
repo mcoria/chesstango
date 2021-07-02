@@ -30,10 +30,5 @@ public class CaptureMove extends SimpleMove {
 		}
 		return false;
 	}
-	
-	@Override
-	public String getType() {
-		return "CaptureMove";
-	}
 
 }

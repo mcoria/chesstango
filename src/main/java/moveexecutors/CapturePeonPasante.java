@@ -53,10 +53,5 @@ public class CapturePeonPasante extends AbstractMove {
 		}
 		return false;
 	}
-	
-	@Override
-	public String getType() {
-		return "CapturePeonPasante";
-	}
 
 }

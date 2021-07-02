@@ -9,7 +9,7 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
-public abstract class AbstractKingMove implements Friendly, KingMove {
+public abstract class AbstractKingMove implements KingMove {
 	
 	protected Move move;
 	
@@ -125,6 +125,6 @@ public abstract class AbstractKingMove implements Friendly, KingMove {
 	
 	@Override
 	public String toString() {
-		return move.getFrom().toString() + " " + move.getTo().toString() + " - " + getType();
+		return move.getFrom().toString() + " " + move.getTo().toString() + " - " + this.getClass().getSimpleName().toString();
 	}	
 }

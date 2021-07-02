@@ -36,10 +36,5 @@ public class EnroqueBlancoReynaMove extends EnroqueMove {
 	protected SimpleMove getTorreMove() {
 		return TORRE_MOVE;
 	}
-	
-	@Override
-	public String getType() {
-		return "EnroqueBlancoReynaMove";
-	}
 
 }

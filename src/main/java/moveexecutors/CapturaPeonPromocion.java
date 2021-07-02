@@ -29,11 +29,6 @@ public class CapturaPeonPromocion extends CaptureMove {
 	}
 	
 	@Override
-	public String getType() {
-		return "CapturaPeonPromocion";
-	}
-	
-	@Override
 	public String toString() {
 		return super.toString() + "[" + promocion + "]";
 	}	

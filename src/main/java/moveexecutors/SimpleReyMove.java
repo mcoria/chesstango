@@ -20,11 +20,5 @@ public class SimpleReyMove extends AbstractKingMove {
 		}
 		return false;
 	}
-	
-	@Override
-	public String getType() {
-		return "SimpleReyMove";
-	}
-
 
 }

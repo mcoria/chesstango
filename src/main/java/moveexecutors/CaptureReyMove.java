@@ -16,9 +16,5 @@ public class CaptureReyMove extends SimpleReyMove {
 		}
 		return false;
 	}
-	
-	@Override
-	public String getType() {
-		return "CaptureReyMove";
-	}	
+
 }

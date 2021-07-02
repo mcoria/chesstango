@@ -5,7 +5,7 @@ import chess.Move;
 import chess.PosicionPieza;
 import layers.MoveCacheBoard;
 
-public abstract class AbstractMove implements Friendly, Move {
+public abstract class AbstractMove implements Move {
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
 	
@@ -98,7 +98,7 @@ public abstract class AbstractMove implements Friendly, Move {
 
 	@Override
 	public String toString() {
-		return from.toString() + " " + to.toString() + " - " + getType();
+		return from.toString() + " " + to.toString() + " - " + this.getClass().getSimpleName().toString();
 	}
 	
 

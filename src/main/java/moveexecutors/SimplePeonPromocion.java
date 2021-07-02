@@ -27,11 +27,6 @@ public class SimplePeonPromocion extends SimpleMove {
 		}
 		return false;
 	}
-	
-	@Override
-	public String getType() {
-		return "SimplePeonPromocion";
-	}
 
 	@Override
 	public String toString() {
