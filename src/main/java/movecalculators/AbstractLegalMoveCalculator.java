@@ -65,7 +65,8 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
 
 		for (Move move : pseudoMovesKing) {
-			if(filterMove(move)){
+			KingMove kingMove = (KingMove) move;
+			if(filterMove(kingMove)){
 				movesKing.add(move);
 			}
 		}
@@ -100,25 +101,33 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
-		
-		//TODO: reemplazar por double dispatcher
-		if(move instanceof KingMove){
-			((KingMove)move).executeMove(this.kingCacheBoard);
-		}		
-		 
 		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
 			result = true;
 		}
-		
-		//TODO: reemplazar por double dispatcher
-		if(move instanceof KingMove){
-			((KingMove)move).undoMove(this.kingCacheBoard);
-		}
+
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
 		
 		return result;
 	}
+	
+	protected boolean filterMove(KingMove move) {
+		boolean result = false;
+		
+		move.executeMove(this.dummyBoard);
+		move.executeMove(this.colorBoard);
+		move.executeMove(this.kingCacheBoard);
+
+		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
+			result = true;
+		}
+
+		move.undoMove(this.kingCacheBoard);
+		move.undoMove(this.colorBoard);
+		move.undoMove(this.dummyBoard);
+		
+		return result;
+	}	
 	
 	public Square getCurrentKingSquare() {
 		return kingCacheBoard.getKingSquare(this.turnoActual);
