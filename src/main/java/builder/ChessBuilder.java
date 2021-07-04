@@ -12,7 +12,6 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
-import layers.imp.PosicionPiezaBoardBuilder;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
@@ -23,7 +22,6 @@ import positioncaptures.ImprovedCapturer;
  * hay pasos intermedios aca que podrian ser encapsulados.
  * por ejemplo todo aquello que tiene que ver con la creacion del BoardState
  */
-//TODO: Podriamos tener un builder que derive de esta clase en caso que necesitemos activar debugging / validacion
 public class ChessBuilder {
 
 	private Game game;
@@ -39,8 +37,6 @@ public class ChessBuilder {
 	private PosicionPiezaBoard posicionPiezaBoard;
 
 	private KingCacheBoard kingCacheBoard;
-
-	private Pieza[][] tablero;
 
 	private Color turno;
 
@@ -163,11 +159,10 @@ public class ChessBuilder {
 		return colorBoard;
 	}
 
+
 	public PosicionPiezaBoard buildPosicionPiezaBoard() {
 		if (posicionPiezaBoard == null) {
-			PosicionPiezaBoardBuilder builder = new PosicionPiezaBoardBuilder();
-			
-			posicionPiezaBoard = builder.buildPosicionPiezaBoard(ArrayPosicionPiezaBoard.class, tablero);
+			posicionPiezaBoard = new ArrayPosicionPiezaBoard();
 		}
 		return posicionPiezaBoard;
 	}
@@ -183,12 +178,6 @@ public class ChessBuilder {
 			boardState.setEnroqueNegroReyPermitido(enroqueNegroReyPermitido);
 		}
 		return boardState;
-	}
-
-	//TODO: Si lo descomponemos en primitivas setPosicion ?
-	public ChessBuilder withTablero(Pieza[][] tablero) {
-		this.tablero = tablero;
-		return this;
 	}
 
 	public ChessBuilder withTurno(Color turno) {
@@ -220,10 +209,14 @@ public class ChessBuilder {
 		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
 		return this;
 	}
+
+	public void withPieza(Square square, Pieza pieza) {
+		buildPosicionPiezaBoard().setPieza(square, pieza);
+	}
 	
 	public ChessBuilder withChessFactory(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
 		return this;
-	}
+	}	
 
 }

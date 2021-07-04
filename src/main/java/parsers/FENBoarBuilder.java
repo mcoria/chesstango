@@ -1,6 +1,8 @@
 package parsers;
 
 import builder.ChessBuilder;
+import chess.Pieza;
+import chess.Square;
 
 public class FENBoarBuilder extends ChessBuilder {
 
@@ -13,7 +15,7 @@ public class FENBoarBuilder extends ChessBuilder {
 
 	public FENBoarBuilder withFEN(String fenString){
 		parser.parseFEN(fenString);
-		this.withTablero(parser.getTablero());
+		this.buildTablero(parser.getTablero());
 		this.withTurno(parser.getTurno());
 		this.withPeonPasanteSquare(parser.getPeonPasanteSquare());
 		this.withEnroqueBlancoReyPermitido(parser.isEnroqueBlancoReyPermitido());
@@ -25,7 +27,19 @@ public class FENBoarBuilder extends ChessBuilder {
 	
 	public FENBoarBuilder withTablero(String piecePlacement){
 		parser.parsePiecePlacement(piecePlacement);
-		this.withTablero(parser.getTablero());
+		this.buildTablero(parser.getTablero());
 		return this;
-	}	
+	}
+	
+	protected void buildTablero(Pieza[][] piezas){
+		for (int file = 0; file < 8; file++) {
+			for (int rank = 0; rank < 8; rank++) {
+				Square square = Square.getSquare(file, rank);
+				Pieza pieza = piezas[file][rank];
+				if(pieza != null){
+					super.withPieza(square, pieza);
+				}
+			}
+		}
+	}
 }

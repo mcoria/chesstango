@@ -16,6 +16,9 @@ import layers.PosicionPiezaBoard;
 public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	
 	public ArrayPosicionPiezaBoard(){
+		for(int i = 0; i < 64; i++){
+			this.setEmptySquare(Square.getSquare(i));
+		}		
 	}
 	
 	///////////////////////////// START positioning logic /////////////////////////////

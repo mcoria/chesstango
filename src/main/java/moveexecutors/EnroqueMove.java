@@ -57,10 +57,5 @@ public abstract class EnroqueMove extends AbstractKingMove  {
 		return false;
 	}
 	
-	@Override
-	public int compareTo(Move o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}	
 
 }
