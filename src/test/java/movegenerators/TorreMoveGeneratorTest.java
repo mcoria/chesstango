@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -20,7 +21,7 @@ import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 public class TorreMoveGeneratorTest {
 
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 	
 	private TorreMoveGenerator moveGenerator;
 	
@@ -28,14 +29,14 @@ public class TorreMoveGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
 	}
 	
 	@Test
 	public void testGetPseudoMoves01() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4R3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4R3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -75,7 +76,7 @@ public class TorreMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves02() {		
-		PosicionPiezaBoard tablero = builder.withTablero("8/4p3/8/4R3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/4p3/8/4R3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

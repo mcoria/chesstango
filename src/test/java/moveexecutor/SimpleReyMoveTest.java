@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -18,7 +19,7 @@ import parsers.FENBoarBuilder;
 
 public class SimpleReyMoveTest {
 
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 
 	private BoardState boardState;
 
@@ -30,7 +31,7 @@ public class SimpleReyMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		boardState = new BoardState();
 		kingCacheBoard = new KingCacheBoard();
 		moveExecutor = null;
@@ -75,8 +76,7 @@ public class SimpleReyMoveTest {
 
 	@Test
 	public void test01() {
-		board = builder.withFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1")
-				.buildPosicionPiezaBoard();
+		board = builder.constructFEN("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1").getBuilder().buildPosicionPiezaBoard();
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);

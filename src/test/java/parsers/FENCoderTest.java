@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Board;
 import chess.Pieza;
 import layers.PosicionPiezaBoard;
@@ -46,7 +47,7 @@ public class FENCoderTest {
 
 	@Test
 	public void testCodeBoard01() {		
-		Board tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1").buildBoard();
+		Board tablero =  new FENBoarBuilder<>(new ChessBuilder()).constructFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1").getBuilder().buildBoard();
 		
 		String actual = coder.code(tablero);
 		
@@ -55,7 +56,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testCodeBoard02() {
-		Board tablero = new FENBoarBuilder().withFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").buildBoard();
+		Board tablero = new FENBoarBuilder<>(new ChessBuilder()).constructFEN("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1").getBuilder().buildBoard();  
 		
 		String actual = coder.code(tablero);
 		

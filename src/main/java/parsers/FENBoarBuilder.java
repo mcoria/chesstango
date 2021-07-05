@@ -4,31 +4,42 @@ import builder.ChessBuilder;
 import chess.Pieza;
 import chess.Square;
 
-public class FENBoarBuilder extends ChessBuilder {
+public class FENBoarBuilder<TChessBuilder extends ChessBuilder> {
 
 	private FENParser parser = new FENParser();
 	
-	public FENBoarBuilder withDefaultBoard(){
-		withFEN(FENParser.INITIAL_FEN);
+	private TChessBuilder builder;
+	
+	public FENBoarBuilder(TChessBuilder builder) {
+		this.builder = builder;
+	}
+	
+	public FENBoarBuilder<TChessBuilder> constructDefaultBoard(){
+		constructFEN(FENParser.INITIAL_FEN);
 		return this;
 	}	
 
-	public FENBoarBuilder withFEN(String fenString){
+	public FENBoarBuilder<TChessBuilder> constructFEN(String fenString){
 		parser.parseFEN(fenString);
-		this.buildTablero(parser.getTablero());
-		this.withTurno(parser.getTurno());
-		this.withPeonPasanteSquare(parser.getPeonPasanteSquare());
-		this.withEnroqueBlancoReyPermitido(parser.isEnroqueBlancoReyPermitido());
-		this.withEnroqueBlancoReinaPermitido(parser.isEnroqueBlancoReinaPermitido());
-		this.withEnroqueNegroReyPermitido(parser.isEnroqueNegroReyPermitido());
-		this.withEnroqueNegroReinaPermitido(parser.isEnroqueNegroReinaPermitido());
+		buildTablero(parser.getTablero());
+		builder.withTurno(parser.getTurno());
+		builder.withPeonPasanteSquare(parser.getPeonPasanteSquare());
+		builder.withEnroqueBlancoReyPermitido(parser.isEnroqueBlancoReyPermitido());
+		builder.withEnroqueBlancoReinaPermitido(parser.isEnroqueBlancoReinaPermitido());
+		builder.withEnroqueNegroReyPermitido(parser.isEnroqueNegroReyPermitido());
+		builder.withEnroqueNegroReinaPermitido(parser.isEnroqueNegroReinaPermitido());
 		return this;
 	}
 	
-	public FENBoarBuilder withTablero(String piecePlacement){
+	
+	public FENBoarBuilder<TChessBuilder> constructTablero(String piecePlacement){
 		parser.parsePiecePlacement(piecePlacement);
 		this.buildTablero(parser.getTablero());
 		return this;
+	}	
+	
+	public TChessBuilder getBuilder(){
+		return builder;
 	}
 	
 	protected void buildTablero(Pieza[][] piezas){
@@ -37,7 +48,7 @@ public class FENBoarBuilder extends ChessBuilder {
 				Square square = Square.getSquare(file, rank);
 				Pieza pieza = piezas[file][rank];
 				if(pieza != null){
-					super.withPieza(square, pieza);
+					builder.withPieza(square, pieza);
 				}
 			}
 		}

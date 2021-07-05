@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -24,11 +25,11 @@ public class EnroqueBlancoReyMoveTest {
 	
 	private EnroqueBlancoReyMove moveExecutor;
 	
-	private FENBoarBuilder builder;	
+	private FENBoarBuilder<ChessBuilder> builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		
 		moveExecutor = new EnroqueBlancoReyMove();
 		
@@ -40,7 +41,7 @@ public class EnroqueBlancoReyMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.withTablero("8/8/8/8/8/8/8/4K2R").buildPosicionPiezaBoard();
+		board =  builder.constructTablero("8/8/8/8/8/8/8/4K2R").getBuilder().buildPosicionPiezaBoard();
 		
 		moveExecutor.executeMove(board);
 		

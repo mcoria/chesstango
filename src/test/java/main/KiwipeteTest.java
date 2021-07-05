@@ -6,12 +6,12 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Game;
 import chess.Square;
 import parsers.FENBoarBuilder;
 
 //Kiwipete
-//TODO: El refactoring de movimientos de rey hizo un bolonqui importante
 public class KiwipeteTest {
 
 	private ChessMain main;
@@ -21,8 +21,8 @@ public class KiwipeteTest {
 	@Before
 	public void setUp() throws Exception {
 		main = new ChessMain();
-		board = new FENBoarBuilder().withFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").buildGame();
-		//board = new FENBoarBuilder().withFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").withChessFactory(new DebugChessFactory()).buildGame();
+		board = new FENBoarBuilder<ChessBuilder>(new ChessBuilder()).constructFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").getBuilder().buildGame();
+
 	}
 
 	@Test

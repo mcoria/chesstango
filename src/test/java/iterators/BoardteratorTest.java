@@ -10,6 +10,7 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -18,16 +19,16 @@ import parsers.FENBoarBuilder;
 
 public class BoardteratorTest {
 	
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 	}
 
 	@Test
 	public void testTopDownSquareIterator() {
-		PosicionPiezaBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().buildPosicionPiezaBoard();
 		
 		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -368,7 +369,7 @@ public class BoardteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		PosicionPiezaBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().buildPosicionPiezaBoard();
 		
 		Iterator<PosicionPieza> iterator = tablero.iterator(new BottomUpSquareIterator());
 		

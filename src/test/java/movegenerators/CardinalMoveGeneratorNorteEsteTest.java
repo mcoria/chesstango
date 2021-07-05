@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -22,7 +23,7 @@ import parsers.FENBoarBuilder;
 
 public class CardinalMoveGeneratorNorteEsteTest {
 	
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 	
 	private CardinalMoveGenerator moveGenerator;
 	
@@ -30,14 +31,14 @@ public class CardinalMoveGeneratorNorteEsteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste});
 		moves = new ArrayList<Move>();
 	}
 	
 	@Test
 	public void testNorteEste() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4B3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -60,7 +61,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste01() {
-		PosicionPiezaBoard tablero = builder.withTablero("7R/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("7R/8/8/4B3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -81,7 +82,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste02() {
-		PosicionPiezaBoard tablero = builder.withTablero("7r/8/8/4B3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("7r/8/8/4B3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

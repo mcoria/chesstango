@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import builder.ChessBuilder;
 import chess.Game;
 import chess.Move;
 import parsers.FENBoarBuilder;
@@ -21,7 +22,7 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		Game board = new FENBoarBuilder().withDefaultBoard().buildGame();
+		Game board = new FENBoarBuilder<ChessBuilder>(new ChessBuilder()).constructDefaultBoard().getBuilder().buildGame();
 		
 		ChessMain main = new ChessMain();
 		

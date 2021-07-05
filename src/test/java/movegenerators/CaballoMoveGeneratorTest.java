@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -21,7 +22,7 @@ import parsers.FENBoarBuilder;
 
 public class CaballoMoveGeneratorTest {
 
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 	
 	private CaballoMoveGenerator moveGenerator;
 	
@@ -29,14 +30,14 @@ public class CaballoMoveGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
 	}
 	
 	@Test
 	public void test() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/3P1p2/8/4N3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/3P1p2/8/4N3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

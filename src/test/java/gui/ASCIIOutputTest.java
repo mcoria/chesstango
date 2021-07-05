@@ -8,16 +8,17 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import layers.PosicionPiezaBoard;
 import parsers.FENBoarBuilder;
 
 public class ASCIIOutputTest {
 
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 	}
 		
 	@Test
@@ -47,7 +48,7 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
-		PosicionPiezaBoard tablero = builder.withTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").buildBoard().getDummyBoard();
+		PosicionPiezaBoard tablero = builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().buildPosicionPiezaBoard();
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);

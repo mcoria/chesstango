@@ -9,22 +9,25 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import parsers.FENBoarBuilder;
 
 public class BoardTest {
 
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 	}
 	
 	@Test
 	public void test01() {
-		Board tablero = builder.withDefaultBoard().buildBoard();
+		builder.constructDefaultBoard();
+		
+		Board tablero =  builder.constructDefaultBoard().getBuilder().buildBoard();
 		
 		Collection<Move> moves = tablero.getBoardStatus().getLegalMoves();
 		

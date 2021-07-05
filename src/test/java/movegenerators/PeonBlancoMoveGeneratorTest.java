@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.BoardState;
 import chess.Move;
 import chess.Pieza;
@@ -24,7 +25,7 @@ import moveexecutors.SimplePeonPromocion;
 import parsers.FENBoarBuilder;
 public class PeonBlancoMoveGeneratorTest {
 	
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 	
 	private PeonBlancoMoveGenerator moveGenerator;
 	
@@ -34,7 +35,7 @@ public class PeonBlancoMoveGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
@@ -44,7 +45,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/P7/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/P7/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -64,7 +65,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/8/P7/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/P7/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -85,7 +86,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/N7/P7/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/N7/P7/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -105,7 +106,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/3p4/4P3/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/3p4/4P3/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -128,7 +129,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		PosicionPiezaBoard tablero =  builder.withTablero("8/8/8/3pP3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =   builder.constructTablero("8/8/8/3pP3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		state.setPeonPasanteSquare(Square.d6);
 		
@@ -153,7 +154,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/8/8/5p2/4P3/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/5p2/4P3/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -176,7 +177,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/8/8/3Pp3/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/3Pp3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		state.setPeonPasanteSquare(Square.e6);
 		
@@ -200,7 +201,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonSimplePeonPromocion() {
-		PosicionPiezaBoard tablero = builder.withTablero("8/3P4/8/8/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/3P4/8/8/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -224,7 +225,7 @@ public class PeonBlancoMoveGeneratorTest {
 
 	@Test
 	public void testPeonCapturaPeonPromocion() {
-		PosicionPiezaBoard tablero = builder.withTablero("2rr4/3P4/8/8/8/8/8/8").buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("2rr4/3P4/8/8/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		

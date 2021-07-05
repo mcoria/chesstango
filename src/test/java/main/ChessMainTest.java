@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.Game;
 import chess.Move;
 import chess.Square;
@@ -15,17 +16,17 @@ import parsers.FENBoarBuilder;
 public class ChessMainTest {
 
 	private ChessMain main;
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 	
 	@Before
 	public void setUp() throws Exception {
 		main = new ChessMain();
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 	}
 
 	@Test
 	public void test_divide1() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		Node rootNode = main.start(board, 1);
 		
@@ -56,7 +57,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide2() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		Node rootNode = main.start(board, 2);
 		
@@ -88,7 +89,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide3() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		Node rootNode = main.start(board, 3);
 		
@@ -120,7 +121,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide4() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		Node rootNode = main.start(board, 4);
 
@@ -151,7 +152,7 @@ public class ChessMainTest {
 	
 	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs
 	public void test_divide5() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		Node rootNode = main.start(board, 5);
 		
@@ -182,7 +183,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		
@@ -194,7 +195,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_a7a5_b1a3_a5a4_c2c3() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.a7, Square.a5);
@@ -211,7 +212,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_a7a6_c1h6_a8a7_h6h5() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.a7, Square.a6);
@@ -229,7 +230,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_c7c5() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
@@ -242,7 +243,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_c7c5_e1d2() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
@@ -257,7 +258,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_c7c5_e1d2_d8a5() {
-		Game board = builder.withDefaultBoard().buildGame();
+		Game board =  builder.constructDefaultBoard().getBuilder().buildGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);

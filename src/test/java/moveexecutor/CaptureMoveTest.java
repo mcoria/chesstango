@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import builder.ChessBuilder;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -22,20 +23,20 @@ public class CaptureMoveTest {
 	
 	private BoardState boardState;
 	
-	private FENBoarBuilder builder;
+	private FENBoarBuilder<ChessBuilder> builder;
 	
 	private CaptureMove moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder();
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		boardState = new BoardState();
 	}
 
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.withTablero("8/4p3/8/4R3/8/8/8/8").buildPosicionPiezaBoard();
+		board =  builder.constructTablero("8/4p3/8/4R3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
@@ -66,7 +67,7 @@ public class CaptureMoveTest {
 	
 	@Test
 	public void testUndoMoveBoard() {
-		board = builder.withTablero("8/4R3/8/8/8/8/8/8").buildPosicionPiezaBoard();
+		board =  builder.constructTablero("8/4R3/8/8/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
