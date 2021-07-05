@@ -29,7 +29,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return this.result;
 	}
 
-	@Override
+
 	public void setTablero(PosicionPiezaBoard tablero) {
 		this.tablero = tablero;
 	}

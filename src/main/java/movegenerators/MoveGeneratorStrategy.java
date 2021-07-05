@@ -150,7 +150,9 @@ public class MoveGeneratorStrategy {
 	}
 	
 	private void settupMoveGenerator(MoveGenerator moveGenerator) {
-		moveGenerator.setTablero(dummyBoard);
+		if (moveGenerator instanceof AbstractMoveGenerator) {
+			((AbstractMoveGenerator)moveGenerator).setTablero(dummyBoard);
+		}
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
 			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;

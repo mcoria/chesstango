@@ -134,7 +134,7 @@ public class ChessBuilder {
 		return noCheckLegalMoveCalculator;
 	}	
 
-	public MoveGeneratorStrategy buildMoveGeneratorStrategy() {
+	protected MoveGeneratorStrategy buildMoveGeneratorStrategy() {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
 			moveGeneratorStrategy.setDummyBoard(buildPosicionPiezaBoard());
@@ -145,7 +145,7 @@ public class ChessBuilder {
 		return moveGeneratorStrategy;
 	}
 
-	private KingCacheBoard buildKingCacheBoard() {
+	protected KingCacheBoard buildKingCacheBoard() {
 		if (kingCacheBoard == null) {
 			kingCacheBoard = new KingCacheBoard(buildPosicionPiezaBoard());
 		}
