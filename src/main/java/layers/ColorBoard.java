@@ -11,11 +11,10 @@ public class ColorBoard {
 	
 	protected long squareBlancos = 0;
 	protected long squareNegros = 0;
-	protected KingCacheBoard kingCacheBoard = null;
+	private KingCacheBoard kingCacheBoard = null;
 	
-	public ColorBoard(PosicionPiezaBoard board, KingCacheBoard kingCacheBoard) {
+	public ColorBoard(PosicionPiezaBoard board) {
 		settupSquares(board);
-		this.kingCacheBoard = kingCacheBoard;
 	}
 	
 	public void swapPositions(Color color, Square remove, Square add){
@@ -95,6 +94,10 @@ public class ColorBoard {
 				}
 			}			
 		}
+	}
+
+	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+		this.kingCacheBoard = kingCacheBoard;
 	}	
 	
 }

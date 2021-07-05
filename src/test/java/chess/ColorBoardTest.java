@@ -11,16 +11,15 @@ import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import parsers.FENBoarBuilder;
 
-public class BoardCacheTest {
+public class ColorBoardTest {
 
 	private FENBoarBuilder<ChessBuilder> builder;
 	
-	private ChessBuilder chessBuilder; 
+	private ColorBoard colorBoard;
 
 	@Before
 	public void setUp() throws Exception {
-		chessBuilder = new ChessBuilder();
-		builder = new FENBoarBuilder<ChessBuilder>(chessBuilder);
+		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 	}
 	
 	@Test
@@ -28,7 +27,8 @@ public class BoardCacheTest {
 		int totalPiezas = 0;
 		
 		PosicionPiezaBoard tablero = builder.constructDefaultBoard().getBuilder().buildPosicionPiezaBoard();
-		ColorBoard colorBoard = chessBuilder.buildColorBoard();
+		
+		colorBoard = new ColorBoard(tablero);
 		
 		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());

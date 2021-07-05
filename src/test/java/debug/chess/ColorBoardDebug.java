@@ -3,13 +3,12 @@ package debug.chess;
 import chess.Color;
 import chess.PosicionPieza;
 import layers.ColorBoard;
-import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 
 public class ColorBoardDebug extends ColorBoard {
 
-	public ColorBoardDebug(PosicionPiezaBoard board, KingCacheBoard kingCacheBoard) {
-		super(board, kingCacheBoard);
+	public ColorBoardDebug(PosicionPiezaBoard board) {
+		super(board);
 	}
 		
 	

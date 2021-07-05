@@ -38,7 +38,9 @@ public class DebugChessFactory extends ChessFactory {
 				buildMoveCache, buildState, buildMoveGeneratorStrategy);
 	}	
 	
-	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard, KingCacheBoard buildKingCacheBoard) {
-		return new ColorBoardDebug(buildPosicionPiezaBoard, buildKingCacheBoard);
+	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard, KingCacheBoard kingCacheBoard) {
+		ColorBoard colorBoard = new ColorBoardDebug(buildPosicionPiezaBoard);
+		colorBoard.setKingCacheBoard(kingCacheBoard);
+		return colorBoard;
 	}	
 }

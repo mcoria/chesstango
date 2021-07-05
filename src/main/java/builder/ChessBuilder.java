@@ -152,7 +152,7 @@ public class ChessBuilder {
 		return kingCacheBoard;
 	}
 
-	public ColorBoard buildColorBoard() {
+	protected ColorBoard buildColorBoard() {
 		if (colorBoard == null) {
 			colorBoard = chessFactory.createColorBoard(buildPosicionPiezaBoard(), buildKingCacheBoard());
 		}
