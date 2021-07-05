@@ -85,20 +85,18 @@ public class ChessBuilder {
 
 			board.setAnalyzer(buildAnalyzer());
 
-			board.setDefaultMoveCalculator(buildDefaultMoveCalculator());
-
-			board.setNoCheckLegalMoveCalculator(buildNoCheckLegalMoveCalculator());
-
 		}
 		return board;
 	}
 
-	private BoardAnalyzer buildAnalyzer() {
+	protected BoardAnalyzer buildAnalyzer() {
 		if (boardAnalyzer == null) {
 			boardAnalyzer = new BoardAnalyzer();
 			boardAnalyzer.setBoardState(buildState());
 			boardAnalyzer.setKingCacheBoard(buildKingCacheBoard());
 			boardAnalyzer.setCapturer(buildCapturer());
+			boardAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
+			boardAnalyzer.setNoCheckLegalMoveCalculator(buildNoCheckLegalMoveCalculator());			
 		}
 		return boardAnalyzer;
 	}
@@ -111,7 +109,7 @@ public class ChessBuilder {
 	}
 
 
-	private MoveCacheBoard buildMoveCache() {
+	protected MoveCacheBoard buildMoveCache() {
 		if (moveCache == null) {
 			moveCache = new MoveCacheBoard();
 		}

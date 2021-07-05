@@ -6,9 +6,7 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
-import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
-import movecalculators.NoCheckLegalMoveCalculator;
 
 
 public class Board {
@@ -22,15 +20,13 @@ public class Board {
 	protected BoardState boardState = null;
 	
 	private BoardAnalyzer analyzer = null;
-	
-	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
-	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;
 
 	public BoardStatus getBoardStatus() {
 		analyzer.analyze();
 		
-		LegalMoveCalculator calculator = selectMoveCalculator();
 		boolean check = analyzer.isKingInCheck();
+		
+		LegalMoveCalculator calculator = analyzer.getMoveCalculator();
 		Collection<Move> moves = calculator.getLegalMoves();
 		
 		BoardStatus result = new BoardStatus();
@@ -38,13 +34,6 @@ public class Board {
 		result.setLegalMoves(moves);
 
 		return result;
-	}
-
-	private LegalMoveCalculator selectMoveCalculator() {
-		if(! analyzer.isKingInCheck() ){
-			return noCheckLegalMoveCalculator;
-		}
-		return defaultMoveCalculator;
 	}
 
 
@@ -151,33 +140,8 @@ public class Board {
 	}
 
 
-	public BoardAnalyzer getAnalyzer() {
-		return analyzer;
-	}
-
-
 	public void setAnalyzer(BoardAnalyzer analyzer) {
 		this.analyzer = analyzer;
 	}
-
-
-	public DefaultLegalMoveCalculator getDefaultMoveCalculator() {
-		return defaultMoveCalculator;
-	}
-
-
-	public void setDefaultMoveCalculator(DefaultLegalMoveCalculator defaultMoveCalculator) {
-		this.defaultMoveCalculator = defaultMoveCalculator;
-	}
-
-
-	public NoCheckLegalMoveCalculator getNoCheckLegalMoveCalculator() {
-		return noCheckLegalMoveCalculator;
-	}
-
-
-	public void setNoCheckLegalMoveCalculator(NoCheckLegalMoveCalculator noCheckLegalMoveCalculator) {
-		this.noCheckLegalMoveCalculator = noCheckLegalMoveCalculator;
-	}	
 	
 }

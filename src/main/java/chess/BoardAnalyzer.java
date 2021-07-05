@@ -1,6 +1,9 @@
 package chess;
 
 import layers.KingCacheBoard;
+import movecalculators.DefaultLegalMoveCalculator;
+import movecalculators.LegalMoveCalculator;
+import movecalculators.NoCheckLegalMoveCalculator;
 import positioncaptures.ImprovedCapturer;
 
 /*
@@ -15,6 +18,10 @@ public class BoardAnalyzer {
 	private boolean isKingInCheck = false;
 
 	private ImprovedCapturer capturer;
+	
+	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
+	
+	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;	
 
 	public void analyze() {
 		this.isKingInCheck = calculateKingInCheck();
@@ -31,6 +38,13 @@ public class BoardAnalyzer {
 		
 		return isKingInCheck;
 	}
+	
+	LegalMoveCalculator getMoveCalculator() {
+		if(! isKingInCheck() ){
+			return noCheckLegalMoveCalculator;
+		}
+		return defaultMoveCalculator;
+	}	
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
@@ -42,6 +56,15 @@ public class BoardAnalyzer {
 
 	public void setCapturer(ImprovedCapturer capturer) {
 		this.capturer = capturer;
-	}	
+	}
+	
+
+	public void setDefaultMoveCalculator(DefaultLegalMoveCalculator defaultMoveCalculator) {
+		this.defaultMoveCalculator = defaultMoveCalculator;
+	}
+
+	public void setNoCheckLegalMoveCalculator(NoCheckLegalMoveCalculator noCheckLegalMoveCalculator) {
+		this.noCheckLegalMoveCalculator = noCheckLegalMoveCalculator;
+	}		
 
 }
