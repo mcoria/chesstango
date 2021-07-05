@@ -33,6 +33,8 @@ public class ChessBuilder {
 	private ColorBoard colorBoard;
 
 	private BoardState boardState;
+	
+	private MoveCacheBoard moveCache;	
 
 	private PosicionPiezaBoard posicionPiezaBoard;
 
@@ -53,8 +55,6 @@ public class ChessBuilder {
 	private BoardAnalyzer boardAnalyzer;
 
 	private DefaultLegalMoveCalculator defaultMoveCalculator;
-
-	private MoveCacheBoard moveCache;
 
 	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator;
 
@@ -103,7 +103,7 @@ public class ChessBuilder {
 		return boardAnalyzer;
 	}
 
-	private ImprovedCapturer buildCapturer() {
+	protected ImprovedCapturer buildCapturer() {
 		if(improvedCapturer == null){
 			improvedCapturer = new ImprovedCapturer(buildPosicionPiezaBoard());
 		}
@@ -118,7 +118,7 @@ public class ChessBuilder {
 		return moveCache;
 	}
 
-	private DefaultLegalMoveCalculator buildDefaultMoveCalculator() {
+	protected DefaultLegalMoveCalculator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
 			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(buildPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
@@ -126,7 +126,7 @@ public class ChessBuilder {
 		return this.defaultMoveCalculator;
 	}
 	
-	private NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
+	protected NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
 		if (noCheckLegalMoveCalculator == null) {
 			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(buildPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), buildState(), buildMoveGeneratorStrategy());
