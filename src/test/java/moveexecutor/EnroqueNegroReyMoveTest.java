@@ -41,7 +41,7 @@ public class EnroqueNegroReyMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.constructTablero("4k2r/8/8/8/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		board = builder.constructTablero("4k2r/8/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		moveExecutor.executeMove(board);
 		

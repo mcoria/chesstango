@@ -76,7 +76,7 @@ public class SimpleReyMoveTest {
 
 	@Test
 	public void test01() {
-		board = builder.constructTablero("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR").getBuilder().buildPosicionPiezaBoard();
+		board = builder.constructTablero("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR").getBuilder().getPosicionPiezaBoard();
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);

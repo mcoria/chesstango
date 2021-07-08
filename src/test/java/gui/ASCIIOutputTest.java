@@ -48,7 +48,7 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
-		PosicionPiezaBoard tablero = builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().getPosicionPiezaBoard();
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
 	    	ASCIIOutput output = new ASCIIOutput(ps);

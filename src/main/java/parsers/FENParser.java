@@ -92,7 +92,7 @@ public class FENParser {
 		return this.tablero;
 	}
 	
-	Pieza[] parseRank(String rank) {
+	protected Pieza[] parseRank(String rank) {
 		Pieza piezas[] = new Pieza[8];
 		int position = 0;
 		for (int i = 0; i < rank.length(); i++) {

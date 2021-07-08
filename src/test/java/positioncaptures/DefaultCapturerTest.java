@@ -24,7 +24,7 @@ public class DefaultCapturerTest {
 	
 	@Test
 	public void testPositionCaptured() {
-		PosicionPiezaBoard dummyBoard =  builder.constructTablero("8/8/8/1P6/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard dummyBoard =  builder.constructTablero("8/8/8/1P6/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		ColorBoard colorBoard = new ColorBoard(dummyBoard);
 		
 		MoveGeneratorStrategy moveGeneratorStrategy = new MoveGeneratorStrategy();

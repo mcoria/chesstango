@@ -26,7 +26,7 @@ public class ColorBoardTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		PosicionPiezaBoard tablero = builder.constructDefaultBoard().getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = builder.constructDefaultBoard().getBuilder().getPosicionPiezaBoard();
 		
 		colorBoard = new ColorBoard(tablero);
 		

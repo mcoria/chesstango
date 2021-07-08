@@ -36,7 +36,7 @@ public class TorreMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4R3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -76,7 +76,7 @@ public class TorreMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves02() {		
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/4p3/8/4R3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/4p3/8/4R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

@@ -37,7 +37,7 @@ public class CaballoMoveGeneratorTest {
 	
 	@Test
 	public void test() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/3P1p2/8/4N3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/3P1p2/8/4N3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;

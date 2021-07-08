@@ -22,7 +22,7 @@ public class ImprovedCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPeonBlanco() {
-		PosicionPiezaBoard dummyBoard =  builder.constructTablero("8/8/8/1P6/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard dummyBoard =  builder.constructTablero("8/8/8/1P6/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
@@ -33,7 +33,7 @@ public class ImprovedCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPeonNegro() {
-		PosicionPiezaBoard dummyBoard =   builder.constructTablero("8/8/8/1p6/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard dummyBoard =   builder.constructTablero("8/8/8/1p6/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		
@@ -45,7 +45,7 @@ public class ImprovedCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByCaballo() {
-		PosicionPiezaBoard dummyBoard =  builder.constructTablero("8/8/8/3N4/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard dummyBoard =  builder.constructTablero("8/8/8/3N4/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
 		

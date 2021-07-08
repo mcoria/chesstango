@@ -36,7 +36,7 @@ public class CaptureMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board =  builder.constructTablero("8/4p3/8/4R3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		board =  builder.constructTablero("8/4p3/8/4R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
@@ -67,7 +67,7 @@ public class CaptureMoveTest {
 	
 	@Test
 	public void testUndoMoveBoard() {
-		board =  builder.constructTablero("8/4R3/8/8/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		board =  builder.constructTablero("8/4R3/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);

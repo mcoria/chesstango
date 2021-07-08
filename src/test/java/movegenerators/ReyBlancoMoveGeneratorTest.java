@@ -49,7 +49,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void test01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4K3/8/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4K3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -76,7 +76,7 @@ public class ReyBlancoMoveGeneratorTest {
 
 	@Test
 	public void test02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/4P3/4K3/4p3/8/8/8").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/4P3/4K3/4p3/8/8/8").getBuilder().getPosicionPiezaBoard();
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -105,7 +105,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/8/R3K3").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/8/R3K3").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReinaPermitido(true);
 		
@@ -139,7 +139,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/5b2/8/R3K3").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/5b2/8/R3K3").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReinaPermitido(true);
 		
@@ -177,7 +177,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina03() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/5b2/8/8/R3K3").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/5b2/8/8/R3K3").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReinaPermitido(true);
 		
@@ -215,7 +215,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoReina04() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/8/RN2K3").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/8/RN2K3").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReinaPermitido(true);
 		
@@ -252,7 +252,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/8/4K2R").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/8/4K2R").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReyPermitido(true);
 		
@@ -286,7 +286,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/3b4/8/4K2R").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/3b4/8/4K2R").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReyPermitido(true);
 		
@@ -323,7 +323,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey03() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/3b4/8/8/4K2R").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/3b4/8/8/4K2R").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReyPermitido(true);
 		
@@ -360,7 +360,7 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueBlancoRey04() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/6p1/4K2R").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/6p1/4K2R").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReyPermitido(true);
 		
@@ -398,7 +398,7 @@ public class ReyBlancoMoveGeneratorTest {
 
 	@Test
 	public void testEnroqueBlancoJaque() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/4r3/8/8/R3K2R").getBuilder().buildPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/4r3/8/8/R3K2R").getBuilder().getPosicionPiezaBoard();
 		
 		state.setEnroqueBlancoReyPermitido(true);
 		state.setEnroqueBlancoReinaPermitido(true);
