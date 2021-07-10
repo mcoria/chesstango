@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 
+import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
@@ -142,6 +143,18 @@ public class Board {
 
 	public void setAnalyzer(BoardAnalyzer analyzer) {
 		this.analyzer = analyzer;
+	}
+	
+	public void buildRepresentation(ChessBuilder builder){
+		builder.withTurno(boardState.getTurnoActual());
+		builder.withEnroqueBlancoReinaPermitido(boardState.isEnroqueBlancoReinaPermitido());
+		builder.withEnroqueBlancoReyPermitido(boardState.isEnroqueBlancoReyPermitido());
+		builder.withEnroqueNegroReinaPermitido(boardState.isEnroqueNegroReinaPermitido());
+		builder.withEnroqueNegroReyPermitido(boardState.isEnroqueNegroReyPermitido());
+		builder.withPeonPasanteSquare(boardState.getPeonPasanteSquare());
+		dummyBoard.forEach(posicionPieza -> {
+			builder.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
+		});		
 	}
 	
 }

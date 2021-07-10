@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Game;
 import chess.Move;
-import parsers.FENBoarBuilder;
 import parsers.FENCoder;
+import parsers.FENParser;
 
 public class ChessMain {
 	
@@ -22,7 +22,13 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		Game board = new FENBoarBuilder<ChessBuilder>(new ChessBuilder()).constructDefaultBoard().getBuilder().buildGame();
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		
+		FENParser parser = new FENParser(new ChessBuilderConcrete());
+		
+		parser.parseFEN(FENParser.INITIAL_FEN);
+		
+		Game board = builder.buildGame();
 		
 		ChessMain main = new ChessMain();
 		
@@ -37,7 +43,7 @@ public class ChessMain {
 		this.nodeListMap = new  ArrayList<Map<String, Node>>(maxLevel);
 		this.repetedNodes = new int[maxLevel];
 		
-		String rootId = coder.code(board);
+		String rootId = code(board);
 		Node rootNode = new Node(rootId, 0);
 		visitChilds(board, rootNode);
 		
@@ -57,7 +63,7 @@ public class ChessMain {
 		for (Move move : board.getMovimientosPosibles()) {
 			board.executeMove(move);
 
-			String id = coder.code(board);
+			String id = code(board);
 			Node node = nodeMap.get(id);
 			if (node == null) {
 				node = new Node(id, currentLevel);
@@ -99,7 +105,6 @@ public class ChessMain {
 		Map<Move, Node> childs = rootNode.getChilds();
 		if(childs != null){
 			List<Move> moves = new ArrayList<Move>(childs.keySet());
-			//Collections.sort(moves);
 			Collections.reverse(moves);
 			
 			for (Move move : moves) {
@@ -111,6 +116,11 @@ public class ChessMain {
 		for (int i = 0; i < repetedNodes.length; i++) {
 			System.out.println("Level " + i + " Nodes=" + nodeListMap.get(i).size() + " repeated=" + repetedNodes[i]);
 		}
-	}	
+	}
+	
+	private String code(Game board) {
+		board.getTablero().buildRepresentation(coder);
+		return coder.getFEN();
+	}
 
 }

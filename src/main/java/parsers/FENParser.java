@@ -1,27 +1,20 @@
 package parsers;
 
+import builder.ChessBuilder;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
 
 public class FENParser {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+	private ChessBuilder chessBuilder;
 	
-	private Pieza[][] tablero;
-
-	private Color turno;
-
-	private Square peonPasanteSquare;
-
-	private boolean enroqueBlancoReinaPermitido;
-
-	private boolean enroqueBlancoReyPermitido;
-
-	private boolean enroqueNegroReinaPermitido;
-
-	private boolean enroqueNegroReyPermitido;
+	public FENParser(ChessBuilder chessBuilder) {
+		this.chessBuilder = chessBuilder; 
+	}	
 			
-	protected void parseFEN(String input) {
+	public void parseFEN(String input) {
 		String fields[] = input.split(" ");
 		
 		String piecePlacement = fields[0];
@@ -30,67 +23,55 @@ public class FENParser {
 		String peonPasante = fields[3];
 		
 		parsePiecePlacement(piecePlacement);
-		parseTurno(activeColor);
-		parsePeonPasanteSquare(peonPasante);
-		parseEnroquesPermitidos(enroquesPermitidos);	
 		
-	}	
-	
-	protected Square parsePeonPasanteSquare(String peonPasante) {
-		Square result = null;
-		if( ! "-".equals(peonPasante)){
-			char file = peonPasante.charAt(0);
-			char rank = peonPasante.charAt(1);
-			int fileNumber = -1;
-			int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
-			switch (file) {
-			case 'a':
-				fileNumber = 0;
-				break;
-			case 'b':
-				fileNumber = 1;
-				break;
-			case 'c':
-				fileNumber = 2;
-				break;
-			case 'd':
-				fileNumber = 3;
-				break;
-			case 'e':
-				fileNumber = 4;
-				break;
-			case 'f':
-				fileNumber = 5;
-				break;
-			case 'g':
-				fileNumber = 6;
-				break;
-			case 'h':
-				fileNumber = 7;
-				break;				
-			default:
-				throw new RuntimeException("Invalid FEV code");
-			}
-			result = Square.getSquare(fileNumber, rankNumber);
-		}; 
-		this.peonPasanteSquare =  result;
-		return this.peonPasanteSquare;
+		chessBuilder.withPeonPasanteSquare(parsePeonPasanteSquare(peonPasante));
+		
+		chessBuilder.withTurno(parseTurno(activeColor));
+		
+		if(isEnroqueBlancoReinaPermitido(enroquesPermitidos)){
+			chessBuilder.withEnroqueBlancoReinaPermitido(true);
+		}
+		
+		if(isEnroqueBlancoReyPermitido(enroquesPermitidos)){
+			chessBuilder.withEnroqueBlancoReyPermitido(true);
+		}
+		
+		if(isEnroqueNegroReinaPermitido(enroquesPermitidos)){
+			chessBuilder.withEnroqueNegroReinaPermitido(true);
+		}
+		
+		if(isEnroqueNegroReyPermitido(enroquesPermitidos)){
+			chessBuilder.withEnroqueNegroReyPermitido(true);
+		}
+		
 	}
-
-	protected Pieza[][] parsePiecePlacement(String piecePlacement){
+	
+	public void parsePiecePlacement(String piecePlacement){
+		Pieza[][] piezas = parsePieces(piecePlacement);
+		for (int rank = 0; rank < 8; rank++) {
+			for (int file = 0; file < 8; file++) {
+				Square square = Square.getSquare(file, rank);
+				Pieza pieza = piezas[rank][file];
+				if(pieza != null){
+					chessBuilder.withPieza(square, pieza);
+				}
+			}
+		}
+	}
+	
+	protected Pieza[][] parsePieces(String piecePlacement){
 		Pieza[][] tablero = new Pieza[8][8];
 		String ranks[] = piecePlacement.split("/");
 		int currentRank = 7;
 		for (int i = 0; i < 8; i++) {
 			Pieza[] rankPiezas = parseRank(ranks[i]);
 			for (int j = 0; j < 8; j++) {
-				tablero[j][currentRank] = rankPiezas[j];
+				tablero[currentRank][j] = rankPiezas[j];
 			}
 			currentRank--;
 		}
-		this.tablero =  tablero;
-		return this.tablero;
-	}
+		return tablero;
+	}	
 	
 	protected Pieza[] parseRank(String rank) {
 		Pieza piezas[] = new Pieza[8];
@@ -165,7 +146,47 @@ public class FENParser {
 		}
 
 		return pieza;
-	}
+	}	
+	
+	protected Square parsePeonPasanteSquare(String peonPasante) {
+		Square result = null;
+		if( ! "-".equals(peonPasante)){
+			char file = peonPasante.charAt(0);
+			char rank = peonPasante.charAt(1);
+			int fileNumber = -1;
+			int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
+			switch (file) {
+			case 'a':
+				fileNumber = 0;
+				break;
+			case 'b':
+				fileNumber = 1;
+				break;
+			case 'c':
+				fileNumber = 2;
+				break;
+			case 'd':
+				fileNumber = 3;
+				break;
+			case 'e':
+				fileNumber = 4;
+				break;
+			case 'f':
+				fileNumber = 5;
+				break;
+			case 'g':
+				fileNumber = 6;
+				break;
+			case 'h':
+				fileNumber = 7;
+				break;				
+			default:
+				throw new RuntimeException("Invalid FEV code");
+			}
+			result = Square.getSquare(fileNumber, rankNumber);
+		};
+		return result;
+	}	
 	
 	protected Color parseTurno(String activeColor) {
 		char colorChar = activeColor.charAt(0);
@@ -180,15 +201,7 @@ public class FENParser {
 		default:
 			throw new RuntimeException("Unknown FEN code " + activeColor);			
 		}
-		this.turno = turno;
-		return this.turno;
-	}	
-
-	private void parseEnroquesPermitidos(String enroquesPermitidos) {
-		this.enroqueBlancoReinaPermitido = isEnroqueBlancoReinaPermitido(enroquesPermitidos);
-		this.enroqueBlancoReyPermitido = isEnroqueBlancoReyPermitido(enroquesPermitidos);
-		this.enroqueNegroReinaPermitido = isEnroqueNegroReinaPermitido(enroquesPermitidos);
-		this.enroqueNegroReyPermitido = isEnroqueNegroReyPermitido(enroquesPermitidos);	
+		return turno;
 	}
 
 	protected boolean isEnroqueBlancoReinaPermitido(String enroquesPermitidos){
@@ -218,35 +231,6 @@ public class FENParser {
 		}
 		return false;
 	}
-	
-	public Pieza[][] getTablero() {
-		return tablero;
-	}
 
-	public Color getTurno() {
-		return turno;
-	}
-
-	public Square getPeonPasanteSquare() {
-		return peonPasanteSquare;
-	}
-
-	public boolean isEnroqueBlancoReinaPermitido() {
-		return enroqueBlancoReinaPermitido;
-	}
-
-
-	public boolean isEnroqueBlancoReyPermitido() {
-		return enroqueBlancoReyPermitido;
-	}
-
-	public boolean isEnroqueNegroReinaPermitido() {
-		return enroqueNegroReinaPermitido;
-	}
-
-
-	public boolean isEnroqueNegroReyPermitido() {
-		return enroqueNegroReyPermitido;
-	}
 
 }

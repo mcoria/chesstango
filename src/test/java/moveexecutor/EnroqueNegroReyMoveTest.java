@@ -8,14 +8,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
 import moveexecutors.EnroqueNegroReyMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class EnroqueNegroReyMoveTest {
 	
@@ -25,12 +25,8 @@ public class EnroqueNegroReyMoveTest {
 	
 	private EnroqueNegroReyMove moveExecutor;
 	
-	private FENBoarBuilder<ChessBuilder> builder;
-	
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
-		
 		moveExecutor = new EnroqueNegroReyMove();
 		
 		boardState = new BoardState();		
@@ -41,7 +37,7 @@ public class EnroqueNegroReyMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board = builder.constructTablero("4k2r/8/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		board = getTablero("4k2r/8/8/8/8/8/8/8");
 		
 		moveExecutor.executeMove(board);
 		
@@ -62,4 +58,12 @@ public class EnroqueNegroReyMoveTest {
 		assertFalse(boardState.isEnroqueNegroReyPermitido());
 	}	
 	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
+	}	
 }

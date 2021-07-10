@@ -10,25 +10,30 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class BoardteratorTest {
+
+	private FENParser parser = null;
 	
-	private FENBoarBuilder<ChessBuilder> builder;
+	private ChessBuilderConcrete builder = null;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
+		builder = new ChessBuilderConcrete();
+		parser = new FENParser(builder);
 	}
 
 	@Test
 	public void testTopDownSquareIterator() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().getPosicionPiezaBoard();
+		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		
+		PosicionPiezaBoard tablero =  builder.getPosicionPiezaBoard();
 		
 		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -369,7 +374,9 @@ public class BoardteratorTest {
 
 	@Test
 	public void testBottomUpSquareIterator() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().getPosicionPiezaBoard();
+		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		
+		PosicionPiezaBoard tablero =  builder.getPosicionPiezaBoard();
 		
 		Iterator<PosicionPieza> iterator = tablero.iterator(new BottomUpSquareIterator());
 		

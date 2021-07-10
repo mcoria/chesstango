@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -19,10 +19,8 @@ import iterators.Cardinal;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 public class CardinalMoveGeneratorOesteTest {
-	
-	private FENBoarBuilder<ChessBuilder> builder;
 	
 	private CardinalMoveGenerator moveGenerator;
 	
@@ -30,14 +28,13 @@ public class CardinalMoveGeneratorOesteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste});
 		moves = new ArrayList<Move>();
 	}
 	
 	@Test
 	public void testOeste() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -59,7 +56,7 @@ public class CardinalMoveGeneratorOesteTest {
 	
 	@Test
 	public void testOeste01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/B3R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/B3R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -81,7 +78,7 @@ public class CardinalMoveGeneratorOesteTest {
 	
 	@Test
 	public void testOeste02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/b3R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = getTablero("8/8/8/b3R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e5;
@@ -109,4 +106,13 @@ public class CardinalMoveGeneratorOesteTest {
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
 		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
+	}	
 }

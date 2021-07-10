@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -15,11 +15,9 @@ import chess.Square;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleReyMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class SimpleReyMoveTest {
-
-	private FENBoarBuilder<ChessBuilder> builder;
 
 	private BoardState boardState;
 
@@ -31,7 +29,6 @@ public class SimpleReyMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		boardState = new BoardState();
 		kingCacheBoard = new KingCacheBoard();
 		moveExecutor = null;
@@ -76,7 +73,7 @@ public class SimpleReyMoveTest {
 
 	@Test
 	public void test01() {
-		board = builder.constructTablero("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR").getBuilder().getPosicionPiezaBoard();
+		board = getTablero("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR");
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
@@ -92,5 +89,14 @@ public class SimpleReyMoveTest {
 		assertEquals(Pieza.REY_BLANCO, board.getPieza(Square.e8));
 		assertTrue(board.isEmtpy(Square.e7));
 	}
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
+	}	
 
 }

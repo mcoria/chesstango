@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.CachePosiciones;
 import chess.Color;
@@ -24,12 +24,10 @@ import layers.PosicionPiezaBoard;
 import moveexecutors.EnroqueNegroReyMove;
 import moveexecutors.EnroqueNegroReynaMove;
 import moveexecutors.SimpleReyMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 import positioncaptures.Capturer;
 public class ReyNegroMoveGeneratorTest {
-	
-	private FENBoarBuilder<ChessBuilder> builder;
-	
+
 	private ReyNegroMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
@@ -38,7 +36,6 @@ public class ReyNegroMoveGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		state.setTurnoActual(Color.NEGRO);
@@ -49,7 +46,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("r3k3/8/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
 		
 		state.setEnroqueNegroReinaPermitido(true);
 		
@@ -83,7 +80,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("r3k3/8/5B2/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
 		
 		state.setEnroqueNegroReinaPermitido(true);
 		
@@ -121,7 +118,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroReina03() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("r3k3/8/8/5B2/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
 		
 		state.setEnroqueNegroReinaPermitido(true);
 		
@@ -159,7 +156,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("4k2r/8/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
 		state.setEnroqueNegroReyPermitido(true);
 		
@@ -192,7 +189,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("4k2r/8/3B4/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
 		state.setEnroqueNegroReyPermitido(true);
 
@@ -230,7 +227,7 @@ public class ReyNegroMoveGeneratorTest {
 	
 	@Test
 	public void testEnroqueNegroRey03() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("4k2r/8/8/3B4/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
 		state.setEnroqueNegroReyPermitido(true);
 		
@@ -268,7 +265,7 @@ public class ReyNegroMoveGeneratorTest {
 
 	@Test
 	public void testEnroqueNegroJaque() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("r3k2r/8/8/4R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
 		state.setEnroqueNegroReyPermitido(true);
 		state.setEnroqueNegroReinaPermitido(true);
@@ -309,6 +306,15 @@ public class ReyNegroMoveGeneratorTest {
 	
 	private Move simpleReyMove(PosicionPieza origen, Square destinoSquare) {
 		return new SimpleReyMove(origen, new PosicionPieza(destinoSquare, null));
+	}	
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
 	}	
 	
 }

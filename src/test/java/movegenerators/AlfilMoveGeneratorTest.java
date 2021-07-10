@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -18,23 +18,21 @@ import chess.Square;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class AlfilMoveGeneratorTest {
-
-	private FENBoarBuilder<ChessBuilder> builder;
 	
-	private AlfilMoveGenerator moveGenerator;
+	private AlfilMoveGenerator moveGenerator = null;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 	}
 	
 	@Test
 	public void testGetPseudoMoves01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4B3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/4B3/8/8/8/8");
+		
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
@@ -100,7 +98,8 @@ public class AlfilMoveGeneratorTest {
 
 	@Test
 	public void testGetPseudoMoves02() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5");
+		
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.c1;
@@ -151,5 +150,14 @@ public class AlfilMoveGeneratorTest {
 			}			
 		}
 		return affectedBySquares;
+	}
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
 	}	
 }

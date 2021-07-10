@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -15,7 +15,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CapturePeonPasante;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class CapturePeonPasanteTest {
 
@@ -23,19 +23,16 @@ public class CapturePeonPasanteTest {
 	
 	private BoardState boardState;
 	
-	private FENBoarBuilder<ChessBuilder> builder;
-	
 	private CapturePeonPasante moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		boardState = new BoardState();
 	}
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board =  builder.constructTablero("8/8/8/pP6/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		board =  getTablero("8/8/8/pP6/8/8/8/8");
 		boardState.setPeonPasanteSquare(Square.a6);
 		
 		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
@@ -85,4 +82,13 @@ public class CapturePeonPasanteTest {
 		verify(board).setPosicion(peonPasanteSquare);							//Dejamos el destino
 		verify(board).setPosicion(peonNegro);									//Devolvemos peon
 	}*/
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
+	}	
 }

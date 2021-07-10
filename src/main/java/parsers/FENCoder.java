@@ -1,62 +1,96 @@
 package parsers;
 
-import java.util.Iterator;
-
-import chess.Board;
-import chess.BoardState;
+import builder.ChessBuilder;
 import chess.Color;
-import chess.Game;
 import chess.Pieza;
-import chess.PosicionPieza;
 import chess.Square;
-import iterators.TopDownSquareIterator;
-import layers.PosicionPiezaBoard;
 
-public class FENCoder {
+public class FENCoder implements ChessBuilder {
 	
-	private String tablero;
-
-	private String turno;
-
-	private String peonPasanteSquare;
-
-	private String enroques;	
+	private Color turno;
+	private Square peonPasanteSquare;
+	private boolean enroqueNegroReyPermitido;
+	private boolean enroqueNegroReinaPermitido;
+	private boolean enroqueBlancoReyPermitido;
+	private boolean enroqueBlancoReinaPermitido;	
 	
-	
-	public String code(Game input) {
-		return code(input.getTablero());
+	private Pieza[][] tablero = new Pieza[8][8];
+
+	public String getFEN() {
+		String colorActual = getTurno();
+		String peonPasante = getPeonPasante();
+		String enroques = getEnroques();
+		String codePiecePlacement = getPiecePlacement();
+		return codePiecePlacement + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
 	}
 
-	public String code(Board input) {
-		BoardState state = input.getBoardState();
-		char colorActual = state.getTurnoActual().equals(Color.BLANCO) ? 'w' : 'b';
-		String peonPasante = codePeonPasante(state.getPeonPasanteSquare());
-		String enroques = codeEnroques(state);
-		return codePiecePlacement(input.getDummyBoard()) + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
+
+	public String getTurno() {
+		return Color.BLANCO.equals(turno) ? "w" : "b";
 	}
 
-	public String codePiecePlacement(PosicionPiezaBoard board) {
-		int idx = 0;
-		int idxLinea = 0;
-		Pieza[] piezas = new Pieza[8];
+	public String getPiecePlacement() {
 		String[] lineasStr = new String[8];
-		for (Iterator<PosicionPieza> iterator = board.iterator(new TopDownSquareIterator()); iterator.hasNext();) {
-			PosicionPieza element = iterator.next();
-			Pieza pieza = element.getValue();
-			piezas[idx] = pieza;
-			if (idx == 7) {
-				String lineaStr = codePiecePlacement(piezas);
-				lineasStr[idxLinea] = lineaStr;
-				idx = -1;
-				idxLinea++;
-			}
-			idx++;
+		for (int i = 7; i >= 0; i--) {
+			String lineaStr = codePiecePlacementRank(tablero[i]);
+			lineasStr[7 - i] = lineaStr;
+
 		}
 		return lineasStr[0] + '/' + lineasStr[1] + '/' + lineasStr[2] + '/' + lineasStr[3] + '/' + lineasStr[4] + '/'
 				+ lineasStr[5] + '/' + lineasStr[6] + '/' + lineasStr[7];
 	}
+	
+	public String getPeonPasante() {
+		String result = "-";
+		if (peonPasanteSquare != null) {
+			result = peonPasanteSquare.toString();
+		}
+		return result;
+	}
+	
+	public String getEnroques() {
+		String result =  (enroqueBlancoReyPermitido ? "K" : "") + (enroqueBlancoReinaPermitido ? "Q" : "")
+				+ (enroqueNegroReyPermitido ? "k" : "") + (enroqueNegroReinaPermitido ? "q" : "");
+		
+		return "".equals(result) ? "-" : result;
+	}	
 
-	protected String codePiecePlacement(Pieza[] piezas) {
+	@Override
+	public void withPieza(Square square, Pieza pieza) {
+		this.tablero[square.getRank()][square.getFile()] = pieza;
+	}
+	
+	@Override
+	public void withTurno(Color turno) {
+		this.turno = turno;
+	}
+	
+	@Override
+	public void withPeonPasanteSquare(Square peonPasanteSquare) {
+		this.peonPasanteSquare = peonPasanteSquare;
+	}
+	
+	@Override
+	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
+		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+	}
+	
+	@Override
+	public void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
+		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+	}
+	
+	@Override
+	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
+		this.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+	}
+	
+	@Override
+	public void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+	}
+	
+	protected String codePiecePlacementRank(Pieza[] piezas) {
 		String result = "";
 		int vacios = 0;
 		for (int i = 0; i < piezas.length; i++) {
@@ -79,7 +113,7 @@ public class FENCoder {
 	
 		return result;
 	}
-
+	
 	private char getCode(Pieza pieza) {
 		char result;
 		switch (pieza) {
@@ -123,36 +157,6 @@ public class FENCoder {
 			throw new RuntimeException("Falta pieza");
 		}
 		return result;
-	}
-	
-	public String codePeonPasante(Square peonPasanteSquare) {
-		String result = "-";
-		if (peonPasanteSquare != null) {
-			result = peonPasanteSquare.toString();
-		}
-		return result;
-	}
-	
-	protected String codeEnroques(BoardState state) {
-		String result =  ((state.isEnroqueBlancoReyPermitido() ? "K" : "") + (state.isEnroqueBlancoReinaPermitido() ? "Q" : "")
-				+ (state.isEnroqueNegroReyPermitido() ? "k" : "") + (state.isEnroqueNegroReinaPermitido() ? "q" : ""));
-		
-		return "".equals(result) ? "-" : result;
-	}
+	}	
 
-	public String getTablero() {
-		return tablero;
-	}
-
-	public String getTurno() {
-		return turno;
-	}
-
-	public String getPeonPasanteSquare() {
-		return peonPasanteSquare;
-	}
-
-	public String getEnroques() {
-		return enroques;
-	}
 }

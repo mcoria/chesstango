@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Color;
 import chess.Move;
 import chess.Pieza;
@@ -17,25 +17,21 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 public class ReinaMoveGeneratorTest {
-
-	private FENBoarBuilder<ChessBuilder> builder;
-	
 	private ReinaMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
 	}
 	
 	@Test
 	public void testGetPseudoMoves() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/4Q3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/4Q3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
@@ -97,10 +93,13 @@ public class ReinaMoveGeneratorTest {
 		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
-	/*
-	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new Move(origen, new PosicionPieza(destinoSquare, destinoPieza), MoveType.CAPTURA);
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
 	}
-	}*/
 
 }

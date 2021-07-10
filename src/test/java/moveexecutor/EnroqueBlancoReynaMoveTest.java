@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -16,7 +16,7 @@ import chess.Square;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.EnroqueBlancoReynaMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class EnroqueBlancoReynaMoveTest {	
 	
@@ -27,13 +27,9 @@ public class EnroqueBlancoReynaMoveTest {
 	private KingCacheBoard kingCacheBoard;
 	
 	private EnroqueBlancoReynaMove moveExecutor;
-	
-	private FENBoarBuilder<ChessBuilder> builder;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
-		
 		moveExecutor = new EnroqueBlancoReynaMove();
 		
 		boardState = new BoardState();		
@@ -46,7 +42,7 @@ public class EnroqueBlancoReynaMoveTest {
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board =  builder.constructTablero("8/8/8/8/8/8/8/R3K3").getBuilder().getPosicionPiezaBoard();
+		board =  getTablero("8/8/8/8/8/8/8/R3K3");
 		
 		moveExecutor.executeMove(board);
 		
@@ -78,6 +74,15 @@ public class EnroqueBlancoReynaMoveTest {
 		
 		assertEquals(Square.c1, kingCacheBoard.getSquareKingBlancoCache());
 
+	}	
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
 	}	
 
 }

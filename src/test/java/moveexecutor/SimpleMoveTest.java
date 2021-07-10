@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -15,7 +15,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleMove;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class SimpleMoveTest {
 
@@ -23,20 +23,17 @@ public class SimpleMoveTest {
 	
 	private BoardState boardState;
 	
-	private FENBoarBuilder<ChessBuilder> builder;
-	
 	private SimpleMove moveExecutor;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		boardState = new BoardState();
 	}
 	
 	
 	@Test
 	public void testExecuteMoveBoard() {
-		board =  builder.constructTablero("8/8/8/4R3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		board =  getTablero("8/8/8/4R3/8/8/8/8");
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
@@ -64,7 +61,7 @@ public class SimpleMoveTest {
 	
 	@Test
 	public void testUndoMoveBoard() {
-		board =  builder.constructTablero("8/4R3/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		board =  getTablero("8/4R3/8/8/8/8/8/8");
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
@@ -89,5 +86,14 @@ public class SimpleMoveTest {
 		moveExecutor.undoMove(boardState);
 
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());
+	}	
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
 	}	
 }

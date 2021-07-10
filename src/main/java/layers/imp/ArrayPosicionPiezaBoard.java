@@ -124,8 +124,10 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	public String toString() {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
-	    	ASCIIOutput output = new ASCIIOutput(ps);
-	    	output.printDummyBoard(this);
+	    	ASCIIOutput output = new ASCIIOutput();
+			this.forEach(posicionPieza -> {
+				output.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
+			});	
 	    	ps.flush();
 	    }
 	    return new String(baos.toByteArray());

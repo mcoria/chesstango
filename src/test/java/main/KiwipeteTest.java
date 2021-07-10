@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Game;
 import chess.Square;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 //Kiwipete
 public class KiwipeteTest {
@@ -21,7 +21,7 @@ public class KiwipeteTest {
 	@Before
 	public void setUp() throws Exception {
 		main = new ChessMain();
-		board = new FENBoarBuilder<ChessBuilder>(new ChessBuilder()).constructFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").getBuilder().buildGame();
+		board = getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
 
 	}
 
@@ -801,4 +801,14 @@ public class KiwipeteTest {
 		assertEquals(46, board.getMovimientosPosibles().size());
 		assertEquals(46, rootNode.getChildNodesCounter());	
 	}
+	
+	private Game getGame(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+
+		FENParser parser = new FENParser(builder);
+		
+		parser.parseFEN(string);
+		
+		return builder.buildGame();
+	}	
 }

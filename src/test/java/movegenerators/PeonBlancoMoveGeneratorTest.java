@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.BoardState;
 import chess.Move;
 import chess.Pieza;
@@ -22,11 +22,8 @@ import moveexecutors.CapturePeonPasante;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import moveexecutors.SimplePeonPromocion;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 public class PeonBlancoMoveGeneratorTest {
-	
-	private FENBoarBuilder<ChessBuilder> builder;
-	
 	private PeonBlancoMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
@@ -35,7 +32,6 @@ public class PeonBlancoMoveGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
@@ -45,7 +41,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/P7/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/P7/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -65,7 +61,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/8/P7/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/8/P7/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -86,7 +82,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/N7/P7/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/N7/P7/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -106,7 +102,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/3p4/4P3/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/3p4/4P3/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -129,7 +125,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteIzquierda() {
-		PosicionPiezaBoard tablero =   builder.constructTablero("8/8/8/3pP3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
 		state.setPeonPasanteSquare(Square.d6);
 		
@@ -154,7 +150,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/8/8/5p2/4P3/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/5p2/4P3/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -177,7 +173,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonPasanteDerecha() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/8/8/3Pp3/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
 		state.setPeonPasanteSquare(Square.e6);
 		
@@ -201,7 +197,7 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPeonSimplePeonPromocion() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("8/3P4/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = getTablero("8/3P4/8/8/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -225,8 +221,7 @@ public class PeonBlancoMoveGeneratorTest {
 
 	@Test
 	public void testPeonCapturaPeonPromocion() {
-		PosicionPiezaBoard tablero =  builder.constructTablero("2rr4/3P4/8/8/8/8/8/8").getBuilder().getPosicionPiezaBoard();
-		
+		PosicionPiezaBoard tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d7;
@@ -271,6 +266,15 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	private Move createCapturePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
 		return new CapturaPeonPromocion(origen, new PosicionPieza(destinoSquare, destinoPieza), promocion);
+	}	
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
 	}	
 	
 }

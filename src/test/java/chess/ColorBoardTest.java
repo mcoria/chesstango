@@ -1,32 +1,25 @@
 package chess;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import iterators.SquareIterator;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class ColorBoardTest {
 
-	private FENBoarBuilder<ChessBuilder> builder;
-	
 	private ColorBoard colorBoard;
 
-	@Before
-	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
-	}
 	
 	@Test
 	public void test01() {
 		int totalPiezas = 0;
 		
-		PosicionPiezaBoard tablero = builder.constructDefaultBoard().getBuilder().getPosicionPiezaBoard();
+		PosicionPiezaBoard tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
 		colorBoard = new ColorBoard(tablero);
 		
@@ -37,5 +30,15 @@ public class ColorBoardTest {
 		}
 		assertEquals(16, totalPiezas);
 	}
+	
+	
+	private PosicionPiezaBoard getTablero(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		FENParser parser = new FENParser(builder);
+		
+		parser.parsePiecePlacement(string);
+		
+		return builder.getPosicionPiezaBoard();
+	}	
 
 }

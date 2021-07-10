@@ -1,34 +1,26 @@
 package gui;
 
 import java.io.PrintStream;
-import java.util.Iterator;
 
+import builder.ChessBuilder;
+import chess.Color;
 import chess.Pieza;
-import chess.PosicionPieza;
 import chess.Square;
+import iterators.SquareIterator;
 import iterators.TopDownSquareIterator;
-import layers.PosicionPiezaBoard;
 
-public class ASCIIOutput {
+public class ASCIIOutput implements ChessBuilder {
 	
-	private PrintStream printStream;
+	private Pieza[][] tablero = new Pieza[8][8];
 	
-	public ASCIIOutput() {
-		this.printStream = System.out;
-	}
-	
-	public ASCIIOutput(PrintStream printStream) {
-		this.printStream = printStream;
-	}
-	
-	public void printDummyBoard(PosicionPiezaBoard tablero) {
-		Iterator<PosicionPieza> iterator = tablero.iterator(new TopDownSquareIterator());
+	public void printDummyBoard(PrintStream printStream) {
+		SquareIterator iterator = new TopDownSquareIterator();
 
 		printStream.println("  -------------------------------");
 		do {
-			PosicionPieza element = iterator.next();
-			Square square = element.getKey();
-			Pieza pieza = element.getValue();
+			Square square = iterator.next();
+			
+			Pieza pieza = tablero[square.getRank()][square.getFile()];
 
 			if (square.getFile() == 0) {
 				printStream.print((square.getRank() + 1));
@@ -43,8 +35,58 @@ public class ASCIIOutput {
 		} while (iterator.hasNext());
 
 		printStream.println("   a   b   c   d   e   f   g   h");
+		
+		printStream.flush();
+	}
+	
+	
+	@Override
+	public void withPieza(Square square, Pieza pieza) {
+		tablero[square.getRank()][square.getFile()] = pieza;
 	}
 
+
+	@Override
+	public void withTurno(Color turno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void withPeonPasanteSquare(Square peonPasanteSquare) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private char getChar(Pieza pieza) {
 		char result = ' ';
 		if(pieza != null){
@@ -91,5 +133,6 @@ public class ASCIIOutput {
 			}
 		}
 		return result;
-	}
+	}	
+
 }

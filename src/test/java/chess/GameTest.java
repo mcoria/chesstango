@@ -4,26 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
+import builder.ChessBuilderConcrete;
 import chess.Game.GameStatus;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class GameTest {
-	
-	private FENBoarBuilder<ChessBuilder> builder;
 
-
-	@Before
-	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
-	}
 	
 	@Test
 	public void testPosicionInicial() {
-		Game game =  builder.constructDefaultBoard().getBuilder().buildGame();
+		Game game =  getDefaultGame();
 		
 		assertEquals(Color.BLANCO, game.getTurnoActual());
 		assertEquals(GameStatus.IN_PROGRESS, game.getGameStatus());
@@ -32,7 +24,7 @@ public class GameTest {
 
 	@Test
 	public void testJuegoJaqueMate() {
-		Game game =  builder.constructDefaultBoard().getBuilder().buildGame();
+		Game game =  getDefaultGame();
 		assertEquals(20, game.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
@@ -51,7 +43,7 @@ public class GameTest {
 
 	@Test
 	public void testJuegoJaqueMateUndo() {
-		Game game =  builder.constructDefaultBoard().getBuilder().buildGame();
+		Game game =  getDefaultGame();
 		assertEquals(20, game.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
@@ -80,7 +72,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoJaque() {
-		Game game =  builder.constructDefaultBoard().getBuilder().buildGame();
+		Game game =  getDefaultGame();
 		
 		assertEquals(20, game.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, game.getTurnoActual());
@@ -118,7 +110,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoTablas() {
-		Game game =  builder.constructFEN("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1").getBuilder().buildGame();
+		Game game =  getGame("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1");
 		
 		assertEquals(Color.BLANCO, game.getTurnoActual());
 		
@@ -131,7 +123,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoUndo() {
-		Game game =  builder.constructDefaultBoard().getBuilder().buildGame();
+		Game game =  getDefaultGame();
 		
 		assertEquals(20, game.getMovimientosPosibles().size());
 		assertEquals(Color.BLANCO, game.getTurnoActual());
@@ -145,7 +137,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoNoPeonPasante() {
-		Game game =  builder.constructFEN("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2").getBuilder().buildGame();
+		Game game =  getGame("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2");
 		
 		game.executeMove(Square.b6, Square.b5);
 		
@@ -154,7 +146,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoPeonPasante() {
-		Game game =  builder.constructFEN("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2").getBuilder().buildGame();
+		Game game =  getGame("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 		
 		game.executeMove(Square.c7, Square.c5);
 		
@@ -165,7 +157,7 @@ public class GameTest {
 
 	@Test
 	public void testJuegoKiwipeteTestUndo() {
-		Game game =  builder.constructFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -").getBuilder().buildGame();
+		Game game =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
 		
 		assertEquals(48, game.getMovimientosPosibles().size());
 		
@@ -363,5 +355,26 @@ public class GameTest {
 		
 	}	
 	
+	
+	private Game getGame(String string) {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+
+		FENParser parser = new FENParser(builder);
+		
+		parser.parseFEN(string);
+		
+		return builder.buildGame();
+	}
+	
+	
+	private Game getDefaultGame() {		
+		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+
+		FENParser parser = new FENParser(builder);
+		
+		parser.parseFEN(FENParser.INITIAL_FEN);
+		
+		return builder.buildGame();
+	}		
 	
 }

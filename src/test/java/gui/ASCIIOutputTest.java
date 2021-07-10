@@ -8,17 +8,17 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilder;
-import layers.PosicionPiezaBoard;
-import parsers.FENBoarBuilder;
+import parsers.FENParser;
 
 public class ASCIIOutputTest {
 
-	private FENBoarBuilder<ChessBuilder> builder;
+	private ASCIIOutput builder;
+	private FENParser parser;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new FENBoarBuilder<ChessBuilder>(new ChessBuilder());
+	    builder = new ASCIIOutput();
+	    parser = new FENParser(builder);  
 	}
 		
 	@Test
@@ -48,17 +48,15 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
-		PosicionPiezaBoard tablero = builder.constructTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR").getBuilder().getPosicionPiezaBoard();
+	    parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+	    
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
-	    	ASCIIOutput output = new ASCIIOutput(ps);
-			output.printDummyBoard(tablero);
-	    	ps.flush();
+	    	builder.printDummyBoard(ps);
 	    }    
 	    
 		assertEquals(new String(baosExp.toByteArray()), new String(baosActual.toByteArray()));
-		
-		//System.out.print(FENParser.parseFEN(FENParser.INITIAL_FEN).toString());
+
 	}
 
 }
