@@ -22,4 +22,8 @@ public interface Move extends Comparable<Move> {
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
 	
+	
+	void executeMove(Board board);
+	void undoMove(Board board);
+	
 }

@@ -1,5 +1,6 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
@@ -25,30 +26,41 @@ public abstract class AbstractMove implements Move {
 	}	
 	
 	@Override
-	public int hashCode() {
-		return from.getKey().hashCode();
+	public void executeMove(Board board) {
+		board.executeMove(this);
+	}
+	
+	@Override
+	public void undoMove(Board board) {
+		board.undoMove(this);
 	}
 
+	@Override
 	public void executeMove(BoardState boardState) {
 		boardState.pushState();
 		boardState.rollTurno();
 		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
 	}
 	
-
+	@Override
 	public void undoMove(BoardState boardState) {
 		boardState.popState();		
 	}
 
-
+	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey());
 	}
 
-	
+	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
+	}
+	
+	@Override
+	public int hashCode() {
+		return from.getKey().hashCode();
 	}
 	
 	@Override

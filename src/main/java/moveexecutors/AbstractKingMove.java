@@ -1,5 +1,6 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.BoardState;
 import chess.KingMove;
 import chess.Move;
@@ -27,6 +28,16 @@ public abstract class AbstractKingMove implements KingMove {
 		return move.getTo();
 	}
 
+	@Override
+	public void executeMove(Board board) {
+		board.executeMove(this);
+	}
+	
+	@Override
+	public void undoMove(Board board) {
+		board.undoMove(this);
+	}	
+	
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
 		move.executeMove(board);

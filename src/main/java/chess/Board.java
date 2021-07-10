@@ -38,52 +38,50 @@ public class Board {
 		return result;
 	}
 
-
-	//TODO: Podriamos implemetar las validaciones en una clase derivada
 	public void execute(Move move) {
-		//colorBoard.validar(dummyBoard);
-		//moveCache.validar();
+		move.executeMove(this);
+	}
 
+	public void executeMove(Move move) {
 		move.executeMove(this.dummyBoard);
 
 		move.executeMove(this.colorBoard);
 
 		move.executeMove(this.moveCache);
-		
-		//TODO: reemplazar por double dispatcher
-		if(move instanceof KingMove){
-			((KingMove)move).executeMove(this.kingCacheBoard);
-		}
 
 		move.executeMove(this.boardState);	
+		
+	}
+	
+	public void executeMove(KingMove move) {
+		executeMove((Move)move);
+		
+		move.executeMove(this.kingCacheBoard);
+		
+	}	
 
-		//moveCache.validar();
-		//colorBoard.validar(dummyBoard);
+	public void undo(Move move) {
+		move.undoMove(this);
 		
 	}
 
-	//TODO: Podriamos implemetar las validaciones en una clase derivada	
-	public void undo(Move move) {
-		//colorBoard.validar(dummyBoard);
-		//moveCache.validar();
-
+	public void undoMove(Move move) {
 		move.undoMove(this.boardState);
-		
-		//TODO: reemplazar por double dispatcher
-		if(move instanceof KingMove){
-			((KingMove)move).undoMove(this.kingCacheBoard);
-		}
 
 		move.undoMove(this.moveCache);
 
 		move.undoMove(this.colorBoard);
 
 		move.undoMove(this.dummyBoard);
-
-		//moveCache.validar();
-		//colorBoard.validar(dummyBoard);
 		
 	}
+	
+
+	public void undoMove(KingMove move) {
+		undoMove((Move) move);
+
+		move.undoMove(this.kingCacheBoard);
+	}	
 	
 	
 	@Override
