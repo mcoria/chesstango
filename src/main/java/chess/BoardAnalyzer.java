@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Collection;
+
 import layers.KingCacheBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
@@ -9,6 +11,9 @@ import positioncaptures.ImprovedCapturer;
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde
  */
+
+//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
+//      Me imagino un tablero con X y O para representar los distintos colores.
 public class BoardAnalyzer {
 
 	private BoardState boardState = null;
@@ -21,25 +26,25 @@ public class BoardAnalyzer {
 	
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
 	
-	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;	
-
-	public void analyze() {
-		this.isKingInCheck = calculateKingInCheck();
-	}	
+	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;		
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
 	}
 	
-	private boolean calculateKingInCheck() {
-		Color turnoActual = boardState.getTurnoActual();
+	public BoardStatus getBoardStatus() {
+		this.isKingInCheck = calculateKingInCheck();
 		
-		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
+		Collection<Move> moves = getMoveCalculator().getLegalMoves();
 		
-		return isKingInCheck;
-	}
+		BoardStatus result = new BoardStatus();
+		result.setKingInCheck(isKingInCheck);
+		result.setLegalMoves(moves);
+
+		return result;
+	}	
 	
-	LegalMoveCalculator getMoveCalculator() {
+	public LegalMoveCalculator getMoveCalculator() {
 		if(! isKingInCheck() ){
 			return noCheckLegalMoveCalculator;
 		}
@@ -65,6 +70,14 @@ public class BoardAnalyzer {
 
 	public void setNoCheckLegalMoveCalculator(NoCheckLegalMoveCalculator noCheckLegalMoveCalculator) {
 		this.noCheckLegalMoveCalculator = noCheckLegalMoveCalculator;
-	}		
+	}	
+	
+	protected boolean calculateKingInCheck() {
+		Color turnoActual = boardState.getTurnoActual();
+		
+		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
+		
+		return isKingInCheck;
+	}	
 
 }

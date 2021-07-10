@@ -1,20 +1,15 @@
 package chess;
 
-import java.util.Collection;
-
 import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
-import movecalculators.LegalMoveCalculator;
 
 
 public class Board {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
-	//      Me imagino un tablero con X y O para representar los distintos colores.
 	protected PosicionPiezaBoard dummyBoard = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
@@ -24,18 +19,7 @@ public class Board {
 	private BoardAnalyzer analyzer = null;
 
 	public BoardStatus getBoardStatus() {
-		analyzer.analyze();
-		
-		boolean check = analyzer.isKingInCheck();
-		
-		LegalMoveCalculator calculator = analyzer.getMoveCalculator();
-		Collection<Move> moves = calculator.getLegalMoves();
-		
-		BoardStatus result = new BoardStatus();
-		result.setKingInCheck(check);
-		result.setLegalMoves(moves);
-
-		return result;
+		return analyzer.getBoardStatus();
 	}
 
 	public void execute(Move move) {
@@ -84,6 +68,15 @@ public class Board {
 	}	
 	
 	
+	public void buildRepresentation(ChessBuilder builder){		
+		boardState.buildRepresentation(builder);
+		
+		dummyBoard.forEach(posicionPieza -> {
+			builder.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
+		});		
+	}
+	
+	
 	@Override
 	public String toString() {
 	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString();
@@ -119,14 +112,6 @@ public class Board {
 
 	public void setAnalyzer(BoardAnalyzer analyzer) {
 		this.analyzer = analyzer;
-	}
-	
-	public void buildRepresentation(ChessBuilder builder){		
-		boardState.buildRepresentation(builder);
-		
-		dummyBoard.forEach(posicionPieza -> {
-			builder.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
-		});		
 	}
 	
 }
