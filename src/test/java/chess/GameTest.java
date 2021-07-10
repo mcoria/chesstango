@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderGame;
 import chess.Game.GameStatus;
 import parsers.FENParser;
 
@@ -357,24 +357,18 @@ public class GameTest {
 	
 	
 	private Game getGame(String string) {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(string);
 		
-		return builder.buildGame();
+		return builder.getGame();
 	}
 	
 	
-	private Game getDefaultGame() {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
-
-		FENParser parser = new FENParser(builder);
-		
-		parser.parseFEN(FENParser.INITIAL_FEN);
-		
-		return builder.buildGame();
+	private Game getDefaultGame() {				
+		return getGame(FENParser.INITIAL_FEN);
 	}		
 	
 }

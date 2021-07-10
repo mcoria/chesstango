@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderGame;
 import chess.Game;
 import chess.Square;
 import parsers.FENParser;
@@ -803,12 +803,12 @@ public class KiwipeteTest {
 	}
 	
 	private Game getGame(String string) {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(string);
 		
-		return builder.buildGame();
+		return builder.getGame();
 	}	
 }

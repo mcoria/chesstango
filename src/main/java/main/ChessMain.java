@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import builder.ChessBuilderConcrete;
+import builder.ChessBuilderGame;
 import chess.Game;
 import chess.Move;
 import parsers.FENCoder;
@@ -22,13 +23,13 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderGame builder = new ChessBuilderGame();
 		
 		FENParser parser = new FENParser(new ChessBuilderConcrete());
 		
 		parser.parseFEN(FENParser.INITIAL_FEN);
 		
-		Game board = builder.buildGame();
+		Game board = builder.getGame();
 		
 		ChessMain main = new ChessMain();
 		

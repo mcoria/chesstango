@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderBoard;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
@@ -275,13 +275,13 @@ public class BoardTest {
 	}	
 	
 	private Board getBoard(String string) {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderBoard builder = new ChessBuilderBoard();
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(string);
 		
-		return builder.buildBoard();
+		return builder.getBoard();
 	}		
 		
 }
