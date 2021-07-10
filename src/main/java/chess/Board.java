@@ -13,7 +13,8 @@ import movecalculators.LegalMoveCalculator;
 public class Board {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. Me imagino un tablero con X y O para representar los distintos colores.
+	//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
+	//      Me imagino un tablero con X y O para representar los distintos colores.
 	protected PosicionPiezaBoard dummyBoard = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
