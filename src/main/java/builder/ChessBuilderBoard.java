@@ -11,6 +11,7 @@ import layers.MoveCacheBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
+import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
 
 public class ChessBuilderBoard implements ChessBuilder{
@@ -57,42 +58,6 @@ public class ChessBuilderBoard implements ChessBuilder{
 		return board;
 	}
 	
-
-	@Override
-	public void withTurno(Color turno) {
-		builder.withTurno(turno);
-	}
-
-	@Override
-	public void withPeonPasanteSquare(Square peonPasanteSquare) {
-		builder.withPeonPasanteSquare(peonPasanteSquare);
-	}
-
-	@Override
-	public void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		builder.withEnroqueBlancoReinaPermitido(enroqueBlancoReinaPermitido);
-	}
-
-	@Override
-	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
-		builder.withEnroqueBlancoReyPermitido(enroqueBlancoReyPermitido);
-	}
-
-	@Override
-	public void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		builder.withEnroqueNegroReinaPermitido(enroqueNegroReinaPermitido);
-	}
-
-	@Override
-	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
-		builder.withEnroqueNegroReyPermitido(enroqueNegroReyPermitido);
-	}
-
-	@Override
-	public void withPieza(Square square, Pieza pieza) {
-		builder.withPieza(square, pieza);
-	}
-	
 	protected BoardAnalyzer buildAnalyzer() {
 		if (boardAnalyzer == null) {
 			boardAnalyzer = new BoardAnalyzer();
@@ -105,7 +70,7 @@ public class ChessBuilderBoard implements ChessBuilder{
 		return boardAnalyzer;
 	}
 
-	protected ImprovedCapturer buildCapturer() {
+	protected Capturer buildCapturer() {
 		if(improvedCapturer == null){
 			improvedCapturer = new ImprovedCapturer(builder.getPosicionPiezaBoard());
 		}
@@ -161,4 +126,38 @@ public class ChessBuilderBoard implements ChessBuilder{
 		return colorBoard;
 	}	
 
+	@Override
+	public void withTurno(Color turno) {
+		builder.withTurno(turno);
+	}
+
+	@Override
+	public void withPeonPasanteSquare(Square peonPasanteSquare) {
+		builder.withPeonPasanteSquare(peonPasanteSquare);
+	}
+
+	@Override
+	public void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+		builder.withEnroqueBlancoReinaPermitido(enroqueBlancoReinaPermitido);
+	}
+
+	@Override
+	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
+		builder.withEnroqueBlancoReyPermitido(enroqueBlancoReyPermitido);
+	}
+
+	@Override
+	public void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
+		builder.withEnroqueNegroReinaPermitido(enroqueNegroReinaPermitido);
+	}
+
+	@Override
+	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
+		builder.withEnroqueNegroReyPermitido(enroqueNegroReyPermitido);
+	}
+
+	@Override
+	public void withPieza(Square square, Pieza pieza) {
+		builder.withPieza(square, pieza);
+	}
 }

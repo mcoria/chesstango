@@ -6,7 +6,7 @@ import layers.KingCacheBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
-import positioncaptures.ImprovedCapturer;
+import positioncaptures.Capturer;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde
@@ -22,7 +22,7 @@ public class BoardAnalyzer {
 	
 	private boolean isKingInCheck = false;
 
-	private ImprovedCapturer capturer;
+	private Capturer capturer;
 	
 	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
 	
@@ -59,7 +59,7 @@ public class BoardAnalyzer {
 		this.kingCacheBoard = kingCacheBoard;
 	}
 
-	public void setCapturer(ImprovedCapturer capturer) {
+	public void setCapturer(Capturer capturer) {
 		this.capturer = capturer;
 	}
 	

@@ -95,7 +95,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		return pseudoMoves;
 	}
 
-	//TODO: Podriamos implemetar las validaciones en una clase derivada
 	protected boolean filterMove(Move move) {
 		boolean result = false;
 		
@@ -115,17 +114,11 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected boolean filterMove(KingMove move) {
 		boolean result = false;
 		
-		move.executeMove(this.dummyBoard);
-		move.executeMove(this.colorBoard);
 		move.executeMove(this.kingCacheBoard);
 
-		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare())) {
-			result = true;
-		}
+		result = filterMove((Move) move);
 
 		move.undoMove(this.kingCacheBoard);
-		move.undoMove(this.colorBoard);
-		move.undoMove(this.dummyBoard);
 		
 		return result;
 	}	
