@@ -7,9 +7,9 @@ import chess.Square;
 
 public class KingCacheBoard {
 	
-	private Square squareKingBlancoCache = null;
+	protected Square squareKingBlancoCache = null;
 	
-	private Square squareKingNegroCache = null;
+	protected Square squareKingNegroCache = null;
 	
 	public KingCacheBoard(PosicionPiezaBoard board) {
 		this.squareKingBlancoCache = getKingSquareRecorrer(Color.BLANCO, board);
@@ -76,17 +76,6 @@ public class KingCacheBoard {
 	@Override
 	public String toString() {
 		return "Rey Blanco: " + squareKingBlancoCache.toString() + ", Rey Negro: " + squareKingNegroCache.toString();
-	}
-
-	//TODO: mover este metodo a una subclase de debug
-	public void validar(PosicionPiezaBoard dummyBoard) {
-		if (!Pieza.REY_BLANCO.equals(dummyBoard.getPieza(squareKingBlancoCache))) {
-			throw new RuntimeException("KingCacheBoard - rey blanco quedó desactualizado");
-		}
-
-		if (!Pieza.REY_NEGRO.equals(dummyBoard.getPieza(squareKingNegroCache))) {
-			throw new RuntimeException("KingCacheBoard - rey negro quedó desactualizado");
-		}
 	}
 	
 }

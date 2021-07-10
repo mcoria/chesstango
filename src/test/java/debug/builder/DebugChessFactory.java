@@ -6,6 +6,7 @@ import chess.BoardState;
 import debug.chess.BoardDebug;
 import debug.chess.ColorBoardDebug;
 import debug.chess.DefaultLegalMoveCalculatorDebug;
+import debug.chess.KingCacheBoardDebug;
 import debug.chess.NoCheckLegalMoveCalculatorDebug;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -31,6 +32,7 @@ public class DebugChessFactory extends ChessFactory {
 				buildState, buildMoveGeneratorStrategy);
 	}
 	
+	
 	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
@@ -42,5 +44,9 @@ public class DebugChessFactory extends ChessFactory {
 		ColorBoard colorBoard = new ColorBoardDebug(buildPosicionPiezaBoard);
 		colorBoard.setKingCacheBoard(kingCacheBoard);
 		return colorBoard;
+	}	
+	
+	public KingCacheBoard createKingCacheBoard(PosicionPiezaBoard posicionPiezaBoard) {
+		return new KingCacheBoardDebug(posicionPiezaBoard);
 	}	
 }

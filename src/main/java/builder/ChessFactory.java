@@ -36,4 +36,8 @@ public class ChessFactory {
 		return colorBoard;
 	}
 
+	public KingCacheBoard createKingCacheBoard(PosicionPiezaBoard posicionPiezaBoard) {
+		return new KingCacheBoard(posicionPiezaBoard);
+	}
+
 }

@@ -149,7 +149,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 			boolean reportError = false;
 			
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-			kingCacheBoard.validar(this.dummyBoard);			
+			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
 			
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
 			
@@ -183,7 +183,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 			}
 			
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-			kingCacheBoard.validar(this.dummyBoard);			
+			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
 			
 			return result;
 		} catch (CloneNotSupportedException e) {

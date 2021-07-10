@@ -149,7 +149,7 @@ public class ChessBuilderBoard implements ChessBuilder{
 
 	protected KingCacheBoard buildKingCacheBoard() {
 		if (kingCacheBoard == null) {
-			kingCacheBoard = new KingCacheBoard(builder.getPosicionPiezaBoard());
+			kingCacheBoard = chessFactory.createKingCacheBoard( builder.getPosicionPiezaBoard() );
 		}
 		return kingCacheBoard;
 	}
