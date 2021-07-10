@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderParts;
 import chess.BoardState;
 import chess.CachePosiciones;
 import chess.Color;
@@ -309,7 +309,7 @@ public class ReyNegroMoveGeneratorTest {
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderParts builder = new ChessBuilderParts();
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

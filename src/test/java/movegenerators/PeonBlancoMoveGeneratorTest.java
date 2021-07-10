@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderParts;
 import chess.BoardState;
 import chess.Move;
 import chess.Pieza;
@@ -269,7 +269,7 @@ public class PeonBlancoMoveGeneratorTest {
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderParts builder = new ChessBuilderParts();
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

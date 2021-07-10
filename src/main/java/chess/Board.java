@@ -90,39 +90,16 @@ public class Board {
 	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString();
 	}
 
-
-	public PosicionPiezaBoard getDummyBoard() {
-		return dummyBoard;
-	}
-
-
 	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
 		this.dummyBoard = dummyBoard;
 	}
-
-
-	public ColorBoard getColorBoard() {
-		return colorBoard;
-	}
-
 
 	public void setColorBoard(ColorBoard colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 
-
-	public KingCacheBoard getKingCacheBoard() {
-		return kingCacheBoard;
-	}
-
-
 	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
 		this.kingCacheBoard = kingCacheBoard;
-	}
-
-
-	public MoveCacheBoard getMoveCache() {
-		return moveCache;
 	}
 
 
@@ -145,13 +122,9 @@ public class Board {
 		this.analyzer = analyzer;
 	}
 	
-	public void buildRepresentation(ChessBuilder builder){
-		builder.withTurno(boardState.getTurnoActual());
-		builder.withEnroqueBlancoReinaPermitido(boardState.isEnroqueBlancoReinaPermitido());
-		builder.withEnroqueBlancoReyPermitido(boardState.isEnroqueBlancoReyPermitido());
-		builder.withEnroqueNegroReinaPermitido(boardState.isEnroqueNegroReinaPermitido());
-		builder.withEnroqueNegroReyPermitido(boardState.isEnroqueNegroReyPermitido());
-		builder.withPeonPasanteSquare(boardState.getPeonPasanteSquare());
+	public void buildRepresentation(ChessBuilder builder){		
+		boardState.buildRepresentation(builder);
+		
 		dummyBoard.forEach(posicionPieza -> {
 			builder.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
 		});		

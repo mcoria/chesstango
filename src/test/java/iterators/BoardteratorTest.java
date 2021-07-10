@@ -10,7 +10,7 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderParts;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -21,11 +21,11 @@ public class BoardteratorTest {
 
 	private FENParser parser = null;
 	
-	private ChessBuilderConcrete builder = null;
+	private ChessBuilderParts builder = null;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new ChessBuilderConcrete();
+		builder = new ChessBuilderParts();
 		parser = new FENParser(builder);
 	}
 

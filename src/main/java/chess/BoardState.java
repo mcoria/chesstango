@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
 
+import builder.ChessBuilder;
+
 public class BoardState {
 
 	private Color turnoActual;
@@ -144,5 +146,14 @@ public class BoardState {
 				", enroqueNegroReinaPermitido: " + enroqueNegroReinaPermitido +
 				", enroqueNegroReyPermitido: " + enroqueNegroReyPermitido 
 		;
+	}
+
+	public void buildRepresentation(ChessBuilder builder) {
+		builder.withTurno(this.getTurnoActual());
+		builder.withEnroqueBlancoReinaPermitido(this.isEnroqueBlancoReinaPermitido());
+		builder.withEnroqueBlancoReyPermitido(this.isEnroqueBlancoReyPermitido());
+		builder.withEnroqueNegroReinaPermitido(this.isEnroqueNegroReinaPermitido());
+		builder.withEnroqueNegroReyPermitido(this.isEnroqueNegroReyPermitido());
+		builder.withPeonPasanteSquare(this.getPeonPasanteSquare());
 	}
 }

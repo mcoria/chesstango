@@ -8,19 +8,7 @@ import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 
 
-public class ChessBuilderConcrete implements ChessBuilder {
-
-	private Color turno;
-
-	private Square peonPasanteSquare;
-
-	private boolean enroqueBlancoReinaPermitido;
-
-	private boolean enroqueBlancoReyPermitido;
-
-	private boolean enroqueNegroReinaPermitido;
-	
-	private boolean enroqueNegroReyPermitido;	
+public class ChessBuilderParts implements ChessBuilder {	
 	
 	private PosicionPiezaBoard posicionPiezaBoard;
 	
@@ -36,12 +24,6 @@ public class ChessBuilderConcrete implements ChessBuilder {
 	public BoardState getState() {
 		if (boardState == null) {
 			boardState = new BoardState();
-			boardState.setTurnoActual(this.turno == null ? Color.BLANCO : this.turno);
-			boardState.setPeonPasanteSquare(peonPasanteSquare);
-			boardState.setEnroqueBlancoReinaPermitido(enroqueBlancoReinaPermitido);
-			boardState.setEnroqueBlancoReyPermitido(enroqueBlancoReyPermitido);
-			boardState.setEnroqueNegroReinaPermitido(enroqueNegroReinaPermitido);
-			boardState.setEnroqueNegroReyPermitido(enroqueNegroReyPermitido);
 		}
 		return boardState;
 	}
@@ -49,40 +31,40 @@ public class ChessBuilderConcrete implements ChessBuilder {
 
 	@Override
 	public void withTurno(Color turno) {
-		this.turno = turno;
+		this.getState().setTurnoActual(turno);
 	}
 
 
 	@Override
 	public void withPeonPasanteSquare(Square peonPasanteSquare) {
-		this.peonPasanteSquare = peonPasanteSquare;
+		this.getState().setPeonPasanteSquare(peonPasanteSquare);
 	}
 
 
 	@Override
 	public void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		this.getState().setEnroqueBlancoReinaPermitido(enroqueBlancoReinaPermitido);
 	}
 
 	@Override
 	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
-		this.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+		this.getState().setEnroqueBlancoReyPermitido(enroqueBlancoReyPermitido);;
 	}
 
 
 	@Override
 	public void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		this.getState().setEnroqueNegroReinaPermitido(enroqueNegroReinaPermitido);
 	}
 
 
 	@Override
 	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
-		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+		this.getState().setEnroqueNegroReyPermitido(enroqueNegroReyPermitido);;
 	}
 
 	public void withPieza(Square square, Pieza pieza) {
-		getPosicionPiezaBoard().setPieza(square, pieza);
+		this.getPosicionPiezaBoard().setPieza(square, pieza);
 	}
 	
 

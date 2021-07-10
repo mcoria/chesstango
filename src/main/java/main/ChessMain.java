@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderParts;
 import builder.ChessBuilderGame;
 import chess.Game;
 import chess.Move;
@@ -25,7 +25,7 @@ public class ChessMain {
 	public static void main(String[] args) {
 		ChessBuilderGame builder = new ChessBuilderGame();
 		
-		FENParser parser = new FENParser(new ChessBuilderConcrete());
+		FENParser parser = new FENParser(new ChessBuilderParts());
 		
 		parser.parseFEN(FENParser.INITIAL_FEN);
 		

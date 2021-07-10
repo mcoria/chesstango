@@ -17,7 +17,7 @@ public class ChessBuilderBoard implements ChessBuilder{
 	
 	private ChessFactory chessFactory = new ChessFactory();	
 	
-	private ChessBuilderConcrete builder = new ChessBuilderConcrete();
+	private ChessBuilderParts builder = new ChessBuilderParts();
 	
 	private Board board = null;
 	

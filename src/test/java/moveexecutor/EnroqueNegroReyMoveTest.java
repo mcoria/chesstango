@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilderConcrete;
+import builder.ChessBuilderParts;
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -59,7 +59,7 @@ public class EnroqueNegroReyMoveTest {
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderConcrete builder = new ChessBuilderConcrete();
+		ChessBuilderParts builder = new ChessBuilderParts();
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);
