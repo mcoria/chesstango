@@ -180,7 +180,7 @@ public class ChessMainTest {
 		assertEquals(4865609, rootNode.getChildNodesCounter());
 	} 
 
-	@Test //168segs
+	@Test //139segs
 	public void test_divide6() {
 		Game board = getDefaultGame();
 		
