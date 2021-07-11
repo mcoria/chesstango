@@ -51,6 +51,10 @@ public class GameStack {
 		node.status = this.status;
 		
 		stackNode.push(node);
+		
+		this.movimientoSeleccionado = null;
+		this.movimientosPosibles = null;
+		this.status = null;
 	}
 
 	public void pop() {

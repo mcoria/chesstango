@@ -33,6 +33,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected Color opositeTurnoActual = null;
 	
 	protected abstract Collection<Move> getLegalMovesNotKing();
+	protected abstract boolean existsLegalMovesNotKing();
 	
 	public AbstractLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
 			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
@@ -57,6 +58,13 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		movesNotKing.addAll(movesKing);
 		
 		return movesNotKing;
+	}
+	
+	@Override
+	public boolean existsLegalMove() {
+		turnoActual = boardState.getTurnoActual();
+		opositeTurnoActual = turnoActual.opositeColor();		
+		return existsLegalMovesKing() || existsLegalMovesNotKing();
 	}	
 
 	protected Collection<Move> getLegalMovesKing() {
@@ -74,6 +82,19 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		}
 		return movesKing;
 	}
+	
+	private boolean existsLegalMovesKing() {
+		Square 	kingSquare = getCurrentKingSquare();
+		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
+
+		for (Move move : pseudoMovesKing) {
+			KingMove kingMove = (KingMove) move;
+			if(filterMove(kingMove)){
+				return true;
+			}
+		}
+		return false;
+	}	
 
 	protected Collection<Move> getPseudoMoves(Square origenSquare) {
 		Collection<Move> pseudoMoves = null;

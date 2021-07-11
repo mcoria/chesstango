@@ -359,6 +359,7 @@ public class GameTest {
 	
 	private Game getGame(String string) {		
 		ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
+		//ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		

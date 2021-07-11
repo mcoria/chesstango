@@ -1,10 +1,13 @@
 package chess;
 
+import java.util.Collection;
+
 import builder.ChessBuilder;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import parsers.FENCoder;
 
 
 public class Board {
@@ -21,6 +24,10 @@ public class Board {
 	public BoardStatus getBoardStatus() {
 		return analyzer.getBoardStatus();
 	}
+	
+	public Collection<Move> getLegalMoves() {
+		return analyzer.getLegalMoves();
+	}	
 
 	public void execute(Move move) {
 		move.executeMove(this);
@@ -79,7 +86,11 @@ public class Board {
 	
 	@Override
 	public String toString() {
-	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString();
+		FENCoder coder = new FENCoder();
+		
+		buildRepresentation(coder);
+		
+	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
 	}
 
 	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {

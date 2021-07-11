@@ -33,13 +33,17 @@ public class BoardAnalyzer {
 	public BoardStatus getBoardStatus() {
 		this.isKingInCheck = calculateKingInCheck();
 		
-		Collection<Move> moves = getMoveCalculator().getLegalMoves();
+		boolean existsLegalMove = getMoveCalculator().existsLegalMove();
 		
 		BoardStatus result = new BoardStatus();
 		result.setKingInCheck(isKingInCheck);
-		result.setLegalMoves(moves);
+		result.setExistsLegalMove(existsLegalMove);
 
 		return result;
+	}
+	
+	public Collection<Move> getLegalMoves() {
+		return getMoveCalculator().getLegalMoves();
 	}	
 	
 	public LegalMoveCalculator getMoveCalculator() {

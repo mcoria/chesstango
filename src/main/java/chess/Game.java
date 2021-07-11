@@ -57,33 +57,33 @@ public class Game {
 		return getGameStatus();
 	}
 	
+
 	protected GameStatus updateGameStatus() {
 		BoardStatus boardStatus = board.getBoardStatus();
-		Collection<Move> movimientosPosibles = boardStatus.getLegalMoves();
+		boolean existsLegalMove = boardStatus.isExistsLegalMove();
 		GameStatus gameStatus = null;
-		
-		if(movimientosPosibles.isEmpty()){
-			if( boardStatus.isKingInCheck() ){
+
+		if (existsLegalMove) {
+			if (boardStatus.isKingInCheck()) {
+				gameStatus = GameStatus.JAQUE;
+			} else {
+				gameStatus = GameStatus.IN_PROGRESS;
+			}
+		} else {
+			if (boardStatus.isKingInCheck()) {
 				gameStatus = GameStatus.JAQUE_MATE;
 			} else {
 				gameStatus = GameStatus.TABLAS;
 			}
-		} else {
-			if( boardStatus.isKingInCheck() ){
-				gameStatus = GameStatus.JAQUE;
-			} else {
-				gameStatus = GameStatus.IN_PROGRESS;
-			}			
 		}
-		
-		boardPila.setMovimientosPosibles(movimientosPosibles);
+
 		boardPila.setStatus(gameStatus);
-		
+
 		return gameStatus;
 	}
 	
 	protected Move getMovimiento(Square from, Square to) {
-		for (Move move : boardPila.getMovimientosPosibles()) {
+		for (Move move : getMovimientosPosibles() ) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				return move;
 			}
@@ -93,10 +93,7 @@ public class Game {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(board.toString());
-		buffer.append("Turno: " + getTurnoActual() + "\n");
-		return buffer.toString();
+		return board.toString();
 	}
 
 	public final Board getTablero() {
@@ -104,6 +101,9 @@ public class Game {
 	}
 
 	public final Collection<Move> getMovimientosPosibles() {
+		if(boardPila.getMovimientosPosibles() == null){
+			boardPila.setMovimientosPosibles(board.getLegalMoves());
+		}
 		return boardPila.getMovimientosPosibles();
 	}
 

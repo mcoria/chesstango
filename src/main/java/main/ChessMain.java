@@ -52,7 +52,7 @@ public class ChessMain {
 		
 	}
 
-	private void visitChilds(Game board, Node currentNode) {
+	private void visitChilds(Game game, Node currentNode) {
 		int totalMoves = 0;
 		
 		int currentLevel = currentNode.getLevel() + 1;
@@ -61,15 +61,15 @@ public class ChessMain {
 		
 		Map<Move, Node> childNodes = new HashMap<Move, Node>();
 		
-		for (Move move : board.getMovimientosPosibles()) {
-			board.executeMove(move);
+		for (Move move : game.getMovimientosPosibles()) {
+			game.executeMove(move);
 
-			String id = code(board);
+			String id = code(game);
 			Node node = nodeMap.get(id);
 			if (node == null) {
 				node = new Node(id, currentLevel);
 				if (currentLevel < this.maxLevel) {
-					visitChilds(board, node);
+					visitChilds(game, node);
 				} else if (currentLevel == this.maxLevel) {
 					node.setChildNodesCounter(1);
 				} else {
@@ -83,7 +83,7 @@ public class ChessMain {
 			childNodes.put(move, node);
 			totalMoves += node.getChildNodesCounter();
 
-			board.undoMove();
+			game.undoMove();
 		}
 
 		currentNode.setChilds(childNodes);
@@ -99,7 +99,7 @@ public class ChessMain {
 		return nodeListMap.get(currentLevel - 1);
 	}
 	
-	public void printNode(Game board, Node rootNode) {
+	public void printNode(Game game, Node rootNode) {
 		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
 		System.out.println("Total Moves: " + rootNode.getMoves());
 		

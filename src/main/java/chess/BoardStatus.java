@@ -1,17 +1,10 @@
 package chess;
 
-import java.util.Collection;
-
 public class BoardStatus {
 	
 	private boolean isKingInCheck;
+	private boolean existsLegalMove;
 	
-	private Collection<Move> legalMoves;
-
-	public Collection<Move> getLegalMoves() {
-		return legalMoves;
-		
-	}
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
@@ -22,7 +15,12 @@ public class BoardStatus {
 		this.isKingInCheck = isKingInCheck;
 	}
 
-	public void setLegalMoves(Collection<Move> legalMoves) {
-		this.legalMoves = legalMoves;
-	}	
+	public boolean isExistsLegalMove() {
+		return existsLegalMove;
+	}
+
+	public void setExistsLegalMove(boolean existsLegalMove) {
+		this.existsLegalMove = existsLegalMove;
+	}
+
 }
