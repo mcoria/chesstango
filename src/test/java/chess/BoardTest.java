@@ -10,6 +10,7 @@ import java.util.Collection;
 import org.junit.Test;
 
 import builder.ChessBuilderBoard;
+import debug.builder.DebugChessFactory;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
 import moveexecutors.CaptureReyMove;
@@ -275,7 +276,7 @@ public class BoardTest {
 	}	
 	
 	private Board getBoard(String string) {		
-		ChessBuilderBoard builder = new ChessBuilderBoard();
+		ChessBuilderBoard builder = new ChessBuilderBoard(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);
 		

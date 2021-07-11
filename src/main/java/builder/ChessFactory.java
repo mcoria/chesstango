@@ -40,4 +40,8 @@ public class ChessFactory {
 		return new KingCacheBoard(posicionPiezaBoard);
 	}
 
+	public MoveCacheBoard createMoveCacheBoard() {
+		return new MoveCacheBoard();
+	}
+
 }

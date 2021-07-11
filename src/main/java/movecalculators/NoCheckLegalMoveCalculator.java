@@ -12,37 +12,34 @@ import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;
-import positioncaptures.ImprovedCapturer;
 
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
-	public NoCheckLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache,
-			BoardState boardState, MoveGeneratorStrategy strategy) {
+	public NoCheckLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
+			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
-		this.capturer = new ImprovedCapturer(dummyBoard);
 	}
-
 
 	@Override
 	protected Collection<Move> getLegalMovesNotKing() {
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
-		
-		Square 	kingSquare = getCurrentKingSquare();
-		
+
+		Square kingSquare = getCurrentKingSquare();
+
 		ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
-		
-		// Casilleros donde se encuentran piezas propias que de moverse pueden poner en jaque al Rey.
+
+		// Casilleros donde se encuentran piezas propias que de moverse pueden
+		// poner en jaque al Rey.
 		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
 		Collection<Move> moves = createContainer();
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
-			
-			Square origenSquare = iterator.next();
-			
-			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
+			Square origenSquare = iterator.next();
+
+			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
 			if (pinnedSquares.contains(origenSquare)) {
 				for (Move move : pseudoMoves) {
@@ -61,9 +58,9 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			} else {
 				moves.addAll(pseudoMoves);
 			}
-			
+
 		}
-		
+
 		return moves;
 	}
 

@@ -11,7 +11,6 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
-import positioncaptures.ImprovedCapturer;
 
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
@@ -19,7 +18,6 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	public DefaultLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
 			MoveGeneratorStrategy strategy) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
-		this.capturer = new ImprovedCapturer(dummyBoard);
 	}	
 
 

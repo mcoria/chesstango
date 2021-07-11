@@ -10,8 +10,8 @@ import movegenerators.MoveGeneratorResult;
 
 public class MoveCacheBoard {
 	
-	private MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
-	private long affects[] = new long[64];
+	protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
+	protected long affects[] = new long[64];
 	
 
 	private static class MoveCacheBoardNode{
@@ -101,41 +101,6 @@ public class MoveCacheBoard {
 	private void restoreState(MoveCacheBoardNode lastState){
 		this.pseudoMoves = lastState.pseudoMoves.clone();
 		this.affects = lastState.affects;				
-	}
-
-
-	//TODO: deberiamos extraer este metodo validar y llevarlo a una clase derivada
-	public void validar() {
-		
-		//Validate affectedBy[]
-		for(int i = 0; i < 64; i++){
-			if(pseudoMoves[i] != null) {
-				if(pseudoMoves[i] == null) {
-					throw new RuntimeException("MoveCacheBoard checkConsistence failed, there are not pseudoMoves[i] ");
-				}
-				long affectedBySquares = pseudoMoves[i].getAffectedBy();
-				for(int j = 0; j < 64; j++){
-					if( (affectedBySquares & (1L << j))  != 0 ) {
-						if((affects[j] & (1L << i)) == 0){
-							throw new RuntimeException("MoveCacheBoard checkConsistence failed");
-						}
-					}
-				}
-			}
-		}
-		
-		//Validate affects[]
-		for(int i = 0; i < 64; i++){
-			long affectsSquares = affects[i];
-			for(int j = 0; j < 64; j++){
-				if( (affectsSquares & (1L << j))  != 0 ) {
-					if((pseudoMoves[j].getAffectedBy() & (1L << i)) == 0){
-						throw new RuntimeException("MoveCacheBoard checkConsistence failed");
-					}
-				}
-			}
-		}		
-		
 	}
 
 

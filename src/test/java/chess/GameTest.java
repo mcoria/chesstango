@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import builder.ChessBuilderGame;
 import chess.Game.GameStatus;
+import debug.builder.DebugChessFactory;
 import parsers.FENParser;
 
 public class GameTest {
@@ -357,7 +358,7 @@ public class GameTest {
 	
 	
 	private Game getGame(String string) {		
-		ChessBuilderGame builder = new ChessBuilderGame();
+		ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);
 		

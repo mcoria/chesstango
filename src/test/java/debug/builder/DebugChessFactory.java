@@ -7,6 +7,7 @@ import debug.chess.BoardDebug;
 import debug.chess.ColorBoardDebug;
 import debug.chess.DefaultLegalMoveCalculatorDebug;
 import debug.chess.KingCacheBoardDebug;
+import debug.chess.MoveCacheBoardDebug;
 import debug.chess.NoCheckLegalMoveCalculatorDebug;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -48,5 +49,9 @@ public class DebugChessFactory extends ChessFactory {
 	
 	public KingCacheBoard createKingCacheBoard(PosicionPiezaBoard posicionPiezaBoard) {
 		return new KingCacheBoardDebug(posicionPiezaBoard);
+	}
+	
+	public MoveCacheBoard createMoveCacheBoard() {
+		return new MoveCacheBoardDebug();
 	}	
 }

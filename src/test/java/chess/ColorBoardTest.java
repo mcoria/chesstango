@@ -34,6 +34,7 @@ public class ColorBoardTest {
 	
 	private PosicionPiezaBoard getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts();
+
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

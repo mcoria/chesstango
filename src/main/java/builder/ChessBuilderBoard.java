@@ -14,9 +14,9 @@ import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
 
-public class ChessBuilderBoard implements ChessBuilder{
+public class ChessBuilderBoard implements ChessBuilder {
 	
-	private ChessFactory chessFactory = new ChessFactory();	
+	private ChessFactory chessFactory = null;	
 	
 	private ChessBuilderParts builder = new ChessBuilderParts();
 	
@@ -37,6 +37,14 @@ public class ChessBuilderBoard implements ChessBuilder{
 	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;
 
 	private ImprovedCapturer improvedCapturer = null;
+	
+	public ChessBuilderBoard() {
+		this.chessFactory = new ChessFactory();
+	}
+
+	public ChessBuilderBoard(ChessFactory chessFactory) {
+		this.chessFactory = chessFactory;
+	}	
 	
 	public Board getBoard() {
 		if (board == null) {
@@ -80,7 +88,7 @@ public class ChessBuilderBoard implements ChessBuilder{
 
 	protected MoveCacheBoard buildMoveCache() {
 		if (moveCache == null) {
-			moveCache = new MoveCacheBoard();
+			moveCache = chessFactory.createMoveCacheBoard();
 		}
 		return moveCache;
 	}

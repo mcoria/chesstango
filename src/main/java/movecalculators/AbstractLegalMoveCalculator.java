@@ -17,6 +17,7 @@ import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
+import positioncaptures.ImprovedCapturer;
 
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
 
@@ -41,6 +42,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		this.moveCache = moveCache;
 		this.boardState = boardState;
 		this.strategy = strategy;
+		this.capturer = new ImprovedCapturer(dummyBoard);
 	}
 	
 	@Override
@@ -75,7 +77,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 
 	protected Collection<Move> getPseudoMoves(Square origenSquare) {
 		Collection<Move> pseudoMoves = null;
-	
 	
 		pseudoMoves = moveCache.getPseudoMoves(origenSquare);
 	

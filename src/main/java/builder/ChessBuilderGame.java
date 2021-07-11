@@ -11,6 +11,14 @@ public class ChessBuilderGame implements ChessBuilder {
 	
 	private Game game = null;
 	
+	public ChessBuilderGame() {
+		this.builder = new ChessBuilderBoard();
+	}
+	
+	public ChessBuilderGame(ChessFactory chessFactory) {
+		this.builder = new ChessBuilderBoard(chessFactory);
+	}	
+	
 	public Game getGame() {
 		if (game == null) {
 			game = new Game(builder.getBoard());

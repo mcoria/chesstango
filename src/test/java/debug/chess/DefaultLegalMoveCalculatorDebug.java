@@ -3,7 +3,9 @@ package debug.chess;
 import java.util.Collection;
 
 import chess.BoardState;
+import chess.KingMove;
 import chess.Move;
+import chess.Square;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
@@ -12,11 +14,18 @@ import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 
-public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
+public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator {
 
 	public DefaultLegalMoveCalculatorDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
+	}
+	
+	@Override
+	protected Collection<Move> getPseudoMoves(Square origenSquare) {
+		Collection<Move> result = super.getPseudoMoves(origenSquare);
+		((MoveCacheBoardDebug)moveCache).validar();
+		return result;
 	}
 	
 	@Override
@@ -148,8 +157,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 		try {
 			boolean reportError = false;
 			
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);			
 			
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
 			
@@ -182,6 +190,36 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
+			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
+			
+			return result;
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Override
+	public boolean filterMove(KingMove move) {
+		try {
+			boolean reportError = false;
+			
+			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+			
+			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
+	
+			boolean result = super.filterMove(move);			
+			
+			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
+				System.out.println("El cache de rey fué modificado");
+				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
+				reportError = true;
+			}
+	
+			if (reportError) {
+				System.out.println("El filtrado del moviemiento [" + move + "] causo la inconsistencia");
+				throw new RuntimeException("Hubo modificaciones ! ! !");
+			}
+			
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
 			
@@ -189,6 +227,6 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator{
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}
-	}	
+	}		
 
 }
