@@ -64,5 +64,13 @@ public class ArrayPosicionPiezaBoardTest {
 		assertEquals(6, posicionesList.size());
 
 	}
+	
+	@Test
+	public void testToString() {
+		ArrayPosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard();
+		
+		assertTrue(tablero.toString().length() > 0);
+
+	}	
 
 }

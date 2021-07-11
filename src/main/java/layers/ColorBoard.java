@@ -11,7 +11,6 @@ public class ColorBoard {
 	
 	protected long squareBlancos = 0;
 	protected long squareNegros = 0;
-	private KingCacheBoard kingCacheBoard = null;
 	
 	public ColorBoard(PosicionPiezaBoard board) {
 		settupSquares(board);
@@ -50,8 +49,8 @@ public class ColorBoard {
 		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos) : new BitSquareIterator(squareNegros);		
 	}
 	
-	public SquareIterator iteratorSquareWhitoutKing(Color color){
-		return Color.BLANCO.equals(color) ? new BitSquareIterator(squareBlancos & ~kingCacheBoard.getSquareKingBlancoCache().getPosicion()) : new BitSquareIterator(squareNegros  & ~kingCacheBoard.getSquareKingNegroCache().getPosicion());		
+	public SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare){
+		return new BitSquareIterator( (Color.BLANCO.equals(color) ? squareBlancos :  squareNegros ) & ~kingSquare.getPosicion());		
 	}
 	
 	public long getPosiciones (Color color){
@@ -95,10 +94,6 @@ public class ColorBoard {
 			}			
 		}
 	}
-
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
-	}	
 	
 }
 

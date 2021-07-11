@@ -127,8 +127,8 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	    	ASCIIOutput output = new ASCIIOutput();
 			this.forEach(posicionPieza -> {
 				output.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
-			});	
-	    	ps.flush();
+			});
+			output.printDummyBoard(ps);
 	    }
 	    return new String(baos.toByteArray());
 	}

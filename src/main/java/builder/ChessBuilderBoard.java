@@ -129,7 +129,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	protected ColorBoard buildColorBoard() {
 		if (colorBoard == null) {
-			colorBoard = chessFactory.createColorBoard(builder.getPosicionPiezaBoard(), buildKingCacheBoard());
+			colorBoard = chessFactory.createColorBoard(builder.getPosicionPiezaBoard());
 		}
 		return colorBoard;
 	}	

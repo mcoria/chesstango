@@ -33,7 +33,7 @@ public class DebugChessFactory extends ChessFactory {
 				buildState, buildMoveGeneratorStrategy);
 	}
 	
-	
+	@Override
 	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
@@ -41,16 +41,18 @@ public class DebugChessFactory extends ChessFactory {
 				buildMoveCache, buildState, buildMoveGeneratorStrategy);
 	}	
 	
-	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard, KingCacheBoard kingCacheBoard) {
+	@Override
+	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard) {
 		ColorBoard colorBoard = new ColorBoardDebug(buildPosicionPiezaBoard);
-		colorBoard.setKingCacheBoard(kingCacheBoard);
 		return colorBoard;
 	}	
 	
+	@Override
 	public KingCacheBoard createKingCacheBoard(PosicionPiezaBoard posicionPiezaBoard) {
 		return new KingCacheBoardDebug(posicionPiezaBoard);
 	}
 	
+	@Override
 	public MoveCacheBoard createMoveCacheBoard() {
 		return new MoveCacheBoardDebug();
 	}	

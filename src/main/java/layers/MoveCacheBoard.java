@@ -15,8 +15,8 @@ public class MoveCacheBoard {
 	
 
 	private static class MoveCacheBoardNode{
-		private MoveGeneratorResult[] pseudoMoves = null;//new MoveGeneratorResult[64];
-		private long affects[] = null; //new long[64];		
+		private MoveGeneratorResult[] pseudoMoves = null;
+		private long affects[] = null;
 	}
 	
 	private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
