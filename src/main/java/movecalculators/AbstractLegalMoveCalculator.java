@@ -19,7 +19,7 @@ import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
 
-public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator{
+public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator {
 
 	protected PosicionPiezaBoard dummyBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;

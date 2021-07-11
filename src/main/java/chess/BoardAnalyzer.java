@@ -3,9 +3,7 @@ package chess;
 import java.util.Collection;
 
 import layers.KingCacheBoard;
-import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
-import movecalculators.NoCheckLegalMoveCalculator;
 import positioncaptures.Capturer;
 
 /*
@@ -24,9 +22,9 @@ public class BoardAnalyzer {
 
 	private Capturer capturer;
 	
-	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
+	private LegalMoveCalculator defaultMoveCalculator = null;
 	
-	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;		
+	private LegalMoveCalculator noCheckLegalMoveCalculator = null;		
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
@@ -64,11 +62,11 @@ public class BoardAnalyzer {
 	}
 	
 
-	public void setDefaultMoveCalculator(DefaultLegalMoveCalculator defaultMoveCalculator) {
+	public void setDefaultMoveCalculator(LegalMoveCalculator defaultMoveCalculator) {
 		this.defaultMoveCalculator = defaultMoveCalculator;
 	}
 
-	public void setNoCheckLegalMoveCalculator(NoCheckLegalMoveCalculator noCheckLegalMoveCalculator) {
+	public void setNoCheckLegalMoveCalculator(LegalMoveCalculator noCheckLegalMoveCalculator) {
 		this.noCheckLegalMoveCalculator = noCheckLegalMoveCalculator;
 	}	
 	

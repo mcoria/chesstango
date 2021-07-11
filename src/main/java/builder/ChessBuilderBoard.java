@@ -8,8 +8,7 @@ import chess.Square;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
-import movecalculators.DefaultLegalMoveCalculator;
-import movecalculators.NoCheckLegalMoveCalculator;
+import movecalculators.LegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
@@ -32,9 +31,9 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	private BoardAnalyzer boardAnalyzer = null;
 
-	private DefaultLegalMoveCalculator defaultMoveCalculator = null;
+	private LegalMoveCalculator defaultMoveCalculator = null;
 
-	private NoCheckLegalMoveCalculator noCheckLegalMoveCalculator = null;
+	private LegalMoveCalculator noCheckLegalMoveCalculator = null;
 
 	private ImprovedCapturer improvedCapturer = null;
 	
@@ -93,7 +92,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 		return moveCache;
 	}
 
-	protected DefaultLegalMoveCalculator buildDefaultMoveCalculator() {
+	protected LegalMoveCalculator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
 			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy());
@@ -101,7 +100,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 		return this.defaultMoveCalculator;
 	}
 	
-	protected NoCheckLegalMoveCalculator buildNoCheckLegalMoveCalculator() {
+	protected LegalMoveCalculator buildNoCheckLegalMoveCalculator() {
 		if (noCheckLegalMoveCalculator == null) {
 			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy());

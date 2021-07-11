@@ -7,6 +7,7 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
+import movecalculators.LegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 
@@ -16,14 +17,14 @@ public class ChessFactory {
 		return new Board();
 	}
 
-	public DefaultLegalMoveCalculator createDefaultLegalMoveCalculator(PosicionPiezaBoard buildDummyBoard,
+	public LegalMoveCalculator createDefaultLegalMoveCalculator(PosicionPiezaBoard buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
 		return new DefaultLegalMoveCalculator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy);
 	}
 
-	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
+	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
 		return new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
