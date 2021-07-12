@@ -186,29 +186,30 @@ public class ChessMainTest {
 		
 		Node rootNode = main.start(board, 6);
 		
-		assertEquals(181046, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
-		assertEquals(217832, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
-		assertEquals(215255, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
-		assertEquals(216145, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(222861, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
-		assertEquals(240082, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
-		assertEquals(328511, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
-		assertEquals(361790, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
-		assertEquals(402988, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
-		assertEquals(405385, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
-		assertEquals(178889, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
-		assertEquals(198473, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
-		assertEquals(217210, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
-		assertEquals(214048, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
-		assertEquals(181044, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
-		assertEquals(218829, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
-		assertEquals(198572, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
-		assertEquals(234656, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(233491, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
-		assertEquals(198502, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());
+		assertEquals(4463267, rootNode.getChildNode(Square.a2, Square.a3 ).getChildNodesCounter());
+		assertEquals(5363555, rootNode.getChildNode(Square.a2, Square.a4 ).getChildNodesCounter());
+		assertEquals(5310358, rootNode.getChildNode(Square.b2, Square.b3 ).getChildNodesCounter());
+		assertEquals(5293555, rootNode.getChildNode(Square.b2, Square.b4 ).getChildNodesCounter());
+		assertEquals(5417640, rootNode.getChildNode(Square.c2, Square.c3 ).getChildNodesCounter());
+		assertEquals(5866666, rootNode.getChildNode(Square.c2, Square.c4 ).getChildNodesCounter());
+		assertEquals(8073082, rootNode.getChildNode(Square.d2, Square.d3 ).getChildNodesCounter());
+		assertEquals(8879566, rootNode.getChildNode(Square.d2, Square.d4 ).getChildNodesCounter());
+		assertEquals(9726018, rootNode.getChildNode(Square.e2, Square.e3 ).getChildNodesCounter());
+		assertEquals(9771632, rootNode.getChildNode(Square.e2, Square.e4 ).getChildNodesCounter());
+		assertEquals(4404141, rootNode.getChildNode(Square.f2, Square.f3 ).getChildNodesCounter());
+		assertEquals(4890429, rootNode.getChildNode(Square.f2, Square.f4 ).getChildNodesCounter());
+		assertEquals(5346260, rootNode.getChildNode(Square.g2, Square.g3 ).getChildNodesCounter());
+		assertEquals(5239875, rootNode.getChildNode(Square.g2, Square.g4 ).getChildNodesCounter());
+		assertEquals(4463070, rootNode.getChildNode(Square.h2, Square.h3 ).getChildNodesCounter());
+		assertEquals(5385554, rootNode.getChildNode(Square.h2, Square.h4 ).getChildNodesCounter());
+		assertEquals(5708064, rootNode.getChildNode(Square.b1, Square.c3 ).getChildNodesCounter());
+		assertEquals(4856835, rootNode.getChildNode(Square.b1, Square.a3 ).getChildNodesCounter());
+		assertEquals(4877234, rootNode.getChildNode(Square.g1, Square.h3 ).getChildNodesCounter());
+		assertEquals(5723523, rootNode.getChildNode(Square.g1, Square.f3 ).getChildNodesCounter());
+
 		
 		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(4865609, rootNode.getChildNodesCounter());
+		assertEquals(119060324, rootNode.getChildNodesCounter());
 	}	
 	
 	@Test
