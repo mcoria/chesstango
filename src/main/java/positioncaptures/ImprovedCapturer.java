@@ -14,8 +14,8 @@ import movegenerators.CaballoMoveGenerator;
 
 public class ImprovedCapturer implements Capturer {
 	
-	private ImprovedCapturerColor capturerBlanco = null;
-	private ImprovedCapturerColor capturerNegro = null;
+	private final ImprovedCapturerColor capturerBlanco;
+	private final ImprovedCapturerColor capturerNegro;
 	
 	public ImprovedCapturer(PosicionPiezaBoard dummyBoard) {
 		this.capturerBlanco = new ImprovedCapturerColor(Color.BLANCO, dummyBoard);
@@ -30,26 +30,18 @@ public class ImprovedCapturer implements Capturer {
 			return capturerNegro.positionCaptured(square);
 		}
 	}
-	
-	public boolean positionCapturedScan(Color color, Square square) {
-		if(Color.BLANCO.equals(color)){
-			return capturerBlanco.positionCapturedScan(square);
-		} else {
-			return capturerNegro.positionCapturedScan(square);
-		}
-	}
 
 	
 	private static class ImprovedCapturerColor {
 		
-		private PosicionPiezaBoard dummyBoard = null; 
+		private final PosicionPiezaBoard dummyBoard; 
 		
-		private Pieza torre;
-		private Pieza alfil;
-		private Pieza reyna;
-		private Pieza caballo;
-		final int[][] saltosPeon;
-		final Pieza peon;	
+		private final Pieza torre;
+		private final Pieza alfil;
+		private final Pieza reyna;
+		private final Pieza caballo;
+		private final int[][] saltosPeon;
+		private final Pieza peon;	
 		
 		private final int[][] casillerosPeonBlanco = {
 			{ -1, -1 }, 
@@ -88,15 +80,6 @@ public class ImprovedCapturer implements Capturer {
 				return true;
 			}
 			return false;
-		}
-		
-		public boolean positionCapturedScan(Square square) {
-			boolean result = false;
-			result = positionCapturedByCaballo(square);
-			result = result || positionCapturedByTorre(square);
-			result = result || positionCapturedByAlfil(square);
-			result = result || positionCapturedByPeon(square); 	
-			return result;
 		}	
 		
 		private Cardinal[]  direccionesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};

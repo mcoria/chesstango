@@ -17,9 +17,9 @@ import movegenerators.MoveGeneratorStrategy;
  */
 public class IteratorCapturer implements Capturer {
 	
-	private PosicionPiezaBoard dummyBoard = null; 
-	private ColorBoard colorBoard = null;
-	private MoveGeneratorStrategy strategy = null;
+	private final PosicionPiezaBoard dummyBoard; 
+	private final ColorBoard colorBoard;
+	private final MoveGeneratorStrategy strategy;
 	
 	public IteratorCapturer(PosicionPiezaBoard dummyBoard, ColorBoard colorBoard, MoveGeneratorStrategy strategy) {
 		this.dummyBoard = dummyBoard;

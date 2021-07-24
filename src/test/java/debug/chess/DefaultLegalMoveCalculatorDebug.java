@@ -153,7 +153,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 	}
 	
 	@Override
-	public boolean filterMove(Move move) {
+	protected boolean filterMove(Move move) {
 		try {
 			boolean reportError = false;
 			
@@ -199,7 +199,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 	}
 	
 	@Override
-	public boolean filterMove(KingMove move) {
+	protected boolean filterMove(KingMove move) {
 		try {
 			boolean reportError = false;
 			
