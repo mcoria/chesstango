@@ -8,8 +8,10 @@ import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
+import movecalculators.MoveFilter;
 import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
+import positioncaptures.Capturer;
 
 public class ChessFactory {
 
@@ -19,16 +21,16 @@ public class ChessFactory {
 
 	public LegalMoveCalculator createDefaultLegalMoveCalculator(PosicionPiezaBoard buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
+			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new DefaultLegalMoveCalculator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
-				buildState, buildMoveGeneratorStrategy);
+				buildState, buildMoveGeneratorStrategy, filter);
 	}
 
 	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
+			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
-				buildMoveCache, buildState, buildMoveGeneratorStrategy);
+				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}
 
 	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard) {
@@ -42,6 +44,10 @@ public class ChessFactory {
 
 	public MoveCacheBoard createMoveCacheBoard() {
 		return new MoveCacheBoard();
+	}
+
+	public MoveFilter createMoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
+		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
 	}
 
 }

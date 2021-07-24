@@ -16,8 +16,8 @@ import movegenerators.ReyAbstractMoveGenerator;
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 	public NoCheckLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
+			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 					// assert origen.equals(move.getFrom());
 
-					if (this.filterMove(move)) {
+					if (filter.filterMove(move)) {
 						moves.add(move);
 					}
 				}
@@ -86,7 +86,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 					// assert origen.equals(move.getFrom());
 
-					if (this.filterMove(move)) {
+					if (filter.filterMove(move)) {
 						return true;
 					}
 				}

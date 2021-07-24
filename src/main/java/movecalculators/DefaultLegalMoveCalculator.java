@@ -16,8 +16,8 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
 	
 	public DefaultLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
-			MoveGeneratorStrategy strategy) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
+			MoveGeneratorStrategy strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
 	}	
 
 
@@ -38,7 +38,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(filterMove(move)){
+				if(filter.filterMove(move)){
 					moves.add(move);
 				}
 			}
@@ -63,7 +63,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(filterMove(move)){
+				if(filter.filterMove(move)){
 					return true;
 				}
 			}

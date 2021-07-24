@@ -9,6 +9,7 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movecalculators.LegalMoveCalculator;
+import movecalculators.MoveFilter;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
@@ -36,6 +37,8 @@ public class ChessBuilderBoard implements ChessBuilder {
 	private LegalMoveCalculator noCheckLegalMoveCalculator = null;
 
 	private ImprovedCapturer improvedCapturer = null;
+
+	private MoveFilter moveFilter;
 	
 	public ChessBuilderBoard() {
 		this.chessFactory = new ChessFactory();
@@ -95,15 +98,15 @@ public class ChessBuilderBoard implements ChessBuilder {
 	protected LegalMoveCalculator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
 			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy());
+					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
-	
+
 	protected LegalMoveCalculator buildNoCheckLegalMoveCalculator() {
 		if (noCheckLegalMoveCalculator == null) {
 			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy());
+					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return noCheckLegalMoveCalculator;
 	}	
@@ -128,9 +131,16 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	protected ColorBoard buildColorBoard() {
 		if (colorBoard == null) {
-			colorBoard = chessFactory.createColorBoard(builder.getPosicionPiezaBoard());
+			colorBoard = chessFactory.createColorBoard( builder.getPosicionPiezaBoard() );
 		}
 		return colorBoard;
+	}
+	
+	protected MoveFilter buildMoveFilter() {
+		if (moveFilter == null) {
+			moveFilter = chessFactory.createMoveFilter(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),  builder.getState(), buildCapturer());
+		}
+		return moveFilter;
 	}	
 
 	@Override

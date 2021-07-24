@@ -3,7 +3,6 @@ package debug.chess;
 import java.util.Collection;
 
 import chess.BoardState;
-import chess.KingMove;
 import chess.Move;
 import chess.Square;
 import layers.ColorBoard;
@@ -12,13 +11,14 @@ import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
+import movecalculators.MoveFilter;
 import movegenerators.MoveGeneratorStrategy;
 
 public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator {
 
 	public DefaultLegalMoveCalculatorDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy);
+			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
 	}
 	
 	@Override
@@ -150,83 +150,6 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}
-	}
-	
-	@Override
-	protected boolean filterMove(Move move) {
-		try {
-			boolean reportError = false;
-			
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);			
-			
-			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
-			
-			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
-			
-			BoardState boardStateInicial = super.boardState.clone();
-	
-			boolean result = super.filterMove(move);
-			
-			if (!super.boardState.equals(boardStateInicial)) {
-				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.boardState.toString() + "]\n");
-				reportError = true;				
-			}			
-			
-			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de rey fué modificado");
-				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
-				reportError = true;
-			}
-	
-			if (!super.dummyBoard.equals(boardInicial)) {
-				System.out.println("El board fué modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard.toString());
-				reportError = true;				
-			}
-	
-			if (reportError) {
-				System.out.println("El filtrado del moviemiento [" + move + "] causo la inconsistencia");
-				throw new RuntimeException("Hubo modificaciones ! ! !");
-			}
-			
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
-			
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	@Override
-	protected boolean filterMove(KingMove move) {
-		try {
-			boolean reportError = false;
-			
-			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
-			
-			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
-	
-			boolean result = super.filterMove(move);			
-			
-			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de rey fué modificado");
-				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
-				reportError = true;
-			}
-	
-			if (reportError) {
-				System.out.println("El filtrado del moviemiento [" + move + "] causo la inconsistencia");
-				throw new RuntimeException("Hubo modificaciones ! ! !");
-			}
-			
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
-			
-			return result;
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException(e);
-		}
-	}		
+	}	
 
 }

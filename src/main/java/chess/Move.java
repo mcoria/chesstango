@@ -4,7 +4,11 @@ import layers.ColorBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
-//TOOD: Y si en vez de PosicionPieza utilizamos Square para To? Tiene sentido puesto que las capturas solo son contra piezas contrarias, sin importar que pieza es.
+//TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
+//      La mayoria de los movimientos posibles es a square vacios
+//      Tiene sentido puesto que las capturas solo son contra piezas contrarias, sin importar que pieza es.
+
+//TODO: y se implementamos un cache de movimientos?
 public interface Move extends Comparable<Move> {
 
 	PosicionPieza getFrom();

@@ -16,34 +16,37 @@ import layers.PosicionPiezaBoard;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
-import positioncaptures.Capturer;
-import positioncaptures.ImprovedCapturer;
 
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator {
 
 	protected PosicionPiezaBoard dummyBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;
-	protected ColorBoard colorBoard = null;
+	protected ColorBoard colorBoard = null;	
 	protected MoveCacheBoard moveCache = null;
 	protected BoardState boardState = null;
+	
 	protected MoveGeneratorStrategy strategy = null;
-	protected Capturer capturer = null;
 	
 	protected Color turnoActual = null;
 	protected Color opositeTurnoActual = null;
 	
+	protected MoveFilter filter = null;
+	
 	protected abstract Collection<Move> getLegalMovesNotKing();
+	
+	//TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
+	//      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
 	protected abstract boolean existsLegalMovesNotKing();
 	
 	public AbstractLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy) {
+			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.moveCache = moveCache;
 		this.boardState = boardState;
 		this.strategy = strategy;
-		this.capturer = new ImprovedCapturer(dummyBoard);
+		this.filter = filter;
 	}
 	
 	@Override
@@ -76,7 +79,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 
 		for (Move move : pseudoMovesKing) {
 			KingMove kingMove = (KingMove) move;
-			if(filterMove(kingMove)){
+			if(filter.filterMove(kingMove)){
 				movesKing.add(move);
 			}
 		}
@@ -89,7 +92,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 
 		for (Move move : pseudoMovesKing) {
 			KingMove kingMove = (KingMove) move;
-			if(filterMove(kingMove)){
+			if(filter.filterMove(kingMove)){
 				return true;
 			}
 		}
@@ -109,45 +112,18 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 	
-			moveCache.setPseudoMoves(origen.getKey(), generatorResult);
+			moveCache.setPseudoMoves(origenSquare, generatorResult);
 			
 			pseudoMoves = generatorResult.getPseudoMoves();
 		}
 		
 		return pseudoMoves;
-	}
-
-	protected boolean filterMove(Move move) {
-		boolean result = false;
-		
-		move.executeMove(this.dummyBoard);
-		move.executeMove(this.colorBoard);
-		
-		if(! capturer.positionCaptured(this.opositeTurnoActual, getCurrentKingSquare()) ) {
-			result = true;
-		}
-
-		move.undoMove(this.colorBoard);
-		move.undoMove(this.dummyBoard);
-		
-		return result;
-	}
-	
-	protected boolean filterMove(KingMove move) {
-		boolean result = false;
-		
-		move.executeMove(this.kingCacheBoard);
-
-		result = filterMove((Move) move);
-
-		move.undoMove(this.kingCacheBoard);
-		
-		return result;
 	}	
 	
+
 	public Square getCurrentKingSquare() {
 		return kingCacheBoard.getKingSquare(this.turnoActual);
-	}	
+	}
 	
 	protected static <T> Collection<T> createContainer() {
 		return new ArrayList<T>() {
