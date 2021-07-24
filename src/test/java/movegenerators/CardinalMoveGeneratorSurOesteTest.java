@@ -16,6 +16,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
+import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
@@ -36,6 +37,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 	public void testSurOeste() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/4B3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -59,6 +61,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 	public void testSurOeste01() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/4B3/8/8/8/R7");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -82,6 +85,7 @@ public class CardinalMoveGeneratorSurOesteTest {
 	public void testSurOeste02() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/4B3/8/8/8/r7");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));

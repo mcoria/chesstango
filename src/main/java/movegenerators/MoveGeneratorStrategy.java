@@ -152,6 +152,7 @@ public class MoveGeneratorStrategy {
 	private void settupMoveGenerator(MoveGenerator moveGenerator) {
 		if (moveGenerator instanceof AbstractMoveGenerator) {
 			((AbstractMoveGenerator)moveGenerator).setTablero(dummyBoard);
+			((AbstractMoveGenerator)moveGenerator).setColorBoard(colorBoard);		
 		}
 		
 		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
@@ -163,11 +164,6 @@ public class MoveGeneratorStrategy {
 			generator.setBoardState(boardState);
 			generator.setCapturer(new ImprovedCapturer(dummyBoard));
 			generator.setKingInCheck(isKingInCheck);
-			generator.setColorBoard(colorBoard);
-			
-		} else if(moveGenerator instanceof CardinalMoveGenerator){
-			CardinalMoveGenerator generator = (CardinalMoveGenerator) moveGenerator;
-			generator.setColorBoard(colorBoard);
 		}
 	}	
 }

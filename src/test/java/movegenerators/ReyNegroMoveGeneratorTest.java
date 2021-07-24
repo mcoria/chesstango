@@ -20,6 +20,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.EnroqueNegroReyMove;
 import moveexecutors.EnroqueNegroReynaMove;
@@ -51,6 +52,7 @@ public class ReyNegroMoveGeneratorTest {
 		state.setEnroqueNegroReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		moveGenerator.setCapturer(new Capturer(){
 			@Override
@@ -85,6 +87,7 @@ public class ReyNegroMoveGeneratorTest {
 		state.setEnroqueNegroReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d8, Square.e7});
 		
@@ -123,6 +126,7 @@ public class ReyNegroMoveGeneratorTest {
 		state.setEnroqueNegroReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.c8, Square.d7});
 		
@@ -161,6 +165,7 @@ public class ReyNegroMoveGeneratorTest {
 		state.setEnroqueNegroReyPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		moveGenerator.setCapturer(new Capturer(){
 			@Override
 			public boolean positionCaptured(Color color, Square square) {
@@ -203,6 +208,7 @@ public class ReyNegroMoveGeneratorTest {
 				return positionCaptured.contains(square);
 			}
 		});
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.REY_NEGRO, tablero.getPieza(CachePosiciones.REY_NEGRO.getKey()));
 		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h8));
@@ -232,6 +238,7 @@ public class ReyNegroMoveGeneratorTest {
 		state.setEnroqueNegroReyPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f7, Square.g8});
 		
@@ -272,6 +279,7 @@ public class ReyNegroMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setKingInCheck(() -> true);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e6, Square.e7, Square.e8});
 		

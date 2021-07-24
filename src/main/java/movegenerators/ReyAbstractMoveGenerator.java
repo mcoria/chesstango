@@ -12,7 +12,6 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import layers.ColorBoard;
 import moveexecutors.CaptureReyMove;
 import moveexecutors.SimpleReyMove;
 import positioncaptures.Capturer;
@@ -25,8 +24,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	protected Capturer capturer = null;
 	
 	protected IsKingInCheck kingInCheck = () -> false;
-	
-	protected ColorBoard colorBoard;
 	
 	protected boolean saveMovesInCache;
 	
@@ -170,10 +167,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
-	}
-	
-	public void setColorBoard(ColorBoard colorBoard) {
-		this.colorBoard = colorBoard;
 	}
 
 	public void setKingInCheck(IsKingInCheck kingInCheck) {

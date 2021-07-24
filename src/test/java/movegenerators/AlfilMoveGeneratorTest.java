@@ -15,6 +15,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
@@ -34,6 +35,7 @@ public class AlfilMoveGeneratorTest {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/4B3/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.e5;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
@@ -101,6 +103,7 @@ public class AlfilMoveGeneratorTest {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5");
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.c1;
 		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));

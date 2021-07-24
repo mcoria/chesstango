@@ -4,20 +4,16 @@ import java.util.Iterator;
 
 import chess.Color;
 import chess.Move;
-import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import layers.ColorBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
 
 public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	private final Cardinal[] direcciones;
-	
-	protected ColorBoard colorBoard;
 
 	public CardinalMoveGenerator(Color color, Cardinal[] direcciones) {
 		super(color);
@@ -32,23 +28,24 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	
+	//El calculo de movimientos lo puede hacer en funcion de ColorBoard	
 	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
-		Iterator<PosicionPieza> iterator = this.tablero.iterator(new CardinalSquareIterator(casillero, cardinal));
+		Iterator<Square> iterator = new CardinalSquareIterator(casillero, cardinal);
 		while (iterator.hasNext()) {
-		    PosicionPieza destino = iterator.next();
-		    this.result.affectedByContainerAdd(destino.getKey());
-		    Pieza pieza = destino.getValue();
-		    if(pieza == null){
-		    	Move move = new SimpleMove(origen, destino);
-		    	result.moveContainerAdd(move);
-		    } else if(color.equals(pieza.getColor())){
-		    	break;
-		    } else if(color.opositeColor().equals(pieza.getColor())){
-		    	Move move = new CaptureMove(origen, destino);
-		    	result.moveContainerAdd(move);
-		    	break;
-		    }
+			Square destino = iterator.next();
+			this.result.affectedByContainerAdd(destino);
+			Color colorDestino = colorBoard.getColor(destino);
+			if (colorDestino == null) {
+				Move move = new SimpleMove(origen, tablero.getPosicion(destino));
+				result.moveContainerAdd(move);
+			} else if (color.opositeColor().equals(colorDestino)) {
+				Move move = new CaptureMove(origen, tablero.getPosicion(destino));
+				result.moveContainerAdd(move);
+				break;
+			} else { // if(color.equals(pieza.getColor())){
+				break;
+			}
 		}
 	}
 
@@ -78,11 +75,6 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 			}
 		}
 		return false;
-	}
-	
-
-	public void setColorBoard(ColorBoard colorBoard) {
-		this.colorBoard = colorBoard;
 	}
 
 	@Override

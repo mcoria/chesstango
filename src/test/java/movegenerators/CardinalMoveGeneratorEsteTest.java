@@ -16,6 +16,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
+import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
 import moveexecutors.SimpleMove;
@@ -37,6 +38,7 @@ public class CardinalMoveGeneratorEsteTest {
 	public void testEste() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
@@ -59,6 +61,7 @@ public class CardinalMoveGeneratorEsteTest {
 	public void testEste01() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/4R2B/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
@@ -80,6 +83,7 @@ public class CardinalMoveGeneratorEsteTest {
 	public void testEste02() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/4R2b/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));

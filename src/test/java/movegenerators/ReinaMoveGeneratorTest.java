@@ -15,6 +15,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleMove;
 import parsers.FENParser;
@@ -33,6 +34,7 @@ public class ReinaMoveGeneratorTest {
 	public void testGetPseudoMoves() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/4Q3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.e5;
 		assertEquals(Pieza.REINA_BLANCO, tablero.getPieza(from));

@@ -20,6 +20,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueBlancoReyMove;
@@ -48,6 +49,7 @@ public class ReyBlancoMoveGeneratorTest {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/4K3/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));
@@ -75,6 +77,7 @@ public class ReyBlancoMoveGeneratorTest {
 		PosicionPiezaBoard tablero = getTablero("8/8/4P3/4K3/4p3/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(from));		
@@ -106,6 +109,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		moveGenerator.setCapturer(new Capturer(){
 			@Override
@@ -140,6 +144,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d1, Square.e2});
 		
@@ -178,6 +183,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.c1, Square.d2});
 		
@@ -216,6 +222,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {});
 		
@@ -253,6 +260,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReyPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		moveGenerator.setCapturer(new Capturer(){
 			@Override
@@ -287,6 +295,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReyPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.f1});
 		
@@ -324,6 +333,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReyPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f2, Square.g1});
 		
@@ -361,6 +371,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReyPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f1});
 		
@@ -400,6 +411,7 @@ public class ReyBlancoMoveGeneratorTest {
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		moveGenerator.setKingInCheck( () -> true );
 		
 		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.e1});
