@@ -5,13 +5,14 @@ import chess.Color;
 import chess.IsKingInCheck;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import positioncaptures.ImprovedCapturer;
+import positioncaptures.Capturer;
 
 public class MoveGeneratorStrategy {
 	private PosicionPiezaBoard dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
 	private IsKingInCheck isKingInCheck;
+	private Capturer capturer;
 	
 	private PeonBlancoMoveGenerator pbmg;
 	private PeonNegroMoveGenerator pnmg;
@@ -74,6 +75,11 @@ public class MoveGeneratorStrategy {
 		this.isKingInCheck = isKingInCheck;
 		settupMoveGenerators();
 	}
+
+	public void setCapturer(Capturer capturer) {
+		this.capturer = capturer;
+		settupMoveGenerators();
+	}	
 
 	public PeonBlancoMoveGenerator getPeonBlancoMoveGenerator() {
 		return pbmg;
@@ -162,7 +168,7 @@ public class MoveGeneratorStrategy {
 		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setCapturer(new ImprovedCapturer(dummyBoard));
+			generator.setCapturer(capturer);
 			generator.setKingInCheck(isKingInCheck);
 		}
 	}	

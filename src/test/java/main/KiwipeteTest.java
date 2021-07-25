@@ -220,7 +220,7 @@ public class KiwipeteTest {
 	}
 	
 	
-	@Test
+	@Test //8segs
 	public void test_divide4() {
 		Node rootNode = main.start(board, 4);	
 		

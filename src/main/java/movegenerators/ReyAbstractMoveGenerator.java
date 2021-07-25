@@ -41,7 +41,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		super(color, SALTOS_REY);
 	}	
 	
-	//Observar que se valida que el destino no puede ser capturado. No tiene sentido simular el movimiento para validarlo.
+	//TODO: Observar que se valida que el destino no puede ser capturado. No tiene sentido simular el movimiento para validarlo.
 	protected boolean puedeEnroqueReina(
 			final PosicionPieza origen, 
 			final PosicionPieza rey,

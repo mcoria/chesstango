@@ -47,10 +47,9 @@ public class BoardAnalyzer {
 	}	
 	
 	public LegalMoveCalculator getMoveCalculator() {
-		/*
 		if(! isKingInCheck() ){
 			return noCheckLegalMoveCalculator;
-		}*/
+		}
 		return defaultMoveCalculator;
 	}	
 
