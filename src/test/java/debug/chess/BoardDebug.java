@@ -9,7 +9,7 @@ import layers.imp.ArrayPosicionPiezaBoard;
 public class BoardDebug extends Board {
 	
 	@Override
-	// TODO: el metodo getBoardStatus(): 
+	// TODO: validadciones del metodo getBoardStatus(): 
 	//      								a) no modifica el tablero
 	//										b) no modifica el estado
 	//										c) no modifica el cache de rey

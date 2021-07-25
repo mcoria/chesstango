@@ -11,8 +11,7 @@ public class ColorBoardDebug extends ColorBoard {
 		super(board);
 	}
 		
-	
-	//TODO: deberiamos extraer este metodo validar y llevarlo a una clase derivada
+
 	public void validar(PosicionPiezaBoard board) {
 		int posicionesBlancas = 0;
 		int posicionesNegras = 0;

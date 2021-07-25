@@ -4,7 +4,6 @@ import layers.MoveCacheBoard;
 
 public class MoveCacheBoardDebug extends MoveCacheBoard {
 
-	//TODO: deberiamos extraer este metodo validar y llevarlo a una clase derivada
 	public void validar() {
 		
 		//Validate affectedBy[]
