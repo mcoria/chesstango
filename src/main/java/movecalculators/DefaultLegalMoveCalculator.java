@@ -13,7 +13,7 @@ import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
 
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
-	
+	public static int count = 0;
 	
 	public DefaultLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
 			MoveGeneratorStrategy strategy, MoveFilter filter) {
@@ -21,7 +21,9 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}	
 
 	@Override
-	public Collection<Move> getLegalMoves() {		
+	public Collection<Move> getLegalMoves() {	
+		count++;
+		
 		Collection<Move> moves = createContainer();
 		
 		for (SquareIterator iterator = colorBoard.iteratorSquare(boardState.getTurnoActual()); iterator.hasNext();) {

@@ -9,6 +9,8 @@ import java.util.Map;
 import builder.ChessBuilderGame;
 import chess.Game;
 import chess.Move;
+import movecalculators.DefaultLegalMoveCalculator;
+import movecalculators.NoCheckLegalMoveCalculator;
 import parsers.FENCoder;
 import parsers.FENParser;
 
@@ -45,6 +47,10 @@ public class ChessMain {
 		
 		String rootId = code(board);
 		Node rootNode = new Node(rootId, 0);
+		
+		Map<String, Node> nodeMap = getNodeMap(0);
+		nodeMap.put(rootId, rootNode);
+		
 		visitChilds(board, rootNode);
 		
 		return rootNode;
@@ -67,6 +73,7 @@ public class ChessMain {
 			Node node = nodeMap.get(id);
 			if (node == null) {
 				node = new Node(id, currentLevel);
+				nodeMap.put(id, node);
 				if (currentLevel < this.maxLevel) {
 					visitChilds(game, node);
 				} else if (currentLevel == this.maxLevel) {
@@ -74,8 +81,7 @@ public class ChessMain {
 				} else {
 					throw new RuntimeException("Error");
 				}
-				nodeMap.put(id, node);
-			}else {
+			} else {
 				repetedNodes[currentLevel - 1]++;
 			}
 
@@ -89,13 +95,13 @@ public class ChessMain {
 		currentNode.setChildNodesCounter(totalMoves);
 	}
 
-	private Map<String, Node> getNodeMap(int currentLevel) {
+	private Map<String, Node> getNodeMap(int level) {
 		Map<String, Node> nodeMap = null;
-		if(nodeListMap.size() <  currentLevel){
+		if(nodeListMap.size() <  level  + 1){
 			nodeMap = new HashMap<String, Node>();
 			nodeListMap.add(nodeMap);
 		}
-		return nodeListMap.get(currentLevel - 1);
+		return nodeListMap.get(level);
 	}
 	
 	public void printNode(Game game, Node rootNode) {
@@ -116,6 +122,9 @@ public class ChessMain {
 		for (int i = 0; i < repetedNodes.length; i++) {
 			System.out.println("Level " + i + " Nodes=" + nodeListMap.get(i).size() + " repeated=" + repetedNodes[i]);
 		}
+		
+		System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
+		System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
 	}
 	
 	private String code(Game board) {

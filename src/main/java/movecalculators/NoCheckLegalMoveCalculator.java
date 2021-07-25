@@ -14,7 +14,11 @@ import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;
 
+//TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
+//      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
+	
+	public static int count = 0;
 
 	public NoCheckLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
@@ -23,6 +27,8 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 	@Override
 	public Collection<Move> getLegalMoves() {
+		count++;
+		
 		Collection<Move> moves = createContainer();
 		
 		getLegalMovesNotKing(moves);
@@ -32,6 +38,10 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		return moves;
 	}
 	
+	@Override
+	public boolean existsLegalMove() {		
+		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
+	}	
 
 	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
 		final Color turnoActual = boardState.getTurnoActual();
@@ -70,27 +80,9 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		}
 
 		return moves;
-	}
-	
-	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
-		Square 	kingSquare = getCurrentKingSquare();
-		
-		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
+	}		
 
-		for (Move move : pseudoMovesKing) {
-			if(move.filter(filter)){
-				moves.add(move);
-			}
-		}
-		return moves;
-	}	
-
-	
-	@Override
-	public boolean existsLegalMove() {		
-		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
-	}	
-
+	//TODO: los pinned deberian ser los ultimos en buscar movimientos
 	protected boolean existsLegalMovesNotKing() {
 		final Color turnoActual = boardState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
@@ -128,6 +120,19 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		}
 		return false;
 	}	
+	
+	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
+		Square 	kingSquare = getCurrentKingSquare();
+		
+		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
+
+		for (Move move : pseudoMovesKing) {
+			if(move.filter(filter)){
+				moves.add(move);
+			}
+		}
+		return moves;
+	}
 	
 	protected boolean existsLegalMovesKing() {
 		Square 	kingSquare = getCurrentKingSquare();

@@ -27,9 +27,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected MoveFilter filter = null;
 	
-	//TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
-	//      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
-	
 	public AbstractLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
 			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		this.dummyBoard = dummyBoard;
