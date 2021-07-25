@@ -91,7 +91,7 @@ public abstract class AbstractKingMove implements KingMove {
 	}
 	
 	@Override
-	public boolean filer(MoveFilter filter){
+	public boolean filter(MoveFilter filter){
 		return filter.filterMove(this);
 	}
 	

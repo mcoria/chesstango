@@ -60,7 +60,7 @@ public abstract class AbstractMove implements Move {
 	}
 	
 	@Override
-	public boolean filer(MoveFilter filter){
+	public boolean filter(MoveFilter filter){
 		return filter.filterMove(this);
 	}	
 	

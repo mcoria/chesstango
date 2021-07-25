@@ -36,7 +36,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(move.filer(filter)){
+				if(move.filter(filter)){
 					moves.add(move);
 				}
 			}
@@ -60,7 +60,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(move.filer(filter)){
+				if(move.filter(filter)){
 					return true;
 				}
 			}

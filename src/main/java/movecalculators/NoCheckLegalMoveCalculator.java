@@ -78,7 +78,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
 
 		for (Move move : pseudoMovesKing) {
-			if(move.filer(filter)){
+			if(move.filter(filter)){
 				moves.add(move);
 			}
 		}
@@ -134,7 +134,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
 
 		for (Move move : pseudoMovesKing) {
-			if(move.filer(filter)){
+			if(move.filter(filter)){
 				return true;
 			}
 		}

@@ -32,6 +32,6 @@ public interface Move extends Comparable<Move> {
 	void undoMove(Board board);
 	
 	
-	boolean filer(MoveFilter filter);
+	boolean filter(MoveFilter filter);
 	
 }

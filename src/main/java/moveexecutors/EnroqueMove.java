@@ -4,6 +4,7 @@ import chess.Move;
 import layers.ColorBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import movecalculators.MoveFilter;
 
 public abstract class EnroqueMove extends AbstractKingMove  {
 	
@@ -46,6 +47,11 @@ public abstract class EnroqueMove extends AbstractKingMove  {
 		SimpleReyMove reyMove = getReyMove();
 		SimpleMove torreMove = getTorreMove();
 		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
+	}
+	
+	@Override
+	public boolean filter(MoveFilter filter){
+		return true;
 	}	
 
 	@Override
