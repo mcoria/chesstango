@@ -36,14 +36,14 @@ public class FENCoder implements ChessBuilder {
 	}
 
 	public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
-		String[] lineasStr = new String[8];
 		for (int i = 7; i >= 0; i--) {
-			String lineaStr = codePiecePlacementRank(tablero[i]);
-			lineasStr[7 - i] = lineaStr;
-
+			codePiecePlacementRank(tablero[i], stringBuilder);
+			if(i > 0){
+				stringBuilder.append('/');
+			}
 		}
-		return stringBuilder.append(lineasStr[0]).append('/').append(lineasStr[1]).append('/').append(lineasStr[2]).append('/').append(lineasStr[3]).append('/').append(lineasStr[4]).append('/')
-				.append(lineasStr[5]).append('/').append(lineasStr[6]).append('/').append(lineasStr[7]);
+		
+		return stringBuilder;
 	}
 	
 	public StringBuilder getPeonPasante(StringBuilder stringBuilder) {
@@ -114,28 +114,25 @@ public class FENCoder implements ChessBuilder {
 		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 	}
 	
-	protected String codePiecePlacementRank(Pieza[] piezas) {
-		String result = "";
+	protected StringBuilder codePiecePlacementRank(Pieza[] piezas, StringBuilder stringBuilder) {
 		int vacios = 0;
 		for (int i = 0; i < piezas.length; i++) {
 			if(piezas[i] == null){
 				vacios++;
 			} else {
 				if(vacios > 0){
-					result = result + vacios;
+					stringBuilder.append(vacios);
 					vacios = 0;
 				}
-				char caracter = getCode(piezas[i]);
-				result = result + caracter;
+				stringBuilder.append(getCode(piezas[i]));
 			}
 		}
 		
 		if(vacios > 0){
-			result = result + vacios;
-			vacios = 0;
+			stringBuilder.append(vacios);
 		}		
 	
-		return result;
+		return stringBuilder;
 	}
 	
 	private char getCode(Pieza pieza) {

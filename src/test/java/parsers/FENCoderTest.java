@@ -57,15 +57,15 @@ public class FENCoderTest {
 	}	
 	
 	@Test
-	public void testCodePiecePlacement01() {
-		String actual = coder.codePiecePlacementRank(new Pieza[]{Pieza.ALFIL_BLANCO, null, null, Pieza.PEON_BLANCO, null, Pieza.ALFIL_BLANCO, null, Pieza.PEON_BLANCO});
+	public void testCodePiecePlacementRank01() {
+		String actual = coder.codePiecePlacementRank(new Pieza[]{Pieza.ALFIL_BLANCO, null, null, Pieza.PEON_BLANCO, null, Pieza.ALFIL_BLANCO, null, Pieza.PEON_BLANCO}, stringBuilder).toString();
 		
 		assertEquals("B2P1B1P", actual);
 	}
 	
 	@Test
-	public void testCodePiecePlacement02() {
-		String actual = coder.codePiecePlacementRank(new Pieza[]{null, null, null, null, null, null, null, null});
+	public void testCodePiecePlacementRank02() {
+		String actual = coder.codePiecePlacementRank(new Pieza[]{null, null, null, null, null, null, null, null}, stringBuilder).toString();
 		
 		assertEquals("8", actual);
 	}	
