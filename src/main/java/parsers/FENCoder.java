@@ -17,42 +17,66 @@ public class FENCoder implements ChessBuilder {
 	private Pieza[][] tablero = new Pieza[8][8];
 
 	public String getFEN() {
-		String colorActual = getTurno();
-		String peonPasante = getPeonPasante();
-		String enroques = getEnroques();
-		String codePiecePlacement = getPiecePlacement();
-		return codePiecePlacement + " " + colorActual + " " + enroques + " " + peonPasante + " 0 1";
+		StringBuilder stringBuilder = new StringBuilder(60);
+		
+		getPiecePlacement(stringBuilder).append(' ');
+		
+		getTurno(stringBuilder).append(' ');
+		
+		getEnroques(stringBuilder).append(' ');
+		
+		getPeonPasante(stringBuilder).append(" 0 1");
+
+		return stringBuilder.toString();
 	}
 
 
-	public String getTurno() {
-		return Color.BLANCO.equals(turno) ? "w" : "b";
+	public StringBuilder getTurno(StringBuilder stringBuilder) {
+		return Color.BLANCO.equals(turno) ? stringBuilder.append('w') : stringBuilder.append('b');
 	}
 
-	public String getPiecePlacement() {
+	public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
 		String[] lineasStr = new String[8];
 		for (int i = 7; i >= 0; i--) {
 			String lineaStr = codePiecePlacementRank(tablero[i]);
 			lineasStr[7 - i] = lineaStr;
 
 		}
-		return lineasStr[0] + '/' + lineasStr[1] + '/' + lineasStr[2] + '/' + lineasStr[3] + '/' + lineasStr[4] + '/'
-				+ lineasStr[5] + '/' + lineasStr[6] + '/' + lineasStr[7];
+		return stringBuilder.append(lineasStr[0]).append('/').append(lineasStr[1]).append('/').append(lineasStr[2]).append('/').append(lineasStr[3]).append('/').append(lineasStr[4]).append('/')
+				.append(lineasStr[5]).append('/').append(lineasStr[6]).append('/').append(lineasStr[7]);
 	}
 	
-	public String getPeonPasante() {
-		String result = "-";
-		if (peonPasanteSquare != null) {
-			result = peonPasanteSquare.toString();
+	public StringBuilder getPeonPasante(StringBuilder stringBuilder) {
+		if (peonPasanteSquare == null) {
+			stringBuilder.append('-');
+		} else {
+			stringBuilder.append(peonPasanteSquare.toString());
 		}
-		return result;
+		return stringBuilder;
 	}
 	
-	public String getEnroques() {
-		String result =  (enroqueBlancoReyPermitido ? "K" : "") + (enroqueBlancoReinaPermitido ? "Q" : "")
-				+ (enroqueNegroReyPermitido ? "k" : "") + (enroqueNegroReinaPermitido ? "q" : "");
+	public StringBuilder getEnroques(StringBuilder stringBuilder) {
+		if(enroqueBlancoReyPermitido){
+			stringBuilder.append('K');
+		}
 		
-		return "".equals(result) ? "-" : result;
+		if(enroqueBlancoReinaPermitido){
+			stringBuilder.append('Q');
+		}
+		
+		if(enroqueNegroReyPermitido){
+			stringBuilder.append('k');
+		}
+		
+		if(enroqueNegroReinaPermitido){
+			stringBuilder.append('q');
+		}		
+		
+		if(!enroqueBlancoReyPermitido && !enroqueBlancoReinaPermitido && !enroqueNegroReyPermitido && !enroqueNegroReinaPermitido){
+			stringBuilder.append('-');
+		}
+				
+		return stringBuilder;
 	}	
 
 	@Override

@@ -12,17 +12,19 @@ import chess.Square;
 public class FENCoderTest {
 
 	private FENCoder coder ;
+	private StringBuilder stringBuilder;
 	
 	@Before
 	public void setUp() throws Exception {
 		coder = new FENCoder();
+		stringBuilder = new StringBuilder();
 	}
 	
 	@Test
 	public void testTurnoBlanco() {
 		coder.withTurno(Color.BLANCO);
 		
-		String actual = coder.getTurno();
+		String actual = coder.getTurno(stringBuilder).toString();
 		
 		assertEquals("w", actual);
 	}
@@ -31,7 +33,7 @@ public class FENCoderTest {
 	public void testTurnoNegro() {
 		coder.withTurno(Color.NEGRO);
 		
-		String actual = coder.getTurno();
+		String actual = coder.getTurno(stringBuilder).toString();
 		
 		assertEquals("b", actual);
 	}
@@ -40,7 +42,7 @@ public class FENCoderTest {
 	public void testPeonPasanteC3() {	
 		coder.withPeonPasanteSquare(Square.c3);
 		
-		String actual = coder.getPeonPasante();
+		String actual = coder.getPeonPasante(stringBuilder).toString();
 		
 		assertEquals("c3", actual);
 	}
@@ -49,7 +51,7 @@ public class FENCoderTest {
 	public void testPeonPasanteNull() {	
 		coder.withPeonPasanteSquare(null);
 		
-		String actual = coder.getPeonPasante();
+		String actual = coder.getPeonPasante(stringBuilder).toString();
 		
 		assertEquals("-", actual);
 	}	
@@ -72,7 +74,7 @@ public class FENCoderTest {
 	public void testCodePiecePlacement03() {
 		coder.withPieza(Square.a1, Pieza.TORRE_BLANCO);
 		
-		String actual = coder.getPiecePlacement();
+		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
 		assertEquals("8/8/8/8/8/8/8/R7", actual);		
 	}
@@ -81,7 +83,7 @@ public class FENCoderTest {
 	public void testCodePiecePlacement04() {
 		coder.withPieza(Square.h1, Pieza.TORRE_BLANCO);
 		
-		String actual = coder.getPiecePlacement();
+		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
 		assertEquals("8/8/8/8/8/8/8/7R", actual);		
 	}
@@ -90,9 +92,53 @@ public class FENCoderTest {
 	public void testCodePiecePlacement05() {
 		coder.withPieza(Square.a8, Pieza.TORRE_NEGRO);
 		
-		String actual = coder.getPiecePlacement();
+		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
 		assertEquals("r7/8/8/8/8/8/8/8", actual);		
+	}		
+	
+	
+	@Test
+	public void withEnroqueBlancoReyPermitido() {
+		coder.withEnroqueBlancoReyPermitido(true);
+		
+		String actual = coder.getEnroques(stringBuilder).toString();
+		
+		assertEquals("K", actual);		
+	}
+	
+	@Test
+	public void withEnroqueBlancoReinaPermitido() {
+		coder.withEnroqueBlancoReinaPermitido(true);
+		
+		String actual = coder.getEnroques(stringBuilder).toString();
+		
+		assertEquals("Q", actual);		
+	}
+	
+	@Test
+	public void withEnroqueNegroReyPermitido() {
+		coder.withEnroqueNegroReyPermitido(true);
+		
+		String actual = coder.getEnroques(stringBuilder).toString();
+		
+		assertEquals("k", actual);		
+	}
+	
+	@Test
+	public void withEnroqueNegroReinaPermitido() {
+		coder.withEnroqueNegroReinaPermitido(true);
+		
+		String actual = coder.getEnroques(stringBuilder).toString();
+		
+		assertEquals("q", actual);		
+	}
+	
+	@Test
+	public void withoutEnroques() {
+		String actual = coder.getEnroques(stringBuilder).toString();
+		
+		assertEquals("-", actual);		
 	}		
 	
 
@@ -136,9 +182,63 @@ public class FENCoderTest {
 		coder.withPieza(Square.h1, Pieza.TORRE_BLANCO);		
 
 		
-		String actual = coder.getPiecePlacement();
+		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", actual);		
 	}
+	
+	@Test
+	public void testGetFEN() {
+		coder.withPieza(Square.a8, Pieza.TORRE_NEGRO);
+		coder.withPieza(Square.b8, Pieza.CABALLO_NEGRO);
+		coder.withPieza(Square.c8, Pieza.ALFIL_NEGRO);
+		coder.withPieza(Square.d8, Pieza.REINA_NEGRO);
+		coder.withPieza(Square.e8, Pieza.REY_NEGRO);
+		coder.withPieza(Square.f8, Pieza.ALFIL_NEGRO);
+		coder.withPieza(Square.g8, Pieza.CABALLO_NEGRO);
+		coder.withPieza(Square.h8, Pieza.TORRE_NEGRO);
+		
+		coder.withPieza(Square.a7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.b7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.c7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.d7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.e7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.f7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.g7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.h7, Pieza.PEON_NEGRO);
+		
+
+		coder.withPieza(Square.a2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.b2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.c2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.d2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.e2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.f2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.g2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.h2, Pieza.PEON_BLANCO);
+		
+		coder.withPieza(Square.a1, Pieza.TORRE_BLANCO);
+		coder.withPieza(Square.b1, Pieza.CABALLO_BLANCO);
+		coder.withPieza(Square.c1, Pieza.ALFIL_BLANCO);
+		coder.withPieza(Square.d1, Pieza.REINA_BLANCO);
+		coder.withPieza(Square.e1, Pieza.REY_BLANCO);
+		coder.withPieza(Square.f1, Pieza.ALFIL_BLANCO);
+		coder.withPieza(Square.g1, Pieza.CABALLO_BLANCO);
+		coder.withPieza(Square.h1, Pieza.TORRE_BLANCO);
+		
+		coder.withTurno(Color.BLANCO);
+		
+		coder.withPeonPasanteSquare(null);
+		
+		coder.withEnroqueBlancoReinaPermitido(true);
+		coder.withEnroqueBlancoReyPermitido(true);
+		coder.withEnroqueNegroReinaPermitido(true);
+		coder.withEnroqueNegroReyPermitido(true);
+		
+		
+		String actual = coder.getFEN();
+		
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", actual);		
+	}	
 
 }
