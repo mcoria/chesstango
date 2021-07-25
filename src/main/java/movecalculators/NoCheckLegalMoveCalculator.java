@@ -21,7 +21,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 
 	@Override
-	protected Collection<Move> getLegalMovesNotKing() {
+	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
 		Square kingSquare = getCurrentKingSquare();
 
 		ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
@@ -29,8 +29,6 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		// Casilleros donde se encuentran piezas propias que de moverse pueden
 		// poner en jaque al Rey.
 		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
-
-		Collection<Move> moves = createContainer();
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 

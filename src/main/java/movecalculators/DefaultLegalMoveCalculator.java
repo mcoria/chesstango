@@ -22,10 +22,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 
 	@Override
-	protected Collection<Move> getLegalMovesNotKing() {
-		Collection<Move> moves = createContainer();
-		
-
+	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, getCurrentKingSquare()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();

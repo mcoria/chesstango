@@ -32,7 +32,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected MoveFilter filter = null;
 	
-	protected abstract Collection<Move> getLegalMovesNotKing();
+	protected abstract Collection<Move> getLegalMovesNotKing(Collection<Move> moves);
 	
 	//TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 	//      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -54,13 +54,13 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		turnoActual = boardState.getTurnoActual();
 		opositeTurnoActual = turnoActual.opositeColor();
 		
-		Collection<Move> movesNotKing = getLegalMovesNotKing();
+		Collection<Move> moves = createContainer();
 		
-		Collection<Move> movesKing = getLegalMovesKing();
+		getLegalMovesNotKing(moves);
 		
-		movesNotKing.addAll(movesKing);
+		getLegalMovesKing(moves);
 		
-		return movesNotKing;
+		return moves;
 	}
 	
 	@Override
@@ -70,20 +70,17 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
 	}
 
-	protected Collection<Move> getLegalMovesKing() {
-		Collection<Move> movesKing = createContainer();
-		
+	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
 		Square 	kingSquare = getCurrentKingSquare();
 		
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
 
 		for (Move move : pseudoMovesKing) {
-			KingMove kingMove = (KingMove) move;
-			if(filter.filterMove(kingMove)){
-				movesKing.add(move);
+			if(move.filer(filter)){
+				moves.add(move);
 			}
 		}
-		return movesKing;
+		return moves;
 	}
 	
 	private boolean existsLegalMovesKing() {
@@ -125,6 +122,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		return kingCacheBoard.getKingSquare(this.turnoActual);
 	}
 	
+	//TODO: Y si en vez de generar un Collection utilizamos una clase con un array
 	protected static <T> Collection<T> createContainer() {
 		return new ArrayList<T>() {
 			/**

@@ -71,7 +71,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 	
 	
 	@Override
-	public Collection<Move> getLegalMovesNotKing() {
+	public Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
 		try {
 			boolean reportError = false;
 			
@@ -81,7 +81,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 			
 			BoardState boardStateInicial = super.boardState.clone();
 	
-			Collection<Move> result = super.getLegalMovesNotKing();
+			Collection<Move> result = super.getLegalMovesNotKing(moves);
 			
 			if (!super.boardState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
@@ -112,7 +112,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 	}
 	
 	@Override
-	public Collection<Move> getLegalMovesKing() {
+	public Collection<Move> getLegalMovesKing(Collection<Move> moves) {
 		try {
 			boolean reportError = false;
 			
@@ -122,7 +122,7 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 			
 			BoardState boardStateInicial = super.boardState.clone();
 	
-			Collection<Move> result = super.getLegalMovesKing();
+			Collection<Move> result = super.getLegalMovesKing(moves);
 			
 			if (!super.boardState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");

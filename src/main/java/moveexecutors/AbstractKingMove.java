@@ -9,6 +9,7 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import movecalculators.MoveFilter;
 
 public abstract class AbstractKingMove implements KingMove {
 	
@@ -87,6 +88,11 @@ public abstract class AbstractKingMove implements KingMove {
 	@Override
 	public void undoMove(KingCacheBoard kingCacheBoard){
 		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getFrom().getKey());	
+	}
+	
+	@Override
+	public boolean filer(MoveFilter filter){
+		return filter.filterMove(this);
 	}
 	
 	@Override

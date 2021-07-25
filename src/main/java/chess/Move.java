@@ -3,6 +3,7 @@ package chess;
 import layers.ColorBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import movecalculators.MoveFilter;
 
 //TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a square vacios
@@ -29,5 +30,8 @@ public interface Move extends Comparable<Move> {
 	
 	void executeMove(Board board);
 	void undoMove(Board board);
+	
+	
+	boolean filer(MoveFilter filter);
 	
 }
