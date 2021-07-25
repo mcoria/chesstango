@@ -70,7 +70,7 @@ public class BoardTest {
 	}
 
 	@Test
-	public void test02() {
+	public void testKingInCheck01() {
 		Board tablero = getBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
 		BoardStatus result = tablero.getBoardStatus();
@@ -87,7 +87,7 @@ public class BoardTest {
 	}
 
 	@Test
-	public void test03() {
+	public void testKingInCheck02() {
 		Board tablero = getBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
 
 		BoardStatus result = tablero.getBoardStatus();

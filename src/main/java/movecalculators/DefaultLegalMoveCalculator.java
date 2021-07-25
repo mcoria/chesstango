@@ -20,10 +20,11 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
 	}	
 
-
 	@Override
-	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
-		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, getCurrentKingSquare()); iterator.hasNext();) {
+	public Collection<Move> getLegalMoves() {		
+		Collection<Move> moves = createContainer();
+		
+		for (SquareIterator iterator = colorBoard.iteratorSquare(boardState.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			
@@ -35,7 +36,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(filter.filterMove(move)){
+				if(move.filer(filter)){
 					moves.add(move);
 				}
 			}
@@ -45,10 +46,9 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		return moves;
 	}
 
-
 	@Override
-	protected boolean existsLegalMovesNotKing() {
-		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, getCurrentKingSquare()); iterator.hasNext();) {
+	public boolean existsLegalMove() {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(boardState.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			
@@ -60,7 +60,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al rey en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
 			for (Move move : pseudoMoves) {
-				if(filter.filterMove(move)){
+				if(move.filer(filter)){
 					return true;
 				}
 			}
@@ -68,7 +68,6 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		}
 		return false;
 	}
-
 	
 	
 }

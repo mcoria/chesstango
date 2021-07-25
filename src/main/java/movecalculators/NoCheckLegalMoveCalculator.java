@@ -3,6 +3,7 @@ package movecalculators;
 import java.util.Collection;
 
 import chess.BoardState;
+import chess.Color;
 import chess.Move;
 import chess.Square;
 import iterators.SquareIterator;
@@ -21,8 +22,11 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 
 	@Override
-	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
-		Square kingSquare = getCurrentKingSquare();
+	public Collection<Move> getLegalMoves() {
+		final Color turnoActual = boardState.getTurnoActual();
+		final Square kingSquare = getCurrentKingSquare();
+		
+		Collection<Move> moves = createContainer();
 
 		ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
 
@@ -30,7 +34,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		// poner en jaque al Rey.
 		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
-		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(turnoActual); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
 
@@ -45,7 +49,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 					// assert origen.equals(move.getFrom());
 
-					if (filter.filterMove(move)) {
+					if (move.filer(filter)) {
 						moves.add(move);
 					}
 				}
@@ -59,9 +63,13 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		return moves;
 	}
 
+	
+
+
 	@Override
-	protected boolean existsLegalMovesNotKing() {
-		Square kingSquare = getCurrentKingSquare();
+	public boolean existsLegalMove() {
+		final Color turnoActual = boardState.getTurnoActual();
+		final Square kingSquare = getCurrentKingSquare();
 
 		ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
 
@@ -69,7 +77,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		// poner en jaque al Rey.
 		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
-		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(turnoActual); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
 
@@ -84,7 +92,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 					// assert origen.equals(move.getFrom());
 
-					if (filter.filterMove(move)) {
+					if (move.filer(filter)) {
 						return true;
 					}
 				}
