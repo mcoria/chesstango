@@ -21,8 +21,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}	
 
 	@Override
-	public Collection<Move> getLegalMoves() {	
-		count++;
+	public Collection<Move> getLegalMoves() {
 		
 		Collection<Move> moves = createContainer();
 		
@@ -50,6 +49,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 	@Override
 	public boolean existsLegalMove() {
+		count++;
 		for (SquareIterator iterator = colorBoard.iteratorSquare(boardState.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();

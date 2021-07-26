@@ -27,8 +27,6 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 	@Override
 	public Collection<Move> getLegalMoves() {
-		count++;
-		
 		Collection<Move> moves = createContainer();
 		
 		getLegalMovesNotKing(moves);
@@ -39,7 +37,8 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 	
 	@Override
-	public boolean existsLegalMove() {		
+	public boolean existsLegalMove() {	
+		count++;
 		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
 	}	
 

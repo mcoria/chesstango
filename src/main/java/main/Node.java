@@ -9,15 +9,12 @@ public class Node {
 	
 	private String id;
 	
-	private int level;
-	
 	private Map<Move, Node> childs;
 	
 	private int childNodesCounter;
 	
-	public Node(String id, int level) {
+	public Node(String id) {
 		this.id = id;
-		this.level = level;
 	}
 
 	public String getId() {
@@ -34,14 +31,6 @@ public class Node {
 
 	public void setChilds(Map<Move, Node> childs) {
 		this.childs = childs;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 	public int getChildNodesCounter() {
