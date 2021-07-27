@@ -17,7 +17,7 @@ import parsers.FENParser;
 
 public class ChessMain {
 	
-	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671};
+	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 0};
 	
 	private int maxLevel;
 	
@@ -68,45 +68,55 @@ public class ChessMain {
 
 	private void visitChilds(Game game, Node currentNode, int level) {
 		int totalMoves = 0;
-		
+
 		Map<String, Node> nodeMap = nodeListMap.get(level);
-		
+
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
-		
+
 		Map<Move, Node> childNodes = new HashMap<Move, Node>(movimientosPosible.size());
-		
-		for (Move move : movimientosPosible) {
-			game.executeMove(move);
 
-			String id = code(game);
-			Node node = nodeMap.get(id);
-			if (node == null) {
-				node = new Node(id);
-				nodeMap.put(id, node);
+		if (level < this.maxLevel || this.maxLevel == 1) {
+			for (Move move : movimientosPosible) {
+
+				Node node = null;
 				if (level < this.maxLevel) {
-					visitChilds(game, node, level + 1);
-				} else if (level == this.maxLevel) {
+					
+					game.executeMove(move);
+
+					String id = code(game);
+					node = nodeMap.get(id);
+
+					if (node == null) {
+						node = new Node(id);
+						nodeMap.put(id, node);
+						visitChilds(game, node, level + 1);
+					} else {
+						repetedNodes[level]++;
+					}
+
+					game.undoMove();
+
+				} else if (this.maxLevel == 1) {
+					node = new Node(null);
 					node.setChildNodesCounter(1);
-				} else {
-					throw new RuntimeException("Error");
 				}
-			} else {
-				repetedNodes[level]++;
+				childNodes.put(move, node);
+				totalMoves += node.getChildNodesCounter();
 			}
-
-			childNodes.put(move, node);
-			totalMoves += node.getChildNodesCounter();
-
-			game.undoMove();
+		} else {
+			totalMoves+=movimientosPosible.size();
 		}
 
 		currentNode.setChilds(childNodes);
 		currentNode.setChildNodesCounter(totalMoves);
 	}
 	
+	
+	
+	
 	public void printNode(Game game, Node rootNode) {
-		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
 		System.out.println("Total Moves: " + rootNode.getMoves());
+		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
 		
 		Map<Move, Node> childs = rootNode.getChilds();
 		if(childs != null){
@@ -127,6 +137,7 @@ public class ChessMain {
 		System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
 	}
 	
+	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	private String code(Game board) {
 		board.getTablero().buildRepresentation(coder);
 		return coder.getFEN();

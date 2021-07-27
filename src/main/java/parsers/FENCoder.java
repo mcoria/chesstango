@@ -17,7 +17,7 @@ public class FENCoder implements ChessBuilder {
 	private Pieza[][] tablero = new Pieza[8][8];
 
 	public String getFEN() {
-		StringBuilder stringBuilder = new StringBuilder(60);
+		final StringBuilder stringBuilder = new StringBuilder(70);
 		
 		getPiecePlacement(stringBuilder).append(' ');
 		

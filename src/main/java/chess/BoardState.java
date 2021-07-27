@@ -23,6 +23,7 @@ public class BoardState {
 		private boolean enroqueNegroReinaPermitido;
 		private boolean enroqueNegroReyPermitido;
 	}
+
 	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
 	
 	public Square getPeonPasanteSquare() {
