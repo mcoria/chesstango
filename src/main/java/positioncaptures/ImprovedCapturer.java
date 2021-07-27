@@ -11,6 +11,7 @@ import iterators.CardinalSquareIterator;
 import iterators.SaltoSquareIterator;
 import layers.PosicionPiezaBoard;
 import movegenerators.CaballoMoveGenerator;
+import movegenerators.ReyAbstractMoveGenerator;
 
 public class ImprovedCapturer implements Capturer {
 	
@@ -41,7 +42,8 @@ public class ImprovedCapturer implements Capturer {
 		private final Pieza reyna;
 		private final Pieza caballo;
 		private final int[][] saltosPeon;
-		private final Pieza peon;	
+		private final Pieza peon;
+		private final Pieza rey;
 		
 		private final int[][] casillerosPeonBlanco = {
 			{ -1, -1 }, 
@@ -52,6 +54,7 @@ public class ImprovedCapturer implements Capturer {
 			{ -1, 1 }, 
 			{ 1, 1 }
 		};
+
 		
 		public ImprovedCapturerColor(Color color, PosicionPiezaBoard dummyBoard) {
 			this.dummyBoard = dummyBoard;
@@ -61,14 +64,16 @@ public class ImprovedCapturer implements Capturer {
 				reyna = Pieza.REINA_BLANCO;
 				caballo = Pieza.CABALLO_BLANCO;
 				saltosPeon = casillerosPeonBlanco;
-				peon = Pieza.PEON_BLANCO;			
+				peon = Pieza.PEON_BLANCO;
+				rey = Pieza.REY_BLANCO;
 			} else {
 				torre = Pieza.TORRE_NEGRO;
 				alfil = Pieza.ALFIL_NEGRO;
 				reyna = Pieza.REINA_NEGRO;;
 				caballo = Pieza.CABALLO_NEGRO;
 				saltosPeon = casillerosPeonNegro;
-				peon = Pieza.PEON_NEGRO;			
+				peon = Pieza.PEON_NEGRO;
+				rey = Pieza.REY_NEGRO;
 			}		
 		}
 
@@ -76,12 +81,13 @@ public class ImprovedCapturer implements Capturer {
 			if(positionCapturedByCaballo(square)	||
 			   positionCapturedByTorre(square)	||
 			   positionCapturedByAlfil(square)   ||
-			   positionCapturedByPeon(square)) {
+			   positionCapturedByPeon(square) ||
+			   positionCapturedByRey(square)) {
 				return true;
 			}
 			return false;
-		}	
-		
+		}
+
 		private Cardinal[]  direccionesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
 		private boolean positionCapturedByAlfil(Square square) {
 			return positionCapturedByDireccion(square, direccionesAlfil,  alfil);
@@ -141,6 +147,17 @@ public class ImprovedCapturer implements Capturer {
 			}
 			return false;
 		}
+		
+		private boolean positionCapturedByRey(Square square) {
+			Iterator<PosicionPieza> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, ReyAbstractMoveGenerator.SALTOS_REY));
+			while (iterator.hasNext()) {
+			    PosicionPieza destino = iterator.next();
+			    if(rey.equals(destino.getValue())){		    	
+			    	return true;
+			    }
+			}
+			return false;
+		}		
 
 	}	
 

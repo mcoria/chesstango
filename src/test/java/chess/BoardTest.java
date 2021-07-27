@@ -224,6 +224,20 @@ public class BoardTest {
 	
 	}
 	
+	@Test
+	public void testReyEnJaque(){
+		Board tablero = getBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
+		
+		Collection<Move> moves = tablero.getLegalMoves();
+		
+		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f2)));
+		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f1)));
+		assertFalse(moves.contains(new EnroqueBlancoReyMove()));
+		
+		assertEquals(12, moves.size());
+		
+	}
+	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
 		if (Pieza.REY_NEGRO.equals(origenPieza) || Pieza.REY_BLANCO.equals(origenPieza)) {
 			return new SimpleReyMove(new PosicionPieza(origenSquare, origenPieza),
