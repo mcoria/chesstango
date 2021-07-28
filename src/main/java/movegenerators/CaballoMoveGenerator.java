@@ -30,5 +30,10 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	public boolean saveMovesInCache() {
 		return true;
 	}
+
+	@Override
+	public boolean hasCapturePeonPasante() {
+		return false;
+	}
 	
 }

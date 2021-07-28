@@ -11,6 +11,7 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;
 
@@ -55,10 +56,12 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
+			
+			MoveGeneratorResult generatorResult = getPseudoMovesResult(origenSquare);
 
-			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
+			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
 
-			if (pinnedSquares.contains(origenSquare)) {
+			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCapturePeonPasante()) {
 				for (Move move : pseudoMoves) {
 					/*
 					 * if(! origen.equals(move.getFrom()) ){ throw new

@@ -13,6 +13,8 @@ public class MoveGeneratorResult {
 	private long affectedByContainer;
 
 	private boolean saveMovesInCache;
+	
+	private boolean hasCapturePeonPasante;
 
 	public MoveGeneratorResult() {
 		moveContainer = createContainer(); 
@@ -43,6 +45,15 @@ public class MoveGeneratorResult {
 	public void moveContainerAdd(Move move) {
 		moveContainer.add(move);
 	}	
+	
+	
+	public void setHasCapturePeonPasante(boolean hasCapturePeonPasante) {
+		this.hasCapturePeonPasante = hasCapturePeonPasante;
+	}
+	
+	public boolean hasCapturePeonPasante() {
+		return this.hasCapturePeonPasante;
+	}
 	
 	private static <T> Collection<T> createContainer(){
 		return new ArrayList<T>() {

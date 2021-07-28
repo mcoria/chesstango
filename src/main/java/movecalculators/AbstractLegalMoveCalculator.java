@@ -38,25 +38,26 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		this.filter = filter;
 	}
 
-	protected Collection<Move> getPseudoMoves(Square origenSquare) {
-		Collection<Move> pseudoMoves = null;
 	
-		pseudoMoves = moveCache.getPseudoMoves(origenSquare);
+	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
+		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 	
-		if (pseudoMoves == null) {
+		if (generatorResult == null) {
 	
 			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
 	
 			MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy);
 	
-			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+			generatorResult = moveGenerator.calculatePseudoMoves(origen);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
-			
-			pseudoMoves = generatorResult.getPseudoMoves();
 		}
 		
-		return pseudoMoves;
+		return generatorResult;
+	}
+	
+	protected Collection<Move> getPseudoMoves(Square origenSquare) {		
+		return getPseudoMovesResult(origenSquare).getPseudoMoves();
 	}	
 	
 

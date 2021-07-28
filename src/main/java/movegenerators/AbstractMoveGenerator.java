@@ -23,15 +23,19 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	public abstract boolean saveMovesInCache();
 	
+	public abstract boolean hasCapturePeonPasante();
+	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;
 	}
 	
+	//TODO: revisar como estamos haciendo el settup de MoveGeneratorResult(), quizas conviene un metodo abstracto
 	@Override
 	public MoveGeneratorResult calculatePseudoMoves(PosicionPieza origen){
 		this.result = new MoveGeneratorResult();
 		generateMovesPseudoMoves(origen);
 		this.result.setSaveMovesInCache(saveMovesInCache());
+		this.result.setHasCapturePeonPasante(hasCapturePeonPasante());
 		return this.result;
 	}
 

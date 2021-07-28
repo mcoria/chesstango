@@ -35,6 +35,7 @@ public class PerftSuite {
 
 	protected String fen;
 	protected int[] perftResults;
+	
 
 	protected void run(String tests) {
 		parseTests(tests);
@@ -49,7 +50,7 @@ public class PerftSuite {
 			if(rootNode.getChildNodesCounter() == perftResults[i]){
 				System.out.println("depth " + (i + 1) + " OK" );
 			} else {
-				System.out.println("depth " + (i + 1) + " FAIL" );
+				System.out.println("depth " + (i + 1) + " FAIL, expected = " + perftResults[i] + ", actual = " + rootNode.getChildNodesCounter());
 				break;
 			}
 			

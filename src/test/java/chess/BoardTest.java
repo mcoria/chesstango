@@ -13,6 +13,7 @@ import builder.ChessBuilderBoard;
 import debug.builder.DebugChessFactory;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
+import moveexecutors.CapturePeonPasante;
 import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueBlancoReyMove;
 import moveexecutors.EnroqueBlancoReynaMove;
@@ -236,6 +237,18 @@ public class BoardTest {
 		
 		assertEquals(12, moves.size());
 		
+	}
+	
+	@Test
+	public void testMovimientoPeonPasanteNoPermitido(){
+		Board tablero = getBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
+		
+		Collection<Move> moves = tablero.getLegalMoves();
+		
+		assertFalse(moves.contains(createCapturePeonPasanteMoveNegro(Square.f4, Square.g3)));
+		
+		assertEquals(17, moves.size());
+		
 	}	
 	
 	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
@@ -264,6 +277,10 @@ public class BoardTest {
 		}
 		return new CaptureMove(new PosicionPieza(origenSquare, origenPieza),
 				new PosicionPieza(destinoSquare, destinoPieza));
+	}
+	
+	private Move createCapturePeonPasanteMoveNegro(Square origen, Square destinoSquare) {
+		return new CapturePeonPasante(new PosicionPieza(origen, Pieza.PEON_NEGRO), new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1 ), Pieza.PEON_BLANCO));
 	}
 
 	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {

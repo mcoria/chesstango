@@ -25,6 +25,10 @@ public class MoveCacheBoard {
 		MoveGeneratorResult result = pseudoMoves[key.toIdx()];
 		return result == null ? null  : result.getPseudoMoves();
 	}
+	
+	public MoveGeneratorResult getPseudoMovesResult(Square key) {
+		return  pseudoMoves[key.toIdx()];
+	}	
 	 
 	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
 		if(generatorResult.isSaveMovesInCache()){
