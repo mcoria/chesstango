@@ -1,6 +1,7 @@
 package main;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -77,6 +78,19 @@ public class SuiteTest2 {
 		
 		assertEquals(48, board.getMovimientosPosibles().size());
 		assertEquals(193690690, rootNode.getChildNodesCounter());		
+	}
+	
+	
+	@Test
+	public void test_divide5_a1b1() {
+		board.executeMove(Square.a1, Square.b1);
+		
+		Node rootNode = main.start(board, 4);
+		
+		assertFalse(board.getTablero().getBoardState().isEnroqueBlancoReinaPermitido());
+		
+		assertEquals(43, board.getMovimientosPosibles().size());
+		assertEquals(3827454, rootNode.getChildNodesCounter());		
 	}
 	
 	@Test

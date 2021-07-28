@@ -225,7 +225,7 @@ public class BoardTest {
 	}
 	
 	@Test
-	public void testReyMueveYJaque(){
+	public void testReyNoPuedeMoverAJaque(){
 		Board tablero = getBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 		
 		Collection<Move> moves = tablero.getLegalMoves();
@@ -235,17 +235,6 @@ public class BoardTest {
 		assertFalse(moves.contains(new EnroqueBlancoReyMove()));
 		
 		assertEquals(12, moves.size());
-		
-	}
-	
-	@Test
-	public void testReyMoveYPierdeEnroque(){
-		Board tablero = getBoard("r4r1k/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w - - 4 3");
-		
-		Collection<Move> moves = tablero.getLegalMoves();
-		
-		
-		assertEquals(46, moves.size());
 		
 	}	
 	

@@ -4,6 +4,7 @@ import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
+import chess.Square;
 import layers.MoveCacheBoard;
 import movecalculators.MoveFilter;
 
@@ -36,11 +37,28 @@ public abstract class AbstractMove implements Move {
 		board.undoMove(this);
 	}
 
+	//TODO: implementar un decorator antes de crear el movimiento
 	@Override
 	public void executeMove(BoardState boardState) {
 		boardState.pushState();
 		boardState.rollTurno();
 		boardState.setPeonPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePeonMove
+		
+		if(from.getKey().equals(Square.a1) || to.getKey().equals(Square.a1)){
+			boardState.setEnroqueBlancoReinaPermitido(false);
+		}
+		
+		if(from.getKey().equals(Square.h1) || to.getKey().equals(Square.h1)){
+			boardState.setEnroqueBlancoReyPermitido(false);
+		}
+		
+		if(from.getKey().equals(Square.a8) || to.getKey().equals(Square.a8)){
+			boardState.setEnroqueNegroReinaPermitido(false);
+		}
+		
+		if(from.getKey().equals(Square.h8) || to.getKey().equals(Square.h8)){
+			boardState.setEnroqueNegroReyPermitido(false);
+		}		
 	}
 	
 	@Override
