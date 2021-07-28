@@ -1,6 +1,7 @@
 package moveexecutor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -35,6 +36,44 @@ public class SimpleReyMoveTest {
 		board = null;
 	}
 
+	
+	@Test
+	public void testSimpleReyMoveBlancoPierdeEnroque() {
+		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setEnroqueBlancoReyPermitido(true);
+		boardState.setEnroqueBlancoReinaPermitido(false);
+
+		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.f1, null);
+
+		moveExecutor = new SimpleReyMove(origen, destino);
+
+		moveExecutor.executeMove(boardState);
+
+		assertEquals(Color.NEGRO, boardState.getTurnoActual());
+		assertFalse(boardState.isEnroqueBlancoReyPermitido());
+		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
+	}
+	
+	
+	@Test
+	public void testSimpleReyMoveNegroPierdeEnroque() {
+		boardState.setTurnoActual(Color.NEGRO);
+		boardState.setEnroqueNegroReinaPermitido(true);
+		boardState.setEnroqueNegroReyPermitido(false);
+
+		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
+		PosicionPieza destino = new PosicionPieza(Square.f8, null);
+
+		moveExecutor = new SimpleReyMove(origen, destino);
+
+		moveExecutor.executeMove(boardState);
+
+		assertEquals(Color.BLANCO, boardState.getTurnoActual());
+		assertFalse(boardState.isEnroqueNegroReyPermitido());
+		assertFalse(boardState.isEnroqueNegroReinaPermitido());
+	}	
+	
 	@Test
 	public void testExecuteUndoBoardState() {
 		boardState.setTurnoActual(Color.BLANCO);

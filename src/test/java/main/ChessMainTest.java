@@ -17,16 +17,16 @@ import parsers.FENParser;
 
 public class ChessMainTest {
 	private ChessMain main;
+	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {
 		main = new ChessMain();
+		board =  getDefaultGame();
 	}
 
 	@Test
 	public void test_divide1() {
-		Game board =  getDefaultGame();
-		
 		Node rootNode = main.start(board, 1);
 		
 		assertEquals(1, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
@@ -56,8 +56,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide2() {
-		Game board =  getDefaultGame();
-		
 		Node rootNode = main.start(board, 2);
 		
 		assertEquals(20, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
@@ -88,8 +86,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide3() {
-		Game board =  getDefaultGame();
-		
 		Node rootNode = main.start(board, 3);
 		
 		assertEquals(380, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
@@ -120,8 +116,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_divide4() {
-		Game board = getDefaultGame();
-		
 		Node rootNode = main.start(board, 4);
 
 		assertEquals(8457, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
@@ -151,8 +145,6 @@ public class ChessMainTest {
 	
 	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 50segs 46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs 10segs 8segs 7segs
 	public void test_divide5() {
-		Game board = getDefaultGame();
-		
 		Node rootNode = main.start(board, 5);
 		
 		assertEquals(181046, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
@@ -183,8 +175,6 @@ public class ChessMainTest {
 
 	@Test //139segs
 	public void test_divide6() {
-		Game board = getDefaultGame();
-		
 		Node rootNode = main.start(board, 6);
 		
 		assertEquals(4463267, rootNode.getChildNode(Square.a2, Square.a3 ).getChildNodesCounter());
@@ -215,7 +205,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3() {
-		Game board = getDefaultGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		
@@ -227,7 +216,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_a7a5_b1a3_a5a4_c2c3() {
-		Game board =  getDefaultGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.a7, Square.a5);
@@ -244,8 +232,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_a7a6_c1h6_a8a7_h6h5() {
-		Game board =  getDefaultGame();
-		
+
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.a7, Square.a6);
 		board.executeMove(Square.c1, Square.h6);
@@ -262,7 +249,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_c7c5() {
-		Game board = getDefaultGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
@@ -275,7 +261,6 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_c7c5_e1d2() {
-		Game board =  getDefaultGame();
 		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
@@ -290,8 +275,7 @@ public class ChessMainTest {
 	
 	@Test
 	public void test_d2d3_c7c5_e1d2_d8a5() {
-		Game board = getDefaultGame();
-		
+
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
 		board.executeMove(Square.e1, Square.d2);

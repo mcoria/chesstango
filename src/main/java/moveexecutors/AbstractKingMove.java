@@ -4,6 +4,7 @@ import chess.Board;
 import chess.BoardState;
 import chess.KingMove;
 import chess.Move;
+import chess.Pieza;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -52,6 +53,13 @@ public abstract class AbstractKingMove implements KingMove {
 	@Override
 	public void executeMove(BoardState boardState) {
 		move.executeMove(boardState);
+		if(Pieza.REY_BLANCO.equals(move.getFrom().getValue()) ){
+			boardState.setEnroqueBlancoReinaPermitido(false);
+			boardState.setEnroqueBlancoReyPermitido(false);
+		} else {
+			boardState.setEnroqueNegroReinaPermitido(false);
+			boardState.setEnroqueNegroReyPermitido(false);
+		}
 	}
 
 	@Override
