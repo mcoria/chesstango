@@ -1,67 +1,59 @@
 package moveexecutors;
 
-import chess.Move;
+import chess.Board;
 import layers.ColorBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
-import movecalculators.MoveFilter;
 
-public abstract class EnroqueMove extends AbstractKingMove  {
+public class EnroqueMove extends MoveDecorator  {
+	protected final SimpleMove torreMove;	
 	
-	protected abstract SimpleReyMove getReyMove();
-	protected abstract SimpleMove getTorreMove();	
+	public EnroqueMove(SimpleReyMove reyMove, SimpleMove torreMove) {
+		super(reyMove);
+		this.torreMove = torreMove;
+	}
+
+	@Override
+	public void executeMove(Board board) {
+		board.executeKingMove(this);
+	}
 	
-	public EnroqueMove(Move move) {
-		super(move);
+	@Override
+	public void undoMove(Board board) {
+		board.undoKingMove(this);
 	}
 	
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
-		getReyMove().executeMove(board);
-		getTorreMove().executeMove(board);
+		move.executeMove(board);
+		torreMove.executeMove(board);
 	}
 
 
 	@Override
 	public void undoMove(PosicionPiezaBoard board) {
-		getReyMove().undoMove(board);
-		getTorreMove().undoMove(board);
+		move.undoMove(board);
+		torreMove.undoMove(board);
 	}	
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
-		getReyMove().executeMove(colorBoard);
-		getTorreMove().executeMove(colorBoard);
+		move.executeMove(colorBoard);
+		torreMove.executeMove(colorBoard);
 	}
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
-		getReyMove().undoMove(colorBoard);
-		getTorreMove().undoMove(colorBoard);
+		move.undoMove(colorBoard);
+		torreMove.undoMove(colorBoard);
 	}
 	
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushState();
-		SimpleReyMove reyMove = getReyMove();
-		SimpleMove torreMove = getTorreMove();
-		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
+		moveCache.clearPseudoMoves(move.getFrom().getKey(), move.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
 	}
-	
-	@Override
-	public boolean filter(MoveFilter filter){
-		return true;
-	}	
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof EnroqueMove){
-			EnroqueMove theOther = (EnroqueMove) obj;
-			return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
-		}
-		return false;
-	}
-	
 
 }

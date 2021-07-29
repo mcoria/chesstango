@@ -17,7 +17,7 @@ public class EnroqueNegroReynaMove extends EnroqueMove {
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
 	public EnroqueNegroReynaMove() {
-		super(REY_MOVE);
+		super(REY_MOVE, TORRE_MOVE);
 	}
 	
 	
@@ -27,15 +27,12 @@ public class EnroqueNegroReynaMove extends EnroqueMove {
 		boardState.setEnroqueNegroReyPermitido(false);
 		boardState.setEnroqueNegroReinaPermitido(false);
 	}
-
+	
 	@Override
-	protected SimpleReyMove getReyMove() {
-		return REY_MOVE;
+	public boolean equals(Object obj) {
+		if(obj instanceof EnroqueNegroReynaMove){
+			return true;
+		}
+		return false;
 	}
-
-	@Override
-	protected SimpleMove getTorreMove() {
-		return TORRE_MOVE;
-	}
-
 }
