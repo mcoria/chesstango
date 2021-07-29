@@ -1,6 +1,7 @@
 package chess;
 
 import layers.ColorBoard;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
@@ -27,6 +28,8 @@ public interface Move extends Comparable<Move> {
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
 	
+	void executeMove(KingCacheBoard kingCacheBoard);
+	void undoMove(KingCacheBoard kingCacheBoard);
 	
 	void executeMove(Board board);
 	void undoMove(Board board);

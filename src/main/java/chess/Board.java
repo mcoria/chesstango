@@ -44,8 +44,8 @@ public class Board {
 		
 	}
 	
-	public void executeMove(KingMove move) {
-		executeMove((Move)move);
+	public void executeKingMove(Move move) {
+		executeMove(move);
 		
 		move.executeMove(this.kingCacheBoard);
 		
@@ -68,8 +68,8 @@ public class Board {
 	}
 	
 
-	public void undoMove(KingMove move) {
-		undoMove((Move) move);
+	public void undoKingMove(Move move) {
+		undoMove(move);
 
 		move.undoMove(this.kingCacheBoard);
 	}	

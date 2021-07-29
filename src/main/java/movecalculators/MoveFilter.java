@@ -2,7 +2,6 @@ package movecalculators;
 
 import chess.BoardState;
 import chess.Color;
-import chess.KingMove;
 import chess.Move;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -45,7 +44,7 @@ public class MoveFilter {
 		return result;
 	}
 	
-	public boolean filterMove(KingMove move) {
+	public boolean filterKingMove(Move move) {
 		boolean result = false;
 		
 		move.executeMove(this.kingCacheBoard);

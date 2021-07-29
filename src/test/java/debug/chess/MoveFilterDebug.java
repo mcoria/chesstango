@@ -1,7 +1,6 @@
 package debug.chess;
 
 import chess.BoardState;
-import chess.KingMove;
 import chess.Move;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -64,7 +63,7 @@ public class MoveFilterDebug extends MoveFilter {
 	}
 	
 	@Override
-	public boolean filterMove(KingMove move) {
+	public boolean filterKingMove(Move move) {
 		try {
 			boolean reportError = false;
 			
@@ -72,7 +71,7 @@ public class MoveFilterDebug extends MoveFilter {
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
-			boolean result = super.filterMove(move);			
+			boolean result = super.filterKingMove(move);			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
 				System.out.println("El cache de rey fué modificado");

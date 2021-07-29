@@ -5,6 +5,7 @@ import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movecalculators.MoveFilter;
 
@@ -76,6 +77,14 @@ public abstract class AbstractMove implements Move {
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
 	}
+	
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard) {		
+	}
+
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard) {
+	}	
 	
 	@Override
 	public boolean filter(MoveFilter filter){

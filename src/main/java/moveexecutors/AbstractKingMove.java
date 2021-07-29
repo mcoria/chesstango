@@ -2,7 +2,6 @@ package moveexecutors;
 
 import chess.Board;
 import chess.BoardState;
-import chess.KingMove;
 import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -12,9 +11,9 @@ import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
-public abstract class AbstractKingMove implements KingMove {
+public abstract class AbstractKingMove implements Move {
 	
-	protected Move move;
+	protected final Move move;
 	
 	public AbstractKingMove(Move move) {
 		this.move = move;
@@ -32,12 +31,12 @@ public abstract class AbstractKingMove implements KingMove {
 
 	@Override
 	public void executeMove(Board board) {
-		board.executeMove(this);
+		board.executeKingMove(this);
 	}
 	
 	@Override
 	public void undoMove(Board board) {
-		board.undoMove(this);
+		board.undoKingMove(this);
 	}	
 	
 	@Override
@@ -50,6 +49,7 @@ public abstract class AbstractKingMove implements KingMove {
 		move.undoMove(board);
 	}
 
+	//TODO: Esto deberia ser un decorator
 	@Override
 	public void executeMove(BoardState boardState) {
 		move.executeMove(boardState);
@@ -100,7 +100,7 @@ public abstract class AbstractKingMove implements KingMove {
 	
 	@Override
 	public boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
+		return filter.filterKingMove(this);
 	}
 	
 	@Override
