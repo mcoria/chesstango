@@ -5,6 +5,7 @@ import layers.ColorBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
+//TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
 public class CapturePeonPasante extends SimpleMove {
 
 	private final PosicionPieza captura;
