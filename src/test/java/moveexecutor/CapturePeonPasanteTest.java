@@ -22,7 +22,6 @@ import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
-import moveexecutors.CaptureMove;
 import moveexecutors.CapturePeonPasante;
 
 @RunWith(MockitoJUnitRunner.class)

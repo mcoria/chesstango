@@ -82,8 +82,8 @@ public class SimpleReyMoveTest {
 	public void testBoardState() {
 		boardState.setTurnoActual(Color.BLANCO);
 
-		PosicionPieza origen = new PosicionPieza(Square.d2, Pieza.REY_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e3, null);
+		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e2, null);
 
 		moveExecutor = new SimpleReyMove(origen, destino);
 
@@ -100,10 +100,10 @@ public class SimpleReyMoveTest {
 	public void testSimpleReyMoveBlancoPierdeEnroque() {
 		boardState.setTurnoActual(Color.BLANCO);
 		boardState.setEnroqueBlancoReyPermitido(true);
-		boardState.setEnroqueBlancoReinaPermitido(false);
+		boardState.setEnroqueBlancoReinaPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.f1, null);
+		PosicionPieza destino = new PosicionPieza(Square.e2, null);
 
 		moveExecutor = new SimpleReyMove(origen, destino);
 
@@ -119,36 +119,36 @@ public class SimpleReyMoveTest {
 	public void testSimpleReyMoveNegroPierdeEnroque() {
 		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroReyPermitido(false);
+		boardState.setEnroqueNegroReyPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
-		PosicionPieza destino = new PosicionPieza(Square.f8, null);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 
 		moveExecutor = new SimpleReyMove(origen, destino);
 
 		moveExecutor.executeMove(boardState);
 
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueNegroReyPermitido());
 		assertFalse(boardState.isEnroqueNegroReinaPermitido());
+		assertFalse(boardState.isEnroqueNegroReyPermitido());
 	}		
 
 	@Test
 	public void testKingCacheBoard() {
 		kingCacheBoard.setKingSquare(Color.BLANCO, Square.d2);
 
-		PosicionPieza origen = new PosicionPieza(Square.d2, Pieza.REY_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e3, null);
+		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e2, null);
 
 		moveExecutor = new SimpleReyMove(origen, destino);
 
 		moveExecutor.executeMove(kingCacheBoard);
 
-		assertEquals(Square.e3, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.e2, kingCacheBoard.getSquareKingBlancoCache());
 
 		moveExecutor.undoMove(kingCacheBoard);
 
-		assertEquals(Square.d2, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.e1, kingCacheBoard.getSquareKingBlancoCache());
 	}
 	
 	@Test
