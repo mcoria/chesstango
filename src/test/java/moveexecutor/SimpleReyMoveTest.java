@@ -134,7 +134,7 @@ public class SimpleReyMoveTest {
 	}		
 
 	@Test
-	public void testMoveCacheBoard() {
+	public void testKingCacheBoard() {
 		kingCacheBoard.setKingSquare(Color.BLANCO, Square.d2);
 
 		PosicionPieza origen = new PosicionPieza(Square.d2, Pieza.REY_BLANCO);
