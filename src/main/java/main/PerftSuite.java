@@ -12,10 +12,15 @@ import parsers.FENParser;
 public class PerftSuite {
 
 	public static void main(String[] args) {
+		//execute("main/perftsuite1.txt");
+		execute("main/perftsuite2.txt");
+	}
+	
+	private static void execute(String filename){
 		try {
 			PerftSuite suite = new PerftSuite();
 			
-			InputStream instr = suite.getClass().getClassLoader().getResourceAsStream("main/perftsuite.txt");
+			InputStream instr = suite.getClass().getClassLoader().getResourceAsStream(filename);
 
 			// reading the files with buffered reader
 			InputStreamReader strrd = new InputStreamReader(instr);
@@ -26,11 +31,14 @@ public class PerftSuite {
 
 			// outputting each line of the file.
 			while ((line = rr.readLine()) != null) {
-				suite.run(line);
+				if(!line.startsWith("#")){
+					suite.run(line);
+				}
 			}
+			
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
+		}		
 	}
 
 	protected String fen;
