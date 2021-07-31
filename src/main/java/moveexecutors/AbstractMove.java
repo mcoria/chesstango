@@ -1,13 +1,10 @@
 package moveexecutors;
 
-import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
-import movecalculators.MoveFilter;
 
 public abstract class AbstractMove implements Move {
 	protected final PosicionPieza from;
@@ -26,16 +23,6 @@ public abstract class AbstractMove implements Move {
 	@Override
 	public PosicionPieza getTo() {
 		return to;
-	}	
-	
-	@Override
-	public void executeMove(Board board) {
-		board.executeMove(this);
-	}
-	
-	@Override
-	public void undoMove(Board board) {
-		board.undoMove(this);
 	}
 
 	//TODO: implementar un decorator antes de crear el movimiento
@@ -76,19 +63,6 @@ public abstract class AbstractMove implements Move {
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
-	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {		
-	}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {
-	}	
-	
-	@Override
-	public boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
 	}	
 	
 	@Override

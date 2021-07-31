@@ -1,14 +1,32 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.PosicionPieza;
 import layers.ColorBoard;
+import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
+import movecalculators.MoveFilter;
 
 public class SimpleMove extends AbstractMove {
 	
 	public SimpleMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
+	
+	@Override
+	public void executeMove(Board board) {
+		board.executeMove(this);
+	}
+	
+	@Override
+	public void undoMove(Board board) {
+		board.undoMove(this);
+	}	
+	
+	@Override
+	public boolean filter(MoveFilter filter){
+		return filter.filterMove(this);
+	}	
 	
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
@@ -32,6 +50,17 @@ public class SimpleMove extends AbstractMove {
 		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 	}
 	
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard) {
+		throw new RuntimeException("Error !");
+	}
+
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard) {
+		throw new RuntimeException("Error !");
+	}	
+	
+
 	@Override
 	public boolean equals(Object obj) {
 		if(super.equals(obj)  && obj instanceof SimpleMove){
