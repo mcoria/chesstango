@@ -64,16 +64,19 @@ public class EnroqueBlancoReyMoveTest {
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piezaBoard);
 		
-		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.g1));
-		assertTrue(piezaBoard.isEmtpy(Square.e1));
-		
+		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.g1));		
 		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.f1));
+		
+		assertTrue(piezaBoard.isEmtpy(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.h1));
 		
 		moveExecutor.undoMove(piezaBoard);
 		
 		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.e1));
 		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.h1));
+		
+		assertTrue(piezaBoard.isEmtpy(Square.g1));
+		assertTrue(piezaBoard.isEmtpy(Square.f1));		
 	}
 
 	@Test
@@ -113,6 +116,9 @@ public class EnroqueBlancoReyMoveTest {
 		// asserts undos
 		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e1));
 		assertEquals(Color.BLANCO, colorBoard.getColor(Square.h1));
+		
+		assertTrue(colorBoard.isEmpty(Square.g1));
+		assertTrue(colorBoard.isEmpty(Square.f1));		
 	}	
 	
 	@Test
