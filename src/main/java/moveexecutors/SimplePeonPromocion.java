@@ -16,7 +16,7 @@ public class SimplePeonPromocion extends SimpleMove {
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
 		board.setEmptyPosicion(from);								//Dejamos el origen
-		board.setPieza(to.getKey(), this.promocion) ;			//Promocion
+		board.setPieza(to.getKey(), this.promocion) ;				//Promocion
 	}
 	
 	@Override
