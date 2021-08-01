@@ -4,7 +4,6 @@ import chess.Board;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
-import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
 public class SimpleMove extends AbstractMove {
@@ -26,19 +25,7 @@ public class SimpleMove extends AbstractMove {
 	@Override
 	public boolean filter(MoveFilter filter){
 		return filter.filterMove(this);
-	}	
-	
-	@Override
-	public void executeMove(PosicionPiezaBoard board) {
-		board.move(from, to);
 	}
-	
-	@Override
-	public void undoMove(PosicionPiezaBoard board) {
-		board.setPosicion(to);							//Reestablecemos destino
-		board.setPosicion(from);						//Volvemos a origen
-	}
-
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {

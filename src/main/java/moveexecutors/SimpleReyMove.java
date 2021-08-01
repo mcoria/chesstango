@@ -6,7 +6,6 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
-import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
 public class SimpleReyMove extends AbstractMove {
@@ -29,19 +28,7 @@ public class SimpleReyMove extends AbstractMove {
 	@Override
 	public boolean filter(MoveFilter filter){
 		return filter.filterKingMove(this);
-	}	
-
-	@Override
-	public void executeMove(PosicionPiezaBoard board) {
-		board.move(from, to);
 	}
-	
-	@Override
-	public void undoMove(PosicionPiezaBoard board) {
-		board.setPosicion(to);							//Reestablecemos destino
-		board.setPosicion(from);						//Volvemos a origen
-	}
-
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {

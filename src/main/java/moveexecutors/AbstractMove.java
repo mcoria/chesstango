@@ -5,6 +5,7 @@ import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import layers.MoveCacheBoard;
+import layers.PosicionPiezaBoard;
 
 public abstract class AbstractMove implements Move {
 	protected final PosicionPieza from;
@@ -24,6 +25,17 @@ public abstract class AbstractMove implements Move {
 	public PosicionPieza getTo() {
 		return to;
 	}
+	
+	@Override
+	public void executeMove(PosicionPiezaBoard board) {
+		board.move(from, to);
+	}
+	
+	@Override
+	public void undoMove(PosicionPiezaBoard board) {
+		board.setPosicion(to);							//Reestablecemos destino
+		board.setPosicion(from);						//Volvemos a origen
+	}	
 
 	//TODO: implementar un decorator antes de crear el movimiento
 	@Override
