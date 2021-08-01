@@ -17,7 +17,7 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.ColorBoard;
+import debug.chess.ColorBoardDebug;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
@@ -33,7 +33,7 @@ public class CapturePeonPasanteTest {
 	
 	private CapturePeonPasante moveExecutor;
 	
-	private ColorBoard colorBoard;
+	private ColorBoardDebug colorBoard;
 	
 	@Mock
 	private Board board;
@@ -44,22 +44,24 @@ public class CapturePeonPasanteTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardState();
-	}
-	
-	@Test
-	public void testPosicionPiezaBoard() {
+		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setPeonPasanteSquare(Square.a6);		
+		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
 		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
 		
-		boardState.setPeonPasanteSquare(Square.a6);
+		colorBoard = new ColorBoardDebug(piezaBoard);
 		
 		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
 		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
 		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
 		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
+		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);		
+	}
+	
+	@Test
+	public void testPosicionPiezaBoard() {		
 		// execute
 		moveExecutor.executeMove(piezaBoard);
 		
@@ -80,15 +82,6 @@ public class CapturePeonPasanteTest {
 	
 	@Test
 	public void testMoveState() {
-		boardState.setPeonPasanteSquare(Square.a6);
-		boardState.setTurnoActual(Color.BLANCO);
-		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
-		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
 		// execute
 		moveExecutor.executeMove(boardState);		
 		
@@ -107,18 +100,6 @@ public class CapturePeonPasanteTest {
 	
 	@Test
 	public void testColorBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
-		
-		colorBoard = new ColorBoard(piezaBoard);
-		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
-		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
 		// execute
 		moveExecutor.executeMove(colorBoard);
 		
@@ -139,18 +120,6 @@ public class CapturePeonPasanteTest {
 	
 	@Test
 	public void testBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
-		
-		boardState.setPeonPasanteSquare(Square.a6);
-		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
-		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
 		// execute
 		moveExecutor.executeMove(board);
 
@@ -168,18 +137,6 @@ public class CapturePeonPasanteTest {
 	
 	@Test
 	public void testFilter() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
-		
-		boardState.setPeonPasanteSquare(Square.a6);
-		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
-		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
 		// execute
 		moveExecutor.filter(filter);
 
@@ -189,36 +146,51 @@ public class CapturePeonPasanteTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
-		
-		boardState.setPeonPasanteSquare(Square.a6);
-		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
-		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
 		moveExecutor.executeMove(new KingCacheBoard());
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardUndoMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
-		
-		boardState.setPeonPasanteSquare(Square.a6);
-		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
-		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);
-
 		moveExecutor.undoMove(new KingCacheBoard());
 	}		
 
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(colorBoard);
+
+		// asserts execute
+		assertTrue(piezaBoard.isEmtpy(Square.a5));
+		assertTrue(piezaBoard.isEmtpy(Square.b5));
+		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.a6));
+		
+		assertNull(boardState.getPeonPasanteSquare());
+		assertEquals(Color.NEGRO, boardState.getTurnoActual());	
+		
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.a6));
+		assertTrue(colorBoard.isEmpty(Square.a5));
+		assertTrue(colorBoard.isEmpty(Square.b5));		
+		colorBoard.validar(piezaBoard);
+		
+		// undos
+		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(colorBoard);
+
+		
+		// asserts undos
+		assertTrue(piezaBoard.isEmtpy(Square.a6));
+		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.b5));
+		assertEquals(Pieza.PEON_NEGRO, piezaBoard.getPieza(Square.a5));	
+		
+		assertEquals(Square.a6, boardState.getPeonPasanteSquare());
+		assertEquals(Color.BLANCO, boardState.getTurnoActual());	
+		
+		assertTrue(colorBoard.isEmpty(Square.a6));
+		assertEquals(Color.NEGRO, colorBoard.getColor(Square.a5));
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.b5));
+		colorBoard.validar(piezaBoard);	
+	}	
 }
