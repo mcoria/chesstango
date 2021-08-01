@@ -1,27 +1,63 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.BoardState;
 import chess.Pieza;
 import chess.PosicionPieza;
+import layers.ColorBoard;
 import layers.KingCacheBoard;
+import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
-public class SimpleReyMove extends MoveDecorator {
+public class SimpleReyMove extends AbstractMove {
 
 	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
-		super(new SimpleMove(from, to));
+		super(from, to);
+	}
+	
+	@Override
+	public void executeMove(Board board) {
+		board.executeKingMove(this);
+	}
+	
+	@Override
+	public void undoMove(Board board) {
+		board.undoKingMove(this);
 	}	
 	
-	public SimpleReyMove(AbstractMove move) {
-		super(move);
+	@Override
+	public boolean filter(MoveFilter filter){
+		return filter.filterKingMove(this);
+	}	
+
+	@Override
+	public void executeMove(PosicionPiezaBoard board) {
+		board.move(from, to);
+	}
+	
+	@Override
+	public void undoMove(PosicionPiezaBoard board) {
+		board.setPosicion(to);							//Reestablecemos destino
+		board.setPosicion(from);						//Volvemos a origen
 	}
 
+	
+	@Override
+	public void executeMove(ColorBoard colorBoard) {
+		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
+	}
+	
+	@Override
+	public void undoMove(ColorBoard colorBoard) {
+		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
+	}
+	
 	//TODO: Esto deberia ser un decorator
 	@Override
 	public void executeMove(BoardState boardState) {
-		move.executeMove(boardState);
-		if(Pieza.REY_BLANCO.equals(move.getFrom().getValue()) ){
+		super.executeMove(boardState);
+		if(Pieza.REY_BLANCO.equals(this.getFrom().getValue()) ){
 			boardState.setEnroqueBlancoReinaPermitido(false);
 			boardState.setEnroqueBlancoReyPermitido(false);
 		} else {
@@ -38,11 +74,6 @@ public class SimpleReyMove extends MoveDecorator {
 	@Override
 	public void undoMove(KingCacheBoard kingCacheBoard){
 		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getFrom().getKey());	
-	}
-	
-	@Override
-	public boolean filter(MoveFilter filter){
-		return filter.filterKingMove(this);
 	}
 	
 	@Override

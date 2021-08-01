@@ -30,12 +30,12 @@ public class MoveDecorator implements Move {
 
 	@Override
 	public void executeMove(Board board) {
-		board.executeKingMove(this);
+		move.executeMove(board);
 	}
 	
 	@Override
 	public void undoMove(Board board) {
-		board.undoKingMove(this);
+		move.undoMove(board);
 	}	
 	
 	@Override
