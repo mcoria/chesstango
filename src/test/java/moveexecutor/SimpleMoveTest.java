@@ -17,6 +17,7 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import debug.chess.ColorBoardDebug;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
@@ -44,18 +45,21 @@ public class SimpleMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardState();
+		boardState.setTurnoActual(Color.BLANCO);
+		
+		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
+		
+		colorBoard = new ColorBoardDebug(piezaBoard);
+		
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+		moveExecutor =  new SimpleMove(origen, destino);		
 	}
 	
 	
 	@Test
 	public void testPosicionPiezaBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		// execute
 		moveExecutor.executeMove(piezaBoard);
 		
@@ -73,12 +77,6 @@ public class SimpleMoveTest {
 		
 	@Test
 	public void testMoveState() {
-		boardState.setTurnoActual(Color.BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		// execute
 		moveExecutor.executeMove(boardState);
 		
@@ -95,15 +93,6 @@ public class SimpleMoveTest {
 	
 	@Test
 	public void testColorBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		
-		colorBoard = new ColorBoard(piezaBoard);
-
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		// execute
 		moveExecutor.executeMove(colorBoard);
 
@@ -121,37 +110,16 @@ public class SimpleMoveTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		moveExecutor.executeMove(new KingCacheBoard());
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardUndoMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
 	@Test
 	public void testBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		// execute
 		moveExecutor.executeMove(board);
 
@@ -169,13 +137,6 @@ public class SimpleMoveTest {
 	
 	@Test
 	public void testFilter() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);
-
 		// execute
 		moveExecutor.filter(filter);
 
