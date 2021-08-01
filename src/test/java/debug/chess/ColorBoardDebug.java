@@ -2,6 +2,9 @@ package debug.chess;
 
 import chess.Color;
 import chess.PosicionPieza;
+import chess.Square;
+import iterators.BitSquareIterator;
+import iterators.SquareIterator;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 
@@ -10,34 +13,56 @@ public class ColorBoardDebug extends ColorBoard {
 	public ColorBoardDebug(PosicionPiezaBoard board) {
 		super(board);
 	}
-		
 
+	@Override
+	public void swapPositions(Color color, Square remove, Square add) {
+		super.swapPositions(color, remove, add);
+		validar();
+	}	
+	
+	@Override
+	public void addPositions(PosicionPieza position) {
+		super.addPositions(position);
+		validar();
+	}
+	
+	@Override
+	public void removePositions(PosicionPieza position) {
+		super.removePositions(position);
+		validar();
+	}	
+	
+	public void validar() {
+		long solapados = this.squareBlancos & this.squareNegros;
+		if( solapados != 0 ){
+			String solapadosStr = "";
+			for (SquareIterator iterator =  new BitSquareIterator(solapados); iterator.hasNext();) {
+				solapadosStr = solapadosStr + iterator.next().toString() + " ";
+			}
+
+			throw new RuntimeException("El mismo casillero esta tomado por blanca y negro: " + solapadosStr);
+		}
+	}
+	
 	public void validar(PosicionPiezaBoard board) {
-		int posicionesBlancas = 0;
-		int posicionesNegras = 0;
+		validar();
+		
 		for (PosicionPieza posicionPieza : board) {
-			if(posicionPieza.getValue() != null){
-				Color color = posicionPieza.getValue().getColor();
-				if(Color.BLANCO.equals(color)){
-					posicionesBlancas++;
-					if( (squareBlancos & posicionPieza.getKey().getPosicion()) == 0   ){
-						throw new RuntimeException("La posicion squareBlancos no se encuentra");
-					}
-				} else {
-					posicionesNegras++;
-					if( (squareNegros & posicionPieza.getKey().getPosicion()) == 0){
-						throw new RuntimeException("La posicion squareNegros no se encuentra");
-					}					
+			if(posicionPieza.getValue() == null){				
+				if(! this.isEmpty(posicionPieza.getKey()) ){
+					throw new RuntimeException("ColorBoard contiene una pieza " + this.getColor(posicionPieza.getKey()) + " en " + posicionPieza.getKey() + " pero en PosicionPieza esta vacia");
 				}
+			} else {
+				Color colorBoard = posicionPieza.getValue().getColor();
+				Color color = getColor(posicionPieza.getKey());
+				
+				if(! colorBoard.equals(color) ){
+					throw new RuntimeException("PosicionPieza contiene una pieza de color distinto a ColorBoard en " + posicionPieza.getKey());
+				}				
+				
 			}
 		}
 		
-		if( Long.bitCount(squareBlancos) != posicionesBlancas ){
-			throw new RuntimeException("Diferencias en cantidad de posicions blancas");
-		}
-		
-		if( Long.bitCount(squareNegros) != posicionesNegras ){
-			throw new RuntimeException("Diferencias en cantidad de posicions negras");
-		}
-	}	
+
+	}
 }

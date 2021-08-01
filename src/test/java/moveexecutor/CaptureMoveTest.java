@@ -17,7 +17,7 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.ColorBoard;
+import debug.chess.ColorBoardDebug;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
@@ -33,7 +33,7 @@ public class CaptureMoveTest {
 	
 	private CaptureMove moveExecutor;
 	
-	private ColorBoard colorBoard;
+	private ColorBoardDebug colorBoard;
 	
 	@Mock
 	private Board board;
@@ -44,20 +44,23 @@ public class CaptureMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardState();
-	}
-
-	
-	@Test
-	public void testPosicionPiezaBoard() {
+		boardState.setTurnoActual(Color.BLANCO);
+		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
 		piezaBoard.setPieza(Square.e7, Pieza.PEON_NEGRO);
+		
+		colorBoard = new ColorBoardDebug(piezaBoard);
 		
 		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
 
 		moveExecutor = new CaptureMove(origen, destino);
-		
+	}
+
+	
+	@Test
+	public void testPosicionPiezaBoard() {
 		// execute
 		moveExecutor.executeMove(piezaBoard);
 		
@@ -75,13 +78,6 @@ public class CaptureMoveTest {
 	
 	@Test
 	public void testMoveState() {
-		boardState.setTurnoActual(Color.BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		moveExecutor = new CaptureMove(origen, destino);
-		
 		// execute
 		moveExecutor.executeMove(boardState);		
 
@@ -98,17 +94,6 @@ public class CaptureMoveTest {
 	
 	@Test
 	public void testColorBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_NEGRO);
-		
-		colorBoard = new ColorBoard(piezaBoard);
-
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		moveExecutor = new CaptureMove(origen, destino);
-
 		// execute
 		moveExecutor.executeMove(colorBoard);
 
@@ -126,42 +111,16 @@ public class CaptureMoveTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		moveExecutor = new CaptureMove(origen, destino);
-
 		moveExecutor.executeMove(new KingCacheBoard());
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardUndoMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		moveExecutor = new CaptureMove(origen, destino);
-
 		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
 	@Test
 	public void testBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_NEGRO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		moveExecutor = new CaptureMove(origen, destino);
-
 		// execute
 		moveExecutor.executeMove(board);
 
@@ -179,20 +138,29 @@ public class CaptureMoveTest {
 	
 	@Test
 	public void testFilter() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_NEGRO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
-
-		moveExecutor = new CaptureMove(origen, destino);
-
 		// execute
 		moveExecutor.filter(filter);
 
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
-	}		
+	}
+	
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piezaBoard);		
+		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(boardState);
+		
+		colorBoard.validar(piezaBoard);
+		
+		// undos
+		moveExecutor.undoMove(piezaBoard);		
+		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(boardState);		
+		
+		colorBoard.validar(piezaBoard);
+	}
+	
 	
 }
