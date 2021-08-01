@@ -4,11 +4,10 @@ import chess.Board;
 import chess.BoardState;
 import chess.Pieza;
 import chess.PosicionPieza;
-import layers.ColorBoard;
 import layers.KingCacheBoard;
 import movecalculators.MoveFilter;
 
-public class CaptureReyMove extends AbstractMove {
+public class CaptureReyMove extends CaptureMove {
 
 	
 	public CaptureReyMove(PosicionPieza from, PosicionPieza to) {
@@ -29,21 +28,7 @@ public class CaptureReyMove extends AbstractMove {
 	public boolean filter(MoveFilter filter){
 		return filter.filterKingMove(this);
 	}
-	
-	@Override
-	public void executeMove(ColorBoard colorBoard) {
-		colorBoard.removePositions(to);
-		
-		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
-	}
-	
-	@Override
-	public void undoMove(ColorBoard colorBoard) {
-		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
-		
-		colorBoard.addPositions(to);
-	}
-	
+
 	//TODO: Esto deberia ser un decorator
 	@Override
 	public void executeMove(BoardState boardState) {
