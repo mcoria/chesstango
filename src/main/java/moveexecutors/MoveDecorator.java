@@ -98,7 +98,7 @@ public class MoveDecorator implements Move {
 		if(obj instanceof MoveDecorator){
 			return move.equals( ((MoveDecorator) obj).move );
 		}
-		return move.equals(obj);
+		return false;
 	}	
 	
 	@Override
