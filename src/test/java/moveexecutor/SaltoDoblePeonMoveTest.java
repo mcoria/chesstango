@@ -12,12 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.Board;
-import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import layers.ColorBoard;
+import debug.chess.BoardStateDebug;
+import debug.chess.ColorBoardDebug;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
@@ -30,11 +30,11 @@ public class SaltoDoblePeonMoveTest {
 
 	private PosicionPiezaBoard piezaBoard;
 	
-	private BoardState boardState;
+	private BoardStateDebug boardState;
+	
+	private ColorBoardDebug colorBoard;
 	
 	private SaltoDoblePeonMove moveExecutor;
-	
-	private ColorBoard colorBoard;
 	
 	@Mock
 	private Board board;
@@ -44,19 +44,22 @@ public class SaltoDoblePeonMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		boardState = new BoardState();
+		boardState = new BoardStateDebug();
+		boardState.setTurnoActual(Color.BLANCO);
+		
+		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
+		
+		colorBoard = new ColorBoardDebug(piezaBoard);		
+		
+		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PEON_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e4, null);
+		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);		
 	}
 	
 	
 	@Test
 	public void testPosicionPiezaBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PEON_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		// execute
 		moveExecutor.executeMove(piezaBoard);
 		
@@ -74,12 +77,6 @@ public class SaltoDoblePeonMoveTest {
 		
 	@Test
 	public void testMoveState() {
-		boardState.setTurnoActual(Color.BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		// execute
 		moveExecutor.executeMove(boardState);
 		
@@ -97,15 +94,6 @@ public class SaltoDoblePeonMoveTest {
 	
 	@Test
 	public void testColorBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
-		
-		colorBoard = new ColorBoard(piezaBoard);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		// execute
 		moveExecutor.executeMove(colorBoard);
 
@@ -123,25 +111,11 @@ public class SaltoDoblePeonMoveTest {
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		moveExecutor.executeMove(new KingCacheBoard());
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardUndoMoveRuntimeException() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
@@ -171,17 +145,32 @@ public class SaltoDoblePeonMoveTest {
 	
 	@Test
 	public void testFilter() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		// execute
 		moveExecutor.filter(filter);
 
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
+	}
+	
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(colorBoard);
+
+		// asserts execute
+		colorBoard.validar(piezaBoard);
+		boardState.validar(piezaBoard);
+		
+		// undos
+		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(colorBoard);
+
+		
+		// asserts undos
+		colorBoard.validar(piezaBoard);	
+		boardState.validar(piezaBoard);		
 	}	
 }

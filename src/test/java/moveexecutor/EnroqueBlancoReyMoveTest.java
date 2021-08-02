@@ -13,12 +13,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.Board;
-import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
-import layers.ColorBoard;
-import layers.KingCacheBoard;
+import debug.chess.BoardStateDebug;
+import debug.chess.ColorBoardDebug;
+import debug.chess.KingCacheBoardDebug;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
@@ -29,13 +29,13 @@ public class EnroqueBlancoReyMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
-	private BoardState boardState;	
+	private BoardStateDebug boardState;	
 	
 	private EnroqueBlancoReyMove moveExecutor;
 	
-	private KingCacheBoard kingCacheBoard;
+	private KingCacheBoardDebug kingCacheBoard;
 	
-	private ColorBoard colorBoard;
+	private ColorBoardDebug colorBoard;
 	
 	@Mock
 	private Board board;
@@ -47,17 +47,17 @@ public class EnroqueBlancoReyMoveTest {
 	public void setUp() throws Exception {
 		moveExecutor = new EnroqueBlancoReyMove();
 		
-		boardState = new BoardState();		
+		boardState = new BoardStateDebug();		
 		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReinaPermitido(true);
+		boardState.setEnroqueBlancoReinaPermitido(false);
 		boardState.setEnroqueBlancoReyPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.e1, Pieza.REY_BLANCO);
 		piezaBoard.setPieza(Square.h1, Pieza.TORRE_BLANCO);		
 		
-		kingCacheBoard = new KingCacheBoard();
-		colorBoard = new ColorBoard(piezaBoard);
+		kingCacheBoard = new KingCacheBoardDebug(piezaBoard);
+		colorBoard = new ColorBoardDebug(piezaBoard);
 	}
 	
 	@Test
@@ -81,19 +81,25 @@ public class EnroqueBlancoReyMoveTest {
 
 	@Test
 	public void testBoardState() {
+		// execute		
 		moveExecutor.executeMove(boardState);		
 
+		// asserts execute
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
 		assertFalse(boardState.isEnroqueBlancoReyPermitido());
+		boardState.validar();
 		
+		// undos
 		moveExecutor.undoMove(boardState);
 		
+		// asserts undos		
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
-		assertTrue(boardState.isEnroqueBlancoReinaPermitido());
-		assertTrue(boardState.isEnroqueBlancoReyPermitido());		
+		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
+		assertTrue(boardState.isEnroqueBlancoReyPermitido());
+		boardState.validar();
 		
 	}
 	
@@ -157,5 +163,31 @@ public class EnroqueBlancoReyMoveTest {
 
 		// asserts execute
 		verify(filter).filterKingMove(moveExecutor);
+	}
+	
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(kingCacheBoard);
+
+		// asserts execute
+		colorBoard.validar(piezaBoard);
+		boardState.validar(piezaBoard);
+		kingCacheBoard.validar(piezaBoard);
+		
+		// undos
+		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(kingCacheBoard);
+
+		
+		// asserts undos
+		colorBoard.validar(piezaBoard);	
+		boardState.validar(piezaBoard);
+		kingCacheBoard.validar(piezaBoard);
 	}	
 }
