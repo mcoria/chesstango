@@ -51,17 +51,17 @@ public class BoardStateDebug extends BoardState{
 			if (board.getPieza(Square.a8) == null) {
 				throw new RuntimeException(
 						"isEnroqueBlancoReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
-			} else if (!Pieza.TORRE_BLANCO.equals(board.getPieza(Square.a8))) {
+			} else if (!Pieza.TORRE_NEGRO.equals(board.getPieza(Square.a8))) {
 				throw new RuntimeException(
 						"isEnroqueBlancoReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			}
 		}
 
-		if (this.isEnroqueNegroReinaPermitido()) {
+		if (this.isEnroqueNegroReyPermitido()) {
 			if (board.getPieza(Square.h8) == null) {
 				throw new RuntimeException(
 						"isEnroqueBlancoReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
-			} else if (!Pieza.TORRE_BLANCO.equals(board.getPieza(Square.h8))) {
+			} else if (!Pieza.TORRE_NEGRO.equals(board.getPieza(Square.h8))) {
 				throw new RuntimeException(
 						"isEnroqueBlancoReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			}

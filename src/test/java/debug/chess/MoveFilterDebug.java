@@ -20,9 +20,7 @@ public class MoveFilterDebug extends MoveFilter {
 	public boolean filterMove(Move move) {
 		try {
 			boolean reportError = false;
-			
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);			
-			
+
 			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
@@ -54,6 +52,7 @@ public class MoveFilterDebug extends MoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
+			((BoardStateDebug)boardState).validar(this.dummyBoard);
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
 			
 			return result;
@@ -65,9 +64,7 @@ public class MoveFilterDebug extends MoveFilter {
 	@Override
 	public boolean filterKingMove(Move move) {
 		try {
-			boolean reportError = false;
-			
-			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+			boolean reportError = false;	
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
@@ -84,7 +81,6 @@ public class MoveFilterDebug extends MoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
 			
 			return result;

@@ -112,7 +112,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoTablas() {
-		Game game =  getGame("k7/7Q/K7/8/8/8/8/8 w KQkq - 0 1");
+		Game game =  getGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
 		
 		assertEquals(Color.BLANCO, game.getTurnoActual());
 		

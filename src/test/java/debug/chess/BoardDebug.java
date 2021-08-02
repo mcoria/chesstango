@@ -3,10 +3,22 @@ package debug.chess;
 import chess.Board;
 import chess.BoardState;
 import chess.BoardStatus;
+import chess.Move;
 import layers.KingCacheBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 
 public class BoardDebug extends Board {
+	
+	
+	
+	@Override
+	public void execute(Move move) {
+		super.execute(move);
+		
+		((BoardStateDebug)boardState).validar(this.dummyBoard);
+		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+	}
 	
 	@Override
 	// TODO: validadciones del metodo getBoardStatus(): 
