@@ -15,6 +15,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.SimpleMove;
@@ -96,7 +97,7 @@ public class ReinaMoveGeneratorTest {
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts();
+		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

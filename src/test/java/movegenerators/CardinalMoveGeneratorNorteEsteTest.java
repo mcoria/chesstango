@@ -15,6 +15,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import debug.builder.DebugChessFactory;
 import iterators.Cardinal;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
@@ -112,7 +113,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts();
+		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

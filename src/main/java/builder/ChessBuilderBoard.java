@@ -18,7 +18,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 	
 	private ChessFactory chessFactory = null;	
 	
-	private ChessBuilderParts builder = new ChessBuilderParts();
+	private ChessBuilderParts builder = null;
 	
 	private Board board = null;
 	
@@ -41,11 +41,12 @@ public class ChessBuilderBoard implements ChessBuilder {
 	private MoveFilter moveFilter;
 	
 	public ChessBuilderBoard() {
-		this.chessFactory = new ChessFactory();
+		this(new ChessFactory());
 	}
 
 	public ChessBuilderBoard(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
+		this.builder = new ChessBuilderParts(chessFactory);
 	}	
 	
 	public Board getBoard() {

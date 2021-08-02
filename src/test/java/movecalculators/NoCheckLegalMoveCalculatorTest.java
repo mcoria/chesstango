@@ -8,6 +8,7 @@ import org.junit.Test;
 import builder.ChessBuilderParts;
 import chess.BoardState;
 import chess.IsKingInCheck;
+import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
@@ -55,7 +56,7 @@ public class NoCheckLegalMoveCalculatorTest {
 
 
 	private void initDependencies(String string, IsKingInCheck kingInCheckFn) {		
-		ChessBuilderParts builder = new ChessBuilderParts();
+		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		parser.parseFEN(string);
 		

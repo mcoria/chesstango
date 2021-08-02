@@ -5,7 +5,6 @@ import chess.Color;
 import chess.Pieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
-import layers.imp.ArrayPosicionPiezaBoard;
 
 
 public class ChessBuilderParts implements ChessBuilder {	
@@ -13,17 +12,23 @@ public class ChessBuilderParts implements ChessBuilder {
 	private PosicionPiezaBoard posicionPiezaBoard;
 	
 	private BoardState boardState;
+	
+	private ChessFactory chessFactory = null;
+	
+	public ChessBuilderParts(ChessFactory chessFactory) {
+		this.chessFactory = chessFactory;
+	}
 
 	public PosicionPiezaBoard getPosicionPiezaBoard() {
 		if(posicionPiezaBoard == null){
-			posicionPiezaBoard = new ArrayPosicionPiezaBoard();
+			posicionPiezaBoard = chessFactory.createPosicionPiezaBoard();
 		}
 		return posicionPiezaBoard;
 	}
 
 	public BoardState getState() {
 		if (boardState == null) {
-			boardState = new BoardState();
+			boardState = chessFactory.createBoardState();
 		}
 		return boardState;
 	}

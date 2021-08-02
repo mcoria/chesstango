@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import builder.ChessBuilderParts;
+import debug.builder.DebugChessFactory;
 import iterators.SquareIterator;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
@@ -33,7 +34,7 @@ public class ColorBoardTest {
 	
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts();
+		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);
 		

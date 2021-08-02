@@ -4,6 +4,7 @@ import builder.ChessFactory;
 import chess.Board;
 import chess.BoardState;
 import debug.chess.BoardDebug;
+import debug.chess.BoardStateDebug;
 import debug.chess.ColorBoardDebug;
 import debug.chess.DefaultLegalMoveCalculatorDebug;
 import debug.chess.KingCacheBoardDebug;
@@ -63,5 +64,10 @@ public class DebugChessFactory extends ChessFactory {
 	@Override
 	public MoveFilter createMoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
 		return new MoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
+	}
+	
+	@Override
+	public BoardState createBoardState() {
+		return new BoardStateDebug();
 	}
 }

@@ -15,6 +15,7 @@ import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import debug.builder.DebugChessFactory;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CapturaPeonPromocion;
 import moveexecutors.CaptureMove;
@@ -269,7 +270,7 @@ public class PeonBlancoMoveGeneratorTest {
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts();
+		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

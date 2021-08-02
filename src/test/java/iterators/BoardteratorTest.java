@@ -14,6 +14,7 @@ import builder.ChessBuilderParts;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import debug.builder.DebugChessFactory;
 import layers.PosicionPiezaBoard;
 import parsers.FENParser;
 
@@ -25,7 +26,7 @@ public class BoardteratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new ChessBuilderParts();
+		builder = new ChessBuilderParts(new DebugChessFactory());
 		parser = new FENParser(builder);
 	}
 

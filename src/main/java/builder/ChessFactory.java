@@ -6,6 +6,7 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.MoveFilter;
@@ -48,6 +49,14 @@ public class ChessFactory {
 
 	public MoveFilter createMoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
 		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
+	}
+
+	public PosicionPiezaBoard createPosicionPiezaBoard() {
+		return new ArrayPosicionPiezaBoard();
+	}
+
+	public BoardState createBoardState() {
+		return new BoardState();
 	}
 
 }
