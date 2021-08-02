@@ -1,12 +1,15 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.PosicionPieza;
 import layers.ColorBoard;
+import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import movecalculators.MoveFilter;
 
 //TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
-public class CapturePeonPasante extends SimpleMove {
+public class CapturePeonPasante extends AbstractMove {
 
 	private final PosicionPieza captura;
 			
@@ -14,6 +17,21 @@ public class CapturePeonPasante extends SimpleMove {
 		super(from, to);
 		this.captura = captura;
 	}
+	
+	@Override
+	public void executeMove(Board board) {
+		board.executeMove(this);
+	}
+	
+	@Override
+	public void undoMove(Board board) {
+		board.undoMove(this);
+	}	
+	
+	@Override
+	public boolean filter(MoveFilter filter){
+		return filter.filterMove(this);
+	}	
 	
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
@@ -29,13 +47,15 @@ public class CapturePeonPasante extends SimpleMove {
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
-		super.executeMove(colorBoard);
 		colorBoard.removePositions(captura);
+		
+		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
 	}
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
-		super.undoMove(colorBoard);
+		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
+		
 		colorBoard.addPositions(captura);
 	}
 	
@@ -52,6 +72,16 @@ public class CapturePeonPasante extends SimpleMove {
 			return captura.equals(theOther.captura) ;
 		}
 		return false;
+	}
+
+	@Override
+	public void executeMove(KingCacheBoard kingCacheBoard) {
+		throw new RuntimeException("Error !");
+	}
+
+	@Override
+	public void undoMove(KingCacheBoard kingCacheBoard) {
+		throw new RuntimeException("Error !");
 	}
 
 }
