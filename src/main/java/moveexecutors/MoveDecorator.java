@@ -1,6 +1,5 @@
 package moveexecutors;
 
-import chess.Board;
 import chess.BoardState;
 import chess.Move;
 import chess.PosicionPieza;
@@ -8,9 +7,8 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
-import movecalculators.MoveFilter;
 
-public class MoveDecorator implements Move {
+public abstract class MoveDecorator implements Move {
 	
 	protected final Move move;	
 	
@@ -26,16 +24,6 @@ public class MoveDecorator implements Move {
 	@Override
 	public PosicionPieza getTo() {
 		return move.getTo();
-	}
-
-	@Override
-	public void executeMove(Board board) {
-		move.executeMove(board);
-	}
-	
-	@Override
-	public void undoMove(Board board) {
-		move.undoMove(board);
 	}	
 	
 	@Override
@@ -86,11 +74,6 @@ public class MoveDecorator implements Move {
 	@Override
 	public void undoMove(KingCacheBoard kingCacheBoard){
 		move.undoMove(kingCacheBoard);
-	}
-	
-	@Override
-	public boolean filter(MoveFilter filter){
-		return filter.filterKingMove(this);
 	}
 	
 	@Override

@@ -1,7 +1,9 @@
 package moveexecutors;
 
 import chess.Board;
+import chess.BoardState;
 import chess.PosicionPieza;
+import chess.Square;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import movecalculators.MoveFilter;
@@ -26,6 +28,27 @@ public class CaptureMove extends AbstractMove {
 	public boolean filter(MoveFilter filter){
 		return filter.filterMove(this);
 	}
+	
+	@Override
+	public void executeMove(BoardState boardState) {
+		super.executeMove(boardState);
+		
+		if(to.getKey().equals(Square.a1)){
+			boardState.setEnroqueBlancoReinaPermitido(false);
+		}
+		
+		if(to.getKey().equals(Square.h1)){
+			boardState.setEnroqueBlancoReyPermitido(false);
+		}
+		
+		if(to.getKey().equals(Square.a8)){
+			boardState.setEnroqueNegroReinaPermitido(false);
+		}
+		
+		if(to.getKey().equals(Square.h8)){
+			boardState.setEnroqueNegroReyPermitido(false);
+		}		
+	}	
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {

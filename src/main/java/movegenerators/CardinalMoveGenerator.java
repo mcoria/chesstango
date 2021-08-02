@@ -8,8 +8,6 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import moveexecutors.CaptureMove;
-import moveexecutors.SimpleMove;
 
 public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
@@ -37,10 +35,10 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 			this.result.affectedByContainerAdd(destino);
 			Color colorDestino = colorBoard.getColor(destino);
 			if (colorDestino == null) {
-				Move move = new SimpleMove(origen, tablero.getPosicion(destino));
+				Move move = createSimpleMove(origen, tablero.getPosicion(destino));
 				result.moveContainerAdd(move);
 			} else if (color.opositeColor().equals(colorDestino)) {
-				Move move = new CaptureMove(origen, tablero.getPosicion(destino));
+				Move move = createCaptureMove(origen, tablero.getPosicion(destino));
 				result.moveContainerAdd(move);
 				break;
 			} else { // if(color.equals(pieza.getColor())){
