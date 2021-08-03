@@ -2,8 +2,8 @@ package main;
 
 import java.util.Map;
 
-import chess.Move;
 import chess.Square;
+import moveexecutors.Move;
 
 public class Node {
 	

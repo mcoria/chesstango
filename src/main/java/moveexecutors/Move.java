@@ -1,5 +1,8 @@
-package chess;
+package moveexecutors;
 
+import chess.Board;
+import chess.BoardState;
+import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;

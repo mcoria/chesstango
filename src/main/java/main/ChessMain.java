@@ -9,9 +9,9 @@ import java.util.Map;
 
 import builder.ChessBuilderGame;
 import chess.Game;
-import chess.Move;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.NoCheckLegalMoveCalculator;
+import moveexecutors.Move;
 import parsers.FENCoder;
 import parsers.FENParser;
 

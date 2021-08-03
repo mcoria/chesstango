@@ -17,6 +17,7 @@ import moveexecutors.CapturePeonPasante;
 import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueBlancoReyMove;
 import moveexecutors.EnroqueBlancoReynaMove;
+import moveexecutors.Move;
 import moveexecutors.SaltoDoblePeonMove;
 import moveexecutors.SimpleMove;
 import moveexecutors.SimpleReyMove;

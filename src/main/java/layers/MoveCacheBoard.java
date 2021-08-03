@@ -4,8 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
-import chess.Move;
 import chess.Square;
+import moveexecutors.Move;
 import movegenerators.MoveGeneratorResult;
 
 public class MoveCacheBoard {

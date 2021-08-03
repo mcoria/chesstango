@@ -2,6 +2,8 @@ package chess;
 
 import java.util.Collection;
 
+import moveexecutors.Move;
+
 public class Game {
 	
 	public static enum GameStatus {

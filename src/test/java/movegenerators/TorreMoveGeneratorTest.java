@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import builder.ChessBuilderParts;
 import chess.Color;
-import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -19,6 +18,7 @@ import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.CaptureMove;
+import moveexecutors.Move;
 import moveexecutors.SimpleMove;
 import parsers.FENParser;
 public class TorreMoveGeneratorTest {

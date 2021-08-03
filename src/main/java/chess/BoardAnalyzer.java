@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import layers.KingCacheBoard;
 import movecalculators.LegalMoveCalculator;
+import moveexecutors.Move;
 import positioncaptures.Capturer;
 
 /*

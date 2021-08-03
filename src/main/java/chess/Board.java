@@ -7,6 +7,7 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import moveexecutors.Move;
 import parsers.FENCoder;
 
 

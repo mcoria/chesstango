@@ -1,10 +1,10 @@
 package movegenerators;
 
 import chess.Color;
-import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
+import moveexecutors.Move;
 import moveexecutors.MoveDecoratorState;
 
 public class TorreMoveGenerator extends CardinalMoveGenerator {

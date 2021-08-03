@@ -6,11 +6,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.AbstractMove;
+import moveexecutors.Move;
 import moveexecutors.SimpleMove;
 
 public class AbstractMoveTest {

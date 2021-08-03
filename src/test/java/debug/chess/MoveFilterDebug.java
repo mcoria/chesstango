@@ -1,12 +1,12 @@
 package debug.chess;
 
 import chess.BoardState;
-import chess.Move;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
+import moveexecutors.Move;
 import positioncaptures.Capturer;
 
 public class MoveFilterDebug extends MoveFilter {

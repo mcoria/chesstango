@@ -3,9 +3,9 @@ package debug.chess;
 import chess.Board;
 import chess.BoardState;
 import chess.BoardStatus;
-import chess.Move;
 import layers.KingCacheBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
+import moveexecutors.Move;
 
 public class BoardDebug extends Board {
 	

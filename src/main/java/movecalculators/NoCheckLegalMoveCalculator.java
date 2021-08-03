@@ -4,13 +4,13 @@ import java.util.Collection;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Move;
 import chess.Square;
 import iterators.SquareIterator;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import moveexecutors.Move;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 import movegenerators.ReyAbstractMoveGenerator;

@@ -6,13 +6,13 @@ import java.util.Collection;
 import chess.BoardState;
 import chess.Color;
 import chess.IsKingInCheck;
-import chess.Move;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
 import moveexecutors.CaptureReyMove;
+import moveexecutors.Move;
 import moveexecutors.SimpleReyMove;
 import positioncaptures.Capturer;
 

@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import builder.ChessBuilderGame;
 import chess.Game;
-import chess.Move;
 import chess.Square;
+import moveexecutors.Move;
 import parsers.FENParser;
 
 public class ChessMainTest {

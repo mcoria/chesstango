@@ -1,7 +1,6 @@
 package moveexecutors;
 
 import chess.BoardState;
-import chess.Move;
 import chess.PosicionPieza;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;

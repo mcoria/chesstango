@@ -1,9 +1,9 @@
 package movegenerators;
 
 import chess.Color;
-import chess.Move;
 import chess.PosicionPieza;
 import moveexecutors.CaptureMove;
+import moveexecutors.Move;
 import moveexecutors.SimpleMove;
 
 public class CaballoMoveGenerator extends SaltoMoveGenerator {

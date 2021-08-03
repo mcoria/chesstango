@@ -3,7 +3,6 @@ package debug.chess;
 import java.util.Collection;
 
 import chess.BoardState;
-import chess.Move;
 import chess.Square;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -12,6 +11,7 @@ import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.DefaultLegalMoveCalculator;
 import movecalculators.MoveFilter;
+import moveexecutors.Move;
 import movegenerators.MoveGeneratorStrategy;
 
 public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator {

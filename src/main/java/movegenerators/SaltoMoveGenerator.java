@@ -3,10 +3,10 @@ package movegenerators;
 import java.util.Iterator;
 
 import chess.Color;
-import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.SaltoSquareIterator;
+import moveexecutors.Move;
 
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	

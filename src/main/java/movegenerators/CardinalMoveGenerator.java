@@ -3,12 +3,12 @@ package movegenerators;
 import java.util.Iterator;
 
 import chess.Color;
-import chess.Move;
 import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
 import moveexecutors.CaptureMove;
+import moveexecutors.Move;
 import moveexecutors.SimpleMove;
 
 public class CardinalMoveGenerator extends AbstractMoveGenerator {

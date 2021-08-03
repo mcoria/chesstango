@@ -3,8 +3,8 @@ package movegenerators;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.Move;
 import chess.Square;
+import moveexecutors.Move;
 
 public class MoveGeneratorResult {
 	

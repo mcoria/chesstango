@@ -2,10 +2,10 @@ package movecalculators;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Move;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
+import moveexecutors.Move;
 import positioncaptures.Capturer;
 
 

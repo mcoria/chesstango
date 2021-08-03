@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 
 import chess.Board;
 import chess.BoardState;
-import chess.Move;
 import movecalculators.MoveFilter;
 
 public class MoveDecoratorState extends MoveDecorator {

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Deque;
 
 import chess.Game.GameStatus;
+import moveexecutors.Move;
 
 public class GameStack {
 	
