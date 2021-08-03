@@ -1,13 +1,15 @@
 package movecalculators;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.function.BooleanSupplier;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import builder.ChessBuilderParts;
 import chess.BoardState;
-import chess.IsKingInCheck;
 import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
@@ -55,7 +57,7 @@ public class DefaultLegalMoveCalculatorTest {
 	}
 
 
-	private void initDependencies(String string, IsKingInCheck kingInCheckFn) {		
+	private void initDependencies(String string, BooleanSupplier kingInCheckFn) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		parser.parseFEN(string);

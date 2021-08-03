@@ -2,10 +2,10 @@ package movegenerators;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.BooleanSupplier;
 
 import chess.BoardState;
 import chess.Color;
-import chess.IsKingInCheck;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -23,7 +23,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected Capturer capturer = null;
 	
-	protected IsKingInCheck kingInCheck = () -> false;
+	protected BooleanSupplier kingInCheck = () -> false;
 	
 	protected boolean saveMovesInCache;
 	
@@ -54,7 +54,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 				if ( tablero.isEmtpy(casilleroIntermedioTorre)													//El casillero intermedio TORRE esta vacio
 				  && tablero.isEmtpy(casilleroDestinoRey) 														//El casillero destino REY esta vacio
 				  && tablero.isEmtpy(casilleroIntermedioRey)) {										  			//El casillero intermedio REY esta vacio
-					if ( !this.kingInCheck.check() 																//El rey no esta en jaque
+					if ( !this.kingInCheck.getAsBoolean() 														//El rey no esta en jaque
 					  && !capturer.positionCaptured(color.opositeColor(), casilleroIntermedioRey) 				//El rey no puede ser atacado en casillero intermedio
 					  && !capturer.positionCaptured(color.opositeColor(), casilleroDestinoRey)){				//El rey no puede ser atacado en casillero destino
 						return true;
@@ -75,7 +75,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( tablero.isEmtpy(casilleroDestinoRey) 														//El casillero destino REY esta vacio
 				  && tablero.isEmtpy(casilleroIntermedioRey)) {										  			//El casillero intermedio REY esta vacio
-					if ( !this.kingInCheck.check()																//El rey no esta en jaque
+					if ( !this.kingInCheck.getAsBoolean()														//El rey no esta en jaque
 					  && !capturer.positionCaptured(color.opositeColor(), casilleroIntermedioRey) 				//El rey no puede ser atacado en casillero intermedio
 					  && !capturer.positionCaptured(color.opositeColor(), casilleroDestinoRey)){				//El rey no puede ser atacado en casillero destino
 						return true;
@@ -174,7 +174,7 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		this.boardState = boardState;
 	}
 
-	public void setKingInCheck(IsKingInCheck kingInCheck) {
+	public void setKingInCheck(BooleanSupplier kingInCheck) {
 		this.kingInCheck = kingInCheck;
 	}
 	

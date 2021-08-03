@@ -1,8 +1,9 @@
 package movegenerators;
 
+import java.util.function.BooleanSupplier;
+
 import chess.BoardState;
 import chess.Color;
-import chess.IsKingInCheck;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import positioncaptures.Capturer;
@@ -11,7 +12,7 @@ public class MoveGeneratorStrategy {
 	private PosicionPiezaBoard dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
-	private IsKingInCheck isKingInCheck;
+	private BooleanSupplier isKingInCheck;
 	private Capturer capturer;
 	
 	private PeonBlancoMoveGenerator pbmg;
@@ -71,7 +72,7 @@ public class MoveGeneratorStrategy {
 		settupMoveGenerators();
 	}
 
-	public void setIsKingInCheck(IsKingInCheck isKingInCheck) {
+	public void setIsKingInCheck(BooleanSupplier isKingInCheck) {
 		this.isKingInCheck = isKingInCheck;
 		settupMoveGenerators();
 	}
