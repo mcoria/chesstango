@@ -58,22 +58,18 @@ public class ImprovedCapturer implements Capturer {
 		
 		public ImprovedCapturerColor(Color color, PosicionPiezaBoard dummyBoard) {
 			this.dummyBoard = dummyBoard;
+			torre =  Pieza.getTorre(color);
+			alfil = Pieza.getAlfil(color);
+			reyna = Pieza.getReina(color);
+			caballo = Pieza.getCaballo(color);
+			peon = Pieza.getPeon(color);
+			rey = Pieza.getRey(color);		
+			
+
 			if (Color.BLANCO.equals(color)) {
-				torre = Pieza.TORRE_BLANCO;
-				alfil = Pieza.ALFIL_BLANCO;
-				reyna = Pieza.REINA_BLANCO;
-				caballo = Pieza.CABALLO_BLANCO;
 				saltosPeon = casillerosPeonBlanco;
-				peon = Pieza.PEON_BLANCO;
-				rey = Pieza.REY_BLANCO;
 			} else {
-				torre = Pieza.TORRE_NEGRO;
-				alfil = Pieza.ALFIL_NEGRO;
-				reyna = Pieza.REINA_NEGRO;;
-				caballo = Pieza.CABALLO_NEGRO;
 				saltosPeon = casillerosPeonNegro;
-				peon = Pieza.PEON_NEGRO;
-				rey = Pieza.REY_NEGRO;
 			}		
 		}
 

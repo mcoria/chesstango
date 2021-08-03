@@ -82,6 +82,28 @@ public enum Pieza {
 		default:
 			throw new RuntimeException("Invalid color");
 		}
+	}
+
+	public static Pieza getCaballo(Color color) {
+		switch (color) {
+		case  BLANCO:
+			return CABALLO_BLANCO;
+		case  NEGRO:
+			return CABALLO_NEGRO;
+		default:
+			throw new RuntimeException("Invalid color");
+		}
+	}
+
+	public static Pieza getPeon(Color color) {
+		switch (color) {
+		case  BLANCO:
+			return PEON_BLANCO;
+		case  NEGRO:
+			return PEON_NEGRO;
+		default:
+			throw new RuntimeException("Invalid color");
+		}
 	}	
 
 }

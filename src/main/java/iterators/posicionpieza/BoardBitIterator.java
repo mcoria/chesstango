@@ -31,7 +31,7 @@ public class BoardBitIterator implements Iterator<PosicionPieza> {
 		return currentPoint;
 	}
 
-	// ATENCION !!! Llevar esta implementacion a otros iteradores
+	// TODO: Llevar esta implementacion a otros iteradores
 	private void calcularNextPoint() {
 		do {
 			this.idx++;
