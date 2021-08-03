@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import builder.ChessBuilderGame;
+import builder.ChessFactory;
 import chess.Game;
 import parsers.FENParser;
 
@@ -15,6 +16,16 @@ public class PerftSuite {
 		execute("main/perftsuite1.txt");
 		execute("main/perftsuite2.txt");
 	}
+	
+	private ChessFactory chessFactory;
+	
+	public PerftSuite() {
+		this(new ChessFactory());
+	}
+	
+	public PerftSuite(ChessFactory chessFactory) {
+		this.chessFactory =  chessFactory;
+	}	
 	
 	private static void execute(String filename){
 		try {
@@ -81,7 +92,7 @@ public class PerftSuite {
 	}
 	
 	private Game getGame() {		
-		ChessBuilderGame builder = new ChessBuilderGame();
+		ChessBuilderGame builder = new ChessBuilderGame(chessFactory);
 
 		FENParser parser = new FENParser(builder);
 		

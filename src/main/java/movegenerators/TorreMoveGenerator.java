@@ -3,11 +3,8 @@ package movegenerators;
 import chess.Color;
 import chess.Move;
 import chess.PosicionPieza;
+import chess.Square;
 import iterators.Cardinal;
-import moveexecutors.EnroqueBlancoReyMove;
-import moveexecutors.EnroqueBlancoReynaMove;
-import moveexecutors.EnroqueNegroReyMove;
-import moveexecutors.EnroqueNegroReynaMove;
 import moveexecutors.MoveDecoratorState;
 
 public class TorreMoveGenerator extends CardinalMoveGenerator {
@@ -18,26 +15,53 @@ public class TorreMoveGenerator extends CardinalMoveGenerator {
 
 	@Override
 	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
-		if (EnroqueBlancoReynaMove.TORRE_FROM.equals(origen)) {
+		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(super.createSimpleMove(origen, destino),
 					state -> state.setEnroqueBlancoReinaPermitido(false));
 		}
 		
-		if (EnroqueBlancoReyMove.TORRE_FROM.equals(origen)) {
+		if (Square.h1.equals(origen.getKey())) {
 			return new MoveDecoratorState(super.createSimpleMove(origen, destino),
 					state -> state.setEnroqueBlancoReyPermitido(false));
 		}
 		
-		if (EnroqueNegroReynaMove.TORRE_FROM.equals(origen)) {
+		if (Square.a8.equals(origen.getKey())) {
 			return new MoveDecoratorState(super.createSimpleMove(origen, destino),
 					state -> state.setEnroqueNegroReinaPermitido(false));
 		}
 		
-		if (EnroqueNegroReyMove.TORRE_FROM.equals(origen)) {
+		if (Square.h8.equals(origen.getKey())) {
 			return new MoveDecoratorState(super.createSimpleMove(origen, destino),
 					state -> state.setEnroqueNegroReyPermitido(false));
 		}		
 		
 		return super.createSimpleMove(origen, destino);
 	}
+	
+	
+	@Override
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		if (Square.a1.equals(origen.getKey())) {
+			return new MoveDecoratorState(super.createCaptureMove(origen, destino),
+					state -> state.setEnroqueBlancoReinaPermitido(false));
+		}
+		
+		if (Square.h1.equals(origen.getKey())) {
+			return new MoveDecoratorState(super.createCaptureMove(origen, destino),
+					state -> state.setEnroqueBlancoReyPermitido(false));
+		}
+		
+		if (Square.a8.equals(origen.getKey())) {
+			return new MoveDecoratorState(super.createCaptureMove(origen, destino),
+					state -> state.setEnroqueNegroReinaPermitido(false));
+		}
+		
+		if (Square.h8.equals(origen.getKey())) {
+			return new MoveDecoratorState(super.createCaptureMove(origen, destino),
+					state -> state.setEnroqueNegroReyPermitido(false));
+		}		
+		return super.createCaptureMove(origen, destino);
+	}	
+	
+	
 }
