@@ -166,5 +166,13 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
 	}
+	
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
+		return new SimpleMove(origen, destino);
+	}
+	
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		return new CaptureMove(origen, destino);
+	}	
 
 }

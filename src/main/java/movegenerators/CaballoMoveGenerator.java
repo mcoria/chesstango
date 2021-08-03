@@ -1,6 +1,10 @@
 package movegenerators;
 
 import chess.Color;
+import chess.Move;
+import chess.PosicionPieza;
+import moveexecutors.CaptureMove;
+import moveexecutors.SimpleMove;
 
 public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
@@ -35,5 +39,13 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	public boolean hasCapturePeonPasante() {
 		return false;
 	}
+	
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
+		return new SimpleMove(origen, destino);
+	}
+	
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		return new CaptureMove(origen, destino);
+	}	
 	
 }
