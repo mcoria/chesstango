@@ -75,6 +75,12 @@ public abstract class MoveDecorator implements Move {
 		move.undoMove(kingCacheBoard);
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return move.hashCode();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof MoveDecorator){
@@ -90,7 +96,7 @@ public abstract class MoveDecorator implements Move {
 	
 	@Override
 	public String toString() {
-		return move.getFrom().toString() + " " + move.getTo().toString() + " - " + this.getClass().getSimpleName().toString();
+		return move.toString() + " with " + this.getClass().getSimpleName().toString();
 	}	
 
 }

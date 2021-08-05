@@ -4,8 +4,12 @@ import chess.CachePosiciones;
 import chess.Color;
 import chess.PosicionPieza;
 import chess.Square;
+import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueNegroReyMove;
 import moveexecutors.EnroqueNegroReynaMove;
+import moveexecutors.Move;
+import moveexecutors.MoveDecoratorReyState;
+import moveexecutors.SimpleReyMove;
 
 public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 
@@ -48,5 +52,26 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 		}
 	}
 
+	@Override
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+		if(Square.e8.equals(origen.getKey())){
+			return new MoveDecoratorReyState(new SimpleReyMove(origen, destino), state -> {
+				boardState.setEnroqueNegroReinaPermitido(false);
+				boardState.setEnroqueNegroReyPermitido(false);			
+			});
+		}
+		return new SimpleReyMove(origen, destino);
+	}
+
+	@Override
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		if(Square.e8.equals(origen.getKey())){
+			return new MoveDecoratorReyState(new CaptureReyMove(origen, destino), state -> {
+				boardState.setEnroqueNegroReinaPermitido(false);
+				boardState.setEnroqueNegroReyPermitido(false);			
+			});
+		}
+		return new CaptureReyMove(origen, destino);
+	}	
 
 }

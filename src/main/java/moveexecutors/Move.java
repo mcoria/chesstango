@@ -13,9 +13,15 @@ import movecalculators.MoveFilter;
 //      La mayoria de los movimientos posibles es a square vacios
 //      Tiene sentido puesto que las capturas solo son contra piezas contrarias, sin importar que pieza es.
 
-//TODO: y se implementamos un cache de movimientos?
-public interface Move extends Comparable<Move> {
+//TODO: y se implementamos un cache de movimientos? Implementar flyweight  pattern
+//TODO: implementar Factory para crear objetos, la creacion está repartida por todas partes y habria que desacoplarla de move generators 
+// 		ademas con Decorartor se complicó por ejemplo: 
+// 				algunos movimientos de Rey quitan derecho a enroque; 
+//				todos los movimientos de torre que la mueven de su posicion inicial hacen perder enroque
+//				toda captura a una torre que que se encuentra en si posicion inicial hacen perder enroque
+//		cada vez que se cambia la jerarquia o hay algun tipo de modificacion en estos objetos las clases de pruebas necesitan ser actualizadas
 
+public interface Move extends Comparable<Move> {
 	PosicionPieza getFrom();
 	PosicionPieza getTo();
 
@@ -37,7 +43,5 @@ public interface Move extends Comparable<Move> {
 	void executeMove(Board board);
 	void undoMove(Board board);
 	
-	
 	boolean filter(MoveFilter filter);
-	
 }

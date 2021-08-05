@@ -1,8 +1,6 @@
 package moveexecutors;
 
 import chess.Board;
-import chess.BoardState;
-import chess.Pieza;
 import chess.PosicionPieza;
 import layers.KingCacheBoard;
 import movecalculators.MoveFilter;
@@ -27,19 +25,6 @@ public class SimpleReyMove extends SimpleMove {
 	@Override
 	public boolean filter(MoveFilter filter){
 		return filter.filterKingMove(this);
-	}
-	
-	//TODO: Esto deberia ser un decorator
-	@Override
-	public void executeMove(BoardState boardState) {
-		super.executeMove(boardState);
-		if(Pieza.REY_BLANCO.equals(this.getFrom().getValue()) ){
-			boardState.setEnroqueBlancoReinaPermitido(false);
-			boardState.setEnroqueBlancoReyPermitido(false);
-		} else {
-			boardState.setEnroqueNegroReinaPermitido(false);
-			boardState.setEnroqueNegroReyPermitido(false);
-		}
 	}
 	
 	@Override

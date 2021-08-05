@@ -99,7 +99,12 @@ public abstract class EnroqueMove implements Move  {
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
 		moveCache.popState();
-	}	
+	}
+	
+	@Override
+	public int hashCode() {
+		return reyMove.hashCode();
+	}
 
 	@Override
 	public int compareTo(Move theOther) {
