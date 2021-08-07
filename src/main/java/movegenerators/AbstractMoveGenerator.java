@@ -5,8 +5,8 @@ import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.Move;
+import moveexecutors.MoveFactory;
 
-// Y si tenemos objetos prototipos de movimientos y lo clonamos de ser validos?
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected final Color color;
@@ -17,6 +17,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected MoveGeneratorResult result;
 	
+	protected MoveFactory moveFactory = new MoveFactory();
+	
 	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
 	
 	public abstract boolean saveMovesInCache();
@@ -26,6 +28,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
 	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);	
+
 	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;

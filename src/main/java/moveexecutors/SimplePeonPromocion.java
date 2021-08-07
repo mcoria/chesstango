@@ -8,7 +8,7 @@ public class SimplePeonPromocion extends SimpleMove {
 
 	protected final Pieza promocion;
 	
-	public SimplePeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	protected SimplePeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}

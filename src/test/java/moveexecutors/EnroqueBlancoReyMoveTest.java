@@ -1,4 +1,4 @@
-package moveexecutor;
+package moveexecutors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,89 +13,95 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.Board;
-import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.Square;
-import layers.ColorBoard;
-import layers.KingCacheBoard;
+import debug.chess.BoardStateDebug;
+import debug.chess.ColorBoardDebug;
+import debug.chess.KingCacheBoardDebug;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
-import moveexecutors.EnroqueBlancoReynaMove;
+import moveexecutors.EnroqueBlancoReyMove;
 
 @RunWith(MockitoJUnitRunner.class)
-public class EnroqueBlancoReynaMoveTest {	
+public class EnroqueBlancoReyMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
-	private BoardState boardState;
+	private BoardStateDebug boardState;	
 	
-	private KingCacheBoard kingCacheBoard;
+	private EnroqueBlancoReyMove moveExecutor;
 	
-	private ColorBoard colorBoard;	
+	private KingCacheBoardDebug kingCacheBoard;
 	
-	private EnroqueBlancoReynaMove moveExecutor;
-
+	private ColorBoardDebug colorBoard;
+	
 	@Mock
 	private Board board;
 	
 	@Mock
 	private MoveFilter filter;	
-	
+
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = new EnroqueBlancoReynaMove();
+		moveExecutor = new EnroqueBlancoReyMove();
 		
-		boardState = new BoardState();		
+		boardState = new BoardStateDebug();		
 		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReinaPermitido(true);
+		boardState.setEnroqueBlancoReinaPermitido(false);
 		boardState.setEnroqueBlancoReyPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.a1, Pieza.TORRE_BLANCO);	
-		piezaBoard.setPieza(Square.e1, Pieza.REY_BLANCO);	
+		piezaBoard.setPieza(Square.e1, Pieza.REY_BLANCO);
+		piezaBoard.setPieza(Square.h1, Pieza.TORRE_BLANCO);		
 		
-		kingCacheBoard = new KingCacheBoard();
-		colorBoard = new ColorBoard(piezaBoard);
+		kingCacheBoard = new KingCacheBoardDebug(piezaBoard);
+		colorBoard = new ColorBoardDebug(piezaBoard);
 	}
 	
 	@Test
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piezaBoard);
 		
-		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.c1));		
-		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.d1));
+		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.g1));		
+		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.f1));
 		
-		assertTrue(piezaBoard.isEmtpy(Square.a1));
 		assertTrue(piezaBoard.isEmtpy(Square.e1));
+		assertTrue(piezaBoard.isEmtpy(Square.h1));
 		
 		moveExecutor.undoMove(piezaBoard);
 		
 		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.e1));
-		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.a1));
+		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.h1));
 		
-		assertTrue(piezaBoard.isEmtpy(Square.c1));
-		assertTrue(piezaBoard.isEmtpy(Square.d1));		
+		assertTrue(piezaBoard.isEmtpy(Square.g1));
+		assertTrue(piezaBoard.isEmtpy(Square.f1));		
 	}
 
 	@Test
 	public void testBoardState() {
+		// execute		
 		moveExecutor.executeMove(boardState);		
 
+		// asserts execute
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
 		assertFalse(boardState.isEnroqueBlancoReyPermitido());
+		boardState.validar();
 		
+		// undos
 		moveExecutor.undoMove(boardState);
 		
+		// asserts undos		
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
-		assertTrue(boardState.isEnroqueBlancoReinaPermitido());
-		assertTrue(boardState.isEnroqueBlancoReyPermitido());		
+		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
+		assertTrue(boardState.isEnroqueBlancoReyPermitido());
+		boardState.validar();
 		
-	}	
+	}
 	
 	@Test
 	public void testColorBoard() {
@@ -103,33 +109,35 @@ public class EnroqueBlancoReynaMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.c1));
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.d1));
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.g1));
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.f1));
 		
-		assertTrue(colorBoard.isEmpty(Square.a1));
 		assertTrue(colorBoard.isEmpty(Square.e1));
+		assertTrue(colorBoard.isEmpty(Square.h8));
+
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 
 		// asserts undos
 		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e1));
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.a1));
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.h1));
 		
-		assertTrue(colorBoard.isEmpty(Square.c1));
-		assertTrue(colorBoard.isEmpty(Square.d1));		
+		assertTrue(colorBoard.isEmpty(Square.g1));
+		assertTrue(colorBoard.isEmpty(Square.f1));		
 	}	
 	
 	@Test
 	public void testKingCacheBoard() {
 		moveExecutor.executeMove(kingCacheBoard);
 
-		assertEquals(Square.c1, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.g1, kingCacheBoard.getSquareKingBlancoCache());
 
 		moveExecutor.undoMove(kingCacheBoard);
 
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingBlancoCache());
-	}
+	}	
+	
 	
 	@Test
 	public void testBoard() {
@@ -155,6 +163,31 @@ public class EnroqueBlancoReynaMoveTest {
 
 		// asserts execute
 		verify(filter).filterKingMove(moveExecutor);
-	}	
+	}
+	
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(kingCacheBoard);
 
+		// asserts execute
+		colorBoard.validar(piezaBoard);
+		boardState.validar(piezaBoard);
+		kingCacheBoard.validar(piezaBoard);
+		
+		// undos
+		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(kingCacheBoard);
+
+		
+		// asserts undos
+		colorBoard.validar(piezaBoard);	
+		boardState.validar(piezaBoard);
+		kingCacheBoard.validar(piezaBoard);
+	}	
 }

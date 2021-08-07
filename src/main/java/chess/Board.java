@@ -45,6 +45,8 @@ public class Board {
 		
 	}
 	
+	
+	//TODO: hay que reflotar la idea del MoveKing interface
 	public void executeKingMove(Move move) {
 		executeMove(move);
 		

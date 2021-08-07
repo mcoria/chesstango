@@ -1,4 +1,4 @@
-package moveexecutor;
+package moveexecutors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -17,21 +17,22 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
+import debug.chess.ColorBoardDebug;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
-import moveexecutors.SimplePeonPromocion;
+import moveexecutors.SimpleMove;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SimplePeonPromocionTest {
+public class SimpleMoveTest {
 
 	private PosicionPiezaBoard piezaBoard;
 	
 	private BoardState boardState;
 	
-	private SimplePeonPromocion moveExecutor;
+	private SimpleMove moveExecutor;
 	
 	private ColorBoard colorBoard;
 	
@@ -47,13 +48,13 @@ public class SimplePeonPromocionTest {
 		boardState.setTurnoActual(Color.BLANCO);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_BLANCO);
+		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
 		
-		colorBoard = new ColorBoard(piezaBoard);		
+		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e8, null);
-		moveExecutor =  new SimplePeonPromocion(origen, destino, Pieza.REINA_BLANCO);		
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+		moveExecutor =  new SimpleMove(origen, destino);		
 	}
 	
 	
@@ -63,19 +64,19 @@ public class SimplePeonPromocionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.REINA_BLANCO, piezaBoard.getPieza(Square.e8));
-		assertTrue(piezaBoard.isEmtpy(Square.e7));
+		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.e7));
+		assertTrue(piezaBoard.isEmtpy(Square.e5));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.e7));
-		assertTrue(piezaBoard.isEmtpy(Square.e8));		
+		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.e5));
+		assertTrue(piezaBoard.isEmtpy(Square.e7));		
 	}
 		
 	@Test
-	public void testMoveState() {		
+	public void testMoveState() {
 		// execute
 		moveExecutor.executeMove(boardState);
 		
@@ -96,15 +97,15 @@ public class SimplePeonPromocionTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e8));
-		assertTrue(colorBoard.isEmpty(Square.e7));
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e7));
+		assertTrue(colorBoard.isEmpty(Square.e5));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e7));
-		assertTrue(colorBoard.isEmpty(Square.e8));
+		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e5));
+		assertTrue(colorBoard.isEmpty(Square.e7));
 	}
 	
 	@Test(expected = RuntimeException.class)
@@ -141,5 +142,5 @@ public class SimplePeonPromocionTest {
 
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
-	}
+	}	
 }

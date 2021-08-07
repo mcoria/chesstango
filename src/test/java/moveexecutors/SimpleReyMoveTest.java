@@ -1,7 +1,6 @@
-package moveexecutor;
+package moveexecutors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -23,7 +22,6 @@ import debug.chess.KingCacheBoardDebug;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
-import moveexecutors.SimpleReyMove;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleReyMoveTest {
@@ -90,34 +88,6 @@ public class SimpleReyMoveTest {
 		moveExecutor.undoMove(boardState);
 
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-	}
-	
-	@Test
-	public void testSimpleReyMoveBlancoPierdeEnroque() {
-		moveExecutor.executeMove(boardState);
-
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueBlancoReyPermitido());
-		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
-	}
-	
-	
-	@Test
-	public void testSimpleReyMoveNegroPierdeEnroque() {
-		boardState.setTurnoActual(Color.NEGRO);
-		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroReyPermitido(true);
-
-		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
-
-		moveExecutor = new SimpleReyMove(origen, destino);
-
-		moveExecutor.executeMove(boardState);
-
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueNegroReinaPermitido());
-		assertFalse(boardState.isEnroqueNegroReyPermitido());
 	}		
 
 	@Test

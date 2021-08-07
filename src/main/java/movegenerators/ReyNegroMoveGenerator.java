@@ -4,12 +4,9 @@ import chess.CachePosiciones;
 import chess.Color;
 import chess.PosicionPieza;
 import chess.Square;
-import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueNegroReyMove;
 import moveexecutors.EnroqueNegroReynaMove;
 import moveexecutors.Move;
-import moveexecutors.MoveDecoratorReyState;
-import moveexecutors.SimpleReyMove;
 
 public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 
@@ -52,26 +49,15 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 		}
 	}
 
+	//TODO: agregar test case (cuando el rey se mueve pierde enroque) y agregar validacion en state 
 	@Override
 	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
-		if(Square.e8.equals(origen.getKey())){
-			return new MoveDecoratorReyState(new SimpleReyMove(origen, destino), state -> {
-				boardState.setEnroqueNegroReinaPermitido(false);
-				boardState.setEnroqueNegroReyPermitido(false);			
-			});
-		}
-		return new SimpleReyMove(origen, destino);
+		return this.moveFactory.createSimpleReyMoveNegro(origen, destino);
 	}
 
 	@Override
 	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		if(Square.e8.equals(origen.getKey())){
-			return new MoveDecoratorReyState(new CaptureReyMove(origen, destino), state -> {
-				boardState.setEnroqueNegroReinaPermitido(false);
-				boardState.setEnroqueNegroReyPermitido(false);			
-			});
-		}
-		return new CaptureReyMove(origen, destino);
+		return this.moveFactory.createCaptureReyMoveNegro(origen, destino);
 	}	
 
 }

@@ -6,9 +6,10 @@ import chess.Board;
 import chess.BoardState;
 import movecalculators.MoveFilter;
 
+//TODO: hay que reflotar la idea del MoveKing interface, mmmm nos pasa lo mismo en este decorator
 public class MoveDecoratorReyState extends MoveDecoratorState {
 
-	public MoveDecoratorReyState(Move move, Consumer<BoardState> decoratorState) {
+	protected MoveDecoratorReyState(Move move, Consumer<BoardState> decoratorState) {
 		super(move, decoratorState);
 	}
 	

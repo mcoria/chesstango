@@ -10,7 +10,7 @@ import movecalculators.MoveFilter;
 
 public class CaptureMove extends AbstractMove {
 	
-	public CaptureMove(PosicionPieza from, PosicionPieza to) {
+	protected CaptureMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}	
 	

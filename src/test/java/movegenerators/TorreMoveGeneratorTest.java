@@ -17,9 +17,8 @@ import chess.Square;
 import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CaptureMove;
 import moveexecutors.Move;
-import moveexecutors.SimpleMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 public class TorreMoveGeneratorTest {
 
@@ -27,8 +26,11 @@ public class TorreMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
 		moveGenerator = new TorreMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
 	}
@@ -115,11 +117,11 @@ public class TorreMoveGeneratorTest {
 	}	
 
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

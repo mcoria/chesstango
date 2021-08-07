@@ -7,23 +7,25 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import builder.ChessBuilderBoard;
 import debug.builder.DebugChessFactory;
-import moveexecutors.CapturaPeonPromocion;
-import moveexecutors.CaptureMove;
-import moveexecutors.CapturePeonPasante;
-import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueBlancoReyMove;
 import moveexecutors.EnroqueBlancoReynaMove;
 import moveexecutors.Move;
-import moveexecutors.SaltoDoblePeonMove;
-import moveexecutors.SimpleMove;
-import moveexecutors.SimpleReyMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 
 public class BoardTest {
+	
+	private MoveFactory moveFactory;
+	
+	@Before
+	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
+	}	
 	
 	@Test
 	public void test01() {		
@@ -120,11 +122,11 @@ public class BoardTest {
 
 		Collection<Move> moves = tablero.getLegalMoves();
 
-		assertTrue(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.d1)));
-		assertTrue(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.d2)));
-		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.e2)));
-		assertTrue(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f2)));
-		assertTrue(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f1)));
+		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.d1)));
+		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.d2)));
+		assertFalse(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.e2)));
+		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.f2)));
+		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.f1)));
 
 		assertFalse(moves.contains(new EnroqueBlancoReyMove()));
 		assertFalse(moves.contains(new EnroqueBlancoReynaMove()));
@@ -250,38 +252,6 @@ public class BoardTest {
 		
 		assertEquals(17, moves.size());
 		
-	}	
-	
-	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
-		if (Pieza.REY_NEGRO.equals(origenPieza) || Pieza.REY_BLANCO.equals(origenPieza)) {
-			return new SimpleReyMove(new PosicionPieza(origenSquare, origenPieza),
-					new PosicionPieza(destinoSquare, null));
-		}
-		return new SimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
-	}
-
-	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
-		return new SaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null),
-				squarePasante);
-	}
-
-	private Move createCapturePeonPromocion(Square origenSquare, Pieza origenPieza, Square destinoSquare,
-			Pieza destinoPieza, Pieza promocion) {
-		return new CapturaPeonPromocion(new PosicionPieza(origenSquare, origenPieza),
-				new PosicionPieza(destinoSquare, destinoPieza), promocion);
-	}
-
-	private Move createCaptureMove(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza) {
-		if (Pieza.REY_NEGRO.equals(origenPieza) || Pieza.REY_BLANCO.equals(origenPieza)) {
-			return new CaptureReyMove(new PosicionPieza(origenSquare, origenPieza),
-					new PosicionPieza(destinoSquare, destinoPieza));
-		}
-		return new CaptureMove(new PosicionPieza(origenSquare, origenPieza),
-				new PosicionPieza(destinoSquare, destinoPieza));
-	}
-	
-	private Move createCapturePeonPasanteMoveNegro(Square origen, Square destinoSquare) {
-		return new CapturePeonPasante(new PosicionPieza(origen, Pieza.PEON_NEGRO), new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1 ), Pieza.PEON_BLANCO));
 	}
 
 	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
@@ -302,6 +272,34 @@ public class BoardTest {
 		return null;
 	}
 		
+	
+	private Move createSimpleMove(Square origenSquare, Pieza origenPieza, Square destinoSquare) {
+		return moveFactory.createSimpleMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, null));
+	}
+	
+	private Move createCaptureMove(Square origenSquare, Pieza origenPieza, Square destinoSquare, Pieza destinoPieza) {
+		return moveFactory.createCaptureMove(new PosicionPieza(origenSquare, origenPieza), new PosicionPieza(destinoSquare, destinoPieza));
+	}		
+
+	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
+		return moveFactory.createSaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null),  squarePasante);		
+	}
+
+	private Move createCapturePeonPromocion(Square origenSquare, Pieza origenPieza, Square destinoSquare,
+			Pieza destinoPieza, Pieza promocion) {
+		return moveFactory.createCapturePeonPromocion(new PosicionPieza(origenSquare, origenPieza),
+				new PosicionPieza(destinoSquare, destinoPieza), promocion);
+	}
+	
+	private Move createCapturePeonPasanteMoveNegro(Square origen, Square destinoSquare) {
+		return moveFactory.createCapturePeonPasante(new PosicionPieza(origen, Pieza.PEON_NEGRO),
+				new PosicionPieza(destinoSquare, null), new PosicionPieza(
+						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Pieza.PEON_BLANCO));
+	}
+	
+	private Object createSimpleReyMoveBlanco(Square origen, Square destino) {
+		return moveFactory.createSimpleReyMoveBlanco(new PosicionPieza(origen, Pieza.REY_BLANCO), new PosicionPieza(destino, null));
+	}	
 	
 	private Board getDefaultBoard() {
 		return getBoard(FENParser.INITIAL_FEN);

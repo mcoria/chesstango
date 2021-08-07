@@ -5,13 +5,7 @@ import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import moveexecutors.CapturaPeonPromocion;
-import moveexecutors.CaptureMove;
-import moveexecutors.CapturePeonPasante;
 import moveexecutors.Move;
-import moveexecutors.SaltoDoblePeonMove;
-import moveexecutors.SimpleMove;
-import moveexecutors.SimplePeonPromocion;
 
 public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
@@ -28,6 +22,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);	
 	
 	protected abstract Pieza[] getPiezaPromocion();
+	
 	
 	private boolean saveMovesInCache;
 	
@@ -61,7 +56,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			this.result.affectedByContainerAdd(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
-				Move moveSaltoSimple = new SimpleMove(origen, destino);
+				Move moveSaltoSimple = this.moveFactory.createSimpleMove(origen, destino);
 				
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
@@ -75,7 +70,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 						result.affectedByContainerAdd(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
-							Move moveSaltoDoble = new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
+							Move moveSaltoDoble = this.moveFactory.createSaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
 							result.moveContainerAdd(moveSaltoDoble);
 						}
 					}					
@@ -89,8 +84,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				Move moveCaptura = new CaptureMove(origen, destino);
-				
+				Move moveCaptura = this.moveFactory.createCaptureMove(origen, destino);
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -108,7 +102,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 			Pieza pieza = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
-				Move moveCaptura = new CaptureMove(origen, destino);
+				Move moveCaptura =  this.moveFactory.createCaptureMove(origen, destino);
 
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -122,7 +116,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		if (peonPasanteSquare != null) {
 			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
 				destino = this.tablero.getPosicion(peonPasanteSquare);
-		    	Move move = new CapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare));
+		    	Move move = this.moveFactory.createCapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare));
 		    	this.saveMovesInCache = false;
 		    	this.hasCapturePeonPasante = true;
 		    	result.moveContainerAdd(move);
@@ -133,16 +127,16 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	private void addSaltoSimplePromocion(PosicionPieza origen, PosicionPieza destino) {
 		Pieza[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			this.result.moveContainerAdd(new SimplePeonPromocion(origen, destino, promociones[i]));
+			this.result.moveContainerAdd(this.moveFactory.createSimplePeonPromocion(origen, destino, promociones[i]));
 		}
 	}
 	
 	private void addCapturaPromocion(PosicionPieza origen, PosicionPieza destino) {
 		Pieza[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			this.result.moveContainerAdd(new CapturaPeonPromocion(origen, destino, promociones[i]));
+			this.result.moveContainerAdd(this.moveFactory.createCapturePeonPromocion(origen, destino, promociones[i]));
 		}
-	}	
+	}
 
 	@Override
 	public boolean puedeCapturarPosicion(PosicionPieza origen, Square square) {
@@ -152,6 +146,17 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 		return false;
 	}
+	
+	@Override
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+		return this.moveFactory.createSimpleMove(origen, destino);
+	}
+
+
+	@Override
+	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		return this.moveFactory.createCaptureMove(origen, destino);
+	}	
 
 	@Override
 	public boolean saveMovesInCache() {
@@ -165,14 +170,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
-	}
-	
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
-		return new SimpleMove(origen, destino);
-	}
-	
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureMove(origen, destino);
 	}	
 
 }

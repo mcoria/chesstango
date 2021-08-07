@@ -13,7 +13,7 @@ public abstract class EnroqueMove implements Move  {
 	protected final SimpleReyMove reyMove;
 	protected final SimpleMove torreMove;	
 	
-	public EnroqueMove(SimpleReyMove reyMove, SimpleMove torreMove) {
+	protected EnroqueMove(SimpleReyMove reyMove, SimpleMove torreMove) {
 		this.reyMove = reyMove;
 		this.torreMove = torreMove;
 	}

@@ -8,7 +8,7 @@ import movecalculators.MoveFilter;
 public class SimpleReyMove extends SimpleMove {
 
 	
-	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
+	protected SimpleReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

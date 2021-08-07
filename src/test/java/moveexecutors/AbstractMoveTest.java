@@ -1,4 +1,4 @@
-package moveexecutor;
+package moveexecutors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

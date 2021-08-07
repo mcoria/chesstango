@@ -18,15 +18,18 @@ import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import moveexecutors.Move;
-import moveexecutors.SimpleMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 public class ReinaMoveGeneratorTest {
 	private ReinaMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
 		moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
 		moves = new ArrayList<Move>();
 	}
@@ -93,7 +96,7 @@ public class ReinaMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

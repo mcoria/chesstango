@@ -10,7 +10,7 @@ public class MoveDecoratorState extends MoveDecorator {
 	
 	protected Consumer<BoardState> decoratorState;
 
-	public MoveDecoratorState(Move move, Consumer<BoardState> decoratorState) {
+	protected MoveDecoratorState(Move move, Consumer<BoardState> decoratorState) {
 		super(move);
 		this.decoratorState = decoratorState;
 	}

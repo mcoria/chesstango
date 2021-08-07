@@ -13,7 +13,7 @@ public class CapturePeonPasante extends AbstractMove {
 
 	private final PosicionPieza captura;
 			
-	public CapturePeonPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
+	protected CapturePeonPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
 		super(from, to);
 		this.captura = captura;
 	}

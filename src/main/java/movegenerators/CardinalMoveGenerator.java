@@ -7,11 +7,9 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import moveexecutors.CaptureMove;
 import moveexecutors.Move;
-import moveexecutors.SimpleMove;
 
-public class CardinalMoveGenerator extends AbstractMoveGenerator {
+public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	private final Cardinal[] direcciones;
 
@@ -86,13 +84,5 @@ public class CardinalMoveGenerator extends AbstractMoveGenerator {
 	public boolean hasCapturePeonPasante() {
 		return false;
 	}
-	
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
-		return new SimpleMove(origen, destino);
-	}
-	
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureMove(origen, destino);
-	}	
 
 }

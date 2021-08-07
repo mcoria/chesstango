@@ -1,4 +1,4 @@
-package moveexecutor;
+package moveexecutors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,40 +22,39 @@ import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
-import moveexecutors.EnroqueNegroReynaMove;
+import moveexecutors.EnroqueNegroReyMove;
 
 @RunWith(MockitoJUnitRunner.class)
-public class EnroqueNegroReynaMoveTest {
-	
+public class EnroqueNegroReyMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
-	private BoardState boardState;
+	private BoardState boardState;	
+	
+	private EnroqueNegroReyMove moveExecutor;
 	
 	private KingCacheBoard kingCacheBoard;
 	
-	private ColorBoard colorBoard;	
+	private ColorBoard colorBoard;
 	
-	private EnroqueNegroReynaMove moveExecutor;
-
 	@Mock
 	private Board board;
 	
 	@Mock
 	private MoveFilter filter;	
-	
+
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = new EnroqueNegroReynaMove();
+		moveExecutor = new EnroqueNegroReyMove();
 		
 		boardState = new BoardState();		
-		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReinaPermitido(true);
 		boardState.setEnroqueNegroReyPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.a8, Pieza.TORRE_NEGRO);	
-		piezaBoard.setPieza(Square.e8, Pieza.REY_NEGRO);	
+		piezaBoard.setPieza(Square.e8, Pieza.REY_NEGRO);
+		piezaBoard.setPieza(Square.h8, Pieza.TORRE_NEGRO);		
 		
 		kingCacheBoard = new KingCacheBoard();
 		colorBoard = new ColorBoard(piezaBoard);
@@ -65,19 +64,19 @@ public class EnroqueNegroReynaMoveTest {
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piezaBoard);
 		
-		assertEquals(Pieza.REY_NEGRO, piezaBoard.getPieza(Square.c8));		
-		assertEquals(Pieza.TORRE_NEGRO, piezaBoard.getPieza(Square.d8));
+		assertEquals(Pieza.REY_NEGRO, piezaBoard.getPieza(Square.g8));		
+		assertEquals(Pieza.TORRE_NEGRO, piezaBoard.getPieza(Square.f8));
 		
-		assertTrue(piezaBoard.isEmtpy(Square.a8));
 		assertTrue(piezaBoard.isEmtpy(Square.e8));
+		assertTrue(piezaBoard.isEmtpy(Square.h8));
 		
 		moveExecutor.undoMove(piezaBoard);
 		
 		assertEquals(Pieza.REY_NEGRO, piezaBoard.getPieza(Square.e8));
-		assertEquals(Pieza.TORRE_NEGRO, piezaBoard.getPieza(Square.a8));
+		assertEquals(Pieza.TORRE_NEGRO, piezaBoard.getPieza(Square.h8));
 		
-		assertTrue(piezaBoard.isEmtpy(Square.c8));
-		assertTrue(piezaBoard.isEmtpy(Square.d8));		
+		assertTrue(piezaBoard.isEmtpy(Square.g8));
+		assertTrue(piezaBoard.isEmtpy(Square.f8));		
 	}
 
 	@Test
@@ -85,18 +84,18 @@ public class EnroqueNegroReynaMoveTest {
 		moveExecutor.executeMove(boardState);		
 
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
+		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueNegroReinaPermitido());
 		assertFalse(boardState.isEnroqueNegroReyPermitido());
 		
 		moveExecutor.undoMove(boardState);
 		
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
+		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertTrue(boardState.isEnroqueNegroReinaPermitido());
 		assertTrue(boardState.isEnroqueNegroReyPermitido());		
 		
-	}	
+	}
 	
 	@Test
 	public void testColorBoard() {
@@ -104,33 +103,35 @@ public class EnroqueNegroReynaMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.c8));
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.d8));
+		assertEquals(Color.NEGRO, colorBoard.getColor(Square.g8));
+		assertEquals(Color.NEGRO, colorBoard.getColor(Square.f8));
 		
-		assertTrue(colorBoard.isEmpty(Square.a8));
 		assertTrue(colorBoard.isEmpty(Square.e8));
+		assertTrue(colorBoard.isEmpty(Square.h8));
+
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 
 		// asserts undos
 		assertEquals(Color.NEGRO, colorBoard.getColor(Square.e8));
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.a8));
+		assertEquals(Color.NEGRO, colorBoard.getColor(Square.h8));
 		
-		assertTrue(colorBoard.isEmpty(Square.c8));
-		assertTrue(colorBoard.isEmpty(Square.d8));		
+		assertTrue(colorBoard.isEmpty(Square.g8));
+		assertTrue(colorBoard.isEmpty(Square.f8));		
 	}	
 	
 	@Test
 	public void testKingCacheBoard() {
 		moveExecutor.executeMove(kingCacheBoard);
 
-		assertEquals(Square.c8, kingCacheBoard.getSquareKingNegroCache());
+		assertEquals(Square.g8, kingCacheBoard.getSquareKingNegroCache());
 
 		moveExecutor.undoMove(kingCacheBoard);
 
 		assertEquals(Square.e8, kingCacheBoard.getSquareKingNegroCache());
-	}
+	}	
+	
 	
 	@Test
 	public void testBoard() {
@@ -157,5 +158,4 @@ public class EnroqueNegroReynaMoveTest {
 		// asserts execute
 		verify(filter).filterKingMove(moveExecutor);
 	}	
-
 }

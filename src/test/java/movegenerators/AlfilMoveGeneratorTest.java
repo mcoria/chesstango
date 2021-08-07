@@ -17,17 +17,19 @@ import chess.Square;
 import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CaptureMove;
 import moveexecutors.Move;
-import moveexecutors.SimpleMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 
 public class AlfilMoveGeneratorTest {
 	
 	private AlfilMoveGenerator moveGenerator = null;
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
 		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
 	}
 	
@@ -139,11 +141,11 @@ public class AlfilMoveGeneratorTest {
 
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 	
 	private Collection<Square> toSquareCollection(long affectedBy) {

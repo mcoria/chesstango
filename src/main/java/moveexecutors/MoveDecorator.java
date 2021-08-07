@@ -11,7 +11,7 @@ public abstract class MoveDecorator implements Move {
 	
 	protected final Move move;	
 	
-	public MoveDecorator(Move move) {
+	protected MoveDecorator(Move move) {
 		this.move = move;
 	}	
 

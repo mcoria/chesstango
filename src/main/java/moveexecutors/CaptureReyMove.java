@@ -8,7 +8,7 @@ import movecalculators.MoveFilter;
 public class CaptureReyMove extends CaptureMove {
 
 	
-	public CaptureReyMove(PosicionPieza from, PosicionPieza to) {
+	protected CaptureReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

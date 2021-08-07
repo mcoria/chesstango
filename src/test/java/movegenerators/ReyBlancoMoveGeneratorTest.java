@@ -22,11 +22,10 @@ import chess.Square;
 import debug.builder.DebugChessFactory;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CaptureReyMove;
 import moveexecutors.EnroqueBlancoReyMove;
 import moveexecutors.EnroqueBlancoReynaMove;
 import moveexecutors.Move;
-import moveexecutors.SimpleReyMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 import positioncaptures.Capturer;
 public class ReyBlancoMoveGeneratorTest {
@@ -36,8 +35,11 @@ public class ReyBlancoMoveGeneratorTest {
 	
 	private BoardState state;
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
@@ -448,11 +450,11 @@ public class ReyBlancoMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleReyMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleReyMoveBlanco(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureReyMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureReyMoveBlanco(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

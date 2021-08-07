@@ -8,7 +8,7 @@ public class CapturaPeonPromocion extends CaptureMove {
 
 	protected final Pieza promocion;
 	
-	public CapturaPeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	protected CapturaPeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}

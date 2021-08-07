@@ -8,7 +8,7 @@ import movecalculators.MoveFilter;
 
 public class SimpleMove extends AbstractMove {
 	
-	public SimpleMove(PosicionPieza from, PosicionPieza to) {
+	protected SimpleMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

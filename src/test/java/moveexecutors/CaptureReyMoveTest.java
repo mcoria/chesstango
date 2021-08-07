@@ -1,7 +1,6 @@
-package moveexecutor;
+package moveexecutors;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -23,7 +22,6 @@ import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
-import moveexecutors.CaptureReyMove;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CaptureReyMoveTest {
@@ -94,43 +92,6 @@ public class CaptureReyMoveTest {
 		moveExecutor.undoMove(boardState);
 
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-	}
-	
-	@Test
-	public void testCapturaReyMoveBlancoPierdeEnroque() {
-		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReyPermitido(true);
-		boardState.setEnroqueBlancoReinaPermitido(true);
-
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.CABALLO_NEGRO);
-
-		moveExecutor = new CaptureReyMove(origen, destino);
-
-		moveExecutor.executeMove(boardState);
-
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueBlancoReyPermitido());
-		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
-	}
-	
-	
-	@Test
-	public void testCapturaReyMoveNegroPierdeEnroque() {
-		boardState.setTurnoActual(Color.NEGRO);
-		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroReyPermitido(true);
-
-		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REINA_NEGRO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.CABALLO_BLANCO);
-
-		moveExecutor = new CaptureReyMove(origen, destino);
-
-		moveExecutor.executeMove(boardState);
-
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueNegroReinaPermitido());
-		assertFalse(boardState.isEnroqueNegroReyPermitido());
 	}		
 
 	@Test

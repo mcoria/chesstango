@@ -16,13 +16,8 @@ import chess.PosicionPieza;
 import chess.Square;
 import debug.builder.DebugChessFactory;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CapturaPeonPromocion;
-import moveexecutors.CaptureMove;
-import moveexecutors.CapturePeonPasante;
 import moveexecutors.Move;
-import moveexecutors.SaltoDoblePeonMove;
-import moveexecutors.SimpleMove;
-import moveexecutors.SimplePeonPromocion;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 public class PeonBlancoMoveGeneratorTest {
 	private PeonBlancoMoveGenerator moveGenerator;
@@ -31,8 +26,11 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	private BoardState state;
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
@@ -246,27 +244,27 @@ public class PeonBlancoMoveGeneratorTest {
 	}
 
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(PosicionPieza origen, Square destinoSquare, Square squarePasante) {
-		return new SaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
+		return moveFactory.createSaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 
 	private Move createCapturePeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return new CapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
+		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
 	}
 	
 	private Move createSimplePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza promocion) {
-		return new SimplePeonPromocion(origen, new PosicionPieza(destinoSquare, null), promocion);
+		return moveFactory.createSimplePeonPromocion(origen, new PosicionPieza(destinoSquare, null), promocion);
 	}	
 	
 	private Move createCapturePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
-		return new CapturaPeonPromocion(origen, new PosicionPieza(destinoSquare, destinoPieza), promocion);
+		return moveFactory.createCapturePeonPromocion(origen, new PosicionPieza(destinoSquare, destinoPieza), promocion);
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

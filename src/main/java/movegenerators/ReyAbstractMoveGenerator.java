@@ -11,9 +11,6 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import moveexecutors.CaptureReyMove;
-import moveexecutors.Move;
-import moveexecutors.SimpleReyMove;
 import positioncaptures.Capturer;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque
@@ -144,16 +141,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		    
 		}
 		return null;
-	}	
-	
-	@Override
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
-		return new SimpleReyMove(origen, destino);
-	}
-
-	@Override
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureReyMove(origen, destino);
 	}	
 
 	@Override

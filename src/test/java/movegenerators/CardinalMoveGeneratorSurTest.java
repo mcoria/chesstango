@@ -18,9 +18,8 @@ import debug.builder.DebugChessFactory;
 import iterators.Cardinal;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CaptureMove;
 import moveexecutors.Move;
-import moveexecutors.SimpleMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 public class CardinalMoveGeneratorSurTest {
 	
@@ -28,9 +27,24 @@ public class CardinalMoveGeneratorSurTest {
 	
 	private Collection<Move> moves; 
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
-		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Sur});
+		moveFactory = new MoveFactory();
+		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Sur}){
+
+			@Override
+			protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+				return moveFactory.createSimpleMove(origen, destino);
+			}
+
+			@Override
+			protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+				return moveFactory.createCaptureMove(origen, destino);
+			}
+			
+		};
 		moves = new ArrayList<Move>();
 	}
 	
@@ -105,12 +119,12 @@ public class CardinalMoveGeneratorSurTest {
 	}	
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
-	}	
+		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());

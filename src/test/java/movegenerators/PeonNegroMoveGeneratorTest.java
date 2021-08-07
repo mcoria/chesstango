@@ -17,11 +17,8 @@ import chess.PosicionPieza;
 import chess.Square;
 import debug.builder.DebugChessFactory;
 import layers.PosicionPiezaBoard;
-import moveexecutors.CaptureMove;
-import moveexecutors.CapturePeonPasante;
 import moveexecutors.Move;
-import moveexecutors.SaltoDoblePeonMove;
-import moveexecutors.SimpleMove;
+import moveexecutors.MoveFactory;
 import parsers.FENParser;
 public class PeonNegroMoveGeneratorTest {
 
@@ -31,8 +28,11 @@ public class PeonNegroMoveGeneratorTest {
 	
 	private BoardState state;
 
+	private MoveFactory moveFactory;
+	
 	@Before
 	public void setUp() throws Exception {
+		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		state.setTurnoActual(Color.NEGRO);
@@ -190,20 +190,20 @@ public class PeonNegroMoveGeneratorTest {
 	}	
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return new SimpleMove(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(PosicionPieza origen, Square destinoSquare, Square squarePasante) {
-		return new SaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
+		return moveFactory.createSaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return new CaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 
 	private Move createCapturePeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return new CapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_BLANCO));
-	}	
+		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_BLANCO));
+	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());

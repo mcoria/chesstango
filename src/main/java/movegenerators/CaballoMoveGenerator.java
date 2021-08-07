@@ -2,9 +2,7 @@ package movegenerators;
 
 import chess.Color;
 import chess.PosicionPieza;
-import moveexecutors.CaptureMove;
 import moveexecutors.Move;
-import moveexecutors.SimpleMove;
 
 public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
@@ -40,12 +38,15 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 		return false;
 	}
 	
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
-		return new SimpleMove(origen, destino);
+	@Override
+	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+		return this.moveFactory.createSimpleMove(origen, destino);
 	}
-	
+
+
+	@Override
 	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureMove(origen, destino);
+		return this.moveFactory.createCaptureMove(origen, destino);
 	}	
 	
 }

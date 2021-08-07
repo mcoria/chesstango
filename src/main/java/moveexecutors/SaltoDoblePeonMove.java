@@ -9,7 +9,7 @@ public class SaltoDoblePeonMove extends SimpleMove {
 	
 	private final Square peonPasanteSquare;
 
-	public SaltoDoblePeonMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
+	protected SaltoDoblePeonMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
 		super(from, to);
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
