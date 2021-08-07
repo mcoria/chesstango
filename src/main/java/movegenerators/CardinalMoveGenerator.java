@@ -18,6 +18,7 @@ public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 		this.direcciones = direcciones;
 	}
 
+	//TODO: podra utilizarse streams para paralelizar?
 	@Override
 	public void generateMovesPseudoMoves(PosicionPieza origen) {
 		for (Cardinal cardinal : this.direcciones) {

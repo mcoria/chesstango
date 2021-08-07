@@ -75,36 +75,32 @@ public class ChessMain {
 
 		Map<Move, Node> childNodes = new HashMap<Move, Node>(movimientosPosible.size());
 
-		if (level < this.maxLevel || this.maxLevel == 1) {
-			for (Move move : movimientosPosible) {
+		for (Move move : movimientosPosible) {
 
-				Node node = null;
+			game.executeMove(move);
+
+			String id = code(game);
+			
+			Node node = nodeMap.get(id);
+
+			if (node == null) {
+				node = new Node(id);
+				nodeMap.put(id, node);
+
 				if (level < this.maxLevel) {
-					
-					game.executeMove(move);
-
-					String id = code(game);
-					node = nodeMap.get(id);
-
-					if (node == null) {
-						node = new Node(id);
-						nodeMap.put(id, node);
-						visitChilds(game, node, level + 1);
-					} else {
-						repetedNodes[level]++;
-					}
-
-					game.undoMove();
-
-				} else if (this.maxLevel == 1) {
-					node = new Node(null);
+					visitChilds(game, node, level + 1);
+				} else {
 					node.setChildNodesCounter(1);
 				}
-				childNodes.put(move, node);
-				totalMoves += node.getChildNodesCounter();
+
+			} else {
+				repetedNodes[level]++;
 			}
-		} else {
-			totalMoves+=movimientosPosible.size();
+			
+			childNodes.put(move, node);
+			totalMoves += node.getChildNodesCounter();
+			
+			game.undoMove();
 		}
 
 		currentNode.setChilds(childNodes);
