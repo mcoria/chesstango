@@ -64,12 +64,12 @@ public class PerftSuite {
 			
 			ChessMain main = new ChessMain();
 			
-			Node rootNode = main.start(getGame(), i + 1);
+			PerftResult result = main.start(getGame(), i + 1);
 			
-			if(rootNode.getChildNodesCounter() == perftResults[i]){
+			if(result.getTotalNodes() == perftResults[i]){
 				System.out.println("depth " + (i + 1) + " OK" );
 			} else {
-				System.out.println("depth " + (i + 1) + " FAIL, expected = " + perftResults[i] + ", actual = " + rootNode.getChildNodesCounter());
+				System.out.println("depth " + (i + 1) + " FAIL, expected = " + perftResults[i] + ", actual = " + result.getTotalNodes());
 				break;
 			}
 			

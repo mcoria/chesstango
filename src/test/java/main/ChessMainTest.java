@@ -2,7 +2,6 @@ package main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 
 import java.util.Collection;
 
@@ -27,182 +26,181 @@ public class ChessMainTest {
 
 	@Test
 	public void test_divide1() {
-		Node rootNode = main.start(board, 1);
+		PerftResult result = main.start(board, 1);
 		
-		assertEquals(1, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());		
+		assertEquals(1, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(1, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(1, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(1, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(1, result.getChildNode(Square.c2, Square.c3));
+		assertEquals(1, result.getChildNode(Square.c2, Square.c4));
+		assertEquals(1, result.getChildNode(Square.d2, Square.d3));
+		assertEquals(1, result.getChildNode(Square.d2, Square.d4));
+		assertEquals(1, result.getChildNode(Square.e2, Square.e3));
+		assertEquals(1, result.getChildNode(Square.e2, Square.e4));
+		assertEquals(1, result.getChildNode(Square.f2, Square.f3));
+		assertEquals(1, result.getChildNode(Square.f2, Square.f4));
+		assertEquals(1, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(1, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(1, result.getChildNode(Square.h2, Square.h3));
+		assertEquals(1, result.getChildNode(Square.h2, Square.h4));
+		assertEquals(1, result.getChildNode(Square.b1, Square.a3));
+		assertEquals(1, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(1, result.getChildNode(Square.g1, Square.f3));
+		assertEquals(1, result.getChildNode(Square.g1, Square.h3));		
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(20, rootNode.getChildNodesCounter());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(20, result.getTotalNodes());
 	}
 	
 	@Test
 	public void test_divide2() {
-		Node rootNode = main.start(board, 2);
+		PerftResult result = main.start(board, 2);
 		
-		assertEquals(20, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
-		assertEquals(20, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());
+		assertEquals(20, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(20, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(20, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(20, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(20, result.getChildNode(Square.c2, Square.c3));
+		assertEquals(20, result.getChildNode(Square.c2, Square.c4));
+		assertEquals(20, result.getChildNode(Square.d2, Square.d3));
+		assertEquals(20, result.getChildNode(Square.d2, Square.d4));
+		assertEquals(20, result.getChildNode(Square.e2, Square.e3));
+		assertEquals(20, result.getChildNode(Square.e2, Square.e4));
+		assertEquals(20, result.getChildNode(Square.f2, Square.f3));
+		assertEquals(20, result.getChildNode(Square.f2, Square.f4));
+		assertEquals(20, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(20, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(20, result.getChildNode(Square.h2, Square.h3));
+		assertEquals(20, result.getChildNode(Square.h2, Square.h4));
+		assertEquals(20, result.getChildNode(Square.b1, Square.a3));
+		assertEquals(20, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(20, result.getChildNode(Square.g1, Square.f3));
+		assertEquals(20, result.getChildNode(Square.g1, Square.h3));
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(400, rootNode.getChildNodesCounter());
-				
+		assertEquals(20, result.getMovesCount());
+		assertEquals(400, result.getTotalNodes());
 	} 
 	
 	@Test
 	public void test_divide3() {
-		Node rootNode = main.start(board, 3);
+		PerftResult result = main.start(board, 3);
 		
-		assertEquals(380, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
-		assertEquals(420, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
-		assertEquals(420, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
-		assertEquals(421, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(420, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
-		assertEquals(441, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
-		assertEquals(539, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
-		assertEquals(560, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
-		assertEquals(599, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
-		assertEquals(600, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
-		assertEquals(380, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
-		assertEquals(401, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
-		assertEquals(420, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
-		assertEquals(421, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
-		assertEquals(380, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
-		assertEquals(420, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
-		assertEquals(400, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
-		assertEquals(440, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(440, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
-		assertEquals(400, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());
+		assertEquals(380, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(420, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(420, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(421, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(420, result.getChildNode(Square.c2, Square.c3));
+		assertEquals(441, result.getChildNode(Square.c2, Square.c4));
+		assertEquals(539, result.getChildNode(Square.d2, Square.d3));
+		assertEquals(560, result.getChildNode(Square.d2, Square.d4));
+		assertEquals(599, result.getChildNode(Square.e2, Square.e3));
+		assertEquals(600, result.getChildNode(Square.e2, Square.e4));
+		assertEquals(380, result.getChildNode(Square.f2, Square.f3));
+		assertEquals(401, result.getChildNode(Square.f2, Square.f4));
+		assertEquals(420, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(421, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(380, result.getChildNode(Square.h2, Square.h3));
+		assertEquals(420, result.getChildNode(Square.h2, Square.h4));
+		assertEquals(400, result.getChildNode(Square.b1, Square.a3));
+		assertEquals(440, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(440, result.getChildNode(Square.g1, Square.f3));
+		assertEquals(400, result.getChildNode(Square.g1, Square.h3));
 
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(8902, rootNode.getChildNodesCounter());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(8902, result.getTotalNodes());
 	} 	
 	
 	
 	@Test
 	public void test_divide4() {
-		Node rootNode = main.start(board, 4);
+		PerftResult result = main.start(board, 4);
 
-		assertEquals(8457, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
-		assertEquals(9329, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
-		assertEquals(9345, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
-		assertEquals(9332, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(9272, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
-		assertEquals(9744, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
-		assertEquals(11959, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
-		assertEquals(12435, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
-		assertEquals(13134, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
-		assertEquals(13160, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
-		assertEquals(8457, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
-		assertEquals(8929, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
-		assertEquals(9345, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
-		assertEquals(9328, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
-		assertEquals(8457, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
-		assertEquals(9329, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
-		assertEquals(8885, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
-		assertEquals(9755, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(9748, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
-		assertEquals(8881, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());
+		assertEquals(8457, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(9329, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(9345, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(9332, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(9272, result.getChildNode(Square.c2, Square.c3));
+		assertEquals(9744, result.getChildNode(Square.c2, Square.c4));
+		assertEquals(11959, result.getChildNode(Square.d2, Square.d3));
+		assertEquals(12435, result.getChildNode(Square.d2, Square.d4));
+		assertEquals(13134, result.getChildNode(Square.e2, Square.e3));
+		assertEquals(13160, result.getChildNode(Square.e2, Square.e4));
+		assertEquals(8457, result.getChildNode(Square.f2, Square.f3));
+		assertEquals(8929, result.getChildNode(Square.f2, Square.f4));
+		assertEquals(9345, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(9328, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(8457, result.getChildNode(Square.h2, Square.h3));
+		assertEquals(9329, result.getChildNode(Square.h2, Square.h4));
+		assertEquals(8885, result.getChildNode(Square.b1, Square.a3));
+		assertEquals(9755, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(9748, result.getChildNode(Square.g1, Square.f3));
+		assertEquals(8881, result.getChildNode(Square.g1, Square.h3));
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(197281, rootNode.getChildNodesCounter());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(197281, result.getTotalNodes());
 	} 	
 	
 	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 
 		  // 50segs  46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs 10segs  
 	      //  8segs   7segs
 	public void test_divide5() {
-		Node rootNode = main.start(board, 5);
+		PerftResult result = main.start(board, 5);
 		
-		assertEquals(181046, rootNode.getChildNode(Square.a2, Square.a3).getChildNodesCounter());
-		assertEquals(217832, rootNode.getChildNode(Square.a2, Square.a4).getChildNodesCounter());
-		assertEquals(215255, rootNode.getChildNode(Square.b2, Square.b3).getChildNodesCounter());
-		assertEquals(216145, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(222861, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
-		assertEquals(240082, rootNode.getChildNode(Square.c2, Square.c4).getChildNodesCounter());
-		assertEquals(328511, rootNode.getChildNode(Square.d2, Square.d3).getChildNodesCounter());
-		assertEquals(361790, rootNode.getChildNode(Square.d2, Square.d4).getChildNodesCounter());
-		assertEquals(402988, rootNode.getChildNode(Square.e2, Square.e3).getChildNodesCounter());
-		assertEquals(405385, rootNode.getChildNode(Square.e2, Square.e4).getChildNodesCounter());
-		assertEquals(178889, rootNode.getChildNode(Square.f2, Square.f3).getChildNodesCounter());
-		assertEquals(198473, rootNode.getChildNode(Square.f2, Square.f4).getChildNodesCounter());
-		assertEquals(217210, rootNode.getChildNode(Square.g2, Square.g3).getChildNodesCounter());
-		assertEquals(214048, rootNode.getChildNode(Square.g2, Square.g4).getChildNodesCounter());
-		assertEquals(181044, rootNode.getChildNode(Square.h2, Square.h3).getChildNodesCounter());
-		assertEquals(218829, rootNode.getChildNode(Square.h2, Square.h4).getChildNodesCounter());
-		assertEquals(198572, rootNode.getChildNode(Square.b1, Square.a3).getChildNodesCounter());
-		assertEquals(234656, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(233491, rootNode.getChildNode(Square.g1, Square.f3).getChildNodesCounter());
-		assertEquals(198502, rootNode.getChildNode(Square.g1, Square.h3).getChildNodesCounter());
+		assertEquals(181046, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(217832, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(215255, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(216145, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(222861, result.getChildNode(Square.c2, Square.c3));
+		assertEquals(240082, result.getChildNode(Square.c2, Square.c4));
+		assertEquals(328511, result.getChildNode(Square.d2, Square.d3));
+		assertEquals(361790, result.getChildNode(Square.d2, Square.d4));
+		assertEquals(402988, result.getChildNode(Square.e2, Square.e3));
+		assertEquals(405385, result.getChildNode(Square.e2, Square.e4));
+		assertEquals(178889, result.getChildNode(Square.f2, Square.f3));
+		assertEquals(198473, result.getChildNode(Square.f2, Square.f4));
+		assertEquals(217210, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(214048, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(181044, result.getChildNode(Square.h2, Square.h3));
+		assertEquals(218829, result.getChildNode(Square.h2, Square.h4));
+		assertEquals(198572, result.getChildNode(Square.b1, Square.a3));
+		assertEquals(234656, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(233491, result.getChildNode(Square.g1, Square.f3));
+		assertEquals(198502, result.getChildNode(Square.g1, Square.h3));
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(4865609, rootNode.getChildNodesCounter());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(4865609, result.getTotalNodes());
 	} 
 
 
 	@Test //139segs 106segs
 	public void test_divide6() {
-		Node rootNode = main.start(board, 6);
+		PerftResult result = main.start(board, 6);
 		
-		assertEquals(4463267, rootNode.getChildNode(Square.a2, Square.a3 ).getChildNodesCounter());
-		assertEquals(5363555, rootNode.getChildNode(Square.a2, Square.a4 ).getChildNodesCounter());
-		assertEquals(5310358, rootNode.getChildNode(Square.b2, Square.b3 ).getChildNodesCounter());
-		assertEquals(5293555, rootNode.getChildNode(Square.b2, Square.b4 ).getChildNodesCounter());
-		assertEquals(5417640, rootNode.getChildNode(Square.c2, Square.c3 ).getChildNodesCounter());
-		assertEquals(5866666, rootNode.getChildNode(Square.c2, Square.c4 ).getChildNodesCounter());
-		assertEquals(8073082, rootNode.getChildNode(Square.d2, Square.d3 ).getChildNodesCounter());
-		assertEquals(8879566, rootNode.getChildNode(Square.d2, Square.d4 ).getChildNodesCounter());
-		assertEquals(9726018, rootNode.getChildNode(Square.e2, Square.e3 ).getChildNodesCounter());
-		assertEquals(9771632, rootNode.getChildNode(Square.e2, Square.e4 ).getChildNodesCounter());
-		assertEquals(4404141, rootNode.getChildNode(Square.f2, Square.f3 ).getChildNodesCounter());
-		assertEquals(4890429, rootNode.getChildNode(Square.f2, Square.f4 ).getChildNodesCounter());
-		assertEquals(5346260, rootNode.getChildNode(Square.g2, Square.g3 ).getChildNodesCounter());
-		assertEquals(5239875, rootNode.getChildNode(Square.g2, Square.g4 ).getChildNodesCounter());
-		assertEquals(4463070, rootNode.getChildNode(Square.h2, Square.h3 ).getChildNodesCounter());
-		assertEquals(5385554, rootNode.getChildNode(Square.h2, Square.h4 ).getChildNodesCounter());
-		assertEquals(5708064, rootNode.getChildNode(Square.b1, Square.c3 ).getChildNodesCounter());
-		assertEquals(4856835, rootNode.getChildNode(Square.b1, Square.a3 ).getChildNodesCounter());
-		assertEquals(4877234, rootNode.getChildNode(Square.g1, Square.h3 ).getChildNodesCounter());
-		assertEquals(5723523, rootNode.getChildNode(Square.g1, Square.f3 ).getChildNodesCounter());
+		assertEquals(4463267, result.getChildNode(Square.a2, Square.a3 ));
+		assertEquals(5363555, result.getChildNode(Square.a2, Square.a4 ));
+		assertEquals(5310358, result.getChildNode(Square.b2, Square.b3 ));
+		assertEquals(5293555, result.getChildNode(Square.b2, Square.b4 ));
+		assertEquals(5417640, result.getChildNode(Square.c2, Square.c3 ));
+		assertEquals(5866666, result.getChildNode(Square.c2, Square.c4 ));
+		assertEquals(8073082, result.getChildNode(Square.d2, Square.d3 ));
+		assertEquals(8879566, result.getChildNode(Square.d2, Square.d4 ));
+		assertEquals(9726018, result.getChildNode(Square.e2, Square.e3 ));
+		assertEquals(9771632, result.getChildNode(Square.e2, Square.e4 ));
+		assertEquals(4404141, result.getChildNode(Square.f2, Square.f3 ));
+		assertEquals(4890429, result.getChildNode(Square.f2, Square.f4 ));
+		assertEquals(5346260, result.getChildNode(Square.g2, Square.g3 ));
+		assertEquals(5239875, result.getChildNode(Square.g2, Square.g4 ));
+		assertEquals(4463070, result.getChildNode(Square.h2, Square.h3 ));
+		assertEquals(5385554, result.getChildNode(Square.h2, Square.h4 ));
+		assertEquals(5708064, result.getChildNode(Square.b1, Square.c3 ));
+		assertEquals(4856835, result.getChildNode(Square.b1, Square.a3 ));
+		assertEquals(4877234, result.getChildNode(Square.g1, Square.h3 ));
+		assertEquals(5723523, result.getChildNode(Square.g1, Square.f3 ));
 
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(119060324, rootNode.getChildNodesCounter());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(119060324, result.getTotalNodes());
 	}
 	
 	@Test
@@ -210,10 +208,10 @@ public class ChessMainTest {
 		
 		board.executeMove(Square.d2, Square.d3);
 		
-		Node rootNode = main.start(board, 4);
+		PerftResult result = main.start(board, 4);
 		
-		assertEquals(20, board.getMovimientosPosibles().size());
-		assertEquals(328511, rootNode.getChildNodesCounter());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(328511, result.getTotalNodes());
 	}
 	
 	@Test
@@ -225,10 +223,10 @@ public class ChessMainTest {
 		board.executeMove(Square.a5, Square.a4);
 		board.executeMove(Square.c2, Square.c3);		
 		
-		Node rootNode = main.start(board, 4);
+		PerftResult result = main.start(board, 4);
 		
-		assertEquals(21, board.getMovimientosPosibles().size());
-		assertEquals(438360, rootNode.getChildNodesCounter());
+		assertEquals(21, result.getMovesCount());
+		assertEquals(438360, result.getTotalNodes());
 	}
 	
 	
@@ -242,10 +240,10 @@ public class ChessMainTest {
 
 		assertFalse( contieneMove(board.getMovimientosPosibles(), Square.h6, Square.h5) );
 		
-		Node rootNode = main.start(board, 4);
+		PerftResult result = main.start(board, 4);
 		
-		assertEquals(29, board.getMovimientosPosibles().size());
-		assertEquals(319182, rootNode.getChildNodesCounter());		
+		assertEquals(29, result.getMovesCount());
+		assertEquals(319182, result.getTotalNodes());
 	}	
 	
 	
@@ -255,45 +253,42 @@ public class ChessMainTest {
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
 		
-		Node rootNode = main.start(board, 3);
+		PerftResult result = main.start(board, 3);
 		
-		assertEquals(27, board.getMovimientosPosibles().size());
-		assertEquals(15971, rootNode.getChildNodesCounter());
+		assertEquals(27, result.getMovesCount());
+		assertEquals(15971, result.getTotalNodes());
 	}
 	
 	@Test
 	public void test_d2d3_c7c5_e1d2() {
-		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
 		board.executeMove(Square.e1, Square.d2);
 		
-		Node rootNode = main.start(board, 4);
+		PerftResult result = main.start(board, 4);
 		
-		assertEquals(22, board.getMovimientosPosibles().size());
-		assertEquals(279506, rootNode.getChildNodesCounter());
+		assertEquals(22, result.getMovesCount());
+		assertEquals(279506, result.getTotalNodes());
 	}	
 	
 	
 	@Test
 	public void test_d2d3_c7c5_e1d2_d8a5() {
-
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
 		board.executeMove(Square.e1, Square.d2);
 		board.executeMove(Square.d8, Square.a5);
 		
-		Node rootNode = main.start(board, 1);
+		PerftResult result = main.start(board, 1);
 		
-		assertEquals(1, rootNode.getChildNode(Square.b1, Square.c3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.b2, Square.b4).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.d2, Square.e3).getChildNodesCounter());
-		assertEquals(1, rootNode.getChildNode(Square.c2, Square.c3).getChildNodesCounter());
+		assertEquals(1, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(1, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(1, result.getChildNode(Square.d2, Square.e3));
+		assertEquals(1, result.getChildNode(Square.c2, Square.c3));
+		assertFalse("d2e1 is not valid", result.moveExists(Square.d2, Square.e1));
 		
-		assertNull("d2e1 is not valid", rootNode.getChildNode(Square.d2, Square.e1));
-		
-		assertEquals(4, board.getMovimientosPosibles().size());
-		assertEquals(4, rootNode.getChildNodesCounter());
+		assertEquals(4, result.getMovesCount());
+		assertEquals(4, result.getTotalNodes());
 	}
 
 	

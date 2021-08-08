@@ -1,5 +1,7 @@
 package main;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -23,7 +25,7 @@ public class ChessMain {
 	
 	private FENCoder coder = new FENCoder();
 	
-	private List<Map<String, Node>> nodeListMap;
+	private List<Map<String, Integer>> nodeListMap;
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
@@ -37,124 +39,117 @@ public class ChessMain {
 		
 		ChessMain main = new ChessMain();
 		
-		Node rootNode = main.start(board, 5);
+		Instant start = Instant.now();
+		PerftResult result = main.start(board, 6);
+		Instant end = Instant.now();
 		
-		main.printNode(board, rootNode);
+		main.printResult(result);
 		
+		Duration timeElapsed = Duration.between(start, end);
+		System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
 	}
 
-	public Node start(Game board, int maxLevel) {
+	public PerftResult start(Game board, int maxLevel) {
 		this.maxLevel = maxLevel;
-		this.nodeListMap = new  ArrayList<Map<String, Node>>(maxLevel + 1);
+		this.nodeListMap = new  ArrayList<Map<String, Integer>>(maxLevel + 1);
 		this.repetedNodes = new int[maxLevel + 1];
 		
 		for(int i = 0; i < maxLevel + 1; i++){
-			Map<String, Node> nodeMap = new HashMap<String, Node>(capacities[i]);
+			Map<String, Integer> nodeMap = new HashMap<String, Integer>(capacities[i]);
 			nodeListMap.add(nodeMap);
 		}
 		
-		
-		String rootId = code(board);
-		Node rootNode = new Node(rootId);
-		
-		Map<String, Node> nodeMap = nodeListMap.get(0);
-		nodeMap.put(rootId, rootNode);
-		
-		visitLevel1(board, rootNode);
-		
-		return rootNode;
+		return visitLevel1(board);
 		
 	}
 	
-	private void visitLevel1(Game game, Node rootNode) {
-		int totalMoves = 0;
-
-		Map<String, Node> nodeMap = nodeListMap.get(1);
+	private PerftResult visitLevel1(Game game) {
+		PerftResult perftResult = new PerftResult();
+		
+		int totalNodess = 0;
 
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
 
-		Map<Move, Node> childNodes = new HashMap<Move, Node>(movimientosPosible.size());
-
 		for (Move move : movimientosPosible) {
+			int nodeCount = 0;
+			
 			game.executeMove(move);
 
-			String id = code(game);
-
-			Node node = new Node(id);
-			
-			nodeMap.put(id, node);
-
 			if(maxLevel > 1){
-				visitChilds(game, node, 2);
+				nodeCount = visitChilds(game, 2);
 			} else {
-				node.setChildNodesCounter(1);
+				nodeCount = 1;
 			}
 
-			childNodes.put(move, node);
+			perftResult.add(move, nodeCount);
 			
-			totalMoves += node.getChildNodesCounter();
+			totalNodess += nodeCount;
 			
 			game.undoMove();		
 			
 		}
+		
+		perftResult.setTotalNodes(totalNodess);
 
-		rootNode.setChilds(childNodes);
-		rootNode.setChildNodesCounter(totalMoves);
+		
+		return perftResult;
 	}	
 
-	private void visitChilds(Game game, Node currentNode, int level) {
-		int totalMoves = 0;
-
-		Map<String, Node> nodeMap = nodeListMap.get(level);
+	private int visitChilds(Game game, int level) {
+		int totalNodes = 0;
 
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
 
-		for (Move move : movimientosPosible) {
-			Node node = null;
-			if (level < this.maxLevel) {
+		if (level < this.maxLevel) {
+			Map<String, Integer> nodeMap = nodeListMap.get(level);
+			
+			for (Move move : movimientosPosible) {
+				Integer nodeCount = null;
+						
 				game.executeMove(move);
 
 				String id = code(game);
 
-				node = nodeMap.get(id);
+				nodeCount = nodeMap.get(id);
 
-				if (node == null) {
-					node = new Node(id);
-					nodeMap.put(id, node);
+				if (nodeCount == null) {
 
-					visitChilds(game, node, level + 1);
+					nodeCount = visitChilds(game, level + 1);
+					
+					nodeMap.put(id, nodeCount);
 
 				} else {
 					repetedNodes[level]++;
 				}
-				
-				totalMoves += node.getChildNodesCounter();
-				
+
+				totalNodes += nodeCount;
+
 				game.undoMove();
-			} else {
-				totalMoves ++;
-			}			
-			
+
+			}
+		} else {
+			totalNodes = movimientosPosible.size();
 		}
 
-		currentNode.setChildNodesCounter(totalMoves);
+		return totalNodes;
 	}
 	
 	
 	
 	
-	public void printNode(Game game, Node rootNode) {
-		System.out.println("Total Moves: " + rootNode.getMoves());
-		System.out.println("Total Nodes: " + rootNode.getChildNodesCounter());
+	public void printResult(PerftResult result) {
+		System.out.println("Total Moves: " + result.getMovesCount());
+		System.out.println("Total Nodes: " + result.getTotalNodes());
 		
-		Map<Move, Node> childs = rootNode.getChilds();
+		Map<Move, Integer> childs = result.getChilds();
+		
 		if(childs != null){
 			List<Move> moves = new ArrayList<Move>(childs.keySet());
 			Collections.reverse(moves);
 			
 			for (Move move : moves) {
 	            System.out.println("Move = " + move.toString() + 
-                        ", Total = " + childs.get(move).getChildNodesCounter()); 				
+                        ", Total = " + childs.get(move)); 				
 			}
 		}
 		

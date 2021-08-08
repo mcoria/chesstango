@@ -2,9 +2,11 @@ package main;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import builder.ChessBuilderGame;
 import chess.Game;
@@ -88,16 +90,21 @@ public class Perft {
 	
 	
 	
-	public void printNode(PerftResult perftResult) {
-		System.out.println("Total Moves: " + perftResult.getMovesCount());
-		System.out.println("Total Nodes: " + perftResult.getTotalNodes());
+	public void printNode(PerftResult result) {
+		System.out.println("Total Moves: " + result.getMovesCount());
+		System.out.println("Total Nodes: " + result.getTotalNodes());
 		
-		Map<Move, Integer> childs = perftResult.getMoves();
+		Map<Move, Integer> childs = result.getChilds();
 		
-		for(Entry<Move, Integer> entry: childs.entrySet()){
-			System.out.println(entry.getKey().toString() + " " + entry.getValue().toString());
-		};
-		
+		if(childs != null){
+			List<Move> moves = new ArrayList<Move>(childs.keySet());
+			Collections.reverse(moves);
+			
+			for (Move move : moves) {
+	            System.out.println("Move = " + move.toString() + 
+                        ", Total = " + childs.get(move)); 				
+			}
+		}
 		
 		System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
 		System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
