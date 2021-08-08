@@ -3,6 +3,7 @@ package layers;
 
 import java.util.Iterator;
 
+import builder.ChessBuilder;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -31,5 +32,8 @@ public interface PosicionPiezaBoard extends Iterable<PosicionPieza> {
 	Iterator<PosicionPieza> iterator(SquareIterator squareIterator);
 	
 	Iterator<PosicionPieza> iterator(long posiciones);
+	
+	
+	void buildRepresentation(ChessBuilder builder);
 
 }

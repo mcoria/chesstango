@@ -60,11 +60,47 @@ public class ChessMain {
 		Map<String, Node> nodeMap = nodeListMap.get(0);
 		nodeMap.put(rootId, rootNode);
 		
-		visitChilds(board, rootNode, 1);
+		visitLevel1(board, rootNode);
 		
 		return rootNode;
 		
 	}
+	
+	private void visitLevel1(Game game, Node rootNode) {
+		int totalMoves = 0;
+
+		Map<String, Node> nodeMap = nodeListMap.get(1);
+
+		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
+
+		Map<Move, Node> childNodes = new HashMap<Move, Node>(movimientosPosible.size());
+
+		for (Move move : movimientosPosible) {
+			game.executeMove(move);
+
+			String id = code(game);
+
+			Node node = new Node(id);
+			
+			nodeMap.put(id, node);
+
+			if(maxLevel > 1){
+				visitChilds(game, node, 2);
+			} else {
+				node.setChildNodesCounter(1);
+			}
+
+			childNodes.put(move, node);
+			
+			totalMoves += node.getChildNodesCounter();
+			
+			game.undoMove();		
+			
+		}
+
+		rootNode.setChilds(childNodes);
+		rootNode.setChildNodesCounter(totalMoves);
+	}	
 
 	private void visitChilds(Game game, Node currentNode, int level) {
 		int totalMoves = 0;
@@ -73,37 +109,34 @@ public class ChessMain {
 
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
 
-		Map<Move, Node> childNodes = new HashMap<Move, Node>(movimientosPosible.size());
-
 		for (Move move : movimientosPosible) {
+			Node node = null;
+			if (level < this.maxLevel) {
+				game.executeMove(move);
 
-			game.executeMove(move);
+				String id = code(game);
 
-			String id = code(game);
-			
-			Node node = nodeMap.get(id);
+				node = nodeMap.get(id);
 
-			if (node == null) {
-				node = new Node(id);
-				nodeMap.put(id, node);
+				if (node == null) {
+					node = new Node(id);
+					nodeMap.put(id, node);
 
-				if (level < this.maxLevel) {
 					visitChilds(game, node, level + 1);
-				} else {
-					node.setChildNodesCounter(1);
-				}
 
+				} else {
+					repetedNodes[level]++;
+				}
+				
+				totalMoves += node.getChildNodesCounter();
+				
+				game.undoMove();
 			} else {
-				repetedNodes[level]++;
-			}
+				totalMoves ++;
+			}			
 			
-			childNodes.put(move, node);
-			totalMoves += node.getChildNodesCounter();
-			
-			game.undoMove();
 		}
 
-		currentNode.setChilds(childNodes);
 		currentNode.setChildNodesCounter(totalMoves);
 	}
 	

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
 
+import builder.ChessBuilder;
 import chess.CachePosiciones;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -155,6 +156,14 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 			return true;
 		}
 		return false;
+	}
+
+
+	@Override
+	public void buildRepresentation(ChessBuilder builder) {
+		this.forEach(posicionPieza -> {
+			builder.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
+		});
 	}	
 
 }

@@ -80,10 +80,7 @@ public class Board {
 	
 	public void buildRepresentation(ChessBuilder builder){		
 		boardState.buildRepresentation(builder);
-		
-		dummyBoard.forEach(posicionPieza -> {
-			builder.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
-		});		
+		dummyBoard.buildRepresentation(builder);		
 	}
 	
 	
