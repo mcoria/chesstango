@@ -38,7 +38,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		this.filter = filter;
 	}
 
-	
+	//TODO: Misteriosamente MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy); tiene mala performance !!!
 	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
 		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 	
@@ -46,7 +46,8 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
 	
-			MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy);
+			MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
+											//origen.getValue().getMoveGenerator(strategy); Mala performance
 	
 			generatorResult = moveGenerator.calculatePseudoMoves(origen);
 	

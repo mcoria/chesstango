@@ -83,8 +83,8 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		return false;
 	}
 	
-	private final Cardinal[] cardinalesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
-	private final Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
+	private final static Cardinal[] cardinalesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
+	private final static Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
 	public Collection<Square> getPinnedSquare(Square kingSquare) {
 		Pieza reina = Pieza.getReina(this.color.opositeColor());

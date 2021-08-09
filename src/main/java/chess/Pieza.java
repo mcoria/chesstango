@@ -24,8 +24,8 @@ public enum Pieza {
 	REY_BLANCO(Color.BLANCO, strategy -> strategy.getReyBlancoMoveGenerator()),
 	REY_NEGRO(Color.NEGRO, strategy -> strategy.getReyNegroMoveGenerator());
 	
-	private Color color;
-	private Function<MoveGeneratorStrategy, MoveGenerator> selector = null;
+	private final Color color;
+	private final Function<MoveGeneratorStrategy, MoveGenerator> selector;
 	
 	private Pieza(Color color, Function<MoveGeneratorStrategy, MoveGenerator> selector) {
 		this.color = color;

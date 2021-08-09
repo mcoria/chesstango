@@ -4,6 +4,7 @@ import java.util.function.BooleanSupplier;
 
 import chess.BoardState;
 import chess.Color;
+import chess.Pieza;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import positioncaptures.Capturer;
@@ -172,5 +173,50 @@ public class MoveGeneratorStrategy {
 			generator.setCapturer(capturer);
 			generator.setKingInCheck(isKingInCheck);
 		}
+	}
+	
+	public MoveGenerator getMoveGenerator(Pieza pieza){
+		MoveGenerator value  = null;
+		switch (pieza) {
+		case PEON_BLANCO:
+			value = this.pbmg;
+			break;
+		case PEON_NEGRO:
+			value = this.pnmg;
+			break;
+		case TORRE_BLANCO:
+			value = this.tbmg;
+			break;
+		case TORRE_NEGRO:
+			value = this.tnmg;
+			break;
+		case CABALLO_BLANCO:
+			value = this.cbmg;
+			break;
+		case CABALLO_NEGRO:
+			value = this.cnmg;
+			break;
+		case ALFIL_BLANCO:
+			value = this.abmg;
+			break;
+		case ALFIL_NEGRO:
+			value = this.anmg;
+			break;
+		case REINA_BLANCO:
+			value = this.rebmg;
+			break;
+		case REINA_NEGRO:
+			value = this.renmg;
+			break;
+		case REY_BLANCO:
+			value = this.rbmg;
+			break;
+		case REY_NEGRO:
+			value = this.rnmg;
+			break;
+		default:
+			throw new RuntimeException("Generator not found");
+		}
+		return value;
 	}	
 }
