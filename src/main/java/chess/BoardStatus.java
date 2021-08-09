@@ -1,9 +1,14 @@
 package chess;
 
+import java.util.Collection;
+
+import moveexecutors.Move;
+
 public class BoardStatus {
 	
 	private boolean isKingInCheck;
-	private boolean existsLegalMove;
+	private Collection<Move> legalMoves;
+	//private boolean existsLegalMove;
 	
 
 	public boolean isKingInCheck() {
@@ -15,12 +20,25 @@ public class BoardStatus {
 		this.isKingInCheck = isKingInCheck;
 	}
 
+	public Collection<Move> getLegalMoves() {
+		return legalMoves;
+	}
+
+	public void setLegalMoves(Collection<Move> legalMoves) {
+		this.legalMoves = legalMoves;
+	}
+
+	public boolean isExistsLegalMove() {
+		return !legalMoves.isEmpty();
+	}
+
+	/*
 	public boolean isExistsLegalMove() {
 		return existsLegalMove;
 	}
 
 	public void setExistsLegalMove(boolean existsLegalMove) {
 		this.existsLegalMove = existsLegalMove;
-	}
+	}*/
 
 }

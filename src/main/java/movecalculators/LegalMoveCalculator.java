@@ -12,5 +12,5 @@ import moveexecutors.Move;
 public interface LegalMoveCalculator {
 	Collection<Move> getLegalMoves();
 	
-	boolean existsLegalMove();
+	//boolean existsLegalMove();
 }

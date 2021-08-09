@@ -47,6 +47,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		return moves;
 	}
 
+	/*
 	@Override
 	public boolean existsLegalMove() {
 		count++;
@@ -69,7 +70,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 		}
 		return false;
-	}
+	}*/
 	
 	
 }

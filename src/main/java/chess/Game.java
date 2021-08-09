@@ -62,7 +62,8 @@ public class Game {
 
 	protected GameStatus updateGameStatus() {
 		BoardStatus boardStatus = board.getBoardStatus();
-		boolean existsLegalMove = boardStatus.isExistsLegalMove();
+		Collection<Move> movimientosPosibles = boardStatus.getLegalMoves();
+		boolean existsLegalMove = !movimientosPosibles.isEmpty();
 		GameStatus gameStatus = null;
 
 		if (existsLegalMove) {
@@ -80,6 +81,7 @@ public class Game {
 		}
 
 		boardPila.setStatus(gameStatus);
+		boardPila.setMovimientosPosibles(movimientosPosibles);
 
 		return gameStatus;
 	}
@@ -103,9 +105,6 @@ public class Game {
 	}
 
 	public final Collection<Move> getMovimientosPosibles() {
-		if(boardPila.getMovimientosPosibles() == null){
-			boardPila.setMovimientosPosibles(board.getLegalMoves());
-		}
 		return boardPila.getMovimientosPosibles();
 	}
 

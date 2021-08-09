@@ -36,12 +36,6 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		
 		return moves;
 	}
-	
-	@Override
-	public boolean existsLegalMove() {	
-		count++;
-		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
-	}	
 
 	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
 		final Color turnoActual = boardState.getTurnoActual();
@@ -82,8 +76,28 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		}
 
 		return moves;
-	}		
+	}	
+	
+	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
+		Square 	kingSquare = getCurrentKingSquare();
+		
+		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
 
+		for (Move move : pseudoMovesKing) {
+			if(move.filter(filter)){
+				moves.add(move);
+			}
+		}
+		return moves;
+	}	
+
+	/*
+	@Override
+	public boolean existsLegalMove() {	
+		count++;
+		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
+	}	
+	
 	//TODO: los pinned deberian ser los ultimos en buscar movimientos
 	protected boolean existsLegalMovesNotKing() {
 		final Color turnoActual = boardState.getTurnoActual();
@@ -99,14 +113,12 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 			Square origenSquare = iterator.next();
 
-			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
+			MoveGeneratorResult generatorResult = getPseudoMovesResult(origenSquare);
 
-			if (pinnedSquares.contains(origenSquare)) {
+			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
+			
+			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCapturePeonPasante()) {
 				for (Move move : pseudoMoves) {
-					/*
-					 * if(! origen.equals(move.getFrom()) ){ throw new
-					 * RuntimeException("Que paso?!?!?"); }
-					 */
 
 					// assert origen.equals(move.getFrom());
 
@@ -121,19 +133,6 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 		}
 		return false;
-	}	
-	
-	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
-		Square 	kingSquare = getCurrentKingSquare();
-		
-		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
-
-		for (Move move : pseudoMovesKing) {
-			if(move.filter(filter)){
-				moves.add(move);
-			}
-		}
-		return moves;
 	}
 	
 	protected boolean existsLegalMovesKing() {
@@ -147,5 +146,8 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		}
 		return false;
 	}
+		
+	*/
+	
 
 }

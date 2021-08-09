@@ -34,11 +34,12 @@ public class BoardAnalyzer {
 	public BoardStatus getBoardStatus() {
 		this.isKingInCheck = calculateKingInCheck();
 		
-		boolean existsLegalMove = getMoveCalculator().existsLegalMove();
+		//boolean existsLegalMove = getMoveCalculator().existsLegalMove();
 		
 		BoardStatus result = new BoardStatus();
 		result.setKingInCheck(isKingInCheck);
-		result.setExistsLegalMove(existsLegalMove);
+		result.setLegalMoves(getMoveCalculator().getLegalMoves());
+		//result.setExistsLegalMove(existsLegalMove);
 
 		return result;
 	}

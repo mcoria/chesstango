@@ -114,31 +114,31 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	protected Square getPinned(Square kingSquare, Pieza torreOAlfil, Pieza reina, Cardinal cardinal) {
 		Square pinned = null;
 		CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
-		while ( iterator.hasNext() ) {
-		    Square destino = iterator.next();
-		    Color colorDestino = colorBoard.getColor(destino);
-		    if(colorDestino == null){
-		    	continue;
-		    }
+		while (iterator.hasNext()) {
+			Square destino = iterator.next();
+			Color colorDestino = colorBoard.getColor(destino);
+			if (colorDestino == null) {
+				continue;
+			}
 			if (pinned == null) {
 				if (color.equals(colorDestino)) {
 					pinned = destino;
-				} else if (color.opositeColor().equals(colorDestino)) {
+				} else { // if (color.opositeColor().equals(colorDestino))
 					return null;
 				}
 			} else {
 				if (color.equals(colorDestino)) {
 					return null;
-				} else if (color.opositeColor().equals(colorDestino)) {
+				} else { //// if (color.opositeColor().equals(colorDestino))
 					Pieza pieza = this.tablero.getPieza(destino);
-					if(torreOAlfil.equals(pieza) || reina.equals(pieza)){
+					if (torreOAlfil.equals(pieza) || reina.equals(pieza)) {
 						return pinned;
-					} else{
+					} else {
 						return null;
 					}
 				}
 			}
-		    
+
 		}
 		return null;
 	}	

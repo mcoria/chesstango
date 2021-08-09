@@ -34,7 +34,7 @@ public class Perft {
 		PerftResult perftResult = main.start(board, 6);
 		Instant end = Instant.now();
 		
-		main.printNode(perftResult);
+		main.printResult(perftResult);
 		
 		
 		Duration timeElapsed = Duration.between(start, end);
@@ -90,7 +90,7 @@ public class Perft {
 	
 	
 	
-	public void printNode(PerftResult result) {
+	public void printResult(PerftResult result) {
 		System.out.println("Total Moves: " + result.getMovesCount());
 		System.out.println("Total Nodes: " + result.getTotalNodes());
 		
