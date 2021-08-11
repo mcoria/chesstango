@@ -1,7 +1,5 @@
 package movegenerators;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.function.BooleanSupplier;
 
 import chess.BoardState;
@@ -86,25 +84,25 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	private final static Cardinal[] cardinalesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
 	private final static Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
-	public Collection<Square> getPinnedSquare(Square kingSquare) {
+	public long getPinnedSquare(Square kingSquare) {
 		Pieza reina = Pieza.getReina(this.color.opositeColor());
 		Pieza torre = Pieza.getTorre(this.color.opositeColor());
 		Pieza alfil = Pieza.getAlfil(this.color.opositeColor());
-		Collection<Square> pinnedCollection = new ArrayList<Square>();
+		long pinnedCollection = 0;
 		
-		pinnedCollection.addAll(getPinnedCardinales(kingSquare, alfil, reina, cardinalesAlfil));
-		pinnedCollection.addAll(getPinnedCardinales(kingSquare, torre, reina, cardinalesTorre));
+		pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesAlfil);
+		pinnedCollection |= getPinnedCardinales(kingSquare, torre, reina, cardinalesTorre);
 
 		return pinnedCollection;
 	}
 	
-	protected Collection<Square> getPinnedCardinales(Square kingSquare, Pieza torreOAlfil, Pieza reina,
+	protected long getPinnedCardinales(Square kingSquare, Pieza torreOAlfil, Pieza reina,
 			Cardinal[] direcciones) {
-		Collection<Square> pinnedCollection = new ArrayList<Square>();
+		long pinnedCollection = 0;
 		for (Cardinal cardinal : direcciones) {
 			Square pinned = getPinned(kingSquare, torreOAlfil, reina, cardinal);
 			if (pinned != null) {
-				pinnedCollection.add(pinned);
+				pinnedCollection |= pinned.getPosicion();
 			}
 		}
 		return pinnedCollection;

@@ -45,7 +45,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden
 		// poner en jaque al Rey.
-		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
+		long pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 
@@ -55,15 +55,8 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
 
-			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCapturePeonPasante()) {
+			if ( (pinnedSquares & origenSquare.getPosicion()) != 0  || generatorResult.hasCapturePeonPasante()) {
 				for (Move move : pseudoMoves) {
-					/*
-					 * if(! origen.equals(move.getFrom()) ){ throw new
-					 * RuntimeException("Que paso?!?!?"); }
-					 */
-
-					// assert origen.equals(move.getFrom());
-
 					if (filter.filterMove(move)) {
 						moves.add(move);
 					}
@@ -81,7 +74,9 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
 		Square 	kingSquare = getCurrentKingSquare();
 		
-		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
+		MoveGeneratorResult generatorResult = getPseudoMovesResult(kingSquare);
+		
+		Collection<Move> pseudoMovesKing = generatorResult.getPseudoMoves();
 
 		for (Move move : pseudoMovesKing) {
 			if(move.filter(filter)){
@@ -89,7 +84,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 			}
 		}
 		return moves;
-	}	
+	}
 
 	/*
 	@Override

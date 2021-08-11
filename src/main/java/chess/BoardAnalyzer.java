@@ -38,7 +38,7 @@ public class BoardAnalyzer {
 		
 		BoardStatus result = new BoardStatus();
 		result.setKingInCheck(isKingInCheck);
-		result.setLegalMoves(getMoveCalculator().getLegalMoves());
+		result.setLegalMoves(getLegalMoves());
 		//result.setExistsLegalMove(existsLegalMove);
 
 		return result;
