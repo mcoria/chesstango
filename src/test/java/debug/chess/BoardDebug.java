@@ -9,15 +9,23 @@ import moveexecutors.Move;
 
 public class BoardDebug extends Board {
 	
-	
-	
+
 	@Override
 	public void execute(Move move) {
 		super.execute(move);
-		
 		((BoardStateDebug)boardState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
+		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);
+	}
+
+	@Override
+	public void undo(Move move) {
+		super.undo(move);
+		((BoardStateDebug)boardState).validar(this.dummyBoard);
+		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
+		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);		
 	}
 	
 	@Override

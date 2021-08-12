@@ -19,7 +19,7 @@ import parsers.FENParser;
 
 public class ChessMain {
 	
-	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 0};
+	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};
 	
 	private int maxLevel;
 	
@@ -40,7 +40,7 @@ public class ChessMain {
 		ChessMain main = new ChessMain();
 		
 		Instant start = Instant.now();
-		PerftResult result = main.start(board, 6);
+		PerftResult result = main.start(board, 7);
 		Instant end = Instant.now();
 		
 		main.printResult(result);
@@ -65,9 +65,10 @@ public class ChessMain {
 	
 	private PerftResult visitLevel1(Game game) {
 		PerftResult perftResult = new PerftResult();
-		
-		int totalNodess = 0;
 
+		int totalNodes = 0;
+
+		
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
 
 		for (Move move : movimientosPosible) {
@@ -83,13 +84,12 @@ public class ChessMain {
 
 			perftResult.add(move, nodeCount);
 			
-			totalNodess += nodeCount;
+			totalNodes += nodeCount;
 			
-			game.undoMove();		
-			
+			game.undoMove();
 		}
 		
-		perftResult.setTotalNodes(totalNodess);
+		perftResult.setTotalNodes(totalNodes);
 
 		
 		return perftResult;
@@ -125,7 +125,6 @@ public class ChessMain {
 				totalNodes += nodeCount;
 
 				game.undoMove();
-
 			}
 		} else {
 			totalNodes = movimientosPosible.size();

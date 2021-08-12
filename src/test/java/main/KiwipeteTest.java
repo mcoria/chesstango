@@ -9,6 +9,7 @@ import org.junit.Test;
 import builder.ChessBuilderGame;
 import chess.Game;
 import chess.Square;
+import debug.builder.DebugChessFactory;
 import parsers.FENParser;
 
 //Kiwipete
@@ -569,7 +570,7 @@ public class KiwipeteTest {
 	
 	
 	@Test
-	public void test_e2c4u_e2b5() {
+	public void test_e2c4_e2b5() {
 		board.executeMove(Square.e2, Square.c4);
 		board.undoMove();
 		
@@ -633,7 +634,7 @@ public class KiwipeteTest {
 	}	
 	
 	@Test
-	public void test_e13g1() {
+	public void test_e1g1() {
 		board.executeMove(Square.e1, Square.g1);
 		PerftResult result= main.start(board, 3);
 		
@@ -686,7 +687,7 @@ public class KiwipeteTest {
 	}
 	
 	@Test
-	public void test_e13g1_h3g2() {
+	public void test_e1g1_h3g2() {
 		board.executeMove(Square.e1, Square.g1);
 		board.executeMove(Square.h3, Square.g2);
 		
@@ -749,7 +750,7 @@ public class KiwipeteTest {
 	
 	// FALTA EL MOVIMIENTO DE PROMOCION DE PEON
 	@Test
-	public void test_e13g1_h3g2_d5d6() {
+	public void test_e1g1_h3g2_d5d6() {
 		board.executeMove(Square.e1, Square.g1);
 		board.executeMove(Square.h3, Square.g2);
 		board.executeMove(Square.d5, Square.d6);
@@ -865,7 +866,7 @@ public class KiwipeteTest {
 	
 	
 	@Test
-	public void test_divide5_a1b1() {
+	public void test_a1b1() {
 		board.executeMove(Square.a1, Square.b1);
 		
 		PerftResult result= main.start(board, 4);
@@ -877,7 +878,7 @@ public class KiwipeteTest {
 	}
 	
 	@Test
-	public void test_divide5_e1f1() {
+	public void test_e1f1() {
 		board.executeMove(Square.e1, Square.f1);
 		
 		PerftResult result= main.start(board, 4);
@@ -934,7 +935,7 @@ public class KiwipeteTest {
 	}
 	
 	@Test
-	public void test_divide5_e1f1_e8g8() {
+	public void test_e1f1_e8g8() {
 		board.executeMove(Square.e1, Square.f1);
 		board.executeMove(Square.e8, Square.g8);
 		
@@ -992,7 +993,7 @@ public class KiwipeteTest {
 	}
 	
 	@Test
-	public void test_divide5_e1f1_e8g8_f1e1() {
+	public void test_e1f1_e8g8_f1e1() {
 		board.executeMove(Square.e1, Square.f1);
 		board.executeMove(Square.e8, Square.g8);
 		board.executeMove(Square.f1, Square.e1);
@@ -1046,7 +1047,7 @@ public class KiwipeteTest {
 	}
 	
 	@Test
-	public void test_divide5_e1f1_e8g8_f1e1_g8h8() {
+	public void test_e1f1_e8g8_f1e1_g8h8() {
 		board.executeMove(Square.e1, Square.f1);
 		board.executeMove(Square.e8, Square.g8);
 		board.executeMove(Square.f1, Square.e1);
@@ -1107,7 +1108,7 @@ public class KiwipeteTest {
 	}	
 	
 	private Game getGame(String string) {		
-		ChessBuilderGame builder = new ChessBuilderGame();
+		ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);
 		

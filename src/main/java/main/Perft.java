@@ -31,11 +31,11 @@ public class Perft {
 		Perft main = new Perft();
 		
 		Instant start = Instant.now();
-		PerftResult perftResult = main.start(board, 6);
+		PerftResult perftResult = main.start(board, 7);
 		Instant end = Instant.now();
 		
 		main.printResult(perftResult);
-		
+
 		
 		Duration timeElapsed = Duration.between(start, end);
 		System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
@@ -43,46 +43,55 @@ public class Perft {
 
 	public PerftResult start(Game game, int maxLevel) {
 		this.maxLevel = maxLevel;
-		PerftResult result = new PerftResult();
+		PerftResult perftResult = new PerftResult();
 		int totalNodes = 0;
 
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
-		
+
 		for (Move move : movimientosPosible) {
-			game.executeMove(move);	
+			int nodeCount = 0;
 			
-			int nodeCount = visitChilds(game, 1);
-			
-			result.add(move, nodeCount);
+			game.executeMove(move);
+
+			if(maxLevel > 1){
+				nodeCount = visitChilds(game, 2);
+			} else {
+				nodeCount = 1;
+			}
+
+			perftResult.add(move, nodeCount);
 			
 			totalNodes += nodeCount;
 			
 			game.undoMove();
 		}
 		
-		result.setTotalNodes(totalNodes);
+		perftResult.setTotalNodes(totalNodes);
 		
-		return result;
+		return perftResult;
 		
 	}
 
 	private int visitChilds(Game game, int level) {
 		int totalNodes = 0;
-
-		if(level == this.maxLevel){
-			return 1;
-		}
 		
 		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
+		
 
-		for (Move move : movimientosPosible) {
+		if (level < this.maxLevel) {
 
-			game.executeMove(move);
+			for (Move move : movimientosPosible) {
+	
+				game.executeMove(move);
+	
+				totalNodes += visitChilds(game, level + 1);
 
-			totalNodes += visitChilds(game, level + 1);
-			
-			game.undoMove();
+				game.undoMove();
+			}
+		} else {
+			totalNodes = movimientosPosible.size();
 		}
+
 
 		return totalNodes;
 	}

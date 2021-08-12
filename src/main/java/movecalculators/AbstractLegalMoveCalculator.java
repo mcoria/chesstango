@@ -10,7 +10,6 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
-import moveexecutors.Move;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
@@ -56,11 +55,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		
 		return generatorResult;
 	}
-	
-	protected Collection<Move> getPseudoMoves(Square origenSquare) {		
-		return getPseudoMovesResult(origenSquare).getPseudoMoves();
-	}	
-	
 
 	public Square getCurrentKingSquare() {
 		return kingCacheBoard.getKingSquare(boardState.getTurnoActual());

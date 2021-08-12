@@ -3,7 +3,6 @@ package debug.chess;
 import java.util.Collection;
 
 import chess.BoardState;
-import chess.Square;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
@@ -19,13 +18,6 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 	public DefaultLegalMoveCalculatorDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
-	}
-	
-	@Override
-	protected Collection<Move> getPseudoMoves(Square origenSquare) {
-		Collection<Move> result = super.getPseudoMoves(origenSquare);
-		((MoveCacheBoardDebug)moveCache).validar();
-		return result;
 	}
 	
 	@Override
