@@ -86,7 +86,7 @@ public class Game {
 		return gameStatus;
 	}
 	
-	protected Move getMovimiento(Square from, Square to) {
+	public Move getMovimiento(Square from, Square to) {
 		for (Move move : getMovimientosPosibles() ) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				return move;

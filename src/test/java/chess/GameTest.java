@@ -3,6 +3,7 @@ package chess;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import builder.ChessBuilderGame;
 import chess.Game.GameStatus;
 import debug.builder.DebugChessFactory;
+import moveexecutors.EnroqueNegroReyMove;
 import parsers.FENParser;
 
 public class GameTest {
@@ -367,7 +369,41 @@ public class GameTest {
 		game.undoMove();
 		assertEquals(48, game.getMovimientosPosibles().size());
 		
-	}	
+	}
+	
+	@Test
+	public void testUndoAASD() {
+		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k -");
+		
+		//Estado inicial
+		assertEquals(18, game.getMovimientosPosibles().size());
+		
+		//Movimiento 1 - cualquier movimiento
+		game.executeMove(Square.d4, Square.c3);
+		assertEquals(15, game.getMovimientosPosibles().size()); 
+		//EnroqueNegroReyMove es uno de los movimientos posibles
+		assertEquals(new EnroqueNegroReyMove(), game.getMovimiento(Square.e8, Square.g8));
+		
+		//Undo movimiento 1 ---- Volvemos al estado inicial
+		game.undoMove();
+		assertEquals(18, game.getMovimientosPosibles().size());
+		
+		//Capturamos la torre negra
+		game.executeMove(Square.d4, Square.h8);
+		assertEquals(5, game.getMovimientosPosibles().size());
+		//Ya no tenemos enroque
+		assertNull(game.getMovimiento(Square.e8, Square.h8));
+		
+		//Undo captura de torre negra ---- Volvemos al estado inicial
+		game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de rey del cache
+		assertEquals(18, game.getMovimientosPosibles().size());
+		
+		//Movimiento 1 - lo repetimos
+		game.executeMove(Square.d4, Square.c3);
+		assertEquals(15, game.getMovimientosPosibles().size()); 
+		//EnroqueNegroReyMove es uno de los movimientos posibles
+		assertEquals(new EnroqueNegroReyMove(), game.getMovimiento(Square.e8, Square.g8));
+	}
 	
 	
 	private Game getGame(String string) {		
