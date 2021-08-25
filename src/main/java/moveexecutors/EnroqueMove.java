@@ -92,13 +92,12 @@ public abstract class EnroqueMove implements Move  {
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.pushState();
 		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.popState();
+		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
 	}
 	
 	@Override
@@ -111,5 +110,8 @@ public abstract class EnroqueMove implements Move  {
 		return reyMove.compareTo(theOther);
 	}
 
-
+	@Override
+	public String toString() {
+		return getFrom().toString() + " " + getTo().toString() + " - " + this.getClass().getSimpleName().toString();
+	}
 }

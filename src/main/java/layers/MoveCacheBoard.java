@@ -1,8 +1,6 @@
 package layers;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 
 import chess.Square;
 import moveexecutors.Move;
@@ -12,14 +10,6 @@ public class MoveCacheBoard {
 	
 	protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
 	protected long affects[] = new long[64];
-	
-
-	private static class MoveCacheBoardNode{
-		private MoveGeneratorResult[] pseudoMoves = null;
-		private long affects[] = null;
-	}
-	
-	private Deque<MoveCacheBoardNode> moveCacheBoardPila = new ArrayDeque<MoveCacheBoardNode>();	
 	
 	public Collection<Move> getPseudoMoves(Square key) {
 		MoveGeneratorResult result = pseudoMoves[key.toIdx()];
@@ -70,8 +60,10 @@ public class MoveCacheBoard {
 		for(int i = 0; i < 64; i++){
 			if( (clearSquares & (1L << i))  != 0 ) {
 				MoveGeneratorResult pseudoMove = pseudoMoves[i];
-				affectsBySquares |= pseudoMove.getAffectedBy();
-				pseudoMoves[i] = null;
+				if(pseudoMove != null){
+					affectsBySquares |= pseudoMove.getAffectedBy();
+					pseudoMoves[i] = null;
+				}
 			}
 		}
 		
@@ -81,31 +73,6 @@ public class MoveCacheBoard {
 				affects[i] &= keyRemoved;
 			}
 		}
-	}
-	
-
-	public void pushState() {
-		MoveCacheBoardNode state = saveState();
-		
-		moveCacheBoardPila.push( state );
-	}
-
-	public void popState() {
-		MoveCacheBoardNode lastState = moveCacheBoardPila.pop();
-		
-		restoreState(lastState);
-	}
-
-	private MoveCacheBoardNode saveState() {
-		MoveCacheBoardNode node = new MoveCacheBoardNode();
-		node.pseudoMoves = this.pseudoMoves.clone();
-		node.affects = this.affects.clone();		
-		return node;
-	}
-	
-	private void restoreState(MoveCacheBoardNode lastState){
-		this.pseudoMoves = lastState.pseudoMoves;
-		this.affects = lastState.affects;				
 	}
 
 

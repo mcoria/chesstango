@@ -50,13 +50,12 @@ public abstract class AbstractMove implements Move {
 
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey());
 	}
 
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.popState();
+		moveCache.clearPseudoMoves(to.getKey(), from.getKey());
 	}	
 	
 	@Override

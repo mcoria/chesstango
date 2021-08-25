@@ -61,9 +61,13 @@ public class CapturePeonPasante extends AbstractMove {
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.pushState();
 		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), captura.getKey());
 	}
+	
+	@Override
+	public void undoMove(MoveCacheBoard moveCache) {
+		moveCache.clearPseudoMoves(to.getKey(), from.getKey(), captura.getKey());
+	}		
 	
 	@Override
 	public boolean equals(Object obj) {

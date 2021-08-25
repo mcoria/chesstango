@@ -6,26 +6,12 @@ import chess.Square;
 
 public class MoveFactory {
 	
-	public Move createMove(PosicionPieza origen, PosicionPieza destino){
-		return null;
-	}
-	
 	public Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
 		return new SimpleMove(origen, destino);
 	}
 	
 	public Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return new CaptureMove(origen, destino);
-	}
-	
-
-	protected Move createSimpleReyMove(PosicionPieza origen, PosicionPieza destino) {
-		return new SimpleReyMove(origen, destino);
-	}
-
-
-	protected Move createCaptureReyMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureReyMove(origen, destino);
 	}		
 	
 	public Move createSimpleReyMoveBlanco(PosicionPieza origen, PosicionPieza destino) {

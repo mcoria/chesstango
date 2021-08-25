@@ -372,7 +372,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testUndoAASD() {
+	public void testUndoKingBug() {
 		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k -");
 		
 		//Estado inicial
