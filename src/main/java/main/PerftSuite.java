@@ -15,6 +15,7 @@ public class PerftSuite {
 	public static void main(String[] args) {
 		execute("main/perftsuite1.txt");
 		execute("main/perftsuite2.txt");
+		execute("main/perftsuite3.txt");
 	}
 	
 	private ChessFactory chessFactory;
