@@ -73,4 +73,10 @@ public class MoveGeneratorResult {
 		};
 	}
 	
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer(); 
+		buffer.append(moveContainer.toString());
+		return buffer.toString();
+	}
 }

@@ -4,15 +4,7 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 
-public class MoveFactory {
-	
-	public Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
-		return new SimpleMove(origen, destino);
-	}
-	
-	public Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return new CaptureMove(origen, destino);
-	}		
+public class MoveFactory {		
 	
 	public Move createSimpleReyMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
 		if(Square.e1.equals(origen.getKey())){
@@ -105,6 +97,14 @@ public class MoveFactory {
 		return createCaptureMove(origen, destino);
 	}
 
+	public Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
+		return new SimpleMove(origen, destino);
+	}
+	
+	public Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+		return new CaptureMove(origen, destino);
+	}
+	
 	public Move createSaltoDoblePeonMove(PosicionPieza origen, PosicionPieza destino, Square saltoSimpleCasillero) {
 		return new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
 	}

@@ -76,4 +76,15 @@ public class MoveCacheBoard {
 	}
 
 
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer(); 
+		for (MoveGeneratorResult result : pseudoMoves) {
+			if(result != null){
+				buffer.append(result.toString() + "\n");
+			}
+		}
+		
+		return buffer.toString();
+	}
 }

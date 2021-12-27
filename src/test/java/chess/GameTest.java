@@ -384,8 +384,10 @@ public class GameTest {
 		//EnroqueNegroReyMove es uno de los movimientos posibles
 		assertEquals(new EnroqueNegroReyMove(), game.getMovimiento(Square.e8, Square.g8));
 		
-		//Undo movimiento 1 ---- Volvemos al estado inicial
+		//Undo movimiento 1 y volvemos al estado inicial
 		game.undoMove();
+		
+		//Estado inicial
 		assertEquals(18, game.getMovimientosPosibles().size());
 		
 		//Capturamos la torre negra

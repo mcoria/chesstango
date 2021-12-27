@@ -5,10 +5,9 @@ import chess.PosicionPieza;
 import layers.KingCacheBoard;
 import movecalculators.MoveFilter;
 
-public class CaptureReyMove extends CaptureMove {
+class CaptureReyMove extends CaptureMove {
 
-	
-	protected CaptureReyMove(PosicionPieza from, PosicionPieza to) {
+	public CaptureReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

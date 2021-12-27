@@ -4,11 +4,11 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import layers.PosicionPiezaBoard;
 
-public class SimplePeonPromocion extends SimpleMove {
+class SimplePeonPromocion extends SimpleMove {
 
 	protected final Pieza promocion;
 	
-	protected SimplePeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	public SimplePeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}

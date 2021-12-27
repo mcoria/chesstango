@@ -5,7 +5,7 @@ import chess.PosicionPieza;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
-public abstract class AbstractMove implements Move {
+abstract class AbstractMove implements Move {
 	protected final PosicionPieza from;
 	protected final PosicionPieza to;
 	

@@ -9,11 +9,11 @@ import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
 //TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
-public class CapturePeonPasante extends AbstractMove {
+class CapturePeonPasante extends AbstractMove {
 
 	private final PosicionPieza captura;
 			
-	protected CapturePeonPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
+	public CapturePeonPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
 		super(from, to);
 		this.captura = captura;
 	}

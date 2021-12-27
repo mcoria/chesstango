@@ -6,9 +6,9 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import movecalculators.MoveFilter;
 
-public class SimpleMove extends AbstractMove {
+class SimpleMove extends AbstractMove {
 	
-	protected SimpleMove(PosicionPieza from, PosicionPieza to) {
+	public SimpleMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	

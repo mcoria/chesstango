@@ -1,5 +1,6 @@
 package moveexecutors;
 
+import chess.Board;
 import chess.BoardState;
 import chess.PosicionPieza;
 import layers.ColorBoard;
@@ -7,11 +8,11 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
-public abstract class MoveDecorator implements Move {
+abstract class MoveDecorator implements Move {
 	
 	protected final Move move;	
 	
-	protected MoveDecorator(Move move) {
+	public MoveDecorator(Move move) {
 		this.move = move;
 	}	
 
@@ -23,7 +24,7 @@ public abstract class MoveDecorator implements Move {
 	@Override
 	public PosicionPieza getTo() {
 		return move.getTo();
-	}	
+	}
 	
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
@@ -75,6 +76,15 @@ public abstract class MoveDecorator implements Move {
 		move.undoMove(kingCacheBoard);
 	}
 	
+	@Override
+	public void executeMove(Board board) {
+		board.executeMove(this);
+	}
+
+	@Override
+	public void undoMove(Board board) {
+		board.undoMove(this);
+	}	
 	
 	@Override
 	public int hashCode() {

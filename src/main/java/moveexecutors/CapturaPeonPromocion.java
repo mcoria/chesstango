@@ -4,11 +4,11 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import layers.PosicionPiezaBoard;
 
-public class CapturaPeonPromocion extends CaptureMove {
+class CapturaPeonPromocion extends CaptureMove {
 
 	protected final Pieza promocion;
 	
-	protected CapturaPeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	public CapturaPeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}

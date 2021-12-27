@@ -9,11 +9,11 @@ import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
-public abstract class EnroqueMove implements Move  {
+abstract class EnroqueMove implements Move  {
 	protected final SimpleReyMove reyMove;
 	protected final SimpleMove torreMove;	
 	
-	protected EnroqueMove(SimpleReyMove reyMove, SimpleMove torreMove) {
+	public EnroqueMove(SimpleReyMove reyMove, SimpleMove torreMove) {
 		this.reyMove = reyMove;
 		this.torreMove = torreMove;
 	}

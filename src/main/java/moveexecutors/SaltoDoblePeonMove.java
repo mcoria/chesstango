@@ -5,11 +5,11 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.MoveCacheBoard;
 
-public class SaltoDoblePeonMove extends SimpleMove {
+class SaltoDoblePeonMove extends SimpleMove {
 	
 	private final Square peonPasanteSquare;
 
-	protected SaltoDoblePeonMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
+	public SaltoDoblePeonMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
 		super(from, to);
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
