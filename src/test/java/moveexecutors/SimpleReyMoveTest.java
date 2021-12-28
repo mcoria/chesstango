@@ -23,6 +23,11 @@ import layers.PosicionPiezaBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleReyMoveTest {
 

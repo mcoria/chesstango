@@ -2,6 +2,10 @@ package iterators;
 
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BitSquareIterator implements SquareIterator {
 
 	private static Square[] array = {  

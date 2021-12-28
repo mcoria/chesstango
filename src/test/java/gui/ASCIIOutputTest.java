@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import parsers.FENParser;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ASCIIOutputTest {
 
 	private ASCIIOutput builder;

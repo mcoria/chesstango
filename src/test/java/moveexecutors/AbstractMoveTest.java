@@ -13,6 +13,11 @@ import moveexecutors.AbstractMove;
 import moveexecutors.Move;
 import moveexecutors.SimpleMove;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class AbstractMoveTest {
 
 	@Before

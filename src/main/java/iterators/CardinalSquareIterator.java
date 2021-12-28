@@ -2,6 +2,10 @@ package iterators;
 
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class CardinalSquareIterator implements SquareIterator {
 	
 	private final Cardinal cardinal;

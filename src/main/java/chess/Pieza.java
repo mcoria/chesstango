@@ -5,6 +5,10 @@ import java.util.function.Function;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorStrategy;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public enum Pieza {
 	PEON_BLANCO(Color.BLANCO, strategy -> strategy.getPeonBlancoMoveGenerator()),
 	PEON_NEGRO(Color.NEGRO,  strategy -> strategy.getPeonNegroMoveGenerator()),

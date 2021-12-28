@@ -9,6 +9,11 @@ import movecalculators.MoveFilter;
 import moveexecutors.Move;
 import positioncaptures.Capturer;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveFilterDebug extends MoveFilter {
 	
 	public MoveFilterDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,

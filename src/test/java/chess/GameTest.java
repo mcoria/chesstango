@@ -14,6 +14,11 @@ import debug.builder.DebugChessFactory;
 import moveexecutors.EnroqueNegroReyMove;
 import parsers.FENParser;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class GameTest {
 
 	

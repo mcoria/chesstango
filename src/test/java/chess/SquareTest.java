@@ -4,6 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class SquareTest {
 
 	@Test

@@ -15,10 +15,13 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.posicionpieza.BoardBitIterator;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ArrayPosicionPiezaBoardTest {
 
-
-	
 	@Test
 	public void test() {
 		ArrayPosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard();

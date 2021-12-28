@@ -6,6 +6,11 @@ import chess.Pieza;
 import chess.Square;
 import layers.PosicionPiezaBoard;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BoardStateDebug extends BoardState{
 
 	public void validar() {

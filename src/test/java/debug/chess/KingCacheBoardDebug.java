@@ -7,6 +7,11 @@ import chess.Square;
 import layers.KingCacheBoard;
 import layers.PosicionPiezaBoard;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class KingCacheBoardDebug extends KingCacheBoard {
 
 	public KingCacheBoardDebug(PosicionPiezaBoard posicionPiezaBoard) {

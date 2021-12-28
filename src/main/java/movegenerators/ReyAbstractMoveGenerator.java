@@ -12,6 +12,11 @@ import iterators.CardinalSquareIterator;
 import positioncaptures.Capturer;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected BoardState boardState;

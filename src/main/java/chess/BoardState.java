@@ -6,6 +6,10 @@ import java.util.Objects;
 
 import builder.ChessBuilder;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BoardState {
 
 	private Color turnoActual;

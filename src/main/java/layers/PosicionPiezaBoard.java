@@ -1,6 +1,5 @@
 package layers;
 
-
 import java.util.Iterator;
 
 import builder.ChessBuilder;
@@ -9,6 +8,10 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.SquareIterator;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public interface PosicionPiezaBoard extends Iterable<PosicionPieza> {
 
 	///////////////////////////// START positioning logic /////////////////////////////

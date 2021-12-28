@@ -17,6 +17,11 @@ import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 
 	public NoCheckLegalMoveCalculatorDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,

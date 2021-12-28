@@ -25,6 +25,10 @@ import movecalculators.MoveFilter;
 import moveexecutors.SaltoDoblePeonMove;
 
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class SaltoDoblePeonMoveTest {
 

@@ -19,6 +19,11 @@ import parsers.FENParser;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class NoCheckLegalMoveCalculatorTest {
 
 	private NoCheckLegalMoveCalculator moveCalculator;

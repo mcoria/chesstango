@@ -5,6 +5,10 @@ import chess.PosicionPieza;
 import iterators.Cardinal;
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class TorreMoveGenerator extends CardinalMoveGenerator {
 
 	public TorreMoveGenerator(Color color) {

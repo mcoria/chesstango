@@ -28,6 +28,11 @@ import moveexecutors.Move;
 import moveexecutors.MoveFactory;
 import parsers.FENParser;
 import positioncaptures.Capturer;
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ReyNegroMoveGeneratorTest {
 
 	private ReyNegroMoveGenerator moveGenerator;

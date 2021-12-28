@@ -5,6 +5,11 @@ import chess.Square;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveCacheBoardDebug extends MoveCacheBoard {
 
 	public void validar(PosicionPiezaBoard dummyBoard) {

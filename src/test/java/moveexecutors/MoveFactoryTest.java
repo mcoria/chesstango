@@ -12,6 +12,11 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveFactoryTest {
 	private MoveFactory moveFactory;
 	

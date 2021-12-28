@@ -4,6 +4,10 @@ import java.util.Objects;
 
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public enum Cardinal {
 	Norte(null,true), Sur(null,false), Este(true,null), Oeste(false,null),
 	NorteEste(true,true), SurEste(true, false), SurOeste(false, false), NorteOeste(false, true);

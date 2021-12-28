@@ -7,6 +7,11 @@ import layers.PosicionPiezaBoard;
 import moveexecutors.Move;
 import moveexecutors.MoveFactory;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected final Color color;

@@ -4,6 +4,10 @@ import chess.Color;
 import chess.Pieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public interface ChessBuilder {
 
 	void withTurno(Color turno);

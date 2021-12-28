@@ -4,6 +4,11 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveFactory {		
 	
 	public Move createSimpleReyMoveBlanco(PosicionPieza origen, PosicionPieza destino) {

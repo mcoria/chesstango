@@ -14,6 +14,10 @@ import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessBuilderBoard implements ChessBuilder {
 	
 	private ChessFactory chessFactory = null;	

@@ -4,6 +4,10 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import layers.PosicionPiezaBoard;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 class CapturaPeonPromocion extends CaptureMove {
 
 	protected final Pieza promocion;

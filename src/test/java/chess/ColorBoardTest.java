@@ -11,6 +11,11 @@ import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import parsers.FENParser;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ColorBoardTest {
 
 	private ColorBoard colorBoard;

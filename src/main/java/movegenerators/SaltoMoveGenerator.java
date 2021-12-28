@@ -8,6 +8,10 @@ import chess.Square;
 import iterators.SaltoSquareIterator;
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
 	private final int[][] saltos;

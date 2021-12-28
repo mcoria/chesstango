@@ -2,6 +2,10 @@ package iterators;
 
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class SaltoSquareIterator implements SquareIterator {	
 	
 	private final int[][] saltos;

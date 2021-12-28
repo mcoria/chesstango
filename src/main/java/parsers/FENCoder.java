@@ -5,6 +5,10 @@ import chess.Color;
 import chess.Pieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class FENCoder implements ChessBuilder {
 	
 	private Color turno;

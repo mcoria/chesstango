@@ -14,6 +14,10 @@ import iterators.SquareIterator;
 import iterators.posicionpieza.BoardBitIterator;
 import layers.PosicionPiezaBoard;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	
 	public ArrayPosicionPiezaBoard(){

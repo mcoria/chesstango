@@ -5,6 +5,11 @@ import java.util.function.Consumer;
 import chess.BoardState;
 import movecalculators.MoveFilter;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 class MoveDecoratorState extends MoveDecorator {
 	
 	protected Consumer<BoardState> decoratorState;

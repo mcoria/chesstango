@@ -24,6 +24,11 @@ import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
 import moveexecutors.EnroqueNegroReyMove;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class EnroqueNegroReyMoveTest {
 	

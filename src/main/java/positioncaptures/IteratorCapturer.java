@@ -15,6 +15,11 @@ import movegenerators.MoveGeneratorStrategy;
  * Observar que esta clase itera las posiciones en base a colorBoard y luego obtiene la posicion de dummyBoard.
  * Esto implica que colorBoard necesita estar actualizado en todo momento. 
  */
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class IteratorCapturer implements Capturer {
 	
 	private final PosicionPiezaBoard dummyBoard; 

@@ -6,6 +6,10 @@ import chess.Square;
 import moveexecutors.Move;
 import movegenerators.MoveGeneratorResult;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveCacheBoard {
 	
 	protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];

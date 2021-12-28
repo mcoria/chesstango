@@ -14,6 +14,10 @@ import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator {
 
 	protected PosicionPiezaBoard dummyBoard = null;

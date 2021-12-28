@@ -12,7 +12,12 @@ import chess.Square;
 import debug.builder.DebugChessFactory;
 import parsers.FENParser;
 
+
 //Kiwipete
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class KiwipeteTest {
 
 	private ChessMain main;

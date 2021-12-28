@@ -7,6 +7,11 @@ import layers.KingCacheBoard;
 import layers.imp.ArrayPosicionPiezaBoard;
 import moveexecutors.Move;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BoardDebug extends Board {
 	
 

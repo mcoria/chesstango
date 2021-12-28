@@ -13,6 +13,11 @@ import movecalculators.MoveFilter;
 import moveexecutors.Move;
 import movegenerators.MoveGeneratorStrategy;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator {
 
 	public DefaultLegalMoveCalculatorDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,

@@ -5,6 +5,11 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.MoveCacheBoard;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 class SaltoDoblePeonMove extends SimpleMove {
 	
 	private final Square peonPasanteSquare;

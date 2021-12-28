@@ -14,6 +14,11 @@ import chess.Square;
 import moveexecutors.Move;
 import parsers.FENParser;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessMainTest {
 	private ChessMain main;
 	private Game board;

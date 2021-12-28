@@ -24,6 +24,11 @@ import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
 import moveexecutors.CaptureMove;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class CaptureMoveTest {
 

@@ -2,6 +2,10 @@ package chess;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class PosicionPieza extends SimpleImmutableEntry<Square, Pieza> {
 
 	public PosicionPieza(Square key, Pieza value) {

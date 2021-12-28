@@ -1,5 +1,9 @@
 package chess;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public enum Color {
 	BLANCO,
 	NEGRO;

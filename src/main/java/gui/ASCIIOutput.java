@@ -9,6 +9,10 @@ import chess.Square;
 import iterators.SquareIterator;
 import iterators.TopDownSquareIterator;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ASCIIOutput implements ChessBuilder {
 	
 	private Pieza[][] tablero = new Pieza[8][8];

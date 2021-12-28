@@ -9,6 +9,11 @@ import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
 import moveexecutors.Move;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	private final Cardinal[] direcciones;

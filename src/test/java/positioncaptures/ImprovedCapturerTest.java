@@ -12,6 +12,10 @@ import debug.builder.DebugChessFactory;
 import layers.PosicionPiezaBoard;
 import parsers.FENParser;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ImprovedCapturerTest {
 	
 	@Test

@@ -7,6 +7,10 @@ import chess.Square;
 import layers.PosicionPiezaBoard;
 
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessBuilderParts implements ChessBuilder {	
 	
 	private PosicionPiezaBoard posicionPiezaBoard;

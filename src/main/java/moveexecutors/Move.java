@@ -21,6 +21,11 @@ import movecalculators.MoveFilter;
 //				toda captura a una torre que que se encuentra en si posicion inicial hacen perder enroque
 //		cada vez que se cambia la jerarquia o hay algun tipo de modificacion en estos objetos las clases de pruebas necesitan ser actualizadas
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public interface Move extends Comparable<Move> {
 	PosicionPieza getFrom();
 	PosicionPieza getTo();

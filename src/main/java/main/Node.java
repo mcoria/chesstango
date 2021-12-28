@@ -5,6 +5,10 @@ import java.util.Map;
 import chess.Square;
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class Node {
 	
 	private String id;

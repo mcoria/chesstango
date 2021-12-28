@@ -5,6 +5,10 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class EnroqueNegroReynaMove extends EnroqueMove {
 
 	public static final PosicionPieza FROM = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);

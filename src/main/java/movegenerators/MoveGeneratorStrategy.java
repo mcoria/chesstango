@@ -9,6 +9,10 @@ import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 import positioncaptures.Capturer;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveGeneratorStrategy {
 	private PosicionPiezaBoard dummyBoard;
 	private ColorBoard colorBoard;

@@ -8,6 +8,10 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 abstract class MoveDecorator implements Move {
 	
 	protected final Move move;	

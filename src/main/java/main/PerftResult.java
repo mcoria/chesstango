@@ -7,6 +7,10 @@ import java.util.Map.Entry;
 import chess.Square;
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class PerftResult {
 	
 	private int totalNodes;

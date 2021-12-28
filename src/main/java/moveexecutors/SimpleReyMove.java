@@ -5,9 +5,13 @@ import chess.PosicionPieza;
 import layers.KingCacheBoard;
 import movecalculators.MoveFilter;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 class SimpleReyMove extends SimpleMove {
 
-	
 	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}

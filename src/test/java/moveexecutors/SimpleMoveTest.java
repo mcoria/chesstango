@@ -25,6 +25,11 @@ import layers.imp.ArrayPosicionPiezaBoard;
 import movecalculators.MoveFilter;
 import moveexecutors.SimpleMove;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleMoveTest {
 

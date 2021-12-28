@@ -14,6 +14,10 @@ import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessFactory {
 
 	public Board createBoard() {

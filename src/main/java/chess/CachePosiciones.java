@@ -1,5 +1,9 @@
 package chess;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class CachePosiciones {
 	
 	public static final PosicionPieza TORRE_NEGRO_REYNA = new PosicionPieza(Square.a8, Pieza.TORRE_NEGRO);

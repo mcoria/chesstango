@@ -5,6 +5,11 @@ import chess.PosicionPieza;
 import iterators.Cardinal;
 import moveexecutors.Move;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class AlfilMoveGenerator extends CardinalMoveGenerator {
 
 	public AlfilMoveGenerator(Color color) {

@@ -13,6 +13,11 @@ import layers.PosicionPiezaBoard;
 import movegenerators.CaballoMoveGenerator;
 import movegenerators.ReyAbstractMoveGenerator;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ImprovedCapturer implements Capturer {
 	
 	private final ImprovedCapturerColor capturerBlanco;

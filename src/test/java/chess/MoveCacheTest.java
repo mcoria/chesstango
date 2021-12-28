@@ -9,6 +9,11 @@ import layers.MoveCacheBoard;
 import moveexecutors.MoveFactory;
 import movegenerators.MoveGeneratorResult;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveCacheTest {
 
 	private MoveCacheBoard cache;

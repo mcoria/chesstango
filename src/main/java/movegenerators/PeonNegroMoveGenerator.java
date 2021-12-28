@@ -5,6 +5,10 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class PeonNegroMoveGenerator extends PeonAbstractMoveGenerator {
 	
 	private static final Pieza[] PROMOCIONES_NEGRO = new Pieza[]{Pieza.TORRE_NEGRO, Pieza.CABALLO_NEGRO, Pieza.ALFIL_NEGRO, Pieza.REINA_NEGRO};

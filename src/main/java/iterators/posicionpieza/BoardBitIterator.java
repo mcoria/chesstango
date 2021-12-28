@@ -5,6 +5,11 @@ import java.util.Iterator;
 import chess.PosicionPieza;
 
 //Esta implementacion es muy especifica a como se representa un tablero y como se representa un listado de posiciones
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BoardBitIterator implements Iterator<PosicionPieza> {
 
 	private final long posiciones;

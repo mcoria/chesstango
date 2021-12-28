@@ -9,6 +9,11 @@ import org.junit.Test;
 
 import chess.Square;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BitSquareIteratorTest {
 
 	@Test

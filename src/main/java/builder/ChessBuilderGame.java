@@ -5,6 +5,10 @@ import chess.Game;
 import chess.Pieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessBuilderGame implements ChessBuilder {
 	
 	private ChessBuilderBoard builder = new ChessBuilderBoard();

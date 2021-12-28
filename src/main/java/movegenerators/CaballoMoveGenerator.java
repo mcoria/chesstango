@@ -4,6 +4,11 @@ import chess.Color;
 import chess.PosicionPieza;
 import moveexecutors.Move;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	
 	public final static int[][] SALTOS_CABALLO = { 

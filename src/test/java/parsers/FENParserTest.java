@@ -12,6 +12,10 @@ import chess.Color;
 import chess.Pieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class FENParserTest {
 
 	private FENParser parser = null;

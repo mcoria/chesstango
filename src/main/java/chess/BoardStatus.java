@@ -4,6 +4,10 @@ import java.util.Collection;
 
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BoardStatus {
 	
 	private boolean isKingInCheck;

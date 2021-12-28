@@ -13,6 +13,11 @@ import positioncaptures.Capturer;
 
 //TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
 //      Me imagino un tablero con X y O para representar los distintos colores.
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class BoardAnalyzer {
 
 	private BoardState boardState = null;

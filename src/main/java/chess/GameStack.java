@@ -7,6 +7,10 @@ import java.util.Deque;
 import chess.Game.GameStatus;
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class GameStack {
 	
 	private Collection<Move> movimientosPosibles;

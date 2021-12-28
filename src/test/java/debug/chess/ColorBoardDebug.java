@@ -8,6 +8,11 @@ import iterators.SquareIterator;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ColorBoardDebug extends ColorBoard {
 
 	public ColorBoardDebug(PosicionPiezaBoard board) {

@@ -21,6 +21,11 @@ import movecalculators.NoCheckLegalMoveCalculator;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class DebugChessFactory extends ChessFactory {
 
 	@Override

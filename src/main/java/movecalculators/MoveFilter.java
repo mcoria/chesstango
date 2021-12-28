@@ -10,6 +10,11 @@ import positioncaptures.Capturer;
 
 
 //TODO: implemetar double dispatcher para esta clase desde Move y MoveKing
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveFilter {
 	protected final PosicionPiezaBoard dummyBoard;
 	protected final KingCacheBoard kingCacheBoard;

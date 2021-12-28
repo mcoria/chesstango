@@ -17,6 +17,10 @@ import moveexecutors.Move;
 import parsers.FENCoder;
 import parsers.FENParser;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessMain {
 	
 	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};

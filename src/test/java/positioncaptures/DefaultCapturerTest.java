@@ -14,6 +14,10 @@ import layers.PosicionPiezaBoard;
 import movegenerators.MoveGeneratorStrategy;
 import parsers.FENParser;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class DefaultCapturerTest {
 
 	

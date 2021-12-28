@@ -9,6 +9,10 @@ import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 abstract class EnroqueMove implements Move  {
 	protected final SimpleReyMove reyMove;
 	protected final SimpleMove torreMove;	

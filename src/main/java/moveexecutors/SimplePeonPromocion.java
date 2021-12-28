@@ -4,6 +4,11 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import layers.PosicionPiezaBoard;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 class SimplePeonPromocion extends SimpleMove {
 
 	protected final Pieza promocion;

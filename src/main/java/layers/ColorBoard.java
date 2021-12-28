@@ -11,6 +11,10 @@ import iterators.BitSquareIterator;
 import iterators.SquareIterator;
 import iterators.TopDownSquareIterator;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ColorBoard {
 	
 	protected long squareBlancos = 0;

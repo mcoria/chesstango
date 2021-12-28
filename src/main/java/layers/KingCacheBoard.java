@@ -5,6 +5,10 @@ import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class KingCacheBoard {
 	
 	protected Square squareKingBlancoCache = null;

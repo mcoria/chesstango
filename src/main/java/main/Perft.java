@@ -15,6 +15,10 @@ import movecalculators.NoCheckLegalMoveCalculator;
 import moveexecutors.Move;
 import parsers.FENParser;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class Perft {
 	
 	private int maxLevel;

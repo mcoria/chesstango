@@ -1,5 +1,9 @@
 package chess;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public enum Square {
 	a8(0,7),b8(1,7),c8(2,7),d8(3,7),e8(4,7),f8(5,7),g8(6,7),h8(7,7),
 	a7(0,6),b7(1,6),c7(2,6),d7(3,6),e7(4,6),f7(5,6),g7(6,6),h7(7,6),

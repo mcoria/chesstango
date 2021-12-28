@@ -5,6 +5,10 @@ import chess.Color;
 import chess.Pieza;
 import chess.Square;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class FENParser {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 

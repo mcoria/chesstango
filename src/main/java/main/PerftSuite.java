@@ -10,6 +10,10 @@ import builder.ChessFactory;
 import chess.Game;
 import parsers.FENParser;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class PerftSuite {
 
 	public static void main(String[] args) {

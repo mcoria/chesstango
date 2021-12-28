@@ -6,6 +6,11 @@ import java.util.Collection;
 import chess.Square;
 import moveexecutors.Move;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveGeneratorResult {
 	
 	private Collection<Move> moveContainer;

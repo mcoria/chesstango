@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class FENIntegrationTest {
-	
 
 	@Test
 	public void testTurnoBlanco() {

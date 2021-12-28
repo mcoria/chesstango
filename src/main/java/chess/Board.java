@@ -11,6 +11,10 @@ import moveexecutors.Move;
 import parsers.FENCoder;
 
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class Board {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.

@@ -10,6 +10,11 @@ import org.junit.Test;
 import chess.Square;
 import movegenerators.ReyAbstractMoveGenerator;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class SaltoSquareIteratorTest01 {
 
 	@Test

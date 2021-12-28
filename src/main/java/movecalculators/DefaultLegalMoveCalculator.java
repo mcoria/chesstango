@@ -13,6 +13,10 @@ import moveexecutors.Move;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	public static int count = 0;
 	

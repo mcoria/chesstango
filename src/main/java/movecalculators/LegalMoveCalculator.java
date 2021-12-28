@@ -9,6 +9,11 @@ import moveexecutors.Move;
 // Simple Jaque (Caballo; Peon; a UN SOLO paso) 		-> Comer jaqueador, mover rey. 					El enroque no está permitido.
 // Sin Jaque    										-> El enroque está permidito.
 // Movemos la validacion de enroques aqui?
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public interface LegalMoveCalculator {
 	Collection<Move> getLegalMoves();
 	

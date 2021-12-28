@@ -17,6 +17,11 @@ import movegenerators.ReyAbstractMoveGenerator;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
 	public static int count = 0;

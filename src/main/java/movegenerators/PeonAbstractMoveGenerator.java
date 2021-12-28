@@ -7,6 +7,10 @@ import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.Move;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected BoardState boardState;

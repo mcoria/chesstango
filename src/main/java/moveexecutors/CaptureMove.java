@@ -9,6 +9,10 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movecalculators.MoveFilter;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 class CaptureMove extends AbstractMove {
 	
 	public CaptureMove(PosicionPieza from, PosicionPieza to) {

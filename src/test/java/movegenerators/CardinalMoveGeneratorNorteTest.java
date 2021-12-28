@@ -21,6 +21,11 @@ import layers.PosicionPiezaBoard;
 import moveexecutors.Move;
 import moveexecutors.MoveFactory;
 import parsers.FENParser;
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class CardinalMoveGeneratorNorteTest {
 	
 	private CardinalMoveGenerator moveGenerator;
