@@ -19,7 +19,7 @@ import parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class ChessMainTest {
+public class InitialPositionTests {
 	private ChessMain main;
 	private Game board;
 	
@@ -148,7 +148,7 @@ public class ChessMainTest {
 	
 	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 
 		  // 50segs  46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs 10segs  
-	      //  8segs   7segs
+	      //  8segs   7segs  1segs
 	public void test_divide5() {
 		PerftResult result = main.start(board, 5);
 		
@@ -178,7 +178,7 @@ public class ChessMainTest {
 	} 
 
 
-	@Test //139segs 106segs
+	@Test //139segs 106segs 15segs
 	public void test_divide6() {
 		PerftResult result = main.start(board, 6);
 		

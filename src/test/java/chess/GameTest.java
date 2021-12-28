@@ -377,7 +377,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testUndoKingBug() {
+	public void testUndoCaptureTorre() {
 		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k -");
 		
 		//Estado inicial
@@ -412,6 +412,27 @@ public class GameTest {
 		assertEquals(new EnroqueNegroReyMove(), game.getMovimiento(Square.e8, Square.g8));
 	}
 	
+	
+	@Test
+	public void testUndoTorreMove() {
+		Game game = getGame("4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1");
+		
+		//Estado inicial
+		assertEquals(26, game.getMovimientosPosibles().size());
+		
+		//Mueve la torre blanca de rey
+		game.executeMove(Square.h1, Square.h2);
+		
+		//Mueve rey negro
+		game.executeMove(Square.e8, Square.e7);
+		
+		game.undoMove();
+		
+		game.undoMove();
+		
+		//Estado inicial
+		assertEquals(26, game.getMovimientosPosibles().size());		
+	}
 	
 	private Game getGame(String string) {		
 		ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());

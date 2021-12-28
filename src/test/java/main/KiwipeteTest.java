@@ -9,7 +9,6 @@ import org.junit.Test;
 import builder.ChessBuilderGame;
 import chess.Game;
 import chess.Square;
-import debug.builder.DebugChessFactory;
 import parsers.FENParser;
 
 
@@ -28,7 +27,6 @@ public class KiwipeteTest {
 	public void setUp() throws Exception {
 		main = new ChessMain();
 		board =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
-
 	}
 
 	@Test
@@ -1113,7 +1111,8 @@ public class KiwipeteTest {
 	}	
 	
 	private Game getGame(String string) {		
-		ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
+		//ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
+		ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		
