@@ -55,19 +55,17 @@ class CaptureMove extends AbstractMove {
 			boardState.setEnroqueNegroReyPermitido(false);
 		}		
 	}
-
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
 		if (to.getKey().equals(Square.a1) || to.getKey().equals(Square.h1)) {
-			moveCache.clearPseudoMoves(to.getKey(), from.getKey(), Square.e1);
+			moveCache.clearPseudoMoves(Square.e1, false);
 		} else if (to.getKey().equals(Square.a8) || to.getKey().equals(Square.h8)) {
-			moveCache.clearPseudoMoves(to.getKey(), from.getKey(), Square.e8);
-		} else {
-			super.undoMove(moveCache);
+			moveCache.clearPseudoMoves(Square.e8, false);
 		}
+		super.undoMove(moveCache);
 	}
-	
+
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
 		colorBoard.removePositions(to);

@@ -86,7 +86,7 @@ public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 	
 			// comenzar comparaciones
 			if(generatorResultCache.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {
-				throw new RuntimeException("La cantidad de movimientos pseudo no concide");
+				throw new RuntimeException("El cache quedó en estado inconsistente");
 			}
 			
 			if(generatorResultCache.getAffectedBy() != generatorResult.getAffectedBy()) {

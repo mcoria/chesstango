@@ -62,7 +62,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 			if ( (pinnedSquares & origenSquare.getPosicion()) != 0  || generatorResult.hasCapturePeonPasante()) {
 				for (Move move : pseudoMoves) {
-					if (filter.filterMove(move)) {
+					if(move.filter(filter)){
 						moves.add(move);
 					}
 				}

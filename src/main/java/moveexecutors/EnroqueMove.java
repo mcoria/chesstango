@@ -95,13 +95,15 @@ abstract class EnroqueMove implements Move  {
 	
 	
 	@Override
-	public void executeMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
+	public void executeMove(MoveCacheBoard moveCache) {	
+		moveCache.pushCleared();
+		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey());
+		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), false);
+		moveCache.popCleared();
 	}
 	
 	@Override
