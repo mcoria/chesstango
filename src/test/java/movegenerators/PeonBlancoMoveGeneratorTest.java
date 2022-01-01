@@ -127,30 +127,6 @@ public class PeonBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createCaptureMove(origen, Square.d3, Pieza.PEON_NEGRO) ));
 	}
 	
-	@Test
-	public void testPeonPasanteIzquierda() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");
-		
-		state.setPeonPasanteSquare(Square.d6);
-		
-		moveGenerator.setTablero(tablero);
-
-		Square from = Square.e5;
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d5));
-		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
-		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-		
-		moves = generatorResult.getPseudoMoves();
-		
-		assertEquals(2, moves.size());
-		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.d6) ));
-	}
-	
 	
 	@Test
 	public void testAtaqueDerecha() {
@@ -173,30 +149,6 @@ public class PeonBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e4, Square.a3) ));
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f3, Pieza.PEON_NEGRO) ));
-	}
-	
-	@Test
-	public void testPeonPasanteDerecha() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
-		
-		state.setPeonPasanteSquare(Square.e6);
-		
-		moveGenerator.setTablero(tablero);
-		
-		Square from = Square.d5;
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e5));
-		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
-		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-		
-		moves = generatorResult.getPseudoMoves();
-		
-		assertEquals(2, moves.size());
-		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
-		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.e6) ));
 	}
 	
 	@Test
@@ -258,10 +210,6 @@ public class PeonBlancoMoveGeneratorTest {
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
 		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
-	}
-
-	private Move createCapturePeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
 	}
 	
 	private Move createSimplePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza promocion) {

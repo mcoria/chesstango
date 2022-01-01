@@ -151,11 +151,6 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		return this.saveMovesInCache;
 	}
 	
-	@Override
-	public boolean hasCapturePeonPasante() {
-		return false;
-	}
-	
 	public void setCapturer(Capturer capturer) {
 		this.capturer = capturer;
 	}

@@ -10,9 +10,12 @@ import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import moveexecutors.Move;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
+import movegenerators.PeonPasanteCaptureMoveGenerator;
+import movegenerators.SpecialMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -28,6 +31,8 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected MoveGeneratorStrategy strategy = null;
 	
+	protected SpecialMoveGenerator peonPasanteCaptureMoveGenerator = null;
+	
 	protected MoveFilter filter = null;
 	
 	public AbstractLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
@@ -39,6 +44,10 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		this.boardState = boardState;
 		this.strategy = strategy;
 		this.filter = filter;
+		PeonPasanteCaptureMoveGenerator ppmg = new  PeonPasanteCaptureMoveGenerator();
+		ppmg.setBoardState(boardState);
+		ppmg.setTablero(dummyBoard);
+		peonPasanteCaptureMoveGenerator = ppmg;
 	}
 
 	//TODO: Misteriosamente MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy); tiene mala performance !!!
@@ -59,6 +68,18 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		
 		return generatorResult;
 	}
+	
+	/**
+	 * @param moves
+	 */
+	protected void getLegalMovesSpecial(Collection<Move> moves) {
+		Collection<Move> pseudoMoves = peonPasanteCaptureMoveGenerator.getPseudoMoves();
+		for (Move move : pseudoMoves) {
+			if(move.filter(filter)){
+				moves.add(move);
+			}
+		}		
+	}	
 
 	public Square getCurrentKingSquare() {
 		return kingCacheBoard.getKingSquare(boardState.getTurnoActual());

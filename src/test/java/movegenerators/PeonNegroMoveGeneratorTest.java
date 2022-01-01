@@ -111,30 +111,6 @@ public class PeonNegroMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testPeonPasanteIzquierda() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
-		
-		state.setPeonPasanteSquare(Square.d3);
-		
-		moveGenerator.setTablero(tablero);
-		
-		Square from = Square.e4;
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.d4));
-		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_NEGRO);
-		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-		
-		moves = generatorResult.getPseudoMoves();
-		
-		assertEquals(2, moves.size());
-		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
-		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.d3) ));
-	}
-	
-	@Test
 	public void testAtaqueDerecha() {
 		PosicionPiezaBoard tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
 		
@@ -155,30 +131,6 @@ public class PeonNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f6, Pieza.PEON_BLANCO) ));
 		
 		assertEquals(3, moves.size());
-	}
-	
-	@Test
-	public void testPeonPasanteDerecha() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3pP3/8/8/8");
-		
-		state.setPeonPasanteSquare(Square.e3);
-		
-		moveGenerator.setTablero(tablero);
-		
-		Square from = Square.d4;
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e4));
-
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_NEGRO);
-		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-		
-		moves = generatorResult.getPseudoMoves();
-		
-		assertEquals(2, moves.size());
-		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d3) ));
-		assertTrue(moves.contains( createCapturePeonPasanteMove(origen, Square.e3) ));
 	}
 	
 	@Test
@@ -204,10 +156,6 @@ public class PeonNegroMoveGeneratorTest {
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
 		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
-	}
-
-	private Move createCapturePeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_BLANCO));
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

@@ -86,9 +86,4 @@ public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 		return true;
 	}
 
-	@Override
-	public boolean hasCapturePeonPasante() {
-		return false;
-	}
-
 }

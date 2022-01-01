@@ -18,8 +18,6 @@ public class MoveGeneratorResult {
 	private long affectedByContainer;
 
 	private boolean saveMovesInCache;
-	
-	private boolean hasCapturePeonPasante;
 
 	public MoveGeneratorResult() {
 		moveContainer = createContainer(); 
@@ -50,18 +48,10 @@ public class MoveGeneratorResult {
 	public void moveContainerAdd(Move move) {
 		moveContainer.add(move);
 	}	
+
 	
-	
-	public void setHasCapturePeonPasante(boolean hasCapturePeonPasante) {
-		this.hasCapturePeonPasante = hasCapturePeonPasante;
-	}
-	
-	public boolean hasCapturePeonPasante() {
-		return this.hasCapturePeonPasante;
-	}
-	
-	private static <T> Collection<T> createContainer(){
-		return new ArrayList<T>() {
+	private static Collection<Move> createContainer(){
+		return new ArrayList<Move>() {
 			/**
 			 * 
 			 */
@@ -70,7 +60,7 @@ public class MoveGeneratorResult {
 			@Override
 			public String toString() {
 				StringBuffer buffer = new StringBuffer(); 
-				for (T move : this) {
+				for (Move move : this) {
 					buffer.append(move.toString() + "\n");
 				}
 				return buffer.toString();

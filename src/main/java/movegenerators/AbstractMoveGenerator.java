@@ -28,8 +28,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	public abstract boolean saveMovesInCache();
 	
-	public abstract boolean hasCapturePeonPasante();
-	
 	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
 	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);	
@@ -45,7 +43,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		this.result = new MoveGeneratorResult();
 		generateMovesPseudoMoves(origen);
 		this.result.setSaveMovesInCache(saveMovesInCache());
-		this.result.setHasCapturePeonPasante(hasCapturePeonPasante());
 		return this.result;
 	}
 

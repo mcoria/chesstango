@@ -39,6 +39,8 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		
 		getLegalMovesKing(moves);
 		
+		getLegalMovesSpecial(moves);		
+		
 		return moves;
 	}
 
@@ -60,7 +62,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
 
-			if ( (pinnedSquares & origenSquare.getPosicion()) != 0  || generatorResult.hasCapturePeonPasante()) {
+			if ( (pinnedSquares & origenSquare.getPosicion()) != 0 ) {
 				for (Move move : pseudoMoves) {
 					if(move.filter(filter)){
 						moves.add(move);

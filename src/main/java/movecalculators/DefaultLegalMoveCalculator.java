@@ -30,6 +30,14 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		
 		Collection<Move> moves = createContainer();
 		
+		getLegalMovesBySquare(moves);
+		
+		getLegalMovesSpecial(moves);
+		
+		return moves;
+	}
+
+	protected Collection<Move> getLegalMovesBySquare(Collection<Move> moves) {
 		for (SquareIterator iterator = colorBoard.iteratorSquare(boardState.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();

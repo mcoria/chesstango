@@ -26,11 +26,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);	
 	
 	protected abstract Pieza[] getPiezaPromocion();
-	
-	
-	private boolean saveMovesInCache;
-	
-	private boolean hasCapturePeonPasante;
 
 	
 	public PeonAbstractMoveGenerator(Color color) {
@@ -39,8 +34,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	@Override
 	public void generateMovesPseudoMoves(PosicionPieza origen){
-		this.saveMovesInCache = true;
-		this.hasCapturePeonPasante = false;
 		
 		int toRank = -1; //Just in case
 		Square casillero = origen.getKey();
@@ -49,8 +42,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		
 		Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
-		
-		Square peonPasanteSquare = boardState.getPeonPasanteSquare();
 		
 			
 		PosicionPieza destino = null;
@@ -116,16 +107,6 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 				}
 			}
 		}
-		
-		if (peonPasanteSquare != null) {
-			if (peonPasanteSquare.equals(casilleroAtaqueIzquirda) || peonPasanteSquare.equals(casilleroAtaqueDerecha)) {
-				destino = this.tablero.getPosicion(peonPasanteSquare);
-		    	Move move = this.moveFactory.createCapturePeonPasante(origen, destino, getCapturaPeonPasante(peonPasanteSquare));
-		    	this.saveMovesInCache = false;
-		    	this.hasCapturePeonPasante = true;
-		    	result.moveContainerAdd(move);
-			}
-		}
 	}
 
 	private void addSaltoSimplePromocion(PosicionPieza origen, PosicionPieza destino) {
@@ -164,12 +145,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 
 	@Override
 	public boolean saveMovesInCache() {
-		return this.saveMovesInCache;
-	}
-	
-	@Override
-	public boolean hasCapturePeonPasante() {
-		return this.hasCapturePeonPasante;
+		return true;
 	}	
 
 	public void setBoardState(BoardState boardState) {
