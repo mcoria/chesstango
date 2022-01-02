@@ -2,12 +2,14 @@ package moveexecutors;
 
 import chess.Board;
 import chess.BoardState;
+import chess.Color;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
 import movecalculators.MoveFilter;
+import positioncaptures.Capturer;
 
 /**
  * @author Mauricio Coria
@@ -43,8 +45,13 @@ abstract class EnroqueMove implements Move  {
 	}
 	
 	@Override
+	//TODO: Por que no utilizar kingInCheck.getAsBoolean()
 	public boolean filter(MoveFilter filter) {
-		return filter.filterKingMove(this);
+		Capturer capturer = filter.getCapturer();
+		Color opositeColor = reyMove.getFrom().getValue().getColor().opositeColor();
+		return !capturer.positionCaptured(opositeColor, reyMove.getFrom().getKey()) // El rey no esta en jaque
+			&& !capturer.positionCaptured(opositeColor, torreMove.getTo().getKey()) // El rey no puede ser capturado en casillero intermedio
+			&& !capturer.positionCaptured(opositeColor, reyMove.getTo().getKey());  // El rey no puede  ser capturado en casillero destino
 	}	
 	
 	@Override

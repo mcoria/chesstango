@@ -26,8 +26,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
 	
-	public abstract boolean saveMovesInCache();
-	
 	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
 	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);	
@@ -42,7 +40,6 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	public MoveGeneratorResult calculatePseudoMoves(PosicionPieza origen){
 		this.result = new MoveGeneratorResult();
 		generateMovesPseudoMoves(origen);
-		this.result.setSaveMovesInCache(saveMovesInCache());
 		return this.result;
 	}
 

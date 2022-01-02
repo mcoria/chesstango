@@ -32,11 +32,6 @@ public class CaballoMoveGenerator extends SaltoMoveGenerator {
 	public CaballoMoveGenerator(Color color) {
 		super(color, SALTOS_CABALLO);
 	}
-
-	@Override
-	public boolean saveMovesInCache() {
-		return true;
-	}
 	
 	@Override
 	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {

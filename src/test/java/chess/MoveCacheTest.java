@@ -29,7 +29,6 @@ public class MoveCacheTest {
 	@Test
 	public void test01() {
 		MoveGeneratorResult result = new MoveGeneratorResult();
-		result.setSaveMovesInCache(true);
 		result.moveContainerAdd(moveFactory.createSimpleMove(new PosicionPieza(Square.a2, Pieza.PEON_BLANCO), new PosicionPieza(Square.a3, null)));
 		result.moveContainerAdd(moveFactory.createSimpleMove(new PosicionPieza(Square.a2, Pieza.PEON_BLANCO), new PosicionPieza(Square.a4, null)));
 		cache.setPseudoMoves(Square.a2, result);

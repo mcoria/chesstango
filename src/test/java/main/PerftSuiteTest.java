@@ -49,4 +49,15 @@ public class PerftSuiteTest {
 		assertTrue(suite.run("4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1 ;D1 26 ;D2 112 ;D3 3189 ;D4 17945 ;D5 532933 ;D6 2788982"));
 	}	
 	
+	
+	@Test
+	public void test_3() {
+		assertTrue(suite.run("4k2r/6K1/8/8/8/8/8/8 w k - 0 1 ;D1 3 ;D2 32 ;D3 134 ;D4 2073 ;D5 10485 ;D6 179869"));
+	}
+	
+	
+	@Test
+	public void test_4() {
+		assertTrue(suite.run("r3k3/1K6/8/8/8/8/8/8 w q - 0 1 ;D1 4 ;D2 49 ;D3 243 ;D4 3991 ;D5 20780 ;D6 367724"));
+	}
 }

@@ -179,9 +179,9 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
 		
-		assertEquals(5, moves.size());		
+		assertEquals(6, moves.size());		
 	}
 	
 	@Test
@@ -218,9 +218,9 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
 		
-		assertEquals(5, moves.size());	
+		assertEquals(6, moves.size());	
 	}
 	
 	@Test
@@ -329,9 +329,9 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
 		
-		assertEquals(5, moves.size());		
+		assertEquals(6, moves.size());		
 	}
 	
 	@Test
@@ -367,9 +367,9 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(6, moves.size());
 	}		
 	
 	@Test
@@ -406,9 +406,9 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(6, moves.size());
 	}		
 
 	@Test
@@ -448,10 +448,10 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
 		
-		assertFalse(moves.contains( new EnroqueBlancoReyMove() ));
-		assertFalse(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
 		
-		assertEquals(5, moves.size());		
+		assertEquals(7, moves.size());		
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

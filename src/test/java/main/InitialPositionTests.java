@@ -178,7 +178,7 @@ public class InitialPositionTests {
 	} 
 
 
-	@Test //139segs 106segs 15segs
+	@Test //139segs 106segs 15segs 10segs
 	public void test_divide6() {
 		PerftResult result = main.start(board, 6);
 		

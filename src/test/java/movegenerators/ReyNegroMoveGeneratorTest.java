@@ -1,7 +1,6 @@
 package movegenerators;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -123,9 +122,9 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertFalse(moves.contains( new EnroqueNegroReynaMove() ));
+		assertTrue(moves.contains( new EnroqueNegroReynaMove() ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(6, moves.size());
 	}
 	
 	@Test
@@ -162,9 +161,9 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertFalse(moves.contains( new EnroqueNegroReynaMove() ));
+		assertTrue(moves.contains( new EnroqueNegroReynaMove() ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(6, moves.size());
 	}		
 	
 	@Test
@@ -235,9 +234,9 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertFalse(moves.contains( new EnroqueNegroReyMove() ));
+		assertTrue(moves.contains( new EnroqueNegroReyMove() ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(6, moves.size());
 	}
 	
 	@Test
@@ -274,9 +273,9 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertFalse(moves.contains( new EnroqueNegroReyMove() ));
+		assertTrue(moves.contains( new EnroqueNegroReyMove() ));
 		
-		assertEquals(5, moves.size());
+		assertEquals(6, moves.size());
 	}		
 
 	@Test
@@ -315,10 +314,10 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
-		assertFalse(moves.contains(  new EnroqueNegroReyMove() ));
-		assertFalse(moves.contains(  new EnroqueNegroReynaMove() ));
+		assertTrue(moves.contains(  new EnroqueNegroReyMove() ));			// No se considera si el rey esta en jaque
+		assertTrue(moves.contains(  new EnroqueNegroReynaMove() ));			// No se considera si el rey esta en jaque
 		
-		assertEquals(5, moves.size());
+		assertEquals(7, moves.size());
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

@@ -30,14 +30,12 @@ public class MoveCacheBoard {
 	}	
 	 
 	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
-		if(generatorResult.isSaveMovesInCache()){
-			pseudoMoves[key.toIdx()] = generatorResult;
-			long keyAdded = key.getPosicion();
-			long affectedByCollection = generatorResult.getAffectedBy();
-			for(int i = 0; i < 64; i++){
-				if( (affectedByCollection & (1L << i))  != 0 ) {
-					 affects[i] |= keyAdded;
-				}
+		pseudoMoves[key.toIdx()] = generatorResult;
+		long keyAdded = key.getPosicion();
+		long affectedByCollection = generatorResult.getAffectedBy();
+		for(int i = 0; i < 64; i++){
+			if( (affectedByCollection & (1L << i))  != 0 ) {
+				 affects[i] |= keyAdded;
 			}
 		}
 	}		

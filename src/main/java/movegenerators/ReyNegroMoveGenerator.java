@@ -30,26 +30,35 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PosicionPieza origen) {		
 		super.generateMovesPseudoMoves(origen);
 		
-		this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroReyPermitido()) ;
+		//this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroReyPermitido()) ;
 		
-		if (this.boardState.isEnroqueNegroReinaPermitido() && 
-			puedeEnroqueReina(	origen, 
+		if (this.boardState.isEnroqueNegroReinaPermitido()){
+			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
+			result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
+			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);		
+			result.affectedByContainerAdd(Square.a8); //La posicion de la torre
+			if(puedeEnroqueReina(	origen, 
 								CachePosiciones.REY_NEGRO, 
 								CachePosiciones.TORRE_NEGRO_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			this.result.moveContainerAdd(new EnroqueNegroReynaMove());
+				result.moveContainerAdd(new EnroqueNegroReynaMove());
+			}
 		}
 			
 			
-		if (this.boardState.isEnroqueNegroReyPermitido() && 
-			puedeEnroqueRey(	origen, 
+		if (this.boardState.isEnroqueNegroReyPermitido()){
+			result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
+			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
+			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
+			if(puedeEnroqueRey(	origen, 
 								CachePosiciones.REY_NEGRO, 
 								CachePosiciones.TORRE_NEGRO_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
-			this.result.moveContainerAdd(new EnroqueNegroReyMove());			
+				result.moveContainerAdd(new EnroqueNegroReyMove());
+			}
 		}
 	}
 

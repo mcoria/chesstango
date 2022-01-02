@@ -17,8 +17,6 @@ public class MoveGeneratorResult {
 	
 	private long affectedByContainer;
 
-	private boolean saveMovesInCache;
-
 	public MoveGeneratorResult() {
 		moveContainer = createContainer(); 
 	}
@@ -30,15 +28,6 @@ public class MoveGeneratorResult {
 
 	public long getAffectedBy() {
 		return affectedByContainer;
-	}
-	
-	
-	public boolean isSaveMovesInCache(){
-		return this.saveMovesInCache;
-	}
-
-	public void setSaveMovesInCache(boolean flag){
-		this.saveMovesInCache = flag;
 	}
 	
 	public void affectedByContainerAdd(Square key) {

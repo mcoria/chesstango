@@ -81,9 +81,4 @@ public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 		return false;
 	}
 
-	@Override
-	public boolean saveMovesInCache() {
-		return true;
-	}
-
 }

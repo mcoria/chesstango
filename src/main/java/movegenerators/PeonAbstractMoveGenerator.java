@@ -141,12 +141,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	@Override
 	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return this.moveFactory.createCaptureMove(origen, destino);
-	}	
-
-	@Override
-	public boolean saveMovesInCache() {
-		return true;
-	}	
+	}
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;

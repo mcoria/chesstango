@@ -31,38 +31,33 @@ public class ReyBlancoMoveGenerator extends ReyAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PosicionPieza origen) {
 		super.generateMovesPseudoMoves(origen);
 		
-		//ver KiwipeteTest.test_d5d6_h3g2
-		this.saveMovesInCache =  ! (this.boardState.isEnroqueBlancoReinaPermitido() ||  this.boardState.isEnroqueBlancoReyPermitido()) ;
-		
-		//this.saveMovesInCache = true;
-		
-		if (this.boardState.isEnroqueBlancoReinaPermitido() && 
-			puedeEnroqueReina(	origen, 
+		if (this.boardState.isEnroqueBlancoReinaPermitido()){
+			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
+			result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
+			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);
+			result.affectedByContainerAdd(Square.a1); //La posicion de la torre
+			if(puedeEnroqueReina(	origen, 
 								CachePosiciones.REY_BLANCO, 
 								CachePosiciones.TORRE_BLANCA_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-			//result.affectedByContainerAdd(Square.a1);
-			//result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
-			//result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
-			//result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);
-			this.result.moveContainerAdd(new EnroqueBlancoReynaMove());
-			//this.saveMovesInCache = false;
+				result.moveContainerAdd(new EnroqueBlancoReynaMove());
+			}
 		}
 		
 		
-		if (this.boardState.isEnroqueBlancoReyPermitido() && 
-			puedeEnroqueRey(	origen, 
+		if (this.boardState.isEnroqueBlancoReyPermitido() ){
+			result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
+			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
+			result.affectedByContainerAdd(Square.h1); //La posicion de la torre		
+			if(puedeEnroqueRey(	origen, 
 								CachePosiciones.REY_BLANCO, 
 								CachePosiciones.TORRE_BLANCA_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
-			//result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
-			//result.affectedByContainerAdd(DESTINO_REY_SQUARE);
-			//result.affectedByContainerAdd(Square.h1);
-			this.result.moveContainerAdd(new EnroqueBlancoReyMove());
-			//this.saveMovesInCache = false;
+				this.result.moveContainerAdd(new EnroqueBlancoReyMove());
+			}
 		}
 	}
 	
