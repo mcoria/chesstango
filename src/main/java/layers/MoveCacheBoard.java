@@ -4,9 +4,12 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
+import chess.PosicionPieza;
 import chess.Square;
 import moveexecutors.Move;
+import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
+import movegenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria
@@ -20,6 +23,28 @@ public class MoveCacheBoard {
 	private MoveGeneratorResult[] currentClearedSquares = new MoveGeneratorResult[64];
 	private Deque<MoveGeneratorResult[]> clearedSquares = new ArrayDeque<MoveGeneratorResult[]>();
 	
+
+	public MoveCacheBoard() {
+	}
+	
+	/**
+	 * @param posicionPiezaBoard
+	 * @param buildMoveGeneratorStrategy
+	 */
+	public MoveCacheBoard(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy strategy) {
+		for(PosicionPieza origen: posicionPiezaBoard){
+			
+			if(origen.getValue() != null){
+				MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
+												//origen.getValue().getMoveGenerator(strategy); Mala performance
+	
+				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+	
+				setPseudoMoves(origen.getKey(), generatorResult);
+			}
+		}
+	}
+
 	public Collection<Move> getPseudoMoves(Square key) {
 		MoveGeneratorResult result = pseudoMoves[key.toIdx()];
 		return result == null ? null  : result.getPseudoMoves();

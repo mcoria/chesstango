@@ -4,6 +4,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.MoveCacheBoard;
 import layers.PosicionPiezaBoard;
+import movegenerators.MoveGeneratorStrategy;
 
 
 /**
@@ -11,6 +12,14 @@ import layers.PosicionPiezaBoard;
  *
  */
 public class MoveCacheBoardDebug extends MoveCacheBoard {
+
+	/**
+	 * @param posicionPiezaBoard
+	 * @param strategy
+	 */
+	public MoveCacheBoardDebug(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy strategy) {
+		super(posicionPiezaBoard, strategy);
+	}
 
 	public void validar(PosicionPiezaBoard dummyBoard) {
 		validar();

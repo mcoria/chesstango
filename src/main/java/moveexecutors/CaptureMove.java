@@ -6,7 +6,6 @@ import chess.PosicionPieza;
 import chess.Square;
 import layers.ColorBoard;
 import layers.KingCacheBoard;
-import layers.MoveCacheBoard;
 import movecalculators.MoveFilter;
 
 /**

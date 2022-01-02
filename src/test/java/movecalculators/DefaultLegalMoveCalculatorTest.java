@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.function.BooleanSupplier;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import builder.ChessBuilderParts;
@@ -44,10 +43,6 @@ public class DefaultLegalMoveCalculatorTest {
 	
 	private MoveFilter filter;
 	
-	@Before
-	public void setUp(){
-		moveCache = new MoveCacheBoard();
-	}
 	
 	
 	@Test
@@ -80,5 +75,6 @@ public class DefaultLegalMoveCalculatorTest {
 		strategy.setIsKingInCheck(kingInCheckFn);
 		
 		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
+		moveCache = new MoveCacheBoard(dummyBoard, strategy);
 	}
 }

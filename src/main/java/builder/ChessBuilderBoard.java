@@ -95,7 +95,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	protected MoveCacheBoard buildMoveCache() {
 		if (moveCache == null) {
-			moveCache = chessFactory.createMoveCacheBoard();
+			moveCache = chessFactory.createMoveCacheBoard(builder.getPosicionPiezaBoard(), buildMoveGeneratorStrategy());
 		}
 		return moveCache;
 	}
