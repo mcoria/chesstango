@@ -1,13 +1,10 @@
 package movegenerators;
 
-import java.util.function.BooleanSupplier;
-
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import positioncaptures.Capturer;
 
 /**
  * @author Mauricio Coria
@@ -17,8 +14,6 @@ public class MoveGeneratorStrategy {
 	private PosicionPiezaBoard dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
-	private BooleanSupplier isKingInCheck;
-	private Capturer capturer;
 	
 	private PeonBlancoMoveGenerator pbmg;
 	private PeonNegroMoveGenerator pnmg;
@@ -74,16 +69,6 @@ public class MoveGeneratorStrategy {
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
-		settupMoveGenerators();
-	}
-
-	public void setIsKingInCheck(BooleanSupplier isKingInCheck) {
-		this.isKingInCheck = isKingInCheck;
-		settupMoveGenerators();
-	}
-
-	public void setCapturer(Capturer capturer) {
-		this.capturer = capturer;
 		settupMoveGenerators();
 	}	
 
@@ -167,15 +152,9 @@ public class MoveGeneratorStrategy {
 			((AbstractMoveGenerator)moveGenerator).setColorBoard(colorBoard);		
 		}
 		
-		if (moveGenerator instanceof PeonAbstractMoveGenerator) {
-			PeonAbstractMoveGenerator generator = (PeonAbstractMoveGenerator) moveGenerator;
-			generator.setBoardState(boardState);
-			
-		} else if (moveGenerator instanceof ReyAbstractMoveGenerator) {
+		if (moveGenerator instanceof ReyAbstractMoveGenerator) {
 			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
-			generator.setCapturer(capturer);
-			generator.setKingInCheck(isKingInCheck);
 		}
 	}
 	

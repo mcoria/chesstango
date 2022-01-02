@@ -5,9 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +13,6 @@ import org.junit.Test;
 import builder.ChessBuilderParts;
 import chess.BoardState;
 import chess.CachePosiciones;
-import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -27,7 +24,6 @@ import moveexecutors.EnroqueBlancoReynaMove;
 import moveexecutors.Move;
 import moveexecutors.MoveFactory;
 import parsers.FENParser;
-import positioncaptures.Capturer;
 
 /**
  * @author Mauricio Coria
@@ -118,13 +114,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return false;
-			}
-		});
+
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
@@ -154,15 +144,6 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.d1, Square.e2});
-		
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});
 
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
@@ -192,15 +173,6 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
-		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.c1, Square.d2});
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});
 	
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
@@ -232,15 +204,6 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {});
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});
-		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));
 		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(Square.b1));
@@ -270,13 +233,6 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return false;
-			}
-		});
-		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		
@@ -304,15 +260,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
-		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.f1});
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});
+
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
@@ -343,15 +291,6 @@ public class ReyBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f2, Square.g1});
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});	
-		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
 		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.d4));
@@ -380,16 +319,6 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
-		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.f1});
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});
-		
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h1));
@@ -420,16 +349,6 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
-		moveGenerator.setKingInCheck( () -> true );
-		
-		List<Square> positionCaptured = Arrays.asList(new Square[] {Square.e2, Square.e1});
-		
-		moveGenerator.setCapturer(new Capturer(){
-			@Override
-			public boolean positionCaptured(Color color, Square square) {
-				return positionCaptured.contains(square);
-			}
-		});
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(CachePosiciones.REY_BLANCO.getKey()));
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.a1));

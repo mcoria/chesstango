@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import builder.ChessBuilderParts;
-import chess.BoardState;
-import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
@@ -30,8 +28,6 @@ public class PeonNegroMoveGeneratorTest {
 	private PeonNegroMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
-	
-	private BoardState state;
 
 	private MoveFactory moveFactory;
 	
@@ -39,11 +35,8 @@ public class PeonNegroMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
-		state = new BoardState();
-		state.setTurnoActual(Color.NEGRO);
 		
-		moveGenerator = new PeonNegroMoveGenerator();
-		moveGenerator.setBoardState(state);		
+		moveGenerator = new PeonNegroMoveGenerator();	
 	}
 	
 	@Test

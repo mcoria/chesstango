@@ -1,7 +1,5 @@
 package movegenerators;
 
-import java.util.function.BooleanSupplier;
-
 import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
@@ -9,7 +7,6 @@ import chess.PosicionPieza;
 import chess.Square;
 import iterators.Cardinal;
 import iterators.CardinalSquareIterator;
-import positioncaptures.Capturer;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque
 
@@ -20,10 +17,6 @@ import positioncaptures.Capturer;
 public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 	
 	protected BoardState boardState;
-	
-	protected Capturer capturer = null;
-	
-	protected BooleanSupplier kingInCheck = () -> false;
 	
 	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
@@ -134,17 +127,9 @@ public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
 		}
 		return null;
 	}
-	
-	public void setCapturer(Capturer capturer) {
-		this.capturer = capturer;
-	}
 
 	public void setBoardState(BoardState boardState) {
 		this.boardState = boardState;
-	}
-
-	public void setKingInCheck(BooleanSupplier kingInCheck) {
-		this.kingInCheck = kingInCheck;
 	}
 	
 }

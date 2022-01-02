@@ -1,6 +1,5 @@
 package movegenerators;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
@@ -12,8 +11,6 @@ import moveexecutors.Move;
  *
  */
 public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
-	
-	protected BoardState boardState;
 
 	protected abstract Square getCasilleroSaltoSimple(Square casillero);
 
@@ -142,9 +139,5 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
 		return this.moveFactory.createCaptureMove(origen, destino);
 	}
-
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
-	}	
 
 }

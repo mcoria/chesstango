@@ -122,8 +122,6 @@ public class ChessBuilderBoard implements ChessBuilder {
 			moveGeneratorStrategy.setDummyBoard(builder.getPosicionPiezaBoard());
 			moveGeneratorStrategy.setBoardState(builder.getState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
-			moveGeneratorStrategy.setIsKingInCheck(() -> buildAnalyzer().isKingInCheck());
-			moveGeneratorStrategy.setCapturer(improvedCapturer);
 		}
 		return moveGeneratorStrategy;
 	}
