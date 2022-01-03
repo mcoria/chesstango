@@ -17,10 +17,10 @@ import parsers.FENParser;
 public class PerftSuite {
 
 	public static void main(String[] args) {
-		execute("main/perftsuite1.txt");
-		execute("main/perftsuite2.txt");
+		//execute("main/perftsuite1.txt");
+		//execute("main/perftsuite2.txt");
 		//Todavia no podemos procesar bien este archivo
-		//execute("main/perftsuite3.txt");
+		execute("main/perftsuite3.txt");
 	}
 	
 	private static void execute(String filename){
@@ -60,6 +60,7 @@ public class PerftSuite {
 
 	protected String fen;
 	protected int[] perftResults;
+	private int startNivel;
 	
 
 	protected boolean run(String perfTest) {
@@ -71,12 +72,12 @@ public class PerftSuite {
 			
 			ChessMain main = new ChessMain();
 			
-			PerftResult result = main.start(getGame(), i + 1);
+			PerftResult result = main.start(getGame(), this.startNivel + i);
 			
 			if(result.getTotalNodes() == perftResults[i]){
-				System.out.println("depth " + (i + 1) + " OK" );
+				System.out.println("depth " + (this.startNivel + i) + " OK" );
 			} else {
-				System.out.println("depth " + (i + 1) + " FAIL, expected = " + perftResults[i] + ", actual = " + result.getTotalNodes());
+				System.out.println("depth " + (this.startNivel + i) + " FAIL, expected = " + perftResults[i] + ", actual = " + result.getTotalNodes());
 				retunResult = false;
 				break;
 			}
@@ -91,10 +92,14 @@ public class PerftSuite {
 		
 		this.fen = splitStrings[0].trim();
 		this.perftResults = new int[splitStrings.length - 1];
+		this.startNivel = 0;
 		
-		for(int i = 1; i < splitStrings.length; i++){
+		for (int i = 1; i < splitStrings.length; i++) {
 			String[] perftResultStr = splitStrings[i].split(" ");
-			perftResults[i - 1] =  Integer.parseInt(perftResultStr[1]);
+			if (this.startNivel == 0) {
+				this.startNivel = Integer.parseInt(perftResultStr[0].substring(1));
+			}
+			perftResults[i - 1] = Integer.parseInt(perftResultStr[1]);
 		}
 		
 	}

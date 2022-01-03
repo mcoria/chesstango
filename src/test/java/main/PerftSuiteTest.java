@@ -23,7 +23,7 @@ public class PerftSuiteTest {
 	}
 	
 	@Test
-	public void test_parse() {
+	public void test_parse0() {
 		suite.parseTests("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ;D1 20 ;D2 400 ;D3 8902 ;D4 197281 ;D5 4865609 ;D6 119060324");
 		
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", suite.fen);
@@ -36,6 +36,16 @@ public class PerftSuiteTest {
 		assertEquals(119060324, suite.perftResults[5]);
 		
 	}
+	
+	@Test
+	public void test_parse1() {
+		suite.parseTests("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1 ;D6 824064");
+		
+		assertEquals("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1", suite.fen);
+		
+		assertEquals(824064, suite.perftResults[0]);
+		
+	}	
 	
 	
 	@Test
@@ -60,4 +70,9 @@ public class PerftSuiteTest {
 	public void test_4() {
 		assertTrue(suite.run("r3k3/1K6/8/8/8/8/8/8 w q - 0 1 ;D1 4 ;D2 49 ;D3 243 ;D4 3991 ;D5 20780 ;D6 367724"));
 	}
+	
+	@Test
+	public void test_5() {
+		assertTrue(suite.run("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1 ;D6 824064"));
+	}	
 }
