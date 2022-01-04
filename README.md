@@ -9,11 +9,11 @@ By no means does the list of applied patterns is exhaustive, instead, I've used 
 Although performance is taken into consideration, this is not the top non-functional priority, good design patterns implementation is preferred.
 
 Creational Patterns
-	Factory method
+<b>Factory method</b>
   
  Structural Patterns
  
  Behavioral Patterns
    Template method
 
-Template method pattern in combination of Factory Method can be found at AbstractCardinalMoveGenerator.java class. 
+Template method pattern in combination with Factory Method can be found at AbstractCardinalMoveGenerator.java class. 
