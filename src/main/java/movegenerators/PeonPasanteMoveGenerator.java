@@ -19,7 +19,7 @@ import moveexecutors.MoveFactory;
  * @author Mauricio Coria
  *
  */
-public class PeonPasanteCaptureMoveGenerator implements SpecialMoveGenerator {
+public class PeonPasanteMoveGenerator {
 	
 	private BoardState boardState;
 	
@@ -27,10 +27,7 @@ public class PeonPasanteCaptureMoveGenerator implements SpecialMoveGenerator {
 	
 	protected MoveFactory moveFactory = new MoveFactory();
 
-	/* (non-Javadoc)
-	 * @see movegenerators.SpecialMoveGenerator#getPseudoMoves()
-	 */
-	@Override
+
 	public Collection<Move> getPseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
 		
@@ -86,6 +83,16 @@ public class PeonPasanteCaptureMoveGenerator implements SpecialMoveGenerator {
 		return moveContainer;
 	}
 
+
+	public void setBoardState(BoardState boardState) {
+		this.boardState = boardState;
+	}
+
+
+	public void setTablero(PosicionPiezaBoard tablero) {
+		this.tablero = tablero;
+	}
+	
 	private static Collection<Move> createContainer(){
 		return new ArrayList<Move>() {
 			/**
@@ -102,15 +109,5 @@ public class PeonPasanteCaptureMoveGenerator implements SpecialMoveGenerator {
 				return buffer.toString();
 			}
 		};
-	}
-
-
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
-	}
-
-
-	public void setTablero(PosicionPiezaBoard tablero) {
-		this.tablero = tablero;
 	}	
 }

@@ -25,8 +25,8 @@ import parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class PeonPasanteCaptureMoveGeneratorTest {
-	private PeonPasanteCaptureMoveGenerator moveGenerator;
+public class PeonPasanteMoveGeneratorTest {
+	private PeonPasanteMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -40,7 +40,7 @@ public class PeonPasanteCaptureMoveGeneratorTest {
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
-		moveGenerator = new PeonPasanteCaptureMoveGenerator();
+		moveGenerator = new PeonPasanteMoveGenerator();
 		moveGenerator.setBoardState(state);
 	}
 	

@@ -14,8 +14,7 @@ import moveexecutors.Move;
 import movegenerators.MoveGenerator;
 import movegenerators.MoveGeneratorResult;
 import movegenerators.MoveGeneratorStrategy;
-import movegenerators.PeonPasanteCaptureMoveGenerator;
-import movegenerators.SpecialMoveGenerator;
+import movegenerators.PeonPasanteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -31,7 +30,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected MoveGeneratorStrategy strategy = null;
 	
-	protected SpecialMoveGenerator peonPasanteCaptureMoveGenerator = null;
+	protected PeonPasanteMoveGenerator peonPasanteMoveGenerator = null;
 	
 	protected MoveFilter filter = null;
 	
@@ -44,10 +43,6 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 		this.boardState = boardState;
 		this.strategy = strategy;
 		this.filter = filter;
-		PeonPasanteCaptureMoveGenerator ppmg = new  PeonPasanteCaptureMoveGenerator();
-		ppmg.setBoardState(boardState);
-		ppmg.setTablero(dummyBoard);
-		peonPasanteCaptureMoveGenerator = ppmg;
 	}
 
 	//TODO: Misteriosamente MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy); tiene mala performance !!!
@@ -73,7 +68,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	 * @param moves
 	 */
 	protected void getLegalMovesSpecial(Collection<Move> moves) {
-		Collection<Move> pseudoMoves = peonPasanteCaptureMoveGenerator.getPseudoMoves();
+		Collection<Move> pseudoMoves = strategy.getPeonPasanteMoveGenerator().getPseudoMoves();
 		for (Move move : pseudoMoves) {
 			if(move.filter(filter)){
 				moves.add(move);

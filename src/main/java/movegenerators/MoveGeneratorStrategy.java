@@ -28,6 +28,8 @@ public class MoveGeneratorStrategy {
 	private ReyBlancoMoveGenerator rbmg;
 	private ReyNegroMoveGenerator rnmg;
 
+	private PeonPasanteMoveGenerator ppmg = null;
+	
 	public MoveGeneratorStrategy() {
 		pbmg =  new PeonBlancoMoveGenerator();
 		
@@ -52,11 +54,14 @@ public class MoveGeneratorStrategy {
 		rbmg = new ReyBlancoMoveGenerator();
 		
 		rnmg = new ReyNegroMoveGenerator();
+		
+		ppmg = new PeonPasanteMoveGenerator();
 	}
 
 	public ReyAbstractMoveGenerator getReyMoveGenerator(Color color) {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
+	
 	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
 		this.dummyBoard = dummyBoard;
 		settupMoveGenerators();
@@ -120,42 +125,8 @@ public class MoveGeneratorStrategy {
 		return rnmg;
 	}
 	
-	private void settupMoveGenerators(){
-		settupMoveGenerator(pbmg);
-
-		settupMoveGenerator(pnmg);
-
-		settupMoveGenerator(tbmg);
-		
-		settupMoveGenerator(tnmg);
-		
-		settupMoveGenerator(cbmg);
-		
-		settupMoveGenerator(cnmg);
-		
-		settupMoveGenerator(abmg);
-		
-		settupMoveGenerator(anmg);
-		
-		settupMoveGenerator(rebmg);
-		
-		settupMoveGenerator(renmg);
-		
-		settupMoveGenerator(rbmg);
-		
-		settupMoveGenerator(rnmg);
-	}
-	
-	private void settupMoveGenerator(MoveGenerator moveGenerator) {
-		if (moveGenerator instanceof AbstractMoveGenerator) {
-			((AbstractMoveGenerator)moveGenerator).setTablero(dummyBoard);
-			((AbstractMoveGenerator)moveGenerator).setColorBoard(colorBoard);		
-		}
-		
-		if (moveGenerator instanceof ReyAbstractMoveGenerator) {
-			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
-			generator.setBoardState(boardState);
-		}
+	public PeonPasanteMoveGenerator getPeonPasanteMoveGenerator() {
+		return ppmg;
 	}
 	
 	public MoveGenerator getMoveGenerator(Pieza pieza){
@@ -201,5 +172,53 @@ public class MoveGeneratorStrategy {
 			throw new RuntimeException("Generator not found");
 		}
 		return value;
+	}
+	
+	
+	private void settupMoveGenerator(MoveGenerator moveGenerator) {
+		if (moveGenerator instanceof AbstractMoveGenerator) {
+			((AbstractMoveGenerator)moveGenerator).setTablero(dummyBoard);
+			((AbstractMoveGenerator)moveGenerator).setColorBoard(colorBoard);		
+		}
+		
+		if (moveGenerator instanceof ReyAbstractMoveGenerator) {
+			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
+			generator.setBoardState(boardState);
+		}
+	}
+	
+
+	private void settupPeonPasanteMoveGenerator() {
+		ppmg.setBoardState(boardState);
+		ppmg.setTablero(dummyBoard);
 	}	
+	
+	private void settupMoveGenerators(){
+		settupMoveGenerator(pbmg);
+
+		settupMoveGenerator(pnmg);
+
+		settupMoveGenerator(tbmg);
+		
+		settupMoveGenerator(tnmg);
+		
+		settupMoveGenerator(cbmg);
+		
+		settupMoveGenerator(cnmg);
+		
+		settupMoveGenerator(abmg);
+		
+		settupMoveGenerator(anmg);
+		
+		settupMoveGenerator(rebmg);
+		
+		settupMoveGenerator(renmg);
+		
+		settupMoveGenerator(rbmg);
+		
+		settupMoveGenerator(rnmg);
+		
+		settupPeonPasanteMoveGenerator();
+	}	
+
 }
