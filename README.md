@@ -4,6 +4,6 @@ Most of the patterns applied in this project are described in more detail by GoF
 
 There are special cases where patterns applied in this project are not described by GoF book, I explicitly mention those cases and the bibliography references that describe them.
 
-By no means does the patterns list applied in this project are exhaustive, instead, I've used those patterns that helped me to solve different situations.
+By no means does the list of applied patterns is exhaustive, instead, I've used only those patterns that helped me to solve specific situations.
 
-Although performance is taken into consideration, this is not the top non-functional priority, instead, good design patterns implementation is preferred.
+Although performance is taken into consideration, this is not the top non-functional priority, good design patterns implementation is preferred.
