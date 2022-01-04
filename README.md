@@ -7,3 +7,13 @@ There are special cases where patterns applied in this project are not described
 By no means does the list of applied patterns is exhaustive, instead, I've used only those patterns that helped me to solve specific situations.
 
 Although performance is taken into consideration, this is not the top non-functional priority, good design patterns implementation is preferred.
+
+Creational Patterns
+	Factory method
+  
+ Structural Patterns
+ 
+ Behavioral Patterns
+   Template method
+
+Template method pattern in combination of Factory Method can be found at AbstractCardinalMoveGenerator.java class. 
