@@ -36,6 +36,7 @@ public class ReinaMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
+		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
 	

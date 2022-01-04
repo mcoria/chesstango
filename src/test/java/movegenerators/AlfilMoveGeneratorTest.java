@@ -34,7 +34,9 @@ public class AlfilMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
+		
 		moveGenerator = new AlfilMoveGenerator(Color.BLANCO);
+		moveGenerator.setMoveFactory(moveFactory);
 	}
 	
 	@Test

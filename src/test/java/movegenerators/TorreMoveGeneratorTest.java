@@ -37,6 +37,7 @@ public class TorreMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moveGenerator = new TorreMoveGenerator(Color.BLANCO);
+		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
 	

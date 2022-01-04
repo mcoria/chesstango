@@ -22,14 +22,13 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected MoveGeneratorResult result;
 	
-	protected MoveFactory moveFactory = new MoveFactory();
-	
-	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
+	protected MoveFactory moveFactory;
 	
 	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
-	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);	
-
+	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);
+	
+	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
 	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;
@@ -49,6 +48,10 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	public void setColorBoard(ColorBoard colorBoard) {
 		this.colorBoard = colorBoard;
+	}
+
+	public void setMoveFactory(MoveFactory moveFactory) {
+		this.moveFactory = moveFactory;
 	}
 	
 }

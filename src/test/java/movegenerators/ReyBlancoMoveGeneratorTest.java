@@ -46,6 +46,7 @@ public class ReyBlancoMoveGeneratorTest {
 		
 		moveGenerator = new ReyBlancoMoveGenerator();
 		moveGenerator.setBoardState(state);
+		moveGenerator.setMoveFactory(moveFactory);
 	}
 	
 	@Test

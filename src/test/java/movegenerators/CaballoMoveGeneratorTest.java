@@ -37,6 +37,7 @@ public class CaballoMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
+		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
 	

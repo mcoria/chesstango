@@ -10,6 +10,7 @@ import layers.KingCacheBoard;
 import layers.MoveCacheBoard;
 import movecalculators.LegalMoveCalculator;
 import movecalculators.MoveFilter;
+import moveexecutors.MoveFactory;
 import movegenerators.MoveGeneratorStrategy;
 import positioncaptures.Capturer;
 import positioncaptures.ImprovedCapturer;
@@ -119,12 +120,14 @@ public class ChessBuilderBoard implements ChessBuilder {
 	protected MoveGeneratorStrategy buildMoveGeneratorStrategy() {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
+			moveGeneratorStrategy.setMoveFactory(new MoveFactory());
 			moveGeneratorStrategy.setDummyBoard(builder.getPosicionPiezaBoard());
 			moveGeneratorStrategy.setBoardState(builder.getState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
 		}
 		return moveGeneratorStrategy;
 	}
+
 
 	protected KingCacheBoard buildKingCacheBoard() {
 		if (kingCacheBoard == null) {

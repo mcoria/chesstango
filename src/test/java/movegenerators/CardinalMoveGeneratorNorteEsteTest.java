@@ -50,6 +50,8 @@ public class CardinalMoveGeneratorNorteEsteTest {
 			}
 			
 		};
+		moveGenerator.setMoveFactory(moveFactory);
+		
 		moves = new ArrayList<Move>();
 	}
 	

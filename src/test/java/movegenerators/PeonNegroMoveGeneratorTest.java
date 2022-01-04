@@ -36,7 +36,8 @@ public class PeonNegroMoveGeneratorTest {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		
-		moveGenerator = new PeonNegroMoveGenerator();	
+		moveGenerator = new PeonNegroMoveGenerator();
+		moveGenerator.setMoveFactory(moveFactory);
 	}
 	
 	@Test

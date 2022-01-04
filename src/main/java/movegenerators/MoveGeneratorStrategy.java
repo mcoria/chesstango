@@ -5,6 +5,7 @@ import chess.Color;
 import chess.Pieza;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
+import moveexecutors.MoveFactory;
 
 /**
  * @author Mauricio Coria
@@ -14,6 +15,7 @@ public class MoveGeneratorStrategy {
 	private PosicionPiezaBoard dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
+	private MoveFactory moveFactory;
 	
 	private PeonBlancoMoveGenerator pbmg;
 	private PeonNegroMoveGenerator pnmg;
@@ -56,6 +58,8 @@ public class MoveGeneratorStrategy {
 		rnmg = new ReyNegroMoveGenerator();
 		
 		ppmg = new PeonPasanteMoveGenerator();
+		
+		moveFactory = new MoveFactory();
 	}
 
 	public ReyAbstractMoveGenerator getReyMoveGenerator(Color color) {
@@ -77,6 +81,11 @@ public class MoveGeneratorStrategy {
 		settupMoveGenerators();
 	}	
 
+	public void setMoveFactory(MoveFactory moveFactory) {
+		this.moveFactory = moveFactory;
+		settupMoveGenerators();
+	}
+	
 	public PeonBlancoMoveGenerator getPeonBlancoMoveGenerator() {
 		return pbmg;
 	}
@@ -179,6 +188,7 @@ public class MoveGeneratorStrategy {
 		if (moveGenerator instanceof AbstractMoveGenerator) {
 			((AbstractMoveGenerator)moveGenerator).setTablero(dummyBoard);
 			((AbstractMoveGenerator)moveGenerator).setColorBoard(colorBoard);		
+			((AbstractMoveGenerator)moveGenerator).setMoveFactory(moveFactory);
 		}
 		
 		if (moveGenerator instanceof ReyAbstractMoveGenerator) {

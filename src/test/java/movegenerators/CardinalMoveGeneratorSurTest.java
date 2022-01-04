@@ -50,6 +50,8 @@ public class CardinalMoveGeneratorSurTest {
 			}
 			
 		};
+		moveGenerator.setMoveFactory(moveFactory);
+		
 		moves = new ArrayList<Move>();
 	}
 	
