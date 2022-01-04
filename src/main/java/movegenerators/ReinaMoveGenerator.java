@@ -9,7 +9,7 @@ import moveexecutors.Move;
  * @author Mauricio Coria
  *
  */
-public class ReinaMoveGenerator extends CardinalMoveGenerator{
+public class ReinaMoveGenerator extends AbstractCardinalMoveGenerator{
 
 	public ReinaMoveGenerator(Color color) {
 		super(color, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur});

@@ -9,7 +9,7 @@ import moveexecutors.Move;
  * @author Mauricio Coria
  *
  */
-public class TorreMoveGenerator extends CardinalMoveGenerator {
+public class TorreMoveGenerator extends AbstractCardinalMoveGenerator {
 
 	public TorreMoveGenerator(Color color) {
 		super(color, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur});

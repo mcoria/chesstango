@@ -26,9 +26,9 @@ import parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class CardinalMoveGeneratorNorteEsteTest {
+public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
-	private CardinalMoveGenerator moveGenerator;
+	private AbstractCardinalMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -37,7 +37,7 @@ public class CardinalMoveGeneratorNorteEsteTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste}){
+		moveGenerator = new AbstractCardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteEste}){
 
 			@Override
 			protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {

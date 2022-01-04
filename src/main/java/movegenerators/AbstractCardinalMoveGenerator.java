@@ -14,7 +14,7 @@ import moveexecutors.Move;
  * @author Mauricio Coria
  *
  */
-public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
+public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
@@ -22,7 +22,7 @@ public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
 	private final Cardinal[] direcciones;
 
-	public CardinalMoveGenerator(Color color, Cardinal[] direcciones) {
+	public AbstractCardinalMoveGenerator(Color color, Cardinal[] direcciones) {
 		super(color);
 		this.direcciones = direcciones;
 	}

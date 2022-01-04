@@ -10,7 +10,7 @@ import moveexecutors.Move;
  * @author Mauricio Coria
  *
  */
-public class AlfilMoveGenerator extends CardinalMoveGenerator {
+public class AlfilMoveGenerator extends AbstractCardinalMoveGenerator {
 
 	public AlfilMoveGenerator(Color color) {
 		super(color, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste});

@@ -26,9 +26,9 @@ import parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class CardinalMoveGeneratorOesteTest {
+public class AbstractCardinalMoveGeneratorNorteTest {
 	
-	private CardinalMoveGenerator moveGenerator;
+	private AbstractCardinalMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -37,7 +37,7 @@ public class CardinalMoveGeneratorOesteTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new CardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Oeste}){
+		moveGenerator = new AbstractCardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.Norte}){
 
 			@Override
 			protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
@@ -56,7 +56,7 @@ public class CardinalMoveGeneratorOesteTest {
 	}
 	
 	@Test
-	public void testOeste() {
+	public void testNorte() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -64,31 +64,7 @@ public class CardinalMoveGeneratorOesteTest {
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
-	
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
-		
-		moves = generatorResult.getPseudoMoves();
-		
-		assertEquals(4, moves.size());
-		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.a5) ));
-	}
-	
-	@Test
-	public void testOeste01() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/B3R3/8/8/8/8");
-		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
-		
-		Square from = Square.e5;
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.a5));
-		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);		
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -96,20 +72,20 @@ public class CardinalMoveGeneratorOesteTest {
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
-	}	
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e8) ));
+	}
 	
 	@Test
-	public void testOeste02() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/b3R3/8/8/8/8");
+	public void testNorte01() {
+		PosicionPiezaBoard tablero =  getTablero("4B3/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
 		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.a5));
+		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(Square.e8));
 		
 		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);	
 	
@@ -117,14 +93,35 @@ public class CardinalMoveGeneratorOesteTest {
 		
 		moves = generatorResult.getPseudoMoves();
 		
-		assertEquals(4, moves.size());
+		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.d5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.c5) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.b5) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.a5, Pieza.ALFIL_NEGRO) ));
-	}
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+	}	
+	
+	@Test
+	public void testNorte02() {
+		PosicionPiezaBoard tablero =  getTablero("4b3/8/8/4R3/8/8/8/8");
+		moveGenerator.setTablero(tablero);
+		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
+		Square from = Square.e5;
+		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.ALFIL_NEGRO, tablero.getPieza(Square.e8));
+		
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
+	
+		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		
+		moves = generatorResult.getPseudoMoves();
+		
+		assertEquals(3, moves.size());
+		
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.e8, Pieza.ALFIL_NEGRO) ));
+	}	
+	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
 		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
 	}
@@ -141,4 +138,5 @@ public class CardinalMoveGeneratorOesteTest {
 		
 		return builder.getPosicionPiezaBoard();
 	}	
+		
 }
