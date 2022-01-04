@@ -12,7 +12,7 @@ import moveexecutors.Move;
  * @author Mauricio Coria
  *
  */
-public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
+public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
 	
@@ -20,7 +20,7 @@ public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
 	private final int[][] saltos;
 	
-	public SaltoMoveGenerator(Color color, int[][] saltos) {
+	public AbstractJumpMoveGenerator(Color color, int[][] saltos) {
 		super(color);
 		this.saltos = saltos;
 	}

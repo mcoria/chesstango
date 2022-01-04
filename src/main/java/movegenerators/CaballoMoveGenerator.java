@@ -9,7 +9,7 @@ import moveexecutors.Move;
  * @author Mauricio Coria
  *
  */
-public class CaballoMoveGenerator extends SaltoMoveGenerator {
+public class CaballoMoveGenerator extends AbstractJumpMoveGenerator {
 	
 	public final static int[][] SALTOS_CABALLO = { 
 			//Arriba

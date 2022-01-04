@@ -14,7 +14,7 @@ import iterators.CardinalSquareIterator;
  * @author Mauricio Coria
  *
  */
-public abstract class ReyAbstractMoveGenerator extends SaltoMoveGenerator {
+public abstract class ReyAbstractMoveGenerator extends AbstractJumpMoveGenerator {
 	
 	protected BoardState boardState;
 	
