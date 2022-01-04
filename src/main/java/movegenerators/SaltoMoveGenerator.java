@@ -14,6 +14,10 @@ import moveexecutors.Move;
  */
 public abstract class SaltoMoveGenerator extends AbstractMoveGenerator {
 	
+	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
+	
+	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);		
+	
 	private final int[][] saltos;
 	
 	public SaltoMoveGenerator(Color color, int[][] saltos) {

@@ -16,6 +16,10 @@ import moveexecutors.Move;
  */
 public abstract class CardinalMoveGenerator extends AbstractMoveGenerator {
 	
+	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
+	
+	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);		
+	
 	private final Cardinal[] direcciones;
 
 	public CardinalMoveGenerator(Color color, Cardinal[] direcciones) {

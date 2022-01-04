@@ -4,7 +4,6 @@ import chess.Color;
 import chess.PosicionPieza;
 import layers.ColorBoard;
 import layers.PosicionPiezaBoard;
-import moveexecutors.Move;
 import moveexecutors.MoveFactory;
 
 
@@ -20,13 +19,9 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 
 	protected ColorBoard colorBoard;	
 	
-	protected MoveGeneratorResult result;
-	
 	protected MoveFactory moveFactory;
 	
-	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
-	
-	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);
+	protected MoveGeneratorResult result;
 	
 	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
 	

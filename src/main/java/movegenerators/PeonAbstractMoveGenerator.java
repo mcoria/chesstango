@@ -128,16 +128,5 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 		return false;
 	}
-	
-	@Override
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
-		return this.moveFactory.createSimpleMove(origen, destino);
-	}
-
-
-	@Override
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return this.moveFactory.createCaptureMove(origen, destino);
-	}
 
 }
