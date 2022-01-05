@@ -166,7 +166,7 @@ public class ChessMain {
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	private String code(Game board) {
-		board.getTablero().buildRepresentation(coder);
+		board.getTablero().constructBoardRepresentation(coder);
 		return coder.getFEN();
 	}
 

@@ -82,9 +82,17 @@ public class Board {
 	}	
 	
 	
-	public void buildRepresentation(ChessBuilder builder){		
-		boardState.buildRepresentation(builder);
-		dummyBoard.buildRepresentation(builder);		
+	public void constructBoardRepresentation(ChessBuilder builder){		
+		builder.withTurno(boardState.getTurnoActual());
+		builder.withEnroqueBlancoReinaPermitido(boardState.isEnroqueBlancoReinaPermitido());
+		builder.withEnroqueBlancoReyPermitido(boardState.isEnroqueBlancoReyPermitido());
+		builder.withEnroqueNegroReinaPermitido(boardState.isEnroqueNegroReinaPermitido());
+		builder.withEnroqueNegroReyPermitido(boardState.isEnroqueNegroReyPermitido());
+		builder.withPeonPasanteSquare(boardState.getPeonPasanteSquare());
+		
+		for(PosicionPieza pieza: dummyBoard){
+			builder.withPieza(pieza.getKey(), pieza.getValue());
+		}
 	}
 	
 	
@@ -92,7 +100,7 @@ public class Board {
 	public String toString() {
 		FENCoder coder = new FENCoder();
 		
-		buildRepresentation(coder);
+		constructBoardRepresentation(coder);
 		
 	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
 	}

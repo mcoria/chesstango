@@ -10,6 +10,7 @@ Although performance is taken into consideration, this is not the top non-functi
 
 Creational Patterns
 - Factory method
+- Builder
   
  Structural Patterns
  
@@ -20,6 +21,16 @@ Creational Patterns
 Template method pattern in combination with Factory method pattern can be found at AbstractCardinalMoveGenerator.java class. 
 
 Command pattern can be found at moveexecutors package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
+
+Builder pattern has been implemented with different participant classes
+- Builder: ChessBuilder class declares the interface.
+- Concrete Builders
+	-ASCIIOutput, the result is retrived with method xXX
+	-FENCoder, the result is retrived with method XX
+	-ChessBuilderParts 
+	-ChessBuilderBoard 
+	-ChessBuilderGame
+- Director: Board.constructBoardRepresentation() is the director method
 
 Project roadmap
 - Implement a chess state machine. (DONE)
