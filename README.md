@@ -26,8 +26,8 @@ Builder pattern has been implemented with different participant classes
 - Builder: ChessBuilder class declares the interface.
 - Concrete Builders
 	-ASCIIOutput, the result is retrived with method xXX
-	-FENCoder, the result is retrived with method XX
-	-ChessBuilderParts 
+    -FENCoder, the result is retrived with method XX
+    -ChessBuilderParts 
 	-ChessBuilderBoard 
 	-ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
