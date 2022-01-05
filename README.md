@@ -12,9 +12,11 @@ Creational Patterns
 - Factory method
 - Builder
   
- Structural Patterns
+Structural Patterns
+- Decorator
+
  
- Behavioral Patterns
+Behavioral Patterns
 - Template method
 - Command
 
@@ -31,6 +33,8 @@ Builder pattern has been implemented with different participant classes
 	-ChessBuilderBoard 
 	-ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
+
+Decorator pattern can be found at moveexecutors package. MoveDecorator is an abstract class that declares a reference to concrete componenets being decoreted.
 
 Project roadmap
 - Implement a chess state machine. (DONE)
