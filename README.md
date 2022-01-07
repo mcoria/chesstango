@@ -11,18 +11,21 @@ Although performance is taken into consideration, this is not the top non-functi
 Creational Patterns
 - Factory method
 - Builder
-  
+
 Structural Patterns
 - Decorator
+- Facade
 
- 
 Behavioral Patterns
 - Template method
 - Command
+- Strategy
+- Visitor
+- Iterator
 
 Template method pattern in combination with Factory method pattern can be found at AbstractCardinalMoveGenerator.java class. 
 
-Command pattern can be found at moveexecutors package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
+Command pattern in combination with Visitor pattern can be found at moveexecutors package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
 
 Builder pattern has been implemented with different participant classes
 - Builder: ChessBuilder class declares the interface.
@@ -35,6 +38,10 @@ Builder pattern has been implemented with different participant classes
 - Director: Board.constructBoardRepresentation() is the director method
 
 Decorator pattern can be found at moveexecutors package. MoveDecorator is an abstract class that declares a reference to concrete componenets being decoreted.
+
+Facade pattern is implemented by Game class.
+
+Strategy pattern is implemented at movegenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
 Project roadmap
 - Implement a chess state machine. (DONE)
