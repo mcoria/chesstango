@@ -20,7 +20,7 @@ public class MoveFilter {
 	protected final KingCacheBoard kingCacheBoard;
 	protected final ColorBoard colorBoard;	
 	protected final BoardState boardState;
-	private final Capturer capturer;
+	protected final Capturer capturer;
 	
 	public MoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
 		this.dummyBoard = dummyBoard;
@@ -49,7 +49,7 @@ public class MoveFilter {
 		return result;
 	}
 	
-	public boolean filterKingMove(Move move) {
+	public boolean filterMoveKing(Move move) {
 		boolean result = false;
 		
 		move.executeMove(this.kingCacheBoard);

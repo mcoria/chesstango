@@ -67,13 +67,13 @@ public class MoveFilterDebug extends MoveFilter {
 	}
 	
 	@Override
-	public boolean filterKingMove(Move move) {
+	public boolean filterMoveKing(Move move) {
 		try {
 			boolean reportError = false;	
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
-			boolean result = super.filterKingMove(move);			
+			boolean result = super.filterMoveKing(move);			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
 				System.out.println("El cache de rey fué modificado");

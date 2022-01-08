@@ -178,7 +178,7 @@ public class CaptureReyMoveTest {
 		moveExecutor.filter(filter);
 
 		// asserts execute
-		verify(filter).filterKingMove(moveExecutor);
+		verify(filter).filterMoveKing(moveExecutor);
 	}	
 	
 	@Test
