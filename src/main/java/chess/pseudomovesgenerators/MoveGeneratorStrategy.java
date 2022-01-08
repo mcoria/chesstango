@@ -27,8 +27,8 @@ public class MoveGeneratorStrategy {
 	private AlfilMoveGenerator anmg;
 	private QueenMoveGenerator rebmg;
 	private QueenMoveGenerator renmg;
-	private KingBlancoMoveGenerator rbmg;
-	private KingNegroMoveGenerator rnmg;
+	private KingWhiteMoveGenerator rbmg;
+	private KingBlackMoveGenerator rnmg;
 
 	private PawnPasanteMoveGenerator ppmg = null;
 	
@@ -53,9 +53,9 @@ public class MoveGeneratorStrategy {
 		
 		renmg = new QueenMoveGenerator(Color.BLACK);
 		
-		rbmg = new KingBlancoMoveGenerator();
+		rbmg = new KingWhiteMoveGenerator();
 		
-		rnmg = new KingNegroMoveGenerator();
+		rnmg = new KingBlackMoveGenerator();
 		
 		ppmg = new PawnPasanteMoveGenerator();
 		
@@ -126,11 +126,11 @@ public class MoveGeneratorStrategy {
 		return renmg;
 	}	
 	
-	public KingBlancoMoveGenerator getKingBlancoMoveGenerator() {
+	public KingWhiteMoveGenerator getKingWhiteMoveGenerator() {
 		return rbmg;
 	}
 	
-	public KingNegroMoveGenerator getKingNegroMoveGenerator() {
+	public KingBlackMoveGenerator getKingBlackMoveGenerator() {
 		return rnmg;
 	}
 	

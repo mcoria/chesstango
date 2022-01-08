@@ -12,7 +12,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
+public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 
 	protected static final Square INTERMEDIO_TORRE_REYNA_SQUARE = Square.b8;
 	protected static final Square DESTINO_REYNA_SQUARE = Square.c8;
@@ -22,7 +22,7 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 	protected static final Square DESTINO_REY_SQUARE = Square.g8;
 	
 	
-	public KingNegroMoveGenerator() {
+	public KingBlackMoveGenerator() {
 		super(Color.BLACK);
 	}
 	

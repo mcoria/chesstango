@@ -111,11 +111,11 @@ public class CaptureKingMoveTest {
 
 		moveExecutor.executeMove(kingCacheBoard);
 
-		assertEquals(Square.e2, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 
 		moveExecutor.undoMove(kingCacheBoard);
 
-		assertEquals(Square.e1, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 	}
 	
 	@Test
@@ -205,7 +205,7 @@ public class CaptureKingMoveTest {
 		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e2));
 		assertNull(piezaBoard.getPieza(Square.e1));
 		
-		assertEquals(Square.e2, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
 		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
@@ -223,7 +223,7 @@ public class CaptureKingMoveTest {
 		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
 		assertEquals(Pieza.KNIGHT_BLACK, piezaBoard.getPieza(Square.e2));
 		
-		assertEquals(Square.e1, kingCacheBoard.getSquareKingBlancoCache());
+		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		
 		assertEquals(Color.WHITE, boardState.getTurnoActual());
 		

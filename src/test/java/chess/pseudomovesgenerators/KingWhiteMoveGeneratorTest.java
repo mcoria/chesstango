@@ -29,8 +29,8 @@ import chess.parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class KingBlancoMoveGeneratorTest {
-	private KingBlancoMoveGenerator moveGenerator;
+public class KingWhiteMoveGeneratorTest {
+	private KingWhiteMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -44,7 +44,7 @@ public class KingBlancoMoveGeneratorTest {
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
-		moveGenerator = new KingBlancoMoveGenerator();
+		moveGenerator = new KingWhiteMoveGenerator();
 		moveGenerator.setBoardState(state);
 		moveGenerator.setMoveFactory(moveFactory);
 	}

@@ -25,8 +25,8 @@ public enum Pieza {
 	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getQueenBlancaMoveGenerator()),
 	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getQueenNegraMoveGenerator()),
 	
-	KING_WHITE(Color.WHITE, strategy -> strategy.getKingBlancoMoveGenerator()),
-	KING_BLACK(Color.BLACK, strategy -> strategy.getKingNegroMoveGenerator());
+	KING_WHITE(Color.WHITE, strategy -> strategy.getKingWhiteMoveGenerator()),
+	KING_BLACK(Color.BLACK, strategy -> strategy.getKingBlackMoveGenerator());
 	
 	private final Color color;
 	private final Function<MoveGeneratorStrategy, MoveGenerator> selector;

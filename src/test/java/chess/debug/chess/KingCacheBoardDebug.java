@@ -19,20 +19,20 @@ public class KingCacheBoardDebug extends KingCacheBoard {
 	}
 	
 	public void validar(PosicionPiezaBoard dummyBoard) {
-		if (squareKingBlancoCache != null && !Pieza.KING_WHITE.equals(dummyBoard.getPieza(squareKingBlancoCache))) {
-			throw new RuntimeException("KingCacheBoard - squareKingBlancoCache quedó desactualizado");
+		if (squareKingWhiteCache != null && !Pieza.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {
+			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
 		}
 
-		if (squareKingNegroCache != null && !Pieza.KING_BLACK.equals(dummyBoard.getPieza(squareKingNegroCache))) {
-			throw new RuntimeException("KingCacheBoard - squareKingNegroCache quedó desactualizado");
+		if (squareKingBlackCache != null && !Pieza.KING_BLACK.equals(dummyBoard.getPieza(squareKingBlackCache))) {
+			throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedó desactualizado");
 		}
 		
 		for (PosicionPieza pieza : dummyBoard) {
-			if (Pieza.KING_WHITE.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingBlancoCache)) {
-				throw new RuntimeException("KingCacheBoard - squareKingBlancoCache quedó desactualizado");
+			if (Pieza.KING_WHITE.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingWhiteCache)) {
+				throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
 			}
-			if (Pieza.KING_BLACK.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingNegroCache)) {
-				throw new RuntimeException("KingCacheBoard - squareKingNegroCache quedó desactualizado");
+			if (Pieza.KING_BLACK.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingBlackCache)) {
+				throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedó desactualizado");
 			}			
 		}
 		

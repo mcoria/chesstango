@@ -29,9 +29,9 @@ import chess.parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class KingNegroMoveGeneratorTest {
+public class KingBlackMoveGeneratorTest {
 
-	private KingNegroMoveGenerator moveGenerator;
+	private KingBlackMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -46,7 +46,7 @@ public class KingNegroMoveGeneratorTest {
 		state = new BoardState();
 		state.setTurnoActual(Color.BLACK);
 		
-		moveGenerator = new KingNegroMoveGenerator();
+		moveGenerator = new KingBlackMoveGenerator();
 		moveGenerator.setBoardState(state);
 		moveGenerator.setMoveFactory(moveFactory);
 	}

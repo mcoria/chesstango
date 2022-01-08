@@ -11,13 +11,13 @@ import chess.Square;
  */
 public class KingCacheBoard {
 	
-	protected Square squareKingBlancoCache = null;
+	protected Square squareKingWhiteCache = null;
 	
-	protected Square squareKingNegroCache = null;
+	protected Square squareKingBlackCache = null;
 	
 	public KingCacheBoard(PosicionPiezaBoard board) {
-		this.squareKingBlancoCache = getKingSquareRecorrer(Color.WHITE, board);
-		this.squareKingNegroCache = getKingSquareRecorrer(Color.BLACK, board);		
+		this.squareKingWhiteCache = getKingSquareRecorrer(Color.WHITE, board);
+		this.squareKingBlackCache = getKingSquareRecorrer(Color.BLACK, board);		
 	}
 	
 	public KingCacheBoard(){
@@ -27,22 +27,22 @@ public class KingCacheBoard {
 	
 	public void setKingSquare(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
-			this.squareKingBlancoCache = square;
+			this.squareKingWhiteCache = square;
 		} else {
-			this.squareKingNegroCache = square;
+			this.squareKingBlackCache = square;
 		}
 	}
 	
 	public Square getKingSquare(Color color) {
-		return Color.WHITE.equals(color) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
+		return Color.WHITE.equals(color) ? getSquareKingWhiteCache() : getSquareKingBlackCache();
 	}	
 	
-	public Square getSquareKingBlancoCache() {
-		return squareKingBlancoCache;
+	public Square getSquareKingWhiteCache() {
+		return squareKingWhiteCache;
 	}
 	
-	public Square getSquareKingNegroCache() {
-		return squareKingNegroCache;
+	public Square getSquareKingBlackCache() {
+		return squareKingBlackCache;
 	}
 	
 	private Square getKingSquareRecorrer(Color color, PosicionPiezaBoard board) {
@@ -63,8 +63,8 @@ public class KingCacheBoard {
 	@Override
 	public KingCacheBoard clone() throws CloneNotSupportedException {
 		KingCacheBoard clone = new KingCacheBoard();
-		clone.squareKingBlancoCache = this.squareKingBlancoCache;
-		clone.squareKingNegroCache = this.squareKingNegroCache;
+		clone.squareKingWhiteCache = this.squareKingWhiteCache;
+		clone.squareKingBlackCache = this.squareKingBlackCache;
 		return clone;
 	}
 	
@@ -72,14 +72,14 @@ public class KingCacheBoard {
 	public boolean equals(Object obj) {
 		if(obj instanceof KingCacheBoard){
 			KingCacheBoard theInstance = (KingCacheBoard) obj;
-			return this.squareKingBlancoCache.equals(theInstance.squareKingBlancoCache) && this.squareKingNegroCache.equals(theInstance.squareKingNegroCache); 
+			return this.squareKingWhiteCache.equals(theInstance.squareKingWhiteCache) && this.squareKingBlackCache.equals(theInstance.squareKingBlackCache); 
 		}
 		return false;
 	}
 	
 	@Override
 	public String toString() {
-		return "King Blanco: " + squareKingBlancoCache.toString() + ", King Negro: " + squareKingNegroCache.toString();
+		return "King Blanco: " + squareKingWhiteCache.toString() + ", King Negro: " + squareKingBlackCache.toString();
 	}
 	
 }

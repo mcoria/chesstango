@@ -129,11 +129,11 @@ public class CastlingBlackKingMoveTest {
 	public void testKingCacheBoard() {
 		moveExecutor.executeMove(kingCacheBoard);
 
-		assertEquals(Square.g8, kingCacheBoard.getSquareKingNegroCache());
+		assertEquals(Square.g8, kingCacheBoard.getSquareKingBlackCache());
 
 		moveExecutor.undoMove(kingCacheBoard);
 
-		assertEquals(Square.e8, kingCacheBoard.getSquareKingNegroCache());
+		assertEquals(Square.e8, kingCacheBoard.getSquareKingBlackCache());
 	}	
 	
 	
