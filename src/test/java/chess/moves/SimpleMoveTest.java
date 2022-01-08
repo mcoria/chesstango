@@ -22,8 +22,8 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.movecalculators.MoveFilter;
 import chess.moves.SimpleMove;
+import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

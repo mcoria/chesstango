@@ -4,7 +4,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.movesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
 /**

@@ -7,12 +7,12 @@ import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.movecalculators.DefaultLegalMoveCalculator;
-import chess.movecalculators.LegalMoveCalculator;
-import chess.movecalculators.MoveFilter;
-import chess.movecalculators.NoCheckLegalMoveCalculator;
-import chess.movesgenerators.MoveGeneratorStrategy;
 import chess.positioncaptures.Capturer;
+import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
+import chess.pseudomovesfilters.LegalMoveCalculator;
+import chess.pseudomovesfilters.MoveFilter;
+import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria

@@ -3,9 +3,9 @@ package chess;
 import java.util.Collection;
 
 import chess.layers.KingCacheBoard;
-import chess.movecalculators.LegalMoveCalculator;
 import chess.moves.Move;
 import chess.positioncaptures.Capturer;
+import chess.pseudomovesfilters.LegalMoveCalculator;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde

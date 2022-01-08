@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import chess.layers.MoveCacheBoard;
 import chess.moves.MoveFactory;
-import chess.movesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 
 /**

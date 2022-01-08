@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import chess.Board;
 import chess.BoardState;
-import chess.movecalculators.MoveFilter;
+import chess.pseudomovesfilters.MoveFilter;
 
 //TODO: hay que reflotar la idea del MoveKing interface, mmmm nos pasa lo mismo en este decorator
 

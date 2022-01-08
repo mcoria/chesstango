@@ -6,7 +6,7 @@ import chess.PosicionPieza;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
-import chess.movecalculators.MoveFilter;
+import chess.pseudomovesfilters.MoveFilter;
 
 /**
  * @author Mauricio Coria

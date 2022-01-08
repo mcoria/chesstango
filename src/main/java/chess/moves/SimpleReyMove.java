@@ -3,7 +3,7 @@ package chess.moves;
 import chess.Board;
 import chess.PosicionPieza;
 import chess.layers.KingCacheBoard;
-import chess.movecalculators.MoveFilter;
+import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

@@ -6,7 +6,7 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.movecalculators.MoveFilter;
+import chess.pseudomovesfilters.MoveFilter;
 
 //TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
 

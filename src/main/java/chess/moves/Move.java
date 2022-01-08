@@ -7,7 +7,7 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.movecalculators.MoveFilter;
+import chess.pseudomovesfilters.MoveFilter;
 
 //TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a square vacios

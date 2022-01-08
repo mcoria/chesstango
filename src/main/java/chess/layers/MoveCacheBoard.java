@@ -7,9 +7,9 @@ import java.util.Deque;
 import chess.PosicionPieza;
 import chess.Square;
 import chess.moves.Move;
-import chess.movesgenerators.MoveGenerator;
-import chess.movesgenerators.MoveGeneratorResult;
-import chess.movesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria

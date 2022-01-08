@@ -10,10 +10,10 @@ import java.util.Map;
 
 import chess.Game;
 import chess.builder.ChessBuilderGame;
-import chess.movecalculators.DefaultLegalMoveCalculator;
-import chess.movecalculators.NoCheckLegalMoveCalculator;
 import chess.moves.Move;
 import chess.parsers.FENParser;
+import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
+import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
 
 /**
  * @author Mauricio Coria

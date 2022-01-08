@@ -3,7 +3,7 @@ package chess.moves;
 import java.util.function.Consumer;
 
 import chess.BoardState;
-import chess.movecalculators.MoveFilter;
+import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

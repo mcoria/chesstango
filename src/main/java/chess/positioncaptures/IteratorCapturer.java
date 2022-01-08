@@ -8,8 +8,8 @@ import chess.PosicionPieza;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.movesgenerators.MoveGenerator;
-import chess.movesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /*
  * Observar que esta clase itera las posiciones en base a colorBoard y luego obtiene la posicion de dummyBoard.

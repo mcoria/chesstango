@@ -8,10 +8,10 @@ import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.movecalculators.DefaultLegalMoveCalculator;
-import chess.movecalculators.MoveFilter;
 import chess.moves.Move;
-import chess.movesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
+import chess.pseudomovesfilters.MoveFilter;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
 /**

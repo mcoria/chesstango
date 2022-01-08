@@ -8,12 +8,12 @@ import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.movecalculators.LegalMoveCalculator;
-import chess.movecalculators.MoveFilter;
 import chess.moves.MoveFactory;
-import chess.movesgenerators.MoveGeneratorStrategy;
 import chess.positioncaptures.Capturer;
 import chess.positioncaptures.ImprovedCapturer;
+import chess.pseudomovesfilters.LegalMoveCalculator;
+import chess.pseudomovesfilters.MoveFilter;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria

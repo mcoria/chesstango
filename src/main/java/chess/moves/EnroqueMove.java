@@ -8,8 +8,8 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.movecalculators.MoveFilter;
 import chess.positioncaptures.Capturer;
+import chess.pseudomovesfilters.MoveFilter;
 
 /**
  * @author Mauricio Coria

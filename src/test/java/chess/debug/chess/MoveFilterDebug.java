@@ -5,9 +5,9 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.movecalculators.MoveFilter;
 import chess.moves.Move;
 import chess.positioncaptures.Capturer;
+import chess.pseudomovesfilters.MoveFilter;
 
 
 /**
