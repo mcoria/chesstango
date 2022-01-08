@@ -59,10 +59,10 @@ public class PeonPasanteMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.d5));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.d5));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -84,10 +84,10 @@ public class PeonPasanteMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d5;
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.e5));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.e5));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -107,10 +107,10 @@ public class PeonPasanteMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d4;
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(Square.e4));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(Square.e4));
 
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLACK);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_BLACK);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -129,10 +129,10 @@ public class PeonPasanteMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e4;
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(Square.d4));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(Square.d4));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLACK);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_BLACK);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -142,11 +142,11 @@ public class PeonPasanteMoveGeneratorTest {
 	}
 
 	private Move createCaptureNegroPeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_BLACK));
+		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PAWN_BLACK));
 	}
 	
 	private Move createCaptureBlancoPeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_WHITE));
+		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PAWN_WHITE));
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

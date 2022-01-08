@@ -52,11 +52,11 @@ public class SaltoDoblePeonMoveTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_WHITE);
+		piezaBoard.setPieza(Square.e2, Pieza.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);		
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PAWN_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e4, null);
 		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);		
 	}
@@ -68,14 +68,14 @@ public class SaltoDoblePeonMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e4));
+		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e4));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e2));
 		assertTrue(piezaBoard.isEmtpy(Square.e4));		
 	}
 		
@@ -126,9 +126,9 @@ public class SaltoDoblePeonMoveTest {
 	@Test
 	public void testBoard() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_WHITE);
+		piezaBoard.setPieza(Square.e2, Pieza.PAWN_WHITE);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_WHITE);
+		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.ROOK_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e4, null);
 		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
 

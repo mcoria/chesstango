@@ -49,9 +49,9 @@ public class PeonBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a3;		
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -69,9 +69,9 @@ public class PeonBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a2;
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -90,9 +90,9 @@ public class PeonBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.a2;
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -110,10 +110,10 @@ public class PeonBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e2;
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.d3));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.d3));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -123,7 +123,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e4, Square.a3) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.d3, Pieza.PEON_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.d3, Pieza.PAWN_BLACK) ));
 	}
 	
 	
@@ -134,10 +134,10 @@ public class PeonBlancoMoveGeneratorTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e2;
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.f3));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.f3));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -147,7 +147,7 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(origen, Square.e4, Square.a3) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.f3, Pieza.PEON_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.f3, Pieza.PAWN_BLACK) ));
 	}
 	
 	@Test
@@ -158,17 +158,17 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Square from = Square.d7;
 		
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.TORRE_WHITE) ));
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.CABALLO_WHITE) ));
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.ALFIL_WHITE) ));
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.ROOK_WHITE) ));
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.KNIGHT_WHITE) ));
+		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.BISHOP_WHITE) ));
 		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.QUEEN_WHITE) ));
 		
 		assertEquals(4, moves.size());
@@ -181,20 +181,20 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		Square from = Square.d7;
 		
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.c8));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.d8));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.c8));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.d8));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_BLACK, Pieza.TORRE_WHITE) ));
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_BLACK, Pieza.CABALLO_WHITE) ));
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_BLACK, Pieza.ALFIL_WHITE) ));
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.TORRE_BLACK, Pieza.QUEEN_WHITE) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.ROOK_WHITE) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.KNIGHT_WHITE) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.BISHOP_WHITE) ));
+		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.QUEEN_WHITE) ));
 		
 		assertEquals(4, moves.size());
 	}

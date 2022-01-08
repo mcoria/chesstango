@@ -52,13 +52,13 @@ public class CapturePeonPromocionTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_WHITE);
-		piezaBoard.setPieza(Square.f8, Pieza.CABALLO_BLACK);
+		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.f8, Pieza.KNIGHT_BLACK);
 		
 		colorBoard = new ColorBoard(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.CABALLO_BLACK);
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.KNIGHT_BLACK);
 		
 		moveExecutor =  new CapturaPeonPromocion(origen, destino, Pieza.QUEEN_WHITE);		
 	}
@@ -77,8 +77,8 @@ public class CapturePeonPromocionTest {
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e7));
-		assertEquals(Pieza.CABALLO_BLACK, piezaBoard.getPieza(Square.f8));		
+		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.KNIGHT_BLACK, piezaBoard.getPieza(Square.f8));		
 	}
 		
 	@Test
@@ -117,10 +117,10 @@ public class CapturePeonPromocionTest {
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_WHITE);
+		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
 
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.CABALLO_BLACK);
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.KNIGHT_BLACK);
 		moveExecutor =  new CapturaPeonPromocion(origen, destino, Pieza.QUEEN_WHITE);
 
 		moveExecutor.executeMove(new KingCacheBoard());

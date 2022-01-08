@@ -14,7 +14,7 @@ public class CastlingBlackKingMove extends CastlingMove {
 	public static final PosicionPieza FROM = new PosicionPieza(Square.e8, Pieza.KING_BLACK);
 	public static final PosicionPieza TO = new PosicionPieza(Square.g8, null);
 	
-	public static final PosicionPieza TORRE_FROM = new PosicionPieza(Square.h8, Pieza.TORRE_BLACK);
+	public static final PosicionPieza TORRE_FROM = new PosicionPieza(Square.h8, Pieza.ROOK_BLACK);
 	public static final PosicionPieza TORRE_TO = new PosicionPieza(Square.f8, null);
 	
 	private static final SimpleKingMove REY_MOVE = new SimpleKingMove(FROM, TO);

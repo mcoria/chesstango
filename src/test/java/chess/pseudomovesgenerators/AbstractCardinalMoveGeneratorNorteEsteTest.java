@@ -64,9 +64,9 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -88,10 +88,10 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_WHITE, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.ROOK_WHITE, tablero.getPieza(Square.h8));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -110,10 +110,10 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.h8));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -123,7 +123,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.g7) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.h8, Pieza.TORRE_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.h8, Pieza.ROOK_BLACK) ));
 	}	
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

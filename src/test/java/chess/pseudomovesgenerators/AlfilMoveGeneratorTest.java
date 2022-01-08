@@ -49,9 +49,9 @@ public class AlfilMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
 
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
@@ -117,10 +117,10 @@ public class AlfilMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.c1;
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.g5));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.g5));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
 
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -130,7 +130,7 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Pieza.PEON_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Pieza.PAWN_BLACK) ));
 		
 		assertEquals(4, moves.size());
 

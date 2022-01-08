@@ -77,7 +77,7 @@ public class MoveFactoryTest {
 		boardState.setCastlingBlackKingPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.QUEEN_BLACK);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.CABALLO_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.KNIGHT_WHITE);
 
 		moveExecutor = moveFactory.createCaptureKingMoveNegro(origen, destino);
 
@@ -95,7 +95,7 @@ public class MoveFactoryTest {
 		boardState.setCastlingWhiteReinaPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.CABALLO_BLACK);
+		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
 
 		moveExecutor = moveFactory.createCaptureKingMoveBlanco(origen, destino);
 

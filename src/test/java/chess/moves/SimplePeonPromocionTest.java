@@ -52,11 +52,11 @@ public class SimplePeonPromocionTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_WHITE);
+		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
 		
 		colorBoard = new ColorBoard(piezaBoard);		
 		
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_WHITE);
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e8, null);
 		moveExecutor =  new SimplePeonPromocion(origen, destino, Pieza.QUEEN_WHITE);		
 	}
@@ -75,7 +75,7 @@ public class SimplePeonPromocionTest {
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e8));		
 	}
 		

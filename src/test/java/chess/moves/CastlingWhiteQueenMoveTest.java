@@ -57,7 +57,7 @@ public class CastlingWhiteQueenMoveTest {
 		boardState.setCastlingWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.a1, Pieza.TORRE_WHITE);	
+		piezaBoard.setPieza(Square.a1, Pieza.ROOK_WHITE);	
 		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);	
 		
 		kingCacheBoard = new KingCacheBoard();
@@ -69,7 +69,7 @@ public class CastlingWhiteQueenMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.c1));		
-		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.d1));
+		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.d1));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.a1));
 		assertTrue(piezaBoard.isEmtpy(Square.e1));
@@ -77,7 +77,7 @@ public class CastlingWhiteQueenMoveTest {
 		moveExecutor.undoMove(piezaBoard);
 		
 		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
-		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.a1));
+		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.a1));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.c1));
 		assertTrue(piezaBoard.isEmtpy(Square.d1));		

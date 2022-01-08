@@ -50,11 +50,11 @@ public class CaballoMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.CABALLO_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(Square.d7));
-		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.f7));		
+		assertEquals(Pieza.KNIGHT_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(Square.d7));
+		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.f7));		
 	
-		PosicionPieza origen = new PosicionPieza(from, Pieza.CABALLO_WHITE);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.KNIGHT_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -67,7 +67,7 @@ public class CaballoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c4) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c6) ));
 		// Peon Blanco en d7
-		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PEON_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PAWN_BLACK) ));
 		
 		assertEquals(7, moves.size());
 	}

@@ -95,28 +95,28 @@ public class ASCIIOutput implements ChessBuilder {
 		char result = ' ';
 		if(pieza != null){
 			switch (pieza) {
-			case PEON_WHITE:
+			case PAWN_WHITE:
 				result = 'P';
 				break;
-			case PEON_BLACK:
+			case PAWN_BLACK:
 				result = 'p';
 				break;		
-			case TORRE_WHITE:
+			case ROOK_WHITE:
 				result = 'R';
 				break;				
-			case TORRE_BLACK:
+			case ROOK_BLACK:
 				result = 'r';
 				break;
-			case CABALLO_WHITE:
+			case KNIGHT_WHITE:
 				result = 'N';
 				break;				
-			case CABALLO_BLACK:
+			case KNIGHT_BLACK:
 				result = 'n';
 				break;
-			case ALFIL_WHITE:
+			case BISHOP_WHITE:
 				result = 'B';
 				break;				
-			case ALFIL_BLACK:
+			case BISHOP_BLACK:
 				result = 'b';
 				break;
 			case QUEEN_WHITE:

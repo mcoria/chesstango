@@ -52,13 +52,13 @@ public class CaptureMoveTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_WHITE);
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_BLACK);
+		piezaBoard.setPieza(Square.e5, Pieza.ROOK_WHITE);
+		piezaBoard.setPieza(Square.e7, Pieza.PAWN_BLACK);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_BLACK);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.ROOK_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PAWN_BLACK);
 
 		moveExecutor = new CaptureMove(origen, destino);
 	}
@@ -70,15 +70,15 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute	
-		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e5));	
 		
 		// undos	
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.e5));
-		assertEquals(Pieza.PEON_BLACK, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.e5));
+		assertEquals(Pieza.PAWN_BLACK, piezaBoard.getPieza(Square.e7));
 	}
 	
 	@Test

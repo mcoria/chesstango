@@ -142,10 +142,10 @@ public class FENCoder implements ChessBuilder {
 	private char getCode(Pieza pieza) {
 		char result;
 		switch (pieza) {
-		case TORRE_BLACK:
+		case ROOK_BLACK:
 			result = 'r';
 			break;
-		case CABALLO_BLACK:
+		case KNIGHT_BLACK:
 			result = 'n';
 			break;
 		case QUEEN_BLACK:
@@ -154,16 +154,16 @@ public class FENCoder implements ChessBuilder {
 		case KING_BLACK:
 			result = 'k';
 			break;
-		case PEON_BLACK:
+		case PAWN_BLACK:
 			result = 'p';
 			break;
-		case ALFIL_BLACK:
+		case BISHOP_BLACK:
 			result = 'b';
 			break;
-		case TORRE_WHITE:
+		case ROOK_WHITE:
 			result = 'R';
 			break;
-		case CABALLO_WHITE:
+		case KNIGHT_WHITE:
 			result = 'N';
 			break;
 		case QUEEN_WHITE:
@@ -172,10 +172,10 @@ public class FENCoder implements ChessBuilder {
 		case KING_WHITE:
 			result = 'K';
 			break;
-		case PEON_WHITE:
+		case PAWN_WHITE:
 			result = 'P';
 			break;
-		case ALFIL_WHITE:
+		case BISHOP_WHITE:
 			result = 'B';
 			break;
 		default:

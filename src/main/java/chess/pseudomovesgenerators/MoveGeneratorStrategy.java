@@ -141,28 +141,28 @@ public class MoveGeneratorStrategy {
 	public MoveGenerator getMoveGenerator(Pieza pieza){
 		MoveGenerator value  = null;
 		switch (pieza) {
-		case PEON_WHITE:
+		case PAWN_WHITE:
 			value = this.pbmg;
 			break;
-		case PEON_BLACK:
+		case PAWN_BLACK:
 			value = this.pnmg;
 			break;
-		case TORRE_WHITE:
+		case ROOK_WHITE:
 			value = this.tbmg;
 			break;
-		case TORRE_BLACK:
+		case ROOK_BLACK:
 			value = this.tnmg;
 			break;
-		case CABALLO_WHITE:
+		case KNIGHT_WHITE:
 			value = this.cbmg;
 			break;
-		case CABALLO_BLACK:
+		case KNIGHT_BLACK:
 			value = this.cnmg;
 			break;
-		case ALFIL_WHITE:
+		case BISHOP_WHITE:
 			value = this.abmg;
 			break;
-		case ALFIL_BLACK:
+		case BISHOP_BLACK:
 			value = this.anmg;
 			break;
 		case QUEEN_WHITE:

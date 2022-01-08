@@ -53,11 +53,11 @@ public class SimpleMoveTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_WHITE);
+		piezaBoard.setPieza(Square.e5, Pieza.ROOK_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_WHITE);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.ROOK_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		moveExecutor =  new SimpleMove(origen, destino);		
 	}
@@ -69,14 +69,14 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e5));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.e5));
+		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.e5));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));		
 	}
 		

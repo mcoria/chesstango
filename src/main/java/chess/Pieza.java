@@ -10,17 +10,17 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 public enum Pieza {
-	PEON_WHITE(Color.WHITE, strategy -> strategy.getPeonBlancoMoveGenerator()),
-	PEON_BLACK(Color.BLACK,  strategy -> strategy.getPeonNegroMoveGenerator()),
+	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPeonBlancoMoveGenerator()),
+	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPeonNegroMoveGenerator()),
 	
-	TORRE_WHITE(Color.WHITE, strategy -> strategy.getTorreBlancaMoveGenerator()),
-	TORRE_BLACK(Color.BLACK, strategy -> strategy.getTorreNegraMoveGenerator()),
+	ROOK_WHITE(Color.WHITE, strategy -> strategy.getTorreBlancaMoveGenerator()),
+	ROOK_BLACK(Color.BLACK, strategy -> strategy.getTorreNegraMoveGenerator()),
 	
-	CABALLO_WHITE(Color.WHITE, strategy -> strategy.getCaballoBlancoMoveGenerator()),
-	CABALLO_BLACK(Color.BLACK, strategy -> strategy.getCaballoNegroMoveGenerator()),
+	KNIGHT_WHITE(Color.WHITE, strategy -> strategy.getCaballoBlancoMoveGenerator()),
+	KNIGHT_BLACK(Color.BLACK, strategy -> strategy.getCaballoNegroMoveGenerator()),
 	
-	ALFIL_WHITE(Color.WHITE, strategy -> strategy.getAlfilBlancoMoveGenerator()),
-	ALFIL_BLACK(Color.BLACK, strategy -> strategy.getAlfilNegroMoveGenerator()),
+	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getAlfilBlancoMoveGenerator()),
+	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getAlfilNegroMoveGenerator()),
 	
 	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getReinaBlancaMoveGenerator()),
 	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getReinaNegraMoveGenerator()),
@@ -69,9 +69,9 @@ public enum Pieza {
 	public static Pieza getAlfil(Color color){
 		switch (color) {
 		case  WHITE:
-			return ALFIL_WHITE;
+			return BISHOP_WHITE;
 		case  BLACK:
-			return ALFIL_BLACK;
+			return BISHOP_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -80,9 +80,9 @@ public enum Pieza {
 	public static Pieza getTorre(Color color){
 		switch (color) {
 		case  WHITE:
-			return TORRE_WHITE;
+			return ROOK_WHITE;
 		case  BLACK:
-			return TORRE_BLACK;
+			return ROOK_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -91,9 +91,9 @@ public enum Pieza {
 	public static Pieza getCaballo(Color color) {
 		switch (color) {
 		case  WHITE:
-			return CABALLO_WHITE;
+			return KNIGHT_WHITE;
 		case  BLACK:
-			return CABALLO_BLACK;
+			return KNIGHT_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -102,9 +102,9 @@ public enum Pieza {
 	public static Pieza getPeon(Color color) {
 		switch (color) {
 		case  WHITE:
-			return PEON_WHITE;
+			return PAWN_WHITE;
 		case  BLACK:
-			return PEON_BLACK;
+			return PAWN_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}

@@ -101,10 +101,10 @@ public class FENParser {
 		Pieza pieza = null;
 		switch (t) {
 			case 'r':
-				pieza = Pieza.TORRE_BLACK;
+				pieza = Pieza.ROOK_BLACK;
 				break;
 			case 'n':
-				pieza = Pieza.CABALLO_BLACK;
+				pieza = Pieza.KNIGHT_BLACK;
 				break;
 			case 'q':
 				pieza = Pieza.QUEEN_BLACK;
@@ -113,16 +113,16 @@ public class FENParser {
 				pieza = Pieza.KING_BLACK;
 				break;
 			case 'p':
-				pieza = Pieza.PEON_BLACK;
+				pieza = Pieza.PAWN_BLACK;
 				break;
 			case 'b':
-				pieza = Pieza.ALFIL_BLACK;
+				pieza = Pieza.BISHOP_BLACK;
 				break;
 			case 'R':
-				pieza = Pieza.TORRE_WHITE;
+				pieza = Pieza.ROOK_WHITE;
 				break;
 			case 'N':
-				pieza = Pieza.CABALLO_WHITE;
+				pieza = Pieza.KNIGHT_WHITE;
 				break;
 			case 'Q':
 				pieza = Pieza.QUEEN_WHITE;
@@ -131,10 +131,10 @@ public class FENParser {
 				pieza = Pieza.KING_WHITE;
 				break;
 			case 'P':
-				pieza = Pieza.PEON_WHITE;
+				pieza = Pieza.PAWN_WHITE;
 				break;
 			case 'B':
-				pieza = Pieza.ALFIL_WHITE;
+				pieza = Pieza.BISHOP_WHITE;
 				break;
 			case '1':
 			case '2':

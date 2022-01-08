@@ -61,7 +61,7 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.a8));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
@@ -89,8 +89,8 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 	
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.a8));
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(Square.f6));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(Square.f6));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
@@ -119,8 +119,8 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.a8));
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(Square.f5));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(Square.f5));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
@@ -149,7 +149,7 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.h8));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
@@ -177,8 +177,8 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.h8));
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(Square.d6));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(Square.d6));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
@@ -207,8 +207,8 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.h8));
-		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(Square.d5));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(Square.d5));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
@@ -238,9 +238,9 @@ public class KingNegroMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		assertEquals(Pieza.KING_BLACK, tablero.getPieza(CachePosiciones.REY_BLACK.getKey()));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.a8));
-		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.h8));
-		assertEquals(Pieza.TORRE_WHITE, tablero.getPieza(Square.e5));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.a8));
+		assertEquals(Pieza.ROOK_BLACK, tablero.getPieza(Square.h8));
+		assertEquals(Pieza.ROOK_WHITE, tablero.getPieza(Square.e5));
 		
 		PosicionPieza origen = new PosicionPieza(CachePosiciones.REY_BLACK.getKey(), Pieza.KING_BLACK);
 		
