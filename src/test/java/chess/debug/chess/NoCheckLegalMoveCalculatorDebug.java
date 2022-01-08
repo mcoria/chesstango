@@ -50,7 +50,7 @@ public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 			}			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de rey fué modificado");
+				System.out.println("El cache de king fué modificado");
 				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
 				reportError = true;
 			}

@@ -34,12 +34,12 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 
 	protected boolean puedeEnroqueReina(
 			final PosicionPieza origen, 
-			final PosicionPieza rey,
+			final PosicionPieza king,
 			final PosicionPieza torre,
 			final Square casilleroIntermedioTorre,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
-		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
+		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( tablero.isEmtpy(casilleroIntermedioTorre)													//El casillero intermedio TORRE esta vacio
 				  && tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino REY esta vacio
@@ -53,11 +53,11 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	
 	protected boolean puedeEnroqueKing(
 			final PosicionPieza origen, 
-			final PosicionPieza rey,
+			final PosicionPieza king,
 			final PosicionPieza torre,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
-		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
+		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino REY esta vacio
 				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio REY esta vacio

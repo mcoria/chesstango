@@ -253,8 +253,8 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
-		assertTrue(moves.contains(  new CastlingBlackKingMove() ));			// No se considera si el rey esta en jaque
-		assertTrue(moves.contains(  new CastlingBlackQueenMove() ));			// No se considera si el rey esta en jaque
+		assertTrue(moves.contains(  new CastlingBlackKingMove() ));			// No se considera si el king esta en jaque
+		assertTrue(moves.contains(  new CastlingBlackQueenMove() ));			// No se considera si el king esta en jaque
 		
 		assertEquals(7, moves.size());
 	}

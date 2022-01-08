@@ -41,7 +41,7 @@ public class MoveFilterDebug extends MoveFilter {
 			}			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de rey fué modificado");
+				System.out.println("El cache de king fué modificado");
 				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
 				reportError = true;
 			}
@@ -76,7 +76,7 @@ public class MoveFilterDebug extends MoveFilter {
 			boolean result = super.filterMoveKing(move);			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de rey fué modificado");
+				System.out.println("El cache de king fué modificado");
 				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
 				reportError = true;
 			}

@@ -37,7 +37,7 @@ public class BoardDebug extends Board {
 	// TODO: validadciones del metodo getBoardStatus(): 
 	//      								a) no modifica el tablero
 	//										b) no modifica el estado
-	//										c) no modifica el cache de rey
+	//										c) no modifica el cache de king
 	public BoardStatus getBoardStatus() {
 		try {
 			boolean reportError = false;
@@ -57,7 +57,7 @@ public class BoardDebug extends Board {
 			}			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de rey fué modificado");
+				System.out.println("El cache de king fué modificado");
 				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
 				reportError = true;
 			}

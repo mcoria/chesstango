@@ -402,7 +402,7 @@ public class GameTest {
 		assertNull(game.getMovimiento(Square.e8, Square.h8));
 		
 		//Undo captura de torre negra ---- Volvemos al estado inicial
-		game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de rey del cache
+		game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de king del cache
 		assertEquals(18, game.getMovimientosPosibles().size());
 		
 		//Movimiento 1 - lo repetimos
@@ -420,10 +420,10 @@ public class GameTest {
 		//Estado inicial
 		assertEquals(26, game.getMovimientosPosibles().size());
 		
-		//Mueve la torre blanca de rey
+		//Mueve la torre blanca de king
 		game.executeMove(Square.h1, Square.h2);
 		
-		//Mueve rey negro
+		//Mueve king negro
 		game.executeMove(Square.e8, Square.e7);
 		
 		game.undoMove();

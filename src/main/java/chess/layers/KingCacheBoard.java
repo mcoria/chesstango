@@ -47,11 +47,11 @@ public class KingCacheBoard {
 	
 	private Square getKingSquareRecorrer(Color color, PosicionPiezaBoard board) {
 		Square kingSquare = null;
-		Pieza rey = Pieza.getKing(color);
+		Pieza king = Pieza.getKing(color);
 		for (PosicionPieza entry : board) {
 			Square currentSquare = entry.getKey();
 			Pieza currentPieza = entry.getValue();
-			if(rey.equals(currentPieza)){
+			if(king.equals(currentPieza)){
 				kingSquare = currentSquare;
 				break;
 			}

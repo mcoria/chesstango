@@ -16,22 +16,22 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 abstract class CastlingMove implements Move  {
-	protected final SimpleKingMove reyMove;
+	protected final SimpleKingMove kingMove;
 	protected final SimpleMove torreMove;	
 	
-	public CastlingMove(SimpleKingMove reyMove, SimpleMove torreMove) {
-		this.reyMove = reyMove;
+	public CastlingMove(SimpleKingMove kingMove, SimpleMove torreMove) {
+		this.kingMove = kingMove;
 		this.torreMove = torreMove;
 	}
 
 	@Override
 	public PosicionPieza getFrom() {
-		return reyMove.getFrom();
+		return kingMove.getFrom();
 	}
 
 	@Override
 	public PosicionPieza getTo() {
-		return reyMove.getTo();
+		return kingMove.getTo();
 	}
 
 	@Override
@@ -48,55 +48,55 @@ abstract class CastlingMove implements Move  {
 	//TODO: Por que no utilizar kingInCheck.getAsBoolean()
 	public boolean filter(MoveFilter filter) {
 		Capturer capturer = filter.getCapturer();
-		Color opositeColor = reyMove.getFrom().getValue().getColor().opositeColor();
-		return !capturer.positionCaptured(opositeColor, reyMove.getFrom().getKey()) // El rey no esta en jaque
-			&& !capturer.positionCaptured(opositeColor, torreMove.getTo().getKey()) // El rey no puede ser capturado en casillero intermedio
-			&& !capturer.positionCaptured(opositeColor, reyMove.getTo().getKey());  // El rey no puede  ser capturado en casillero destino
+		Color opositeColor = kingMove.getFrom().getValue().getColor().opositeColor();
+		return !capturer.positionCaptured(opositeColor, kingMove.getFrom().getKey()) // El king no esta en jaque
+			&& !capturer.positionCaptured(opositeColor, torreMove.getTo().getKey()) // El king no puede ser capturado en casillero intermedio
+			&& !capturer.positionCaptured(opositeColor, kingMove.getTo().getKey());  // El king no puede  ser capturado en casillero destino
 	}	
 	
 	@Override
 	public void executeMove(PosicionPiezaBoard board) {
-		reyMove.executeMove(board);
+		kingMove.executeMove(board);
 		torreMove.executeMove(board);
 	}
 
 
 	@Override
 	public void undoMove(PosicionPiezaBoard board) {
-		reyMove.undoMove(board);
+		kingMove.undoMove(board);
 		torreMove.undoMove(board);
 	}	
 	
 	@Override
 	public void executeMove(BoardState boardState) {
-		reyMove.executeMove(boardState);
+		kingMove.executeMove(boardState);
 	}
 
 	@Override
 	public void undoMove(BoardState boardState) {
-		reyMove.undoMove(boardState);
+		kingMove.undoMove(boardState);
 	}
 
 	@Override
 	public void executeMove(KingCacheBoard kingCacheBoard) {
-		reyMove.executeMove(kingCacheBoard);
+		kingMove.executeMove(kingCacheBoard);
 	}
 
 	@Override
 	public void undoMove(KingCacheBoard kingCacheBoard) {
-		reyMove.undoMove(kingCacheBoard);
+		kingMove.undoMove(kingCacheBoard);
 		
 	}
 	
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
-		reyMove.executeMove(colorBoard);
+		kingMove.executeMove(colorBoard);
 		torreMove.executeMove(colorBoard);
 	}
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
-		reyMove.undoMove(colorBoard);
+		kingMove.undoMove(colorBoard);
 		torreMove.undoMove(colorBoard);
 	}
 	
@@ -104,23 +104,23 @@ abstract class CastlingMove implements Move  {
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {	
 		moveCache.pushCleared();
-		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), true);
+		moveCache.clearPseudoMoves(kingMove.getFrom().getKey(), kingMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(reyMove.getFrom().getKey(), reyMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), false);
+		moveCache.clearPseudoMoves(kingMove.getFrom().getKey(), kingMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), false);
 		moveCache.popCleared();
 	}
 	
 	@Override
 	public int hashCode() {
-		return reyMove.hashCode();
+		return kingMove.hashCode();
 	}
 
 	@Override
 	public int compareTo(Move theOther) {
-		return reyMove.compareTo(theOther);
+		return kingMove.compareTo(theOther);
 	}
 
 	@Override

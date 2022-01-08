@@ -44,11 +44,11 @@ public class ImprovedCapturer implements Capturer {
 		
 		private final Pieza torre;
 		private final Pieza alfil;
-		private final Pieza reyna;
+		private final Pieza queen;
 		private final Pieza caballo;
 		private final int[][] saltosPeon;
 		private final Pieza peon;
-		private final Pieza rey;
+		private final Pieza king;
 		
 		private final int[][] casillerosPeonBlanco = {
 			{ -1, -1 }, 
@@ -65,10 +65,10 @@ public class ImprovedCapturer implements Capturer {
 			this.dummyBoard = dummyBoard;
 			torre =  Pieza.getTorre(color);
 			alfil = Pieza.getAlfil(color);
-			reyna = Pieza.getReina(color);
+			queen = Pieza.getReina(color);
 			caballo = Pieza.getCaballo(color);
 			peon = Pieza.getPeon(color);
-			rey = Pieza.getKing(color);		
+			king = Pieza.getKing(color);		
 			
 
 			if (Color.BLANCO.equals(color)) {
@@ -101,21 +101,21 @@ public class ImprovedCapturer implements Capturer {
 
 		private boolean positionCapturedByDireccion(Square square, Cardinal[] direcciones, Pieza torreOalfil) {		
 			for (Cardinal cardinal : direcciones) {
-				if(cardinalPositionCapturedByPieza(torreOalfil, reyna, square, cardinal)){
+				if(cardinalPositionCapturedByPieza(torreOalfil, queen, square, cardinal)){
 					return true;
 				}
 			}
 			return false;
 		}
 		
-		private boolean cardinalPositionCapturedByPieza(Pieza torreOalfil, Pieza reyna, Square square, Cardinal cardinal) {
+		private boolean cardinalPositionCapturedByPieza(Pieza torreOalfil, Pieza queen, Square square, Cardinal cardinal) {
 			Iterator<PosicionPieza> iterator = this.dummyBoard.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PosicionPieza destino = iterator.next();
 				Pieza pieza = destino.getValue();
 				if (pieza == null) {
 					continue;
-				} else if (reyna.equals(pieza)) {
+				} else if (queen.equals(pieza)) {
 					return true;
 				} else if (torreOalfil.equals(pieza)) {			
 					return true;
@@ -153,7 +153,7 @@ public class ImprovedCapturer implements Capturer {
 			Iterator<PosicionPieza> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, KingAbstractMoveGenerator.SALTOS_REY));
 			while (iterator.hasNext()) {
 			    PosicionPieza destino = iterator.next();
-			    if(rey.equals(destino.getValue())){		    	
+			    if(king.equals(destino.getValue())){		    	
 			    	return true;
 			    }
 			}

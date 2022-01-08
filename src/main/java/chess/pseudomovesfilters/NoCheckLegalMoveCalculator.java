@@ -48,11 +48,11 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		final Color turnoActual = boardState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
-		KingAbstractMoveGenerator reyMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
+		KingAbstractMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden
 		// poner en jaque al King.
-		long pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
+		long pinnedSquares = kingMoveGenerator.getPinnedSquare(kingSquare);
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 
@@ -105,11 +105,11 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		final Color turnoActual = boardState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
-		KingAbstractMoveGenerator reyMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
+		KingAbstractMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden
 		// poner en jaque al King.
-		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
+		Collection<Square> pinnedSquares = kingMoveGenerator.getPinnedSquare(kingSquare);
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 
