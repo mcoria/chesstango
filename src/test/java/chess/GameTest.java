@@ -171,7 +171,7 @@ public class GameTest {
 		
 		game.executeMove(Square.a1, Square.b1);
 		
-		assertFalse(game.getTablero().getBoardState().isCastlingWhiteReinaPermitido());
+		assertFalse(game.getTablero().getBoardState().isCastlingWhiteQueenPermitido());
 		
 		assertEquals(43, game.getMovimientosPosibles().size());
 	}	

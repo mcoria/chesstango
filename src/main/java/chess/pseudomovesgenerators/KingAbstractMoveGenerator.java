@@ -32,7 +32,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 		super(color, SALTOS_REY);
 	}	
 
-	protected boolean puedeEnroqueReina(
+	protected boolean puedeEnroqueQueen(
 			final PosicionPieza origen, 
 			final PosicionPieza king,
 			final PosicionPieza torre,
@@ -72,7 +72,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	private final static Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
 	public long getPinnedSquare(Square kingSquare) {
-		Pieza reina = Pieza.getReina(this.color.opositeColor());
+		Pieza reina = Pieza.getQueen(this.color.opositeColor());
 		Pieza torre = Pieza.getTorre(this.color.opositeColor());
 		Pieza alfil = Pieza.getAlfil(this.color.opositeColor());
 		long pinnedCollection = 0;

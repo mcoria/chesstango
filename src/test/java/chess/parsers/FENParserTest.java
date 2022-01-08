@@ -24,9 +24,9 @@ public class FENParserTest {
 	private Color turno;
 	private Square peonPasanteSquare;
 	private boolean enroqueNegroKingPermitido;
-	private boolean enroqueNegroReinaPermitido;
+	private boolean enroqueNegroQueenPermitido;
 	private boolean enroqueBlancoKingPermitido;
-	private boolean enroqueBlancoReinaPermitido;
+	private boolean enroqueBlancoQueenPermitido;
 	
 	private Pieza[][] tablero = null;
 			
@@ -56,8 +56,8 @@ public class FENParserTest {
 			}
 			
 			@Override
-			public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
-				FENParserTest.this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+			public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
+				FENParserTest.this.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
 			}
 			
 			@Override
@@ -66,8 +66,8 @@ public class FENParserTest {
 			}
 			
 			@Override
-			public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-				FENParserTest.this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+			public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
+				FENParserTest.this.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 			}
 		});
 	}
@@ -262,10 +262,10 @@ public class FENParserTest {
 		
 		assertEquals(Color.WHITE, this.turno);
 		
-		assertTrue(this.enroqueBlancoReinaPermitido);
+		assertTrue(this.enroqueBlancoQueenPermitido);
 		assertTrue(this.enroqueBlancoKingPermitido);
 		
-		assertTrue(this.enroqueNegroReinaPermitido);
+		assertTrue(this.enroqueNegroQueenPermitido);
 		assertTrue(this.enroqueNegroKingPermitido);		
 		
 		assertNull(this.peonPasanteSquare);

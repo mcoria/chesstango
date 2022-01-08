@@ -12,17 +12,17 @@ public class BoardState {
 
 	private Color turnoActual;
 	private Square peonPasanteSquare;
-	private boolean enroqueBlancoReinaPermitido;
+	private boolean enroqueBlancoQueenPermitido;
 	private boolean enroqueBlancoKingPermitido;
-	private boolean enroqueNegroReinaPermitido;
+	private boolean enroqueNegroQueenPermitido;
 	private boolean enroqueNegroKingPermitido;
 	
 	private static class BoardStateNode {
 		private Color turnoActual;
 		private Square peonPasanteSquare;
-		private boolean enroqueBlancoReinaPermitido;
+		private boolean enroqueBlancoQueenPermitido;
 		private boolean enroqueBlancoKingPermitido;
-		private boolean enroqueNegroReinaPermitido;
+		private boolean enroqueNegroQueenPermitido;
 		private boolean enroqueNegroKingPermitido;
 	}
 
@@ -36,12 +36,12 @@ public class BoardState {
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
 	
-	public boolean isCastlingWhiteReinaPermitido() {
-		return enroqueBlancoReinaPermitido;
+	public boolean isCastlingWhiteQueenPermitido() {
+		return enroqueBlancoQueenPermitido;
 	}
 
-	public void setCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+	public void setCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
+		this.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 	}	
 	
 	public boolean isCastlingWhiteKingPermitido() {
@@ -52,12 +52,12 @@ public class BoardState {
 		this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
 	}
 	
-	public boolean isCastlingBlackReinaPermitido() {
-		return enroqueNegroReinaPermitido;
+	public boolean isCastlingBlackQueenPermitido() {
+		return enroqueNegroQueenPermitido;
 	}
 
-	public void setCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+	public void setCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
+		this.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
 	}
 
 	public boolean isCastlingBlackKingPermitido() {
@@ -97,9 +97,9 @@ public class BoardState {
 	private BoardStateNode saveState() {
 		BoardStateNode node = new BoardStateNode();
 		node.peonPasanteSquare = peonPasanteSquare;
-		node.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		node.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 		node.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
-		node.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		node.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
 		node.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
 		node.turnoActual = turnoActual;
 		
@@ -108,9 +108,9 @@ public class BoardState {
 	
 	private void restoreState(BoardStateNode lastState){
 		peonPasanteSquare = lastState.peonPasanteSquare;
-		enroqueBlancoReinaPermitido = lastState.enroqueBlancoReinaPermitido;
+		enroqueBlancoQueenPermitido = lastState.enroqueBlancoQueenPermitido;
 		enroqueBlancoKingPermitido = lastState.enroqueBlancoKingPermitido;
-		enroqueNegroReinaPermitido = lastState.enroqueNegroReinaPermitido;
+		enroqueNegroQueenPermitido = lastState.enroqueNegroQueenPermitido;
 		enroqueNegroKingPermitido = lastState.enroqueNegroKingPermitido;	
 		turnoActual = lastState.turnoActual;	
 	}
@@ -120,9 +120,9 @@ public class BoardState {
 	public BoardState clone() throws CloneNotSupportedException {
 		BoardState clone = new BoardState();
 		clone.peonPasanteSquare = peonPasanteSquare;
-		clone.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+		clone.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 		clone.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
-		clone.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+		clone.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
 		clone.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
 		clone.turnoActual = turnoActual;
 		return clone;
@@ -133,9 +133,9 @@ public class BoardState {
 		if(obj instanceof BoardState){
 			BoardState theInstance = (BoardState) obj;
 			return Objects.equals(this.turnoActual, theInstance.turnoActual) && Objects.equals(this.peonPasanteSquare, theInstance.peonPasanteSquare) &&  
-					this.enroqueBlancoReinaPermitido == theInstance.enroqueBlancoReinaPermitido &&
+					this.enroqueBlancoQueenPermitido == theInstance.enroqueBlancoQueenPermitido &&
 					this.enroqueBlancoKingPermitido == theInstance.enroqueBlancoKingPermitido &&
-					this.enroqueNegroReinaPermitido == theInstance.enroqueNegroReinaPermitido &&
+					this.enroqueNegroQueenPermitido == theInstance.enroqueNegroQueenPermitido &&
 					this.enroqueNegroKingPermitido == theInstance.enroqueNegroKingPermitido;
 		}
 		return false;
@@ -144,9 +144,9 @@ public class BoardState {
 	@Override
 	public String toString() {
 		return "Turno Actual: " + String.format("%-6s", turnoActual.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
-				", enroqueBlancoReinaPermitido: " + enroqueBlancoReinaPermitido +
+				", enroqueBlancoQueenPermitido: " + enroqueBlancoQueenPermitido +
 				", enroqueBlancoKingPermitido: " + enroqueBlancoKingPermitido +
-				", enroqueNegroReinaPermitido: " + enroqueNegroReinaPermitido +
+				", enroqueNegroQueenPermitido: " + enroqueNegroQueenPermitido +
 				", enroqueNegroKingPermitido: " + enroqueNegroKingPermitido 
 		;
 	}

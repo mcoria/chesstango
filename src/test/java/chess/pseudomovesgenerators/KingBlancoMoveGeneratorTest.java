@@ -108,10 +108,10 @@ public class KingBlancoMoveGeneratorTest {
 	
 	
 	@Test
-	public void testCastlingWhiteReina01() {
+	public void testCastlingWhiteQueen01() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/8/R3K3");
 		
-		state.setCastlingWhiteReinaPermitido(true);
+		state.setCastlingWhiteQueenPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -137,10 +137,10 @@ public class KingBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testCastlingWhiteReina02() {
+	public void testCastlingWhiteQueen02() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
 		
-		state.setCastlingWhiteReinaPermitido(true);
+		state.setCastlingWhiteQueenPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -167,10 +167,10 @@ public class KingBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testCastlingWhiteReina03() {
+	public void testCastlingWhiteQueen03() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
 		
-		state.setCastlingWhiteReinaPermitido(true);
+		state.setCastlingWhiteQueenPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -197,10 +197,10 @@ public class KingBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testCastlingWhiteReina04() {
+	public void testCastlingWhiteQueen04() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
 		
-		state.setCastlingWhiteReinaPermitido(true);
+		state.setCastlingWhiteQueenPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -346,7 +346,7 @@ public class KingBlancoMoveGeneratorTest {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
 		
 		state.setCastlingWhiteKingPermitido(true);
-		state.setCastlingWhiteReinaPermitido(true);
+		state.setCastlingWhiteQueenPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));

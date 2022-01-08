@@ -32,16 +32,16 @@ public class FENParser {
 		
 		chessBuilder.withTurno(parseTurno(activeColor));
 		
-		if(isCastlingWhiteReinaPermitido(enroquesPermitidos)){
-			chessBuilder.withCastlingWhiteReinaPermitido(true);
+		if(isCastlingWhiteQueenPermitido(enroquesPermitidos)){
+			chessBuilder.withCastlingWhiteQueenPermitido(true);
 		}
 		
 		if(isCastlingWhiteKingPermitido(enroquesPermitidos)){
 			chessBuilder.withCastlingWhiteKingPermitido(true);
 		}
 		
-		if(isCastlingBlackReinaPermitido(enroquesPermitidos)){
-			chessBuilder.withCastlingBlackReinaPermitido(true);
+		if(isCastlingBlackQueenPermitido(enroquesPermitidos)){
+			chessBuilder.withCastlingBlackQueenPermitido(true);
 		}
 		
 		if(isCastlingBlackKingPermitido(enroquesPermitidos)){
@@ -208,7 +208,7 @@ public class FENParser {
 		return turno;
 	}
 
-	protected boolean isCastlingWhiteReinaPermitido(String enroquesPermitidos){
+	protected boolean isCastlingWhiteQueenPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("Q")){
 			return true;
 		}
@@ -222,7 +222,7 @@ public class FENParser {
 		return false;
 	}	
 	
-	protected boolean isCastlingBlackReinaPermitido(String enroquesPermitidos){
+	protected boolean isCastlingBlackQueenPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("q")){
 			return true;
 		}

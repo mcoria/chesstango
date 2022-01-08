@@ -14,9 +14,9 @@ public class FENCoder implements ChessBuilder {
 	private Color turno;
 	private Square peonPasanteSquare;
 	private boolean enroqueNegroKingPermitido;
-	private boolean enroqueNegroReinaPermitido;
+	private boolean enroqueNegroQueenPermitido;
 	private boolean enroqueBlancoKingPermitido;
-	private boolean enroqueBlancoReinaPermitido;	
+	private boolean enroqueBlancoQueenPermitido;	
 	
 	private Pieza[][] tablero = new Pieza[8][8];
 
@@ -64,7 +64,7 @@ public class FENCoder implements ChessBuilder {
 			stringBuilder.append('K');
 		}
 		
-		if(enroqueBlancoReinaPermitido){
+		if(enroqueBlancoQueenPermitido){
 			stringBuilder.append('Q');
 		}
 		
@@ -72,11 +72,11 @@ public class FENCoder implements ChessBuilder {
 			stringBuilder.append('k');
 		}
 		
-		if(enroqueNegroReinaPermitido){
+		if(enroqueNegroQueenPermitido){
 			stringBuilder.append('q');
 		}		
 		
-		if(!enroqueBlancoKingPermitido && !enroqueBlancoReinaPermitido && !enroqueNegroKingPermitido && !enroqueNegroReinaPermitido){
+		if(!enroqueBlancoKingPermitido && !enroqueBlancoQueenPermitido && !enroqueNegroKingPermitido && !enroqueNegroQueenPermitido){
 			stringBuilder.append('-');
 		}
 				
@@ -104,8 +104,8 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
+	public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
+		this.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
 	}
 	
 	@Override
@@ -114,8 +114,8 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
+	public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
+		this.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 	}
 	
 	protected StringBuilder codePiecePlacementRank(Pieza[] piezas, StringBuilder stringBuilder) {

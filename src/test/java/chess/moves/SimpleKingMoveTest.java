@@ -64,7 +64,7 @@ public class SimpleKingMoveTest {
 		boardState = new BoardState();
 		boardState.setTurnoActual(Color.WHITE);
 		boardState.setCastlingWhiteKingPermitido(true);
-		boardState.setCastlingWhiteReinaPermitido(true);
+		boardState.setCastlingWhiteQueenPermitido(true);
 	}
 	
 	

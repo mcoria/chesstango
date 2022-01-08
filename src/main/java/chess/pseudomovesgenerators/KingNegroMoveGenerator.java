@@ -30,14 +30,14 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PosicionPieza origen) {		
 		super.generateMovesPseudoMoves(origen);
 		
-		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackReinaPermitido() ||  this.boardState.isCastlingBlackKingPermitido()) ;
+		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackQueenPermitido() ||  this.boardState.isCastlingBlackKingPermitido()) ;
 		
-		if (this.boardState.isCastlingBlackReinaPermitido()){
+		if (this.boardState.isCastlingBlackQueenPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
 			result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
 			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);		
 			result.affectedByContainerAdd(Square.a8); //La posicion de la torre
-			if(puedeEnroqueReina(	origen, 
+			if(puedeEnroqueQueen(	origen, 
 								CachePosiciones.REY_BLACK, 
 								CachePosiciones.TORRE_BLACK_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 

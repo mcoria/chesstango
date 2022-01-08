@@ -53,7 +53,7 @@ public class CastlingWhiteQueenMoveTest {
 		
 		boardState = new BoardState();		
 		boardState.setTurnoActual(Color.WHITE);
-		boardState.setCastlingWhiteReinaPermitido(true);
+		boardState.setCastlingWhiteQueenPermitido(true);
 		boardState.setCastlingWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
@@ -89,14 +89,14 @@ public class CastlingWhiteQueenMoveTest {
 
 		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());		
-		assertFalse(boardState.isCastlingWhiteReinaPermitido());
+		assertFalse(boardState.isCastlingWhiteQueenPermitido());
 		assertFalse(boardState.isCastlingWhiteKingPermitido());
 		
 		moveExecutor.undoMove(boardState);
 		
 		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.WHITE, boardState.getTurnoActual());		
-		assertTrue(boardState.isCastlingWhiteReinaPermitido());
+		assertTrue(boardState.isCastlingWhiteQueenPermitido());
 		assertTrue(boardState.isCastlingWhiteKingPermitido());		
 		
 	}	

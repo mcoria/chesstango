@@ -51,8 +51,8 @@ public class ChessBuilderParts implements ChessBuilder {
 
 
 	@Override
-	public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		this.getState().setCastlingWhiteReinaPermitido(enroqueBlancoReinaPermitido);
+	public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
+		this.getState().setCastlingWhiteQueenPermitido(enroqueBlancoQueenPermitido);
 	}
 
 	@Override
@@ -62,8 +62,8 @@ public class ChessBuilderParts implements ChessBuilder {
 
 
 	@Override
-	public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		this.getState().setCastlingBlackReinaPermitido(enroqueNegroReinaPermitido);
+	public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
+		this.getState().setCastlingBlackQueenPermitido(enroqueNegroQueenPermitido);
 	}
 
 

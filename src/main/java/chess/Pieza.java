@@ -22,8 +22,8 @@ public enum Pieza {
 	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getAlfilBlancoMoveGenerator()),
 	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getAlfilNegroMoveGenerator()),
 	
-	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getReinaBlancaMoveGenerator()),
-	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getReinaNegraMoveGenerator()),
+	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getQueenBlancaMoveGenerator()),
+	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getQueenNegraMoveGenerator()),
 	
 	KING_WHITE(Color.WHITE, strategy -> strategy.getKingBlancoMoveGenerator()),
 	KING_BLACK(Color.BLACK, strategy -> strategy.getKingNegroMoveGenerator());
@@ -55,7 +55,7 @@ public enum Pieza {
 		}
 	}
 	
-	public static Pieza getReina(Color color){
+	public static Pieza getQueen(Color color){
 		switch (color) {
 		case  WHITE:
 			return QUEEN_WHITE;

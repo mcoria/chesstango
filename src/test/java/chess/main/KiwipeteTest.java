@@ -876,7 +876,7 @@ public class KiwipeteTest {
 		
 		PerftResult result= main.start(board, 4);
 		
-		assertFalse(board.getTablero().getBoardState().isCastlingWhiteReinaPermitido());
+		assertFalse(board.getTablero().getBoardState().isCastlingWhiteQueenPermitido());
 		
 		assertEquals(43, result.getMovesCount());
 		assertEquals(3827454, result.getTotalNodes());

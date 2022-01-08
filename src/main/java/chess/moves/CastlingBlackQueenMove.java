@@ -29,7 +29,7 @@ public class CastlingBlackQueenMove extends CastlingMove {
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
 		boardState.setCastlingBlackKingPermitido(false);
-		boardState.setCastlingBlackReinaPermitido(false);
+		boardState.setCastlingBlackQueenPermitido(false);
 	}
 	
 	@Override

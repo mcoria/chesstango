@@ -21,14 +21,14 @@ import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.ReinaMoveGenerator;
+import chess.pseudomovesgenerators.QueenMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ReinaMoveGeneratorTest {
-	private ReinaMoveGenerator moveGenerator;
+public class QueenMoveGeneratorTest {
+	private QueenMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -37,7 +37,7 @@ public class ReinaMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new ReinaMoveGenerator(Color.WHITE);
+		moveGenerator = new QueenMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}

@@ -65,7 +65,7 @@ public class ASCIIOutput implements ChessBuilder {
 
 
 	@Override
-	public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+	public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -79,7 +79,7 @@ public class ASCIIOutput implements ChessBuilder {
 
 
 	@Override
-	public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
+	public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
 		// TODO Auto-generated method stub
 		
 	}

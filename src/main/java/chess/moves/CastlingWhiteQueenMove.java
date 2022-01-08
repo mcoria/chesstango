@@ -28,7 +28,7 @@ public class CastlingWhiteQueenMove extends CastlingMove {
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
 		boardState.setCastlingWhiteKingPermitido(false);
-		boardState.setCastlingWhiteReinaPermitido(false);
+		boardState.setCastlingWhiteQueenPermitido(false);
 	}
 	
 	@Override

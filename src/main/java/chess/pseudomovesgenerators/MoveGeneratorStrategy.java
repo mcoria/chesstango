@@ -25,8 +25,8 @@ public class MoveGeneratorStrategy {
 	private CaballoMoveGenerator cnmg;
 	private AlfilMoveGenerator abmg;
 	private AlfilMoveGenerator anmg;
-	private ReinaMoveGenerator rebmg;
-	private ReinaMoveGenerator renmg;
+	private QueenMoveGenerator rebmg;
+	private QueenMoveGenerator renmg;
 	private KingBlancoMoveGenerator rbmg;
 	private KingNegroMoveGenerator rnmg;
 
@@ -49,9 +49,9 @@ public class MoveGeneratorStrategy {
 		
 		anmg = new AlfilMoveGenerator(Color.BLACK);
 		
-		rebmg = new ReinaMoveGenerator(Color.WHITE);
+		rebmg = new QueenMoveGenerator(Color.WHITE);
 		
-		renmg = new ReinaMoveGenerator(Color.BLACK);
+		renmg = new QueenMoveGenerator(Color.BLACK);
 		
 		rbmg = new KingBlancoMoveGenerator();
 		
@@ -118,11 +118,11 @@ public class MoveGeneratorStrategy {
 		return anmg;
 	}	
 	
-	public ReinaMoveGenerator getReinaBlancaMoveGenerator() {
+	public QueenMoveGenerator getQueenBlancaMoveGenerator() {
 		return rebmg;
 	}
 	
-	public ReinaMoveGenerator getReinaNegraMoveGenerator() {
+	public QueenMoveGenerator getQueenNegraMoveGenerator() {
 		return renmg;
 	}	
 	

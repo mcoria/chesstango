@@ -65,7 +65,7 @@ public class ImprovedCapturer implements Capturer {
 			this.dummyBoard = dummyBoard;
 			torre =  Pieza.getTorre(color);
 			alfil = Pieza.getAlfil(color);
-			queen = Pieza.getReina(color);
+			queen = Pieza.getQueen(color);
 			caballo = Pieza.getCaballo(color);
 			peon = Pieza.getPawn(color);
 			king = Pieza.getKing(color);		
