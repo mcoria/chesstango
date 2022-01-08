@@ -14,13 +14,13 @@ public interface ChessBuilder {
 
 	void withPeonPasanteSquare(Square peonPasanteSquare);
 
-	void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido);
+	void withCastleWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido);
 
-	void withEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido);
+	void withCastleWhiteKingPermitido(boolean enroqueBlancoKingPermitido);
 
-	void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido);
+	void withCastleBlackReinaPermitido(boolean enroqueNegroReinaPermitido);
 
-	void withEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido);
+	void withCastleBlackKingPermitido(boolean enroqueNegroKingPermitido);
 	
 	void withPieza(Square square, Pieza pieza);	
 

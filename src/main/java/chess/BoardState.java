@@ -36,35 +36,35 @@ public class BoardState {
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
 	
-	public boolean isEnroqueBlancoReinaPermitido() {
+	public boolean isCastleWhiteReinaPermitido() {
 		return enroqueBlancoReinaPermitido;
 	}
 
-	public void setEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+	public void setCastleWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
 		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 	}	
 	
-	public boolean isEnroqueBlancoKingPermitido() {
+	public boolean isCastleWhiteKingPermitido() {
 		return enroqueBlancoKingPermitido;
 	}
 
-	public void setEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido) {
+	public void setCastleWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
 		this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
 	}
 	
-	public boolean isEnroqueNegroReinaPermitido() {
+	public boolean isCastleBlackReinaPermitido() {
 		return enroqueNegroReinaPermitido;
 	}
 
-	public void setEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido) {
+	public void setCastleBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
 		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
 	}
 
-	public boolean isEnroqueNegroKingPermitido() {
+	public boolean isCastleBlackKingPermitido() {
 		return enroqueNegroKingPermitido;
 	}
 
-	public void setEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido) {
+	public void setCastleBlackKingPermitido(boolean enroqueNegroKingPermitido) {
 		this.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
 	}
 	

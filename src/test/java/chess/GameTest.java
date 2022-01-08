@@ -11,7 +11,7 @@ import org.junit.Test;
 import chess.Game.GameStatus;
 import chess.builder.ChessBuilderGame;
 import chess.debug.builder.DebugChessFactory;
-import chess.moves.EnroqueNegroKingMove;
+import chess.moves.CastleBlackKingMove;
 import chess.parsers.FENParser;
 
 
@@ -171,7 +171,7 @@ public class GameTest {
 		
 		game.executeMove(Square.a1, Square.b1);
 		
-		assertFalse(game.getTablero().getBoardState().isEnroqueBlancoReinaPermitido());
+		assertFalse(game.getTablero().getBoardState().isCastleWhiteReinaPermitido());
 		
 		assertEquals(43, game.getMovimientosPosibles().size());
 	}	
@@ -386,8 +386,8 @@ public class GameTest {
 		//Movimiento 1 - cualquier movimiento
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getMovimientosPosibles().size()); 
-		//EnroqueNegroKingMove es uno de los movimientos posibles
-		assertEquals(new EnroqueNegroKingMove(), game.getMovimiento(Square.e8, Square.g8));
+		//CastleBlackKingMove es uno de los movimientos posibles
+		assertEquals(new CastleBlackKingMove(), game.getMovimiento(Square.e8, Square.g8));
 		
 		//Undo movimiento 1 y volvemos al estado inicial
 		game.undoMove();
@@ -408,8 +408,8 @@ public class GameTest {
 		//Movimiento 1 - lo repetimos
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getMovimientosPosibles().size()); 
-		//EnroqueNegroKingMove es uno de los movimientos posibles
-		assertEquals(new EnroqueNegroKingMove(), game.getMovimiento(Square.e8, Square.g8));
+		//CastleBlackKingMove es uno de los movimientos posibles
+		assertEquals(new CastleBlackKingMove(), game.getMovimiento(Square.e8, Square.g8));
 	}
 	
 	

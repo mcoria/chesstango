@@ -104,8 +104,8 @@ public class FENCoderTest {
 	
 	
 	@Test
-	public void withEnroqueBlancoKingPermitido() {
-		coder.withEnroqueBlancoKingPermitido(true);
+	public void withCastleWhiteKingPermitido() {
+		coder.withCastleWhiteKingPermitido(true);
 		
 		String actual = coder.getEnroques(stringBuilder).toString();
 		
@@ -113,8 +113,8 @@ public class FENCoderTest {
 	}
 	
 	@Test
-	public void withEnroqueBlancoReinaPermitido() {
-		coder.withEnroqueBlancoReinaPermitido(true);
+	public void withCastleWhiteReinaPermitido() {
+		coder.withCastleWhiteReinaPermitido(true);
 		
 		String actual = coder.getEnroques(stringBuilder).toString();
 		
@@ -122,8 +122,8 @@ public class FENCoderTest {
 	}
 	
 	@Test
-	public void withEnroqueNegroKingPermitido() {
-		coder.withEnroqueNegroKingPermitido(true);
+	public void withCastleBlackKingPermitido() {
+		coder.withCastleBlackKingPermitido(true);
 		
 		String actual = coder.getEnroques(stringBuilder).toString();
 		
@@ -131,8 +131,8 @@ public class FENCoderTest {
 	}
 	
 	@Test
-	public void withEnroqueNegroReinaPermitido() {
-		coder.withEnroqueNegroReinaPermitido(true);
+	public void withCastleBlackReinaPermitido() {
+		coder.withCastleBlackReinaPermitido(true);
 		
 		String actual = coder.getEnroques(stringBuilder).toString();
 		
@@ -235,10 +235,10 @@ public class FENCoderTest {
 		
 		coder.withPeonPasanteSquare(null);
 		
-		coder.withEnroqueBlancoReinaPermitido(true);
-		coder.withEnroqueBlancoKingPermitido(true);
-		coder.withEnroqueNegroReinaPermitido(true);
-		coder.withEnroqueNegroKingPermitido(true);
+		coder.withCastleWhiteReinaPermitido(true);
+		coder.withCastleWhiteKingPermitido(true);
+		coder.withCastleBlackReinaPermitido(true);
+		coder.withCastleBlackKingPermitido(true);
 		
 		
 		String actual = coder.getFEN();

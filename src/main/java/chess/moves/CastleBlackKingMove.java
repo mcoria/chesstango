@@ -9,7 +9,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class EnroqueNegroKingMove extends EnroqueMove {
+public class CastleBlackKingMove extends CastleMove {
 
 	public static final PosicionPieza FROM = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
 	public static final PosicionPieza TO = new PosicionPieza(Square.g8, null);
@@ -20,20 +20,20 @@ public class EnroqueNegroKingMove extends EnroqueMove {
 	private static final SimpleKingMove REY_MOVE = new SimpleKingMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
-	public EnroqueNegroKingMove() {
+	public CastleBlackKingMove() {
 		super(REY_MOVE, TORRE_MOVE);
 	}
 	
 	@Override
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
-		boardState.setEnroqueNegroKingPermitido(false);
-		boardState.setEnroqueNegroReinaPermitido(false);
+		boardState.setCastleBlackKingPermitido(false);
+		boardState.setCastleBlackReinaPermitido(false);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof EnroqueNegroKingMove){
+		if(obj instanceof CastleBlackKingMove){
 			return true;
 		}
 		return false;

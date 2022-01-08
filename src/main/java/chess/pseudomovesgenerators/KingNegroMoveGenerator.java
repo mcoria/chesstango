@@ -4,8 +4,8 @@ import chess.CachePosiciones;
 import chess.Color;
 import chess.PosicionPieza;
 import chess.Square;
-import chess.moves.EnroqueNegroKingMove;
-import chess.moves.EnroqueNegroQueenMove;
+import chess.moves.CastleBlackKingMove;
+import chess.moves.CastleBlackQueenMove;
 import chess.moves.Move;
 
 /**
@@ -30,9 +30,9 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PosicionPieza origen) {		
 		super.generateMovesPseudoMoves(origen);
 		
-		//this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroKingPermitido()) ;
+		//this.saveMovesInCache =  ! (this.boardState.isCastleBlackReinaPermitido() ||  this.boardState.isCastleBlackKingPermitido()) ;
 		
-		if (this.boardState.isEnroqueNegroReinaPermitido()){
+		if (this.boardState.isCastleBlackReinaPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
 			result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
 			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);		
@@ -43,12 +43,12 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-				result.moveContainerAdd(new EnroqueNegroQueenMove());
+				result.moveContainerAdd(new CastleBlackQueenMove());
 			}
 		}
 			
 			
-		if (this.boardState.isEnroqueNegroKingPermitido()){
+		if (this.boardState.isCastleBlackKingPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
 			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
@@ -57,7 +57,7 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 								CachePosiciones.TORRE_NEGRO_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
-				result.moveContainerAdd(new EnroqueNegroKingMove());
+				result.moveContainerAdd(new CastleBlackKingMove());
 			}
 		}
 	}

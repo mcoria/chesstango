@@ -21,7 +21,7 @@ import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moves.EnroqueBlancoKingMove;
+import chess.moves.CastleWhiteKingMove;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -30,13 +30,13 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class EnroqueBlancoKingMoveTest {
+public class CastleWhiteKingMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
 	private BoardStateDebug boardState;	
 	
-	private EnroqueBlancoKingMove moveExecutor;
+	private CastleWhiteKingMove moveExecutor;
 	
 	private KingCacheBoardDebug kingCacheBoard;
 	
@@ -50,12 +50,12 @@ public class EnroqueBlancoKingMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = new EnroqueBlancoKingMove();
+		moveExecutor = new CastleWhiteKingMove();
 		
 		boardState = new BoardStateDebug();		
 		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoReinaPermitido(false);
-		boardState.setEnroqueBlancoKingPermitido(true);
+		boardState.setCastleWhiteReinaPermitido(false);
+		boardState.setCastleWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.e1, Pieza.REY_BLANCO);
@@ -92,8 +92,8 @@ public class EnroqueBlancoKingMoveTest {
 		// asserts execute
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
-		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
-		assertFalse(boardState.isEnroqueBlancoKingPermitido());
+		assertFalse(boardState.isCastleWhiteReinaPermitido());
+		assertFalse(boardState.isCastleWhiteKingPermitido());
 		boardState.validar();
 		
 		// undos
@@ -102,8 +102,8 @@ public class EnroqueBlancoKingMoveTest {
 		// asserts undos		
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
-		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
-		assertTrue(boardState.isEnroqueBlancoKingPermitido());
+		assertFalse(boardState.isCastleWhiteReinaPermitido());
+		assertTrue(boardState.isCastleWhiteKingPermitido());
 		boardState.validar();
 		
 	}

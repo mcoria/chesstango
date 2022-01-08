@@ -36,8 +36,8 @@ public class MoveFactoryTest {
 	@Test
 	public void testSimpleKingMoveBlancoPierdeEnroque() {
 		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroKingPermitido(true);
+		boardState.setCastleBlackReinaPermitido(true);
+		boardState.setCastleBlackKingPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.REINA_NEGRO);
@@ -47,16 +47,16 @@ public class MoveFactoryTest {
 		moveExecutor.executeMove(boardState);
 
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueBlancoKingPermitido());
-		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
+		assertFalse(boardState.isCastleWhiteKingPermitido());
+		assertFalse(boardState.isCastleWhiteReinaPermitido());
 	}
 	
 	
 	@Test
 	public void testSimpleKingMoveNegroPierdeEnroque() {
 		boardState.setTurnoActual(Color.NEGRO);
-		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroKingPermitido(true);
+		boardState.setCastleBlackReinaPermitido(true);
+		boardState.setCastleBlackKingPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
@@ -66,15 +66,15 @@ public class MoveFactoryTest {
 		moveExecutor.executeMove(boardState);
 
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueNegroReinaPermitido());
-		assertFalse(boardState.isEnroqueNegroKingPermitido());
+		assertFalse(boardState.isCastleBlackReinaPermitido());
+		assertFalse(boardState.isCastleBlackKingPermitido());
 	}
 	
 	@Test
 	public void testCapturaKingMoveNegroPierdeEnroque() {
 		boardState.setTurnoActual(Color.NEGRO);
-		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroKingPermitido(true);
+		boardState.setCastleBlackReinaPermitido(true);
+		boardState.setCastleBlackKingPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e8, Pieza.REINA_NEGRO);
 		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.CABALLO_BLANCO);
@@ -84,15 +84,15 @@ public class MoveFactoryTest {
 		moveExecutor.executeMove(boardState);
 
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueNegroReinaPermitido());
-		assertFalse(boardState.isEnroqueNegroKingPermitido());
+		assertFalse(boardState.isCastleBlackReinaPermitido());
+		assertFalse(boardState.isCastleBlackKingPermitido());
 	}
 	
 	@Test
 	public void testCapturaKingMoveBlancoPierdeEnroque() {
 		boardState.setTurnoActual(Color.BLANCO);
-		boardState.setEnroqueBlancoKingPermitido(true);
-		boardState.setEnroqueBlancoReinaPermitido(true);
+		boardState.setCastleWhiteKingPermitido(true);
+		boardState.setCastleWhiteReinaPermitido(true);
 
 		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
 		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.CABALLO_NEGRO);
@@ -102,8 +102,8 @@ public class MoveFactoryTest {
 		moveExecutor.executeMove(boardState);
 
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());
-		assertFalse(boardState.isEnroqueBlancoKingPermitido());
-		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
+		assertFalse(boardState.isCastleWhiteKingPermitido());
+		assertFalse(boardState.isCastleWhiteReinaPermitido());
 	}	
 	
 }

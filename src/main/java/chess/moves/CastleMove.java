@@ -15,11 +15,11 @@ import chess.pseudomovesfilters.MoveFilter;
  * @author Mauricio Coria
  *
  */
-abstract class EnroqueMove implements Move  {
+abstract class CastleMove implements Move  {
 	protected final SimpleKingMove reyMove;
 	protected final SimpleMove torreMove;	
 	
-	public EnroqueMove(SimpleKingMove reyMove, SimpleMove torreMove) {
+	public CastleMove(SimpleKingMove reyMove, SimpleMove torreMove) {
 		this.reyMove = reyMove;
 		this.torreMove = torreMove;
 	}

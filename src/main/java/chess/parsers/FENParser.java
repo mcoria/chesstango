@@ -32,20 +32,20 @@ public class FENParser {
 		
 		chessBuilder.withTurno(parseTurno(activeColor));
 		
-		if(isEnroqueBlancoReinaPermitido(enroquesPermitidos)){
-			chessBuilder.withEnroqueBlancoReinaPermitido(true);
+		if(isCastleWhiteReinaPermitido(enroquesPermitidos)){
+			chessBuilder.withCastleWhiteReinaPermitido(true);
 		}
 		
-		if(isEnroqueBlancoKingPermitido(enroquesPermitidos)){
-			chessBuilder.withEnroqueBlancoKingPermitido(true);
+		if(isCastleWhiteKingPermitido(enroquesPermitidos)){
+			chessBuilder.withCastleWhiteKingPermitido(true);
 		}
 		
-		if(isEnroqueNegroReinaPermitido(enroquesPermitidos)){
-			chessBuilder.withEnroqueNegroReinaPermitido(true);
+		if(isCastleBlackReinaPermitido(enroquesPermitidos)){
+			chessBuilder.withCastleBlackReinaPermitido(true);
 		}
 		
-		if(isEnroqueNegroKingPermitido(enroquesPermitidos)){
-			chessBuilder.withEnroqueNegroKingPermitido(true);
+		if(isCastleBlackKingPermitido(enroquesPermitidos)){
+			chessBuilder.withCastleBlackKingPermitido(true);
 		}
 		
 	}
@@ -208,28 +208,28 @@ public class FENParser {
 		return turno;
 	}
 
-	protected boolean isEnroqueBlancoReinaPermitido(String enroquesPermitidos){
+	protected boolean isCastleWhiteReinaPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("Q")){
 			return true;
 		}
 		return false;
 	}
 	
-	protected boolean isEnroqueBlancoKingPermitido(String enroquesPermitidos){
+	protected boolean isCastleWhiteKingPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("K")){
 			return true;
 		}
 		return false;
 	}	
 	
-	protected boolean isEnroqueNegroReinaPermitido(String enroquesPermitidos){
+	protected boolean isCastleBlackReinaPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("q")){
 			return true;
 		}
 		return false;
 	}
 	
-	protected boolean isEnroqueNegroKingPermitido(String enroquesPermitidos){
+	protected boolean isCastleBlackKingPermitido(String enroquesPermitidos){
 		if(enroquesPermitidos.contains("k")){
 			return true;
 		}
