@@ -10,10 +10,10 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moveexecutors.Move;
-import chess.movegenerators.MoveGeneratorResult;
-import chess.movegenerators.MoveGeneratorStrategy;
-import chess.movegenerators.ReyAbstractMoveGenerator;
+import chess.moves.Move;
+import chess.movesgenerators.MoveGeneratorResult;
+import chess.movesgenerators.MoveGeneratorStrategy;
+import chess.movesgenerators.ReyAbstractMoveGenerator;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos

@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import chess.layers.KingCacheBoard;
 import chess.movecalculators.LegalMoveCalculator;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 import chess.positioncaptures.Capturer;
 
 /*

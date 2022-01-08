@@ -11,7 +11,7 @@ import org.junit.Test;
 import chess.Game.GameStatus;
 import chess.builder.ChessBuilderGame;
 import chess.debug.builder.DebugChessFactory;
-import chess.moveexecutors.EnroqueNegroReyMove;
+import chess.moves.EnroqueNegroReyMove;
 import chess.parsers.FENParser;
 
 

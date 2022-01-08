@@ -3,7 +3,7 @@ package chess.main;
 import java.util.Map;
 
 import chess.Square;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 
 /**
  * @author Mauricio Coria

@@ -5,7 +5,7 @@ import chess.BoardState;
 import chess.BoardStatus;
 import chess.layers.KingCacheBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 
 
 /**

@@ -6,10 +6,10 @@ import java.util.Deque;
 
 import chess.PosicionPieza;
 import chess.Square;
-import chess.moveexecutors.Move;
-import chess.movegenerators.MoveGenerator;
-import chess.movegenerators.MoveGeneratorResult;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.moves.Move;
+import chess.movesgenerators.MoveGenerator;
+import chess.movesgenerators.MoveGeneratorResult;
+import chess.movesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria

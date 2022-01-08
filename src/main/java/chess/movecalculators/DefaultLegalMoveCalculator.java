@@ -9,9 +9,9 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moveexecutors.Move;
-import chess.movegenerators.MoveGeneratorResult;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.moves.Move;
+import chess.movesgenerators.MoveGeneratorResult;
+import chess.movesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria

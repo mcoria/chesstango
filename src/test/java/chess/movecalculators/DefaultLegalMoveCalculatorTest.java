@@ -13,7 +13,7 @@ import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.movecalculators.DefaultLegalMoveCalculator;
 import chess.movecalculators.MoveFilter;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.movesgenerators.MoveGeneratorStrategy;
 import chess.parsers.FENParser;
 import chess.positioncaptures.Capturer;
 import chess.positioncaptures.ImprovedCapturer;

@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import chess.Square;
 import chess.iterators.SaltoSquareIterator;
-import chess.movegenerators.CaballoMoveGenerator;
+import chess.movesgenerators.CaballoMoveGenerator;
 
 
 /**

@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.layers.MoveCacheBoard;
-import chess.moveexecutors.MoveFactory;
-import chess.movegenerators.MoveGeneratorResult;
+import chess.moves.MoveFactory;
+import chess.movesgenerators.MoveGeneratorResult;
 
 
 /**

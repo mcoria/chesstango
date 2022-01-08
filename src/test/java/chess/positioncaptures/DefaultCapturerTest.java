@@ -11,7 +11,7 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.movesgenerators.MoveGeneratorStrategy;
 import chess.parsers.FENParser;
 import chess.positioncaptures.IteratorCapturer;
 

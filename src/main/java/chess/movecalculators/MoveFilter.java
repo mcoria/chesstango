@@ -5,7 +5,7 @@ import chess.Color;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 import chess.positioncaptures.Capturer;
 
 

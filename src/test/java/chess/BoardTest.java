@@ -12,10 +12,10 @@ import org.junit.Test;
 
 import chess.builder.ChessBuilderBoard;
 import chess.debug.builder.DebugChessFactory;
-import chess.moveexecutors.EnroqueBlancoReyMove;
-import chess.moveexecutors.EnroqueBlancoReynaMove;
-import chess.moveexecutors.Move;
-import chess.moveexecutors.MoveFactory;
+import chess.moves.EnroqueBlancoReyMove;
+import chess.moves.EnroqueBlancoReynaMove;
+import chess.moves.Move;
+import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 
 

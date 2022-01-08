@@ -6,7 +6,7 @@ import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
 import chess.movecalculators.MoveFilter;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 import chess.positioncaptures.Capturer;
 
 

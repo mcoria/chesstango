@@ -12,7 +12,7 @@ import chess.Game;
 import chess.builder.ChessBuilderGame;
 import chess.movecalculators.DefaultLegalMoveCalculator;
 import chess.movecalculators.NoCheckLegalMoveCalculator;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 import chess.parsers.FENParser;
 
 /**

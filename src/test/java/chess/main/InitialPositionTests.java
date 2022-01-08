@@ -13,7 +13,7 @@ import chess.Square;
 import chess.builder.ChessBuilderGame;
 import chess.main.ChessMain;
 import chess.main.PerftResult;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 import chess.parsers.FENParser;
 
 

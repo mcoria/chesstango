@@ -12,10 +12,10 @@ import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
 import chess.movecalculators.MoveFilter;
 import chess.movecalculators.NoCheckLegalMoveCalculator;
-import chess.moveexecutors.Move;
-import chess.movegenerators.MoveGenerator;
-import chess.movegenerators.MoveGeneratorResult;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.moves.Move;
+import chess.movesgenerators.MoveGenerator;
+import chess.movesgenerators.MoveGeneratorResult;
+import chess.movesgenerators.MoveGeneratorStrategy;
 
 
 /**

@@ -10,8 +10,8 @@ import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.movecalculators.LegalMoveCalculator;
 import chess.movecalculators.MoveFilter;
-import chess.moveexecutors.MoveFactory;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.moves.MoveFactory;
+import chess.movesgenerators.MoveGeneratorStrategy;
 import chess.positioncaptures.Capturer;
 import chess.positioncaptures.ImprovedCapturer;
 

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import chess.Square;
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 
 /**
  * @author Mauricio Coria

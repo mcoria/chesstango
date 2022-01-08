@@ -18,7 +18,7 @@ import chess.layers.PosicionPiezaBoard;
 import chess.movecalculators.DefaultLegalMoveCalculator;
 import chess.movecalculators.MoveFilter;
 import chess.movecalculators.NoCheckLegalMoveCalculator;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.movesgenerators.MoveGeneratorStrategy;
 import chess.positioncaptures.Capturer;
 
 

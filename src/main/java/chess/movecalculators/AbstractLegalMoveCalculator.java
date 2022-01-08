@@ -10,11 +10,11 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moveexecutors.Move;
-import chess.movegenerators.MoveGenerator;
-import chess.movegenerators.MoveGeneratorResult;
-import chess.movegenerators.MoveGeneratorStrategy;
-import chess.movegenerators.PeonPasanteMoveGenerator;
+import chess.moves.Move;
+import chess.movesgenerators.MoveGenerator;
+import chess.movesgenerators.MoveGeneratorResult;
+import chess.movesgenerators.MoveGeneratorStrategy;
+import chess.movesgenerators.PeonPasanteMoveGenerator;
 
 /**
  * @author Mauricio Coria

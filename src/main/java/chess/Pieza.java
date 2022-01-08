@@ -2,8 +2,8 @@ package chess;
 
 import java.util.function.Function;
 
-import chess.movegenerators.MoveGenerator;
-import chess.movegenerators.MoveGeneratorStrategy;
+import chess.movesgenerators.MoveGenerator;
+import chess.movesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria

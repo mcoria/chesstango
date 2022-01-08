@@ -10,8 +10,8 @@ import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
 import chess.iterators.SaltoSquareIterator;
 import chess.layers.PosicionPiezaBoard;
-import chess.movegenerators.CaballoMoveGenerator;
-import chess.movegenerators.ReyAbstractMoveGenerator;
+import chess.movesgenerators.CaballoMoveGenerator;
+import chess.movesgenerators.ReyAbstractMoveGenerator;
 
 
 /**

@@ -2,7 +2,7 @@ package chess.movecalculators;
 
 import java.util.Collection;
 
-import chess.moveexecutors.Move;
+import chess.moves.Move;
 
 // Doble  Jaque 										-> Mover el Rey. 								El enroque no está permitido.
 // Simple Jaque (Torre; Alfil; Reina; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover rey. El enroque no está permitido.
