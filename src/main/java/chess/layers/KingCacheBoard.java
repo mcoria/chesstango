@@ -47,7 +47,7 @@ public class KingCacheBoard {
 	
 	private Square getKingSquareRecorrer(Color color, PosicionPiezaBoard board) {
 		Square kingSquare = null;
-		Pieza rey = Pieza.getRey(color);
+		Pieza rey = Pieza.getKing(color);
 		for (PosicionPieza entry : board) {
 			Square currentSquare = entry.getKey();
 			Pieza currentPieza = entry.getValue();
@@ -79,7 +79,7 @@ public class KingCacheBoard {
 	
 	@Override
 	public String toString() {
-		return "Rey Blanco: " + squareKingBlancoCache.toString() + ", Rey Negro: " + squareKingNegroCache.toString();
+		return "King Blanco: " + squareKingBlancoCache.toString() + ", King Negro: " + squareKingNegroCache.toString();
 	}
 	
 }

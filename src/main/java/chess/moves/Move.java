@@ -16,7 +16,7 @@ import chess.pseudomovesfilters.MoveFilter;
 //TODO: y se implementamos un cache de movimientos? Implementar flyweight  pattern
 //TODO: implementar Factory para crear objetos, la creacion está repartida por todas partes y habria que desacoplarla de move generators 
 // 		ademas con Decorartor se complicó por ejemplo: 
-// 				algunos movimientos de Rey quitan derecho a enroque; 
+// 				algunos movimientos de King quitan derecho a enroque; 
 //				todos los movimientos de torre que la mueven de su posicion inicial hacen perder enroque
 //				toda captura a una torre que que se encuentra en si posicion inicial hacen perder enroque
 //		cada vez que se cambia la jerarquia o hay algun tipo de modificacion en estos objetos las clases de pruebas necesitan ser actualizadas

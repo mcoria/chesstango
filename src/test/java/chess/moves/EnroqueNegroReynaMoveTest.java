@@ -21,7 +21,6 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moves.EnroqueNegroReynaMove;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -56,7 +55,7 @@ public class EnroqueNegroReynaMoveTest {
 		boardState = new BoardState();		
 		boardState.setTurnoActual(Color.BLANCO);
 		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroReyPermitido(true);
+		boardState.setEnroqueNegroKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.a8, Pieza.TORRE_NEGRO);	
@@ -92,14 +91,14 @@ public class EnroqueNegroReynaMoveTest {
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueNegroReinaPermitido());
-		assertFalse(boardState.isEnroqueNegroReyPermitido());
+		assertFalse(boardState.isEnroqueNegroKingPermitido());
 		
 		moveExecutor.undoMove(boardState);
 		
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
 		assertTrue(boardState.isEnroqueNegroReinaPermitido());
-		assertTrue(boardState.isEnroqueNegroReyPermitido());		
+		assertTrue(boardState.isEnroqueNegroKingPermitido());		
 		
 	}	
 	

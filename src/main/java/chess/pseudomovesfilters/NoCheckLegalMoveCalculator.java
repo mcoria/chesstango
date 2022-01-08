@@ -13,7 +13,7 @@ import chess.layers.PosicionPiezaBoard;
 import chess.moves.Move;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
-import chess.pseudomovesgenerators.ReyAbstractMoveGenerator;
+import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -48,10 +48,10 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		final Color turnoActual = boardState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
-		ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
+		KingAbstractMoveGenerator reyMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden
-		// poner en jaque al Rey.
+		// poner en jaque al King.
 		long pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
@@ -105,10 +105,10 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 		final Color turnoActual = boardState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
-		ReyAbstractMoveGenerator reyMoveGenerator = strategy.getReyMoveGenerator(turnoActual);
+		KingAbstractMoveGenerator reyMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden
-		// poner en jaque al Rey.
+		// poner en jaque al King.
 		Collection<Square> pinnedSquares = reyMoveGenerator.getPinnedSquare(kingSquare);
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {

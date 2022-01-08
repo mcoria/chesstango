@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import chess.Square;
 import chess.iterators.SaltoSquareIterator;
-import chess.pseudomovesgenerators.ReyAbstractMoveGenerator;
+import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
 
 
 /**
@@ -20,7 +20,7 @@ public class SaltoSquareIteratorTest01 {
 
 	@Test
 	public void test01() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, ReyAbstractMoveGenerator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.e5, KingAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -43,7 +43,7 @@ public class SaltoSquareIteratorTest01 {
 
 	@Test
 	public void test02() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, ReyAbstractMoveGenerator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a1, KingAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -61,7 +61,7 @@ public class SaltoSquareIteratorTest01 {
 	
 	@Test
 	public void test03() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, ReyAbstractMoveGenerator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h1, KingAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -79,7 +79,7 @@ public class SaltoSquareIteratorTest01 {
 	
 	@Test
 	public void test04() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, ReyAbstractMoveGenerator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.a8, KingAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -97,7 +97,7 @@ public class SaltoSquareIteratorTest01 {
 	
 	@Test
 	public void test05() {
-		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, ReyAbstractMoveGenerator.SALTOS_REY);
+		SaltoSquareIterator iterator = new SaltoSquareIterator(Square.h8, KingAbstractMoveGenerator.SALTOS_REY);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {

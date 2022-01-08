@@ -16,11 +16,11 @@ public interface ChessBuilder {
 
 	void withEnroqueBlancoReinaPermitido(boolean enroqueBlancoReinaPermitido);
 
-	void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido);
+	void withEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido);
 
 	void withEnroqueNegroReinaPermitido(boolean enroqueNegroReinaPermitido);
 
-	void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido);
+	void withEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido);
 	
 	void withPieza(Square square, Pieza pieza);	
 

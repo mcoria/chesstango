@@ -27,8 +27,8 @@ public class MoveGeneratorStrategy {
 	private AlfilMoveGenerator anmg;
 	private ReinaMoveGenerator rebmg;
 	private ReinaMoveGenerator renmg;
-	private ReyBlancoMoveGenerator rbmg;
-	private ReyNegroMoveGenerator rnmg;
+	private KingBlancoMoveGenerator rbmg;
+	private KingNegroMoveGenerator rnmg;
 
 	private PeonPasanteMoveGenerator ppmg = null;
 	
@@ -53,16 +53,16 @@ public class MoveGeneratorStrategy {
 		
 		renmg = new ReinaMoveGenerator(Color.NEGRO);
 		
-		rbmg = new ReyBlancoMoveGenerator();
+		rbmg = new KingBlancoMoveGenerator();
 		
-		rnmg = new ReyNegroMoveGenerator();
+		rnmg = new KingNegroMoveGenerator();
 		
 		ppmg = new PeonPasanteMoveGenerator();
 		
 		moveFactory = new MoveFactory();
 	}
 
-	public ReyAbstractMoveGenerator getReyMoveGenerator(Color color) {
+	public KingAbstractMoveGenerator getKingMoveGenerator(Color color) {
 		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
 	}
 	
@@ -126,11 +126,11 @@ public class MoveGeneratorStrategy {
 		return renmg;
 	}	
 	
-	public ReyBlancoMoveGenerator getReyBlancoMoveGenerator() {
+	public KingBlancoMoveGenerator getKingBlancoMoveGenerator() {
 		return rbmg;
 	}
 	
-	public ReyNegroMoveGenerator getReyNegroMoveGenerator() {
+	public KingNegroMoveGenerator getKingNegroMoveGenerator() {
 		return rnmg;
 	}
 	
@@ -191,8 +191,8 @@ public class MoveGeneratorStrategy {
 			((AbstractMoveGenerator)moveGenerator).setMoveFactory(moveFactory);
 		}
 		
-		if (moveGenerator instanceof ReyAbstractMoveGenerator) {
-			ReyAbstractMoveGenerator generator = (ReyAbstractMoveGenerator) moveGenerator;
+		if (moveGenerator instanceof KingAbstractMoveGenerator) {
+			KingAbstractMoveGenerator generator = (KingAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(boardState);
 		}
 	}

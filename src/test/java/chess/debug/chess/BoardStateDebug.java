@@ -42,7 +42,7 @@ public class BoardStateDebug extends BoardState{
 			}
 		}
 
-		if (this.isEnroqueBlancoReyPermitido()) {
+		if (this.isEnroqueBlancoKingPermitido()) {
 			if (board.getPieza(Square.h1) == null) {
 				throw new RuntimeException(
 						"isEnroqueBlancoReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
@@ -62,7 +62,7 @@ public class BoardStateDebug extends BoardState{
 			}
 		}
 
-		if (this.isEnroqueNegroReyPermitido()) {
+		if (this.isEnroqueNegroKingPermitido()) {
 			if (board.getPieza(Square.h8) == null) {
 				throw new RuntimeException(
 						"isEnroqueBlancoReinaPermitido mal setteado: " + this.getPeonPasanteSquare());

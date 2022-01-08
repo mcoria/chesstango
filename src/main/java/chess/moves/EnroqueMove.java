@@ -16,10 +16,10 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 abstract class EnroqueMove implements Move  {
-	protected final SimpleReyMove reyMove;
+	protected final SimpleKingMove reyMove;
 	protected final SimpleMove torreMove;	
 	
-	public EnroqueMove(SimpleReyMove reyMove, SimpleMove torreMove) {
+	public EnroqueMove(SimpleKingMove reyMove, SimpleMove torreMove) {
 		this.reyMove = reyMove;
 		this.torreMove = torreMove;
 	}

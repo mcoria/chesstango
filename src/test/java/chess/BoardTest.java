@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import chess.builder.ChessBuilderBoard;
 import chess.debug.builder.DebugChessFactory;
-import chess.moves.EnroqueBlancoReyMove;
+import chess.moves.EnroqueBlancoKingMove;
 import chess.moves.EnroqueBlancoReynaMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
@@ -62,11 +62,11 @@ public class BoardTest {
 		assertTrue(moves.contains( createSimpleMove(Square.h2, Pieza.PEON_BLANCO, Square.h3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.h2, Pieza.PEON_BLANCO, Square.h4, Square.h3) ));
 		
-		//Caballo Reyna
+		//Caballo Kingna
 		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.a3) ));
 		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.c3) ));
 		
-		//Caballo Rey
+		//Caballo King
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.f3) ));
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.h3) ));
 		
@@ -127,13 +127,13 @@ public class BoardTest {
 
 		Collection<Move> moves = tablero.getLegalMoves();
 
-		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.d1)));
-		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.d2)));
-		assertFalse(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.e2)));
-		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.f2)));
-		assertTrue(moves.contains(createSimpleReyMoveBlanco(Square.e1, Square.f1)));
+		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.d1)));
+		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.d2)));
+		assertFalse(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.e2)));
+		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f2)));
+		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f1)));
 
-		assertFalse(moves.contains(new EnroqueBlancoReyMove()));
+		assertFalse(moves.contains(new EnroqueBlancoKingMove()));
 		assertFalse(moves.contains(new EnroqueBlancoReynaMove()));
 
 		assertEquals(4, moves.size());
@@ -234,14 +234,14 @@ public class BoardTest {
 	}
 	
 	@Test
-	public void testReyNoPuedeMoverAJaque(){
+	public void testKingNoPuedeMoverAJaque(){
 		Board tablero = getBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f2)));
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f1)));
-		assertFalse(moves.contains(new EnroqueBlancoReyMove()));
+		assertFalse(moves.contains(new EnroqueBlancoKingMove()));
 		
 		assertEquals(12, moves.size());
 		
@@ -302,8 +302,8 @@ public class BoardTest {
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Pieza.PEON_BLANCO));
 	}
 	
-	private Object createSimpleReyMoveBlanco(Square origen, Square destino) {
-		return moveFactory.createSimpleReyMoveBlanco(new PosicionPieza(origen, Pieza.REY_BLANCO), new PosicionPieza(destino, null));
+	private Object createSimpleKingMoveBlanco(Square origen, Square destino) {
+		return moveFactory.createSimpleKingMoveBlanco(new PosicionPieza(origen, Pieza.REY_BLANCO), new PosicionPieza(destino, null));
 	}	
 	
 	private Board getDefaultBoard() {

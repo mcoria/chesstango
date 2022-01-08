@@ -21,7 +21,6 @@ import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moves.EnroqueNegroReyMove;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -30,13 +29,13 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class EnroqueNegroReyMoveTest {
+public class EnroqueNegroKingMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
 	private BoardState boardState;	
 	
-	private EnroqueNegroReyMove moveExecutor;
+	private EnroqueNegroKingMove moveExecutor;
 	
 	private KingCacheBoard kingCacheBoard;
 	
@@ -50,12 +49,12 @@ public class EnroqueNegroReyMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = new EnroqueNegroReyMove();
+		moveExecutor = new EnroqueNegroKingMove();
 		
 		boardState = new BoardState();		
 		boardState.setTurnoActual(Color.NEGRO);
 		boardState.setEnroqueNegroReinaPermitido(true);
-		boardState.setEnroqueNegroReyPermitido(true);
+		boardState.setEnroqueNegroKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.e8, Pieza.REY_NEGRO);
@@ -91,14 +90,14 @@ public class EnroqueNegroReyMoveTest {
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueNegroReinaPermitido());
-		assertFalse(boardState.isEnroqueNegroReyPermitido());
+		assertFalse(boardState.isEnroqueNegroKingPermitido());
 		
 		moveExecutor.undoMove(boardState);
 		
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertTrue(boardState.isEnroqueNegroReinaPermitido());
-		assertTrue(boardState.isEnroqueNegroReyPermitido());		
+		assertTrue(boardState.isEnroqueNegroKingPermitido());		
 		
 	}
 	

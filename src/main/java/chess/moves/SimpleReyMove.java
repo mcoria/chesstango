@@ -10,9 +10,9 @@ import chess.pseudomovesfilters.MoveFilter;
  * @author Mauricio Coria
  *
  */
-class SimpleReyMove extends SimpleMove {
+class SimpleKingMove extends SimpleMove {
 
-	public SimpleReyMove(PosicionPieza from, PosicionPieza to) {
+	public SimpleKingMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	
@@ -43,7 +43,7 @@ class SimpleReyMove extends SimpleMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof SimpleReyMove){
+		if(super.equals(obj)  && obj instanceof SimpleKingMove){
 			return true;
 		}
 		return false;

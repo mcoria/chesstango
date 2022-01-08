@@ -166,8 +166,8 @@ public class ChessBuilderBoard implements ChessBuilder {
 	}
 
 	@Override
-	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
-		builder.withEnroqueBlancoReyPermitido(enroqueBlancoReyPermitido);
+	public void withEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido) {
+		builder.withEnroqueBlancoKingPermitido(enroqueBlancoKingPermitido);
 	}
 
 	@Override
@@ -176,8 +176,8 @@ public class ChessBuilderBoard implements ChessBuilder {
 	}
 
 	@Override
-	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
-		builder.withEnroqueNegroReyPermitido(enroqueNegroReyPermitido);
+	public void withEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido) {
+		builder.withEnroqueNegroKingPermitido(enroqueNegroKingPermitido);
 	}
 
 	@Override

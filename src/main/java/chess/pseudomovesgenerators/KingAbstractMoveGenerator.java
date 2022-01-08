@@ -14,7 +14,7 @@ import chess.iterators.CardinalSquareIterator;
  * @author Mauricio Coria
  *
  */
-public abstract class ReyAbstractMoveGenerator extends AbstractJumpMoveGenerator {
+public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerator {
 	
 	protected BoardState boardState;
 	
@@ -28,7 +28,7 @@ public abstract class ReyAbstractMoveGenerator extends AbstractJumpMoveGenerator
 			{ -1, 0 },  // Oeste
 	};
 	
-	public ReyAbstractMoveGenerator(Color color) {
+	public KingAbstractMoveGenerator(Color color) {
 		super(color, SALTOS_REY);
 	}	
 
@@ -37,13 +37,13 @@ public abstract class ReyAbstractMoveGenerator extends AbstractJumpMoveGenerator
 			final PosicionPieza rey,
 			final PosicionPieza torre,
 			final Square casilleroIntermedioTorre,
-			final Square casilleroDestinoRey, 
-			final Square casilleroIntermedioRey) {
+			final Square casilleroDestinoKing, 
+			final Square casilleroIntermedioKing) {
 		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
 				if ( tablero.isEmtpy(casilleroIntermedioTorre)													//El casillero intermedio TORRE esta vacio
-				  && tablero.isEmtpy(casilleroDestinoRey) 														//El casillero destino REY esta vacio
-				  && tablero.isEmtpy(casilleroIntermedioRey)) {										  			//El casillero intermedio REY esta vacio
+				  && tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino REY esta vacio
+				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio REY esta vacio
 						return true;
 				}
 			}
@@ -51,16 +51,16 @@ public abstract class ReyAbstractMoveGenerator extends AbstractJumpMoveGenerator
 		return false;
 	}
 	
-	protected boolean puedeEnroqueRey(
+	protected boolean puedeEnroqueKing(
 			final PosicionPieza origen, 
 			final PosicionPieza rey,
 			final PosicionPieza torre,
-			final Square casilleroDestinoRey, 
-			final Square casilleroIntermedioRey) {
+			final Square casilleroDestinoKing, 
+			final Square casilleroIntermedioKing) {
 		if ( rey.equals(origen) ) {           																	//El rey se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( tablero.isEmtpy(casilleroDestinoRey) 														//El casillero destino REY esta vacio
-				  && tablero.isEmtpy(casilleroIntermedioRey)) {										  			//El casillero intermedio REY esta vacio
+				if ( tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino REY esta vacio
+				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio REY esta vacio
 						return true;
 				}
 			}

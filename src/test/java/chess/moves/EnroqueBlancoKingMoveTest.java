@@ -21,7 +21,7 @@ import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moves.EnroqueBlancoReyMove;
+import chess.moves.EnroqueBlancoKingMove;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -30,13 +30,13 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class EnroqueBlancoReyMoveTest {
+public class EnroqueBlancoKingMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
 	private BoardStateDebug boardState;	
 	
-	private EnroqueBlancoReyMove moveExecutor;
+	private EnroqueBlancoKingMove moveExecutor;
 	
 	private KingCacheBoardDebug kingCacheBoard;
 	
@@ -50,12 +50,12 @@ public class EnroqueBlancoReyMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = new EnroqueBlancoReyMove();
+		moveExecutor = new EnroqueBlancoKingMove();
 		
 		boardState = new BoardStateDebug();		
 		boardState.setTurnoActual(Color.BLANCO);
 		boardState.setEnroqueBlancoReinaPermitido(false);
-		boardState.setEnroqueBlancoReyPermitido(true);
+		boardState.setEnroqueBlancoKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.e1, Pieza.REY_BLANCO);
@@ -93,7 +93,7 @@ public class EnroqueBlancoReyMoveTest {
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
-		assertFalse(boardState.isEnroqueBlancoReyPermitido());
+		assertFalse(boardState.isEnroqueBlancoKingPermitido());
 		boardState.validar();
 		
 		// undos
@@ -103,7 +103,7 @@ public class EnroqueBlancoReyMoveTest {
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
 		assertFalse(boardState.isEnroqueBlancoReinaPermitido());
-		assertTrue(boardState.isEnroqueBlancoReyPermitido());
+		assertTrue(boardState.isEnroqueBlancoKingPermitido());
 		boardState.validar();
 		
 	}

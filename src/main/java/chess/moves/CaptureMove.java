@@ -43,7 +43,7 @@ class CaptureMove extends AbstractMove {
 		}
 		
 		if(to.getKey().equals(Square.h1)){
-			boardState.setEnroqueBlancoReyPermitido(false);
+			boardState.setEnroqueBlancoKingPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.a8)){
@@ -51,7 +51,7 @@ class CaptureMove extends AbstractMove {
 		}
 		
 		if(to.getKey().equals(Square.h8)){
-			boardState.setEnroqueNegroReyPermitido(false);
+			boardState.setEnroqueNegroKingPermitido(false);
 		}		
 	}
 

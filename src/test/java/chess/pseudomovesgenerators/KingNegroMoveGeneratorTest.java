@@ -19,21 +19,19 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moves.EnroqueNegroReyMove;
+import chess.moves.EnroqueNegroKingMove;
 import chess.moves.EnroqueNegroReynaMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.ReyNegroMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ReyNegroMoveGeneratorTest {
+public class KingNegroMoveGeneratorTest {
 
-	private ReyNegroMoveGenerator moveGenerator;
+	private KingNegroMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -48,7 +46,7 @@ public class ReyNegroMoveGeneratorTest {
 		state = new BoardState();
 		state.setTurnoActual(Color.NEGRO);
 		
-		moveGenerator = new ReyNegroMoveGenerator();
+		moveGenerator = new KingNegroMoveGenerator();
 		moveGenerator.setBoardState(state);
 		moveGenerator.setMoveFactory(moveFactory);
 	}
@@ -142,10 +140,10 @@ public class ReyNegroMoveGeneratorTest {
 	}		
 	
 	@Test
-	public void testEnroqueNegroRey01() {
+	public void testEnroqueNegroKing01() {
 		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
-		state.setEnroqueNegroReyPermitido(true);
+		state.setEnroqueNegroKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -164,16 +162,16 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( new EnroqueNegroReyMove() ));
+		assertTrue(moves.contains( new EnroqueNegroKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}	
 	
 	@Test
-	public void testEnroqueNegroRey02() {
+	public void testEnroqueNegroKing02() {
 		PosicionPiezaBoard tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
-		state.setEnroqueNegroReyPermitido(true);
+		state.setEnroqueNegroKingPermitido(true);
 
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -194,16 +192,16 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new EnroqueNegroReyMove() ));
+		assertTrue(moves.contains( new EnroqueNegroKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}
 	
 	@Test
-	public void testEnroqueNegroRey03() {
+	public void testEnroqueNegroKing03() {
 		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
-		state.setEnroqueNegroReyPermitido(true);
+		state.setEnroqueNegroKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -224,7 +222,7 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new EnroqueNegroReyMove() ));
+		assertTrue(moves.contains( new EnroqueNegroKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
@@ -233,7 +231,7 @@ public class ReyNegroMoveGeneratorTest {
 	public void testEnroqueNegroJaque() {
 		PosicionPiezaBoard tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
-		state.setEnroqueNegroReyPermitido(true);
+		state.setEnroqueNegroKingPermitido(true);
 		state.setEnroqueNegroReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
@@ -255,14 +253,14 @@ public class ReyNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
-		assertTrue(moves.contains(  new EnroqueNegroReyMove() ));			// No se considera si el rey esta en jaque
+		assertTrue(moves.contains(  new EnroqueNegroKingMove() ));			// No se considera si el rey esta en jaque
 		assertTrue(moves.contains(  new EnroqueNegroReynaMove() ));			// No se considera si el rey esta en jaque
 		
 		assertEquals(7, moves.size());
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createSimpleReyMoveNegro(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleKingMoveNegro(origen, new PosicionPieza(destinoSquare, null));
 	}
 
 	

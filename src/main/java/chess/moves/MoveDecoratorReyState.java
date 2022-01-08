@@ -12,9 +12,9 @@ import chess.pseudomovesfilters.MoveFilter;
  * @author Mauricio Coria
  *
  */
-class MoveDecoratorReyState extends MoveDecoratorState {
+class MoveDecoratorKingState extends MoveDecoratorState {
 
-	public MoveDecoratorReyState(Move move, Consumer<BoardState> decoratorState) {
+	public MoveDecoratorKingState(Move move, Consumer<BoardState> decoratorState) {
 		super(move, decoratorState);
 	}
 	

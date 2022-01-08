@@ -11,7 +11,7 @@ import chess.iterators.CardinalSquareIterator;
 import chess.iterators.SaltoSquareIterator;
 import chess.layers.PosicionPiezaBoard;
 import chess.pseudomovesgenerators.CaballoMoveGenerator;
-import chess.pseudomovesgenerators.ReyAbstractMoveGenerator;
+import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
 
 
 /**
@@ -68,7 +68,7 @@ public class ImprovedCapturer implements Capturer {
 			reyna = Pieza.getReina(color);
 			caballo = Pieza.getCaballo(color);
 			peon = Pieza.getPeon(color);
-			rey = Pieza.getRey(color);		
+			rey = Pieza.getKing(color);		
 			
 
 			if (Color.BLANCO.equals(color)) {
@@ -83,7 +83,7 @@ public class ImprovedCapturer implements Capturer {
 			   positionCapturedByTorre(square)	||
 			   positionCapturedByAlfil(square)   ||
 			   positionCapturedByPeon(square) ||
-			   positionCapturedByRey(square)) {
+			   positionCapturedByKing(square)) {
 				return true;
 			}
 			return false;
@@ -149,8 +149,8 @@ public class ImprovedCapturer implements Capturer {
 			return false;
 		}
 		
-		private boolean positionCapturedByRey(Square square) {
-			Iterator<PosicionPieza> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, ReyAbstractMoveGenerator.SALTOS_REY));
+		private boolean positionCapturedByKing(Square square) {
+			Iterator<PosicionPieza> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, KingAbstractMoveGenerator.SALTOS_REY));
 			while (iterator.hasNext()) {
 			    PosicionPieza destino = iterator.next();
 			    if(rey.equals(destino.getValue())){		    	

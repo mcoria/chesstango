@@ -19,20 +19,18 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moves.EnroqueBlancoReyMove;
+import chess.moves.EnroqueBlancoKingMove;
 import chess.moves.EnroqueBlancoReynaMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.ReyBlancoMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ReyBlancoMoveGeneratorTest {
-	private ReyBlancoMoveGenerator moveGenerator;
+public class KingBlancoMoveGeneratorTest {
+	private KingBlancoMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -46,7 +44,7 @@ public class ReyBlancoMoveGeneratorTest {
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
-		moveGenerator = new ReyBlancoMoveGenerator();
+		moveGenerator = new KingBlancoMoveGenerator();
 		moveGenerator.setBoardState(state);
 		moveGenerator.setMoveFactory(moveFactory);
 	}
@@ -228,10 +226,10 @@ public class ReyBlancoMoveGeneratorTest {
 	}	
 	
 	@Test
-	public void testEnroqueBlancoRey01() {
+	public void testEnroqueBlancoKing01() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/8/4K2R");
 		
-		state.setEnroqueBlancoReyPermitido(true);
+		state.setEnroqueBlancoKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -250,16 +248,16 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}	
 	
 	@Test
-	public void testEnroqueBlancoRey02() {
+	public void testEnroqueBlancoKing02() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
 		
-		state.setEnroqueBlancoReyPermitido(true);
+		state.setEnroqueBlancoKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -280,16 +278,16 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoKingMove() ));
 		
 		assertEquals(6, moves.size());		
 	}
 	
 	@Test
-	public void testEnroqueBlancoRey03() {
+	public void testEnroqueBlancoKing03() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
 		
-		state.setEnroqueBlancoReyPermitido(true);
+		state.setEnroqueBlancoKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -309,16 +307,16 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
 	
 	@Test
-	public void testEnroqueBlancoRey04() {
+	public void testEnroqueBlancoKing04() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
 		
-		state.setEnroqueBlancoReyPermitido(true);
+		state.setEnroqueBlancoKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -338,7 +336,7 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
@@ -347,7 +345,7 @@ public class ReyBlancoMoveGeneratorTest {
 	public void testEnroqueBlancoJaque() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
 		
-		state.setEnroqueBlancoReyPermitido(true);
+		state.setEnroqueBlancoKingPermitido(true);
 		state.setEnroqueBlancoReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
@@ -370,18 +368,18 @@ public class ReyBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
 		
-		assertTrue(moves.contains( new EnroqueBlancoReyMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoKingMove() ));
 		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
 		
 		assertEquals(7, moves.size());		
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createSimpleReyMoveBlanco(origen, new PosicionPieza(destinoSquare, null));
+		return moveFactory.createSimpleKingMoveBlanco(origen, new PosicionPieza(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return moveFactory.createCaptureReyMoveBlanco(origen, new PosicionPieza(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureKingMoveBlanco(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

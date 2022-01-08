@@ -13,9 +13,9 @@ public class FENCoder implements ChessBuilder {
 	
 	private Color turno;
 	private Square peonPasanteSquare;
-	private boolean enroqueNegroReyPermitido;
+	private boolean enroqueNegroKingPermitido;
 	private boolean enroqueNegroReinaPermitido;
-	private boolean enroqueBlancoReyPermitido;
+	private boolean enroqueBlancoKingPermitido;
 	private boolean enroqueBlancoReinaPermitido;	
 	
 	private Pieza[][] tablero = new Pieza[8][8];
@@ -60,7 +60,7 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	public StringBuilder getEnroques(StringBuilder stringBuilder) {
-		if(enroqueBlancoReyPermitido){
+		if(enroqueBlancoKingPermitido){
 			stringBuilder.append('K');
 		}
 		
@@ -68,7 +68,7 @@ public class FENCoder implements ChessBuilder {
 			stringBuilder.append('Q');
 		}
 		
-		if(enroqueNegroReyPermitido){
+		if(enroqueNegroKingPermitido){
 			stringBuilder.append('k');
 		}
 		
@@ -76,7 +76,7 @@ public class FENCoder implements ChessBuilder {
 			stringBuilder.append('q');
 		}		
 		
-		if(!enroqueBlancoReyPermitido && !enroqueBlancoReinaPermitido && !enroqueNegroReyPermitido && !enroqueNegroReinaPermitido){
+		if(!enroqueBlancoKingPermitido && !enroqueBlancoReinaPermitido && !enroqueNegroKingPermitido && !enroqueNegroReinaPermitido){
 			stringBuilder.append('-');
 		}
 				
@@ -99,8 +99,8 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
-		this.enroqueNegroReyPermitido = enroqueNegroReyPermitido;
+	public void withEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido) {
+		this.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
 	}
 	
 	@Override
@@ -109,8 +109,8 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
-		this.enroqueBlancoReyPermitido = enroqueBlancoReyPermitido;
+	public void withEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido) {
+		this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
 	}
 	
 	@Override

@@ -4,7 +4,7 @@ import chess.CachePosiciones;
 import chess.Color;
 import chess.PosicionPieza;
 import chess.Square;
-import chess.moves.EnroqueNegroReyMove;
+import chess.moves.EnroqueNegroKingMove;
 import chess.moves.EnroqueNegroReynaMove;
 import chess.moves.Move;
 
@@ -12,7 +12,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
+public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 
 	protected static final Square INTERMEDIO_TORRE_REYNA_SQUARE = Square.b8;
 	protected static final Square DESTINO_REYNA_SQUARE = Square.c8;
@@ -22,7 +22,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	protected static final Square DESTINO_REY_SQUARE = Square.g8;
 	
 	
-	public ReyNegroMoveGenerator() {
+	public KingNegroMoveGenerator() {
 		super(Color.NEGRO);
 	}
 	
@@ -30,7 +30,7 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PosicionPieza origen) {		
 		super.generateMovesPseudoMoves(origen);
 		
-		//this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroReyPermitido()) ;
+		//this.saveMovesInCache =  ! (this.boardState.isEnroqueNegroReinaPermitido() ||  this.boardState.isEnroqueNegroKingPermitido()) ;
 		
 		if (this.boardState.isEnroqueNegroReinaPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
@@ -48,16 +48,16 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 		}
 			
 			
-		if (this.boardState.isEnroqueNegroReyPermitido()){
+		if (this.boardState.isEnroqueNegroKingPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
 			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
-			if(puedeEnroqueRey(	origen, 
+			if(puedeEnroqueKing(	origen, 
 								CachePosiciones.REY_NEGRO, 
 								CachePosiciones.TORRE_NEGRO_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
-				result.moveContainerAdd(new EnroqueNegroReyMove());
+				result.moveContainerAdd(new EnroqueNegroKingMove());
 			}
 		}
 	}
@@ -65,12 +65,12 @@ public class ReyNegroMoveGenerator extends ReyAbstractMoveGenerator {
 	//TODO: agregar test case (cuando el rey se mueve pierde enroque) y agregar validacion en state 
 	@Override
 	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
-		return this.moveFactory.createSimpleReyMoveNegro(origen, destino);
+		return this.moveFactory.createSimpleKingMoveNegro(origen, destino);
 	}
 
 	@Override
 	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
-		return this.moveFactory.createCaptureReyMoveNegro(origen, destino);
+		return this.moveFactory.createCaptureKingMoveNegro(origen, destino);
 	}	
 
 }

@@ -56,8 +56,8 @@ public class ChessBuilderParts implements ChessBuilder {
 	}
 
 	@Override
-	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
-		this.getState().setEnroqueBlancoReyPermitido(enroqueBlancoReyPermitido);;
+	public void withEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido) {
+		this.getState().setEnroqueBlancoKingPermitido(enroqueBlancoKingPermitido);;
 	}
 
 
@@ -68,8 +68,8 @@ public class ChessBuilderParts implements ChessBuilder {
 
 
 	@Override
-	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
-		this.getState().setEnroqueNegroReyPermitido(enroqueNegroReyPermitido);;
+	public void withEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido) {
+		this.getState().setEnroqueNegroKingPermitido(enroqueNegroKingPermitido);;
 	}
 
 	public void withPieza(Square square, Pieza pieza) {

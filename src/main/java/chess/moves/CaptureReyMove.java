@@ -9,9 +9,9 @@ import chess.pseudomovesfilters.MoveFilter;
  * @author Mauricio Coria
  *
  */
-class CaptureReyMove extends CaptureMove {
+class CaptureKingMove extends CaptureMove {
 
-	public CaptureReyMove(PosicionPieza from, PosicionPieza to) {
+	public CaptureKingMove(PosicionPieza from, PosicionPieza to) {
 		super(from, to);
 	}
 	
@@ -42,7 +42,7 @@ class CaptureReyMove extends CaptureMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof CaptureReyMove){
+		if(super.equals(obj)  && obj instanceof CaptureKingMove){
 			return true;
 		}
 		return false;

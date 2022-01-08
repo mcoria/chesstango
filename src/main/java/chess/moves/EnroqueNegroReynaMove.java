@@ -17,7 +17,7 @@ public class EnroqueNegroReynaMove extends EnroqueMove {
 	public static final PosicionPieza TORRE_FROM = new PosicionPieza(Square.a8, Pieza.TORRE_NEGRO);
 	public static final PosicionPieza TORRE_TO = new PosicionPieza(Square.d8, null);
 	
-	private static final SimpleReyMove REY_MOVE = new SimpleReyMove(FROM, TO);
+	private static final SimpleKingMove REY_MOVE = new SimpleKingMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
 	public EnroqueNegroReynaMove() {
@@ -28,7 +28,7 @@ public class EnroqueNegroReynaMove extends EnroqueMove {
 	@Override
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
-		boardState.setEnroqueNegroReyPermitido(false);
+		boardState.setEnroqueNegroKingPermitido(false);
 		boardState.setEnroqueNegroReinaPermitido(false);
 	}
 	

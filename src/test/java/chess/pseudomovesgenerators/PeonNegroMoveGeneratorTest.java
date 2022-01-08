@@ -130,7 +130,7 @@ public class PeonNegroMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testPuedeCapturarRey() {
+	public void testPuedeCapturarKing() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/6p1/4K2R");
 		
 		assertEquals(Pieza.REY_BLANCO, tablero.getPieza(Square.e1));

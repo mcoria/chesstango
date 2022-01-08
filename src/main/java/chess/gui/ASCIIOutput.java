@@ -72,7 +72,7 @@ public class ASCIIOutput implements ChessBuilder {
 
 
 	@Override
-	public void withEnroqueBlancoReyPermitido(boolean enroqueBlancoReyPermitido) {
+	public void withEnroqueBlancoKingPermitido(boolean enroqueBlancoKingPermitido) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -86,7 +86,7 @@ public class ASCIIOutput implements ChessBuilder {
 
 
 	@Override
-	public void withEnroqueNegroReyPermitido(boolean enroqueNegroReyPermitido) {
+	public void withEnroqueNegroKingPermitido(boolean enroqueNegroKingPermitido) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -25,8 +25,8 @@ public enum Pieza {
 	REINA_BLANCO(Color.BLANCO, strategy -> strategy.getReinaBlancaMoveGenerator()),
 	REINA_NEGRO(Color.NEGRO, strategy -> strategy.getReinaNegraMoveGenerator()),
 	
-	REY_BLANCO(Color.BLANCO, strategy -> strategy.getReyBlancoMoveGenerator()),
-	REY_NEGRO(Color.NEGRO, strategy -> strategy.getReyNegroMoveGenerator());
+	REY_BLANCO(Color.BLANCO, strategy -> strategy.getKingBlancoMoveGenerator()),
+	REY_NEGRO(Color.NEGRO, strategy -> strategy.getKingNegroMoveGenerator());
 	
 	private final Color color;
 	private final Function<MoveGeneratorStrategy, MoveGenerator> selector;
@@ -44,7 +44,7 @@ public enum Pieza {
 		return selector.apply(strategy);
 	}	
 	
-	public static Pieza getRey(Color color){
+	public static Pieza getKing(Color color){
 		switch (color) {
 		case  BLANCO:
 			return REY_BLANCO;

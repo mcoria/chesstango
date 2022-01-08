@@ -11,46 +11,46 @@ import chess.Square;
  */
 public class MoveFactory {		
 	
-	public Move createSimpleReyMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
+	public Move createSimpleKingMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
 		if(Square.e1.equals(origen.getKey())){
-			return new MoveDecoratorReyState(new SimpleReyMove(origen, destino), state -> {
+			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
 				state.setEnroqueBlancoReinaPermitido(false);
-				state.setEnroqueBlancoReyPermitido(false);				
+				state.setEnroqueBlancoKingPermitido(false);				
 			});
 		}
-		return new SimpleReyMove(origen, destino);
+		return new SimpleKingMove(origen, destino);
 	}
 
 
-	public Move createCaptureReyMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
+	public Move createCaptureKingMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
 		if(Square.e1.equals(origen.getKey())){
-			return new MoveDecoratorReyState(new CaptureReyMove(origen, destino), state -> {
+			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
 				state.setEnroqueBlancoReinaPermitido(false);
-				state.setEnroqueBlancoReyPermitido(false);				
+				state.setEnroqueBlancoKingPermitido(false);				
 			});
 		}
-		return new CaptureReyMove(origen, destino);
+		return new CaptureKingMove(origen, destino);
 	}
 	
 
-	public Move createSimpleReyMoveNegro(PosicionPieza origen, PosicionPieza destino) {
+	public Move createSimpleKingMoveNegro(PosicionPieza origen, PosicionPieza destino) {
 		if(Square.e8.equals(origen.getKey())){
-			return new MoveDecoratorReyState(new SimpleReyMove(origen, destino), state -> {
+			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
 				state.setEnroqueNegroReinaPermitido(false);
-				state.setEnroqueNegroReyPermitido(false);			
+				state.setEnroqueNegroKingPermitido(false);			
 			});
 		}
-		return new SimpleReyMove(origen, destino);
+		return new SimpleKingMove(origen, destino);
 	}
 
-	public Move createCaptureReyMoveNegro(PosicionPieza origen, PosicionPieza destino) {
+	public Move createCaptureKingMoveNegro(PosicionPieza origen, PosicionPieza destino) {
 		if(Square.e8.equals(origen.getKey())){
-			return new MoveDecoratorReyState(new CaptureReyMove(origen, destino), state -> {
+			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
 				state.setEnroqueNegroReinaPermitido(false);
-				state.setEnroqueNegroReyPermitido(false);			
+				state.setEnroqueNegroKingPermitido(false);			
 			});
 		}
-		return new CaptureReyMove(origen, destino);
+		return new CaptureKingMove(origen, destino);
 	}
 	
 	
@@ -62,7 +62,7 @@ public class MoveFactory {
 		
 		if (Square.h1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
-					state -> state.setEnroqueBlancoReyPermitido(false));
+					state -> state.setEnroqueBlancoKingPermitido(false));
 		}
 		
 		if (Square.a8.equals(origen.getKey())) {
@@ -72,7 +72,7 @@ public class MoveFactory {
 		
 		if (Square.h8.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
-					state -> state.setEnroqueNegroReyPermitido(false));
+					state -> state.setEnroqueNegroKingPermitido(false));
 		}		
 		
 		return createSimpleMove(origen, destino);
@@ -87,7 +87,7 @@ public class MoveFactory {
 		
 		if (Square.h1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
-					state -> state.setEnroqueBlancoReyPermitido(false));
+					state -> state.setEnroqueBlancoKingPermitido(false));
 		}
 		
 		if (Square.a8.equals(origen.getKey())) {
@@ -97,7 +97,7 @@ public class MoveFactory {
 		
 		if (Square.h8.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
-					state -> state.setEnroqueNegroReyPermitido(false));
+					state -> state.setEnroqueNegroKingPermitido(false));
 		}		
 		return createCaptureMove(origen, destino);
 	}
