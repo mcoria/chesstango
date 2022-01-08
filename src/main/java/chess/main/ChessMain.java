@@ -14,8 +14,6 @@ import chess.builder.ChessBuilderGame;
 import chess.moves.Move;
 import chess.parsers.FENCoder;
 import chess.parsers.FENParser;
-import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
-import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
 
 /**
  * @author Mauricio Coria
@@ -44,7 +42,7 @@ public class ChessMain {
 		ChessMain main = new ChessMain();
 		
 		Instant start = Instant.now();
-		PerftResult result = main.start(board, 7);
+		PerftResult result = main.start(board, 6);
 		Instant end = Instant.now();
 		
 		main.printResult(result);
@@ -160,8 +158,8 @@ public class ChessMain {
 			System.out.println("Level " + i + " nodes=" + nodeListMap.get(i).size() + " repeated=" + repetedNodes[i]);
 		}
 		
-		System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
-		System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
+		//System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
+		//System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
 	}
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion

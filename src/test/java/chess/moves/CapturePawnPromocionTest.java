@@ -12,16 +12,16 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.Board;
+import chess.BoardState;
 import chess.Color;
 import chess.Pieza;
 import chess.PosicionPieza;
 import chess.Square;
-import chess.debug.chess.BoardStateDebug;
-import chess.debug.chess.ColorBoardDebug;
+import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moves.SaltoDoblePeonMove;
+import chess.moves.CapturaPawnPromocion;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -30,15 +30,15 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SaltoDoblePeonMoveTest {
+public class CapturePawnPromocionTest {
 
 	private PosicionPiezaBoard piezaBoard;
 	
-	private BoardStateDebug boardState;
+	private BoardState boardState;
 	
-	private ColorBoardDebug colorBoard;
+	private CapturaPawnPromocion moveExecutor;
 	
-	private SaltoDoblePeonMove moveExecutor;
+	private ColorBoard colorBoard;
 	
 	@Mock
 	private Board board;
@@ -48,17 +48,19 @@ public class SaltoDoblePeonMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		boardState = new BoardStateDebug();
+		boardState = new BoardState();
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.f8, Pieza.KNIGHT_BLACK);
 		
-		colorBoard = new ColorBoardDebug(piezaBoard);		
+		colorBoard = new ColorBoard(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PAWN_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);		
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.KNIGHT_BLACK);
+		
+		moveExecutor =  new CapturaPawnPromocion(origen, destino, Pieza.QUEEN_WHITE);		
 	}
 	
 	
@@ -68,15 +70,15 @@ public class SaltoDoblePeonMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e4));
-		assertTrue(piezaBoard.isEmtpy(Square.e2));
+		assertEquals(Pieza.QUEEN_WHITE, piezaBoard.getPieza(Square.f8));
+		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e2));
-		assertTrue(piezaBoard.isEmtpy(Square.e4));		
+		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.KNIGHT_BLACK, piezaBoard.getPieza(Square.f8));		
 	}
 		
 	@Test
@@ -85,14 +87,13 @@ public class SaltoDoblePeonMoveTest {
 		moveExecutor.executeMove(boardState);
 		
 		// asserts execute
-		assertEquals(Square.e3, boardState.getPeonPasanteSquare());
+		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
 
-		// asserts undos
-		assertNull(boardState.getPeonPasanteSquare());		
+		// asserts undos	
 		assertEquals(Color.WHITE, boardState.getTurnoActual());
 	}
 	
@@ -102,19 +103,26 @@ public class SaltoDoblePeonMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertTrue(colorBoard.isEmpty(Square.e2));		
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e4));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.f8));
+		assertTrue(colorBoard.isEmpty(Square.e7));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
-		assertTrue(colorBoard.isEmpty(Square.e4));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
+		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
+
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.KNIGHT_BLACK);
+		moveExecutor =  new CapturaPawnPromocion(origen, destino, Pieza.QUEEN_WHITE);
+
 		moveExecutor.executeMove(new KingCacheBoard());
 	}
 	
@@ -125,13 +133,6 @@ public class SaltoDoblePeonMoveTest {
 	
 	@Test
 	public void testBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PAWN_WHITE);
-		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.ROOK_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
-		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
-
 		// execute
 		moveExecutor.executeMove(board);
 
@@ -155,26 +156,4 @@ public class SaltoDoblePeonMoveTest {
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
 	}
-	
-	@Test
-	public void testIntegrated() {
-		// execute
-		moveExecutor.executeMove(piezaBoard);
-		moveExecutor.executeMove(boardState);
-		moveExecutor.executeMove(colorBoard);
-
-		// asserts execute
-		colorBoard.validar(piezaBoard);
-		boardState.validar(piezaBoard);
-		
-		// undos
-		moveExecutor.undoMove(piezaBoard);
-		moveExecutor.undoMove(boardState);
-		moveExecutor.undoMove(colorBoard);
-
-		
-		// asserts undos
-		colorBoard.validar(piezaBoard);	
-		boardState.validar(piezaBoard);		
-	}	
 }

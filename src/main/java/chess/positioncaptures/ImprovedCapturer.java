@@ -46,16 +46,16 @@ public class ImprovedCapturer implements Capturer {
 		private final Pieza alfil;
 		private final Pieza queen;
 		private final Pieza caballo;
-		private final int[][] saltosPeon;
+		private final int[][] saltosPawn;
 		private final Pieza peon;
 		private final Pieza king;
 		
-		private final int[][] casillerosPeonBlanco = {
+		private final int[][] casillerosPawnBlanco = {
 			{ -1, -1 }, 
 			{ 1, -1 }
 		};
 		
-		private final int[][] casillerosPeonNegro = {
+		private final int[][] casillerosPawnNegro = {
 			{ -1, 1 }, 
 			{ 1, 1 }
 		};
@@ -67,14 +67,14 @@ public class ImprovedCapturer implements Capturer {
 			alfil = Pieza.getAlfil(color);
 			queen = Pieza.getReina(color);
 			caballo = Pieza.getCaballo(color);
-			peon = Pieza.getPeon(color);
+			peon = Pieza.getPawn(color);
 			king = Pieza.getKing(color);		
 			
 
 			if (Color.WHITE.equals(color)) {
-				saltosPeon = casillerosPeonBlanco;
+				saltosPawn = casillerosPawnBlanco;
 			} else {
-				saltosPeon = casillerosPeonNegro;
+				saltosPawn = casillerosPawnNegro;
 			}		
 		}
 
@@ -82,7 +82,7 @@ public class ImprovedCapturer implements Capturer {
 			if(positionCapturedByCaballo(square)	||
 			   positionCapturedByTorre(square)	||
 			   positionCapturedByAlfil(square)   ||
-			   positionCapturedByPeon(square) ||
+			   positionCapturedByPawn(square) ||
 			   positionCapturedByKing(square)) {
 				return true;
 			}
@@ -138,8 +138,8 @@ public class ImprovedCapturer implements Capturer {
 		}
 
 
-		private boolean positionCapturedByPeon(Square square) {
-			Iterator<PosicionPieza> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, saltosPeon));
+		private boolean positionCapturedByPawn(Square square) {
+			Iterator<PosicionPieza> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, saltosPawn));
 			while (iterator.hasNext()) {
 			    PosicionPieza destino = iterator.next();
 			    if(peon.equals(destino.getValue())){		    	

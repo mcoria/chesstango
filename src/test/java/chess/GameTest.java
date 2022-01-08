@@ -145,7 +145,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testJuegoNoPeonPasante() {
+	public void testJuegoNoPawnPasante() {
 		Game game =  getGame("rnbqkbnr/p1pppppp/1p6/P7/8/8/1PPPPPPP/RNBQKBNR b KQkq - 0 2");
 		
 		game.executeMove(Square.b6, Square.b5);
@@ -154,7 +154,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testJuegoPeonPasante() {
+	public void testJuegoPawnPasante() {
 		Game game =  getGame("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 		
 		game.executeMove(Square.c7, Square.c5);

@@ -14,11 +14,11 @@ import chess.pseudomovesfilters.MoveFilter;
  * @author Mauricio Coria
  *
  */
-class CapturePeonPasante extends AbstractMove {
+class CapturePawnPasante extends AbstractMove {
 
 	private final PosicionPieza captura;
 			
-	public CapturePeonPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
+	public CapturePawnPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
 		super(from, to);
 		this.captura = captura;
 	}
@@ -78,8 +78,8 @@ class CapturePeonPasante extends AbstractMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj) && obj instanceof CapturePeonPasante){
-			CapturePeonPasante theOther = (CapturePeonPasante) obj;
+		if(super.equals(obj) && obj instanceof CapturePawnPasante){
+			CapturePawnPasante theOther = (CapturePawnPasante) obj;
 			return captura.equals(theOther.captura) ;
 		}
 		return false;

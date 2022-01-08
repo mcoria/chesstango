@@ -19,15 +19,15 @@ import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.PeonNegroMoveGenerator;
+import chess.pseudomovesgenerators.PawnNegroMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PeonNegroMoveGeneratorTest {
+public class PawnNegroMoveGeneratorTest {
 
-	private PeonNegroMoveGenerator moveGenerator;
+	private PawnNegroMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -38,7 +38,7 @@ public class PeonNegroMoveGeneratorTest {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		
-		moveGenerator = new PeonNegroMoveGenerator();
+		moveGenerator = new PawnNegroMoveGenerator();
 		moveGenerator.setMoveFactory(moveFactory);
 	}
 	
@@ -147,7 +147,7 @@ public class PeonNegroMoveGeneratorTest {
 	}
 	
 	private Move createSaltoDobleMove(PosicionPieza origen, Square destinoSquare, Square squarePasante) {
-		return moveFactory.createSaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
+		return moveFactory.createSaltoDoblePawnMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {

@@ -156,8 +156,8 @@ public class ChessBuilderBoard implements ChessBuilder {
 	}
 
 	@Override
-	public void withPeonPasanteSquare(Square peonPasanteSquare) {
-		builder.withPeonPasanteSquare(peonPasanteSquare);
+	public void withPawnPasanteSquare(Square peonPasanteSquare) {
+		builder.withPawnPasanteSquare(peonPasanteSquare);
 	}
 
 	@Override

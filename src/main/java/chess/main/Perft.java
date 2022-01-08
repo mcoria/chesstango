@@ -12,8 +12,6 @@ import chess.Game;
 import chess.builder.ChessBuilderGame;
 import chess.moves.Move;
 import chess.parsers.FENParser;
-import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
-import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
 
 /**
  * @author Mauricio Coria
@@ -119,8 +117,8 @@ public class Perft {
 			}
 		}
 		
-		System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
-		System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
+		//System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
+		//System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
 	}
 	
 

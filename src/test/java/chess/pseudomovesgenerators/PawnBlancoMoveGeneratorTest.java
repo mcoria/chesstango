@@ -19,14 +19,14 @@ import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.PeonBlancoMoveGenerator;
+import chess.pseudomovesgenerators.PawnBlancoMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PeonBlancoMoveGeneratorTest {
-	private PeonBlancoMoveGenerator moveGenerator;
+public class PawnBlancoMoveGeneratorTest {
+	private PawnBlancoMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -38,7 +38,7 @@ public class PeonBlancoMoveGeneratorTest {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		
-		moveGenerator = new PeonBlancoMoveGenerator();
+		moveGenerator = new PawnBlancoMoveGenerator();
 		moveGenerator.setMoveFactory(moveFactory);
 	}
 	
@@ -151,7 +151,7 @@ public class PeonBlancoMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testPeonSimplePeonPromocion() {
+	public void testPawnSimplePawnPromocion() {
 		PosicionPiezaBoard tablero = getTablero("8/3P4/8/8/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
@@ -166,16 +166,16 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		moves = generatorResult.getPseudoMoves();
 		
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.ROOK_WHITE) ));
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.KNIGHT_WHITE) ));
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.BISHOP_WHITE) ));
-		assertTrue(moves.contains( createSimplePeonPromocion(origen, Square.d8, Pieza.QUEEN_WHITE) ));
+		assertTrue(moves.contains( createSimplePawnPromocion(origen, Square.d8, Pieza.ROOK_WHITE) ));
+		assertTrue(moves.contains( createSimplePawnPromocion(origen, Square.d8, Pieza.KNIGHT_WHITE) ));
+		assertTrue(moves.contains( createSimplePawnPromocion(origen, Square.d8, Pieza.BISHOP_WHITE) ));
+		assertTrue(moves.contains( createSimplePawnPromocion(origen, Square.d8, Pieza.QUEEN_WHITE) ));
 		
 		assertEquals(4, moves.size());
 	}
 
 	@Test
-	public void testPeonCapturaPeonPromocion() {
+	public void testPawnCapturaPawnPromocion() {
 		PosicionPiezaBoard tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		
@@ -191,10 +191,10 @@ public class PeonBlancoMoveGeneratorTest {
 		
 		moves = generatorResult.getPseudoMoves();
 		
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.ROOK_WHITE) ));
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.KNIGHT_WHITE) ));
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.BISHOP_WHITE) ));
-		assertTrue(moves.contains( createCapturePeonPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.QUEEN_WHITE) ));
+		assertTrue(moves.contains( createCapturePawnPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.ROOK_WHITE) ));
+		assertTrue(moves.contains( createCapturePawnPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.KNIGHT_WHITE) ));
+		assertTrue(moves.contains( createCapturePawnPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.BISHOP_WHITE) ));
+		assertTrue(moves.contains( createCapturePawnPromocion(origen, Square.c8, Pieza.ROOK_BLACK, Pieza.QUEEN_WHITE) ));
 		
 		assertEquals(4, moves.size());
 	}
@@ -204,19 +204,19 @@ public class PeonBlancoMoveGeneratorTest {
 	}
 	
 	private Move createSaltoDobleMove(PosicionPieza origen, Square destinoSquare, Square squarePasante) {
-		return moveFactory.createSaltoDoblePeonMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
+		return moveFactory.createSaltoDoblePawnMove(origen, new PosicionPieza(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
 		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
 	}
 	
-	private Move createSimplePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza promocion) {
-		return moveFactory.createSimplePeonPromocion(origen, new PosicionPieza(destinoSquare, null), promocion);
+	private Move createSimplePawnPromocion(PosicionPieza origen, Square destinoSquare, Pieza promocion) {
+		return moveFactory.createSimplePawnPromocion(origen, new PosicionPieza(destinoSquare, null), promocion);
 	}	
 	
-	private Move createCapturePeonPromocion(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
-		return moveFactory.createCapturePeonPromocion(origen, new PosicionPieza(destinoSquare, destinoPieza), promocion);
+	private Move createCapturePawnPromocion(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza, Pieza promocion) {
+		return moveFactory.createCapturePawnPromocion(origen, new PosicionPieza(destinoSquare, destinoPieza), promocion);
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

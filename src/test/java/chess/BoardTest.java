@@ -75,7 +75,7 @@ public class BoardTest {
 		
 		//State
 		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
-		assertNull(tablero.getBoardState().getPeonPasanteSquare());
+		assertNull(tablero.getBoardState().getPawnPasanteSquare());
 	}
 
 	@Test
@@ -140,25 +140,25 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testJuegoPeonPromocion() {
+	public void testJuegoPawnPromocion() {
 		Board tablero = getBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
 		Collection<Move> moves = tablero.getLegalMoves();
 
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
 				Pieza.ROOK_BLACK)));
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
 				Pieza.KNIGHT_BLACK)));
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
 				Pieza.BISHOP_BLACK)));
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Pieza.PAWN_BLACK, Square.f1, Pieza.ROOK_WHITE,
 				Pieza.QUEEN_BLACK)));
 
 		assertEquals(46, moves.size());
 	}
 
 	@Test
-	public void testJuegoPeonPasanteUndo() {
+	public void testJuegoPawnPasanteUndo() {
 		Collection<Move> legalMoves = null;
 		Move move = null;
 
@@ -188,7 +188,7 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testJuegoPeonPasante01() {
+	public void testJuegoPawnPasante01() {
 		Collection<Move> legalMoves = null;
 		Move move = null;
 		Board tablero = getBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
@@ -248,12 +248,12 @@ public class BoardTest {
 	}
 	
 	@Test
-	public void testMovimientoPeonPasanteNoPermitido(){
+	public void testMovimientoPawnPasanteNoPermitido(){
 		Board tablero = getBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
-		assertFalse(moves.contains(createCapturePeonPasanteMoveNegro(Square.f4, Square.g3)));
+		assertFalse(moves.contains(createCapturePawnPasanteMoveNegro(Square.f4, Square.g3)));
 		
 		assertEquals(17, moves.size());
 		
@@ -287,17 +287,17 @@ public class BoardTest {
 	}		
 
 	private Move createSaltoDobleMove(Square origen, Pieza pieza, Square destinoSquare, Square squarePasante) {
-		return moveFactory.createSaltoDoblePeonMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null),  squarePasante);		
+		return moveFactory.createSaltoDoblePawnMove(new PosicionPieza(origen, pieza), new PosicionPieza(destinoSquare, null),  squarePasante);		
 	}
 
-	private Move createCapturePeonPromocion(Square origenSquare, Pieza origenPieza, Square destinoSquare,
+	private Move createCapturePawnPromocion(Square origenSquare, Pieza origenPieza, Square destinoSquare,
 			Pieza destinoPieza, Pieza promocion) {
-		return moveFactory.createCapturePeonPromocion(new PosicionPieza(origenSquare, origenPieza),
+		return moveFactory.createCapturePawnPromocion(new PosicionPieza(origenSquare, origenPieza),
 				new PosicionPieza(destinoSquare, destinoPieza), promocion);
 	}
 	
-	private Move createCapturePeonPasanteMoveNegro(Square origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(new PosicionPieza(origen, Pieza.PAWN_BLACK),
+	private Move createCapturePawnPasanteMoveNegro(Square origen, Square destinoSquare) {
+		return moveFactory.createCapturePawnPasante(new PosicionPieza(origen, Pieza.PAWN_BLACK),
 				new PosicionPieza(destinoSquare, null), new PosicionPieza(
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Pieza.PAWN_WHITE));
 	}

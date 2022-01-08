@@ -45,8 +45,8 @@ public class ChessBuilderParts implements ChessBuilder {
 
 
 	@Override
-	public void withPeonPasanteSquare(Square peonPasanteSquare) {
-		this.getState().setPeonPasanteSquare(peonPasanteSquare);
+	public void withPawnPasanteSquare(Square peonPasanteSquare) {
+		this.getState().setPawnPasanteSquare(peonPasanteSquare);
 	}
 
 

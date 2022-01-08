@@ -12,7 +12,7 @@ public interface ChessBuilder {
 
 	void withTurno(Color turno);
 
-	void withPeonPasanteSquare(Square peonPasanteSquare);
+	void withPawnPasanteSquare(Square peonPasanteSquare);
 
 	void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido);
 

@@ -17,8 +17,8 @@ public class MoveGeneratorStrategy {
 	private BoardState boardState;
 	private MoveFactory moveFactory;
 	
-	private PeonBlancoMoveGenerator pbmg;
-	private PeonNegroMoveGenerator pnmg;
+	private PawnBlancoMoveGenerator pbmg;
+	private PawnNegroMoveGenerator pnmg;
 	private TorreMoveGenerator tbmg;
 	private TorreMoveGenerator tnmg;
 	private CaballoMoveGenerator cbmg;
@@ -30,12 +30,12 @@ public class MoveGeneratorStrategy {
 	private KingBlancoMoveGenerator rbmg;
 	private KingNegroMoveGenerator rnmg;
 
-	private PeonPasanteMoveGenerator ppmg = null;
+	private PawnPasanteMoveGenerator ppmg = null;
 	
 	public MoveGeneratorStrategy() {
-		pbmg =  new PeonBlancoMoveGenerator();
+		pbmg =  new PawnBlancoMoveGenerator();
 		
-		pnmg = new PeonNegroMoveGenerator();
+		pnmg = new PawnNegroMoveGenerator();
 		
 		tbmg = new TorreMoveGenerator(Color.WHITE);
 		
@@ -57,7 +57,7 @@ public class MoveGeneratorStrategy {
 		
 		rnmg = new KingNegroMoveGenerator();
 		
-		ppmg = new PeonPasanteMoveGenerator();
+		ppmg = new PawnPasanteMoveGenerator();
 		
 		moveFactory = new MoveFactory();
 	}
@@ -86,11 +86,11 @@ public class MoveGeneratorStrategy {
 		settupMoveGenerators();
 	}
 	
-	public PeonBlancoMoveGenerator getPeonBlancoMoveGenerator() {
+	public PawnBlancoMoveGenerator getPawnBlancoMoveGenerator() {
 		return pbmg;
 	}
 
-	public PeonNegroMoveGenerator getPeonNegroMoveGenerator() {
+	public PawnNegroMoveGenerator getPawnNegroMoveGenerator() {
 		return pnmg;
 	}
 
@@ -134,7 +134,7 @@ public class MoveGeneratorStrategy {
 		return rnmg;
 	}
 	
-	public PeonPasanteMoveGenerator getPeonPasanteMoveGenerator() {
+	public PawnPasanteMoveGenerator getPawnPasanteMoveGenerator() {
 		return ppmg;
 	}
 	
@@ -198,7 +198,7 @@ public class MoveGeneratorStrategy {
 	}
 	
 
-	private void settupPeonPasanteMoveGenerator() {
+	private void settupPawnPasanteMoveGenerator() {
 		ppmg.setBoardState(boardState);
 		ppmg.setTablero(dummyBoard);
 	}	
@@ -228,7 +228,7 @@ public class MoveGeneratorStrategy {
 		
 		settupMoveGenerator(rnmg);
 		
-		settupPeonPasanteMoveGenerator();
+		settupPawnPasanteMoveGenerator();
 	}	
 
 }

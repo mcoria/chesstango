@@ -28,7 +28,7 @@ public class FENParser {
 		
 		parsePiecePlacement(piecePlacement);
 		
-		chessBuilder.withPeonPasanteSquare(parsePeonPasanteSquare(peonPasante));
+		chessBuilder.withPawnPasanteSquare(parsePawnPasanteSquare(peonPasante));
 		
 		chessBuilder.withTurno(parseTurno(activeColor));
 		
@@ -152,7 +152,7 @@ public class FENParser {
 		return pieza;
 	}	
 	
-	protected Square parsePeonPasanteSquare(String peonPasante) {
+	protected Square parsePawnPasanteSquare(String peonPasante) {
 		Square result = null;
 		if( ! "-".equals(peonPasante)){
 			char file = peonPasante.charAt(0);

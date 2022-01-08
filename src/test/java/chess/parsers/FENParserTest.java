@@ -46,7 +46,7 @@ public class FENParserTest {
 			}
 			
 			@Override
-			public void withPeonPasanteSquare(Square peonPasanteSquare) {
+			public void withPawnPasanteSquare(Square peonPasanteSquare) {
 				FENParserTest.this.peonPasanteSquare = peonPasanteSquare;
 			}
 			
@@ -236,22 +236,22 @@ public class FENParserTest {
 	}	
 
 	@Test
-	public void testParsePeonPasanteSquare01() {
-		Square peonPasanteSquare = parser.parsePeonPasanteSquare("-");
+	public void testParsePawnPasanteSquare01() {
+		Square peonPasanteSquare = parser.parsePawnPasanteSquare("-");
 		
 		assertNull(peonPasanteSquare);
 	}
 	
 	@Test
-	public void testParsePeonPasanteSquare02() {
-		Square peonPasanteSquare = parser.parsePeonPasanteSquare("a3");
+	public void testParsePawnPasanteSquare02() {
+		Square peonPasanteSquare = parser.parsePawnPasanteSquare("a3");
 		
 		assertEquals(Square.a3, peonPasanteSquare);
 	}	
 	
 	@Test
-	public void testParsePeonPasanteSquare03() {
-		Square peonPasanteSquare = parser.parsePeonPasanteSquare("h6");
+	public void testParsePawnPasanteSquare03() {
+		Square peonPasanteSquare = parser.parsePawnPasanteSquare("h6");
 		
 		assertEquals(Square.h6, peonPasanteSquare);
 	}

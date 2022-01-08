@@ -9,11 +9,11 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class PeonNegroMoveGenerator extends PeonAbstractMoveGenerator {
+public class PawnNegroMoveGenerator extends PawnAbstractMoveGenerator {
 	
 	private static final Pieza[] PROMOCIONES_BLACK = new Pieza[]{Pieza.ROOK_BLACK, Pieza.KNIGHT_BLACK, Pieza.BISHOP_BLACK, Pieza.QUEEN_BLACK};
 	
-	public PeonNegroMoveGenerator() {
+	public PawnNegroMoveGenerator() {
 		super(Color.BLACK);
 	}
 
@@ -39,7 +39,7 @@ public class PeonNegroMoveGenerator extends PeonAbstractMoveGenerator {
 	}	
 
 	@Override
-	protected PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare) {
+	protected PosicionPieza getCapturaPawnPasante(Square peonPasanteSquare) {
 		return new PosicionPieza(Square.getSquare(peonPasanteSquare.getFile(), 3), Pieza.PAWN_WHITE);
 	}
 

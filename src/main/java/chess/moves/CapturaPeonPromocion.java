@@ -8,11 +8,11 @@ import chess.layers.PosicionPiezaBoard;
  * @author Mauricio Coria
  *
  */
-class CapturaPeonPromocion extends CaptureMove {
+class CapturaPawnPromocion extends CaptureMove {
 
 	protected final Pieza promocion;
 	
-	public CapturaPeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	public CapturaPawnPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}
@@ -26,7 +26,7 @@ class CapturaPeonPromocion extends CaptureMove {
 	@Override
 	public boolean equals(Object obj) {
 		if(super.equals(obj)  && obj instanceof CaptureMove){
-			CapturaPeonPromocion other = (CapturaPeonPromocion) obj;
+			CapturaPawnPromocion other = (CapturaPawnPromocion) obj;
 			return promocion.equals(other.promocion);
 		}
 		return false;

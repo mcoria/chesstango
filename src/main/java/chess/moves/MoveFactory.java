@@ -110,21 +110,21 @@ public class MoveFactory {
 		return new CaptureMove(origen, destino);
 	}
 	
-	public Move createSaltoDoblePeonMove(PosicionPieza origen, PosicionPieza destino, Square saltoSimpleCasillero) {
-		return new SaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
+	public Move createSaltoDoblePawnMove(PosicionPieza origen, PosicionPieza destino, Square saltoSimpleCasillero) {
+		return new SaltoDoblePawnMove(origen, destino, saltoSimpleCasillero);
 	}
 
-	public Move createCapturePeonPasante(PosicionPieza origen, PosicionPieza destino,
-			PosicionPieza capturaPeonPasante) {
-		return new CapturePeonPasante(origen, destino, capturaPeonPasante);
+	public Move createCapturePawnPasante(PosicionPieza origen, PosicionPieza destino,
+			PosicionPieza capturaPawnPasante) {
+		return new CapturePawnPasante(origen, destino, capturaPawnPasante);
 	}
 
-	public Move createSimplePeonPromocion(PosicionPieza origen, PosicionPieza destino, Pieza pieza) {
-		return new SimplePeonPromocion(origen, destino, pieza);
+	public Move createSimplePawnPromocion(PosicionPieza origen, PosicionPieza destino, Pieza pieza) {
+		return new SimplePawnPromocion(origen, destino, pieza);
 	}
 
-	public Move createCapturePeonPromocion(PosicionPieza origen, PosicionPieza destino, Pieza pieza) {
-		return new CapturaPeonPromocion(origen, destino, pieza);
+	public Move createCapturePawnPromocion(PosicionPieza origen, PosicionPieza destino, Pieza pieza) {
+		return new CapturaPawnPromocion(origen, destino, pieza);
 	}
 	
 }

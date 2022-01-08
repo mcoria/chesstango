@@ -66,7 +66,7 @@ public class CaballoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d3) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c4) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c6) ));
-		// Peon Blanco en d7
+		// Pawn Blanco en d7
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PAWN_BLACK) ));
 		
 		assertEquals(7, moves.size());

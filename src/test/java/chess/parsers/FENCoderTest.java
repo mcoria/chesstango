@@ -44,19 +44,19 @@ public class FENCoderTest {
 	}
 	
 	@Test
-	public void testPeonPasanteC3() {	
-		coder.withPeonPasanteSquare(Square.c3);
+	public void testPawnPasanteC3() {	
+		coder.withPawnPasanteSquare(Square.c3);
 		
-		String actual = coder.getPeonPasante(stringBuilder).toString();
+		String actual = coder.getPawnPasante(stringBuilder).toString();
 		
 		assertEquals("c3", actual);
 	}
 	
 	@Test
-	public void testPeonPasanteNull() {	
-		coder.withPeonPasanteSquare(null);
+	public void testPawnPasanteNull() {	
+		coder.withPawnPasanteSquare(null);
 		
-		String actual = coder.getPeonPasante(stringBuilder).toString();
+		String actual = coder.getPawnPasante(stringBuilder).toString();
 		
 		assertEquals("-", actual);
 	}	
@@ -233,7 +233,7 @@ public class FENCoderTest {
 		
 		coder.withTurno(Color.WHITE);
 		
-		coder.withPeonPasanteSquare(null);
+		coder.withPawnPasanteSquare(null);
 		
 		coder.withCastlingWhiteReinaPermitido(true);
 		coder.withCastlingWhiteKingPermitido(true);

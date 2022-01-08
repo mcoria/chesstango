@@ -9,11 +9,11 @@ import chess.layers.PosicionPiezaBoard;
  * @author Mauricio Coria
  *
  */
-class SimplePeonPromocion extends SimpleMove {
+class SimplePawnPromocion extends SimpleMove {
 
 	protected final Pieza promocion;
 	
-	public SimplePeonPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	public SimplePawnPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}
@@ -26,8 +26,8 @@ class SimplePeonPromocion extends SimpleMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof SimplePeonPromocion){
-			SimplePeonPromocion other = (SimplePeonPromocion) obj;
+		if(super.equals(obj)  && obj instanceof SimplePawnPromocion){
+			SimplePawnPromocion other = (SimplePawnPromocion) obj;
 			return promocion.equals(other.promocion);
 		}
 		return false;

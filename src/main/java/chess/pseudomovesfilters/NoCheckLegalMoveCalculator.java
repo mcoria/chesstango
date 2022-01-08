@@ -23,8 +23,6 @@ import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
  *
  */
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
-	
-	public static int count = 0;
 
 	public NoCheckLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
@@ -119,7 +117,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
 			
-			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCapturePeonPasante()) {
+			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCapturePawnPasante()) {
 				for (Move move : pseudoMoves) {
 
 					// assert origen.equals(move.getFrom());

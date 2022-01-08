@@ -58,7 +58,7 @@ public class ASCIIOutput implements ChessBuilder {
 
 
 	@Override
-	public void withPeonPasanteSquare(Square peonPasanteSquare) {
+	public void withPawnPasanteSquare(Square peonPasanteSquare) {
 		// TODO Auto-generated method stub
 		
 	}

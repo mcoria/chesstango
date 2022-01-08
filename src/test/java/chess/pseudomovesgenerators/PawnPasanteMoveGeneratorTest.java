@@ -20,14 +20,14 @@ import chess.layers.PosicionPiezaBoard;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
-import chess.pseudomovesgenerators.PeonPasanteMoveGenerator;
+import chess.pseudomovesgenerators.PawnPasanteMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PeonPasanteMoveGeneratorTest {
-	private PeonPasanteMoveGenerator moveGenerator;
+public class PawnPasanteMoveGeneratorTest {
+	private PawnPasanteMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -41,7 +41,7 @@ public class PeonPasanteMoveGeneratorTest {
 		moves = new ArrayList<Move>();
 		state = new BoardState();
 		
-		moveGenerator = new PeonPasanteMoveGenerator();
+		moveGenerator = new PawnPasanteMoveGenerator();
 		moveGenerator.setBoardState(state);
 	}
 	
@@ -50,10 +50,10 @@ public class PeonPasanteMoveGeneratorTest {
 
 	
 	@Test
-	public void testPeonBlancoPasanteIzquierda() {
+	public void testPawnBlancoPasanteIzquierda() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
-		state.setPeonPasanteSquare(Square.d6);
+		state.setPawnPasanteSquare(Square.d6);
 		state.setTurnoActual(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
@@ -68,17 +68,17 @@ public class PeonPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureNegroPeonPasanteMove(origen, Square.d6) ));
+		assertTrue(moves.contains( createCaptureNegroPawnPasanteMove(origen, Square.d6) ));
 	}
 	
 	
 
 	
 	@Test
-	public void testPeonBlancoPasanteDerecha() {
+	public void testPawnBlancoPasanteDerecha() {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
-		state.setPeonPasanteSquare(Square.e6);
+		state.setPawnPasanteSquare(Square.e6);
 		state.setTurnoActual(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
@@ -93,15 +93,15 @@ public class PeonPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureNegroPeonPasanteMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createCaptureNegroPawnPasanteMove(origen, Square.e6) ));
 	}
 	
 
 	@Test
-	public void testPeonNegroPasanteDerecha() {
+	public void testPawnNegroPasanteDerecha() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
-		state.setPeonPasanteSquare(Square.e3);
+		state.setPawnPasanteSquare(Square.e3);
 		state.setTurnoActual(Color.BLACK);
 		
 		moveGenerator.setTablero(tablero);
@@ -116,14 +116,14 @@ public class PeonPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureBlancoPeonPasanteMove(origen, Square.e3) ));
+		assertTrue(moves.contains( createCaptureBlancoPawnPasanteMove(origen, Square.e3) ));
 	}	
 
 	@Test
-	public void testPeonNegroPasanteIzquierda() {
+	public void testPawnNegroPasanteIzquierda() {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
-		state.setPeonPasanteSquare(Square.d3);
+		state.setPawnPasanteSquare(Square.d3);
 		state.setTurnoActual(Color.BLACK);		
 		
 		moveGenerator.setTablero(tablero);
@@ -138,15 +138,15 @@ public class PeonPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureBlancoPeonPasanteMove(origen, Square.d3) ));
+		assertTrue(moves.contains( createCaptureBlancoPawnPasanteMove(origen, Square.d3) ));
 	}
 
-	private Move createCaptureNegroPeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PAWN_BLACK));
+	private Move createCaptureNegroPawnPasanteMove(PosicionPieza origen, Square destinoSquare) {
+		return moveFactory.createCapturePawnPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PAWN_BLACK));
 	}
 	
-	private Move createCaptureBlancoPeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PAWN_WHITE));
+	private Move createCaptureBlancoPawnPasanteMove(PosicionPieza origen, Square destinoSquare) {
+		return moveFactory.createCapturePawnPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PAWN_WHITE));
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

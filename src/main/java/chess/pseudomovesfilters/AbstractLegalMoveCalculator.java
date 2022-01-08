@@ -14,7 +14,7 @@ import chess.moves.Move;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
-import chess.pseudomovesgenerators.PeonPasanteMoveGenerator;
+import chess.pseudomovesgenerators.PawnPasanteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -30,7 +30,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 	protected MoveGeneratorStrategy strategy = null;
 	
-	protected PeonPasanteMoveGenerator peonPasanteMoveGenerator = null;
+	protected PawnPasanteMoveGenerator peonPasanteMoveGenerator = null;
 	
 	protected MoveFilter filter = null;
 	
@@ -68,7 +68,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	 * @param moves
 	 */
 	protected void getLegalMovesSpecial(Collection<Move> moves) {
-		Collection<Move> pseudoMoves = strategy.getPeonPasanteMoveGenerator().getPseudoMoves();
+		Collection<Move> pseudoMoves = strategy.getPawnPasanteMoveGenerator().getPseudoMoves();
 		for (Move move : pseudoMoves) {
 			if(move.filter(filter)){
 				moves.add(move);

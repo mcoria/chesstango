@@ -10,8 +10,8 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 public enum Pieza {
-	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPeonBlancoMoveGenerator()),
-	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPeonNegroMoveGenerator()),
+	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPawnBlancoMoveGenerator()),
+	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPawnNegroMoveGenerator()),
 	
 	ROOK_WHITE(Color.WHITE, strategy -> strategy.getTorreBlancaMoveGenerator()),
 	ROOK_BLACK(Color.BLACK, strategy -> strategy.getTorreNegraMoveGenerator()),
@@ -99,7 +99,7 @@ public enum Pieza {
 		}
 	}
 
-	public static Pieza getPeon(Color color) {
+	public static Pieza getPawn(Color color) {
 		switch (color) {
 		case  WHITE:
 			return PAWN_WHITE;

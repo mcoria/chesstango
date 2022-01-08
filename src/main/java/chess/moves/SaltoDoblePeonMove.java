@@ -10,11 +10,11 @@ import chess.layers.MoveCacheBoard;
  * @author Mauricio Coria
  *
  */
-class SaltoDoblePeonMove extends SimpleMove {
+class SaltoDoblePawnMove extends SimpleMove {
 	
 	private final Square peonPasanteSquare;
 
-	public SaltoDoblePeonMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
+	public SaltoDoblePawnMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
 		super(from, to);
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
@@ -22,7 +22,7 @@ class SaltoDoblePeonMove extends SimpleMove {
 	@Override
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
-		boardState.setPeonPasanteSquare(peonPasanteSquare);
+		boardState.setPawnPasanteSquare(peonPasanteSquare);
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ class SaltoDoblePeonMove extends SimpleMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof SaltoDoblePeonMove){
+		if(super.equals(obj)  && obj instanceof SaltoDoblePawnMove){
 			return true;
 		}
 		return false;

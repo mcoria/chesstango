@@ -10,7 +10,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
+public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 
 	protected abstract Square getCasilleroSaltoSimple(Square casillero);
 
@@ -20,12 +20,12 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
 	
-	protected abstract PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare);	
+	protected abstract PosicionPieza getCapturaPawnPasante(Square peonPasanteSquare);	
 	
 	protected abstract Pieza[] getPiezaPromocion();
 
 	
-	public PeonAbstractMoveGenerator(Color color) {
+	public PawnAbstractMoveGenerator(Color color) {
 		super(color);
 	}
 	
@@ -62,7 +62,7 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 						result.affectedByContainerAdd(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
-							Move moveSaltoDoble = this.moveFactory.createSaltoDoblePeonMove(origen, destino, saltoSimpleCasillero);
+							Move moveSaltoDoble = this.moveFactory.createSaltoDoblePawnMove(origen, destino, saltoSimpleCasillero);
 							result.moveContainerAdd(moveSaltoDoble);
 						}
 					}					
@@ -109,14 +109,14 @@ public abstract class PeonAbstractMoveGenerator extends AbstractMoveGenerator {
 	private void addSaltoSimplePromocion(PosicionPieza origen, PosicionPieza destino) {
 		Pieza[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			this.result.moveContainerAdd(this.moveFactory.createSimplePeonPromocion(origen, destino, promociones[i]));
+			this.result.moveContainerAdd(this.moveFactory.createSimplePawnPromocion(origen, destino, promociones[i]));
 		}
 	}
 	
 	private void addCapturaPromocion(PosicionPieza origen, PosicionPieza destino) {
 		Pieza[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			this.result.moveContainerAdd(this.moveFactory.createCapturePeonPromocion(origen, destino, promociones[i]));
+			this.result.moveContainerAdd(this.moveFactory.createCapturePawnPromocion(origen, destino, promociones[i]));
 		}
 	}
 

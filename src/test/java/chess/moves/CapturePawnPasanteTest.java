@@ -21,7 +21,7 @@ import chess.debug.chess.ColorBoardDebug;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
-import chess.moves.CapturePeonPasante;
+import chess.moves.CapturePawnPasante;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -30,13 +30,13 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CapturePeonPasanteTest {
+public class CapturePawnPasanteTest {
 
 	private PosicionPiezaBoard piezaBoard;
 	
 	private BoardState boardState;
 	
-	private CapturePeonPasante moveExecutor;
+	private CapturePawnPasante moveExecutor;
 	
 	private ColorBoardDebug colorBoard;
 	
@@ -50,7 +50,7 @@ public class CapturePeonPasanteTest {
 	public void setUp() throws Exception {
 		boardState = new BoardState();
 		boardState.setTurnoActual(Color.WHITE);
-		boardState.setPeonPasanteSquare(Square.a6);		
+		boardState.setPawnPasanteSquare(Square.a6);		
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.b5, Pieza.PAWN_WHITE);
@@ -62,7 +62,7 @@ public class CapturePeonPasanteTest {
 		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PAWN_BLACK);
 		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
 		
-		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);		
+		moveExecutor = new CapturePawnPasante(peonBlanco, peonPasanteSquare, peonNegro);		
 	}
 	
 	@Test
@@ -91,14 +91,14 @@ public class CapturePeonPasanteTest {
 		moveExecutor.executeMove(boardState);		
 		
 		// asserts execute
-		assertNull(boardState.getPeonPasanteSquare());
+		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());	
 		
 		// undos
 		moveExecutor.undoMove(boardState);	
 		
 		// asserts undos
-		assertEquals(Square.a6, boardState.getPeonPasanteSquare());
+		assertEquals(Square.a6, boardState.getPawnPasanteSquare());
 		assertEquals(Color.WHITE, boardState.getTurnoActual());			
 		
 	}
@@ -171,7 +171,7 @@ public class CapturePeonPasanteTest {
 		assertTrue(piezaBoard.isEmtpy(Square.b5));
 		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
 		
-		assertNull(boardState.getPeonPasanteSquare());
+		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());	
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
@@ -190,7 +190,7 @@ public class CapturePeonPasanteTest {
 		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.b5));
 		assertEquals(Pieza.PAWN_BLACK, piezaBoard.getPieza(Square.a5));	
 		
-		assertEquals(Square.a6, boardState.getPeonPasanteSquare());
+		assertEquals(Square.a6, boardState.getPawnPasanteSquare());
 		assertEquals(Color.WHITE, boardState.getTurnoActual());	
 		
 		assertTrue(colorBoard.isEmpty(Square.a6));

@@ -87,7 +87,7 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(boardState);		
 
 		// asserts execute	
-		assertNull(boardState.getPeonPasanteSquare());
+		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
 		// undos

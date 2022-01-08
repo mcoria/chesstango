@@ -29,7 +29,7 @@ public class FENCoder implements ChessBuilder {
 		
 		getEnroques(stringBuilder).append(' ');
 		
-		getPeonPasante(stringBuilder).append(" 0 1");
+		getPawnPasante(stringBuilder).append(" 0 1");
 
 		return stringBuilder.toString();
 	}
@@ -50,7 +50,7 @@ public class FENCoder implements ChessBuilder {
 		return stringBuilder;
 	}
 	
-	public StringBuilder getPeonPasante(StringBuilder stringBuilder) {
+	public StringBuilder getPawnPasante(StringBuilder stringBuilder) {
 		if (peonPasanteSquare == null) {
 			stringBuilder.append('-');
 		} else {
@@ -94,7 +94,7 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withPeonPasanteSquare(Square peonPasanteSquare) {
+	public void withPawnPasanteSquare(Square peonPasanteSquare) {
 		this.peonPasanteSquare = peonPasanteSquare;
 	}
 	

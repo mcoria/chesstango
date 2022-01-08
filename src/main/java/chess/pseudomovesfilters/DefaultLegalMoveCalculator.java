@@ -18,7 +18,6 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
-	public static int count = 0;
 	
 	public DefaultLegalMoveCalculator(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
 			MoveGeneratorStrategy strategy, MoveFilter filter) {
