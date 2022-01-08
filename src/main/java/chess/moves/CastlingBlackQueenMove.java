@@ -9,7 +9,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class CastleBlackQueenMove extends CastleMove {
+public class CastlingBlackQueenMove extends CastlingMove {
 
 	public static final PosicionPieza FROM = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
 	public static final PosicionPieza TO = new PosicionPieza(Square.c8, null);
@@ -20,7 +20,7 @@ public class CastleBlackQueenMove extends CastleMove {
 	private static final SimpleKingMove REY_MOVE = new SimpleKingMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
-	public CastleBlackQueenMove() {
+	public CastlingBlackQueenMove() {
 		super(REY_MOVE, TORRE_MOVE);
 	}
 	
@@ -28,13 +28,13 @@ public class CastleBlackQueenMove extends CastleMove {
 	@Override
 	public void executeMove(BoardState boardState) {
 		super.executeMove(boardState);
-		boardState.setCastleBlackKingPermitido(false);
-		boardState.setCastleBlackReinaPermitido(false);
+		boardState.setCastlingBlackKingPermitido(false);
+		boardState.setCastlingBlackReinaPermitido(false);
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof CastleBlackQueenMove){
+		if(obj instanceof CastlingBlackQueenMove){
 			return true;
 		}
 		return false;

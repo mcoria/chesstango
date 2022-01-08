@@ -19,8 +19,8 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
-import chess.moves.CastleBlackKingMove;
-import chess.moves.CastleBlackQueenMove;
+import chess.moves.CastlingBlackKingMove;
+import chess.moves.CastlingBlackQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -52,10 +52,10 @@ public class KingNegroMoveGeneratorTest {
 	}
 	
 	@Test
-	public void testCastleBlackReina01() {
+	public void testCastlingBlackReina01() {
 		PosicionPiezaBoard tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
 		
-		state.setCastleBlackReinaPermitido(true);
+		state.setCastlingBlackReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -74,16 +74,16 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( new CastleBlackQueenMove() ));
+		assertTrue(moves.contains( new CastlingBlackQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
 	
 	@Test
-	public void testCastleBlackReina02() {
+	public void testCastlingBlackReina02() {
 		PosicionPiezaBoard tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
 		
-		state.setCastleBlackReinaPermitido(true);
+		state.setCastlingBlackReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -104,16 +104,16 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastleBlackQueenMove() ));
+		assertTrue(moves.contains( new CastlingBlackQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
 	
 	@Test
-	public void testCastleBlackReina03() {
+	public void testCastlingBlackReina03() {
 		PosicionPiezaBoard tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
 		
-		state.setCastleBlackReinaPermitido(true);
+		state.setCastlingBlackReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -134,16 +134,16 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastleBlackQueenMove() ));
+		assertTrue(moves.contains( new CastlingBlackQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
 	
 	@Test
-	public void testCastleBlackKing01() {
+	public void testCastlingBlackKing01() {
 		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
-		state.setCastleBlackKingPermitido(true);
+		state.setCastlingBlackKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -162,16 +162,16 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( new CastleBlackKingMove() ));
+		assertTrue(moves.contains( new CastlingBlackKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}	
 	
 	@Test
-	public void testCastleBlackKing02() {
+	public void testCastlingBlackKing02() {
 		PosicionPiezaBoard tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
-		state.setCastleBlackKingPermitido(true);
+		state.setCastlingBlackKingPermitido(true);
 
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -192,16 +192,16 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastleBlackKingMove() ));
+		assertTrue(moves.contains( new CastlingBlackKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}
 	
 	@Test
-	public void testCastleBlackKing03() {
+	public void testCastlingBlackKing03() {
 		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
-		state.setCastleBlackKingPermitido(true);
+		state.setCastlingBlackKingPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -222,17 +222,17 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastleBlackKingMove() ));
+		assertTrue(moves.contains( new CastlingBlackKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
 
 	@Test
-	public void testCastleBlackJaque() {
+	public void testCastlingBlackJaque() {
 		PosicionPiezaBoard tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
-		state.setCastleBlackKingPermitido(true);
-		state.setCastleBlackReinaPermitido(true);
+		state.setCastlingBlackKingPermitido(true);
+		state.setCastlingBlackReinaPermitido(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -253,8 +253,8 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
-		assertTrue(moves.contains(  new CastleBlackKingMove() ));			// No se considera si el rey esta en jaque
-		assertTrue(moves.contains(  new CastleBlackQueenMove() ));			// No se considera si el rey esta en jaque
+		assertTrue(moves.contains(  new CastlingBlackKingMove() ));			// No se considera si el rey esta en jaque
+		assertTrue(moves.contains(  new CastlingBlackQueenMove() ));			// No se considera si el rey esta en jaque
 		
 		assertEquals(7, moves.size());
 	}

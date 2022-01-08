@@ -12,8 +12,8 @@ import org.junit.Test;
 
 import chess.builder.ChessBuilderBoard;
 import chess.debug.builder.DebugChessFactory;
-import chess.moves.CastleWhiteKingMove;
-import chess.moves.CastleWhiteQueenMove;
+import chess.moves.CastlingWhiteKingMove;
+import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -117,7 +117,7 @@ public class BoardTest {
 	}
 
 	@Test
-	public void testJuegoCastleWhiteJaque() {		
+	public void testJuegoCastlingWhiteJaque() {		
 		Board tablero = getBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
 
 		BoardStatus result = tablero.getBoardStatus();
@@ -133,8 +133,8 @@ public class BoardTest {
 		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f2)));
 		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f1)));
 
-		assertFalse(moves.contains(new CastleWhiteKingMove()));
-		assertFalse(moves.contains(new CastleWhiteQueenMove()));
+		assertFalse(moves.contains(new CastlingWhiteKingMove()));
+		assertFalse(moves.contains(new CastlingWhiteQueenMove()));
 
 		assertEquals(4, moves.size());
 	}
@@ -241,7 +241,7 @@ public class BoardTest {
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f2)));
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f1)));
-		assertFalse(moves.contains(new CastleWhiteKingMove()));
+		assertFalse(moves.contains(new CastlingWhiteKingMove()));
 		
 		assertEquals(12, moves.size());
 		

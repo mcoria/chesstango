@@ -99,22 +99,22 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withCastleBlackKingPermitido(boolean enroqueNegroKingPermitido) {
+	public void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido) {
 		this.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
 	}
 	
 	@Override
-	public void withCastleBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
+	public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
 		this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
 	}
 	
 	@Override
-	public void withCastleWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
+	public void withCastlingWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
 		this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
 	}
 	
 	@Override
-	public void withCastleWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+	public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
 		this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 	}
 	

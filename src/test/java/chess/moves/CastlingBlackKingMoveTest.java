@@ -29,13 +29,13 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CastleBlackKingMoveTest {
+public class CastlingBlackKingMoveTest {
 	
 	private PosicionPiezaBoard piezaBoard;
 	
 	private BoardState boardState;	
 	
-	private CastleBlackKingMove moveExecutor;
+	private CastlingBlackKingMove moveExecutor;
 	
 	private KingCacheBoard kingCacheBoard;
 	
@@ -49,12 +49,12 @@ public class CastleBlackKingMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = new CastleBlackKingMove();
+		moveExecutor = new CastlingBlackKingMove();
 		
 		boardState = new BoardState();		
 		boardState.setTurnoActual(Color.NEGRO);
-		boardState.setCastleBlackReinaPermitido(true);
-		boardState.setCastleBlackKingPermitido(true);
+		boardState.setCastlingBlackReinaPermitido(true);
+		boardState.setCastlingBlackKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
 		piezaBoard.setPieza(Square.e8, Pieza.REY_NEGRO);
@@ -89,15 +89,15 @@ public class CastleBlackKingMoveTest {
 
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
-		assertFalse(boardState.isCastleBlackReinaPermitido());
-		assertFalse(boardState.isCastleBlackKingPermitido());
+		assertFalse(boardState.isCastlingBlackReinaPermitido());
+		assertFalse(boardState.isCastlingBlackKingPermitido());
 		
 		moveExecutor.undoMove(boardState);
 		
 		assertNull(boardState.getPeonPasanteSquare());
 		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
-		assertTrue(boardState.isCastleBlackReinaPermitido());
-		assertTrue(boardState.isCastleBlackKingPermitido());		
+		assertTrue(boardState.isCastlingBlackReinaPermitido());
+		assertTrue(boardState.isCastlingBlackKingPermitido());		
 		
 	}
 	

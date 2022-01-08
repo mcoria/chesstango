@@ -51,22 +51,22 @@ public class FENParserTest {
 			}
 			
 			@Override
-			public void withCastleBlackKingPermitido(boolean enroqueNegroKingPermitido) {
+			public void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido) {
 				FENParserTest.this.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
 			}
 			
 			@Override
-			public void withCastleBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
+			public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
 				FENParserTest.this.enroqueNegroReinaPermitido = enroqueNegroReinaPermitido;
 			}
 			
 			@Override
-			public void withCastleWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
+			public void withCastlingWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
 				FENParserTest.this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
 			}
 			
 			@Override
-			public void withCastleWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+			public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
 				FENParserTest.this.enroqueBlancoReinaPermitido = enroqueBlancoReinaPermitido;
 			}
 		});

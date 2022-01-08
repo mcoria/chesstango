@@ -41,23 +41,23 @@ public class ChessBuilderGame implements ChessBuilder {
 	}
 
 	@Override
-	public void withCastleWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
-		builder.withCastleWhiteReinaPermitido(enroqueBlancoReinaPermitido);
+	public void withCastlingWhiteReinaPermitido(boolean enroqueBlancoReinaPermitido) {
+		builder.withCastlingWhiteReinaPermitido(enroqueBlancoReinaPermitido);
 	}
 
 	@Override
-	public void withCastleWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
-		builder.withCastleWhiteKingPermitido(enroqueBlancoKingPermitido);
+	public void withCastlingWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
+		builder.withCastlingWhiteKingPermitido(enroqueBlancoKingPermitido);
 	}
 
 	@Override
-	public void withCastleBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
-		builder.withCastleBlackReinaPermitido(enroqueNegroReinaPermitido);
+	public void withCastlingBlackReinaPermitido(boolean enroqueNegroReinaPermitido) {
+		builder.withCastlingBlackReinaPermitido(enroqueNegroReinaPermitido);
 	}
 
 	@Override
-	public void withCastleBlackKingPermitido(boolean enroqueNegroKingPermitido) {
-		builder.withCastleBlackKingPermitido(enroqueNegroKingPermitido);
+	public void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido) {
+		builder.withCastlingBlackKingPermitido(enroqueNegroKingPermitido);
 	}
 
 	@Override

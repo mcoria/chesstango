@@ -84,10 +84,10 @@ public class Board {
 	
 	public void constructBoardRepresentation(ChessBuilder builder){		
 		builder.withTurno(boardState.getTurnoActual());
-		builder.withCastleWhiteReinaPermitido(boardState.isCastleWhiteReinaPermitido());
-		builder.withCastleWhiteKingPermitido(boardState.isCastleWhiteKingPermitido());
-		builder.withCastleBlackReinaPermitido(boardState.isCastleBlackReinaPermitido());
-		builder.withCastleBlackKingPermitido(boardState.isCastleBlackKingPermitido());
+		builder.withCastlingWhiteReinaPermitido(boardState.isCastlingWhiteReinaPermitido());
+		builder.withCastlingWhiteKingPermitido(boardState.isCastlingWhiteKingPermitido());
+		builder.withCastlingBlackReinaPermitido(boardState.isCastlingBlackReinaPermitido());
+		builder.withCastlingBlackKingPermitido(boardState.isCastlingBlackKingPermitido());
 		builder.withPeonPasanteSquare(boardState.getPeonPasanteSquare());
 		
 		for(PosicionPieza pieza: dummyBoard){

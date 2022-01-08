@@ -4,8 +4,8 @@ import chess.CachePosiciones;
 import chess.Color;
 import chess.PosicionPieza;
 import chess.Square;
-import chess.moves.CastleWhiteKingMove;
-import chess.moves.CastleWhiteQueenMove;
+import chess.moves.CastlingWhiteKingMove;
+import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
 
 
@@ -31,7 +31,7 @@ public class KingBlancoMoveGenerator extends KingAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PosicionPieza origen) {
 		super.generateMovesPseudoMoves(origen);
 		
-		if (this.boardState.isCastleWhiteReinaPermitido()){
+		if (this.boardState.isCastlingWhiteReinaPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
 			result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
 			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);
@@ -42,12 +42,12 @@ public class KingBlancoMoveGenerator extends KingAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-				result.moveContainerAdd(new CastleWhiteQueenMove());
+				result.moveContainerAdd(new CastlingWhiteQueenMove());
 			}
 		}
 		
 		
-		if (this.boardState.isCastleWhiteKingPermitido() ){
+		if (this.boardState.isCastlingWhiteKingPermitido() ){
 			result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
 			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			result.affectedByContainerAdd(Square.h1); //La posicion de la torre		
@@ -56,7 +56,7 @@ public class KingBlancoMoveGenerator extends KingAbstractMoveGenerator {
 								CachePosiciones.TORRE_BLANCA_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
-				this.result.moveContainerAdd(new CastleWhiteKingMove());
+				this.result.moveContainerAdd(new CastlingWhiteKingMove());
 			}
 		}
 	}

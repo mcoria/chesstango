@@ -32,43 +32,43 @@ public class BoardStateDebug extends BoardState{
 	public void validar(PosicionPiezaBoard board) {
 		validar();
 
-		if (this.isCastleWhiteReinaPermitido()) {
+		if (this.isCastlingWhiteReinaPermitido()) {
 			if (board.getPieza(Square.a1) == null) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			} else if (!Pieza.TORRE_BLANCO.equals(board.getPieza(Square.a1))) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			}
 		}
 
-		if (this.isCastleWhiteKingPermitido()) {
+		if (this.isCastlingWhiteKingPermitido()) {
 			if (board.getPieza(Square.h1) == null) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			} else if (!Pieza.TORRE_BLANCO.equals(board.getPieza(Square.h1))) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			}
 		}
 
-		if (this.isCastleBlackReinaPermitido()) {
+		if (this.isCastlingBlackReinaPermitido()) {
 			if (board.getPieza(Square.a8) == null) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			} else if (!Pieza.TORRE_NEGRO.equals(board.getPieza(Square.a8))) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			}
 		}
 
-		if (this.isCastleBlackKingPermitido()) {
+		if (this.isCastlingBlackKingPermitido()) {
 			if (board.getPieza(Square.h8) == null) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			} else if (!Pieza.TORRE_NEGRO.equals(board.getPieza(Square.h8))) {
 				throw new RuntimeException(
-						"isCastleWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
+						"isCastlingWhiteReinaPermitido mal setteado: " + this.getPeonPasanteSquare());
 			}
 		}
 	}
