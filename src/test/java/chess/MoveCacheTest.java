@@ -5,9 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import layers.MoveCacheBoard;
-import moveexecutors.MoveFactory;
-import movegenerators.MoveGeneratorResult;
+import chess.layers.MoveCacheBoard;
+import chess.moveexecutors.MoveFactory;
+import chess.movegenerators.MoveGeneratorResult;
 
 
 /**

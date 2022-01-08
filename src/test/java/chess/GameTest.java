@@ -8,11 +8,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import builder.ChessBuilderGame;
 import chess.Game.GameStatus;
-import debug.builder.DebugChessFactory;
-import moveexecutors.EnroqueNegroReyMove;
-import parsers.FENParser;
+import chess.builder.ChessBuilderGame;
+import chess.debug.builder.DebugChessFactory;
+import chess.moveexecutors.EnroqueNegroReyMove;
+import chess.parsers.FENParser;
 
 
 /**

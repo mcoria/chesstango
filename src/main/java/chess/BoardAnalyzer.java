@@ -2,10 +2,10 @@ package chess;
 
 import java.util.Collection;
 
-import layers.KingCacheBoard;
-import movecalculators.LegalMoveCalculator;
-import moveexecutors.Move;
-import positioncaptures.Capturer;
+import chess.layers.KingCacheBoard;
+import chess.movecalculators.LegalMoveCalculator;
+import chess.moveexecutors.Move;
+import chess.positioncaptures.Capturer;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde

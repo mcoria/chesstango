@@ -2,13 +2,13 @@ package chess;
 
 import java.util.Collection;
 
-import builder.ChessBuilder;
-import layers.ColorBoard;
-import layers.KingCacheBoard;
-import layers.MoveCacheBoard;
-import layers.PosicionPiezaBoard;
-import moveexecutors.Move;
-import parsers.FENCoder;
+import chess.builder.ChessBuilder;
+import chess.layers.ColorBoard;
+import chess.layers.KingCacheBoard;
+import chess.layers.MoveCacheBoard;
+import chess.layers.PosicionPiezaBoard;
+import chess.moveexecutors.Move;
+import chess.parsers.FENCoder;
 
 
 /**

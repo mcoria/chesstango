@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import builder.ChessBuilderParts;
-import debug.builder.DebugChessFactory;
-import iterators.SquareIterator;
-import layers.ColorBoard;
-import layers.PosicionPiezaBoard;
-import parsers.FENParser;
+import chess.builder.ChessBuilderParts;
+import chess.debug.builder.DebugChessFactory;
+import chess.iterators.SquareIterator;
+import chess.layers.ColorBoard;
+import chess.layers.PosicionPiezaBoard;
+import chess.parsers.FENParser;
 
 
 /**

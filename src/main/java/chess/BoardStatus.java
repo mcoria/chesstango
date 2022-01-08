@@ -2,7 +2,7 @@ package chess;
 
 import java.util.Collection;
 
-import moveexecutors.Move;
+import chess.moveexecutors.Move;
 
 /**
  * @author Mauricio Coria

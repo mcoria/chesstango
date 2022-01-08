@@ -10,13 +10,13 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import builder.ChessBuilderBoard;
-import debug.builder.DebugChessFactory;
-import moveexecutors.EnroqueBlancoReyMove;
-import moveexecutors.EnroqueBlancoReynaMove;
-import moveexecutors.Move;
-import moveexecutors.MoveFactory;
-import parsers.FENParser;
+import chess.builder.ChessBuilderBoard;
+import chess.debug.builder.DebugChessFactory;
+import chess.moveexecutors.EnroqueBlancoReyMove;
+import chess.moveexecutors.EnroqueBlancoReynaMove;
+import chess.moveexecutors.Move;
+import chess.moveexecutors.MoveFactory;
+import chess.parsers.FENParser;
 
 
 /**

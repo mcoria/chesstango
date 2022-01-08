@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Deque;
 
 import chess.Game.GameStatus;
-import moveexecutors.Move;
+import chess.moveexecutors.Move;
 
 /**
  * @author Mauricio Coria
