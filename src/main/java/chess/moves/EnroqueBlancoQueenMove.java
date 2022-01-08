@@ -9,7 +9,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class EnroqueBlancoReynaMove extends EnroqueMove {
+public class EnroqueBlancoQueenMove extends EnroqueMove {
 
 	public static final PosicionPieza FROM = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
 	public static final PosicionPieza TO = new PosicionPieza(Square.c1, null);
@@ -20,7 +20,7 @@ public class EnroqueBlancoReynaMove extends EnroqueMove {
 	private static final SimpleKingMove REY_MOVE = new SimpleKingMove(FROM, TO);
 	private static final SimpleMove TORRE_MOVE = new SimpleMove(TORRE_FROM, TORRE_TO);
 	
-	public EnroqueBlancoReynaMove() {
+	public EnroqueBlancoQueenMove() {
 		super(REY_MOVE, TORRE_MOVE);
 	}
 	
@@ -33,7 +33,7 @@ public class EnroqueBlancoReynaMove extends EnroqueMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof EnroqueBlancoReynaMove){
+		if(obj instanceof EnroqueBlancoQueenMove){
 			return true;
 		}
 		return false;

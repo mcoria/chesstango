@@ -5,7 +5,7 @@ import chess.Color;
 import chess.PosicionPieza;
 import chess.Square;
 import chess.moves.EnroqueNegroKingMove;
-import chess.moves.EnroqueNegroReynaMove;
+import chess.moves.EnroqueNegroQueenMove;
 import chess.moves.Move;
 
 /**
@@ -43,7 +43,7 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
-				result.moveContainerAdd(new EnroqueNegroReynaMove());
+				result.moveContainerAdd(new EnroqueNegroQueenMove());
 			}
 		}
 			

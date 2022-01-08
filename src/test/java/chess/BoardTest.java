@@ -13,7 +13,7 @@ import org.junit.Test;
 import chess.builder.ChessBuilderBoard;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.EnroqueBlancoKingMove;
-import chess.moves.EnroqueBlancoReynaMove;
+import chess.moves.EnroqueBlancoQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -134,7 +134,7 @@ public class BoardTest {
 		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f1)));
 
 		assertFalse(moves.contains(new EnroqueBlancoKingMove()));
-		assertFalse(moves.contains(new EnroqueBlancoReynaMove()));
+		assertFalse(moves.contains(new EnroqueBlancoQueenMove()));
 
 		assertEquals(4, moves.size());
 	}

@@ -20,7 +20,7 @@ import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.moves.EnroqueNegroKingMove;
-import chess.moves.EnroqueNegroReynaMove;
+import chess.moves.EnroqueNegroQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -74,7 +74,7 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( new EnroqueNegroReynaMove() ));
+		assertTrue(moves.contains( new EnroqueNegroQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -104,7 +104,7 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new EnroqueNegroReynaMove() ));
+		assertTrue(moves.contains( new EnroqueNegroQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -134,7 +134,7 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new EnroqueNegroReynaMove() ));
+		assertTrue(moves.contains( new EnroqueNegroQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
@@ -254,7 +254,7 @@ public class KingNegroMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains(  new EnroqueNegroKingMove() ));			// No se considera si el rey esta en jaque
-		assertTrue(moves.contains(  new EnroqueNegroReynaMove() ));			// No se considera si el rey esta en jaque
+		assertTrue(moves.contains(  new EnroqueNegroQueenMove() ));			// No se considera si el rey esta en jaque
 		
 		assertEquals(7, moves.size());
 	}

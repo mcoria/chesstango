@@ -20,7 +20,7 @@ import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.moves.EnroqueBlancoKingMove;
-import chess.moves.EnroqueBlancoReynaMove;
+import chess.moves.EnroqueBlancoQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -131,7 +131,7 @@ public class KingBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -161,7 +161,7 @@ public class KingBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoQueenMove() ));
 		
 		assertEquals(6, moves.size());		
 	}
@@ -191,7 +191,7 @@ public class KingBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoQueenMove() ));
 		
 		assertEquals(6, moves.size());	
 	}
@@ -220,7 +220,7 @@ public class KingBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
-		assertFalse(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertFalse(moves.contains( new EnroqueBlancoQueenMove() ));
 		
 		assertEquals(5, moves.size());	
 	}	
@@ -369,7 +369,7 @@ public class KingBlancoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f1) ));
 		
 		assertTrue(moves.contains( new EnroqueBlancoKingMove() ));
-		assertTrue(moves.contains( new EnroqueBlancoReynaMove() ));
+		assertTrue(moves.contains( new EnroqueBlancoQueenMove() ));
 		
 		assertEquals(7, moves.size());		
 	}
