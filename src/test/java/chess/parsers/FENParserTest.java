@@ -76,28 +76,28 @@ public class FENParserTest {
 	public void testParseRankBlakRank01() {
 		Pieza[] piezas = parser.parseRank("rnbqkbnr"); 
 		
-		assertEquals(Pieza.TORRE_NEGRO, piezas[0]);
-		assertEquals(Pieza.CABALLO_NEGRO, piezas[1]);
-		assertEquals(Pieza.ALFIL_NEGRO, piezas[2]);
-		assertEquals(Pieza.REINA_NEGRO, piezas[3]);
-		assertEquals(Pieza.REY_NEGRO, piezas[4]);
-		assertEquals(Pieza.ALFIL_NEGRO, piezas[5]);
-		assertEquals(Pieza.CABALLO_NEGRO, piezas[6]);
-		assertEquals(Pieza.TORRE_NEGRO, piezas[7]);
+		assertEquals(Pieza.TORRE_BLACK, piezas[0]);
+		assertEquals(Pieza.CABALLO_BLACK, piezas[1]);
+		assertEquals(Pieza.ALFIL_BLACK, piezas[2]);
+		assertEquals(Pieza.QUEEN_BLACK, piezas[3]);
+		assertEquals(Pieza.KING_BLACK, piezas[4]);
+		assertEquals(Pieza.ALFIL_BLACK, piezas[5]);
+		assertEquals(Pieza.CABALLO_BLACK, piezas[6]);
+		assertEquals(Pieza.TORRE_BLACK, piezas[7]);
 	}
 	
 	@Test
 	public void testParseRankBlakRank02() {
 		Pieza[] piezas = parser.parseRank("pppppppp"); 
 		
-		assertEquals(Pieza.PEON_NEGRO, piezas[0]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[1]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[2]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[3]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[4]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[5]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[6]);
-		assertEquals(Pieza.PEON_NEGRO, piezas[7]);
+		assertEquals(Pieza.PEON_BLACK, piezas[0]);
+		assertEquals(Pieza.PEON_BLACK, piezas[1]);
+		assertEquals(Pieza.PEON_BLACK, piezas[2]);
+		assertEquals(Pieza.PEON_BLACK, piezas[3]);
+		assertEquals(Pieza.PEON_BLACK, piezas[4]);
+		assertEquals(Pieza.PEON_BLACK, piezas[5]);
+		assertEquals(Pieza.PEON_BLACK, piezas[6]);
+		assertEquals(Pieza.PEON_BLACK, piezas[7]);
 	}
 	
 	@Test
@@ -108,7 +108,7 @@ public class FENParserTest {
 		assertNull(piezas[1]);
 		assertNull(piezas[2]);
 		assertNull(piezas[3]);
-		assertEquals(Pieza.TORRE_BLANCO, piezas[4]);
+		assertEquals(Pieza.TORRE_WHITE, piezas[4]);
 		assertNull(piezas[5]);
 		assertNull(piezas[6]);
 		assertNull(piezas[7]);
@@ -119,52 +119,52 @@ public class FENParserTest {
 	public void testParseRankWhiteRank01() {
 		Pieza[] piezas = parser.parseRank("RNBQKBNR");
 		
-		assertEquals(Pieza.TORRE_BLANCO, piezas[0]);
-		assertEquals(Pieza.CABALLO_BLANCO, piezas[1]);
-		assertEquals(Pieza.ALFIL_BLANCO, piezas[2]);
-		assertEquals(Pieza.REINA_BLANCO, piezas[3]);
-		assertEquals(Pieza.REY_BLANCO, piezas[4]);
-		assertEquals(Pieza.ALFIL_BLANCO, piezas[5]);
-		assertEquals(Pieza.CABALLO_BLANCO, piezas[6]);
-		assertEquals(Pieza.TORRE_BLANCO, piezas[7]);
+		assertEquals(Pieza.TORRE_WHITE, piezas[0]);
+		assertEquals(Pieza.CABALLO_WHITE, piezas[1]);
+		assertEquals(Pieza.ALFIL_WHITE, piezas[2]);
+		assertEquals(Pieza.QUEEN_WHITE, piezas[3]);
+		assertEquals(Pieza.KING_WHITE, piezas[4]);
+		assertEquals(Pieza.ALFIL_WHITE, piezas[5]);
+		assertEquals(Pieza.CABALLO_WHITE, piezas[6]);
+		assertEquals(Pieza.TORRE_WHITE, piezas[7]);
 	}	
 	
 	@Test
 	public void testParseRankWhiteRank02() {
 		Pieza[] piezas = parser.parseRank("PPPPPPPP");
 		
-		assertEquals(Pieza.PEON_BLANCO, piezas[0]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[1]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[2]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[3]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[4]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[5]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[6]);
-		assertEquals(Pieza.PEON_BLANCO, piezas[7]);
+		assertEquals(Pieza.PEON_WHITE, piezas[0]);
+		assertEquals(Pieza.PEON_WHITE, piezas[1]);
+		assertEquals(Pieza.PEON_WHITE, piezas[2]);
+		assertEquals(Pieza.PEON_WHITE, piezas[3]);
+		assertEquals(Pieza.PEON_WHITE, piezas[4]);
+		assertEquals(Pieza.PEON_WHITE, piezas[5]);
+		assertEquals(Pieza.PEON_WHITE, piezas[6]);
+		assertEquals(Pieza.PEON_WHITE, piezas[7]);
 	}	
 	
 	@Test
 	public void testParsePiecePlacement() {
 		Pieza[][] tablero = parser.parsePieces("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		assertEquals(Pieza.TORRE_BLANCO, getPieza(tablero, Square.a1));
-		assertEquals(Pieza.CABALLO_BLANCO, getPieza(tablero, Square.b1));
-		assertEquals(Pieza.ALFIL_BLANCO, getPieza(tablero, Square.c1));
-		assertEquals(Pieza.REINA_BLANCO, getPieza(tablero, Square.d1));
-		assertEquals(Pieza.REY_BLANCO, getPieza(tablero, Square.e1));
-		assertEquals(Pieza.ALFIL_BLANCO, getPieza(tablero, Square.f1));
-		assertEquals(Pieza.CABALLO_BLANCO, getPieza(tablero, Square.g1));
-		assertEquals(Pieza.TORRE_BLANCO, getPieza(tablero, Square.h1));
+		assertEquals(Pieza.TORRE_WHITE, getPieza(tablero, Square.a1));
+		assertEquals(Pieza.CABALLO_WHITE, getPieza(tablero, Square.b1));
+		assertEquals(Pieza.ALFIL_WHITE, getPieza(tablero, Square.c1));
+		assertEquals(Pieza.QUEEN_WHITE, getPieza(tablero, Square.d1));
+		assertEquals(Pieza.KING_WHITE, getPieza(tablero, Square.e1));
+		assertEquals(Pieza.ALFIL_WHITE, getPieza(tablero, Square.f1));
+		assertEquals(Pieza.CABALLO_WHITE, getPieza(tablero, Square.g1));
+		assertEquals(Pieza.TORRE_WHITE, getPieza(tablero, Square.h1));
 		
 		
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.a2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.b2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.c2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.d2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.e2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.f2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.g2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.h2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.a2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.b2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.c2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.d2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.e2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.f2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.g2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.h2));
 		
 		assertTrue( isEmtpy(tablero, Square.a3) );
 		assertTrue( isEmtpy(tablero, Square.b3) );
@@ -202,37 +202,37 @@ public class FENParserTest {
 		assertTrue( isEmtpy(tablero, Square.g6) );
 		assertTrue( isEmtpy(tablero, Square.h6) );
 		
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.a7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.b7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.c7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.d7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.e7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.f7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.g7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.h7));		
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.a7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.b7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.c7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.d7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.e7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.f7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.g7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.h7));		
 		
-		assertEquals(Pieza.TORRE_NEGRO, getPieza(tablero, Square.a8));
-		assertEquals(Pieza.CABALLO_NEGRO, getPieza(tablero, Square.b8));
-		assertEquals(Pieza.ALFIL_NEGRO, getPieza(tablero, Square.c8));
-		assertEquals(Pieza.REINA_NEGRO, getPieza(tablero, Square.d8));
-		assertEquals(Pieza.REY_NEGRO, getPieza(tablero, Square.e8));
-		assertEquals(Pieza.ALFIL_NEGRO, getPieza(tablero, Square.f8));
-		assertEquals(Pieza.CABALLO_NEGRO, getPieza(tablero, Square.g8));
-		assertEquals(Pieza.TORRE_NEGRO, getPieza(tablero, Square.h8));
+		assertEquals(Pieza.TORRE_BLACK, getPieza(tablero, Square.a8));
+		assertEquals(Pieza.CABALLO_BLACK, getPieza(tablero, Square.b8));
+		assertEquals(Pieza.ALFIL_BLACK, getPieza(tablero, Square.c8));
+		assertEquals(Pieza.QUEEN_BLACK, getPieza(tablero, Square.d8));
+		assertEquals(Pieza.KING_BLACK, getPieza(tablero, Square.e8));
+		assertEquals(Pieza.ALFIL_BLACK, getPieza(tablero, Square.f8));
+		assertEquals(Pieza.CABALLO_BLACK, getPieza(tablero, Square.g8));
+		assertEquals(Pieza.TORRE_BLACK, getPieza(tablero, Square.h8));
 	}	
 	
 	@Test
 	public void testParseColorBlanco() {
 		Color actualColor = parser.parseTurno("w");
 		
-		assertEquals(Color.BLANCO, actualColor);
+		assertEquals(Color.WHITE, actualColor);
 	}	
 	
 	@Test
 	public void testParseColorNegro() {
 		Color actualColor = parser.parseTurno("b");
 		
-		assertEquals(Color.NEGRO, actualColor);
+		assertEquals(Color.BLACK, actualColor);
 	}	
 
 	@Test
@@ -260,7 +260,7 @@ public class FENParserTest {
 	public void testParseInitialFen() {
 		parser.parseFEN(FENParser.INITIAL_FEN);
 		
-		assertEquals(Color.BLANCO, this.turno);
+		assertEquals(Color.WHITE, this.turno);
 		
 		assertTrue(this.enroqueBlancoReinaPermitido);
 		assertTrue(this.enroqueBlancoKingPermitido);
@@ -270,24 +270,24 @@ public class FENParserTest {
 		
 		assertNull(this.peonPasanteSquare);
 		
-		assertEquals(Pieza.TORRE_BLANCO, getPieza(tablero, Square.a1));
-		assertEquals(Pieza.CABALLO_BLANCO, getPieza(tablero, Square.b1));
-		assertEquals(Pieza.ALFIL_BLANCO, getPieza(tablero, Square.c1));
-		assertEquals(Pieza.REINA_BLANCO, getPieza(tablero, Square.d1));
-		assertEquals(Pieza.REY_BLANCO, getPieza(tablero, Square.e1));
-		assertEquals(Pieza.ALFIL_BLANCO, getPieza(tablero, Square.f1));
-		assertEquals(Pieza.CABALLO_BLANCO, getPieza(tablero, Square.g1));
-		assertEquals(Pieza.TORRE_BLANCO, getPieza(tablero, Square.h1));
+		assertEquals(Pieza.TORRE_WHITE, getPieza(tablero, Square.a1));
+		assertEquals(Pieza.CABALLO_WHITE, getPieza(tablero, Square.b1));
+		assertEquals(Pieza.ALFIL_WHITE, getPieza(tablero, Square.c1));
+		assertEquals(Pieza.QUEEN_WHITE, getPieza(tablero, Square.d1));
+		assertEquals(Pieza.KING_WHITE, getPieza(tablero, Square.e1));
+		assertEquals(Pieza.ALFIL_WHITE, getPieza(tablero, Square.f1));
+		assertEquals(Pieza.CABALLO_WHITE, getPieza(tablero, Square.g1));
+		assertEquals(Pieza.TORRE_WHITE, getPieza(tablero, Square.h1));
 		
 		
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.a2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.b2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.c2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.d2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.e2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.f2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.g2));
-		assertEquals(Pieza.PEON_BLANCO, getPieza(tablero, Square.h2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.a2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.b2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.c2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.d2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.e2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.f2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.g2));
+		assertEquals(Pieza.PEON_WHITE, getPieza(tablero, Square.h2));
 		
 		assertTrue( isEmtpy(tablero, Square.a3) );
 		assertTrue( isEmtpy(tablero, Square.b3) );
@@ -325,23 +325,23 @@ public class FENParserTest {
 		assertTrue( isEmtpy(tablero, Square.g6) );
 		assertTrue( isEmtpy(tablero, Square.h6) );
 		
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.a7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.b7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.c7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.d7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.e7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.f7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.g7));
-		assertEquals(Pieza.PEON_NEGRO, getPieza(tablero, Square.h7));		
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.a7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.b7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.c7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.d7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.e7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.f7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.g7));
+		assertEquals(Pieza.PEON_BLACK, getPieza(tablero, Square.h7));		
 		
-		assertEquals(Pieza.TORRE_NEGRO, getPieza(tablero, Square.a8));
-		assertEquals(Pieza.CABALLO_NEGRO, getPieza(tablero, Square.b8));
-		assertEquals(Pieza.ALFIL_NEGRO, getPieza(tablero, Square.c8));
-		assertEquals(Pieza.REINA_NEGRO, getPieza(tablero, Square.d8));
-		assertEquals(Pieza.REY_NEGRO, getPieza(tablero, Square.e8));
-		assertEquals(Pieza.ALFIL_NEGRO, getPieza(tablero, Square.f8));
-		assertEquals(Pieza.CABALLO_NEGRO, getPieza(tablero, Square.g8));
-		assertEquals(Pieza.TORRE_NEGRO, getPieza(tablero, Square.h8));		
+		assertEquals(Pieza.TORRE_BLACK, getPieza(tablero, Square.a8));
+		assertEquals(Pieza.CABALLO_BLACK, getPieza(tablero, Square.b8));
+		assertEquals(Pieza.ALFIL_BLACK, getPieza(tablero, Square.c8));
+		assertEquals(Pieza.QUEEN_BLACK, getPieza(tablero, Square.d8));
+		assertEquals(Pieza.KING_BLACK, getPieza(tablero, Square.e8));
+		assertEquals(Pieza.ALFIL_BLACK, getPieza(tablero, Square.f8));
+		assertEquals(Pieza.CABALLO_BLACK, getPieza(tablero, Square.g8));
+		assertEquals(Pieza.TORRE_BLACK, getPieza(tablero, Square.h8));		
 	}
 
 	private boolean isEmtpy(Pieza[][] tablero, Square square) {

@@ -27,11 +27,11 @@ public class ArrayPosicionPiezaBoardTest {
 	public void test() {
 		ArrayPosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard();
 		
-		tablero.setPieza(Square.a1, Pieza.TORRE_BLANCO);
-		tablero.setPieza(Square.b7, Pieza.PEON_NEGRO);
-		tablero.setPieza(Square.b8, Pieza.CABALLO_NEGRO);
-		tablero.setPieza(Square.e1, Pieza.REY_BLANCO);
-		tablero.setPieza(Square.e8, Pieza.REY_NEGRO);
+		tablero.setPieza(Square.a1, Pieza.TORRE_WHITE);
+		tablero.setPieza(Square.b7, Pieza.PEON_BLACK);
+		tablero.setPieza(Square.b8, Pieza.CABALLO_BLACK);
+		tablero.setPieza(Square.e1, Pieza.KING_WHITE);
+		tablero.setPieza(Square.e8, Pieza.KING_BLACK);
 		
 		
 		// Al position should be not NULL (including emtpy squares)
@@ -59,11 +59,11 @@ public class ArrayPosicionPiezaBoardTest {
 		}
 		
 
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.a1, Pieza.TORRE_BLANCO)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.b7, Pieza.PEON_NEGRO)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.b8, Pieza.CABALLO_NEGRO)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.e1, Pieza.REY_BLANCO)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.e8, Pieza.REY_NEGRO)));
+		assertTrue(posicionesList.contains(new PosicionPieza(Square.a1, Pieza.TORRE_WHITE)));
+		assertTrue(posicionesList.contains(new PosicionPieza(Square.b7, Pieza.PEON_BLACK)));
+		assertTrue(posicionesList.contains(new PosicionPieza(Square.b8, Pieza.CABALLO_BLACK)));
+		assertTrue(posicionesList.contains(new PosicionPieza(Square.e1, Pieza.KING_WHITE)));
+		assertTrue(posicionesList.contains(new PosicionPieza(Square.e8, Pieza.KING_BLACK)));
 		assertTrue(posicionesList.contains(new PosicionPieza(Square.e3, null)));
 		assertEquals(6, posicionesList.size());
 

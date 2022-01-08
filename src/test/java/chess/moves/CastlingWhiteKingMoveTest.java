@@ -53,13 +53,13 @@ public class CastlingWhiteKingMoveTest {
 		moveExecutor = new CastlingWhiteKingMove();
 		
 		boardState = new BoardStateDebug();		
-		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setTurnoActual(Color.WHITE);
 		boardState.setCastlingWhiteReinaPermitido(false);
 		boardState.setCastlingWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e1, Pieza.REY_BLANCO);
-		piezaBoard.setPieza(Square.h1, Pieza.TORRE_BLANCO);		
+		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);
+		piezaBoard.setPieza(Square.h1, Pieza.TORRE_WHITE);		
 		
 		kingCacheBoard = new KingCacheBoardDebug(piezaBoard);
 		colorBoard = new ColorBoardDebug(piezaBoard);
@@ -69,16 +69,16 @@ public class CastlingWhiteKingMoveTest {
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piezaBoard);
 		
-		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.g1));		
-		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.f1));
+		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.g1));		
+		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.f1));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.h1));
 		
 		moveExecutor.undoMove(piezaBoard);
 		
-		assertEquals(Pieza.REY_BLANCO, piezaBoard.getPieza(Square.e1));
-		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.h1));
+		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.h1));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.g1));
 		assertTrue(piezaBoard.isEmtpy(Square.f1));		
@@ -91,7 +91,7 @@ public class CastlingWhiteKingMoveTest {
 
 		// asserts execute
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());		
+		assertEquals(Color.BLACK, boardState.getTurnoActual());		
 		assertFalse(boardState.isCastlingWhiteReinaPermitido());
 		assertFalse(boardState.isCastlingWhiteKingPermitido());
 		boardState.validar();
@@ -101,7 +101,7 @@ public class CastlingWhiteKingMoveTest {
 		
 		// asserts undos		
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
+		assertEquals(Color.WHITE, boardState.getTurnoActual());		
 		assertFalse(boardState.isCastlingWhiteReinaPermitido());
 		assertTrue(boardState.isCastlingWhiteKingPermitido());
 		boardState.validar();
@@ -114,8 +114,8 @@ public class CastlingWhiteKingMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.g1));
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.f1));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.g1));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.f1));
 		
 		assertTrue(colorBoard.isEmpty(Square.e1));
 		assertTrue(colorBoard.isEmpty(Square.h8));
@@ -125,8 +125,8 @@ public class CastlingWhiteKingMoveTest {
 		moveExecutor.undoMove(colorBoard);
 
 		// asserts undos
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e1));
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.h1));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.h1));
 		
 		assertTrue(colorBoard.isEmpty(Square.g1));
 		assertTrue(colorBoard.isEmpty(Square.f1));		

@@ -24,13 +24,13 @@ public class ImprovedCapturer implements Capturer {
 	private final ImprovedCapturerColor capturerNegro;
 	
 	public ImprovedCapturer(PosicionPiezaBoard dummyBoard) {
-		this.capturerBlanco = new ImprovedCapturerColor(Color.BLANCO, dummyBoard);
-		this.capturerNegro = new ImprovedCapturerColor(Color.NEGRO, dummyBoard);
+		this.capturerBlanco = new ImprovedCapturerColor(Color.WHITE, dummyBoard);
+		this.capturerNegro = new ImprovedCapturerColor(Color.BLACK, dummyBoard);
 	}	
 
 	@Override
 	public boolean positionCaptured(Color color, Square square) {
-		if(Color.BLANCO.equals(color)){
+		if(Color.WHITE.equals(color)){
 			return capturerBlanco.positionCaptured(square);
 		} else {
 			return capturerNegro.positionCaptured(square);
@@ -71,7 +71,7 @@ public class ImprovedCapturer implements Capturer {
 			king = Pieza.getKing(color);		
 			
 
-			if (Color.BLANCO.equals(color)) {
+			if (Color.WHITE.equals(color)) {
 				saltosPeon = casillerosPeonBlanco;
 			} else {
 				saltosPeon = casillerosPeonNegro;

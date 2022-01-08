@@ -49,14 +49,14 @@ public class SaltoDoblePeonMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardStateDebug();
-		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
+		piezaBoard.setPieza(Square.e2, Pieza.PEON_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);		
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PEON_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e4, null);
 		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);		
 	}
@@ -68,14 +68,14 @@ public class SaltoDoblePeonMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.e4));
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e4));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.e2));
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e2));
 		assertTrue(piezaBoard.isEmtpy(Square.e4));		
 	}
 		
@@ -86,14 +86,14 @@ public class SaltoDoblePeonMoveTest {
 		
 		// asserts execute
 		assertEquals(Square.e3, boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());
+		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
 
 		// asserts undos
 		assertNull(boardState.getPeonPasanteSquare());		
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());
+		assertEquals(Color.WHITE, boardState.getTurnoActual());
 	}
 	
 	@Test
@@ -103,13 +103,13 @@ public class SaltoDoblePeonMoveTest {
 
 		// asserts execute
 		assertTrue(colorBoard.isEmpty(Square.e2));		
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e4));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e4));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e2));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e4));
 	}
 	
@@ -126,9 +126,9 @@ public class SaltoDoblePeonMoveTest {
 	@Test
 	public void testBoard() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PEON_BLANCO);
+		piezaBoard.setPieza(Square.e2, Pieza.PEON_WHITE);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.TORRE_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e4, null);
 		moveExecutor =  new SaltoDoblePeonMove(origen, destino, Square.e3);
 

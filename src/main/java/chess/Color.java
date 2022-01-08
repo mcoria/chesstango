@@ -5,13 +5,13 @@ package chess;
  *
  */
 public enum Color {
-	BLANCO,
-	NEGRO;
+	WHITE,
+	BLACK;
 	
 	public Color opositeColor(){
-		if(this == BLANCO) 
-			return Color.NEGRO;
+		if(this == WHITE) 
+			return Color.BLACK;
 		else
-			return Color.BLANCO;
+			return Color.WHITE;
 	}	
 }

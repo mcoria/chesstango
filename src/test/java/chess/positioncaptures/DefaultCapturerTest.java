@@ -33,9 +33,9 @@ public class DefaultCapturerTest {
 		
 		IteratorCapturer capturer = new IteratorCapturer(dummyBoard, colorBoard, moveGeneratorStrategy);
 		
-		assertTrue( capturer.positionCaptured(Color.BLANCO, Square.a6) );
-		assertFalse( capturer.positionCaptured(Color.BLANCO, Square.b6) );
-		assertTrue( capturer.positionCaptured(Color.BLANCO, Square.c6) );
+		assertTrue( capturer.positionCaptured(Color.WHITE, Square.a6) );
+		assertFalse( capturer.positionCaptured(Color.WHITE, Square.b6) );
+		assertTrue( capturer.positionCaptured(Color.WHITE, Square.c6) );
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

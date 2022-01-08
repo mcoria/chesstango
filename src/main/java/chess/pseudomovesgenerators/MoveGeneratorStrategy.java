@@ -37,21 +37,21 @@ public class MoveGeneratorStrategy {
 		
 		pnmg = new PeonNegroMoveGenerator();
 		
-		tbmg = new TorreMoveGenerator(Color.BLANCO);
+		tbmg = new TorreMoveGenerator(Color.WHITE);
 		
-		tnmg = new TorreMoveGenerator(Color.NEGRO);
+		tnmg = new TorreMoveGenerator(Color.BLACK);
 		
-		cbmg = new CaballoMoveGenerator(Color.BLANCO);
+		cbmg = new CaballoMoveGenerator(Color.WHITE);
 		
-		cnmg = new CaballoMoveGenerator(Color.NEGRO);
+		cnmg = new CaballoMoveGenerator(Color.BLACK);
 		
-		abmg = new AlfilMoveGenerator(Color.BLANCO);
+		abmg = new AlfilMoveGenerator(Color.WHITE);
 		
-		anmg = new AlfilMoveGenerator(Color.NEGRO);
+		anmg = new AlfilMoveGenerator(Color.BLACK);
 		
-		rebmg = new ReinaMoveGenerator(Color.BLANCO);
+		rebmg = new ReinaMoveGenerator(Color.WHITE);
 		
-		renmg = new ReinaMoveGenerator(Color.NEGRO);
+		renmg = new ReinaMoveGenerator(Color.BLACK);
 		
 		rbmg = new KingBlancoMoveGenerator();
 		
@@ -63,7 +63,7 @@ public class MoveGeneratorStrategy {
 	}
 
 	public KingAbstractMoveGenerator getKingMoveGenerator(Color color) {
-		return Color.BLANCO.equals(color) ? this.rbmg : this.rnmg;
+		return Color.WHITE.equals(color) ? this.rbmg : this.rnmg;
 	}
 	
 	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
@@ -141,40 +141,40 @@ public class MoveGeneratorStrategy {
 	public MoveGenerator getMoveGenerator(Pieza pieza){
 		MoveGenerator value  = null;
 		switch (pieza) {
-		case PEON_BLANCO:
+		case PEON_WHITE:
 			value = this.pbmg;
 			break;
-		case PEON_NEGRO:
+		case PEON_BLACK:
 			value = this.pnmg;
 			break;
-		case TORRE_BLANCO:
+		case TORRE_WHITE:
 			value = this.tbmg;
 			break;
-		case TORRE_NEGRO:
+		case TORRE_BLACK:
 			value = this.tnmg;
 			break;
-		case CABALLO_BLANCO:
+		case CABALLO_WHITE:
 			value = this.cbmg;
 			break;
-		case CABALLO_NEGRO:
+		case CABALLO_BLACK:
 			value = this.cnmg;
 			break;
-		case ALFIL_BLANCO:
+		case ALFIL_WHITE:
 			value = this.abmg;
 			break;
-		case ALFIL_NEGRO:
+		case ALFIL_BLACK:
 			value = this.anmg;
 			break;
-		case REINA_BLANCO:
+		case QUEEN_WHITE:
 			value = this.rebmg;
 			break;
-		case REINA_NEGRO:
+		case QUEEN_BLACK:
 			value = this.renmg;
 			break;
-		case REY_BLANCO:
+		case KING_WHITE:
 			value = this.rbmg;
 			break;
-		case REY_NEGRO:
+		case KING_BLACK:
 			value = this.rnmg;
 			break;
 		default:

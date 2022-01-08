@@ -49,18 +49,18 @@ public class CapturePeonPromocionTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.f8, Pieza.CABALLO_NEGRO);
+		piezaBoard.setPieza(Square.e7, Pieza.PEON_WHITE);
+		piezaBoard.setPieza(Square.f8, Pieza.CABALLO_BLACK);
 		
 		colorBoard = new ColorBoard(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.CABALLO_NEGRO);
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.CABALLO_BLACK);
 		
-		moveExecutor =  new CapturaPeonPromocion(origen, destino, Pieza.REINA_BLANCO);		
+		moveExecutor =  new CapturaPeonPromocion(origen, destino, Pieza.QUEEN_WHITE);		
 	}
 	
 	
@@ -70,15 +70,15 @@ public class CapturePeonPromocionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.REINA_BLANCO, piezaBoard.getPieza(Square.f8));
+		assertEquals(Pieza.QUEEN_WHITE, piezaBoard.getPieza(Square.f8));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.e7));
-		assertEquals(Pieza.CABALLO_NEGRO, piezaBoard.getPieza(Square.f8));		
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.CABALLO_BLACK, piezaBoard.getPieza(Square.f8));		
 	}
 		
 	@Test
@@ -88,13 +88,13 @@ public class CapturePeonPromocionTest {
 		
 		// asserts execute
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());
+		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
 
 		// asserts undos	
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());
+		assertEquals(Color.WHITE, boardState.getTurnoActual());
 	}
 	
 	@Test
@@ -103,25 +103,25 @@ public class CapturePeonPromocionTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.f8));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.f8));
 		assertTrue(colorBoard.isEmpty(Square.e7));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e7));
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.f8));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_BLANCO);
+		piezaBoard.setPieza(Square.e7, Pieza.PEON_WHITE);
 
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.CABALLO_NEGRO);
-		moveExecutor =  new CapturaPeonPromocion(origen, destino, Pieza.REINA_BLANCO);
+		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PEON_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.CABALLO_BLACK);
+		moveExecutor =  new CapturaPeonPromocion(origen, destino, Pieza.QUEEN_WHITE);
 
 		moveExecutor.executeMove(new KingCacheBoard());
 	}

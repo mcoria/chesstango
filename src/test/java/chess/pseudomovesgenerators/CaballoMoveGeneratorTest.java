@@ -38,7 +38,7 @@ public class CaballoMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new CaballoMoveGenerator(Color.BLANCO);
+		moveGenerator = new CaballoMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
@@ -50,11 +50,11 @@ public class CaballoMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.CABALLO_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.d7));
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.f7));		
+		assertEquals(Pieza.CABALLO_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(Square.d7));
+		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.f7));		
 	
-		PosicionPieza origen = new PosicionPieza(from, Pieza.CABALLO_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.CABALLO_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -67,7 +67,7 @@ public class CaballoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c4) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c6) ));
 		// Peon Blanco en d7
-		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PEON_NEGRO) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PEON_BLACK) ));
 		
 		assertEquals(7, moves.size());
 	}

@@ -24,7 +24,7 @@ public class KingBlancoMoveGenerator extends KingAbstractMoveGenerator {
 	
 	
 	public KingBlancoMoveGenerator() {
-		super(Color.BLANCO);
+		super(Color.WHITE);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class KingBlancoMoveGenerator extends KingAbstractMoveGenerator {
 			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);
 			result.affectedByContainerAdd(Square.a1); //La posicion de la torre
 			if(puedeEnroqueReina(	origen, 
-								CachePosiciones.REY_BLANCO, 
+								CachePosiciones.REY_WHITE, 
 								CachePosiciones.TORRE_BLANCA_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
@@ -52,7 +52,7 @@ public class KingBlancoMoveGenerator extends KingAbstractMoveGenerator {
 			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			result.affectedByContainerAdd(Square.h1); //La posicion de la torre		
 			if(puedeEnroqueKing(	origen, 
-								CachePosiciones.REY_BLANCO, 
+								CachePosiciones.REY_WHITE, 
 								CachePosiciones.TORRE_BLANCA_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {

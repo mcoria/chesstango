@@ -51,83 +51,83 @@ public class BoardteratorTest {
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a8, entry.getKey());
-		assertEquals(Pieza.TORRE_NEGRO, entry.getValue());
+		assertEquals(Pieza.TORRE_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b8, entry.getKey());
-		assertEquals(Pieza.CABALLO_NEGRO, entry.getValue());
+		assertEquals(Pieza.CABALLO_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c8, entry.getKey());
-		assertEquals(Pieza.ALFIL_NEGRO, entry.getValue());
+		assertEquals(Pieza.ALFIL_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d8, entry.getKey());
-		assertEquals(Pieza.REINA_NEGRO, entry.getValue());
+		assertEquals(Pieza.QUEEN_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e8, entry.getKey());
-		assertEquals(Pieza.REY_NEGRO, entry.getValue());
+		assertEquals(Pieza.KING_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f8, entry.getKey());
-		assertEquals(Pieza.ALFIL_NEGRO, entry.getValue());		
+		assertEquals(Pieza.ALFIL_BLACK, entry.getValue());		
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g8, entry.getKey());
-		assertEquals(Pieza.CABALLO_NEGRO, entry.getValue());
+		assertEquals(Pieza.CABALLO_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h8, entry.getKey());
-		assertEquals(Pieza.TORRE_NEGRO, entry.getValue());
+		assertEquals(Pieza.TORRE_BLACK, entry.getValue());
 		
 		// Rank 7		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 			
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());
 		
 		
 		// Rank 6		
@@ -298,83 +298,83 @@ public class BoardteratorTest {
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 			
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());		
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());		
 		
 		// Rank 1
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a1, entry.getKey());
-		assertEquals(Pieza.TORRE_BLANCO, entry.getValue());
+		assertEquals(Pieza.TORRE_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b1, entry.getKey());
-		assertEquals(Pieza.CABALLO_BLANCO, entry.getValue());
+		assertEquals(Pieza.CABALLO_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c1, entry.getKey());
-		assertEquals(Pieza.ALFIL_BLANCO, entry.getValue());
+		assertEquals(Pieza.ALFIL_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d1, entry.getKey());
-		assertEquals(Pieza.REINA_BLANCO, entry.getValue());
+		assertEquals(Pieza.QUEEN_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e1, entry.getKey());
-		assertEquals(Pieza.REY_BLANCO, entry.getValue());
+		assertEquals(Pieza.KING_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f1, entry.getKey());
-		assertEquals(Pieza.ALFIL_BLANCO, entry.getValue());		
+		assertEquals(Pieza.ALFIL_WHITE, entry.getValue());		
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g1, entry.getKey());
-		assertEquals(Pieza.CABALLO_BLANCO, entry.getValue());
+		assertEquals(Pieza.CABALLO_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h1, entry.getKey());
-		assertEquals(Pieza.TORRE_BLANCO, entry.getValue());
+		assertEquals(Pieza.TORRE_WHITE, entry.getValue());
 		
 		//END
 		assertFalse(iterator.hasNext());		
@@ -394,84 +394,84 @@ public class BoardteratorTest {
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a1, entry.getKey());
-		assertEquals(Pieza.TORRE_BLANCO, entry.getValue());
+		assertEquals(Pieza.TORRE_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b1, entry.getKey());
-		assertEquals(Pieza.CABALLO_BLANCO, entry.getValue());
+		assertEquals(Pieza.CABALLO_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c1, entry.getKey());
-		assertEquals(Pieza.ALFIL_BLANCO, entry.getValue());
+		assertEquals(Pieza.ALFIL_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d1, entry.getKey());
-		assertEquals(Pieza.REINA_BLANCO, entry.getValue());
+		assertEquals(Pieza.QUEEN_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e1, entry.getKey());
-		assertEquals(Pieza.REY_BLANCO, entry.getValue());
+		assertEquals(Pieza.KING_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f1, entry.getKey());
-		assertEquals(Pieza.ALFIL_BLANCO, entry.getValue());		
+		assertEquals(Pieza.ALFIL_WHITE, entry.getValue());		
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g1, entry.getKey());
-		assertEquals(Pieza.CABALLO_BLANCO, entry.getValue());
+		assertEquals(Pieza.CABALLO_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h1, entry.getKey());
-		assertEquals(Pieza.TORRE_BLANCO, entry.getValue());
+		assertEquals(Pieza.TORRE_WHITE, entry.getValue());
 		
 		
 		// Rank 2
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());	
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());	
 			
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h2, entry.getKey());
-		assertEquals(Pieza.PEON_BLANCO, entry.getValue());
+		assertEquals(Pieza.PEON_WHITE, entry.getValue());
 		
 		// Rank 3
 		assertTrue(iterator.hasNext());
@@ -642,83 +642,83 @@ public class BoardteratorTest {
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());	
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());	
 			
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h7, entry.getKey());
-		assertEquals(Pieza.PEON_NEGRO, entry.getValue());
+		assertEquals(Pieza.PEON_BLACK, entry.getValue());
 		
 		// Rank 8
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.a8, entry.getKey());
-		assertEquals(Pieza.TORRE_NEGRO, entry.getValue());
+		assertEquals(Pieza.TORRE_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.b8, entry.getKey());
-		assertEquals(Pieza.CABALLO_NEGRO, entry.getValue());
+		assertEquals(Pieza.CABALLO_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.c8, entry.getKey());
-		assertEquals(Pieza.ALFIL_NEGRO, entry.getValue());
+		assertEquals(Pieza.ALFIL_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.d8, entry.getKey());
-		assertEquals(Pieza.REINA_NEGRO, entry.getValue());
+		assertEquals(Pieza.QUEEN_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.e8, entry.getKey());
-		assertEquals(Pieza.REY_NEGRO, entry.getValue());
+		assertEquals(Pieza.KING_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.f8, entry.getKey());
-		assertEquals(Pieza.ALFIL_NEGRO, entry.getValue());		
+		assertEquals(Pieza.ALFIL_BLACK, entry.getValue());		
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.g8, entry.getKey());
-		assertEquals(Pieza.CABALLO_NEGRO, entry.getValue());
+		assertEquals(Pieza.CABALLO_BLACK, entry.getValue());
 		
 		assertTrue(iterator.hasNext());
 		entry = iterator.next();
 		assertEquals(Square.h8, entry.getKey());
-		assertEquals(Pieza.TORRE_NEGRO, entry.getValue());
+		assertEquals(Pieza.TORRE_BLACK, entry.getValue());
 		
 		//END
 		assertFalse(iterator.hasNext());		

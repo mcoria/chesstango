@@ -37,7 +37,7 @@ public class ReinaMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new ReinaMoveGenerator(Color.BLANCO);
+		moveGenerator = new ReinaMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
@@ -49,9 +49,9 @@ public class ReinaMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.e5;
-		assertEquals(Pieza.REINA_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.QUEEN_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.REINA_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.QUEEN_WHITE);
 
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		

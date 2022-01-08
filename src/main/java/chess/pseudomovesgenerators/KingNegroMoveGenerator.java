@@ -23,7 +23,7 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 	
 	
 	public KingNegroMoveGenerator() {
-		super(Color.NEGRO);
+		super(Color.BLACK);
 	}
 	
 	@Override
@@ -38,8 +38,8 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);		
 			result.affectedByContainerAdd(Square.a8); //La posicion de la torre
 			if(puedeEnroqueReina(	origen, 
-								CachePosiciones.REY_NEGRO, 
-								CachePosiciones.TORRE_NEGRO_REYNA,
+								CachePosiciones.REY_BLACK, 
+								CachePosiciones.TORRE_BLACK_REYNA,
 								INTERMEDIO_TORRE_REYNA_SQUARE, 
 								DESTINO_REYNA_SQUARE, 
 								INTERMEDIO_REY_REYNA_SQUARE)) {
@@ -53,8 +53,8 @@ public class KingNegroMoveGenerator extends KingAbstractMoveGenerator {
 			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
 			if(puedeEnroqueKing(	origen, 
-								CachePosiciones.REY_NEGRO, 
-								CachePosiciones.TORRE_NEGRO_REY,
+								CachePosiciones.REY_BLACK, 
+								CachePosiciones.TORRE_BLACK_REY,
 								DESTINO_REY_SQUARE, 
 								INTERMEDIO_REY_REY_SQUARE)) {
 				result.moveContainerAdd(new CastlingBlackKingMove());

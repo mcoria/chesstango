@@ -29,9 +29,9 @@ public class ColorBoardTest {
 		
 		colorBoard = new ColorBoard(tablero);
 		
-		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.BLANCO); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.WHITE); iterator.hasNext();) {
 			Pieza pieza = tablero.getPieza(iterator.next());
-			assertEquals(Color.BLANCO, pieza.getColor());
+			assertEquals(Color.WHITE, pieza.getColor());
 			totalPiezas++;
 		}
 		assertEquals(16, totalPiezas);

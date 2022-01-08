@@ -16,8 +16,8 @@ public class KingCacheBoard {
 	protected Square squareKingNegroCache = null;
 	
 	public KingCacheBoard(PosicionPiezaBoard board) {
-		this.squareKingBlancoCache = getKingSquareRecorrer(Color.BLANCO, board);
-		this.squareKingNegroCache = getKingSquareRecorrer(Color.NEGRO, board);		
+		this.squareKingBlancoCache = getKingSquareRecorrer(Color.WHITE, board);
+		this.squareKingNegroCache = getKingSquareRecorrer(Color.BLACK, board);		
 	}
 	
 	public KingCacheBoard(){
@@ -26,7 +26,7 @@ public class KingCacheBoard {
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
 	
 	public void setKingSquare(Color color, Square square) {
-		if(Color.BLANCO.equals(color)){
+		if(Color.WHITE.equals(color)){
 			this.squareKingBlancoCache = square;
 		} else {
 			this.squareKingNegroCache = square;
@@ -34,7 +34,7 @@ public class KingCacheBoard {
 	}
 	
 	public Square getKingSquare(Color color) {
-		return Color.BLANCO.equals(color) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
+		return Color.WHITE.equals(color) ? getSquareKingBlancoCache() : getSquareKingNegroCache();
 	}	
 	
 	public Square getSquareKingBlancoCache() {

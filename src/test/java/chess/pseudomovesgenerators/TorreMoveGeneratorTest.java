@@ -38,7 +38,7 @@ public class TorreMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new TorreMoveGenerator(Color.BLANCO);
+		moveGenerator = new TorreMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
@@ -50,9 +50,9 @@ public class TorreMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.TORRE_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -91,10 +91,10 @@ public class TorreMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e7));
+		assertEquals(Pieza.TORRE_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.e7));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.TORRE_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -104,7 +104,7 @@ public class TorreMoveGeneratorTest {
 		
 		//Norte
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.e7, Pieza.PEON_NEGRO) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.e7, Pieza.PEON_BLACK) ));
 		
 		//Sur
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e4) ));

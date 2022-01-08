@@ -37,12 +37,12 @@ public class PeonPasanteMoveGenerator {
 		Square peonPasanteSquare = boardState.getPeonPasanteSquare();
 
 		if (peonPasanteSquare != null) {
-			if(Color.BLANCO.equals(boardState.getTurnoActual())){
+			if(Color.WHITE.equals(boardState.getTurnoActual())){
 				Square casilleroPeonIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() - 1);
 				if(casilleroPeonIzquirda != null){
 					origen = this.tablero.getPosicion(casilleroPeonIzquirda);
 					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() - 1));
-					if (Pieza.PEON_BLANCO.equals(origen.getValue())) {
+					if (Pieza.PEON_WHITE.equals(origen.getValue())) {
 				    	Move move = this.moveFactory.createCapturePeonPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
 				    	moveContainer.add(move);
 					}
@@ -52,7 +52,7 @@ public class PeonPasanteMoveGenerator {
 				if(casilleroPeonDerecha != null){
 					origen = this.tablero.getPosicion(casilleroPeonDerecha);
 					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() - 1));
-					if (Pieza.PEON_BLANCO.equals(origen.getValue())) {
+					if (Pieza.PEON_WHITE.equals(origen.getValue())) {
 				    	Move move = this.moveFactory.createCapturePeonPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
 				    	moveContainer.add(move);
 					}
@@ -62,7 +62,7 @@ public class PeonPasanteMoveGenerator {
 				if(casilleroPeonIzquirda != null){
 					origen = this.tablero.getPosicion(casilleroPeonIzquirda);
 					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() + 1));
-					if (Pieza.PEON_NEGRO.equals(origen.getValue())) {
+					if (Pieza.PEON_BLACK.equals(origen.getValue())) {
 				    	Move move = this.moveFactory.createCapturePeonPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
 				    	moveContainer.add(move);
 					}
@@ -72,7 +72,7 @@ public class PeonPasanteMoveGenerator {
 				if(casilleroPeonDerecha != null){
 					origen = this.tablero.getPosicion(casilleroPeonDerecha);
 					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() + 1));
-					if (Pieza.PEON_NEGRO.equals(origen.getValue())) {
+					if (Pieza.PEON_BLACK.equals(origen.getValue())) {
 				    	Move move = this.moveFactory.createCapturePeonPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
 				    	moveContainer.add(move);
 					}

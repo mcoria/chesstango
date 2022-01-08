@@ -49,17 +49,17 @@ public class CapturePeonPasanteTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setTurnoActual(Color.WHITE);
 		boardState.setPeonPasanteSquare(Square.a6);		
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PEON_BLANCO);
-		piezaBoard.setPieza(Square.a5, Pieza.PEON_NEGRO);
+		piezaBoard.setPieza(Square.b5, Pieza.PEON_WHITE);
+		piezaBoard.setPieza(Square.a5, Pieza.PEON_BLACK);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_BLANCO);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_NEGRO);
+		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PEON_WHITE);
+		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PEON_BLACK);
 		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
 		
 		moveExecutor = new CapturePeonPasante(peonBlanco, peonPasanteSquare, peonNegro);		
@@ -73,15 +73,15 @@ public class CapturePeonPasanteTest {
 		// asserts execute
 		assertTrue(piezaBoard.isEmtpy(Square.a5));
 		assertTrue(piezaBoard.isEmtpy(Square.b5));
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.a6));
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.a6));
 		
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
 		assertTrue(piezaBoard.isEmtpy(Square.a6));
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.b5));
-		assertEquals(Pieza.PEON_NEGRO, piezaBoard.getPieza(Square.a5));		
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.b5));
+		assertEquals(Pieza.PEON_BLACK, piezaBoard.getPieza(Square.a5));		
 		
 	}
 	
@@ -92,14 +92,14 @@ public class CapturePeonPasanteTest {
 		
 		// asserts execute
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());	
+		assertEquals(Color.BLACK, boardState.getTurnoActual());	
 		
 		// undos
 		moveExecutor.undoMove(boardState);	
 		
 		// asserts undos
 		assertEquals(Square.a6, boardState.getPeonPasanteSquare());
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());			
+		assertEquals(Color.WHITE, boardState.getTurnoActual());			
 		
 	}
 	
@@ -109,7 +109,7 @@ public class CapturePeonPasanteTest {
 		moveExecutor.executeMove(colorBoard);
 		
 		// asserts execute
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.a6));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
 		assertTrue(colorBoard.isEmpty(Square.a5));
 		assertTrue(colorBoard.isEmpty(Square.b5));
 
@@ -118,8 +118,8 @@ public class CapturePeonPasanteTest {
 		
 		// asserts undos
 		assertTrue(colorBoard.isEmpty(Square.a6));
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.a5));
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.b5));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.a5));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.b5));
 		
 	}	
 	
@@ -169,12 +169,12 @@ public class CapturePeonPasanteTest {
 		// asserts execute
 		assertTrue(piezaBoard.isEmtpy(Square.a5));
 		assertTrue(piezaBoard.isEmtpy(Square.b5));
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.a6));
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.a6));
 		
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());	
+		assertEquals(Color.BLACK, boardState.getTurnoActual());	
 		
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.a6));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
 		assertTrue(colorBoard.isEmpty(Square.a5));
 		assertTrue(colorBoard.isEmpty(Square.b5));		
 		colorBoard.validar(piezaBoard);
@@ -187,15 +187,15 @@ public class CapturePeonPasanteTest {
 		
 		// asserts undos
 		assertTrue(piezaBoard.isEmtpy(Square.a6));
-		assertEquals(Pieza.PEON_BLANCO, piezaBoard.getPieza(Square.b5));
-		assertEquals(Pieza.PEON_NEGRO, piezaBoard.getPieza(Square.a5));	
+		assertEquals(Pieza.PEON_WHITE, piezaBoard.getPieza(Square.b5));
+		assertEquals(Pieza.PEON_BLACK, piezaBoard.getPieza(Square.a5));	
 		
 		assertEquals(Square.a6, boardState.getPeonPasanteSquare());
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());	
+		assertEquals(Color.WHITE, boardState.getTurnoActual());	
 		
 		assertTrue(colorBoard.isEmpty(Square.a6));
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.a5));
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.b5));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.a5));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.b5));
 		colorBoard.validar(piezaBoard);	
 	}	
 }

@@ -54,15 +54,15 @@ public class PeonPasanteMoveGeneratorTest {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
 		state.setPeonPasanteSquare(Square.d6);
-		state.setTurnoActual(Color.BLANCO);
+		state.setTurnoActual(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.d5));
+		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.d5));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -79,15 +79,15 @@ public class PeonPasanteMoveGeneratorTest {
 		PosicionPiezaBoard tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
 		state.setPeonPasanteSquare(Square.e6);
-		state.setTurnoActual(Color.BLANCO);
+		state.setTurnoActual(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d5;
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(Square.e5));
+		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(Square.e5));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_WHITE);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -102,15 +102,15 @@ public class PeonPasanteMoveGeneratorTest {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
 		state.setPeonPasanteSquare(Square.e3);
-		state.setTurnoActual(Color.NEGRO);
+		state.setTurnoActual(Color.BLACK);
 		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d4;
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.e4));
+		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(Square.e4));
 
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_NEGRO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLACK);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -124,15 +124,15 @@ public class PeonPasanteMoveGeneratorTest {
 		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
 		state.setPeonPasanteSquare(Square.d3);
-		state.setTurnoActual(Color.NEGRO);		
+		state.setTurnoActual(Color.BLACK);		
 		
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e4;
-		assertEquals(Pieza.PEON_NEGRO, tablero.getPieza(from));
-		assertEquals(Pieza.PEON_BLANCO, tablero.getPieza(Square.d4));
+		assertEquals(Pieza.PEON_BLACK, tablero.getPieza(from));
+		assertEquals(Pieza.PEON_WHITE, tablero.getPieza(Square.d4));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_NEGRO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.PEON_BLACK);
 		
 		moves = moveGenerator.getPseudoMoves();
 		
@@ -142,11 +142,11 @@ public class PeonPasanteMoveGeneratorTest {
 	}
 
 	private Move createCaptureNegroPeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_NEGRO));
+		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 4), Pieza.PEON_BLACK));
 	}
 	
 	private Move createCaptureBlancoPeonPasanteMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_BLANCO));
+		return moveFactory.createCapturePeonPasante(origen, new PosicionPieza(destinoSquare, null), new PosicionPieza(Square.getSquare(destinoSquare.getFile(), 3), Pieza.PEON_WHITE));
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

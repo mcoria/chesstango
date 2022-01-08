@@ -10,23 +10,23 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 public enum Pieza {
-	PEON_BLANCO(Color.BLANCO, strategy -> strategy.getPeonBlancoMoveGenerator()),
-	PEON_NEGRO(Color.NEGRO,  strategy -> strategy.getPeonNegroMoveGenerator()),
+	PEON_WHITE(Color.WHITE, strategy -> strategy.getPeonBlancoMoveGenerator()),
+	PEON_BLACK(Color.BLACK,  strategy -> strategy.getPeonNegroMoveGenerator()),
 	
-	TORRE_BLANCO(Color.BLANCO, strategy -> strategy.getTorreBlancaMoveGenerator()),
-	TORRE_NEGRO(Color.NEGRO, strategy -> strategy.getTorreNegraMoveGenerator()),
+	TORRE_WHITE(Color.WHITE, strategy -> strategy.getTorreBlancaMoveGenerator()),
+	TORRE_BLACK(Color.BLACK, strategy -> strategy.getTorreNegraMoveGenerator()),
 	
-	CABALLO_BLANCO(Color.BLANCO, strategy -> strategy.getCaballoBlancoMoveGenerator()),
-	CABALLO_NEGRO(Color.NEGRO, strategy -> strategy.getCaballoNegroMoveGenerator()),
+	CABALLO_WHITE(Color.WHITE, strategy -> strategy.getCaballoBlancoMoveGenerator()),
+	CABALLO_BLACK(Color.BLACK, strategy -> strategy.getCaballoNegroMoveGenerator()),
 	
-	ALFIL_BLANCO(Color.BLANCO, strategy -> strategy.getAlfilBlancoMoveGenerator()),
-	ALFIL_NEGRO(Color.NEGRO, strategy -> strategy.getAlfilNegroMoveGenerator()),
+	ALFIL_WHITE(Color.WHITE, strategy -> strategy.getAlfilBlancoMoveGenerator()),
+	ALFIL_BLACK(Color.BLACK, strategy -> strategy.getAlfilNegroMoveGenerator()),
 	
-	REINA_BLANCO(Color.BLANCO, strategy -> strategy.getReinaBlancaMoveGenerator()),
-	REINA_NEGRO(Color.NEGRO, strategy -> strategy.getReinaNegraMoveGenerator()),
+	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getReinaBlancaMoveGenerator()),
+	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getReinaNegraMoveGenerator()),
 	
-	REY_BLANCO(Color.BLANCO, strategy -> strategy.getKingBlancoMoveGenerator()),
-	REY_NEGRO(Color.NEGRO, strategy -> strategy.getKingNegroMoveGenerator());
+	KING_WHITE(Color.WHITE, strategy -> strategy.getKingBlancoMoveGenerator()),
+	KING_BLACK(Color.BLACK, strategy -> strategy.getKingNegroMoveGenerator());
 	
 	private final Color color;
 	private final Function<MoveGeneratorStrategy, MoveGenerator> selector;
@@ -46,10 +46,10 @@ public enum Pieza {
 	
 	public static Pieza getKing(Color color){
 		switch (color) {
-		case  BLANCO:
-			return REY_BLANCO;
-		case  NEGRO:
-			return REY_NEGRO;
+		case  WHITE:
+			return KING_WHITE;
+		case  BLACK:
+			return KING_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -57,10 +57,10 @@ public enum Pieza {
 	
 	public static Pieza getReina(Color color){
 		switch (color) {
-		case  BLANCO:
-			return REINA_BLANCO;
-		case  NEGRO:
-			return REINA_NEGRO;
+		case  WHITE:
+			return QUEEN_WHITE;
+		case  BLACK:
+			return QUEEN_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -68,10 +68,10 @@ public enum Pieza {
 	
 	public static Pieza getAlfil(Color color){
 		switch (color) {
-		case  BLANCO:
-			return ALFIL_BLANCO;
-		case  NEGRO:
-			return ALFIL_NEGRO;
+		case  WHITE:
+			return ALFIL_WHITE;
+		case  BLACK:
+			return ALFIL_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -79,10 +79,10 @@ public enum Pieza {
 	
 	public static Pieza getTorre(Color color){
 		switch (color) {
-		case  BLANCO:
-			return TORRE_BLANCO;
-		case  NEGRO:
-			return TORRE_NEGRO;
+		case  WHITE:
+			return TORRE_WHITE;
+		case  BLACK:
+			return TORRE_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -90,10 +90,10 @@ public enum Pieza {
 
 	public static Pieza getCaballo(Color color) {
 		switch (color) {
-		case  BLANCO:
-			return CABALLO_BLANCO;
-		case  NEGRO:
-			return CABALLO_NEGRO;
+		case  WHITE:
+			return CABALLO_WHITE;
+		case  BLACK:
+			return CABALLO_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}
@@ -101,10 +101,10 @@ public enum Pieza {
 
 	public static Pieza getPeon(Color color) {
 		switch (color) {
-		case  BLANCO:
-			return PEON_BLANCO;
-		case  NEGRO:
-			return PEON_NEGRO;
+		case  WHITE:
+			return PEON_WHITE;
+		case  BLACK:
+			return PEON_BLACK;
 		default:
 			throw new RuntimeException("Invalid color");
 		}

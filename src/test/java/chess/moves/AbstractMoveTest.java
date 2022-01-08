@@ -27,7 +27,7 @@ public class AbstractMoveTest {
 	
 	@Test
 	public void testEquals01() {
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		
 		assertEquals(new SimpleMove(origen, destino), new SimpleMove(origen, destino));
@@ -35,10 +35,10 @@ public class AbstractMoveTest {
 	
 	@Test
 	public void testToString01() {
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_WHITE);
 		PosicionPieza destino = new PosicionPieza(Square.e7, null);
 		Move move = new SimpleMove(origen, destino);
-		assertEquals("e5=TORRE_BLANCO e7=null - SimpleMove", move.toString());
+		assertEquals("e5=TORRE_WHITE e7=null - SimpleMove", move.toString());
 	}	
 	
 	

@@ -36,7 +36,7 @@ public class FENCoder implements ChessBuilder {
 
 
 	public StringBuilder getTurno(StringBuilder stringBuilder) {
-		return Color.BLANCO.equals(turno) ? stringBuilder.append('w') : stringBuilder.append('b');
+		return Color.WHITE.equals(turno) ? stringBuilder.append('w') : stringBuilder.append('b');
 	}
 
 	public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
@@ -142,40 +142,40 @@ public class FENCoder implements ChessBuilder {
 	private char getCode(Pieza pieza) {
 		char result;
 		switch (pieza) {
-		case TORRE_NEGRO:
+		case TORRE_BLACK:
 			result = 'r';
 			break;
-		case CABALLO_NEGRO:
+		case CABALLO_BLACK:
 			result = 'n';
 			break;
-		case REINA_NEGRO:
+		case QUEEN_BLACK:
 			result = 'q';
 			break;
-		case REY_NEGRO:
+		case KING_BLACK:
 			result = 'k';
 			break;
-		case PEON_NEGRO:
+		case PEON_BLACK:
 			result = 'p';
 			break;
-		case ALFIL_NEGRO:
+		case ALFIL_BLACK:
 			result = 'b';
 			break;
-		case TORRE_BLANCO:
+		case TORRE_WHITE:
 			result = 'R';
 			break;
-		case CABALLO_BLANCO:
+		case CABALLO_WHITE:
 			result = 'N';
 			break;
-		case REINA_BLANCO:
+		case QUEEN_WHITE:
 			result = 'Q';
 			break;
-		case REY_BLANCO:
+		case KING_WHITE:
 			result = 'K';
 			break;
-		case PEON_BLANCO:
+		case PEON_WHITE:
 			result = 'P';
 			break;
-		case ALFIL_BLANCO:
+		case ALFIL_WHITE:
 			result = 'B';
 			break;
 		default:

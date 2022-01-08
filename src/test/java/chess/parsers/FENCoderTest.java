@@ -27,7 +27,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testTurnoBlanco() {
-		coder.withTurno(Color.BLANCO);
+		coder.withTurno(Color.WHITE);
 		
 		String actual = coder.getTurno(stringBuilder).toString();
 		
@@ -36,7 +36,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testTurnoNegro() {
-		coder.withTurno(Color.NEGRO);
+		coder.withTurno(Color.BLACK);
 		
 		String actual = coder.getTurno(stringBuilder).toString();
 		
@@ -63,7 +63,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testCodePiecePlacementRank01() {
-		String actual = coder.codePiecePlacementRank(new Pieza[]{Pieza.ALFIL_BLANCO, null, null, Pieza.PEON_BLANCO, null, Pieza.ALFIL_BLANCO, null, Pieza.PEON_BLANCO}, stringBuilder).toString();
+		String actual = coder.codePiecePlacementRank(new Pieza[]{Pieza.ALFIL_WHITE, null, null, Pieza.PEON_WHITE, null, Pieza.ALFIL_WHITE, null, Pieza.PEON_WHITE}, stringBuilder).toString();
 		
 		assertEquals("B2P1B1P", actual);
 	}
@@ -77,7 +77,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testCodePiecePlacement03() {
-		coder.withPieza(Square.a1, Pieza.TORRE_BLANCO);
+		coder.withPieza(Square.a1, Pieza.TORRE_WHITE);
 		
 		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
@@ -86,7 +86,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testCodePiecePlacement04() {
-		coder.withPieza(Square.h1, Pieza.TORRE_BLANCO);
+		coder.withPieza(Square.h1, Pieza.TORRE_WHITE);
 		
 		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
@@ -95,7 +95,7 @@ public class FENCoderTest {
 	
 	@Test
 	public void testCodePiecePlacement05() {
-		coder.withPieza(Square.a8, Pieza.TORRE_NEGRO);
+		coder.withPieza(Square.a8, Pieza.TORRE_BLACK);
 		
 		String actual = coder.getPiecePlacement(stringBuilder).toString();
 		
@@ -149,42 +149,42 @@ public class FENCoderTest {
 
 	@Test
 	public void testCodePiecePlacement06() {
-		coder.withPieza(Square.a8, Pieza.TORRE_NEGRO);
-		coder.withPieza(Square.b8, Pieza.CABALLO_NEGRO);
-		coder.withPieza(Square.c8, Pieza.ALFIL_NEGRO);
-		coder.withPieza(Square.d8, Pieza.REINA_NEGRO);
-		coder.withPieza(Square.e8, Pieza.REY_NEGRO);
-		coder.withPieza(Square.f8, Pieza.ALFIL_NEGRO);
-		coder.withPieza(Square.g8, Pieza.CABALLO_NEGRO);
-		coder.withPieza(Square.h8, Pieza.TORRE_NEGRO);
+		coder.withPieza(Square.a8, Pieza.TORRE_BLACK);
+		coder.withPieza(Square.b8, Pieza.CABALLO_BLACK);
+		coder.withPieza(Square.c8, Pieza.ALFIL_BLACK);
+		coder.withPieza(Square.d8, Pieza.QUEEN_BLACK);
+		coder.withPieza(Square.e8, Pieza.KING_BLACK);
+		coder.withPieza(Square.f8, Pieza.ALFIL_BLACK);
+		coder.withPieza(Square.g8, Pieza.CABALLO_BLACK);
+		coder.withPieza(Square.h8, Pieza.TORRE_BLACK);
 		
-		coder.withPieza(Square.a7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.b7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.c7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.d7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.e7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.f7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.g7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.h7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.a7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.b7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.c7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.d7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.e7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.f7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.g7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.h7, Pieza.PEON_BLACK);
 		
 
-		coder.withPieza(Square.a2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.b2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.c2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.d2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.e2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.f2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.g2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.h2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.a2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.b2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.c2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.d2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.e2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.f2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.g2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.h2, Pieza.PEON_WHITE);
 		
-		coder.withPieza(Square.a1, Pieza.TORRE_BLANCO);
-		coder.withPieza(Square.b1, Pieza.CABALLO_BLANCO);
-		coder.withPieza(Square.c1, Pieza.ALFIL_BLANCO);
-		coder.withPieza(Square.d1, Pieza.REINA_BLANCO);
-		coder.withPieza(Square.e1, Pieza.REY_BLANCO);
-		coder.withPieza(Square.f1, Pieza.ALFIL_BLANCO);
-		coder.withPieza(Square.g1, Pieza.CABALLO_BLANCO);
-		coder.withPieza(Square.h1, Pieza.TORRE_BLANCO);		
+		coder.withPieza(Square.a1, Pieza.TORRE_WHITE);
+		coder.withPieza(Square.b1, Pieza.CABALLO_WHITE);
+		coder.withPieza(Square.c1, Pieza.ALFIL_WHITE);
+		coder.withPieza(Square.d1, Pieza.QUEEN_WHITE);
+		coder.withPieza(Square.e1, Pieza.KING_WHITE);
+		coder.withPieza(Square.f1, Pieza.ALFIL_WHITE);
+		coder.withPieza(Square.g1, Pieza.CABALLO_WHITE);
+		coder.withPieza(Square.h1, Pieza.TORRE_WHITE);		
 
 		
 		String actual = coder.getPiecePlacement(stringBuilder).toString();
@@ -194,44 +194,44 @@ public class FENCoderTest {
 	
 	@Test
 	public void testGetFEN() {
-		coder.withPieza(Square.a8, Pieza.TORRE_NEGRO);
-		coder.withPieza(Square.b8, Pieza.CABALLO_NEGRO);
-		coder.withPieza(Square.c8, Pieza.ALFIL_NEGRO);
-		coder.withPieza(Square.d8, Pieza.REINA_NEGRO);
-		coder.withPieza(Square.e8, Pieza.REY_NEGRO);
-		coder.withPieza(Square.f8, Pieza.ALFIL_NEGRO);
-		coder.withPieza(Square.g8, Pieza.CABALLO_NEGRO);
-		coder.withPieza(Square.h8, Pieza.TORRE_NEGRO);
+		coder.withPieza(Square.a8, Pieza.TORRE_BLACK);
+		coder.withPieza(Square.b8, Pieza.CABALLO_BLACK);
+		coder.withPieza(Square.c8, Pieza.ALFIL_BLACK);
+		coder.withPieza(Square.d8, Pieza.QUEEN_BLACK);
+		coder.withPieza(Square.e8, Pieza.KING_BLACK);
+		coder.withPieza(Square.f8, Pieza.ALFIL_BLACK);
+		coder.withPieza(Square.g8, Pieza.CABALLO_BLACK);
+		coder.withPieza(Square.h8, Pieza.TORRE_BLACK);
 		
-		coder.withPieza(Square.a7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.b7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.c7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.d7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.e7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.f7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.g7, Pieza.PEON_NEGRO);
-		coder.withPieza(Square.h7, Pieza.PEON_NEGRO);
+		coder.withPieza(Square.a7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.b7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.c7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.d7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.e7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.f7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.g7, Pieza.PEON_BLACK);
+		coder.withPieza(Square.h7, Pieza.PEON_BLACK);
 		
 
-		coder.withPieza(Square.a2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.b2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.c2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.d2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.e2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.f2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.g2, Pieza.PEON_BLANCO);
-		coder.withPieza(Square.h2, Pieza.PEON_BLANCO);
+		coder.withPieza(Square.a2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.b2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.c2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.d2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.e2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.f2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.g2, Pieza.PEON_WHITE);
+		coder.withPieza(Square.h2, Pieza.PEON_WHITE);
 		
-		coder.withPieza(Square.a1, Pieza.TORRE_BLANCO);
-		coder.withPieza(Square.b1, Pieza.CABALLO_BLANCO);
-		coder.withPieza(Square.c1, Pieza.ALFIL_BLANCO);
-		coder.withPieza(Square.d1, Pieza.REINA_BLANCO);
-		coder.withPieza(Square.e1, Pieza.REY_BLANCO);
-		coder.withPieza(Square.f1, Pieza.ALFIL_BLANCO);
-		coder.withPieza(Square.g1, Pieza.CABALLO_BLANCO);
-		coder.withPieza(Square.h1, Pieza.TORRE_BLANCO);
+		coder.withPieza(Square.a1, Pieza.TORRE_WHITE);
+		coder.withPieza(Square.b1, Pieza.CABALLO_WHITE);
+		coder.withPieza(Square.c1, Pieza.ALFIL_WHITE);
+		coder.withPieza(Square.d1, Pieza.QUEEN_WHITE);
+		coder.withPieza(Square.e1, Pieza.KING_WHITE);
+		coder.withPieza(Square.f1, Pieza.ALFIL_WHITE);
+		coder.withPieza(Square.g1, Pieza.CABALLO_WHITE);
+		coder.withPieza(Square.h1, Pieza.TORRE_WHITE);
 		
-		coder.withTurno(Color.BLANCO);
+		coder.withTurno(Color.WHITE);
 		
 		coder.withPeonPasanteSquare(null);
 		

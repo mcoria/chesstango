@@ -38,43 +38,43 @@ public class BoardTest {
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
-		assertTrue(moves.contains( createSimpleMove(Square.a2, Pieza.PEON_BLANCO, Square.a3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Pieza.PEON_BLANCO, Square.a4, Square.a3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.a2, Pieza.PEON_WHITE, Square.a3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Pieza.PEON_WHITE, Square.a4, Square.a3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.b2, Pieza.PEON_BLANCO, Square.b3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.b2, Pieza.PEON_BLANCO, Square.b4, Square.b3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.b2, Pieza.PEON_WHITE, Square.b3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.b2, Pieza.PEON_WHITE, Square.b4, Square.b3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.c2, Pieza.PEON_BLANCO, Square.c3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.c2, Pieza.PEON_BLANCO, Square.c4, Square.c3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.c2, Pieza.PEON_WHITE, Square.c3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.c2, Pieza.PEON_WHITE, Square.c4, Square.c3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.d2, Pieza.PEON_BLANCO, Square.d3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.d2, Pieza.PEON_BLANCO, Square.d4, Square.d3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.d2, Pieza.PEON_WHITE, Square.d3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.d2, Pieza.PEON_WHITE, Square.d4, Square.d3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.e2, Pieza.PEON_BLANCO, Square.e3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.e2, Pieza.PEON_BLANCO, Square.e4, Square.e3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.e2, Pieza.PEON_WHITE, Square.e3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.e2, Pieza.PEON_WHITE, Square.e4, Square.e3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.f2, Pieza.PEON_BLANCO, Square.f3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.f2, Pieza.PEON_BLANCO, Square.f4, Square.f3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.f2, Pieza.PEON_WHITE, Square.f3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.f2, Pieza.PEON_WHITE, Square.f4, Square.f3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.g2, Pieza.PEON_BLANCO, Square.g3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.g2, Pieza.PEON_BLANCO, Square.g4, Square.g3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.g2, Pieza.PEON_WHITE, Square.g3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.g2, Pieza.PEON_WHITE, Square.g4, Square.g3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.h2, Pieza.PEON_BLANCO, Square.h3) ));
-		assertTrue(moves.contains( createSaltoDobleMove(Square.h2, Pieza.PEON_BLANCO, Square.h4, Square.h3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.h2, Pieza.PEON_WHITE, Square.h3) ));
+		assertTrue(moves.contains( createSaltoDobleMove(Square.h2, Pieza.PEON_WHITE, Square.h4, Square.h3) ));
 		
 		//Caballo Kingna
-		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.a3) ));
-		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.c3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_WHITE, Square.a3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.b1, Pieza.CABALLO_WHITE, Square.c3) ));
 		
 		//Caballo King
-		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.f3) ));
-		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_BLANCO, Square.h3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_WHITE, Square.f3) ));
+		assertTrue(moves.contains( createSimpleMove(Square.g1, Pieza.CABALLO_WHITE, Square.h3) ));
 		
 		//Debe haber 20 movimientos
 		assertEquals(20, moves.size());
 		
 		//State
-		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
 		assertNull(tablero.getBoardState().getPeonPasanteSquare());
 	}
 
@@ -85,12 +85,12 @@ public class BoardTest {
 		BoardStatus result = tablero.getBoardStatus();
 		Collection<Move> moves = tablero.getLegalMoves();
 
-		assertEquals(Color.NEGRO, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.BLACK, tablero.getBoardState().getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
-		assertTrue(moves.contains(createCaptureMove(Square.h6, Pieza.CABALLO_NEGRO, Square.f7, Pieza.REINA_BLANCO)));
-		assertFalse(moves.contains(createSimpleMove(Square.e8, Pieza.REY_NEGRO, Square.e7)));
-		assertFalse(moves.contains(createCaptureMove(Square.e8, Pieza.REY_NEGRO, Square.f7, Pieza.REINA_BLANCO)));
+		assertTrue(moves.contains(createCaptureMove(Square.h6, Pieza.CABALLO_BLACK, Square.f7, Pieza.QUEEN_WHITE)));
+		assertFalse(moves.contains(createSimpleMove(Square.e8, Pieza.KING_BLACK, Square.e7)));
+		assertFalse(moves.contains(createCaptureMove(Square.e8, Pieza.KING_BLACK, Square.f7, Pieza.QUEEN_WHITE)));
 
 		assertEquals(1, moves.size());
 	}
@@ -101,17 +101,17 @@ public class BoardTest {
 
 		BoardStatus result = tablero.getBoardStatus();
 
-		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		Collection<Move> moves = tablero.getLegalMoves();
 
-		assertTrue(moves.contains(createSimpleMove(Square.b1, Pieza.CABALLO_BLANCO, Square.c3)));
-		assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Pieza.PEON_BLANCO, Square.b4, Square.b3)));
-		assertTrue(moves.contains(createSimpleMove(Square.c2, Pieza.PEON_BLANCO, Square.c3)));
-		assertTrue(moves.contains(createSimpleMove(Square.d2, Pieza.REY_BLANCO, Square.e3)));
+		assertTrue(moves.contains(createSimpleMove(Square.b1, Pieza.CABALLO_WHITE, Square.c3)));
+		assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Pieza.PEON_WHITE, Square.b4, Square.b3)));
+		assertTrue(moves.contains(createSimpleMove(Square.c2, Pieza.PEON_WHITE, Square.c3)));
+		assertTrue(moves.contains(createSimpleMove(Square.d2, Pieza.KING_WHITE, Square.e3)));
 
-		assertFalse(moves.contains(createSimpleMove(Square.d2, Pieza.REY_BLANCO, Square.e1)));
+		assertFalse(moves.contains(createSimpleMove(Square.d2, Pieza.KING_WHITE, Square.e1)));
 
 		assertEquals(4, moves.size());
 	}
@@ -122,7 +122,7 @@ public class BoardTest {
 
 		BoardStatus result = tablero.getBoardStatus();
 
-		assertEquals(Color.BLANCO, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		Collection<Move> moves = tablero.getLegalMoves();
@@ -145,14 +145,14 @@ public class BoardTest {
 
 		Collection<Move> moves = tablero.getLegalMoves();
 
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO,
-				Pieza.TORRE_NEGRO)));
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO,
-				Pieza.CABALLO_NEGRO)));
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO,
-				Pieza.ALFIL_NEGRO)));
-		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_NEGRO, Square.f1, Pieza.TORRE_BLANCO,
-				Pieza.REINA_NEGRO)));
+		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_BLACK, Square.f1, Pieza.TORRE_WHITE,
+				Pieza.TORRE_BLACK)));
+		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_BLACK, Square.f1, Pieza.TORRE_WHITE,
+				Pieza.CABALLO_BLACK)));
+		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_BLACK, Square.f1, Pieza.TORRE_WHITE,
+				Pieza.ALFIL_BLACK)));
+		assertTrue(moves.contains(createCapturePeonPromocion(Square.g2, Pieza.PEON_BLACK, Square.f1, Pieza.TORRE_WHITE,
+				Pieza.QUEEN_BLACK)));
 
 		assertEquals(46, moves.size());
 	}
@@ -239,8 +239,8 @@ public class BoardTest {
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
-		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f2)));
-		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.REY_BLANCO, Square.f1)));
+		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.KING_WHITE, Square.f2)));
+		assertFalse(moves.contains(createSimpleMove(Square.e1, Pieza.KING_WHITE, Square.f1)));
 		assertFalse(moves.contains(new CastlingWhiteKingMove()));
 		
 		assertEquals(12, moves.size());
@@ -297,13 +297,13 @@ public class BoardTest {
 	}
 	
 	private Move createCapturePeonPasanteMoveNegro(Square origen, Square destinoSquare) {
-		return moveFactory.createCapturePeonPasante(new PosicionPieza(origen, Pieza.PEON_NEGRO),
+		return moveFactory.createCapturePeonPasante(new PosicionPieza(origen, Pieza.PEON_BLACK),
 				new PosicionPieza(destinoSquare, null), new PosicionPieza(
-						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Pieza.PEON_BLANCO));
+						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Pieza.PEON_WHITE));
 	}
 	
 	private Object createSimpleKingMoveBlanco(Square origen, Square destino) {
-		return moveFactory.createSimpleKingMoveBlanco(new PosicionPieza(origen, Pieza.REY_BLANCO), new PosicionPieza(destino, null));
+		return moveFactory.createSimpleKingMoveBlanco(new PosicionPieza(origen, Pieza.KING_WHITE), new PosicionPieza(destino, null));
 	}	
 	
 	private Board getDefaultBoard() {

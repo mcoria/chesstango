@@ -49,16 +49,16 @@ public class CaptureMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new BoardState();
-		boardState.setTurnoActual(Color.BLANCO);
+		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.TORRE_BLANCO);
-		piezaBoard.setPieza(Square.e7, Pieza.PEON_NEGRO);
+		piezaBoard.setPieza(Square.e5, Pieza.TORRE_WHITE);
+		piezaBoard.setPieza(Square.e7, Pieza.PEON_BLACK);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_BLANCO);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_NEGRO);
+		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.TORRE_WHITE);
+		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PEON_BLACK);
 
 		moveExecutor = new CaptureMove(origen, destino);
 	}
@@ -70,15 +70,15 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute	
-		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e5));	
 		
 		// undos	
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Pieza.TORRE_BLANCO, piezaBoard.getPieza(Square.e5));
-		assertEquals(Pieza.PEON_NEGRO, piezaBoard.getPieza(Square.e7));
+		assertEquals(Pieza.TORRE_WHITE, piezaBoard.getPieza(Square.e5));
+		assertEquals(Pieza.PEON_BLACK, piezaBoard.getPieza(Square.e7));
 	}
 	
 	@Test
@@ -88,13 +88,13 @@ public class CaptureMoveTest {
 
 		// asserts execute	
 		assertNull(boardState.getPeonPasanteSquare());
-		assertEquals(Color.NEGRO, boardState.getTurnoActual());
+		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
 
 		// asserts undos
-		assertEquals(Color.BLANCO, boardState.getTurnoActual());		
+		assertEquals(Color.WHITE, boardState.getTurnoActual());		
 	}
 	
 	@Test
@@ -103,15 +103,15 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e7));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
 		assertTrue(colorBoard.isEmpty(Square.e5));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.BLANCO, colorBoard.getColor(Square.e5));
-		assertEquals(Color.NEGRO, colorBoard.getColor(Square.e7));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.e7));
 	}
 	
 	@Test(expected = RuntimeException.class)

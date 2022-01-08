@@ -6,13 +6,13 @@ package chess;
  */
 public class CachePosiciones {
 	
-	public static final PosicionPieza TORRE_NEGRO_REYNA = new PosicionPieza(Square.a8, Pieza.TORRE_NEGRO);
-	public static final PosicionPieza REY_NEGRO = new PosicionPieza(Square.e8, Pieza.REY_NEGRO);
-	public static final PosicionPieza TORRE_NEGRO_REY = new PosicionPieza(Square.h8, Pieza.TORRE_NEGRO);
+	public static final PosicionPieza TORRE_BLACK_REYNA = new PosicionPieza(Square.a8, Pieza.TORRE_BLACK);
+	public static final PosicionPieza REY_BLACK = new PosicionPieza(Square.e8, Pieza.KING_BLACK);
+	public static final PosicionPieza TORRE_BLACK_REY = new PosicionPieza(Square.h8, Pieza.TORRE_BLACK);
 	
-	public static final PosicionPieza TORRE_BLANCA_REYNA = new PosicionPieza(Square.a1, Pieza.TORRE_BLANCO);
-	public static final PosicionPieza REY_BLANCO = new PosicionPieza(Square.e1, Pieza.REY_BLANCO);
-	public static final PosicionPieza TORRE_BLANCA_REY = new PosicionPieza(Square.h1, Pieza.TORRE_BLANCO);	
+	public static final PosicionPieza TORRE_BLANCA_REYNA = new PosicionPieza(Square.a1, Pieza.TORRE_WHITE);
+	public static final PosicionPieza REY_WHITE = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
+	public static final PosicionPieza TORRE_BLANCA_REY = new PosicionPieza(Square.h1, Pieza.TORRE_WHITE);	
 	
 
 	private final PosicionPieza[][] tablero = new PosicionPieza[64][13];

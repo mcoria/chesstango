@@ -101,40 +101,40 @@ public class FENParser {
 		Pieza pieza = null;
 		switch (t) {
 			case 'r':
-				pieza = Pieza.TORRE_NEGRO;
+				pieza = Pieza.TORRE_BLACK;
 				break;
 			case 'n':
-				pieza = Pieza.CABALLO_NEGRO;
+				pieza = Pieza.CABALLO_BLACK;
 				break;
 			case 'q':
-				pieza = Pieza.REINA_NEGRO;
+				pieza = Pieza.QUEEN_BLACK;
 				break;
 			case 'k':
-				pieza = Pieza.REY_NEGRO;
+				pieza = Pieza.KING_BLACK;
 				break;
 			case 'p':
-				pieza = Pieza.PEON_NEGRO;
+				pieza = Pieza.PEON_BLACK;
 				break;
 			case 'b':
-				pieza = Pieza.ALFIL_NEGRO;
+				pieza = Pieza.ALFIL_BLACK;
 				break;
 			case 'R':
-				pieza = Pieza.TORRE_BLANCO;
+				pieza = Pieza.TORRE_WHITE;
 				break;
 			case 'N':
-				pieza = Pieza.CABALLO_BLANCO;
+				pieza = Pieza.CABALLO_WHITE;
 				break;
 			case 'Q':
-				pieza = Pieza.REINA_BLANCO;
+				pieza = Pieza.QUEEN_WHITE;
 				break;
 			case 'K':
-				pieza = Pieza.REY_BLANCO;
+				pieza = Pieza.KING_WHITE;
 				break;
 			case 'P':
-				pieza = Pieza.PEON_BLANCO;
+				pieza = Pieza.PEON_WHITE;
 				break;
 			case 'B':
-				pieza = Pieza.ALFIL_BLANCO;
+				pieza = Pieza.ALFIL_WHITE;
 				break;
 			case '1':
 			case '2':
@@ -197,10 +197,10 @@ public class FENParser {
 		Color turno = null;
 		switch (colorChar) {
 		case 'w':
-			turno = Color.BLANCO;
+			turno = Color.WHITE;
 			break;	
 		case 'b':
-			turno = Color.NEGRO;
+			turno = Color.BLACK;
 			break;				
 		default:
 			throw new RuntimeException("Unknown FEN code " + activeColor);			

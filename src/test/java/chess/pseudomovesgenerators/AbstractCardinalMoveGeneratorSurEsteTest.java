@@ -39,7 +39,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new AbstractCardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.SurEste}){
+		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.SurEste}){
 
 			@Override
 			protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
@@ -65,9 +65,9 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -88,10 +88,10 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.h2));
+		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.TORRE_WHITE, tablero.getPieza(Square.h2));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -111,10 +111,10 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.h2));
+		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.h2));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -124,7 +124,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.g3) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.h2, Pieza.TORRE_NEGRO) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.h2, Pieza.TORRE_BLACK) ));
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

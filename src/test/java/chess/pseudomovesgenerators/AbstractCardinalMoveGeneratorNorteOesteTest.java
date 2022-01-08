@@ -39,7 +39,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new AbstractCardinalMoveGenerator(Color.BLANCO, new Cardinal[] {Cardinal.NorteOeste}){
+		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.NorteOeste}){
 
 			@Override
 			protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
@@ -64,9 +64,9 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
+		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -88,10 +88,10 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_BLANCO, tablero.getPieza(Square.b8));
+		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.TORRE_WHITE, tablero.getPieza(Square.b8));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -111,10 +111,10 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ALFIL_BLANCO, tablero.getPieza(from));
-		assertEquals(Pieza.TORRE_NEGRO, tablero.getPieza(Square.b8));
+		assertEquals(Pieza.ALFIL_WHITE, tablero.getPieza(from));
+		assertEquals(Pieza.TORRE_BLACK, tablero.getPieza(Square.b8));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_BLANCO);
+		PosicionPieza origen = new PosicionPieza(from, Pieza.ALFIL_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -124,7 +124,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 		
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d6) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c7) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.b8, Pieza.TORRE_NEGRO) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.b8, Pieza.TORRE_BLACK) ));
 	}
 	
 	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {

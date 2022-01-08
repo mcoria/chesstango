@@ -11,10 +11,10 @@ import chess.Square;
  */
 public class PeonBlancoMoveGenerator extends PeonAbstractMoveGenerator {
 	
-	private static final Pieza[] PROMOCIONES_BLANCO = new Pieza[]{Pieza.TORRE_BLANCO, Pieza.CABALLO_BLANCO, Pieza.ALFIL_BLANCO, Pieza.REINA_BLANCO};
+	private static final Pieza[] PROMOCIONES_WHITE = new Pieza[]{Pieza.TORRE_WHITE, Pieza.CABALLO_WHITE, Pieza.ALFIL_WHITE, Pieza.QUEEN_WHITE};
 	
 	public PeonBlancoMoveGenerator() {
-		super(Color.BLANCO);
+		super(Color.WHITE);
 	}
 		
 	@Override
@@ -39,12 +39,12 @@ public class PeonBlancoMoveGenerator extends PeonAbstractMoveGenerator {
 
 	@Override
 	protected PosicionPieza getCapturaPeonPasante(Square peonPasanteSquare) {
-		return new PosicionPieza(Square.getSquare(peonPasanteSquare.getFile(), 4), Pieza.PEON_NEGRO);
+		return new PosicionPieza(Square.getSquare(peonPasanteSquare.getFile(), 4), Pieza.PEON_BLACK);
 	}
 
 	@Override
 	protected Pieza[] getPiezaPromocion() {
-		return PROMOCIONES_BLANCO;
+		return PROMOCIONES_WHITE;
 	}
 
 }
