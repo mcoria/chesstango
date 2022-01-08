@@ -27,7 +27,7 @@ class CaptureKingMove extends CaptureMove {
 	
 	@Override
 	public boolean filter(MoveFilter filter){
-		return filter.filterMoveKing(this);
+		return filter.filterKingMove(this);
 	}
 	
 	@Override

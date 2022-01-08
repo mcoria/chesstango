@@ -49,7 +49,7 @@ public class MoveFilter {
 		return result;
 	}
 	
-	public boolean filterMoveKing(Move move) {
+	public boolean filterKingMove(Move move) {
 		boolean result = false;
 		
 		move.executeMove(this.kingCacheBoard);

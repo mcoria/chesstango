@@ -148,7 +148,7 @@ public class SimpleKingMoveTest {
 		moveExecutor.filter(filter);
 
 		// asserts execute
-		verify(filter).filterMoveKing(moveExecutor);
+		verify(filter).filterKingMove(moveExecutor);
 	}	
 	
 	@Test

@@ -28,7 +28,7 @@ class SimpleKingMove extends SimpleMove {
 	
 	@Override
 	public boolean filter(MoveFilter filter){
-		return filter.filterMoveKing(this);
+		return filter.filterKingMove(this);
 	}
 	
 	@Override
