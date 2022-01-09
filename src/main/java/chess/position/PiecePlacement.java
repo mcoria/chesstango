@@ -1,10 +1,9 @@
 package chess.position;
 
-import java.util.Iterator;
-
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
 
 /**
@@ -31,8 +30,8 @@ public interface PiecePlacement extends Iterable<PiecePositioned> {
 	// La operacion move es una primitiva
 	void move(PiecePositioned from, PiecePositioned to);
 
-	Iterator<PiecePositioned> iterator(SquareIterator squareIterator);
+	PiecePlacementIterator iterator(SquareIterator squareIterator);
 	
-	Iterator<PiecePositioned> iterator(long posiciones);
+	PiecePlacementIterator iterator(long posiciones);
 
 }

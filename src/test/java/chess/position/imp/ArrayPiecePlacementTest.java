@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,7 +13,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.pieceplacement.BoardBitIterator;
-import chess.position.imp.ArrayPiecePlacement;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 
 
 /**
@@ -54,7 +53,7 @@ public class ArrayPiecePlacementTest {
 		
 		List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();
 
-		for (Iterator<PiecePositioned> iterator =  new BoardBitIterator(tablero.tablero, posiciones); iterator.hasNext();) {
+		for (PiecePlacementIterator iterator =  new BoardBitIterator(tablero.tablero, posiciones); iterator.hasNext();) {
 			posicionesList.add(iterator.next());
 		}
 		

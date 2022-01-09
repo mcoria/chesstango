@@ -1,7 +1,5 @@
 package chess.iterators.pieceplacement;
 
-import java.util.Iterator;
-
 import chess.PiecePositioned;
 
 //Esta implementacion es muy especifica a como se representa un tablero y como se representa un listado de posiciones
@@ -10,7 +8,7 @@ import chess.PiecePositioned;
  * @author Mauricio Coria
  *
  */
-public class BoardBitIterator implements Iterator<PiecePositioned> {
+public class BoardBitIterator implements PiecePlacementIterator {
 
 	private final long posiciones;
 	private final PiecePositioned[] tablero;

@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Iterator;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,8 +13,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.iterators.square.BottomUpSquareIterator;
-import chess.iterators.square.TopDownSquareIterator;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
 
@@ -43,7 +40,7 @@ public class BoardteratorTest {
 		
 		PiecePlacement tablero =  builder.getPosicionPiezaBoard();
 		
-		Iterator<PiecePositioned> iterator = tablero.iterator(new TopDownSquareIterator());
+		PiecePlacementIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
 		PiecePositioned entry =  null;
 		
@@ -386,7 +383,7 @@ public class BoardteratorTest {
 		
 		PiecePlacement tablero =  builder.getPosicionPiezaBoard();
 		
-		Iterator<PiecePositioned> iterator = tablero.iterator(new BottomUpSquareIterator());
+		PiecePlacementIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		
 		PiecePositioned entry =  null;
 		

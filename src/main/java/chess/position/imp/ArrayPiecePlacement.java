@@ -2,7 +2,6 @@ package chess.position.imp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Iterator;
 
 import chess.CachePosiciones;
 import chess.Piece;
@@ -10,6 +9,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.gui.ASCIIOutput;
 import chess.iterators.pieceplacement.BoardBitIterator;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
 import chess.position.PiecePlacement;
 
@@ -77,8 +77,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	
 
 	@Override
-	public Iterator<PiecePositioned> iterator() {
-		return new Iterator<PiecePositioned>(){
+	public PiecePlacementIterator iterator() {
+		return new PiecePlacementIterator(){
 			
 			private int idx = 0;
 
@@ -97,8 +97,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 
 
 	@Override
-	public Iterator<PiecePositioned> iterator(SquareIterator squareIterator){
-		return new Iterator<PiecePositioned>(){
+	public PiecePlacementIterator iterator(SquareIterator squareIterator){
+		return new PiecePlacementIterator(){
 
 			@Override
 			public boolean hasNext() {
@@ -114,7 +114,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	}
 	
 	@Override
-	public Iterator<PiecePositioned> iterator(long posiciones){
+	public PiecePlacementIterator iterator(long posiciones){
 		return new BoardBitIterator(tablero, posiciones);
 	}	
 

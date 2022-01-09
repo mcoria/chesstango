@@ -1,11 +1,10 @@
 package chess.positioncaptures;
 
-import java.util.Iterator;
-
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGenerator;
@@ -38,7 +37,7 @@ public class IteratorCapturer implements Capturer {
 	 */
 	@Override
 	public boolean positionCaptured(Color color, Square square){
-		for (Iterator<PiecePositioned> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
+		for (PiecePlacementIterator iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
 			PiecePositioned origen = iterator.next();
 			Piece currentPieza = origen.getValue();
 			//MoveGenerator moveGenerator = currentPieza.getMoveGenerator(strategy);
