@@ -44,10 +44,6 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	private ImprovedCapturer improvedCapturer = null;
 
 	private MoveFilter moveFilter;
-	
-	public ChessPositionBuilderImp() {
-		this(new ChessFactory());
-	}
 
 	public ChessPositionBuilderImp(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;

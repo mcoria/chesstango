@@ -11,12 +11,12 @@ import chess.Square;
  */
 public class ChessGameBuilder implements ChessPositionBuilder {
 	
-	private ChessPositionBuilderImp builder = new ChessPositionBuilderImp();
+	private ChessPositionBuilderImp builder = null;
 	
 	private Game game = null;
 	
 	public ChessGameBuilder() {
-		this.builder = new ChessPositionBuilderImp();
+		this(new ChessFactory());
 	}
 	
 	public ChessGameBuilder(ChessFactory chessFactory) {
