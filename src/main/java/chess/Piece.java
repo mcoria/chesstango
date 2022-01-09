@@ -13,8 +13,8 @@ public enum Piece {
 	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPawnBlancoMoveGenerator()),
 	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPawnNegroMoveGenerator()),
 	
-	ROOK_WHITE(Color.WHITE, strategy -> strategy.getTorreBlancaMoveGenerator()),
-	ROOK_BLACK(Color.BLACK, strategy -> strategy.getTorreNegraMoveGenerator()),
+	ROOK_WHITE(Color.WHITE, strategy -> strategy.getRookBlancaMoveGenerator()),
+	ROOK_BLACK(Color.BLACK, strategy -> strategy.getRookNegraMoveGenerator()),
 	
 	KNIGHT_WHITE(Color.WHITE, strategy -> strategy.getCaballoBlancoMoveGenerator()),
 	KNIGHT_BLACK(Color.BLACK, strategy -> strategy.getCaballoNegroMoveGenerator()),
@@ -77,7 +77,7 @@ public enum Piece {
 		}
 	}
 	
-	public static Piece getTorre(Color color){
+	public static Piece getRook(Color color){
 		switch (color) {
 		case  WHITE:
 			return ROOK_WHITE;

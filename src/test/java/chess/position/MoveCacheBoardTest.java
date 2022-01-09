@@ -1,10 +1,13 @@
-package chess;
+package chess.position;
 
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.Piece;
+import chess.PiecePositioned;
+import chess.Square;
 import chess.moves.MoveFactory;
 import chess.position.MoveCacheBoard;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
@@ -14,7 +17,7 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  * @author Mauricio Coria
  *
  */
-public class MoveCacheTest {
+public class MoveCacheBoardTest {
 
 	private MoveCacheBoard cache;
 	

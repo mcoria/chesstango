@@ -36,12 +36,12 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 			final PiecePositioned origen, 
 			final PiecePositioned king,
 			final PiecePositioned torre,
-			final Square casilleroIntermedioTorre,
+			final Square casilleroIntermedioRook,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( tablero.isEmtpy(casilleroIntermedioTorre)													//El casillero intermedio ROOK esta vacio
+				if ( tablero.isEmtpy(casilleroIntermedioRook)													//El casillero intermedio ROOK esta vacio
 				  && tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
 				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
 						return true;
@@ -69,16 +69,16 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	}
 	
 	private final static Cardinal[] cardinalesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
-	private final static Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
+	private final static Cardinal[] cardinalesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
 	public long getPinnedSquare(Square kingSquare) {
 		Piece reina = Piece.getQueen(this.color.opositeColor());
-		Piece torre = Piece.getTorre(this.color.opositeColor());
+		Piece torre = Piece.getRook(this.color.opositeColor());
 		Piece alfil = Piece.getAlfil(this.color.opositeColor());
 		long pinnedCollection = 0;
 		
 		pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesAlfil);
-		pinnedCollection |= getPinnedCardinales(kingSquare, torre, reina, cardinalesTorre);
+		pinnedCollection |= getPinnedCardinales(kingSquare, torre, reina, cardinalesRook);
 
 		return pinnedCollection;
 	}

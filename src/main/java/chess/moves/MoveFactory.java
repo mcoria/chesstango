@@ -54,7 +54,7 @@ public class MoveFactory {
 	}
 	
 	
-	public Move createSimpleTorreMove(PiecePositioned origen, PiecePositioned destino) {
+	public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
 					state -> state.setCastlingWhiteQueenPermitido(false));
@@ -79,7 +79,7 @@ public class MoveFactory {
 	}
 	
 	
-	public Move createCaptureTorreMove(PiecePositioned origen, PiecePositioned destino) {
+	public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
 					state -> state.setCastlingWhiteQueenPermitido(false));

@@ -21,15 +21,15 @@ import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.TorreMoveGenerator;
+import chess.pseudomovesgenerators.RookMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class TorreMoveGeneratorTest {
+public class RookMoveGeneratorTest {
 
-	private TorreMoveGenerator moveGenerator;
+	private RookMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -38,7 +38,7 @@ public class TorreMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new TorreMoveGenerator(Color.WHITE);
+		moveGenerator = new RookMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}
