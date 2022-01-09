@@ -6,13 +6,13 @@ package chess;
  */
 public class CachePosiciones {
 	
-	public static final PiecePositioned TORRE_BLACK_REYNA = new PiecePositioned(Square.a8, Piece.ROOK_BLACK);
-	public static final PiecePositioned REY_BLACK = new PiecePositioned(Square.e8, Piece.KING_BLACK);
-	public static final PiecePositioned TORRE_BLACK_REY = new PiecePositioned(Square.h8, Piece.ROOK_BLACK);
+	public static final PiecePositioned ROOK_BLACK_QUEEN = new PiecePositioned(Square.a8, Piece.ROOK_BLACK);
+	public static final PiecePositioned KING_BLACK = new PiecePositioned(Square.e8, Piece.KING_BLACK);
+	public static final PiecePositioned ROOK_BLACK_KING = new PiecePositioned(Square.h8, Piece.ROOK_BLACK);
 	
-	public static final PiecePositioned TORRE_BLANCA_REYNA = new PiecePositioned(Square.a1, Piece.ROOK_WHITE);
-	public static final PiecePositioned REY_WHITE = new PiecePositioned(Square.e1, Piece.KING_WHITE);
-	public static final PiecePositioned TORRE_BLANCA_REY = new PiecePositioned(Square.h1, Piece.ROOK_WHITE);	
+	public static final PiecePositioned ROOK_WHITE_QUEEN = new PiecePositioned(Square.a1, Piece.ROOK_WHITE);
+	public static final PiecePositioned KING_WHITE = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+	public static final PiecePositioned ROOK_WHITE_KING = new PiecePositioned(Square.h1, Piece.ROOK_WHITE);	
 	
 
 	private final PiecePositioned[][] tablero = new PiecePositioned[64][13];

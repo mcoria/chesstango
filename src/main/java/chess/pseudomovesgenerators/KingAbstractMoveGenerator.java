@@ -18,7 +18,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	
 	protected BoardState boardState;
 	
-	public final static int[][] SALTOS_REY = { { 0, 1 }, // Norte
+	public final static int[][] SALTOS_KING = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
 			{ -1, 1 },  // NO
 			{ 0, -1 },  // Sur
@@ -29,7 +29,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	};
 	
 	public KingAbstractMoveGenerator(Color color) {
-		super(color, SALTOS_REY);
+		super(color, SALTOS_KING);
 	}	
 
 	protected boolean puedeEnroqueQueen(
@@ -41,9 +41,9 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroIntermedioKing) {
 		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( tablero.isEmtpy(casilleroIntermedioTorre)													//El casillero intermedio TORRE esta vacio
-				  && tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino REY esta vacio
-				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio REY esta vacio
+				if ( tablero.isEmtpy(casilleroIntermedioTorre)													//El casillero intermedio ROOK esta vacio
+				  && tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
+				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
 						return true;
 				}
 			}
@@ -59,8 +59,8 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroIntermedioKing) {
 		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
 			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino REY esta vacio
-				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio REY esta vacio
+				if ( tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
+				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
 						return true;
 				}
 			}

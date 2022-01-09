@@ -150,7 +150,7 @@ public class ImprovedCapturer implements Capturer {
 		}
 		
 		private boolean positionCapturedByKing(Square square) {
-			Iterator<PiecePositioned> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, KingAbstractMoveGenerator.SALTOS_REY));
+			Iterator<PiecePositioned> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, KingAbstractMoveGenerator.SALTOS_KING));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(king.equals(destino.getValue())){		    	

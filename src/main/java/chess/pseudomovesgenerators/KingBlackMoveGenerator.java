@@ -14,12 +14,12 @@ import chess.moves.Move;
  */
 public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 
-	protected static final Square INTERMEDIO_TORRE_REYNA_SQUARE = Square.b8;
-	protected static final Square DESTINO_REYNA_SQUARE = Square.c8;
-	protected static final Square INTERMEDIO_REY_REYNA_SQUARE = Square.d8;
+	protected static final Square INTERMEDIO_ROOK_QUEEN_SQUARE = Square.b8;
+	protected static final Square DESTINO_QUEEN_SQUARE = Square.c8;
+	protected static final Square INTERMEDIO_KING_QUEEN_SQUARE = Square.d8;
 	
-	protected static final Square INTERMEDIO_REY_REY_SQUARE = Square.f8;	
-	protected static final Square DESTINO_REY_SQUARE = Square.g8;
+	protected static final Square INTERMEDIO_KING_KING_SQUARE = Square.f8;	
+	protected static final Square DESTINO_KING_SQUARE = Square.g8;
 	
 	
 	public KingBlackMoveGenerator() {
@@ -33,30 +33,30 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackQueenPermitido() ||  this.boardState.isCastlingBlackKingPermitido()) ;
 		
 		if (this.boardState.isCastlingBlackQueenPermitido()){
-			result.affectedByContainerAdd(INTERMEDIO_TORRE_REYNA_SQUARE);
-			result.affectedByContainerAdd(DESTINO_REYNA_SQUARE);
-			result.affectedByContainerAdd(INTERMEDIO_REY_REYNA_SQUARE);		
+			result.affectedByContainerAdd(INTERMEDIO_ROOK_QUEEN_SQUARE);
+			result.affectedByContainerAdd(DESTINO_QUEEN_SQUARE);
+			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);		
 			result.affectedByContainerAdd(Square.a8); //La posicion de la torre
 			if(puedeEnroqueQueen(	origen, 
-								CachePosiciones.REY_BLACK, 
-								CachePosiciones.TORRE_BLACK_REYNA,
-								INTERMEDIO_TORRE_REYNA_SQUARE, 
-								DESTINO_REYNA_SQUARE, 
-								INTERMEDIO_REY_REYNA_SQUARE)) {
+								CachePosiciones.KING_BLACK, 
+								CachePosiciones.ROOK_BLACK_QUEEN,
+								INTERMEDIO_ROOK_QUEEN_SQUARE, 
+								DESTINO_QUEEN_SQUARE, 
+								INTERMEDIO_KING_QUEEN_SQUARE)) {
 				result.moveContainerAdd(new CastlingBlackQueenMove());
 			}
 		}
 			
 			
 		if (this.boardState.isCastlingBlackKingPermitido()){
-			result.affectedByContainerAdd(INTERMEDIO_REY_REY_SQUARE);
-			result.affectedByContainerAdd(DESTINO_REY_SQUARE);
+			result.affectedByContainerAdd(INTERMEDIO_KING_KING_SQUARE);
+			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
 			if(puedeEnroqueKing(	origen, 
-								CachePosiciones.REY_BLACK, 
-								CachePosiciones.TORRE_BLACK_REY,
-								DESTINO_REY_SQUARE, 
-								INTERMEDIO_REY_REY_SQUARE)) {
+								CachePosiciones.KING_BLACK, 
+								CachePosiciones.ROOK_BLACK_KING,
+								DESTINO_KING_SQUARE, 
+								INTERMEDIO_KING_KING_SQUARE)) {
 				result.moveContainerAdd(new CastlingBlackKingMove());
 			}
 		}
