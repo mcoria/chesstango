@@ -6,7 +6,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
-import chess.layers.ChessPositionState;
+import chess.position.PositionState;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque
 
@@ -16,7 +16,7 @@ import chess.layers.ChessPositionState;
  */
 public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerator {
 	
-	protected ChessPositionState chessPositionState;
+	protected PositionState positionState;
 	
 	public final static int[][] SALTOS_KING = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
@@ -128,8 +128,8 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 		return null;
 	}
 
-	public void setBoardState(ChessPositionState chessPositionState) {
-		this.chessPositionState = chessPositionState;
+	public void setBoardState(PositionState positionState) {
+		this.positionState = positionState;
 	}
 	
 }

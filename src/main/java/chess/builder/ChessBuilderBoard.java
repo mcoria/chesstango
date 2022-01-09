@@ -1,14 +1,14 @@
 package chess.builder;
 
-import chess.ChessPosition;
 import chess.BoardAnalyzer;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
 import chess.moves.MoveFactory;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
 import chess.positioncaptures.Capturer;
 import chess.positioncaptures.ImprovedCapturer;
 import chess.pseudomovesfilters.LegalMoveCalculator;

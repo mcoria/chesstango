@@ -10,10 +10,10 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -21,7 +21,7 @@ import chess.moves.MoveFactory;
  */
 public class PawnPasanteMoveGenerator {
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 	
 	private PiecePlacement tablero;
 	
@@ -34,10 +34,10 @@ public class PawnPasanteMoveGenerator {
 		PiecePositioned origen = null;
 		PiecePositioned captura = null;
 		
-		Square peonPasanteSquare = chessPositionState.getPawnPasanteSquare();
+		Square peonPasanteSquare = positionState.getPawnPasanteSquare();
 
 		if (peonPasanteSquare != null) {
-			if(Color.WHITE.equals(chessPositionState.getTurnoActual())){
+			if(Color.WHITE.equals(positionState.getTurnoActual())){
 				Square casilleroPawnIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() - 1);
 				if(casilleroPawnIzquirda != null){
 					origen = this.tablero.getPosicion(casilleroPawnIzquirda);
@@ -84,8 +84,8 @@ public class PawnPasanteMoveGenerator {
 	}
 
 
-	public void setBoardState(ChessPositionState chessPositionState) {
-		this.chessPositionState = chessPositionState;
+	public void setBoardState(PositionState positionState) {
+		this.positionState = positionState;
 	}
 
 

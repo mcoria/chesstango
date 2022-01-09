@@ -15,11 +15,11 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.AlfilMoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 

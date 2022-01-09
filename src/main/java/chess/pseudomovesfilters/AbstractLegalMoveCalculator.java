@@ -5,12 +5,12 @@ import java.util.Collection;
 
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.Move;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
@@ -26,7 +26,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected KingCacheBoard kingCacheBoard = null;
 	protected ColorBoard colorBoard = null;	
 	protected MoveCacheBoard moveCache = null;
-	protected ChessPositionState chessPositionState = null;
+	protected PositionState positionState = null;
 	
 	protected MoveGeneratorStrategy strategy = null;
 	
@@ -35,12 +35,12 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected MoveFilter filter = null;
 	
 	public AbstractLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			MoveCacheBoard moveCache, ChessPositionState chessPositionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+			MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.moveCache = moveCache;
-		this.chessPositionState = chessPositionState;
+		this.positionState = positionState;
 		this.strategy = strategy;
 		this.filter = filter;
 	}
@@ -77,7 +77,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	}	
 
 	public Square getCurrentKingSquare() {
-		return kingCacheBoard.getKingSquare(chessPositionState.getTurnoActual());
+		return kingCacheBoard.getKingSquare(positionState.getTurnoActual());
 	}
 	
 	//TODO: Y si en vez de generar un Collection utilizamos una clase con un array

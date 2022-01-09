@@ -9,7 +9,7 @@ import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
 import chess.iterators.SaltoSquareIterator;
-import chess.layers.PiecePlacement;
+import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.CaballoMoveGenerator;
 import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
 

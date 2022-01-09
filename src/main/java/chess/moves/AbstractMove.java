@@ -1,9 +1,9 @@
 package chess.moves;
 
 import chess.PiecePositioned;
-import chess.layers.ChessPositionState;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -41,15 +41,15 @@ abstract class AbstractMove implements Move {
 
 	//TODO: implementar un decorator antes de crear el movimiento
 	@Override
-	public void executeMove(ChessPositionState chessPositionState) {
-		chessPositionState.pushState();
-		chessPositionState.rollTurno();
-		chessPositionState.setPawnPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePawnMove		
+	public void executeMove(PositionState positionState) {
+		positionState.pushState();
+		positionState.rollTurno();
+		positionState.setPawnPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePawnMove		
 	}
 	
 	@Override
-	public void undoMove(ChessPositionState chessPositionState) {
-		chessPositionState.popState();		
+	public void undoMove(PositionState positionState) {
+		positionState.popState();		
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package chess.layers;
+package chess.position;
 
 import java.util.ArrayDeque;
 import java.util.Collection;

@@ -3,6 +3,7 @@ package chess;
 import java.util.Collection;
 
 import chess.moves.Move;
+import chess.position.ChessPosition;
 
 /**
  * @author Mauricio Coria

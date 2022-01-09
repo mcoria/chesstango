@@ -1,4 +1,4 @@
-package chess.layers;
+package chess.position;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

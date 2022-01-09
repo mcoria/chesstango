@@ -1,12 +1,12 @@
 package chess.moves;
 
-import chess.ChessPosition;
 import chess.PiecePositioned;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -41,13 +41,13 @@ abstract class MoveDecorator implements Move {
 	}
 
 	@Override
-	public void executeMove(ChessPositionState chessPositionState) {
-		move.executeMove(chessPositionState);
+	public void executeMove(PositionState positionState) {
+		move.executeMove(positionState);
 	}
 
 	@Override
-	public void undoMove(ChessPositionState chessPositionState) {
-		move.undoMove(chessPositionState);
+	public void undoMove(PositionState positionState) {
+		move.undoMove(positionState);
 	}
 
 	@Override

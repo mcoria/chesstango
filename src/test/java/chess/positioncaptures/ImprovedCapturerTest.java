@@ -9,8 +9,8 @@ import chess.Color;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
+import chess.position.PiecePlacement;
 import chess.positioncaptures.ImprovedCapturer;
 
 /**

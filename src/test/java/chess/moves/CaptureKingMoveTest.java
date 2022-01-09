@@ -11,17 +11,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.CaptureKingMove;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -36,7 +36,7 @@ public class CaptureKingMoveTest {
 	
 	private PiecePlacement piezaBoard;
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 
 	private KingCacheBoard kingCacheBoard;
 	
@@ -50,7 +50,7 @@ public class CaptureKingMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		chessPositionState = new ChessPositionState();
+		positionState = new PositionState();
 		kingCacheBoard = new KingCacheBoard();
 		moveExecutor = null;
 		piezaBoard = null;
@@ -84,20 +84,20 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testBoardState() {
-		chessPositionState.setTurnoActual(Color.WHITE);
+		positionState.setTurnoActual(Color.WHITE);
 
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
-		moveExecutor.executeMove(chessPositionState);
+		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getTurnoActual());
 
-		moveExecutor.undoMove(chessPositionState);
+		moveExecutor.undoMove(positionState);
 
-		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getTurnoActual());
 	}		
 
 	@Test
@@ -188,7 +188,7 @@ public class CaptureKingMoveTest {
 		
 		colorBoard = new ColorBoard(piezaBoard);
 		
-		chessPositionState.setTurnoActual(Color.WHITE);
+		positionState.setTurnoActual(Color.WHITE);
 
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -198,7 +198,7 @@ public class CaptureKingMoveTest {
 		// execute
 		moveExecutor.executeMove(piezaBoard);
 		moveExecutor.executeMove(kingCacheBoard);
-		moveExecutor.executeMove(chessPositionState);
+		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
@@ -207,7 +207,7 @@ public class CaptureKingMoveTest {
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getTurnoActual());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e1));
@@ -215,7 +215,7 @@ public class CaptureKingMoveTest {
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		moveExecutor.undoMove(kingCacheBoard);
-		moveExecutor.undoMove(chessPositionState);
+		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 
 		
@@ -225,7 +225,7 @@ public class CaptureKingMoveTest {
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getTurnoActual());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.e2));

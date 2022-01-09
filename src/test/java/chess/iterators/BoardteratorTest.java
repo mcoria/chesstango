@@ -17,8 +17,8 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.BottomUpSquareIterator;
 import chess.iterators.TopDownSquareIterator;
-import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
+import chess.position.PiecePlacement;
 
 
 /**

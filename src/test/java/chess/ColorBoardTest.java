@@ -7,9 +7,9 @@ import org.junit.Test;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.SquareIterator;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
 
 
 /**

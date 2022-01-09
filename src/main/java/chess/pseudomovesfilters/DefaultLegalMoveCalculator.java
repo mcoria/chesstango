@@ -4,12 +4,12 @@ import java.util.Collection;
 
 import chess.Square;
 import chess.iterators.SquareIterator;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.Move;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
@@ -19,9 +19,9 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  */
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
-	public DefaultLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, ChessPositionState chessPositionState,
+	public DefaultLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState,
 			MoveGeneratorStrategy strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 	}	
 
 	@Override
@@ -37,7 +37,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 
 	protected Collection<Move> getLegalMovesBySquare(Collection<Move> moves) {
-		for (SquareIterator iterator = colorBoard.iteratorSquare(chessPositionState.getTurnoActual()); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(positionState.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			

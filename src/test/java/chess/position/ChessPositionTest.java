@@ -1,4 +1,4 @@
-package chess;
+package chess.position;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,6 +10,11 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.BoardStatus;
+import chess.Color;
+import chess.Piece;
+import chess.PiecePositioned;
+import chess.Square;
 import chess.builder.ChessBuilderBoard;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingWhiteKingMove;
@@ -17,6 +22,7 @@ import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
+import chess.position.ChessPosition;
 
 
 /**

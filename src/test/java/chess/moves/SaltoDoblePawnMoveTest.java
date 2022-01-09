@@ -11,17 +11,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.BoardStateDebug;
 import chess.debug.chess.ColorBoardDebug;
-import chess.layers.KingCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.SaltoDoblePawnMove;
+import chess.position.ChessPosition;
+import chess.position.KingCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesfilters.MoveFilter;
 
 

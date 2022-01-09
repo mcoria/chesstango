@@ -11,17 +11,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
-import chess.layers.ChessPositionState;
-import chess.layers.KingCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.CaptureMove;
+import chess.position.ChessPosition;
+import chess.position.KingCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -34,7 +34,7 @@ public class CaptureMoveTest {
 
 	private PiecePlacement piezaBoard;
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 	
 	private CaptureMove moveExecutor;
 	
@@ -48,8 +48,8 @@ public class CaptureMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		chessPositionState = new ChessPositionState();
-		chessPositionState.setTurnoActual(Color.WHITE);
+		positionState = new PositionState();
+		positionState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
@@ -84,17 +84,17 @@ public class CaptureMoveTest {
 	@Test
 	public void testMoveState() {
 		// execute
-		moveExecutor.executeMove(chessPositionState);		
+		moveExecutor.executeMove(positionState);		
 
 		// asserts execute	
-		assertNull(chessPositionState.getPawnPasanteSquare());
-		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
+		assertNull(positionState.getPawnPasanteSquare());
+		assertEquals(Color.BLACK, positionState.getTurnoActual());
 		
 		// undos
-		moveExecutor.undoMove(chessPositionState);
+		moveExecutor.undoMove(positionState);
 
 		// asserts undos
-		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());		
+		assertEquals(Color.WHITE, positionState.getTurnoActual());		
 	}
 	
 	@Test
@@ -155,14 +155,14 @@ public class CaptureMoveTest {
 		// execute
 		moveExecutor.executeMove(piezaBoard);		
 		moveExecutor.executeMove(colorBoard);
-		moveExecutor.executeMove(chessPositionState);
+		moveExecutor.executeMove(positionState);
 		
 		colorBoard.validar(piezaBoard);
 		
 		// undos
 		moveExecutor.undoMove(piezaBoard);		
 		moveExecutor.undoMove(colorBoard);
-		moveExecutor.undoMove(chessPositionState);		
+		moveExecutor.undoMove(positionState);		
 		
 		colorBoard.validar(piezaBoard);
 	}

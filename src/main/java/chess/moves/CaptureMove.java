@@ -1,11 +1,11 @@
 package chess.moves;
 
-import chess.ChessPosition;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.PositionState;
 import chess.pseudomovesfilters.MoveFilter;
 
 /**
@@ -35,23 +35,23 @@ class CaptureMove extends AbstractMove {
 	
 	
 	@Override
-	public void executeMove(ChessPositionState chessPositionState) {
-		super.executeMove(chessPositionState);
+	public void executeMove(PositionState positionState) {
+		super.executeMove(positionState);
 		
 		if(to.getKey().equals(Square.a1)){
-			chessPositionState.setCastlingWhiteQueenPermitido(false);
+			positionState.setCastlingWhiteQueenPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.h1)){
-			chessPositionState.setCastlingWhiteKingPermitido(false);
+			positionState.setCastlingWhiteKingPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.a8)){
-			chessPositionState.setCastlingBlackQueenPermitido(false);
+			positionState.setCastlingBlackQueenPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.h8)){
-			chessPositionState.setCastlingBlackKingPermitido(false);
+			positionState.setCastlingBlackKingPermitido(false);
 		}		
 	}
 

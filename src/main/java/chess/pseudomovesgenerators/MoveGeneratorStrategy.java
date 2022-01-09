@@ -2,10 +2,10 @@ package chess.pseudomovesgenerators;
 
 import chess.Color;
 import chess.Piece;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.MoveFactory;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -14,7 +14,7 @@ import chess.moves.MoveFactory;
 public class MoveGeneratorStrategy {
 	private PiecePlacement dummyBoard;
 	private ColorBoard colorBoard;
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 	private MoveFactory moveFactory;
 	
 	private PawnBlancoMoveGenerator pbmg;
@@ -76,8 +76,8 @@ public class MoveGeneratorStrategy {
 		settupMoveGenerators();
 	}
 
-	public void setBoardState(ChessPositionState chessPositionState) {
-		this.chessPositionState = chessPositionState;
+	public void setBoardState(PositionState positionState) {
+		this.positionState = positionState;
 		settupMoveGenerators();
 	}	
 
@@ -193,13 +193,13 @@ public class MoveGeneratorStrategy {
 		
 		if (moveGenerator instanceof KingAbstractMoveGenerator) {
 			KingAbstractMoveGenerator generator = (KingAbstractMoveGenerator) moveGenerator;
-			generator.setBoardState(chessPositionState);
+			generator.setBoardState(positionState);
 		}
 	}
 	
 
 	private void settupPawnPasanteMoveGenerator() {
-		ppmg.setBoardState(chessPositionState);
+		ppmg.setBoardState(positionState);
 		ppmg.setTablero(dummyBoard);
 	}	
 	

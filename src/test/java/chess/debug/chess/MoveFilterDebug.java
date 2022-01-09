@@ -1,11 +1,11 @@
 package chess.debug.chess;
 
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.Move;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.positioncaptures.Capturer;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -17,8 +17,8 @@ import chess.pseudomovesfilters.MoveFilter;
 public class MoveFilterDebug extends MoveFilter {
 	
 	public MoveFilterDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			ChessPositionState chessPositionState, Capturer capturer) {
-		super(dummyBoard, kingCacheBoard, colorBoard, chessPositionState, capturer);
+			PositionState positionState, Capturer capturer) {
+		super(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
 	}
 
 	@Override
@@ -30,13 +30,13 @@ public class MoveFilterDebug extends MoveFilter {
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
-			ChessPositionState boardStateInicial = super.chessPositionState.clone();
+			PositionState boardStateInicial = super.positionState.clone();
 	
 			boolean result = super.filterMove(move);
 			
-			if (!super.chessPositionState.equals(boardStateInicial)) {
+			if (!super.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.chessPositionState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.positionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			
@@ -57,7 +57,7 @@ public class MoveFilterDebug extends MoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((BoardStateDebug)chessPositionState).validar(this.dummyBoard);
+			((BoardStateDebug)positionState).validar(this.dummyBoard);
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
 			
 			return result;

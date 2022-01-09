@@ -1,12 +1,12 @@
 package chess.builder;
 
-import chess.ChessPosition;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.positioncaptures.Capturer;
 import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
 import chess.pseudomovesfilters.LegalMoveCalculator;
@@ -26,14 +26,14 @@ public class ChessFactory {
 
 	public LegalMoveCalculator createDefaultLegalMoveCalculator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			ChessPositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new DefaultLegalMoveCalculator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 
 	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			ChessPositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}
@@ -51,16 +51,16 @@ public class ChessFactory {
 		return new MoveCacheBoard(piecePlacement, buildMoveGeneratorStrategy);
 	}
 
-	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, ChessPositionState chessPositionState, Capturer capturer) {
-		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, chessPositionState, capturer);
+	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState, Capturer capturer) {
+		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
 	}
 
 	public PiecePlacement createPosicionPiezaBoard() {
 		return new ArrayPiecePlacement();
 	}
 
-	public ChessPositionState createBoardState() {
-		return new ChessPositionState();
+	public PositionState createBoardState() {
+		return new PositionState();
 	}
 
 }

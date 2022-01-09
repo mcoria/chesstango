@@ -4,8 +4,8 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.KingCacheBoard;
-import chess.layers.PiecePlacement;
+import chess.position.KingCacheBoard;
+import chess.position.PiecePlacement;
 
 
 /**

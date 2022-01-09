@@ -1,4 +1,4 @@
-package chess.layers.imp;
+package chess.position.imp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,7 +14,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.posicionpieza.BoardBitIterator;
-import chess.layers.imp.ArrayPiecePlacement;
+import chess.position.imp.ArrayPiecePlacement;
 
 
 /**

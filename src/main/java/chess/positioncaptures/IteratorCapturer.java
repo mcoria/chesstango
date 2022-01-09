@@ -6,8 +6,8 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 

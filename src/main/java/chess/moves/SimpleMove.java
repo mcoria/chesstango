@@ -1,9 +1,9 @@
 package chess.moves;
 
-import chess.ChessPosition;
 import chess.PiecePositioned;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
 import chess.pseudomovesfilters.MoveFilter;
 
 

@@ -1,12 +1,12 @@
 package chess.moves;
 
-import chess.ChessPosition;
 import chess.PiecePositioned;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 import chess.pseudomovesfilters.MoveFilter;
 
 //TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
@@ -33,8 +33,8 @@ public interface Move extends Comparable<Move> {
 	void executeMove(PiecePlacement board);
 	void undoMove(PiecePlacement board);
 	
-	void executeMove(ChessPositionState chessPositionState);
-	void undoMove(ChessPositionState chessPositionState);
+	void executeMove(PositionState positionState);
+	void undoMove(PositionState positionState);
 
 	void executeMove(ColorBoard coloBoard);
 	void undoMove(ColorBoard colorBoard);

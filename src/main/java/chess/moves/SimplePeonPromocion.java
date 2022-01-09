@@ -2,7 +2,7 @@ package chess.moves;
 
 import chess.Piece;
 import chess.PiecePositioned;
-import chess.layers.PiecePlacement;
+import chess.position.PiecePlacement;
 
 
 /**

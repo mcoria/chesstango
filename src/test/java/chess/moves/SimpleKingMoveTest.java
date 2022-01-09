@@ -11,17 +11,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
-import chess.layers.ChessPositionState;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.SimpleKingMove;
+import chess.position.ChessPosition;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -36,7 +36,7 @@ public class SimpleKingMoveTest {
 	
 	private PiecePlacement piezaBoard;
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 
 	private KingCacheBoardDebug kingCacheBoard;
 	
@@ -61,10 +61,10 @@ public class SimpleKingMoveTest {
 
 		moveExecutor = new SimpleKingMove(origen, destino);
 		
-		chessPositionState = new ChessPositionState();
-		chessPositionState.setTurnoActual(Color.WHITE);
-		chessPositionState.setCastlingWhiteKingPermitido(true);
-		chessPositionState.setCastlingWhiteQueenPermitido(true);
+		positionState = new PositionState();
+		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCastlingWhiteKingPermitido(true);
+		positionState.setCastlingWhiteQueenPermitido(true);
 	}
 	
 	
@@ -87,13 +87,13 @@ public class SimpleKingMoveTest {
 	
 	@Test
 	public void testBoardState() {
-		moveExecutor.executeMove(chessPositionState);
+		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getTurnoActual());
 
-		moveExecutor.undoMove(chessPositionState);
+		moveExecutor.undoMove(positionState);
 
-		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getTurnoActual());
 	}		
 
 	@Test
@@ -156,7 +156,7 @@ public class SimpleKingMoveTest {
 		// execute
 		moveExecutor.executeMove(piezaBoard);
 		moveExecutor.executeMove(kingCacheBoard);
-		moveExecutor.executeMove(chessPositionState);
+		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
@@ -165,7 +165,7 @@ public class SimpleKingMoveTest {
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getTurnoActual());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e1));
@@ -176,7 +176,7 @@ public class SimpleKingMoveTest {
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		moveExecutor.undoMove(kingCacheBoard);
-		moveExecutor.undoMove(chessPositionState);
+		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 
 		
@@ -186,7 +186,7 @@ public class SimpleKingMoveTest {
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getTurnoActual());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertTrue(colorBoard.isEmpty(Square.e2));

@@ -1,11 +1,11 @@
 package chess.debug.chess;
 
-import chess.ChessPosition;
 import chess.BoardStatus;
-import chess.layers.ChessPositionState;
-import chess.layers.KingCacheBoard;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.Move;
+import chess.position.ChessPosition;
+import chess.position.KingCacheBoard;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 
 
 /**
@@ -18,7 +18,7 @@ public class BoardDebug extends ChessPosition {
 	@Override
 	public void execute(Move move) {
 		super.execute(move);
-		((BoardStateDebug)chessPositionState).validar(this.dummyBoard);
+		((BoardStateDebug)positionState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);
@@ -27,7 +27,7 @@ public class BoardDebug extends ChessPosition {
 	@Override
 	public void undo(Move move) {
 		super.undo(move);
-		((BoardStateDebug)chessPositionState).validar(this.dummyBoard);
+		((BoardStateDebug)positionState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);		
@@ -46,13 +46,13 @@ public class BoardDebug extends ChessPosition {
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
-			ChessPositionState boardStateInicial = super.chessPositionState.clone();
+			PositionState boardStateInicial = super.positionState.clone();
 
 			BoardStatus result = super.getBoardStatus();
 			
-			if (!super.chessPositionState.equals(boardStateInicial)) {
+			if (!super.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.chessPositionState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.positionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			

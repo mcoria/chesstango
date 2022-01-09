@@ -3,15 +3,15 @@ package chess.debug.chess;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.PiecePlacement;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class BoardStateDebug extends ChessPositionState{
+public class BoardStateDebug extends PositionState{
 
 	public void validar() {
 		if(this.getTurnoActual() == null){

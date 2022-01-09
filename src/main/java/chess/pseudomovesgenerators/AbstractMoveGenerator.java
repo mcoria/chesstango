@@ -2,9 +2,9 @@ package chess.pseudomovesgenerators;
 
 import chess.Color;
 import chess.PiecePositioned;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.MoveFactory;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
 
 
 /**

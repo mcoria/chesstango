@@ -3,8 +3,8 @@ package chess.builder;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.PiecePlacement;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 
 /**
@@ -15,7 +15,7 @@ public class ChessBuilderParts implements ChessBuilder {
 	
 	private PiecePlacement piecePlacement;
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 	
 	private ChessFactory chessFactory = null;
 	
@@ -30,11 +30,11 @@ public class ChessBuilderParts implements ChessBuilder {
 		return piecePlacement;
 	}
 
-	public ChessPositionState getState() {
-		if (chessPositionState == null) {
-			chessPositionState = chessFactory.createBoardState();
+	public PositionState getState() {
+		if (positionState == null) {
+			positionState = chessFactory.createBoardState();
 		}
-		return chessPositionState;
+		return positionState;
 	}
 
 

@@ -1,13 +1,11 @@
-package chess;
+package chess.position;
 
 import java.util.Collection;
 
+import chess.BoardAnalyzer;
+import chess.BoardStatus;
+import chess.PiecePositioned;
 import chess.builder.ChessBuilder;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.parsers.FENCoder;
 
@@ -23,7 +21,7 @@ public class ChessPosition {
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
-	protected ChessPositionState chessPositionState = null;
+	protected PositionState positionState = null;
 	
 	private BoardAnalyzer analyzer = null;
 
@@ -46,7 +44,7 @@ public class ChessPosition {
 
 		move.executeMove(this.moveCache);
 
-		move.executeMove(this.chessPositionState);	
+		move.executeMove(this.positionState);	
 		
 	}
 	
@@ -65,7 +63,7 @@ public class ChessPosition {
 	}
 
 	public void undoMove(Move move) {
-		move.undoMove(this.chessPositionState);
+		move.undoMove(this.positionState);
 
 		move.undoMove(this.moveCache);
 
@@ -84,12 +82,12 @@ public class ChessPosition {
 	
 	
 	public void constructBoardRepresentation(ChessBuilder builder){		
-		builder.withTurno(chessPositionState.getTurnoActual());
-		builder.withCastlingWhiteQueenPermitido(chessPositionState.isCastlingWhiteQueenPermitido());
-		builder.withCastlingWhiteKingPermitido(chessPositionState.isCastlingWhiteKingPermitido());
-		builder.withCastlingBlackQueenPermitido(chessPositionState.isCastlingBlackQueenPermitido());
-		builder.withCastlingBlackKingPermitido(chessPositionState.isCastlingBlackKingPermitido());
-		builder.withPawnPasanteSquare(chessPositionState.getPawnPasanteSquare());
+		builder.withTurno(positionState.getTurnoActual());
+		builder.withCastlingWhiteQueenPermitido(positionState.isCastlingWhiteQueenPermitido());
+		builder.withCastlingWhiteKingPermitido(positionState.isCastlingWhiteKingPermitido());
+		builder.withCastlingBlackQueenPermitido(positionState.isCastlingBlackQueenPermitido());
+		builder.withCastlingBlackKingPermitido(positionState.isCastlingBlackKingPermitido());
+		builder.withPawnPasanteSquare(positionState.getPawnPasanteSquare());
 		
 		for(PiecePositioned pieza: dummyBoard){
 			builder.withPieza(pieza.getKey(), pieza.getValue());
@@ -103,7 +101,7 @@ public class ChessPosition {
 		
 		constructBoardRepresentation(coder);
 		
-	    return this.dummyBoard.toString() + "\n" + this.chessPositionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
+	    return this.dummyBoard.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
 	}
 
 	public void setDummyBoard(PiecePlacement dummyBoard) {
@@ -124,13 +122,13 @@ public class ChessPosition {
 	}
 
 
-	public ChessPositionState getBoardState() {
-		return chessPositionState;
+	public PositionState getBoardState() {
+		return positionState;
 	}
 
 
-	public void setBoardState(ChessPositionState chessPositionState) {
-		this.chessPositionState = chessPositionState;
+	public void setBoardState(PositionState positionState) {
+		this.positionState = positionState;
 	}
 
 

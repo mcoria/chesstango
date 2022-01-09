@@ -12,15 +12,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
+import chess.position.ChessPosition;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -33,7 +33,7 @@ public class CastlingWhiteQueenMoveTest {
 	
 	private PiecePlacement piezaBoard;
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 	
 	private KingCacheBoard kingCacheBoard;
 	
@@ -51,10 +51,10 @@ public class CastlingWhiteQueenMoveTest {
 	public void setUp() throws Exception {
 		moveExecutor = new CastlingWhiteQueenMove();
 		
-		chessPositionState = new ChessPositionState();		
-		chessPositionState.setTurnoActual(Color.WHITE);
-		chessPositionState.setCastlingWhiteQueenPermitido(true);
-		chessPositionState.setCastlingWhiteKingPermitido(true);
+		positionState = new PositionState();		
+		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCastlingWhiteQueenPermitido(true);
+		positionState.setCastlingWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.a1, Piece.ROOK_WHITE);	
@@ -85,19 +85,19 @@ public class CastlingWhiteQueenMoveTest {
 
 	@Test
 	public void testBoardState() {
-		moveExecutor.executeMove(chessPositionState);		
+		moveExecutor.executeMove(positionState);		
 
-		assertNull(chessPositionState.getPawnPasanteSquare());
-		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());		
-		assertFalse(chessPositionState.isCastlingWhiteQueenPermitido());
-		assertFalse(chessPositionState.isCastlingWhiteKingPermitido());
+		assertNull(positionState.getPawnPasanteSquare());
+		assertEquals(Color.BLACK, positionState.getTurnoActual());		
+		assertFalse(positionState.isCastlingWhiteQueenPermitido());
+		assertFalse(positionState.isCastlingWhiteKingPermitido());
 		
-		moveExecutor.undoMove(chessPositionState);
+		moveExecutor.undoMove(positionState);
 		
-		assertNull(chessPositionState.getPawnPasanteSquare());
-		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());		
-		assertTrue(chessPositionState.isCastlingWhiteQueenPermitido());
-		assertTrue(chessPositionState.isCastlingWhiteKingPermitido());		
+		assertNull(positionState.getPawnPasanteSquare());
+		assertEquals(Color.WHITE, positionState.getTurnoActual());		
+		assertTrue(positionState.isCastlingWhiteQueenPermitido());
+		assertTrue(positionState.isCastlingWhiteKingPermitido());		
 		
 	}	
 	

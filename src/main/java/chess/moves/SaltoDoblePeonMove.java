@@ -2,8 +2,8 @@ package chess.moves;
 
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ChessPositionState;
-import chess.layers.MoveCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PositionState;
 
 
 /**
@@ -20,9 +20,9 @@ class SaltoDoblePawnMove extends SimpleMove {
 	}
 	
 	@Override
-	public void executeMove(ChessPositionState chessPositionState) {
-		super.executeMove(chessPositionState);
-		chessPositionState.setPawnPasanteSquare(peonPasanteSquare);
+	public void executeMove(PositionState positionState) {
+		super.executeMove(positionState);
+		positionState.setPawnPasanteSquare(peonPasanteSquare);
 	}
 	
 	@Override

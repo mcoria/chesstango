@@ -9,9 +9,9 @@ import chess.Color;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
 import chess.positioncaptures.IteratorCapturer;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 

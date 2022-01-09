@@ -16,14 +16,14 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.PiecePlacement;
 import chess.moves.CastlingWhiteKingMove;
 import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
+import chess.position.ColorBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -34,7 +34,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 	
-	private ChessPositionState state;
+	private PositionState state;
 
 	private MoveFactory moveFactory;
 	
@@ -42,7 +42,7 @@ public class KingWhiteMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
-		state = new ChessPositionState();
+		state = new PositionState();
 		
 		moveGenerator = new KingWhiteMoveGenerator();
 		moveGenerator.setBoardState(state);

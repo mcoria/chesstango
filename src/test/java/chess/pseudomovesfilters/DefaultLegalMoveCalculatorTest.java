@@ -6,12 +6,12 @@ import org.junit.Test;
 
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 import chess.positioncaptures.Capturer;
 import chess.positioncaptures.ImprovedCapturer;
 import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
@@ -29,7 +29,7 @@ public class DefaultLegalMoveCalculatorTest {
 	
 	private PiecePlacement dummyBoard;
 	
-	private ChessPositionState chessPositionState;
+	private PositionState positionState;
 	
 	private KingCacheBoard kingCacheBoard;
 	
@@ -49,7 +49,7 @@ public class DefaultLegalMoveCalculatorTest {
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b KQkq - 0 1");
 		
-		moveCalculator = new DefaultLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
+		moveCalculator = new DefaultLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 		
 		//assertFalse(moveCalculator.existsLegalMove());
 		assertTrue(moveCalculator.getLegalMoves().isEmpty());
@@ -62,7 +62,7 @@ public class DefaultLegalMoveCalculatorTest {
 		parser.parseFEN(string);
 		
 		dummyBoard = builder.getPosicionPiezaBoard();
-		chessPositionState = builder.getState();
+		positionState = builder.getState();
 		kingCacheBoard = new KingCacheBoard(dummyBoard);
 		colorBoard = new ColorBoard(dummyBoard);
 		
@@ -70,10 +70,10 @@ public class DefaultLegalMoveCalculatorTest {
 		
 		strategy = new MoveGeneratorStrategy();
 		strategy.setDummyBoard(dummyBoard);
-		strategy.setBoardState(chessPositionState);
+		strategy.setBoardState(positionState);
 		strategy.setColorBoard(colorBoard);
 		
-		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, chessPositionState, capturer);
+		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
 		moveCache = new MoveCacheBoard(dummyBoard, strategy);
 	}
 }

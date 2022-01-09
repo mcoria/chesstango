@@ -3,7 +3,7 @@ package chess.moves;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.ChessPositionState;
+import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -25,10 +25,10 @@ public class CastlingBlackKingMove extends CastlingMove {
 	}
 	
 	@Override
-	public void executeMove(ChessPositionState chessPositionState) {
-		super.executeMove(chessPositionState);
-		chessPositionState.setCastlingBlackKingPermitido(false);
-		chessPositionState.setCastlingBlackQueenPermitido(false);
+	public void executeMove(PositionState positionState) {
+		super.executeMove(positionState);
+		positionState.setCastlingBlackKingPermitido(false);
+		positionState.setCastlingBlackQueenPermitido(false);
 	}
 	
 	@Override

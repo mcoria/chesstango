@@ -1,4 +1,4 @@
-package chess.layers.imp;
+package chess.position.imp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -11,7 +11,7 @@ import chess.Square;
 import chess.gui.ASCIIOutput;
 import chess.iterators.SquareIterator;
 import chess.iterators.posicionpieza.BoardBitIterator;
-import chess.layers.PiecePlacement;
+import chess.position.PiecePlacement;
 
 /**
  * @author Mauricio Coria

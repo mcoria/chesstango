@@ -2,13 +2,13 @@ package chess.debug.chess;
 
 import java.util.Collection;
 
-import chess.layers.ChessPositionState;
-import chess.layers.ColorBoard;
-import chess.layers.KingCacheBoard;
-import chess.layers.MoveCacheBoard;
-import chess.layers.PiecePlacement;
-import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.Move;
+import chess.position.ColorBoard;
+import chess.position.KingCacheBoard;
+import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
+import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
 import chess.pseudomovesfilters.MoveFilter;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
@@ -21,8 +21,8 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator {
 
 	public DefaultLegalMoveCalculatorDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, ChessPositionState chessPositionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
+			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 	}
 	
 	@Override
@@ -34,13 +34,13 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
-			ChessPositionState boardStateInicial = super.chessPositionState.clone();
+			PositionState boardStateInicial = super.positionState.clone();
 	
 			Collection<Move> result = super.getLegalMoves();
 			
-			if (!super.chessPositionState.equals(boardStateInicial)) {
+			if (!super.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.chessPositionState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.positionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			

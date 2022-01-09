@@ -1,4 +1,4 @@
-package chess.layers;
+package chess.position;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -11,7 +11,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class ChessPositionState {
+public class PositionState {
 
 	private Color turnoActual;
 	private Square peonPasanteSquare;
@@ -120,8 +120,8 @@ public class ChessPositionState {
 
 	
 	@Override
-	public ChessPositionState clone() throws CloneNotSupportedException {
-		ChessPositionState clone = new ChessPositionState();
+	public PositionState clone() throws CloneNotSupportedException {
+		PositionState clone = new PositionState();
 		clone.peonPasanteSquare = peonPasanteSquare;
 		clone.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 		clone.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
@@ -133,8 +133,8 @@ public class ChessPositionState {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ChessPositionState){
-			ChessPositionState theInstance = (ChessPositionState) obj;
+		if(obj instanceof PositionState){
+			PositionState theInstance = (PositionState) obj;
 			return Objects.equals(this.turnoActual, theInstance.turnoActual) && Objects.equals(this.peonPasanteSquare, theInstance.peonPasanteSquare) &&  
 					this.enroqueBlancoQueenPermitido == theInstance.enroqueBlancoQueenPermitido &&
 					this.enroqueBlancoKingPermitido == theInstance.enroqueBlancoKingPermitido &&
