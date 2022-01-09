@@ -1,9 +1,9 @@
 package chess.debug.chess;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.PiecePlacement;
 
 
@@ -11,7 +11,7 @@ import chess.layers.PiecePlacement;
  * @author Mauricio Coria
  *
  */
-public class BoardStateDebug extends BoardState{
+public class BoardStateDebug extends ChessPositionState{
 
 	public void validar() {
 		if(this.getTurnoActual() == null){

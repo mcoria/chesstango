@@ -1,8 +1,8 @@
 package chess.debug.chess;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.BoardStatus;
+import chess.layers.ChessPositionState;
 import chess.layers.KingCacheBoard;
 import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.Move;
@@ -18,7 +18,7 @@ public class BoardDebug extends ChessPosition {
 	@Override
 	public void execute(Move move) {
 		super.execute(move);
-		((BoardStateDebug)boardState).validar(this.dummyBoard);
+		((BoardStateDebug)chessPositionState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);
@@ -27,7 +27,7 @@ public class BoardDebug extends ChessPosition {
 	@Override
 	public void undo(Move move) {
 		super.undo(move);
-		((BoardStateDebug)boardState).validar(this.dummyBoard);
+		((BoardStateDebug)chessPositionState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);		
@@ -46,13 +46,13 @@ public class BoardDebug extends ChessPosition {
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
-			BoardState boardStateInicial = super.boardState.clone();
+			ChessPositionState boardStateInicial = super.chessPositionState.clone();
 
 			BoardStatus result = super.getBoardStatus();
 			
-			if (!super.boardState.equals(boardStateInicial)) {
+			if (!super.chessPositionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.boardState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.chessPositionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			

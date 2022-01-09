@@ -3,9 +3,9 @@ package chess.pseudomovesfilters;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.BoardState;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -26,7 +26,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected KingCacheBoard kingCacheBoard = null;
 	protected ColorBoard colorBoard = null;	
 	protected MoveCacheBoard moveCache = null;
-	protected BoardState boardState = null;
+	protected ChessPositionState chessPositionState = null;
 	
 	protected MoveGeneratorStrategy strategy = null;
 	
@@ -35,12 +35,12 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	protected MoveFilter filter = null;
 	
 	public AbstractLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+			MoveCacheBoard moveCache, ChessPositionState chessPositionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.moveCache = moveCache;
-		this.boardState = boardState;
+		this.chessPositionState = chessPositionState;
 		this.strategy = strategy;
 		this.filter = filter;
 	}
@@ -77,7 +77,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	}	
 
 	public Square getCurrentKingSquare() {
-		return kingCacheBoard.getKingSquare(boardState.getTurnoActual());
+		return kingCacheBoard.getKingSquare(chessPositionState.getTurnoActual());
 	}
 	
 	//TODO: Y si en vez de generar un Collection utilizamos una clase con un array

@@ -2,10 +2,10 @@ package chess.pseudomovesfilters;
 
 import java.util.Collection;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Square;
 import chess.iterators.SquareIterator;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -25,8 +25,8 @@ import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
 public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 
 	public NoCheckLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
+			ColorBoard colorBoard, MoveCacheBoard moveCache, ChessPositionState chessPositionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 
 	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
-		final Color turnoActual = boardState.getTurnoActual();
+		final Color turnoActual = chessPositionState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
 		KingAbstractMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);

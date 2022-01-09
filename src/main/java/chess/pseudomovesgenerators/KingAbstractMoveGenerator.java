@@ -1,12 +1,12 @@
 package chess.pseudomovesgenerators;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
+import chess.layers.ChessPositionState;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque
 
@@ -16,7 +16,7 @@ import chess.iterators.CardinalSquareIterator;
  */
 public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerator {
 	
-	protected BoardState boardState;
+	protected ChessPositionState chessPositionState;
 	
 	public final static int[][] SALTOS_KING = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
@@ -128,8 +128,8 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 		return null;
 	}
 
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
+	public void setBoardState(ChessPositionState chessPositionState) {
+		this.chessPositionState = chessPositionState;
 	}
 	
 }

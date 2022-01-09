@@ -9,13 +9,13 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
+import chess.layers.ChessPositionState;
 import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
@@ -31,7 +31,7 @@ public class PawnPasanteMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 	
-	private BoardState state;
+	private ChessPositionState state;
 
 	private MoveFactory moveFactory;
 	
@@ -39,7 +39,7 @@ public class PawnPasanteMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
-		state = new BoardState();
+		state = new ChessPositionState();
 		
 		moveGenerator = new PawnPasanteMoveGenerator();
 		moveGenerator.setBoardState(state);

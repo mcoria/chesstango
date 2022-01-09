@@ -1,8 +1,8 @@
 package chess.moves;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.PiecePositioned;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -33,8 +33,8 @@ public interface Move extends Comparable<Move> {
 	void executeMove(PiecePlacement board);
 	void undoMove(PiecePlacement board);
 	
-	void executeMove(BoardState boardState);
-	void undoMove(BoardState boardState);
+	void executeMove(ChessPositionState chessPositionState);
+	void undoMove(ChessPositionState chessPositionState);
 
 	void executeMove(ColorBoard coloBoard);
 	void undoMove(ColorBoard colorBoard);

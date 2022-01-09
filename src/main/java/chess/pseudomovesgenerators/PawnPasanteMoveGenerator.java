@@ -6,11 +6,11 @@ package chess.pseudomovesgenerators;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
@@ -21,7 +21,7 @@ import chess.moves.MoveFactory;
  */
 public class PawnPasanteMoveGenerator {
 	
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	
 	private PiecePlacement tablero;
 	
@@ -34,10 +34,10 @@ public class PawnPasanteMoveGenerator {
 		PiecePositioned origen = null;
 		PiecePositioned captura = null;
 		
-		Square peonPasanteSquare = boardState.getPawnPasanteSquare();
+		Square peonPasanteSquare = chessPositionState.getPawnPasanteSquare();
 
 		if (peonPasanteSquare != null) {
-			if(Color.WHITE.equals(boardState.getTurnoActual())){
+			if(Color.WHITE.equals(chessPositionState.getTurnoActual())){
 				Square casilleroPawnIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() - 1);
 				if(casilleroPawnIzquirda != null){
 					origen = this.tablero.getPosicion(casilleroPawnIzquirda);
@@ -84,8 +84,8 @@ public class PawnPasanteMoveGenerator {
 	}
 
 
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
+	public void setBoardState(ChessPositionState chessPositionState) {
+		this.chessPositionState = chessPositionState;
 	}
 
 

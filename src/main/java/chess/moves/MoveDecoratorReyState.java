@@ -3,7 +3,7 @@ package chess.moves;
 import java.util.function.Consumer;
 
 import chess.ChessPosition;
-import chess.BoardState;
+import chess.layers.ChessPositionState;
 import chess.pseudomovesfilters.MoveFilter;
 
 //TODO: hay que reflotar la idea del MoveKing interface, mmmm nos pasa lo mismo en este decorator
@@ -14,7 +14,7 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 class MoveDecoratorKingState extends MoveDecoratorState {
 
-	public MoveDecoratorKingState(Move move, Consumer<BoardState> decoratorState) {
+	public MoveDecoratorKingState(Move move, Consumer<ChessPositionState> decoratorState) {
 		super(move, decoratorState);
 	}
 	

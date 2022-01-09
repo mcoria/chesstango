@@ -32,7 +32,7 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 		
 		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackQueenPermitido() ||  this.boardState.isCastlingBlackKingPermitido()) ;
 		
-		if (this.boardState.isCastlingBlackQueenPermitido()){
+		if (this.chessPositionState.isCastlingBlackQueenPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_ROOK_QUEEN_SQUARE);
 			result.affectedByContainerAdd(DESTINO_QUEEN_SQUARE);
 			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);		
@@ -48,7 +48,7 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 		}
 			
 			
-		if (this.boardState.isCastlingBlackKingPermitido()){
+		if (this.chessPositionState.isCastlingBlackKingPermitido()){
 			result.affectedByContainerAdd(INTERMEDIO_KING_KING_SQUARE);
 			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre

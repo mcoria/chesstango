@@ -1,6 +1,6 @@
 package chess.debug.chess;
 
-import chess.BoardState;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PiecePlacement;
@@ -17,8 +17,8 @@ import chess.pseudomovesfilters.MoveFilter;
 public class MoveFilterDebug extends MoveFilter {
 	
 	public MoveFilterDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			BoardState boardState, Capturer capturer) {
-		super(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
+			ChessPositionState chessPositionState, Capturer capturer) {
+		super(dummyBoard, kingCacheBoard, colorBoard, chessPositionState, capturer);
 	}
 
 	@Override
@@ -30,13 +30,13 @@ public class MoveFilterDebug extends MoveFilter {
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
-			BoardState boardStateInicial = super.boardState.clone();
+			ChessPositionState boardStateInicial = super.chessPositionState.clone();
 	
 			boolean result = super.filterMove(move);
 			
-			if (!super.boardState.equals(boardStateInicial)) {
+			if (!super.chessPositionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.boardState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.chessPositionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			
@@ -57,7 +57,7 @@ public class MoveFilterDebug extends MoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((BoardStateDebug)boardState).validar(this.dummyBoard);
+			((BoardStateDebug)chessPositionState).validar(this.dummyBoard);
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
 			
 			return result;

@@ -1,9 +1,9 @@
 package chess.moves;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.pseudomovesfilters.MoveFilter;
@@ -35,23 +35,23 @@ class CaptureMove extends AbstractMove {
 	
 	
 	@Override
-	public void executeMove(BoardState boardState) {
-		super.executeMove(boardState);
+	public void executeMove(ChessPositionState chessPositionState) {
+		super.executeMove(chessPositionState);
 		
 		if(to.getKey().equals(Square.a1)){
-			boardState.setCastlingWhiteQueenPermitido(false);
+			chessPositionState.setCastlingWhiteQueenPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.h1)){
-			boardState.setCastlingWhiteKingPermitido(false);
+			chessPositionState.setCastlingWhiteKingPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.a8)){
-			boardState.setCastlingBlackQueenPermitido(false);
+			chessPositionState.setCastlingBlackQueenPermitido(false);
 		}
 		
 		if(to.getKey().equals(Square.h8)){
-			boardState.setCastlingBlackKingPermitido(false);
+			chessPositionState.setCastlingBlackKingPermitido(false);
 		}		
 	}
 

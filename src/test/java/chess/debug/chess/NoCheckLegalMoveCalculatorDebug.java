@@ -2,9 +2,9 @@ package chess.debug.chess;
 
 import java.util.Collection;
 
-import chess.BoardState;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -25,8 +25,8 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 
 	public NoCheckLegalMoveCalculatorDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState, MoveGeneratorStrategy strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
+			ColorBoard colorBoard, MoveCacheBoard moveCache, ChessPositionState chessPositionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
 	}
 	
 
@@ -39,13 +39,13 @@ public class NoCheckLegalMoveCalculatorDebug extends NoCheckLegalMoveCalculator{
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
-			BoardState boardStateInicial = super.boardState.clone();
+			ChessPositionState boardStateInicial = super.chessPositionState.clone();
 	
 			Collection<Move> result = super.getLegalMoves();
 			
-			if (!super.boardState.equals(boardStateInicial)) {
+			if (!super.chessPositionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.boardState.toString() + "]\n");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.chessPositionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			

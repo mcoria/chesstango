@@ -1,7 +1,7 @@
 package chess.pseudomovesfilters;
 
-import chess.BoardState;
 import chess.Color;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PiecePlacement;
@@ -19,21 +19,21 @@ public class MoveFilter {
 	protected final PiecePlacement dummyBoard;
 	protected final KingCacheBoard kingCacheBoard;
 	protected final ColorBoard colorBoard;	
-	protected final BoardState boardState;
+	protected final ChessPositionState chessPositionState;
 	protected final Capturer capturer;
 	
-	public MoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
+	public MoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, ChessPositionState chessPositionState, Capturer capturer) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
-		this.boardState = boardState;
+		this.chessPositionState = chessPositionState;
 		this.capturer = capturer;
 	}
 	
 	public boolean filterMove(Move move) {
 		boolean result = false;
 		
-		final Color turnoActual = boardState.getTurnoActual();
+		final Color turnoActual = chessPositionState.getTurnoActual();
 		final Color opositeTurnoActual = turnoActual.opositeColor();
 		
 		move.executeMove(this.dummyBoard);

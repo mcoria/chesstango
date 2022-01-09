@@ -9,7 +9,6 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.CachePosiciones;
 import chess.Color;
 import chess.Piece;
@@ -17,6 +16,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.PiecePlacement;
 import chess.moves.CastlingBlackKingMove;
@@ -35,7 +35,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 	
-	private BoardState state;
+	private ChessPositionState state;
 
 	private MoveFactory moveFactory;
 	
@@ -43,7 +43,7 @@ public class KingBlackMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
-		state = new BoardState();
+		state = new ChessPositionState();
 		state.setTurnoActual(Color.BLACK);
 		
 		moveGenerator = new KingBlackMoveGenerator();

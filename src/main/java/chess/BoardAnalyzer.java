@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 
+import chess.layers.ChessPositionState;
 import chess.layers.KingCacheBoard;
 import chess.moves.Move;
 import chess.positioncaptures.Capturer;
@@ -20,7 +21,7 @@ import chess.pseudomovesfilters.LegalMoveCalculator;
  */
 public class BoardAnalyzer {
 
-	private BoardState boardState = null;
+	private ChessPositionState chessPositionState = null;
 	
 	private KingCacheBoard kingCacheBoard = null;	
 	
@@ -60,8 +61,8 @@ public class BoardAnalyzer {
 		return defaultMoveCalculator;
 	}	
 
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
+	public void setBoardState(ChessPositionState chessPositionState) {
+		this.chessPositionState = chessPositionState;
 	}
 
 	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
@@ -82,7 +83,7 @@ public class BoardAnalyzer {
 	}	
 	
 	protected boolean calculateKingInCheck() {
-		Color turnoActual = boardState.getTurnoActual();
+		Color turnoActual = chessPositionState.getTurnoActual();
 		
 		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
 		

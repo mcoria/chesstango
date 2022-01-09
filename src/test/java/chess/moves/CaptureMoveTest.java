@@ -12,12 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
+import chess.layers.ChessPositionState;
 import chess.layers.KingCacheBoard;
 import chess.layers.PiecePlacement;
 import chess.layers.imp.ArrayPiecePlacement;
@@ -34,7 +34,7 @@ public class CaptureMoveTest {
 
 	private PiecePlacement piezaBoard;
 	
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	
 	private CaptureMove moveExecutor;
 	
@@ -48,8 +48,8 @@ public class CaptureMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		boardState = new BoardState();
-		boardState.setTurnoActual(Color.WHITE);
+		chessPositionState = new ChessPositionState();
+		chessPositionState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
@@ -84,17 +84,17 @@ public class CaptureMoveTest {
 	@Test
 	public void testMoveState() {
 		// execute
-		moveExecutor.executeMove(boardState);		
+		moveExecutor.executeMove(chessPositionState);		
 
 		// asserts execute	
-		assertNull(boardState.getPawnPasanteSquare());
-		assertEquals(Color.BLACK, boardState.getTurnoActual());
+		assertNull(chessPositionState.getPawnPasanteSquare());
+		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
 		
 		// undos
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(chessPositionState);
 
 		// asserts undos
-		assertEquals(Color.WHITE, boardState.getTurnoActual());		
+		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());		
 	}
 	
 	@Test
@@ -155,14 +155,14 @@ public class CaptureMoveTest {
 		// execute
 		moveExecutor.executeMove(piezaBoard);		
 		moveExecutor.executeMove(colorBoard);
-		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(chessPositionState);
 		
 		colorBoard.validar(piezaBoard);
 		
 		// undos
 		moveExecutor.undoMove(piezaBoard);		
 		moveExecutor.undoMove(colorBoard);
-		moveExecutor.undoMove(boardState);		
+		moveExecutor.undoMove(chessPositionState);		
 		
 		colorBoard.validar(piezaBoard);
 	}

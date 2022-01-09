@@ -10,13 +10,13 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.CachePosiciones;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.PiecePlacement;
 import chess.moves.CastlingWhiteKingMove;
@@ -34,7 +34,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 	
-	private BoardState state;
+	private ChessPositionState state;
 
 	private MoveFactory moveFactory;
 	
@@ -42,7 +42,7 @@ public class KingWhiteMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
-		state = new BoardState();
+		state = new ChessPositionState();
 		
 		moveGenerator = new KingWhiteMoveGenerator();
 		moveGenerator.setBoardState(state);

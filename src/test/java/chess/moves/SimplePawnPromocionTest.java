@@ -12,11 +12,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PiecePlacement;
@@ -34,7 +34,7 @@ public class SimplePawnPromocionTest {
 
 	private PiecePlacement piezaBoard;
 	
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	
 	private SimplePawnPromocion moveExecutor;
 	
@@ -48,8 +48,8 @@ public class SimplePawnPromocionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		boardState = new BoardState();
-		boardState.setTurnoActual(Color.WHITE);
+		chessPositionState = new ChessPositionState();
+		chessPositionState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
@@ -82,17 +82,17 @@ public class SimplePawnPromocionTest {
 	@Test
 	public void testMoveState() {		
 		// execute
-		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(chessPositionState);
 		
 		// asserts execute
-		assertNull(boardState.getPawnPasanteSquare());
-		assertEquals(Color.BLACK, boardState.getTurnoActual());
+		assertNull(chessPositionState.getPawnPasanteSquare());
+		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());
 		
 		// undos
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(chessPositionState);
 
 		// asserts undos	
-		assertEquals(Color.WHITE, boardState.getTurnoActual());
+		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());
 	}
 	
 	@Test

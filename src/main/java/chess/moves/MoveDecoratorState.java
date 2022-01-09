@@ -2,7 +2,7 @@ package chess.moves;
 
 import java.util.function.Consumer;
 
-import chess.BoardState;
+import chess.layers.ChessPositionState;
 import chess.pseudomovesfilters.MoveFilter;
 
 
@@ -12,9 +12,9 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 class MoveDecoratorState extends MoveDecorator {
 	
-	protected Consumer<BoardState> decoratorState;
+	protected Consumer<ChessPositionState> decoratorState;
 
-	public MoveDecoratorState(Move move, Consumer<BoardState> decoratorState) {
+	public MoveDecoratorState(Move move, Consumer<ChessPositionState> decoratorState) {
 		super(move);
 		this.decoratorState = decoratorState;
 	}
@@ -25,9 +25,9 @@ class MoveDecoratorState extends MoveDecorator {
 	}
 	
 	@Override
-	public void executeMove(BoardState boardState) {
-		super.executeMove(boardState);
-		decoratorState.accept(boardState);
+	public void executeMove(ChessPositionState chessPositionState) {
+		super.executeMove(chessPositionState);
+		decoratorState.accept(chessPositionState);
 	}
 
 }

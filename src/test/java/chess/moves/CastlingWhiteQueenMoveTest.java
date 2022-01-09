@@ -13,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.PiecePlacement;
@@ -33,7 +33,7 @@ public class CastlingWhiteQueenMoveTest {
 	
 	private PiecePlacement piezaBoard;
 	
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	
 	private KingCacheBoard kingCacheBoard;
 	
@@ -51,10 +51,10 @@ public class CastlingWhiteQueenMoveTest {
 	public void setUp() throws Exception {
 		moveExecutor = new CastlingWhiteQueenMove();
 		
-		boardState = new BoardState();		
-		boardState.setTurnoActual(Color.WHITE);
-		boardState.setCastlingWhiteQueenPermitido(true);
-		boardState.setCastlingWhiteKingPermitido(true);
+		chessPositionState = new ChessPositionState();		
+		chessPositionState.setTurnoActual(Color.WHITE);
+		chessPositionState.setCastlingWhiteQueenPermitido(true);
+		chessPositionState.setCastlingWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.a1, Piece.ROOK_WHITE);	
@@ -85,19 +85,19 @@ public class CastlingWhiteQueenMoveTest {
 
 	@Test
 	public void testBoardState() {
-		moveExecutor.executeMove(boardState);		
+		moveExecutor.executeMove(chessPositionState);		
 
-		assertNull(boardState.getPawnPasanteSquare());
-		assertEquals(Color.BLACK, boardState.getTurnoActual());		
-		assertFalse(boardState.isCastlingWhiteQueenPermitido());
-		assertFalse(boardState.isCastlingWhiteKingPermitido());
+		assertNull(chessPositionState.getPawnPasanteSquare());
+		assertEquals(Color.BLACK, chessPositionState.getTurnoActual());		
+		assertFalse(chessPositionState.isCastlingWhiteQueenPermitido());
+		assertFalse(chessPositionState.isCastlingWhiteKingPermitido());
 		
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(chessPositionState);
 		
-		assertNull(boardState.getPawnPasanteSquare());
-		assertEquals(Color.WHITE, boardState.getTurnoActual());		
-		assertTrue(boardState.isCastlingWhiteQueenPermitido());
-		assertTrue(boardState.isCastlingWhiteKingPermitido());		
+		assertNull(chessPositionState.getPawnPasanteSquare());
+		assertEquals(Color.WHITE, chessPositionState.getTurnoActual());		
+		assertTrue(chessPositionState.isCastlingWhiteQueenPermitido());
+		assertTrue(chessPositionState.isCastlingWhiteKingPermitido());		
 		
 	}	
 	

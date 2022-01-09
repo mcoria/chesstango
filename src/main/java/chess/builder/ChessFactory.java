@@ -1,7 +1,7 @@
 package chess.builder;
 
 import chess.ChessPosition;
-import chess.BoardState;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -26,14 +26,14 @@ public class ChessFactory {
 
 	public LegalMoveCalculator createDefaultLegalMoveCalculator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
+			ChessPositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new DefaultLegalMoveCalculator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 
 	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
+			ChessPositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}
@@ -51,16 +51,16 @@ public class ChessFactory {
 		return new MoveCacheBoard(piecePlacement, buildMoveGeneratorStrategy);
 	}
 
-	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
-		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
+	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, ChessPositionState chessPositionState, Capturer capturer) {
+		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, chessPositionState, capturer);
 	}
 
 	public PiecePlacement createPosicionPiezaBoard() {
 		return new ArrayPiecePlacement();
 	}
 
-	public BoardState createBoardState() {
-		return new BoardState();
+	public ChessPositionState createBoardState() {
+		return new ChessPositionState();
 	}
 
 }

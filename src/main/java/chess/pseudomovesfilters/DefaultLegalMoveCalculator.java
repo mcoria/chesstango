@@ -2,9 +2,9 @@ package chess.pseudomovesfilters;
 
 import java.util.Collection;
 
-import chess.BoardState;
 import chess.Square;
 import chess.iterators.SquareIterator;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -19,9 +19,9 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  */
 public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	
-	public DefaultLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, BoardState boardState,
+	public DefaultLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, ChessPositionState chessPositionState,
 			MoveGeneratorStrategy strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
+		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
 	}	
 
 	@Override
@@ -37,7 +37,7 @@ public class DefaultLegalMoveCalculator extends AbstractLegalMoveCalculator {
 	}
 
 	protected Collection<Move> getLegalMovesBySquare(Collection<Move> moves) {
-		for (SquareIterator iterator = colorBoard.iteratorSquare(boardState.getTurnoActual()); iterator.hasNext();) {
+		for (SquareIterator iterator = colorBoard.iteratorSquare(chessPositionState.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			

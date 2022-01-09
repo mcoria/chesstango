@@ -1,9 +1,9 @@
 package chess.moves;
 
 import chess.ChessPosition;
-import chess.BoardState;
 import chess.Color;
 import chess.PiecePositioned;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -68,13 +68,13 @@ abstract class CastlingMove implements Move  {
 	}	
 	
 	@Override
-	public void executeMove(BoardState boardState) {
-		kingMove.executeMove(boardState);
+	public void executeMove(ChessPositionState chessPositionState) {
+		kingMove.executeMove(chessPositionState);
 	}
 
 	@Override
-	public void undoMove(BoardState boardState) {
-		kingMove.undoMove(boardState);
+	public void undoMove(ChessPositionState chessPositionState) {
+		kingMove.undoMove(chessPositionState);
 	}
 
 	@Override

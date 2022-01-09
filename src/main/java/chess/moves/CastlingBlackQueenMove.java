@@ -1,9 +1,9 @@
 package chess.moves;
 
-import chess.BoardState;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.layers.ChessPositionState;
 
 /**
  * @author Mauricio Coria
@@ -26,10 +26,10 @@ public class CastlingBlackQueenMove extends CastlingMove {
 	
 	
 	@Override
-	public void executeMove(BoardState boardState) {
-		super.executeMove(boardState);
-		boardState.setCastlingBlackKingPermitido(false);
-		boardState.setCastlingBlackQueenPermitido(false);
+	public void executeMove(ChessPositionState chessPositionState) {
+		super.executeMove(chessPositionState);
+		chessPositionState.setCastlingBlackKingPermitido(false);
+		chessPositionState.setCastlingBlackQueenPermitido(false);
 	}
 	
 	@Override

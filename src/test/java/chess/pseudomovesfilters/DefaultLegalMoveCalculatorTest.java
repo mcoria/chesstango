@@ -4,9 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import chess.BoardState;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -29,7 +29,7 @@ public class DefaultLegalMoveCalculatorTest {
 	
 	private PiecePlacement dummyBoard;
 	
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	
 	private KingCacheBoard kingCacheBoard;
 	
@@ -49,7 +49,7 @@ public class DefaultLegalMoveCalculatorTest {
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b KQkq - 0 1");
 		
-		moveCalculator = new DefaultLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, boardState, strategy, filter);
+		moveCalculator = new DefaultLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, chessPositionState, strategy, filter);
 		
 		//assertFalse(moveCalculator.existsLegalMove());
 		assertTrue(moveCalculator.getLegalMoves().isEmpty());
@@ -62,7 +62,7 @@ public class DefaultLegalMoveCalculatorTest {
 		parser.parseFEN(string);
 		
 		dummyBoard = builder.getPosicionPiezaBoard();
-		boardState = builder.getState();
+		chessPositionState = builder.getState();
 		kingCacheBoard = new KingCacheBoard(dummyBoard);
 		colorBoard = new ColorBoard(dummyBoard);
 		
@@ -70,10 +70,10 @@ public class DefaultLegalMoveCalculatorTest {
 		
 		strategy = new MoveGeneratorStrategy();
 		strategy.setDummyBoard(dummyBoard);
-		strategy.setBoardState(boardState);
+		strategy.setBoardState(chessPositionState);
 		strategy.setColorBoard(colorBoard);
 		
-		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
+		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, chessPositionState, capturer);
 		moveCache = new MoveCacheBoard(dummyBoard, strategy);
 	}
 }

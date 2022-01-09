@@ -1,8 +1,8 @@
 package chess.pseudomovesgenerators;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
+import chess.layers.ChessPositionState;
 import chess.layers.ColorBoard;
 import chess.layers.PiecePlacement;
 import chess.moves.MoveFactory;
@@ -14,7 +14,7 @@ import chess.moves.MoveFactory;
 public class MoveGeneratorStrategy {
 	private PiecePlacement dummyBoard;
 	private ColorBoard colorBoard;
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	private MoveFactory moveFactory;
 	
 	private PawnBlancoMoveGenerator pbmg;
@@ -76,8 +76,8 @@ public class MoveGeneratorStrategy {
 		settupMoveGenerators();
 	}
 
-	public void setBoardState(BoardState boardState) {
-		this.boardState = boardState;
+	public void setBoardState(ChessPositionState chessPositionState) {
+		this.chessPositionState = chessPositionState;
 		settupMoveGenerators();
 	}	
 
@@ -193,13 +193,13 @@ public class MoveGeneratorStrategy {
 		
 		if (moveGenerator instanceof KingAbstractMoveGenerator) {
 			KingAbstractMoveGenerator generator = (KingAbstractMoveGenerator) moveGenerator;
-			generator.setBoardState(boardState);
+			generator.setBoardState(chessPositionState);
 		}
 	}
 	
 
 	private void settupPawnPasanteMoveGenerator() {
-		ppmg.setBoardState(boardState);
+		ppmg.setBoardState(chessPositionState);
 		ppmg.setTablero(dummyBoard);
 	}	
 	

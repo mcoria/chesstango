@@ -1,9 +1,9 @@
 package chess.builder;
 
-import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
+import chess.layers.ChessPositionState;
 import chess.layers.PiecePlacement;
 
 
@@ -15,7 +15,7 @@ public class ChessBuilderParts implements ChessBuilder {
 	
 	private PiecePlacement piecePlacement;
 	
-	private BoardState boardState;
+	private ChessPositionState chessPositionState;
 	
 	private ChessFactory chessFactory = null;
 	
@@ -30,11 +30,11 @@ public class ChessBuilderParts implements ChessBuilder {
 		return piecePlacement;
 	}
 
-	public BoardState getState() {
-		if (boardState == null) {
-			boardState = chessFactory.createBoardState();
+	public ChessPositionState getState() {
+		if (chessPositionState == null) {
+			chessPositionState = chessFactory.createBoardState();
 		}
-		return boardState;
+		return chessPositionState;
 	}
 
 
