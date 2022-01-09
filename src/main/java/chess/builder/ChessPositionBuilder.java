@@ -8,7 +8,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public interface ChessBuilder {
+public interface ChessPositionBuilder {
 
 	void withTurno(Color turno);
 

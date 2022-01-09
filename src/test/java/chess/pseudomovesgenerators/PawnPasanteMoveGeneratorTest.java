@@ -155,7 +155,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 	
 }

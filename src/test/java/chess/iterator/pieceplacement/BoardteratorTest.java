@@ -40,7 +40,7 @@ public class BoardteratorTest {
 	public void testTopDownSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PiecePlacement tablero =  builder.getPosicionPiezaBoard();
+		PiecePlacement tablero =  builder.getPiecePlacement();
 		
 		PiecePlacementIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -383,7 +383,7 @@ public class BoardteratorTest {
 	public void testBottomUpSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PiecePlacement tablero =  builder.getPosicionPiezaBoard();
+		PiecePlacement tablero =  builder.getPiecePlacement();
 		
 		PiecePlacementIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		

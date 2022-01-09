@@ -10,7 +10,7 @@ import org.junit.Test;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.builder.ChessBuilder;
+import chess.builder.ChessPositionBuilder;
 import chess.parsers.FENParser;
 
 /**
@@ -34,7 +34,7 @@ public class FENParserTest {
 	public void setUp() throws Exception {
 		tablero = new Piece[8][8];
 		
-		parser = new FENParser(new ChessBuilder() {
+		parser = new FENParser(new ChessPositionBuilder() {
 			@Override
 			public void withPieza(Square square, Piece piece) {
 				FENParserTest.this.tablero[square.getRank()][square.getFile()] = piece;

@@ -19,7 +19,7 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  * @author Mauricio Coria
  *
  */
-public class ChessBuilderBoard implements ChessBuilder {
+public class ChessBuilderBoard implements ChessPositionBuilder {
 	
 	private ChessFactory chessFactory = null;	
 	
@@ -54,13 +54,13 @@ public class ChessBuilderBoard implements ChessBuilder {
 		this.builder = new ChessBuilderParts(chessFactory);
 	}	
 	
-	public ChessPosition getBoard() {
+	public ChessPosition getChessPosition() {
 		if (chessPosition == null) {
 			chessPosition = chessFactory.createBoard();
 
-			chessPosition.setDummyBoard(builder.getPosicionPiezaBoard());
+			chessPosition.setDummyBoard(builder.getPiecePlacement());
 
-			chessPosition.setBoardState(builder.getState());
+			chessPosition.setBoardState(builder.getPositionState());
 
 			chessPosition.setKingCacheBoard(buildKingCacheBoard());
 
@@ -77,7 +77,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 	protected BoardAnalyzer buildAnalyzer() {
 		if (boardAnalyzer == null) {
 			boardAnalyzer = new BoardAnalyzer();
-			boardAnalyzer.setBoardState(builder.getState());
+			boardAnalyzer.setBoardState(builder.getPositionState());
 			boardAnalyzer.setKingCacheBoard(buildKingCacheBoard());
 			boardAnalyzer.setCapturer(buildCapturer());
 			boardAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
@@ -88,7 +88,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	protected Capturer buildCapturer() {
 		if(improvedCapturer == null){
-			improvedCapturer = new ImprovedCapturer(builder.getPosicionPiezaBoard());
+			improvedCapturer = new ImprovedCapturer(builder.getPiecePlacement());
 		}
 		return improvedCapturer;
 	}
@@ -96,23 +96,23 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	protected MoveCacheBoard buildMoveCache() {
 		if (moveCache == null) {
-			moveCache = chessFactory.createMoveCacheBoard(builder.getPosicionPiezaBoard(), buildMoveGeneratorStrategy());
+			moveCache = chessFactory.createMoveCacheBoard(builder.getPiecePlacement(), buildMoveGeneratorStrategy());
 		}
 		return moveCache;
 	}
 
 	protected LegalMoveCalculator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy(), buildMoveFilter());
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
+					buildMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
 
 	protected LegalMoveCalculator buildNoCheckLegalMoveCalculator() {
 		if (noCheckLegalMoveCalculator == null) {
-			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), builder.getState(), buildMoveGeneratorStrategy(), buildMoveFilter());
+			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
+					buildMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return noCheckLegalMoveCalculator;
 	}	
@@ -121,8 +121,8 @@ public class ChessBuilderBoard implements ChessBuilder {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
 			moveGeneratorStrategy.setMoveFactory(new MoveFactory());
-			moveGeneratorStrategy.setDummyBoard(builder.getPosicionPiezaBoard());
-			moveGeneratorStrategy.setBoardState(builder.getState());
+			moveGeneratorStrategy.setDummyBoard(builder.getPiecePlacement());
+			moveGeneratorStrategy.setBoardState(builder.getPositionState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
 		}
 		return moveGeneratorStrategy;
@@ -131,21 +131,21 @@ public class ChessBuilderBoard implements ChessBuilder {
 
 	protected KingCacheBoard buildKingCacheBoard() {
 		if (kingCacheBoard == null) {
-			kingCacheBoard = chessFactory.createKingCacheBoard( builder.getPosicionPiezaBoard() );
+			kingCacheBoard = chessFactory.createKingCacheBoard( builder.getPiecePlacement() );
 		}
 		return kingCacheBoard;
 	}
 
 	protected ColorBoard buildColorBoard() {
 		if (colorBoard == null) {
-			colorBoard = chessFactory.createColorBoard( builder.getPosicionPiezaBoard() );
+			colorBoard = chessFactory.createColorBoard( builder.getPiecePlacement() );
 		}
 		return colorBoard;
 	}
 	
 	protected MoveFilter buildMoveFilter() {
 		if (moveFilter == null) {
-			moveFilter = chessFactory.createMoveFilter(builder.getPosicionPiezaBoard(), buildKingCacheBoard(), buildColorBoard(),  builder.getState(), buildCapturer());
+			moveFilter = chessFactory.createMoveFilter(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),  builder.getPositionState(), buildCapturer());
 		}
 		return moveFilter;
 	}	

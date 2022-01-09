@@ -138,7 +138,7 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 		
 }

@@ -172,6 +172,6 @@ public class BishopMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 }

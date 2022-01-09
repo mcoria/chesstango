@@ -141,6 +141,6 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 }

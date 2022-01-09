@@ -270,7 +270,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 	
 }

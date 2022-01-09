@@ -5,7 +5,7 @@ import java.io.PrintStream;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.builder.ChessBuilder;
+import chess.builder.ChessPositionBuilder;
 import chess.iterators.square.SquareIterator;
 import chess.iterators.square.TopDownSquareIterator;
 
@@ -13,7 +13,7 @@ import chess.iterators.square.TopDownSquareIterator;
  * @author Mauricio Coria
  *
  */
-public class ASCIIOutput implements ChessBuilder {
+public class ASCIIOutput implements ChessPositionBuilder {
 	
 	private Piece[][] tablero = new Piece[8][8];
 	

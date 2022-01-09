@@ -9,7 +9,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class ChessBuilderGame implements ChessBuilder {
+public class ChessBuilderGame implements ChessPositionBuilder {
 	
 	private ChessBuilderBoard builder = new ChessBuilderBoard();
 	
@@ -25,7 +25,7 @@ public class ChessBuilderGame implements ChessBuilder {
 	
 	public Game getGame() {
 		if (game == null) {
-			game = new Game(builder.getBoard());
+			game = new Game(builder.getChessPosition());
 		}
 		return game;
 	}

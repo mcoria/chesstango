@@ -388,7 +388,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 	
 }

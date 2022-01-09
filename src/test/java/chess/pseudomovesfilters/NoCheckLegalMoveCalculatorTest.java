@@ -60,8 +60,8 @@ public class NoCheckLegalMoveCalculatorTest {
 		FENParser parser = new FENParser(builder);
 		parser.parseFEN(string);
 		
-		dummyBoard = builder.getPosicionPiezaBoard();
-		positionState = builder.getState();
+		dummyBoard = builder.getPiecePlacement();
+		positionState = builder.getPositionState();
 		kingCacheBoard = new KingCacheBoard(dummyBoard);
 		colorBoard = new ColorBoard(dummyBoard);
 		

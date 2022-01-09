@@ -323,7 +323,7 @@ public class ChessPositionTest {
 		
 		parser.parseFEN(string);
 		
-		return builder.getBoard();
+		return builder.getChessPosition();
 	}		
 		
 }

@@ -140,7 +140,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 
 }

@@ -11,7 +11,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public class ChessBuilderParts implements ChessBuilder {	
+public class ChessBuilderParts implements ChessPositionBuilder {	
 	
 	private PiecePlacement piecePlacement;
 	
@@ -23,14 +23,14 @@ public class ChessBuilderParts implements ChessBuilder {
 		this.chessFactory = chessFactory;
 	}
 
-	public PiecePlacement getPosicionPiezaBoard() {
+	public PiecePlacement getPiecePlacement() {
 		if(piecePlacement == null){
 			piecePlacement = chessFactory.createPosicionPiezaBoard();
 		}
 		return piecePlacement;
 	}
 
-	public PositionState getState() {
+	public PositionState getPositionState() {
 		if (positionState == null) {
 			positionState = chessFactory.createBoardState();
 		}
@@ -40,40 +40,40 @@ public class ChessBuilderParts implements ChessBuilder {
 
 	@Override
 	public void withTurno(Color turno) {
-		this.getState().setTurnoActual(turno);
+		this.getPositionState().setTurnoActual(turno);
 	}
 
 
 	@Override
 	public void withPawnPasanteSquare(Square peonPasanteSquare) {
-		this.getState().setPawnPasanteSquare(peonPasanteSquare);
+		this.getPositionState().setPawnPasanteSquare(peonPasanteSquare);
 	}
 
 
 	@Override
 	public void withCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
-		this.getState().setCastlingWhiteQueenAllowed(enroqueBlancoQueenAllowed);
+		this.getPositionState().setCastlingWhiteQueenAllowed(enroqueBlancoQueenAllowed);
 	}
 
 	@Override
 	public void withCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
-		this.getState().setCastlingWhiteKingAllowed(enroqueBlancoKingAllowed);;
+		this.getPositionState().setCastlingWhiteKingAllowed(enroqueBlancoKingAllowed);;
 	}
 
 
 	@Override
 	public void withCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
-		this.getState().setCastlingBlackQueenAllowed(enroqueNegroQueenAllowed);
+		this.getPositionState().setCastlingBlackQueenAllowed(enroqueNegroQueenAllowed);
 	}
 
 
 	@Override
 	public void withCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
-		this.getState().setCastlingBlackKingAllowed(enroqueNegroKingAllowed);;
+		this.getPositionState().setCastlingBlackKingAllowed(enroqueNegroKingAllowed);;
 	}
 
 	public void withPieza(Square square, Piece piece) {
-		this.getPosicionPiezaBoard().setPieza(square, piece);
+		this.getPiecePlacement().setPieza(square, piece);
 	}
 	
 

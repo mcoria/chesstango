@@ -86,7 +86,7 @@ public class KnightMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPosicionPiezaBoard();
+		return builder.getPiecePlacement();
 	}	
 	
 }

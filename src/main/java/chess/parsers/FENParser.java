@@ -3,7 +3,7 @@ package chess.parsers;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.builder.ChessBuilder;
+import chess.builder.ChessPositionBuilder;
 
 /**
  * @author Mauricio Coria
@@ -12,10 +12,10 @@ import chess.builder.ChessBuilder;
 public class FENParser {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-	private ChessBuilder chessBuilder;
+	private ChessPositionBuilder chessPositionBuilder;
 	
-	public FENParser(ChessBuilder chessBuilder) {
-		this.chessBuilder = chessBuilder; 
+	public FENParser(ChessPositionBuilder chessPositionBuilder) {
+		this.chessPositionBuilder = chessPositionBuilder; 
 	}	
 			
 	public void parseFEN(String input) {
@@ -28,24 +28,24 @@ public class FENParser {
 		
 		parsePiecePlacement(piecePlacement);
 		
-		chessBuilder.withPawnPasanteSquare(parsePawnPasanteSquare(peonPasante));
+		chessPositionBuilder.withPawnPasanteSquare(parsePawnPasanteSquare(peonPasante));
 		
-		chessBuilder.withTurno(parseTurno(activeColor));
+		chessPositionBuilder.withTurno(parseTurno(activeColor));
 		
 		if(isCastlingWhiteQueenAllowed(enroquesAlloweds)){
-			chessBuilder.withCastlingWhiteQueenAllowed(true);
+			chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
 		}
 		
 		if(isCastlingWhiteKingAllowed(enroquesAlloweds)){
-			chessBuilder.withCastlingWhiteKingAllowed(true);
+			chessPositionBuilder.withCastlingWhiteKingAllowed(true);
 		}
 		
 		if(isCastlingBlackQueenAllowed(enroquesAlloweds)){
-			chessBuilder.withCastlingBlackQueenAllowed(true);
+			chessPositionBuilder.withCastlingBlackQueenAllowed(true);
 		}
 		
 		if(isCastlingBlackKingAllowed(enroquesAlloweds)){
-			chessBuilder.withCastlingBlackKingAllowed(true);
+			chessPositionBuilder.withCastlingBlackKingAllowed(true);
 		}
 		
 	}
@@ -57,7 +57,7 @@ public class FENParser {
 				Square square = Square.getSquare(file, rank);
 				Piece piece = piezas[rank][file];
 				if(piece != null){
-					chessBuilder.withPieza(square, piece);
+					chessPositionBuilder.withPieza(square, piece);
 				}
 			}
 		}

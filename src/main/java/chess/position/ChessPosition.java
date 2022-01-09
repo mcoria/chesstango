@@ -5,7 +5,7 @@ import java.util.Collection;
 import chess.BoardAnalyzer;
 import chess.BoardStatus;
 import chess.PiecePositioned;
-import chess.builder.ChessBuilder;
+import chess.builder.ChessPositionBuilder;
 import chess.moves.Move;
 import chess.parsers.FENCoder;
 
@@ -81,7 +81,7 @@ public class ChessPosition {
 	}	
 	
 	
-	public void constructBoardRepresentation(ChessBuilder builder){		
+	public void constructBoardRepresentation(ChessPositionBuilder builder){		
 		builder.withTurno(positionState.getTurnoActual());
 		builder.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed());
 		builder.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed());

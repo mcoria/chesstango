@@ -3,13 +3,13 @@ package chess.parsers;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.builder.ChessBuilder;
+import chess.builder.ChessPositionBuilder;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class FENCoder implements ChessBuilder {
+public class FENCoder implements ChessPositionBuilder {
 	
 	private Color turno;
 	private Square peonPasanteSquare;
