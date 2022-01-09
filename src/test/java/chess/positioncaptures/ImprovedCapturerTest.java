@@ -43,7 +43,7 @@ public class ImprovedCapturerTest {
 
 	
 	@Test
-	public void testPositionCapturedByCaballo() {
+	public void testPositionCapturedByKnight() {
 		PiecePlacement dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);

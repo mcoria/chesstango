@@ -20,16 +20,16 @@ import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.CaballoMoveGenerator;
+import chess.pseudomovesgenerators.KnightMoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class CaballoMoveGeneratorTest {
+public class KnightMoveGeneratorTest {
 	
-	private CaballoMoveGenerator moveGenerator;
+	private KnightMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -38,7 +38,7 @@ public class CaballoMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
-		moveGenerator = new CaballoMoveGenerator(Color.WHITE);
+		moveGenerator = new KnightMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 		moves = new ArrayList<Move>();
 	}

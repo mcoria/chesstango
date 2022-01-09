@@ -21,8 +21,8 @@ public class MoveGeneratorStrategy {
 	private PawnNegroMoveGenerator pnmg;
 	private RookMoveGenerator tbmg;
 	private RookMoveGenerator tnmg;
-	private CaballoMoveGenerator cbmg;
-	private CaballoMoveGenerator cnmg;
+	private KnightMoveGenerator cbmg;
+	private KnightMoveGenerator cnmg;
 	private AlfilMoveGenerator abmg;
 	private AlfilMoveGenerator anmg;
 	private QueenMoveGenerator rebmg;
@@ -41,9 +41,9 @@ public class MoveGeneratorStrategy {
 		
 		tnmg = new RookMoveGenerator(Color.BLACK);
 		
-		cbmg = new CaballoMoveGenerator(Color.WHITE);
+		cbmg = new KnightMoveGenerator(Color.WHITE);
 		
-		cnmg = new CaballoMoveGenerator(Color.BLACK);
+		cnmg = new KnightMoveGenerator(Color.BLACK);
 		
 		abmg = new AlfilMoveGenerator(Color.WHITE);
 		
@@ -102,11 +102,11 @@ public class MoveGeneratorStrategy {
 		return tnmg;
 	}	
 	
-	public CaballoMoveGenerator getCaballoBlancoMoveGenerator() {
+	public KnightMoveGenerator getKnightBlancoMoveGenerator() {
 		return cbmg;
 	}
 	
-	public CaballoMoveGenerator getCaballoNegroMoveGenerator() {
+	public KnightMoveGenerator getKnightNegroMoveGenerator() {
 		return cnmg;
 	}	
 	

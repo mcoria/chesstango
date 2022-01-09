@@ -9,7 +9,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class CaballoMoveGenerator extends AbstractJumpMoveGenerator {
+public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 	
 	public final static int[][] SALTOS_CABALLO = { 
 			//Arriba
@@ -29,7 +29,7 @@ public class CaballoMoveGenerator extends AbstractJumpMoveGenerator {
 			{ 1, -2 },
 	};	
 	
-	public CaballoMoveGenerator(Color color) {
+	public KnightMoveGenerator(Color color) {
 		super(color, SALTOS_CABALLO);
 	}
 	

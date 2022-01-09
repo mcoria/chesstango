@@ -10,7 +10,7 @@ import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
 import chess.iterators.SaltoSquareIterator;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.CaballoMoveGenerator;
+import chess.pseudomovesgenerators.KnightMoveGenerator;
 import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
 
 
@@ -66,7 +66,7 @@ public class ImprovedCapturer implements Capturer {
 			torre =  Piece.getRook(color);
 			alfil = Piece.getAlfil(color);
 			queen = Piece.getQueen(color);
-			caballo = Piece.getCaballo(color);
+			caballo = Piece.getKnight(color);
 			peon = Piece.getPawn(color);
 			king = Piece.getKing(color);		
 			
@@ -79,7 +79,7 @@ public class ImprovedCapturer implements Capturer {
 		}
 
 		public boolean positionCaptured(Square square) {
-			if(positionCapturedByCaballo(square)	||
+			if(positionCapturedByKnight(square)	||
 			   positionCapturedByRook(square)	||
 			   positionCapturedByAlfil(square)   ||
 			   positionCapturedByPawn(square) ||
@@ -126,8 +126,8 @@ public class ImprovedCapturer implements Capturer {
 			return false;
 		}
 
-		private boolean positionCapturedByCaballo(Square square) {
-			Iterator<PiecePositioned> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, CaballoMoveGenerator.SALTOS_CABALLO));
+		private boolean positionCapturedByKnight(Square square) {
+			Iterator<PiecePositioned> iterator = dummyBoard.iterator(new SaltoSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(caballo.equals(destino.getValue())){		    	
