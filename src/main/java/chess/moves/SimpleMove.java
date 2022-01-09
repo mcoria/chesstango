@@ -1,6 +1,6 @@
 package chess.moves;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -18,13 +18,13 @@ class SimpleMove extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(Board board) {
-		board.executeMove(this);
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeMove(this);
 	}
 	
 	@Override
-	public void undoMove(Board board) {
-		board.undoMove(this);
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoMove(this);
 	}	
 	
 	@Override

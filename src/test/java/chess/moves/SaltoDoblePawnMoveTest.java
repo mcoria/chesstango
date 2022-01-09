@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
@@ -19,8 +19,8 @@ import chess.Square;
 import chess.debug.chess.BoardStateDebug;
 import chess.debug.chess.ColorBoardDebug;
 import chess.layers.KingCacheBoard;
-import chess.layers.PosicionPiezaBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.PiecePlacement;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.SaltoDoblePawnMove;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -32,7 +32,7 @@ import chess.pseudomovesfilters.MoveFilter;
 @RunWith(MockitoJUnitRunner.class)
 public class SaltoDoblePawnMoveTest {
 
-	private PosicionPiezaBoard piezaBoard;
+	private PiecePlacement piezaBoard;
 	
 	private BoardStateDebug boardState;
 	
@@ -41,7 +41,7 @@ public class SaltoDoblePawnMoveTest {
 	private SaltoDoblePawnMove moveExecutor;
 	
 	@Mock
-	private Board board;
+	private ChessPosition chessPosition;
 	
 	@Mock
 	private MoveFilter filter;	
@@ -51,7 +51,7 @@ public class SaltoDoblePawnMoveTest {
 		boardState = new BoardStateDebug();
 		boardState.setTurnoActual(Color.WHITE);
 		
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);		
@@ -125,7 +125,7 @@ public class SaltoDoblePawnMoveTest {
 	
 	@Test
 	public void testBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		PiecePositioned origen = new PiecePositioned(Square.e2, Piece.ROOK_WHITE);
@@ -133,17 +133,17 @@ public class SaltoDoblePawnMoveTest {
 		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);
 
 		// execute
-		moveExecutor.executeMove(board);
+		moveExecutor.executeMove(chessPosition);
 
 		// asserts execute
-		verify(board).executeMove(moveExecutor);
+		verify(chessPosition).executeMove(moveExecutor);
 
 		// undos
-		moveExecutor.undoMove(board);
+		moveExecutor.undoMove(chessPosition);
 
 		
 		// asserts undos
-		verify(board).undoMove(moveExecutor);
+		verify(chessPosition).undoMove(moveExecutor);
 	}
 	
 	

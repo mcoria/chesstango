@@ -8,7 +8,7 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.SquareIterator;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
 
 
@@ -25,7 +25,7 @@ public class ColorBoardTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		PosicionPiezaBoard tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		PiecePlacement tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
 		colorBoard = new ColorBoard(tablero);
 		
@@ -38,7 +38,7 @@ public class ColorBoardTest {
 	}
 	
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);

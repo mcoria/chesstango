@@ -17,7 +17,7 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.BottomUpSquareIterator;
 import chess.iterators.TopDownSquareIterator;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
 
 
@@ -41,7 +41,7 @@ public class BoardteratorTest {
 	public void testTopDownSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PosicionPiezaBoard tablero =  builder.getPosicionPiezaBoard();
+		PiecePlacement tablero =  builder.getPosicionPiezaBoard();
 		
 		Iterator<PiecePositioned> iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -384,7 +384,7 @@ public class BoardteratorTest {
 	public void testBottomUpSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PosicionPiezaBoard tablero =  builder.getPosicionPiezaBoard();
+		PiecePlacement tablero =  builder.getPosicionPiezaBoard();
 		
 		Iterator<PiecePositioned> iterator = tablero.iterator(new BottomUpSquareIterator());
 		

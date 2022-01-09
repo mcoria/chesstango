@@ -6,7 +6,7 @@ import chess.builder.ChessBuilder;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.parsers.FENCoder;
 
@@ -15,10 +15,10 @@ import chess.parsers.FENCoder;
  * @author Mauricio Coria
  *
  */
-public class Board {
+public class ChessPosition {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-	protected PosicionPiezaBoard dummyBoard = null;
+	protected PiecePlacement dummyBoard = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
@@ -105,7 +105,7 @@ public class Board {
 	    return this.dummyBoard.toString() + "\n" + this.boardState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
 	}
 
-	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
+	public void setDummyBoard(PiecePlacement dummyBoard) {
 		this.dummyBoard = dummyBoard;
 	}
 

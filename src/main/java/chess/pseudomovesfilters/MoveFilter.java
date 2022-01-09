@@ -4,7 +4,7 @@ import chess.BoardState;
 import chess.Color;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.positioncaptures.Capturer;
 
@@ -16,13 +16,13 @@ import chess.positioncaptures.Capturer;
  *
  */
 public class MoveFilter {
-	protected final PosicionPiezaBoard dummyBoard;
+	protected final PiecePlacement dummyBoard;
 	protected final KingCacheBoard kingCacheBoard;
 	protected final ColorBoard colorBoard;	
 	protected final BoardState boardState;
 	protected final Capturer capturer;
 	
-	public MoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
+	public MoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;

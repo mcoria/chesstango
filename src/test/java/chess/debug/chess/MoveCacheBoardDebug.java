@@ -3,7 +3,7 @@ package chess.debug.chess;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
@@ -14,14 +14,14 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 public class MoveCacheBoardDebug extends MoveCacheBoard {
 
 	/**
-	 * @param posicionPiezaBoard
+	 * @param piecePlacement
 	 * @param strategy
 	 */
-	public MoveCacheBoardDebug(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy strategy) {
-		super(posicionPiezaBoard, strategy);
+	public MoveCacheBoardDebug(PiecePlacement piecePlacement, MoveGeneratorStrategy strategy) {
+		super(piecePlacement, strategy);
 	}
 
-	public void validar(PosicionPiezaBoard dummyBoard) {
+	public void validar(PiecePlacement dummyBoard) {
 		validar();
 		
 		for (PiecePositioned piecePositioned : dummyBoard) {

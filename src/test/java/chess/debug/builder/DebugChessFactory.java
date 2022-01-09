@@ -1,6 +1,6 @@
 package chess.debug.builder;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.builder.ChessFactory;
 import chess.debug.chess.BoardDebug;
@@ -14,7 +14,7 @@ import chess.debug.chess.NoCheckLegalMoveCalculatorDebug;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.positioncaptures.Capturer;
 import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
 import chess.pseudomovesfilters.MoveFilter;
@@ -29,12 +29,12 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 public class DebugChessFactory extends ChessFactory {
 
 	@Override
-	public Board createBoard() {
+	public ChessPosition createBoard() {
 		return  new BoardDebug();
 	}	
 	
 	@Override
-	public DefaultLegalMoveCalculator createDefaultLegalMoveCalculator(PosicionPiezaBoard buildDummyBoard,
+	public DefaultLegalMoveCalculator createDefaultLegalMoveCalculator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		
@@ -43,7 +43,7 @@ public class DebugChessFactory extends ChessFactory {
 	}
 	
 	@Override
-	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
+	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveCalculatorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
@@ -51,23 +51,23 @@ public class DebugChessFactory extends ChessFactory {
 	}	
 	
 	@Override
-	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard) {
+	public ColorBoard createColorBoard(PiecePlacement buildPosicionPiezaBoard) {
 		ColorBoard colorBoard = new ColorBoardDebug(buildPosicionPiezaBoard);
 		return colorBoard;
 	}	
 	
 	@Override
-	public KingCacheBoard createKingCacheBoard(PosicionPiezaBoard posicionPiezaBoard) {
-		return new KingCacheBoardDebug(posicionPiezaBoard);
+	public KingCacheBoard createKingCacheBoard(PiecePlacement piecePlacement) {
+		return new KingCacheBoardDebug(piecePlacement);
 	}
 	
 	@Override
-	public MoveCacheBoard createMoveCacheBoard(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy moveGeneratorStrategy) {
-		return new MoveCacheBoardDebug(posicionPiezaBoard, moveGeneratorStrategy);
+	public MoveCacheBoard createMoveCacheBoard(PiecePlacement piecePlacement, MoveGeneratorStrategy moveGeneratorStrategy) {
+		return new MoveCacheBoardDebug(piecePlacement, moveGeneratorStrategy);
 	}
 	
 	@Override
-	public MoveFilter createMoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
+	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
 		return new MoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
 	}
 	

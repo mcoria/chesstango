@@ -18,7 +18,7 @@ import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.CastlingWhiteKingMove;
 import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
@@ -51,7 +51,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test01() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/4K3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("8/8/8/4K3/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -79,7 +79,7 @@ public class KingWhiteMoveGeneratorTest {
 
 	@Test
 	public void test02() {
-		PosicionPiezaBoard tablero = getTablero("8/8/4P3/4K3/4p3/8/8/8");
+		PiecePlacement tablero = getTablero("8/8/4P3/4K3/4p3/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -109,7 +109,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen01() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/8/R3K3");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/R3K3");
 		
 		state.setCastlingWhiteQueenPermitido(true);
 		
@@ -138,7 +138,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen02() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
 		
 		state.setCastlingWhiteQueenPermitido(true);
 		
@@ -168,7 +168,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen03() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
+		PiecePlacement tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
 		
 		state.setCastlingWhiteQueenPermitido(true);
 		
@@ -198,7 +198,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen04() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
 		
 		state.setCastlingWhiteQueenPermitido(true);
 		
@@ -227,7 +227,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing01() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/8/4K2R");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/4K2R");
 		
 		state.setCastlingWhiteKingPermitido(true);
 		
@@ -255,7 +255,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing02() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
+		PiecePlacement tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
 		
 		state.setCastlingWhiteKingPermitido(true);
 		
@@ -285,7 +285,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing03() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
+		PiecePlacement tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
 		
 		state.setCastlingWhiteKingPermitido(true);
 		
@@ -314,7 +314,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing04() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
+		PiecePlacement tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
 		
 		state.setCastlingWhiteKingPermitido(true);
 		
@@ -343,7 +343,7 @@ public class KingWhiteMoveGeneratorTest {
 
 	@Test
 	public void testCastlingWhiteJaque() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
+		PiecePlacement tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
 		
 		state.setCastlingWhiteKingPermitido(true);
 		state.setCastlingWhiteQueenPermitido(true);
@@ -382,7 +382,7 @@ public class KingWhiteMoveGeneratorTest {
 		return moveFactory.createCaptureKingMoveBlanco(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

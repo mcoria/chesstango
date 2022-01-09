@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.Color;
 import chess.Piece;
@@ -19,8 +19,8 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
-import chess.layers.PosicionPiezaBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.PiecePlacement;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.CaptureKingMove;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -34,7 +34,7 @@ public class CaptureKingMoveTest {
 
 	private CaptureKingMove moveExecutor;
 	
-	private PosicionPiezaBoard piezaBoard;
+	private PiecePlacement piezaBoard;
 	
 	private BoardState boardState;
 
@@ -43,7 +43,7 @@ public class CaptureKingMoveTest {
 	private ColorBoard colorBoard;
 	
 	@Mock
-	private Board board;
+	private ChessPosition chessPosition;
 	
 	@Mock
 	private MoveFilter filter;
@@ -59,7 +59,7 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testPosicionPiezaBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
@@ -120,7 +120,7 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testColorBoard() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoard(piezaBoard);
@@ -153,17 +153,17 @@ public class CaptureKingMoveTest {
 		moveExecutor = new CaptureKingMove(origen, destino);
 
 		// execute
-		moveExecutor.executeMove(board);
+		moveExecutor.executeMove(chessPosition);
 
 		// asserts execute
-		verify(board).executeKingMove(moveExecutor);
+		verify(chessPosition).executeKingMove(moveExecutor);
 
 		// undos
-		moveExecutor.undoMove(board);
+		moveExecutor.undoMove(chessPosition);
 
 		
 		// asserts undos
-		verify(board).undoKingMove(moveExecutor);
+		verify(chessPosition).undoKingMove(moveExecutor);
 	}
 	
 	
@@ -183,7 +183,7 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testExecuteUndo() {
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoard(piezaBoard);

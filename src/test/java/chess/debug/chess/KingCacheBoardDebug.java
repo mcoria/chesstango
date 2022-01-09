@@ -5,7 +5,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.KingCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 
 
 /**
@@ -14,11 +14,11 @@ import chess.layers.PosicionPiezaBoard;
  */
 public class KingCacheBoardDebug extends KingCacheBoard {
 
-	public KingCacheBoardDebug(PosicionPiezaBoard posicionPiezaBoard) {
-		super(posicionPiezaBoard);
+	public KingCacheBoardDebug(PiecePlacement piecePlacement) {
+		super(piecePlacement);
 	}
 	
-	public void validar(PosicionPiezaBoard dummyBoard) {
+	public void validar(PiecePlacement dummyBoard) {
 		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
 		}

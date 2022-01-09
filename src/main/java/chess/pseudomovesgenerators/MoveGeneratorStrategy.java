@@ -4,7 +4,7 @@ import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.MoveFactory;
 
 /**
@@ -12,7 +12,7 @@ import chess.moves.MoveFactory;
  *
  */
 public class MoveGeneratorStrategy {
-	private PosicionPiezaBoard dummyBoard;
+	private PiecePlacement dummyBoard;
 	private ColorBoard colorBoard;
 	private BoardState boardState;
 	private MoveFactory moveFactory;
@@ -66,7 +66,7 @@ public class MoveGeneratorStrategy {
 		return Color.WHITE.equals(color) ? this.rbmg : this.rnmg;
 	}
 	
-	public void setDummyBoard(PosicionPiezaBoard dummyBoard) {
+	public void setDummyBoard(PiecePlacement dummyBoard) {
 		this.dummyBoard = dummyBoard;
 		settupMoveGenerators();
 	}

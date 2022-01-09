@@ -3,7 +3,7 @@ package chess.pseudomovesgenerators;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.MoveFactory;
 
 
@@ -15,7 +15,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected final Color color;
 	
-	protected PosicionPiezaBoard tablero;
+	protected PiecePlacement tablero;
 
 	protected ColorBoard colorBoard;	
 	
@@ -37,7 +37,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		return this.result;
 	}
 
-	public void setTablero(PosicionPiezaBoard tablero) {
+	public void setTablero(PiecePlacement tablero) {
 		this.tablero = tablero;
 	}	
 

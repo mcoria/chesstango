@@ -10,7 +10,7 @@ import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
 import chess.positioncaptures.IteratorCapturer;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
@@ -24,7 +24,7 @@ public class DefaultCapturerTest {
 	
 	@Test
 	public void testPositionCaptured() {
-		PosicionPiezaBoard dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
+		PiecePlacement dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		ColorBoard colorBoard = new ColorBoard(dummyBoard);
 		
 		MoveGeneratorStrategy moveGeneratorStrategy = new MoveGeneratorStrategy();
@@ -38,7 +38,7 @@ public class DefaultCapturerTest {
 		assertTrue( capturer.positionCaptured(Color.WHITE, Square.c6) );
 	}
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

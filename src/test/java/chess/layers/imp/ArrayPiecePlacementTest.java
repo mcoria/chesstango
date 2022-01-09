@@ -14,18 +14,18 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.posicionpieza.BoardBitIterator;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.imp.ArrayPiecePlacement;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ArrayPosicionPiezaBoardTest {
+public class ArrayPiecePlacementTest {
 
 	@Test
 	public void test() {
-		ArrayPosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard();
+		ArrayPiecePlacement tablero = new ArrayPiecePlacement();
 		
 		tablero.setPieza(Square.a1, Piece.ROOK_WHITE);
 		tablero.setPieza(Square.b7, Piece.PAWN_BLACK);
@@ -71,7 +71,7 @@ public class ArrayPosicionPiezaBoardTest {
 	
 	@Test
 	public void testToString() {
-		ArrayPosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard();
+		ArrayPiecePlacement tablero = new ArrayPiecePlacement();
 		
 		assertTrue(tablero.toString().length() > 0);
 

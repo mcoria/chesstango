@@ -17,7 +17,7 @@ import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.Cardinal;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -59,7 +59,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/4B3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("8/8/8/4B3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
@@ -83,7 +83,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste01() {
-		PosicionPiezaBoard tablero =  getTablero("7R/8/8/4B3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("7R/8/8/4B3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
@@ -105,7 +105,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste02() {
-		PosicionPiezaBoard tablero =  getTablero("7r/8/8/4B3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("7r/8/8/4B3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
@@ -134,7 +134,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}	
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

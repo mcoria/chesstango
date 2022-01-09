@@ -2,7 +2,7 @@ package chess.moves;
 
 import chess.Piece;
 import chess.PiecePositioned;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +18,7 @@ class CapturaPawnPromocion extends CaptureMove {
 	}
 
 	@Override
-	public void executeMove(PosicionPiezaBoard board) {
+	public void executeMove(PiecePlacement board) {
 		board.setEmptyPosicion(from);								//Dejamos el origen
 		board.setPieza(to.getKey(), this.promocion) ;				//Promocion
 	}

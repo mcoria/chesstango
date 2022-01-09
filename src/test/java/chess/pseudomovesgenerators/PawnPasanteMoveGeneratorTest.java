@@ -16,7 +16,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -51,7 +51,7 @@ public class PawnPasanteMoveGeneratorTest {
 	
 	@Test
 	public void testPawnBlancoPasanteIzquierda() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/3pP3/8/8/8/8");
+		PiecePlacement tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.d6);
 		state.setTurnoActual(Color.WHITE);
@@ -76,7 +76,7 @@ public class PawnPasanteMoveGeneratorTest {
 	
 	@Test
 	public void testPawnBlancoPasanteDerecha() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.e6);
 		state.setTurnoActual(Color.WHITE);
@@ -99,7 +99,7 @@ public class PawnPasanteMoveGeneratorTest {
 
 	@Test
 	public void testPawnNegroPasanteDerecha() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3pP3/8/8/8");
+		PiecePlacement tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.e3);
 		state.setTurnoActual(Color.BLACK);
@@ -121,7 +121,7 @@ public class PawnPasanteMoveGeneratorTest {
 
 	@Test
 	public void testPawnNegroPasanteIzquierda() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
+		PiecePlacement tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.d3);
 		state.setTurnoActual(Color.BLACK);		
@@ -149,7 +149,7 @@ public class PawnPasanteMoveGeneratorTest {
 		return moveFactory.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
 	}	
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

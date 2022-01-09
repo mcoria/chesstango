@@ -11,7 +11,7 @@ import chess.iterators.SquareIterator;
  * @author Mauricio Coria
  *
  */
-public interface PosicionPiezaBoard extends Iterable<PiecePositioned> {
+public interface PiecePlacement extends Iterable<PiecePositioned> {
 
 	///////////////////////////// START positioning logic /////////////////////////////
 	// Quizas podria encapsular estas operaciones en su propia clase.

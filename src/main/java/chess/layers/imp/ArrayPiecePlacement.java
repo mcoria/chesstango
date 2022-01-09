@@ -11,15 +11,15 @@ import chess.Square;
 import chess.gui.ASCIIOutput;
 import chess.iterators.SquareIterator;
 import chess.iterators.posicionpieza.BoardBitIterator;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
+public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	
-	public ArrayPosicionPiezaBoard(){
+	public ArrayPiecePlacement(){
 		for(int i = 0; i < 64; i++){
 			this.setEmptySquare(Square.getSquare(i));
 		}		
@@ -139,8 +139,8 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	
 	
 	@Override
-	public ArrayPosicionPiezaBoard clone() throws CloneNotSupportedException {
-		ArrayPosicionPiezaBoard clone = new ArrayPosicionPiezaBoard();
+	public ArrayPiecePlacement clone() throws CloneNotSupportedException {
+		ArrayPiecePlacement clone = new ArrayPiecePlacement();
 		for(int i = 0; i < 64; i++){
 			clone.tablero[i] = this.tablero[i];
 		}
@@ -149,8 +149,8 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ArrayPosicionPiezaBoard){
-			ArrayPosicionPiezaBoard theInstance = (ArrayPosicionPiezaBoard) obj;
+		if(obj instanceof ArrayPiecePlacement){
+			ArrayPiecePlacement theInstance = (ArrayPiecePlacement) obj;
 			for(int i = 0; i < 64; i++){
 				if(! this.tablero[i].equals(theInstance.tablero[i])){
 					return false;

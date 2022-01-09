@@ -1,10 +1,10 @@
 package chess.debug.chess;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.BoardStatus;
 import chess.layers.KingCacheBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.Move;
 
 
@@ -12,7 +12,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class BoardDebug extends Board {
+public class BoardDebug extends ChessPosition {
 	
 
 	@Override
@@ -42,7 +42,7 @@ public class BoardDebug extends Board {
 		try {
 			boolean reportError = false;
 			
-			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
+			ArrayPiecePlacement boardInicial = ((ArrayPiecePlacement) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			

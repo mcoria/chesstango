@@ -1,12 +1,12 @@
 package chess.moves;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 
 /**
  * @author Mauricio Coria
@@ -31,12 +31,12 @@ abstract class MoveDecorator implements Move {
 	}
 	
 	@Override
-	public void executeMove(PosicionPiezaBoard board) {
+	public void executeMove(PiecePlacement board) {
 		move.executeMove(board);
 	}
 
 	@Override
-	public void undoMove(PosicionPiezaBoard board) {
+	public void undoMove(PiecePlacement board) {
 		move.undoMove(board);
 	}
 
@@ -81,13 +81,13 @@ abstract class MoveDecorator implements Move {
 	}
 	
 	@Override
-	public void executeMove(Board board) {
-		board.executeMove(this);
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeMove(this);
 	}
 
 	@Override
-	public void undoMove(Board board) {
-		board.undoMove(this);
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoMove(this);
 	}	
 	
 	@Override

@@ -1,6 +1,6 @@
 package chess.builder;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardAnalyzer;
 import chess.Color;
 import chess.Piece;
@@ -25,7 +25,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 	
 	private ChessBuilderParts builder = null;
 	
-	private Board board = null;
+	private ChessPosition chessPosition = null;
 	
 	private MoveGeneratorStrategy moveGeneratorStrategy = null;
 
@@ -54,24 +54,24 @@ public class ChessBuilderBoard implements ChessBuilder {
 		this.builder = new ChessBuilderParts(chessFactory);
 	}	
 	
-	public Board getBoard() {
-		if (board == null) {
-			board = chessFactory.createBoard();
+	public ChessPosition getBoard() {
+		if (chessPosition == null) {
+			chessPosition = chessFactory.createBoard();
 
-			board.setDummyBoard(builder.getPosicionPiezaBoard());
+			chessPosition.setDummyBoard(builder.getPosicionPiezaBoard());
 
-			board.setBoardState(builder.getState());
+			chessPosition.setBoardState(builder.getState());
 
-			board.setKingCacheBoard(buildKingCacheBoard());
+			chessPosition.setKingCacheBoard(buildKingCacheBoard());
 
-			board.setColorBoard(buildColorBoard());
+			chessPosition.setColorBoard(buildColorBoard());
 
-			board.setMoveCache(buildMoveCache());
+			chessPosition.setMoveCache(buildMoveCache());
 
-			board.setAnalyzer(buildAnalyzer());
+			chessPosition.setAnalyzer(buildAnalyzer());
 
 		}
-		return board;
+		return chessPosition;
 	}
 	
 	protected BoardAnalyzer buildAnalyzer() {

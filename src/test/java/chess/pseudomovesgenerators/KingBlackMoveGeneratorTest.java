@@ -18,7 +18,7 @@ import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.CastlingBlackKingMove;
 import chess.moves.CastlingBlackQueenMove;
 import chess.moves.Move;
@@ -53,7 +53,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackQueen01() {
-		PosicionPiezaBoard tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
+		PiecePlacement tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
 		
 		state.setCastlingBlackQueenPermitido(true);
 		
@@ -81,7 +81,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackQueen02() {
-		PosicionPiezaBoard tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
+		PiecePlacement tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
 		
 		state.setCastlingBlackQueenPermitido(true);
 		
@@ -111,7 +111,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackQueen03() {
-		PosicionPiezaBoard tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
+		PiecePlacement tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
 		
 		state.setCastlingBlackQueenPermitido(true);
 		
@@ -141,7 +141,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackKing01() {
-		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
+		PiecePlacement tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
 		state.setCastlingBlackKingPermitido(true);
 		
@@ -169,7 +169,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackKing02() {
-		PosicionPiezaBoard tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
+		PiecePlacement tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
 		state.setCastlingBlackKingPermitido(true);
 
@@ -199,7 +199,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackKing03() {
-		PosicionPiezaBoard tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
+		PiecePlacement tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
 		state.setCastlingBlackKingPermitido(true);
 		
@@ -229,7 +229,7 @@ public class KingBlackMoveGeneratorTest {
 
 	@Test
 	public void testCastlingBlackJaque() {
-		PosicionPiezaBoard tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
 		state.setCastlingBlackKingPermitido(true);
 		state.setCastlingBlackQueenPermitido(true);
@@ -264,7 +264,7 @@ public class KingBlackMoveGeneratorTest {
 	}
 
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

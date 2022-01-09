@@ -1,6 +1,6 @@
 package chess.moves;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.PiecePositioned;
 import chess.Square;
@@ -19,13 +19,13 @@ class CaptureMove extends AbstractMove {
 	}	
 	
 	@Override
-	public void executeMove(Board board) {
-		board.executeMove(this);
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeMove(this);
 	}
 	
 	@Override
-	public void undoMove(Board board) {
-		board.undoMove(this);
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoMove(this);
 	}	
 	
 	@Override

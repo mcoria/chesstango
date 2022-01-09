@@ -23,7 +23,7 @@ import chess.parsers.FENParser;
  * @author Mauricio Coria
  *
  */
-public class BoardTest {
+public class ChessPositionTest {
 	
 	private MoveFactory moveFactory;
 	
@@ -34,7 +34,7 @@ public class BoardTest {
 	
 	@Test
 	public void test01() {		
-		Board tablero =  getDefaultBoard();
+		ChessPosition tablero =  getDefaultBoard();
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
@@ -80,7 +80,7 @@ public class BoardTest {
 
 	@Test
 	public void testKingInCheck01() {
-		Board tablero = getBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
+		ChessPosition tablero = getBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
 		BoardStatus result = tablero.getBoardStatus();
 		Collection<Move> moves = tablero.getLegalMoves();
@@ -97,7 +97,7 @@ public class BoardTest {
 
 	@Test
 	public void testKingInCheck02() {
-		Board tablero = getBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
+		ChessPosition tablero = getBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
 
 		BoardStatus result = tablero.getBoardStatus();
 
@@ -118,7 +118,7 @@ public class BoardTest {
 
 	@Test
 	public void testJuegoCastlingWhiteJaque() {		
-		Board tablero = getBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
+		ChessPosition tablero = getBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
 
 		BoardStatus result = tablero.getBoardStatus();
 
@@ -141,7 +141,7 @@ public class BoardTest {
 
 	@Test
 	public void testJuegoPawnPromocion() {
-		Board tablero = getBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
+		ChessPosition tablero = getBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
 		Collection<Move> moves = tablero.getLegalMoves();
 
@@ -162,7 +162,7 @@ public class BoardTest {
 		Collection<Move> legalMoves = null;
 		Move move = null;
 
-		Board tablero = getBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
+		ChessPosition tablero = getBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 
 		// Estado inicial
 		legalMoves = tablero.getLegalMoves();
@@ -191,7 +191,7 @@ public class BoardTest {
 	public void testJuegoPawnPasante01() {
 		Collection<Move> legalMoves = null;
 		Move move = null;
-		Board tablero = getBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
+		ChessPosition tablero = getBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 
 		// Estado inicial
 		legalMoves = tablero.getLegalMoves();
@@ -224,7 +224,7 @@ public class BoardTest {
 	
 	@Test
 	public void testJauqeMate() {	
-		Board tablero = getBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
+		ChessPosition tablero = getBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 		
 		BoardStatus status = tablero.getBoardStatus();
 		
@@ -235,7 +235,7 @@ public class BoardTest {
 	
 	@Test
 	public void testKingNoPuedeMoverAJaque(){
-		Board tablero = getBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
+		ChessPosition tablero = getBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
@@ -249,7 +249,7 @@ public class BoardTest {
 	
 	@Test
 	public void testMovimientoPawnPasanteNoPermitido(){
-		Board tablero = getBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
+		ChessPosition tablero = getBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 		
 		Collection<Move> moves = tablero.getLegalMoves();
 		
@@ -306,11 +306,11 @@ public class BoardTest {
 		return moveFactory.createSimpleKingMoveBlanco(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
 	}	
 	
-	private Board getDefaultBoard() {
+	private ChessPosition getDefaultBoard() {
 		return getBoard(FENParser.INITIAL_FEN);
 	}	
 	
-	private Board getBoard(String string) {		
+	private ChessPosition getBoard(String string) {		
 		ChessBuilderBoard builder = new ChessBuilderBoard(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);

@@ -3,8 +3,8 @@ package chess.debug.chess;
 import chess.BoardState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
-import chess.layers.PosicionPiezaBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.PiecePlacement;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.Move;
 import chess.positioncaptures.Capturer;
 import chess.pseudomovesfilters.MoveFilter;
@@ -16,7 +16,7 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 public class MoveFilterDebug extends MoveFilter {
 	
-	public MoveFilterDebug(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+	public MoveFilterDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
 			BoardState boardState, Capturer capturer) {
 		super(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
 	}
@@ -26,7 +26,7 @@ public class MoveFilterDebug extends MoveFilter {
 		try {
 			boolean reportError = false;
 
-			ArrayPosicionPiezaBoard boardInicial = ((ArrayPosicionPiezaBoard) super.dummyBoard).clone();
+			ArrayPiecePlacement boardInicial = ((ArrayPiecePlacement) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			

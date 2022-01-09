@@ -11,7 +11,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 
@@ -23,7 +23,7 @@ public class PawnPasanteMoveGenerator {
 	
 	private BoardState boardState;
 	
-	private PosicionPiezaBoard tablero;
+	private PiecePlacement tablero;
 	
 	protected MoveFactory moveFactory = new MoveFactory();
 
@@ -89,7 +89,7 @@ public class PawnPasanteMoveGenerator {
 	}
 
 
-	public void setTablero(PosicionPiezaBoard tablero) {
+	public void setTablero(PiecePlacement tablero) {
 		this.tablero = tablero;
 	}
 	

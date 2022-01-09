@@ -6,7 +6,7 @@ import chess.Square;
 import chess.iterators.BitSquareIterator;
 import chess.iterators.SquareIterator;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 
 
 /**
@@ -15,7 +15,7 @@ import chess.layers.PosicionPiezaBoard;
  */
 public class ColorBoardDebug extends ColorBoard {
 
-	public ColorBoardDebug(PosicionPiezaBoard board) {
+	public ColorBoardDebug(PiecePlacement board) {
 		super(board);
 	}
 
@@ -49,7 +49,7 @@ public class ColorBoardDebug extends ColorBoard {
 		}
 	}
 	
-	public void validar(PosicionPiezaBoard board) {
+	public void validar(PiecePlacement board) {
 		validar();
 		
 		for (PiecePositioned piecePositioned : board) {

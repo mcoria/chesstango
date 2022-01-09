@@ -28,11 +28,11 @@ public class MoveCacheBoard {
 	}
 	
 	/**
-	 * @param posicionPiezaBoard
+	 * @param piecePlacement
 	 * @param buildMoveGeneratorStrategy
 	 */
-	public MoveCacheBoard(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy strategy) {
-		for(PiecePositioned origen: posicionPiezaBoard){
+	public MoveCacheBoard(PiecePlacement piecePlacement, MoveGeneratorStrategy strategy) {
+		for(PiecePositioned origen: piecePlacement){
 			
 			if(origen.getValue() != null){
 				MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());

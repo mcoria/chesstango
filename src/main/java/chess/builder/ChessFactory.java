@@ -1,12 +1,12 @@
 package chess.builder;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.PiecePlacement;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.positioncaptures.Capturer;
 import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
 import chess.pseudomovesfilters.LegalMoveCalculator;
@@ -20,43 +20,43 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  */
 public class ChessFactory {
 
-	public Board createBoard() {
-		return new Board();
+	public ChessPosition createBoard() {
+		return new ChessPosition();
 	}
 
-	public LegalMoveCalculator createDefaultLegalMoveCalculator(PosicionPiezaBoard buildDummyBoard,
+	public LegalMoveCalculator createDefaultLegalMoveCalculator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new DefaultLegalMoveCalculator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 
-	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PosicionPiezaBoard buildPosicionPiezaBoard,
+	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			BoardState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}
 
-	public ColorBoard createColorBoard(PosicionPiezaBoard buildPosicionPiezaBoard) {
+	public ColorBoard createColorBoard(PiecePlacement buildPosicionPiezaBoard) {
 		ColorBoard colorBoard = new ColorBoard(buildPosicionPiezaBoard);
 		return colorBoard;
 	}
 
-	public KingCacheBoard createKingCacheBoard(PosicionPiezaBoard posicionPiezaBoard) {
-		return new KingCacheBoard(posicionPiezaBoard);
+	public KingCacheBoard createKingCacheBoard(PiecePlacement piecePlacement) {
+		return new KingCacheBoard(piecePlacement);
 	}
 
-	public MoveCacheBoard createMoveCacheBoard(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
-		return new MoveCacheBoard(posicionPiezaBoard, buildMoveGeneratorStrategy);
+	public MoveCacheBoard createMoveCacheBoard(PiecePlacement piecePlacement, MoveGeneratorStrategy buildMoveGeneratorStrategy) {
+		return new MoveCacheBoard(piecePlacement, buildMoveGeneratorStrategy);
 	}
 
-	public MoveFilter createMoveFilter(PosicionPiezaBoard dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
+	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, BoardState boardState, Capturer capturer) {
 		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, boardState, capturer);
 	}
 
-	public PosicionPiezaBoard createPosicionPiezaBoard() {
-		return new ArrayPosicionPiezaBoard();
+	public PiecePlacement createPosicionPiezaBoard() {
+		return new ArrayPiecePlacement();
 	}
 
 	public BoardState createBoardState() {

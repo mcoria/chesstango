@@ -1,11 +1,11 @@
 package chess.moves;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.pseudomovesfilters.MoveFilter;
 
 //TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
@@ -24,13 +24,13 @@ class CapturePawnPasante extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(Board board) {
-		board.executeMove(this);
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeMove(this);
 	}
 	
 	@Override
-	public void undoMove(Board board) {
-		board.undoMove(this);
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoMove(this);
 	}	
 	
 	@Override
@@ -39,13 +39,13 @@ class CapturePawnPasante extends AbstractMove {
 	}	
 	
 	@Override
-	public void executeMove(PosicionPiezaBoard board) {
+	public void executeMove(PiecePlacement board) {
 		super.executeMove(board);
 		board.setEmptyPosicion(captura);		//Capturamos peon
 	}
 
 	@Override
-	public void undoMove(PosicionPiezaBoard board) {
+	public void undoMove(PiecePlacement board) {
 		super.undoMove(board);
 		board.setPosicion(captura);				//Devolvemos peon
 	}

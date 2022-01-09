@@ -10,7 +10,7 @@ import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.parsers.FENParser;
 import chess.positioncaptures.Capturer;
 import chess.positioncaptures.ImprovedCapturer;
@@ -27,7 +27,7 @@ public class DefaultLegalMoveCalculatorTest {
 
 	private DefaultLegalMoveCalculator moveCalculator;
 	
-	private PosicionPiezaBoard dummyBoard;
+	private PiecePlacement dummyBoard;
 	
 	private BoardState boardState;
 	

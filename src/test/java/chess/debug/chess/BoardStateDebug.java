@@ -4,7 +4,7 @@ import chess.BoardState;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 
 
 /**
@@ -29,7 +29,7 @@ public class BoardStateDebug extends BoardState{
 		
 	}
 	
-	public void validar(PosicionPiezaBoard board) {
+	public void validar(PiecePlacement board) {
 		validar();
 
 		if (this.isCastlingWhiteQueenPermitido()) {

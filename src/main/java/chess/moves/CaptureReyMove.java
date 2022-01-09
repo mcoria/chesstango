@@ -1,6 +1,6 @@
 package chess.moves;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.PiecePositioned;
 import chess.layers.KingCacheBoard;
 import chess.pseudomovesfilters.MoveFilter;
@@ -16,13 +16,13 @@ class CaptureKingMove extends CaptureMove {
 	}
 	
 	@Override
-	public void executeMove(Board board) {
-		board.executeKingMove(this);
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeKingMove(this);
 	}
 	
 	@Override
-	public void undoMove(Board board) {
-		board.undoKingMove(this);
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoKingMove(this);
 	}	
 	
 	@Override

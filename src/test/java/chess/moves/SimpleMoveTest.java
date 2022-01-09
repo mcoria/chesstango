@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.Color;
 import chess.Piece;
@@ -20,8 +20,8 @@ import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
-import chess.layers.PosicionPiezaBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.PiecePlacement;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.SimpleMove;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -33,7 +33,7 @@ import chess.pseudomovesfilters.MoveFilter;
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleMoveTest {
 
-	private PosicionPiezaBoard piezaBoard;
+	private PiecePlacement piezaBoard;
 	
 	private BoardState boardState;
 	
@@ -42,7 +42,7 @@ public class SimpleMoveTest {
 	private ColorBoard colorBoard;
 	
 	@Mock
-	private Board board;
+	private ChessPosition chessPosition;
 	
 	@Mock
 	private MoveFilter filter;	
@@ -52,7 +52,7 @@ public class SimpleMoveTest {
 		boardState = new BoardState();
 		boardState.setTurnoActual(Color.WHITE);
 		
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
@@ -126,17 +126,17 @@ public class SimpleMoveTest {
 	@Test
 	public void testBoard() {
 		// execute
-		moveExecutor.executeMove(board);
+		moveExecutor.executeMove(chessPosition);
 
 		// asserts execute
-		verify(board).executeMove(moveExecutor);
+		verify(chessPosition).executeMove(moveExecutor);
 
 		// undos
-		moveExecutor.undoMove(board);
+		moveExecutor.undoMove(chessPosition);
 
 		
 		// asserts undos
-		verify(board).undoMove(moveExecutor);
+		verify(chessPosition).undoMove(moveExecutor);
 	}
 	
 	

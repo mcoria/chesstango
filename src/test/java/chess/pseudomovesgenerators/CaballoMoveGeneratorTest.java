@@ -16,7 +16,7 @@ import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
 import chess.layers.ColorBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -45,7 +45,7 @@ public class CaballoMoveGeneratorTest {
 	
 	@Test
 	public void test() {
-		PosicionPiezaBoard tablero =  getTablero("8/3P1p2/8/4N3/8/8/8/8");
+		PiecePlacement tablero =  getTablero("8/3P1p2/8/4N3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
@@ -80,7 +80,7 @@ public class CaballoMoveGeneratorTest {
 		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

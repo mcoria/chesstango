@@ -20,7 +20,7 @@ public class ColorBoard {
 	protected long squareBlancos = 0;
 	protected long squareNegros = 0;
 	
-	public ColorBoard(PosicionPiezaBoard board) {
+	public ColorBoard(PiecePlacement board) {
 		settupSquares(board);
 	}
 	
@@ -92,7 +92,7 @@ public class ColorBoard {
 	
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
-	protected void settupSquares(PosicionPiezaBoard board) {
+	protected void settupSquares(PiecePlacement board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getValue();
 			if (piece != null) {

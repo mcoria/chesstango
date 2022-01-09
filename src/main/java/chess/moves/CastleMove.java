@@ -1,13 +1,13 @@
 package chess.moves;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.BoardState;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.positioncaptures.Capturer;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -35,13 +35,13 @@ abstract class CastlingMove implements Move  {
 	}
 
 	@Override
-	public void executeMove(Board board) {
-		board.executeKingMove(this);
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeKingMove(this);
 	}
 	
 	@Override
-	public void undoMove(Board board) {
-		board.undoKingMove(this);
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoKingMove(this);
 	}
 	
 	@Override
@@ -55,14 +55,14 @@ abstract class CastlingMove implements Move  {
 	}	
 	
 	@Override
-	public void executeMove(PosicionPiezaBoard board) {
+	public void executeMove(PiecePlacement board) {
 		kingMove.executeMove(board);
 		torreMove.executeMove(board);
 	}
 
 
 	@Override
-	public void undoMove(PosicionPiezaBoard board) {
+	public void undoMove(PiecePlacement board) {
 		kingMove.undoMove(board);
 		torreMove.undoMove(board);
 	}	

@@ -12,15 +12,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import chess.Board;
+import chess.ChessPosition;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
 import chess.debug.chess.BoardStateDebug;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
-import chess.layers.PosicionPiezaBoard;
-import chess.layers.imp.ArrayPosicionPiezaBoard;
+import chess.layers.PiecePlacement;
+import chess.layers.imp.ArrayPiecePlacement;
 import chess.moves.CastlingWhiteKingMove;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -32,7 +32,7 @@ import chess.pseudomovesfilters.MoveFilter;
 @RunWith(MockitoJUnitRunner.class)
 public class CastlingWhiteKingMoveTest {
 	
-	private PosicionPiezaBoard piezaBoard;
+	private PiecePlacement piezaBoard;
 	
 	private BoardStateDebug boardState;	
 	
@@ -43,7 +43,7 @@ public class CastlingWhiteKingMoveTest {
 	private ColorBoardDebug colorBoard;
 	
 	@Mock
-	private Board board;
+	private ChessPosition chessPosition;
 	
 	@Mock
 	private MoveFilter filter;	
@@ -57,7 +57,7 @@ public class CastlingWhiteKingMoveTest {
 		boardState.setCastlingWhiteQueenPermitido(false);
 		boardState.setCastlingWhiteKingPermitido(true);
 		
-		piezaBoard = new ArrayPosicionPiezaBoard();
+		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		piezaBoard.setPieza(Square.h1, Piece.ROOK_WHITE);		
 		
@@ -147,17 +147,17 @@ public class CastlingWhiteKingMoveTest {
 	@Test
 	public void testBoard() {
 		// execute
-		moveExecutor.executeMove(board);
+		moveExecutor.executeMove(chessPosition);
 
 		// asserts execute
-		verify(board).executeKingMove(moveExecutor);
+		verify(chessPosition).executeKingMove(moveExecutor);
 
 		// undos
-		moveExecutor.undoMove(board);
+		moveExecutor.undoMove(chessPosition);
 
 		
 		// asserts undos
-		verify(board).undoKingMove(moveExecutor);
+		verify(chessPosition).undoKingMove(moveExecutor);
 	}
 	
 	

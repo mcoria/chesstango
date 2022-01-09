@@ -14,7 +14,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -44,7 +44,7 @@ public class PawnBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/P7/8/8");
+		PiecePlacement tablero =  getTablero("8/8/8/8/8/P7/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -64,7 +64,7 @@ public class PawnBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/8/P7/8");
+		PiecePlacement tablero =  getTablero("8/8/8/8/8/8/P7/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -85,7 +85,7 @@ public class PawnBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble01() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/8/8/8/N7/P7/8");
+		PiecePlacement tablero =  getTablero("8/8/8/8/8/N7/P7/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -105,7 +105,7 @@ public class PawnBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/3p4/4P3/8");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/3p4/4P3/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -129,7 +129,7 @@ public class PawnBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/5p2/4P3/8");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/5p2/4P3/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -152,7 +152,7 @@ public class PawnBlancoMoveGeneratorTest {
 	
 	@Test
 	public void testPawnSimplePawnPromocion() {
-		PosicionPiezaBoard tablero = getTablero("8/3P4/8/8/8/8/8/8");
+		PiecePlacement tablero = getTablero("8/3P4/8/8/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -176,7 +176,7 @@ public class PawnBlancoMoveGeneratorTest {
 
 	@Test
 	public void testPawnCapturaPawnPromocion() {
-		PosicionPiezaBoard tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
+		PiecePlacement tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d7;
@@ -219,7 +219,7 @@ public class PawnBlancoMoveGeneratorTest {
 		return moveFactory.createCapturePawnPromocion(origen, new PiecePositioned(destinoSquare, destinoPieza), promocion);
 	}	
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		

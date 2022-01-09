@@ -14,7 +14,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.layers.PosicionPiezaBoard;
+import chess.layers.PiecePlacement;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
@@ -44,7 +44,7 @@ public class PawnNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoSimple() {
-		PosicionPiezaBoard tablero =  getTablero("8/8/p7/8/8/8/8/8");
+		PiecePlacement tablero =  getTablero("8/8/p7/8/8/8/8/8");
 
 		moveGenerator.setTablero(tablero);
 		
@@ -64,7 +64,7 @@ public class PawnNegroMoveGeneratorTest {
 	
 	@Test
 	public void testSaltoDoble() {		
-		PosicionPiezaBoard tablero = getTablero("8/p7/8/8/8/8/8/8");
+		PiecePlacement tablero = getTablero("8/p7/8/8/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -85,7 +85,7 @@ public class PawnNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueIzquierda() {
-		PosicionPiezaBoard tablero = getTablero("8/4p3/3P4/8/8/8/8/8");
+		PiecePlacement tablero = getTablero("8/4p3/3P4/8/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -108,7 +108,7 @@ public class PawnNegroMoveGeneratorTest {
 	
 	@Test
 	public void testAtaqueDerecha() {
-		PosicionPiezaBoard tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
+		PiecePlacement tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -131,7 +131,7 @@ public class PawnNegroMoveGeneratorTest {
 	
 	@Test
 	public void testPuedeCapturarKing() {
-		PosicionPiezaBoard tablero = getTablero("8/8/8/8/8/8/6p1/4K2R");
+		PiecePlacement tablero = getTablero("8/8/8/8/8/8/6p1/4K2R");
 		
 		assertEquals(Piece.KING_WHITE, tablero.getPieza(Square.e1));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.h1));
@@ -154,7 +154,7 @@ public class PawnNegroMoveGeneratorTest {
 		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
-	private PosicionPiezaBoard getTablero(String string) {		
+	private PiecePlacement getTablero(String string) {		
 		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
