@@ -29,7 +29,7 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 public class DebugChessFactory extends ChessFactory {
 
 	@Override
-	public ChessPosition createBoard() {
+	public ChessPosition createChessPosition() {
 		return  new ChessPositionDebug();
 	}	
 	
@@ -72,7 +72,7 @@ public class DebugChessFactory extends ChessFactory {
 	}
 	
 	@Override
-	public PositionState createBoardState() {
+	public PositionState createPositionState() {
 		return new PositionStateDebug();
 	}
 }

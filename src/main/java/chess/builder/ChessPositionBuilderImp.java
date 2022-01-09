@@ -52,7 +52,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	
 	public ChessPosition getChessPosition() {
 		if (chessPosition == null) {
-			chessPosition = chessFactory.createBoard();
+			chessPosition = chessFactory.createChessPosition();
 
 			chessPosition.setDummyBoard(builder.getPiecePlacement());
 

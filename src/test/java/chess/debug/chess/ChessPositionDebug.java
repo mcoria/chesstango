@@ -18,19 +18,19 @@ public class ChessPositionDebug extends ChessPosition {
 	@Override
 	public void execute(Move move) {
 		super.execute(move);
-		((PositionStateDebug)positionState).validar(this.dummyBoard);
-		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
-		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);
+		((PositionStateDebug)positionState).validar(this.piecePlacement);
+		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
+		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);
 	}
 
 	@Override
 	public void undo(Move move) {
 		super.undo(move);
-		((PositionStateDebug)positionState).validar(this.dummyBoard);
-		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
-		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);		
+		((PositionStateDebug)positionState).validar(this.piecePlacement);
+		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
+		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);		
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class ChessPositionDebug extends ChessPosition {
 		try {
 			boolean reportError = false;
 			
-			ArrayPiecePlacement boardInicial = ((ArrayPiecePlacement) super.dummyBoard).clone();
+			ArrayPiecePlacement boardInicial = ((ArrayPiecePlacement) super.piecePlacement).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			
@@ -62,9 +62,9 @@ public class ChessPositionDebug extends ChessPosition {
 				reportError = true;
 			}
 
-			if (!super.dummyBoard.equals(boardInicial)) {
+			if (!super.piecePlacement.equals(boardInicial)) {
 				System.out.println("El board fué modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard.toString());
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.piecePlacement.toString());
 				reportError = true;				
 			}
 

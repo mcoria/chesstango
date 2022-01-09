@@ -20,7 +20,7 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  */
 public class ChessFactory {
 
-	public ChessPosition createBoard() {
+	public ChessPosition createChessPosition() {
 		return new ChessPosition();
 	}
 
@@ -55,11 +55,11 @@ public class ChessFactory {
 		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
 	}
 
-	public PiecePlacement createPosicionPiezaBoard() {
+	public PiecePlacement createPiecePlacement() {
 		return new ArrayPiecePlacement();
 	}
 
-	public PositionState createBoardState() {
+	public PositionState createPositionState() {
 		return new PositionState();
 	}
 

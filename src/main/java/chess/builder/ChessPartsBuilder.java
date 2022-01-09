@@ -25,14 +25,14 @@ public class ChessPartsBuilder implements ChessPositionBuilder {
 
 	public PiecePlacement getPiecePlacement() {
 		if(piecePlacement == null){
-			piecePlacement = chessFactory.createPosicionPiezaBoard();
+			piecePlacement = chessFactory.createPiecePlacement();
 		}
 		return piecePlacement;
 	}
 
 	public PositionState getPositionState() {
 		if (positionState == null) {
-			positionState = chessFactory.createBoardState();
+			positionState = chessFactory.createPositionState();
 		}
 		return positionState;
 	}

@@ -17,7 +17,7 @@ import chess.parsers.FENCoder;
 public class ChessPosition {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-	protected PiecePlacement dummyBoard = null;
+	protected PiecePlacement piecePlacement = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
@@ -38,7 +38,7 @@ public class ChessPosition {
 	}
 
 	public void executeMove(Move move) {
-		move.executeMove(this.dummyBoard);
+		move.executeMove(this.piecePlacement);
 
 		move.executeMove(this.colorBoard);
 
@@ -69,7 +69,7 @@ public class ChessPosition {
 
 		move.undoMove(this.colorBoard);
 
-		move.undoMove(this.dummyBoard);
+		move.undoMove(this.piecePlacement);
 		
 	}
 	
@@ -89,7 +89,7 @@ public class ChessPosition {
 		builder.withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed());
 		builder.withPawnPasanteSquare(positionState.getPawnPasanteSquare());
 		
-		for(PiecePositioned pieza: dummyBoard){
+		for(PiecePositioned pieza: piecePlacement){
 			builder.withPieza(pieza.getKey(), pieza.getValue());
 		}
 	}
@@ -101,11 +101,11 @@ public class ChessPosition {
 		
 		constructBoardRepresentation(coder);
 		
-	    return this.dummyBoard.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
+	    return this.piecePlacement.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
 	}
 
 	public void setDummyBoard(PiecePlacement dummyBoard) {
-		this.dummyBoard = dummyBoard;
+		this.piecePlacement = dummyBoard;
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {
