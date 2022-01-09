@@ -23,10 +23,10 @@ public class FENParserTest {
 	
 	private Color turno;
 	private Square peonPasanteSquare;
-	private boolean enroqueNegroKingPermitido;
-	private boolean enroqueNegroQueenPermitido;
-	private boolean enroqueBlancoKingPermitido;
-	private boolean enroqueBlancoQueenPermitido;
+	private boolean enroqueNegroKingAllowed;
+	private boolean enroqueNegroQueenAllowed;
+	private boolean enroqueBlancoKingAllowed;
+	private boolean enroqueBlancoQueenAllowed;
 	
 	private Piece[][] tablero = null;
 			
@@ -51,23 +51,23 @@ public class FENParserTest {
 			}
 			
 			@Override
-			public void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido) {
-				FENParserTest.this.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
+			public void withCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
+				FENParserTest.this.enroqueNegroKingAllowed = enroqueNegroKingAllowed;
 			}
 			
 			@Override
-			public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
-				FENParserTest.this.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
+			public void withCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
+				FENParserTest.this.enroqueNegroQueenAllowed = enroqueNegroQueenAllowed;
 			}
 			
 			@Override
-			public void withCastlingWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
-				FENParserTest.this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
+			public void withCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
+				FENParserTest.this.enroqueBlancoKingAllowed = enroqueBlancoKingAllowed;
 			}
 			
 			@Override
-			public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
-				FENParserTest.this.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
+			public void withCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
+				FENParserTest.this.enroqueBlancoQueenAllowed = enroqueBlancoQueenAllowed;
 			}
 		});
 	}
@@ -262,11 +262,11 @@ public class FENParserTest {
 		
 		assertEquals(Color.WHITE, this.turno);
 		
-		assertTrue(this.enroqueBlancoQueenPermitido);
-		assertTrue(this.enroqueBlancoKingPermitido);
+		assertTrue(this.enroqueBlancoQueenAllowed);
+		assertTrue(this.enroqueBlancoKingAllowed);
 		
-		assertTrue(this.enroqueNegroQueenPermitido);
-		assertTrue(this.enroqueNegroKingPermitido);		
+		assertTrue(this.enroqueNegroQueenAllowed);
+		assertTrue(this.enroqueNegroKingAllowed);		
 		
 		assertNull(this.peonPasanteSquare);
 		

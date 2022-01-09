@@ -83,10 +83,10 @@ public class ChessPosition {
 	
 	public void constructBoardRepresentation(ChessBuilder builder){		
 		builder.withTurno(positionState.getTurnoActual());
-		builder.withCastlingWhiteQueenPermitido(positionState.isCastlingWhiteQueenPermitido());
-		builder.withCastlingWhiteKingPermitido(positionState.isCastlingWhiteKingPermitido());
-		builder.withCastlingBlackQueenPermitido(positionState.isCastlingBlackQueenPermitido());
-		builder.withCastlingBlackKingPermitido(positionState.isCastlingBlackKingPermitido());
+		builder.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed());
+		builder.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed());
+		builder.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed());
+		builder.withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed());
 		builder.withPawnPasanteSquare(positionState.getPawnPasanteSquare());
 		
 		for(PiecePositioned pieza: dummyBoard){

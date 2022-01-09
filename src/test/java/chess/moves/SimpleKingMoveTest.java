@@ -63,8 +63,8 @@ public class SimpleKingMoveTest {
 		
 		positionState = new PositionState();
 		positionState.setTurnoActual(Color.WHITE);
-		positionState.setCastlingWhiteKingPermitido(true);
-		positionState.setCastlingWhiteQueenPermitido(true);
+		positionState.setCastlingWhiteKingAllowed(true);
+		positionState.setCastlingWhiteQueenAllowed(true);
 	}
 	
 	

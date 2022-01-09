@@ -31,7 +31,7 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PiecePositioned origen) {
 		super.generateMovesPseudoMoves(origen);
 		
-		if (this.positionState.isCastlingWhiteQueenPermitido()){
+		if (this.positionState.isCastlingWhiteQueenAllowed()){
 			result.affectedByContainerAdd(INTERMEDIO_ROOK_QUEEN_SQUARE);
 			result.affectedByContainerAdd(DESTINO_QUEEN_SQUARE);
 			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);
@@ -47,7 +47,7 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 		}
 		
 		
-		if (this.positionState.isCastlingWhiteKingPermitido() ){
+		if (this.positionState.isCastlingWhiteKingAllowed() ){
 			result.affectedByContainerAdd(INTERMEDIO_KING_KING_SQUARE);
 			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
 			result.affectedByContainerAdd(Square.h1); //La posicion de la torre		

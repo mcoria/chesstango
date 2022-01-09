@@ -23,7 +23,7 @@ public class FENParser {
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
-		String enroquesPermitidos = fields[2];
+		String enroquesAlloweds = fields[2];
 		String peonPasante = fields[3];
 		
 		parsePiecePlacement(piecePlacement);
@@ -32,20 +32,20 @@ public class FENParser {
 		
 		chessBuilder.withTurno(parseTurno(activeColor));
 		
-		if(isCastlingWhiteQueenPermitido(enroquesPermitidos)){
-			chessBuilder.withCastlingWhiteQueenPermitido(true);
+		if(isCastlingWhiteQueenAllowed(enroquesAlloweds)){
+			chessBuilder.withCastlingWhiteQueenAllowed(true);
 		}
 		
-		if(isCastlingWhiteKingPermitido(enroquesPermitidos)){
-			chessBuilder.withCastlingWhiteKingPermitido(true);
+		if(isCastlingWhiteKingAllowed(enroquesAlloweds)){
+			chessBuilder.withCastlingWhiteKingAllowed(true);
 		}
 		
-		if(isCastlingBlackQueenPermitido(enroquesPermitidos)){
-			chessBuilder.withCastlingBlackQueenPermitido(true);
+		if(isCastlingBlackQueenAllowed(enroquesAlloweds)){
+			chessBuilder.withCastlingBlackQueenAllowed(true);
 		}
 		
-		if(isCastlingBlackKingPermitido(enroquesPermitidos)){
-			chessBuilder.withCastlingBlackKingPermitido(true);
+		if(isCastlingBlackKingAllowed(enroquesAlloweds)){
+			chessBuilder.withCastlingBlackKingAllowed(true);
 		}
 		
 	}
@@ -208,29 +208,29 @@ public class FENParser {
 		return turno;
 	}
 
-	protected boolean isCastlingWhiteQueenPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("Q")){
+	protected boolean isCastlingWhiteQueenAllowed(String enroquesAlloweds){
+		if(enroquesAlloweds.contains("Q")){
 			return true;
 		}
 		return false;
 	}
 	
-	protected boolean isCastlingWhiteKingPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("K")){
+	protected boolean isCastlingWhiteKingAllowed(String enroquesAlloweds){
+		if(enroquesAlloweds.contains("K")){
 			return true;
 		}
 		return false;
 	}	
 	
-	protected boolean isCastlingBlackQueenPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("q")){
+	protected boolean isCastlingBlackQueenAllowed(String enroquesAlloweds){
+		if(enroquesAlloweds.contains("q")){
 			return true;
 		}
 		return false;
 	}
 	
-	protected boolean isCastlingBlackKingPermitido(String enroquesPermitidos){
-		if(enroquesPermitidos.contains("k")){
+	protected boolean isCastlingBlackKingAllowed(String enroquesAlloweds){
+		if(enroquesAlloweds.contains("k")){
 			return true;
 		}
 		return false;

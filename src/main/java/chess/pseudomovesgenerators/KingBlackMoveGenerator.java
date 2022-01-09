@@ -30,9 +30,9 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 	public void generateMovesPseudoMoves(PiecePositioned origen) {		
 		super.generateMovesPseudoMoves(origen);
 		
-		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackQueenPermitido() ||  this.boardState.isCastlingBlackKingPermitido()) ;
+		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackQueenAllowed() ||  this.boardState.isCastlingBlackKingAllowed()) ;
 		
-		if (this.positionState.isCastlingBlackQueenPermitido()){
+		if (this.positionState.isCastlingBlackQueenAllowed()){
 			result.affectedByContainerAdd(INTERMEDIO_ROOK_QUEEN_SQUARE);
 			result.affectedByContainerAdd(DESTINO_QUEEN_SQUARE);
 			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);		
@@ -48,7 +48,7 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 		}
 			
 			
-		if (this.positionState.isCastlingBlackKingPermitido()){
+		if (this.positionState.isCastlingBlackKingAllowed()){
 			result.affectedByContainerAdd(INTERMEDIO_KING_KING_SQUARE);
 			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre

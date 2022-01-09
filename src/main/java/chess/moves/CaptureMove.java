@@ -39,19 +39,19 @@ class CaptureMove extends AbstractMove {
 		super.executeMove(positionState);
 		
 		if(to.getKey().equals(Square.a1)){
-			positionState.setCastlingWhiteQueenPermitido(false);
+			positionState.setCastlingWhiteQueenAllowed(false);
 		}
 		
 		if(to.getKey().equals(Square.h1)){
-			positionState.setCastlingWhiteKingPermitido(false);
+			positionState.setCastlingWhiteKingAllowed(false);
 		}
 		
 		if(to.getKey().equals(Square.a8)){
-			positionState.setCastlingBlackQueenPermitido(false);
+			positionState.setCastlingBlackQueenAllowed(false);
 		}
 		
 		if(to.getKey().equals(Square.h8)){
-			positionState.setCastlingBlackKingPermitido(false);
+			positionState.setCastlingBlackKingAllowed(false);
 		}		
 	}
 

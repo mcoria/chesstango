@@ -51,25 +51,25 @@ public class ChessBuilderParts implements ChessBuilder {
 
 
 	@Override
-	public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
-		this.getState().setCastlingWhiteQueenPermitido(enroqueBlancoQueenPermitido);
+	public void withCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
+		this.getState().setCastlingWhiteQueenAllowed(enroqueBlancoQueenAllowed);
 	}
 
 	@Override
-	public void withCastlingWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
-		this.getState().setCastlingWhiteKingPermitido(enroqueBlancoKingPermitido);;
-	}
-
-
-	@Override
-	public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
-		this.getState().setCastlingBlackQueenPermitido(enroqueNegroQueenPermitido);
+	public void withCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
+		this.getState().setCastlingWhiteKingAllowed(enroqueBlancoKingAllowed);;
 	}
 
 
 	@Override
-	public void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido) {
-		this.getState().setCastlingBlackKingPermitido(enroqueNegroKingPermitido);;
+	public void withCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
+		this.getState().setCastlingBlackQueenAllowed(enroqueNegroQueenAllowed);
+	}
+
+
+	@Override
+	public void withCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
+		this.getState().setCastlingBlackKingAllowed(enroqueNegroKingAllowed);;
 	}
 
 	public void withPieza(Square square, Piece piece) {

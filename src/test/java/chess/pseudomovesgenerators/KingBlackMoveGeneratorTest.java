@@ -55,7 +55,7 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackQueen01() {
 		PiecePlacement tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
 		
-		state.setCastlingBlackQueenPermitido(true);
+		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -83,7 +83,7 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackQueen02() {
 		PiecePlacement tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
 		
-		state.setCastlingBlackQueenPermitido(true);
+		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -113,7 +113,7 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackQueen03() {
 		PiecePlacement tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
 		
-		state.setCastlingBlackQueenPermitido(true);
+		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -143,7 +143,7 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackKing01() {
 		PiecePlacement tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
-		state.setCastlingBlackKingPermitido(true);
+		state.setCastlingBlackKingAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -171,7 +171,7 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackKing02() {
 		PiecePlacement tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
-		state.setCastlingBlackKingPermitido(true);
+		state.setCastlingBlackKingAllowed(true);
 
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -201,7 +201,7 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackKing03() {
 		PiecePlacement tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
-		state.setCastlingBlackKingPermitido(true);
+		state.setCastlingBlackKingAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
@@ -231,8 +231,8 @@ public class KingBlackMoveGeneratorTest {
 	public void testCastlingBlackJaque() {
 		PiecePlacement tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
-		state.setCastlingBlackKingPermitido(true);
-		state.setCastlingBlackQueenPermitido(true);
+		state.setCastlingBlackKingAllowed(true);
+		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));

@@ -14,8 +14,8 @@ public class MoveFactory {
 	public Move createSimpleKingMoveBlanco(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e1.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
-				state.setCastlingWhiteQueenPermitido(false);
-				state.setCastlingWhiteKingPermitido(false);				
+				state.setCastlingWhiteQueenAllowed(false);
+				state.setCastlingWhiteKingAllowed(false);				
 			});
 		}
 		return new SimpleKingMove(origen, destino);
@@ -25,8 +25,8 @@ public class MoveFactory {
 	public Move createCaptureKingMoveBlanco(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e1.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
-				state.setCastlingWhiteQueenPermitido(false);
-				state.setCastlingWhiteKingPermitido(false);				
+				state.setCastlingWhiteQueenAllowed(false);
+				state.setCastlingWhiteKingAllowed(false);				
 			});
 		}
 		return new CaptureKingMove(origen, destino);
@@ -36,8 +36,8 @@ public class MoveFactory {
 	public Move createSimpleKingMoveNegro(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e8.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
-				state.setCastlingBlackQueenPermitido(false);
-				state.setCastlingBlackKingPermitido(false);			
+				state.setCastlingBlackQueenAllowed(false);
+				state.setCastlingBlackKingAllowed(false);			
 			});
 		}
 		return new SimpleKingMove(origen, destino);
@@ -46,8 +46,8 @@ public class MoveFactory {
 	public Move createCaptureKingMoveNegro(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e8.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
-				state.setCastlingBlackQueenPermitido(false);
-				state.setCastlingBlackKingPermitido(false);			
+				state.setCastlingBlackQueenAllowed(false);
+				state.setCastlingBlackKingAllowed(false);			
 			});
 		}
 		return new CaptureKingMove(origen, destino);
@@ -57,22 +57,22 @@ public class MoveFactory {
 	public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
-					state -> state.setCastlingWhiteQueenPermitido(false));
+					state -> state.setCastlingWhiteQueenAllowed(false));
 		}
 		
 		if (Square.h1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
-					state -> state.setCastlingWhiteKingPermitido(false));
+					state -> state.setCastlingWhiteKingAllowed(false));
 		}
 		
 		if (Square.a8.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
-					state -> state.setCastlingBlackQueenPermitido(false));
+					state -> state.setCastlingBlackQueenAllowed(false));
 		}
 		
 		if (Square.h8.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
-					state -> state.setCastlingBlackKingPermitido(false));
+					state -> state.setCastlingBlackKingAllowed(false));
 		}		
 		
 		return createSimpleMove(origen, destino);
@@ -82,22 +82,22 @@ public class MoveFactory {
 	public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
-					state -> state.setCastlingWhiteQueenPermitido(false));
+					state -> state.setCastlingWhiteQueenAllowed(false));
 		}
 		
 		if (Square.h1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
-					state -> state.setCastlingWhiteKingPermitido(false));
+					state -> state.setCastlingWhiteKingAllowed(false));
 		}
 		
 		if (Square.a8.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
-					state -> state.setCastlingBlackQueenPermitido(false));
+					state -> state.setCastlingBlackQueenAllowed(false));
 		}
 		
 		if (Square.h8.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
-					state -> state.setCastlingBlackKingPermitido(false));
+					state -> state.setCastlingBlackKingAllowed(false));
 		}		
 		return createCaptureMove(origen, destino);
 	}

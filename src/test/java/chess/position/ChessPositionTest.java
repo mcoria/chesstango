@@ -254,7 +254,7 @@ public class ChessPositionTest {
 	}
 	
 	@Test
-	public void testMovimientoPawnPasanteNoPermitido(){
+	public void testMovimientoPawnPasanteNoAllowed(){
 		ChessPosition tablero = getBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 		
 		Collection<Move> moves = tablero.getLegalMoves();

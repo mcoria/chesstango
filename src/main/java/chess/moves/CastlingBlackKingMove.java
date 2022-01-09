@@ -27,8 +27,8 @@ public class CastlingBlackKingMove extends CastlingMove {
 	@Override
 	public void executeMove(PositionState positionState) {
 		super.executeMove(positionState);
-		positionState.setCastlingBlackKingPermitido(false);
-		positionState.setCastlingBlackQueenPermitido(false);
+		positionState.setCastlingBlackKingAllowed(false);
+		positionState.setCastlingBlackQueenAllowed(false);
 	}
 	
 	@Override

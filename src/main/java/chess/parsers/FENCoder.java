@@ -13,10 +13,10 @@ public class FENCoder implements ChessBuilder {
 	
 	private Color turno;
 	private Square peonPasanteSquare;
-	private boolean enroqueNegroKingPermitido;
-	private boolean enroqueNegroQueenPermitido;
-	private boolean enroqueBlancoKingPermitido;
-	private boolean enroqueBlancoQueenPermitido;	
+	private boolean enroqueNegroKingAllowed;
+	private boolean enroqueNegroQueenAllowed;
+	private boolean enroqueBlancoKingAllowed;
+	private boolean enroqueBlancoQueenAllowed;	
 	
 	private Piece[][] tablero = new Piece[8][8];
 
@@ -60,23 +60,23 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	public StringBuilder getEnroques(StringBuilder stringBuilder) {
-		if(enroqueBlancoKingPermitido){
+		if(enroqueBlancoKingAllowed){
 			stringBuilder.append('K');
 		}
 		
-		if(enroqueBlancoQueenPermitido){
+		if(enroqueBlancoQueenAllowed){
 			stringBuilder.append('Q');
 		}
 		
-		if(enroqueNegroKingPermitido){
+		if(enroqueNegroKingAllowed){
 			stringBuilder.append('k');
 		}
 		
-		if(enroqueNegroQueenPermitido){
+		if(enroqueNegroQueenAllowed){
 			stringBuilder.append('q');
 		}		
 		
-		if(!enroqueBlancoKingPermitido && !enroqueBlancoQueenPermitido && !enroqueNegroKingPermitido && !enroqueNegroQueenPermitido){
+		if(!enroqueBlancoKingAllowed && !enroqueBlancoQueenAllowed && !enroqueNegroKingAllowed && !enroqueNegroQueenAllowed){
 			stringBuilder.append('-');
 		}
 				
@@ -99,23 +99,23 @@ public class FENCoder implements ChessBuilder {
 	}
 	
 	@Override
-	public void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido) {
-		this.enroqueNegroKingPermitido = enroqueNegroKingPermitido;
+	public void withCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
+		this.enroqueNegroKingAllowed = enroqueNegroKingAllowed;
 	}
 	
 	@Override
-	public void withCastlingBlackQueenPermitido(boolean enroqueNegroQueenPermitido) {
-		this.enroqueNegroQueenPermitido = enroqueNegroQueenPermitido;
+	public void withCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
+		this.enroqueNegroQueenAllowed = enroqueNegroQueenAllowed;
 	}
 	
 	@Override
-	public void withCastlingWhiteKingPermitido(boolean enroqueBlancoKingPermitido) {
-		this.enroqueBlancoKingPermitido = enroqueBlancoKingPermitido;
+	public void withCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
+		this.enroqueBlancoKingAllowed = enroqueBlancoKingAllowed;
 	}
 	
 	@Override
-	public void withCastlingWhiteQueenPermitido(boolean enroqueBlancoQueenPermitido) {
-		this.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
+	public void withCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
+		this.enroqueBlancoQueenAllowed = enroqueBlancoQueenAllowed;
 	}
 	
 	protected StringBuilder codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
