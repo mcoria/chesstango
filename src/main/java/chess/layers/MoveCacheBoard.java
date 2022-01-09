@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
 import chess.pseudomovesgenerators.MoveGenerator;
@@ -32,7 +32,7 @@ public class MoveCacheBoard {
 	 * @param buildMoveGeneratorStrategy
 	 */
 	public MoveCacheBoard(PosicionPiezaBoard posicionPiezaBoard, MoveGeneratorStrategy strategy) {
-		for(PosicionPieza origen: posicionPiezaBoard){
+		for(PiecePositioned origen: posicionPiezaBoard){
 			
 			if(origen.getValue() != null){
 				MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());

@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
@@ -50,9 +50,9 @@ public class TorreMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ROOK_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ROOK_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -91,10 +91,10 @@ public class TorreMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.ROOK_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.e7));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.e7));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.ROOK_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -104,7 +104,7 @@ public class TorreMoveGeneratorTest {
 		
 		//Norte
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.e7, Pieza.PAWN_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.e7, Piece.PAWN_BLACK) ));
 		
 		//Sur
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e4) ));
@@ -124,12 +124,12 @@ public class TorreMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));		
 	}	
 
-	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
+	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
+		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}	
 	
 	private PosicionPiezaBoard getTablero(String string) {		

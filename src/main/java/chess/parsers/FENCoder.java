@@ -1,7 +1,7 @@
 package chess.parsers;
 
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.builder.ChessBuilder;
 
@@ -18,7 +18,7 @@ public class FENCoder implements ChessBuilder {
 	private boolean enroqueBlancoKingPermitido;
 	private boolean enroqueBlancoQueenPermitido;	
 	
-	private Pieza[][] tablero = new Pieza[8][8];
+	private Piece[][] tablero = new Piece[8][8];
 
 	public String getFEN() {
 		final StringBuilder stringBuilder = new StringBuilder(70);
@@ -84,8 +84,8 @@ public class FENCoder implements ChessBuilder {
 	}	
 
 	@Override
-	public void withPieza(Square square, Pieza pieza) {
-		this.tablero[square.getRank()][square.getFile()] = pieza;
+	public void withPieza(Square square, Piece piece) {
+		this.tablero[square.getRank()][square.getFile()] = piece;
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public class FENCoder implements ChessBuilder {
 		this.enroqueBlancoQueenPermitido = enroqueBlancoQueenPermitido;
 	}
 	
-	protected StringBuilder codePiecePlacementRank(Pieza[] piezas, StringBuilder stringBuilder) {
+	protected StringBuilder codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
 		int vacios = 0;
 		for (int i = 0; i < piezas.length; i++) {
 			if(piezas[i] == null){
@@ -139,9 +139,9 @@ public class FENCoder implements ChessBuilder {
 		return stringBuilder;
 	}
 	
-	private char getCode(Pieza pieza) {
+	private char getCode(Piece piece) {
 		char result;
-		switch (pieza) {
+		switch (piece) {
 		case ROOK_BLACK:
 			result = 'r';
 			break;

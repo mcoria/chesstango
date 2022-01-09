@@ -3,8 +3,8 @@ package chess.positioncaptures;
 import java.util.Iterator;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
@@ -38,9 +38,9 @@ public class IteratorCapturer implements Capturer {
 	 */
 	@Override
 	public boolean positionCaptured(Color color, Square square){
-		for (Iterator<PosicionPieza> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
-			PosicionPieza origen = iterator.next();
-			Pieza currentPieza = origen.getValue();
+		for (Iterator<PiecePositioned> iterator = dummyBoard.iterator(colorBoard.getPosiciones(color)); iterator.hasNext();) {
+			PiecePositioned origen = iterator.next();
+			Piece currentPieza = origen.getValue();
 			//MoveGenerator moveGenerator = currentPieza.getMoveGenerator(strategy);
 			MoveGenerator moveGenerator = currentPieza.getMoveGenerator(strategy);
 			if(moveGenerator.puedeCapturarPosicion(origen, square)){

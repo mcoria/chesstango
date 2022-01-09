@@ -1,7 +1,7 @@
 package chess.moves;
 
 import chess.Board;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -16,9 +16,9 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 class CapturePawnPasante extends AbstractMove {
 
-	private final PosicionPieza captura;
+	private final PiecePositioned captura;
 			
-	public CapturePawnPasante(PosicionPieza from, PosicionPieza to, PosicionPieza captura) {
+	public CapturePawnPasante(PiecePositioned from, PiecePositioned to, PiecePositioned captura) {
 		super(from, to);
 		this.captura = captura;
 	}

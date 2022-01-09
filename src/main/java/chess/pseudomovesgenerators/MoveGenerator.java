@@ -1,6 +1,6 @@
 package chess.pseudomovesgenerators;
 
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 
 
@@ -10,8 +10,8 @@ import chess.Square;
  */
 public interface MoveGenerator {
 
-	MoveGeneratorResult calculatePseudoMoves(PosicionPieza origen);
+	MoveGeneratorResult calculatePseudoMoves(PiecePositioned origen);
 
-	boolean puedeCapturarPosicion(PosicionPieza origen, Square square);
+	boolean puedeCapturarPosicion(PiecePositioned origen, Square square);
 
 }

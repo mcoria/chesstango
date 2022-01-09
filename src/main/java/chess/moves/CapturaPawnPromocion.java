@@ -1,7 +1,7 @@
 package chess.moves;
 
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.layers.PosicionPiezaBoard;
 
 /**
@@ -10,9 +10,9 @@ import chess.layers.PosicionPiezaBoard;
  */
 class CapturaPawnPromocion extends CaptureMove {
 
-	protected final Pieza promocion;
+	protected final Piece promocion;
 	
-	public CapturaPawnPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	public CapturaPawnPromocion(PiecePositioned from, PiecePositioned to, Piece promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}

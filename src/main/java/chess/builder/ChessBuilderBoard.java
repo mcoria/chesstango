@@ -3,7 +3,7 @@ package chess.builder;
 import chess.Board;
 import chess.BoardAnalyzer;
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -181,7 +181,7 @@ public class ChessBuilderBoard implements ChessBuilder {
 	}
 
 	@Override
-	public void withPieza(Square square, Pieza pieza) {
-		builder.withPieza(square, pieza);
+	public void withPieza(Square square, Piece piece) {
+		builder.withPieza(square, piece);
 	}
 }

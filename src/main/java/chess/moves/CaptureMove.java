@@ -2,7 +2,7 @@ package chess.moves;
 
 import chess.Board;
 import chess.BoardState;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -14,7 +14,7 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 class CaptureMove extends AbstractMove {
 	
-	public CaptureMove(PosicionPieza from, PosicionPieza to) {
+	public CaptureMove(PiecePositioned from, PiecePositioned to) {
 		super(from, to);
 	}	
 	

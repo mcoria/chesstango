@@ -1,8 +1,8 @@
 package chess.debug.chess;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.KingCacheBoard;
 import chess.layers.PosicionPiezaBoard;
@@ -19,19 +19,19 @@ public class KingCacheBoardDebug extends KingCacheBoard {
 	}
 	
 	public void validar(PosicionPiezaBoard dummyBoard) {
-		if (squareKingWhiteCache != null && !Pieza.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {
+		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
 		}
 
-		if (squareKingBlackCache != null && !Pieza.KING_BLACK.equals(dummyBoard.getPieza(squareKingBlackCache))) {
+		if (squareKingBlackCache != null && !Piece.KING_BLACK.equals(dummyBoard.getPieza(squareKingBlackCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedó desactualizado");
 		}
 		
-		for (PosicionPieza pieza : dummyBoard) {
-			if (Pieza.KING_WHITE.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingWhiteCache)) {
+		for (PiecePositioned pieza : dummyBoard) {
+			if (Piece.KING_WHITE.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingWhiteCache)) {
 				throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
 			}
-			if (Pieza.KING_BLACK.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingBlackCache)) {
+			if (Piece.KING_BLACK.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingBlackCache)) {
 				throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedó desactualizado");
 			}			
 		}

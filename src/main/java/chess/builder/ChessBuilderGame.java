@@ -2,7 +2,7 @@ package chess.builder;
 
 import chess.Color;
 import chess.Game;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 
 /**
@@ -61,8 +61,8 @@ public class ChessBuilderGame implements ChessBuilder {
 	}
 
 	@Override
-	public void withPieza(Square square, Pieza pieza) {
-		builder.withPieza(square, pieza);
+	public void withPieza(Square square, Piece piece) {
+		builder.withPieza(square, piece);
 	}
 
 }

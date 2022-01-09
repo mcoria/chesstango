@@ -2,7 +2,7 @@ package chess.moves;
 
 import chess.Board;
 import chess.BoardState;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -27,8 +27,8 @@ import chess.pseudomovesfilters.MoveFilter;
  *
  */
 public interface Move extends Comparable<Move> {
-	PosicionPieza getFrom();
-	PosicionPieza getTo();
+	PiecePositioned getFrom();
+	PiecePositioned getTo();
 
 	void executeMove(PosicionPiezaBoard board);
 	void undoMove(PosicionPiezaBoard board);

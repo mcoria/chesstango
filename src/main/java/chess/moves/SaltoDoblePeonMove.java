@@ -1,7 +1,7 @@
 package chess.moves;
 
 import chess.BoardState;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.MoveCacheBoard;
 
@@ -14,7 +14,7 @@ class SaltoDoblePawnMove extends SimpleMove {
 	
 	private final Square peonPasanteSquare;
 
-	public SaltoDoblePawnMove(PosicionPieza from, PosicionPieza to, Square peonPasanteSquare) {
+	public SaltoDoblePawnMove(PiecePositioned from, PiecePositioned to, Square peonPasanteSquare) {
 		super(from, to);
 		this.peonPasanteSquare = peonPasanteSquare;
 	}

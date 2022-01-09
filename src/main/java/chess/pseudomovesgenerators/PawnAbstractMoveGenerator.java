@@ -1,8 +1,8 @@
 package chess.pseudomovesgenerators;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
 
@@ -20,9 +20,9 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
 	
-	protected abstract PosicionPieza getCapturaPawnPasante(Square peonPasanteSquare);	
+	protected abstract PiecePositioned getCapturaPawnPasante(Square peonPasanteSquare);	
 	
-	protected abstract Pieza[] getPiezaPromocion();
+	protected abstract Piece[] getPiezaPromocion();
 
 	
 	public PawnAbstractMoveGenerator(Color color) {
@@ -30,7 +30,7 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMovesPseudoMoves(PosicionPieza origen){
+	public void generateMovesPseudoMoves(PiecePositioned origen){
 		
 		int toRank = -1; //Just in case
 		Square casillero = origen.getKey();
@@ -41,7 +41,7 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
 		
 			
-		PosicionPieza destino = null;
+		PiecePositioned destino = null;
 		
 		if (saltoSimpleCasillero != null) {
 			destino = this.tablero.getPosicion(saltoSimpleCasillero);
@@ -73,9 +73,9 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 		if (casilleroAtaqueIzquirda != null) {			
 			destino = this.tablero.getPosicion(casilleroAtaqueIzquirda);
 			result.affectedByContainerAdd(casilleroAtaqueIzquirda);
-			Pieza pieza = destino.getValue();
+			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
-			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
+			if (piece != null && color.opositeColor().equals(piece.getColor())) {
 				Move moveCaptura = this.moveFactory.createCaptureMove(origen, destino);
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
@@ -91,9 +91,9 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 		if (casilleroAtaqueDerecha != null) {
 			destino = this.tablero.getPosicion(casilleroAtaqueDerecha);
 			result.affectedByContainerAdd(casilleroAtaqueDerecha);
-			Pieza pieza = destino.getValue();
+			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
-			if (pieza != null && color.opositeColor().equals(pieza.getColor())) {
+			if (piece != null && color.opositeColor().equals(piece.getColor())) {
 				Move moveCaptura =  this.moveFactory.createCaptureMove(origen, destino);
 
 				toRank = saltoSimpleCasillero.getRank();
@@ -106,22 +106,22 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 
-	private void addSaltoSimplePromocion(PosicionPieza origen, PosicionPieza destino) {
-		Pieza[] promociones = getPiezaPromocion();
+	private void addSaltoSimplePromocion(PiecePositioned origen, PiecePositioned destino) {
+		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
 			this.result.moveContainerAdd(this.moveFactory.createSimplePawnPromocion(origen, destino, promociones[i]));
 		}
 	}
 	
-	private void addCapturaPromocion(PosicionPieza origen, PosicionPieza destino) {
-		Pieza[] promociones = getPiezaPromocion();
+	private void addCapturaPromocion(PiecePositioned origen, PiecePositioned destino) {
+		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
 			this.result.moveContainerAdd(this.moveFactory.createCapturePawnPromocion(origen, destino, promociones[i]));
 		}
 	}
 
 	@Override
-	public boolean puedeCapturarPosicion(PosicionPieza origen, Square square) {
+	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
 		if(square.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
 		   square.equals(getCasilleroAtaqueDerecha(origen.getKey())) ){
 			return true;

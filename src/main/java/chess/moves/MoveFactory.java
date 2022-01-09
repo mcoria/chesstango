@@ -1,7 +1,7 @@
 package chess.moves;
 
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 
 
@@ -11,7 +11,7 @@ import chess.Square;
  */
 public class MoveFactory {		
 	
-	public Move createSimpleKingMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
+	public Move createSimpleKingMoveBlanco(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e1.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
 				state.setCastlingWhiteQueenPermitido(false);
@@ -22,7 +22,7 @@ public class MoveFactory {
 	}
 
 
-	public Move createCaptureKingMoveBlanco(PosicionPieza origen, PosicionPieza destino) {
+	public Move createCaptureKingMoveBlanco(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e1.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
 				state.setCastlingWhiteQueenPermitido(false);
@@ -33,7 +33,7 @@ public class MoveFactory {
 	}
 	
 
-	public Move createSimpleKingMoveNegro(PosicionPieza origen, PosicionPieza destino) {
+	public Move createSimpleKingMoveNegro(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e8.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
 				state.setCastlingBlackQueenPermitido(false);
@@ -43,7 +43,7 @@ public class MoveFactory {
 		return new SimpleKingMove(origen, destino);
 	}
 
-	public Move createCaptureKingMoveNegro(PosicionPieza origen, PosicionPieza destino) {
+	public Move createCaptureKingMoveNegro(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e8.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
 				state.setCastlingBlackQueenPermitido(false);
@@ -54,7 +54,7 @@ public class MoveFactory {
 	}
 	
 	
-	public Move createSimpleTorreMove(PosicionPieza origen, PosicionPieza destino) {
+	public Move createSimpleTorreMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createSimpleMove(origen, destino),
 					state -> state.setCastlingWhiteQueenPermitido(false));
@@ -79,7 +79,7 @@ public class MoveFactory {
 	}
 	
 	
-	public Move createCaptureTorreMove(PosicionPieza origen, PosicionPieza destino) {
+	public Move createCaptureTorreMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
 			return new MoveDecoratorState(createCaptureMove(origen, destino),
 					state -> state.setCastlingWhiteQueenPermitido(false));
@@ -102,29 +102,29 @@ public class MoveFactory {
 		return createCaptureMove(origen, destino);
 	}
 
-	public Move createSimpleMove(PosicionPieza origen, PosicionPieza destino){
+	public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino){
 		return new SimpleMove(origen, destino);
 	}
 	
-	public Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+	public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		return new CaptureMove(origen, destino);
 	}
 	
-	public Move createSaltoDoblePawnMove(PosicionPieza origen, PosicionPieza destino, Square saltoSimpleCasillero) {
+	public Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
 		return new SaltoDoblePawnMove(origen, destino, saltoSimpleCasillero);
 	}
 
-	public Move createCapturePawnPasante(PosicionPieza origen, PosicionPieza destino,
-			PosicionPieza capturaPawnPasante) {
+	public Move createCapturePawnPasante(PiecePositioned origen, PiecePositioned destino,
+			PiecePositioned capturaPawnPasante) {
 		return new CapturePawnPasante(origen, destino, capturaPawnPasante);
 	}
 
-	public Move createSimplePawnPromocion(PosicionPieza origen, PosicionPieza destino, Pieza pieza) {
-		return new SimplePawnPromocion(origen, destino, pieza);
+	public Move createSimplePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+		return new SimplePawnPromocion(origen, destino, piece);
 	}
 
-	public Move createCapturePawnPromocion(PosicionPieza origen, PosicionPieza destino, Pieza pieza) {
-		return new CapturaPawnPromocion(origen, destino, pieza);
+	public Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+		return new CapturaPawnPromocion(origen, destino, piece);
 	}
 	
 }

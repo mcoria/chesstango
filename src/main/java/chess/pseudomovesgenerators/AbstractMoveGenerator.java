@@ -1,7 +1,7 @@
 package chess.pseudomovesgenerators;
 
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.moves.MoveFactory;
@@ -23,7 +23,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected MoveGeneratorResult result;
 	
-	public abstract void generateMovesPseudoMoves(PosicionPieza origen);
+	public abstract void generateMovesPseudoMoves(PiecePositioned origen);
 	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;
@@ -31,7 +31,7 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	//TODO: revisar como estamos haciendo el settup de MoveGeneratorResult(), quizas conviene un metodo abstracto
 	@Override
-	public MoveGeneratorResult calculatePseudoMoves(PosicionPieza origen){
+	public MoveGeneratorResult calculatePseudoMoves(PiecePositioned origen){
 		this.result = new MoveGeneratorResult();
 		generateMovesPseudoMoves(origen);
 		return this.result;

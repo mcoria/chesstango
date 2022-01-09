@@ -1,7 +1,7 @@
 package chess.pseudomovesgenerators;
 
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.moves.Move;
 
 
@@ -34,13 +34,13 @@ public class CaballoMoveGenerator extends AbstractJumpMoveGenerator {
 	}
 	
 	@Override
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createSimpleMove(origen, destino);
 	}
 
 
 	@Override
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createCaptureMove(origen, destino);
 	}	
 	

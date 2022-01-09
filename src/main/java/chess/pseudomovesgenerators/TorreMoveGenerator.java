@@ -1,7 +1,7 @@
 package chess.pseudomovesgenerators;
 
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.iterators.Cardinal;
 import chess.moves.Move;
 
@@ -16,13 +16,13 @@ public class TorreMoveGenerator extends AbstractCardinalMoveGenerator {
 	}
 
 	@Override
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
 		return moveFactory.createSimpleTorreMove(origen, destino);
 	}
 	
 	
 	@Override
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		return moveFactory.createCaptureTorreMove(origen, destino); 
 	}	
 	

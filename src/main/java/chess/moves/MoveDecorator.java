@@ -2,7 +2,7 @@ package chess.moves;
 
 import chess.Board;
 import chess.BoardState;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -21,12 +21,12 @@ abstract class MoveDecorator implements Move {
 	}	
 
 	@Override
-	public PosicionPieza getFrom() {
+	public PiecePositioned getFrom() {
 		return move.getFrom();
 	}
 
 	@Override
-	public PosicionPieza getTo() {
+	public PiecePositioned getTo() {
 		return move.getTo();
 	}
 	

@@ -13,8 +13,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.Board;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.BoardStateDebug;
 import chess.debug.chess.ColorBoardDebug;
@@ -52,12 +52,12 @@ public class SaltoDoblePawnMoveTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);		
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.PAWN_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
+		PiecePositioned origen = new PiecePositioned(Square.e2, Piece.PAWN_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e4, null);
 		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);		
 	}
 	
@@ -68,14 +68,14 @@ public class SaltoDoblePawnMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e4));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e4));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e2));
 		assertTrue(piezaBoard.isEmtpy(Square.e4));		
 	}
 		
@@ -126,10 +126,10 @@ public class SaltoDoblePawnMoveTest {
 	@Test
 	public void testBoard() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e2, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e2, Pieza.ROOK_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e4, null);
+		PiecePositioned origen = new PiecePositioned(Square.e2, Piece.ROOK_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e4, null);
 		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);
 
 		// execute

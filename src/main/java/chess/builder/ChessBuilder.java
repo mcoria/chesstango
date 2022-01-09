@@ -1,7 +1,7 @@
 package chess.builder;
 
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 
 /**
@@ -22,6 +22,6 @@ public interface ChessBuilder {
 
 	void withCastlingBlackKingPermitido(boolean enroqueNegroKingPermitido);
 	
-	void withPieza(Square square, Pieza pieza);	
+	void withPieza(Square square, Piece piece);	
 
 }

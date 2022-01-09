@@ -3,7 +3,7 @@ package chess.pseudomovesgenerators;
 import java.util.Iterator;
 
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.SaltoSquareIterator;
 import chess.moves.Move;
@@ -14,9 +14,9 @@ import chess.moves.Move;
  */
 public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	
-	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
+	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	
-	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);		
+	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);		
 	
 	private final int[][] saltos;
 	
@@ -28,7 +28,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	//El calculo de movimientos lo puede hacer en funcion de ColorBoard
 	
 	@Override
-	public void generateMovesPseudoMoves(PosicionPieza origen) {
+	public void generateMovesPseudoMoves(PiecePositioned origen) {
 		Square casillero = origen.getKey();
 		Iterator<Square> iterator = new SaltoSquareIterator(casillero, saltos);
 		while (iterator.hasNext()) {
@@ -48,7 +48,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	}
 
 	@Override
-	public boolean puedeCapturarPosicion(PosicionPieza origen, Square square) {
+	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
 		Square squareOrigen = origen.getKey();
 		int fileOrigen = squareOrigen.getFile();
 		int rankOrigen = squareOrigen.getRank();

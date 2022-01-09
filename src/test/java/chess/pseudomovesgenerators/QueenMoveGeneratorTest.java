@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
@@ -49,9 +49,9 @@ public class QueenMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.e5;
-		assertEquals(Pieza.QUEEN_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.QUEEN_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.QUEEN_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.QUEEN_WHITE);
 
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -103,8 +103,8 @@ public class QueenMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.h5) ));			
 	}
 	
-	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
+	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

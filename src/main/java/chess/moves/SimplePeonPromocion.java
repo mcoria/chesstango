@@ -1,7 +1,7 @@
 package chess.moves;
 
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.layers.PosicionPiezaBoard;
 
 
@@ -11,9 +11,9 @@ import chess.layers.PosicionPiezaBoard;
  */
 class SimplePawnPromocion extends SimpleMove {
 
-	protected final Pieza promocion;
+	protected final Piece promocion;
 	
-	public SimplePawnPromocion(PosicionPieza from, PosicionPieza to, Pieza promocion) {
+	public SimplePawnPromocion(PiecePositioned from, PiecePositioned to, Piece promocion) {
 		super(from, to);
 		this.promocion = promocion;
 	}

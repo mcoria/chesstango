@@ -1,8 +1,8 @@
 package chess.layers;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 
 /**
@@ -47,10 +47,10 @@ public class KingCacheBoard {
 	
 	private Square getKingSquareRecorrer(Color color, PosicionPiezaBoard board) {
 		Square kingSquare = null;
-		Pieza king = Pieza.getKing(color);
-		for (PosicionPieza entry : board) {
+		Piece king = Piece.getKing(color);
+		for (PiecePositioned entry : board) {
 			Square currentSquare = entry.getKey();
-			Pieza currentPieza = entry.getValue();
+			Piece currentPieza = entry.getValue();
 			if(king.equals(currentPieza)){
 				kingSquare = currentSquare;
 				break;

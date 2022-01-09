@@ -1,7 +1,7 @@
 package chess.moves;
 
 import chess.Board;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.pseudomovesfilters.MoveFilter;
@@ -13,7 +13,7 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 class SimpleMove extends AbstractMove {
 	
-	public SimpleMove(PosicionPieza from, PosicionPieza to) {
+	public SimpleMove(PiecePositioned from, PiecePositioned to) {
 		super(from, to);
 	}
 	

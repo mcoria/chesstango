@@ -6,35 +6,35 @@ package chess;
  */
 public class CachePosiciones {
 	
-	public static final PosicionPieza TORRE_BLACK_REYNA = new PosicionPieza(Square.a8, Pieza.ROOK_BLACK);
-	public static final PosicionPieza REY_BLACK = new PosicionPieza(Square.e8, Pieza.KING_BLACK);
-	public static final PosicionPieza TORRE_BLACK_REY = new PosicionPieza(Square.h8, Pieza.ROOK_BLACK);
+	public static final PiecePositioned TORRE_BLACK_REYNA = new PiecePositioned(Square.a8, Piece.ROOK_BLACK);
+	public static final PiecePositioned REY_BLACK = new PiecePositioned(Square.e8, Piece.KING_BLACK);
+	public static final PiecePositioned TORRE_BLACK_REY = new PiecePositioned(Square.h8, Piece.ROOK_BLACK);
 	
-	public static final PosicionPieza TORRE_BLANCA_REYNA = new PosicionPieza(Square.a1, Pieza.ROOK_WHITE);
-	public static final PosicionPieza REY_WHITE = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-	public static final PosicionPieza TORRE_BLANCA_REY = new PosicionPieza(Square.h1, Pieza.ROOK_WHITE);	
+	public static final PiecePositioned TORRE_BLANCA_REYNA = new PiecePositioned(Square.a1, Piece.ROOK_WHITE);
+	public static final PiecePositioned REY_WHITE = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+	public static final PiecePositioned TORRE_BLANCA_REY = new PiecePositioned(Square.h1, Piece.ROOK_WHITE);	
 	
 
-	private final PosicionPieza[][] tablero = new PosicionPieza[64][13];
+	private final PiecePositioned[][] tablero = new PiecePositioned[64][13];
 	
 	
 	public CachePosiciones () {
 		for (int file = 0; file < 8; file++) {
 			for (int rank = 0; rank < 8; rank++) {
-				for(Pieza pieza: Pieza.values()){
-					tablero[Square.getSquare(file, rank).toIdx()][pieza.ordinal()] = new PosicionPieza(Square.getSquare(file, rank), pieza);
+				for(Piece piece: Piece.values()){
+					tablero[Square.getSquare(file, rank).toIdx()][piece.ordinal()] = new PiecePositioned(Square.getSquare(file, rank), piece);
 				}
-				tablero[Square.getSquare(file, rank).toIdx()][12] = new PosicionPieza(Square.getSquare(file, rank), null);
+				tablero[Square.getSquare(file, rank).toIdx()][12] = new PiecePositioned(Square.getSquare(file, rank), null);
 			}
 		}		
 	}
 	
-	public PosicionPieza getPosicion(Square square, Pieza pieza) {
-		PosicionPieza returnValue = null;
-		if (pieza == null) {
+	public PiecePositioned getPosicion(Square square, Piece piece) {
+		PiecePositioned returnValue = null;
+		if (piece == null) {
 			returnValue = tablero[square.toIdx()][12];
 		} else {
-			returnValue = tablero[square.toIdx()][pieza.ordinal()];
+			returnValue = tablero[square.toIdx()][piece.ordinal()];
 		}
 		return returnValue;
 	}

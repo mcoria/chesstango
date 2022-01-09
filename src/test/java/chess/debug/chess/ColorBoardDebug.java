@@ -1,7 +1,7 @@
 package chess.debug.chess;
 
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.BitSquareIterator;
 import chess.iterators.SquareIterator;
@@ -26,13 +26,13 @@ public class ColorBoardDebug extends ColorBoard {
 	}	
 	
 	@Override
-	public void addPositions(PosicionPieza position) {
+	public void addPositions(PiecePositioned position) {
 		super.addPositions(position);
 		validar();
 	}
 	
 	@Override
-	public void removePositions(PosicionPieza position) {
+	public void removePositions(PiecePositioned position) {
 		super.removePositions(position);
 		validar();
 	}	
@@ -52,17 +52,17 @@ public class ColorBoardDebug extends ColorBoard {
 	public void validar(PosicionPiezaBoard board) {
 		validar();
 		
-		for (PosicionPieza posicionPieza : board) {
-			if(posicionPieza.getValue() == null){				
-				if(! this.isEmpty(posicionPieza.getKey()) ){
-					throw new RuntimeException("ColorBoard contiene una pieza " + this.getColor(posicionPieza.getKey()) + " en " + posicionPieza.getKey() + " pero en PosicionPieza esta vacia");
+		for (PiecePositioned piecePositioned : board) {
+			if(piecePositioned.getValue() == null){				
+				if(! this.isEmpty(piecePositioned.getKey()) ){
+					throw new RuntimeException("ColorBoard contiene una pieza " + this.getColor(piecePositioned.getKey()) + " en " + piecePositioned.getKey() + " pero en PosicionPieza esta vacia");
 				}
 			} else {
-				Color colorBoard = posicionPieza.getValue().getColor();
-				Color color = getColor(posicionPieza.getKey());
+				Color colorBoard = piecePositioned.getValue().getColor();
+				Color color = getColor(piecePositioned.getKey());
 				
 				if(! colorBoard.equals(color) ){
-					throw new RuntimeException("PosicionPieza contiene una pieza de color distinto a ColorBoard en " + posicionPieza.getKey());
+					throw new RuntimeException("PosicionPieza contiene una pieza de color distinto a ColorBoard en " + piecePositioned.getKey());
 				}				
 				
 			}

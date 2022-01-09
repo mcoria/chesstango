@@ -1,7 +1,7 @@
 package chess.parsers;
 
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.builder.ChessBuilder;
 
@@ -51,24 +51,24 @@ public class FENParser {
 	}
 	
 	public void parsePiecePlacement(String piecePlacement){
-		Pieza[][] piezas = parsePieces(piecePlacement);
+		Piece[][] piezas = parsePieces(piecePlacement);
 		for (int rank = 0; rank < 8; rank++) {
 			for (int file = 0; file < 8; file++) {
 				Square square = Square.getSquare(file, rank);
-				Pieza pieza = piezas[rank][file];
-				if(pieza != null){
-					chessBuilder.withPieza(square, pieza);
+				Piece piece = piezas[rank][file];
+				if(piece != null){
+					chessBuilder.withPieza(square, piece);
 				}
 			}
 		}
 	}
 	
-	protected Pieza[][] parsePieces(String piecePlacement){
-		Pieza[][] tablero = new Pieza[8][8];
+	protected Piece[][] parsePieces(String piecePlacement){
+		Piece[][] tablero = new Piece[8][8];
 		String ranks[] = piecePlacement.split("/");
 		int currentRank = 7;
 		for (int i = 0; i < 8; i++) {
-			Pieza[] rankPiezas = parseRank(ranks[i]);
+			Piece[] rankPiezas = parseRank(ranks[i]);
 			for (int j = 0; j < 8; j++) {
 				tablero[currentRank][j] = rankPiezas[j];
 			}
@@ -77,12 +77,12 @@ public class FENParser {
 		return tablero;
 	}	
 	
-	protected Pieza[] parseRank(String rank) {
-		Pieza piezas[] = new Pieza[8];
+	protected Piece[] parseRank(String rank) {
+		Piece piezas[] = new Piece[8];
 		int position = 0;
 		for (int i = 0; i < rank.length(); i++) {
 			char theCharCode = rank.charAt(i);
-			Pieza currentPieza =  getCode(theCharCode);
+			Piece currentPieza =  getCode(theCharCode);
 			if(currentPieza != null){
 				piezas[position] = currentPieza;
 				position++;
@@ -97,44 +97,44 @@ public class FENParser {
 		return piezas;
 	}
 
-	private Pieza getCode(char t) {
-		Pieza pieza = null;
+	private Piece getCode(char t) {
+		Piece piece = null;
 		switch (t) {
 			case 'r':
-				pieza = Pieza.ROOK_BLACK;
+				piece = Piece.ROOK_BLACK;
 				break;
 			case 'n':
-				pieza = Pieza.KNIGHT_BLACK;
+				piece = Piece.KNIGHT_BLACK;
 				break;
 			case 'q':
-				pieza = Pieza.QUEEN_BLACK;
+				piece = Piece.QUEEN_BLACK;
 				break;
 			case 'k':
-				pieza = Pieza.KING_BLACK;
+				piece = Piece.KING_BLACK;
 				break;
 			case 'p':
-				pieza = Pieza.PAWN_BLACK;
+				piece = Piece.PAWN_BLACK;
 				break;
 			case 'b':
-				pieza = Pieza.BISHOP_BLACK;
+				piece = Piece.BISHOP_BLACK;
 				break;
 			case 'R':
-				pieza = Pieza.ROOK_WHITE;
+				piece = Piece.ROOK_WHITE;
 				break;
 			case 'N':
-				pieza = Pieza.KNIGHT_WHITE;
+				piece = Piece.KNIGHT_WHITE;
 				break;
 			case 'Q':
-				pieza = Pieza.QUEEN_WHITE;
+				piece = Piece.QUEEN_WHITE;
 				break;
 			case 'K':
-				pieza = Pieza.KING_WHITE;
+				piece = Piece.KING_WHITE;
 				break;
 			case 'P':
-				pieza = Pieza.PAWN_WHITE;
+				piece = Piece.PAWN_WHITE;
 				break;
 			case 'B':
-				pieza = Pieza.BISHOP_WHITE;
+				piece = Piece.BISHOP_WHITE;
 				break;
 			case '1':
 			case '2':
@@ -149,7 +149,7 @@ public class FENParser {
 				throw new RuntimeException("Unknown FEN code " + t);
 		}
 
-		return pieza;
+		return piece;
 	}	
 	
 	protected Square parsePawnPasanteSquare(String peonPasante) {

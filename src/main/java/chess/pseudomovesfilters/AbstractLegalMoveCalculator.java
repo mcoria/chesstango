@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.BoardState;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -51,7 +51,7 @@ public abstract class AbstractLegalMoveCalculator implements LegalMoveCalculator
 	
 		if (generatorResult == null) {
 	
-			PosicionPieza origen = dummyBoard.getPosicion(origenSquare);
+			PiecePositioned origen = dummyBoard.getPosicion(origenSquare);
 	
 			MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
 											//origen.getValue().getMoveGenerator(strategy); Mala performance

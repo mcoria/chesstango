@@ -14,8 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.layers.KingCacheBoard;
@@ -53,14 +53,14 @@ public class CapturePawnPasanteTest {
 		boardState.setPawnPasanteSquare(Square.a6);		
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.b5, Pieza.PAWN_WHITE);
-		piezaBoard.setPieza(Square.a5, Pieza.PAWN_BLACK);
+		piezaBoard.setPieza(Square.b5, Piece.PAWN_WHITE);
+		piezaBoard.setPieza(Square.a5, Piece.PAWN_BLACK);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza peonBlanco = new PosicionPieza(Square.b5, Pieza.PAWN_WHITE);
-		PosicionPieza peonNegro = new PosicionPieza(Square.a5, Pieza.PAWN_BLACK);
-		PosicionPieza peonPasanteSquare = new PosicionPieza(Square.a6, null);
+		PiecePositioned peonBlanco = new PiecePositioned(Square.b5, Piece.PAWN_WHITE);
+		PiecePositioned peonNegro = new PiecePositioned(Square.a5, Piece.PAWN_BLACK);
+		PiecePositioned peonPasanteSquare = new PiecePositioned(Square.a6, null);
 		
 		moveExecutor = new CapturePawnPasante(peonBlanco, peonPasanteSquare, peonNegro);		
 	}
@@ -73,15 +73,15 @@ public class CapturePawnPasanteTest {
 		// asserts execute
 		assertTrue(piezaBoard.isEmtpy(Square.a5));
 		assertTrue(piezaBoard.isEmtpy(Square.b5));
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
 		
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
 		assertTrue(piezaBoard.isEmtpy(Square.a6));
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.b5));
-		assertEquals(Pieza.PAWN_BLACK, piezaBoard.getPieza(Square.a5));		
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.b5));
+		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPieza(Square.a5));		
 		
 	}
 	
@@ -169,7 +169,7 @@ public class CapturePawnPasanteTest {
 		// asserts execute
 		assertTrue(piezaBoard.isEmtpy(Square.a5));
 		assertTrue(piezaBoard.isEmtpy(Square.b5));
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
 		
 		assertNull(boardState.getPawnPasanteSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());	
@@ -187,8 +187,8 @@ public class CapturePawnPasanteTest {
 		
 		// asserts undos
 		assertTrue(piezaBoard.isEmtpy(Square.a6));
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.b5));
-		assertEquals(Pieza.PAWN_BLACK, piezaBoard.getPieza(Square.a5));	
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.b5));
+		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPieza(Square.a5));	
 		
 		assertEquals(Square.a6, boardState.getPawnPasanteSquare());
 		assertEquals(Color.WHITE, boardState.getTurnoActual());	

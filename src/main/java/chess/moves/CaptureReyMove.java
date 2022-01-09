@@ -1,7 +1,7 @@
 package chess.moves;
 
 import chess.Board;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.KingCacheBoard;
 import chess.pseudomovesfilters.MoveFilter;
 
@@ -11,7 +11,7 @@ import chess.pseudomovesfilters.MoveFilter;
  */
 class CaptureKingMove extends CaptureMove {
 
-	public CaptureKingMove(PosicionPieza from, PosicionPieza to) {
+	public CaptureKingMove(PiecePositioned from, PiecePositioned to) {
 		super(from, to);
 	}
 	

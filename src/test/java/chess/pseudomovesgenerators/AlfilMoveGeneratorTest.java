@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
@@ -49,9 +49,9 @@ public class AlfilMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.e5;
-		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
 
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
@@ -117,10 +117,10 @@ public class AlfilMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 
 		Square from = Square.c1;
-		assertEquals(Pieza.BISHOP_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.g5));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.g5));
 		
-		PosicionPieza origen = new PosicionPieza(from, Pieza.BISHOP_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
 
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -130,7 +130,7 @@ public class AlfilMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d2) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e3) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f4) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Pieza.PAWN_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.g5, Piece.PAWN_BLACK) ));
 		
 		assertEquals(4, moves.size());
 
@@ -148,12 +148,12 @@ public class AlfilMoveGeneratorTest {
 	}	
 
 	
-	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
+	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
+		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private Collection<Square> toSquareCollection(long affectedBy) {

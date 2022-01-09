@@ -2,7 +2,7 @@ package chess.debug.chess;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.layers.PosicionPiezaBoard;
 
@@ -36,7 +36,7 @@ public class BoardStateDebug extends BoardState{
 			if (board.getPieza(Square.a1) == null) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
-			} else if (!Pieza.ROOK_WHITE.equals(board.getPieza(Square.a1))) {
+			} else if (!Piece.ROOK_WHITE.equals(board.getPieza(Square.a1))) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
 			}
@@ -46,7 +46,7 @@ public class BoardStateDebug extends BoardState{
 			if (board.getPieza(Square.h1) == null) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
-			} else if (!Pieza.ROOK_WHITE.equals(board.getPieza(Square.h1))) {
+			} else if (!Piece.ROOK_WHITE.equals(board.getPieza(Square.h1))) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
 			}
@@ -56,7 +56,7 @@ public class BoardStateDebug extends BoardState{
 			if (board.getPieza(Square.a8) == null) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
-			} else if (!Pieza.ROOK_BLACK.equals(board.getPieza(Square.a8))) {
+			} else if (!Piece.ROOK_BLACK.equals(board.getPieza(Square.a8))) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
 			}
@@ -66,7 +66,7 @@ public class BoardStateDebug extends BoardState{
 			if (board.getPieza(Square.h8) == null) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
-			} else if (!Pieza.ROOK_BLACK.equals(board.getPieza(Square.h8))) {
+			} else if (!Piece.ROOK_BLACK.equals(board.getPieza(Square.h8))) {
 				throw new RuntimeException(
 						"isCastlingWhiteQueenPermitido mal setteado: " + this.getPawnPasanteSquare());
 			}

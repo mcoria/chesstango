@@ -9,7 +9,7 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  * @author Mauricio Coria
  *
  */
-public enum Pieza {
+public enum Piece {
 	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPawnBlancoMoveGenerator()),
 	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPawnNegroMoveGenerator()),
 	
@@ -31,7 +31,7 @@ public enum Pieza {
 	private final Color color;
 	private final Function<MoveGeneratorStrategy, MoveGenerator> selector;
 	
-	private Pieza(Color color, Function<MoveGeneratorStrategy, MoveGenerator> selector) {
+	private Piece(Color color, Function<MoveGeneratorStrategy, MoveGenerator> selector) {
 		this.color = color;
 		this.selector = selector;
 	}
@@ -44,7 +44,7 @@ public enum Pieza {
 		return selector.apply(strategy);
 	}	
 	
-	public static Pieza getKing(Color color){
+	public static Piece getKing(Color color){
 		switch (color) {
 		case  WHITE:
 			return KING_WHITE;
@@ -55,7 +55,7 @@ public enum Pieza {
 		}
 	}
 	
-	public static Pieza getQueen(Color color){
+	public static Piece getQueen(Color color){
 		switch (color) {
 		case  WHITE:
 			return QUEEN_WHITE;
@@ -66,7 +66,7 @@ public enum Pieza {
 		}
 	}
 	
-	public static Pieza getAlfil(Color color){
+	public static Piece getAlfil(Color color){
 		switch (color) {
 		case  WHITE:
 			return BISHOP_WHITE;
@@ -77,7 +77,7 @@ public enum Pieza {
 		}
 	}
 	
-	public static Pieza getTorre(Color color){
+	public static Piece getTorre(Color color){
 		switch (color) {
 		case  WHITE:
 			return ROOK_WHITE;
@@ -88,7 +88,7 @@ public enum Pieza {
 		}
 	}
 
-	public static Pieza getCaballo(Color color) {
+	public static Piece getCaballo(Color color) {
 		switch (color) {
 		case  WHITE:
 			return KNIGHT_WHITE;
@@ -99,7 +99,7 @@ public enum Pieza {
 		}
 	}
 
-	public static Pieza getPawn(Color color) {
+	public static Piece getPawn(Color color) {
 		switch (color) {
 		case  WHITE:
 			return PAWN_WHITE;

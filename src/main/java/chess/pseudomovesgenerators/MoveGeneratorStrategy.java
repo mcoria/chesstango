@@ -2,7 +2,7 @@ package chess.pseudomovesgenerators;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.layers.ColorBoard;
 import chess.layers.PosicionPiezaBoard;
 import chess.moves.MoveFactory;
@@ -138,9 +138,9 @@ public class MoveGeneratorStrategy {
 		return ppmg;
 	}
 	
-	public MoveGenerator getMoveGenerator(Pieza pieza){
+	public MoveGenerator getMoveGenerator(Piece piece){
 		MoveGenerator value  = null;
-		switch (pieza) {
+		switch (piece) {
 		case PAWN_WHITE:
 			value = this.pbmg;
 			break;

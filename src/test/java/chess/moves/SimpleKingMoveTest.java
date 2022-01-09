@@ -14,8 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
@@ -51,13 +51,13 @@ public class SimpleKingMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);
+		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		kingCacheBoard = new KingCacheBoardDebug(piezaBoard);
 
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, null);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, null);
 
 		moveExecutor = new SimpleKingMove(origen, destino);
 		
@@ -74,14 +74,14 @@ public class SimpleKingMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 
 		// asserts execute
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e2));
 		assertNull(piezaBoard.getPieza(Square.e1));
 
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 	}	
 	
@@ -160,7 +160,7 @@ public class SimpleKingMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e2));
 		assertNull(piezaBoard.getPieza(Square.e1));
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
@@ -181,7 +181,7 @@ public class SimpleKingMoveTest {
 
 		
 		// asserts undos
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());

@@ -14,8 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.layers.KingCacheBoard;
@@ -52,13 +52,13 @@ public class CaptureMoveTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e5, Pieza.ROOK_WHITE);
-		piezaBoard.setPieza(Square.e7, Pieza.PAWN_BLACK);
+		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
+		piezaBoard.setPieza(Square.e7, Piece.PAWN_BLACK);
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.ROOK_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e7, Pieza.PAWN_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e5, Piece.ROOK_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e7, Piece.PAWN_BLACK);
 
 		moveExecutor = new CaptureMove(origen, destino);
 	}
@@ -70,15 +70,15 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute	
-		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPieza(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e5));	
 		
 		// undos	
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.e5));
-		assertEquals(Pieza.PAWN_BLACK, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPieza(Square.e5));
+		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPieza(Square.e7));
 	}
 	
 	@Test

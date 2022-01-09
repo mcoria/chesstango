@@ -3,7 +3,7 @@ package chess.moves;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
 import chess.layers.MoveCacheBoard;
@@ -25,12 +25,12 @@ abstract class CastlingMove implements Move  {
 	}
 
 	@Override
-	public PosicionPieza getFrom() {
+	public PiecePositioned getFrom() {
 		return kingMove.getFrom();
 	}
 
 	@Override
-	public PosicionPieza getTo() {
+	public PiecePositioned getTo() {
 		return kingMove.getTo();
 	}
 

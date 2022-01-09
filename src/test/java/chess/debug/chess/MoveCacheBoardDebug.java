@@ -1,6 +1,6 @@
 package chess.debug.chess;
 
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
@@ -24,8 +24,8 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 	public void validar(PosicionPiezaBoard dummyBoard) {
 		validar();
 		
-		for (PosicionPieza posicionPieza : dummyBoard) {
-			if(posicionPieza.getValue() == null && pseudoMoves[posicionPieza.getKey().toIdx()] != null){
+		for (PiecePositioned piecePositioned : dummyBoard) {
+			if(piecePositioned.getValue() == null && pseudoMoves[piecePositioned.getKey().toIdx()] != null){
 				throw new RuntimeException("En un casillero vacio de tablero existe movimeintos de cache!!!");
 			}
 		}

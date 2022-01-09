@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.AbstractMove;
 import chess.moves.Move;
@@ -27,16 +27,16 @@ public class AbstractMoveTest {
 	
 	@Test
 	public void testEquals01() {
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.ROOK_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+		PiecePositioned origen = new PiecePositioned(Square.e5, Piece.ROOK_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e7, null);
 		
 		assertEquals(new SimpleMove(origen, destino), new SimpleMove(origen, destino));
 	}
 	
 	@Test
 	public void testToString01() {
-		PosicionPieza origen = new PosicionPieza(Square.e5, Pieza.ROOK_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e7, null);
+		PiecePositioned origen = new PiecePositioned(Square.e5, Piece.ROOK_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e7, null);
 		Move move = new SimpleMove(origen, destino);
 		assertEquals("e5=ROOK_WHITE e7=null - SimpleMove", move.toString());
 	}	
@@ -44,12 +44,12 @@ public class AbstractMoveTest {
 	
 	@Test
 	public void testCompare01() {
-		PosicionPieza a2 = new PosicionPieza(Square.a2, null);
-		PosicionPieza a3 = new PosicionPieza(Square.a3, null);
-		PosicionPieza a4 = new PosicionPieza(Square.a4, null);
-		PosicionPieza b1 = new PosicionPieza(Square.b1, null);
-		PosicionPieza b2 = new PosicionPieza(Square.b2, null);
-		PosicionPieza b3 = new PosicionPieza(Square.b3, null);
+		PiecePositioned a2 = new PiecePositioned(Square.a2, null);
+		PiecePositioned a3 = new PiecePositioned(Square.a3, null);
+		PiecePositioned a4 = new PiecePositioned(Square.a4, null);
+		PiecePositioned b1 = new PiecePositioned(Square.b1, null);
+		PiecePositioned b2 = new PiecePositioned(Square.b2, null);
+		PiecePositioned b3 = new PiecePositioned(Square.b3, null);
 		
 		
 		AbstractMove move1 = new SimpleMove(a2, a3);

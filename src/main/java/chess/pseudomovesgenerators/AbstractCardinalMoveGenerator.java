@@ -3,7 +3,7 @@ package chess.pseudomovesgenerators;
 import java.util.Iterator;
 
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
@@ -16,9 +16,9 @@ import chess.moves.Move;
  */
 public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerator {
 	
-	protected abstract Move createSimpleMove(PosicionPieza origen, PosicionPieza destino);
+	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	
-	protected abstract Move createCaptureMove(PosicionPieza origen, PosicionPieza destino);		
+	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);		
 	
 	private final Cardinal[] direcciones;
 
@@ -29,7 +29,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 
 	//TODO: podra utilizarse streams para paralelizar?
 	@Override
-	public void generateMovesPseudoMoves(PosicionPieza origen) {
+	public void generateMovesPseudoMoves(PiecePositioned origen) {
 		for (Cardinal cardinal : this.direcciones) {
 			getPseudoMoves(origen, cardinal);
 		}
@@ -37,7 +37,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	
 	
 	//El calculo de movimientos lo puede hacer en funcion de ColorBoard	
-	protected void getPseudoMoves(PosicionPieza origen, Cardinal cardinal) {
+	protected void getPseudoMoves(PiecePositioned origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		Iterator<Square> iterator = new CardinalSquareIterator(casillero, cardinal);
 		while (iterator.hasNext()) {
@@ -58,7 +58,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	}
 
 	@Override
-	public boolean puedeCapturarPosicion(PosicionPieza origen, Square square) {
+	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
 		for (Cardinal cardinal : this.direcciones) {
 			if(cardinal.isInDirection(origen.getKey(), square)){
 				return puedeCapturarPosicion(origen, square, cardinal);
@@ -67,7 +67,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 		return false;
 	}
 
-	protected boolean puedeCapturarPosicion(PosicionPieza origen, Square square,
+	protected boolean puedeCapturarPosicion(PiecePositioned origen, Square square,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		CardinalSquareIterator iterator = new CardinalSquareIterator(casillero, cardinal);

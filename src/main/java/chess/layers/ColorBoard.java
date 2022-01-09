@@ -4,8 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.BitSquareIterator;
 import chess.iterators.SquareIterator;
@@ -38,7 +38,7 @@ public class ColorBoard {
 		}
 	}
 	
-	public void addPositions(PosicionPieza position) {
+	public void addPositions(PiecePositioned position) {
 		if (Color.WHITE.equals(position.getValue().getColor())) {
 			squareBlancos |= position.getKey().getPosicion();
 		} else {
@@ -46,7 +46,7 @@ public class ColorBoard {
 		}
 	}
 	
-	public void removePositions(PosicionPieza position){
+	public void removePositions(PiecePositioned position){
 		if(Color.WHITE.equals(position.getValue().getColor())){
 			squareBlancos &= ~position.getKey().getPosicion();
 		} else {
@@ -93,13 +93,13 @@ public class ColorBoard {
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
 	protected void settupSquares(PosicionPiezaBoard board) {
-		for (PosicionPieza posicionPieza : board) {
-			Pieza pieza = posicionPieza.getValue();
-			if (pieza != null) {
-				if (Color.WHITE.equals(pieza.getColor())) {
-					squareBlancos |= posicionPieza.getKey().getPosicion();
-				} else if (Color.BLACK.equals(pieza.getColor())) {
-					squareNegros |= posicionPieza.getKey().getPosicion();
+		for (PiecePositioned piecePositioned : board) {
+			Piece piece = piecePositioned.getValue();
+			if (piece != null) {
+				if (Color.WHITE.equals(piece.getColor())) {
+					squareBlancos |= piecePositioned.getKey().getPosicion();
+				} else if (Color.BLACK.equals(piece.getColor())) {
+					squareNegros |= piecePositioned.getKey().getPosicion();
 				}
 			}			
 		}

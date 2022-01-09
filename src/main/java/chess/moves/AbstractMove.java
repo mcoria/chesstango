@@ -1,7 +1,7 @@
 package chess.moves;
 
 import chess.BoardState;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.layers.MoveCacheBoard;
 import chess.layers.PosicionPiezaBoard;
 
@@ -10,21 +10,21 @@ import chess.layers.PosicionPiezaBoard;
  *
  */
 abstract class AbstractMove implements Move {
-	protected final PosicionPieza from;
-	protected final PosicionPieza to;
+	protected final PiecePositioned from;
+	protected final PiecePositioned to;
 	
-	public AbstractMove(PosicionPieza from, PosicionPieza to) {
+	public AbstractMove(PiecePositioned from, PiecePositioned to) {
 		this.from = from;
 		this.to = to;
 	}	
 
 	@Override
-	public PosicionPieza getFrom() {
+	public PiecePositioned getFrom() {
 		return from;
 	}
 
 	@Override
-	public PosicionPieza getTo() {
+	public PiecePositioned getTo() {
 		return to;
 	}
 	

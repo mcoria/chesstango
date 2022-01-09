@@ -2,7 +2,7 @@ package chess.builder;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.layers.PosicionPiezaBoard;
 
@@ -72,8 +72,8 @@ public class ChessBuilderParts implements ChessBuilder {
 		this.getState().setCastlingBlackKingPermitido(enroqueNegroKingPermitido);;
 	}
 
-	public void withPieza(Square square, Pieza pieza) {
-		this.getPosicionPiezaBoard().setPieza(square, pieza);
+	public void withPieza(Square square, Piece piece) {
+		this.getPosicionPiezaBoard().setPieza(square, piece);
 	}
 	
 

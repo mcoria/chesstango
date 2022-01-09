@@ -14,8 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -60,10 +60,10 @@ public class CaptureKingMoveTest {
 	@Test
 	public void testPosicionPiezaBoard() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);
+		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -71,23 +71,23 @@ public class CaptureKingMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 
 		// asserts execute
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e2));
 		assertNull(piezaBoard.getPieza(Square.e1));
 
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
-		assertEquals(Pieza.KNIGHT_BLACK, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPieza(Square.e2));
 	}	
 	
 	@Test
 	public void testBoardState() {
 		boardState.setTurnoActual(Color.WHITE);
 
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -104,8 +104,8 @@ public class CaptureKingMoveTest {
 	public void testKingCacheBoard() {
 		kingCacheBoard.setKingSquare(Color.WHITE, Square.d2);
 
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -121,12 +121,12 @@ public class CaptureKingMoveTest {
 	@Test
 	public void testColorBoard() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);
+		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoard(piezaBoard);
 
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -147,8 +147,8 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testBoard() {
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -169,8 +169,8 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testFilter() {
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -184,14 +184,14 @@ public class CaptureKingMoveTest {
 	@Test
 	public void testExecuteUndo() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);
+		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoard(piezaBoard);
 		
 		boardState.setTurnoActual(Color.WHITE);
 
-		PosicionPieza origen = new PosicionPieza(Square.e1, Pieza.KING_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e2, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = new CaptureKingMove(origen, destino);
 
@@ -202,7 +202,7 @@ public class CaptureKingMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e2));
 		assertNull(piezaBoard.getPieza(Square.e1));
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
@@ -220,8 +220,8 @@ public class CaptureKingMoveTest {
 
 		
 		// asserts undos
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
-		assertEquals(Pieza.KNIGHT_BLACK, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPieza(Square.e2));
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		

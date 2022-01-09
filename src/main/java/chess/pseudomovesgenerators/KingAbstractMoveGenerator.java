@@ -2,8 +2,8 @@ package chess.pseudomovesgenerators;
 
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.CardinalSquareIterator;
@@ -33,9 +33,9 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	}	
 
 	protected boolean puedeEnroqueQueen(
-			final PosicionPieza origen, 
-			final PosicionPieza king,
-			final PosicionPieza torre,
+			final PiecePositioned origen, 
+			final PiecePositioned king,
+			final PiecePositioned torre,
 			final Square casilleroIntermedioTorre,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
@@ -52,9 +52,9 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	}
 	
 	protected boolean puedeEnroqueKing(
-			final PosicionPieza origen, 
-			final PosicionPieza king,
-			final PosicionPieza torre,
+			final PiecePositioned origen, 
+			final PiecePositioned king,
+			final PiecePositioned torre,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
@@ -72,9 +72,9 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	private final static Cardinal[] cardinalesTorre = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
 	public long getPinnedSquare(Square kingSquare) {
-		Pieza reina = Pieza.getQueen(this.color.opositeColor());
-		Pieza torre = Pieza.getTorre(this.color.opositeColor());
-		Pieza alfil = Pieza.getAlfil(this.color.opositeColor());
+		Piece reina = Piece.getQueen(this.color.opositeColor());
+		Piece torre = Piece.getTorre(this.color.opositeColor());
+		Piece alfil = Piece.getAlfil(this.color.opositeColor());
 		long pinnedCollection = 0;
 		
 		pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesAlfil);
@@ -83,7 +83,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 		return pinnedCollection;
 	}
 	
-	protected long getPinnedCardinales(Square kingSquare, Pieza torreOAlfil, Pieza reina,
+	protected long getPinnedCardinales(Square kingSquare, Piece torreOAlfil, Piece reina,
 			Cardinal[] direcciones) {
 		long pinnedCollection = 0;
 		for (Cardinal cardinal : direcciones) {
@@ -96,7 +96,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	}
 	
 	
-	protected Square getPinned(Square kingSquare, Pieza torreOAlfil, Pieza reina, Cardinal cardinal) {
+	protected Square getPinned(Square kingSquare, Piece torreOAlfil, Piece reina, Cardinal cardinal) {
 		Square pinned = null;
 		CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
 		while (iterator.hasNext()) {
@@ -115,8 +115,8 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 				if (color.equals(colorDestino)) {
 					return null;
 				} else { //// if (color.opositeColor().equals(colorDestino))
-					Pieza pieza = this.tablero.getPieza(destino);
-					if (torreOAlfil.equals(pieza) || reina.equals(pieza)) {
+					Piece piece = this.tablero.getPieza(destino);
+					if (torreOAlfil.equals(piece) || reina.equals(piece)) {
 						return pinned;
 					} else {
 						return null;

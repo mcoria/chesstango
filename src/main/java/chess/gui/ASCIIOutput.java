@@ -3,7 +3,7 @@ package chess.gui;
 import java.io.PrintStream;
 
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.builder.ChessBuilder;
 import chess.iterators.SquareIterator;
@@ -15,7 +15,7 @@ import chess.iterators.TopDownSquareIterator;
  */
 public class ASCIIOutput implements ChessBuilder {
 	
-	private Pieza[][] tablero = new Pieza[8][8];
+	private Piece[][] tablero = new Piece[8][8];
 	
 	public void printDummyBoard(PrintStream printStream) {
 		SquareIterator iterator = new TopDownSquareIterator();
@@ -24,13 +24,13 @@ public class ASCIIOutput implements ChessBuilder {
 		do {
 			Square square = iterator.next();
 			
-			Pieza pieza = tablero[square.getRank()][square.getFile()];
+			Piece piece = tablero[square.getRank()][square.getFile()];
 
 			if (square.getFile() == 0) {
 				printStream.print((square.getRank() + 1));
 			}
 
-			printStream.print("| " + getChar(pieza) + " ");
+			printStream.print("| " + getChar(piece) + " ");
 
 			if (square.getFile() == 7) {
 				printStream.println("|");
@@ -45,8 +45,8 @@ public class ASCIIOutput implements ChessBuilder {
 	
 	
 	@Override
-	public void withPieza(Square square, Pieza pieza) {
-		tablero[square.getRank()][square.getFile()] = pieza;
+	public void withPieza(Square square, Piece piece) {
+		tablero[square.getRank()][square.getFile()] = piece;
 	}
 
 
@@ -91,10 +91,10 @@ public class ASCIIOutput implements ChessBuilder {
 		
 	}
 	
-	private char getChar(Pieza pieza) {
+	private char getChar(Piece piece) {
 		char result = ' ';
-		if(pieza != null){
-			switch (pieza) {
+		if(piece != null){
+			switch (piece) {
 			case PAWN_WHITE:
 				result = 'P';
 				break;

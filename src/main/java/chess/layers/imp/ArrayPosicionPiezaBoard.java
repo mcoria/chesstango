@@ -5,8 +5,8 @@ import java.io.PrintStream;
 import java.util.Iterator;
 
 import chess.CachePosiciones;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.gui.ASCIIOutput;
 import chess.iterators.SquareIterator;
@@ -30,32 +30,32 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	// Bitboard podria ser mas rapido? Un word por tipo de ficha
 	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
 	//
-	protected PosicionPieza[] tablero = new PosicionPieza[64];
+	protected PiecePositioned[] tablero = new PiecePositioned[64];
 	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
 
 	@Override
-	public PosicionPieza getPosicion(Square square) {
+	public PiecePositioned getPosicion(Square square) {
 		return tablero[square.toIdx()];
 	}
 
 
 	@Override
-	public void setPosicion(PosicionPieza entry) {
+	public void setPosicion(PiecePositioned entry) {
 		Square square = entry.getKey();
 		tablero[square.toIdx()] = entry;
 	}
 
 
 	@Override
-	public Pieza getPieza(Square square) {
+	public Piece getPieza(Square square) {
 		return tablero[square.toIdx()].getValue();
 	}
 
 
 	@Override
-	public void setPieza(Square square, Pieza pieza) {
-		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, pieza);
+	public void setPieza(Square square, Piece piece) {
+		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, piece);
 	}
 
 
@@ -65,7 +65,7 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	}
 
 	@Override
-	public void setEmptyPosicion(PosicionPieza captura) {
+	public void setEmptyPosicion(PiecePositioned captura) {
 		setEmptySquare(captura.getKey());
 	}	
 	
@@ -77,8 +77,8 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	
 
 	@Override
-	public Iterator<PosicionPieza> iterator() {
-		return new Iterator<PosicionPieza>(){
+	public Iterator<PiecePositioned> iterator() {
+		return new Iterator<PiecePositioned>(){
 			
 			private int idx = 0;
 
@@ -88,7 +88,7 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 			}
 
 			@Override
-			public PosicionPieza next() {
+			public PiecePositioned next() {
 				return tablero[idx++];
 			}
 			
@@ -97,8 +97,8 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 
 
 	@Override
-	public Iterator<PosicionPieza> iterator(SquareIterator squareIterator){
-		return new Iterator<PosicionPieza>(){
+	public Iterator<PiecePositioned> iterator(SquareIterator squareIterator){
+		return new Iterator<PiecePositioned>(){
 
 			@Override
 			public boolean hasNext() {
@@ -106,7 +106,7 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 			}
 
 			@Override
-			public PosicionPieza next() {
+			public PiecePositioned next() {
 				return getPosicion(squareIterator.next());
 			}
 			
@@ -114,12 +114,12 @@ public class ArrayPosicionPiezaBoard implements PosicionPiezaBoard, Cloneable  {
 	}
 	
 	@Override
-	public Iterator<PosicionPieza> iterator(long posiciones){
+	public Iterator<PiecePositioned> iterator(long posiciones){
 		return new BoardBitIterator(tablero, posiciones);
 	}	
 
 	@Override
-	public void move(PosicionPieza from, PosicionPieza to) {
+	public void move(PiecePositioned from, PiecePositioned to) {
 		this.setEmptySquare(from.getKey());							//Dejamos el origen
 		this.setPieza(to.getKey(), from.getValue()) ;				//Vamos al destino
 	}

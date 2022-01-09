@@ -14,7 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import chess.Board;
 import chess.Color;
-import chess.Pieza;
+import chess.Piece;
 import chess.Square;
 import chess.debug.chess.BoardStateDebug;
 import chess.debug.chess.ColorBoardDebug;
@@ -58,8 +58,8 @@ public class CastlingWhiteKingMoveTest {
 		boardState.setCastlingWhiteKingPermitido(true);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e1, Pieza.KING_WHITE);
-		piezaBoard.setPieza(Square.h1, Pieza.ROOK_WHITE);		
+		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
+		piezaBoard.setPieza(Square.h1, Piece.ROOK_WHITE);		
 		
 		kingCacheBoard = new KingCacheBoardDebug(piezaBoard);
 		colorBoard = new ColorBoardDebug(piezaBoard);
@@ -69,16 +69,16 @@ public class CastlingWhiteKingMoveTest {
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piezaBoard);
 		
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.g1));		
-		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.f1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.g1));		
+		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPieza(Square.f1));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.h1));
 		
 		moveExecutor.undoMove(piezaBoard);
 		
-		assertEquals(Pieza.KING_WHITE, piezaBoard.getPieza(Square.e1));
-		assertEquals(Pieza.ROOK_WHITE, piezaBoard.getPieza(Square.h1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPieza(Square.h1));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.g1));
 		assertTrue(piezaBoard.isEmtpy(Square.f1));		

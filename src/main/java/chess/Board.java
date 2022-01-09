@@ -90,7 +90,7 @@ public class Board {
 		builder.withCastlingBlackKingPermitido(boardState.isCastlingBlackKingPermitido());
 		builder.withPawnPasanteSquare(boardState.getPawnPasanteSquare());
 		
-		for(PosicionPieza pieza: dummyBoard){
+		for(PiecePositioned pieza: dummyBoard){
 			builder.withPieza(pieza.getKey(), pieza.getValue());
 		}
 	}

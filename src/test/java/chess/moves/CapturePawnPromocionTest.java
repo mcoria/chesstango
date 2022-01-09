@@ -14,8 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -52,15 +52,15 @@ public class CapturePawnPromocionTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
-		piezaBoard.setPieza(Square.f8, Pieza.KNIGHT_BLACK);
+		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
+		piezaBoard.setPieza(Square.f8, Piece.KNIGHT_BLACK);
 		
 		colorBoard = new ColorBoard(piezaBoard);
 		
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.KNIGHT_BLACK);
+		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
 		
-		moveExecutor =  new CapturaPawnPromocion(origen, destino, Pieza.QUEEN_WHITE);		
+		moveExecutor =  new CapturaPawnPromocion(origen, destino, Piece.QUEEN_WHITE);		
 	}
 	
 	
@@ -70,15 +70,15 @@ public class CapturePawnPromocionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.QUEEN_WHITE, piezaBoard.getPieza(Square.f8));
+		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPieza(Square.f8));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
-		assertEquals(Pieza.KNIGHT_BLACK, piezaBoard.getPieza(Square.f8));		
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPieza(Square.f8));		
 	}
 		
 	@Test
@@ -117,11 +117,11 @@ public class CapturePawnPromocionTest {
 	@Test(expected = RuntimeException.class)
 	public void testKingCacheBoardMoveRuntimeException() {
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
 
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.f8, Pieza.KNIGHT_BLACK);
-		moveExecutor =  new CapturaPawnPromocion(origen, destino, Pieza.QUEEN_WHITE);
+		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
+		moveExecutor =  new CapturaPawnPromocion(origen, destino, Piece.QUEEN_WHITE);
 
 		moveExecutor.executeMove(new KingCacheBoard());
 	}

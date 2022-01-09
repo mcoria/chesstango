@@ -2,7 +2,7 @@ package chess.pseudomovesgenerators;
 
 import chess.CachePosiciones;
 import chess.Color;
-import chess.PosicionPieza;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.CastlingWhiteKingMove;
 import chess.moves.CastlingWhiteQueenMove;
@@ -28,7 +28,7 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMovesPseudoMoves(PosicionPieza origen) {
+	public void generateMovesPseudoMoves(PiecePositioned origen) {
 		super.generateMovesPseudoMoves(origen);
 		
 		if (this.boardState.isCastlingWhiteQueenPermitido()){
@@ -63,12 +63,12 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 	
 	//TODO: agregar test case (cuando el king se mueve pierde enroque) y agregar validacion en state 
 	@Override
-	protected Move createSimpleMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createSimpleKingMoveBlanco(origen, destino);
 	}
 
 	@Override
-	protected Move createCaptureMove(PosicionPieza origen, PosicionPieza destino) {
+	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createCaptureKingMoveBlanco(origen, destino);
 	}	
 

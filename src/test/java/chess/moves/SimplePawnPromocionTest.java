@@ -14,8 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Board;
 import chess.BoardState;
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.layers.ColorBoard;
 import chess.layers.KingCacheBoard;
@@ -52,13 +52,13 @@ public class SimplePawnPromocionTest {
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPosicionPiezaBoard();
-		piezaBoard.setPieza(Square.e7, Pieza.PAWN_WHITE);
+		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoard(piezaBoard);		
 		
-		PosicionPieza origen = new PosicionPieza(Square.e7, Pieza.PAWN_WHITE);
-		PosicionPieza destino = new PosicionPieza(Square.e8, null);
-		moveExecutor =  new SimplePawnPromocion(origen, destino, Pieza.QUEEN_WHITE);		
+		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
+		PiecePositioned destino = new PiecePositioned(Square.e8, null);
+		moveExecutor =  new SimplePawnPromocion(origen, destino, Piece.QUEEN_WHITE);		
 	}
 	
 	
@@ -68,14 +68,14 @@ public class SimplePawnPromocionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Pieza.QUEEN_WHITE, piezaBoard.getPieza(Square.e8));
+		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPieza(Square.e8));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Pieza.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e8));		
 	}
 		

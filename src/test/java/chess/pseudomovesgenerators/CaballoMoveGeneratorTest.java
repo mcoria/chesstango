@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
@@ -50,11 +50,11 @@ public class CaballoMoveGeneratorTest {
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Pieza.KNIGHT_WHITE, tablero.getPieza(from));
-		assertEquals(Pieza.PAWN_WHITE, tablero.getPieza(Square.d7));
-		assertEquals(Pieza.PAWN_BLACK, tablero.getPieza(Square.f7));		
+		assertEquals(Piece.KNIGHT_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.d7));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.f7));		
 	
-		PosicionPieza origen = new PosicionPieza(from, Pieza.KNIGHT_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.KNIGHT_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
 		
@@ -67,17 +67,17 @@ public class CaballoMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c4) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c6) ));
 		// Pawn Blanco en d7
-		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Pieza.PAWN_BLACK) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Piece.PAWN_BLACK) ));
 		
 		assertEquals(7, moves.size());
 	}
 
-	private Move createSimpleMove(PosicionPieza origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PosicionPieza(destinoSquare, null));
+	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
+		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
-	private Move createCaptureMove(PosicionPieza origen, Square destinoSquare, Pieza destinoPieza) {
-		return moveFactory.createCaptureMove(origen, new PosicionPieza(destinoSquare, destinoPieza));
+	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
+		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private PosicionPiezaBoard getTablero(String string) {		

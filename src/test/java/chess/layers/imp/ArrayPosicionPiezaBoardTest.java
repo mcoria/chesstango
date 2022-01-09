@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.posicionpieza.BoardBitIterator;
 import chess.layers.imp.ArrayPosicionPiezaBoard;
@@ -27,11 +27,11 @@ public class ArrayPosicionPiezaBoardTest {
 	public void test() {
 		ArrayPosicionPiezaBoard tablero = new ArrayPosicionPiezaBoard();
 		
-		tablero.setPieza(Square.a1, Pieza.ROOK_WHITE);
-		tablero.setPieza(Square.b7, Pieza.PAWN_BLACK);
-		tablero.setPieza(Square.b8, Pieza.KNIGHT_BLACK);
-		tablero.setPieza(Square.e1, Pieza.KING_WHITE);
-		tablero.setPieza(Square.e8, Pieza.KING_BLACK);
+		tablero.setPieza(Square.a1, Piece.ROOK_WHITE);
+		tablero.setPieza(Square.b7, Piece.PAWN_BLACK);
+		tablero.setPieza(Square.b8, Piece.KNIGHT_BLACK);
+		tablero.setPieza(Square.e1, Piece.KING_WHITE);
+		tablero.setPieza(Square.e8, Piece.KING_BLACK);
 		
 		
 		// Al position should be not NULL (including emtpy squares)
@@ -52,19 +52,19 @@ public class ArrayPosicionPiezaBoardTest {
 		posiciones |= Square.e8.getPosicion();
 		posiciones |= Square.e3.getPosicion();
 		
-		List<PosicionPieza> posicionesList = new ArrayList<PosicionPieza>();
+		List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();
 
-		for (Iterator<PosicionPieza> iterator =  new BoardBitIterator(tablero.tablero, posiciones); iterator.hasNext();) {
+		for (Iterator<PiecePositioned> iterator =  new BoardBitIterator(tablero.tablero, posiciones); iterator.hasNext();) {
 			posicionesList.add(iterator.next());
 		}
 		
 
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.a1, Pieza.ROOK_WHITE)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.b7, Pieza.PAWN_BLACK)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.b8, Pieza.KNIGHT_BLACK)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.e1, Pieza.KING_WHITE)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.e8, Pieza.KING_BLACK)));
-		assertTrue(posicionesList.contains(new PosicionPieza(Square.e3, null)));
+		assertTrue(posicionesList.contains(new PiecePositioned(Square.a1, Piece.ROOK_WHITE)));
+		assertTrue(posicionesList.contains(new PiecePositioned(Square.b7, Piece.PAWN_BLACK)));
+		assertTrue(posicionesList.contains(new PiecePositioned(Square.b8, Piece.KNIGHT_BLACK)));
+		assertTrue(posicionesList.contains(new PiecePositioned(Square.e1, Piece.KING_WHITE)));
+		assertTrue(posicionesList.contains(new PiecePositioned(Square.e8, Piece.KING_BLACK)));
+		assertTrue(posicionesList.contains(new PiecePositioned(Square.e3, null)));
 		assertEquals(6, posicionesList.size());
 
 	}

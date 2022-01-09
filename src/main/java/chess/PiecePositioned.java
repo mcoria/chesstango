@@ -6,9 +6,9 @@ import java.util.AbstractMap.SimpleImmutableEntry;
  * @author Mauricio Coria
  *
  */
-public class PosicionPieza extends SimpleImmutableEntry<Square, Pieza> {
+public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 
-	public PosicionPieza(Square key, Pieza value) {
+	public PiecePositioned(Square key, Piece value) {
 		super(key, value);
 	}
 

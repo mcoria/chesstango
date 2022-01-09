@@ -1,8 +1,8 @@
 package chess.pseudomovesgenerators;
 
 import chess.Color;
-import chess.Pieza;
-import chess.PosicionPieza;
+import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
 
 /**
@@ -11,7 +11,7 @@ import chess.Square;
  */
 public class PawnNegroMoveGenerator extends PawnAbstractMoveGenerator {
 	
-	private static final Pieza[] PROMOCIONES_BLACK = new Pieza[]{Pieza.ROOK_BLACK, Pieza.KNIGHT_BLACK, Pieza.BISHOP_BLACK, Pieza.QUEEN_BLACK};
+	private static final Piece[] PROMOCIONES_BLACK = new Piece[]{Piece.ROOK_BLACK, Piece.KNIGHT_BLACK, Piece.BISHOP_BLACK, Piece.QUEEN_BLACK};
 	
 	public PawnNegroMoveGenerator() {
 		super(Color.BLACK);
@@ -39,13 +39,13 @@ public class PawnNegroMoveGenerator extends PawnAbstractMoveGenerator {
 	}	
 
 	@Override
-	protected PosicionPieza getCapturaPawnPasante(Square peonPasanteSquare) {
-		return new PosicionPieza(Square.getSquare(peonPasanteSquare.getFile(), 3), Pieza.PAWN_WHITE);
+	protected PiecePositioned getCapturaPawnPasante(Square peonPasanteSquare) {
+		return new PiecePositioned(Square.getSquare(peonPasanteSquare.getFile(), 3), Piece.PAWN_WHITE);
 	}
 
 
 	@Override
-	protected Pieza[] getPiezaPromocion() {
+	protected Piece[] getPiezaPromocion() {
 		return PROMOCIONES_BLACK;
 	}	
 }
