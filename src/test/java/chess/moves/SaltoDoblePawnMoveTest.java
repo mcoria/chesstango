@@ -15,7 +15,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.debug.chess.BoardStateDebug;
+import chess.debug.chess.PositionStateDebug;
 import chess.debug.chess.ColorBoardDebug;
 import chess.moves.SaltoDoblePawnMove;
 import chess.position.ChessPosition;
@@ -34,7 +34,7 @@ public class SaltoDoblePawnMoveTest {
 
 	private PiecePlacement piezaBoard;
 	
-	private BoardStateDebug boardState;
+	private PositionStateDebug boardState;
 	
 	private ColorBoardDebug colorBoard;
 	
@@ -48,7 +48,7 @@ public class SaltoDoblePawnMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		boardState = new BoardStateDebug();
+		boardState = new PositionStateDebug();
 		boardState.setTurnoActual(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();

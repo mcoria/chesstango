@@ -11,7 +11,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public class BoardStateDebug extends PositionState{
+public class PositionStateDebug extends PositionState{
 
 	public void validar() {
 		if(this.getTurnoActual() == null){

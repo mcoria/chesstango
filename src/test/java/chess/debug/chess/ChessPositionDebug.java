@@ -12,13 +12,13 @@ import chess.position.imp.ArrayPiecePlacement;
  * @author Mauricio Coria
  *
  */
-public class BoardDebug extends ChessPosition {
+public class ChessPositionDebug extends ChessPosition {
 	
 
 	@Override
 	public void execute(Move move) {
 		super.execute(move);
-		((BoardStateDebug)positionState).validar(this.dummyBoard);
+		((PositionStateDebug)positionState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);
@@ -27,7 +27,7 @@ public class BoardDebug extends ChessPosition {
 	@Override
 	public void undo(Move move) {
 		super.undo(move);
-		((BoardStateDebug)positionState).validar(this.dummyBoard);
+		((PositionStateDebug)positionState).validar(this.dummyBoard);
 		((ColorBoardDebug)colorBoard).validar(this.dummyBoard);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.dummyBoard);		

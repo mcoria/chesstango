@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.debug.chess.BoardStateDebug;
+import chess.debug.chess.PositionStateDebug;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
 import chess.moves.CastlingWhiteKingMove;
@@ -34,7 +34,7 @@ public class CastlingWhiteKingMoveTest {
 	
 	private PiecePlacement piezaBoard;
 	
-	private BoardStateDebug boardState;	
+	private PositionStateDebug boardState;	
 	
 	private CastlingWhiteKingMove moveExecutor;
 	
@@ -52,7 +52,7 @@ public class CastlingWhiteKingMoveTest {
 	public void setUp() throws Exception {
 		moveExecutor = new CastlingWhiteKingMove();
 		
-		boardState = new BoardStateDebug();		
+		boardState = new PositionStateDebug();		
 		boardState.setTurnoActual(Color.WHITE);
 		boardState.setCastlingWhiteQueenPermitido(false);
 		boardState.setCastlingWhiteKingPermitido(true);

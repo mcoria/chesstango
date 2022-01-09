@@ -1,8 +1,8 @@
 package chess.debug.builder;
 
 import chess.builder.ChessFactory;
-import chess.debug.chess.BoardDebug;
-import chess.debug.chess.BoardStateDebug;
+import chess.debug.chess.ChessPositionDebug;
+import chess.debug.chess.PositionStateDebug;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.DefaultLegalMoveCalculatorDebug;
 import chess.debug.chess.KingCacheBoardDebug;
@@ -30,7 +30,7 @@ public class DebugChessFactory extends ChessFactory {
 
 	@Override
 	public ChessPosition createBoard() {
-		return  new BoardDebug();
+		return  new ChessPositionDebug();
 	}	
 	
 	@Override
@@ -73,6 +73,6 @@ public class DebugChessFactory extends ChessFactory {
 	
 	@Override
 	public PositionState createBoardState() {
-		return new BoardStateDebug();
+		return new PositionStateDebug();
 	}
 }

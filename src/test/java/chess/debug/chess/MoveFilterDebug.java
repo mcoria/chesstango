@@ -57,7 +57,7 @@ public class MoveFilterDebug extends MoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((BoardStateDebug)positionState).validar(this.dummyBoard);
+			((PositionStateDebug)positionState).validar(this.dummyBoard);
 			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
 			
 			return result;
