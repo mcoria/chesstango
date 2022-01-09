@@ -1,4 +1,4 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import static org.junit.Assert.*;
 
@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Test;
 
 import chess.Square;
-import chess.iterators.BitSquareIterator;
-import chess.iterators.SquareIterator;
+import chess.iterators.square.BitSquareIterator;
+import chess.iterators.square.SquareIterator;
 
 
 /**

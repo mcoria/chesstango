@@ -1,4 +1,4 @@
-package chess.iterators.posicionpieza;
+package chess.iterators.pieceplacement;
 
 import java.util.Iterator;
 

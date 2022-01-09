@@ -1,4 +1,4 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,8 +15,8 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.iterators.BottomUpSquareIterator;
-import chess.iterators.TopDownSquareIterator;
+import chess.iterators.square.BottomUpSquareIterator;
+import chess.iterators.square.TopDownSquareIterator;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
 

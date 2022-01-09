@@ -1,4 +1,4 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import chess.Square;
 
@@ -6,7 +6,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class BottomUpSquareIterator implements SquareIterator {
+public class BitSquareIterator implements SquareIterator {
 
 	private static Square[] array = {  
 			Square.a1, Square.b1, Square.c1, Square.d1, Square.e1, Square.f1, Square.g1, Square.h1,
@@ -18,16 +18,31 @@ public class BottomUpSquareIterator implements SquareIterator {
 			Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
 			Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8};
 	
-    private int nextIdx = 0;
+	private final long posiciones;
+	
+	private int idx = -1;
+	
+	public BitSquareIterator(long posiciones) {
+		this.posiciones = posiciones;
+		calcularNextPoint();
+	}
 	
 	@Override
 	public boolean hasNext() {
-		return this.nextIdx < 64;
+		return idx < 64;
 	}
 
 	@Override
 	public Square next() {
-		return array[nextIdx++];
+		int currentIdx = this.idx;
+		calcularNextPoint();
+		return array[currentIdx];
+	}
+	
+	private void calcularNextPoint() {
+		do {
+			this.idx++;
+		} while (this.idx < 64 && (this.posiciones & (1L << this.idx)) == 0);
 	}
 
 }

@@ -3,7 +3,7 @@ package chess.pseudomovesfilters;
 import java.util.Collection;
 
 import chess.Square;
-import chess.iterators.SquareIterator;
+import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;

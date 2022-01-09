@@ -1,6 +1,7 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import chess.Square;
+import chess.iterators.Cardinal;
 
 /**
  * @author Mauricio Coria

@@ -5,7 +5,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.Cardinal;
-import chess.iterators.CardinalSquareIterator;
+import chess.iterators.square.CardinalSquareIterator;
 import chess.position.PositionState;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque

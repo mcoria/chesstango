@@ -13,7 +13,7 @@ import org.junit.Test;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.posicionpieza.BoardBitIterator;
+import chess.iterators.pieceplacement.BoardBitIterator;
 import chess.position.imp.ArrayPiecePlacement;
 
 

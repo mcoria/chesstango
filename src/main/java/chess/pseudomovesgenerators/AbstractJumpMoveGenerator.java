@@ -5,7 +5,7 @@ import java.util.Iterator;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.SaltoSquareIterator;
+import chess.iterators.square.SaltoSquareIterator;
 import chess.moves.Move;
 
 /**

@@ -1,4 +1,4 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.Square;
-import chess.iterators.BottomUpSquareIterator;
+import chess.iterators.square.BottomUpSquareIterator;
 
 
 /**

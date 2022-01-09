@@ -1,12 +1,14 @@
-package chess;
+package chess.position;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import chess.Color;
+import chess.Piece;
 import chess.builder.ChessBuilderParts;
 import chess.debug.builder.DebugChessFactory;
-import chess.iterators.SquareIterator;
+import chess.iterators.square.SquareIterator;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;

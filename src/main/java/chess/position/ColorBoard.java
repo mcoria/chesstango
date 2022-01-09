@@ -7,9 +7,9 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.BitSquareIterator;
-import chess.iterators.SquareIterator;
-import chess.iterators.TopDownSquareIterator;
+import chess.iterators.square.BitSquareIterator;
+import chess.iterators.square.SquareIterator;
+import chess.iterators.square.TopDownSquareIterator;
 
 /**
  * @author Mauricio Coria

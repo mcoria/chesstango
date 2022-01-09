@@ -6,7 +6,7 @@ import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.Cardinal;
-import chess.iterators.CardinalSquareIterator;
+import chess.iterators.square.CardinalSquareIterator;
 import chess.moves.Move;
 
 

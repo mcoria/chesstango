@@ -1,4 +1,4 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import static org.junit.Assert.*;
 

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.SquareIterator;
+import chess.iterators.square.SquareIterator;
 
 /**
  * @author Mauricio Coria

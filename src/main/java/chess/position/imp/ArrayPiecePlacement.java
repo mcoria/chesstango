@@ -9,8 +9,8 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.gui.ASCIIOutput;
-import chess.iterators.SquareIterator;
-import chess.iterators.posicionpieza.BoardBitIterator;
+import chess.iterators.pieceplacement.BoardBitIterator;
+import chess.iterators.square.SquareIterator;
 import chess.position.PiecePlacement;
 
 /**

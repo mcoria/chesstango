@@ -1,4 +1,4 @@
-package chess.iterators;
+package chess.iterators.square;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import chess.Square;
-import chess.iterators.SaltoSquareIterator;
+import chess.iterators.square.SaltoSquareIterator;
 import chess.pseudomovesgenerators.KnightMoveGenerator;
 
 

@@ -3,8 +3,8 @@ package chess.debug.chess;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.BitSquareIterator;
-import chess.iterators.SquareIterator;
+import chess.iterators.square.BitSquareIterator;
+import chess.iterators.square.SquareIterator;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 
