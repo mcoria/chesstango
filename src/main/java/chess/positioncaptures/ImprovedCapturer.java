@@ -64,7 +64,7 @@ public class ImprovedCapturer implements Capturer {
 		public ImprovedCapturerColor(Color color, PiecePlacement dummyBoard) {
 			this.dummyBoard = dummyBoard;
 			torre =  Piece.getRook(color);
-			alfil = Piece.getAlfil(color);
+			alfil = Piece.getBishop(color);
 			queen = Piece.getQueen(color);
 			caballo = Piece.getKnight(color);
 			peon = Piece.getPawn(color);
@@ -81,7 +81,7 @@ public class ImprovedCapturer implements Capturer {
 		public boolean positionCaptured(Square square) {
 			if(positionCapturedByKnight(square)	||
 			   positionCapturedByRook(square)	||
-			   positionCapturedByAlfil(square)   ||
+			   positionCapturedByBishop(square)   ||
 			   positionCapturedByPawn(square) ||
 			   positionCapturedByKing(square)) {
 				return true;
@@ -89,9 +89,9 @@ public class ImprovedCapturer implements Capturer {
 			return false;
 		}
 
-		private Cardinal[]  direccionesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
-		private boolean positionCapturedByAlfil(Square square) {
-			return positionCapturedByDireccion(square, direccionesAlfil,  alfil);
+		private Cardinal[]  direccionesBishop = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
+		private boolean positionCapturedByBishop(Square square) {
+			return positionCapturedByDireccion(square, direccionesBishop,  alfil);
 		}
 
 		private Cardinal[]  direccionesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};

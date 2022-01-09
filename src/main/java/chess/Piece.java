@@ -19,8 +19,8 @@ public enum Piece {
 	KNIGHT_WHITE(Color.WHITE, strategy -> strategy.getKnightBlancoMoveGenerator()),
 	KNIGHT_BLACK(Color.BLACK, strategy -> strategy.getKnightNegroMoveGenerator()),
 	
-	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getAlfilBlancoMoveGenerator()),
-	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getAlfilNegroMoveGenerator()),
+	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getBishopBlancoMoveGenerator()),
+	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getBishopNegroMoveGenerator()),
 	
 	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getQueenBlancaMoveGenerator()),
 	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getQueenNegraMoveGenerator()),
@@ -66,7 +66,7 @@ public enum Piece {
 		}
 	}
 	
-	public static Piece getAlfil(Color color){
+	public static Piece getBishop(Color color){
 		switch (color) {
 		case  WHITE:
 			return BISHOP_WHITE;

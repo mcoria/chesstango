@@ -23,8 +23,8 @@ public class MoveGeneratorStrategy {
 	private RookMoveGenerator tnmg;
 	private KnightMoveGenerator cbmg;
 	private KnightMoveGenerator cnmg;
-	private AlfilMoveGenerator abmg;
-	private AlfilMoveGenerator anmg;
+	private BishopMoveGenerator abmg;
+	private BishopMoveGenerator anmg;
 	private QueenMoveGenerator rebmg;
 	private QueenMoveGenerator renmg;
 	private KingWhiteMoveGenerator rbmg;
@@ -45,9 +45,9 @@ public class MoveGeneratorStrategy {
 		
 		cnmg = new KnightMoveGenerator(Color.BLACK);
 		
-		abmg = new AlfilMoveGenerator(Color.WHITE);
+		abmg = new BishopMoveGenerator(Color.WHITE);
 		
-		anmg = new AlfilMoveGenerator(Color.BLACK);
+		anmg = new BishopMoveGenerator(Color.BLACK);
 		
 		rebmg = new QueenMoveGenerator(Color.WHITE);
 		
@@ -110,11 +110,11 @@ public class MoveGeneratorStrategy {
 		return cnmg;
 	}	
 	
-	public AlfilMoveGenerator getAlfilBlancoMoveGenerator() {
+	public BishopMoveGenerator getBishopBlancoMoveGenerator() {
 		return abmg;
 	}
 	
-	public AlfilMoveGenerator getAlfilNegroMoveGenerator() {
+	public BishopMoveGenerator getBishopNegroMoveGenerator() {
 		return anmg;
 	}	
 	

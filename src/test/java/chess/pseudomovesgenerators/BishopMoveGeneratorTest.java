@@ -20,16 +20,16 @@ import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.AlfilMoveGenerator;
+import chess.pseudomovesgenerators.BishopMoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class AlfilMoveGeneratorTest {
+public class BishopMoveGeneratorTest {
 	
-	private AlfilMoveGenerator moveGenerator = null;
+	private BishopMoveGenerator moveGenerator = null;
 
 	private MoveFactory moveFactory;
 	
@@ -37,7 +37,7 @@ public class AlfilMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactory = new MoveFactory();
 		
-		moveGenerator = new AlfilMoveGenerator(Color.WHITE);
+		moveGenerator = new BishopMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactory);
 	}
 	

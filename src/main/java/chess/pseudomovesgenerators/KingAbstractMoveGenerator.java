@@ -68,26 +68,26 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 		return false;
 	}
 	
-	private final static Cardinal[] cardinalesAlfil = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
+	private final static Cardinal[] cardinalesBishop = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
 	private final static Cardinal[] cardinalesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
 	public long getPinnedSquare(Square kingSquare) {
 		Piece reina = Piece.getQueen(this.color.opositeColor());
 		Piece torre = Piece.getRook(this.color.opositeColor());
-		Piece alfil = Piece.getAlfil(this.color.opositeColor());
+		Piece alfil = Piece.getBishop(this.color.opositeColor());
 		long pinnedCollection = 0;
 		
-		pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesAlfil);
+		pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesBishop);
 		pinnedCollection |= getPinnedCardinales(kingSquare, torre, reina, cardinalesRook);
 
 		return pinnedCollection;
 	}
 	
-	protected long getPinnedCardinales(Square kingSquare, Piece torreOAlfil, Piece reina,
+	protected long getPinnedCardinales(Square kingSquare, Piece torreOBishop, Piece reina,
 			Cardinal[] direcciones) {
 		long pinnedCollection = 0;
 		for (Cardinal cardinal : direcciones) {
-			Square pinned = getPinned(kingSquare, torreOAlfil, reina, cardinal);
+			Square pinned = getPinned(kingSquare, torreOBishop, reina, cardinal);
 			if (pinned != null) {
 				pinnedCollection |= pinned.getPosicion();
 			}
@@ -96,7 +96,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 	}
 	
 	
-	protected Square getPinned(Square kingSquare, Piece torreOAlfil, Piece reina, Cardinal cardinal) {
+	protected Square getPinned(Square kingSquare, Piece torreOBishop, Piece reina, Cardinal cardinal) {
 		Square pinned = null;
 		CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
 		while (iterator.hasNext()) {
@@ -116,7 +116,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 					return null;
 				} else { //// if (color.opositeColor().equals(colorDestino))
 					Piece piece = this.tablero.getPieza(destino);
-					if (torreOAlfil.equals(piece) || reina.equals(piece)) {
+					if (torreOBishop.equals(piece) || reina.equals(piece)) {
 						return pinned;
 					} else {
 						return null;

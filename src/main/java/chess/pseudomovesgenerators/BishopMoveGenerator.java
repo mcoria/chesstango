@@ -10,9 +10,9 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class AlfilMoveGenerator extends AbstractCardinalMoveGenerator {
+public class BishopMoveGenerator extends AbstractCardinalMoveGenerator {
 
-	public AlfilMoveGenerator(Color color) {
+	public BishopMoveGenerator(Color color) {
 		super(color, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste});
 	}
 
