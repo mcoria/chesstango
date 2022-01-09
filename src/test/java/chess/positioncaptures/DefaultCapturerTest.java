@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import chess.Color;
 import chess.Square;
-import chess.builder.ChessBuilderParts;
+import chess.builder.ChessPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
@@ -39,7 +39,7 @@ public class DefaultCapturerTest {
 	}
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
+		ChessPartsBuilder builder = new ChessPartsBuilder(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

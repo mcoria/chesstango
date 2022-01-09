@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
-import chess.builder.ChessBuilderGame;
+import chess.builder.ChessGameBuilder;
 import chess.main.ChessMain;
 import chess.main.PerftResult;
 import chess.parsers.FENParser;
@@ -1348,7 +1348,7 @@ public class KiwipeteTest {
 	
 	private Game getGame(String string) {		
 		//ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
-		ChessBuilderGame builder = new ChessBuilderGame();
+		ChessGameBuilder builder = new ChessGameBuilder();
 
 		FENParser parser = new FENParser(builder);
 		

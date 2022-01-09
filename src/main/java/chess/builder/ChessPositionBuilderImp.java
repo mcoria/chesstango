@@ -19,11 +19,11 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  * @author Mauricio Coria
  *
  */
-public class ChessBuilderBoard implements ChessPositionBuilder {
+public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	
 	private ChessFactory chessFactory = null;	
 	
-	private ChessBuilderParts builder = null;
+	private ChessPartsBuilder builder = null;
 	
 	private ChessPosition chessPosition = null;
 	
@@ -45,13 +45,13 @@ public class ChessBuilderBoard implements ChessPositionBuilder {
 
 	private MoveFilter moveFilter;
 	
-	public ChessBuilderBoard() {
+	public ChessPositionBuilderImp() {
 		this(new ChessFactory());
 	}
 
-	public ChessBuilderBoard(ChessFactory chessFactory) {
+	public ChessPositionBuilderImp(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
-		this.builder = new ChessBuilderParts(chessFactory);
+		this.builder = new ChessPartsBuilder(chessFactory);
 	}	
 	
 	public ChessPosition getChessPosition() {

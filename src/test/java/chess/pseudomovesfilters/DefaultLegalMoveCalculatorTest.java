@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import chess.builder.ChessBuilderParts;
+import chess.builder.ChessPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
@@ -57,7 +57,7 @@ public class DefaultLegalMoveCalculatorTest {
 
 
 	private void initDependencies(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
+		ChessPartsBuilder builder = new ChessPartsBuilder(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		parser.parseFEN(string);
 		

@@ -15,7 +15,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessBuilderBoard;
+import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingWhiteKingMove;
 import chess.moves.CastlingWhiteQueenMove;
@@ -317,7 +317,7 @@ public class ChessPositionTest {
 	}	
 	
 	private ChessPosition getBoard(String string) {		
-		ChessBuilderBoard builder = new ChessBuilderBoard(new DebugChessFactory());
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);
 		

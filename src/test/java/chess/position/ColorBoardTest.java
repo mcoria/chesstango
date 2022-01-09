@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import chess.Color;
 import chess.Piece;
-import chess.builder.ChessBuilderParts;
+import chess.builder.ChessPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.square.SquareIterator;
 import chess.parsers.FENParser;
@@ -41,7 +41,7 @@ public class ColorBoardTest {
 	
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
+		ChessPartsBuilder builder = new ChessPartsBuilder(new DebugChessFactory());
 
 		FENParser parser = new FENParser(builder);
 		

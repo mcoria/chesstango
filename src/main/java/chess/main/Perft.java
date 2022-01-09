@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import chess.Game;
-import chess.builder.ChessBuilderGame;
+import chess.builder.ChessGameBuilder;
 import chess.moves.Move;
 import chess.parsers.FENParser;
 
@@ -22,7 +22,7 @@ public class Perft {
 	private int maxLevel;
 	
 	public static void main(String[] args) {
-		ChessBuilderGame builder = new ChessBuilderGame();
+		ChessGameBuilder builder = new ChessGameBuilder();
 		
 		FENParser parser = new FENParser(builder);
 		

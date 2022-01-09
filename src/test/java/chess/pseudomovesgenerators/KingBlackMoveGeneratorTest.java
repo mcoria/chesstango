@@ -14,7 +14,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessBuilderParts;
+import chess.builder.ChessPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingBlackKingMove;
 import chess.moves.CastlingBlackQueenMove;
@@ -265,7 +265,7 @@ public class KingBlackMoveGeneratorTest {
 
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessBuilderParts builder = new ChessBuilderParts(new DebugChessFactory());
+		ChessPartsBuilder builder = new ChessPartsBuilder(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

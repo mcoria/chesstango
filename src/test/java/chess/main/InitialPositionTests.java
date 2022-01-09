@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
-import chess.builder.ChessBuilderGame;
+import chess.builder.ChessGameBuilder;
 import chess.main.ChessMain;
 import chess.main.PerftResult;
 import chess.moves.Move;
@@ -310,7 +310,7 @@ public class InitialPositionTests {
 	
 	
 	private Game getDefaultGame() {		
-		ChessBuilderGame builder = new ChessBuilderGame();
+		ChessGameBuilder builder = new ChessGameBuilder();
 
 		FENParser parser = new FENParser(builder);
 		

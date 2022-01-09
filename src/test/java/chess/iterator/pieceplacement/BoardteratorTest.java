@@ -11,7 +11,7 @@ import org.junit.Test;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessBuilderParts;
+import chess.builder.ChessPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.BottomUpSquareIterator;
@@ -28,11 +28,11 @@ public class BoardteratorTest {
 
 	private FENParser parser = null;
 	
-	private ChessBuilderParts builder = null;
+	private ChessPartsBuilder builder = null;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new ChessBuilderParts(new DebugChessFactory());
+		builder = new ChessPartsBuilder(new DebugChessFactory());
 		parser = new FENParser(builder);
 	}
 

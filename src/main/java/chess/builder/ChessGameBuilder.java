@@ -9,18 +9,18 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class ChessBuilderGame implements ChessPositionBuilder {
+public class ChessGameBuilder implements ChessPositionBuilder {
 	
-	private ChessBuilderBoard builder = new ChessBuilderBoard();
+	private ChessPositionBuilderImp builder = new ChessPositionBuilderImp();
 	
 	private Game game = null;
 	
-	public ChessBuilderGame() {
-		this.builder = new ChessBuilderBoard();
+	public ChessGameBuilder() {
+		this.builder = new ChessPositionBuilderImp();
 	}
 	
-	public ChessBuilderGame(ChessFactory chessFactory) {
-		this.builder = new ChessBuilderBoard(chessFactory);
+	public ChessGameBuilder(ChessFactory chessFactory) {
+		this.builder = new ChessPositionBuilderImp(chessFactory);
 	}	
 	
 	public Game getGame() {
