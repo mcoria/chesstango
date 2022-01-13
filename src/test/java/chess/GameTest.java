@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.Game.GameStatus;
-import chess.builder.ChessGameBuilder;
+import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingBlackKingMove;
 import chess.parsers.FENParser;
@@ -435,7 +435,7 @@ public class GameTest {
 	}
 	
 	private Game getGame(String string) {		
-		ChessGameBuilder builder = new ChessGameBuilder(new DebugChessFactory());
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);

@@ -2,6 +2,7 @@ package chess.builder;
 
 import chess.BoardAnalyzer;
 import chess.Color;
+import chess.Game;
 import chess.Piece;
 import chess.Square;
 import chess.moves.MoveFactory;
@@ -44,6 +45,12 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	private ImprovedCapturer improvedCapturer = null;
 
 	private MoveFilter moveFilter;
+	
+	private Game game = null;
+	
+	public ChessPositionBuilderImp() {
+		this(new ChessFactory());
+	}	
 
 	public ChessPositionBuilderImp(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
@@ -68,7 +75,14 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 
 		}
 		return chessPosition;
-	}
+	}	
+	
+	public Game getGame() {
+		if (game == null) {
+			game = new Game(getChessPosition());
+		}
+		return game;
+	}	
 	
 	protected BoardAnalyzer buildAnalyzer() {
 		if (boardAnalyzer == null) {

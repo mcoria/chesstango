@@ -3,15 +3,13 @@
  */
 package chess.main;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import chess.Game;
-import chess.builder.ChessGameBuilder;
+import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
-import chess.main.ChessMain;
-import chess.main.PerftResult;
 import chess.parsers.FENParser;
 
 /**
@@ -31,7 +29,7 @@ public class PerftTests {
 	}
 	
 	private Game getGame(String string) {		
-		ChessGameBuilder builder = new ChessGameBuilder(new DebugChessFactory());
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);

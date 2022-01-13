@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import chess.Game;
-import chess.builder.ChessGameBuilder;
+import chess.builder.ChessPositionBuilderImp;
 import chess.moves.Move;
 import chess.parsers.FENCoder;
 import chess.parsers.FENParser;
@@ -31,7 +31,7 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		ChessGameBuilder builder = new ChessGameBuilder();
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp();
 		
 		FENParser parser = new FENParser(builder);
 		
