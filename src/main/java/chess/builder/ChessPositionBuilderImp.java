@@ -70,9 +70,6 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 			chessPosition.setColorBoard(buildColorBoard());
 
 			chessPosition.setMoveCache(buildMoveCache());
-
-			chessPosition.setAnalyzer(buildAnalyzer());
-
 		}
 		return chessPosition;
 	}	
@@ -80,11 +77,12 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	public Game getGame() {
 		if (game == null) {
 			game = new Game(getChessPosition());
+			game.setAnalyzer(getAnalyzer());			
 		}
 		return game;
 	}	
 	
-	protected BoardAnalyzer buildAnalyzer() {
+	public BoardAnalyzer getAnalyzer() {
 		if (boardAnalyzer == null) {
 			boardAnalyzer = new BoardAnalyzer();
 			boardAnalyzer.setBoardState(builder.getPositionState());

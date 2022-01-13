@@ -1,9 +1,5 @@
 package chess.position;
 
-import java.util.Collection;
-
-import chess.BoardAnalyzer;
-import chess.BoardStatus;
 import chess.PiecePositioned;
 import chess.builder.ChessPositionBuilder;
 import chess.moves.Move;
@@ -21,17 +17,7 @@ public class ChessPosition {
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
-	protected PositionState positionState = null;
-	
-	private BoardAnalyzer analyzer = null;
-
-	public BoardStatus getBoardStatus() {
-		return analyzer.getBoardStatus();
-	}
-	
-	public Collection<Move> getLegalMoves() {
-		return analyzer.getLegalMoves();
-	}	
+	protected PositionState positionState = null;	
 
 	public void execute(Move move) {
 		move.executeMove(this);
@@ -129,11 +115,6 @@ public class ChessPosition {
 
 	public void setBoardState(PositionState positionState) {
 		this.positionState = positionState;
-	}
-
-
-	public void setAnalyzer(BoardAnalyzer analyzer) {
-		this.analyzer = analyzer;
 	}
 	
 }

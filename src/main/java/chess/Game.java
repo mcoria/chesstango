@@ -22,9 +22,10 @@ public class Game {
 	
 	private GameStack boardPila = new GameStack();
 	
+	private BoardAnalyzer analyzer = null;	
+	
 	public Game(ChessPosition tablero){
 		this.chessPosition = tablero;
-		updateGameStatus();
 	}
 
 	public GameStatus executeMove(Square from, Square to) {
@@ -66,7 +67,7 @@ public class Game {
 	
 
 	protected GameStatus updateGameStatus() {
-		BoardStatus boardStatus = chessPosition.getBoardStatus();
+		BoardStatus boardStatus = getBoardStatus();
 		Collection<Move> movimientosPosibles = boardStatus.getLegalMoves();
 		boolean existsLegalMove = !movimientosPosibles.isEmpty();
 		GameStatus gameStatus = null;
@@ -105,20 +106,33 @@ public class Game {
 		return chessPosition.toString();
 	}
 
-	public final ChessPosition getTablero() {
+	public ChessPosition getTablero() {
 		return chessPosition;
 	}
 
-	public final Collection<Move> getMovimientosPosibles() {
+	public Collection<Move> getMovimientosPosibles() {
 		return boardPila.getMovimientosPosibles();
 	}
 
-	public final Color getTurnoActual() {
+	public Color getTurnoActual() {
 		return chessPosition.getBoardState().getTurnoActual();
 	}
 
-	public final GameStatus getGameStatus() {
+	public GameStatus getGameStatus() {
 		return boardPila.getStatus();
 	}
+	
+	public void setAnalyzer(BoardAnalyzer analyzer) {
+		this.analyzer = analyzer;
+		updateGameStatus();
+	}
+	
+	public BoardStatus getBoardStatus() {
+		return analyzer.getBoardStatus();
+	}
+	
+	public final Collection<Move> getLegalMoves() {
+		return analyzer.getLegalMoves();
+	}		
 
 }

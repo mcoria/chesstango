@@ -75,4 +75,5 @@ public class DebugChessFactory extends ChessFactory {
 	public PositionState createPositionState() {
 		return new PositionStateDebug();
 	}
+	
 }
