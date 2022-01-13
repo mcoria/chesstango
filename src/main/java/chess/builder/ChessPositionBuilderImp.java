@@ -24,7 +24,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	
 	private ChessFactory chessFactory = null;	
 	
-	private ChessPartsBuilder builder = null;
+	private ChessPositionPartsBuilder builder = null;
 	
 	private ChessPosition chessPosition = null;
 	
@@ -54,7 +54,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 
 	public ChessPositionBuilderImp(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
-		this.builder = new ChessPartsBuilder(chessFactory);
+		this.builder = new ChessPositionPartsBuilder(chessFactory);
 	}	
 	
 	public ChessPosition getChessPosition() {

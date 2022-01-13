@@ -13,7 +13,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessPartsBuilder;
+import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.Move;
 import chess.moves.MoveFactory;
@@ -167,7 +167,7 @@ public class BishopMoveGeneratorTest {
 	}
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessPartsBuilder builder = new ChessPartsBuilder(new DebugChessFactory());
+		ChessPositionPartsBuilder builder = new ChessPositionPartsBuilder(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

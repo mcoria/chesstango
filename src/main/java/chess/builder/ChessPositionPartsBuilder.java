@@ -11,7 +11,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public class ChessPartsBuilder implements ChessPositionBuilder {	
+public class ChessPositionPartsBuilder implements ChessPositionBuilder {	
 	
 	private PiecePlacement piecePlacement;
 	
@@ -19,7 +19,7 @@ public class ChessPartsBuilder implements ChessPositionBuilder {
 	
 	private ChessFactory chessFactory = null;
 	
-	public ChessPartsBuilder(ChessFactory chessFactory) {
+	public ChessPositionPartsBuilder(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
 	}
 
