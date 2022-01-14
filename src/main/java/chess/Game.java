@@ -43,7 +43,7 @@ public class Game {
 	
 
 	public GameStatus executeMove(Move move) {
-		//assert(boardPila.getMovimientosPosibles().contains(move));
+		//assert(boardPila.getPossibleMoves().contains(move));
 		
 		boardPila.setMovimientoSeleccionado(move);
 		
@@ -87,13 +87,13 @@ public class Game {
 		}
 
 		boardPila.setStatus(gameStatus);
-		boardPila.setMovimientosPosibles(movimientosPosibles);
+		boardPila.setPossibleMoves(movimientosPosibles);
 
 		return gameStatus;
 	}
 	
 	public Move getMovimiento(Square from, Square to) {
-		for (Move move : getMovimientosPosibles() ) {
+		for (Move move : getPossibleMoves() ) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				return move;
 			}
@@ -110,8 +110,8 @@ public class Game {
 		return chessPosition;
 	}
 
-	public Collection<Move> getMovimientosPosibles() {
-		return boardPila.getMovimientosPosibles();
+	public Collection<Move> getPossibleMoves() {
+		return boardPila.getPossibleMoves();
 	}
 
 	public Color getTurnoActual() {

@@ -243,7 +243,7 @@ public class InitialPositionTests {
 		board.executeMove(Square.c1, Square.h6);
 		board.executeMove(Square.a8, Square.a7);
 
-		assertFalse( contieneMove(board.getMovimientosPosibles(), Square.h6, Square.h5) );
+		assertFalse( contieneMove(board.getPossibleMoves(), Square.h6, Square.h5) );
 		
 		PerftResult result = main.start(board, 4);
 		

@@ -25,11 +25,11 @@ public class GameStack {
 	
 	private Deque<Node> stackNode = new ArrayDeque<Node>();
 
-	public Collection<Move> getMovimientosPosibles() {
+	public Collection<Move> getPossibleMoves() {
 		return movimientosPosibles;
 	}
 
-	public void setMovimientosPosibles(Collection<Move> movimientosPosibles) {
+	public void setPossibleMoves(Collection<Move> movimientosPosibles) {
 		this.movimientosPosibles = movimientosPosibles;
 	}
 

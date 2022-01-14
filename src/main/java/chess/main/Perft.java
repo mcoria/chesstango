@@ -48,7 +48,7 @@ public class Perft {
 		PerftResult perftResult = new PerftResult();
 		int totalNodes = 0;
 
-		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
+		Collection<Move> movimientosPosible = game.getPossibleMoves();
 
 		for (Move move : movimientosPosible) {
 			int nodeCount = 0;
@@ -77,7 +77,7 @@ public class Perft {
 	private int visitChilds(Game game, int level) {
 		int totalNodes = 0;
 		
-		Collection<Move> movimientosPosible = game.getMovimientosPosibles();
+		Collection<Move> movimientosPosible = game.getPossibleMoves();
 		
 
 		if (level < this.maxLevel) {
