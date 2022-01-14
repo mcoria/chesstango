@@ -375,11 +375,11 @@ public class KingWhiteMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createSimpleKingMoveBlanco(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactory.createSimpleKingMoveWhite(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactory.createCaptureKingMoveBlanco(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactory.createCaptureKingMoveWhite(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private PiecePlacement getTablero(String string) {		

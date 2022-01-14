@@ -19,15 +19,15 @@ import chess.moves.MoveFactory;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.PawnNegroMoveGenerator;
+import chess.pseudomovesgenerators.PawnBlackMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PawnNegroMoveGeneratorTest {
+public class PawnBlackMoveGeneratorTest {
 
-	private PawnNegroMoveGenerator moveGenerator;
+	private PawnBlackMoveGenerator moveGenerator;
 	
 	private Collection<Move> moves; 
 
@@ -38,7 +38,7 @@ public class PawnNegroMoveGeneratorTest {
 		moveFactory = new MoveFactory();
 		moves = new ArrayList<Move>();
 		
-		moveGenerator = new PawnNegroMoveGenerator();
+		moveGenerator = new PawnBlackMoveGenerator();
 		moveGenerator.setMoveFactory(moveFactory);
 	}
 	

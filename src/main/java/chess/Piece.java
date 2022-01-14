@@ -10,17 +10,17 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPawnBlancoMoveGenerator()),
-	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPawnNegroMoveGenerator()),
+	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPawnWhiteMoveGenerator()),
+	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPawnBlackMoveGenerator()),
 	
 	ROOK_WHITE(Color.WHITE, strategy -> strategy.getRookBlancaMoveGenerator()),
 	ROOK_BLACK(Color.BLACK, strategy -> strategy.getRookNegraMoveGenerator()),
 	
-	KNIGHT_WHITE(Color.WHITE, strategy -> strategy.getKnightBlancoMoveGenerator()),
-	KNIGHT_BLACK(Color.BLACK, strategy -> strategy.getKnightNegroMoveGenerator()),
+	KNIGHT_WHITE(Color.WHITE, strategy -> strategy.getKnightWhiteMoveGenerator()),
+	KNIGHT_BLACK(Color.BLACK, strategy -> strategy.getKnightBlackMoveGenerator()),
 	
-	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getBishopBlancoMoveGenerator()),
-	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getBishopNegroMoveGenerator()),
+	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getBishopWhiteMoveGenerator()),
+	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getBishopBlackMoveGenerator()),
 	
 	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getQueenBlancaMoveGenerator()),
 	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getQueenNegraMoveGenerator()),

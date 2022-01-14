@@ -11,7 +11,7 @@ import chess.Square;
  */
 public class MoveFactory {		
 	
-	public Move createSimpleKingMoveBlanco(PiecePositioned origen, PiecePositioned destino) {
+	public Move createSimpleKingMoveWhite(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e1.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
 				state.setCastlingWhiteQueenAllowed(false);
@@ -22,7 +22,7 @@ public class MoveFactory {
 	}
 
 
-	public Move createCaptureKingMoveBlanco(PiecePositioned origen, PiecePositioned destino) {
+	public Move createCaptureKingMoveWhite(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e1.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
 				state.setCastlingWhiteQueenAllowed(false);
@@ -33,7 +33,7 @@ public class MoveFactory {
 	}
 	
 
-	public Move createSimpleKingMoveNegro(PiecePositioned origen, PiecePositioned destino) {
+	public Move createSimpleKingMoveBlack(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e8.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
 				state.setCastlingBlackQueenAllowed(false);
@@ -43,7 +43,7 @@ public class MoveFactory {
 		return new SimpleKingMove(origen, destino);
 	}
 
-	public Move createCaptureKingMoveNegro(PiecePositioned origen, PiecePositioned destino) {
+	public Move createCaptureKingMoveBlack(PiecePositioned origen, PiecePositioned destino) {
 		if(Square.e8.equals(origen.getKey())){
 			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
 				state.setCastlingBlackQueenAllowed(false);

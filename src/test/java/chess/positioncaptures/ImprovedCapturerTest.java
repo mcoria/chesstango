@@ -20,7 +20,7 @@ import chess.positioncaptures.ImprovedCapturer;
 public class ImprovedCapturerTest {
 	
 	@Test
-	public void testPositionCapturedByPawnBlanco() {
+	public void testPositionCapturedByPawnWhite() {
 		PiecePlacement dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
@@ -31,7 +31,7 @@ public class ImprovedCapturerTest {
 	}
 	
 	@Test
-	public void testPositionCapturedByPawnNegro() {
+	public void testPositionCapturedByPawnBlack() {
 		PiecePlacement dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
 		
 		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);

@@ -58,11 +58,11 @@ public class CapturePawnPasanteTest {
 		
 		colorBoard = new ColorBoardDebug(piezaBoard);
 		
-		PiecePositioned peonBlanco = new PiecePositioned(Square.b5, Piece.PAWN_WHITE);
-		PiecePositioned peonNegro = new PiecePositioned(Square.a5, Piece.PAWN_BLACK);
+		PiecePositioned peonWhite = new PiecePositioned(Square.b5, Piece.PAWN_WHITE);
+		PiecePositioned peonBlack = new PiecePositioned(Square.a5, Piece.PAWN_BLACK);
 		PiecePositioned peonPasanteSquare = new PiecePositioned(Square.a6, null);
 		
-		moveExecutor = new CapturePawnPasante(peonBlanco, peonPasanteSquare, peonNegro);		
+		moveExecutor = new CapturePawnPasante(peonWhite, peonPasanteSquare, peonBlack);		
 	}
 	
 	@Test

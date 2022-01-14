@@ -26,7 +26,7 @@ public class FENCoderTest {
 	}
 	
 	@Test
-	public void testTurnoBlanco() {
+	public void testTurnoWhite() {
 		coder.withTurno(Color.WHITE);
 		
 		String actual = coder.getTurno(stringBuilder).toString();
@@ -35,7 +35,7 @@ public class FENCoderTest {
 	}
 	
 	@Test
-	public void testTurnoNegro() {
+	public void testTurnoBlack() {
 		coder.withTurno(Color.BLACK);
 		
 		String actual = coder.getTurno(stringBuilder).toString();

@@ -19,20 +19,20 @@ import chess.pseudomovesgenerators.KnightMoveGenerator;
  */
 public class ImprovedCapturer implements Capturer {
 	
-	private final ImprovedCapturerColor capturerBlanco;
-	private final ImprovedCapturerColor capturerNegro;
+	private final ImprovedCapturerColor capturerWhite;
+	private final ImprovedCapturerColor capturerBlack;
 	
 	public ImprovedCapturer(PiecePlacement dummyBoard) {
-		this.capturerBlanco = new ImprovedCapturerColor(Color.WHITE, dummyBoard);
-		this.capturerNegro = new ImprovedCapturerColor(Color.BLACK, dummyBoard);
+		this.capturerWhite = new ImprovedCapturerColor(Color.WHITE, dummyBoard);
+		this.capturerBlack = new ImprovedCapturerColor(Color.BLACK, dummyBoard);
 	}	
 
 	@Override
 	public boolean positionCaptured(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
-			return capturerBlanco.positionCaptured(square);
+			return capturerWhite.positionCaptured(square);
 		} else {
-			return capturerNegro.positionCaptured(square);
+			return capturerBlack.positionCaptured(square);
 		}
 	}
 
@@ -49,12 +49,12 @@ public class ImprovedCapturer implements Capturer {
 		private final Piece peon;
 		private final Piece king;
 		
-		private final int[][] casillerosPawnBlanco = {
+		private final int[][] casillerosPawnWhite = {
 			{ -1, -1 }, 
 			{ 1, -1 }
 		};
 		
-		private final int[][] casillerosPawnNegro = {
+		private final int[][] casillerosPawnBlack = {
 			{ -1, 1 }, 
 			{ 1, 1 }
 		};
@@ -71,9 +71,9 @@ public class ImprovedCapturer implements Capturer {
 			
 
 			if (Color.WHITE.equals(color)) {
-				saltosPawn = casillerosPawnBlanco;
+				saltosPawn = casillerosPawnWhite;
 			} else {
-				saltosPawn = casillerosPawnNegro;
+				saltosPawn = casillerosPawnBlack;
 			}		
 		}
 

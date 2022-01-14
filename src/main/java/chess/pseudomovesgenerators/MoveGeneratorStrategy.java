@@ -17,8 +17,8 @@ public class MoveGeneratorStrategy {
 	private PositionState positionState;
 	private MoveFactory moveFactory;
 	
-	private PawnBlancoMoveGenerator pbmg;
-	private PawnNegroMoveGenerator pnmg;
+	private PawnWhiteMoveGenerator pbmg;
+	private PawnBlackMoveGenerator pnmg;
 	private RookMoveGenerator tbmg;
 	private RookMoveGenerator tnmg;
 	private KnightMoveGenerator cbmg;
@@ -33,9 +33,9 @@ public class MoveGeneratorStrategy {
 	private PawnPasanteMoveGenerator ppmg = null;
 	
 	public MoveGeneratorStrategy() {
-		pbmg =  new PawnBlancoMoveGenerator();
+		pbmg =  new PawnWhiteMoveGenerator();
 		
-		pnmg = new PawnNegroMoveGenerator();
+		pnmg = new PawnBlackMoveGenerator();
 		
 		tbmg = new RookMoveGenerator(Color.WHITE);
 		
@@ -86,11 +86,11 @@ public class MoveGeneratorStrategy {
 		settupMoveGenerators();
 	}
 	
-	public PawnBlancoMoveGenerator getPawnBlancoMoveGenerator() {
+	public PawnWhiteMoveGenerator getPawnWhiteMoveGenerator() {
 		return pbmg;
 	}
 
-	public PawnNegroMoveGenerator getPawnNegroMoveGenerator() {
+	public PawnBlackMoveGenerator getPawnBlackMoveGenerator() {
 		return pnmg;
 	}
 
@@ -102,19 +102,19 @@ public class MoveGeneratorStrategy {
 		return tnmg;
 	}	
 	
-	public KnightMoveGenerator getKnightBlancoMoveGenerator() {
+	public KnightMoveGenerator getKnightWhiteMoveGenerator() {
 		return cbmg;
 	}
 	
-	public KnightMoveGenerator getKnightNegroMoveGenerator() {
+	public KnightMoveGenerator getKnightBlackMoveGenerator() {
 		return cnmg;
 	}	
 	
-	public BishopMoveGenerator getBishopBlancoMoveGenerator() {
+	public BishopMoveGenerator getBishopWhiteMoveGenerator() {
 		return abmg;
 	}
 	
-	public BishopMoveGenerator getBishopNegroMoveGenerator() {
+	public BishopMoveGenerator getBishopBlackMoveGenerator() {
 		return anmg;
 	}	
 	

@@ -143,11 +143,11 @@ public class ChessPositionTest {
 
 		Collection<Move> moves = result.getLegalMoves();
 
-		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.d1)));
-		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.d2)));
-		assertFalse(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.e2)));
-		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f2)));
-		assertTrue(moves.contains(createSimpleKingMoveBlanco(Square.e1, Square.f1)));
+		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d1)));
+		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d2)));
+		assertFalse(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.e2)));
+		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f2)));
+		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f1)));
 
 		assertFalse(moves.contains(new CastlingWhiteKingMove()));
 		assertFalse(moves.contains(new CastlingWhiteQueenMove()));
@@ -284,7 +284,7 @@ public class ChessPositionTest {
 		BoardStatus result = analyzer.getBoardStatus();
 		Collection<Move> moves = result.getLegalMoves();
 		
-		assertFalse(moves.contains(createCapturePawnPasanteMoveNegro(Square.f4, Square.g3)));
+		assertFalse(moves.contains(createCapturePawnPasanteMoveBlack(Square.f4, Square.g3)));
 		
 		assertEquals(17, moves.size());
 		
@@ -327,14 +327,14 @@ public class ChessPositionTest {
 				new PiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	
-	private Move createCapturePawnPasanteMoveNegro(Square origen, Square destinoSquare) {
+	private Move createCapturePawnPasanteMoveBlack(Square origen, Square destinoSquare) {
 		return moveFactory.createCapturePawnPasante(new PiecePositioned(origen, Piece.PAWN_BLACK),
 				new PiecePositioned(destinoSquare, null), new PiecePositioned(
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}
 	
-	private Object createSimpleKingMoveBlanco(Square origen, Square destino) {
-		return moveFactory.createSimpleKingMoveBlanco(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
+	private Object createSimpleKingMoveWhite(Square origen, Square destino) {
+		return moveFactory.createSimpleKingMoveWhite(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
 	}	
 	
 	private void settupWithDefaultBoard() {

@@ -14,7 +14,7 @@ import chess.parsers.FENParser;
 public class FENIntegrationTest {
 
 	@Test
-	public void testTurnoBlanco() {
+	public void testTurnoWhite() {
 		FENCoder coder = new FENCoder();
 		
 		FENParser parser = new FENParser(coder);

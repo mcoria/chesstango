@@ -66,7 +66,7 @@ public class KnightMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.d3) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c4) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.c6) ));
-		// Pawn Blanco en d7
+		// Pawn White en d7
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f7, Piece.PAWN_BLACK) ));
 		
 		assertEquals(7, moves.size());

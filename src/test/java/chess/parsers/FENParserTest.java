@@ -23,10 +23,10 @@ public class FENParserTest {
 	
 	private Color turno;
 	private Square peonPasanteSquare;
-	private boolean enroqueNegroKingAllowed;
-	private boolean enroqueNegroQueenAllowed;
-	private boolean enroqueBlancoKingAllowed;
-	private boolean enroqueBlancoQueenAllowed;
+	private boolean enroqueBlackKingAllowed;
+	private boolean enroqueBlackQueenAllowed;
+	private boolean enroqueWhiteKingAllowed;
+	private boolean enroqueWhiteQueenAllowed;
 	
 	private Piece[][] tablero = null;
 			
@@ -51,23 +51,23 @@ public class FENParserTest {
 			}
 			
 			@Override
-			public void withCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
-				FENParserTest.this.enroqueNegroKingAllowed = enroqueNegroKingAllowed;
+			public void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
+				FENParserTest.this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
 			}
 			
 			@Override
-			public void withCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
-				FENParserTest.this.enroqueNegroQueenAllowed = enroqueNegroQueenAllowed;
+			public void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
+				FENParserTest.this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
 			}
 			
 			@Override
-			public void withCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
-				FENParserTest.this.enroqueBlancoKingAllowed = enroqueBlancoKingAllowed;
+			public void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
+				FENParserTest.this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
 			}
 			
 			@Override
-			public void withCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
-				FENParserTest.this.enroqueBlancoQueenAllowed = enroqueBlancoQueenAllowed;
+			public void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
+				FENParserTest.this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
 			}
 		});
 	}
@@ -222,14 +222,14 @@ public class FENParserTest {
 	}	
 	
 	@Test
-	public void testParseColorBlanco() {
+	public void testParseColorWhite() {
 		Color actualColor = parser.parseTurno("w");
 		
 		assertEquals(Color.WHITE, actualColor);
 	}	
 	
 	@Test
-	public void testParseColorNegro() {
+	public void testParseColorBlack() {
 		Color actualColor = parser.parseTurno("b");
 		
 		assertEquals(Color.BLACK, actualColor);
@@ -262,11 +262,11 @@ public class FENParserTest {
 		
 		assertEquals(Color.WHITE, this.turno);
 		
-		assertTrue(this.enroqueBlancoQueenAllowed);
-		assertTrue(this.enroqueBlancoKingAllowed);
+		assertTrue(this.enroqueWhiteQueenAllowed);
+		assertTrue(this.enroqueWhiteKingAllowed);
 		
-		assertTrue(this.enroqueNegroQueenAllowed);
-		assertTrue(this.enroqueNegroKingAllowed);		
+		assertTrue(this.enroqueBlackQueenAllowed);
+		assertTrue(this.enroqueBlackKingAllowed);		
 		
 		assertNull(this.peonPasanteSquare);
 		

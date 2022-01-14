@@ -38,7 +38,7 @@ public class ColorBoardDebug extends ColorBoard {
 	}	
 	
 	public void validar() {
-		long solapados = this.squareBlancos & this.squareNegros;
+		long solapados = this.squareWhites & this.squareBlacks;
 		if( solapados != 0 ){
 			String solapadosStr = "";
 			for (SquareIterator iterator =  new BitSquareIterator(solapados); iterator.hasNext();) {

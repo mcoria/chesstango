@@ -15,18 +15,18 @@ public class PositionState {
 
 	private Color turnoActual;
 	private Square peonPasanteSquare;
-	private boolean enroqueBlancoQueenAllowed;
-	private boolean enroqueBlancoKingAllowed;
-	private boolean enroqueNegroQueenAllowed;
-	private boolean enroqueNegroKingAllowed;
+	private boolean enroqueWhiteQueenAllowed;
+	private boolean enroqueWhiteKingAllowed;
+	private boolean enroqueBlackQueenAllowed;
+	private boolean enroqueBlackKingAllowed;
 	
 	private static class BoardStateNode {
 		private Color turnoActual;
 		private Square peonPasanteSquare;
-		private boolean enroqueBlancoQueenAllowed;
-		private boolean enroqueBlancoKingAllowed;
-		private boolean enroqueNegroQueenAllowed;
-		private boolean enroqueNegroKingAllowed;
+		private boolean enroqueWhiteQueenAllowed;
+		private boolean enroqueWhiteKingAllowed;
+		private boolean enroqueBlackQueenAllowed;
+		private boolean enroqueBlackKingAllowed;
 	}
 
 	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
@@ -40,35 +40,35 @@ public class PositionState {
 	}
 	
 	public boolean isCastlingWhiteQueenAllowed() {
-		return enroqueBlancoQueenAllowed;
+		return enroqueWhiteQueenAllowed;
 	}
 
-	public void setCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
-		this.enroqueBlancoQueenAllowed = enroqueBlancoQueenAllowed;
+	public void setCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
+		this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
 	}	
 	
 	public boolean isCastlingWhiteKingAllowed() {
-		return enroqueBlancoKingAllowed;
+		return enroqueWhiteKingAllowed;
 	}
 
-	public void setCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
-		this.enroqueBlancoKingAllowed = enroqueBlancoKingAllowed;
+	public void setCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
+		this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
 	}
 	
 	public boolean isCastlingBlackQueenAllowed() {
-		return enroqueNegroQueenAllowed;
+		return enroqueBlackQueenAllowed;
 	}
 
-	public void setCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
-		this.enroqueNegroQueenAllowed = enroqueNegroQueenAllowed;
+	public void setCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
+		this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
 	}
 
 	public boolean isCastlingBlackKingAllowed() {
-		return enroqueNegroKingAllowed;
+		return enroqueBlackKingAllowed;
 	}
 
-	public void setCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
-		this.enroqueNegroKingAllowed = enroqueNegroKingAllowed;
+	public void setCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
+		this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
 	}
 	
 	public Color getTurnoActual() {
@@ -100,10 +100,10 @@ public class PositionState {
 	private BoardStateNode saveState() {
 		BoardStateNode node = new BoardStateNode();
 		node.peonPasanteSquare = peonPasanteSquare;
-		node.enroqueBlancoQueenAllowed = enroqueBlancoQueenAllowed;
-		node.enroqueBlancoKingAllowed = enroqueBlancoKingAllowed;
-		node.enroqueNegroQueenAllowed = enroqueNegroQueenAllowed;
-		node.enroqueNegroKingAllowed = enroqueNegroKingAllowed;
+		node.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
+		node.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
+		node.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
+		node.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
 		node.turnoActual = turnoActual;
 		
 		return node;
@@ -111,10 +111,10 @@ public class PositionState {
 	
 	private void restoreState(BoardStateNode lastState){
 		peonPasanteSquare = lastState.peonPasanteSquare;
-		enroqueBlancoQueenAllowed = lastState.enroqueBlancoQueenAllowed;
-		enroqueBlancoKingAllowed = lastState.enroqueBlancoKingAllowed;
-		enroqueNegroQueenAllowed = lastState.enroqueNegroQueenAllowed;
-		enroqueNegroKingAllowed = lastState.enroqueNegroKingAllowed;	
+		enroqueWhiteQueenAllowed = lastState.enroqueWhiteQueenAllowed;
+		enroqueWhiteKingAllowed = lastState.enroqueWhiteKingAllowed;
+		enroqueBlackQueenAllowed = lastState.enroqueBlackQueenAllowed;
+		enroqueBlackKingAllowed = lastState.enroqueBlackKingAllowed;	
 		turnoActual = lastState.turnoActual;	
 	}
 
@@ -123,10 +123,10 @@ public class PositionState {
 	public PositionState clone() throws CloneNotSupportedException {
 		PositionState clone = new PositionState();
 		clone.peonPasanteSquare = peonPasanteSquare;
-		clone.enroqueBlancoQueenAllowed = enroqueBlancoQueenAllowed;
-		clone.enroqueBlancoKingAllowed = enroqueBlancoKingAllowed;
-		clone.enroqueNegroQueenAllowed = enroqueNegroQueenAllowed;
-		clone.enroqueNegroKingAllowed = enroqueNegroKingAllowed;
+		clone.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
+		clone.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
+		clone.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
+		clone.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
 		clone.turnoActual = turnoActual;
 		return clone;
 	}
@@ -136,10 +136,10 @@ public class PositionState {
 		if(obj instanceof PositionState){
 			PositionState theInstance = (PositionState) obj;
 			return Objects.equals(this.turnoActual, theInstance.turnoActual) && Objects.equals(this.peonPasanteSquare, theInstance.peonPasanteSquare) &&  
-					this.enroqueBlancoQueenAllowed == theInstance.enroqueBlancoQueenAllowed &&
-					this.enroqueBlancoKingAllowed == theInstance.enroqueBlancoKingAllowed &&
-					this.enroqueNegroQueenAllowed == theInstance.enroqueNegroQueenAllowed &&
-					this.enroqueNegroKingAllowed == theInstance.enroqueNegroKingAllowed;
+					this.enroqueWhiteQueenAllowed == theInstance.enroqueWhiteQueenAllowed &&
+					this.enroqueWhiteKingAllowed == theInstance.enroqueWhiteKingAllowed &&
+					this.enroqueBlackQueenAllowed == theInstance.enroqueBlackQueenAllowed &&
+					this.enroqueBlackKingAllowed == theInstance.enroqueBlackKingAllowed;
 		}
 		return false;
 	}
@@ -147,10 +147,10 @@ public class PositionState {
 	@Override
 	public String toString() {
 		return "Turno Actual: " + String.format("%-6s", turnoActual.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
-				", enroqueBlancoQueenAllowed: " + enroqueBlancoQueenAllowed +
-				", enroqueBlancoKingAllowed: " + enroqueBlancoKingAllowed +
-				", enroqueNegroQueenAllowed: " + enroqueNegroQueenAllowed +
-				", enroqueNegroKingAllowed: " + enroqueNegroKingAllowed 
+				", enroqueWhiteQueenAllowed: " + enroqueWhiteQueenAllowed +
+				", enroqueWhiteKingAllowed: " + enroqueWhiteKingAllowed +
+				", enroqueBlackQueenAllowed: " + enroqueBlackQueenAllowed +
+				", enroqueBlackKingAllowed: " + enroqueBlackKingAllowed 
 		;
 	}
 }

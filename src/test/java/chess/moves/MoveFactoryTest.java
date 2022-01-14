@@ -34,7 +34,7 @@ public class MoveFactoryTest {
 	}	
 	
 	@Test
-	public void testSimpleKingMoveBlancoPierdeEnroque() {
+	public void testSimpleKingMoveWhitePierdeEnroque() {
 		positionState.setTurnoActual(Color.WHITE);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
@@ -42,7 +42,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.QUEEN_BLACK);
 
-		moveExecutor = moveFactory.createCaptureKingMoveNegro(origen, destino);
+		moveExecutor = moveFactory.createCaptureKingMoveBlack(origen, destino);
 		
 		moveExecutor.executeMove(positionState);
 
@@ -53,7 +53,7 @@ public class MoveFactoryTest {
 	
 	
 	@Test
-	public void testSimpleKingMoveNegroPierdeEnroque() {
+	public void testSimpleKingMoveBlackPierdeEnroque() {
 		positionState.setTurnoActual(Color.BLACK);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
@@ -61,7 +61,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e8, Piece.KING_BLACK);
 		PiecePositioned destino = new PiecePositioned(Square.e7, null);
 
-		moveExecutor = moveFactory.createSimpleKingMoveNegro(origen, destino);
+		moveExecutor = moveFactory.createSimpleKingMoveBlack(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 
@@ -71,7 +71,7 @@ public class MoveFactoryTest {
 	}
 	
 	@Test
-	public void testCapturaKingMoveNegroPierdeEnroque() {
+	public void testCapturaKingMoveBlackPierdeEnroque() {
 		positionState.setTurnoActual(Color.BLACK);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
@@ -79,7 +79,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e8, Piece.QUEEN_BLACK);
 		PiecePositioned destino = new PiecePositioned(Square.e7, Piece.KNIGHT_WHITE);
 
-		moveExecutor = moveFactory.createCaptureKingMoveNegro(origen, destino);
+		moveExecutor = moveFactory.createCaptureKingMoveBlack(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 
@@ -89,7 +89,7 @@ public class MoveFactoryTest {
 	}
 	
 	@Test
-	public void testCapturaKingMoveBlancoPierdeEnroque() {
+	public void testCapturaKingMoveWhitePierdeEnroque() {
 		positionState.setTurnoActual(Color.WHITE);
 		positionState.setCastlingWhiteKingAllowed(true);
 		positionState.setCastlingWhiteQueenAllowed(true);
@@ -97,7 +97,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
-		moveExecutor = moveFactory.createCaptureKingMoveBlanco(origen, destino);
+		moveExecutor = moveFactory.createCaptureKingMoveWhite(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 

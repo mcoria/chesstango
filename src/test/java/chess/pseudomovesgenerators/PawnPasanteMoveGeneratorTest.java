@@ -50,7 +50,7 @@ public class PawnPasanteMoveGeneratorTest {
 
 	
 	@Test
-	public void testPawnBlancoPasanteIzquierda() {
+	public void testPawnWhitePasanteIzquierda() {
 		PiecePlacement tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.d6);
@@ -68,14 +68,14 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureNegroPawnPasanteMove(origen, Square.d6) ));
+		assertTrue(moves.contains( createCaptureBlackPawnPasanteMove(origen, Square.d6) ));
 	}
 	
 	
 
 	
 	@Test
-	public void testPawnBlancoPasanteDerecha() {
+	public void testPawnWhitePasanteDerecha() {
 		PiecePlacement tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.e6);
@@ -93,12 +93,12 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureNegroPawnPasanteMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createCaptureBlackPawnPasanteMove(origen, Square.e6) ));
 	}
 	
 
 	@Test
-	public void testPawnNegroPasanteDerecha() {
+	public void testPawnBlackPasanteDerecha() {
 		PiecePlacement tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.e3);
@@ -116,11 +116,11 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureBlancoPawnPasanteMove(origen, Square.e3) ));
+		assertTrue(moves.contains( createCaptureWhitePawnPasanteMove(origen, Square.e3) ));
 	}	
 
 	@Test
-	public void testPawnNegroPasanteIzquierda() {
+	public void testPawnBlackPasanteIzquierda() {
 		PiecePlacement tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
 		state.setPawnPasanteSquare(Square.d3);
@@ -138,14 +138,14 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureBlancoPawnPasanteMove(origen, Square.d3) ));
+		assertTrue(moves.contains( createCaptureWhitePawnPasanteMove(origen, Square.d3) ));
 	}
 
-	private Move createCaptureNegroPawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
+	private Move createCaptureBlackPawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactory.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
 	}
 	
-	private Move createCaptureBlancoPawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
+	private Move createCaptureWhitePawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactory.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
 	}	
 	

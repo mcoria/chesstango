@@ -79,7 +79,7 @@ public class KingCacheBoard {
 	
 	@Override
 	public String toString() {
-		return "King Blanco: " + squareKingWhiteCache.toString() + ", King Negro: " + squareKingBlackCache.toString();
+		return "King White: " + squareKingWhiteCache.toString() + ", King Black: " + squareKingBlackCache.toString();
 	}
 	
 }

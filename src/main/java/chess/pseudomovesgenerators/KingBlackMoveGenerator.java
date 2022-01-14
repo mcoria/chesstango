@@ -65,12 +65,12 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 	//TODO: agregar test case (cuando el king se mueve pierde enroque) y agregar validacion en state 
 	@Override
 	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createSimpleKingMoveNegro(origen, destino);
+		return this.moveFactory.createSimpleKingMoveBlack(origen, destino);
 	}
 
 	@Override
 	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureKingMoveNegro(origen, destino);
+		return this.moveFactory.createCaptureKingMoveBlack(origen, destino);
 	}	
 
 }

@@ -169,23 +169,23 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	}
 
 	@Override
-	public void withCastlingWhiteQueenAllowed(boolean enroqueBlancoQueenAllowed) {
-		builder.withCastlingWhiteQueenAllowed(enroqueBlancoQueenAllowed);
+	public void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
+		builder.withCastlingWhiteQueenAllowed(enroqueWhiteQueenAllowed);
 	}
 
 	@Override
-	public void withCastlingWhiteKingAllowed(boolean enroqueBlancoKingAllowed) {
-		builder.withCastlingWhiteKingAllowed(enroqueBlancoKingAllowed);
+	public void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
+		builder.withCastlingWhiteKingAllowed(enroqueWhiteKingAllowed);
 	}
 
 	@Override
-	public void withCastlingBlackQueenAllowed(boolean enroqueNegroQueenAllowed) {
-		builder.withCastlingBlackQueenAllowed(enroqueNegroQueenAllowed);
+	public void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
+		builder.withCastlingBlackQueenAllowed(enroqueBlackQueenAllowed);
 	}
 
 	@Override
-	public void withCastlingBlackKingAllowed(boolean enroqueNegroKingAllowed) {
-		builder.withCastlingBlackKingAllowed(enroqueNegroKingAllowed);
+	public void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
+		builder.withCastlingBlackKingAllowed(enroqueBlackKingAllowed);
 	}
 
 	@Override

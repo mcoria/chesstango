@@ -9,11 +9,11 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class PawnNegroMoveGenerator extends PawnAbstractMoveGenerator {
+public class PawnBlackMoveGenerator extends PawnAbstractMoveGenerator {
 	
 	private static final Piece[] PROMOCIONES_BLACK = new Piece[]{Piece.ROOK_BLACK, Piece.KNIGHT_BLACK, Piece.BISHOP_BLACK, Piece.QUEEN_BLACK};
 	
-	public PawnNegroMoveGenerator() {
+	public PawnBlackMoveGenerator() {
 		super(Color.BLACK);
 	}
 

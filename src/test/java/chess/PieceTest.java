@@ -12,7 +12,7 @@ import org.junit.Test;
 public class PieceTest {
 
 	@Test
-	public void testBlanco() {
+	public void testWhite() {
 		assertEquals(Color.WHITE, Piece.PAWN_WHITE.getColor());
 		assertEquals(Color.WHITE, Piece.ROOK_WHITE.getColor());
 		assertEquals(Color.WHITE, Piece.KNIGHT_WHITE.getColor());
@@ -22,7 +22,7 @@ public class PieceTest {
 	}
 	
 	@Test
-	public void testNegro() {
+	public void testBlack() {
 		assertEquals(Color.BLACK, Piece.PAWN_BLACK.getColor());
 		assertEquals(Color.BLACK, Piece.ROOK_BLACK.getColor());
 		assertEquals(Color.BLACK, Piece.KNIGHT_BLACK.getColor());
