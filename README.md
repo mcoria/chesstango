@@ -30,11 +30,11 @@ Command pattern in combination with Visitor pattern can be found at moveexecutor
 Builder pattern has been implemented with different participant classes
 - Builder: ChessBuilder class declares the interface.
 - Concrete Builders
-	-ASCIIOutput, the result is retrived with method xXX
-    -FENCoder, the result is retrived with method XX
-    -ChessBuilderParts 
-	-ChessBuilderBoard 
-	-ChessBuilderGame
+  * ASCIIOutput, the result is retrived with method xXX
+  * FENCoder, the result is retrived with method XX
+  * ChessBuilderParts 
+  * ChessBuilderBoard 
+  * ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
 
 Decorator pattern can be found at moveexecutors package. MoveDecorator is an abstract class that declares a reference to concrete componenets being decoreted.
