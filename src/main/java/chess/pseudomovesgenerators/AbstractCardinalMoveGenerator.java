@@ -20,17 +20,17 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	
 	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);		
 	
-	private final Cardinal[] direcciones;
+	private final Cardinal[] directions;
 
-	public AbstractCardinalMoveGenerator(Color color, Cardinal[] direcciones) {
+	public AbstractCardinalMoveGenerator(Color color, Cardinal[] directions) {
 		super(color);
-		this.direcciones = direcciones;
+		this.directions = directions;
 	}
 
 	//TODO: podra utilizarse streams para paralelizar?
 	@Override
 	public void generateMovesPseudoMoves(PiecePositioned origen) {
-		for (Cardinal cardinal : this.direcciones) {
+		for (Cardinal cardinal : this.directions) {
 			getPseudoMoves(origen, cardinal);
 		}
 	}
@@ -59,7 +59,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 
 	@Override
 	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
-		for (Cardinal cardinal : this.direcciones) {
+		for (Cardinal cardinal : this.directions) {
 			if(cardinal.isInDirection(origen.getKey(), square)){
 				return puedeCapturarPosicion(origen, square, cardinal);
 			}

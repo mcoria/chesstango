@@ -23,7 +23,7 @@ Behavioral Patterns
 - Visitor
 - Iterator
 
-Template method pattern in combination with Factory method pattern can be found at AbstractCardinalMoveGenerator.java class. 
+Template method pattern in combination with Factory method pattern can be found at [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class. 
 
 Command pattern in combination with Visitor pattern can be found at moveexecutors package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
 
