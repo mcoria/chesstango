@@ -69,7 +69,7 @@ public class DefaultLegalMoveCalculatorTest {
 		capturer = new ImprovedCapturer(dummyBoard);
 		
 		strategy = new MoveGeneratorStrategy();
-		strategy.setDummyBoard(dummyBoard);
+		strategy.setPiecePlacement(dummyBoard);
 		strategy.setBoardState(positionState);
 		strategy.setColorBoard(colorBoard);
 		

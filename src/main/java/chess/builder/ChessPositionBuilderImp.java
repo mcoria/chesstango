@@ -61,7 +61,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 		if (chessPosition == null) {
 			chessPosition = chessFactory.createChessPosition();
 
-			chessPosition.setDummyBoard(builder.getPiecePlacement());
+			chessPosition.setPiecePlacement(builder.getPiecePlacement());
 
 			chessPosition.setBoardState(builder.getPositionState());
 
@@ -129,7 +129,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
 			moveGeneratorStrategy.setMoveFactory(new MoveFactory());
-			moveGeneratorStrategy.setDummyBoard(builder.getPiecePlacement());
+			moveGeneratorStrategy.setPiecePlacement(builder.getPiecePlacement());
 			moveGeneratorStrategy.setBoardState(builder.getPositionState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
 		}

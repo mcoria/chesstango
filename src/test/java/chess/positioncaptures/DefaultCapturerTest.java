@@ -28,7 +28,7 @@ public class DefaultCapturerTest {
 		ColorBoard colorBoard = new ColorBoard(dummyBoard);
 		
 		MoveGeneratorStrategy moveGeneratorStrategy = new MoveGeneratorStrategy();
-		moveGeneratorStrategy.setDummyBoard(dummyBoard);
+		moveGeneratorStrategy.setPiecePlacement(dummyBoard);
 		moveGeneratorStrategy.setColorBoard(colorBoard);
 		
 		IteratorCapturer capturer = new IteratorCapturer(dummyBoard, colorBoard, moveGeneratorStrategy);

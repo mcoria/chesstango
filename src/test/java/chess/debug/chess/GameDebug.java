@@ -77,7 +77,7 @@ public class GameDebug extends Game {
 		}
 	}
 	
-	public void setDummyBoard(PiecePlacement dummyBoard) {
+	public void setPiecePlacement(PiecePlacement dummyBoard) {
 		this.piecePlacement = dummyBoard;
 	}
 

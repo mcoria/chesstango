@@ -66,7 +66,7 @@ public class MoveGeneratorStrategy {
 		return Color.WHITE.equals(color) ? this.rbmg : this.rnmg;
 	}
 	
-	public void setDummyBoard(PiecePlacement dummyBoard) {
+	public void setPiecePlacement(PiecePlacement dummyBoard) {
 		this.dummyBoard = dummyBoard;
 		settupMoveGenerators();
 	}

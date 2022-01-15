@@ -90,7 +90,7 @@ public class ChessPosition {
 	    return this.piecePlacement.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
 	}
 
-	public void setDummyBoard(PiecePlacement dummyBoard) {
+	public void setPiecePlacement(PiecePlacement dummyBoard) {
 		this.piecePlacement = dummyBoard;
 	}
 
