@@ -1,4 +1,4 @@
-package chess.pseudomovesfilters;
+package chess.legalmovesgenerators;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
+import chess.legalmovesgenerators.MoveFilter;
+import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -13,9 +15,6 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.positioncaptures.Capturer;
-import chess.positioncaptures.ImprovedCapturer;
-import chess.pseudomovesfilters.MoveFilter;
-import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
@@ -23,9 +22,9 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  * @author Mauricio Coria
  *
  */
-public class NoCheckLegalMoveCalculatorTest {
+public class NoCheckLegalMoveGeneratorTest {
 
-	private NoCheckLegalMoveCalculator moveCalculator;
+	private NoCheckLegalMoveGenerator moveCalculator;
 	
 	private PiecePlacement dummyBoard;
 	
@@ -48,7 +47,7 @@ public class NoCheckLegalMoveCalculatorTest {
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b KQkq - 0 1");
 		
-		moveCalculator = new NoCheckLegalMoveCalculator(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
+		moveCalculator = new NoCheckLegalMoveGenerator(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 		
 		//assertFalse(moveCalculator.existsLegalMove());
 		assertTrue(moveCalculator.getLegalMoves().isEmpty());
@@ -65,7 +64,7 @@ public class NoCheckLegalMoveCalculatorTest {
 		kingCacheBoard = new KingCacheBoard(dummyBoard);
 		colorBoard = new ColorBoard(dummyBoard);
 		
-		capturer = new ImprovedCapturer(dummyBoard);
+		capturer = new Capturer(dummyBoard);
 		
 		strategy = new MoveGeneratorStrategy();
 		strategy.setPiecePlacement(dummyBoard);

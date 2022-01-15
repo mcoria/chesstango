@@ -17,12 +17,12 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.KingCacheBoardDebug;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.SimpleKingMove;
 import chess.position.ChessPosition;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
-import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

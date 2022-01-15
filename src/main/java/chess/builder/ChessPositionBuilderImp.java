@@ -5,15 +5,14 @@ import chess.Color;
 import chess.Game;
 import chess.Piece;
 import chess.Square;
+import chess.legalmovesgenerators.LegalMoveGenerator;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.MoveFactory;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.positioncaptures.Capturer;
-import chess.positioncaptures.ImprovedCapturer;
-import chess.pseudomovesfilters.LegalMoveCalculator;
-import chess.pseudomovesfilters.MoveFilter;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
@@ -38,11 +37,11 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 
 	private BoardAnalyzer boardAnalyzer = null;
 
-	private LegalMoveCalculator defaultMoveCalculator = null;
+	private LegalMoveGenerator defaultMoveCalculator = null;
 
-	private LegalMoveCalculator noCheckLegalMoveCalculator = null;
+	private LegalMoveGenerator noCheckLegalMoveGenerator = null;
 
-	private ImprovedCapturer improvedCapturer = null;
+	private Capturer capturer = null;
 
 	private MoveFilter moveFilter;
 	
@@ -89,16 +88,16 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 			boardAnalyzer.setKingCacheBoard(buildKingCacheBoard());
 			boardAnalyzer.setCapturer(buildCapturer());
 			boardAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
-			boardAnalyzer.setNoCheckLegalMoveCalculator(buildNoCheckLegalMoveCalculator());			
+			boardAnalyzer.setNoCheckLegalMoveGenerator(buildNoCheckLegalMoveGenerator());			
 		}
 		return boardAnalyzer;
 	}
 
 	protected Capturer buildCapturer() {
-		if(improvedCapturer == null){
-			improvedCapturer = new ImprovedCapturer(builder.getPiecePlacement());
+		if(capturer == null){
+			capturer = new Capturer(builder.getPiecePlacement());
 		}
-		return improvedCapturer;
+		return capturer;
 	}
 
 
@@ -109,20 +108,20 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 		return moveCache;
 	}
 
-	protected LegalMoveCalculator buildDefaultMoveCalculator() {
+	protected LegalMoveGenerator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveCalculator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
 
-	protected LegalMoveCalculator buildNoCheckLegalMoveCalculator() {
-		if (noCheckLegalMoveCalculator == null) {
-			noCheckLegalMoveCalculator = chessFactory.createNoCheckLegalMoveCalculator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
+	protected LegalMoveGenerator buildNoCheckLegalMoveGenerator() {
+		if (noCheckLegalMoveGenerator == null) {
+			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
 					buildMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
-		return noCheckLegalMoveCalculator;
+		return noCheckLegalMoveGenerator;
 	}	
 
 	protected MoveGeneratorStrategy buildMoveGeneratorStrategy() {

@@ -1,10 +1,10 @@
 package chess.moves;
 
 import chess.PiecePositioned;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
-import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

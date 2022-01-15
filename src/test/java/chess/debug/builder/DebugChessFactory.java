@@ -3,12 +3,15 @@ package chess.debug.builder;
 import chess.builder.ChessFactory;
 import chess.debug.chess.ChessPositionDebug;
 import chess.debug.chess.PositionStateDebug;
+import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
+import chess.legalmovesgenerators.MoveFilter;
+import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.debug.chess.ColorBoardDebug;
-import chess.debug.chess.DefaultLegalMoveCalculatorDebug;
+import chess.debug.chess.DefaultLegalMoveGeneratorDebug;
 import chess.debug.chess.KingCacheBoardDebug;
 import chess.debug.chess.MoveCacheBoardDebug;
 import chess.debug.chess.MoveFilterDebug;
-import chess.debug.chess.NoCheckLegalMoveCalculatorDebug;
+import chess.debug.chess.NoCheckLegalMoveGeneratorDebug;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -16,9 +19,6 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.positioncaptures.Capturer;
-import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
-import chess.pseudomovesfilters.MoveFilter;
-import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
@@ -34,19 +34,19 @@ public class DebugChessFactory extends ChessFactory {
 	}	
 	
 	@Override
-	public DefaultLegalMoveCalculator createDefaultLegalMoveCalculator(PiecePlacement buildDummyBoard,
+	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
 		
-		return new DefaultLegalMoveCalculatorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
+		return new DefaultLegalMoveGeneratorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 	
 	@Override
-	public NoCheckLegalMoveCalculator createNoCheckLegalMoveCalculator(PiecePlacement buildPosicionPiezaBoard,
+	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new NoCheckLegalMoveCalculatorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
+		return new NoCheckLegalMoveGeneratorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}	
 	

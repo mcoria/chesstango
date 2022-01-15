@@ -1,5 +1,9 @@
 package chess.builder;
 
+import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
+import chess.legalmovesgenerators.LegalMoveGenerator;
+import chess.legalmovesgenerators.MoveFilter;
+import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -8,10 +12,6 @@ import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
 import chess.positioncaptures.Capturer;
-import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
-import chess.pseudomovesfilters.LegalMoveCalculator;
-import chess.pseudomovesfilters.MoveFilter;
-import chess.pseudomovesfilters.NoCheckLegalMoveCalculator;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
@@ -24,17 +24,17 @@ public class ChessFactory {
 		return new ChessPosition();
 	}
 
-	public LegalMoveCalculator createDefaultLegalMoveCalculator(PiecePlacement buildDummyBoard,
+	public LegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new DefaultLegalMoveCalculator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
+		return new DefaultLegalMoveGenerator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 
-	public LegalMoveCalculator createNoCheckLegalMoveCalculator(PiecePlacement buildPosicionPiezaBoard,
+	public LegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
 			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new NoCheckLegalMoveCalculator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
+		return new NoCheckLegalMoveGenerator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}
 

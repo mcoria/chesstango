@@ -2,8 +2,8 @@ package chess.moves;
 
 import java.util.function.Consumer;
 
+import chess.legalmovesgenerators.MoveFilter;
 import chess.position.PositionState;
-import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

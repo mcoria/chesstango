@@ -1,12 +1,12 @@
 package chess.moves;
 
 import chess.PiecePositioned;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
-import chess.pseudomovesfilters.MoveFilter;
 
 //TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
 

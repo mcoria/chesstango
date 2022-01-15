@@ -2,11 +2,11 @@ package chess.moves;
 
 import chess.PiecePositioned;
 import chess.Square;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.PositionState;
-import chess.pseudomovesfilters.MoveFilter;
 
 /**
  * @author Mauricio Coria

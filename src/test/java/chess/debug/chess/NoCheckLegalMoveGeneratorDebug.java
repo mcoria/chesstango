@@ -2,6 +2,10 @@ package chess.debug.chess;
 
 import java.util.Collection;
 
+import chess.PiecePositioned;
+import chess.Square;
+import chess.legalmovesgenerators.MoveFilter;
+import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.moves.Move;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -9,8 +13,8 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
-import chess.pseudomovesfilters.DefaultLegalMoveCalculator;
-import chess.pseudomovesfilters.MoveFilter;
+import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
@@ -18,13 +22,14 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  * @author Mauricio Coria
  *
  */
-public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator {
+public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 
-	public DefaultLegalMoveCalculatorDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
+	public NoCheckLegalMoveGeneratorDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 	}
 	
+
 	@Override
 	public Collection<Move> getLegalMoves() {
 		try {
@@ -66,5 +71,32 @@ public class DefaultLegalMoveCalculatorDebug extends DefaultLegalMoveCalculator 
 		}
 	}
 	
+	@Override
+	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
+		MoveGeneratorResult generatorResultCache = moveCache.getPseudoMovesResult(origenSquare);
+		
+		if (generatorResultCache != null) {
+	
+			PiecePositioned origen = dummyBoard.getPosicion(origenSquare);
+	
+			MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
+											//origen.getValue().getMoveGenerator(strategy); Mala performance
+	
+			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+	
+			// comenzar comparaciones
+			if(generatorResultCache.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {
+				throw new RuntimeException("El cache quedó en estado inconsistente");
+			}
+			
+			if(generatorResultCache.getAffectedBy() != generatorResult.getAffectedBy()) {
+				throw new RuntimeException("AffectedBy es distinto");
+			}			
+			
+			return generatorResultCache;
+		}
+		
+		return super.getPseudoMovesResult(origenSquare);
+	}
 
 }

@@ -1,4 +1,4 @@
-package chess.pseudomovesfilters;
+package chess.legalmovesgenerators;
 
 import java.util.Collection;
 
@@ -22,9 +22,9 @@ import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
  * @author Mauricio Coria
  *
  */
-public class NoCheckLegalMoveCalculator extends AbstractLegalMoveCalculator {
+public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
-	public NoCheckLegalMoveCalculator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
+	public NoCheckLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 	}

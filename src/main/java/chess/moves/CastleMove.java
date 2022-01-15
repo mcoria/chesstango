@@ -2,6 +2,7 @@ package chess.moves;
 
 import chess.Color;
 import chess.PiecePositioned;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -9,7 +10,6 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.positioncaptures.Capturer;
-import chess.pseudomovesfilters.MoveFilter;
 
 /**
  * @author Mauricio Coria

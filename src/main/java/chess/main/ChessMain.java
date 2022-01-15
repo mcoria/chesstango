@@ -158,8 +158,8 @@ public class ChessMain {
 			System.out.println("Level " + i + " nodes=" + nodeListMap.get(i).size() + " repeated=" + repetedNodes[i]);
 		}
 		
-		//System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
-		//System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
+		//System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);
+		//System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);
 	}
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion

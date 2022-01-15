@@ -1,4 +1,4 @@
-package chess.pseudomovesfilters;
+package chess.legalmovesgenerators;
 
 import java.util.Collection;
 
@@ -14,6 +14,6 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public interface LegalMoveCalculator {
+public interface LegalMoveGenerator {
 	Collection<Move> getLegalMoves();
 }

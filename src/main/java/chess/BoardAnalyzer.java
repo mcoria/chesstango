@@ -2,14 +2,14 @@ package chess;
 
 import java.util.Collection;
 
+import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.moves.Move;
 import chess.position.KingCacheBoard;
 import chess.position.PositionState;
 import chess.positioncaptures.Capturer;
-import chess.pseudomovesfilters.LegalMoveCalculator;
 
 /*
- * Necesitamos los estadios para seleccionar el LegalMoveCalculator que corresponde
+ * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
  */
 
 //TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
@@ -29,9 +29,9 @@ public class BoardAnalyzer {
 
 	private Capturer capturer;
 	
-	private LegalMoveCalculator defaultMoveCalculator = null;
+	private LegalMoveGenerator defaultMoveCalculator = null;
 	
-	private LegalMoveCalculator noCheckLegalMoveCalculator = null;		
+	private LegalMoveGenerator noCheckLegalMoveGenerator = null;		
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
@@ -54,9 +54,9 @@ public class BoardAnalyzer {
 		return getMoveCalculator().getLegalMoves();
 	}	
 	
-	public LegalMoveCalculator getMoveCalculator() {
+	public LegalMoveGenerator getMoveCalculator() {
 		if(! isKingInCheck() ){
-			return noCheckLegalMoveCalculator;
+			return noCheckLegalMoveGenerator;
 		}
 		return defaultMoveCalculator;
 	}	
@@ -74,12 +74,12 @@ public class BoardAnalyzer {
 	}
 	
 
-	public void setDefaultMoveCalculator(LegalMoveCalculator defaultMoveCalculator) {
+	public void setDefaultMoveCalculator(LegalMoveGenerator defaultMoveCalculator) {
 		this.defaultMoveCalculator = defaultMoveCalculator;
 	}
 
-	public void setNoCheckLegalMoveCalculator(LegalMoveCalculator noCheckLegalMoveCalculator) {
-		this.noCheckLegalMoveCalculator = noCheckLegalMoveCalculator;
+	public void setNoCheckLegalMoveGenerator(LegalMoveGenerator noCheckLegalMoveGenerator) {
+		this.noCheckLegalMoveGenerator = noCheckLegalMoveGenerator;
 	}	
 	
 	protected boolean calculateKingInCheck() {

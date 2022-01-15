@@ -117,8 +117,8 @@ public class Perft {
 			}
 		}
 		
-		//System.out.println("DefaultLegalMoveCalculator "  + DefaultLegalMoveCalculator.count);
-		//System.out.println("NoCheckLegalMoveCalculator "  + NoCheckLegalMoveCalculator.count);
+		//System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);
+		//System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);
 	}
 	
 

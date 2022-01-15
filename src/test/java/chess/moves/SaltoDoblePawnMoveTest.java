@@ -16,13 +16,13 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.PositionStateDebug;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.debug.chess.ColorBoardDebug;
 import chess.moves.SaltoDoblePawnMove;
 import chess.position.ChessPosition;
 import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.imp.ArrayPiecePlacement;
-import chess.pseudomovesfilters.MoveFilter;
 
 
 /**

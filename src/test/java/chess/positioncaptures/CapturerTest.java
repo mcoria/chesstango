@@ -11,19 +11,18 @@ import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
-import chess.positioncaptures.ImprovedCapturer;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ImprovedCapturerTest {
+public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnWhite() {
 		PiecePlacement dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		
-		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
+		Capturer capturer = new Capturer(dummyBoard);
 		
 		assertTrue( capturer.positionCaptured(Color.WHITE, Square.a6) );
 		assertFalse( capturer.positionCaptured(Color.WHITE, Square.b6) );
@@ -34,7 +33,7 @@ public class ImprovedCapturerTest {
 	public void testPositionCapturedByPawnBlack() {
 		PiecePlacement dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
 		
-		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
+		Capturer capturer = new Capturer(dummyBoard);
 		
 		assertTrue( capturer.positionCaptured(Color.BLACK, Square.a4) );
 		assertFalse( capturer.positionCaptured(Color.BLACK, Square.b4) );
@@ -46,7 +45,7 @@ public class ImprovedCapturerTest {
 	public void testPositionCapturedByKnight() {
 		PiecePlacement dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
 		
-		ImprovedCapturer capturer = new ImprovedCapturer(dummyBoard);
+		Capturer capturer = new Capturer(dummyBoard);
 		
 		assertTrue( capturer.positionCaptured(Color.WHITE, Square.c7) );
 		assertTrue( capturer.positionCaptured(Color.WHITE, Square.e7) );
