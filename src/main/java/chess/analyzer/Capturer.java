@@ -1,4 +1,4 @@
-package chess.positioncaptures;
+package chess.analyzer;
 
 import chess.Color;
 import chess.Piece;

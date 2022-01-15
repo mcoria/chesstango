@@ -1,5 +1,6 @@
 package chess.debug.chess;
 
+import chess.analyzer.Capturer;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
 import chess.position.ColorBoard;
@@ -7,7 +8,6 @@ import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
-import chess.positioncaptures.Capturer;
 
 
 /**

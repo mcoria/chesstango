@@ -1,12 +1,12 @@
 package chess.legalmovesgenerators;
 
 import chess.Color;
+import chess.analyzer.Capturer;
 import chess.moves.Move;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.positioncaptures.Capturer;
 
 
 //TODO: implemetar double dispatcher para esta clase desde Move y MoveKing

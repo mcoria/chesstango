@@ -1,12 +1,12 @@
-package chess;
+package chess.analyzer;
 
 import java.util.Collection;
 
+import chess.Color;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.moves.Move;
 import chess.position.KingCacheBoard;
 import chess.position.PositionState;
-import chess.positioncaptures.Capturer;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
@@ -19,7 +19,7 @@ import chess.positioncaptures.Capturer;
  * @author Mauricio Coria
  *
  */
-public class BoardAnalyzer {
+public class PositionAnalyzer {
 
 	private PositionState positionState = null;
 	
@@ -37,20 +37,15 @@ public class BoardAnalyzer {
 		return isKingInCheck;
 	}
 	
-	public BoardStatus getBoardStatus() {
-		this.isKingInCheck = calculateKingInCheck();
-		
-		//boolean existsLegalMove = getMoveCalculator().existsLegalMove();
-		
-		BoardStatus result = new BoardStatus();
+	public AnalyzerResult analyze() {
+		isKingInCheck = calculateKingInCheck();
+		AnalyzerResult result = new AnalyzerResult();
 		result.setKingInCheck(isKingInCheck);
 		result.setLegalMoves(getLegalMoves());
-		//result.setExistsLegalMove(existsLegalMove);
-
 		return result;
 	}
 	
-	public Collection<Move> getLegalMoves() {
+	protected Collection<Move> getLegalMoves() {
 		return getMoveCalculator().getLegalMoves();
 	}	
 	

@@ -1,5 +1,6 @@
 package chess.builder;
 
+import chess.analyzer.Capturer;
 import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
@@ -11,7 +12,6 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
-import chess.positioncaptures.Capturer;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**

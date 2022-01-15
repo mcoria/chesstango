@@ -2,6 +2,8 @@ package chess;
 
 import java.util.Collection;
 
+import chess.analyzer.PositionAnalyzer;
+import chess.analyzer.AnalyzerResult;
 import chess.moves.Move;
 import chess.position.ChessPosition;
 
@@ -22,7 +24,7 @@ public class Game {
 	
 	private GameStack boardPila = new GameStack();
 	
-	private BoardAnalyzer analyzer = null;	
+	private PositionAnalyzer analyzer = null;	
 	
 	public Game(ChessPosition tablero){
 		this.chessPosition = tablero;
@@ -67,19 +69,19 @@ public class Game {
 	
 
 	protected GameStatus updateGameStatus() {
-		BoardStatus boardStatus = getBoardStatus();
-		Collection<Move> movimientosPosibles = boardStatus.getLegalMoves();
+		AnalyzerResult analyzerResult = analyzer.analyze();
+		Collection<Move> movimientosPosibles = analyzerResult.getLegalMoves();
 		boolean existsLegalMove = !movimientosPosibles.isEmpty();
 		GameStatus gameStatus = null;
 
 		if (existsLegalMove) {
-			if (boardStatus.isKingInCheck()) {
+			if (analyzerResult.isKingInCheck()) {
 				gameStatus = GameStatus.JAQUE;
 			} else {
 				gameStatus = GameStatus.IN_PROGRESS;
 			}
 		} else {
-			if (boardStatus.isKingInCheck()) {
+			if (analyzerResult.isKingInCheck()) {
 				gameStatus = GameStatus.JAQUE_MATE;
 			} else {
 				gameStatus = GameStatus.TABLAS;
@@ -122,17 +124,8 @@ public class Game {
 		return boardPila.getStatus();
 	}
 	
-	public void setAnalyzer(BoardAnalyzer analyzer) {
+	public void setAnalyzer(PositionAnalyzer analyzer) {
 		this.analyzer = analyzer;
 		updateGameStatus();
 	}
-	
-	public BoardStatus getBoardStatus() {
-		return analyzer.getBoardStatus();
-	}
-	
-	public final Collection<Move> getLegalMoves() {
-		return analyzer.getLegalMoves();
-	}		
-
 }

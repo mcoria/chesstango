@@ -1,10 +1,11 @@
 package chess.builder;
 
-import chess.BoardAnalyzer;
 import chess.Color;
 import chess.Game;
 import chess.Piece;
 import chess.Square;
+import chess.analyzer.PositionAnalyzer;
+import chess.analyzer.Capturer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.MoveFactory;
@@ -12,7 +13,6 @@ import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
-import chess.positioncaptures.Capturer;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
@@ -35,7 +35,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 
 	private KingCacheBoard kingCacheBoard = null;
 
-	private BoardAnalyzer boardAnalyzer = null;
+	private PositionAnalyzer positionAnalyzer = null;
 
 	private LegalMoveGenerator defaultMoveCalculator = null;
 
@@ -81,16 +81,16 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 		return game;
 	}	
 	
-	public BoardAnalyzer getAnalyzer() {
-		if (boardAnalyzer == null) {
-			boardAnalyzer = new BoardAnalyzer();
-			boardAnalyzer.setBoardState(builder.getPositionState());
-			boardAnalyzer.setKingCacheBoard(buildKingCacheBoard());
-			boardAnalyzer.setCapturer(buildCapturer());
-			boardAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
-			boardAnalyzer.setNoCheckLegalMoveGenerator(buildNoCheckLegalMoveGenerator());			
+	public PositionAnalyzer getAnalyzer() {
+		if (positionAnalyzer == null) {
+			positionAnalyzer = new PositionAnalyzer();
+			positionAnalyzer.setBoardState(builder.getPositionState());
+			positionAnalyzer.setKingCacheBoard(buildKingCacheBoard());
+			positionAnalyzer.setCapturer(buildCapturer());
+			positionAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
+			positionAnalyzer.setNoCheckLegalMoveGenerator(buildNoCheckLegalMoveGenerator());			
 		}
-		return boardAnalyzer;
+		return positionAnalyzer;
 	}
 
 	protected Capturer buildCapturer() {

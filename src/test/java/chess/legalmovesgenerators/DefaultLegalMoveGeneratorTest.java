@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import chess.analyzer.Capturer;
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
@@ -14,7 +15,6 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.positioncaptures.Capturer;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 

@@ -3,9 +3,8 @@
  */
 package chess.debug.chess;
 
-import chess.BoardStatus;
-import chess.Game;
-import chess.position.ChessPosition;
+import chess.analyzer.AnalyzerResult;
+import chess.analyzer.PositionAnalyzer;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
@@ -17,7 +16,7 @@ import chess.position.imp.ArrayPiecePlacement;
  * @author Mauricio Coria
  *
  */
-public class GameDebug extends Game {
+public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
 	protected PiecePlacement piecePlacement = null;
 	protected ColorBoard colorBoard = null;
@@ -25,29 +24,24 @@ public class GameDebug extends Game {
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;	
 
-	/**
-	 * @param tablero
-	 */
-	public GameDebug(ChessPosition tablero) {
-		super(tablero);
-	}
+
 
 	@Override
 	// TODO: validadciones del metodo getBoardStatus(): 
 	//      								a) no modifica el tablero
 	//										b) no modifica el estado
 	//										c) no modifica el cache de king
-	public BoardStatus getBoardStatus() {
+	public AnalyzerResult analyze() {
 		try {
 			boolean reportError = false;
 			
-			ArrayPiecePlacement boardInicial = ((ArrayPiecePlacement) this.piecePlacement).clone();
+			PiecePlacement boardInicial =  ((ArrayPiecePlacement)this.piecePlacement).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
 			
 			PositionState boardStateInicial = this.positionState.clone();
 
-			BoardStatus result = super.getBoardStatus();
+			AnalyzerResult result = analyze();
 			
 			if (!this.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");

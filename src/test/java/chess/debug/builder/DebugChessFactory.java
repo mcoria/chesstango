@@ -1,5 +1,6 @@
 package chess.debug.builder;
 
+import chess.analyzer.Capturer;
 import chess.builder.ChessFactory;
 import chess.debug.chess.ChessPositionDebug;
 import chess.debug.chess.PositionStateDebug;
@@ -18,7 +19,6 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.positioncaptures.Capturer;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 

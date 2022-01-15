@@ -1,4 +1,4 @@
-package chess;
+package chess.analyzer;
 
 import java.util.Collection;
 
@@ -8,12 +8,9 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class BoardStatus {
-	
+public class AnalyzerResult {
 	private boolean isKingInCheck;
 	private Collection<Move> legalMoves;
-	//private boolean existsLegalMove;
-	
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
@@ -35,14 +32,4 @@ public class BoardStatus {
 	public boolean isExistsLegalMove() {
 		return !legalMoves.isEmpty();
 	}
-
-	/*
-	public boolean isExistsLegalMove() {
-		return existsLegalMove;
-	}
-
-	public void setExistsLegalMove(boolean existsLegalMove) {
-		this.existsLegalMove = existsLegalMove;
-	}*/
-
 }

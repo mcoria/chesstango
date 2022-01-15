@@ -1,4 +1,4 @@
-package chess.positioncaptures;
+package chess.analyzer;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import chess.Color;
 import chess.Square;
+import chess.analyzer.Capturer;
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.parsers.FENParser;
