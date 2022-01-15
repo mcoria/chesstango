@@ -120,13 +120,5 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 
-	@Override
-	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
-		if(square.equals(getCasilleroAtaqueIzquirda(origen.getKey())) ||
-		   square.equals(getCasilleroAtaqueDerecha(origen.getKey())) ){
-			return true;
-		}
-		return false;
-	}
 
 }

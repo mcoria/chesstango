@@ -47,22 +47,4 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 
-	@Override
-	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
-		Square squareOrigen = origen.getKey();
-		int fileOrigen = squareOrigen.getFile();
-		int rankOrigen = squareOrigen.getRank();
-		
-		int fileKing = square.getFile();
-		int rankKing = square.getRank();
-
-		for (int i = 0; i < saltos.length; i++) {
-			if(fileOrigen + saltos[i][0] == fileKing && rankOrigen + saltos[i][1] == rankKing) {
-				return true;
-			}
-				
-		}
-		return false;		
-	}
-
 }

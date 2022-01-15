@@ -57,16 +57,6 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 		}
 	}
 
-	@Override
-	public boolean puedeCapturarPosicion(PiecePositioned origen, Square square) {
-		for (Cardinal cardinal : this.directions) {
-			if(cardinal.isInDirection(origen.getKey(), square)){
-				return puedeCapturarPosicion(origen, square, cardinal);
-			}
-		}
-		return false;
-	}
-
 	protected boolean puedeCapturarPosicion(PiecePositioned origen, Square square,
 			Cardinal cardinal) {
 		Square casillero = origen.getKey();

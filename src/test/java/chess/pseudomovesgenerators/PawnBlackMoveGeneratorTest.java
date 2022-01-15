@@ -127,19 +127,6 @@ public class PawnBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createCaptureMove(origen, Square.f6, Piece.PAWN_WHITE) ));
 		
 		assertEquals(3, moves.size());
-	}
-	
-	@Test
-	public void testPuedeCapturarKing() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/6p1/4K2R");
-		
-		assertEquals(Piece.KING_WHITE, tablero.getPieza(Square.e1));
-		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.h1));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.g2));
-
-		PiecePositioned origen = new PiecePositioned(Square.g2, Piece.PAWN_BLACK);
-
-		assertTrue( moveGenerator.puedeCapturarPosicion(origen, Square.f1) );
 	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
