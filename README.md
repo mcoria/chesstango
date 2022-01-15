@@ -13,9 +13,23 @@ Although performance is taken into consideration, this is not the top non-functi
 - Factory method
 - Builder
 
+Builder pattern has been implemented with different participant classes
+- Builder: ChessBuilder class declares the interface.
+- Concrete Builders
+  * ASCIIOutput, the result is retrived with method xXX
+  * FENCoder, the result is retrived with method XX
+  * ChessBuilderParts 
+  * ChessBuilderBoard 
+  * ChessBuilderGame
+- Director: Board.constructBoardRepresentation() is the director method
+
 ## Structural Patterns
 - Decorator
 - Facade
+
+Facade pattern is implemented by Game class.
+
+Decorator pattern can be found at moveexecutors package. MoveDecorator is an abstract class that declares a reference to concrete components being decorated.
 
 ## Behavioral Patterns
 - Template method
@@ -27,30 +41,19 @@ Although performance is taken into consideration, this is not the top non-functi
 Template method pattern is applied in different situations by abstract classes: 
 [PawnAbstractMoveGenerator](src/main/java/chess/pseudomovesgenerators/PawnAbstractMoveGenerator.java)
 
-
 Template method pattern in combination with Factory method pattern can be found at:
 - [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
 - [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class. 
 
 Command pattern in combination with Visitor pattern can be found at moveexecutors package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
 
-Builder pattern has been implemented with different participant classes
-- Builder: ChessBuilder class declares the interface.
-- Concrete Builders
-  * ASCIIOutput, the result is retrived with method xXX
-  * FENCoder, the result is retrived with method XX
-  * ChessBuilderParts 
-  * ChessBuilderBoard 
-  * ChessBuilderGame
-- Director: Board.constructBoardRepresentation() is the director method
-
-Decorator pattern can be found at moveexecutors package. MoveDecorator is an abstract class that declares a reference to concrete componenets being decoreted.
-
-Facade pattern is implemented by Game class.
-
 Strategy pattern is implemented at movegenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
-Project roadmap
+Iterators can by found at chess.iterators package, two different iterator types are defined:
+- Square Iterators
+- Piece Placement Iterators
+
+## Project roadmap
 - Implement a chess state machine. (DONE)
 - Implement communication protocol. (TBD)
 - Implement AI player.

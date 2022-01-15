@@ -5,7 +5,7 @@ import java.util.Iterator;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.square.SaltoSquareIterator;
+import chess.iterators.square.JumpSquareIterator;
 import chess.moves.Move;
 
 /**
@@ -30,7 +30,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	@Override
 	public void generateMovesPseudoMoves(PiecePositioned origen) {
 		Square casillero = origen.getKey();
-		Iterator<Square> iterator = new SaltoSquareIterator(casillero, saltos);
+		Iterator<Square> iterator = new JumpSquareIterator(casillero, saltos);
 		while (iterator.hasNext()) {
 			Square destino = iterator.next();
 			this.result.affectedByContainerAdd(destino);
