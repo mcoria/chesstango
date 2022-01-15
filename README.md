@@ -1,4 +1,4 @@
-#Overview
+# Overview
 This project demonstrates the implementation of Object-oriented design patterns in a classical board game: <b>chess</b>.
 
 Most of the patterns applied in this project are described in more detail by GoF book (Design Patterns: Elements of Reusable Object-Oriented Software (1994)). You should read this book especially if you are a beginner programmer. As the years go by, I always keep a copy near for reference.
@@ -9,15 +9,15 @@ By no means does this project intents to implement all design patterns you may f
 
 Although performance is taken into consideration, this is not the top non-functional priority, clear design patterns implementation is preferred.
 
-##Creational Patterns
+## Creational Patterns
 - Factory method
 - Builder
 
-##Structural Patterns
+## Structural Patterns
 - Decorator
 - Facade
 
-##Behavioral Patterns
+## Behavioral Patterns
 - Template method
 - Command
 - Strategy
