@@ -54,7 +54,7 @@ public class MoveFilter {
 		
 		move.executeMove(this.kingCacheBoard);
 
-		result = filterMove((Move) move);
+		result = filterMove(move);
 
 		move.undoMove(this.kingCacheBoard);
 		

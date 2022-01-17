@@ -89,7 +89,7 @@ public class Game {
 		}
 
 		boardPila.setStatus(gameStatus);
-		boardPila.setPossibleMoves(movimientosPosibles);
+		boardPila.setAnalyzerResult(analyzerResult);
 
 		return gameStatus;
 	}
@@ -113,7 +113,7 @@ public class Game {
 	}
 
 	public Collection<Move> getPossibleMoves() {
-		return boardPila.getPossibleMoves();
+		return boardPila.getAnalyzerResult().getLegalMoves();
 	}
 
 	public Color getTurnoActual() {

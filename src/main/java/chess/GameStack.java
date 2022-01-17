@@ -1,10 +1,10 @@
 package chess;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Deque;
 
 import chess.Game.GameStatus;
+import chess.analyzer.AnalyzerResult;
 import chess.moves.Move;
 
 /**
@@ -12,26 +12,17 @@ import chess.moves.Move;
  *
  */
 public class GameStack {
-	
-	private Collection<Move> movimientosPosibles;
+	private AnalyzerResult analyzerResult; 
 	private Move movimientoSeleccionado;
 	private GameStatus status;
 	
 	private static class Node {
-		private Collection<Move> movimientosPosibles;
+		private AnalyzerResult analyzerResult; 
 		private Move movimientoSeleccionado;
 		private GameStatus status;		
 	}
 	
 	private Deque<Node> stackNode = new ArrayDeque<Node>();
-
-	public Collection<Move> getPossibleMoves() {
-		return movimientosPosibles;
-	}
-
-	public void setPossibleMoves(Collection<Move> movimientosPosibles) {
-		this.movimientosPosibles = movimientosPosibles;
-	}
 
 	public Move getMovimientoSeleccionado() {
 		return movimientoSeleccionado;
@@ -52,20 +43,28 @@ public class GameStack {
 	public void push() {
 		Node node = new Node();
 		node.movimientoSeleccionado = this.movimientoSeleccionado;
-		node.movimientosPosibles = this.movimientosPosibles;
+		node.analyzerResult = this.analyzerResult;
 		node.status = this.status;
 		
 		stackNode.push(node);
 		
 		this.movimientoSeleccionado = null;
-		this.movimientosPosibles = null;
+		this.analyzerResult = null;
 		this.status = null;
 	}
 
 	public void pop() {
 		Node node = stackNode.pop();
 		this.movimientoSeleccionado = node.movimientoSeleccionado;
-		this.movimientosPosibles = node.movimientosPosibles;
+		this.analyzerResult = node.analyzerResult;
 		this.status = node.status;		
+	}
+
+	public AnalyzerResult getAnalyzerResult() {
+		return analyzerResult;
+	}
+
+	public void setAnalyzerResult(AnalyzerResult analyzerResult) {
+		this.analyzerResult = analyzerResult;
 	}
 }
