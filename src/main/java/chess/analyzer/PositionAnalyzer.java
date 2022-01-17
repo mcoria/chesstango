@@ -24,33 +24,33 @@ public class PositionAnalyzer {
 	private PositionState positionState = null;
 	
 	private KingCacheBoard kingCacheBoard = null;	
-	
-	private boolean isKingInCheck = false;
 
 	private Capturer capturer;
 	
 	private LegalMoveGenerator defaultMoveCalculator = null;
 	
-	private LegalMoveGenerator noCheckLegalMoveGenerator = null;		
-
-	public boolean isKingInCheck() {
-		return isKingInCheck;
-	}
+	private LegalMoveGenerator noCheckLegalMoveGenerator = null;
 	
 	public AnalyzerResult analyze() {
-		isKingInCheck = calculateKingInCheck();
+		boolean isKingInCheck = calculateKingInCheck();
 		AnalyzerResult result = new AnalyzerResult();
 		result.setKingInCheck(isKingInCheck);
-		result.setLegalMoves(getLegalMoves());
+		result.setLegalMoves(getLegalMoves(isKingInCheck));
 		return result;
 	}
 	
-	protected Collection<Move> getLegalMoves() {
-		return getMoveCalculator().getLegalMoves();
+	protected boolean calculateKingInCheck() {
+		Color turnoActual = positionState.getTurnoActual();
+		
+		return capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
 	}	
 	
-	public LegalMoveGenerator getMoveCalculator() {
-		if(! isKingInCheck() ){
+	protected Collection<Move> getLegalMoves(boolean isKingInCheck) {
+		return getMoveCalculator(isKingInCheck).getLegalMoves();
+	}	
+	
+	protected LegalMoveGenerator getMoveCalculator(boolean isKingInCheck) {
+		if(! isKingInCheck){
 			return noCheckLegalMoveGenerator;
 		}
 		return defaultMoveCalculator;
@@ -75,14 +75,6 @@ public class PositionAnalyzer {
 
 	public void setNoCheckLegalMoveGenerator(LegalMoveGenerator noCheckLegalMoveGenerator) {
 		this.noCheckLegalMoveGenerator = noCheckLegalMoveGenerator;
-	}	
-	
-	protected boolean calculateKingInCheck() {
-		Color turnoActual = positionState.getTurnoActual();
-		
-		isKingInCheck = capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
-		
-		return isKingInCheck;
 	}	
 
 }

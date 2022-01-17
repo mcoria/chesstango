@@ -38,7 +38,7 @@ public class Capturer {
 	
 	private static class ImprovedCapturerColor {
 		
-		private final PiecePlacement dummyBoard; 
+		private final PiecePlacement piecePlacement; 
 		
 		private final Piece torre;
 		private final Piece alfil;
@@ -60,7 +60,7 @@ public class Capturer {
 
 		
 		public ImprovedCapturerColor(Color color, PiecePlacement dummyBoard) {
-			this.dummyBoard = dummyBoard;
+			this.piecePlacement = dummyBoard;
 			torre =  Piece.getRook(color);
 			alfil = Piece.getBishop(color);
 			queen = Piece.getQueen(color);
@@ -107,7 +107,7 @@ public class Capturer {
 		}
 		
 		private boolean cardinalPositionCapturedByPieza(Piece torreOalfil, Piece queen, Square square, Cardinal cardinal) {
-			PiecePlacementIterator iterator = this.dummyBoard.iterator(new CardinalSquareIterator(square, cardinal));
+			PiecePlacementIterator iterator = this.piecePlacement.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
 				Piece piece = destino.getValue();
@@ -125,7 +125,7 @@ public class Capturer {
 		}
 
 		private boolean positionCapturedByKnight(Square square) {
-			PiecePlacementIterator iterator = dummyBoard.iterator(new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO));
+			PiecePlacementIterator iterator = piecePlacement.iterator(new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(caballo.equals(destino.getValue())){		    	
@@ -137,7 +137,7 @@ public class Capturer {
 
 
 		private boolean positionCapturedByPawn(Square square) {
-			PiecePlacementIterator iterator = dummyBoard.iterator(new JumpSquareIterator(square, saltosPawn));
+			PiecePlacementIterator iterator = piecePlacement.iterator(new JumpSquareIterator(square, saltosPawn));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(peon.equals(destino.getValue())){		    	
@@ -148,7 +148,7 @@ public class Capturer {
 		}
 		
 		private boolean positionCapturedByKing(Square square) {
-			PiecePlacementIterator iterator = dummyBoard.iterator(new JumpSquareIterator(square, KingAbstractMoveGenerator.SALTOS_KING));
+			PiecePlacementIterator iterator = piecePlacement.iterator(new JumpSquareIterator(square, KingAbstractMoveGenerator.SALTOS_KING));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(king.equals(destino.getValue())){		    	

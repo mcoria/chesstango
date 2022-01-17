@@ -72,23 +72,34 @@ public class ChessMain {
 
 		
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		
+		
+		if (maxLevel == 1) {
+			for (Move move : movimientosPosible) {
+				int nodeCount = 1;
 
-		for (Move move : movimientosPosible) {
-			int nodeCount = 0;
-			
-			game.executeMove(move);
+				perftResult.add(move, 1);
 
-			if(maxLevel > 1){
-				nodeCount = visitChilds(game, 2);
-			} else {
-				nodeCount = 1;
+				totalNodes += nodeCount;
 			}
+		} else {
+			for (Move move : movimientosPosible) {
+				int nodeCount = 0;
 
-			perftResult.add(move, nodeCount);
-			
-			totalNodes += nodeCount;
-			
-			game.undoMove();
+				game.executeMove(move);
+
+				if (maxLevel > 1) {
+					nodeCount = visitChilds(game, 2);
+				} else {
+					nodeCount = 1;
+				}
+
+				perftResult.add(move, nodeCount);
+
+				totalNodes += nodeCount;
+
+				game.undoMove();
+			}
 		}
 		
 		perftResult.setTotalNodes(totalNodes);

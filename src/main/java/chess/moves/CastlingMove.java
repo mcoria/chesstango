@@ -1,8 +1,6 @@
 package chess.moves;
 
-import chess.Color;
 import chess.PiecePositioned;
-import chess.analyzer.Capturer;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
@@ -15,13 +13,13 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class CastlingMove implements Move  {
+public abstract  class CastlingMove implements Move  {
 	protected final SimpleKingMove kingMove;
-	protected final SimpleMove torreMove;	
+	protected final SimpleMove rookMove;	
 	
 	public CastlingMove(SimpleKingMove kingMove, SimpleMove torreMove) {
 		this.kingMove = kingMove;
-		this.torreMove = torreMove;
+		this.rookMove = torreMove;
 	}
 
 	@Override
@@ -32,6 +30,10 @@ abstract class CastlingMove implements Move  {
 	@Override
 	public PiecePositioned getTo() {
 		return kingMove.getTo();
+	}
+	
+	public Move getRookMove(){
+		return rookMove;
 	}
 
 	@Override
@@ -45,26 +47,21 @@ abstract class CastlingMove implements Move  {
 	}
 	
 	@Override
-	//TODO: Por que no utilizar kingInCheck.getAsBoolean()
 	public boolean filter(MoveFilter filter) {
-		Capturer capturer = filter.getCapturer();
-		Color opositeColor = kingMove.getFrom().getValue().getColor().opositeColor();
-		return !capturer.positionCaptured(opositeColor, kingMove.getFrom().getKey()) // El king no esta en jaque
-			&& !capturer.positionCaptured(opositeColor, torreMove.getTo().getKey()) // El king no puede ser capturado en casillero intermedio
-			&& !capturer.positionCaptured(opositeColor, kingMove.getTo().getKey());  // El king no puede  ser capturado en casillero destino
+		return filter.filter(this);
 	}	
 	
 	@Override
 	public void executeMove(PiecePlacement board) {
 		kingMove.executeMove(board);
-		torreMove.executeMove(board);
+		rookMove.executeMove(board);
 	}
 
 
 	@Override
 	public void undoMove(PiecePlacement board) {
 		kingMove.undoMove(board);
-		torreMove.undoMove(board);
+		rookMove.undoMove(board);
 	}	
 	
 	@Override
@@ -91,25 +88,25 @@ abstract class CastlingMove implements Move  {
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
 		kingMove.executeMove(colorBoard);
-		torreMove.executeMove(colorBoard);
+		rookMove.executeMove(colorBoard);
 	}
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
 		kingMove.undoMove(colorBoard);
-		torreMove.undoMove(colorBoard);
+		rookMove.undoMove(colorBoard);
 	}
 	
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {	
 		moveCache.pushCleared();
-		moveCache.clearPseudoMoves(kingMove.getFrom().getKey(), kingMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), true);
+		moveCache.clearPseudoMoves(kingMove.getFrom().getKey(), kingMove.getTo().getKey(), rookMove.getFrom().getKey(), rookMove.getTo().getKey(), true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(kingMove.getFrom().getKey(), kingMove.getTo().getKey(), torreMove.getFrom().getKey(), torreMove.getTo().getKey(), false);
+		moveCache.clearPseudoMoves(kingMove.getFrom().getKey(), kingMove.getTo().getKey(), rookMove.getFrom().getKey(), rookMove.getTo().getKey(), false);
 		moveCache.popCleared();
 	}
 	
