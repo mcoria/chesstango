@@ -4,6 +4,7 @@ import chess.Color;
 import chess.analyzer.Capturer;
 import chess.moves.CastlingMove;
 import chess.moves.Move;
+import chess.moves.MoveKing;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
@@ -50,7 +51,7 @@ public class MoveFilter {
 		return result;
 	}	
 	
-	public boolean filterKingMove(Move move) {
+	public boolean filterKingMove(MoveKing move) {
 		boolean result = false;
 		
 		move.executeMove(this.kingCacheBoard);

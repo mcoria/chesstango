@@ -17,9 +17,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.CaptureMove;
 import chess.position.ChessPosition;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
@@ -112,16 +110,6 @@ public class CaptureMoveTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.e7));
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardMoveRuntimeException() {
-		moveExecutor.executeMove(new KingCacheBoard());
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardUndoMoveRuntimeException() {
-		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
 	@Test

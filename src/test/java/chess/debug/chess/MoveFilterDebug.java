@@ -3,6 +3,7 @@ package chess.debug.chess;
 import chess.analyzer.Capturer;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
+import chess.moves.MoveKing;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
@@ -67,7 +68,7 @@ public class MoveFilterDebug extends MoveFilter {
 	}
 	
 	@Override
-	public boolean filterKingMove(Move move) {
+	public boolean filterKingMove(MoveKing move) {
 		try {
 			boolean reportError = false;	
 			

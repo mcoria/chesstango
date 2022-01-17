@@ -10,7 +10,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-class MoveDecoratorState extends MoveDecorator {
+class MoveDecoratorState extends MoveDecorator<Move> {
 	
 	protected Consumer<PositionState> decoratorState;
 

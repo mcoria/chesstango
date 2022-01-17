@@ -5,7 +5,6 @@ import chess.Square;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.PositionState;
 
 /**
@@ -67,16 +66,6 @@ class CaptureMove extends AbstractMove {
 		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 		
 		colorBoard.addPositions(to);
-	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {
-		throw new RuntimeException("Error !");
-	}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {
-		throw new RuntimeException("Error !");
 	}		
 	
 	@Override

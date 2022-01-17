@@ -16,10 +16,8 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.SimplePawnPromocion;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
@@ -110,16 +108,6 @@ public class SimplePawnPromocionTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
 		assertTrue(colorBoard.isEmpty(Square.e8));
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardMoveRuntimeException() {
-		moveExecutor.executeMove(new KingCacheBoard());
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardUndoMoveRuntimeException() {
-		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
 	@Test

@@ -9,7 +9,7 @@ import chess.position.KingCacheBoard;
  * @author Mauricio Coria
  *
  */
-class CaptureKingMove extends CaptureMove {
+class CaptureKingMove extends CaptureMove  implements MoveKing  {
 
 	public CaptureKingMove(PiecePositioned from, PiecePositioned to) {
 		super(from, to);

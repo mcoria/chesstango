@@ -4,7 +4,6 @@ import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
@@ -41,9 +40,6 @@ public interface Move extends Comparable<Move> {
 	
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
-	
-	void executeMove(KingCacheBoard kingCacheBoard);
-	void undoMove(KingCacheBoard kingCacheBoard);
 	
 	void executeMove(ChessPosition chessPosition);
 	void undoMove(ChessPosition chessPosition);

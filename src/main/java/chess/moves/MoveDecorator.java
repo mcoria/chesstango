@@ -3,7 +3,6 @@ package chess.moves;
 import chess.PiecePositioned;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
@@ -12,11 +11,11 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class MoveDecorator implements Move {
+abstract class MoveDecorator<T extends Move> implements Move {
 	
-	protected final Move move;	
+	protected final T move;	
 	
-	public MoveDecorator(Move move) {
+	public MoveDecorator(T move) {
 		this.move = move;
 	}	
 
@@ -71,16 +70,6 @@ abstract class MoveDecorator implements Move {
 	}
 	
 	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard){
-		move.executeMove(kingCacheBoard);
-	}
-	
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard){
-		move.undoMove(kingCacheBoard);
-	}
-	
-	@Override
 	public void executeMove(ChessPosition chessPosition) {
 		chessPosition.executeMove(this);
 	}
@@ -98,7 +87,7 @@ abstract class MoveDecorator implements Move {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof MoveDecorator){
-			return move.equals( ((MoveDecorator) obj).move );
+			return move.equals( ((MoveDecorator<?>) obj).move );
 		}
 		return false;
 	}	

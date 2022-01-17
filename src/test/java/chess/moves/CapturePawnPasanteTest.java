@@ -17,9 +17,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.CapturePawnPasante;
 import chess.position.ChessPosition;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
@@ -147,16 +145,6 @@ public class CapturePawnPasanteTest {
 
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardMoveRuntimeException() {
-		moveExecutor.executeMove(new KingCacheBoard());
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardUndoMoveRuntimeException() {
-		moveExecutor.undoMove(new KingCacheBoard());
 	}		
 
 	@Test

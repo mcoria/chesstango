@@ -4,7 +4,6 @@ import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 
 
 /**
@@ -40,16 +39,6 @@ class SimpleMove extends AbstractMove {
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
 		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
-	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {
-		throw new RuntimeException("Error !");
-	}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {
-		throw new RuntimeException("Error !");
 	}	
 	
 

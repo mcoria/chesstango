@@ -16,10 +16,8 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.CapturaPawnPromocion;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
@@ -112,23 +110,6 @@ public class CapturePawnPromocionTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardMoveRuntimeException() {
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
-
-		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
-		moveExecutor =  new CapturaPawnPromocion(origen, destino, Piece.QUEEN_WHITE);
-
-		moveExecutor.executeMove(new KingCacheBoard());
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardUndoMoveRuntimeException() {
-		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
 	@Test

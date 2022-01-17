@@ -3,6 +3,7 @@ package chess.position;
 import chess.PiecePositioned;
 import chess.builder.ChessPositionBuilder;
 import chess.moves.Move;
+import chess.moves.MoveKing;
 import chess.parsers.FENCoder;
 
 
@@ -36,7 +37,7 @@ public class ChessPosition {
 	
 	
 	//TODO: hay que reflotar la idea del MoveKing interface
-	public void executeKingMove(Move move) {
+	public void executeKingMove(MoveKing move) {
 		executeMove(move);
 		
 		move.executeMove(this.kingCacheBoard);
@@ -60,7 +61,7 @@ public class ChessPosition {
 	}
 	
 
-	public void undoKingMove(Move move) {
+	public void undoKingMove(MoveKing move) {
 		undoMove(move);
 
 		move.undoMove(this.kingCacheBoard);

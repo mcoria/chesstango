@@ -4,7 +4,6 @@ import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 
@@ -83,16 +82,6 @@ class CapturePawnPasante extends AbstractMove {
 			return captura.equals(theOther.captura) ;
 		}
 		return false;
-	}
-
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {
-		throw new RuntimeException("Error !");
-	}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {
-		throw new RuntimeException("Error !");
 	}
 
 }

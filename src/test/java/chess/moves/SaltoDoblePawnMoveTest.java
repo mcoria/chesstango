@@ -15,12 +15,10 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.PositionStateDebug;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.debug.chess.ColorBoardDebug;
-import chess.moves.SaltoDoblePawnMove;
 import chess.position.ChessPosition;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.imp.ArrayPiecePlacement;
 
@@ -111,16 +109,6 @@ public class SaltoDoblePawnMoveTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e4));
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardMoveRuntimeException() {
-		moveExecutor.executeMove(new KingCacheBoard());
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testKingCacheBoardUndoMoveRuntimeException() {
-		moveExecutor.undoMove(new KingCacheBoard());
 	}	
 	
 	@Test
