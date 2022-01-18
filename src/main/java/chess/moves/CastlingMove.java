@@ -13,7 +13,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public abstract  class CastlingMove  implements Move, MoveKing  {
+public abstract  class CastlingMove  implements MoveKing  {
 	protected final SimpleKingMove kingMove;
 	protected final SimpleMove rookMove;	
 	

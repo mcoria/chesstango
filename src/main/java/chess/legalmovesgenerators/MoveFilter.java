@@ -11,8 +11,6 @@ import chess.position.PiecePlacement;
 import chess.position.PositionState;
 
 
-//TODO: implemetar double dispatcher para esta clase desde Move y MoveKing
-
 /**
  * @author Mauricio Coria
  *
@@ -72,10 +70,6 @@ public class MoveFilter {
 			&& !capturer.positionCaptured(opositeColor, castlingMove.getRookMove().getTo().getKey()) // El king no puede ser capturado en casillero intermedio
 			&& !capturer.positionCaptured(opositeColor, castlingMove.getTo().getKey());  // El king no puede  ser capturado en casillero destino
 		
-	}	
-
-	public Capturer getCapturer() {
-		return capturer;
 	}	
 
 }

@@ -7,8 +7,6 @@ import chess.position.ChessPosition;
 import chess.position.KingCacheBoard;
 import chess.position.PositionState;
 
-//TODO: hay que reflotar la idea del MoveKing interface, mmmm nos pasa lo mismo en este decorator
-
 /**
  * @author Mauricio Coria
  *
