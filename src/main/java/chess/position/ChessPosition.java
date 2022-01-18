@@ -34,10 +34,8 @@ public class ChessPosition {
 		move.executeMove(this.positionState);	
 		
 	}
-	
-	
-	//TODO: hay que reflotar la idea del MoveKing interface
-	public void executeKingMove(MoveKing move) {
+
+	public void executeMove(MoveKing move) {
 		executeMove((Move)move);
 		
 		move.executeMove(this.kingCacheBoard);
@@ -61,7 +59,7 @@ public class ChessPosition {
 	}
 	
 
-	public void undoKingMove(MoveKing move) {
+	public void undoMove(MoveKing move) {
 		undoMove((Move)move);
 
 		move.undoMove(this.kingCacheBoard);

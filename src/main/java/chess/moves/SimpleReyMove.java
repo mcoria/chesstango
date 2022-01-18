@@ -17,12 +17,12 @@ class SimpleKingMove extends SimpleMove implements MoveKing {
 
 	@Override
 	public void executeMove(ChessPosition chessPosition) {
-		chessPosition.executeKingMove(this);
+		chessPosition.executeMove(this);
 	}
 
 	@Override
 	public void undoMove(ChessPosition chessPosition) {
-		chessPosition.undoKingMove(this);
+		chessPosition.undoMove(this);
 	}
 
 	@Override

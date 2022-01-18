@@ -156,14 +156,14 @@ public class CaptureKingMoveTest {
 		moveExecutor.executeMove(chessPosition);
 
 		// asserts execute
-		verify(chessPosition).executeKingMove(moveExecutor);
+		verify(chessPosition).executeMove(moveExecutor);
 
 		// undos
 		moveExecutor.undoMove(chessPosition);
 
 		
 		// asserts undos
-		verify(chessPosition).undoKingMove(moveExecutor);
+		verify(chessPosition).undoMove(moveExecutor);
 	}
 	
 	
