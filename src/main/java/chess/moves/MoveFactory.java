@@ -12,47 +12,42 @@ import chess.Square;
 public class MoveFactory {		
 	
 	public Move createSimpleKingMoveWhite(PiecePositioned origen, PiecePositioned destino) {
+		SimpleKingMove kingMove = new SimpleKingMove(origen, destino);
+		Move result = kingMove;
 		if(Square.e1.equals(origen.getKey())){
-			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
-				state.setCastlingWhiteQueenAllowed(false);
-				state.setCastlingWhiteKingAllowed(false);				
-			});
+			result = whiteLostCastlingWrapper(kingMove);
 		}
-		return new SimpleKingMove(origen, destino);
+		return result;
 	}
 
 
 	public Move createCaptureKingMoveWhite(PiecePositioned origen, PiecePositioned destino) {
+		CaptureKingMove kingMove = new CaptureKingMove(origen, destino);
+		Move result = kingMove;
 		if(Square.e1.equals(origen.getKey())){
-			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
-				state.setCastlingWhiteQueenAllowed(false);
-				state.setCastlingWhiteKingAllowed(false);				
-			});
+			result = whiteLostCastlingWrapper(kingMove);
 		}
-		return new CaptureKingMove(origen, destino);
+		return result;
 	}
 	
 
 	public Move createSimpleKingMoveBlack(PiecePositioned origen, PiecePositioned destino) {
+		SimpleKingMove kingMove = new SimpleKingMove(origen, destino);
+		Move result = kingMove;		
 		if(Square.e8.equals(origen.getKey())){
-			return new MoveDecoratorKingState(new SimpleKingMove(origen, destino), state -> {
-				state.setCastlingBlackQueenAllowed(false);
-				state.setCastlingBlackKingAllowed(false);			
-			});
+			result = blackLostCastlingWrapper(kingMove);
 		}
-		return new SimpleKingMove(origen, destino);
+		return result;
 	}
 
 	public Move createCaptureKingMoveBlack(PiecePositioned origen, PiecePositioned destino) {
+		CaptureKingMove kingMove = new CaptureKingMove(origen, destino);
+		Move result = kingMove;
 		if(Square.e8.equals(origen.getKey())){
-			return new MoveDecoratorKingState(new CaptureKingMove(origen, destino), state -> {
-				state.setCastlingBlackQueenAllowed(false);
-				state.setCastlingBlackKingAllowed(false);			
-			});
+			result = blackLostCastlingWrapper(kingMove);
 		}
-		return new CaptureKingMove(origen, destino);
-	}
-	
+		return result;
+	}	
 	
 	public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino) {
 		if (Square.a1.equals(origen.getKey())) {
@@ -126,5 +121,19 @@ public class MoveFactory {
 	public Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
 		return new CapturaPawnPromocion(origen, destino, piece);
 	}
+	
+	protected Move whiteLostCastlingWrapper(MoveKing move){
+		return new MoveDecoratorKingState(move, state -> {
+			state.setCastlingWhiteQueenAllowed(false);
+			state.setCastlingWhiteKingAllowed(false);				
+		});
+	}
+	
+	protected Move blackLostCastlingWrapper(MoveKing move){
+		return new MoveDecoratorKingState(move, state -> {
+			state.setCastlingBlackQueenAllowed(false);
+			state.setCastlingBlackKingAllowed(false);				
+		});
+	}	
 	
 }
