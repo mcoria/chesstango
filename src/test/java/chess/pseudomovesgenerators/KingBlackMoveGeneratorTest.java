@@ -19,7 +19,7 @@ import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingBlackKingMove;
 import chess.moves.CastlingBlackQueenMove;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
@@ -37,18 +37,18 @@ public class KingBlackMoveGeneratorTest {
 	
 	private PositionState state;
 
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		moves = new ArrayList<Move>();
 		state = new PositionState();
 		state.setTurnoActual(Color.BLACK);
 		
 		moveGenerator = new KingBlackMoveGenerator();
 		moveGenerator.setBoardState(state);
-		moveGenerator.setMoveFactory(moveFactory);
+		moveGenerator.setMoveFactory(moveFactoryImp);
 	}
 	
 	@Test
@@ -260,7 +260,7 @@ public class KingBlackMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createSimpleKingMoveBlack(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKingMoveBlack(origen, new PiecePositioned(destinoSquare, null));
 	}
 
 	

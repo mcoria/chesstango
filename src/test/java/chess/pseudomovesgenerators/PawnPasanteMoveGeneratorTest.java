@@ -16,11 +16,10 @@ import chess.Square;
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.PawnPasanteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -33,11 +32,11 @@ public class PawnPasanteMoveGeneratorTest {
 	
 	private PositionState state;
 
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		moves = new ArrayList<Move>();
 		state = new PositionState();
 		
@@ -142,11 +141,11 @@ public class PawnPasanteMoveGeneratorTest {
 	}
 
 	private Move createCaptureBlackPawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
+		return moveFactoryImp.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
 	}
 	
 	private Move createCaptureWhitePawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
+		return moveFactoryImp.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

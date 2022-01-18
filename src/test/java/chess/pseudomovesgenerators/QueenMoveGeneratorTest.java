@@ -16,12 +16,10 @@ import chess.Square;
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.QueenMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -32,13 +30,13 @@ public class QueenMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		moveGenerator = new QueenMoveGenerator(Color.WHITE);
-		moveGenerator.setMoveFactory(moveFactory);
+		moveGenerator.setMoveFactory(moveFactoryImp);
 		moves = new ArrayList<Move>();
 	}
 	
@@ -104,7 +102,7 @@ public class QueenMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private PiecePlacement getTablero(String string) {		

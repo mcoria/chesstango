@@ -19,7 +19,7 @@ import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingWhiteKingMove;
 import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
@@ -36,17 +36,17 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private PositionState state;
 
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		moves = new ArrayList<Move>();
 		state = new PositionState();
 		
 		moveGenerator = new KingWhiteMoveGenerator();
 		moveGenerator.setBoardState(state);
-		moveGenerator.setMoveFactory(moveFactory);
+		moveGenerator.setMoveFactory(moveFactoryImp);
 	}
 	
 	@Test
@@ -375,11 +375,11 @@ public class KingWhiteMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createSimpleKingMoveWhite(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKingMoveWhite(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactory.createCaptureKingMoveWhite(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureKingMoveWhite(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private PiecePlacement getTablero(String string) {		

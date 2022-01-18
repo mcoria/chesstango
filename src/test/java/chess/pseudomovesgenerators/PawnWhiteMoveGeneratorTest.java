@@ -15,11 +15,9 @@ import chess.Square;
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.PawnWhiteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -31,15 +29,15 @@ public class PawnWhiteMoveGeneratorTest {
 	private Collection<Move> moves; 
 
 
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		moves = new ArrayList<Move>();
 		
 		moveGenerator = new PawnWhiteMoveGenerator();
-		moveGenerator.setMoveFactory(moveFactory);
+		moveGenerator.setMoveFactory(moveFactoryImp);
 	}
 	
 	@Test
@@ -200,23 +198,23 @@ public class PawnWhiteMoveGeneratorTest {
 	}
 
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
-		return moveFactory.createSaltoDoblePawnMove(origen, new PiecePositioned(destinoSquare, null), squarePasante);
+		return moveFactoryImp.createSaltoDoblePawnMove(origen, new PiecePositioned(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private Move createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
-		return moveFactory.createSimplePawnPromocion(origen, new PiecePositioned(destinoSquare, null), promocion);
+		return moveFactoryImp.createSimplePawnPromocion(origen, new PiecePositioned(destinoSquare, null), promocion);
 	}	
 	
 	private Move createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion) {
-		return moveFactory.createCapturePawnPromocion(origen, new PiecePositioned(destinoSquare, destinoPieza), promocion);
+		return moveFactoryImp.createCapturePawnPromocion(origen, new PiecePositioned(destinoSquare, destinoPieza), promocion);
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

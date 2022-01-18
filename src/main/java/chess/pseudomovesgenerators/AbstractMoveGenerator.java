@@ -45,8 +45,8 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 		this.colorBoard = colorBoard;
 	}
 
-	public void setMoveFactory(MoveFactory moveFactory) {
-		this.moveFactory = moveFactory;
+	public void setMoveFactory(MoveFactory moveFactoryImp) {
+		this.moveFactory = moveFactoryImp;
 	}
 	
 }

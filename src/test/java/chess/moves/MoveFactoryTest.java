@@ -10,8 +10,6 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.moves.Move;
-import chess.moves.MoveFactory;
 import chess.position.PositionState;
 
 
@@ -20,7 +18,7 @@ import chess.position.PositionState;
  *
  */
 public class MoveFactoryTest {
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	private Move moveExecutor;
 	
@@ -28,7 +26,7 @@ public class MoveFactoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		positionState = new PositionState();
 		moveExecutor = null;
 	}	
@@ -42,7 +40,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.QUEEN_BLACK);
 
-		moveExecutor = moveFactory.createCaptureKingMoveBlack(origen, destino);
+		moveExecutor = moveFactoryImp.createCaptureKingMoveBlack(origen, destino);
 		
 		moveExecutor.executeMove(positionState);
 
@@ -61,7 +59,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e8, Piece.KING_BLACK);
 		PiecePositioned destino = new PiecePositioned(Square.e7, null);
 
-		moveExecutor = moveFactory.createSimpleKingMoveBlack(origen, destino);
+		moveExecutor = moveFactoryImp.createSimpleKingMoveBlack(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 
@@ -79,7 +77,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e8, Piece.QUEEN_BLACK);
 		PiecePositioned destino = new PiecePositioned(Square.e7, Piece.KNIGHT_WHITE);
 
-		moveExecutor = moveFactory.createCaptureKingMoveBlack(origen, destino);
+		moveExecutor = moveFactoryImp.createCaptureKingMoveBlack(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 
@@ -97,7 +95,7 @@ public class MoveFactoryTest {
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
-		moveExecutor = moveFactory.createCaptureKingMoveWhite(origen, destino);
+		moveExecutor = moveFactoryImp.createCaptureKingMoveWhite(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 

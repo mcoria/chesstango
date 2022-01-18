@@ -3,6 +3,8 @@ package chess.pseudomovesgenerators;
 import chess.Color;
 import chess.Piece;
 import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryBlack;
+import chess.moves.MoveFactoryWhite;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
@@ -15,7 +17,9 @@ public class MoveGeneratorStrategy {
 	private PiecePlacement dummyBoard;
 	private ColorBoard colorBoard;
 	private PositionState positionState;
-	private MoveFactory moveFactory;
+	
+	private MoveFactory moveFactoryWhite;
+	private MoveFactory moveFactoryBlack;
 	
 	private PawnWhiteMoveGenerator pbmg;
 	private PawnBlackMoveGenerator pnmg;
@@ -59,7 +63,8 @@ public class MoveGeneratorStrategy {
 		
 		ppmg = new PawnPasanteMoveGenerator();
 		
-		moveFactory = new MoveFactory();
+		moveFactoryWhite = new MoveFactoryWhite();
+		moveFactoryBlack = new MoveFactoryBlack();
 	}
 
 	public KingAbstractMoveGenerator getKingMoveGenerator(Color color) {
@@ -78,11 +83,6 @@ public class MoveGeneratorStrategy {
 
 	public void setBoardState(PositionState positionState) {
 		this.positionState = positionState;
-		settupMoveGenerators();
-	}	
-
-	public void setMoveFactory(MoveFactory moveFactory) {
-		this.moveFactory = moveFactory;
 		settupMoveGenerators();
 	}
 	
@@ -188,13 +188,19 @@ public class MoveGeneratorStrategy {
 		if (moveGenerator instanceof AbstractMoveGenerator) {
 			((AbstractMoveGenerator)moveGenerator).setTablero(dummyBoard);
 			((AbstractMoveGenerator)moveGenerator).setColorBoard(colorBoard);		
-			((AbstractMoveGenerator)moveGenerator).setMoveFactory(moveFactory);
+			
+			if(moveGenerator.equals(pbmg) || moveGenerator.equals(tbmg) || moveGenerator.equals(cbmg) || moveGenerator.equals(abmg) || moveGenerator.equals(rebmg) || moveGenerator.equals(rbmg)){
+				((AbstractMoveGenerator)moveGenerator).setMoveFactory(moveFactoryWhite);
+			} else {
+				((AbstractMoveGenerator)moveGenerator).setMoveFactory(moveFactoryBlack);
+			}
 		}
 		
 		if (moveGenerator instanceof KingAbstractMoveGenerator) {
 			KingAbstractMoveGenerator generator = (KingAbstractMoveGenerator) moveGenerator;
 			generator.setBoardState(positionState);
 		}
+		
 	}
 	
 

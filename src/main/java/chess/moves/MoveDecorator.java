@@ -1,7 +1,6 @@
 package chess.moves;
 
 import chess.PiecePositioned;
-import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
@@ -67,16 +66,6 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
 		move.undoMove(moveCache);
-	}
-	
-	@Override
-	public void executeMove(ChessPosition chessPosition) {
-		chessPosition.executeMove(this);
-	}
-
-	@Override
-	public void undoMove(ChessPosition chessPosition) {
-		chessPosition.undoMove(this);
 	}	
 	
 	@Override

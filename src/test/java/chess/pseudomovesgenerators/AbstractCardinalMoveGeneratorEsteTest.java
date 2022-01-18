@@ -17,12 +17,10 @@ import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.Cardinal;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.AbstractCardinalMoveGenerator;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria
@@ -34,11 +32,11 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 	
 	private Collection<Move> moves; 
 
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.Este}){
 
 			@Override
@@ -52,7 +50,7 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 			}
 			
 		};
-		moveGenerator.setMoveFactory(moveFactory);
+		moveGenerator.setMoveFactory(moveFactoryImp);
 		
 		moves = new ArrayList<Move>();
 	}
@@ -126,11 +124,11 @@ public class AbstractCardinalMoveGeneratorEsteTest {
 	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactory.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactory.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private PiecePlacement getTablero(String string) {		

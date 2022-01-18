@@ -14,17 +14,16 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.analyzer.PositionAnalyzer;
 import chess.analyzer.AnalyzerResult;
+import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessFactory;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.CastlingWhiteKingMove;
 import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
-import chess.moves.MoveFactory;
+import chess.moves.MoveFactoryWhite;
 import chess.parsers.FENParser;
-import chess.position.ChessPosition;
 
 
 /**
@@ -33,7 +32,7 @@ import chess.position.ChessPosition;
  */
 public class ChessPositionTest {
 	
-	private MoveFactory moveFactory;
+	private MoveFactoryWhite moveFactoryImp;
 	
 	private ChessFactory factory;
 	
@@ -45,7 +44,7 @@ public class ChessPositionTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactory = new MoveFactory();
+		moveFactoryImp = new MoveFactoryWhite();
 		factory = new DebugChessFactory();
 		analyzer = new PositionAnalyzer();
 	}	
@@ -312,31 +311,31 @@ public class ChessPositionTest {
 		
 	
 	private Move createSimpleMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-		return moveFactory.createSimpleMove(new PiecePositioned(origenSquare, origenPieza), new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(new PiecePositioned(origenSquare, origenPieza), new PiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(Square origenSquare, Piece origenPieza, Square destinoSquare, Piece destinoPieza) {
-		return moveFactory.createCaptureMove(new PiecePositioned(origenSquare, origenPieza), new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(new PiecePositioned(origenSquare, origenPieza), new PiecePositioned(destinoSquare, destinoPieza));
 	}		
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
-		return moveFactory.createSaltoDoblePawnMove(new PiecePositioned(origen, piece), new PiecePositioned(destinoSquare, null),  squarePasante);		
+		return moveFactoryImp.createSaltoDoblePawnMove(new PiecePositioned(origen, piece), new PiecePositioned(destinoSquare, null),  squarePasante);		
 	}
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,
 			Piece destinoPieza, Piece promocion) {
-		return moveFactory.createCapturePawnPromocion(new PiecePositioned(origenSquare, origenPieza),
+		return moveFactoryImp.createCapturePawnPromocion(new PiecePositioned(origenSquare, origenPieza),
 				new PiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	
 	private Move createCapturePawnPasanteMoveBlack(Square origen, Square destinoSquare) {
-		return moveFactory.createCapturePawnPasante(new PiecePositioned(origen, Piece.PAWN_BLACK),
+		return moveFactoryImp.createCapturePawnPasante(new PiecePositioned(origen, Piece.PAWN_BLACK),
 				new PiecePositioned(destinoSquare, null), new PiecePositioned(
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}
 	
 	private Object createSimpleKingMoveWhite(Square origen, Square destino) {
-		return moveFactory.createSimpleKingMoveWhite(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
+		return moveFactoryImp.createSimpleKingMoveWhite(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
 	}	
 	
 	private void settupWithDefaultBoard() {

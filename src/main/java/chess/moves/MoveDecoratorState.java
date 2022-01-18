@@ -3,6 +3,7 @@ package chess.moves;
 import java.util.function.Consumer;
 
 import chess.legalmovesgenerators.MoveFilter;
+import chess.position.ChessPosition;
 import chess.position.PositionState;
 
 
@@ -18,6 +19,16 @@ class MoveDecoratorState extends MoveDecorator<Move> {
 		super(move);
 		this.decoratorState = decoratorState;
 	}
+	
+	@Override
+	public void executeMove(ChessPosition chessPosition) {
+		chessPosition.executeMove(this);
+	}
+
+	@Override
+	public void undoMove(ChessPosition chessPosition) {
+		chessPosition.undoMove(this);
+	}	
 
 	@Override
 	public boolean filter(MoveFilter filter) {

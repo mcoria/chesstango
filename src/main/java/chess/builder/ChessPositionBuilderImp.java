@@ -4,11 +4,10 @@ import chess.Color;
 import chess.Game;
 import chess.Piece;
 import chess.Square;
-import chess.analyzer.PositionAnalyzer;
 import chess.analyzer.Capturer;
+import chess.analyzer.PositionAnalyzer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.MoveFactory;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -127,7 +126,6 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	protected MoveGeneratorStrategy buildMoveGeneratorStrategy() {
 		if (moveGeneratorStrategy == null) {
 			moveGeneratorStrategy = new MoveGeneratorStrategy();
-			moveGeneratorStrategy.setMoveFactory(new MoveFactory());
 			moveGeneratorStrategy.setPiecePlacement(builder.getPiecePlacement());
 			moveGeneratorStrategy.setBoardState(builder.getPositionState());
 			moveGeneratorStrategy.setColorBoard(buildColorBoard());
