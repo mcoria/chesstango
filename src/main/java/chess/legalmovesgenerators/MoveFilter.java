@@ -51,12 +51,12 @@ public class MoveFilter {
 		return result;
 	}	
 	
-	public boolean filterKingMove(MoveKing move) {
+	public boolean filterMove(MoveKing move) {
 		boolean result = false;
 		
 		move.executeMove(this.kingCacheBoard);
 
-		result = filterMove(move);
+		result = filterMove((Move)move);
 
 		move.undoMove(this.kingCacheBoard);
 		
