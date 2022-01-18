@@ -55,20 +55,20 @@ public class PositionStateDebug extends PositionState{
 		if (this.isCastlingBlackQueenAllowed()) {
 			if (board.getPieza(Square.a8) == null) {
 				throw new RuntimeException(
-						"isCastlingWhiteQueenAllowed mal setteado: " + this.getPawnPasanteSquare());
+						"isCastlingBlackQueenAllowed mal setteado: " + this.getPawnPasanteSquare());
 			} else if (!Piece.ROOK_BLACK.equals(board.getPieza(Square.a8))) {
 				throw new RuntimeException(
-						"isCastlingWhiteQueenAllowed mal setteado: " + this.getPawnPasanteSquare());
+						"isCastlingBlackQueenAllowed mal setteado: " + this.getPawnPasanteSquare());
 			}
 		}
 
 		if (this.isCastlingBlackKingAllowed()) {
 			if (board.getPieza(Square.h8) == null) {
 				throw new RuntimeException(
-						"isCastlingWhiteQueenAllowed mal setteado: " + this.getPawnPasanteSquare());
+						"isCastlingBlackKingAllowed mal setteado: " + this.getPawnPasanteSquare());
 			} else if (!Piece.ROOK_BLACK.equals(board.getPieza(Square.h8))) {
 				throw new RuntimeException(
-						"isCastlingWhiteQueenAllowed mal setteado: " + this.getPawnPasanteSquare());
+						"isCastlingBlackKingAllowed mal setteado: " + this.getPawnPasanteSquare());
 			}
 		}
 	}

@@ -1,11 +1,9 @@
 package chess.moves;
 
 import chess.PiecePositioned;
-import chess.Square;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
-import chess.position.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -30,28 +28,6 @@ class CaptureMove extends AbstractMove {
 	@Override
 	public boolean filter(MoveFilter filter){
 		return filter.filterMove(this);
-	}
-	
-	
-	@Override
-	public void executeMove(PositionState positionState) {
-		super.executeMove(positionState);
-		
-		if(to.getKey().equals(Square.a1)){
-			positionState.setCastlingWhiteQueenAllowed(false);
-		}
-		
-		if(to.getKey().equals(Square.h1)){
-			positionState.setCastlingWhiteKingAllowed(false);
-		}
-		
-		if(to.getKey().equals(Square.a8)){
-			positionState.setCastlingBlackQueenAllowed(false);
-		}
-		
-		if(to.getKey().equals(Square.h8)){
-			positionState.setCastlingBlackKingAllowed(false);
-		}		
 	}
 
 	@Override
