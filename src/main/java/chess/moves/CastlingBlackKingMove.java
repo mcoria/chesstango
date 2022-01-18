@@ -9,7 +9,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public class CastlingBlackKingMove extends CastlingMove {
+public class CastlingBlackKingMove extends AbstractCastlingMove {
 
 	public static final PiecePositioned FROM = new PiecePositioned(Square.e8, Piece.KING_BLACK);
 	public static final PiecePositioned TO = new PiecePositioned(Square.g8, null);

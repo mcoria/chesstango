@@ -13,11 +13,11 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public abstract  class CastlingMove  implements MoveKing  {
+abstract class AbstractCastlingMove implements MoveCastling  {
 	protected final SimpleKingMove kingMove;
 	protected final SimpleMove rookMove;	
 	
-	public CastlingMove(SimpleKingMove kingMove, SimpleMove torreMove) {
+	public AbstractCastlingMove(SimpleKingMove kingMove, SimpleMove torreMove) {
 		this.kingMove = kingMove;
 		this.rookMove = torreMove;
 	}
@@ -32,6 +32,7 @@ public abstract  class CastlingMove  implements MoveKing  {
 		return kingMove.getTo();
 	}
 	
+	@Override
 	public Move getRookMove(){
 		return rookMove;
 	}

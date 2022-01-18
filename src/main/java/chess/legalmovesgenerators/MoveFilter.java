@@ -2,8 +2,8 @@ package chess.legalmovesgenerators;
 
 import chess.Color;
 import chess.analyzer.Capturer;
-import chess.moves.CastlingMove;
 import chess.moves.Move;
+import chess.moves.MoveCastling;
 import chess.moves.MoveKing;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -62,13 +62,13 @@ public class MoveFilter {
 	}
 	
 	/**
-	 * @param castlingMove
+	 * @param abstractCastlingMove
 	 */
-	public boolean filterMove(CastlingMove castlingMove) {
-		Color opositeColor = castlingMove.getFrom().getValue().getColor().opositeColor();
-		return !capturer.positionCaptured(opositeColor, castlingMove.getFrom().getKey()) // El king no esta en jaque
-			&& !capturer.positionCaptured(opositeColor, castlingMove.getRookMove().getTo().getKey()) // El king no puede ser capturado en casillero intermedio
-			&& !capturer.positionCaptured(opositeColor, castlingMove.getTo().getKey());  // El king no puede  ser capturado en casillero destino
+	public boolean filterMove(MoveCastling abstractCastlingMove) {
+		Color opositeColor = abstractCastlingMove.getFrom().getValue().getColor().opositeColor();
+		return !capturer.positionCaptured(opositeColor, abstractCastlingMove.getFrom().getKey()) // El king no esta en jaque
+			&& !capturer.positionCaptured(opositeColor, abstractCastlingMove.getRookMove().getTo().getKey()) // El king no puede ser capturado en casillero intermedio
+			&& !capturer.positionCaptured(opositeColor, abstractCastlingMove.getTo().getKey());  // El king no puede  ser capturado en casillero destino
 		
 	}	
 
