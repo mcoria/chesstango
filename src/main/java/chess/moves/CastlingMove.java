@@ -48,7 +48,7 @@ public abstract  class CastlingMove  implements MoveKing  {
 	
 	@Override
 	public boolean filter(MoveFilter filter) {
-		return filter.filter(this);
+		return filter.filterMove(this);
 	}	
 	
 	@Override

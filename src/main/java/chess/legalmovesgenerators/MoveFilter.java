@@ -64,7 +64,7 @@ public class MoveFilter {
 	/**
 	 * @param castlingMove
 	 */
-	public boolean filter(CastlingMove castlingMove) {
+	public boolean filterMove(CastlingMove castlingMove) {
 		Color opositeColor = castlingMove.getFrom().getValue().getColor().opositeColor();
 		return !capturer.positionCaptured(opositeColor, castlingMove.getFrom().getKey()) // El king no esta en jaque
 			&& !capturer.positionCaptured(opositeColor, castlingMove.getRookMove().getTo().getKey()) // El king no puede ser capturado en casillero intermedio
