@@ -260,7 +260,7 @@ public class KingBlackMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleKingMoveBlack(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKingMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 
 	

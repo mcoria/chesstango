@@ -13,11 +13,9 @@ import chess.Square;
  */
 public interface MoveFactory {
 
-	Move createSimpleKingMoveWhite(PiecePositioned origen, PiecePositioned destino);
+	Move createSimpleKingMove(PiecePositioned origen, PiecePositioned destino);
 
 	Move createCaptureKingMoveWhite(PiecePositioned origen, PiecePositioned destino);
-
-	Move createSimpleKingMoveBlack(PiecePositioned origen, PiecePositioned destino);
 
 	Move createCaptureKingMoveBlack(PiecePositioned origen, PiecePositioned destino);
 

@@ -335,7 +335,7 @@ public class ChessPositionTest {
 	}
 	
 	private Object createSimpleKingMoveWhite(Square origen, Square destino) {
-		return moveFactoryImp.createSimpleKingMoveWhite(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
+		return moveFactoryImp.createSimpleKingMove(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
 	}	
 	
 	private void settupWithDefaultBoard() {

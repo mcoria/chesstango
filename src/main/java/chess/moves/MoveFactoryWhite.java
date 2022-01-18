@@ -16,15 +16,14 @@ public class MoveFactoryWhite implements MoveFactory {
 	 * @see chess.moves.MoveFactoryImpl#createSimpleKingMoveWhite(chess.PiecePositioned, chess.PiecePositioned)
 	 */
 	@Override
-	public Move createSimpleKingMoveWhite(PiecePositioned origen, PiecePositioned destino) {
+	public Move createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
 		MoveKing kingMove = new SimpleKingMove(origen, destino);
 		Move result = kingMove;
 		if(Square.e1.equals(origen.getKey())){
 			result = whiteLostCastlingWrapper(kingMove);
 		}
 		return result;
-	}
-
+	}	
 
 	/* (non-Javadoc)
 	 * @see chess.moves.MoveFactoryImpl#createCaptureKingMoveWhite(chess.PiecePositioned, chess.PiecePositioned)
@@ -35,20 +34,6 @@ public class MoveFactoryWhite implements MoveFactory {
 		Move result = kingMove;
 		if(Square.e1.equals(origen.getKey())){
 			result = whiteLostCastlingWrapper(kingMove);
-		}
-		return result;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see chess.moves.MoveFactoryImpl#createSimpleKingMoveBlack(chess.PiecePositioned, chess.PiecePositioned)
-	 */
-	@Override
-	public Move createSimpleKingMoveBlack(PiecePositioned origen, PiecePositioned destino) {
-		SimpleKingMove kingMove = new SimpleKingMove(origen, destino);
-		Move result = kingMove;		
-		if(Square.e8.equals(origen.getKey())){
-			result = blackLostCastlingWrapper(kingMove);
 		}
 		return result;
 	}

@@ -17,7 +17,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public class MoveFactoryTest {
+public class MoveFactoryWhiteTest {
 	private MoveFactoryWhite moveFactoryImp;
 	
 	private Move moveExecutor;
@@ -47,25 +47,6 @@ public class MoveFactoryTest {
 		assertEquals(Color.BLACK, positionState.getTurnoActual());
 		assertFalse(positionState.isCastlingWhiteKingAllowed());
 		assertFalse(positionState.isCastlingWhiteQueenAllowed());
-	}
-	
-	
-	@Test
-	public void testSimpleKingMoveBlackPierdeEnroque() {
-		positionState.setTurnoActual(Color.BLACK);
-		positionState.setCastlingBlackQueenAllowed(true);
-		positionState.setCastlingBlackKingAllowed(true);
-
-		PiecePositioned origen = new PiecePositioned(Square.e8, Piece.KING_BLACK);
-		PiecePositioned destino = new PiecePositioned(Square.e7, null);
-
-		moveExecutor = moveFactoryImp.createSimpleKingMoveBlack(origen, destino);
-
-		moveExecutor.executeMove(positionState);
-
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
-		assertFalse(positionState.isCastlingBlackQueenAllowed());
-		assertFalse(positionState.isCastlingBlackKingAllowed());
 	}
 	
 	@Test

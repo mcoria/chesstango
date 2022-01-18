@@ -10,21 +10,20 @@ import chess.Square;
  *
  */
 // TODO: Implement abstract factory pattern White and Black
-public class MoveFactoryBlack implements MoveFactory {		
-	
+public class MoveFactoryBlack implements MoveFactory {
+
 	/* (non-Javadoc)
-	 * @see chess.moves.MoveFactoryImpl#createSimpleKingMoveWhite(chess.PiecePositioned, chess.PiecePositioned)
+	 * @see chess.moves.MoveFactoryImpl#createSimpleKingMoveBlack(chess.PiecePositioned, chess.PiecePositioned)
 	 */
 	@Override
-	public Move createSimpleKingMoveWhite(PiecePositioned origen, PiecePositioned destino) {
+	public Move createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
 		MoveKing kingMove = new SimpleKingMove(origen, destino);
-		Move result = kingMove;
-		if(Square.e1.equals(origen.getKey())){
-			result = whiteLostCastlingWrapper(kingMove);
+		Move result = kingMove;		
+		if(Square.e8.equals(origen.getKey())){
+			result = blackLostCastlingWrapper(kingMove);
 		}
 		return result;
-	}
-
+	}	
 
 	/* (non-Javadoc)
 	 * @see chess.moves.MoveFactoryImpl#createCaptureKingMoveWhite(chess.PiecePositioned, chess.PiecePositioned)
@@ -35,20 +34,6 @@ public class MoveFactoryBlack implements MoveFactory {
 		Move result = kingMove;
 		if(Square.e1.equals(origen.getKey())){
 			result = whiteLostCastlingWrapper(kingMove);
-		}
-		return result;
-	}
-
-
-	/* (non-Javadoc)
-	 * @see chess.moves.MoveFactoryImpl#createSimpleKingMoveBlack(chess.PiecePositioned, chess.PiecePositioned)
-	 */
-	@Override
-	public Move createSimpleKingMoveBlack(PiecePositioned origen, PiecePositioned destino) {
-		SimpleKingMove kingMove = new SimpleKingMove(origen, destino);
-		Move result = kingMove;		
-		if(Square.e8.equals(origen.getKey())){
-			result = blackLostCastlingWrapper(kingMove);
 		}
 		return result;
 	}

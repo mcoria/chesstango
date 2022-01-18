@@ -375,7 +375,7 @@ public class KingWhiteMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleKingMoveWhite(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKingMove(origen, new PiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
