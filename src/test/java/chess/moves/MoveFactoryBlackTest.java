@@ -40,7 +40,7 @@ public class MoveFactoryBlackTest {
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.QUEEN_BLACK);
 
-		moveExecutor = moveFactoryImp.createCaptureKingMoveBlack(origen, destino);
+		moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 		
 		moveExecutor.executeMove(positionState);
 
@@ -77,7 +77,7 @@ public class MoveFactoryBlackTest {
 		PiecePositioned origen = new PiecePositioned(Square.e8, Piece.QUEEN_BLACK);
 		PiecePositioned destino = new PiecePositioned(Square.e7, Piece.KNIGHT_WHITE);
 
-		moveExecutor = moveFactoryImp.createCaptureKingMoveBlack(origen, destino);
+		moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
 		moveExecutor.executeMove(positionState);
 
@@ -85,23 +85,5 @@ public class MoveFactoryBlackTest {
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
 	}
-	
-	@Test
-	public void testCapturaKingMoveWhitePierdeEnroque() {
-		positionState.setTurnoActual(Color.WHITE);
-		positionState.setCastlingWhiteKingAllowed(true);
-		positionState.setCastlingWhiteQueenAllowed(true);
-
-		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
-
-		moveExecutor = moveFactoryImp.createCaptureKingMoveWhite(origen, destino);
-
-		moveExecutor.executeMove(positionState);
-
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
-		assertFalse(positionState.isCastlingWhiteKingAllowed());
-		assertFalse(positionState.isCastlingWhiteQueenAllowed());
-	}	
 	
 }

@@ -69,7 +69,7 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 
 	@Override
 	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureKingMoveWhite(origen, destino);
+		return this.moveFactory.createCaptureKingMove(origen, destino);
 	}	
 
 }

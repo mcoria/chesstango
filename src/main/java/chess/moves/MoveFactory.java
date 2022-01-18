@@ -15,9 +15,7 @@ public interface MoveFactory {
 
 	Move createSimpleKingMove(PiecePositioned origen, PiecePositioned destino);
 
-	Move createCaptureKingMoveWhite(PiecePositioned origen, PiecePositioned destino);
-
-	Move createCaptureKingMoveBlack(PiecePositioned origen, PiecePositioned destino);
+	Move createCaptureKingMove(PiecePositioned origen, PiecePositioned destino);
 
 	Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino);
 

@@ -70,7 +70,7 @@ public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
 
 	@Override
 	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureKingMoveBlack(origen, destino);
+		return this.moveFactory.createCaptureKingMove(origen, destino);
 	}	
 
 }
