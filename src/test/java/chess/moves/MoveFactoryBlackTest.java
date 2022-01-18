@@ -10,6 +10,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.moves.imp.MoveFactoryBlack;
 import chess.position.PositionState;
 
 

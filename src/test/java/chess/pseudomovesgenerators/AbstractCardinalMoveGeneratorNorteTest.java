@@ -17,7 +17,7 @@ import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.iterators.Cardinal;
 import chess.moves.Move;
-import chess.moves.MoveFactoryWhite;
+import chess.moves.imp.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;

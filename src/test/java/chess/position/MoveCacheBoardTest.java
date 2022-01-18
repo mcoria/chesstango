@@ -8,7 +8,7 @@ import org.junit.Test;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.moves.MoveFactoryWhite;
+import chess.moves.imp.MoveFactoryWhite;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 

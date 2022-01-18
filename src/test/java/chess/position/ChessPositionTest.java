@@ -19,10 +19,8 @@ import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessFactory;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
-import chess.moves.CastlingWhiteKingMove;
-import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
-import chess.moves.MoveFactoryWhite;
+import chess.moves.imp.MoveFactoryWhite;
 import chess.parsers.FENParser;
 
 
@@ -150,8 +148,8 @@ public class ChessPositionTest {
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f2)));
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f1)));
 
-		assertFalse(moves.contains(new CastlingWhiteKingMove()));
-		assertFalse(moves.contains(new CastlingWhiteQueenMove()));
+		assertFalse(moves.contains(moveFactoryImp.createCastlingKingMove()));
+		assertFalse(moves.contains(moveFactoryImp.createCastlingQueenMove()));
 
 		assertEquals(4, moves.size());
 	}
@@ -272,7 +270,7 @@ public class ChessPositionTest {
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f1)));
-		assertFalse(moves.contains(new CastlingWhiteKingMove()));
+		assertFalse(moves.contains(moveFactoryImp.createCastlingKingMove()));
 		
 		assertEquals(12, moves.size());
 		

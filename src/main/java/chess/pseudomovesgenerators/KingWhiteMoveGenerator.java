@@ -4,8 +4,6 @@ import chess.CachePosiciones;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.moves.CastlingWhiteKingMove;
-import chess.moves.CastlingWhiteQueenMove;
 import chess.moves.Move;
 
 
@@ -42,7 +40,7 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
 								DESTINO_QUEEN_SQUARE, 
 								INTERMEDIO_KING_QUEEN_SQUARE)) {
-				result.moveContainerAdd(new CastlingWhiteQueenMove());
+				result.moveContainerAdd(moveFactory.createCastlingQueenMove());
 			}
 		}
 		
@@ -56,7 +54,7 @@ public class KingWhiteMoveGenerator extends KingAbstractMoveGenerator {
 								CachePosiciones.ROOK_WHITE_KING,
 								DESTINO_KING_SQUARE, 
 								INTERMEDIO_KING_KING_SQUARE)) {
-				this.result.moveContainerAdd(new CastlingWhiteKingMove());
+				this.result.moveContainerAdd(moveFactory.createCastlingKingMove());
 			}
 		}
 	}

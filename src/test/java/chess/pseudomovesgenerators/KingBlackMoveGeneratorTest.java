@@ -16,10 +16,8 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessPositionPartsBuilder;
 import chess.debug.builder.DebugChessFactory;
-import chess.moves.CastlingBlackKingMove;
-import chess.moves.CastlingBlackQueenMove;
 import chess.moves.Move;
-import chess.moves.MoveFactoryWhite;
+import chess.moves.imp.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
@@ -74,7 +72,7 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( new CastlingBlackQueenMove() ));
+		assertTrue(moves.contains( moveFactoryImp.createCastlingQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -104,7 +102,7 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastlingBlackQueenMove() ));
+		assertTrue(moves.contains( moveFactoryImp.createCastlingQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -134,7 +132,7 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastlingBlackQueenMove() ));
+		assertTrue(moves.contains( moveFactoryImp.createCastlingQueenMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
@@ -162,7 +160,7 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
-		assertTrue(moves.contains( new CastlingBlackKingMove() ));
+		assertTrue(moves.contains( moveFactoryImp.createCastlingKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}	
@@ -192,7 +190,7 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastlingBlackKingMove() ));
+		assertTrue(moves.contains( moveFactoryImp.createCastlingKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}
@@ -222,7 +220,7 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		
-		assertTrue(moves.contains( new CastlingBlackKingMove() ));
+		assertTrue(moves.contains( moveFactoryImp.createCastlingKingMove() ));
 		
 		assertEquals(6, moves.size());
 	}		
@@ -253,8 +251,8 @@ public class KingBlackMoveGeneratorTest {
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f7) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.f8) ));
 		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
-		assertTrue(moves.contains(  new CastlingBlackKingMove() ));			// No se considera si el king esta en jaque
-		assertTrue(moves.contains(  new CastlingBlackQueenMove() ));			// No se considera si el king esta en jaque
+		assertTrue(moves.contains(  moveFactoryImp.createCastlingKingMove() ));			// No se considera si el king esta en jaque
+		assertTrue(moves.contains(  moveFactoryImp.createCastlingQueenMove() ));			// No se considera si el king esta en jaque
 		
 		assertEquals(7, moves.size());
 	}

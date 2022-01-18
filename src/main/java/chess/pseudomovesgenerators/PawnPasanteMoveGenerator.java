@@ -11,7 +11,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
-import chess.moves.MoveFactoryWhite;
+import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 

@@ -11,7 +11,7 @@ import org.junit.Test;
 import chess.Game.GameStatus;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
-import chess.moves.CastlingBlackKingMove;
+import chess.moves.imp.MoveFactoryBlack;
 import chess.parsers.FENParser;
 
 
@@ -387,7 +387,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getPossibleMoves().size()); 
 		//CastlingBlackKingMove es uno de los movimientos posibles
-		assertEquals(new CastlingBlackKingMove(), game.getMovimiento(Square.e8, Square.g8));
+		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMovimiento(Square.e8, Square.g8));
 		
 		//Undo movimiento 1 y volvemos al estado inicial
 		game.undoMove();
@@ -409,7 +409,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getPossibleMoves().size()); 
 		//CastlingBlackKingMove es uno de los movimientos posibles
-		assertEquals(new CastlingBlackKingMove(), game.getMovimiento(Square.e8, Square.g8));
+		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMovimiento(Square.e8, Square.g8));
 	}
 	
 	
