@@ -14,7 +14,7 @@ import chess.position.PositionState;
  * @author Mauricio Coria
  *
  */
-public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerator {
+public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerator {
 	
 	protected PositionState positionState;
 	
@@ -28,7 +28,7 @@ public abstract class KingAbstractMoveGenerator extends AbstractJumpMoveGenerato
 			{ -1, 0 },  // Oeste
 	};
 	
-	public KingAbstractMoveGenerator(Color color) {
+	public AbstractKingMoveGenerator(Color color) {
 		super(color, SALTOS_KING);
 	}	
 

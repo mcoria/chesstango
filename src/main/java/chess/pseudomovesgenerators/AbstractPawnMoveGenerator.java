@@ -10,7 +10,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
+public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 	protected abstract Square getCasilleroSaltoSimple(Square casillero);
 
@@ -25,7 +25,7 @@ public abstract class PawnAbstractMoveGenerator extends AbstractMoveGenerator {
 	protected abstract Piece[] getPiezaPromocion();
 
 	
-	public PawnAbstractMoveGenerator(Color color) {
+	public AbstractPawnMoveGenerator(Color color) {
 		super(color);
 	}
 	

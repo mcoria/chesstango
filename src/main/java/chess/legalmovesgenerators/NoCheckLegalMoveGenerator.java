@@ -13,7 +13,7 @@ import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGeneratorStrategy;
-import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
+import chess.pseudomovesgenerators.AbstractKingMoveGenerator;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -46,7 +46,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		final Color turnoActual = positionState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
-		KingAbstractMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
+		AbstractKingMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
 		long pinnedSquares = kingMoveGenerator.getPinnedSquare(kingSquare);

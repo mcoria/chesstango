@@ -67,7 +67,7 @@ public class MoveGeneratorStrategy {
 		moveFactoryBlack = new MoveFactoryBlack();
 	}
 
-	public KingAbstractMoveGenerator getKingMoveGenerator(Color color) {
+	public AbstractKingMoveGenerator getKingMoveGenerator(Color color) {
 		return Color.WHITE.equals(color) ? this.rbmg : this.rnmg;
 	}
 	
@@ -196,8 +196,8 @@ public class MoveGeneratorStrategy {
 			}
 		}
 		
-		if (moveGenerator instanceof KingAbstractMoveGenerator) {
-			KingAbstractMoveGenerator generator = (KingAbstractMoveGenerator) moveGenerator;
+		if (moveGenerator instanceof AbstractKingMoveGenerator) {
+			AbstractKingMoveGenerator generator = (AbstractKingMoveGenerator) moveGenerator;
 			generator.setBoardState(positionState);
 		}
 		

@@ -9,7 +9,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class PawnWhiteMoveGenerator extends PawnAbstractMoveGenerator {
+public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 	
 	private static final Piece[] PROMOCIONES_WHITE = new Piece[]{Piece.ROOK_WHITE, Piece.KNIGHT_WHITE, Piece.BISHOP_WHITE, Piece.QUEEN_WHITE};
 	
