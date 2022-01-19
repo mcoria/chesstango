@@ -20,7 +20,7 @@ public class ChessPosition {
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;	
 
-	public void execute(Move move) {
+	public void acceptForExecute(Move move) {
 		move.executeMove(this);
 	}
 
@@ -42,9 +42,8 @@ public class ChessPosition {
 		
 	}	
 
-	public void undo(Move move) {
+	public void acceptForUndo(Move move) {
 		move.undoMove(this);
-		
 	}
 
 	public void undoMove(Move move) {

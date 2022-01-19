@@ -190,7 +190,7 @@ public class ChessPositionTest {
 
 		// Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
-		tablero.execute(move);
+		tablero.acceptForExecute(move);
 
 		// Podemos capturarlo
 		result = analyzer.analyze();
@@ -199,7 +199,7 @@ public class ChessPositionTest {
 		assertEquals(22, legalMoves.size());
 
 		// Volvemos atras
-		tablero.undo(move);
+		tablero.acceptForUndo(move);
 
 		// No podemos capturarlo
 		result = analyzer.analyze();
@@ -224,7 +224,7 @@ public class ChessPositionTest {
 
 		// Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
-		tablero.execute(move);
+		tablero.acceptForExecute(move);
 
 		// Podemos capturarlo
 		result = analyzer.analyze();
@@ -236,12 +236,12 @@ public class ChessPositionTest {
 		result = analyzer.analyze();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h2, Square.h3);
-		tablero.execute(move);
+		tablero.acceptForExecute(move);
 
 		result = analyzer.analyze();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h7, Square.h6);
-		tablero.execute(move);
+		tablero.acceptForExecute(move);
 
 		// Ahora no podemos capturar el peon pasante !!!
 		result = analyzer.analyze();

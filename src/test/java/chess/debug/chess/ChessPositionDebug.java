@@ -12,8 +12,8 @@ public class ChessPositionDebug extends ChessPosition {
 	
 
 	@Override
-	public void execute(Move move) {
-		super.execute(move);
+	public void acceptForExecute(Move move) {
+		super.acceptForExecute(move);
 		((PositionStateDebug)positionState).validar(this.piecePlacement);
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
@@ -21,8 +21,8 @@ public class ChessPositionDebug extends ChessPosition {
 	}
 
 	@Override
-	public void undo(Move move) {
-		super.undo(move);
+	public void acceptForUndo(Move move) {
+		super.acceptForUndo(move);
 		((PositionStateDebug)positionState).validar(this.piecePlacement);
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);

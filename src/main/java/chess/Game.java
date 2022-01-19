@@ -51,7 +51,7 @@ public class Game {
 		
 		boardPila.push();
 		
-		chessPosition.execute(move);
+		chessPosition.acceptForExecute(move);
 		
 		return updateGameStatus();
 	}
@@ -62,7 +62,7 @@ public class Game {
 		
 		Move lastMove = boardPila.getMovimientoSeleccionado();
 		
-		chessPosition.undo(lastMove);
+		chessPosition.acceptForUndo(lastMove);
 		
 		return getGameStatus();
 	}

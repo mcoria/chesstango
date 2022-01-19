@@ -10,9 +10,15 @@ By no means does this project intents to implement all design patterns you may f
 Although performance is taken into consideration, this is not the top non-functional priority, clear design patterns implementation is preferred.
 
 ## Creational Patterns
-- Factory method
+- Factory Method
 - Builder
 
+###Factory Method
+Template method pattern in combination with Factory method pattern can be found at:
+- [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
+- [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class.
+
+### Builder
 Builder pattern has been implemented with different participant classes
 - Builder: ChessBuilder class declares the interface.
 - Concrete Builders
@@ -40,10 +46,8 @@ Decorator pattern can be found at chess.moves package. MoveDecorator is an abstr
 
 Template method pattern is applied in different situations by abstract classes: 
 [PawnAbstractMoveGenerator](src/main/java/chess/pseudomovesgenerators/PawnAbstractMoveGenerator.java)
+ 
 
-Template method pattern in combination with Factory method pattern can be found at:
-- [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
-- [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class. 
 
 Command pattern in combination with Visitor pattern can be found at chess.moves package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
 
