@@ -50,21 +50,23 @@ Decorator pattern is implemented by [MoveDecorator](src/main/java/chess/moves/im
 - Visitor
 - Iterator
 
-###Template method
+### Template method
 Template method pattern is applied in different situations by abstract classes: 
-[PawnAbstractMoveGenerator](src/main/java/chess/pseudomovesgenerators/PawnAbstractMoveGenerator.java)
+[AbstractPawnMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractPawnMoveGenerator.java)
+
+By convention, those classes with template methods are abstract classes and named with the prefix Abstract.
  
-###Command
+### Command
 Command pattern in combination with Visitor pattern can be found at chess.moves package. 
 
 Interface Move/MoveKing/MoveCastling define DO and UNDO operations.
 
 Classes in package chess.moves.imp implement these interfaces.
 
-###Strategy
+### Strategy
 Strategy pattern is implemented at movegenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
-###Iterators
+### Iterators
 Iterators can by found at chess.iterators package, two different iterator types are defined:
 - Square Iterators
 - Piece Placement Iterators
