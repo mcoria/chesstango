@@ -20,6 +20,7 @@ import chess.position.PositionState;
 //				toda captura a una torre que que se encuentra en si posicion inicial hacen perder enroque
 //		cada vez que se cambia la jerarquia o hay algun tipo de modificacion en estos objetos las clases de pruebas necesitan ser actualizadas
 
+//TODO: implement bridge pattern.
 
 /**
  * @author Mauricio Coria
@@ -28,6 +29,11 @@ import chess.position.PositionState;
 public interface Move extends Comparable<Move> {
 	PiecePositioned getFrom();
 	PiecePositioned getTo();
+	
+	void executeMove(ChessPosition chessPosition);
+	void undoMove(ChessPosition chessPosition);
+	
+	boolean filter(MoveFilter filter);	
 
 	void executeMove(PiecePlacement board);
 	void undoMove(PiecePlacement board);
@@ -40,9 +46,4 @@ public interface Move extends Comparable<Move> {
 	
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
-	
-	void executeMove(ChessPosition chessPosition);
-	void undoMove(ChessPosition chessPosition);
-	
-	boolean filter(MoveFilter filter);
 }

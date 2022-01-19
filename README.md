@@ -16,11 +16,11 @@ Although performance is taken into consideration, this is not the top non-functi
 Builder pattern has been implemented with different participant classes
 - Builder: ChessBuilder class declares the interface.
 - Concrete Builders
-  * ASCIIOutput, the result is retrived with method xXX
-  * FENCoder, the result is retrived with method XX
-  * ChessBuilderParts 
-  * ChessBuilderBoard 
-  * ChessBuilderGame
+    - ASCIIOutput, the result is retrived with method xXX
+    - FENCoder, the result is retrived with method XX
+    - ChessBuilderParts 
+    - ChessBuilderBoard 
+    - ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
 
 ## Structural Patterns
@@ -29,7 +29,7 @@ Builder pattern has been implemented with different participant classes
 
 Facade pattern is implemented by Game class.
 
-Decorator pattern can be found at moveexecutors package. MoveDecorator is an abstract class that declares a reference to concrete components being decorated.
+Decorator pattern can be found at chess.moves package. MoveDecorator is an abstract class that declares a reference to concrete components being decorated.
 
 ## Behavioral Patterns
 - Template method
@@ -45,7 +45,7 @@ Template method pattern in combination with Factory method pattern can be found 
 - [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
 - [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class. 
 
-Command pattern in combination with Visitor pattern can be found at moveexecutors package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
+Command pattern in combination with Visitor pattern can be found at chess.moves package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
 
 Strategy pattern is implemented at movegenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 

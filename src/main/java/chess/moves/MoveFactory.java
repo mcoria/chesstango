@@ -12,10 +12,10 @@ import chess.Square;
  *
  */
 public interface MoveFactory {
-	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);	
-	Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino);
-	
+	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
+	
+	Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino);
 	
 	Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero);
