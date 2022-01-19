@@ -11,6 +11,7 @@ import chess.position.PiecePlacement;
  * @author Mauricio Coria
  *
  */
+//TODO: implementar el calculo de movimientos lo puede hacer en funcion de ColorBoard
 public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	protected final Color color;

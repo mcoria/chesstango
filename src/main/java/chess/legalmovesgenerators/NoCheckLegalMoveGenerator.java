@@ -48,8 +48,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		KingAbstractMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
 
-		// Casilleros donde se encuentran piezas propias que de moverse pueden
-		// poner en jaque al King.
+		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
 		long pinnedSquares = kingMoveGenerator.getPinnedSquare(kingSquare);
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {

@@ -13,7 +13,7 @@ Although performance is taken into consideration, this is not the top non-functi
 - Factory Method
 - Builder
 
-###Factory Method
+### Factory Method
 Template method pattern in combination with Factory method pattern can be found at:
 - [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
 - [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class.

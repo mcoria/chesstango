@@ -16,8 +16,14 @@ import chess.moves.Move;
  */
 public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerator {
 	
+	/*
+	 * Factory Method
+	 */
 	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
-	
+
+	/*
+	 * Factory Method
+	 */	
 	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);		
 	
 	private final Cardinal[] directions;
@@ -27,7 +33,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 		this.directions = directions;
 	}
 
-	//TODO: podra utilizarse streams para paralelizar?
+	//TODO: explorar streams
 	@Override
 	public void generateMovesPseudoMoves(PiecePositioned origen) {
 		for (Cardinal cardinal : this.directions) {
@@ -35,8 +41,9 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 		}
 	}
 	
-	
-	//El calculo de movimientos lo puede hacer en funcion de ColorBoard	
+	/*
+	 * Template method
+	 */	
 	protected void getPseudoMoves(PiecePositioned origen, Cardinal cardinal) {
 		Square casillero = origen.getKey();
 		Iterator<Square> iterator = new CardinalSquareIterator(casillero, cardinal);
@@ -55,24 +62,6 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 				break;
 			}
 		}
-	}
-
-	protected boolean puedeCapturarPosicion(PiecePositioned origen, Square square,
-			Cardinal cardinal) {
-		Square casillero = origen.getKey();
-		CardinalSquareIterator iterator = new CardinalSquareIterator(casillero, cardinal);
-		while ( iterator.hasNext() ) {
-		    Square destino = iterator.next();
-	    	if(square.equals(destino)){
-	    		return true;
-	    	}
-		    if(this.colorBoard.isEmpty(destino)){
-		    	continue;
-		    } else {		    	
-		    	break;
-			}
-		}
-		return false;
 	}
 
 }
