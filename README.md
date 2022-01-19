@@ -30,7 +30,7 @@ Builder pattern has been implemented with different participant classes
     - ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
 
-###Abstract Factory
+### Abstract Factory
 Abstract Factory pattern examples:
 
 MoveFactory class declares the interface. MoveFactoryBlack and MoveFactoryWhite are two different implementations. 
@@ -64,7 +64,7 @@ Interface Move/MoveKing/MoveCastling define DO and UNDO operations.
 Classes in package chess.moves.imp implement these interfaces.
 
 ### Strategy
-Strategy pattern is implemented at movegenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
+Strategy pattern is implemented at chess.pseudomovesgenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
 ### Iterators
 Iterators can by found at chess.iterators package, two different iterator types are defined:
