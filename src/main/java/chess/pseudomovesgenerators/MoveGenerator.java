@@ -1,7 +1,11 @@
 package chess.pseudomovesgenerators;
 
+import java.util.Collection;
+
 import chess.Color;
+import chess.Piece;
 import chess.PiecePositioned;
+import chess.moves.Move;
 import chess.moves.MoveFactory;
 import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
@@ -80,10 +84,16 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 
 	@Override
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
-		MoveGeneratorStrategy strategy = origen.getValue().selectMoveGeneratorStrategy(this);
+		Piece piece = origen.getValue();
+		MoveGeneratorStrategy strategy = piece.selectMoveGeneratorStrategy(this);
 		return strategy.generatePseudoMoves(origen);
 	}
 	
+	public Collection<Move> generatoPawnPasantePseudoMoves() {
+		return ppmg.generatePseudoMoves();
+	}	
+	
+	//TODO: Necesitamos esto por el metodo kingMoveGenerator.getPinnedSquare(kingSquare). Deberiamos moverlo a su propia clase
 	public AbstractKingMoveGenerator getKingMoveGenerator(Color color) {
 		return Color.WHITE.equals(color) ? this.rbmg : this.rnmg;
 	}
@@ -102,55 +112,6 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 		this.positionState = positionState;
 		settupMoveGenerators();
 	}
-	
-	/*
-	 * //MoveGeneratorStrategy strategy = selectMoveGeneratorStrategy(origen.getValue());
-	 */
-	/*
-	protected MoveGeneratorStrategy selectMoveGeneratorStrategy(Piece piece){
-		MoveGeneratorStrategy value  = null;
-		switch (piece) {
-		case PAWN_WHITE:
-			value = this.pbmg;
-			break;
-		case PAWN_BLACK:
-			value = this.pnmg;
-			break;
-		case ROOK_WHITE:
-			value = this.tbmg;
-			break;
-		case ROOK_BLACK:
-			value = this.tnmg;
-			break;
-		case KNIGHT_WHITE:
-			value = this.cbmg;
-			break;
-		case KNIGHT_BLACK:
-			value = this.cnmg;
-			break;
-		case BISHOP_WHITE:
-			value = this.abmg;
-			break;
-		case BISHOP_BLACK:
-			value = this.anmg;
-			break;
-		case QUEEN_WHITE:
-			value = this.rebmg;
-			break;
-		case QUEEN_BLACK:
-			value = this.renmg;
-			break;
-		case KING_WHITE:
-			value = this.rbmg;
-			break;
-		case KING_BLACK:
-			value = this.rnmg;
-			break;
-		default:
-			throw new RuntimeException("Generator not found");
-		}
-		return value;
-	}*/
 	
 	private void settupMoveGenerators(){
 		settupMoveGenerator(pbmg);
@@ -254,8 +215,53 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 		return rnmg;
 	}
 	
-	public PawnPasanteMoveGenerator getPawnPasanteMoveGenerator() {
-		return ppmg;
-	}	
+	/*
+	 * //MoveGeneratorStrategy strategy = selectMoveGeneratorStrategy(origen.getValue());
+	 */
+	/*
+	protected MoveGeneratorStrategy selectMoveGeneratorStrategy(Piece piece){
+		MoveGeneratorStrategy value  = null;
+		switch (piece) {
+		case PAWN_WHITE:
+			value = this.pbmg;
+			break;
+		case PAWN_BLACK:
+			value = this.pnmg;
+			break;
+		case ROOK_WHITE:
+			value = this.tbmg;
+			break;
+		case ROOK_BLACK:
+			value = this.tnmg;
+			break;
+		case KNIGHT_WHITE:
+			value = this.cbmg;
+			break;
+		case KNIGHT_BLACK:
+			value = this.cnmg;
+			break;
+		case BISHOP_WHITE:
+			value = this.abmg;
+			break;
+		case BISHOP_BLACK:
+			value = this.anmg;
+			break;
+		case QUEEN_WHITE:
+			value = this.rebmg;
+			break;
+		case QUEEN_BLACK:
+			value = this.renmg;
+			break;
+		case KING_WHITE:
+			value = this.rbmg;
+			break;
+		case KING_BLACK:
+			value = this.rnmg;
+			break;
+		default:
+			throw new RuntimeException("Generator not found");
+		}
+		return value;
+	}*/	
 
 }

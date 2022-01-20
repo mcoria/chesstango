@@ -63,7 +63,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	 * @param moves
 	 */
 	protected void getLegalMovesSpecial(Collection<Move> moves) {
-		Collection<Move> pseudoMoves = pseudoMovesGenerator.getPawnPasanteMoveGenerator().calculatePseudoMoves();
+		Collection<Move> pseudoMoves = pseudoMovesGenerator.generatoPawnPasantePseudoMoves();
 		for (Move move : pseudoMoves) {
 			if(move.filter(filter)){
 				moves.add(move);
