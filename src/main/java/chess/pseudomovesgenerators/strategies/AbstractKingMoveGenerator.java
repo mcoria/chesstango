@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import chess.Color;
 import chess.Piece;
@@ -71,6 +71,7 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	private final static Cardinal[] cardinalesBishop = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
 	private final static Cardinal[] cardinalesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 	
+	//TODO: mover estos metodos a una clase auxiliar
 	public long getPinnedSquare(Square kingSquare) {
 		Piece reina = Piece.getQueen(this.color.opositeColor());
 		Piece torre = Piece.getRook(this.color.opositeColor());

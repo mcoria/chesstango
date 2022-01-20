@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import chess.Color;
 import chess.Piece;

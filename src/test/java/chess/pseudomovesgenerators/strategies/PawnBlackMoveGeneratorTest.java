@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,6 +18,8 @@ import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.strategies.PawnBlackMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -51,7 +53,7 @@ public class PawnBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -71,7 +73,7 @@ public class PawnBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -93,7 +95,7 @@ public class PawnBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -116,7 +118,7 @@ public class PawnBlackMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		

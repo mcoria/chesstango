@@ -28,7 +28,7 @@ public class PawnPasanteMoveGenerator {
 	protected MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();
 
 
-	public Collection<Move> getPseudoMoves() {
+	public Collection<Move> calculatePseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
 		
 		PiecePositioned origen = null;

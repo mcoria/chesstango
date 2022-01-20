@@ -10,28 +10,28 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE, strategy -> strategy.getPawnWhiteMoveGenerator()),
-	PAWN_BLACK(Color.BLACK,  strategy -> strategy.getPawnBlackMoveGenerator()),
+	PAWN_WHITE(Color.WHITE, generator -> generator.getPawnWhiteMoveGenerator()),
+	PAWN_BLACK(Color.BLACK,  generator -> generator.getPawnBlackMoveGenerator()),
 	
-	ROOK_WHITE(Color.WHITE, strategy -> strategy.getRookBlancaMoveGenerator()),
-	ROOK_BLACK(Color.BLACK, strategy -> strategy.getRookNegraMoveGenerator()),
+	ROOK_WHITE(Color.WHITE, generator -> generator.getRookBlancaMoveGenerator()),
+	ROOK_BLACK(Color.BLACK, generator -> generator.getRookNegraMoveGenerator()),
 	
-	KNIGHT_WHITE(Color.WHITE, strategy -> strategy.getKnightWhiteMoveGenerator()),
-	KNIGHT_BLACK(Color.BLACK, strategy -> strategy.getKnightBlackMoveGenerator()),
+	KNIGHT_WHITE(Color.WHITE, generator -> generator.getKnightWhiteMoveGenerator()),
+	KNIGHT_BLACK(Color.BLACK, generator -> generator.getKnightBlackMoveGenerator()),
 	
-	BISHOP_WHITE(Color.WHITE, strategy -> strategy.getBishopWhiteMoveGenerator()),
-	BISHOP_BLACK(Color.BLACK, strategy -> strategy.getBishopBlackMoveGenerator()),
+	BISHOP_WHITE(Color.WHITE, generator -> generator.getBishopWhiteMoveGenerator()),
+	BISHOP_BLACK(Color.BLACK, generator -> generator.getBishopBlackMoveGenerator()),
 	
-	QUEEN_WHITE(Color.WHITE, strategy -> strategy.getQueenBlancaMoveGenerator()),
-	QUEEN_BLACK(Color.BLACK, strategy -> strategy.getQueenNegraMoveGenerator()),
+	QUEEN_WHITE(Color.WHITE, generator -> generator.getQueenBlancaMoveGenerator()),
+	QUEEN_BLACK(Color.BLACK, generator -> generator.getQueenNegraMoveGenerator()),
 	
-	KING_WHITE(Color.WHITE, strategy -> strategy.getKingWhiteMoveGenerator()),
-	KING_BLACK(Color.BLACK, strategy -> strategy.getKingBlackMoveGenerator());
+	KING_WHITE(Color.WHITE, generator -> generator.getKingWhiteMoveGenerator()),
+	KING_BLACK(Color.BLACK, generator -> generator.getKingBlackMoveGenerator());
 	
 	private final Color color;
-	private final Function<MoveGeneratorStrategy, MoveGenerator> selector;
+	private final Function<MoveGenerator, MoveGeneratorStrategy> selector;
 	
-	private Piece(Color color, Function<MoveGeneratorStrategy, MoveGenerator> selector) {
+	private Piece(Color color, Function<MoveGenerator, MoveGeneratorStrategy> selector) {
 		this.color = color;
 		this.selector = selector;
 	}
@@ -40,7 +40,7 @@ public enum Piece {
 		return color;
 	}
 
-	public MoveGenerator getMoveGenerator(MoveGeneratorStrategy strategy) {
+	public MoveGeneratorStrategy selectMoveGeneratorStrategy(MoveGenerator strategy) {
 		return selector.apply(strategy);
 	}	
 	

@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,6 +22,8 @@ import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.strategies.KingWhiteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -59,7 +61,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -89,7 +91,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -120,7 +122,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -150,7 +152,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -180,7 +182,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -209,7 +211,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -237,7 +239,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -267,7 +269,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -296,7 +298,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -325,7 +327,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
@@ -356,7 +358,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_WHITE.getKey(), Piece.KING_WHITE);
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		

@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,6 +20,8 @@ import chess.moves.imp.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.strategies.BishopMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -52,7 +54,7 @@ public class BishopMoveGeneratorTest {
 		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
 
 		
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		Collection<Move> moves = generatorResult.getPseudoMoves();
 		
@@ -120,7 +122,7 @@ public class BishopMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
 
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		Collection<Move> moves = generatorResult.getPseudoMoves();
 

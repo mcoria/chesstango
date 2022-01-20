@@ -9,8 +9,8 @@ import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.CardinalSquareIterator;
 import chess.iterators.square.JumpSquareIterator;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.AbstractKingMoveGenerator;
-import chess.pseudomovesgenerators.KnightMoveGenerator;
+import chess.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
+import chess.pseudomovesgenerators.strategies.KnightMoveGenerator;
 
 
 

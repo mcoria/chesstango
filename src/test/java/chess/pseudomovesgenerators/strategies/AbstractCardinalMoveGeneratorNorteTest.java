@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,12 +21,14 @@ import chess.moves.imp.MoveFactoryWhite;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.strategies.AbstractCardinalMoveGenerator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class AbstractCardinalMoveGeneratorNorteEsteTest {
+public class AbstractCardinalMoveGeneratorNorteTest {
 	
 	private AbstractCardinalMoveGenerator moveGenerator;
 	
@@ -37,7 +39,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
-		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.NorteEste}){
+		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.Norte}){
 
 			@Override
 			protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
@@ -56,72 +58,70 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	}
 	
 	@Test
-	public void testNorteEste() {
-		PiecePlacement tablero =  getTablero("8/8/8/4B3/8/8/8/8");
+	public void testNorte() {
+		PiecePlacement tablero =  getTablero("8/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);		
 	
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.g7) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.h8) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e8) ));
 	}
 	
-	
-	
 	@Test
-	public void testNorteEste01() {
-		PiecePlacement tablero =  getTablero("7R/8/8/4B3/8/8/8/8");
+	public void testNorte01() {
+		PiecePlacement tablero =  getTablero("4B3/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.h8));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.e8));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);	
 	
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
 		assertEquals(2, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.g7) ));
-	}
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+	}	
 	
 	@Test
-	public void testNorteEste02() {
-		PiecePlacement tablero =  getTablero("7r/8/8/4B3/8/8/8/8");
+	public void testNorte02() {
+		PiecePlacement tablero =  getTablero("4b3/8/8/4R3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
 		moveGenerator.setColorBoard(new ColorBoard(tablero));
 		
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.BISHOP_BLACK, tablero.getPieza(Square.e8));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
+		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);
 	
-		MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
 		moves = generatorResult.getPseudoMoves();
 		
 		assertEquals(3, moves.size());
 		
-		assertTrue(moves.contains( createSimpleMove(origen, Square.f6) ));
-		assertTrue(moves.contains( createSimpleMove(origen, Square.g7) ));
-		assertTrue(moves.contains( createCaptureMove(origen, Square.h8, Piece.ROOK_BLACK) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createSimpleMove(origen, Square.e7) ));
+		assertTrue(moves.contains( createCaptureMove(origen, Square.e8, Piece.BISHOP_BLACK) ));
 	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
@@ -130,7 +130,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
 		return moveFactoryImp.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
-	}	
+	}
 	
 	private PiecePlacement getTablero(String string) {		
 		ChessPositionPartsBuilder builder = new ChessPositionPartsBuilder(new DebugChessFactory());
@@ -140,5 +140,5 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		
 		return builder.getPiecePlacement();
 	}	
-
+		
 }

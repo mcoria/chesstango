@@ -7,9 +7,8 @@ import java.util.Deque;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
-import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -27,18 +26,13 @@ public class MoveCacheBoard {
 	public MoveCacheBoard() {
 	}
 	
-	/**
-	 * @param piecePlacement
-	 * @param buildMoveGeneratorStrategy
-	 */
-	public MoveCacheBoard(PiecePlacement piecePlacement, MoveGeneratorStrategy strategy) {
+
+	public MoveCacheBoard(PiecePlacement piecePlacement, MoveGenerator pseudoMovesGenerator) {
 		for(PiecePositioned origen: piecePlacement){
 			
 			if(origen.getValue() != null){
-				MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
-												//origen.getValue().getMoveGenerator(strategy); Mala performance
-	
-				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+
+				MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
 	
 				setPseudoMoves(origen.getKey(), generatorResult);
 			}

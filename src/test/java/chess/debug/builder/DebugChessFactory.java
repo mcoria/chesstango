@@ -19,7 +19,7 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
 
 
 /**
@@ -36,7 +36,7 @@ public class DebugChessFactory extends ChessFactory {
 	@Override
 	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		
 		return new DefaultLegalMoveGeneratorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
@@ -45,7 +45,7 @@ public class DebugChessFactory extends ChessFactory {
 	@Override
 	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGeneratorStrategy buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveGeneratorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}	
@@ -62,8 +62,8 @@ public class DebugChessFactory extends ChessFactory {
 	}
 	
 	@Override
-	public MoveCacheBoard createMoveCacheBoard(PiecePlacement piecePlacement, MoveGeneratorStrategy moveGeneratorStrategy) {
-		return new MoveCacheBoardDebug(piecePlacement, moveGeneratorStrategy);
+	public MoveCacheBoard createMoveCacheBoard(PiecePlacement piecePlacement, MoveGenerator moveGenerator) {
+		return new MoveCacheBoardDebug(piecePlacement, moveGenerator);
 	}
 	
 	@Override

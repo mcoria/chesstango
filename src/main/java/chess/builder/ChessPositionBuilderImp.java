@@ -12,7 +12,7 @@ import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -26,7 +26,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 	
 	private ChessPosition chessPosition = null;
 	
-	private MoveGeneratorStrategy moveGeneratorStrategy = null;
+	private MoveGenerator moveGenerator = null;
 
 	private ColorBoard colorBoard = null;
 	
@@ -123,14 +123,14 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder {
 		return noCheckLegalMoveGenerator;
 	}	
 
-	protected MoveGeneratorStrategy buildMoveGeneratorStrategy() {
-		if (moveGeneratorStrategy == null) {
-			moveGeneratorStrategy = new MoveGeneratorStrategy();
-			moveGeneratorStrategy.setPiecePlacement(builder.getPiecePlacement());
-			moveGeneratorStrategy.setBoardState(builder.getPositionState());
-			moveGeneratorStrategy.setColorBoard(buildColorBoard());
+	protected MoveGenerator buildMoveGeneratorStrategy() {
+		if (moveGenerator == null) {
+			moveGenerator = new MoveGenerator();
+			moveGenerator.setPiecePlacement(builder.getPiecePlacement());
+			moveGenerator.setBoardState(builder.getPositionState());
+			moveGenerator.setColorBoard(buildColorBoard());
 		}
-		return moveGeneratorStrategy;
+		return moveGenerator;
 	}
 
 
