@@ -19,12 +19,14 @@ import chess.pseudomovesgenerators.strategies.KnightMoveGenerator;
  *
  */
 public class Capturer {
+	private final PiecePlacement piecePlacement; 
 	private final ImprovedCapturerColor capturerWhite;
 	private final ImprovedCapturerColor capturerBlack;
 	
 	public Capturer(PiecePlacement dummyBoard) {
-		this.capturerWhite = new ImprovedCapturerColor(Color.WHITE, dummyBoard);
-		this.capturerBlack = new ImprovedCapturerColor(Color.BLACK, dummyBoard);
+		this.capturerWhite = new ImprovedCapturerColor(Color.WHITE);
+		this.capturerBlack = new ImprovedCapturerColor(Color.BLACK);
+		this.piecePlacement = dummyBoard;
 	}	
 
 	public boolean positionCaptured(Color color, Square square) {
@@ -36,10 +38,7 @@ public class Capturer {
 	}
 
 	
-	private static class ImprovedCapturerColor {
-		
-		private final PiecePlacement piecePlacement; 
-		
+	private class ImprovedCapturerColor {
 		private final Piece torre;
 		private final Piece alfil;
 		private final Piece queen;
@@ -59,8 +58,7 @@ public class Capturer {
 		};
 
 		
-		public ImprovedCapturerColor(Color color, PiecePlacement dummyBoard) {
-			this.piecePlacement = dummyBoard;
+		public ImprovedCapturerColor(Color color) {
 			torre =  Piece.getRook(color);
 			alfil = Piece.getBishop(color);
 			queen = Piece.getQueen(color);
@@ -107,7 +105,7 @@ public class Capturer {
 		}
 		
 		private boolean cardinalPositionCapturedByPieza(Piece torreOalfil, Piece queen, Square square, Cardinal cardinal) {
-			PiecePlacementIterator iterator = this.piecePlacement.iterator(new CardinalSquareIterator(square, cardinal));
+			PiecePlacementIterator iterator = piecePlacement.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
 				Piece piece = destino.getValue();

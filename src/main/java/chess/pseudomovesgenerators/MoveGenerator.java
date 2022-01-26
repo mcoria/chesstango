@@ -92,11 +92,6 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 	
 	public Collection<Move> generatoPawnPasantePseudoMoves() {
 		return ppmg.generatePseudoMoves();
-	}	
-	
-	//TODO: Necesitamos esto por el metodo kingMoveGenerator.getPinnedSquare(kingSquare). Deberiamos moverlo a su propia clase
-	public AbstractKingMoveGenerator getKingMoveGenerator(Color color) {
-		return Color.WHITE.equals(color) ? this.rbmg : this.rnmg;
 	}
 
 	public void setPiecePlacement(PiecePlacement dummyBoard) {

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import chess.Color;
 import chess.Square;
+import chess.analyzer.Pinned;
 import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.position.ColorBoard;
@@ -11,9 +12,8 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -23,10 +23,16 @@ import chess.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
  *
  */
 public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
+	
+	private Pinned pinnedAlanyzer;
 
 	public NoCheckLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
 			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
+		
+		pinnedAlanyzer = new Pinned();
+		pinnedAlanyzer.setColorBoard(colorBoard);
+		pinnedAlanyzer.setTablero(dummyBoard);
 	}
 
 	@Override
@@ -46,10 +52,8 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		final Color turnoActual = positionState.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
-		AbstractKingMoveGenerator kingMoveGenerator = pseudoMovesGenerator.getKingMoveGenerator(turnoActual);
-
 		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
-		long pinnedSquares = kingMoveGenerator.getPinnedSquare(kingSquare);
+		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual, kingSquare); 
 
 		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 

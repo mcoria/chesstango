@@ -1,11 +1,8 @@
 package chess.pseudomovesgenerators.strategies;
 
 import chess.Color;
-import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.iterators.Cardinal;
-import chess.iterators.square.CardinalSquareIterator;
 import chess.position.PositionState;
 
 //TODO: Esto se puede mejorar, que valide saldos a su alrededor excepto izquierda y derecha, donde se anida para validar enroque
@@ -66,67 +63,6 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			}
 		}
 		return false;
-	}
-	
-	private final static Cardinal[] cardinalesBishop = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
-	private final static Cardinal[] cardinalesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
-	
-	//TODO: mover estos metodos a una clase auxiliar
-	public long getPinnedSquare(Square kingSquare) {
-		Piece reina = Piece.getQueen(this.color.opositeColor());
-		Piece torre = Piece.getRook(this.color.opositeColor());
-		Piece alfil = Piece.getBishop(this.color.opositeColor());
-		long pinnedCollection = 0;
-		
-		pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesBishop);
-		pinnedCollection |= getPinnedCardinales(kingSquare, torre, reina, cardinalesRook);
-
-		return pinnedCollection;
-	}
-	
-	protected long getPinnedCardinales(Square kingSquare, Piece torreOBishop, Piece reina,
-			Cardinal[] direcciones) {
-		long pinnedCollection = 0;
-		for (Cardinal cardinal : direcciones) {
-			Square pinned = getPinned(kingSquare, torreOBishop, reina, cardinal);
-			if (pinned != null) {
-				pinnedCollection |= pinned.getPosicion();
-			}
-		}
-		return pinnedCollection;
-	}
-	
-	
-	protected Square getPinned(Square kingSquare, Piece torreOBishop, Piece reina, Cardinal cardinal) {
-		Square pinned = null;
-		CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
-		while (iterator.hasNext()) {
-			Square destino = iterator.next();
-			Color colorDestino = colorBoard.getColor(destino);
-			if (colorDestino == null) {
-				continue;
-			}
-			if (pinned == null) {
-				if (color.equals(colorDestino)) {
-					pinned = destino;
-				} else { // if (color.opositeColor().equals(colorDestino))
-					return null;
-				}
-			} else {
-				if (color.equals(colorDestino)) {
-					return null;
-				} else { //// if (color.opositeColor().equals(colorDestino))
-					Piece piece = this.tablero.getPieza(destino);
-					if (torreOBishop.equals(piece) || reina.equals(piece)) {
-						return pinned;
-					} else {
-						return null;
-					}
-				}
-			}
-
-		}
-		return null;
 	}
 
 	public void setBoardState(PositionState positionState) {
