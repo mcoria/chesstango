@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import chess.CachePosiciones;
 import chess.Color;
@@ -10,7 +10,7 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class KingBlackMoveGenerator extends KingAbstractMoveGenerator {
+public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 
 	protected static final Square INTERMEDIO_ROOK_QUEEN_SQUARE = Square.b8;
 	protected static final Square DESTINO_QUEEN_SQUARE = Square.c8;

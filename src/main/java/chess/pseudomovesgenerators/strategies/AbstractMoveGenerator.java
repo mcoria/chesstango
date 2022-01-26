@@ -1,10 +1,12 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import chess.Color;
 import chess.PiecePositioned;
 import chess.moves.MoveFactory;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
 /**
@@ -12,7 +14,7 @@ import chess.position.PiecePlacement;
  *
  */
 //TODO: implementar el calculo de movimientos lo puede hacer en funcion de ColorBoard
-public abstract class AbstractMoveGenerator implements MoveGenerator {
+public abstract class AbstractMoveGenerator implements MoveGeneratorStrategy {
 	
 	protected final Color color;
 	
@@ -32,8 +34,9 @@ public abstract class AbstractMoveGenerator implements MoveGenerator {
 	
 	//TODO: revisar como estamos haciendo el settup de MoveGeneratorResult(), quizas conviene un metodo abstracto
 	@Override
-	public MoveGeneratorResult calculatePseudoMoves(PiecePositioned origen){
+	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen){
 		this.result = new MoveGeneratorResult();
+		this.result.setFrom(origen);
 		generateMovesPseudoMoves(origen);
 		return this.result;
 	}

@@ -36,7 +36,7 @@ public class MoveCacheBoardTest {
 		cache.setPseudoMoves(Square.a2, result);
 		
 		
-		assertNotNull(cache.getPseudoMoves(Square.a2));
+		assertNotNull(cache.getPseudoMovesResult(Square.a2));
 		
 	}	
 

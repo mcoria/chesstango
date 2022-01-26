@@ -11,9 +11,8 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.PawnPasanteMoveGenerator;
 
 /**
@@ -28,24 +27,23 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;
 	
-	protected MoveGeneratorStrategy strategy = null;
+	protected MoveGenerator pseudoMovesGenerator = null;
 	
 	protected PawnPasanteMoveGenerator peonPasanteMoveGenerator = null;
 	
 	protected MoveFilter filter = null;
 	
 	public AbstractLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+			MoveCacheBoard moveCache, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.moveCache = moveCache;
 		this.positionState = positionState;
-		this.strategy = strategy;
+		this.pseudoMovesGenerator = strategy;
 		this.filter = filter;
 	}
 
-	//TODO: Misteriosamente MoveGenerator moveGenerator = origen.getValue().getMoveGenerator(strategy); tiene mala performance !!!
 	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
 		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 	
@@ -53,10 +51,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	
 			PiecePositioned origen = dummyBoard.getPosicion(origenSquare);
 	
-			MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
-											//origen.getValue().getMoveGenerator(strategy); Mala performance
-	
-			generatorResult = moveGenerator.calculatePseudoMoves(origen);
+			generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		}
@@ -68,7 +63,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	 * @param moves
 	 */
 	protected void getLegalMovesSpecial(Collection<Move> moves) {
-		Collection<Move> pseudoMoves = strategy.getPawnPasanteMoveGenerator().getPseudoMoves();
+		Collection<Move> pseudoMoves = pseudoMovesGenerator.generatoPawnPasantePseudoMoves();
 		for (Move move : pseudoMoves) {
 			if(move.filter(filter)){
 				moves.add(move);

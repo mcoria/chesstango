@@ -52,11 +52,11 @@ public class Perft {
 
 		for (Move move : movimientosPosible) {
 			int nodeCount = 0;
-			
-			game.executeMove(move);
 
 			if(maxLevel > 1){
+				game.executeMove(move);
 				nodeCount = visitChilds(game, 2);
+				game.undoMove();
 			} else {
 				nodeCount = 1;
 			}
@@ -65,7 +65,6 @@ public class Perft {
 			
 			totalNodes += nodeCount;
 			
-			game.undoMove();
 		}
 		
 		perftResult.setTotalNodes(totalNodes);

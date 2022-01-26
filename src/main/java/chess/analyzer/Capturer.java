@@ -9,8 +9,8 @@ import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.CardinalSquareIterator;
 import chess.iterators.square.JumpSquareIterator;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.KingAbstractMoveGenerator;
-import chess.pseudomovesgenerators.KnightMoveGenerator;
+import chess.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
+import chess.pseudomovesgenerators.strategies.KnightMoveGenerator;
 
 
 
@@ -148,7 +148,7 @@ public class Capturer {
 		}
 		
 		private boolean positionCapturedByKing(Square square) {
-			PiecePlacementIterator iterator = piecePlacement.iterator(new JumpSquareIterator(square, KingAbstractMoveGenerator.SALTOS_KING));
+			PiecePlacementIterator iterator = piecePlacement.iterator(new JumpSquareIterator(square, AbstractKingMoveGenerator.SALTOS_KING));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(king.equals(destino.getValue())){		    	

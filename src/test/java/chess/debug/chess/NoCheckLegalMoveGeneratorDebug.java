@@ -15,7 +15,6 @@ import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 
 /**
@@ -25,7 +24,7 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 
 	public NoCheckLegalMoveGeneratorDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorStrategy strategy, MoveFilter filter) {
+			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 	}
 	
@@ -79,10 +78,7 @@ public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 	
 			PiecePositioned origen = dummyBoard.getPosicion(origenSquare);
 	
-			MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
-											//origen.getValue().getMoveGenerator(strategy); Mala performance
-	
-			MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+			MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
 	
 			// comenzar comparaciones
 			if(generatorResultCache.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {

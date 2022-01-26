@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import chess.Square;
 import chess.iterators.square.JumpSquareIterator;
-import chess.pseudomovesgenerators.KnightMoveGenerator;
+import chess.pseudomovesgenerators.strategies.KnightMoveGenerator;
 
 
 /**

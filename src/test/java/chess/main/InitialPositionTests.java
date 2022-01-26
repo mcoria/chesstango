@@ -208,6 +208,14 @@ public class InitialPositionTests {
 		assertEquals(119060324, result.getTotalNodes());
 	}
 	
+	//Test
+	public void test_divide7() {
+		//PerftResult result = main.start(board, 7);
+		
+		//assertEquals(20, result.getMovesCount());
+		//assertEquals(119060324, result.getTotalNodes());
+	}	
+	
 	@Test
 	public void test_d2d3() {
 		

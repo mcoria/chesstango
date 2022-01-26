@@ -25,10 +25,11 @@ public class PawnPasanteMoveGenerator {
 	
 	private PiecePlacement tablero;
 	
+	//TODO: this is WRONG
 	protected MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();
 
 
-	public Collection<Move> getPseudoMoves() {
+	public Collection<Move> generatePseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
 		
 		PiecePositioned origen = null;

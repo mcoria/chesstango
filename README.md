@@ -12,9 +12,10 @@ Although performance is taken into consideration, this is not the top non-functi
 ## Creational Patterns
 - Factory Method
 - Builder
+- Abstract Factory
 
 ### Factory Method
-Template method pattern in combination with Factory method pattern can be found at:
+Factory method pattern is usually applied in combination with Template method pattern:
 - [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
 - [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class.
 
@@ -29,13 +30,18 @@ Builder pattern has been implemented with different participant classes
     - ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
 
+### Abstract Factory
+Abstract Factory pattern examples:
+
+MoveFactory class declares the interface. MoveFactoryBlack and MoveFactoryWhite are two different implementations. 
+
 ## Structural Patterns
 - Decorator
 - Facade
 
-Facade pattern is implemented by Game class.
+Facade pattern is implemented by [Game](src/main/java/chess/Game.java) class.
 
-Decorator pattern can be found at chess.moves package. MoveDecorator is an abstract class that declares a reference to concrete components being decorated.
+Decorator pattern is implemented by [MoveDecorator](src/main/java/chess/moves/imp/MoveDecorator.java) class, this abstract class declares a reference to concrete Move being decorated.
 
 ## Behavioral Patterns
 - Template method
@@ -44,15 +50,23 @@ Decorator pattern can be found at chess.moves package. MoveDecorator is an abstr
 - Visitor
 - Iterator
 
+### Template method
 Template method pattern is applied in different situations by abstract classes: 
-[PawnAbstractMoveGenerator](src/main/java/chess/pseudomovesgenerators/PawnAbstractMoveGenerator.java)
+[AbstractPawnMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractPawnMoveGenerator.java)
+
+By convention, those classes with template methods are abstract classes and named with the prefix Abstract.
  
+### Command
+Command pattern in combination with Visitor pattern can be found at chess.moves package. 
 
+Interface Move/MoveKing/MoveCastling define DO and UNDO operations.
 
-Command pattern in combination with Visitor pattern can be found at chess.moves package. Interface Move define DO and UNDO operations, subclasses in this package implement them.
+Classes in package chess.moves.imp implement these interfaces.
 
-Strategy pattern is implemented at movegenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
+### Strategy
+Strategy pattern is implemented at chess.pseudomovesgenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
+### Iterators
 Iterators can by found at chess.iterators package, two different iterator types are defined:
 - Square Iterators
 - Piece Placement Iterators

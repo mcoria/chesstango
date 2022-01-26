@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.strategies;
 
 import chess.Color;
 import chess.Piece;
@@ -9,7 +9,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public class PawnBlackMoveGenerator extends PawnAbstractMoveGenerator {
+public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 	
 	private static final Piece[] PROMOCIONES_BLACK = new Piece[]{Piece.ROOK_BLACK, Piece.KNIGHT_BLACK, Piece.BISHOP_BLACK, Piece.QUEEN_BLACK};
 	

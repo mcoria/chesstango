@@ -4,7 +4,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGenerator;
 
 
 /**
@@ -17,7 +17,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 	 * @param piecePlacement
 	 * @param strategy
 	 */
-	public MoveCacheBoardDebug(PiecePlacement piecePlacement, MoveGeneratorStrategy strategy) {
+	public MoveCacheBoardDebug(PiecePlacement piecePlacement, MoveGenerator strategy) {
 		super(piecePlacement, strategy);
 	}
 

@@ -1,15 +1,14 @@
 package chess.position;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 import chess.PiecePositioned;
 import chess.Square;
-import chess.moves.Move;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
 
 /**
  * @author Mauricio Coria
@@ -20,34 +19,22 @@ public class MoveCacheBoard {
 	protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
 	protected long affects[] = new long[64];
 
-	private MoveGeneratorResult[] currentClearedSquares = new MoveGeneratorResult[64];
-	private Deque<MoveGeneratorResult[]> clearedSquares = new ArrayDeque<MoveGeneratorResult[]>();
+	private List<MoveGeneratorResult> currentClearedSquares = new ArrayList<MoveGeneratorResult>();
+	private Deque<List<MoveGeneratorResult>> clearedSquares = new ArrayDeque<List<MoveGeneratorResult>>();
 	
 
-	public MoveCacheBoard() {
-	}
-	
-	/**
-	 * @param piecePlacement
-	 * @param buildMoveGeneratorStrategy
-	 */
-	public MoveCacheBoard(PiecePlacement piecePlacement, MoveGeneratorStrategy strategy) {
+	public MoveCacheBoard() {}
+
+	public MoveCacheBoard(PiecePlacement piecePlacement, MoveGenerator pseudoMovesGenerator) {
 		for(PiecePositioned origen: piecePlacement){
 			
 			if(origen.getValue() != null){
-				MoveGenerator moveGenerator =  strategy.getMoveGenerator(origen.getValue());
-												//origen.getValue().getMoveGenerator(strategy); Mala performance
-	
-				MoveGeneratorResult generatorResult = moveGenerator.calculatePseudoMoves(origen);
+
+				MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
 	
 				setPseudoMoves(origen.getKey(), generatorResult);
 			}
 		}
-	}
-
-	public Collection<Move> getPseudoMoves(Square key) {
-		MoveGeneratorResult result = pseudoMoves[key.toIdx()];
-		return result == null ? null  : result.getPseudoMoves();
 	}
 	
 	public MoveGeneratorResult getPseudoMovesResult(Square key) {
@@ -95,7 +82,7 @@ public class MoveCacheBoard {
 				if(pseudoMove != null){
 					affectsBySquares |= pseudoMove.getAffectedBy();
 					if(trackCleared){
-						currentClearedSquares[i] = pseudoMoves[i];
+						currentClearedSquares.add(pseudoMove);
 					}
 					pseudoMoves[i] = null;
 				}
@@ -113,14 +100,14 @@ public class MoveCacheBoard {
 	
 	public void pushCleared() {
 		clearedSquares.push(currentClearedSquares);
-		currentClearedSquares = new MoveGeneratorResult[64];
+		currentClearedSquares = new ArrayList<MoveGeneratorResult>();
 	}
 
+	//TODO: este metodo consume el 20% del procesamiento
 	public void popCleared() {
-		for(int i = 0; i < 64; i++){
-			MoveGeneratorResult generatorResult = currentClearedSquares[i];
+		for(MoveGeneratorResult generatorResult: currentClearedSquares){
 			if(generatorResult != null){
-				setPseudoMoves(Square.getSquare(i), generatorResult);
+				setPseudoMoves(generatorResult.getFrom().getKey(), generatorResult);
 			}
 		}
 		currentClearedSquares = clearedSquares.pop();
