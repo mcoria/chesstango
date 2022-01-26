@@ -85,7 +85,8 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 	@Override
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
 		Piece piece = origen.getValue();
-		MoveGeneratorStrategy strategy = piece.selectMoveGeneratorStrategy(this);
+		//MoveGeneratorStrategy strategy = piece.selectMoveGeneratorStrategy(this);
+		MoveGeneratorStrategy strategy = selectMoveGeneratorStrategy(piece);
 		return strategy.generatePseudoMoves(origen);
 	}
 	
@@ -215,10 +216,7 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 		return rnmg;
 	}
 	
-	/*
-	 * //MoveGeneratorStrategy strategy = selectMoveGeneratorStrategy(origen.getValue());
-	 */
-	/*
+
 	protected MoveGeneratorStrategy selectMoveGeneratorStrategy(Piece piece){
 		MoveGeneratorStrategy value  = null;
 		switch (piece) {
@@ -262,6 +260,6 @@ public class MoveGenerator implements MoveGeneratorStrategy{
 			throw new RuntimeException("Generator not found");
 		}
 		return value;
-	}*/	
+	}
 
 }

@@ -36,6 +36,7 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorStrategy {
 	@Override
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen){
 		this.result = new MoveGeneratorResult();
+		this.result.setFrom(origen);
 		generateMovesPseudoMoves(origen);
 		return this.result;
 	}

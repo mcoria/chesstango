@@ -3,6 +3,7 @@ package chess.pseudomovesgenerators;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
 
@@ -12,6 +13,8 @@ import chess.moves.Move;
  *
  */
 public class MoveGeneratorResult {
+	
+	private PiecePositioned from;
 	
 	private Collection<Move> moveContainer;
 	
@@ -62,5 +65,13 @@ public class MoveGeneratorResult {
 		StringBuffer buffer = new StringBuffer(); 
 		buffer.append(moveContainer.toString());
 		return buffer.toString();
+	}
+
+	public PiecePositioned getFrom() {
+		return from;
+	}
+
+	public void setFrom(PiecePositioned from) {
+		this.from = from;
 	}
 }
