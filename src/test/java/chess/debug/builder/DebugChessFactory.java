@@ -62,8 +62,8 @@ public class DebugChessFactory extends ChessFactory {
 	}
 	
 	@Override
-	public MoveCacheBoard createMoveCacheBoard(PiecePlacement piecePlacement, MoveGenerator moveGenerator) {
-		return new MoveCacheBoardDebug(piecePlacement, moveGenerator);
+	public MoveCacheBoard createMoveCacheBoard() {
+		return new MoveCacheBoardDebug();
 	}
 	
 	@Override

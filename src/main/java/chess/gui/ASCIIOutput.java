@@ -1,11 +1,11 @@
 package chess.gui;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.builder.ChessPositionBuilder;
+import chess.builder.AbstractChessPositionBuilder;
 import chess.iterators.square.SquareIterator;
 import chess.iterators.square.TopDownSquareIterator;
 
@@ -13,11 +13,29 @@ import chess.iterators.square.TopDownSquareIterator;
  * @author Mauricio Coria
  *
  */
-public class ASCIIOutput implements ChessPositionBuilder {
+public class ASCIIOutput extends AbstractChessPositionBuilder<String> {
 	
-	private Piece[][] tablero = new Piece[8][8];
+
+	@Override
+	public String getResult() {
+	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    try (PrintStream ps = new PrintStream(baos)) {
+			getPiecePlacement(ps);
+			getState(ps);
+	    }
+	    return new String(baos.toByteArray());
+	}
 	
-	public void printDummyBoard(PrintStream printStream) {
+
+	public void getState(PrintStream printStream) {
+		printStream.print("Turno Actual: " + String.format("%-6s", turno.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
+				", enroqueWhiteQueenAllowed: " + enroqueWhiteQueenAllowed +
+				", enroqueWhiteKingAllowed: " + enroqueWhiteKingAllowed +
+				", enroqueBlackQueenAllowed: " + enroqueBlackQueenAllowed +
+				", enroqueBlackKingAllowed: " + enroqueBlackKingAllowed);
+	}
+	
+	public void getPiecePlacement(PrintStream printStream) {
 		SquareIterator iterator = new TopDownSquareIterator();
 
 		printStream.println("  -------------------------------");
@@ -41,54 +59,6 @@ public class ASCIIOutput implements ChessPositionBuilder {
 		printStream.println("   a   b   c   d   e   f   g   h");
 		
 		printStream.flush();
-	}
-	
-	
-	@Override
-	public void withPieza(Square square, Piece piece) {
-		tablero[square.getRank()][square.getFile()] = piece;
-	}
-
-
-	@Override
-	public void withTurno(Color turno) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void withPawnPasanteSquare(Square peonPasanteSquare) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	private char getChar(Piece piece) {

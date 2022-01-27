@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import chess.Game;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.ChessPositionBuilderGame;
 import chess.moves.Move;
 import chess.parsers.FENCoder;
 import chess.parsers.FENParser;
@@ -31,13 +31,13 @@ public class ChessMain {
 	private int[] repetedNodes;
 	
 	public static void main(String[] args) {
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp();
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
 		
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(FENParser.INITIAL_FEN);
 		
-		Game board = builder.getGame();
+		Game board = builder.getResult();
 		
 		ChessMain main = new ChessMain();
 		
@@ -176,7 +176,7 @@ public class ChessMain {
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	private String code(Game board) {
 		board.getTablero().constructBoardRepresentation(coder);
-		return coder.getFEN();
+		return coder.getResult();
 	}
 
 }

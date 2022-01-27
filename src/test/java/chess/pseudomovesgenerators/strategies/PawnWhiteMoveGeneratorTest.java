@@ -12,7 +12,7 @@ import org.junit.Test;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessPositionPartsBuilder;
+import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
@@ -220,7 +220,7 @@ public class PawnWhiteMoveGeneratorTest {
 	}	
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessPositionPartsBuilder builder = new ChessPositionPartsBuilder(new DebugChessFactory());
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		
 		parser.parsePiecePlacement(string);

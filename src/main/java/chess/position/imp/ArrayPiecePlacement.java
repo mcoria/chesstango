@@ -132,7 +132,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 			this.forEach(posicionPieza -> {
 				output.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
 			});
-			output.printDummyBoard(ps);
+			output.getPiecePlacement(ps);
 	    }
 	    return new String(baos.toByteArray());
 	}

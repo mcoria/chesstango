@@ -241,7 +241,7 @@ public class FENCoderTest {
 		coder.withCastlingBlackKingAllowed(true);
 		
 		
-		String actual = coder.getFEN();
+		String actual = coder.getResult();
 		
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", actual);		
 	}	

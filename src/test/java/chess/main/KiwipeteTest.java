@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.ChessPositionBuilderGame;
 import chess.parsers.FENParser;
 
 
@@ -1346,12 +1346,12 @@ public class KiwipeteTest {
 	
 	private Game getGame(String string) {		
 		//ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp();
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(string);
 		
-		return builder.getGame();
+		return builder.getResult();
 	}	
 }

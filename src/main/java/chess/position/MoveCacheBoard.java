@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import chess.PiecePositioned;
 import chess.Square;
-import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 /**
@@ -21,21 +19,6 @@ public class MoveCacheBoard {
 
 	private List<MoveGeneratorResult> currentClearedSquares = new ArrayList<MoveGeneratorResult>();
 	private Deque<List<MoveGeneratorResult>> clearedSquares = new ArrayDeque<List<MoveGeneratorResult>>();
-	
-
-	public MoveCacheBoard() {}
-
-	public MoveCacheBoard(PiecePlacement piecePlacement, MoveGenerator pseudoMovesGenerator) {
-		for(PiecePositioned origen: piecePlacement){
-			
-			if(origen.getValue() != null){
-
-				MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
-	
-				setPseudoMoves(origen.getKey(), generatorResult);
-			}
-		}
-	}
 	
 	public MoveGeneratorResult getPseudoMovesResult(Square key) {
 		return  pseudoMoves[key.toIdx()];

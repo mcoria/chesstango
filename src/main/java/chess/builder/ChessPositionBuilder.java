@@ -8,20 +8,23 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public interface ChessPositionBuilder {
+public interface ChessPositionBuilder<T> {
 
-	void withTurno(Color turno);
+	ChessPositionBuilder<T> withTurno(Color turno);
 
-	void withPawnPasanteSquare(Square peonPasanteSquare);
+	ChessPositionBuilder<T> withPawnPasanteSquare(Square peonPasanteSquare);
 
-	void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed);
+	ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed);
 
-	void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed);
+	ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed);
 
-	void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed);
+	ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed);
 
-	void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed);
+	ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed);
 	
-	void withPieza(Square square, Piece piece);	
+	ChessPositionBuilder<T> withPieza(Square square, Piece piece);
+	
+	
+	T getResult();
 
 }

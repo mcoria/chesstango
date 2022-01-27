@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.ChessPositionBuilderGame;
 import chess.moves.Move;
 import chess.parsers.FENParser;
 
@@ -316,13 +316,13 @@ public class InitialPositionTests {
 	
 	
 	private Game getDefaultGame() {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp();
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(FENParser.INITIAL_FEN);
 		
-		return builder.getGame();
+		return builder.getResult();
 	}	
 
 }

@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import chess.Game;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
 import chess.parsers.FENParser;
 
@@ -29,14 +29,14 @@ public class PerftTests {
 	}
 	
 	private Game getGame(String string) {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(string);
 		
-		return builder.getGame();
+		return builder.getResult();
 	}	
 	
 }

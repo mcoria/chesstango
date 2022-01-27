@@ -34,40 +34,53 @@ public class FENParserTest {
 	public void setUp() throws Exception {
 		tablero = new Piece[8][8];
 		
-		parser = new FENParser(new ChessPositionBuilder() {
+		parser = new FENParser(new ChessPositionBuilder<Object>() {
 			@Override
-			public void withPieza(Square square, Piece piece) {
-				FENParserTest.this.tablero[square.getRank()][square.getFile()] = piece;
+			public ChessPositionBuilder<Object> withPieza(Square square, Piece piece) {
+				tablero[square.getRank()][square.getFile()] = piece;
+				return this;
 			}
 			
 			@Override
-			public void withTurno(Color turno) {
+			public ChessPositionBuilder<Object> withTurno(Color turno) {
 				FENParserTest.this.turno = turno;
+				return this;
 			}
 			
 			@Override
-			public void withPawnPasanteSquare(Square peonPasanteSquare) {
+			public ChessPositionBuilder<Object> withPawnPasanteSquare(Square peonPasanteSquare) {
 				FENParserTest.this.peonPasanteSquare = peonPasanteSquare;
+				return this;
 			}
 			
 			@Override
-			public void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
+			public ChessPositionBuilder<Object> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
 				FENParserTest.this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
+				return this;
 			}
 			
 			@Override
-			public void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
+			public ChessPositionBuilder<Object> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
 				FENParserTest.this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
+				return this;
 			}
 			
 			@Override
-			public void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
+			public ChessPositionBuilder<Object> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
 				FENParserTest.this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
+				return this;
 			}
 			
 			@Override
-			public void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
+			public ChessPositionBuilder<Object> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
 				FENParserTest.this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
+				return this;
+			}
+
+			@Override
+			public Object getResult() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		});
 	}

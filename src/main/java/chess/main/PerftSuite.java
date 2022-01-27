@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 
 import chess.Game;
 import chess.builder.ChessFactory;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.ChessPositionBuilderGame;
 import chess.parsers.FENParser;
 
 /**
@@ -104,13 +104,13 @@ public class PerftSuite {
 	}
 	
 	private Game getGame() {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(chessFactory);
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(chessFactory);
 
 		FENParser parser = new FENParser(builder);
 		
 		parser.parseFEN(this.fen);
 		
-		return builder.getGame();
+		return builder.getResult();
 	}		
 
 }

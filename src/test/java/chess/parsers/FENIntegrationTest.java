@@ -21,7 +21,7 @@ public class FENIntegrationTest {
 		
 		parser.parseFEN(FENParser.INITIAL_FEN);
 		
-		String fen = coder.getFEN();
+		String fen = coder.getResult();
 		
 		assertEquals(FENParser.INITIAL_FEN, fen);
 		

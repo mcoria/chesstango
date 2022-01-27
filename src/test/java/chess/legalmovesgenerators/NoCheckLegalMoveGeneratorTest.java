@@ -5,10 +5,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.analyzer.Capturer;
-import chess.builder.ChessPositionPartsBuilder;
+import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
-import chess.legalmovesgenerators.MoveFilter;
-import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -55,14 +53,15 @@ public class NoCheckLegalMoveGeneratorTest {
 
 
 	private void initDependencies(String string) {		
-		ChessPositionPartsBuilder builder = new ChessPositionPartsBuilder(new DebugChessFactory());
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
 		FENParser parser = new FENParser(builder);
 		parser.parseFEN(string);
 		
 		dummyBoard = builder.getPiecePlacement();
 		positionState = builder.getPositionState();
-		kingCacheBoard = new KingCacheBoard(dummyBoard);
-		colorBoard = new ColorBoard(dummyBoard);
+		kingCacheBoard = builder.getKingCacheBoard();
+		colorBoard = builder.getColorBoard();
+		moveCache = builder.getMoveCache();
 		
 		capturer = new Capturer(dummyBoard);
 		
@@ -71,7 +70,6 @@ public class NoCheckLegalMoveGeneratorTest {
 		strategy.setBoardState(positionState);
 		strategy.setColorBoard(colorBoard);
 		
-		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
-		moveCache = new MoveCacheBoard(dummyBoard, strategy);		
+		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);	
 	}
 }

@@ -47,8 +47,8 @@ public class ChessFactory {
 		return new KingCacheBoard(piecePlacement);
 	}
 
-	public MoveCacheBoard createMoveCacheBoard(PiecePlacement piecePlacement, MoveGenerator buildMoveGeneratorStrategy) {
-		return new MoveCacheBoard(piecePlacement, buildMoveGeneratorStrategy);
+	public MoveCacheBoard createMoveCacheBoard() {
+		return new MoveCacheBoard();
 	}
 
 	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState, Capturer capturer) {

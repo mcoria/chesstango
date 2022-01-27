@@ -65,13 +65,13 @@ public class ChessPosition {
 	}	
 	
 	
-	public void constructBoardRepresentation(ChessPositionBuilder builder){		
-		builder.withTurno(positionState.getTurnoActual());
-		builder.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed());
-		builder.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed());
-		builder.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed());
-		builder.withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed());
-		builder.withPawnPasanteSquare(positionState.getPawnPasanteSquare());
+	public void constructBoardRepresentation(ChessPositionBuilder<?> builder){		
+		builder.withTurno(positionState.getTurnoActual())
+				.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
+				.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
+				.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
+				.withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
+				.withPawnPasanteSquare(positionState.getPawnPasanteSquare());
 		
 		for(PiecePositioned pieza: piecePlacement){
 			builder.withPieza(pieza.getKey(), pieza.getValue());
@@ -85,7 +85,7 @@ public class ChessPosition {
 		
 		constructBoardRepresentation(coder);
 		
-	    return this.piecePlacement.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getFEN();
+	    return this.piecePlacement.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getResult();
 	}
 
 	public void setPiecePlacement(PiecePlacement dummyBoard) {

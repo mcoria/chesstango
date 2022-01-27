@@ -1,192 +1,161 @@
 package chess.builder;
 
 import chess.Color;
-import chess.Game;
 import chess.Piece;
+import chess.PiecePositioned;
 import chess.Square;
-import chess.analyzer.Capturer;
-import chess.analyzer.PositionAnalyzer;
-import chess.legalmovesgenerators.LegalMoveGenerator;
-import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
+import chess.position.PiecePlacement;
+import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
+
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ChessPositionBuilderImp implements ChessPositionBuilder {
+public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPosition> {
 	
-	private ChessFactory chessFactory = null;	
+	private PiecePlacement piecePlacement;
 	
-	private ChessPositionPartsBuilder builder = null;
+	private PositionState positionState;
 	
-	private ChessPosition chessPosition = null;
-	
-	private MoveGenerator moveGenerator = null;
-
 	private ColorBoard colorBoard = null;
 	
 	private MoveCacheBoard moveCache = null;
 
-	private KingCacheBoard kingCacheBoard = null;
-
-	private PositionAnalyzer positionAnalyzer = null;
-
-	private LegalMoveGenerator defaultMoveCalculator = null;
-
-	private LegalMoveGenerator noCheckLegalMoveGenerator = null;
-
-	private Capturer capturer = null;
-
-	private MoveFilter moveFilter;
+	private KingCacheBoard kingCacheBoard = null;	
 	
-	private Game game = null;
+	private ChessPosition chessPosition = null;	
 	
-	public ChessPositionBuilderImp() {
-		this(new ChessFactory());
-	}	
-
+	private ChessFactory chessFactory = null;
+	
 	public ChessPositionBuilderImp(ChessFactory chessFactory) {
 		this.chessFactory = chessFactory;
-		this.builder = new ChessPositionPartsBuilder(chessFactory);
-	}	
+	}
 	
-	public ChessPosition getChessPosition() {
+	@Override
+	public ChessPosition getResult() {
 		if (chessPosition == null) {
 			chessPosition = chessFactory.createChessPosition();
 
-			chessPosition.setPiecePlacement(builder.getPiecePlacement());
+			chessPosition.setPiecePlacement(getPiecePlacement());
 
-			chessPosition.setBoardState(builder.getPositionState());
+			chessPosition.setBoardState(getPositionState());
 
-			chessPosition.setKingCacheBoard(buildKingCacheBoard());
+			chessPosition.setKingCacheBoard(getKingCacheBoard());
 
-			chessPosition.setColorBoard(buildColorBoard());
+			chessPosition.setColorBoard(getColorBoard());
 
-			chessPosition.setMoveCache(buildMoveCache());
+			chessPosition.setMoveCache(getMoveCache());
 		}
 		return chessPosition;
 	}	
+
+
+	private void initCache() {
+		MoveGenerator moveGenerator = new MoveGenerator();
+		moveGenerator.setPiecePlacement(piecePlacement);
+		moveGenerator.setBoardState(positionState);
+		moveGenerator.setColorBoard(colorBoard);
+		
+		for(PiecePositioned origen: piecePlacement){
+			
+			if(origen.getValue() != null){
+
+				MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 	
-	public Game getGame() {
-		if (game == null) {
-			game = new Game(getChessPosition());
-			game.setAnalyzer(getAnalyzer());			
+				moveCache.setPseudoMoves(origen.getKey(), generatorResult);
+			}
+		}		
+		
+	}
+
+	public PiecePlacement getPiecePlacement() {
+		if(piecePlacement == null){
+			piecePlacement = chessFactory.createPiecePlacement();
 		}
-		return game;
-	}	
+		return piecePlacement;
+	}
+
+	public PositionState getPositionState() {
+		if (positionState == null) {
+			positionState = chessFactory.createPositionState();
+		}
+		return positionState;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<ChessPosition> withTurno(Color turno) {
+		this.getPositionState().setTurnoActual(turno);
+		return this;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<ChessPosition> withPawnPasanteSquare(Square peonPasanteSquare) {
+		this.getPositionState().setPawnPasanteSquare(peonPasanteSquare);
+		return this;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<ChessPosition> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
+		this.getPositionState().setCastlingWhiteQueenAllowed(enroqueWhiteQueenAllowed);
+		return this;
+	}
+
+	@Override
+	public ChessPositionBuilder<ChessPosition> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
+		this.getPositionState().setCastlingWhiteKingAllowed(enroqueWhiteKingAllowed);
+		return this;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<ChessPosition> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
+		this.getPositionState().setCastlingBlackQueenAllowed(enroqueBlackQueenAllowed);
+		return this;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<ChessPosition> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
+		this.getPositionState().setCastlingBlackKingAllowed(enroqueBlackKingAllowed);
+		return this;
+	}
+
+	public ChessPositionBuilder<ChessPosition> withPieza(Square square, Piece piece) {
+		this.getPiecePlacement().setPieza(square, piece);
+		return this;
+	}
 	
-	public PositionAnalyzer getAnalyzer() {
-		if (positionAnalyzer == null) {
-			positionAnalyzer = new PositionAnalyzer();
-			positionAnalyzer.setBoardState(builder.getPositionState());
-			positionAnalyzer.setKingCacheBoard(buildKingCacheBoard());
-			positionAnalyzer.setCapturer(buildCapturer());
-			positionAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
-			positionAnalyzer.setNoCheckLegalMoveGenerator(buildNoCheckLegalMoveGenerator());			
-		}
-		return positionAnalyzer;
-	}
-
-	protected Capturer buildCapturer() {
-		if(capturer == null){
-			capturer = new Capturer(builder.getPiecePlacement());
-		}
-		return capturer;
-	}
-
-
-	protected MoveCacheBoard buildMoveCache() {
-		if (moveCache == null) {
-			moveCache = chessFactory.createMoveCacheBoard(builder.getPiecePlacement(), buildMoveGeneratorStrategy());
-		}
-		return moveCache;
-	}
-
-	protected LegalMoveGenerator buildDefaultMoveCalculator() {
-		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
-		}
-		return this.defaultMoveCalculator;
-	}
-
-	protected LegalMoveGenerator buildNoCheckLegalMoveGenerator() {
-		if (noCheckLegalMoveGenerator == null) {
-			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),
-					buildMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
-		}
-		return noCheckLegalMoveGenerator;
-	}	
-
-	protected MoveGenerator buildMoveGeneratorStrategy() {
-		if (moveGenerator == null) {
-			moveGenerator = new MoveGenerator();
-			moveGenerator.setPiecePlacement(builder.getPiecePlacement());
-			moveGenerator.setBoardState(builder.getPositionState());
-			moveGenerator.setColorBoard(buildColorBoard());
-		}
-		return moveGenerator;
-	}
-
-
-	protected KingCacheBoard buildKingCacheBoard() {
+	public KingCacheBoard getKingCacheBoard() {
 		if (kingCacheBoard == null) {
-			kingCacheBoard = chessFactory.createKingCacheBoard( builder.getPiecePlacement() );
+			kingCacheBoard = chessFactory.createKingCacheBoard( getPiecePlacement() );
 		}
 		return kingCacheBoard;
 	}
 
-	protected ColorBoard buildColorBoard() {
+	public ColorBoard getColorBoard() {
 		if (colorBoard == null) {
-			colorBoard = chessFactory.createColorBoard( builder.getPiecePlacement() );
+			colorBoard = chessFactory.createColorBoard( getPiecePlacement() );
 		}
 		return colorBoard;
 	}
 	
-	protected MoveFilter buildMoveFilter() {
-		if (moveFilter == null) {
-			moveFilter = chessFactory.createMoveFilter(builder.getPiecePlacement(), buildKingCacheBoard(), buildColorBoard(),  builder.getPositionState(), buildCapturer());
+	public MoveCacheBoard getMoveCache() {
+		if (moveCache == null) {
+			moveCache = chessFactory.createMoveCacheBoard();
+			initCache();
 		}
-		return moveFilter;
+		return moveCache;
 	}	
+	
 
-	@Override
-	public void withTurno(Color turno) {
-		builder.withTurno(turno);
-	}
-
-	@Override
-	public void withPawnPasanteSquare(Square peonPasanteSquare) {
-		builder.withPawnPasanteSquare(peonPasanteSquare);
-	}
-
-	@Override
-	public void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-		builder.withCastlingWhiteQueenAllowed(enroqueWhiteQueenAllowed);
-	}
-
-	@Override
-	public void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-		builder.withCastlingWhiteKingAllowed(enroqueWhiteKingAllowed);
-	}
-
-	@Override
-	public void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-		builder.withCastlingBlackQueenAllowed(enroqueBlackQueenAllowed);
-	}
-
-	@Override
-	public void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-		builder.withCastlingBlackKingAllowed(enroqueBlackKingAllowed);
-	}
-
-	@Override
-	public void withPieza(Square square, Piece piece) {
-		builder.withPieza(square, piece);
-	}
 }

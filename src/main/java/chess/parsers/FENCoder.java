@@ -2,27 +2,21 @@ package chess.parsers;
 
 import chess.Color;
 import chess.Piece;
-import chess.Square;
-import chess.builder.ChessPositionBuilder;
+import chess.builder.AbstractChessPositionBuilder;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class FENCoder implements ChessPositionBuilder {
+public class FENCoder extends AbstractChessPositionBuilder<String> {
 	
-	private Color turno;
-	private Square peonPasanteSquare;
-	private boolean enroqueBlackKingAllowed;
-	private boolean enroqueBlackQueenAllowed;
-	private boolean enroqueWhiteKingAllowed;
-	private boolean enroqueWhiteQueenAllowed;	
-	
-	private Piece[][] tablero = new Piece[8][8];
 
-	public String getFEN() {
-		final StringBuilder stringBuilder = new StringBuilder(70);
-		
+	@Override
+	public String getResult() {
+		return getFEN(new StringBuilder(70)).toString();
+	}
+
+	public String getFEN(StringBuilder stringBuilder) {
 		getPiecePlacement(stringBuilder).append(' ');
 		
 		getTurno(stringBuilder).append(' ');
@@ -33,7 +27,7 @@ public class FENCoder implements ChessPositionBuilder {
 
 		return stringBuilder.toString();
 	}
-
+	
 
 	public StringBuilder getTurno(StringBuilder stringBuilder) {
 		return Color.WHITE.equals(turno) ? stringBuilder.append('w') : stringBuilder.append('b');
@@ -81,41 +75,6 @@ public class FENCoder implements ChessPositionBuilder {
 		}
 				
 		return stringBuilder;
-	}	
-
-	@Override
-	public void withPieza(Square square, Piece piece) {
-		this.tablero[square.getRank()][square.getFile()] = piece;
-	}
-	
-	@Override
-	public void withTurno(Color turno) {
-		this.turno = turno;
-	}
-	
-	@Override
-	public void withPawnPasanteSquare(Square peonPasanteSquare) {
-		this.peonPasanteSquare = peonPasanteSquare;
-	}
-	
-	@Override
-	public void withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-		this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
-	}
-	
-	@Override
-	public void withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-		this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
-	}
-	
-	@Override
-	public void withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-		this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
-	}
-	
-	@Override
-	public void withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-		this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
 	}
 	
 	protected StringBuilder codePiecePlacementRank(Piece[] piezas, StringBuilder stringBuilder) {
@@ -182,6 +141,6 @@ public class FENCoder implements ChessPositionBuilder {
 			throw new RuntimeException("Falta pieza");
 		}
 		return result;
-	}	
+	}
 
 }
