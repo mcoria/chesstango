@@ -11,6 +11,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
+import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
@@ -21,68 +22,88 @@ import chess.position.PositionState;
  */
 public class PawnPasanteMoveGenerator {
 	
+	private PawnPasanteMoveGeneratorBlack pasanteMoveGeneratorBlack = new PawnPasanteMoveGeneratorBlack();
+	private PawnPasanteMoveGeneratorWhite pasanteMoveGeneratorWhite = new PawnPasanteMoveGeneratorWhite();
+	
 	private PositionState positionState;
 	
 	private PiecePlacement tablero;
 	
-	//TODO: this is WRONG
-	protected MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();
-
-
 	public Collection<Move> generatePseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
-		
-		PiecePositioned origen = null;
-		PiecePositioned captura = null;
-		
 		Square peonPasanteSquare = positionState.getPawnPasanteSquare();
-
 		if (peonPasanteSquare != null) {
-			if(Color.WHITE.equals(positionState.getTurnoActual())){
-				Square casilleroPawnIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() - 1);
-				if(casilleroPawnIzquirda != null){
-					origen = this.tablero.getPosicion(casilleroPawnIzquirda);
-					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() - 1));
-					if (Piece.PAWN_WHITE.equals(origen.getValue())) {
-				    	Move move = this.moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
-				    	moveContainer.add(move);
-					}
-				}
-				
-				Square casilleroPawnDerecha = Square.getSquare(peonPasanteSquare.getFile() + 1, peonPasanteSquare.getRank() - 1);
-				if(casilleroPawnDerecha != null){
-					origen = this.tablero.getPosicion(casilleroPawnDerecha);
-					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() - 1));
-					if (Piece.PAWN_WHITE.equals(origen.getValue())) {
-				    	Move move = this.moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
-				    	moveContainer.add(move);
-					}
-				}				
+			if (Color.WHITE.equals(positionState.getTurnoActual())) {
+				return pasanteMoveGeneratorWhite.generatePseudoMoves(moveContainer, peonPasanteSquare);
 			} else {
-				Square casilleroPawnIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() + 1);
-				if(casilleroPawnIzquirda != null){
-					origen = this.tablero.getPosicion(casilleroPawnIzquirda);
-					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() + 1));
-					if (Piece.PAWN_BLACK.equals(origen.getValue())) {
-				    	Move move = this.moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
-				    	moveContainer.add(move);
-					}
-				}
-				
-				Square casilleroPawnDerecha = Square.getSquare(peonPasanteSquare.getFile() + 1, peonPasanteSquare.getRank() + 1);
-				if(casilleroPawnDerecha != null){
-					origen = this.tablero.getPosicion(casilleroPawnDerecha);
-					captura = this.tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() + 1));
-					if (Piece.PAWN_BLACK.equals(origen.getValue())) {
-				    	Move move = this.moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
-				    	moveContainer.add(move);
-					}
-				}				
+				return pasanteMoveGeneratorBlack.generatePseudoMoves(moveContainer, peonPasanteSquare);
 			}
 		}
-		
 		return moveContainer;
 	}
+
+
+	private class PawnPasanteMoveGeneratorBlack{
+		private MoveFactoryBlack moveFactoryImp = new MoveFactoryBlack();
+		
+		public Collection<Move> generatePseudoMoves(Collection<Move> moveContainer, Square peonPasanteSquare) {
+			PiecePositioned origen = null;
+			PiecePositioned captura = null;
+
+			Square casilleroPawnIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() + 1);
+			if(casilleroPawnIzquirda != null){
+				origen = tablero.getPosicion(casilleroPawnIzquirda);
+				captura = tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() + 1));
+				if (Piece.PAWN_BLACK.equals(origen.getValue())) {
+			    	Move move = moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
+			    	moveContainer.add(move);
+				}
+			}
+			
+			Square casilleroPawnDerecha = Square.getSquare(peonPasanteSquare.getFile() + 1, peonPasanteSquare.getRank() + 1);
+			if(casilleroPawnDerecha != null){
+				origen = tablero.getPosicion(casilleroPawnDerecha);
+				captura = tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() + 1));
+				if (Piece.PAWN_BLACK.equals(origen.getValue())) {
+			    	Move move = moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
+			    	moveContainer.add(move);
+				}
+			}				
+			
+			return moveContainer;
+		}
+	}
+	
+	private class PawnPasanteMoveGeneratorWhite{
+		private MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();		
+
+		public Collection<Move> generatePseudoMoves(Collection<Move> moveContainer, Square peonPasanteSquare) {
+			PiecePositioned origen = null;
+			PiecePositioned captura = null;
+
+			Square casilleroPawnIzquirda = Square.getSquare(peonPasanteSquare.getFile() - 1, peonPasanteSquare.getRank() - 1);
+			if(casilleroPawnIzquirda != null){
+				origen = tablero.getPosicion(casilleroPawnIzquirda);
+				captura = tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() - 1));
+				if (Piece.PAWN_WHITE.equals(origen.getValue())) {
+			    	Move move = this.moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
+			    	moveContainer.add(move);
+				}
+			}
+			
+			Square casilleroPawnDerecha = Square.getSquare(peonPasanteSquare.getFile() + 1, peonPasanteSquare.getRank() - 1);
+			if(casilleroPawnDerecha != null){
+				origen = tablero.getPosicion(casilleroPawnDerecha);
+				captura = tablero.getPosicion(Square.getSquare(peonPasanteSquare.getFile(), peonPasanteSquare.getRank() - 1));
+				if (Piece.PAWN_WHITE.equals(origen.getValue())) {
+			    	Move move = moveFactoryImp.createCapturePawnPasante(origen, tablero.getPosicion(peonPasanteSquare), captura);
+			    	moveContainer.add(move);
+				}
+			}				
+			
+			return moveContainer;
+		}	
+	}	
 
 
 	public void setBoardState(PositionState positionState) {
