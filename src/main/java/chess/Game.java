@@ -2,8 +2,9 @@ package chess;
 
 import java.util.Collection;
 
-import chess.analyzer.PositionAnalyzer;
 import chess.analyzer.AnalyzerResult;
+import chess.analyzer.PositionAnalyzer;
+import chess.builder.ChessPositionBuilder;
 import chess.moves.Move;
 import chess.position.ChessPosition;
 
@@ -11,7 +12,7 @@ import chess.position.ChessPosition;
  * @author Mauricio Coria
  *
  */
-public class Game {
+public class Game implements ChessPositionReader {
 	
 	public static enum GameStatus {
 		IN_PROGRESS,
@@ -108,16 +109,8 @@ public class Game {
 		return chessPosition.toString();
 	}
 
-	public ChessPosition getChessPosition() {
-		return chessPosition;
-	}
-
 	public Collection<Move> getPossibleMoves() {
 		return boardPila.getAnalyzerResult().getLegalMoves();
-	}
-
-	public Color getTurnoActual() {
-		return chessPosition.getBoardState().getTurnoActual();
 	}
 
 	public GameStatus getGameStatus() {
@@ -128,4 +121,41 @@ public class Game {
 		this.analyzer = analyzer;
 		updateGameStatus();
 	}
+	
+	@Override
+	public Color getTurnoActual() {
+		return chessPosition.getTurnoActual();
+	}
+
+	@Override
+	public void constructBoardRepresentation(ChessPositionBuilder<?> builder) {
+		chessPosition.constructBoardRepresentation(builder);
+	}
+
+	@Override
+	public Square getPawnPasanteSquare() {
+		return chessPosition.getPawnPasanteSquare();
+	}
+
+	@Override
+	public boolean isCastlingWhiteQueenAllowed() {
+		return chessPosition.isCastlingWhiteQueenAllowed();
+	}	
+
+	@Override
+	public boolean isCastlingWhiteKingAllowed() {
+		return chessPosition.isCastlingWhiteKingAllowed();
+	}
+
+
+	@Override
+	public boolean isCastlingBlackQueenAllowed() {
+		return chessPosition.isCastlingBlackQueenAllowed();
+	}
+
+
+	@Override
+	public boolean isCastlingBlackKingAllowed() {
+		return chessPosition.isCastlingBlackKingAllowed();
+	}	
 }

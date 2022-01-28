@@ -89,8 +89,8 @@ public class ChessPositionTest {
 		assertEquals(20, moves.size());
 		
 		//State
-		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
-		assertNull(tablero.getBoardState().getPawnPasanteSquare());
+		assertEquals(Color.WHITE, tablero.getTurnoActual());
+		assertNull(tablero.getPawnPasanteSquare());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class ChessPositionTest {
 		AnalyzerResult result = analyzer.analyze();
 		Collection<Move> moves = result.getLegalMoves();
 
-		assertEquals(Color.BLACK, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.BLACK, tablero.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
@@ -116,7 +116,7 @@ public class ChessPositionTest {
 
 		AnalyzerResult result = analyzer.analyze();
 
-		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.WHITE, tablero.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		Collection<Move> moves = result.getLegalMoves();
@@ -137,7 +137,7 @@ public class ChessPositionTest {
 
 		AnalyzerResult result = analyzer.analyze();
 
-		assertEquals(Color.WHITE, tablero.getBoardState().getTurnoActual());
+		assertEquals(Color.WHITE, tablero.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		Collection<Move> moves = result.getLegalMoves();

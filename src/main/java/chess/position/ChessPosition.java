@@ -1,6 +1,9 @@
 package chess.position;
 
+import chess.ChessPositionReader;
+import chess.Color;
 import chess.PiecePositioned;
+import chess.Square;
 import chess.ascii.ASCIIEncoder;
 import chess.builder.ChessPositionBuilder;
 import chess.fen.FENEncoder;
@@ -12,7 +15,7 @@ import chess.moves.MoveKing;
  * @author Mauricio Coria
  *
  */
-public class ChessPosition {
+public class ChessPosition implements ChessPositionReader {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	protected PiecePlacement piecePlacement = null;
@@ -65,7 +68,7 @@ public class ChessPosition {
 		move.undoMove(this.kingCacheBoard);
 	}	
 	
-	
+	@Override
 	public void constructBoardRepresentation(ChessPositionBuilder<?> builder){		
 		builder.withTurno(positionState.getTurnoActual())
 				.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
@@ -108,14 +111,41 @@ public class ChessPosition {
 		this.moveCache = moveCache;
 	}
 
-
-	public PositionState getBoardState() {
-		return positionState;
+	public void setBoardState(PositionState positionState) {
+		this.positionState = positionState;
 	}
 
 
-	public void setBoardState(PositionState positionState) {
-		this.positionState = positionState;
+	@Override
+	public Color getTurnoActual() {
+		return this.positionState.getTurnoActual();
+	}
+
+	@Override
+	public Square getPawnPasanteSquare() {
+		return this.positionState.getPawnPasanteSquare();
+	}
+
+	@Override
+	public boolean isCastlingWhiteQueenAllowed() {
+		return this.positionState.isCastlingWhiteQueenAllowed();
+	}	
+
+	@Override
+	public boolean isCastlingWhiteKingAllowed() {
+		return this.positionState.isCastlingWhiteKingAllowed();
+	}
+
+
+	@Override
+	public boolean isCastlingBlackQueenAllowed() {
+		return this.positionState.isCastlingBlackQueenAllowed();
+	}
+
+
+	@Override
+	public boolean isCastlingBlackKingAllowed() {
+		return this.positionState.isCastlingBlackKingAllowed();
 	}
 	
 }
