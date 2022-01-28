@@ -19,9 +19,9 @@ import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessFactory;
 import chess.builder.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
+import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
-import chess.parsers.FENParser;
 
 
 /**
@@ -337,13 +337,13 @@ public class ChessPositionTest {
 	}	
 	
 	private void settupWithDefaultBoard() {
-		settupWithBoard(FENParser.INITIAL_FEN);
+		settupWithBoard(FENDecoder.INITIAL_FEN);
 	}	
 	
 	private void settupWithBoard(String string) {		
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(factory);
 
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parseFEN(string);
 		

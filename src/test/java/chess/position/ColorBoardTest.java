@@ -8,8 +8,8 @@ import chess.Color;
 import chess.Piece;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.fen.FENDecoder;
 import chess.iterators.square.SquareIterator;
-import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 
@@ -43,7 +43,7 @@ public class ColorBoardTest {
 	private PiecePlacement getTablero(String string) {		
 		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
 
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		

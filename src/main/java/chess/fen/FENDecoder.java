@@ -1,4 +1,4 @@
-package chess.parsers;
+package chess.fen;
 
 import chess.Color;
 import chess.Piece;
@@ -9,12 +9,12 @@ import chess.builder.ChessPositionBuilder;
  * @author Mauricio Coria
  *
  */
-public class FENParser {
+public class FENDecoder {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 	private ChessPositionBuilder<?> chessPositionBuilder;
 	
-	public FENParser(ChessPositionBuilder<?> chessPositionBuilder) {
+	public FENDecoder(ChessPositionBuilder<?> chessPositionBuilder) {
 		this.chessPositionBuilder = chessPositionBuilder; 
 	}	
 			
@@ -152,7 +152,7 @@ public class FENParser {
 		return piece;
 	}	
 	
-	public Square parsePawnPasanteSquare(String peonPasante) {
+	protected Square parsePawnPasanteSquare(String peonPasante) {
 		Square result = null;
 		if( ! "-".equals(peonPasante)){
 			char file = peonPasante.charAt(0);
@@ -192,7 +192,7 @@ public class FENParser {
 		return result;
 	}	
 	
-	public Color parseTurno(String activeColor) {
+	protected Color parseTurno(String activeColor) {
 		char colorChar = activeColor.charAt(0);
 		Color turno = null;
 		switch (colorChar) {
@@ -208,28 +208,28 @@ public class FENParser {
 		return turno;
 	}
 
-	public boolean isCastlingWhiteQueenAllowed(String enroquesAlloweds){
+	protected boolean isCastlingWhiteQueenAllowed(String enroquesAlloweds){
 		if(enroquesAlloweds.contains("Q")){
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isCastlingWhiteKingAllowed(String enroquesAlloweds){
+	protected boolean isCastlingWhiteKingAllowed(String enroquesAlloweds){
 		if(enroquesAlloweds.contains("K")){
 			return true;
 		}
 		return false;
 	}	
 	
-	public boolean isCastlingBlackQueenAllowed(String enroquesAlloweds){
+	protected boolean isCastlingBlackQueenAllowed(String enroquesAlloweds){
 		if(enroquesAlloweds.contains("q")){
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isCastlingBlackKingAllowed(String enroquesAlloweds){
+	protected boolean isCastlingBlackKingAllowed(String enroquesAlloweds){
 		if(enroquesAlloweds.contains("k")){
 			return true;
 		}

@@ -11,8 +11,8 @@ import org.junit.Test;
 import chess.Game;
 import chess.Square;
 import chess.builder.ChessPositionBuilderGame;
+import chess.fen.FENDecoder;
 import chess.moves.Move;
-import chess.parsers.FENParser;
 
 
 /**
@@ -318,9 +318,9 @@ public class InitialPositionTests {
 	private Game getDefaultGame() {		
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
 
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
-		parser.parseFEN(FENParser.INITIAL_FEN);
+		parser.parseFEN(FENDecoder.INITIAL_FEN);
 		
 		return builder.getResult();
 	}	

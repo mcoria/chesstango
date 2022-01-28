@@ -15,9 +15,9 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
-import chess.parsers.FENParser;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
@@ -134,7 +134,7 @@ public class RookMoveGeneratorTest {
 	
 	private PiecePlacement getTablero(String string) {		
 		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		

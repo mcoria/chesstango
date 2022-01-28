@@ -10,7 +10,7 @@ import chess.Square;
 import chess.analyzer.Capturer;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
-import chess.parsers.FENParser;
+import chess.fen.FENDecoder;
 import chess.position.PiecePlacement;
 
 /**
@@ -63,7 +63,7 @@ public class CapturerTest {
 	
 	private PiecePlacement getTablero(String string) {		
 		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		

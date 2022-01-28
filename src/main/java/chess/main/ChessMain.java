@@ -11,9 +11,9 @@ import java.util.Map;
 
 import chess.Game;
 import chess.builder.ChessPositionBuilderGame;
+import chess.fen.FENEncoder;
+import chess.fen.FENDecoder;
 import chess.moves.Move;
-import chess.parsers.FENCoder;
-import chess.parsers.FENParser;
 
 /**
  * @author Mauricio Coria
@@ -25,7 +25,7 @@ public class ChessMain {
 	
 	private int maxLevel;
 	
-	private FENCoder coder = new FENCoder();
+	private FENEncoder coder = new FENEncoder();
 	
 	private List<Map<String, Integer>> nodeListMap;
 	private int[] repetedNodes;
@@ -33,9 +33,9 @@ public class ChessMain {
 	public static void main(String[] args) {
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
 		
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
-		parser.parseFEN(FENParser.INITIAL_FEN);
+		parser.parseFEN(FENDecoder.INITIAL_FEN);
 		
 		Game board = builder.getResult();
 		

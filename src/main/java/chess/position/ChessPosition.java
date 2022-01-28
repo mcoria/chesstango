@@ -2,9 +2,9 @@ package chess.position;
 
 import chess.PiecePositioned;
 import chess.builder.ChessPositionBuilder;
+import chess.fen.FENEncoder;
 import chess.moves.Move;
 import chess.moves.MoveKing;
-import chess.parsers.FENCoder;
 
 
 /**
@@ -81,7 +81,7 @@ public class ChessPosition {
 	
 	@Override
 	public String toString() {
-		FENCoder coder = new FENCoder();
+		FENEncoder coder = new FENEncoder();
 		
 		constructBoardRepresentation(coder);
 		

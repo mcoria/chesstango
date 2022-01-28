@@ -28,7 +28,7 @@ public class ASCIIOutput extends AbstractChessPositionBuilder<String> {
 	
 
 	public void getState(PrintStream printStream) {
-		printStream.print("Turno Actual: " + String.format("%-6s", turno.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
+		printStream.println("Turno Actual: " + String.format("%-6s", turno.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
 				", enroqueWhiteQueenAllowed: " + enroqueWhiteQueenAllowed +
 				", enroqueWhiteKingAllowed: " + enroqueWhiteKingAllowed +
 				", enroqueBlackQueenAllowed: " + enroqueBlackQueenAllowed +

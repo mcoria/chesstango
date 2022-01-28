@@ -10,7 +10,7 @@ import org.junit.Test;
 import chess.Game;
 import chess.builder.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
-import chess.parsers.FENParser;
+import chess.fen.FENDecoder;
 
 /**
  * @author Mauricio Coria
@@ -32,7 +32,7 @@ public class PerftTests {
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parseFEN(string);
 		

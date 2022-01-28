@@ -9,7 +9,7 @@ import chess.Game;
 import chess.Square;
 import chess.builder.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
-import chess.parsers.FENParser;
+import chess.fen.FENDecoder;
 
 
 //Kiwipete
@@ -72,7 +72,7 @@ public class Test3Tests {
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parseFEN(string);
 		

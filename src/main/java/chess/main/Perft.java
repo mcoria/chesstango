@@ -10,8 +10,8 @@ import java.util.Map;
 
 import chess.Game;
 import chess.builder.ChessPositionBuilderGame;
+import chess.fen.FENDecoder;
 import chess.moves.Move;
-import chess.parsers.FENParser;
 
 /**
  * @author Mauricio Coria
@@ -24,9 +24,9 @@ public class Perft {
 	public static void main(String[] args) {
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
 		
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
-		parser.parseFEN(FENParser.INITIAL_FEN);
+		parser.parseFEN(FENDecoder.INITIAL_FEN);
 		
 		Game board = builder.getResult();
 		

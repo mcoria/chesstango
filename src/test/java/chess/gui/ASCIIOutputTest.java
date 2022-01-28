@@ -8,8 +8,8 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.fen.FENDecoder;
 import chess.gui.ASCIIOutput;
-import chess.parsers.FENParser;
 
 
 /**
@@ -19,12 +19,12 @@ import chess.parsers.FENParser;
 public class ASCIIOutputTest {
 
 	private ASCIIOutput builder;
-	private FENParser parser;
+	private FENDecoder parser;
 
 	@Before
 	public void setUp() throws Exception {
 	    builder = new ASCIIOutput();
-	    parser = new FENParser(builder);  
+	    parser = new FENDecoder(builder);  
 	}
 		
 	@Test
@@ -54,7 +54,7 @@ public class ASCIIOutputTest {
 	    }	
 	    
 		//Actual
-	    parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+	    parser.parseFEN(FENDecoder.INITIAL_FEN);
 	    
 	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosActual)) {
@@ -67,6 +67,26 @@ public class ASCIIOutputTest {
 	
 	@Test
 	public void testGetState() {	    
+	    // Expected
+	    final ByteArrayOutputStream baosExp = new ByteArrayOutputStream();
+	    try (PrintStream ps = new PrintStream(baosExp)) {
+	    	ps.println("Turno Actual: WHITE , peonPasanteSquare: - , enroqueWhiteQueenAllowed: true, enroqueWhiteKingAllowed: true, enroqueBlackQueenAllowed: true, enroqueBlackKingAllowed: true");
+	    	ps.flush();
+	    }	
+	    
+		//Actual
+	    parser.parseFEN(FENDecoder.INITIAL_FEN);
+	    
+	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
+	    try (PrintStream ps = new PrintStream(baosActual)) {
+	    	builder.getState(ps);
+	    }    
+	    
+		assertEquals(new String(baosExp.toByteArray()), new String(baosActual.toByteArray()));
+	}
+	
+	@Test
+	public void testGetResult() {	    
 	    // Expected
 	    final ByteArrayOutputStream baosExp = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosExp)) {
@@ -88,18 +108,16 @@ public class ASCIIOutputTest {
 			ps.println("1| R | N | B | Q | K | B | N | R |");
 			ps.println("  -------------------------------");
 			ps.println("   a   b   c   d   e   f   g   h");
+			ps.println("Turno Actual: WHITE , peonPasanteSquare: - , enroqueWhiteQueenAllowed: true, enroqueWhiteKingAllowed: true, enroqueBlackQueenAllowed: true, enroqueBlackKingAllowed: true");
 	    	ps.flush();
-	    }	
+	    }		
 	    
 		//Actual
-	    parser.parseFEN(FENParser.INITIAL_FEN);
+	    parser.parseFEN(FENDecoder.INITIAL_FEN);
 	    
-	    final ByteArrayOutputStream baosActual = new ByteArrayOutputStream();
-	    try (PrintStream ps = new PrintStream(baosActual)) {
-	    	builder.getState(ps);
-	    }    
+	    String result = builder.getResult();
 	    
-		assertEquals(new String(baosExp.toByteArray()), new String(baosActual.toByteArray()));
-	}	
+		assertEquals(new String(baosExp.toByteArray()), result);
+	}		
 
 }

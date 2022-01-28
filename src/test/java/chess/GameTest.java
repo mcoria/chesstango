@@ -11,8 +11,8 @@ import org.junit.Test;
 import chess.Game.GameStatus;
 import chess.builder.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
+import chess.fen.FENDecoder;
 import chess.moves.imp.MoveFactoryBlack;
-import chess.parsers.FENParser;
 
 
 /**
@@ -438,7 +438,7 @@ public class GameTest {
 		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parseFEN(string);
 		
@@ -447,7 +447,7 @@ public class GameTest {
 	
 	
 	private Game getDefaultGame() {				
-		return getGame(FENParser.INITIAL_FEN);
+		return getGame(FENDecoder.INITIAL_FEN);
 	}		
 	
 }

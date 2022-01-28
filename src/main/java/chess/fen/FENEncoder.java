@@ -1,4 +1,4 @@
-package chess.parsers;
+package chess.fen;
 
 import chess.Color;
 import chess.Piece;
@@ -8,7 +8,7 @@ import chess.builder.AbstractChessPositionBuilder;
  * @author Mauricio Coria
  *
  */
-public class FENCoder extends AbstractChessPositionBuilder<String> {
+public class FENEncoder extends AbstractChessPositionBuilder<String> {
 	
 
 	@Override

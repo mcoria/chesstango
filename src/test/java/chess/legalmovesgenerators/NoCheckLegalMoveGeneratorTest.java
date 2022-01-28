@@ -7,7 +7,7 @@ import org.junit.Test;
 import chess.analyzer.Capturer;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
-import chess.parsers.FENParser;
+import chess.fen.FENDecoder;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
@@ -54,7 +54,7 @@ public class NoCheckLegalMoveGeneratorTest {
 
 	private void initDependencies(String string) {		
 		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
-		FENParser parser = new FENParser(builder);
+		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 		
 		dummyBoard = builder.getPiecePlacement();

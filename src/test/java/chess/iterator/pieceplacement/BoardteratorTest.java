@@ -13,10 +13,10 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.fen.FENDecoder;
 import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.BottomUpSquareIterator;
 import chess.iterators.square.TopDownSquareIterator;
-import chess.parsers.FENParser;
 import chess.position.PiecePlacement;
 
 
@@ -26,14 +26,14 @@ import chess.position.PiecePlacement;
  */
 public class BoardteratorTest {
 
-	private FENParser parser = null;
+	private FENDecoder parser = null;
 	
 	private ChessPositionBuilderImp builder = null;
 
 	@Before
 	public void setUp() throws Exception {
 		builder = new ChessPositionBuilderImp(new DebugChessFactory());
-		parser = new FENParser(builder);
+		parser = new FENDecoder(builder);
 	}
 
 	@Test

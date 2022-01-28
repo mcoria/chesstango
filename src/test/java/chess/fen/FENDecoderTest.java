@@ -1,4 +1,4 @@
-package chess.parsers;
+package chess.fen;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -11,15 +11,15 @@ import chess.Color;
 import chess.Piece;
 import chess.Square;
 import chess.builder.ChessPositionBuilder;
-import chess.parsers.FENParser;
+import chess.fen.FENDecoder;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class FENParserTest {
+public class FENDecoderTest {
 
-	private FENParser parser = null;
+	private FENDecoder parser = null;
 	
 	private Color turno;
 	private Square peonPasanteSquare;
@@ -34,7 +34,7 @@ public class FENParserTest {
 	public void setUp() throws Exception {
 		tablero = new Piece[8][8];
 		
-		parser = new FENParser(new ChessPositionBuilder<Object>() {
+		parser = new FENDecoder(new ChessPositionBuilder<Object>() {
 			@Override
 			public ChessPositionBuilder<Object> withPieza(Square square, Piece piece) {
 				tablero[square.getRank()][square.getFile()] = piece;
@@ -43,37 +43,37 @@ public class FENParserTest {
 			
 			@Override
 			public ChessPositionBuilder<Object> withTurno(Color turno) {
-				FENParserTest.this.turno = turno;
+				FENDecoderTest.this.turno = turno;
 				return this;
 			}
 			
 			@Override
 			public ChessPositionBuilder<Object> withPawnPasanteSquare(Square peonPasanteSquare) {
-				FENParserTest.this.peonPasanteSquare = peonPasanteSquare;
+				FENDecoderTest.this.peonPasanteSquare = peonPasanteSquare;
 				return this;
 			}
 			
 			@Override
 			public ChessPositionBuilder<Object> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-				FENParserTest.this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
+				FENDecoderTest.this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
 				return this;
 			}
 			
 			@Override
 			public ChessPositionBuilder<Object> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-				FENParserTest.this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
+				FENDecoderTest.this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
 				return this;
 			}
 			
 			@Override
 			public ChessPositionBuilder<Object> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-				FENParserTest.this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
+				FENDecoderTest.this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
 				return this;
 			}
 			
 			@Override
 			public ChessPositionBuilder<Object> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-				FENParserTest.this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
+				FENDecoderTest.this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
 				return this;
 			}
 
@@ -271,7 +271,7 @@ public class FENParserTest {
 	
 	@Test
 	public void testParseInitialFen() {
-		parser.parseFEN(FENParser.INITIAL_FEN);
+		parser.parseFEN(FENDecoder.INITIAL_FEN);
 		
 		assertEquals(Color.WHITE, this.turno);
 		

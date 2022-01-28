@@ -1,4 +1,4 @@
-package chess.parsers;
+package chess.fen;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,20 +8,20 @@ import org.junit.Test;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
-import chess.parsers.FENCoder;
+import chess.fen.FENEncoder;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class FENCoderTest {
+public class FENEncoderTest {
 
-	private FENCoder coder ;
+	private FENEncoder coder ;
 	private StringBuilder stringBuilder;
 	
 	@Before
 	public void setUp() throws Exception {
-		coder = new FENCoder();
+		coder = new FENEncoder();
 		stringBuilder = new StringBuilder();
 	}
 	
