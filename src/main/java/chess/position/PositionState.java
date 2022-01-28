@@ -19,17 +19,8 @@ public class PositionState {
 	private boolean enroqueWhiteKingAllowed;
 	private boolean enroqueBlackQueenAllowed;
 	private boolean enroqueBlackKingAllowed;
-	
-	private static class BoardStateNode {
-		private Color turnoActual;
-		private Square peonPasanteSquare;
-		private boolean enroqueWhiteQueenAllowed;
-		private boolean enroqueWhiteKingAllowed;
-		private boolean enroqueBlackQueenAllowed;
-		private boolean enroqueBlackKingAllowed;
-	}
 
-	private Deque<BoardStateNode> boardStateNodePila = new ArrayDeque<BoardStateNode>();
+	private Deque<PositionState> boardStateNodePila = new ArrayDeque<PositionState>();
 	
 	public Square getPawnPasanteSquare() {
 		return peonPasanteSquare;
@@ -86,30 +77,21 @@ public class PositionState {
 	
 	
 	public void pushState() {
-		BoardStateNode state = saveState();
-		
-		boardStateNodePila.push( state );
+		try {
+			PositionState state = clone();
+			boardStateNodePila.push( state );
+		} catch (CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void popState() {
-		BoardStateNode lastState = boardStateNodePila.pop();
+		PositionState lastState = boardStateNodePila.pop();
 		
 		restoreState(lastState);
 	}
-
-	private BoardStateNode saveState() {
-		BoardStateNode node = new BoardStateNode();
-		node.peonPasanteSquare = peonPasanteSquare;
-		node.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
-		node.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
-		node.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
-		node.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
-		node.turnoActual = turnoActual;
-		
-		return node;
-	}
 	
-	private void restoreState(BoardStateNode lastState){
+	private void restoreState(PositionState lastState){
 		peonPasanteSquare = lastState.peonPasanteSquare;
 		enroqueWhiteQueenAllowed = lastState.enroqueWhiteQueenAllowed;
 		enroqueWhiteKingAllowed = lastState.enroqueWhiteKingAllowed;

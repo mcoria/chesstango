@@ -108,7 +108,7 @@ public class Game {
 		return chessPosition.toString();
 	}
 
-	public ChessPosition getTablero() {
+	public ChessPosition getChessPosition() {
 		return chessPosition;
 	}
 

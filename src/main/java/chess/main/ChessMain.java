@@ -175,7 +175,7 @@ public class ChessMain {
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	private String code(Game board) {
-		board.getTablero().constructBoardRepresentation(coder);
+		board.getChessPosition().constructBoardRepresentation(coder);
 		return coder.getResult();
 	}
 

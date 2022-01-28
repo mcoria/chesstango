@@ -1,6 +1,7 @@
 package chess.position;
 
 import chess.PiecePositioned;
+import chess.ascii.ASCIIEncoder;
 import chess.builder.ChessPositionBuilder;
 import chess.fen.FENEncoder;
 import chess.moves.Move;
@@ -81,11 +82,13 @@ public class ChessPosition {
 	
 	@Override
 	public String toString() {
-		FENEncoder coder = new FENEncoder();
+		FENEncoder fenEncoder = new FENEncoder();
+		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
 		
-		constructBoardRepresentation(coder);
+		constructBoardRepresentation(fenEncoder);
+		constructBoardRepresentation(asciiEncoder);
 		
-	    return this.piecePlacement.toString() + "\n" + this.positionState.toString() + "\n" + this.kingCacheBoard.toString() + "\n" + coder.getResult();
+	    return asciiEncoder.getResult() + fenEncoder.getResult();
 	}
 
 	public void setPiecePlacement(PiecePlacement dummyBoard) {
