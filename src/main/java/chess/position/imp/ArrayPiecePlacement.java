@@ -7,7 +7,7 @@ import chess.CachePosiciones;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.gui.ASCIIOutput;
+import chess.ascii.ASCIIEncoder;
 import chess.iterators.pieceplacement.BoardBitIterator;
 import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
@@ -128,7 +128,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	public String toString() {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
-	    	ASCIIOutput output = new ASCIIOutput();
+	    	ASCIIEncoder output = new ASCIIEncoder();
 			this.forEach(posicionPieza -> {
 				output.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
 			});

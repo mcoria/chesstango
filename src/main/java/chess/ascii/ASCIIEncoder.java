@@ -1,4 +1,4 @@
-package chess.gui;
+package chess.ascii;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,7 +13,7 @@ import chess.iterators.square.TopDownSquareIterator;
  * @author Mauricio Coria
  *
  */
-public class ASCIIOutput extends AbstractChessPositionBuilder<String> {
+public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 	
 
 	@Override

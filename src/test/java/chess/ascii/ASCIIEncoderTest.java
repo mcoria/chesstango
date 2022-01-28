@@ -1,4 +1,4 @@
-package chess.gui;
+package chess.ascii;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,22 +8,22 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
+import chess.ascii.ASCIIEncoder;
 import chess.fen.FENDecoder;
-import chess.gui.ASCIIOutput;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ASCIIOutputTest {
+public class ASCIIEncoderTest {
 
-	private ASCIIOutput builder;
+	private ASCIIEncoder builder;
 	private FENDecoder parser;
 
 	@Before
 	public void setUp() throws Exception {
-	    builder = new ASCIIOutput();
+	    builder = new ASCIIEncoder();
 	    parser = new FENDecoder(builder);  
 	}
 		
