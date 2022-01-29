@@ -21,7 +21,7 @@ public class ColorBoard {
 	protected long squareBlacks = 0;
 	
 	public ColorBoard(PiecePlacement board) {
-		settupSquares(board);
+		init(board);
 	}
 	
 	public void swapPositions(Color color, Square remove, Square add){
@@ -92,7 +92,7 @@ public class ColorBoard {
 	
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
-	protected void settupSquares(PiecePlacement board) {
+	protected void init(PiecePlacement board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getValue();
 			if (piece != null) {

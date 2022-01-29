@@ -15,13 +15,17 @@ public class KingCacheBoard {
 	
 	protected Square squareKingBlackCache = null;
 	
-	public KingCacheBoard(PiecePlacement board) {
-		this.squareKingWhiteCache = getKingSquareRecorrer(Color.WHITE, board);
-		this.squareKingBlackCache = getKingSquareRecorrer(Color.BLACK, board);		
-	}
-	
 	public KingCacheBoard(){
 	}
+	
+	public KingCacheBoard(PiecePlacement board) {
+		init(board);
+	}
+	
+	public void init(PiecePlacement board){
+		this.squareKingWhiteCache = getKingSquareRecorrer(Color.WHITE, board);
+		this.squareKingBlackCache = getKingSquareRecorrer(Color.BLACK, board);			
+	}	
 	
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
 	
@@ -79,7 +83,8 @@ public class KingCacheBoard {
 	
 	@Override
 	public String toString() {
-		return "King White: " + squareKingWhiteCache.toString() + ", King Black: " + squareKingBlackCache.toString();
+		return "King White: " + (squareKingWhiteCache == null ? "-" : squareKingWhiteCache.toString())
+				+ ", King Black: " + (squareKingBlackCache == null ? "-" : squareKingBlackCache.toString());
 	}
 	
 }

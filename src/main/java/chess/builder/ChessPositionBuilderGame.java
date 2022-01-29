@@ -48,8 +48,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	@Override
 	public Game getResult() {
 		if (game == null) {
-			game = new Game(builder.getResult());
-			game.setAnalyzer(getAnalyzer());			
+			game = new Game(builder.getResult(), getAnalyzer());
 		}
 		return game;
 	}

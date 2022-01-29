@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.analyzer.Capturer;
+import chess.builder.ChessFactory;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
@@ -53,7 +54,8 @@ public class NoCheckLegalMoveGeneratorTest {
 
 
 	private void initDependencies(String string) {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
+		ChessFactory chessFactory = new DebugChessFactory();
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(chessFactory);
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 		

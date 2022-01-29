@@ -17,7 +17,7 @@ import chess.Square;
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessFactory;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
@@ -36,22 +36,24 @@ public class ChessPositionTest {
 	
 	private PositionAnalyzer analyzer; 
 	
-	private AnalyzerResult result;
+	private AnalyzerResult analyzerResult;
 	
-	private ChessPosition tablero;
+	private ChessPosition chessPosition;
 	
 	@Before
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
+		
 		factory = new DebugChessFactory();
-		analyzer = new PositionAnalyzer();
+		
+		analyzer = factory.getAnalyzer();		
 	}	
 	
 	@Test
 	public void test01() {		
-		settupWithDefaultBoard();
+		settupWithDefaultBoard();	
 		
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = analyzerResult.getLegalMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(Square.a2, Piece.PAWN_WHITE, Square.a3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Piece.PAWN_WHITE, Square.a4, Square.a3) ));
@@ -89,8 +91,8 @@ public class ChessPositionTest {
 		assertEquals(20, moves.size());
 		
 		//State
-		assertEquals(Color.WHITE, tablero.getTurnoActual());
-		assertNull(tablero.getPawnPasanteSquare());
+		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
+		assertNull(chessPosition.getPawnPasanteSquare());
 	}
 
 	@Test
@@ -98,9 +100,10 @@ public class ChessPositionTest {
 		settupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
 		AnalyzerResult result = analyzer.analyze();
+
 		Collection<Move> moves = result.getLegalMoves();
 
-		assertEquals(Color.BLACK, tablero.getTurnoActual());
+		assertEquals(Color.BLACK, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
@@ -116,7 +119,7 @@ public class ChessPositionTest {
 
 		AnalyzerResult result = analyzer.analyze();
 
-		assertEquals(Color.WHITE, tablero.getTurnoActual());
+		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		Collection<Move> moves = result.getLegalMoves();
@@ -137,7 +140,7 @@ public class ChessPositionTest {
 
 		AnalyzerResult result = analyzer.analyze();
 
-		assertEquals(Color.WHITE, tablero.getTurnoActual());
+		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
 		Collection<Move> moves = result.getLegalMoves();
@@ -190,7 +193,7 @@ public class ChessPositionTest {
 
 		// Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
-		tablero.acceptForExecute(move);
+		chessPosition.acceptForExecute(move);
 
 		// Podemos capturarlo
 		result = analyzer.analyze();
@@ -199,7 +202,7 @@ public class ChessPositionTest {
 		assertEquals(22, legalMoves.size());
 
 		// Volvemos atras
-		tablero.acceptForUndo(move);
+		chessPosition.acceptForUndo(move);
 
 		// No podemos capturarlo
 		result = analyzer.analyze();
@@ -224,7 +227,7 @@ public class ChessPositionTest {
 
 		// Mueve el peon pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
-		tablero.acceptForExecute(move);
+		chessPosition.acceptForExecute(move);
 
 		// Podemos capturarlo
 		result = analyzer.analyze();
@@ -236,12 +239,12 @@ public class ChessPositionTest {
 		result = analyzer.analyze();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h2, Square.h3);
-		tablero.acceptForExecute(move);
+		chessPosition.acceptForExecute(move);
 
 		result = analyzer.analyze();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h7, Square.h6);
-		tablero.acceptForExecute(move);
+		chessPosition.acceptForExecute(move);
 
 		// Ahora no podemos capturar el peon pasante !!!
 		result = analyzer.analyze();
@@ -341,15 +344,15 @@ public class ChessPositionTest {
 	}	
 	
 	private void settupWithBoard(String string) {		
-		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(factory);
+		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(factory);
 
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parseFEN(string);
 		
-		tablero =  builder.getChessPosition();
-		analyzer = builder.getAnalyzer();
-		result = analyzer.analyze();
+		chessPosition =  builder.getResult();
+		
+		analyzerResult = analyzer.analyze();
 	}		
 
 		

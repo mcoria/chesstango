@@ -25,7 +25,7 @@ public class PositionAnalyzer {
 	
 	private KingCacheBoard kingCacheBoard = null;	
 
-	private Capturer capturer;
+	private Capturer capturer = null;
 	
 	private LegalMoveGenerator defaultMoveCalculator = null;
 	
