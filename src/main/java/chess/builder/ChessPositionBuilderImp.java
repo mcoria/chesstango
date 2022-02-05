@@ -18,6 +18,7 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  * @author Mauricio Coria
  *
  */
+//TODO: El modelo de objetos es complejo, es necesario DI para inyectar dependencias
 public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPosition> {
 	
 	private PiecePlacement piecePlacement;

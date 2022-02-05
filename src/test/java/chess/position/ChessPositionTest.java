@@ -17,7 +17,7 @@ import chess.Square;
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessFactory;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
@@ -44,9 +44,7 @@ public class ChessPositionTest {
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
 		
-		factory = new DebugChessFactory();
-		
-		analyzer = factory.getAnalyzer();		
+		factory = new DebugChessFactory();		
 	}	
 	
 	@Test
@@ -344,13 +342,15 @@ public class ChessPositionTest {
 	}	
 	
 	private void settupWithBoard(String string) {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(factory);
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(factory);
 
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parseFEN(string);
 		
-		chessPosition =  builder.getResult();
+		chessPosition =  builder.getChessPosition();
+		
+		analyzer = builder.getAnalyzer();
 		
 		analyzerResult = analyzer.analyze();
 	}		
