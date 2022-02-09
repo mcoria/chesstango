@@ -153,6 +153,7 @@ public class ChessPosition implements ChessPositionReader {
 
 	public void init() {
 		colorBoard.init(piecePlacement);
+		kingCacheBoard.init(piecePlacement);		
 		initCache();
 	}
 	

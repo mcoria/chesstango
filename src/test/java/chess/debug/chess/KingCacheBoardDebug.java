@@ -13,10 +13,6 @@ import chess.position.PiecePlacement;
  *
  */
 public class KingCacheBoardDebug extends KingCacheBoard {
-
-	public KingCacheBoardDebug(PiecePlacement piecePlacement) {
-		super(piecePlacement);
-	}
 	
 	public void validar(PiecePlacement dummyBoard) {
 		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {

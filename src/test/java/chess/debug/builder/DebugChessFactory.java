@@ -57,8 +57,8 @@ public class DebugChessFactory extends ChessFactory {
 	}	
 	
 	@Override
-	public KingCacheBoard createKingCacheBoard(PiecePlacement piecePlacement) {
-		return new KingCacheBoardDebug(piecePlacement);
+	public KingCacheBoard createKingCacheBoard() {
+		return new KingCacheBoardDebug();
 	}
 	
 	@Override

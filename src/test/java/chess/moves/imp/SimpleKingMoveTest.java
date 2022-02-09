@@ -56,7 +56,8 @@ public class SimpleKingMoveTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piezaBoard);
 
-		kingCacheBoard = new KingCacheBoardDebug(piezaBoard);
+		kingCacheBoard = new KingCacheBoardDebug();
+		kingCacheBoard.init(piezaBoard);
 
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, null);

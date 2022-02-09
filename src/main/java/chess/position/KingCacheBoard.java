@@ -15,13 +15,6 @@ public class KingCacheBoard {
 	
 	protected Square squareKingBlackCache = null;
 	
-	public KingCacheBoard(){
-	}
-	
-	public KingCacheBoard(PiecePlacement board) {
-		init(board);
-	}
-	
 	public void init(PiecePlacement board){
 		this.squareKingWhiteCache = getKingSquareRecorrer(Color.WHITE, board);
 		this.squareKingBlackCache = getKingSquareRecorrer(Color.BLACK, board);			

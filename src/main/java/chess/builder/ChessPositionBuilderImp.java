@@ -118,7 +118,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 	
 	public KingCacheBoard getKingCacheBoard() {
 		if (kingCacheBoard == null) {
-			kingCacheBoard = chessFactory.createKingCacheBoard( getPiecePlacement() );
+			kingCacheBoard = chessFactory.createKingCacheBoard();
 		}
 		return kingCacheBoard;
 	}

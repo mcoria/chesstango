@@ -72,6 +72,9 @@ public class NoCheckLegalMoveGeneratorTest {
 		strategy.setBoardState(positionState);
 		strategy.setColorBoard(colorBoard);
 		
-		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);	
+		filter = new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
+		
+		colorBoard.init(dummyBoard);
+		kingCacheBoard.init(dummyBoard);		
 	}
 }
