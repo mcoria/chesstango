@@ -51,8 +51,8 @@ public class DebugChessFactory extends ChessFactory {
 	}	
 	
 	@Override
-	public ColorBoard createColorBoard(PiecePlacement buildPosicionPiezaBoard) {
-		ColorBoard colorBoard = new ColorBoardDebug(buildPosicionPiezaBoard);
+	public ColorBoard createColorBoard() {
+		ColorBoard colorBoard = new ColorBoardDebug();
 		return colorBoard;
 	}	
 	

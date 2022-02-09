@@ -16,6 +16,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
@@ -58,7 +59,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
@@ -86,7 +90,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 	
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
@@ -116,7 +123,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
@@ -146,7 +156,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackKingAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
@@ -174,7 +187,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackKingAllowed(true);
 
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
@@ -204,7 +220,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackKingAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
@@ -235,7 +254,10 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackQueenAllowed(true);
 		
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));

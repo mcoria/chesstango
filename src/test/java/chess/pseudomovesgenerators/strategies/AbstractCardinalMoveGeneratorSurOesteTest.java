@@ -15,6 +15,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.iterators.Cardinal;
 import chess.moves.Move;
@@ -61,7 +62,10 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 	public void testSurOeste() {
 		PiecePlacement tablero = getTablero("8/8/8/4B3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
@@ -85,7 +89,10 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 	public void testSurOeste01() {
 		PiecePlacement tablero = getTablero("8/8/8/4B3/8/8/8/R7");
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
@@ -109,7 +116,10 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 	public void testSurOeste02() {
 		PiecePlacement tablero = getTablero("8/8/8/4B3/8/8/8/r7");
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));

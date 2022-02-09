@@ -15,6 +15,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
@@ -47,7 +48,10 @@ public class KnightMoveGeneratorTest {
 	public void test() {
 		PiecePlacement tablero =  getTablero("8/3P1p2/8/4N3/8/8/8/8");
 		moveGenerator.setTablero(tablero);
-		moveGenerator.setColorBoard(new ColorBoard(tablero));
+		
+		ColorBoard colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
+		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.KNIGHT_WHITE, tablero.getPieza(from));

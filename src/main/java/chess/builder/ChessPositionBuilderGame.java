@@ -50,6 +50,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	public Game getResult() {
 		if (game == null) {
 			game = new Game(builder.getResult(), getAnalyzer());
+			game.init();
 		}
 		return game;
 	}

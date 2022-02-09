@@ -20,10 +20,6 @@ public class ColorBoard {
 	protected long squareWhites = 0;
 	protected long squareBlacks = 0;
 	
-	public ColorBoard(PiecePlacement board) {
-		init(board);
-	}
-	
 	public void swapPositions(Color color, Square remove, Square add){
 		if (Color.WHITE.equals(color)) {
 			squareWhites &= ~remove.getPosicion();
@@ -92,7 +88,7 @@ public class ColorBoard {
 	
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
-	protected void init(PiecePlacement board) {
+	public void init(PiecePlacement board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getValue();
 			if (piece != null) {

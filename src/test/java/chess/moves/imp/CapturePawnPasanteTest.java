@@ -55,7 +55,8 @@ public class CapturePawnPasanteTest {
 		piezaBoard.setPieza(Square.b5, Piece.PAWN_WHITE);
 		piezaBoard.setPieza(Square.a5, Piece.PAWN_BLACK);
 		
-		colorBoard = new ColorBoardDebug(piezaBoard);
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(piezaBoard);
 		
 		PiecePositioned peonWhite = new PiecePositioned(Square.b5, Piece.PAWN_WHITE);
 		PiecePositioned peonBlack = new PiecePositioned(Square.a5, Piece.PAWN_BLACK);

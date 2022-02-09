@@ -54,7 +54,8 @@ public class SimpleMoveTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
 		
-		colorBoard = new ColorBoardDebug(piezaBoard);
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(piezaBoard);
 		
 		PiecePositioned origen = new PiecePositioned(Square.e5, Piece.ROOK_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e7, null);

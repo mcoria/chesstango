@@ -123,7 +123,8 @@ public class CaptureKingMoveTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
-		colorBoard = new ColorBoard(piezaBoard);
+		colorBoard = new ColorBoard();
+		colorBoard.init(piezaBoard);
 
 		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -186,7 +187,8 @@ public class CaptureKingMoveTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
 		
-		colorBoard = new ColorBoard(piezaBoard);
+		colorBoard = new ColorBoard();
+		colorBoard.init(piezaBoard);
 		
 		positionState.setTurnoActual(Color.WHITE);
 

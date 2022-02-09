@@ -8,6 +8,7 @@ import chess.Color;
 import chess.Piece;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
+import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.iterators.square.SquareIterator;
 import chess.position.ColorBoard;
@@ -29,7 +30,8 @@ public class ColorBoardTest {
 		
 		PiecePlacement tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		colorBoard = new ColorBoard(tablero);
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(tablero);
 		
 		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.WHITE); iterator.hasNext();) {
 			Piece piece = tablero.getPieza(iterator.next());

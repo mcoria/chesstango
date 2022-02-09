@@ -17,7 +17,6 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.imp.CaptureMove;
 import chess.position.ChessPosition;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
@@ -53,8 +52,9 @@ public class CaptureMoveTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
 		piezaBoard.setPieza(Square.e7, Piece.PAWN_BLACK);
-		
-		colorBoard = new ColorBoardDebug(piezaBoard);
+
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(piezaBoard);		
 		
 		PiecePositioned origen = new PiecePositioned(Square.e5, Piece.ROOK_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e7, Piece.PAWN_BLACK);

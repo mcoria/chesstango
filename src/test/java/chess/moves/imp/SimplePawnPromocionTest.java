@@ -15,6 +15,7 @@ import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.imp.SimplePawnPromocion;
 import chess.position.ChessPosition;
@@ -53,7 +54,8 @@ public class SimplePawnPromocionTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
 		
-		colorBoard = new ColorBoard(piezaBoard);		
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(piezaBoard);	
 		
 		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e8, null);

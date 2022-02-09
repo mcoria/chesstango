@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
+import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.imp.CastlingBlackQueenMove;
 import chess.position.ChessPosition;
@@ -63,7 +64,8 @@ public class CastlingBlackQueenMoveTest {
 		piezaBoard.setPieza(Square.e8, Piece.KING_BLACK);	
 		
 		kingCacheBoard = new KingCacheBoard();
-		colorBoard = new ColorBoard(piezaBoard);
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(piezaBoard);
 	}
 	
 	@Test

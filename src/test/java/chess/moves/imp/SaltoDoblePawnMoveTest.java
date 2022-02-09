@@ -53,7 +53,8 @@ public class SaltoDoblePawnMoveTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
-		colorBoard = new ColorBoardDebug(piezaBoard);		
+		colorBoard = new ColorBoardDebug();
+		colorBoard.init(piezaBoard);	
 		
 		PiecePositioned origen = new PiecePositioned(Square.e2, Piece.PAWN_WHITE);
 		PiecePositioned destino = new PiecePositioned(Square.e4, null);

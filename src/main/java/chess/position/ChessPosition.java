@@ -9,6 +9,8 @@ import chess.builder.ChessPositionBuilder;
 import chess.fen.FENEncoder;
 import chess.moves.Move;
 import chess.moves.MoveKing;
+import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 
 /**
@@ -147,5 +149,29 @@ public class ChessPosition implements ChessPositionReader {
 	public boolean isCastlingBlackKingAllowed() {
 		return this.positionState.isCastlingBlackKingAllowed();
 	}
+
+
+	public void init() {
+		colorBoard.init(piecePlacement);
+		initCache();
+	}
+	
+	private void initCache() {
+		MoveGenerator moveGenerator = new MoveGenerator();
+		moveGenerator.setPiecePlacement(piecePlacement);
+		moveGenerator.setBoardState(positionState);
+		moveGenerator.setColorBoard(colorBoard);
+		
+		for(PiecePositioned origen: piecePlacement){
+			
+			if(origen.getValue() != null){
+
+				MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+	
+				moveCache.setPseudoMoves(origen.getKey(), generatorResult);
+			}
+		}		
+		
+	}	
 	
 }

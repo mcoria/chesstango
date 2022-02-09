@@ -32,7 +32,6 @@ public class Game implements ChessPositionReader {
 	public Game(ChessPosition tablero, PositionAnalyzer analyzer){
 		this.chessPosition = tablero;
 		this.analyzer = analyzer;
-		updateGameStatus();		
 	}
 
 	public GameStatus executeMove(Square from, Square to) {
@@ -156,6 +155,10 @@ public class Game implements ChessPositionReader {
 	@Override
 	public boolean isCastlingBlackKingAllowed() {
 		return chessPosition.isCastlingBlackKingAllowed();
+	}
+	
+	public void init() {
+		updateGameStatus();
 	}
 	
 	private static class GameStack {

@@ -2,7 +2,6 @@ package chess.builder;
 
 import chess.Color;
 import chess.Piece;
-import chess.PiecePositioned;
 import chess.Square;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
@@ -10,8 +9,6 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 
 /**
@@ -53,27 +50,10 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 			chessPosition.setColorBoard(getColorBoard());
 
 			chessPosition.setMoveCache(getMoveCache());
+			
+			chessPosition.init();
 		}
 		return chessPosition;
-	}	
-
-
-	private void initCache() {
-		MoveGenerator moveGenerator = new MoveGenerator();
-		moveGenerator.setPiecePlacement(piecePlacement);
-		moveGenerator.setBoardState(positionState);
-		moveGenerator.setColorBoard(colorBoard);
-		
-		for(PiecePositioned origen: piecePlacement){
-			
-			if(origen.getValue() != null){
-
-				MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
-	
-				moveCache.setPseudoMoves(origen.getKey(), generatorResult);
-			}
-		}		
-		
 	}
 
 	public PiecePlacement getPiecePlacement() {
@@ -145,7 +125,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 
 	public ColorBoard getColorBoard() {
 		if (colorBoard == null) {
-			colorBoard = chessFactory.createColorBoard( getPiecePlacement() );
+			colorBoard = chessFactory.createColorBoard();
 		}
 		return colorBoard;
 	}
@@ -153,7 +133,6 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 	public MoveCacheBoard getMoveCache() {
 		if (moveCache == null) {
 			moveCache = chessFactory.createMoveCacheBoard();
-			initCache();
 		}
 		return moveCache;
 	}	

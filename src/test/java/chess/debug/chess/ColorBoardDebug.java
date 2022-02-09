@@ -15,10 +15,6 @@ import chess.position.PiecePlacement;
  */
 public class ColorBoardDebug extends ColorBoard {
 
-	public ColorBoardDebug(PiecePlacement board) {
-		super(board);
-	}
-
 	@Override
 	public void swapPositions(Color color, Square remove, Square add) {
 		super.swapPositions(color, remove, add);
