@@ -66,7 +66,7 @@ public class DefaultLegalMoveGeneratorTest {
 		colorBoard = builder.getColorBoard();
 		chessPosition = builder.getResult();
 		
-		capturer = new Capturer(dummyBoard);
+		capturer = new Capturer(chessPosition);
 		
 		strategy = new MoveGeneratorImp();
 		strategy.setPiecePlacement(dummyBoard);

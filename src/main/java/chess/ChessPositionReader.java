@@ -4,6 +4,7 @@
 package chess;
 
 import chess.builder.ChessPositionBuilder;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
 
 /**
@@ -34,5 +35,7 @@ public interface ChessPositionReader {
 
 	SquareIterator iteratorSquareWhitoutKing(Color color);
 
+	PiecePlacementIterator iterator(SquareIterator squareIterator);
+	
 	void constructBoardRepresentation(ChessPositionBuilder<?> builder);	
 }

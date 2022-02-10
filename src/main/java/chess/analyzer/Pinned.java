@@ -21,25 +21,25 @@ public class Pinned {
 	private final  PinnedImp white = new PinnedImp(Color.WHITE);
 	private final  PinnedImp black = new PinnedImp(Color.BLACK);
 	
-	private ChessPositionReader positionReader;
+	private final ChessPositionReader positionReader;
+	
+
+	public Pinned(ChessPositionReader positionReader) {
+		this.positionReader = positionReader;
+	}
 
 	public long getPinnedSquare(Color color) {
 		return Color.WHITE.equals(color) ? white.getPinnedSquare(positionReader.getKingSquare(color)) : black.getPinnedSquare(positionReader.getKingSquare(color));
 	}
 
 
-	public void setPositionReader(ChessPositionReader positionReader) {
-		this.positionReader = positionReader;
-	}
-
-
 	private class PinnedImp {
 		
-		private Color color;
+		private final Color color;
 		
-		private Piece reina;
-		private Piece torre;
-		private Piece alfil;	
+		private final Piece reina;
+		private final Piece torre;
+		private final Piece alfil;	
 		
 		public PinnedImp(Color color) {
 			this.color = color;

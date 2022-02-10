@@ -20,13 +20,12 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  */
 public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
-	private Pinned pinnedAlanyzer;
+	private final Pinned pinnedAlanyzer;
 
 	public NoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
 		super(positionReader, strategy, filter);
 		
-		pinnedAlanyzer = new Pinned();
-		pinnedAlanyzer.setPositionReader(positionReader);
+		pinnedAlanyzer = new Pinned(positionReader);
 	}
 
 	@Override

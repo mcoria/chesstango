@@ -8,6 +8,7 @@ import chess.Square;
 import chess.ascii.ASCIIEncoder;
 import chess.builder.ChessPositionBuilder;
 import chess.fen.FENEncoder;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.moves.MoveKing;
@@ -159,6 +160,7 @@ public class ChessPosition implements ChessPositionReader {
 		initCache();
 	}
 	
+	//TODO: esta inicializacion deberia pasar a MoveGenaratorWithCache
 	private void initCache() {
 		MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
 		moveGeneratorImp.setPiecePlacement(piecePlacement);
@@ -208,6 +210,12 @@ public class ChessPosition implements ChessPositionReader {
 	@Override
 	public Piece getPieza(Square square) {
 		return piecePlacement.getPieza(square);
+	}
+
+
+	@Override
+	public PiecePlacementIterator iterator(SquareIterator squareIterator) {
+		return piecePlacement.iterator(squareIterator);
 	}	
 	
 }

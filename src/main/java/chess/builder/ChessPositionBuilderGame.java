@@ -73,7 +73,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 
 	protected Capturer buildCapturer() {
 		if(capturer == null){
-			capturer = new Capturer(builder.getPiecePlacement());
+			capturer = new Capturer(builder.getResult());
 		}
 		return capturer;
 	}

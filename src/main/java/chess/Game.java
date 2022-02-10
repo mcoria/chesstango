@@ -7,6 +7,7 @@ import java.util.Deque;
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessPositionBuilder;
+import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.position.ChessPosition;
@@ -253,5 +254,10 @@ public class Game implements ChessPositionReader {
 	@Override
 	public SquareIterator iteratorSquareWhitoutKing(Color color) {
 		return chessPosition.iteratorSquareWhitoutKing(color);
+	}
+
+	@Override
+	public PiecePlacementIterator iterator(SquareIterator squareIterator) {
+		return chessPosition.iterator(squareIterator);
 	}	
 }
