@@ -7,6 +7,7 @@ import java.util.Deque;
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
 import chess.builder.ChessPositionBuilder;
+import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.position.ChessPosition;
 
@@ -217,5 +218,40 @@ public class Game implements ChessPositionReader {
 		public void setAnalyzerResult(AnalyzerResult analyzerResult) {
 			this.analyzerResult = analyzerResult;
 		}
+	}
+
+
+	@Override
+	public PiecePositioned getPosicion(Square square) {
+		return chessPosition.getPosicion(square);
+	}
+
+
+	@Override
+	public Color getColor(Square square) {
+		return chessPosition.getColor(square);
+	}
+
+
+	@Override
+	public Piece getPieza(Square square) {
+		return chessPosition.getPieza(square);
+	}
+
+
+	@Override
+	public Square getKingSquare(Color color) {
+		return chessPosition.getKingSquare(color);
+	}
+
+
+	@Override
+	public SquareIterator iteratorSquare(Color color) {
+		return chessPosition.iteratorSquare(color);
+	}
+
+	@Override
+	public SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare) {
+		return chessPosition.iteratorSquareWhitoutKing(color, kingSquare);
 	}	
 }

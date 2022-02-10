@@ -3,12 +3,9 @@ package chess.legalmovesgenerators;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.ChessPositionReader;
 import chess.Square;
 import chess.moves.Move;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.PiecePlacement;
-import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
@@ -18,27 +15,20 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  */
 public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
-	protected PiecePlacement dummyBoard = null;
-	protected KingCacheBoard kingCacheBoard = null;
-	protected ColorBoard colorBoard = null;
-	protected PositionState positionState = null;
+	protected ChessPositionReader positionReader = null;
 	
 	protected MoveGenerator pseudoMovesGenerator = null;
 	
 	protected MoveFilter filter = null;
 	
-	public AbstractLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
-		this.dummyBoard = dummyBoard;
-		this.kingCacheBoard = kingCacheBoard;
-		this.colorBoard = colorBoard;
-		this.positionState = positionState;
+	public AbstractLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
+		this.positionReader = positionReader;
 		this.pseudoMovesGenerator = strategy;
 		this.filter = filter;
 	}
 
 	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
-		return pseudoMovesGenerator.generatePseudoMoves(dummyBoard.getPosicion(origenSquare));
+		return pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));
 	}
 	
 	/**
@@ -54,7 +44,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	}	
 
 	public Square getCurrentKingSquare() {
-		return kingCacheBoard.getKingSquare(positionState.getTurnoActual());
+		return positionReader.getKingSquare(positionReader.getTurnoActual());
 	}
 	
 	//TODO: Y si en vez de generar un Collection utilizamos una clase con un array

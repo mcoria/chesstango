@@ -2,13 +2,10 @@ package chess.legalmovesgenerators;
 
 import java.util.Collection;
 
+import chess.ChessPositionReader;
 import chess.Square;
 import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.PiecePlacement;
-import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
@@ -18,9 +15,9 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  */
 public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
-	public DefaultLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState,
+	public DefaultLegalMoveGenerator(ChessPositionReader positionReader, 
 			MoveGenerator strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, positionState, strategy, filter);
+		super(positionReader, strategy, filter);
 	}	
 
 	@Override
@@ -36,7 +33,7 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 	protected Collection<Move> getLegalMovesBySquare(Collection<Move> moves) {
-		for (SquareIterator iterator = colorBoard.iteratorSquare(positionState.getTurnoActual()); iterator.hasNext();) {
+		for (SquareIterator iterator = this.positionReader.iteratorSquare(this.positionReader.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 			

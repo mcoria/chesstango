@@ -1,5 +1,6 @@
 package chess.builder;
 
+import chess.ChessPositionReader;
 import chess.analyzer.Capturer;
 import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.LegalMoveGenerator;
@@ -25,18 +26,14 @@ public class ChessFactory {
 		return new ChessPosition();
 	}
 
-	public LegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
-			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, PositionState buildState,
+	public LegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader,
 			MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new DefaultLegalMoveGenerator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildState,
-				buildMoveGeneratorStrategy, filter);
+		return new DefaultLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
-	public LegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
-			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, PositionState buildState,
+	public LegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader,
 			MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new NoCheckLegalMoveGenerator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard, buildState,
-				buildMoveGeneratorStrategy, filter);
+		return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
 	public ColorBoard createColorBoard() {
@@ -64,7 +61,6 @@ public class ChessFactory {
 	public PositionState createPositionState() {
 		return new PositionState();
 	}
-
 
 	public MoveGenerator createMoveGenaratorWithCache(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
 		return new MoveGenaratorWithCache(moveGenerator, moveCacheBoard);

@@ -1,5 +1,6 @@
 package chess.debug.builder;
 
+import chess.ChessPositionReader;
 import chess.analyzer.Capturer;
 import chess.builder.ChessFactory;
 import chess.debug.chess.ChessPositionDebug;
@@ -35,20 +36,14 @@ public class DebugChessFactory extends ChessFactory {
 	}	
 	
 	@Override
-	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
-			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard,
-			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		
-		return new DefaultLegalMoveGeneratorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard,
-				buildState, buildMoveGeneratorStrategy, filter);
+		return new DefaultLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	
 	@Override
-	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
-			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard,
-			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new NoCheckLegalMoveGeneratorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
-				buildState, buildMoveGeneratorStrategy, filter);
+	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+		return new NoCheckLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}	
 	
 	@Override

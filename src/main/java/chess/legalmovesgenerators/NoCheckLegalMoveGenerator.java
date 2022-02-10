@@ -2,15 +2,12 @@ package chess.legalmovesgenerators;
 
 import java.util.Collection;
 
+import chess.ChessPositionReader;
 import chess.Color;
 import chess.Square;
 import chess.analyzer.Pinned;
 import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.PiecePlacement;
-import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
@@ -25,13 +22,11 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
 	private Pinned pinnedAlanyzer;
 
-	public NoCheckLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, positionState, strategy, filter);
+	public NoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
+		super(positionReader, strategy, filter);
 		
 		pinnedAlanyzer = new Pinned();
-		pinnedAlanyzer.setColorBoard(colorBoard);
-		pinnedAlanyzer.setTablero(dummyBoard);
+		pinnedAlanyzer.setPositionReader(positionReader);
 	}
 
 	@Override
@@ -48,13 +43,13 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
-		final Color turnoActual = positionState.getTurnoActual();
+		final Color turnoActual = this.positionReader.getTurnoActual();
 		final Square kingSquare = getCurrentKingSquare();
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
 		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual, kingSquare); 
 
-		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
+		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
 			

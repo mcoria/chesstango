@@ -3,13 +3,12 @@
  */
 package chess.analyzer;
 
+import chess.ChessPositionReader;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.square.CardinalSquareIterator;
-import chess.position.ColorBoard;
-import chess.position.PiecePlacement;
 
 /**
  * @author Mauricio Coria
@@ -22,22 +21,18 @@ public class Pinned {
 	private final  PinnedImp white = new PinnedImp(Color.WHITE);
 	private final  PinnedImp black = new PinnedImp(Color.BLACK);
 	
-	private PiecePlacement tablero;
-	private ColorBoard colorBoard;
+	private ChessPositionReader positionReader;
 
 	public long getPinnedSquare(Color color, Square kingSquare) {
 		return Color.WHITE.equals(color) ? white.getPinnedSquare(kingSquare) : black.getPinnedSquare(kingSquare);
 	}
-	
-	public void setColorBoard(ColorBoard colorBoard) {
-		this.colorBoard = colorBoard;
+
+
+	public void setPositionReader(ChessPositionReader positionReader) {
+		this.positionReader = positionReader;
 	}
 
-	public void setTablero(PiecePlacement tablero) {
-		this.tablero = tablero;
-	}
 
-	
 	private class PinnedImp {
 		
 		private Color color;
@@ -80,7 +75,7 @@ public class Pinned {
 			CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
 			while (iterator.hasNext()) {
 				Square destino = iterator.next();
-				Color colorDestino = colorBoard.getColor(destino);
+				Color colorDestino = positionReader.getColor(destino);
 				if (colorDestino == null) {
 					continue;
 				}
@@ -94,7 +89,7 @@ public class Pinned {
 					if (color.equals(colorDestino)) {
 						return null;
 					} else { //// if (color.opositeColor().equals(colorDestino))
-						Piece piece = tablero.getPieza(destino);
+						Piece piece = positionReader.getPieza(destino);
 						if (torreOBishop.equals(piece) || reina.equals(piece)) {
 							return pinned;
 						} else {

@@ -4,6 +4,7 @@
 package chess;
 
 import chess.builder.ChessPositionBuilder;
+import chess.iterators.square.SquareIterator;
 
 /**
  * @author Mauricio Coria
@@ -21,5 +22,17 @@ public interface ChessPositionReader {
 
 	Square getPawnPasanteSquare();
 	
+	PiecePositioned getPosicion(Square square);
+	
+	Color getColor(Square square);
+	
+	Piece getPieza(Square square);
+
+	Square getKingSquare(Color color);
+
+	SquareIterator iteratorSquare(Color color);
+
+	SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare);
+
 	void constructBoardRepresentation(ChessPositionBuilder<?> builder);	
 }

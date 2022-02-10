@@ -1,15 +1,8 @@
 package chess.debug.chess;
 
-import java.util.Collection;
-
+import chess.ChessPositionReader;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
-import chess.moves.Move;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.PiecePlacement;
-import chess.position.PositionState;
-import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesgenerators.MoveGenerator;
 
 
@@ -19,12 +12,13 @@ import chess.pseudomovesgenerators.MoveGenerator;
  */
 public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 
-	public NoCheckLegalMoveGeneratorDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, positionState, strategy, filter);
+	public NoCheckLegalMoveGeneratorDebug(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
+		super(positionReader, strategy, filter);
 	}
 	
 
+	//TODO: reimplement method
+	/*
 	@Override
 	public Collection<Move> getLegalMoves() {
 		try {
@@ -64,6 +58,6 @@ public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 		} catch (CloneNotSupportedException e) {
 			throw new RuntimeException(e);
 		}
-	}
+	}*/
 
 }

@@ -81,16 +81,14 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 
 	protected LegalMoveGenerator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(builder.getPiecePlacement(), builder.getKingCacheBoard(), builder.getColorBoard(),
-					builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(builder.getResult(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
 
 	protected LegalMoveGenerator buildNoCheckLegalMoveGenerator() {
 		if (noCheckLegalMoveGenerator == null) {
-			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(builder.getPiecePlacement(), builder.getKingCacheBoard(), builder.getColorBoard(),
-					builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
+			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(builder.getResult(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return noCheckLegalMoveGenerator;
 	}	

@@ -2,11 +2,13 @@ package chess.position;
 
 import chess.ChessPositionReader;
 import chess.Color;
+import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.ascii.ASCIIEncoder;
 import chess.builder.ChessPositionBuilder;
 import chess.fen.FENEncoder;
+import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.moves.MoveKing;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
@@ -173,6 +175,39 @@ public class ChessPosition implements ChessPositionReader {
 			}
 		}		
 		
+	}
+
+	@Override
+	public PiecePositioned getPosicion(Square square) {
+		return piecePlacement.getPosicion(square);
+	}
+
+
+	@Override
+	public Square getKingSquare(Color color) {
+		return kingCacheBoard.getKingSquare(color);
+	}
+
+
+	@Override
+	public SquareIterator iteratorSquare(Color color) {
+		return colorBoard.iteratorSquare(color);
+	}
+
+
+	@Override
+	public SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare) {
+		return colorBoard.iteratorSquareWhitoutKing(color, kingSquare);
+	}
+
+	@Override
+	public Color getColor(Square square) {
+		return colorBoard.getColor(square);
+	}
+
+	@Override
+	public Piece getPieza(Square square) {
+		return piecePlacement.getPieza(square);
 	}	
 	
 }
