@@ -23,8 +23,8 @@ public class Pinned {
 	
 	private ChessPositionReader positionReader;
 
-	public long getPinnedSquare(Color color, Square kingSquare) {
-		return Color.WHITE.equals(color) ? white.getPinnedSquare(kingSquare) : black.getPinnedSquare(kingSquare);
+	public long getPinnedSquare(Color color) {
+		return Color.WHITE.equals(color) ? white.getPinnedSquare(positionReader.getKingSquare(color)) : black.getPinnedSquare(positionReader.getKingSquare(color));
 	}
 
 

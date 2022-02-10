@@ -44,10 +44,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
 		final Color turnoActual = this.positionReader.getTurnoActual();
-		final Square kingSquare = getCurrentKingSquare();
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
-		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual, kingSquare); 
+		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual); 
 
 		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 
