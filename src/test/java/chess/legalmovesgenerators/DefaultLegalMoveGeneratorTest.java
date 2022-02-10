@@ -9,11 +9,8 @@ import chess.builder.ChessFactory;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
-import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
-import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
-import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
@@ -35,8 +32,6 @@ public class DefaultLegalMoveGeneratorTest {
 	
 	private ColorBoard colorBoard;	
 	
-	private MoveCacheBoard moveCache;
-	
 	private MoveGeneratorImp strategy;
 	
 	private Capturer capturer;
@@ -49,7 +44,7 @@ public class DefaultLegalMoveGeneratorTest {
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b KQkq - 0 1");
 		
-		moveCalculator = new DefaultLegalMoveGenerator(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
+		moveCalculator = new DefaultLegalMoveGenerator(dummyBoard, kingCacheBoard, colorBoard, positionState, strategy, filter);
 		
 		//assertFalse(moveCalculator.existsLegalMove());
 		assertTrue(moveCalculator.getLegalMoves().isEmpty());
@@ -66,7 +61,6 @@ public class DefaultLegalMoveGeneratorTest {
 		positionState = builder.getPositionState();
 		kingCacheBoard = builder.getKingCacheBoard();
 		colorBoard = builder.getColorBoard();
-		moveCache = builder.getMoveCache();
 		
 		capturer = new Capturer(dummyBoard);
 		

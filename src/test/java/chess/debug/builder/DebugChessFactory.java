@@ -3,23 +3,23 @@ package chess.debug.builder;
 import chess.analyzer.Capturer;
 import chess.builder.ChessFactory;
 import chess.debug.chess.ChessPositionDebug;
-import chess.debug.chess.PositionStateDebug;
-import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
-import chess.legalmovesgenerators.MoveFilter;
-import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.DefaultLegalMoveGeneratorDebug;
 import chess.debug.chess.KingCacheBoardDebug;
 import chess.debug.chess.MoveCacheBoardDebug;
 import chess.debug.chess.MoveFilterDebug;
 import chess.debug.chess.NoCheckLegalMoveGeneratorDebug;
+import chess.debug.chess.PositionStateDebug;
+import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
+import chess.legalmovesgenerators.MoveFilter;
+import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.pseudomovesgenerators.MoveGenerator;
 
 
 /**
@@ -35,19 +35,19 @@ public class DebugChessFactory extends ChessFactory {
 	
 	@Override
 	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
-			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGeneratorImp buildMoveGeneratorStrategy, MoveFilter filter) {
+			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard,
+			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		
-		return new DefaultLegalMoveGeneratorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
+		return new DefaultLegalMoveGeneratorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 	
 	@Override
 	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
-			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGeneratorImp buildMoveGeneratorStrategy, MoveFilter filter) {
+			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard,
+			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveGeneratorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
-				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
+				buildState, buildMoveGeneratorStrategy, filter);
 	}	
 	
 	@Override

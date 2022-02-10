@@ -9,11 +9,10 @@ import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
-import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
+import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -27,8 +26,8 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	private Pinned pinnedAlanyzer;
 
 	public NoCheckLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard,
-			ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorImp strategy, MoveFilter filter) {
-		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
+			ColorBoard colorBoard, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
+		super(dummyBoard, kingCacheBoard, colorBoard, positionState, strategy, filter);
 		
 		pinnedAlanyzer = new Pinned();
 		pinnedAlanyzer.setColorBoard(colorBoard);

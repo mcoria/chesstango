@@ -9,6 +9,8 @@ import chess.analyzer.PositionAnalyzer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
+import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGenaratorWithCache;
 import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
@@ -22,7 +24,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	
 	private ChessPositionBuilderImp builder = null;
 	
-	private MoveGeneratorImp moveGeneratorImp = null;
+	private MoveGenerator moveGenerator = null;
 
 	private PositionAnalyzer positionAnalyzer = null;
 
@@ -81,7 +83,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	protected LegalMoveGenerator buildDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
 			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(builder.getPiecePlacement(), builder.getKingCacheBoard(), builder.getColorBoard(),
-					builder.getMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
+					builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
@@ -89,19 +91,21 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	protected LegalMoveGenerator buildNoCheckLegalMoveGenerator() {
 		if (noCheckLegalMoveGenerator == null) {
 			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(builder.getPiecePlacement(), builder.getKingCacheBoard(), builder.getColorBoard(),
-					builder.getMoveCache(), builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
+					builder.getPositionState(), buildMoveGeneratorStrategy(), buildMoveFilter());
 		}
 		return noCheckLegalMoveGenerator;
 	}	
 
-	protected MoveGeneratorImp buildMoveGeneratorStrategy() {
-		if (moveGeneratorImp == null) {
-			moveGeneratorImp = new MoveGeneratorImp();
+	protected MoveGenerator buildMoveGeneratorStrategy() {
+		if (moveGenerator == null) {
+			MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
 			moveGeneratorImp.setPiecePlacement(builder.getPiecePlacement());
 			moveGeneratorImp.setBoardState(builder.getPositionState());
 			moveGeneratorImp.setColorBoard(builder.getColorBoard());
+			
+			moveGenerator = new MoveGenaratorWithCache(moveGeneratorImp, builder.getMoveCache());
 		}
-		return moveGeneratorImp;
+		return moveGenerator;
 	}
 	
 	protected MoveFilter buildMoveFilter() {
