@@ -1,4 +1,4 @@
-package chess.legalmovesgenerators;
+package chess.legalmovesgenerators.strategies;
 
 import java.util.Collection;
 
@@ -7,6 +7,7 @@ import chess.Color;
 import chess.Square;
 import chess.analyzer.Pinned;
 import chess.iterators.square.SquareIterator;
+import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;

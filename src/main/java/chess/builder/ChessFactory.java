@@ -2,10 +2,10 @@ package chess.builder;
 
 import chess.ChessPositionReader;
 import chess.analyzer.Capturer;
-import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
+import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
+import chess.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;

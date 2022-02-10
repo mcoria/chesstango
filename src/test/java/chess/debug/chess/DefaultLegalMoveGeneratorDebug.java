@@ -1,8 +1,8 @@
 package chess.debug.chess;
 
 import chess.ChessPositionReader;
-import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
+import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
 import chess.pseudomovesgenerators.MoveGenerator;
 
 

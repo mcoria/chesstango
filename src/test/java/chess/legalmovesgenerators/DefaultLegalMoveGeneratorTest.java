@@ -9,6 +9,7 @@ import chess.builder.ChessFactory;
 import chess.builder.ChessPositionBuilderImp;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
+import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;

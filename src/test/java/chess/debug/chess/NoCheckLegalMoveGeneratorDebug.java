@@ -2,7 +2,7 @@ package chess.debug.chess;
 
 import chess.ChessPositionReader;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.legalmovesgenerators.NoCheckLegalMoveGenerator;
+import chess.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
 import chess.pseudomovesgenerators.MoveGenerator;
 
 
