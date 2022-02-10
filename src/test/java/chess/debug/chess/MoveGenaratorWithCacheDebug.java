@@ -28,11 +28,11 @@ public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCache {
 		
 		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 		
-		MoveGeneratorResult generatorResultActual = implementation.generatePseudoMoves(origen);
+		MoveGeneratorResult generatorResultActual = moveGenerator.generatePseudoMoves(origen);
 		
 		if (generatorResult == null) {
 			
-			generatorResult = implementation.generatePseudoMoves(origen);
+			generatorResult = moveGenerator.generatePseudoMoves(origen);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		} else {

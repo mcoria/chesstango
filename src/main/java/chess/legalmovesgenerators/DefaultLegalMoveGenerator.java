@@ -37,7 +37,7 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 			
 			Square origenSquare = iterator.next();
 			
-			MoveGeneratorResult generatorResult = getPseudoMovesResult(origenSquare);
+			MoveGeneratorResult generatorResult = getPseudoMoves(origenSquare);
 
 			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();			
 

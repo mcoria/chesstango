@@ -51,7 +51,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 			Square origenSquare = iterator.next();
 			
-			MoveGeneratorResult generatorResult = getPseudoMovesResult(origenSquare);
+			MoveGeneratorResult generatorResult = getPseudoMoves(origenSquare);
 
 			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
 
@@ -74,7 +74,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
 		Square 	kingSquare = getCurrentKingSquare();
 		
-		MoveGeneratorResult generatorResult = getPseudoMovesResult(kingSquare);
+		MoveGeneratorResult generatorResult = getPseudoMoves(kingSquare);
 		
 		Collection<Move> pseudoMovesKing = generatorResult.getPseudoMoves();
 

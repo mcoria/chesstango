@@ -20,6 +20,7 @@ public class MoveFilter {
 	protected final KingCacheBoard kingCacheBoard;
 	protected final ColorBoard colorBoard;	
 	protected final PositionState positionState;
+
 	protected final Capturer capturer;
 	
 	public MoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState, Capturer capturer) {
@@ -60,15 +61,12 @@ public class MoveFilter {
 		
 		return result;
 	}
-	
-	/**
-	 * @param abstractCastlingMove
-	 */
-	public boolean filterMove(MoveCastling abstractCastlingMove) {
-		Color opositeColor = abstractCastlingMove.getFrom().getValue().getColor().opositeColor();
-		return !capturer.positionCaptured(opositeColor, abstractCastlingMove.getFrom().getKey()) // El king no esta en jaque
-			&& !capturer.positionCaptured(opositeColor, abstractCastlingMove.getRookMove().getTo().getKey()) // El king no puede ser capturado en casillero intermedio
-			&& !capturer.positionCaptured(opositeColor, abstractCastlingMove.getTo().getKey());  // El king no puede  ser capturado en casillero destino
+
+	public boolean filterMove(MoveCastling moveCastling) {
+		Color opositeColor = moveCastling.getFrom().getValue().getColor().opositeColor();
+		return !capturer.positionCaptured(opositeColor, moveCastling.getFrom().getKey()) 				// El king no esta en jaque
+			&& !capturer.positionCaptured(opositeColor, moveCastling.getRookMove().getTo().getKey()) 	// El king no puede ser capturado en casillero intermedio
+			&& !capturer.positionCaptured(opositeColor, moveCastling.getTo().getKey());  				// El king no puede  ser capturado en casillero destino
 		
 	}	
 

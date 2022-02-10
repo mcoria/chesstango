@@ -15,11 +15,11 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  */
 public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
-	protected ChessPositionReader positionReader = null;
+	protected final ChessPositionReader positionReader;
 	
-	protected MoveGenerator pseudoMovesGenerator = null;
+	protected final MoveGenerator pseudoMovesGenerator;
 	
-	protected MoveFilter filter = null;
+	protected final MoveFilter filter;
 	
 	public AbstractLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
 		this.positionReader = positionReader;
@@ -27,13 +27,10 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		this.filter = filter;
 	}
 
-	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
+	protected MoveGeneratorResult getPseudoMoves(Square origenSquare) {
 		return pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));
 	}
-	
-	/**
-	 * @param moves
-	 */
+
 	protected void getLegalMovesSpecial(Collection<Move> moves) {
 		Collection<Move> pseudoMoves = pseudoMovesGenerator.generatoPawnPasantePseudoMoves();
 		for (Move move : pseudoMoves) {

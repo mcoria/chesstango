@@ -17,19 +17,19 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  *
  */
 public class MoveGenaratorWithCache implements MoveGenerator {
-	protected MoveGenerator implementation = null;
+	protected MoveGenerator moveGenerator = null;
 	
 	protected MoveCacheBoard moveCache = null;
 	
 
 	public MoveGenaratorWithCache(MoveGenerator implementation, MoveCacheBoard moveCache) {
-		this.implementation = implementation;
+		this.moveGenerator = implementation;
 		this.moveCache = moveCache;
 	}
 
 	@Override
 	public Collection<Move> generatoPawnPasantePseudoMoves() {
-		return implementation.generatoPawnPasantePseudoMoves();
+		return moveGenerator.generatoPawnPasantePseudoMoves();
 	}
 
 
@@ -41,7 +41,7 @@ public class MoveGenaratorWithCache implements MoveGenerator {
 		
 		if (generatorResult == null) {
 			
-			generatorResult = implementation.generatePseudoMoves(origen);
+			generatorResult = moveGenerator.generatePseudoMoves(origen);
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		}
