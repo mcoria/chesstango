@@ -2,8 +2,8 @@ package chess;
 
 import java.util.function.Function;
 
-import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
@@ -29,9 +29,9 @@ public enum Piece {
 	KING_BLACK(Color.BLACK, generator -> generator.getKingBlackMoveGenerator());
 	
 	private final Color color;
-	private final Function<MoveGenerator, MoveGeneratorStrategy> selector;
+	private final Function<MoveGeneratorImp, MoveGeneratorByPiecePositioned> selector;
 	
-	private Piece(Color color, Function<MoveGenerator, MoveGeneratorStrategy> selector) {
+	private Piece(Color color, Function<MoveGeneratorImp, MoveGeneratorByPiecePositioned> selector) {
 		this.color = color;
 		this.selector = selector;
 	}
@@ -40,7 +40,7 @@ public enum Piece {
 		return color;
 	}
 
-	public MoveGeneratorStrategy selectMoveGeneratorStrategy(MoveGenerator strategy) {
+	public MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(MoveGeneratorImp strategy) {
 		return selector.apply(strategy);
 	}	
 	

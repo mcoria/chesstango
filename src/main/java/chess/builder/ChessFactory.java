@@ -12,7 +12,7 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
-import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
@@ -26,14 +26,14 @@ public class ChessFactory {
 
 	public LegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGeneratorImp buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new DefaultLegalMoveGenerator(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
 	}
 
 	public LegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGeneratorImp buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveGenerator(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}

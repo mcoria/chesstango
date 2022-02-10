@@ -9,8 +9,8 @@ import chess.builder.ChessPositionBuilder;
 import chess.fen.FENEncoder;
 import chess.moves.Move;
 import chess.moves.MoveKing;
-import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 
 /**
@@ -158,16 +158,16 @@ public class ChessPosition implements ChessPositionReader {
 	}
 	
 	private void initCache() {
-		MoveGenerator moveGenerator = new MoveGenerator();
-		moveGenerator.setPiecePlacement(piecePlacement);
-		moveGenerator.setBoardState(positionState);
-		moveGenerator.setColorBoard(colorBoard);
+		MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
+		moveGeneratorImp.setPiecePlacement(piecePlacement);
+		moveGeneratorImp.setBoardState(positionState);
+		moveGeneratorImp.setColorBoard(colorBoard);
 		
 		for(PiecePositioned origen: piecePlacement){
 			
 			if(origen.getValue() != null){
 
-				MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+				MoveGeneratorResult generatorResult = moveGeneratorImp.generatePseudoMoves(origen);
 	
 				moveCache.setPseudoMoves(origen.getKey(), generatorResult);
 			}

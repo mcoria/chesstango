@@ -1,7 +1,7 @@
 /**
  * 
  */
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.imp;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,12 +15,13 @@ import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
+import chess.pseudomovesgenerators.MoveGeneratorPawnPasante;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PawnPasanteMoveGenerator {
+public class MoveGeneratorPawnPasanteImp implements MoveGeneratorPawnPasante {
 	
 	private PawnPasanteMoveGeneratorBlack pasanteMoveGeneratorBlack = new PawnPasanteMoveGeneratorBlack();
 	private PawnPasanteMoveGeneratorWhite pasanteMoveGeneratorWhite = new PawnPasanteMoveGeneratorWhite();
@@ -29,7 +30,11 @@ public class PawnPasanteMoveGenerator {
 	
 	private PiecePlacement tablero;
 	
-	public Collection<Move> generatePseudoMoves() {
+	/* (non-Javadoc)
+	 * @see chess.pseudomovesgenerators.MoveGeneratorPawnPasanteI#generatePseudoMoves()
+	 */
+	@Override
+	public Collection<Move> generatoPawnPasantePseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
 		Square peonPasanteSquare = positionState.getPawnPasanteSquare();
 		if (peonPasanteSquare != null) {

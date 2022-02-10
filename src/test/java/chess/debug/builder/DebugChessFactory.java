@@ -19,7 +19,7 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 
 /**
@@ -36,7 +36,7 @@ public class DebugChessFactory extends ChessFactory {
 	@Override
 	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(PiecePlacement buildDummyBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGeneratorImp buildMoveGeneratorStrategy, MoveFilter filter) {
 		
 		return new DefaultLegalMoveGeneratorDebug(buildDummyBoard, buildKingCacheBoard, buildColorBoard, buildMoveCache,
 				buildState, buildMoveGeneratorStrategy, filter);
@@ -45,7 +45,7 @@ public class DebugChessFactory extends ChessFactory {
 	@Override
 	public NoCheckLegalMoveGenerator createNoCheckLegalMoveGenerator(PiecePlacement buildPosicionPiezaBoard,
 			KingCacheBoard buildKingCacheBoard, ColorBoard buildColorBoard, MoveCacheBoard buildMoveCache,
-			PositionState buildState, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+			PositionState buildState, MoveGeneratorImp buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new NoCheckLegalMoveGeneratorDebug(buildPosicionPiezaBoard, buildKingCacheBoard, buildColorBoard,
 				buildMoveCache, buildState, buildMoveGeneratorStrategy, filter);
 	}	

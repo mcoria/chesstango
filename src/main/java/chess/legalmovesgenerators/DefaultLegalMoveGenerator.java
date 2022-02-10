@@ -11,7 +11,7 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
@@ -20,7 +20,7 @@ import chess.pseudomovesgenerators.MoveGenerator;
 public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
 	public DefaultLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, MoveCacheBoard moveCache, PositionState positionState,
-			MoveGenerator strategy, MoveFilter filter) {
+			MoveGeneratorImp strategy, MoveFilter filter) {
 		super(dummyBoard, kingCacheBoard, colorBoard, moveCache, positionState, strategy, filter);
 	}	
 

@@ -1,4 +1,4 @@
-package chess.pseudomovesgenerators;
+package chess.pseudomovesgenerators.imp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,13 +20,14 @@ import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
+import chess.pseudomovesgenerators.imp.MoveGeneratorPawnPasanteImp;
 
 /**
  * @author Mauricio Coria
  *
  */
 public class PawnPasanteMoveGeneratorTest {
-	private PawnPasanteMoveGenerator moveGenerator;
+	private MoveGeneratorPawnPasanteImp moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -40,7 +41,7 @@ public class PawnPasanteMoveGeneratorTest {
 		moves = new ArrayList<Move>();
 		state = new PositionState();
 		
-		moveGenerator = new PawnPasanteMoveGenerator();
+		moveGenerator = new MoveGeneratorPawnPasanteImp();
 		moveGenerator.setBoardState(state);
 	}
 	
@@ -63,7 +64,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
 		
-		moves = moveGenerator.generatePseudoMoves();
+		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -88,7 +89,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
 		
-		moves = moveGenerator.generatePseudoMoves();
+		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -111,7 +112,7 @@ public class PawnPasanteMoveGeneratorTest {
 
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
 		
-		moves = moveGenerator.generatePseudoMoves();
+		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -133,7 +134,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
 		
-		moves = moveGenerator.generatePseudoMoves();
+		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
 		assertEquals(1, moves.size());
 		

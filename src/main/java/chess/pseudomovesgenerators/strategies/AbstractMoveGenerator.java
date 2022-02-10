@@ -6,7 +6,7 @@ import chess.moves.MoveFactory;
 import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGeneratorStrategy;
+import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
 
 
 /**
@@ -14,7 +14,7 @@ import chess.pseudomovesgenerators.MoveGeneratorStrategy;
  *
  */
 //TODO: implementar el calculo de movimientos lo puede hacer en funcion de ColorBoard
-public abstract class AbstractMoveGenerator implements MoveGeneratorStrategy {
+public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePositioned {
 	
 	protected final Color color;
 	

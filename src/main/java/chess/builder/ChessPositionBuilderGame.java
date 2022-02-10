@@ -9,7 +9,7 @@ import chess.analyzer.PositionAnalyzer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
-import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
@@ -22,7 +22,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	
 	private ChessPositionBuilderImp builder = null;
 	
-	private MoveGenerator moveGenerator = null;
+	private MoveGeneratorImp moveGeneratorImp = null;
 
 	private PositionAnalyzer positionAnalyzer = null;
 
@@ -94,14 +94,14 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 		return noCheckLegalMoveGenerator;
 	}	
 
-	protected MoveGenerator buildMoveGeneratorStrategy() {
-		if (moveGenerator == null) {
-			moveGenerator = new MoveGenerator();
-			moveGenerator.setPiecePlacement(builder.getPiecePlacement());
-			moveGenerator.setBoardState(builder.getPositionState());
-			moveGenerator.setColorBoard(builder.getColorBoard());
+	protected MoveGeneratorImp buildMoveGeneratorStrategy() {
+		if (moveGeneratorImp == null) {
+			moveGeneratorImp = new MoveGeneratorImp();
+			moveGeneratorImp.setPiecePlacement(builder.getPiecePlacement());
+			moveGeneratorImp.setBoardState(builder.getPositionState());
+			moveGeneratorImp.setColorBoard(builder.getColorBoard());
 		}
-		return moveGenerator;
+		return moveGeneratorImp;
 	}
 	
 	protected MoveFilter buildMoveFilter() {

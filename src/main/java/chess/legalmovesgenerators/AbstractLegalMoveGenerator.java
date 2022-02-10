@@ -12,8 +12,8 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.PawnPasanteMoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.pseudomovesgenerators.imp.MoveGeneratorPawnPasanteImp;
 
 /**
  * @author Mauricio Coria
@@ -27,14 +27,14 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;
 	
-	protected MoveGenerator pseudoMovesGenerator = null;
+	protected MoveGeneratorImp pseudoMovesGenerator = null;
 	
-	protected PawnPasanteMoveGenerator peonPasanteMoveGenerator = null;
+	protected MoveGeneratorPawnPasanteImp peonPasanteMoveGenerator = null;
 	
 	protected MoveFilter filter = null;
 	
 	public AbstractLegalMoveGenerator(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			MoveCacheBoard moveCache, PositionState positionState, MoveGenerator strategy, MoveFilter filter) {
+			MoveCacheBoard moveCache, PositionState positionState, MoveGeneratorImp strategy, MoveFilter filter) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;

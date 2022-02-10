@@ -16,7 +16,7 @@ import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
-import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 
 /**
@@ -37,7 +37,7 @@ public class DefaultLegalMoveGeneratorTest {
 	
 	private MoveCacheBoard moveCache;
 	
-	private MoveGenerator strategy;
+	private MoveGeneratorImp strategy;
 	
 	private Capturer capturer;
 	
@@ -70,7 +70,7 @@ public class DefaultLegalMoveGeneratorTest {
 		
 		capturer = new Capturer(dummyBoard);
 		
-		strategy = new MoveGenerator();
+		strategy = new MoveGeneratorImp();
 		strategy.setPiecePlacement(dummyBoard);
 		strategy.setBoardState(positionState);
 		strategy.setColorBoard(colorBoard);

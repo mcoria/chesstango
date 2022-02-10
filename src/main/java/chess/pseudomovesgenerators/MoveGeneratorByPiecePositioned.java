@@ -7,7 +7,7 @@ import chess.PiecePositioned;
  * @author Mauricio Coria
  *
  */	
-public interface MoveGeneratorStrategy {
+public interface MoveGeneratorByPiecePositioned {
 
 	MoveGeneratorResult generatePseudoMoves(PiecePositioned origen);
 
