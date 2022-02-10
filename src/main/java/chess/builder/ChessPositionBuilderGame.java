@@ -63,8 +63,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	public PositionAnalyzer getAnalyzer() {
 		if (positionAnalyzer == null) {
 			positionAnalyzer = new PositionAnalyzer();
-			positionAnalyzer.setBoardState(builder.getPositionState());
-			positionAnalyzer.setKingCacheBoard(builder.getKingCacheBoard());
+			positionAnalyzer.setPositionReader(builder.getResult());
 			positionAnalyzer.setCapturer(buildCapturer());
 			positionAnalyzer.setDefaultMoveCalculator(buildDefaultMoveCalculator());
 			positionAnalyzer.setNoCheckLegalMoveGenerator(buildNoCheckLegalMoveGenerator());			

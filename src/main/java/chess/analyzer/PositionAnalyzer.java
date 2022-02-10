@@ -2,11 +2,10 @@ package chess.analyzer;
 
 import java.util.Collection;
 
+import chess.ChessPositionReader;
 import chess.Color;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.moves.Move;
-import chess.position.KingCacheBoard;
-import chess.position.PositionState;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
@@ -21,9 +20,7 @@ import chess.position.PositionState;
  */
 public class PositionAnalyzer {
 
-	private PositionState positionState = null;
-	
-	private KingCacheBoard kingCacheBoard = null;	
+	private ChessPositionReader positionReader = null;
 
 	private Capturer capturer = null;
 	
@@ -40,9 +37,9 @@ public class PositionAnalyzer {
 	}
 	
 	protected boolean calculateKingInCheck() {
-		Color turnoActual = positionState.getTurnoActual();
+		Color turnoActual = positionReader.getTurnoActual();
 		
-		return capturer.positionCaptured(turnoActual.opositeColor(), kingCacheBoard.getKingSquare(turnoActual));
+		return capturer.positionCaptured(turnoActual.opositeColor(), positionReader.getKingSquare(turnoActual));
 	}	
 	
 	protected Collection<Move> getLegalMoves(boolean isKingInCheck) {
@@ -54,14 +51,6 @@ public class PositionAnalyzer {
 			return noCheckLegalMoveGenerator;
 		}
 		return defaultMoveCalculator;
-	}	
-
-	public void setBoardState(PositionState positionState) {
-		this.positionState = positionState;
-	}
-
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
 	}
 
 	public void setCapturer(Capturer capturer) {
@@ -75,6 +64,10 @@ public class PositionAnalyzer {
 
 	public void setNoCheckLegalMoveGenerator(LegalMoveGenerator noCheckLegalMoveGenerator) {
 		this.noCheckLegalMoveGenerator = noCheckLegalMoveGenerator;
+	}
+
+	public void setPositionReader(ChessPositionReader positionReader) {
+		this.positionReader = positionReader;
 	}	
 
 }
