@@ -65,33 +65,5 @@ public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 			throw new RuntimeException(e);
 		}
 	}
-	
-	
-	//TODO: mover a clase debug
-	/*
-	@Override
-	protected MoveGeneratorResult getPseudoMovesResult(Square origenSquare) {
-		MoveGeneratorResult generatorResultCache = moveCache.getPseudoMovesResult(origenSquare);
-		
-		if (generatorResultCache != null) {
-	
-			PiecePositioned origen = dummyBoard.getPosicion(origenSquare);
-	
-			MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
-	
-			// comenzar comparaciones
-			if(generatorResultCache.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {
-				throw new RuntimeException("El cache quedó en estado inconsistente");
-			}
-			
-			if(generatorResultCache.getAffectedBy() != generatorResult.getAffectedBy()) {
-				throw new RuntimeException("AffectedBy es distinto");
-			}			
-			
-			return generatorResultCache;
-		}
-		
-		return super.getPseudoMovesResult(origenSquare);
-	}*/
 
 }

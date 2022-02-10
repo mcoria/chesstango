@@ -8,6 +8,7 @@ import chess.debug.chess.DefaultLegalMoveGeneratorDebug;
 import chess.debug.chess.KingCacheBoardDebug;
 import chess.debug.chess.MoveCacheBoardDebug;
 import chess.debug.chess.MoveFilterDebug;
+import chess.debug.chess.MoveGenaratorWithCacheDebug;
 import chess.debug.chess.NoCheckLegalMoveGeneratorDebug;
 import chess.debug.chess.PositionStateDebug;
 import chess.legalmovesgenerators.DefaultLegalMoveGenerator;
@@ -76,4 +77,8 @@ public class DebugChessFactory extends ChessFactory {
 		return new PositionStateDebug();
 	}
 	
+	@Override
+	public MoveGenerator createMoveGenaratorWithCache(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+		return new MoveGenaratorWithCacheDebug(moveGenerator, moveCacheBoard);
+	}	
 }

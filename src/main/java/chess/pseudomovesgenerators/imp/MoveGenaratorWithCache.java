@@ -17,7 +17,8 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  *
  */
 public class MoveGenaratorWithCache implements MoveGenerator {
-	private MoveGenerator implementation = null;
+	protected MoveGenerator implementation = null;
+	
 	protected MoveCacheBoard moveCache = null;
 	
 

@@ -10,7 +10,6 @@ import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.imp.MoveGenaratorWithCache;
 import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
@@ -103,7 +102,7 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 			moveGeneratorImp.setBoardState(builder.getPositionState());
 			moveGeneratorImp.setColorBoard(builder.getColorBoard());
 			
-			moveGenerator = new MoveGenaratorWithCache(moveGeneratorImp, builder.getMoveCache());
+			moveGenerator =  chessFactory.createMoveGenaratorWithCache(moveGeneratorImp, builder.getMoveCache());
 		}
 		return moveGenerator;
 	}
