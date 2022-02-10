@@ -32,7 +32,7 @@ public interface ChessPositionReader {
 
 	SquareIterator iteratorSquare(Color color);
 
-	SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare);
+	SquareIterator iteratorSquareWhitoutKing(Color color);
 
 	void constructBoardRepresentation(ChessPositionBuilder<?> builder);	
 }

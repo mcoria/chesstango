@@ -43,7 +43,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		}		
 	}	
 
-	public Square getCurrentKingSquare() {
+	protected Square getCurrentKingSquare() {
 		return positionReader.getKingSquare(positionReader.getTurnoActual());
 	}
 	

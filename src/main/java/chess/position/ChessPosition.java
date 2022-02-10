@@ -196,8 +196,8 @@ public class ChessPosition implements ChessPositionReader {
 
 
 	@Override
-	public SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare) {
-		return colorBoard.iteratorSquareWhitoutKing(color, kingSquare);
+	public SquareIterator iteratorSquareWhitoutKing(Color color) {
+		return colorBoard.iteratorSquareWhitoutKing(color, kingCacheBoard.getKingSquare(color));
 	}
 
 	@Override

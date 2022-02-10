@@ -49,7 +49,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
 		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual, kingSquare); 
 
-		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
+		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
 			
