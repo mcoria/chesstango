@@ -14,7 +14,7 @@ import chess.CachePosiciones;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.imp.PiecePlacementBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
@@ -24,7 +24,6 @@ import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.strategies.KingWhiteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -416,12 +415,13 @@ public class KingWhiteMoveGeneratorTest {
 	}
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
+		PiecePlacementBuilder builder = new PiecePlacementBuilder(new DebugChessFactory());
+		
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPiecePlacement();
+		return builder.getResult();
 	}	
 	
 }

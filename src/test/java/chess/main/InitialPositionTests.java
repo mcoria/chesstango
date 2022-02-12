@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.imp.ChessPositionBuilderGame;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 

@@ -11,7 +11,7 @@ import org.junit.Test;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.imp.PiecePlacementBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
 import chess.iterators.pieceplacement.PiecePlacementIterator;
@@ -28,11 +28,11 @@ public class BoardteratorTest {
 
 	private FENDecoder parser = null;
 	
-	private ChessPositionBuilderImp builder = null;
+	private PiecePlacementBuilder builder = null;
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new ChessPositionBuilderImp(new DebugChessFactory());
+		builder = new PiecePlacementBuilder(new DebugChessFactory());
 		parser = new FENDecoder(builder);
 	}
 
@@ -40,7 +40,7 @@ public class BoardteratorTest {
 	public void testTopDownSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PiecePlacement tablero =  builder.getPiecePlacement();
+		PiecePlacement tablero =  builder.getResult();
 		
 		PiecePlacementIterator iterator = tablero.iterator(new TopDownSquareIterator());
 		
@@ -383,7 +383,7 @@ public class BoardteratorTest {
 	public void testBottomUpSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PiecePlacement tablero =  builder.getPiecePlacement();
+		PiecePlacement tablero =  builder.getResult();
 		
 		PiecePlacementIterator iterator = tablero.iterator(new BottomUpSquareIterator());
 		

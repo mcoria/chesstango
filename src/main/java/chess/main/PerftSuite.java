@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import chess.Game;
-import chess.builder.ChessFactory;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.imp.ChessPositionBuilderGame;
+import chess.factory.ChessFactory;
 import chess.fen.FENDecoder;
 
 /**

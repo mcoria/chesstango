@@ -160,6 +160,7 @@ public class Game implements ChessPositionReader {
 	}
 	
 	public void init() {
+		chessPosition.init();
 		updateGameStatus();
 	}
 	

@@ -5,7 +5,7 @@ import java.io.PrintStream;
 
 import chess.Piece;
 import chess.Square;
-import chess.builder.AbstractChessPositionBuilder;
+import chess.builder.imp.AbstractChessPositionBuilder;
 import chess.iterators.square.SquareIterator;
 import chess.iterators.square.TopDownSquareIterator;
 

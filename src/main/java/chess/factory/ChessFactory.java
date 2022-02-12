@@ -1,7 +1,9 @@
-package chess.builder;
+package chess.factory;
 
 import chess.ChessPositionReader;
+import chess.Game;
 import chess.analyzer.Capturer;
+import chess.analyzer.PositionAnalyzer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
@@ -64,6 +66,18 @@ public class ChessFactory {
 
 	public MoveGenerator createMoveGenaratorWithCache(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
 		return new MoveGenaratorWithCache(moveGenerator, moveCacheBoard);
+	}
+
+	public Game createGame(ChessPosition chessPosition, PositionAnalyzer analyzer) {
+		return new Game(chessPosition, analyzer);
+	}
+
+	public PositionAnalyzer createPositionAnalyzer() {
+		return  new PositionAnalyzer();
+	}
+
+	public Capturer creareCapturer(ChessPosition chessPosition) {
+		return new Capturer(chessPosition);
 	}
 
 }

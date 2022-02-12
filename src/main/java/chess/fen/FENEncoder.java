@@ -2,7 +2,7 @@ package chess.fen;
 
 import chess.Color;
 import chess.Piece;
-import chess.builder.AbstractChessPositionBuilder;
+import chess.builder.imp.AbstractChessPositionBuilder;
 
 /**
  * @author Mauricio Coria

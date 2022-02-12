@@ -16,9 +16,10 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
-import chess.builder.ChessFactory;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.imp.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
+import chess.factory.ChessFactory;
+import chess.factory.ChessInjector;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
@@ -34,6 +35,8 @@ public class ChessPositionTest {
 	
 	private ChessFactory factory;
 	
+	private ChessInjector injector;
+	
 	private PositionAnalyzer analyzer; 
 	
 	private AnalyzerResult analyzerResult;
@@ -41,10 +44,12 @@ public class ChessPositionTest {
 	private ChessPosition chessPosition;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception {		
 		moveFactoryImp = new MoveFactoryWhite();
 		
-		factory = new DebugChessFactory();		
+		factory = new DebugChessFactory();
+		
+		injector = new ChessInjector(factory);
 	}	
 	
 	@Test
@@ -342,15 +347,16 @@ public class ChessPositionTest {
 	}	
 	
 	private void settupWithBoard(String string) {		
-		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(factory);
+		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(injector);
 
 		FENDecoder parser = new FENDecoder(builder);
-		
 		parser.parseFEN(string);
 		
-		chessPosition =  builder.getChessPosition();
+		builder.getResult();
 		
-		analyzer = builder.getAnalyzer();
+		chessPosition =  injector.getChessPosition();
+		
+		analyzer = injector.getAnalyzer();
 		
 		analyzerResult = analyzer.analyze();
 	}		

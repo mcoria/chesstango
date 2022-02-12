@@ -6,13 +6,11 @@ import org.junit.Test;
 
 import chess.Color;
 import chess.Piece;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.imp.PiecePlacementBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.iterators.square.SquareIterator;
-import chess.position.ColorBoard;
-import chess.position.PiecePlacement;
 
 
 /**
@@ -43,13 +41,13 @@ public class ColorBoardTest {
 	
 	
 	private PiecePlacement getTablero(String string) {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
+		PiecePlacementBuilder builder = new PiecePlacementBuilder(new DebugChessFactory());
 
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getPiecePlacement();
+		return builder.getResult();
 	}	
 
 }

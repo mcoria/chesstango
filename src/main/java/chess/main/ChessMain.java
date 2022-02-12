@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import chess.Game;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.imp.ChessPositionBuilderGame;
 import chess.fen.FENEncoder;
 import chess.fen.FENDecoder;
 import chess.moves.Move;

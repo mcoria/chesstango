@@ -2,7 +2,6 @@ package chess.debug.builder;
 
 import chess.ChessPositionReader;
 import chess.analyzer.Capturer;
-import chess.builder.ChessFactory;
 import chess.debug.chess.ChessPositionDebug;
 import chess.debug.chess.ColorBoardDebug;
 import chess.debug.chess.DefaultLegalMoveGeneratorDebug;
@@ -12,6 +11,7 @@ import chess.debug.chess.MoveFilterDebug;
 import chess.debug.chess.MoveGenaratorWithCacheDebug;
 import chess.debug.chess.NoCheckLegalMoveGeneratorDebug;
 import chess.debug.chess.PositionStateDebug;
+import chess.factory.ChessFactory;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;

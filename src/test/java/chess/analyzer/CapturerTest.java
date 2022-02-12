@@ -5,12 +5,14 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import chess.ChessPositionReader;
 import chess.Color;
 import chess.Square;
-import chess.builder.ChessPositionBuilderImp;
+import chess.builder.imp.PiecePlacementBuilder;
 import chess.debug.builder.DebugChessFactory;
+import chess.factory.ChessFactory;
+import chess.factory.ChessInjector;
 import chess.fen.FENDecoder;
+import chess.position.ChessPosition;
 
 /**
  * @author Mauricio Coria
@@ -20,7 +22,7 @@ public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnWhite() {
-		ChessPositionReader dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
+		ChessPosition dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		
 		Capturer capturer = new Capturer(dummyBoard);
 		
@@ -31,7 +33,7 @@ public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnBlack() {
-		ChessPositionReader dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
+		ChessPosition dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
 		
 		Capturer capturer = new Capturer(dummyBoard);
 		
@@ -43,7 +45,7 @@ public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByKnight() {
-		ChessPositionReader dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
+		ChessPosition dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
 		
 		Capturer capturer = new Capturer(dummyBoard);
 		
@@ -60,12 +62,17 @@ public class CapturerTest {
 		assertTrue( capturer.positionCaptured(Color.WHITE, Square.e3) );		
 	}	
 	
-	private ChessPositionReader getTablero(String string) {		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(new DebugChessFactory());
+	private ChessPosition getTablero(String string) {
+		ChessFactory chessFactory = new DebugChessFactory();
+		
+		ChessInjector injector = new ChessInjector(chessFactory);
+		
+		PiecePlacementBuilder builder = new PiecePlacementBuilder(injector);
+		
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getResult();
+		return injector.getChessPosition();
 	}		
 }

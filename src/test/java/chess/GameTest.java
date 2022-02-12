@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.Game.GameStatus;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.imp.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
 import chess.moves.imp.MoveFactoryBlack;

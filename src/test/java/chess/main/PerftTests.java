@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import chess.Game;
-import chess.builder.ChessPositionBuilderGame;
+import chess.builder.imp.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
 

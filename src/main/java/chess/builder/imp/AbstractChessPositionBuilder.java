@@ -1,11 +1,12 @@
 /**
  * 
  */
-package chess.builder;
+package chess.builder.imp;
 
 import chess.Color;
 import chess.Piece;
 import chess.Square;
+import chess.builder.ChessPositionBuilder;
 
 /**
  * @author Mauricio Coria

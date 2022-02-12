@@ -28,5 +28,14 @@ public class ChessPositionDebug extends ChessPosition {
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
 		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);		
 	}
+	
+	@Override
+	public void init() {
+		super.init();
+		((PositionStateDebug)positionState).validar(this.piecePlacement);
+		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
+		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);			
+	}
 
 }
