@@ -1,6 +1,5 @@
 package chess.analyzer;
 
-import chess.ChessPositionReader;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
@@ -9,6 +8,7 @@ import chess.iterators.Cardinal;
 import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.CardinalSquareIterator;
 import chess.iterators.square.JumpSquareIterator;
+import chess.position.PiecePlacementReader;
 import chess.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
 import chess.pseudomovesgenerators.strategies.BishopMoveGenerator;
 import chess.pseudomovesgenerators.strategies.KnightMoveGenerator;
@@ -21,12 +21,12 @@ import chess.pseudomovesgenerators.strategies.RookMoveGenerator;
  *
  */
 public class Capturer {
-	private final ChessPositionReader positionReader;
+	private final PiecePlacementReader piecePlacementReader;
 	private final ImprovedCapturerColor capturerWhite = new ImprovedCapturerColor(Color.WHITE);
 	private final ImprovedCapturerColor capturerBlack = new ImprovedCapturerColor(Color.BLACK);
 	
-	public Capturer(ChessPositionReader positionReader) {
-		this.positionReader = positionReader;
+	public Capturer(PiecePlacementReader piecePlacementReader) {
+		this.piecePlacementReader = piecePlacementReader;
 	}	
 
 	public boolean positionCaptured(Color color, Square square) {
@@ -105,7 +105,7 @@ public class Capturer {
 		}
 		
 		private boolean cardinalPositionCapturedByPieza(Piece torreOalfil, Piece queen, Square square, Cardinal cardinal) {
-			PiecePlacementIterator iterator = positionReader.iterator(new CardinalSquareIterator(square, cardinal));
+			PiecePlacementIterator iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
 				Piece piece = destino.getValue();
@@ -123,7 +123,7 @@ public class Capturer {
 		}
 
 		private boolean positionCapturedByKnight(Square square) {
-			PiecePlacementIterator iterator = positionReader.iterator(new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO));
+			PiecePlacementIterator iterator = piecePlacementReader.iterator(new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(caballo.equals(destino.getValue())){		    	
@@ -135,7 +135,7 @@ public class Capturer {
 
 
 		private boolean positionCapturedByPawn(Square square) {
-			PiecePlacementIterator iterator = positionReader.iterator(new JumpSquareIterator(square, saltosPawn));
+			PiecePlacementIterator iterator = piecePlacementReader.iterator(new JumpSquareIterator(square, saltosPawn));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(peon.equals(destino.getValue())){		    	
@@ -146,7 +146,7 @@ public class Capturer {
 		}
 		
 		private boolean positionCapturedByKing(Square square) {
-			PiecePlacementIterator iterator = positionReader.iterator(new JumpSquareIterator(square, AbstractKingMoveGenerator.SALTOS_KING));
+			PiecePlacementIterator iterator = piecePlacementReader.iterator(new JumpSquareIterator(square, AbstractKingMoveGenerator.SALTOS_KING));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(king.equals(destino.getValue())){		    	

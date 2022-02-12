@@ -131,7 +131,7 @@ public class ChessInjector {
 
 	public Capturer getCapturer() {
 		if(capturer == null){
-			capturer = chessFactory.creareCapturer(getChessPosition());
+			capturer = chessFactory.creareCapturer(getPiecePlacement());
 		}
 		return capturer;
 	}

@@ -10,9 +10,8 @@ import chess.Square;
 import chess.builder.imp.PiecePlacementBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.factory.ChessFactory;
-import chess.factory.ChessInjector;
 import chess.fen.FENDecoder;
-import chess.position.ChessPosition;
+import chess.position.PiecePlacement;
 
 /**
  * @author Mauricio Coria
@@ -22,7 +21,7 @@ public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnWhite() {
-		ChessPosition dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
+		PiecePlacement dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		
 		Capturer capturer = new Capturer(dummyBoard);
 		
@@ -33,7 +32,7 @@ public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnBlack() {
-		ChessPosition dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
+		PiecePlacement dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
 		
 		Capturer capturer = new Capturer(dummyBoard);
 		
@@ -45,7 +44,7 @@ public class CapturerTest {
 	
 	@Test
 	public void testPositionCapturedByKnight() {
-		ChessPosition dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
+		PiecePlacement dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
 		
 		Capturer capturer = new Capturer(dummyBoard);
 		
@@ -62,17 +61,15 @@ public class CapturerTest {
 		assertTrue( capturer.positionCaptured(Color.WHITE, Square.e3) );		
 	}	
 	
-	private ChessPosition getTablero(String string) {
+	private PiecePlacement getTablero(String string) {
 		ChessFactory chessFactory = new DebugChessFactory();
 		
-		ChessInjector injector = new ChessInjector(chessFactory);
-		
-		PiecePlacementBuilder builder = new PiecePlacementBuilder(injector);
+		PiecePlacementBuilder builder = new PiecePlacementBuilder(chessFactory);
 		
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		
-		return injector.getChessPosition();
+		return builder.getResult();
 	}		
 }

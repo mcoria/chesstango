@@ -13,6 +13,7 @@ import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
+import chess.position.PiecePlacementReader;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesgenerators.MoveGenerator;
@@ -77,8 +78,8 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public Capturer creareCapturer(ChessPosition chessPosition) {
-		return new Capturer(chessPosition);
+	public Capturer creareCapturer(PiecePlacementReader piecePlacementReader) {
+		return new Capturer(piecePlacementReader);
 	}
 
 }
