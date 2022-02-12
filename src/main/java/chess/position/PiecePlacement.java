@@ -8,7 +8,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public interface PiecePlacement extends Iterable<PiecePositioned>, PiecePlacementReader {
+public interface PiecePlacement extends PiecePlacementReader {
 
 	void setPosicion(PiecePositioned entry);
 

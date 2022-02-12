@@ -13,7 +13,7 @@ import chess.iterators.square.SquareIterator;
  * @author Mauricio Coria
  *
  */
-public interface PiecePlacementReader {
+public interface PiecePlacementReader extends Iterable<PiecePositioned> {
 
 	///////////////////////////// START positioning logic /////////////////////////////
 	// Quizas podria encapsular estas operaciones en su propia clase.
