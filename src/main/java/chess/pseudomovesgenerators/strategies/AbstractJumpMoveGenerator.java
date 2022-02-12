@@ -36,10 +36,10 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 			this.result.affectedByContainerAdd(destino);
 			Color colorDestino = colorBoard.getColor(destino);
 			if (colorDestino == null) {
-				Move move = createSimpleMove(origen, tablero.getPosicion(destino));
+				Move move = createSimpleMove(origen, piecePlacement.getPosicion(destino));
 				this.result.moveContainerAdd(move);
 			} else if (color.opositeColor().equals(colorDestino)) {
-				Move move = createCaptureMove(origen, tablero.getPosicion(destino));
+				Move move = createCaptureMove(origen, piecePlacement.getPosicion(destino));
 				this.result.moveContainerAdd(move);
 			} // else if(color.equals(pieza.getColor())){
 				// continue;

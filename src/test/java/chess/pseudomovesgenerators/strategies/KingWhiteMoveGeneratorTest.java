@@ -52,7 +52,7 @@ public class KingWhiteMoveGeneratorTest {
 	@Test
 	public void test01() {
 		PiecePlacement tablero =  getTablero("8/8/8/4K3/8/8/8/8");
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -82,7 +82,7 @@ public class KingWhiteMoveGeneratorTest {
 	@Test
 	public void test02() {
 		PiecePlacement tablero = getTablero("8/8/4P3/4K3/4p3/8/8/8");
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -117,7 +117,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -149,7 +149,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -182,7 +182,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -215,7 +215,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -247,7 +247,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -278,7 +278,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
@@ -312,7 +312,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -344,7 +344,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -377,7 +377,7 @@ public class KingWhiteMoveGeneratorTest {
 		state.setCastlingWhiteKingAllowed(true);
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);

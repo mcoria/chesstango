@@ -4,9 +4,9 @@ import chess.Color;
 import chess.PiecePositioned;
 import chess.moves.MoveFactory;
 import chess.position.ColorBoard;
-import chess.position.PiecePlacement;
-import chess.pseudomovesgenerators.MoveGeneratorResult;
+import chess.position.PiecePlacementReader;
 import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
+import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 
 /**
@@ -18,7 +18,7 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	
 	protected final Color color;
 	
-	protected PiecePlacement tablero;
+	protected PiecePlacementReader piecePlacement;
 
 	protected ColorBoard colorBoard;	
 	
@@ -41,16 +41,16 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 		return this.result;
 	}
 
-	public void setTablero(PiecePlacement tablero) {
-		this.tablero = tablero;
+	public void setPiecePlacement(PiecePlacementReader piecePlacement) {
+		this.piecePlacement = piecePlacement;
 	}	
 
 	public void setColorBoard(ColorBoard colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 
-	public void setMoveFactory(MoveFactory moveFactoryImp) {
-		this.moveFactory = moveFactoryImp;
+	public void setMoveFactory(MoveFactory moveFactory) {
+		this.moveFactory = moveFactory;
 	}
 	
 }

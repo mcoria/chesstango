@@ -45,7 +45,7 @@ public class BishopMoveGeneratorTest {
 	public void testGetPseudoMoves01() {
 		PiecePlacement tablero =  getTablero("8/8/8/4B3/8/8/8/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -116,7 +116,7 @@ public class BishopMoveGeneratorTest {
 	public void testGetPseudoMoves02() {
 		PiecePlacement tablero =  getTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);

@@ -45,7 +45,7 @@ public class PawnWhiteMoveGeneratorTest {
 	public void testSaltoSimple() {
 		PiecePlacement tablero =  getTablero("8/8/8/8/8/P7/8/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.a3;		
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
@@ -65,7 +65,7 @@ public class PawnWhiteMoveGeneratorTest {
 	public void testSaltoDoble() {
 		PiecePlacement tablero =  getTablero("8/8/8/8/8/8/P7/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.a2;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
@@ -86,7 +86,7 @@ public class PawnWhiteMoveGeneratorTest {
 	public void testSaltoDoble01() {
 		PiecePlacement tablero =  getTablero("8/8/8/8/8/N7/P7/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.a2;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
@@ -106,7 +106,7 @@ public class PawnWhiteMoveGeneratorTest {
 	public void testAtaqueIzquierda() {
 		PiecePlacement tablero = getTablero("8/8/8/8/8/3p4/4P3/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.e2;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
@@ -130,7 +130,7 @@ public class PawnWhiteMoveGeneratorTest {
 	public void testAtaqueDerecha() {
 		PiecePlacement tablero = getTablero("8/8/8/8/8/5p2/4P3/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.e2;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
@@ -153,7 +153,7 @@ public class PawnWhiteMoveGeneratorTest {
 	public void testPawnSimplePawnPromocion() {
 		PiecePlacement tablero = getTablero("8/3P4/8/8/8/8/8/8");
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.d7;
 		
@@ -176,7 +176,7 @@ public class PawnWhiteMoveGeneratorTest {
 	@Test
 	public void testPawnCapturaPawnPromocion() {
 		PiecePlacement tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.d7;
 		

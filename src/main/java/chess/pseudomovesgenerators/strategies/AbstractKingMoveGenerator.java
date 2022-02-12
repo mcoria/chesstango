@@ -36,10 +36,10 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
-			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( tablero.isEmtpy(casilleroIntermedioRook)													//El casillero intermedio ROOK esta vacio
-				  && tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
-				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
+			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
+				if ( piecePlacement.isEmtpy(casilleroIntermedioRook)													//El casillero intermedio ROOK esta vacio
+				  && piecePlacement.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
+				  && piecePlacement.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
 						return true;
 				}
 			}
@@ -54,9 +54,9 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
-			if (torre.getValue().equals(tablero.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
-				if ( tablero.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
-				  && tablero.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
+			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
+				if ( piecePlacement.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
+				  && piecePlacement.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
 						return true;
 				}
 			}

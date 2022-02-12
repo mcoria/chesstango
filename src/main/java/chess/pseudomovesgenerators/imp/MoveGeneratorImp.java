@@ -143,7 +143,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	
 	private void settupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
 		if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator) {
-			((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setTablero(dummyBoard);
+			((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setPiecePlacement(dummyBoard);
 			((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setColorBoard(colorBoard);		
 			
 			if(moveGeneratorByPiecePositioned.equals(pbmg) || moveGeneratorByPiecePositioned.equals(tbmg) || moveGeneratorByPiecePositioned.equals(cbmg) || moveGeneratorByPiecePositioned.equals(abmg) || moveGeneratorByPiecePositioned.equals(rebmg) || moveGeneratorByPiecePositioned.equals(rbmg)){
