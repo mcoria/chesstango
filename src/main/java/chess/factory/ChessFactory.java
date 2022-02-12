@@ -16,7 +16,8 @@ import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
 import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.imp.MoveGenaratorWithCache;
+import chess.pseudomovesgenerators.imp.MoveGenaratorWithCacheProxy;
+import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
 
 /**
  * @author Mauricio Coria
@@ -64,8 +65,8 @@ public class ChessFactory {
 		return new PositionState();
 	}
 
-	public MoveGenerator createMoveGenaratorWithCache(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGenaratorWithCache(moveGenerator, moveCacheBoard);
+	public MoveGenerator createMoveGenaratorWithCacheProxy(MoveGeneratorByPiecePositionedImp moveGenerator, MoveCacheBoard moveCacheBoard) {
+		return new MoveGenaratorWithCacheProxy(moveGenerator, moveCacheBoard);
 	}
 
 	public Game createGame(ChessPosition chessPosition, PositionAnalyzer analyzer) {

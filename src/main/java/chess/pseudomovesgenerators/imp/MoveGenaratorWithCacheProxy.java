@@ -16,13 +16,14 @@ import chess.pseudomovesgenerators.MoveGeneratorResult;
  * @author Mauricio Coria
  *
  */
-public class MoveGenaratorWithCache implements MoveGenerator {
-	protected MoveGenerator moveGenerator = null;
+public class MoveGenaratorWithCacheProxy implements MoveGenerator {
+
+	protected MoveGeneratorByPiecePositionedImp moveGenerator = null;
 	
 	protected MoveCacheBoard moveCache = null;
 	
 
-	public MoveGenaratorWithCache(MoveGenerator implementation, MoveCacheBoard moveCache) {
+	public MoveGenaratorWithCacheProxy(MoveGeneratorByPiecePositionedImp implementation, MoveCacheBoard moveCache) {
 		this.moveGenerator = implementation;
 		this.moveCache = moveCache;
 	}

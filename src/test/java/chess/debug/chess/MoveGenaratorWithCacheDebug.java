@@ -6,18 +6,18 @@ package chess.debug.chess;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.position.MoveCacheBoard;
-import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.imp.MoveGenaratorWithCache;
+import chess.pseudomovesgenerators.imp.MoveGenaratorWithCacheProxy;
+import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCache {
+public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
 
 
-	public MoveGenaratorWithCacheDebug(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGenaratorWithCacheDebug(MoveGeneratorByPiecePositionedImp moveGenerator, MoveCacheBoard moveCacheBoard) {
 		super(moveGenerator, moveCacheBoard);
 	}
 

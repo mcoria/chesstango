@@ -22,6 +22,7 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
+import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
 
 
 /**
@@ -73,7 +74,7 @@ public class DebugChessFactory extends ChessFactory {
 	}
 	
 	@Override
-	public MoveGenerator createMoveGenaratorWithCache(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGenerator createMoveGenaratorWithCacheProxy(MoveGeneratorByPiecePositionedImp moveGenerator, MoveCacheBoard moveCacheBoard) {
 		return new MoveGenaratorWithCacheDebug(moveGenerator, moveCacheBoard);
 	}	
 }

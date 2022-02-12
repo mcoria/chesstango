@@ -15,7 +15,7 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
 
 /**
  * @author Mauricio Coria
@@ -152,12 +152,12 @@ public class ChessInjector {
 
 	public MoveGenerator getMoveGeneratorStrategy() {
 		if (moveGenerator == null) {
-			MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
-			moveGeneratorImp.setPiecePlacement(getPiecePlacement());
-			moveGeneratorImp.setBoardState(getPositionState());
-			moveGeneratorImp.setColorBoard(getColorBoard());
+			MoveGeneratorByPiecePositionedImp moveGeneratorByPiecePositionedImp = new MoveGeneratorByPiecePositionedImp();
+			moveGeneratorByPiecePositionedImp.setPiecePlacement(getPiecePlacement());
+			moveGeneratorByPiecePositionedImp.setBoardState(getPositionState());
+			moveGeneratorByPiecePositionedImp.setColorBoard(getColorBoard());
 			
-			moveGenerator =  chessFactory.createMoveGenaratorWithCache(moveGeneratorImp, getMoveCacheBoard());
+			moveGenerator =  chessFactory.createMoveGenaratorWithCacheProxy(moveGeneratorByPiecePositionedImp, getMoveCacheBoard());
 		}
 		return moveGenerator;
 	}

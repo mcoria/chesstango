@@ -13,7 +13,7 @@ import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.moves.MoveKing;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
-import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
 
 
 /**
@@ -162,16 +162,16 @@ public class ChessPosition implements ChessPositionReader {
 	
 	//TODO: esta inicializacion deberia pasar a MoveGenaratorWithCache
 	private void initCache() {
-		MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
-		moveGeneratorImp.setPiecePlacement(piecePlacement);
-		moveGeneratorImp.setBoardState(positionState);
-		moveGeneratorImp.setColorBoard(colorBoard);
+		MoveGeneratorByPiecePositionedImp moveGeneratorByPiecePositionedImp = new MoveGeneratorByPiecePositionedImp();
+		moveGeneratorByPiecePositionedImp.setPiecePlacement(piecePlacement);
+		moveGeneratorByPiecePositionedImp.setBoardState(positionState);
+		moveGeneratorByPiecePositionedImp.setColorBoard(colorBoard);
 		
 		for(PiecePositioned origen: piecePlacement){
 			
 			if(origen.getValue() != null){
 
-				MoveGeneratorResult generatorResult = moveGeneratorImp.generatePseudoMoves(origen);
+				MoveGeneratorResult generatorResult = moveGeneratorByPiecePositionedImp.generatePseudoMoves(origen);
 	
 				moveCache.setPseudoMoves(origen.getKey(), generatorResult);
 			}

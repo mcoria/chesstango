@@ -45,6 +45,7 @@ Facade pattern is implemented by [Game](src/main/java/chess/Game.java) class.
 Decorator pattern is implemented by [MoveDecorator](src/main/java/chess/moves/imp/MoveDecorator.java) class, this abstract class declares a reference to concrete Move being decorated.
 
 Proxy pattern is implemented by ChessPositionReader as access control interface to underlying implementation classes. Game and ChessPosition implements this interface, Game forwards all requests to ChessPosition class for actual implementation.
+MoveGenaratorWithCacheProxy implements a cache proxy.
 
 ## Behavioral Patterns
 - Template method
