@@ -49,7 +49,7 @@ public class DefaultLegalMoveGeneratorTest {
 
 		chessPosition = builder.getResult();
 		
-		strategy = injector.getMoveGeneratorStrategy();
+		strategy = injector.getMoveGenerator();
 		
 		filter = injector.getMoveFilter();
 		

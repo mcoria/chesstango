@@ -15,7 +15,7 @@ import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
-import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
@@ -138,26 +138,26 @@ public class ChessInjector {
 
 	public LegalMoveGenerator getDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(getChessPosition(), getMoveGeneratorStrategy(), getMoveFilter());
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
 
 	public LegalMoveGenerator getNoCheckLegalMoveGenerator() {
 		if (noCheckLegalMoveGenerator == null) {
-			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(getChessPosition(), getMoveGeneratorStrategy(), getMoveFilter());
+			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getMoveFilter());
 		}
 		return noCheckLegalMoveGenerator;
 	}	
 
-	public MoveGenerator getMoveGeneratorStrategy() {
+	public MoveGenerator getMoveGenerator() {
 		if (moveGenerator == null) {
-			MoveGeneratorByPiecePositionedImp moveGeneratorByPiecePositionedImp = new MoveGeneratorByPiecePositionedImp();
-			moveGeneratorByPiecePositionedImp.setPiecePlacement(getPiecePlacement());
-			moveGeneratorByPiecePositionedImp.setBoardState(getPositionState());
-			moveGeneratorByPiecePositionedImp.setColorBoard(getColorBoard());
+			MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
+			moveGeneratorImp.setPiecePlacement(getPiecePlacement());
+			moveGeneratorImp.setBoardState(getPositionState());
+			moveGeneratorImp.setColorBoard(getColorBoard());
 			
-			moveGenerator =  chessFactory.createMoveGenaratorWithCacheProxy(moveGeneratorByPiecePositionedImp, getMoveCacheBoard());
+			moveGenerator =  chessFactory.createMoveGenaratorWithCacheProxy(moveGeneratorImp, getMoveCacheBoard());
 		}
 		return moveGenerator;
 	}

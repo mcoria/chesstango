@@ -8,7 +8,7 @@ import chess.Square;
 import chess.position.MoveCacheBoard;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.imp.MoveGenaratorWithCacheProxy;
-import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
@@ -17,7 +17,7 @@ import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
 public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
 
 
-	public MoveGenaratorWithCacheDebug(MoveGeneratorByPiecePositionedImp moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGenaratorWithCacheDebug(MoveGeneratorImp moveGenerator, MoveCacheBoard moveCacheBoard) {
 		super(moveGenerator, moveCacheBoard);
 	}
 

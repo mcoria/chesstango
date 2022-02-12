@@ -3,7 +3,7 @@ package chess;
 import java.util.function.Function;
 
 import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
-import chess.pseudomovesgenerators.imp.MoveGeneratorByPiecePositionedImp;
+import chess.pseudomovesgenerators.imp.MoveGeneratorImp; //TODO: esta dependencia hay que quitarla
 
 /**
  * @author Mauricio Coria
@@ -29,9 +29,9 @@ public enum Piece {
 	KING_BLACK(Color.BLACK, generator -> generator.getKingBlackMoveGenerator());
 	
 	private final Color color;
-	private final Function<MoveGeneratorByPiecePositionedImp, MoveGeneratorByPiecePositioned> selector;
+	private final Function<MoveGeneratorImp, MoveGeneratorByPiecePositioned> selector;
 	
-	private Piece(Color color, Function<MoveGeneratorByPiecePositionedImp, MoveGeneratorByPiecePositioned> selector) {
+	private Piece(Color color, Function<MoveGeneratorImp, MoveGeneratorByPiecePositioned> selector) {
 		this.color = color;
 		this.selector = selector;
 	}
@@ -40,7 +40,7 @@ public enum Piece {
 		return color;
 	}
 
-	public MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(MoveGeneratorByPiecePositionedImp strategy) {
+	public MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(MoveGeneratorImp strategy) {
 		return selector.apply(strategy);
 	}	
 	

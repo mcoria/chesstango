@@ -30,7 +30,7 @@ import chess.pseudomovesgenerators.strategies.RookMoveGenerator;
  * @author Mauricio Coria
  *
  */
-public class MoveGeneratorByPiecePositionedImp implements MoveGenerator {
+public class MoveGeneratorImp implements MoveGenerator {
 	private PiecePlacement dummyBoard;
 	private ColorBoard colorBoard;
 	private PositionState positionState;
@@ -53,7 +53,7 @@ public class MoveGeneratorByPiecePositionedImp implements MoveGenerator {
 
 	private MoveGeneratorPawnPasanteImp ppmg = null;
 	
-	public MoveGeneratorByPiecePositionedImp() {
+	public MoveGeneratorImp() {
 		pbmg =  new PawnWhiteMoveGenerator();
 		
 		pnmg = new PawnBlackMoveGenerator();
