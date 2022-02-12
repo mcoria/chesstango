@@ -10,7 +10,9 @@ import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.CardinalSquareIterator;
 import chess.iterators.square.JumpSquareIterator;
 import chess.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
+import chess.pseudomovesgenerators.strategies.BishopMoveGenerator;
 import chess.pseudomovesgenerators.strategies.KnightMoveGenerator;
+import chess.pseudomovesgenerators.strategies.RookMoveGenerator;
 
 
 
@@ -46,14 +48,14 @@ public class Capturer {
 		private final Piece king;
 		
 		private final int[][] casillerosPawnWhite = {
-			{ -1, -1 }, 
-			{ 1, -1 }
-		};
-		
+				{ -1, -1 }, 
+				{ 1, -1 }
+			};
+				
 		private final int[][] casillerosPawnBlack = {
 			{ -1, 1 }, 
 			{ 1, 1 }
-		};
+		};		
 
 		
 		public ImprovedCapturerColor(Color color) {
@@ -83,12 +85,12 @@ public class Capturer {
 			return false;
 		}
 
-		private Cardinal[]  direccionesBishop = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
+		private Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
 		private boolean positionCapturedByBishop(Square square) {
 			return positionCapturedByDireccion(square, direccionesBishop,  alfil);
 		}
 
-		private Cardinal[]  direccionesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
+		private Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
 		private boolean positionCapturedByRook(Square square) {		
 			return positionCapturedByDireccion(square, direccionesRook, torre);
 		}

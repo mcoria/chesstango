@@ -10,9 +10,11 @@ import chess.moves.Move;
  *
  */
 public class QueenMoveGenerator extends AbstractCardinalMoveGenerator{
+	
+	public final static Cardinal[] QUEEN_CARDINAL = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 
 	public QueenMoveGenerator(Color color) {
-		super(color, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste, Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur});
+		super(color, QUEEN_CARDINAL);
 	}
 
 	@Override

@@ -10,9 +10,11 @@ import chess.moves.Move;
  *
  */
 public class RookMoveGenerator extends AbstractCardinalMoveGenerator {
+	
+	public final static Cardinal[] ROOK_CARDINAL = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};
 
 	public RookMoveGenerator(Color color) {
-		super(color, new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur});
+		super(color, ROOK_CARDINAL);
 	}
 
 	@Override

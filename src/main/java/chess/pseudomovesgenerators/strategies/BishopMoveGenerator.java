@@ -11,9 +11,11 @@ import chess.moves.Move;
  *
  */
 public class BishopMoveGenerator extends AbstractCardinalMoveGenerator {
+	
+	public final static Cardinal[] BISHOP_CARDINAL = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
 
 	public BishopMoveGenerator(Color color) {
-		super(color, new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste});
+		super(color, BISHOP_CARDINAL);
 	}
 
 	@Override
