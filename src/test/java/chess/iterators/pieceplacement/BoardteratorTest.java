@@ -1,4 +1,4 @@
-package chess.iterator.pieceplacement;
+package chess.iterators.pieceplacement;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
