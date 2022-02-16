@@ -6,9 +6,6 @@ import java.util.Deque;
 
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
-import chess.builder.ChessPositionBuilder;
-import chess.iterators.pieceplacement.PiecePlacementIterator;
-import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.position.ChessPosition;
 
@@ -16,7 +13,7 @@ import chess.position.ChessPosition;
  * @author Mauricio Coria
  *
  */
-public class Game implements ChessPositionReader {
+public class Game {
 	
 	public static enum GameStatus {
 		IN_PROGRESS,
@@ -122,43 +119,6 @@ public class Game implements ChessPositionReader {
 		return boardPila.getStatus();
 	}
 	
-	@Override
-	public Color getTurnoActual() {
-		return chessPosition.getTurnoActual();
-	}
-
-	@Override
-	public void constructBoardRepresentation(ChessPositionBuilder<?> builder) {
-		chessPosition.constructBoardRepresentation(builder);
-	}
-
-	@Override
-	public Square getPawnPasanteSquare() {
-		return chessPosition.getPawnPasanteSquare();
-	}
-
-	@Override
-	public boolean isCastlingWhiteQueenAllowed() {
-		return chessPosition.isCastlingWhiteQueenAllowed();
-	}	
-
-	@Override
-	public boolean isCastlingWhiteKingAllowed() {
-		return chessPosition.isCastlingWhiteKingAllowed();
-	}
-
-
-	@Override
-	public boolean isCastlingBlackQueenAllowed() {
-		return chessPosition.isCastlingBlackQueenAllowed();
-	}
-
-
-	@Override
-	public boolean isCastlingBlackKingAllowed() {
-		return chessPosition.isCastlingBlackKingAllowed();
-	}
-	
 	public void init() {
 		chessPosition.init();
 		updateGameStatus();
@@ -221,44 +181,9 @@ public class Game implements ChessPositionReader {
 			this.analyzerResult = analyzerResult;
 		}
 	}
-
-
-	@Override
-	public PiecePositioned getPosicion(Square square) {
-		return chessPosition.getPosicion(square);
+	
+	public ChessPositionReader getChessPositionReader(){
+		return chessPosition;
 	}
-
-
-	@Override
-	public Color getColor(Square square) {
-		return chessPosition.getColor(square);
-	}
-
-
-	@Override
-	public Piece getPieza(Square square) {
-		return chessPosition.getPieza(square);
-	}
-
-
-	@Override
-	public Square getKingSquare(Color color) {
-		return chessPosition.getKingSquare(color);
-	}
-
-
-	@Override
-	public SquareIterator iteratorSquare(Color color) {
-		return chessPosition.iteratorSquare(color);
-	}
-
-	@Override
-	public SquareIterator iteratorSquareWhitoutKing(Color color) {
-		return chessPosition.iteratorSquareWhitoutKing(color);
-	}
-
-	@Override
-	public PiecePlacementIterator iterator(SquareIterator squareIterator) {
-		return chessPosition.iterator(squareIterator);
-	}	
+	
 }

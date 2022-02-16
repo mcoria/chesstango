@@ -11,8 +11,8 @@ import java.util.Map;
 
 import chess.Game;
 import chess.builder.imp.ChessPositionBuilderGame;
-import chess.fen.FENEncoder;
 import chess.fen.FENDecoder;
+import chess.fen.FENEncoder;
 import chess.moves.Move;
 
 /**
@@ -175,7 +175,7 @@ public class ChessMain {
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	private String code(Game board) {
-		board.constructBoardRepresentation(coder);
+		board.getChessPositionReader().constructBoardRepresentation(coder);
 		return coder.getResult();
 	}
 
