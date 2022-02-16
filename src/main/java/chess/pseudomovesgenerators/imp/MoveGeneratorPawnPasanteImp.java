@@ -13,7 +13,7 @@ import chess.Square;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementReader;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorPawnPasante;
 
@@ -28,11 +28,9 @@ public class MoveGeneratorPawnPasanteImp implements MoveGeneratorPawnPasante {
 	
 	private PositionState positionState;
 	
-	private PiecePlacement tablero;
+	private PiecePlacementReader tablero;
 	
-	/* (non-Javadoc)
-	 * @see chess.pseudomovesgenerators.MoveGeneratorPawnPasanteI#generatePseudoMoves()
-	 */
+
 	@Override
 	public Collection<Move> generatoPawnPasantePseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
@@ -116,7 +114,7 @@ public class MoveGeneratorPawnPasanteImp implements MoveGeneratorPawnPasante {
 	}
 
 
-	public void setTablero(PiecePlacement tablero) {
+	public void setTablero(PiecePlacementReader tablero) {
 		this.tablero = tablero;
 	}
 	

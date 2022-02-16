@@ -5,7 +5,7 @@ import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 import chess.position.PositionState;
 
 //TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
@@ -35,8 +35,8 @@ public interface Move extends Comparable<Move> {
 	
 	boolean filter(MoveFilter filter);	
 
-	void executeMove(PiecePlacement board);
-	void undoMove(PiecePlacement board);
+	void executeMove(PiecePlacementWritter board);
+	void undoMove(PiecePlacementWritter board);
 	
 	void executeMove(PositionState positionState);
 	void undoMove(PositionState positionState);

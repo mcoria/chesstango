@@ -4,7 +4,7 @@ import chess.PiecePositioned;
 import chess.moves.Move;
 import chess.position.ColorBoard;
 import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 import chess.position.PositionState;
 
 /**
@@ -30,12 +30,12 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	}
 	
 	@Override
-	public void executeMove(PiecePlacement board) {
+	public void executeMove(PiecePlacementWritter board) {
 		move.executeMove(board);
 	}
 
 	@Override
-	public void undoMove(PiecePlacement board) {
+	public void undoMove(PiecePlacementWritter board) {
 		move.undoMove(board);
 	}
 

@@ -10,7 +10,7 @@ import chess.moves.MoveFactory;
 import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.ColorBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementReader;
 import chess.position.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
@@ -31,7 +31,7 @@ import chess.pseudomovesgenerators.strategies.RookMoveGenerator;
  *
  */
 public class MoveGeneratorImp implements MoveGenerator {
-	private PiecePlacement dummyBoard;
+	private PiecePlacementReader dummyBoard;
 	private ColorBoard colorBoard;
 	private PositionState positionState;
 	
@@ -98,7 +98,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		return ppmg.generatoPawnPasantePseudoMoves();
 	}
 
-	public void setPiecePlacement(PiecePlacement dummyBoard) {
+	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
 		this.dummyBoard = dummyBoard;
 		settupMoveGenerators();
 	}

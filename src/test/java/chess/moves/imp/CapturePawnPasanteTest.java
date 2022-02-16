@@ -17,7 +17,6 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.imp.CapturePawnPasante;
 import chess.position.ChessPosition;
 import chess.position.PiecePlacement;
 import chess.position.PositionState;

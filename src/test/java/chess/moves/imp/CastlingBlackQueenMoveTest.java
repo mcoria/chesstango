@@ -17,7 +17,6 @@ import chess.Piece;
 import chess.Square;
 import chess.debug.chess.ColorBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.moves.imp.CastlingBlackQueenMove;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
@@ -32,8 +31,7 @@ import chess.position.imp.ArrayPiecePlacement;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class CastlingBlackQueenMoveTest {
-	
-	
+
 	private PiecePlacement piezaBoard;
 	
 	private PositionState positionState;

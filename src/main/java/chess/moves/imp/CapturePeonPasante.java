@@ -5,7 +5,7 @@ import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 
 //TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
 
@@ -38,13 +38,13 @@ class CapturePawnPasante extends AbstractMove {
 	}	
 	
 	@Override
-	public void executeMove(PiecePlacement board) {
+	public void executeMove(PiecePlacementWritter board) {
 		super.executeMove(board);
 		board.setEmptyPosicion(captura);		//Capturamos peon
 	}
 
 	@Override
-	public void undoMove(PiecePlacement board) {
+	public void undoMove(PiecePlacementWritter board) {
 		super.undoMove(board);
 		board.setPosicion(captura);				//Devolvemos peon
 	}

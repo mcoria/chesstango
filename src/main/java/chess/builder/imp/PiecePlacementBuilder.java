@@ -13,7 +13,7 @@ import chess.position.PiecePlacement;
  * @author Mauricio Coria
  *
  */
-//TODO: El modelo de objetos es complejo, es necesario DI para inyectar dependencias
+
 public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacement> {
 	
 	private PiecePlacement piecePlacement = null;	

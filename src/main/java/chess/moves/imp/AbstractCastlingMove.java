@@ -8,7 +8,7 @@ import chess.position.ChessPosition;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 import chess.position.PositionState;
 
 /**
@@ -55,14 +55,14 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 	}	
 	
 	@Override
-	public void executeMove(PiecePlacement board) {
+	public void executeMove(PiecePlacementWritter board) {
 		kingMove.executeMove(board);
 		rookMove.executeMove(board);
 	}
 
 
 	@Override
-	public void undoMove(PiecePlacement board) {
+	public void undoMove(PiecePlacementWritter board) {
 		kingMove.undoMove(board);
 		rookMove.undoMove(board);
 	}	

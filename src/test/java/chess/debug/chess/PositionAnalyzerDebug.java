@@ -8,7 +8,7 @@ import chess.analyzer.PositionAnalyzer;
 import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
 
@@ -18,7 +18,7 @@ import chess.position.imp.ArrayPiecePlacement;
  */
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
-	protected PiecePlacement piecePlacement = null;
+	protected PiecePlacementWritter piecePlacementWritter = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
@@ -35,7 +35,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			PiecePlacement boardInicial =  ((ArrayPiecePlacement)this.piecePlacement).clone();
+			PiecePlacementWritter boardInicial =  ((ArrayPiecePlacement)this.piecePlacementWritter).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
 			
@@ -55,9 +55,9 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 				reportError = true;
 			}
 
-			if (!this.piecePlacement.equals(boardInicial)) {
+			if (!this.piecePlacementWritter.equals(boardInicial)) {
 				System.out.println("El board fué modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.piecePlacement.toString());
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.piecePlacementWritter.toString());
 				reportError = true;				
 			}
 
@@ -71,8 +71,8 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		}
 	}
 	
-	public void setPiecePlacement(PiecePlacement dummyBoard) {
-		this.piecePlacement = dummyBoard;
+	public void setPiecePlacement(PiecePlacementWritter dummyBoard) {
+		this.piecePlacementWritter = dummyBoard;
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {

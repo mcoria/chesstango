@@ -88,7 +88,7 @@ public class ColorBoard {
 	
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
-	public void init(PiecePlacement board) {
+	public void init(PiecePlacementReader board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getValue();
 			if (piece != null) {

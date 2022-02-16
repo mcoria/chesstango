@@ -3,7 +3,7 @@ package chess.moves.imp;
 import chess.PiecePositioned;
 import chess.moves.Move;
 import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 import chess.position.PositionState;
 
 /**
@@ -30,12 +30,12 @@ abstract class AbstractMove implements Move {
 	}
 	
 	@Override
-	public void executeMove(PiecePlacement board) {
+	public void executeMove(PiecePlacementWritter board) {
 		board.move(from, to);
 	}
 	
 	@Override
-	public void undoMove(PiecePlacement board) {
+	public void undoMove(PiecePlacementWritter board) {
 		board.setPosicion(to);							//Reestablecemos destino
 		board.setPosicion(from);						//Volvemos a origen
 	}	

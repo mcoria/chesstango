@@ -14,7 +14,6 @@ import chess.Square;
 import chess.builder.imp.PiecePlacementBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
-import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.BottomUpSquareIterator;
 import chess.iterators.square.TopDownSquareIterator;
 import chess.position.PiecePlacement;

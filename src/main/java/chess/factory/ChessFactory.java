@@ -13,6 +13,7 @@ import chess.position.ColorBoard;
 import chess.position.KingCacheBoard;
 import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
+import chess.position.PiecePlacementWritter;
 import chess.position.PiecePlacementReader;
 import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
