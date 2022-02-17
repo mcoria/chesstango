@@ -14,7 +14,7 @@ import chess.moves.Move;
 import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacementReader;
-import chess.position.PositionState;
+import chess.position.imp.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorPawnPasante;
 
 /**

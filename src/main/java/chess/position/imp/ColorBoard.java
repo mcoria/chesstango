@@ -1,4 +1,4 @@
-package chess.position;
+package chess.position.imp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -10,6 +10,7 @@ import chess.Square;
 import chess.iterators.square.BitSquareIterator;
 import chess.iterators.square.SquareIterator;
 import chess.iterators.square.TopDownSquareIterator;
+import chess.position.PiecePlacementReader;
 
 /**
  * @author Mauricio Coria

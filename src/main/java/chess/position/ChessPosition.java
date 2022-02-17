@@ -1,6 +1,5 @@
 package chess.position;
 
-import chess.ChessPositionReader;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
@@ -12,6 +11,10 @@ import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;
 import chess.moves.Move;
 import chess.moves.MoveKing;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.MoveCacheBoard;
+import chess.position.imp.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 

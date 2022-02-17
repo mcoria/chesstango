@@ -20,9 +20,9 @@ import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
-import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.PositionState;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 /**

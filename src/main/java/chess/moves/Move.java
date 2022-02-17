@@ -3,10 +3,10 @@ package chess.moves;
 import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
-import chess.position.ColorBoard;
-import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacementWritter;
-import chess.position.PositionState;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.MoveCacheBoard;
+import chess.position.imp.PositionState;
 
 //TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a square vacios

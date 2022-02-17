@@ -19,12 +19,12 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 	
 	private final ChessInjector chessInjector;
 	
-	public ChessPositionBuilderGame() {
-		this.chessInjector = new ChessInjector();
-	}	
-	
 	public ChessPositionBuilderGame(ChessInjector chessInjector) {
 		this.chessInjector = chessInjector;
+	}
+	
+	public ChessPositionBuilderGame() {
+		this(new ChessInjector());
 	}
 	
 	public ChessPositionBuilderGame(ChessFactory chessFactory) {

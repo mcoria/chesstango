@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
 import chess.position.ChessPosition;
-import chess.position.PositionState;
+import chess.position.imp.PositionState;
 
 
 /**

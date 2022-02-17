@@ -20,8 +20,8 @@ import chess.fen.FENDecoder;
 import chess.iterators.Cardinal;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
-import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
+import chess.position.imp.ColorBoard;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 /**

@@ -8,7 +8,7 @@ import java.util.Collection;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.Move;
-import chess.position.MoveCacheBoard;
+import chess.position.imp.MoveCacheBoard;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 

@@ -5,7 +5,7 @@ package chess.debug.chess;
 
 import chess.PiecePositioned;
 import chess.Square;
-import chess.position.MoveCacheBoard;
+import chess.position.imp.MoveCacheBoard;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 import chess.pseudomovesgenerators.imp.MoveGenaratorWithCacheProxy;
 import chess.pseudomovesgenerators.imp.MoveGeneratorImp;

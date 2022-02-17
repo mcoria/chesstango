@@ -1,4 +1,4 @@
-package chess.position;
+package chess.position.imp;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

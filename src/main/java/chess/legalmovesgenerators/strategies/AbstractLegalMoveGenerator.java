@@ -3,11 +3,11 @@ package chess.legalmovesgenerators.strategies;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.ChessPositionReader;
 import chess.Square;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
+import chess.position.ChessPositionReader;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 

@@ -2,9 +2,9 @@ package chess.moves.imp;
 
 import chess.PiecePositioned;
 import chess.moves.Move;
-import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacementWritter;
-import chess.position.PositionState;
+import chess.position.imp.MoveCacheBoard;
+import chess.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria

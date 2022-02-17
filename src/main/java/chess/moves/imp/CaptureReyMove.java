@@ -4,7 +4,7 @@ import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.MoveKing;
 import chess.position.ChessPosition;
-import chess.position.KingCacheBoard;
+import chess.position.imp.KingCacheBoard;
 
 /**
  * @author Mauricio Coria

@@ -5,11 +5,11 @@ import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
 import chess.moves.MoveCastling;
 import chess.position.ChessPosition;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacementWritter;
-import chess.position.PositionState;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.MoveCacheBoard;
+import chess.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria

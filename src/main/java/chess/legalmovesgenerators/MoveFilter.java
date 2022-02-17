@@ -5,10 +5,10 @@ import chess.analyzer.Capturer;
 import chess.moves.Move;
 import chess.moves.MoveCastling;
 import chess.moves.MoveKing;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.PositionState;
 
 
 /**

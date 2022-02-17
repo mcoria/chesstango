@@ -3,7 +3,7 @@ package chess.pseudomovesgenerators.strategies;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.position.PositionState;
+import chess.position.imp.PositionState;
 
 
 /**

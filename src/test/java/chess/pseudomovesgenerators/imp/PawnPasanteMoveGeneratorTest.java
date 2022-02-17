@@ -19,7 +19,7 @@ import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
+import chess.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria

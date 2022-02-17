@@ -20,8 +20,8 @@ import chess.debug.chess.KingCacheBoardDebug;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
+import chess.position.imp.PositionState;
 
 
 /**

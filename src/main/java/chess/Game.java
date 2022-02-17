@@ -8,6 +8,7 @@ import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
 import chess.moves.Move;
 import chess.position.ChessPosition;
+import chess.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria

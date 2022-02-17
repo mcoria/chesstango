@@ -1,6 +1,5 @@
 package chess.debug.builder;
 
-import chess.ChessPositionReader;
 import chess.analyzer.Capturer;
 import chess.debug.chess.ChessPositionDebug;
 import chess.debug.chess.ColorBoardDebug;
@@ -16,11 +15,12 @@ import chess.legalmovesgenerators.MoveFilter;
 import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
 import chess.position.ChessPosition;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.MoveCacheBoard;
+import chess.position.ChessPositionReader;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.MoveCacheBoard;
+import chess.position.imp.PositionState;
 import chess.pseudomovesgenerators.MoveGenerator;
 import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 

@@ -1,4 +1,4 @@
-package chess.position;
+package chess.position.imp;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -9,6 +9,7 @@ import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
 import chess.moves.imp.MoveFactoryWhite;
+import chess.position.imp.MoveCacheBoard;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 
 

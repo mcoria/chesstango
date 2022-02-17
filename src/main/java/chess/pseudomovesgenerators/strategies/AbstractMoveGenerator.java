@@ -3,8 +3,8 @@ package chess.pseudomovesgenerators.strategies;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.moves.MoveFactory;
-import chess.position.ColorBoard;
 import chess.position.PiecePlacementReader;
+import chess.position.imp.ColorBoard;
 import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
 import chess.pseudomovesgenerators.MoveGeneratorResult;
 

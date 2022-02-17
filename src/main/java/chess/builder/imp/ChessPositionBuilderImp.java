@@ -13,19 +13,18 @@ import chess.position.ChessPosition;
  * @author Mauricio Coria
  *
  */
-//TODO: El modelo de objetos es complejo, es necesario DI para inyectar dependencias
 public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPosition> {
 	
 	private ChessPosition chessPosition = null;	
 	
 	private final ChessInjector chessInjector;
 	
-	public ChessPositionBuilderImp() {
-		this.chessInjector = new ChessInjector();
-	}	
-	
 	public ChessPositionBuilderImp(ChessInjector chessInjector) {
 		this.chessInjector = chessInjector;
+	}
+	
+	public ChessPositionBuilderImp() {
+		this(new ChessInjector());
 	}
 	
 	public ChessPositionBuilderImp(ChessFactory chessFactory) {

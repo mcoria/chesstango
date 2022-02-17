@@ -4,7 +4,7 @@ import chess.Color;
 import chess.Piece;
 import chess.Square;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
+import chess.position.imp.PositionState;
 
 
 /**

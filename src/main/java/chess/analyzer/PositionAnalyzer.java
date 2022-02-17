@@ -2,10 +2,10 @@ package chess.analyzer;
 
 import java.util.Collection;
 
-import chess.ChessPositionReader;
 import chess.Color;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.moves.Move;
+import chess.position.ChessPositionReader;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde

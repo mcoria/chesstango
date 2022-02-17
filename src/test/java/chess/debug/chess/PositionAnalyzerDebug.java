@@ -5,12 +5,12 @@ package chess.debug.chess;
 
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
-import chess.position.MoveCacheBoard;
-import chess.position.PiecePlacementWritter;
-import chess.position.PositionState;
+import chess.position.PiecePlacementReader;
 import chess.position.imp.ArrayPiecePlacement;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.MoveCacheBoard;
+import chess.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +18,7 @@ import chess.position.imp.ArrayPiecePlacement;
  */
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
-	protected PiecePlacementWritter piecePlacementWritter = null;
+	protected PiecePlacementReader piecePlacementReader = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
@@ -35,7 +35,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			PiecePlacementWritter boardInicial =  ((ArrayPiecePlacement)this.piecePlacementWritter).clone();
+			PiecePlacementReader boardInicial =  ((ArrayPiecePlacement)this.piecePlacementReader).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
 			
@@ -55,9 +55,9 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 				reportError = true;
 			}
 
-			if (!this.piecePlacementWritter.equals(boardInicial)) {
+			if (!this.piecePlacementReader.equals(boardInicial)) {
 				System.out.println("El board fué modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.piecePlacementWritter.toString());
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.piecePlacementReader.toString());
 				reportError = true;				
 			}
 
@@ -71,8 +71,8 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		}
 	}
 	
-	public void setPiecePlacement(PiecePlacementWritter dummyBoard) {
-		this.piecePlacementWritter = dummyBoard;
+	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
+		this.piecePlacementReader = dummyBoard;
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {

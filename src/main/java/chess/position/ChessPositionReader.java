@@ -1,8 +1,12 @@
 /**
  * 
  */
-package chess;
+package chess.position;
 
+import chess.Color;
+import chess.Piece;
+import chess.PiecePositioned;
+import chess.Square;
 import chess.builder.ChessPositionBuilder;
 import chess.iterators.pieceplacement.PiecePlacementIterator;
 import chess.iterators.square.SquareIterator;

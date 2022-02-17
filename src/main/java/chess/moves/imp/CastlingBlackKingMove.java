@@ -3,7 +3,7 @@ package chess.moves.imp;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
-import chess.position.PositionState;
+import chess.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria

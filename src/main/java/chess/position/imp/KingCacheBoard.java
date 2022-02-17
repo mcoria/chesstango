@@ -1,9 +1,10 @@
-package chess.position;
+package chess.position.imp;
 
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
+import chess.position.PiecePlacementReader;
 
 /**
  * @author Mauricio Coria

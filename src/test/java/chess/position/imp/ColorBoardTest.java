@@ -1,4 +1,4 @@
-package chess.position;
+package chess.position.imp;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,8 @@ import chess.debug.builder.DebugChessFactory;
 import chess.debug.chess.ColorBoardDebug;
 import chess.fen.FENDecoder;
 import chess.iterators.square.SquareIterator;
+import chess.position.PiecePlacement;
+import chess.position.imp.ColorBoard;
 
 
 /**

@@ -3,7 +3,7 @@ package chess.moves.imp;
 import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
-import chess.position.ColorBoard;
+import chess.position.imp.ColorBoard;
 
 
 /**

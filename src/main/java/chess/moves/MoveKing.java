@@ -3,7 +3,7 @@
  */
 package chess.moves;
 
-import chess.position.KingCacheBoard;
+import chess.position.imp.KingCacheBoard;
 
 /**
  * @author Mauricio Coria

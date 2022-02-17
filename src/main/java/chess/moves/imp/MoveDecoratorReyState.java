@@ -5,8 +5,8 @@ import java.util.function.Consumer;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.MoveKing;
 import chess.position.ChessPosition;
-import chess.position.KingCacheBoard;
-import chess.position.PositionState;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria

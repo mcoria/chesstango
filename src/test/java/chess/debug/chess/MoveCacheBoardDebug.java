@@ -2,8 +2,8 @@ package chess.debug.chess;
 
 import chess.PiecePositioned;
 import chess.Square;
-import chess.position.MoveCacheBoard;
 import chess.position.PiecePlacement;
+import chess.position.imp.MoveCacheBoard;
 
 
 /**

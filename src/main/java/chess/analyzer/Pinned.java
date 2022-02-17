@@ -3,12 +3,12 @@
  */
 package chess.analyzer;
 
-import chess.ChessPositionReader;
 import chess.Color;
 import chess.Piece;
 import chess.Square;
 import chess.iterators.Cardinal;
 import chess.iterators.square.CardinalSquareIterator;
+import chess.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria

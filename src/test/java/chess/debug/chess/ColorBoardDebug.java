@@ -5,8 +5,8 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.iterators.square.BitSquareIterator;
 import chess.iterators.square.SquareIterator;
-import chess.position.ColorBoard;
 import chess.position.PiecePlacement;
+import chess.position.imp.ColorBoard;
 
 
 /**

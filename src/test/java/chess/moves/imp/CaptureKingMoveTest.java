@@ -17,11 +17,11 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
-import chess.position.ColorBoard;
-import chess.position.KingCacheBoard;
 import chess.position.PiecePlacement;
-import chess.position.PositionState;
 import chess.position.imp.ArrayPiecePlacement;
+import chess.position.imp.ColorBoard;
+import chess.position.imp.KingCacheBoard;
+import chess.position.imp.PositionState;
 
 
 /**
