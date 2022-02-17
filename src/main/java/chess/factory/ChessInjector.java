@@ -4,6 +4,7 @@
 package chess.factory;
 
 import chess.Game;
+import chess.GameState;
 import chess.analyzer.Capturer;
 import chess.analyzer.PositionAnalyzer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
@@ -45,6 +46,8 @@ public class ChessInjector {
 	private Capturer capturer = null;
 
 	private MoveFilter moveFilter;
+	
+	private GameState gameState = null;	
 	
 	private Game game = null;	
 	
@@ -112,12 +115,20 @@ public class ChessInjector {
 	
 	public Game getGame() {
 		if (game == null) {
-			game = chessFactory.createGame(getChessPosition(), getAnalyzer());
+			game = chessFactory.createGame(getChessPosition(), getAnalyzer(), getGameState());
 			game.init();
 		}
 		return game;
 	}
 	
+
+	public GameState getGameState() {
+		if (gameState == null) {
+			gameState = chessFactory.createGameState();
+		}
+		return gameState ;
+	}
+
 	public PositionAnalyzer getAnalyzer() {
 		if (positionAnalyzer == null) {
 			positionAnalyzer = chessFactory.createPositionAnalyzer();
@@ -125,6 +136,7 @@ public class ChessInjector {
 			positionAnalyzer.setCapturer(getCapturer());
 			positionAnalyzer.setDefaultMoveCalculator(getDefaultMoveCalculator());
 			positionAnalyzer.setNoCheckLegalMoveGenerator(getNoCheckLegalMoveGenerator());			
+			positionAnalyzer.setGameState(getGameState());
 		}
 		return positionAnalyzer;
 	}

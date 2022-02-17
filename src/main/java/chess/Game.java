@@ -1,10 +1,7 @@
 package chess;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 
-import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
 import chess.moves.Move;
 import chess.position.ChessPosition;
@@ -16,27 +13,21 @@ import chess.position.ChessPositionReader;
  */
 public class Game {
 	
-	public static enum GameStatus {
-		IN_PROGRESS,
-		JAQUE,
-		JAQUE_MATE, 
-		TABLAS		
-	}
+	private final ChessPosition chessPosition;
 	
-	private ChessPosition chessPosition;
+	private final GameState gameState;
 	
-	private GameStack boardPila = new GameStack();
+	private final PositionAnalyzer analyzer;	
 	
-	private PositionAnalyzer analyzer = null;	
-	
-	public Game(ChessPosition tablero, PositionAnalyzer analyzer){
+	public Game(ChessPosition tablero, PositionAnalyzer analyzer, GameState gameState){
 		this.chessPosition = tablero;
 		this.analyzer = analyzer;
+		this.gameState = gameState;
 	}
 
-	public GameStatus executeMove(Square from, Square to) {
-		if (GameStatus.IN_PROGRESS.equals(boardPila.getStatus()) || GameStatus.JAQUE.equals(boardPila.getStatus())) {
-			Move move = getMovimiento(from, to);
+	public GameState.GameStatus executeMove(Square from, Square to) {
+		if (GameState.GameStatus.IN_PROGRESS.equals(gameState.getStatus()) || GameState.GameStatus.JAQUE.equals(gameState.getStatus())) {
+			Move move = getMove(from, to);
 			if (move != null) {
 				return executeMove(move);
 			} else {
@@ -48,57 +39,30 @@ public class Game {
 	}
 	
 
-	public GameStatus executeMove(Move move) {
+	public GameState.GameStatus executeMove(Move move) {
 		//assert(boardPila.getPossibleMoves().contains(move));
 		
-		boardPila.setMovimientoSeleccionado(move);
+		gameState.setSelectedMove(move);
 		
-		boardPila.push();
+		gameState.push();
 		
 		chessPosition.acceptForExecute(move);
 		
-		return updateGameStatus();
+		return analyzer.updateGameStatus();
 	}
 
 
-	public GameStatus undoMove() {
-		boardPila.pop();
+	public GameState.GameStatus undoMove() {
+		gameState.pop();
 		
-		Move lastMove = boardPila.getMovimientoSeleccionado();
+		Move lastMove = gameState.getSelectedMove();
 		
 		chessPosition.acceptForUndo(lastMove);
 		
 		return getGameStatus();
 	}
 	
-
-	protected GameStatus updateGameStatus() {
-		AnalyzerResult analyzerResult = analyzer.analyze();
-		Collection<Move> movimientosPosibles = analyzerResult.getLegalMoves();
-		boolean existsLegalMove = !movimientosPosibles.isEmpty();
-		GameStatus gameStatus = null;
-
-		if (existsLegalMove) {
-			if (analyzerResult.isKingInCheck()) {
-				gameStatus = GameStatus.JAQUE;
-			} else {
-				gameStatus = GameStatus.IN_PROGRESS;
-			}
-		} else {
-			if (analyzerResult.isKingInCheck()) {
-				gameStatus = GameStatus.JAQUE_MATE;
-			} else {
-				gameStatus = GameStatus.TABLAS;
-			}
-		}
-
-		boardPila.setStatus(gameStatus);
-		boardPila.setAnalyzerResult(analyzerResult);
-
-		return gameStatus;
-	}
-	
-	public Move getMovimiento(Square from, Square to) {
+	public Move getMove(Square from, Square to) {
 		for (Move move : getPossibleMoves() ) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				return move;
@@ -113,74 +77,16 @@ public class Game {
 	}
 
 	public Collection<Move> getPossibleMoves() {
-		return boardPila.getAnalyzerResult().getLegalMoves();
+		return gameState.getAnalyzerResult().getLegalMoves();
 	}
 
-	public GameStatus getGameStatus() {
-		return boardPila.getStatus();
+	public GameState.GameStatus getGameStatus() {
+		return gameState.getStatus();
 	}
 	
 	public void init() {
 		chessPosition.init();
-		updateGameStatus();
-	}
-	
-	private static class GameStack {
-		private AnalyzerResult analyzerResult; 
-		private Move movimientoSeleccionado;
-		private GameStatus status;
-		
-		private static class Node {
-			private AnalyzerResult analyzerResult; 
-			private Move movimientoSeleccionado;
-			private GameStatus status;		
-		}
-		
-		private Deque<Node> stackNode = new ArrayDeque<Node>();
-
-		public Move getMovimientoSeleccionado() {
-			return movimientoSeleccionado;
-		}
-
-		public void setMovimientoSeleccionado(Move movimientoSeleccionado) {
-			this.movimientoSeleccionado = movimientoSeleccionado;
-		}
-
-		public GameStatus getStatus() {
-			return status;
-		}
-
-		public void setStatus(GameStatus status) {
-			this.status = status;
-		}
-
-		public void push() {
-			Node node = new Node();
-			node.movimientoSeleccionado = this.movimientoSeleccionado;
-			node.analyzerResult = this.analyzerResult;
-			node.status = this.status;
-			
-			stackNode.push(node);
-			
-			this.movimientoSeleccionado = null;
-			this.analyzerResult = null;
-			this.status = null;
-		}
-
-		public void pop() {
-			Node node = stackNode.pop();
-			this.movimientoSeleccionado = node.movimientoSeleccionado;
-			this.analyzerResult = node.analyzerResult;
-			this.status = node.status;		
-		}
-
-		public AnalyzerResult getAnalyzerResult() {
-			return analyzerResult;
-		}
-
-		public void setAnalyzerResult(AnalyzerResult analyzerResult) {
-			this.analyzerResult = analyzerResult;
-		}
+		analyzer.updateGameStatus();
 	}
 	
 	public ChessPositionReader getChessPositionReader(){

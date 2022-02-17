@@ -102,7 +102,7 @@ public class ChessPositionTest {
 	public void testKingInCheck01() {
 		settupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 
 		Collection<Move> moves = result.getLegalMoves();
 
@@ -120,7 +120,7 @@ public class ChessPositionTest {
 	public void testKingInCheck02() {
 		settupWithBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
 
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
@@ -141,7 +141,7 @@ public class ChessPositionTest {
 	public void testJuegoCastlingWhiteJaque() {		
 		settupWithBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
 
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
@@ -164,7 +164,7 @@ public class ChessPositionTest {
 	public void testJuegoPawnPromocion() {
 		settupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 		Collection<Move> moves = result.getLegalMoves();
 
 		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
@@ -187,7 +187,7 @@ public class ChessPositionTest {
 
 		settupWithBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 		
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();		
 
 		// Estado inicial
@@ -199,7 +199,7 @@ public class ChessPositionTest {
 		chessPosition.acceptForExecute(move);
 
 		// Podemos capturarlo
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();	
 		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
 		assertEquals(22, legalMoves.size());
@@ -208,7 +208,7 @@ public class ChessPositionTest {
 		chessPosition.acceptForUndo(move);
 
 		// No podemos capturarlo
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();	
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
@@ -223,7 +223,7 @@ public class ChessPositionTest {
 		settupWithBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 
 		// Estado inicial
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();	
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
@@ -233,24 +233,24 @@ public class ChessPositionTest {
 		chessPosition.acceptForExecute(move);
 
 		// Podemos capturarlo
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();
 		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
 		assertEquals(22, legalMoves.size());
 
 		// Pero NO lo capturamos
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h2, Square.h3);
 		chessPosition.acceptForExecute(move);
 
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();
 		move = geteMove(legalMoves, Square.h7, Square.h6);
 		chessPosition.acceptForExecute(move);
 
 		// Ahora no podemos capturar el peon pasante !!!
-		result = analyzer.analyze();
+		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 	}
@@ -260,7 +260,7 @@ public class ChessPositionTest {
 	public void testJauqeMate() {	
 		settupWithBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 		
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 		
 		assertTrue(result.isKingInCheck());
 		assertFalse(result.isExistsLegalMove());
@@ -271,7 +271,7 @@ public class ChessPositionTest {
 	public void testKingNoPuedeMoverAJaque(){
 		settupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 		
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 		Collection<Move> moves = result.getLegalMoves();
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
@@ -286,7 +286,7 @@ public class ChessPositionTest {
 	public void testMovimientoPawnPasanteNoAllowed(){
 		settupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 		
-		AnalyzerResult result = analyzer.analyze();
+		AnalyzerResult result = analyzer.getAnalyzerResult();
 		Collection<Move> moves = result.getLegalMoves();
 		
 		assertFalse(moves.contains(createCapturePawnPasanteMoveBlack(Square.f4, Square.g3)));
@@ -358,7 +358,7 @@ public class ChessPositionTest {
 		
 		analyzer = injector.getAnalyzer();
 		
-		analyzerResult = analyzer.analyze();
+		analyzerResult = analyzer.getAnalyzerResult();
 	}		
 
 		

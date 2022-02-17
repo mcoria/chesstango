@@ -1,6 +1,7 @@
 package chess.factory;
 
 import chess.Game;
+import chess.GameState;
 import chess.analyzer.Capturer;
 import chess.analyzer.PositionAnalyzer;
 import chess.legalmovesgenerators.LegalMoveGenerator;
@@ -70,8 +71,8 @@ public class ChessFactory {
 		return new MoveGenaratorWithCacheProxy(moveGenerator, moveCacheBoard);
 	}
 
-	public Game createGame(ChessPosition chessPosition, PositionAnalyzer analyzer) {
-		return new Game(chessPosition, analyzer);
+	public Game createGame(ChessPosition chessPosition, PositionAnalyzer analyzer, GameState gameState) {
+		return new Game(chessPosition, analyzer, gameState);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {
@@ -80,6 +81,11 @@ public class ChessFactory {
 
 	public Capturer creareCapturer(PiecePlacementReader piecePlacementReader) {
 		return new Capturer(piecePlacementReader);
+	}
+
+
+	public GameState createGameState() {
+		return new GameState();
 	}
 
 }

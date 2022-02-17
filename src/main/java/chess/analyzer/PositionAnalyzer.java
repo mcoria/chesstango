@@ -3,6 +3,7 @@ package chess.analyzer;
 import java.util.Collection;
 
 import chess.Color;
+import chess.GameState;
 import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.moves.Move;
 import chess.position.ChessPositionReader;
@@ -20,15 +21,45 @@ import chess.position.ChessPositionReader;
  */
 public class PositionAnalyzer {
 
-	private ChessPositionReader positionReader = null;
+	private ChessPositionReader positionReader;
 
-	private Capturer capturer = null;
+	private Capturer capturer;
 	
-	private LegalMoveGenerator defaultMoveCalculator = null;
+	private LegalMoveGenerator defaultMoveCalculator;
 	
-	private LegalMoveGenerator noCheckLegalMoveGenerator = null;
+	private LegalMoveGenerator noCheckLegalMoveGenerator;
 	
-	public AnalyzerResult analyze() {
+	private GameState gameState;
+	
+	
+	public GameState.GameStatus updateGameStatus() {
+		AnalyzerResult analyzerResult = getAnalyzerResult();
+		Collection<Move> movimientosPosibles = analyzerResult.getLegalMoves();
+		boolean existsLegalMove = !movimientosPosibles.isEmpty();
+		
+		GameState.GameStatus gameStatus = null;
+
+		if (existsLegalMove) {
+			if (analyzerResult.isKingInCheck()) {
+				gameStatus = GameState.GameStatus.JAQUE;
+			} else {
+				gameStatus = GameState.GameStatus.IN_PROGRESS;
+			}
+		} else {
+			if (analyzerResult.isKingInCheck()) {
+				gameStatus = GameState.GameStatus.JAQUE_MATE;
+			} else {
+				gameStatus = GameState.GameStatus.TABLAS;
+			}
+		}
+
+		gameState.setStatus(gameStatus);
+		gameState.setAnalyzerResult(analyzerResult);
+
+		return gameStatus;
+	}	
+	
+	public AnalyzerResult getAnalyzerResult() {
 		boolean isKingInCheck = calculateKingInCheck();
 		AnalyzerResult result = new AnalyzerResult();
 		result.setKingInCheck(isKingInCheck);
@@ -68,6 +99,10 @@ public class PositionAnalyzer {
 
 	public void setPositionReader(ChessPositionReader positionReader) {
 		this.positionReader = positionReader;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
 	}	
 
 }

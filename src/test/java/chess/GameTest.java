@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import chess.Game.GameStatus;
 import chess.builder.imp.ChessPositionBuilderGame;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
@@ -27,7 +26,7 @@ public class GameTest {
 		Game game =  getDefaultGame();
 		
 		assertEquals(Color.WHITE, game.getChessPositionReader().getTurnoActual());
-		assertEquals(GameStatus.IN_PROGRESS, game.getGameStatus());
+		assertEquals(GameState.GameStatus.IN_PROGRESS, game.getGameStatus());
 		assertEquals(20, game.getPossibleMoves().size());
 	}
 
@@ -46,7 +45,7 @@ public class GameTest {
 		game.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPositionReader().getTurnoActual());
-		assertEquals(GameStatus.JAQUE_MATE, game.getGameStatus());
+		assertEquals(GameState.GameStatus.JAQUE_MATE, game.getGameStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
 	}
 
@@ -65,7 +64,7 @@ public class GameTest {
 		game.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPositionReader().getTurnoActual());
-		assertEquals(GameStatus.JAQUE_MATE, game.getGameStatus());
+		assertEquals(GameState.GameStatus.JAQUE_MATE, game.getGameStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
 		
 		game.undoMove();
@@ -113,7 +112,7 @@ public class GameTest {
 		
 		game.executeMove(Square.f3, Square.f7);
 		assertEquals(Color.BLACK, game.getChessPositionReader().getTurnoActual());
-		assertEquals(GameStatus.JAQUE, game.getGameStatus());
+		assertEquals(GameState.GameStatus.JAQUE, game.getGameStatus());
 		assertEquals(1, game.getPossibleMoves().size());
 	}
 	
@@ -126,7 +125,7 @@ public class GameTest {
 		game.executeMove(Square.h7, Square.c7);
 
 		assertEquals(Color.BLACK, game.getChessPositionReader().getTurnoActual());
-		assertEquals(GameStatus.TABLAS, game.getGameStatus());
+		assertEquals(GameState.GameStatus.TABLAS, game.getGameStatus());
 		assertEquals(0, game.getPossibleMoves().size());
 	}
 	
@@ -159,7 +158,7 @@ public class GameTest {
 		
 		game.executeMove(Square.c7, Square.c5);
 		
-		assertNotNull(game.getMovimiento(Square.b5, Square.c6));
+		assertNotNull(game.getMove(Square.b5, Square.c6));
 		assertEquals(22, game.getPossibleMoves().size());
 	}
 	
@@ -387,7 +386,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getPossibleMoves().size()); 
 		//CastlingBlackKingMove es uno de los movimientos posibles
-		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMovimiento(Square.e8, Square.g8));
+		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMove(Square.e8, Square.g8));
 		
 		//Undo movimiento 1 y volvemos al estado inicial
 		game.undoMove();
@@ -399,7 +398,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.h8);
 		assertEquals(5, game.getPossibleMoves().size());
 		//Ya no tenemos enroque
-		assertNull(game.getMovimiento(Square.e8, Square.h8));
+		assertNull(game.getMove(Square.e8, Square.h8));
 		
 		//Undo captura de torre negra ---- Volvemos al estado inicial
 		game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de king del cache
@@ -409,7 +408,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getPossibleMoves().size()); 
 		//CastlingBlackKingMove es uno de los movimientos posibles
-		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMovimiento(Square.e8, Square.g8));
+		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMove(Square.e8, Square.g8));
 	}
 	
 	
