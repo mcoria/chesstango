@@ -54,24 +54,24 @@ public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacemen
 
 
 	@Override
-	public ChessPositionBuilder<PiecePlacement> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
+	public ChessPositionBuilder<PiecePlacement> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<PiecePlacement> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-		return this;
-	}
-
-
-	@Override
-	public ChessPositionBuilder<PiecePlacement> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
+	public ChessPositionBuilder<PiecePlacement> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<PiecePlacement> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
+	public ChessPositionBuilder<PiecePlacement> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+		return this;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<PiecePlacement> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		return this;
 	}
 

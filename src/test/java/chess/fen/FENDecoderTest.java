@@ -23,10 +23,10 @@ public class FENDecoderTest {
 	
 	private Color turno;
 	private Square pawnPasanteSquare;
-	private boolean enroqueBlackKingAllowed;
-	private boolean enroqueBlackQueenAllowed;
-	private boolean enroqueWhiteKingAllowed;
-	private boolean enroqueWhiteQueenAllowed;
+	private boolean castlingBlackKingAllowed;
+	private boolean castlingBlackQueenAllowed;
+	private boolean castlingWhiteKingAllowed;
+	private boolean castlingWhiteQueenAllowed;
 	
 	private Piece[][] tablero = null;
 			
@@ -54,26 +54,26 @@ public class FENDecoderTest {
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-				FENDecoderTest.this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
+			public ChessPositionBuilder<Object> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+				FENDecoderTest.this.castlingBlackKingAllowed = castlingBlackKingAllowed;
 				return this;
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-				FENDecoderTest.this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
+			public ChessPositionBuilder<Object> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+				FENDecoderTest.this.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
 				return this;
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-				FENDecoderTest.this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
+			public ChessPositionBuilder<Object> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+				FENDecoderTest.this.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
 				return this;
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-				FENDecoderTest.this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
+			public ChessPositionBuilder<Object> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+				FENDecoderTest.this.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
 				return this;
 			}
 
@@ -275,11 +275,11 @@ public class FENDecoderTest {
 		
 		assertEquals(Color.WHITE, this.turno);
 		
-		assertTrue(this.enroqueWhiteQueenAllowed);
-		assertTrue(this.enroqueWhiteKingAllowed);
+		assertTrue(this.castlingWhiteQueenAllowed);
+		assertTrue(this.castlingWhiteKingAllowed);
 		
-		assertTrue(this.enroqueBlackQueenAllowed);
-		assertTrue(this.enroqueBlackKingAllowed);		
+		assertTrue(this.castlingBlackQueenAllowed);
+		assertTrue(this.castlingBlackKingAllowed);		
 		
 		assertNull(this.pawnPasanteSquare);
 		

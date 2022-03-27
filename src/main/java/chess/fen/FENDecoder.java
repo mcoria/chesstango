@@ -23,7 +23,7 @@ public class FENDecoder {
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
-		String enroquesAlloweds = fields[2];
+		String castlingsAlloweds = fields[2];
 		String pawnPasante = fields[3];
 		
 		parsePiecePlacement(piecePlacement);
@@ -32,19 +32,19 @@ public class FENDecoder {
 		
 		chessPositionBuilder.withTurno(parseTurno(activeColor));
 		
-		if(isCastlingWhiteQueenAllowed(enroquesAlloweds)){
+		if(isCastlingWhiteQueenAllowed(castlingsAlloweds)){
 			chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
 		}
 		
-		if(isCastlingWhiteKingAllowed(enroquesAlloweds)){
+		if(isCastlingWhiteKingAllowed(castlingsAlloweds)){
 			chessPositionBuilder.withCastlingWhiteKingAllowed(true);
 		}
 		
-		if(isCastlingBlackQueenAllowed(enroquesAlloweds)){
+		if(isCastlingBlackQueenAllowed(castlingsAlloweds)){
 			chessPositionBuilder.withCastlingBlackQueenAllowed(true);
 		}
 		
-		if(isCastlingBlackKingAllowed(enroquesAlloweds)){
+		if(isCastlingBlackKingAllowed(castlingsAlloweds)){
 			chessPositionBuilder.withCastlingBlackKingAllowed(true);
 		}
 		
@@ -208,29 +208,29 @@ public class FENDecoder {
 		return turno;
 	}
 
-	protected boolean isCastlingWhiteQueenAllowed(String enroquesAlloweds){
-		if(enroquesAlloweds.contains("Q")){
+	protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds){
+		if(castlingsAlloweds.contains("Q")){
 			return true;
 		}
 		return false;
 	}
 	
-	protected boolean isCastlingWhiteKingAllowed(String enroquesAlloweds){
-		if(enroquesAlloweds.contains("K")){
+	protected boolean isCastlingWhiteKingAllowed(String castlingsAlloweds){
+		if(castlingsAlloweds.contains("K")){
 			return true;
 		}
 		return false;
 	}	
 	
-	protected boolean isCastlingBlackQueenAllowed(String enroquesAlloweds){
-		if(enroquesAlloweds.contains("q")){
+	protected boolean isCastlingBlackQueenAllowed(String castlingsAlloweds){
+		if(castlingsAlloweds.contains("q")){
 			return true;
 		}
 		return false;
 	}
 	
-	protected boolean isCastlingBlackKingAllowed(String enroquesAlloweds){
-		if(enroquesAlloweds.contains("k")){
+	protected boolean isCastlingBlackKingAllowed(String castlingsAlloweds){
+		if(castlingsAlloweds.contains("k")){
 			return true;
 		}
 		return false;

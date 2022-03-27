@@ -14,13 +14,13 @@ public interface ChessPositionBuilder<T> {
 
 	ChessPositionBuilder<T> withEnPassantSquare(Square pawnPasanteSquare);
 
-	ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed);
+	ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed);
 
-	ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed);
+	ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed);
 
-	ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed);
+	ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed);
 
-	ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed);
+	ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed);
 	
 	ChessPositionBuilder<T> withPieza(Square square, Piece piece);
 	

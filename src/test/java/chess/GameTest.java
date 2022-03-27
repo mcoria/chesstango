@@ -397,7 +397,7 @@ public class GameTest {
 		//Capturamos la torre negra
 		game.executeMove(Square.d4, Square.h8);
 		assertEquals(5, game.getPossibleMoves().size());
-		//Ya no tenemos enroque
+		//Ya no tenemos castling
 		assertNull(game.getMove(Square.e8, Square.h8));
 		
 		//Undo captura de torre negra ---- Volvemos al estado inicial

@@ -7,7 +7,7 @@ import chess.position.PiecePlacementWritter;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.MoveCacheBoard;
 
-//TODO: lo podemos modelar como dos movimientos, similar al enroque. El 1er move una captura; luego un move simple
+//TODO: lo podemos modelar como dos movimientos, similar al castling. El 1er move una captura; luego un move simple
 
 /**
  * @author Mauricio Coria

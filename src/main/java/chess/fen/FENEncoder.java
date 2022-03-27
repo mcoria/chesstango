@@ -54,23 +54,23 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 	}
 	
 	public StringBuilder getEnroques(StringBuilder stringBuilder) {
-		if(enroqueWhiteKingAllowed){
+		if(castlingWhiteKingAllowed){
 			stringBuilder.append('K');
 		}
 		
-		if(enroqueWhiteQueenAllowed){
+		if(castlingWhiteQueenAllowed){
 			stringBuilder.append('Q');
 		}
 		
-		if(enroqueBlackKingAllowed){
+		if(castlingBlackKingAllowed){
 			stringBuilder.append('k');
 		}
 		
-		if(enroqueBlackQueenAllowed){
+		if(castlingBlackQueenAllowed){
 			stringBuilder.append('q');
 		}		
 		
-		if(!enroqueWhiteKingAllowed && !enroqueWhiteQueenAllowed && !enroqueBlackKingAllowed && !enroqueBlackQueenAllowed){
+		if(!castlingWhiteKingAllowed && !castlingWhiteQueenAllowed && !castlingBlackKingAllowed && !castlingBlackQueenAllowed){
 			stringBuilder.append('-');
 		}
 				

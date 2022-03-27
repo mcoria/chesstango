@@ -29,10 +29,10 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 
 	public void getState(PrintStream printStream) {
 		printStream.println("Turno Actual: " + String.format("%-6s", turno.toString()) + ", pawnPasanteSquare: " +  (pawnPasanteSquare == null ? "- " : pawnPasanteSquare.toString()) + 
-				", enroqueWhiteQueenAllowed: " + enroqueWhiteQueenAllowed +
-				", enroqueWhiteKingAllowed: " + enroqueWhiteKingAllowed +
-				", enroqueBlackQueenAllowed: " + enroqueBlackQueenAllowed +
-				", enroqueBlackKingAllowed: " + enroqueBlackKingAllowed);
+				", castlingWhiteQueenAllowed: " + castlingWhiteQueenAllowed +
+				", castlingWhiteKingAllowed: " + castlingWhiteKingAllowed +
+				", castlingBlackQueenAllowed: " + castlingBlackQueenAllowed +
+				", castlingBlackKingAllowed: " + castlingBlackKingAllowed);
 	}
 	
 	public void getPiecePlacement(PrintStream printStream) {

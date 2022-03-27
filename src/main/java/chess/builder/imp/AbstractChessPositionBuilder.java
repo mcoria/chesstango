@@ -15,10 +15,10 @@ import chess.builder.ChessPositionBuilder;
 public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBuilder<T> {
 	protected Color turno;
 	protected Square pawnPasanteSquare;
-	protected boolean enroqueBlackKingAllowed;
-	protected boolean enroqueBlackQueenAllowed;
-	protected boolean enroqueWhiteKingAllowed;
-	protected boolean enroqueWhiteQueenAllowed;
+	protected boolean castlingBlackKingAllowed;
+	protected boolean castlingBlackQueenAllowed;
+	protected boolean castlingWhiteKingAllowed;
+	protected boolean castlingWhiteQueenAllowed;
 	protected Piece[][] tablero = new Piece[8][8];
 
 	@Override
@@ -40,26 +40,26 @@ public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBu
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-		this.enroqueBlackKingAllowed = enroqueBlackKingAllowed;
+	public ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+		this.castlingBlackKingAllowed = castlingBlackKingAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-		this.enroqueBlackQueenAllowed = enroqueBlackQueenAllowed;
+	public ChessPositionBuilder<T> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+		this.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-		this.enroqueWhiteKingAllowed = enroqueWhiteKingAllowed;
+	public ChessPositionBuilder<T> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+		this.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-		this.enroqueWhiteQueenAllowed = enroqueWhiteQueenAllowed;
+	public ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+		this.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
 		return this;
 	}
 

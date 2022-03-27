@@ -55,28 +55,28 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 
 
 	@Override
-	public ChessPositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed) {
-		chessInjector.getPositionState().setCastlingWhiteQueenAllowed(enroqueWhiteQueenAllowed);
+	public ChessPositionBuilder<Game> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+		chessInjector.getPositionState().setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<Game> withCastlingWhiteKingAllowed(boolean enroqueWhiteKingAllowed) {
-		chessInjector.getPositionState().setCastlingWhiteKingAllowed(enroqueWhiteKingAllowed);
-		return this;
-	}
-
-
-	@Override
-	public ChessPositionBuilder<Game> withCastlingBlackQueenAllowed(boolean enroqueBlackQueenAllowed) {
-		chessInjector.getPositionState().setCastlingBlackQueenAllowed(enroqueBlackQueenAllowed);
+	public ChessPositionBuilder<Game> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+		chessInjector.getPositionState().setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<Game> withCastlingBlackKingAllowed(boolean enroqueBlackKingAllowed) {
-		chessInjector.getPositionState().setCastlingBlackKingAllowed(enroqueBlackKingAllowed);
+	public ChessPositionBuilder<Game> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+		chessInjector.getPositionState().setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
+		return this;
+	}
+
+
+	@Override
+	public ChessPositionBuilder<Game> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+		chessInjector.getPositionState().setCastlingBlackKingAllowed(castlingBlackKingAllowed);
 		return this;
 	}
 
