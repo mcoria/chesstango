@@ -18,12 +18,12 @@ public class PositionStateDebug extends PositionState{
 			throw new RuntimeException("Y el turno?");
 		}
 		
-		if(this.getPawnPasanteSquare() != null){
-			if(Color.WHITE.equals(this.getTurnoActual()) && this.getPawnPasanteSquare().getRank() != 5){
-				throw new RuntimeException("PawnPasanteSquare mal setteado: " + this.getPawnPasanteSquare());
+		if(this.getEnPassantSquare() != null){
+			if(Color.WHITE.equals(this.getTurnoActual()) && this.getEnPassantSquare().getRank() != 5){
+				throw new RuntimeException("EnPassantSquare mal setteado: " + this.getEnPassantSquare());
 			}
-			if(Color.BLACK.equals(this.getTurnoActual()) && this.getPawnPasanteSquare().getRank() != 2){
-				throw new RuntimeException("PawnPasanteSquare mal setteado: " + this.getPawnPasanteSquare());				
+			if(Color.BLACK.equals(this.getTurnoActual()) && this.getEnPassantSquare().getRank() != 2){
+				throw new RuntimeException("EnPassantSquare mal setteado: " + this.getEnPassantSquare());				
 			}			
 		}
 		

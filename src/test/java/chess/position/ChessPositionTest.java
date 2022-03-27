@@ -95,7 +95,7 @@ public class ChessPositionTest {
 		
 		//State
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
-		assertNull(chessPosition.getPawnPasanteSquare());
+		assertNull(chessPosition.getEnPassantSquare());
 	}
 
 	@Test
@@ -180,7 +180,7 @@ public class ChessPositionTest {
 	}
 
 	@Test
-	public void testJuegoPawnPasanteUndo() {
+	public void testJuegoEnPassantUndo() {
 		Collection<Move> legalMoves = null;
 		AnalyzerResult result = null;
 		Move move = null;
@@ -215,7 +215,7 @@ public class ChessPositionTest {
 	}
 
 	@Test
-	public void testJuegoPawnPasante01() {
+	public void testJuegoEnPassant01() {
 		Collection<Move> legalMoves = null;
 		AnalyzerResult result = null;
 		Move move = null;
@@ -283,13 +283,13 @@ public class ChessPositionTest {
 	}
 	
 	@Test
-	public void testMovimientoPawnPasanteNoAllowed(){
+	public void testMovimientoEnPassantNoAllowed(){
 		settupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 		
 		AnalyzerResult result = analyzer.getAnalyzerResult();
 		Collection<Move> moves = result.getLegalMoves();
 		
-		assertFalse(moves.contains(createCapturePawnPasanteMoveBlack(Square.f4, Square.g3)));
+		assertFalse(moves.contains(createCaptureEnPassantMoveBlack(Square.f4, Square.g3)));
 		
 		assertEquals(17, moves.size());
 		
@@ -332,8 +332,8 @@ public class ChessPositionTest {
 				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	
-	private Move createCapturePawnPasanteMoveBlack(Square origen, Square destinoSquare) {
-		return moveFactoryImp.createCapturePawnPasante(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
+	private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
+		return moveFactoryImp.createCaptureEnPassant(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
 				PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}

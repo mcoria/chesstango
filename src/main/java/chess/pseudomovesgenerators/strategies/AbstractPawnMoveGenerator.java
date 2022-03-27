@@ -20,7 +20,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
 	
-	protected abstract PiecePositioned getCapturaPawnPasante(Square pawnPasanteSquare);	
+	protected abstract PiecePositioned getCapturaEnPassant(Square pawnPasanteSquare);	
 	
 	protected abstract Piece[] getPiezaPromocion();
 

@@ -34,7 +34,7 @@ public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBu
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withPawnPasanteSquare(Square pawnPasanteSquare) {
+	public ChessPositionBuilder<T> withEnPassantSquare(Square pawnPasanteSquare) {
 		this.pawnPasanteSquare = pawnPasanteSquare;
 		return this;
 	}

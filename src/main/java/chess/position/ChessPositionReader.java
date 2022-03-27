@@ -25,7 +25,7 @@ public interface ChessPositionReader {
 	boolean isCastlingBlackQueenAllowed();
 	boolean isCastlingBlackKingAllowed();
 
-	Square getPawnPasanteSquare();
+	Square getEnPassantSquare();
 	
 	PiecePositioned getPosicion(Square square);
 	

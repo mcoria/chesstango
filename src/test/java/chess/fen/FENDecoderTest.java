@@ -48,7 +48,7 @@ public class FENDecoderTest {
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withPawnPasanteSquare(Square pawnPasanteSquare) {
+			public ChessPositionBuilder<Object> withEnPassantSquare(Square pawnPasanteSquare) {
 				FENDecoderTest.this.pawnPasanteSquare = pawnPasanteSquare;
 				return this;
 			}
@@ -249,22 +249,22 @@ public class FENDecoderTest {
 	}	
 
 	@Test
-	public void testParsePawnPasanteSquare01() {
-		Square pawnPasanteSquare = parser.parsePawnPasanteSquare("-");
+	public void testParseEnPassantSquare01() {
+		Square pawnPasanteSquare = parser.parseEnPassantSquare("-");
 		
 		assertNull(pawnPasanteSquare);
 	}
 	
 	@Test
-	public void testParsePawnPasanteSquare02() {
-		Square pawnPasanteSquare = parser.parsePawnPasanteSquare("a3");
+	public void testParseEnPassantSquare02() {
+		Square pawnPasanteSquare = parser.parseEnPassantSquare("a3");
 		
 		assertEquals(Square.a3, pawnPasanteSquare);
 	}	
 	
 	@Test
-	public void testParsePawnPasanteSquare03() {
-		Square pawnPasanteSquare = parser.parsePawnPasanteSquare("h6");
+	public void testParseEnPassantSquare03() {
+		Square pawnPasanteSquare = parser.parseEnPassantSquare("h6");
 		
 		assertEquals(Square.h6, pawnPasanteSquare);
 	}

@@ -83,7 +83,7 @@ public class ChessPosition implements ChessPositionReader {
 				.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
 				.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
 				.withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
-				.withPawnPasanteSquare(positionState.getPawnPasanteSquare());
+				.withEnPassantSquare(positionState.getEnPassantSquare());
 		
 		for(PiecePositioned pieza: piecePlacement){
 			builder.withPieza(pieza.getKey(), pieza.getValue());
@@ -130,8 +130,8 @@ public class ChessPosition implements ChessPositionReader {
 	}
 
 	@Override
-	public Square getPawnPasanteSquare() {
-		return this.positionState.getPawnPasanteSquare();
+	public Square getEnPassantSquare() {
+		return this.positionState.getEnPassantSquare();
 	}
 
 	@Override

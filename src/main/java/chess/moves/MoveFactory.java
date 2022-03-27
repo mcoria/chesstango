@@ -19,7 +19,7 @@ public interface MoveFactory {
 	Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino);
 	
 	Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero);
-	Move createCapturePawnPasante(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaPawnPasante);
+	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaEnPassant);
 
 	Move createSimplePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece);
 	Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece);

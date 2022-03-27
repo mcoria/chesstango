@@ -84,14 +84,14 @@ public class SaltoDoblePawnMoveTest {
 		moveExecutor.executeMove(boardState);
 		
 		// asserts execute
-		assertEquals(Square.e3, boardState.getPawnPasanteSquare());
+		assertEquals(Square.e3, boardState.getEnPassantSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
 
 		// asserts undos
-		assertNull(boardState.getPawnPasanteSquare());		
+		assertNull(boardState.getEnPassantSquare());		
 		assertEquals(Color.WHITE, boardState.getTurnoActual());
 	}
 	

@@ -12,7 +12,7 @@ public interface ChessPositionBuilder<T> {
 
 	ChessPositionBuilder<T> withTurno(Color turno);
 
-	ChessPositionBuilder<T> withPawnPasanteSquare(Square pawnPasanteSquare);
+	ChessPositionBuilder<T> withEnPassantSquare(Square pawnPasanteSquare);
 
 	ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean enroqueWhiteQueenAllowed);
 

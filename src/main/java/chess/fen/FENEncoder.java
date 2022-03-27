@@ -23,7 +23,7 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 		
 		getEnroques(stringBuilder).append(' ');
 		
-		getPawnPasante(stringBuilder).append(" 0 1");
+		getEnPassant(stringBuilder).append(" 0 1");
 
 		return stringBuilder.toString();
 	}
@@ -44,7 +44,7 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 		return stringBuilder;
 	}
 	
-	public StringBuilder getPawnPasante(StringBuilder stringBuilder) {
+	public StringBuilder getEnPassant(StringBuilder stringBuilder) {
 		if (pawnPasanteSquare == null) {
 			stringBuilder.append('-');
 		} else {

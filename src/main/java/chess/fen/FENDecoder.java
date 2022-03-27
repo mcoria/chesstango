@@ -28,7 +28,7 @@ public class FENDecoder {
 		
 		parsePiecePlacement(piecePlacement);
 		
-		chessPositionBuilder.withPawnPasanteSquare(parsePawnPasanteSquare(pawnPasante));
+		chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(pawnPasante));
 		
 		chessPositionBuilder.withTurno(parseTurno(activeColor));
 		
@@ -152,7 +152,7 @@ public class FENDecoder {
 		return piece;
 	}	
 	
-	protected Square parsePawnPasanteSquare(String pawnPasante) {
+	protected Square parseEnPassantSquare(String pawnPasante) {
 		Square result = null;
 		if( ! "-".equals(pawnPasante)){
 			char file = pawnPasante.charAt(0);

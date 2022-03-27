@@ -45,7 +45,7 @@ abstract class AbstractMove implements Move {
 	public void executeMove(PositionState positionState) {
 		positionState.pushState();
 		positionState.rollTurno();
-		positionState.setPawnPasanteSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePawnMove		
+		positionState.setEnPassantSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePawnMove		
 	}
 	
 	@Override

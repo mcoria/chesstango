@@ -26,11 +26,11 @@ public class PositionState {
 	
 	private Deque<PositionStateData> boardStateNodePila = new ArrayDeque<PositionStateData>();
 	
-	public Square getPawnPasanteSquare() {
+	public Square getEnPassantSquare() {
 		return dataNode.pawnPasanteSquare;
 	}
 
-	public void setPawnPasanteSquare(Square pawnPasanteSquare) {
+	public void setEnPassantSquare(Square pawnPasanteSquare) {
 		dataNode.pawnPasanteSquare = pawnPasanteSquare;
 	}
 	

@@ -22,7 +22,7 @@ class SaltoDoblePawnMove extends SimpleMove {
 	@Override
 	public void executeMove(PositionState positionState) {
 		super.executeMove(positionState);
-		positionState.setPawnPasanteSquare(pawnPasanteSquare);
+		positionState.setEnPassantSquare(pawnPasanteSquare);
 	}
 	
 	@Override

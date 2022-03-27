@@ -28,13 +28,13 @@ import chess.position.imp.PositionState;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CapturePawnPasanteTest {
+public class CaptureEnPassantTest {
 
 	private PiecePlacement piezaBoard;
 	
 	private PositionState positionState;
 	
-	private CapturePawnPasante moveExecutor;
+	private CaptureEnPassant moveExecutor;
 	
 	private ColorBoardDebug colorBoard;
 	
@@ -48,7 +48,7 @@ public class CapturePawnPasanteTest {
 	public void setUp() throws Exception {
 		positionState = new PositionState();
 		positionState.setTurnoActual(Color.WHITE);
-		positionState.setPawnPasanteSquare(Square.a6);		
+		positionState.setEnPassantSquare(Square.a6);		
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.b5, Piece.PAWN_WHITE);
@@ -61,7 +61,7 @@ public class CapturePawnPasanteTest {
 		PiecePositioned pawnBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
 		PiecePositioned pawnPasanteSquare = PiecePositioned.getPiecePositioned(Square.a6, null);
 		
-		moveExecutor = new CapturePawnPasante(pawnWhite, pawnPasanteSquare, pawnBlack);		
+		moveExecutor = new CaptureEnPassant(pawnWhite, pawnPasanteSquare, pawnBlack);		
 	}
 	
 	@Test
@@ -90,14 +90,14 @@ public class CapturePawnPasanteTest {
 		moveExecutor.executeMove(positionState);		
 		
 		// asserts execute
-		assertNull(positionState.getPawnPasanteSquare());
+		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getTurnoActual());	
 		
 		// undos
 		moveExecutor.undoMove(positionState);	
 		
 		// asserts undos
-		assertEquals(Square.a6, positionState.getPawnPasanteSquare());
+		assertEquals(Square.a6, positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getTurnoActual());			
 		
 	}
@@ -160,7 +160,7 @@ public class CapturePawnPasanteTest {
 		assertTrue(piezaBoard.isEmtpy(Square.b5));
 		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
 		
-		assertNull(positionState.getPawnPasanteSquare());
+		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getTurnoActual());	
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
@@ -179,7 +179,7 @@ public class CapturePawnPasanteTest {
 		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.b5));
 		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPieza(Square.a5));	
 		
-		assertEquals(Square.a6, positionState.getPawnPasanteSquare());
+		assertEquals(Square.a6, positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getTurnoActual());	
 		
 		assertTrue(colorBoard.isEmpty(Square.a6));

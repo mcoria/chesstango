@@ -113,7 +113,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
 			
-			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCapturePawnPasante()) {
+			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCaptureEnPassant()) {
 				for (Move move : pseudoMoves) {
 
 					// assert origen.equals(move.getFrom());

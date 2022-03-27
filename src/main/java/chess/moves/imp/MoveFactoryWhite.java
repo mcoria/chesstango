@@ -95,9 +95,9 @@ public class MoveFactoryWhite implements MoveFactory {
 
 
 	@Override
-	public Move createCapturePawnPasante(PiecePositioned origen, PiecePositioned destino,
-			PiecePositioned capturaPawnPasante) {
-		return new CapturePawnPasante(origen, destino, capturaPawnPasante);
+	public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino,
+			PiecePositioned capturaEnPassant) {
+		return new CaptureEnPassant(origen, destino, capturaEnPassant);
 	}
 
 

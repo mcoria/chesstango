@@ -89,14 +89,14 @@ public class CastlingBlackKingMoveTest {
 	public void testBoardState() {
 		moveExecutor.executeMove(positionState);		
 
-		assertNull(positionState.getPawnPasanteSquare());
+		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getTurnoActual());		
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
 		
 		moveExecutor.undoMove(positionState);
 		
-		assertNull(positionState.getPawnPasanteSquare());
+		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getTurnoActual());		
 		assertTrue(positionState.isCastlingBlackQueenAllowed());
 		assertTrue(positionState.isCastlingBlackKingAllowed());		

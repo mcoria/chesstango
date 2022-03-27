@@ -85,7 +85,7 @@ public class SimplePawnPromocionTest {
 		moveExecutor.executeMove(positionState);
 		
 		// asserts execute
-		assertNull(positionState.getPawnPasanteSquare());
+		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getTurnoActual());
 		
 		// undos

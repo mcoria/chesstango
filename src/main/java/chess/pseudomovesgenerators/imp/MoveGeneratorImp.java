@@ -51,7 +51,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private KingWhiteMoveGenerator rbmg;
 	private KingBlackMoveGenerator rnmg;
 
-	private MoveGeneratorPawnPasanteImp ppmg = null;
+	private MoveGeneratorEnPassantImp ppmg = null;
 	
 	public MoveGeneratorImp() {
 		pbmg =  new PawnWhiteMoveGenerator();
@@ -78,7 +78,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		
 		rnmg = new KingBlackMoveGenerator();
 		
-		ppmg = new MoveGeneratorPawnPasanteImp();
+		ppmg = new MoveGeneratorEnPassantImp();
 		
 		moveFactoryWhite = new MoveFactoryWhite();
 		moveFactoryBlack = new MoveFactoryBlack();
@@ -138,7 +138,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		
 		settupMoveGenerator(rnmg);
 		
-		settupPawnPasanteMoveGenerator();
+		settupEnPassantMoveGenerator();
 	}	
 	
 	private void settupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
@@ -161,7 +161,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	}
 	
 
-	private void settupPawnPasanteMoveGenerator() {
+	private void settupEnPassantMoveGenerator() {
 		ppmg.setBoardState(positionState);
 		ppmg.setTablero(dummyBoard);
 	}

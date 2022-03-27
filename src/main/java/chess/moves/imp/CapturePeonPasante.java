@@ -13,11 +13,11 @@ import chess.position.imp.MoveCacheBoard;
  * @author Mauricio Coria
  *
  */
-class CapturePawnPasante extends AbstractMove {
+class CaptureEnPassant extends AbstractMove {
 
 	private final PiecePositioned captura;
 			
-	public CapturePawnPasante(PiecePositioned from, PiecePositioned to, PiecePositioned captura) {
+	public CaptureEnPassant(PiecePositioned from, PiecePositioned to, PiecePositioned captura) {
 		super(from, to);
 		this.captura = captura;
 	}
@@ -77,8 +77,8 @@ class CapturePawnPasante extends AbstractMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj) && obj instanceof CapturePawnPasante){
-			CapturePawnPasante theOther = (CapturePawnPasante) obj;
+		if(super.equals(obj) && obj instanceof CaptureEnPassant){
+			CaptureEnPassant theOther = (CaptureEnPassant) obj;
 			return captura.equals(theOther.captura) ;
 		}
 		return false;

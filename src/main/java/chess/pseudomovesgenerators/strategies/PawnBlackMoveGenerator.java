@@ -39,7 +39,7 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 	}	
 
 	@Override
-	protected PiecePositioned getCapturaPawnPasante(Square pawnPasanteSquare) {
+	protected PiecePositioned getCapturaEnPassant(Square pawnPasanteSquare) {
 		return PiecePositioned.getPiecePositioned(Square.getSquare(pawnPasanteSquare.getFile(), 3), Piece.PAWN_WHITE);
 	}
 

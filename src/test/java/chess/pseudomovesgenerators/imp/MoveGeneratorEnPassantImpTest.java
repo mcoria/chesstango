@@ -25,8 +25,8 @@ import chess.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-public class PawnPasanteMoveGeneratorTest {
-	private MoveGeneratorPawnPasanteImp moveGenerator;
+public class MoveGeneratorEnPassantImpTest {
+	private MoveGeneratorEnPassantImp moveGenerator;
 	
 	private Collection<Move> moves; 
 	
@@ -40,7 +40,7 @@ public class PawnPasanteMoveGeneratorTest {
 		moves = new ArrayList<Move>();
 		state = new PositionState();
 		
-		moveGenerator = new MoveGeneratorPawnPasanteImp();
+		moveGenerator = new MoveGeneratorEnPassantImp();
 		moveGenerator.setBoardState(state);
 	}
 	
@@ -52,7 +52,7 @@ public class PawnPasanteMoveGeneratorTest {
 	public void testPawnWhitePasanteIzquierda() {
 		PiecePlacement tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
-		state.setPawnPasanteSquare(Square.d6);
+		state.setEnPassantSquare(Square.d6);
 		state.setTurnoActual(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
@@ -67,7 +67,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureBlackPawnPasanteMove(origen, Square.d6) ));
+		assertTrue(moves.contains( createCaptureBlackEnPassantMove(origen, Square.d6) ));
 	}
 	
 	
@@ -77,7 +77,7 @@ public class PawnPasanteMoveGeneratorTest {
 	public void testPawnWhitePasanteDerecha() {
 		PiecePlacement tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
-		state.setPawnPasanteSquare(Square.e6);
+		state.setEnPassantSquare(Square.e6);
 		state.setTurnoActual(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
@@ -92,7 +92,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureBlackPawnPasanteMove(origen, Square.e6) ));
+		assertTrue(moves.contains( createCaptureBlackEnPassantMove(origen, Square.e6) ));
 	}
 	
 
@@ -100,7 +100,7 @@ public class PawnPasanteMoveGeneratorTest {
 	public void testPawnBlackPasanteDerecha() {
 		PiecePlacement tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
-		state.setPawnPasanteSquare(Square.e3);
+		state.setEnPassantSquare(Square.e3);
 		state.setTurnoActual(Color.BLACK);
 		
 		moveGenerator.setTablero(tablero);
@@ -115,14 +115,14 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureWhitePawnPasanteMove(origen, Square.e3) ));
+		assertTrue(moves.contains( createCaptureWhiteEnPassantMove(origen, Square.e3) ));
 	}	
 
 	@Test
 	public void testPawnBlackPasanteIzquierda() {
 		PiecePlacement tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
-		state.setPawnPasanteSquare(Square.d3);
+		state.setEnPassantSquare(Square.d3);
 		state.setTurnoActual(Color.BLACK);		
 		
 		moveGenerator.setTablero(tablero);
@@ -137,15 +137,15 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		assertEquals(1, moves.size());
 		
-		assertTrue(moves.contains( createCaptureWhitePawnPasanteMove(origen, Square.d3) ));
+		assertTrue(moves.contains( createCaptureWhiteEnPassantMove(origen, Square.d3) ));
 	}
 
-	private Move createCaptureBlackPawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCapturePawnPasante(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
+	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
+		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
 	}
 	
-	private Move createCaptureWhitePawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCapturePawnPasante(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
+	private Move createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
+		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

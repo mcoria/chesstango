@@ -92,7 +92,7 @@ public class CastlingWhiteKingMoveTest {
 		moveExecutor.executeMove(boardState);		
 
 		// asserts execute
-		assertNull(boardState.getPawnPasanteSquare());
+		assertNull(boardState.getEnPassantSquare());
 		assertEquals(Color.BLACK, boardState.getTurnoActual());		
 		assertFalse(boardState.isCastlingWhiteQueenAllowed());
 		assertFalse(boardState.isCastlingWhiteKingAllowed());
@@ -102,7 +102,7 @@ public class CastlingWhiteKingMoveTest {
 		moveExecutor.undoMove(boardState);
 		
 		// asserts undos		
-		assertNull(boardState.getPawnPasanteSquare());
+		assertNull(boardState.getEnPassantSquare());
 		assertEquals(Color.WHITE, boardState.getTurnoActual());		
 		assertFalse(boardState.isCastlingWhiteQueenAllowed());
 		assertTrue(boardState.isCastlingWhiteKingAllowed());
