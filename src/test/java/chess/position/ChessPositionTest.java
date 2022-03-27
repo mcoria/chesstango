@@ -194,7 +194,7 @@ public class ChessPositionTest {
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 
-		// Mueve el peon pasante
+		// Mueve el pawn pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
 		chessPosition.acceptForExecute(move);
 
@@ -228,7 +228,7 @@ public class ChessPositionTest {
 		assertEquals(19, legalMoves.size());
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 
-		// Mueve el peon pasante
+		// Mueve el pawn pasante
 		move = geteMove(legalMoves, Square.c7, Square.c5);
 		chessPosition.acceptForExecute(move);
 
@@ -249,7 +249,7 @@ public class ChessPositionTest {
 		move = geteMove(legalMoves, Square.h7, Square.h6);
 		chessPosition.acceptForExecute(move);
 
-		// Ahora no podemos capturar el peon pasante !!!
+		// Ahora no podemos capturar el pawn pasante !!!
 		result = analyzer.getAnalyzerResult();
 		legalMoves = result.getLegalMoves();
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));

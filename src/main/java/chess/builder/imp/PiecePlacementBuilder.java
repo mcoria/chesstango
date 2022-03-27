@@ -48,7 +48,7 @@ public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacemen
 
 
 	@Override
-	public ChessPositionBuilder<PiecePlacement> withPawnPasanteSquare(Square peonPasanteSquare) {
+	public ChessPositionBuilder<PiecePlacement> withPawnPasanteSquare(Square pawnPasanteSquare) {
 		return this;
 	}
 

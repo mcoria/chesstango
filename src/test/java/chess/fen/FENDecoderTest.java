@@ -22,7 +22,7 @@ public class FENDecoderTest {
 	private FENDecoder parser = null;
 	
 	private Color turno;
-	private Square peonPasanteSquare;
+	private Square pawnPasanteSquare;
 	private boolean enroqueBlackKingAllowed;
 	private boolean enroqueBlackQueenAllowed;
 	private boolean enroqueWhiteKingAllowed;
@@ -48,8 +48,8 @@ public class FENDecoderTest {
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withPawnPasanteSquare(Square peonPasanteSquare) {
-				FENDecoderTest.this.peonPasanteSquare = peonPasanteSquare;
+			public ChessPositionBuilder<Object> withPawnPasanteSquare(Square pawnPasanteSquare) {
+				FENDecoderTest.this.pawnPasanteSquare = pawnPasanteSquare;
 				return this;
 			}
 			
@@ -250,23 +250,23 @@ public class FENDecoderTest {
 
 	@Test
 	public void testParsePawnPasanteSquare01() {
-		Square peonPasanteSquare = parser.parsePawnPasanteSquare("-");
+		Square pawnPasanteSquare = parser.parsePawnPasanteSquare("-");
 		
-		assertNull(peonPasanteSquare);
+		assertNull(pawnPasanteSquare);
 	}
 	
 	@Test
 	public void testParsePawnPasanteSquare02() {
-		Square peonPasanteSquare = parser.parsePawnPasanteSquare("a3");
+		Square pawnPasanteSquare = parser.parsePawnPasanteSquare("a3");
 		
-		assertEquals(Square.a3, peonPasanteSquare);
+		assertEquals(Square.a3, pawnPasanteSquare);
 	}	
 	
 	@Test
 	public void testParsePawnPasanteSquare03() {
-		Square peonPasanteSquare = parser.parsePawnPasanteSquare("h6");
+		Square pawnPasanteSquare = parser.parsePawnPasanteSquare("h6");
 		
-		assertEquals(Square.h6, peonPasanteSquare);
+		assertEquals(Square.h6, pawnPasanteSquare);
 	}
 	
 	@Test
@@ -281,7 +281,7 @@ public class FENDecoderTest {
 		assertTrue(this.enroqueBlackQueenAllowed);
 		assertTrue(this.enroqueBlackKingAllowed);		
 		
-		assertNull(this.peonPasanteSquare);
+		assertNull(this.pawnPasanteSquare);
 		
 		assertEquals(Piece.ROOK_WHITE, getPieza(tablero, Square.a1));
 		assertEquals(Piece.KNIGHT_WHITE, getPieza(tablero, Square.b1));

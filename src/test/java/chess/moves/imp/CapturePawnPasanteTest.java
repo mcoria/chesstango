@@ -57,11 +57,11 @@ public class CapturePawnPasanteTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piezaBoard);
 		
-		PiecePositioned peonWhite = PiecePositioned.getPiecePositioned(Square.b5, Piece.PAWN_WHITE);
-		PiecePositioned peonBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
-		PiecePositioned peonPasanteSquare = PiecePositioned.getPiecePositioned(Square.a6, null);
+		PiecePositioned pawnWhite = PiecePositioned.getPiecePositioned(Square.b5, Piece.PAWN_WHITE);
+		PiecePositioned pawnBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
+		PiecePositioned pawnPasanteSquare = PiecePositioned.getPiecePositioned(Square.a6, null);
 		
-		moveExecutor = new CapturePawnPasante(peonWhite, peonPasanteSquare, peonBlack);		
+		moveExecutor = new CapturePawnPasante(pawnWhite, pawnPasanteSquare, pawnBlack);		
 	}
 	
 	@Test

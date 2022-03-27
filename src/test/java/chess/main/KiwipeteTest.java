@@ -558,7 +558,7 @@ public class KiwipeteTest {
 		assertEquals(1, result.getChildNode(Square.f6, Square.h5 ));
 		assertEquals(1, result.getChildNode(Square.f6, Square.g4 ));
 		
-		assertFalse(result.moveExists(Square.d7 , Square.d6 ));	// Si el peon se mueve, el king negro queda en jaque
+		assertFalse(result.moveExists(Square.d7 , Square.d6 ));	// Si el pawn se mueve, el king negro queda en jaque
 		
 		
 		assertEquals(39, result.getMovesCount());

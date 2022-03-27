@@ -44,7 +44,7 @@ public class Capturer {
 		private final Piece queen;
 		private final Piece caballo;
 		private final int[][] saltosPawn;
-		private final Piece peon;
+		private final Piece pawn;
 		private final Piece king;
 		
 		private final int[][] casillerosPawnWhite = {
@@ -63,7 +63,7 @@ public class Capturer {
 			alfil = Piece.getBishop(color);
 			queen = Piece.getQueen(color);
 			caballo = Piece.getKnight(color);
-			peon = Piece.getPawn(color);
+			pawn = Piece.getPawn(color);
 			king = Piece.getKing(color);		
 			
 
@@ -138,7 +138,7 @@ public class Capturer {
 			PiecePlacementIterator iterator = piecePlacementReader.iterator(new JumpSquareIterator(square, saltosPawn));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
-			    if(peon.equals(destino.getValue())){		    	
+			    if(pawn.equals(destino.getValue())){		    	
 			    	return true;
 			    }
 			}

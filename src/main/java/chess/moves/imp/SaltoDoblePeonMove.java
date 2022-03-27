@@ -12,28 +12,28 @@ import chess.position.imp.PositionState;
  */
 class SaltoDoblePawnMove extends SimpleMove {
 	
-	private final Square peonPasanteSquare;
+	private final Square pawnPasanteSquare;
 
-	public SaltoDoblePawnMove(PiecePositioned from, PiecePositioned to, Square peonPasanteSquare) {
+	public SaltoDoblePawnMove(PiecePositioned from, PiecePositioned to, Square pawnPasanteSquare) {
 		super(from, to);
-		this.peonPasanteSquare = peonPasanteSquare;
+		this.pawnPasanteSquare = pawnPasanteSquare;
 	}
 	
 	@Override
 	public void executeMove(PositionState positionState) {
 		super.executeMove(positionState);
-		positionState.setPawnPasanteSquare(peonPasanteSquare);
+		positionState.setPawnPasanteSquare(pawnPasanteSquare);
 	}
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushCleared();		
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), peonPasanteSquare, true);
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), pawnPasanteSquare, true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), peonPasanteSquare, false);
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), pawnPasanteSquare, false);
 		moveCache.popCleared();
 	}	
 	

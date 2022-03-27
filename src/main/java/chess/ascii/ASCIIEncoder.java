@@ -28,7 +28,7 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 	
 
 	public void getState(PrintStream printStream) {
-		printStream.println("Turno Actual: " + String.format("%-6s", turno.toString()) + ", peonPasanteSquare: " +  (peonPasanteSquare == null ? "- " : peonPasanteSquare.toString()) + 
+		printStream.println("Turno Actual: " + String.format("%-6s", turno.toString()) + ", pawnPasanteSquare: " +  (pawnPasanteSquare == null ? "- " : pawnPasanteSquare.toString()) + 
 				", enroqueWhiteQueenAllowed: " + enroqueWhiteQueenAllowed +
 				", enroqueWhiteKingAllowed: " + enroqueWhiteKingAllowed +
 				", enroqueBlackQueenAllowed: " + enroqueBlackQueenAllowed +

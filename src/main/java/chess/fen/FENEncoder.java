@@ -45,10 +45,10 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 	}
 	
 	public StringBuilder getPawnPasante(StringBuilder stringBuilder) {
-		if (peonPasanteSquare == null) {
+		if (pawnPasanteSquare == null) {
 			stringBuilder.append('-');
 		} else {
-			stringBuilder.append(peonPasanteSquare.toString());
+			stringBuilder.append(pawnPasanteSquare.toString());
 		}
 		return stringBuilder;
 	}

@@ -14,7 +14,7 @@ import chess.builder.ChessPositionBuilder;
  */
 public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBuilder<T> {
 	protected Color turno;
-	protected Square peonPasanteSquare;
+	protected Square pawnPasanteSquare;
 	protected boolean enroqueBlackKingAllowed;
 	protected boolean enroqueBlackQueenAllowed;
 	protected boolean enroqueWhiteKingAllowed;
@@ -34,8 +34,8 @@ public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBu
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withPawnPasanteSquare(Square peonPasanteSquare) {
-		this.peonPasanteSquare = peonPasanteSquare;
+	public ChessPositionBuilder<T> withPawnPasanteSquare(Square pawnPasanteSquare) {
+		this.pawnPasanteSquare = pawnPasanteSquare;
 		return this;
 	}
 

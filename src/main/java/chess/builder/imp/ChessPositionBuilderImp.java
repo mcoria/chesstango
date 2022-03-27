@@ -50,8 +50,8 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withPawnPasanteSquare(Square peonPasanteSquare) {
-		chessInjector.getPositionState().setPawnPasanteSquare(peonPasanteSquare);
+	public ChessPositionBuilder<ChessPosition> withPawnPasanteSquare(Square pawnPasanteSquare) {
+		chessInjector.getPositionState().setPawnPasanteSquare(pawnPasanteSquare);
 		return this;
 	}
 

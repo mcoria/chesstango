@@ -70,7 +70,7 @@ public class ASCIIEncoderTest {
 	    // Expected
 	    final ByteArrayOutputStream baosExp = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosExp)) {
-	    	ps.println("Turno Actual: WHITE , peonPasanteSquare: - , enroqueWhiteQueenAllowed: true, enroqueWhiteKingAllowed: true, enroqueBlackQueenAllowed: true, enroqueBlackKingAllowed: true");
+	    	ps.println("Turno Actual: WHITE , pawnPasanteSquare: - , enroqueWhiteQueenAllowed: true, enroqueWhiteKingAllowed: true, enroqueBlackQueenAllowed: true, enroqueBlackKingAllowed: true");
 	    	ps.flush();
 	    }	
 	    
@@ -108,7 +108,7 @@ public class ASCIIEncoderTest {
 			ps.println("1| R | N | B | Q | K | B | N | R |");
 			ps.println("  -------------------------------");
 			ps.println("   a   b   c   d   e   f   g   h");
-			ps.println("Turno Actual: WHITE , peonPasanteSquare: - , enroqueWhiteQueenAllowed: true, enroqueWhiteKingAllowed: true, enroqueBlackQueenAllowed: true, enroqueBlackKingAllowed: true");
+			ps.println("Turno Actual: WHITE , pawnPasanteSquare: - , enroqueWhiteQueenAllowed: true, enroqueWhiteKingAllowed: true, enroqueBlackQueenAllowed: true, enroqueBlackKingAllowed: true");
 	    	ps.flush();
 	    }		
 	    

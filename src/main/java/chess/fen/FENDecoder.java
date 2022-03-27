@@ -24,11 +24,11 @@ public class FENDecoder {
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
 		String enroquesAlloweds = fields[2];
-		String peonPasante = fields[3];
+		String pawnPasante = fields[3];
 		
 		parsePiecePlacement(piecePlacement);
 		
-		chessPositionBuilder.withPawnPasanteSquare(parsePawnPasanteSquare(peonPasante));
+		chessPositionBuilder.withPawnPasanteSquare(parsePawnPasanteSquare(pawnPasante));
 		
 		chessPositionBuilder.withTurno(parseTurno(activeColor));
 		
@@ -152,11 +152,11 @@ public class FENDecoder {
 		return piece;
 	}	
 	
-	protected Square parsePawnPasanteSquare(String peonPasante) {
+	protected Square parsePawnPasanteSquare(String pawnPasante) {
 		Square result = null;
-		if( ! "-".equals(peonPasante)){
-			char file = peonPasante.charAt(0);
-			char rank = peonPasante.charAt(1);
+		if( ! "-".equals(pawnPasante)){
+			char file = pawnPasante.charAt(0);
+			char rank = pawnPasante.charAt(1);
 			int fileNumber = -1;
 			int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
 			switch (file) {

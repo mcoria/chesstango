@@ -40,13 +40,13 @@ class CapturePawnPasante extends AbstractMove {
 	@Override
 	public void executeMove(PiecePlacementWritter board) {
 		super.executeMove(board);
-		board.setEmptyPosicion(captura);		//Capturamos peon
+		board.setEmptyPosicion(captura);		//Capturamos pawn
 	}
 
 	@Override
 	public void undoMove(PiecePlacementWritter board) {
 		super.undoMove(board);
-		board.setPosicion(captura);				//Devolvemos peon
+		board.setPosicion(captura);				//Devolvemos pawn
 	}
 	
 	@Override

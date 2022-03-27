@@ -48,8 +48,8 @@ public class ChessPositionBuilderGame implements ChessPositionBuilder<Game> {
 
 
 	@Override
-	public ChessPositionBuilder<Game> withPawnPasanteSquare(Square peonPasanteSquare) {
-		chessInjector.getPositionState().setPawnPasanteSquare(peonPasanteSquare);
+	public ChessPositionBuilder<Game> withPawnPasanteSquare(Square pawnPasanteSquare) {
+		chessInjector.getPositionState().setPawnPasanteSquare(pawnPasanteSquare);
 		return this;
 	}
 
