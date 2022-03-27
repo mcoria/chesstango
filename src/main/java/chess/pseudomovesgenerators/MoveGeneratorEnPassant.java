@@ -11,8 +11,8 @@ import chess.moves.Move;
  * @author Mauricio Coria
  *
  */
-public interface MoveGeneratorPawnPasante {
+public interface MoveGeneratorEnPassant {
 
-	Collection<Move> generatePawnPasantePseudoMoves();
+	Collection<Move> generateEnPassantPseudoMoves();
 
 }

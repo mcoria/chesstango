@@ -63,7 +63,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
-		moves = moveGenerator.generatePawnPasantePseudoMoves();
+		moves = moveGenerator.generateEnPassantPseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -88,7 +88,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
-		moves = moveGenerator.generatePawnPasantePseudoMoves();
+		moves = moveGenerator.generateEnPassantPseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -111,7 +111,7 @@ public class PawnPasanteMoveGeneratorTest {
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 		
-		moves = moveGenerator.generatePawnPasantePseudoMoves();
+		moves = moveGenerator.generateEnPassantPseudoMoves();
 		
 		assertEquals(1, moves.size());
 		
@@ -133,7 +133,7 @@ public class PawnPasanteMoveGeneratorTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 		
-		moves = moveGenerator.generatePawnPasantePseudoMoves();
+		moves = moveGenerator.generateEnPassantPseudoMoves();
 		
 		assertEquals(1, moves.size());
 		

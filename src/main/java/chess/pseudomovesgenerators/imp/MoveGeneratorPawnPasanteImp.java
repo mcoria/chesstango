@@ -15,13 +15,13 @@ import chess.moves.imp.MoveFactoryBlack;
 import chess.moves.imp.MoveFactoryWhite;
 import chess.position.PiecePlacementReader;
 import chess.position.imp.PositionState;
-import chess.pseudomovesgenerators.MoveGeneratorPawnPasante;
+import chess.pseudomovesgenerators.MoveGeneratorEnPassant;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveGeneratorPawnPasanteImp implements MoveGeneratorPawnPasante {
+public class MoveGeneratorPawnPasanteImp implements MoveGeneratorEnPassant {
 	
 	private PawnPasanteMoveGeneratorBlack pasanteMoveGeneratorBlack = new PawnPasanteMoveGeneratorBlack();
 	private PawnPasanteMoveGeneratorWhite pasanteMoveGeneratorWhite = new PawnPasanteMoveGeneratorWhite();
@@ -32,7 +32,7 @@ public class MoveGeneratorPawnPasanteImp implements MoveGeneratorPawnPasante {
 	
 
 	@Override
-	public Collection<Move> generatePawnPasantePseudoMoves() {
+	public Collection<Move> generateEnPassantPseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
 		Square peonPasanteSquare = positionState.getPawnPasanteSquare();
 		if (peonPasanteSquare != null) {

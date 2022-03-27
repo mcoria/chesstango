@@ -37,7 +37,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		
 		getLegalMovesKing(moves);
 		
-		getPawnPasanteLegalMoves(moves);		
+		getEnPassantLegalMoves(moves);		
 		
 		return moves;
 	}
