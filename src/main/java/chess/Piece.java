@@ -1,48 +1,38 @@
 package chess;
 
-import java.util.function.Function;
-
-import chess.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
-import chess.pseudomovesgenerators.imp.MoveGeneratorImp; //TODO: esta dependencia hay que quitarla
-
 /**
  * @author Mauricio Coria
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE, generator -> generator.getPawnWhiteMoveGenerator()),
-	PAWN_BLACK(Color.BLACK,  generator -> generator.getPawnBlackMoveGenerator()),
+	PAWN_WHITE(Color.WHITE),
+	PAWN_BLACK(Color.BLACK),
 	
-	ROOK_WHITE(Color.WHITE, generator -> generator.getRookBlancaMoveGenerator()),
-	ROOK_BLACK(Color.BLACK, generator -> generator.getRookNegraMoveGenerator()),
+	ROOK_WHITE(Color.WHITE),
+	ROOK_BLACK(Color.BLACK),
 	
-	KNIGHT_WHITE(Color.WHITE, generator -> generator.getKnightWhiteMoveGenerator()),
-	KNIGHT_BLACK(Color.BLACK, generator -> generator.getKnightBlackMoveGenerator()),
+	KNIGHT_WHITE(Color.WHITE),
+	KNIGHT_BLACK(Color.BLACK),
 	
-	BISHOP_WHITE(Color.WHITE, generator -> generator.getBishopWhiteMoveGenerator()),
-	BISHOP_BLACK(Color.BLACK, generator -> generator.getBishopBlackMoveGenerator()),
+	BISHOP_WHITE(Color.WHITE),
+	BISHOP_BLACK(Color.BLACK),
 	
-	QUEEN_WHITE(Color.WHITE, generator -> generator.getQueenBlancaMoveGenerator()),
-	QUEEN_BLACK(Color.BLACK, generator -> generator.getQueenNegraMoveGenerator()),
+	QUEEN_WHITE(Color.WHITE),
+	QUEEN_BLACK(Color.BLACK),
 	
-	KING_WHITE(Color.WHITE, generator -> generator.getKingWhiteMoveGenerator()),
-	KING_BLACK(Color.BLACK, generator -> generator.getKingBlackMoveGenerator());
+	KING_WHITE(Color.WHITE),
+	KING_BLACK(Color.BLACK);
 	
 	private final Color color;
-	private final Function<MoveGeneratorImp, MoveGeneratorByPiecePositioned> selector;
 	
-	private Piece(Color color, Function<MoveGeneratorImp, MoveGeneratorByPiecePositioned> selector) {
+	private Piece(Color color) {
 		this.color = color;
-		this.selector = selector;
 	}
 
 	public Color getColor() {
 		return color;
 	}
 
-	public MoveGeneratorByPiecePositioned selectMoveGeneratorStrategy(MoveGeneratorImp strategy) {
-		return selector.apply(strategy);
-	}	
 	
 	public static Piece getKing(Color color){
 		switch (color) {
