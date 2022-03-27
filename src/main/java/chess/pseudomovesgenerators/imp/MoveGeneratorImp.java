@@ -94,8 +94,8 @@ public class MoveGeneratorImp implements MoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generatoPawnPasantePseudoMoves() {
-		return ppmg.generatoPawnPasantePseudoMoves();
+	public Collection<Move> generatePawnPasantePseudoMoves() {
+		return ppmg.generatePawnPasantePseudoMoves();
 	}
 
 	public void setPiecePlacement(PiecePlacementReader dummyBoard) {

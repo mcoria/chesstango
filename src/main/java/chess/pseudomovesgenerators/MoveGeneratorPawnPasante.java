@@ -13,6 +13,6 @@ import chess.moves.Move;
  */
 public interface MoveGeneratorPawnPasante {
 
-	Collection<Move> generatoPawnPasantePseudoMoves();
+	Collection<Move> generatePawnPasantePseudoMoves();
 
 }

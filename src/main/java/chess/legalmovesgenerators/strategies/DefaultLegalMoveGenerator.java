@@ -28,7 +28,7 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		
 		getLegalMovesBySquare(moves);
 		
-		getLegalMovesSpecial(moves);
+		getPawnPasanteLegalMoves(moves);
 		
 		return moves;
 	}

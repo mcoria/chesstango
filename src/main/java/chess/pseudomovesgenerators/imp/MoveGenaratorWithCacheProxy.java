@@ -29,8 +29,8 @@ public class MoveGenaratorWithCacheProxy implements MoveGenerator {
 	}
 
 	@Override
-	public Collection<Move> generatoPawnPasantePseudoMoves() {
-		return moveGenerator.generatoPawnPasantePseudoMoves();
+	public Collection<Move> generatePawnPasantePseudoMoves() {
+		return moveGenerator.generatePawnPasantePseudoMoves();
 	}
 
 

@@ -19,11 +19,11 @@ public interface ChessPositionReader {
 
 	Color getTurnoActual();
 
-	public boolean isCastlingWhiteQueenAllowed();
-	public boolean isCastlingWhiteKingAllowed();
+	boolean isCastlingWhiteQueenAllowed();
+	boolean isCastlingWhiteKingAllowed();
 
-	public boolean isCastlingBlackQueenAllowed();
-	public boolean isCastlingBlackKingAllowed();
+	boolean isCastlingBlackQueenAllowed();
+	boolean isCastlingBlackKingAllowed();
 
 	Square getPawnPasanteSquare();
 	

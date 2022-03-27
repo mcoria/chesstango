@@ -32,7 +32,7 @@ public class MoveGeneratorPawnPasanteImp implements MoveGeneratorPawnPasante {
 	
 
 	@Override
-	public Collection<Move> generatoPawnPasantePseudoMoves() {
+	public Collection<Move> generatePawnPasantePseudoMoves() {
 		Collection<Move> moveContainer = createContainer();
 		Square peonPasanteSquare = positionState.getPawnPasanteSquare();
 		if (peonPasanteSquare != null) {
