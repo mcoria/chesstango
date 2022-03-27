@@ -55,8 +55,8 @@ public class SaltoDoblePawnMoveTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piezaBoard);	
 		
-		PiecePositioned origen = new PiecePositioned(Square.e2, Piece.PAWN_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.e4, null);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
 		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);		
 	}
 	
@@ -117,8 +117,8 @@ public class SaltoDoblePawnMoveTest {
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
-		PiecePositioned origen = new PiecePositioned(Square.e2, Piece.ROOK_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.e4, null);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
 		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);
 
 		// execute

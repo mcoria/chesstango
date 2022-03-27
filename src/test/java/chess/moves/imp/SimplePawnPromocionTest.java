@@ -56,8 +56,8 @@ public class SimplePawnPromocionTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piezaBoard);	
 		
-		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.e8, null);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e8, null);
 		moveExecutor =  new SimplePawnPromocion(origen, destino, Piece.QUEEN_WHITE);		
 	}
 	

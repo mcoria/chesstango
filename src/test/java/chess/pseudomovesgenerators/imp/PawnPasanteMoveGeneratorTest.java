@@ -61,7 +61,7 @@ public class PawnPasanteMoveGeneratorTest {
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.d5));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
@@ -86,7 +86,7 @@ public class PawnPasanteMoveGeneratorTest {
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.e5));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
@@ -109,7 +109,7 @@ public class PawnPasanteMoveGeneratorTest {
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.e4));
 
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 		
 		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
@@ -131,7 +131,7 @@ public class PawnPasanteMoveGeneratorTest {
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.d4));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 		
 		moves = moveGenerator.generatoPawnPasantePseudoMoves();
 		
@@ -141,11 +141,11 @@ public class PawnPasanteMoveGeneratorTest {
 	}
 
 	private Move createCaptureBlackPawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
+		return moveFactoryImp.createCapturePawnPasante(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
 	}
 	
 	private Move createCaptureWhitePawnPasanteMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCapturePawnPasante(origen, new PiecePositioned(destinoSquare, null), new PiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
+		return moveFactoryImp.createCapturePawnPasante(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

@@ -54,7 +54,7 @@ public class QueenMoveGeneratorTest {
 		Square from = Square.e5;
 		assertEquals(Piece.QUEEN_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.QUEEN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.QUEEN_WHITE);
 
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -107,7 +107,7 @@ public class QueenMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private PiecePlacement getTablero(String string) {		

@@ -69,7 +69,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		Square from = Square.e5;
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -97,7 +97,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.h8));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -122,7 +122,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.BISHOP_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -136,11 +136,11 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

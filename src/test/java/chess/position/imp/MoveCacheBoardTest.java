@@ -32,8 +32,8 @@ public class MoveCacheBoardTest {
 	@Test
 	public void test01() {
 		MoveGeneratorResult result = new MoveGeneratorResult();
-		result.moveContainerAdd(moveFactoryImp.createSimpleMove(new PiecePositioned(Square.a2, Piece.PAWN_WHITE), new PiecePositioned(Square.a3, null)));
-		result.moveContainerAdd(moveFactoryImp.createSimpleMove(new PiecePositioned(Square.a2, Piece.PAWN_WHITE), new PiecePositioned(Square.a4, null)));
+		result.moveContainerAdd(moveFactoryImp.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null)));
+		result.moveContainerAdd(moveFactoryImp.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a4, null)));
 		cache.setPseudoMoves(Square.a2, result);
 		
 		

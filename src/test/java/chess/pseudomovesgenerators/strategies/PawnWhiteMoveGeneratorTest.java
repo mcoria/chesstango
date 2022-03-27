@@ -50,7 +50,7 @@ public class PawnWhiteMoveGeneratorTest {
 		Square from = Square.a3;		
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -70,7 +70,7 @@ public class PawnWhiteMoveGeneratorTest {
 		Square from = Square.a2;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -91,7 +91,7 @@ public class PawnWhiteMoveGeneratorTest {
 		Square from = Square.a2;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -112,7 +112,7 @@ public class PawnWhiteMoveGeneratorTest {
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.d3));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -136,7 +136,7 @@ public class PawnWhiteMoveGeneratorTest {
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.f3));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -159,7 +159,7 @@ public class PawnWhiteMoveGeneratorTest {
 		
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -184,7 +184,7 @@ public class PawnWhiteMoveGeneratorTest {
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.c8));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.d8));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.PAWN_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -199,23 +199,23 @@ public class PawnWhiteMoveGeneratorTest {
 	}
 
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
-		return moveFactoryImp.createSaltoDoblePawnMove(origen, new PiecePositioned(destinoSquare, null), squarePasante);
+		return moveFactoryImp.createSaltoDoblePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
 	}	
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}
 	
 	private Move createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
-		return moveFactoryImp.createSimplePawnPromocion(origen, new PiecePositioned(destinoSquare, null), promocion);
+		return moveFactoryImp.createSimplePawnPromocion(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), promocion);
 	}	
 	
 	private Move createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion) {
-		return moveFactoryImp.createCapturePawnPromocion(origen, new PiecePositioned(destinoSquare, destinoPieza), promocion);
+		return moveFactoryImp.createCapturePawnPromocion(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

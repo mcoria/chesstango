@@ -1,6 +1,5 @@
 package chess.pseudomovesgenerators.strategies;
 
-import chess.CachePosiciones;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
@@ -35,8 +34,8 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);
 			result.affectedByContainerAdd(Square.a1); //La posicion de la torre
 			if(puedeEnroqueQueen(	origen, 
-								CachePosiciones.KING_WHITE, 
-								CachePosiciones.ROOK_WHITE_QUEEN,
+								PiecePositioned.KING_WHITE, 
+								PiecePositioned.ROOK_WHITE_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
 								DESTINO_QUEEN_SQUARE, 
 								INTERMEDIO_KING_QUEEN_SQUARE)) {
@@ -50,8 +49,8 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
 			result.affectedByContainerAdd(Square.h1); //La posicion de la torre		
 			if(puedeEnroqueKing(	origen, 
-								CachePosiciones.KING_WHITE, 
-								CachePosiciones.ROOK_WHITE_KING,
+								PiecePositioned.KING_WHITE, 
+								PiecePositioned.ROOK_WHITE_KING,
 								DESTINO_KING_SQUARE, 
 								INTERMEDIO_KING_KING_SQUARE)) {
 				this.result.moveContainerAdd(moveFactory.createCastlingKingMove());

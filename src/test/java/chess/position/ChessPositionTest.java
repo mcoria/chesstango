@@ -315,31 +315,31 @@ public class ChessPositionTest {
 		
 	
 	private Move createSimpleMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(new PiecePositioned(origenSquare, origenPieza), new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(Square origenSquare, Piece origenPieza, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureMove(new PiecePositioned(origenSquare, origenPieza), new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}		
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
-		return moveFactoryImp.createSaltoDoblePawnMove(new PiecePositioned(origen, piece), new PiecePositioned(destinoSquare, null),  squarePasante);		
+		return moveFactoryImp.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante);		
 	}
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,
 			Piece destinoPieza, Piece promocion) {
-		return moveFactoryImp.createCapturePawnPromocion(new PiecePositioned(origenSquare, origenPieza),
-				new PiecePositioned(destinoSquare, destinoPieza), promocion);
+		return moveFactoryImp.createCapturePawnPromocion(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
+				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	
 	private Move createCapturePawnPasanteMoveBlack(Square origen, Square destinoSquare) {
-		return moveFactoryImp.createCapturePawnPasante(new PiecePositioned(origen, Piece.PAWN_BLACK),
-				new PiecePositioned(destinoSquare, null), new PiecePositioned(
+		return moveFactoryImp.createCapturePawnPasante(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
+				PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}
 	
 	private Object createSimpleKingMoveWhite(Square origen, Square destino) {
-		return moveFactoryImp.createSimpleKingMove(new PiecePositioned(origen, Piece.KING_WHITE), new PiecePositioned(destino, null));
+		return moveFactoryImp.createSimpleKingMove(PiecePositioned.getPiecePositioned(origen, Piece.KING_WHITE), PiecePositioned.getPiecePositioned(destino, null));
 	}	
 	
 	private void settupWithDefaultBoard() {

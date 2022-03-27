@@ -39,7 +39,7 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 
 	@Override
 	protected PiecePositioned getCapturaPawnPasante(Square peonPasanteSquare) {
-		return new PiecePositioned(Square.getSquare(peonPasanteSquare.getFile(), 4), Piece.PAWN_BLACK);
+		return PiecePositioned.getPiecePositioned(Square.getSquare(peonPasanteSquare.getFile(), 4), Piece.PAWN_BLACK);
 	}
 
 	@Override

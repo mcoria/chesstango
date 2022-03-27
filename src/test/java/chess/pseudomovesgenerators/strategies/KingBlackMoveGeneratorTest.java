@@ -9,7 +9,6 @@ import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.CachePosiciones;
 import chess.Color;
 import chess.Piece;
 import chess.PiecePositioned;
@@ -63,10 +62,10 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -94,11 +93,11 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 	
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.f6));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -127,11 +126,11 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.f5));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -160,10 +159,10 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -191,11 +190,11 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.d6));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -224,11 +223,11 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.d5));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -258,12 +257,12 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
-		assertEquals(Piece.KING_BLACK, tablero.getPieza(CachePosiciones.KING_BLACK.getKey()));
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.e5));
 		
-		PiecePositioned origen = new PiecePositioned(CachePosiciones.KING_BLACK.getKey(), Piece.KING_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_BLACK.getKey(), Piece.KING_BLACK);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -281,7 +280,7 @@ public class KingBlackMoveGeneratorTest {
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleKingMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleKingMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 
 	

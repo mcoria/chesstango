@@ -3,7 +3,6 @@ package chess.position.imp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import chess.CachePosiciones;
 import chess.Piece;
 import chess.PiecePositioned;
 import chess.Square;
@@ -31,7 +30,6 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	// Las primitivas de tablero son muy basicas!? En vez de descomponer una movimiento en operaciones simples, proporcionar un solo metodo
 	//
 	protected PiecePositioned[] tablero = new PiecePositioned[64];
-	private final CachePosiciones cachePosiciones = new CachePosiciones();
 	
 
 	@Override
@@ -55,13 +53,13 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 
 	@Override
 	public void setPieza(Square square, Piece piece) {
-		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, piece);
+		tablero[square.toIdx()] =  PiecePositioned.getPiecePositioned(square, piece);
 	}
 
 
 	@Override
 	public void setEmptySquare(Square square) {
-		tablero[square.toIdx()] =  cachePosiciones.getPosicion(square, null);
+		tablero[square.toIdx()] =  PiecePositioned.getPiecePositioned(square, null);
 	}
 
 	@Override

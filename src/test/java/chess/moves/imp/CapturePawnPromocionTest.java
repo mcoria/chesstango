@@ -57,8 +57,8 @@ public class CapturePawnPromocionTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piezaBoard);
 		
-		PiecePositioned origen = new PiecePositioned(Square.e7, Piece.PAWN_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
 		
 		moveExecutor =  new CapturaPawnPromocion(origen, destino, Piece.QUEEN_WHITE);		
 	}

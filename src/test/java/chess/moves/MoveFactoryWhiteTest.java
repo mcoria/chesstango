@@ -38,8 +38,8 @@ public class MoveFactoryWhiteTest {
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 
-		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.QUEEN_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_BLACK);
 
 		moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 		
@@ -56,8 +56,8 @@ public class MoveFactoryWhiteTest {
 		positionState.setCastlingWhiteKingAllowed(true);
 		positionState.setCastlingWhiteQueenAllowed(true);
 
-		PiecePositioned origen = new PiecePositioned(Square.e1, Piece.KING_WHITE);
-		PiecePositioned destino = new PiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
 
 		moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 

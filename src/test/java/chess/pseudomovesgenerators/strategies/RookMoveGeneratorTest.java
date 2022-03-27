@@ -55,7 +55,7 @@ public class RookMoveGeneratorTest {
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -101,7 +101,7 @@ public class RookMoveGeneratorTest {
 		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.e7));
 		
-		PiecePositioned origen = new PiecePositioned(from, Piece.ROOK_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
 	
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -132,11 +132,11 @@ public class RookMoveGeneratorTest {
 	}	
 
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(origen, new PiecePositioned(destinoSquare, null));
+		return moveFactoryImp.createSimpleMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureMove(origen, new PiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryImp.createCaptureMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

@@ -1,6 +1,5 @@
 package chess.pseudomovesgenerators.strategies;
 
-import chess.CachePosiciones;
 import chess.Color;
 import chess.PiecePositioned;
 import chess.Square;
@@ -36,8 +35,8 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);		
 			result.affectedByContainerAdd(Square.a8); //La posicion de la torre
 			if(puedeEnroqueQueen(	origen, 
-								CachePosiciones.KING_BLACK, 
-								CachePosiciones.ROOK_BLACK_QUEEN,
+								PiecePositioned.KING_BLACK, 
+								PiecePositioned.ROOK_BLACK_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
 								DESTINO_QUEEN_SQUARE, 
 								INTERMEDIO_KING_QUEEN_SQUARE)) {
@@ -51,8 +50,8 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
 			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
 			if(puedeEnroqueKing(	origen, 
-								CachePosiciones.KING_BLACK, 
-								CachePosiciones.ROOK_BLACK_KING,
+								PiecePositioned.KING_BLACK, 
+								PiecePositioned.ROOK_BLACK_KING,
 								DESTINO_KING_SQUARE, 
 								INTERMEDIO_KING_KING_SQUARE)) {
 				result.moveContainerAdd(moveFactory.createCastlingKingMove());
@@ -60,7 +59,7 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 		}
 	}
 
-	//TODO: agregar test case (cuando el king se mueve pierde enroque) y agregar validacion en state 
+	//TODO: agregar test case (cuando el king se muevOe pierde enroque) y agregar validacion en state 
 	@Override
 	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createSimpleKingMove(origen, destino);
