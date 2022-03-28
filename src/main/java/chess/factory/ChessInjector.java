@@ -24,7 +24,7 @@ import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
  *
  */
 public class ChessInjector {
-	private PiecePlacement piecePlacementWritter = null;
+	private PiecePlacement piecePlacement = null;
 	
 	private PositionState positionState = null;
 	
@@ -82,10 +82,10 @@ public class ChessInjector {
 	}
 
 	public PiecePlacement getPiecePlacement() {
-		if(piecePlacementWritter == null){
-			piecePlacementWritter = chessFactory.createPiecePlacement();
+		if(piecePlacement == null){
+			piecePlacement = chessFactory.createPiecePlacement();
 		}
-		return piecePlacementWritter;
+		return piecePlacement;
 	}
 
 	public PositionState getPositionState() {

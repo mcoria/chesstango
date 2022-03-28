@@ -20,6 +20,10 @@ import chess.pseudomovesgenerators.strategies.RookMoveGenerator;
  * @author Mauricio Coria
  *
  */
+// TODO: el capturer para analyzer es distinto, deberia 
+//       - buscar todas las posibilidades de captura de Rey
+//       - durante la busqueda deberia identificar posiciones pinned
+//       - deberia haber un capturer de posicion mas sencillo para LegalMoveGenerator
 public class Capturer {
 	private final PiecePlacementReader piecePlacementReader;
 	private final ImprovedCapturerColor capturerWhite = new ImprovedCapturerColor(Color.WHITE);

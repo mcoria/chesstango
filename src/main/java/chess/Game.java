@@ -19,8 +19,8 @@ public class Game {
 	
 	private final PositionAnalyzer analyzer;	
 	
-	public Game(ChessPosition tablero, PositionAnalyzer analyzer, GameState gameState){
-		this.chessPosition = tablero;
+	public Game(ChessPosition chessPosition, PositionAnalyzer analyzer, GameState gameState){
+		this.chessPosition = chessPosition;
 		this.analyzer = analyzer;
 		this.gameState = gameState;
 	}

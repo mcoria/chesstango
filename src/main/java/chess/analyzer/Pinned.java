@@ -14,6 +14,7 @@ import chess.position.ChessPositionReader;
  * @author Mauricio Coria
  *
  */
+// TODO: esta clase deberia fusionarse con Capturer
 public class Pinned {	
 	private final static Cardinal[] cardinalesBishop = new Cardinal[] {Cardinal.NorteEste, Cardinal.SurEste, Cardinal.SurOeste, Cardinal.NorteOeste};
 	private final static Cardinal[] cardinalesRook = new Cardinal[] {Cardinal.Este, Cardinal.Oeste, Cardinal.Norte, Cardinal.Sur};

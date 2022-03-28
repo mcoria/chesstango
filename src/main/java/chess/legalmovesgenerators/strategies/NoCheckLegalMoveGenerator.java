@@ -46,6 +46,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		final Color turnoActual = this.positionReader.getTurnoActual();
 
 		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
+		//TODO: esto deberia venir precalculado
 		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual); 
 
 		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
@@ -86,64 +87,6 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		}
 		return moves;
 	}
-
-	/*
-	@Override
-	public boolean existsLegalMove() {	
-		count++;
-		return existsLegalMovesNotKing() || existsLegalMovesKing() ;
-	}	
-	
-	//TODO: los pinned deberian ser los ultimos en buscar movimientos
-	protected boolean existsLegalMovesNotKing() {
-		final Color turnoActual = boardState.getTurnoActual();
-		final Square kingSquare = getCurrentKingSquare();
-
-		KingAbstractMoveGenerator kingMoveGenerator = strategy.getKingMoveGenerator(turnoActual);
-
-		// Casilleros donde se encuentran piezas propias que de moverse pueden
-		// poner en jaque al King.
-		Collection<Square> pinnedSquares = kingMoveGenerator.getPinnedSquare(kingSquare);
-
-		for (SquareIterator iterator = colorBoard.iteratorSquareWhitoutKing(turnoActual, kingSquare); iterator.hasNext();) {
-
-			Square origenSquare = iterator.next();
-
-			MoveGeneratorResult generatorResult = getPseudoMovesResult(origenSquare);
-
-			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
-			
-			if (pinnedSquares.contains(origenSquare) || generatorResult.hasCaptureEnPassant()) {
-				for (Move move : pseudoMoves) {
-
-					// assert origen.equals(move.getFrom());
-
-					if (filter.filterMove(move)) {
-						return true;
-					}
-				}
-
-			} else {
-				return true;
-			}
-
-		}
-		return false;
-	}
-	
-	protected boolean existsLegalMovesKing() {
-		Square 	kingSquare = getCurrentKingSquare();
-		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);			
-
-		for (Move move : pseudoMovesKing) {
-			if(move.filter(filter)){
-				return true;
-			}
-		}
-		return false;
-	}
-		
-	*/
 	
 
 }
