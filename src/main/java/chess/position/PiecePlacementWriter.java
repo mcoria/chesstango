@@ -8,7 +8,7 @@ import chess.Square;
  * @author Mauricio Coria
  *
  */
-public interface PiecePlacementWritter{
+public interface PiecePlacementWriter {
 
 	void setPosicion(PiecePositioned entry);
 

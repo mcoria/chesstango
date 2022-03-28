@@ -2,7 +2,7 @@ package chess.moves.imp;
 
 import chess.Piece;
 import chess.PiecePositioned;
-import chess.position.PiecePlacementWritter;
+import chess.position.PiecePlacementWriter;
 
 
 /**
@@ -19,7 +19,7 @@ class SimplePawnPromocion extends SimpleMove {
 	}
 
 	@Override
-	public void executeMove(PiecePlacementWritter board) {
+	public void executeMove(PiecePlacementWriter board) {
 		board.setEmptyPosicion(from);								//Dejamos el origen
 		board.setPieza(to.getKey(), this.promocion) ;				//Promocion
 	}

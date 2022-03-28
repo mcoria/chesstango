@@ -2,7 +2,7 @@ package chess.moves.imp;
 
 import chess.PiecePositioned;
 import chess.moves.Move;
-import chess.position.PiecePlacementWritter;
+import chess.position.PiecePlacementWriter;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.MoveCacheBoard;
 import chess.position.imp.PositionState;
@@ -30,12 +30,12 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	}
 	
 	@Override
-	public void executeMove(PiecePlacementWritter board) {
+	public void executeMove(PiecePlacementWriter board) {
 		move.executeMove(board);
 	}
 
 	@Override
-	public void undoMove(PiecePlacementWritter board) {
+	public void undoMove(PiecePlacementWriter board) {
 		move.undoMove(board);
 	}
 

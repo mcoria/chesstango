@@ -3,7 +3,7 @@ package chess.moves.imp;
 import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPositionWriter;
-import chess.position.PiecePlacementWritter;
+import chess.position.PiecePlacementWriter;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.MoveCacheBoard;
 
@@ -38,13 +38,13 @@ class CaptureEnPassant extends AbstractMove {
 	}	
 	
 	@Override
-	public void executeMove(PiecePlacementWritter board) {
+	public void executeMove(PiecePlacementWriter board) {
 		super.executeMove(board);
 		board.setEmptyPosicion(captura);		//Capturamos pawn
 	}
 
 	@Override
-	public void undoMove(PiecePlacementWritter board) {
+	public void undoMove(PiecePlacementWriter board) {
 		super.undoMove(board);
 		board.setPosicion(captura);				//Devolvemos pawn
 	}

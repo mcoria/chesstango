@@ -3,7 +3,7 @@ package chess.moves;
 import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPositionWriter;
-import chess.position.PiecePlacementWritter;
+import chess.position.PiecePlacementWriter;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.MoveCacheBoard;
 import chess.position.imp.PositionState;
@@ -35,8 +35,8 @@ public interface Move extends Comparable<Move> {
 	
 	boolean filter(MoveFilter filter);	
 
-	void executeMove(PiecePlacementWritter board);
-	void undoMove(PiecePlacementWritter board);
+	void executeMove(PiecePlacementWriter board);
+	void undoMove(PiecePlacementWriter board);
 	
 	void executeMove(PositionState positionState);
 	void undoMove(PositionState positionState);

@@ -5,7 +5,7 @@ import chess.legalmovesgenerators.MoveFilter;
 import chess.moves.Move;
 import chess.moves.MoveCastling;
 import chess.position.ChessPositionWriter;
-import chess.position.PiecePlacementWritter;
+import chess.position.PiecePlacementWriter;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.KingCacheBoard;
 import chess.position.imp.MoveCacheBoard;
@@ -55,14 +55,14 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 	}	
 	
 	@Override
-	public void executeMove(PiecePlacementWritter board) {
+	public void executeMove(PiecePlacementWriter board) {
 		kingMove.executeMove(board);
 		rookMove.executeMove(board);
 	}
 
 
 	@Override
-	public void undoMove(PiecePlacementWritter board) {
+	public void undoMove(PiecePlacementWriter board) {
 		kingMove.undoMove(board);
 		rookMove.undoMove(board);
 	}	
