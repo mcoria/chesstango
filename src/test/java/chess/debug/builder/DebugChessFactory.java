@@ -14,9 +14,9 @@ import chess.factory.ChessFactory;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
 import chess.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
-import chess.position.ChessPosition;
 import chess.position.ChessPositionReader;
 import chess.position.PiecePlacement;
+import chess.position.imp.ChessPositionImp;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.KingCacheBoard;
 import chess.position.imp.MoveCacheBoard;
@@ -32,7 +32,7 @@ import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
 public class DebugChessFactory extends ChessFactory {
 
 	@Override
-	public ChessPosition createChessPosition() {
+	public ChessPositionImp createChessPosition() {
 		return  new ChessPositionDebug();
 	}	
 	

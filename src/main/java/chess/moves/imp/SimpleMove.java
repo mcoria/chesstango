@@ -2,7 +2,7 @@ package chess.moves.imp;
 
 import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.position.ChessPosition;
+import chess.position.ChessPositionWriter;
 import chess.position.imp.ColorBoard;
 
 
@@ -17,12 +17,12 @@ class SimpleMove extends AbstractMove {
 	}
 	
 	@Override
-	public void executeMove(ChessPosition chessPosition) {
+	public void executeMove(ChessPositionWriter chessPosition) {
 		chessPosition.executeMove(this);
 	}
 	
 	@Override
-	public void undoMove(ChessPosition chessPosition) {
+	public void undoMove(ChessPositionWriter chessPosition) {
 		chessPosition.undoMove(this);
 	}	
 	

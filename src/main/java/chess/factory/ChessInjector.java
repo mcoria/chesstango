@@ -11,6 +11,7 @@ import chess.legalmovesgenerators.LegalMoveGenerator;
 import chess.legalmovesgenerators.MoveFilter;
 import chess.position.ChessPosition;
 import chess.position.PiecePlacement;
+import chess.position.imp.ChessPositionImp;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.KingCacheBoard;
 import chess.position.imp.MoveCacheBoard;
@@ -63,17 +64,19 @@ public class ChessInjector {
 	
 	public ChessPosition getChessPosition() {
 		if (chessPosition == null) {
-			chessPosition = chessFactory.createChessPosition();
+			ChessPositionImp chessPositionImp = chessFactory.createChessPosition();
 
-			chessPosition.setPiecePlacement(getPiecePlacement());
+			chessPositionImp.setPiecePlacement(getPiecePlacement());
 
-			chessPosition.setBoardState(getPositionState());
+			chessPositionImp.setBoardState(getPositionState());
 
-			chessPosition.setKingCacheBoard(getKingCacheBoard());
+			chessPositionImp.setKingCacheBoard(getKingCacheBoard());
 
-			chessPosition.setColorBoard(getColorBoard());
+			chessPositionImp.setColorBoard(getColorBoard());
 
-			chessPosition.setMoveCache(getMoveCacheBoard());
+			chessPositionImp.setMoveCache(getMoveCacheBoard());
+			
+			chessPosition = chessPositionImp;
 		}
 		return chessPosition;
 	}

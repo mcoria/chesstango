@@ -2,7 +2,7 @@ package chess.moves;
 
 import chess.PiecePositioned;
 import chess.legalmovesgenerators.MoveFilter;
-import chess.position.ChessPosition;
+import chess.position.ChessPositionWriter;
 import chess.position.PiecePlacementWritter;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.MoveCacheBoard;
@@ -30,8 +30,8 @@ public interface Move extends Comparable<Move> {
 	PiecePositioned getFrom();
 	PiecePositioned getTo();
 	
-	void executeMove(ChessPosition chessPosition);
-	void undoMove(ChessPosition chessPosition);
+	void executeMove(ChessPositionWriter chessPosition);
+	void undoMove(ChessPositionWriter chessPosition);
 	
 	boolean filter(MoveFilter filter);	
 

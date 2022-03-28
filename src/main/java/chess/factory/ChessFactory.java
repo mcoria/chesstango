@@ -13,6 +13,7 @@ import chess.position.ChessPositionReader;
 import chess.position.PiecePlacement;
 import chess.position.PiecePlacementReader;
 import chess.position.imp.ArrayPiecePlacement;
+import chess.position.imp.ChessPositionImp;
 import chess.position.imp.ColorBoard;
 import chess.position.imp.KingCacheBoard;
 import chess.position.imp.MoveCacheBoard;
@@ -27,8 +28,8 @@ import chess.pseudomovesgenerators.imp.MoveGeneratorImp;
  */
 public class ChessFactory {
 
-	public ChessPosition createChessPosition() {
-		return new ChessPosition();
+	public ChessPositionImp createChessPosition() {
+		return new ChessPositionImp();
 	}
 
 	public LegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader,

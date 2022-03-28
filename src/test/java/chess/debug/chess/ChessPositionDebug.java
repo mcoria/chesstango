@@ -1,14 +1,14 @@
 package chess.debug.chess;
 
 import chess.moves.Move;
-import chess.position.ChessPosition;
+import chess.position.imp.ChessPositionImp;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ChessPositionDebug extends ChessPosition {
+public class ChessPositionDebug extends ChessPositionImp {
 	
 
 	@Override
