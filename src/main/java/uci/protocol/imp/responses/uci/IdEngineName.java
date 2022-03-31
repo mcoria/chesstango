@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uci.protocol.imp.responses.id;
+package uci.protocol.imp.responses.uci;
 
 import uci.protocol.UCIResponseSingle;
 import uci.protocol.UCIResponseType;
@@ -10,7 +10,7 @@ import uci.protocol.UCIResponseType;
  * @author Mauricio Coria
  *
  */
-public class EngineAuthor implements UCIResponseSingle {
+public class IdEngineName implements UCIResponseSingle {
 
 	@Override
 	public UCIResponseType getType() {
@@ -20,7 +20,7 @@ public class EngineAuthor implements UCIResponseSingle {
 
 	@Override
 	public String toString() {
-		return "id author Mauricio Coria";
+		return "id name Zonda Engine";
 	}
 
 

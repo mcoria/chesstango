@@ -7,7 +7,7 @@ import uci.engine.Engine;
 import uci.protocol.UCIRequest;
 import uci.protocol.UCIRequestType;
 import uci.protocol.UCIResponse;
-import uci.protocol.imp.responses.id.IdResponse;
+import uci.protocol.imp.responses.uci.UciResponse;
 
 /**
  * @author Mauricio Coria
@@ -22,7 +22,7 @@ public class UCI implements UCIRequest {
 
 	@Override
 	public UCIResponse execute(Engine engine) {
-		return new IdResponse();
+		return new UciResponse();
 	}
 
 }
