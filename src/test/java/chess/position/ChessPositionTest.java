@@ -16,7 +16,7 @@ import chess.PiecePositioned;
 import chess.Square;
 import chess.analyzer.AnalyzerResult;
 import chess.analyzer.PositionAnalyzer;
-import chess.builder.imp.ChessPositionBuilderGame;
+import chess.builder.imp.GameBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.factory.ChessFactory;
 import chess.factory.ChessInjector;
@@ -347,7 +347,7 @@ public class ChessPositionTest {
 	}	
 	
 	private void settupWithBoard(String string) {		
-		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(injector);
+		GameBuilder builder = new GameBuilder(injector);
 
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);

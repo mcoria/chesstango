@@ -5,7 +5,6 @@ import chess.Piece;
 import chess.Square;
 import chess.builder.ChessPositionBuilder;
 import chess.factory.ChessFactory;
-import chess.factory.ChessInjector;
 import chess.position.PiecePlacement;
 
 
@@ -16,28 +15,18 @@ import chess.position.PiecePlacement;
 
 public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacement> {
 	
-	private PiecePlacement piecePlacement = null;	
-	
-	private final ChessInjector chessInjector;
+	private final PiecePlacement piecePlacement;
 	
 	public PiecePlacementBuilder() {
-		this.chessInjector = new ChessInjector();
-	}	
-	
-	public PiecePlacementBuilder(ChessInjector chessInjector) {
-		this.chessInjector = chessInjector;
+		this(new ChessFactory());
 	}
 	
 	public PiecePlacementBuilder(ChessFactory chessFactory) {
-		this(new ChessInjector(chessFactory));
+		this.piecePlacement = chessFactory.createPiecePlacement();
 	}	
 	
 	@Override
 	public PiecePlacement getResult() {
-		if (piecePlacement == null) {
-			
-			piecePlacement = chessInjector.getPiecePlacement();
-		}
 		return piecePlacement;
 	}
 
@@ -63,7 +52,6 @@ public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacemen
 		return this;
 	}
 
-
 	@Override
 	public ChessPositionBuilder<PiecePlacement> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		return this;
@@ -76,7 +64,7 @@ public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacemen
 	}
 
 	public ChessPositionBuilder<PiecePlacement> withPieza(Square square, Piece piece) {
-		chessInjector.getPiecePlacement().setPieza(square, piece);
+		piecePlacement.setPieza(square, piece);
 		return this;
 	}
 	

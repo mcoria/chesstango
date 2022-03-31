@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import chess.Game;
 import chess.Square;
-import chess.builder.imp.ChessPositionBuilderGame;
+import chess.builder.imp.GameBuilder;
 import chess.debug.builder.DebugChessFactory;
 import chess.fen.FENDecoder;
 
@@ -69,7 +69,7 @@ public class Test3Tests {
 	}	
 	
 	private Game getGame(String string) {		
-		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(new DebugChessFactory());
+		GameBuilder builder = new GameBuilder(new DebugChessFactory());
 		//ChessBuilderGame builder = new ChessBuilderGame();
 
 		FENDecoder parser = new FENDecoder(builder);

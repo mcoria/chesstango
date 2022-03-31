@@ -7,6 +7,8 @@ import chess.builder.ChessPositionBuilder;
 import chess.factory.ChessFactory;
 import chess.factory.ChessInjector;
 import chess.position.ChessPosition;
+import chess.position.PiecePlacement;
+import chess.position.imp.PositionState;
 
 
 /**
@@ -15,21 +17,25 @@ import chess.position.ChessPosition;
  */
 public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPosition> {
 	
-	private ChessPosition chessPosition = null;	
-	
+	private final PiecePlacement piecePlacement;
+	private final PositionState positionState;
 	private final ChessInjector chessInjector;
+	private ChessPosition chessPosition = null;
+
 	
 	public ChessPositionBuilderImp(ChessInjector chessInjector) {
+		this.piecePlacement = chessInjector.getPiecePlacement();
+		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
 	}
 	
 	public ChessPositionBuilderImp() {
 		this(new ChessInjector());
-	}
+	}	
 	
 	public ChessPositionBuilderImp(ChessFactory chessFactory) {
 		this(new ChessInjector(chessFactory));
-	}	
+	}
 	
 	@Override
 	public ChessPosition getResult() {
@@ -44,46 +50,46 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withTurno(Color turno) {
-		chessInjector.getPositionState().setTurnoActual(turno);
+		positionState.setTurnoActual(turno);
 		return this;
 	}
 
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withEnPassantSquare(Square pawnPasanteSquare) {
-		chessInjector.getPositionState().setEnPassantSquare(pawnPasanteSquare);
+		positionState.setEnPassantSquare(pawnPasanteSquare);
 		return this;
 	}
 
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
-		chessInjector.getPositionState().setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
+		positionState.setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
 		return this;
 	}
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
-		chessInjector.getPositionState().setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
+		positionState.setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
 		return this;
 	}
 
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
-		chessInjector.getPositionState().setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
+		positionState.setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
 		return this;
 	}
 
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
-		chessInjector.getPositionState().setCastlingBlackKingAllowed(castlingBlackKingAllowed);
+		positionState.setCastlingBlackKingAllowed(castlingBlackKingAllowed);
 		return this;
 	}
 
 	public ChessPositionBuilder<ChessPosition> withPieza(Square square, Piece piece) {
-		chessInjector.getPiecePlacement().setPieza(square, piece);
+		piecePlacement.setPieza(square, piece);
 		return this;
 	}
 	

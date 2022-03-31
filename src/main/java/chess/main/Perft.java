@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import chess.Game;
-import chess.builder.imp.ChessPositionBuilderGame;
+import chess.builder.imp.GameBuilder;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 
@@ -22,7 +22,7 @@ public class Perft {
 	private int maxLevel;
 	
 	public static void main(String[] args) {
-		ChessPositionBuilderGame builder = new ChessPositionBuilderGame();
+		GameBuilder builder = new GameBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
 		

@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import chess.Game;
-import chess.builder.imp.ChessPositionBuilderGame;
+import chess.builder.imp.GameBuilder;
 import chess.factory.ChessFactory;
 import chess.fen.FENDecoder;
 
@@ -104,7 +104,7 @@ public class PerftSuite {
 	}
 	
 	private Game getGame() {		
-		ChessPositionBuilderGame builder = new ChessPositionBuilderGame(chessFactory);
+		GameBuilder builder = new GameBuilder(chessFactory);
 
 		FENDecoder parser = new FENDecoder(builder);
 		
