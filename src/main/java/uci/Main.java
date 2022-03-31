@@ -31,7 +31,7 @@ public class Main {
 
 	protected void mainLoop() {
 		Scanner scanner = new Scanner(System.in);
-		while (scanner.hasNext()) {
+		while (engine.keepProcessing() && scanner.hasNext()) {
 			String input = scanner.nextLine();
 
 			UCIRequest uciRequest = uciDecoder.parseInput(input);

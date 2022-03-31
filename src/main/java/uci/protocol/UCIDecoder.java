@@ -27,6 +27,9 @@ public class UCIDecoder {
 			case "UCI":
 				result = new UCI();
 				break;
+			case "QUIT":
+				result = new QUIT();
+				break;				
 			default:
 				result = new Unknown();
 				break;

@@ -12,12 +12,26 @@ import uci.protocol.UCIResponse;
  */
 public class Engine {
 
+	private boolean keepProcessing = true;
+
 	/**
 	 * @param uciRequest
 	 * @return
 	 */
 	public UCIResponse processRequest(UCIRequest uciRequest) {
 		return uciRequest.execute(this);
+	}
+
+	/**
+	 * @return
+	 */
+	public UCIResponse quit() {
+		keepProcessing = false;
+		return null;
+	}
+
+	public boolean keepProcessing() {
+		return keepProcessing;
 	}
 
 }
