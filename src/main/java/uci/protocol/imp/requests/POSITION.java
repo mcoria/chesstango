@@ -16,7 +16,15 @@ import uci.protocol.UCIResponse;
  */
 public class POSITION implements UCIRequest {
 
-	private List<String> moves = null;
+	private final List<String> moves;
+	
+	private final boolean isFen;
+	
+
+	public POSITION(boolean isFen, List<String> moves) {
+		this.isFen = isFen;
+		this.moves = moves;
+	}
 
 	@Override
 	public UCIRequestType getType() {
@@ -28,6 +36,15 @@ public class POSITION implements UCIRequest {
 	public UCIResponse execute(Engine engine) {
 		engine.do_position_startpos(moves);
 		return null;
+	}
+
+
+	public boolean isFen() {
+		return isFen;
+	}
+	
+	public List<String> getMoves(){
+		return moves;
 	}
 
 }
