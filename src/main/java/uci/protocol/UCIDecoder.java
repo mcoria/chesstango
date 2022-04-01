@@ -9,6 +9,7 @@ import uci.protocol.imp.requests.QUIT;
 import uci.protocol.imp.requests.SETOPTION;
 import uci.protocol.imp.requests.STOP;
 import uci.protocol.imp.requests.UCI;
+import uci.protocol.imp.requests.UCINUEWGAME;
 import uci.protocol.imp.requests.Unknown;
 
 /**
@@ -34,7 +35,10 @@ public class UCIDecoder {
 				break;
 			case "SETOPTION":
 				result = parseSetOption(words);
-				break;				
+				break;
+			case "UCINUEWGAME":
+				result = new UCINUEWGAME();
+				break;					
 			case "QUIT":
 				result = new QUIT();
 				break;

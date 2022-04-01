@@ -10,23 +10,22 @@ import uci.engine.EngineState;
  * @author Mauricio Coria
  *
  */
-public class WaitStartEngineCommand implements EngineState {
-	
-	private final Engine engine;
+public class WaitPositionCommand implements EngineState {
 
-	public WaitStartEngineCommand(Engine engine) {
+	private final Engine engine;
+	
+	public WaitPositionCommand(Engine engine) {
 		this.engine = engine;
 	}
 
-
 	@Override
 	public void do_start() {
-		this.engine.selectState(new WaitNewGameCommand(engine));
+
 	}
 
 	@Override
 	public void do_newGame() {
-		
+
 	}
 
 }

@@ -10,11 +10,11 @@ import uci.engine.EngineState;
  * @author Mauricio Coria
  *
  */
-public class StartEngineCompleted implements EngineState{
+public class WaitNewGameCommand implements EngineState{
 
 	private final Engine engine;
 	
-	public StartEngineCompleted(Engine engine) {
+	public WaitNewGameCommand(Engine engine) {
 		this.engine = engine;
 	}
 
@@ -22,6 +22,12 @@ public class StartEngineCompleted implements EngineState{
 	@Override
 	public void do_start() {
 		//Ignorar		
+	}
+
+
+	@Override
+	public void do_newGame() {
+		this.engine.selectState(new WaitPositionCommand(engine));
 	}
 
 }

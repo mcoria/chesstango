@@ -27,6 +27,10 @@ public class Engine {
 		engineState.do_start();
 	}
 	
+	public void do_waitNewGame() {
+		engineState.do_newGame();
+	}
+	
 	public void do_quit() {
 		keepProcessing = false;
 	}
@@ -43,5 +47,6 @@ public class Engine {
 	public boolean keepProcessing() {
 		return keepProcessing;
 	}
+
 	
 }
