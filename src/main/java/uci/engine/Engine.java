@@ -18,6 +18,10 @@ public class Engine {
 	public Engine() {
 		selectState(new WaitStartEngineCommand(this));
 	}
+	
+	public void selectState(EngineState newState) {
+		engineState = newState;
+	}	
 
 	public void do_start() {
 		engineState.do_start();
@@ -38,10 +42,6 @@ public class Engine {
 	
 	public boolean keepProcessing() {
 		return keepProcessing;
-	}
-
-	public void selectState(EngineState newState) {
-		engineState = newState;
 	}
 	
 }

@@ -1,9 +1,12 @@
 /**
  * 
  */
-package uci.protocol;
+package uci.protocol.imp.requests;
 
 import uci.engine.Engine;
+import uci.protocol.UCIRequest;
+import uci.protocol.UCIRequestType;
+import uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria

@@ -3,8 +3,10 @@
  */
 package uci.protocol;
 
+import uci.protocol.imp.requests.GO;
 import uci.protocol.imp.requests.ISREADYCMD;
 import uci.protocol.imp.requests.QUIT;
+import uci.protocol.imp.requests.SETOPTION;
 import uci.protocol.imp.requests.STOP;
 import uci.protocol.imp.requests.UCI;
 import uci.protocol.imp.requests.Unknown;
@@ -30,6 +32,9 @@ public class UCIDecoder {
 			case "UCI":
 				result = new UCI();
 				break;
+			case "SETOPTION":
+				result = parseSetOption(words);
+				break;				
 			case "QUIT":
 				result = new QUIT();
 				break;
@@ -52,6 +57,12 @@ public class UCIDecoder {
 		}
 		
 		return result;
+	}
+
+
+
+	private UCIRequest parseSetOption(String[] words) {
+		return new SETOPTION();
 	}
 
 
