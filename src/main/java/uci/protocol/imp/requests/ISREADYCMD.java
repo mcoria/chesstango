@@ -7,22 +7,24 @@ import uci.engine.Engine;
 import uci.protocol.UCIRequest;
 import uci.protocol.UCIRequestType;
 import uci.protocol.UCIResponse;
+import uci.protocol.imp.responses.ReadyOk;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class Unknown implements UCIRequest {
+public class ISREADYCMD implements UCIRequest {
+
 
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.UNKNOWN;
+		return UCIRequestType.ISREADY;
 	}
 
 
 	@Override
 	public UCIResponse execute(Engine engine) {
-		return null;
+		return new ReadyOk();
 	}
 
 }

@@ -3,14 +3,14 @@
  */
 package uci.protocol.imp.responses.uci;
 
-import uci.protocol.UCIResponseSingle;
 import uci.protocol.UCIResponseType;
+import uci.protocol.imp.responses.AbstractSinlgeResponse;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class UciOk implements UCIResponseSingle {
+public class UciOk extends AbstractSinlgeResponse {
 
 
 	@Override
@@ -20,7 +20,7 @@ public class UciOk implements UCIResponseSingle {
 	
 
 	@Override
-	public String toString() {
+	public String encode() {
 		return "uciok";
 	}
 

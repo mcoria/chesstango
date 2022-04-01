@@ -3,14 +3,14 @@
  */
 package uci.protocol.imp.responses.uci;
 
-import uci.protocol.UCIResponseSingle;
 import uci.protocol.UCIResponseType;
+import uci.protocol.imp.responses.AbstractSinlgeResponse;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class IdEngineAuthor implements UCIResponseSingle {
+public class IdEngineAuthor extends AbstractSinlgeResponse {
 
 	@Override
 	public UCIResponseType getType() {
@@ -19,7 +19,7 @@ public class IdEngineAuthor implements UCIResponseSingle {
 
 
 	@Override
-	public String toString() {
+	public String encode() {
 		return "id author Mauricio Coria";
 	}
 

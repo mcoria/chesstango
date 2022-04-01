@@ -3,6 +3,8 @@
  */
 package uci.protocol;
 
+import uci.protocol.imp.requests.ISREADYCMD;
+import uci.protocol.imp.requests.QUIT;
 import uci.protocol.imp.requests.UCI;
 import uci.protocol.imp.requests.Unknown;
 
@@ -29,7 +31,10 @@ public class UCIDecoder {
 				break;
 			case "QUIT":
 				result = new QUIT();
-				break;				
+				break;
+			case "ISREADY":
+				result = new ISREADYCMD();
+				break;
 			default:
 				result = new Unknown();
 				break;
