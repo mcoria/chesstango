@@ -20,12 +20,10 @@ public class GO implements UCIRequest {
 		return UCIRequestType.GO;
 	}
 
-	/* (non-Javadoc)
-	 * @see uci.protocol.UCIRequest#execute(uci.engine.Engine)
-	 */
+
 	@Override
 	public UCIResponse execute(Engine engine) {
-		engine.do_go();
+		engine.do_go(this);
 		return null;
 	}
 
