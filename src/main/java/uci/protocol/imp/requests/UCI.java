@@ -22,6 +22,7 @@ public class UCI implements UCIRequest {
 
 	@Override
 	public UCIResponse execute(Engine engine) {
+		engine.do_start();
 		return new UciResponse();
 	}
 
