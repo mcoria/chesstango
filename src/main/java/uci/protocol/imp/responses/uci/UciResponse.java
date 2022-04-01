@@ -9,8 +9,7 @@ import uci.protocol.imp.responses.MultilineImp;
  * @author Mauricio Coria
  *
  */
-public class UciResponse extends MultilineImp{
-
+public class UciResponse extends MultilineImp {
 
 	public UciResponse() {
 		addResponse(new IdEngineName());

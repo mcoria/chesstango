@@ -3,14 +3,13 @@
  */
 package uci.protocol.imp.responses;
 
-import uci.protocol.UCIResponseSingle;
 import uci.protocol.UCIResponseType;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ReadyOk implements UCIResponseSingle {
+public class ReadyOk extends AbstractSinlgeResponse {
 
 
 	@Override

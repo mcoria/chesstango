@@ -28,11 +28,13 @@ public class Stopped implements EngineState {
 
 	@Override
 	public void do_newGame() {
+		this.engine.selectState(new WaitPositionCommand(engine));		
 	}
 
 
 	@Override
 	public void do_position_fen(String fen, List<String> moves) {
+		this.engine.selectState(new WaitGoCommand(engine));		
 	}
 
 
