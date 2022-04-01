@@ -12,18 +12,16 @@ import uci.protocol.UCIResponse;
  * @author Mauricio Coria
  *
  */
-public class QUIT implements UCIRequest {
-
+public class STOP implements UCIRequest {
 
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.QUIT;
+		return UCIRequestType.STOP;
 	}
-
 
 	@Override
 	public UCIResponse execute(Engine engine) {
-		engine.do_quit();
+		engine.do_stop();
 		return null;
 	}
 

@@ -24,6 +24,7 @@ public class ISREADYCMD implements UCIRequest {
 
 	@Override
 	public UCIResponse execute(Engine engine) {
+		engine.do_ping();
 		return new ReadyOk();
 	}
 

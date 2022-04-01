@@ -47,7 +47,7 @@ public class Main {
 	}
 
 	private UCIResponse processRequest(UCIRequest uciRequest) {
-		return engine.processRequest(uciRequest);
+		return uciRequest.execute(engine);
 	}
 
 	private void processResponse(UCIResponse uciResponse) {

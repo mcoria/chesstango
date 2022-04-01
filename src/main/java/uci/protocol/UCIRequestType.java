@@ -8,5 +8,5 @@ package uci.protocol;
  *
  */
 public enum UCIRequestType {
-	UCI, UNKNOWN, QUIT, ISREADY
+	UCI, UNKNOWN, QUIT, ISREADY, STOP
 }

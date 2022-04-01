@@ -3,35 +3,26 @@
  */
 package uci.engine;
 
-import uci.protocol.UCIRequest;
-import uci.protocol.UCIResponse;
-
 /**
  * @author Mauricio Coria
  *
  */
 public class Engine {
-
 	private boolean keepProcessing = true;
 
-	/**
-	 * @param uciRequest
-	 * @return
-	 */
-	public UCIResponse processRequest(UCIRequest uciRequest) {
-		return uciRequest.execute(this);
-	}
-
-	/**
-	 * @return
-	 */
-	public UCIResponse quit() {
+	public void do_quit() {
 		keepProcessing = false;
-		return null;
 	}
 
+	public void do_ping() {
+	}
+
+
+	public void do_stop() {
+	}
+	
 	public boolean keepProcessing() {
 		return keepProcessing;
-	}
+	}	
 
 }

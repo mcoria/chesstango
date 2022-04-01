@@ -5,6 +5,7 @@ package uci.protocol;
 
 import uci.protocol.imp.requests.ISREADYCMD;
 import uci.protocol.imp.requests.QUIT;
+import uci.protocol.imp.requests.STOP;
 import uci.protocol.imp.requests.UCI;
 import uci.protocol.imp.requests.Unknown;
 
@@ -35,6 +36,15 @@ public class UCIDecoder {
 			case "ISREADY":
 				result = new ISREADYCMD();
 				break;
+			case "POSITION":
+				result = parsePosition(words);
+				break;
+			case "GO":
+				result = parseGo(words);
+				break;
+			case "STOP":
+				result = new STOP();
+				break;				
 			default:
 				result = new Unknown();
 				break;
@@ -42,6 +52,18 @@ public class UCIDecoder {
 		}
 		
 		return result;
+	}
+
+
+	private UCIRequest parseGo(String[] words) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	private UCIRequest parsePosition(String[] words) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
