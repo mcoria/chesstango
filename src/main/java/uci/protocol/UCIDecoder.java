@@ -5,6 +5,7 @@ package uci.protocol;
 
 import uci.protocol.imp.requests.GO;
 import uci.protocol.imp.requests.ISREADYCMD;
+import uci.protocol.imp.requests.POSITION;
 import uci.protocol.imp.requests.QUIT;
 import uci.protocol.imp.requests.SETOPTION;
 import uci.protocol.imp.requests.STOP;
@@ -38,15 +39,15 @@ public class UCIDecoder {
 				break;
 			case "UCINUEWGAME":
 				result = new UCINUEWGAME();
-				break;					
+				break;
+			case "POSITION":
+				result = parsePosition(words);
+				break;				
 			case "QUIT":
 				result = new QUIT();
 				break;
 			case "ISREADY":
 				result = new ISREADYCMD();
-				break;
-			case "POSITION":
-				result = parsePosition(words);
 				break;
 			case "GO":
 				result = parseGo(words);
@@ -76,8 +77,7 @@ public class UCIDecoder {
 
 
 	private UCIRequest parsePosition(String[] words) {
-		// TODO Auto-generated method stub
-		return null;
+		return new POSITION();
 	}
 
 }

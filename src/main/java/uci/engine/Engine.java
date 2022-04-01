@@ -3,6 +3,8 @@
  */
 package uci.engine;
 
+import java.util.List;
+
 import uci.engine.states.WaitStartEngineCommand;
 
 /**
@@ -26,6 +28,10 @@ public class Engine {
 	public void do_start() {
 		engineState.do_start();
 	}
+	
+	public void do_position_startpos(List<String> moves) {
+		// TODO Auto-generated method stub
+	}	
 	
 	public void do_waitNewGame() {
 		engineState.do_newGame();
