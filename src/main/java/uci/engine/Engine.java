@@ -20,9 +20,11 @@ public class Engine {
 
 	public void do_stop() {
 	}
+
+	public void do_go() {		
+	}
 	
 	public boolean keepProcessing() {
 		return keepProcessing;
 	}	
-
 }

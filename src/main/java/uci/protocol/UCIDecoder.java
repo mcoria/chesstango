@@ -56,8 +56,7 @@ public class UCIDecoder {
 
 
 	private UCIRequest parseGo(String[] words) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GO();
 	}
 
 
