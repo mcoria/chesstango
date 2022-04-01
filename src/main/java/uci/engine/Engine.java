@@ -55,6 +55,7 @@ public class Engine {
 	}
 
 	public void do_stop() {
+		engineState.do_stop();
 	}
 	
 	public boolean keepProcessing() {

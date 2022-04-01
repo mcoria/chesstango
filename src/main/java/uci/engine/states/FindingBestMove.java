@@ -13,11 +13,11 @@ import uci.protocol.imp.requests.GO;
  * @author Mauricio Coria
  *
  */
-public class WaitGoCommand implements EngineState {
+public class FindingBestMove implements EngineState {
 
 	private final Engine engine;
 	
-	public WaitGoCommand(Engine engine) {
+	public FindingBestMove(Engine engine) {
 		this.engine = engine;
 	}
 
@@ -36,15 +36,14 @@ public class WaitGoCommand implements EngineState {
 	public void do_position_fen(String fen, List<String> moves) {
 	}
 
-
 	@Override
 	public void do_go(GO go) {
-		engine.selectState(new FindingBestMove(engine));	
 	}
 
 
 	@Override
-	public void do_stop() {		
+	public void do_stop() {
+		engine.selectState(new Stopped(engine));
 	}
 
 }

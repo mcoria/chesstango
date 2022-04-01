@@ -44,4 +44,8 @@ public class WaitPositionCommand implements EngineState {
 		
 	}
 
+	@Override
+	public void do_stop() {
+	}
+
 }

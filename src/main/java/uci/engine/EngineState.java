@@ -24,4 +24,7 @@ public interface EngineState {
 
 	void do_go(GO go);
 
+
+	void do_stop();
+
 }

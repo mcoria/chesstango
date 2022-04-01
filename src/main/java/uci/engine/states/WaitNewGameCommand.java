@@ -41,13 +41,16 @@ public class WaitNewGameCommand implements EngineState{
 		
 	}
 
-
-	/* (non-Javadoc)
-	 * @see uci.engine.EngineState#do_go(uci.protocol.imp.requests.GO)
-	 */
 	@Override
 	public void do_go(GO go) {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void do_stop() {
+
 		
 	}
 
