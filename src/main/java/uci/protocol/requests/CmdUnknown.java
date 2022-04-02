@@ -11,18 +11,16 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class ISREADYCMD implements UCIRequest {
-
+public class CmdUnknown implements UCIRequest {
 
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.ISREADY;
+		return UCIRequestType.UNKNOWN;
 	}
 
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_ping();
 	}
 
 }

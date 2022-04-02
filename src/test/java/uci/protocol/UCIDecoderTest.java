@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uci.protocol.requests.POSITION;
+import uci.protocol.requests.CmdPosition;
 
 /**
  * @author Mauricio Coria
@@ -27,9 +27,9 @@ public class UCIDecoderTest {
 	@Test
 	public void tes1t() {
 		UCIRequest result = decoder.parseInput("position startpos");
-		Assert.assertTrue(result instanceof POSITION);
+		Assert.assertTrue(result instanceof CmdPosition);
 		
-		POSITION command = (POSITION) result;
+		CmdPosition command = (CmdPosition) result;
 		
 		Assert.assertFalse(command.isFen());
 		
@@ -42,9 +42,9 @@ public class UCIDecoderTest {
 	@Test
 	public void test2() {
 		UCIRequest result = decoder.parseInput("position startpos moves f2f4");
-		Assert.assertTrue(result instanceof POSITION);
+		Assert.assertTrue(result instanceof CmdPosition);
 		
-		POSITION command = (POSITION) result;
+		CmdPosition command = (CmdPosition) result;
 		
 		Assert.assertFalse(command.isFen());
 		
@@ -58,9 +58,9 @@ public class UCIDecoderTest {
 	@Test
 	public void test3() {
 		UCIRequest result = decoder.parseInput("position startpos moves e2e3 e7e5");
-		Assert.assertTrue(result instanceof POSITION);
+		Assert.assertTrue(result instanceof CmdPosition);
 		
-		POSITION command = (POSITION) result;
+		CmdPosition command = (CmdPosition) result;
 		
 		Assert.assertFalse(command.isFen());
 		
@@ -75,9 +75,9 @@ public class UCIDecoderTest {
 	@Test
 	public void test4() {
 		UCIRequest result = decoder.parseInput("position startpos moves e2e4");
-		Assert.assertTrue(result instanceof POSITION);
+		Assert.assertTrue(result instanceof CmdPosition);
 		
-		POSITION command = (POSITION) result;
+		CmdPosition command = (CmdPosition) result;
 		
 		Assert.assertFalse(command.isFen());
 		

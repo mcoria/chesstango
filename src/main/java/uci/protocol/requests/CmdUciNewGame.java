@@ -11,18 +11,18 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class SETOPTION implements UCIRequest {
+public class CmdUciNewGame implements UCIRequest {
 
 
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.SETOPTION;
+		return UCIRequestType.UCINEWGAME;
 	}
 
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_setOptions();
+		engine.do_newGame();
 	}
 
 }

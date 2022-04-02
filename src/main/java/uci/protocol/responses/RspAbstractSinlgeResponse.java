@@ -9,7 +9,7 @@ import uci.protocol.UCIResponseSingle;
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractSinlgeResponse implements UCIResponseSingle {
+public abstract class RspAbstractSinlgeResponse implements UCIResponseSingle {
 
 	@Override
 	public String toString() {

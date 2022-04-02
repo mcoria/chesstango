@@ -11,7 +11,7 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class QUIT implements UCIRequest {
+public class CmdQuit implements UCIRequest {
 
 
 	@Override

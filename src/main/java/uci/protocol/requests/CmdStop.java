@@ -11,7 +11,7 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class STOP implements UCIRequest {
+public class CmdStop implements UCIRequest {
 
 	@Override
 	public UCIRequestType getType() {

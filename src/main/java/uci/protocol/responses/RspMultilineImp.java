@@ -14,7 +14,7 @@ import uci.protocol.UCIResponseSingle;
  * @author Mauricio Coria
  *
  */
-public class MultilineImp implements UCIResponseMultiple {
+public class RspMultilineImp implements UCIResponseMultiple {
 
 	private List<UCIResponseSingle> responses = new ArrayList<UCIResponseSingle>();
 	

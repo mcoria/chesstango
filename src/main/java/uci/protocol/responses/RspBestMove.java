@@ -9,11 +9,11 @@ import uci.protocol.UCIResponseType;
  * @author Mauricio Coria
  *
  */
-public class BestMove extends AbstractSinlgeResponse {
+public class RspBestMove extends RspAbstractSinlgeResponse {
 	
 	private final String bestMove;
 	
-	public BestMove(String bestMove) {
+	public RspBestMove(String bestMove) {
 		this.bestMove = bestMove;
 	}
 

@@ -9,7 +9,7 @@ import uci.protocol.UCIResponseType;
  * @author Mauricio Coria
  *
  */
-public class ReadyOk extends AbstractSinlgeResponse {
+public class RspReadyOk extends RspAbstractSinlgeResponse {
 
 
 	@Override

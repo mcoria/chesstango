@@ -4,24 +4,24 @@
 package uci.protocol.responses.uci;
 
 import uci.protocol.UCIResponseType;
-import uci.protocol.responses.AbstractSinlgeResponse;
+import uci.protocol.responses.RspAbstractSinlgeResponse;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class IdEngineAuthor extends AbstractSinlgeResponse {
+public class RspUciOk extends RspAbstractSinlgeResponse {
+
 
 	@Override
 	public UCIResponseType getType() {
-		return UCIResponseType.ID;
+		return UCIResponseType.UCIOK;
 	}
-
+	
 
 	@Override
 	public String encode() {
-		return "id author Mauricio Coria";
+		return "uciok";
 	}
-
 
 }

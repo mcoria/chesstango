@@ -13,14 +13,14 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class POSITION implements UCIRequest {
+public class CmdPosition implements UCIRequest {
 
 	private final List<String> moves;
 	
 	private final boolean isFen;
 	
 
-	public POSITION(boolean isFen, List<String> moves) {
+	public CmdPosition(boolean isFen, List<String> moves) {
 		this.isFen = isFen;
 		this.moves = moves;
 	}

@@ -11,18 +11,16 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class GO implements UCIRequest {
-
-
+public class CmdUci implements UCIRequest {
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.GO;
+		return UCIRequestType.UCI;
 	}
 
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_go(this);
+		engine.do_start();
 	}
 
 }

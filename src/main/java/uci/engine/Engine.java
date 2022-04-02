@@ -7,17 +7,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import chess.Color;
 import chess.Game;
-import chess.Square;
 import chess.builder.imp.GameBuilder;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.MovePromotion;
-import uci.protocol.requests.GO;
-import uci.protocol.responses.BestMove;
-import uci.protocol.responses.ReadyOk;
-import uci.protocol.responses.uci.UciResponse;
+import uci.protocol.requests.CmdGo;
+import uci.protocol.responses.RspBestMove;
+import uci.protocol.responses.RspReadyOk;
+import uci.protocol.responses.uci.RspUci;
 
 /**
  * @author Mauricio Coria
@@ -36,7 +34,7 @@ public class Engine {
 
 
 	public void do_start() {
-		responseChannel.send( new UciResponse() );
+		responseChannel.send( new RspUci() );
 	}
 	
 	public void do_setOptions() {
@@ -56,7 +54,7 @@ public class Engine {
 
 	}
 	
-	public void do_go(GO go) {	
+	public void do_go(CmdGo cmdGo) {	
 		Collection<Move> moves = this.game.getPossibleMoves();
 		
 		Move[] arrayMoves = moves.toArray(new Move[moves.size()]);
@@ -64,7 +62,7 @@ public class Engine {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, arrayMoves.length);
 		Move theSelectedMove = arrayMoves[randomNum];
 		
-		responseChannel.send( new BestMove(theSelectedMove.getFrom().getKey().toString() + theSelectedMove.getTo().getKey().toString()) );
+		responseChannel.send( new RspBestMove(theSelectedMove.getFrom().getKey().toString() + theSelectedMove.getTo().getKey().toString()) );
 	}	
 	
 	public void do_quit() {
@@ -72,7 +70,7 @@ public class Engine {
 	}
 
 	public void do_ping() {
-		responseChannel.send( new ReadyOk() );
+		responseChannel.send( new RspReadyOk() );
 	}
 
 	public void do_stop() {
