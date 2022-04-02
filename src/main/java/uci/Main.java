@@ -6,6 +6,7 @@ package uci;
 import java.util.Scanner;
 
 import uci.engine.Engine;
+import uci.engine.UCIResponseChannel;
 import uci.protocol.UCIDecoder;
 import uci.protocol.UCIRequest;
 import uci.protocol.UCIResponse;
@@ -16,19 +17,21 @@ import uci.protocol.UCIResponseSingle;
  * @author Mauricio Coria
  *
  */
-public class Main {
-	private UCIDecoder uciDecoder = new UCIDecoder();
+public class Main implements UCIResponseChannel {
+	private final UCIDecoder uciDecoder = new UCIDecoder();
 	
-	private Engine engine = new Engine();
+	private final Engine engine;
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		Main main = new Main();
 		main.mainLoop();
 	}
 
+
+	public Main() {
+		engine = new Engine(this);
+	}
+	
 	protected void mainLoop() {
 		Scanner scanner = new Scanner(System.in);
 		while (engine.keepProcessing() && scanner.hasNext()) {
@@ -36,21 +39,14 @@ public class Main {
 
 			UCIRequest uciRequest = uciDecoder.parseInput(input);
 
-			UCIResponse uciResponse = processRequest(uciRequest);
-
-			if (uciResponse != null) {
-				processResponse(uciResponse);
-			}
+			uciRequest.execute(engine);
 
 		}
 		scanner.close();
 	}
 
-	private UCIResponse processRequest(UCIRequest uciRequest) {
-		return uciRequest.execute(engine);
-	}
-
-	private void processResponse(UCIResponse uciResponse) {
+	@Override
+	public void send(UCIResponse uciResponse) {
 		if (uciResponse instanceof UCIResponseMultiple) {
 			UCIResponseMultiple multiline = (UCIResponseMultiple) uciResponse;
 			for (UCIResponseSingle singleResponse : multiline) {

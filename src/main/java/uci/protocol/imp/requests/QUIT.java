@@ -6,7 +6,6 @@ package uci.protocol.imp.requests;
 import uci.engine.Engine;
 import uci.protocol.UCIRequest;
 import uci.protocol.UCIRequestType;
-import uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria
@@ -22,9 +21,8 @@ public class QUIT implements UCIRequest {
 
 
 	@Override
-	public UCIResponse execute(Engine engine) {
+	public void execute(Engine engine) {
 		engine.do_quit();
-		return null;
 	}
 
 }

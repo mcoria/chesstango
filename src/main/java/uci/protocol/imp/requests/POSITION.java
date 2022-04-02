@@ -8,7 +8,6 @@ import java.util.List;
 import uci.engine.Engine;
 import uci.protocol.UCIRequest;
 import uci.protocol.UCIRequestType;
-import uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria
@@ -33,9 +32,8 @@ public class POSITION implements UCIRequest {
 
 
 	@Override
-	public UCIResponse execute(Engine engine) {
+	public void execute(Engine engine) {
 		engine.do_position_startpos(moves);
-		return null;
 	}
 
 

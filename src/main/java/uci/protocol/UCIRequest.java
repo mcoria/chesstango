@@ -14,5 +14,5 @@ public interface UCIRequest {
 	UCIRequestType getType();
 
 
-	UCIResponse execute(Engine engine);
+	void execute(Engine engine);
 }

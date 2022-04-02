@@ -5,8 +5,9 @@ package uci.engine;
 
 import java.util.List;
 
-import uci.engine.states.WaitStartEngineCommand;
 import uci.protocol.imp.requests.GO;
+import uci.protocol.imp.responses.ReadyOk;
+import uci.protocol.imp.responses.uci.UciResponse;
 
 /**
  * @author Mauricio Coria
@@ -15,36 +16,31 @@ import uci.protocol.imp.requests.GO;
 public class Engine {
 	private boolean keepProcessing = true;
 	
-	private EngineState engineState;
-
-	private static final String FEN_START = "";
-
-	public Engine() {
-		selectState(new WaitStartEngineCommand(this));
-	}
+	private final UCIResponseChannel responseChannel;
 	
-	public void selectState(EngineState newState) {
-		engineState = newState;
-	}	
+	public Engine(UCIResponseChannel responseChannel) {
+		this.responseChannel = responseChannel;
+	}
+
 
 	public void do_start() {
-		engineState.do_start();
+		responseChannel.send( new UciResponse() );
 	}
 	
 	public void do_waitNewGame() {
-		engineState.do_newGame();
+
 	}
 	
 	public void do_position_startpos(List<String> moves) {
-		do_position_fen(FEN_START, moves);
+
 	}	
 	
 	public void do_position_fen(String fen, List<String> moves) {
-		engineState.do_position_fen(fen, moves);
+
 	}
 	
 	public void do_go(GO go) {	
-		engineState.do_go(go);
+
 	}	
 	
 	public void do_quit() {
@@ -52,14 +48,23 @@ public class Engine {
 	}
 
 	public void do_ping() {
+		responseChannel.send( new ReadyOk() );
 	}
 
 	public void do_stop() {
-		engineState.do_stop();
 	}
 	
 	public boolean keepProcessing() {
 		return keepProcessing;
+	}
+
+
+	/**
+	 * 
+	 */
+	public void do_setOptions() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
