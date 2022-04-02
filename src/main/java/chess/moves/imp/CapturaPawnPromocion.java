@@ -2,13 +2,14 @@ package chess.moves.imp;
 
 import chess.Piece;
 import chess.PiecePositioned;
+import chess.moves.MovePromotion;
 import chess.position.PiecePlacementWriter;
 
 /**
  * @author Mauricio Coria
  *
  */
-class CapturaPawnPromocion extends CaptureMove {
+class CapturaPawnPromocion extends CaptureMove implements MovePromotion {
 
 	protected final Piece promocion;
 	
@@ -37,4 +38,8 @@ class CapturaPawnPromocion extends CaptureMove {
 		return super.toString() + "[" + promocion + "]";
 	}	
 
+	@Override
+	public Piece getPromotion() {
+		return promocion;
+	}	
 }

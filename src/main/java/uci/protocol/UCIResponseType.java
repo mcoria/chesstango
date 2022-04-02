@@ -8,5 +8,5 @@ package uci.protocol;
  *
  */
 public enum UCIResponseType {
-	ID, UCIOK, READYOK
+	ID, UCIOK, READYOK, BESTMOVE
 }

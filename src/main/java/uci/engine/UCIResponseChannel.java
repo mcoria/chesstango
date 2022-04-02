@@ -11,6 +11,6 @@ import uci.protocol.UCIResponse;
  */
 public interface UCIResponseChannel {
 
-	void send(UCIResponse readyOk);
+	void send(UCIResponse response);
 
 }

@@ -22,7 +22,7 @@ public class UCINUEWGAME implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_waitNewGame();
+		engine.do_newGame();
 	}
 
 }

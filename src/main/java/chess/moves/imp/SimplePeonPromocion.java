@@ -2,6 +2,7 @@ package chess.moves.imp;
 
 import chess.Piece;
 import chess.PiecePositioned;
+import chess.moves.MovePromotion;
 import chess.position.PiecePlacementWriter;
 
 
@@ -9,10 +10,10 @@ import chess.position.PiecePlacementWriter;
  * @author Mauricio Coria
  *
  */
-class SimplePawnPromocion extends SimpleMove {
+class SimplePawnPromocion extends SimpleMove implements MovePromotion {
 
 	protected final Piece promocion;
-	
+
 	public SimplePawnPromocion(PiecePositioned from, PiecePositioned to, Piece promocion) {
 		super(from, to);
 		this.promocion = promocion;
@@ -20,13 +21,13 @@ class SimplePawnPromocion extends SimpleMove {
 
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
-		board.setEmptyPosicion(from);								//Dejamos el origen
-		board.setPieza(to.getKey(), this.promocion) ;				//Promocion
+		board.setEmptyPosicion(from); // Dejamos el origen
+		board.setPieza(to.getKey(), this.promocion); // Promocion
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof SimplePawnPromocion){
+		if (super.equals(obj) && obj instanceof SimplePawnPromocion) {
 			SimplePawnPromocion other = (SimplePawnPromocion) obj;
 			return promocion.equals(other.promocion);
 		}
@@ -36,5 +37,10 @@ class SimplePawnPromocion extends SimpleMove {
 	@Override
 	public String toString() {
 		return super.toString() + "[" + promocion + "]";
-	}	
+	}
+
+	@Override
+	public Piece getPromotion() {
+		return promocion;
+	}
 }

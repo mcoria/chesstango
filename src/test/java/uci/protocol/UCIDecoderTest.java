@@ -70,5 +70,22 @@ public class UCIDecoderTest {
 		
 		Assert.assertEquals("e2e3", moves.get(0));
 		Assert.assertEquals("e7e5", moves.get(1));
+	}
+	
+	@Test
+	public void test4() {
+		UCIRequest result = decoder.parseInput("position startpos moves e2e4");
+		Assert.assertTrue(result instanceof POSITION);
+		
+		POSITION command = (POSITION) result;
+		
+		Assert.assertFalse(command.isFen());
+		
+		List<String> moves = command.getMoves();
+		
+		Assert.assertEquals(1, moves.size());
+		
+		Assert.assertEquals("e2e4", moves.get(0));
 	}	
+	
 }
