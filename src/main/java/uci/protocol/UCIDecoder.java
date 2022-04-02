@@ -6,15 +6,15 @@ package uci.protocol;
 import java.util.ArrayList;
 import java.util.List;
 
-import uci.protocol.imp.requests.GO;
-import uci.protocol.imp.requests.ISREADYCMD;
-import uci.protocol.imp.requests.POSITION;
-import uci.protocol.imp.requests.QUIT;
-import uci.protocol.imp.requests.SETOPTION;
-import uci.protocol.imp.requests.STOP;
-import uci.protocol.imp.requests.UCI;
-import uci.protocol.imp.requests.UCINUEWGAME;
-import uci.protocol.imp.requests.Unknown;
+import uci.protocol.requests.GO;
+import uci.protocol.requests.ISREADYCMD;
+import uci.protocol.requests.POSITION;
+import uci.protocol.requests.QUIT;
+import uci.protocol.requests.SETOPTION;
+import uci.protocol.requests.STOP;
+import uci.protocol.requests.UCI;
+import uci.protocol.requests.UCINUEWGAME;
+import uci.protocol.requests.Unknown;
 
 /**
  * @author Mauricio Coria

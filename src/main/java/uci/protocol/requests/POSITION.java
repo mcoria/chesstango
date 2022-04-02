@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uci.protocol.imp.requests;
+package uci.protocol.requests;
 
 import java.util.List;
 

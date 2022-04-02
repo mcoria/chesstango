@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uci.protocol.imp.requests;
+package uci.protocol.requests;
 
 import uci.engine.Engine;
 import uci.protocol.UCIRequest;
@@ -11,18 +11,16 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class SETOPTION implements UCIRequest {
-
-
+public class UCI implements UCIRequest {
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.SETOPTION;
+		return UCIRequestType.UCI;
 	}
 
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_setOptions();
+		engine.do_start();
 	}
 
 }

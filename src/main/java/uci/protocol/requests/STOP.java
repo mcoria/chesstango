@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uci.protocol.imp.requests;
+package uci.protocol.requests;
 
 import uci.engine.Engine;
 import uci.protocol.UCIRequest;

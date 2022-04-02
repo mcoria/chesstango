@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uci.protocol.imp.requests;
+package uci.protocol.requests;
 
 import uci.engine.Engine;
 import uci.protocol.UCIRequest;
@@ -11,18 +11,18 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class ISREADYCMD implements UCIRequest {
+public class GO implements UCIRequest {
 
 
 	@Override
 	public UCIRequestType getType() {
-		return UCIRequestType.ISREADY;
+		return UCIRequestType.GO;
 	}
 
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_ping();
+		engine.do_go(this);
 	}
 
 }

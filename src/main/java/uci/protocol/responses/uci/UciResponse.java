@@ -1,9 +1,9 @@
 /**
  * 
  */
-package uci.protocol.imp.responses.uci;
+package uci.protocol.responses.uci;
 
-import uci.protocol.imp.responses.MultilineImp;
+import uci.protocol.responses.MultilineImp;
 
 /**
  * @author Mauricio Coria

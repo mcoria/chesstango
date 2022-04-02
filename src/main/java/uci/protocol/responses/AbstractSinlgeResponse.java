@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uci.protocol.imp.responses;
+package uci.protocol.responses;
 
 import uci.protocol.UCIResponseSingle;
 

@@ -1,10 +1,10 @@
 /**
  * 
  */
-package uci.protocol.imp.responses.uci;
+package uci.protocol.responses.uci;
 
 import uci.protocol.UCIResponseType;
-import uci.protocol.imp.responses.AbstractSinlgeResponse;
+import uci.protocol.responses.AbstractSinlgeResponse;
 
 /**
  * @author Mauricio Coria

@@ -5,9 +5,9 @@ package uci.engine;
 
 import java.util.List;
 
-import uci.protocol.imp.requests.GO;
-import uci.protocol.imp.responses.ReadyOk;
-import uci.protocol.imp.responses.uci.UciResponse;
+import uci.protocol.requests.GO;
+import uci.protocol.responses.ReadyOk;
+import uci.protocol.responses.uci.UciResponse;
 
 /**
  * @author Mauricio Coria
@@ -59,9 +59,6 @@ public class Engine {
 	}
 
 
-	/**
-	 * 
-	 */
 	public void do_setOptions() {
 		// TODO Auto-generated method stub
 		
