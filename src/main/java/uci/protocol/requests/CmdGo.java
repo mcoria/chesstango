@@ -22,7 +22,7 @@ public class CmdGo implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_go(this);
+		engine.do_go();
 	}
 
 }

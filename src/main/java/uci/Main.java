@@ -6,12 +6,10 @@ package uci;
 import java.util.Scanner;
 
 import uci.engine.Engine;
-import uci.engine.UCIResponseChannel;
 import uci.protocol.UCIDecoder;
 import uci.protocol.UCIRequest;
+import uci.protocol.UCIResponseChannel;
 import uci.protocol.UCIResponse;
-import uci.protocol.UCIResponseMultiple;
-import uci.protocol.UCIResponseSingle;
 
 /**
  * @author Mauricio Coria
@@ -46,20 +44,8 @@ public class Main implements UCIResponseChannel {
 	}
 
 	@Override
-	public void send(UCIResponse uciResponse) {
-		if (uciResponse instanceof UCIResponseMultiple) {
-			UCIResponseMultiple multiline = (UCIResponseMultiple) uciResponse;
-			for (UCIResponseSingle singleResponse : multiline) {
-				processResponseSingle(singleResponse);
-			}
-		} else {
-			processResponseSingle((UCIResponseSingle) uciResponse);
-		}
-	}
-
-
-	private void processResponseSingle(UCIResponseSingle singleResponse) {
-		System.out.println(singleResponse.toString());
+	public void send(UCIResponse response) {
+		System.out.println(response.toString());
 	}
 
 }

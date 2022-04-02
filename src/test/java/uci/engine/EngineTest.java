@@ -13,6 +13,7 @@ import chess.Game;
 import chess.fen.FENEncoder;
 import uci.protocol.UCIDecoder;
 import uci.protocol.UCIRequest;
+import uci.protocol.UCIResponseChannel;
 import uci.protocol.UCIResponse;
 
 /**
@@ -42,7 +43,7 @@ public class EngineTest {
 	public void tes1t() {
 		engine.do_position_startpos(Arrays.asList("e2e4"));
 		
-		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGem()));
+		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGeme()));
 	}
 	
 	@Test
@@ -51,7 +52,7 @@ public class EngineTest {
 		
 		command.execute(engine);
 		
-		Assert.assertEquals("2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1", fenCode(engine.getGem()));
+		Assert.assertEquals("2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1", fenCode(engine.getGeme()));
 	}
 	
 	private String fenCode(Game board) {

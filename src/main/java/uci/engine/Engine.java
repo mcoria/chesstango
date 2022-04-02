@@ -16,7 +16,7 @@ import chess.builder.imp.GameBuilder;
 import chess.fen.FENDecoder;
 import chess.moves.Move;
 import chess.moves.MovePromotion;
-import uci.protocol.requests.CmdGo;
+import uci.protocol.UCIResponseChannel;
 import uci.protocol.responses.RspBestMove;
 import uci.protocol.responses.RspReadyOk;
 import uci.protocol.responses.uci.RspUci;
@@ -38,7 +38,7 @@ public class Engine {
 
 
 	public void do_start() {
-		responseChannel.send( new RspUci() );
+		new RspUci().respond(responseChannel);
 	}
 	
 	public void do_setOptions() {
@@ -50,7 +50,7 @@ public class Engine {
 	
 	public void do_position_startpos(List<String> moves) {
 		this.game = getDefaultGame();
-		move(moves);
+		executeMoves(moves);
 	}
 
 
@@ -58,30 +58,30 @@ public class Engine {
 
 	}
 	
-	public void do_go(CmdGo cmdGo) {	
+	public void do_go() {
 		Collection<Move> moves = this.game.getPossibleMoves();
-		
+
 		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
-		
-		for(Move move : moves){
+
+		for (Move move : moves) {
 			PiecePositioned key = move.getFrom();
 			Collection<Move> positionMoves = moveMap.get(key);
-			if(positionMoves == null){
+			if (positionMoves == null) {
 				positionMoves = new ArrayList<Move>();
 				moveMap.put(key, positionMoves);
 			}
 			positionMoves.add(move);
 		}
-		
+
 		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
 		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
-		
+
 		Collection<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 		Move[] selectedMovesArray = selectedMovesCollection.toArray(new Move[selectedMovesCollection.size()]);
-		
+
 		Move selectedMove = selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
-		
-		responseChannel.send( new RspBestMove( encodeMove(selectedMove) ) );
+
+		new RspBestMove(encodeMove(selectedMove)).respond(responseChannel);
 	}	
 	
 	public void do_quit() {
@@ -89,7 +89,7 @@ public class Engine {
 	}
 
 	public void do_ping() {
-		responseChannel.send( new RspReadyOk() );
+		new RspReadyOk().respond(responseChannel);
 	}
 
 	public void do_stop() {
@@ -109,7 +109,7 @@ public class Engine {
 		return builder.getResult();
 	}
 	
-	private void move(List<String> moves) {
+	private void executeMoves(List<String> moves) {
 		for (String moveStr : moves) {
 			boolean findMove = false;
 			for (Move move : game.getPossibleMoves()) {
@@ -157,7 +157,7 @@ public class Engine {
 	}
 
 
-	public Game getGem() {
+	public Game getGeme() {
 		return game;
 		
 	}	

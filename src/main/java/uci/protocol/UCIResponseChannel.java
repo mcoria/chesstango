@@ -1,9 +1,7 @@
 /**
  * 
  */
-package uci.engine;
-
-import uci.protocol.UCIResponse;
+package uci.protocol;
 
 /**
  * @author Mauricio Coria
