@@ -3,15 +3,11 @@
  */
 package chess.uci.engine;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
+import chess.ai.BestMoveFinder;
+import chess.ai.imp.dummy.Dummy;
 import chess.board.Game;
-import chess.board.PiecePositioned;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.Move;
@@ -30,10 +26,13 @@ public class Engine {
 	
 	private final UCIResponseChannel responseChannel;
 
+	private final BestMoveFinder bestMoveFinder;
+	
 	private Game game;
 	
 	public Engine(UCIResponseChannel responseChannel) {
 		this.responseChannel = responseChannel;
+		this.bestMoveFinder = new Dummy();
 	}
 
 
@@ -60,27 +59,7 @@ public class Engine {
 	}
 	
 	public void do_go() {
-		Collection<Move> moves = this.game.getPossibleMoves();
-
-		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
-
-		for (Move move : moves) {
-			PiecePositioned key = move.getFrom();
-			Collection<Move> positionMoves = moveMap.get(key);
-			if (positionMoves == null) {
-				positionMoves = new ArrayList<Move>();
-				moveMap.put(key, positionMoves);
-			}
-			positionMoves.add(move);
-		}
-
-		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
-		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
-
-		Collection<Move> selectedMovesCollection = moveMap.get(selectedPiece);
-		Move[] selectedMovesArray = selectedMovesCollection.toArray(new Move[selectedMovesCollection.size()]);
-
-		Move selectedMove = selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
+		Move selectedMove = bestMoveFinder.findBestMove(game);
 
 		new RspBestMove(encodeMove(selectedMove)).respond(responseChannel);
 		//new RspBestMove("f7f6").respond(responseChannel);
