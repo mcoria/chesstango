@@ -10,6 +10,7 @@ import chess.board.Square;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.DebugChessFactory;
 import chess.board.fen.FENDecoder;
+import chess.board.perft.imp.PerftBrute;
 
 
 //Kiwipete
@@ -18,20 +19,20 @@ import chess.board.fen.FENDecoder;
  *
  */
 public class Test3Tests {
-
-	private Perft main;
+	
+	private Perft pert;
 	
 	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {
-		main = new Perft();
+		pert = new PerftBrute();
 		board =  getGame("4k2r/6K1/8/8/8/8/8/8 w k - 0 1");
 	}
 
 	@Test
 	public void test_divide2() {		
-		PerftResult result= main.start(board, 2);
+		PerftResult result= pert.start(board, 2);
 		
 		assertEquals(14, result.getChildNode(Square.g7, Square.g6));
 		assertEquals(13, result.getChildNode(Square.g7, Square.f6));
@@ -46,7 +47,7 @@ public class Test3Tests {
 	public void test_g7g6() {
 		board.executeMove(Square.g7, Square.g6);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e8, Square.g8));
 		assertEquals(1, result.getChildNode(Square.e8, Square.f8));

@@ -13,8 +13,8 @@ import chess.board.Square;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.Move;
-import chess.board.perft.Perft;
 import chess.board.perft.PerftResult;
+import chess.board.perft.imp.PerftBrute;
 
 
 /**
@@ -22,18 +22,20 @@ import chess.board.perft.PerftResult;
  *
  */
 public class InitialPositionTests {
-	private Perft main;
+
+	private Perft pert;
+
 	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {
-		main = new Perft();
+		pert = new PerftBrute();
 		board =  getDefaultGame();
 	}
 
 	@Test
 	public void test_divide1() {
-		PerftResult result = main.start(board, 1);
+		PerftResult result = pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.a2, Square.a3));
 		assertEquals(1, result.getChildNode(Square.a2, Square.a4));
@@ -62,7 +64,7 @@ public class InitialPositionTests {
 	
 	@Test
 	public void test_divide2() {
-		PerftResult result = main.start(board, 2);
+		PerftResult result = pert.start(board, 2);
 		
 		assertEquals(20, result.getChildNode(Square.a2, Square.a3));
 		assertEquals(20, result.getChildNode(Square.a2, Square.a4));
@@ -91,7 +93,7 @@ public class InitialPositionTests {
 	
 	@Test
 	public void test_divide3() {
-		PerftResult result = main.start(board, 3);
+		PerftResult result = pert.start(board, 3);
 		
 		assertEquals(380, result.getChildNode(Square.a2, Square.a3));
 		assertEquals(420, result.getChildNode(Square.a2, Square.a4));
@@ -121,7 +123,7 @@ public class InitialPositionTests {
 	
 	@Test
 	public void test_divide4() {
-		PerftResult result = main.start(board, 4);
+		PerftResult result = pert.start(board, 4);
 
 		assertEquals(8457, result.getChildNode(Square.a2, Square.a3));
 		assertEquals(9329, result.getChildNode(Square.a2, Square.a4));
@@ -152,7 +154,7 @@ public class InitialPositionTests {
 		  // 50segs  46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs 10segs  
 	      //  8segs   7segs  1segs
 	public void test_divide5() {
-		PerftResult result = main.start(board, 5);
+		PerftResult result = pert.start(board, 5);
 		
 		assertEquals(181046, result.getChildNode(Square.a2, Square.a3));
 		assertEquals(217832, result.getChildNode(Square.a2, Square.a4));
@@ -182,7 +184,7 @@ public class InitialPositionTests {
 
 	@Test //139segs 106segs 15segs 10segs
 	public void test_divide6() {
-		PerftResult result = main.start(board, 6);
+		PerftResult result = pert.start(board, 6);
 		
 		assertEquals(4463267, result.getChildNode(Square.a2, Square.a3 ));
 		assertEquals(5363555, result.getChildNode(Square.a2, Square.a4 ));
@@ -213,7 +215,7 @@ public class InitialPositionTests {
 	//TODO: por algun motivo este test esta fallando y demora 340segs
 	//Test
 	public void test_divide7() {
-		PerftResult result = main.start(board, 7);
+		PerftResult result = pert.start(board, 7);
 		
 		assertEquals(20, result.getMovesCount());
 		assertEquals(119060324, result.getTotalNodes());
@@ -224,7 +226,7 @@ public class InitialPositionTests {
 		
 		board.executeMove(Square.d2, Square.d3);
 		
-		PerftResult result = main.start(board, 4);
+		PerftResult result = pert.start(board, 4);
 		
 		assertEquals(20, result.getMovesCount());
 		assertEquals(328511, result.getTotalNodes());
@@ -239,7 +241,7 @@ public class InitialPositionTests {
 		board.executeMove(Square.a5, Square.a4);
 		board.executeMove(Square.c2, Square.c3);		
 		
-		PerftResult result = main.start(board, 4);
+		PerftResult result = pert.start(board, 4);
 		
 		assertEquals(21, result.getMovesCount());
 		assertEquals(438360, result.getTotalNodes());
@@ -256,7 +258,7 @@ public class InitialPositionTests {
 
 		assertFalse( contieneMove(board.getPossibleMoves(), Square.h6, Square.h5) );
 		
-		PerftResult result = main.start(board, 4);
+		PerftResult result = pert.start(board, 4);
 		
 		assertEquals(29, result.getMovesCount());
 		assertEquals(319182, result.getTotalNodes());
@@ -269,7 +271,7 @@ public class InitialPositionTests {
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.c7, Square.c5);
 		
-		PerftResult result = main.start(board, 3);
+		PerftResult result = pert.start(board, 3);
 		
 		assertEquals(27, result.getMovesCount());
 		assertEquals(15971, result.getTotalNodes());
@@ -281,7 +283,7 @@ public class InitialPositionTests {
 		board.executeMove(Square.c7, Square.c5);
 		board.executeMove(Square.e1, Square.d2);
 		
-		PerftResult result = main.start(board, 4);
+		PerftResult result = pert.start(board, 4);
 		
 		assertEquals(22, result.getMovesCount());
 		assertEquals(279506, result.getTotalNodes());
@@ -295,7 +297,7 @@ public class InitialPositionTests {
 		board.executeMove(Square.e1, Square.d2);
 		board.executeMove(Square.d8, Square.a5);
 		
-		PerftResult result = main.start(board, 1);
+		PerftResult result = pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.b1, Square.c3));
 		assertEquals(1, result.getChildNode(Square.b2, Square.b4));

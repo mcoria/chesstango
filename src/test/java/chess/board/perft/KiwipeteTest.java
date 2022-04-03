@@ -10,6 +10,7 @@ import chess.board.Game;
 import chess.board.Square;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
+import chess.board.perft.imp.PerftBrute;
 
 
 //Kiwipete
@@ -19,19 +20,19 @@ import chess.board.fen.FENDecoder;
  */
 public class KiwipeteTest {
 
-	private Perft main;
+	private Perft pert;
 	
 	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {
-		main = new Perft();
+		pert = new PerftBrute();
 		board =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
 	}
 
 	@Test
 	public void test_divide1() {		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e1, Square.g1));
 		assertEquals(1, result.getChildNode(Square.e1, Square.c1));
@@ -99,7 +100,7 @@ public class KiwipeteTest {
 	
 	@Test
 	public void test_divide2() {
-		PerftResult result= main.start(board, 2);
+		PerftResult result= pert.start(board, 2);
 		
 		assertEquals(43, result.getChildNode(Square.e1, Square.g1));
 		assertEquals(43, result.getChildNode(Square.e1, Square.c1));
@@ -168,7 +169,7 @@ public class KiwipeteTest {
 	
 	@Test
 	public void test_divide3() {
-		PerftResult result= main.start(board, 3);
+		PerftResult result= pert.start(board, 3);
 		
 		assertEquals(2059, result.getChildNode(Square.e1, Square.g1));
 		assertEquals(1887, result.getChildNode(Square.e1, Square.c1 ));
@@ -226,7 +227,7 @@ public class KiwipeteTest {
 	
 	@Test //8segs
 	public void test_divide4() {
-		PerftResult result= main.start(board, 4);	
+		PerftResult result= pert.start(board, 4);	
 		
 		assertEquals(86975, result.getChildNode(Square.e1, Square.g1 ));
 		assertEquals(79803, result.getChildNode(Square.e1, Square.c1 ));
@@ -287,7 +288,7 @@ public class KiwipeteTest {
 	public void test_d5d6() {
 		board.executeMove(Square.d5, Square.d6);
 		
-		PerftResult result= main.start(board, 2);
+		PerftResult result= pert.start(board, 2);
 		
 		assertEquals(49, result.getChildNode(Square.e8, Square.g8 ));
 		assertEquals(49, result.getChildNode(Square.e8, Square.c8 ));
@@ -340,7 +341,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.d5, Square.d6);
 		board.executeMove(Square.h3, Square.g2);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e1, Square.c1 ));
 		assertEquals(1, result.getChildNode(Square.e1, Square.d1 ));
@@ -400,7 +401,7 @@ public class KiwipeteTest {
 	public void test_c3b2() {
 		board.executeMove(Square.c3, Square.b1);
 		
-		PerftResult result= main.start(board, 2);
+		PerftResult result= pert.start(board, 2);
 		
 		assertEquals(49, result.getChildNode(Square.e8, Square.g8 ));
 		assertEquals(49, result.getChildNode(Square.e8, Square.c8 ));
@@ -454,7 +455,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.c3, Square.b1);
 		board.executeMove(Square.e8, Square.g8);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e1, Square.g1 ));
 		assertEquals(1, result.getChildNode(Square.e1 , Square.f1 ));
@@ -516,7 +517,7 @@ public class KiwipeteTest {
 	public void test_e2b5() {		
 		board.executeMove(Square.e2, Square.b5);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e8, Square.g8 ));
 		assertEquals(1, result.getChildNode(Square.e8, Square.c8 ));
@@ -579,7 +580,7 @@ public class KiwipeteTest {
 		
 		board.executeMove(Square.e2, Square.b5);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e8, Square.g8 ));
 		assertEquals(1, result.getChildNode(Square.e8, Square.c8 ));
@@ -630,7 +631,7 @@ public class KiwipeteTest {
 	public void test_e2a6() {
 		board.executeMove(Square.e2, Square.a6);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(36, result.getMovesCount());
 		assertEquals(36, result.getTotalNodes());			
@@ -639,7 +640,7 @@ public class KiwipeteTest {
 	@Test
 	public void test_e1g1() {
 		board.executeMove(Square.e1, Square.g1);
-		PerftResult result= main.start(board, 3);
+		PerftResult result= pert.start(board, 3);
 		
 		assertEquals(1899, result.getChildNode(Square.e8, Square.g8 ));
 		assertEquals(1962, result.getChildNode(Square.e8, Square.c8 ));
@@ -694,7 +695,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.e1, Square.g1);
 		board.executeMove(Square.h3, Square.g2);
 		
-		PerftResult result= main.start(board, 2);
+		PerftResult result= pert.start(board, 2);
 		
 		assertEquals(44, result.getChildNode(Square.g1, Square.g2));
 		assertEquals(46, result.getChildNode(Square.d5, Square.d6));
@@ -758,7 +759,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.h3, Square.g2);
 		board.executeMove(Square.d5, Square.d6);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e8, Square.g8 ));
 		assertEquals(1, result.getChildNode(Square.e8, Square.c8 ));
@@ -811,7 +812,7 @@ public class KiwipeteTest {
 	
 	@Test
 	public void test_divide5() {
-		PerftResult result= main.start(board, 5);
+		PerftResult result= pert.start(board, 5);
 		
 		assertEquals(4119629, result.getChildNode(Square.e1, Square.g1));
 		assertEquals(3551583, result.getChildNode(Square.e1, Square.c1));
@@ -872,7 +873,7 @@ public class KiwipeteTest {
 	public void test_a1b1() {
 		board.executeMove(Square.a1, Square.b1);
 		
-		PerftResult result= main.start(board, 4);
+		PerftResult result= pert.start(board, 4);
 		
 		assertFalse(board.getChessPositionReader().isCastlingWhiteQueenAllowed());
 		
@@ -884,7 +885,7 @@ public class KiwipeteTest {
 	public void test_e1f1() {
 		board.executeMove(Square.e1, Square.f1);
 		
-		PerftResult result= main.start(board, 4);
+		PerftResult result= pert.start(board, 4);
 		
 
 		assertEquals(77387, result.getChildNode(Square.e8, Square.g8));
@@ -942,7 +943,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.e1, Square.f1);
 		board.executeMove(Square.e8, Square.g8);
 		
-		PerftResult result= main.start(board, 3);
+		PerftResult result= pert.start(board, 3);
 		
 		assertEquals(1833, result.getChildNode(Square.f1, Square.g1));
 		assertEquals(1832, result.getChildNode(Square.f1, Square.e1));
@@ -1001,7 +1002,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.e8, Square.g8);
 		board.executeMove(Square.f1, Square.e1);
 		
-		PerftResult result= main.start(board, 2);
+		PerftResult result= pert.start(board, 2);
 		
 		assertEquals(46, result.getChildNode(Square.g8, Square.h8));
 		assertEquals(46, result.getChildNode(Square.g8, Square.h7));
@@ -1056,7 +1057,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.f1, Square.e1);
 		board.executeMove(Square.g8, Square.h8);
 		
-		PerftResult result= main.start(board, 1);
+		PerftResult result= pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e1, Square.f1));
 		assertEquals(1, result.getChildNode(Square.e1, Square.d1));
@@ -1115,7 +1116,7 @@ public class KiwipeteTest {
 	public void test_c3b1() {
 		board.executeMove(Square.c3, Square.b1);
 		
-		PerftResult result = main.start(board, 4);
+		PerftResult result = pert.start(board, 4);
 
 		assertEquals(90953, result.getChildNode(Square.e8, Square.g8));
 		assertEquals(94015, result.getChildNode(Square.e8, Square.c8 ));
@@ -1170,7 +1171,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.c3, Square.b1);
 		board.executeMove(Square.e8, Square.g8);
 		
-		PerftResult result = main.start(board, 3);
+		PerftResult result = pert.start(board, 3);
 		
 		assertEquals(1857, result.getChildNode(Square.e1, Square.g1));
 		assertEquals(1702, result.getChildNode(Square.e1, Square.f1));
@@ -1233,7 +1234,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.e8, Square.g8);
 		board.executeMove(Square.b1, Square.c3);
 		
-		PerftResult result = main.start(board, 2);
+		PerftResult result = pert.start(board, 2);
 		
 		assertEquals(48, result.getChildNode(Square.g8, Square.h8));
 		assertEquals(48, result.getChildNode(Square.g8, Square.h7));
@@ -1288,7 +1289,7 @@ public class KiwipeteTest {
 		board.executeMove(Square.b1, Square.c3);
 		board.executeMove(Square.g8, Square.h8);
 		
-		PerftResult result = main.start(board, 1);
+		PerftResult result = pert.start(board, 1);
 		
 		assertEquals(1, result.getChildNode(Square.e1, Square.g1));
 		assertEquals(1, result.getChildNode(Square.e1, Square.c1));

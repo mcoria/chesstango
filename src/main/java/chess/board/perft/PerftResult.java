@@ -55,5 +55,5 @@ public class PerftResult {
 			}
 		}
 		return false;
-	}	
+	}
 }

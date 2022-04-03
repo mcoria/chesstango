@@ -9,6 +9,7 @@ import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.factory.ChessFactory;
 import chess.board.fen.FENDecoder;
+import chess.board.perft.imp.PerftBrute;
 
 /**
  * @author Mauricio Coria
@@ -69,7 +70,7 @@ public class PerftSuite {
 		System.out.println("Testing FEN: " + this.fen);
 		for(int i = 0; i < perftResults.length; i++){
 			
-			Perft main = new Perft();
+			PerftBrute main = new PerftBrute();
 			
 			PerftResult result = main.start(getGame(), this.startNivel + i);
 			

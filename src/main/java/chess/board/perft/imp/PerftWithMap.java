@@ -1,4 +1,4 @@
-package chess.board.perft;
+package chess.board.perft.imp;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -14,12 +14,14 @@ import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
 import chess.board.fen.FENEncoder;
 import chess.board.moves.Move;
+import chess.board.perft.Perft;
+import chess.board.perft.PerftResult;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PerftWithMap {
+public class PerftWithMap implements Perft  {
 	
 	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};
 	
@@ -121,7 +123,7 @@ public class PerftWithMap {
 						
 				game.executeMove(move);
 
-				String id = code(game);
+				String id = getGameId(game);
 
 				nodeCount = nodeMap.get(id);
 
@@ -174,7 +176,7 @@ public class PerftWithMap {
 	}
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
-	private String code(Game board) {
+	private String getGameId(Game board) {
 		board.getChessPositionReader().constructBoardRepresentation(coder);
 		return coder.getResult();
 	}

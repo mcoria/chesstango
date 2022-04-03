@@ -11,6 +11,7 @@ import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.DebugChessFactory;
 import chess.board.fen.FENDecoder;
+import chess.board.perft.imp.PerftBrute;
 
 /**
  * @author Mauricio Coria
@@ -20,10 +21,10 @@ public class PerftTests {
 
 	@Test
 	public void test_1() {
-		Perft main = new Perft();
+		Perft pert = new PerftBrute();
 		Game board = getGame("4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1");
 		
-		PerftResult result= main.start(board, 5);
+		PerftResult result= pert.start(board, 5);
 		
 		assertEquals(532933, result.getTotalNodes());
 	}
