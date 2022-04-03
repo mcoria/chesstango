@@ -18,7 +18,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class Test3Tests {
+public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Tests {
 	
 	private Perft pert;
 	

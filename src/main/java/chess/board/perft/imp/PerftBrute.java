@@ -1,7 +1,5 @@
 package chess.board.perft.imp;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import chess.board.Game;
-import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.perft.Perft;
 import chess.board.perft.PerftResult;
@@ -22,32 +18,8 @@ import chess.board.perft.PerftResult;
 public class PerftBrute implements Perft {
 	
 	private int maxLevel;
-	
-	public static void main(String[] args) {
-		GameBuilder builder = new GameBuilder();
-		
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(FENDecoder.INITIAL_FEN);
-		
-		Game board = builder.getResult();
-		
-		PerftBrute main = new PerftBrute();
-		
-		Instant start = Instant.now();
-		PerftResult perftResult = main.start(board, 7);
-		Instant end = Instant.now();
-		
-		main.printResult(perftResult);
 
-		
-		Duration timeElapsed = Duration.between(start, end);
-		System.out.println("Time taken: "+ timeElapsed.toMillis() +" milliseconds");
-	}
 
-	/* (non-Javadoc)
-	 * @see chess.board.perft.Perft#start(chess.board.Game, int)
-	 */
 	@Override
 	public PerftResult start(Game game, int maxLevel) {
 		this.maxLevel = maxLevel;

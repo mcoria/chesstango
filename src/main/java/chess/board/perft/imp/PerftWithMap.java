@@ -1,7 +1,5 @@
 package chess.board.perft.imp;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import chess.board.Game;
-import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
 import chess.board.fen.FENEncoder;
 import chess.board.moves.Move;
 import chess.board.perft.Perft;
@@ -31,27 +27,6 @@ public class PerftWithMap implements Perft  {
 	
 	private List<Map<String, Integer>> nodeListMap;
 	private int[] repetedNodes;
-	
-	public static void main(String[] args) {
-		GameBuilder builder = new GameBuilder();
-		
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(FENDecoder.INITIAL_FEN);
-		
-		Game board = builder.getResult();
-		
-		PerftWithMap main = new PerftWithMap();
-		
-		Instant start = Instant.now();
-		PerftResult result = main.start(board, 6);
-		Instant end = Instant.now();
-		
-		main.printResult(result);
-		
-		Duration timeElapsed = Duration.between(start, end);
-		System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
-	}
 
 	public PerftResult start(Game board, int maxLevel) {
 		this.maxLevel = maxLevel;
