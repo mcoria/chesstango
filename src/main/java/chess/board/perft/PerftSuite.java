@@ -1,4 +1,4 @@
-package chess.board.main;
+package chess.board.perft;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,7 +69,7 @@ public class PerftSuite {
 		System.out.println("Testing FEN: " + this.fen);
 		for(int i = 0; i < perftResults.length; i++){
 			
-			ChessMain main = new ChessMain();
+			Perft main = new Perft();
 			
 			PerftResult result = main.start(getGame(), this.startNivel + i);
 			

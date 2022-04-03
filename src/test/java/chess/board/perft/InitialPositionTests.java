@@ -1,4 +1,4 @@
-package chess.board.main;
+package chess.board.perft;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,9 +12,9 @@ import chess.board.Game;
 import chess.board.Square;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
-import chess.board.main.ChessMain;
-import chess.board.main.PerftResult;
 import chess.board.moves.Move;
+import chess.board.perft.Perft;
+import chess.board.perft.PerftResult;
 
 
 /**
@@ -22,12 +22,12 @@ import chess.board.moves.Move;
  *
  */
 public class InitialPositionTests {
-	private ChessMain main;
+	private Perft main;
 	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {
-		main = new ChessMain();
+		main = new Perft();
 		board =  getDefaultGame();
 	}
 
@@ -210,12 +210,13 @@ public class InitialPositionTests {
 		assertEquals(119060324, result.getTotalNodes());
 	}
 	
+	//TODO: por algun motivo este test esta fallando y demora 340segs
 	//Test
 	public void test_divide7() {
-		//PerftResult result = main.start(board, 7);
+		PerftResult result = main.start(board, 7);
 		
-		//assertEquals(20, result.getMovesCount());
-		//assertEquals(119060324, result.getTotalNodes());
+		assertEquals(20, result.getMovesCount());
+		assertEquals(119060324, result.getTotalNodes());
 	}	
 	
 	@Test

@@ -1,4 +1,4 @@
-package chess.board.main;
+package chess.board.perft;
 
 import java.util.HashMap;
 import java.util.Map;

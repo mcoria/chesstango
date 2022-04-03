@@ -1,11 +1,11 @@
-package chess.board.main;
+package chess.board.perft;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.board.main.PerftSuite;
+import chess.board.perft.PerftSuite;
 
 //TODO: Agrupar en una sola clase los tests de https://www.chessprogramming.org/Perft_Results
 //TODO: este set de test no esta en el archivo original, estaria bueno agregar una excepcion cuando falla alguno de los TESTs

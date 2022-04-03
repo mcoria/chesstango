@@ -1,4 +1,4 @@
-package chess.board.main;
+package chess.board.perft;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,7 +19,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class ChessMain {
+public class PerftWithMap {
 	
 	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};
 	
@@ -39,7 +39,7 @@ public class ChessMain {
 		
 		Game board = builder.getResult();
 		
-		ChessMain main = new ChessMain();
+		PerftWithMap main = new PerftWithMap();
 		
 		Instant start = Instant.now();
 		PerftResult result = main.start(board, 6);

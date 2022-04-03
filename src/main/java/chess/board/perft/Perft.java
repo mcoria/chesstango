@@ -1,4 +1,4 @@
-package chess.board.main;
+package chess.board.perft;
 
 import java.time.Duration;
 import java.time.Instant;

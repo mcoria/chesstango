@@ -1,4 +1,4 @@
-package chess.board.main;
+package chess.board.perft;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,8 +10,6 @@ import chess.board.Game;
 import chess.board.Square;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
-import chess.board.main.ChessMain;
-import chess.board.main.PerftResult;
 
 
 //Kiwipete
@@ -21,13 +19,13 @@ import chess.board.main.PerftResult;
  */
 public class KiwipeteTest {
 
-	private ChessMain main;
+	private Perft main;
 	
 	private Game board;
 	
 	@Before
 	public void setUp() throws Exception {
-		main = new ChessMain();
+		main = new Perft();
 		board =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
 	}
 
