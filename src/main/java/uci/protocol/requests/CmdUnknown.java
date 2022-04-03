@@ -21,6 +21,7 @@ public class CmdUnknown implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
+		throw new RuntimeException("Excecuting unknown command");
 	}
 
 }

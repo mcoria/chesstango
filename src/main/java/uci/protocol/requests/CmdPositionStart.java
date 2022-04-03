@@ -13,15 +13,12 @@ import uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class CmdPosition implements UCIRequest {
+public class CmdPositionStart implements UCIRequest {
 
 	private final List<String> moves;
 	
-	private final boolean isFen;
-	
 
-	public CmdPosition(boolean isFen, List<String> moves) {
-		this.isFen = isFen;
+	public CmdPositionStart(List<String> moves) {
 		this.moves = moves;
 	}
 
@@ -36,10 +33,6 @@ public class CmdPosition implements UCIRequest {
 		engine.do_position_startpos(moves);
 	}
 
-
-	public boolean isFen() {
-		return isFen;
-	}
 	
 	public List<String> getMoves(){
 		return moves;

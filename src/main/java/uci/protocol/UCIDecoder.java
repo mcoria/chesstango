@@ -8,7 +8,8 @@ import java.util.List;
 
 import uci.protocol.requests.CmdGo;
 import uci.protocol.requests.CmdIsReady;
-import uci.protocol.requests.CmdPosition;
+import uci.protocol.requests.CmdPositionFen;
+import uci.protocol.requests.CmdPositionStart;
 import uci.protocol.requests.CmdQuit;
 import uci.protocol.requests.CmdSetOption;
 import uci.protocol.requests.CmdStop;
@@ -29,7 +30,7 @@ public class UCIDecoder {
 	public UCIRequest parseInput(String input) {
 		UCIRequest result = null;
 		
-		String[] words = input.split("\\W+");
+		String[] words = input.split(" ");
 		
 		if(words.length > 0){
 			String command = words[0].toUpperCase();
@@ -97,24 +98,18 @@ public class UCIDecoder {
 		return result == null ? new CmdUnknown() : result;
 	}
 
-
-
-	/**
-	 * @param words
-	 * @return
-	 */
 	private UCIRequest parsePositionSTARTPOS(String[] words) {
 		UCIRequest result = null;
 		List<String> moves = new ArrayList<String>();
 		if (words.length == 2) {
-			result = new CmdPosition(false, moves);
+			result = new CmdPositionStart(moves);
 		} else {
 			String movesword = words[2].toUpperCase();
-			if("MOVES".equals(movesword) && words.length > 3){
+			if ("MOVES".equals(movesword) && words.length > 3) {
 				for (int i = 3; i < words.length; i++) {
 					moves.add(words[i]);
 				}
-				result = new CmdPosition(false, moves);
+				result = new CmdPositionStart(moves);
 			}
 
 		}
@@ -122,14 +117,27 @@ public class UCIDecoder {
 	}
 
 
-
-	/**
-	 * @param words
-	 * @return
-	 */
 	private UCIRequest parsePositionFEN(String[] words) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean readingFen = true;
+		String fenString = "";
+		List<String> moves = new ArrayList<String>();
+		for (int i = 2; i < words.length; i++) {
+			if (readingFen) {
+				if ("MOVES".equals(words[i].toUpperCase())) {
+					readingFen = false;
+				} else {
+					if (fenString.length() == 0) {
+						fenString = fenString.concat(words[i]);
+					} else {
+						fenString = fenString.concat(" " + words[i]);
+					}
+				}
+			} else {
+				moves.add(words[i]);
+			}
+		}
+
+		return new CmdPositionFen(fenString, moves);
 	}
 
 }

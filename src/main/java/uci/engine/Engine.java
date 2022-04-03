@@ -49,13 +49,14 @@ public class Engine {
 	}
 	
 	public void do_position_startpos(List<String> moves) {
-		this.game = getDefaultGame();
+		this.game = getGame(FENDecoder.INITIAL_FEN);
 		executeMoves(moves);
 	}
 
 
 	public void do_position_fen(String fen, List<String> moves) {
-
+		this.game = getGame(fen);
+		executeMoves(moves);
 	}
 	
 	public void do_go() {
@@ -82,6 +83,7 @@ public class Engine {
 		Move selectedMove = selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
 
 		new RspBestMove(encodeMove(selectedMove)).respond(responseChannel);
+		//new RspBestMove("f7f6").respond(responseChannel);
 	}	
 	
 	public void do_quit() {
@@ -99,12 +101,12 @@ public class Engine {
 		return keepProcessing;
 	}
 
-	private Game getDefaultGame() {		
+	private Game getGame(String fen) {		
 		GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);
 		
-		parser.parseFEN(FENDecoder.INITIAL_FEN);
+		parser.parseFEN(fen);
 		
 		return builder.getResult();
 	}
