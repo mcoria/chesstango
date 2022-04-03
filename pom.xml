@@ -32,7 +32,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>uci.Main</mainClass>
+							<mainClass>chess.uci.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

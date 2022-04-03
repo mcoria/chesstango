@@ -35,17 +35,27 @@ public class Main implements UCIResponseChannel {
 		while (engine.keepProcessing() && scanner.hasNext()) {
 			String input = scanner.nextLine();
 
-			UCIRequest uciRequest = uciDecoder.parseInput(input);
-
-			uciRequest.execute(engine);
+			processInput(input);
 
 		}
 		scanner.close();
 	}
 
+
+	protected void processInput(String input) {
+		UCIRequest uciRequest = uciDecoder.parseInput(input);
+
+		uciRequest.execute(engine);
+	}
+
+
 	@Override
 	public void send(UCIResponse response) {
 		System.out.println(response.toString());
+	}
+	
+	public Engine getEngine(){
+		return engine;
 	}
 
 }

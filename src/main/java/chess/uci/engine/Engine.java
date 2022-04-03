@@ -159,7 +159,7 @@ public class Engine {
 	}
 
 
-	public Game getGeme() {
+	public Game getGame() {
 		return game;
 		
 	}	

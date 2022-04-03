@@ -41,7 +41,7 @@ public class UCIDecoder {
 			case "SETOPTION":
 				result = parseSetOption(words);
 				break;
-			case "UCINUEWGAME":
+			case "UCINEWGAME":
 				result = new CmdUciNewGame();
 				break;
 			case "POSITION":
