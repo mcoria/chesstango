@@ -61,6 +61,15 @@ public class SmartTest {
 		Assert.assertEquals(Square.h8, smartMove.getTo().getKey());
 	}	
 	
+	
+	@Test
+	public void testMinValue() {
+		int minValue = Integer.MIN_VALUE + 1;
+		
+		Assert.assertTrue((minValue * -1 )> 0 );
+	}
+	
+	
 	private Game getGame(String string) {		
 		GameBuilder builder = new GameBuilder(new DebugChessFactory());
 

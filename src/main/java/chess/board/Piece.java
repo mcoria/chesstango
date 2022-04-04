@@ -5,33 +5,39 @@ package chess.board;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE),
-	PAWN_BLACK(Color.BLACK),
+	PAWN_WHITE(Color.WHITE, 10),
+	PAWN_BLACK(Color.BLACK, -10),
 	
-	ROOK_WHITE(Color.WHITE),
-	ROOK_BLACK(Color.BLACK),
+	ROOK_WHITE(Color.WHITE, 50),
+	ROOK_BLACK(Color.BLACK, -50),
 	
-	KNIGHT_WHITE(Color.WHITE),
-	KNIGHT_BLACK(Color.BLACK),
+	KNIGHT_WHITE(Color.WHITE, 30),
+	KNIGHT_BLACK(Color.BLACK, -30),
 	
-	BISHOP_WHITE(Color.WHITE),
-	BISHOP_BLACK(Color.BLACK),
+	BISHOP_WHITE(Color.WHITE, 30),
+	BISHOP_BLACK(Color.BLACK, -30),
 	
-	QUEEN_WHITE(Color.WHITE),
-	QUEEN_BLACK(Color.BLACK),
+	QUEEN_WHITE(Color.WHITE, 100),
+	QUEEN_BLACK(Color.BLACK, -100),
 	
-	KING_WHITE(Color.WHITE),
-	KING_BLACK(Color.BLACK);
+	KING_WHITE(Color.WHITE, 100),
+	KING_BLACK(Color.BLACK, -100);
 	
 	private final Color color;
+	private final int value;
 	
-	private Piece(Color color) {
+	private Piece(Color color, int value) {
 		this.color = color;
+		this.value = value;
 	}
 
 	public Color getColor() {
 		return color;
 	}
+	
+	public int getValue() {
+		return value;
+	}	
 
 	
 	public static Piece getKing(Color color){

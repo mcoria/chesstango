@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import chess.ai.BestMoveFinder;
+import chess.board.Color;
 import chess.board.Game;
-import chess.board.PiecePositioned;
 import chess.board.GameState.GameStatus;
+import chess.board.Piece;
+import chess.board.PiecePositioned;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.moves.Move;
 import chess.board.position.ChessPositionReader;
@@ -21,28 +23,40 @@ import chess.board.position.ChessPositionReader;
  */
 public class Smart implements BestMoveFinder {
 	
-	private final int maxLevel = 3;
+	private final int maxLevel = 4;
 
 
 	@Override
 	public Move findBestMove(Game game) {
-		int maxEvaluationValue = Integer.MIN_VALUE;
-		int currentEvaluationValue = maxEvaluationValue;
-		List<Move> posibleMoves = null; 
+		boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? true : false;
+		int betterEvaluation = minOrMax ? Integer.MAX_VALUE: Integer.MIN_VALUE;
+		int currentEvaluation = betterEvaluation;
+		List<Move> posibleMoves = new ArrayList<Move>();
 		//Move selectedMove = null;
 
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
 
-			currentEvaluationValue = minMax(game, maxLevel - 1, true);
+			currentEvaluation = minMax(game, maxLevel - 1, !minOrMax);
 
-			if (currentEvaluationValue > maxEvaluationValue) {
-				maxEvaluationValue = currentEvaluationValue;
-				posibleMoves = new ArrayList<Move>();
+
+			if (currentEvaluation == betterEvaluation) {
 				posibleMoves.add(move);
-			} else if (currentEvaluationValue == maxEvaluationValue) {
-				posibleMoves.add(move);
+			} else {
+				if (minOrMax) {
+					if (currentEvaluation < betterEvaluation) {
+						betterEvaluation = currentEvaluation;
+						posibleMoves = new ArrayList<Move>();
+						posibleMoves.add(move);
+					}
+				} else {
+					if (currentEvaluation > betterEvaluation) {
+						betterEvaluation = currentEvaluation;
+						posibleMoves = new ArrayList<Move>();
+						posibleMoves.add(move);
+					}
+				}
 			}
 
 			game.undoMove();
@@ -52,67 +66,53 @@ public class Smart implements BestMoveFinder {
 	}
 
 	private int minMax(Game game, int currentLevel, boolean minOrMax) {
-		int minMaxEvaluationValue = minOrMax ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-		int evaluation = 0;
+		int betterEvaluation = minOrMax ? Integer.MAX_VALUE : Integer.MIN_VALUE;
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
-			evaluation = evaluate(game);
-
-			minMaxEvaluationValue = minOrMax ? (evaluation * -1) : evaluation;
+			betterEvaluation = evaluate(game, maxLevel - currentLevel);
 		} else {
-			int currentEvaluationValue = minMaxEvaluationValue;
 
+			int currentEvaluation = betterEvaluation;
 			for (Move move : movimientosPosible) {
 
 				game.executeMove(move);
 
-				currentEvaluationValue = minMax(game, currentLevel - 1, !minOrMax);
+				currentEvaluation = minMax(game, currentLevel - 1, !minOrMax);
 
 				if (minOrMax) {
-					if (currentEvaluationValue < minMaxEvaluationValue) {
-						minMaxEvaluationValue = currentEvaluationValue;
+					if (currentEvaluation < betterEvaluation) {
+						betterEvaluation = currentEvaluation;
 					}
 				} else {
-					if (currentEvaluationValue > minMaxEvaluationValue) {
-						minMaxEvaluationValue = currentEvaluationValue;
+					if (currentEvaluation > betterEvaluation) {
+						betterEvaluation = currentEvaluation;
 					}
 				}
 
 				game.undoMove();
 			}
 		}
-		return minMaxEvaluationValue;
+		return betterEvaluation;
 	}
 
 
-	private int evaluate(Game game) {
+	private int evaluate(Game game, int depth) {
 		int evaluation = 0;
 		if(GameStatus.JAQUE_MATE.equals(game.getGameStatus())){
-			// Nos quedamos sin movimiento, perdimos
-			evaluation = (Integer.MIN_VALUE + 1);
-		//} else if (GameStatus.JAQUE.equals(game.getGameStatus())){
-		//	// Tenemos en jaque a nuestro rey, warning
-		//	evaluation = (Integer.MIN_VALUE + 1) / 2;
-		} else if (GameStatus.TABLAS.equals(game.getGameStatus())){
-			//Evitar entrar en tablas
-			evaluation = (Integer.MIN_VALUE + 1) / 2;
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth  : Integer.MIN_VALUE + depth;
 		} else {
 			ChessPositionReader reader = game.getChessPositionReader();
 			
-			SquareIterator iterator = reader.iteratorSquareWhitoutKing(reader.getTurnoActual());
+			SquareIterator iterator = reader.iteratorSquareWhitoutKing(Color.WHITE);
 			while(iterator.hasNext()){
-				iterator.next();
-				//Square square = iterator.next();
-				//Piece piece = reader.getPieza(square);
-				evaluation++;
+				Piece pieza = reader.getPieza(iterator.next());
+				evaluation += pieza.getValue();
 			}
 			
-			iterator = reader.iteratorSquareWhitoutKing(reader.getTurnoActual().opositeColor());
+			iterator = reader.iteratorSquareWhitoutKing(Color.BLACK);
 			while(iterator.hasNext()){
-				iterator.next();
-				//Square square = iterator.next();
-				//Piece piece = reader.getPieza(square);
-				evaluation--;
+				Piece pieza = reader.getPieza(iterator.next());
+				evaluation += pieza.getValue();
 			}
 		}
 		
@@ -141,6 +141,6 @@ public class Smart implements BestMoveFinder {
 		Move[] selectedMovesArray = selectedMovesCollection.toArray(new Move[selectedMovesCollection.size()]);
 
 		return  selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
-	}
+	}	
 
 }
