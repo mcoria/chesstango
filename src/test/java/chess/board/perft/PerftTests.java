@@ -24,7 +24,7 @@ public class PerftTests {
 		Perft pert = new PerftBrute();
 		Game board = getGame("4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1");
 		
-		PerftResult result= pert.start(board, 5);
+		PerftResult result = pert.start(board, 5);
 		
 		assertEquals(532933, result.getTotalNodes());
 	}
