@@ -23,7 +23,7 @@ import chess.board.position.ChessPositionReader;
  */
 public class Smart implements BestMoveFinder {
 	
-	private final int maxLevel = 4;
+	private final int maxLevel = 5;
 
 
 	@Override
@@ -100,7 +100,9 @@ public class Smart implements BestMoveFinder {
 		int evaluation = 0;
 		if(GameStatus.JAQUE_MATE.equals(game.getGameStatus())){
 			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth  : Integer.MIN_VALUE + depth;
-		} else {
+		} else if(GameStatus.JAQUE.equals(game.getGameStatus())){
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth  : -90 + depth;
+		}{
 			ChessPositionReader reader = game.getChessPositionReader();
 			
 			SquareIterator iterator = reader.iteratorSquareWhitoutKing(Color.WHITE);

@@ -88,10 +88,10 @@ public class PerftSuite {
 				}
 			}
 			System.out.println("=================");
-			System.out.println("=================");
+
 			
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			System.out.println(e);
 		}		
 	}
 	

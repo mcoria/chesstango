@@ -20,8 +20,8 @@ public enum Piece {
 	QUEEN_WHITE(Color.WHITE, 100),
 	QUEEN_BLACK(Color.BLACK, -100),
 	
-	KING_WHITE(Color.WHITE, 100),
-	KING_BLACK(Color.BLACK, -100);
+	KING_WHITE(Color.WHITE, 1000),
+	KING_BLACK(Color.BLACK, -1000);
 	
 	private final Color color;
 	private final int value;
