@@ -13,10 +13,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import chess.ai.BestMoveFinder;
 import chess.board.Color;
 import chess.board.Game;
+import chess.board.GameState.GameStatus;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
-import chess.board.GameState.GameStatus;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.moves.Move;
 import chess.board.position.ChessPositionReader;
 
@@ -47,6 +47,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 		List<Move> posibleMoves = null;
 
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		boolean breakLoop = false;
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
 
@@ -56,11 +57,19 @@ public class MinMaxPrunning implements BestMoveFinder {
 				bestAlpha = currentValue;
 				posibleMoves = new ArrayList<Move>();
 				posibleMoves.add(move);
+				if (currentValue == Integer.MAX_VALUE - 100) {
+					breakLoop = true;
+				}				
 			} else if (currentValue == bestAlpha) {
 				posibleMoves.add(move);
-			}
+			}			
 
 			game.undoMove();
+			
+
+			if (breakLoop) {
+				break;
+			}			
 		}
 
 		return selectedMove(posibleMoves);
@@ -74,6 +83,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 		List<Move> posibleMoves = null;
 
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		boolean breakLoop = false;
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
 
@@ -83,11 +93,19 @@ public class MinMaxPrunning implements BestMoveFinder {
 				bestBeta = currentValue;
 				posibleMoves = new ArrayList<Move>();
 				posibleMoves.add(move);
+
+				if (currentValue == Integer.MIN_VALUE + 100) {
+					breakLoop = true;
+				}
 			} else if (currentValue == bestBeta) {
 				posibleMoves.add(move);
 			}
 
 			game.undoMove();
+
+			if (breakLoop) {
+				break;
+			}
 		}
 
 		return selectedMove(posibleMoves);
@@ -163,17 +181,15 @@ public class MinMaxPrunning implements BestMoveFinder {
 		} else {
 			ChessPositionReader reader = game.getChessPositionReader();
 
-			SquareIterator iterator = reader.iteratorSquareWhitoutKing(Color.WHITE);
+			PiecePlacementIterator iterator = reader.iteratorAllPieces();
 			while (iterator.hasNext()) {
-				Piece pieza = reader.getPieza(iterator.next());
-				evaluation += pieza.getValue();
+				PiecePositioned piecePlacement = iterator.next();
+				Piece piece = piecePlacement.getValue();
+				
+				evaluation += piece.getValue();
 			}
 
-			iterator = reader.iteratorSquareWhitoutKing(Color.BLACK);
-			while (iterator.hasNext()) {
-				Piece pieza = reader.getPieza(iterator.next());
-				evaluation += pieza.getValue();
-			}
+
 		}
 
 		return evaluation;
