@@ -6,7 +6,7 @@ package chess.uci.engine;
 import java.util.List;
 
 import chess.ai.BestMoveFinder;
-import chess.ai.imp.smart.Smart;
+import chess.ai.imp.smart.SmartMinMax;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
@@ -32,7 +32,7 @@ public class Engine {
 	
 	public Engine(UCIResponseChannel responseChannel) {
 		this.responseChannel = responseChannel;
-		this.bestMoveFinder = new Smart();
+		this.bestMoveFinder = new SmartMinMax();
 	}
 
 

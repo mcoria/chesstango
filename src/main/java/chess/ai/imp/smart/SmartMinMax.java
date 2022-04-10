@@ -21,9 +21,9 @@ import chess.board.position.ChessPositionReader;
  * @author Mauricio Coria
  *
  */
-public class Smart implements BestMoveFinder {
+public class SmartMinMax implements BestMoveFinder {
 	
-	private final int maxLevel = 5;
+	private final int maxLevel = 3;
 
 
 	@Override
@@ -98,26 +98,27 @@ public class Smart implements BestMoveFinder {
 
 	private int evaluate(Game game, int depth) {
 		int evaluation = 0;
-		if(GameStatus.JAQUE_MATE.equals(game.getGameStatus())){
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth  : Integer.MIN_VALUE + depth;
-		} else if(GameStatus.JAQUE.equals(game.getGameStatus())){
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth  : -90 + depth;
-		}{
+		if (GameStatus.JAQUE_MATE.equals(game.getGameStatus())) {
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth
+					: Integer.MIN_VALUE + depth;
+		} else if (GameStatus.JAQUE.equals(game.getGameStatus())) {
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth : -90 + depth;
+		} else {
 			ChessPositionReader reader = game.getChessPositionReader();
-			
+
 			SquareIterator iterator = reader.iteratorSquareWhitoutKing(Color.WHITE);
-			while(iterator.hasNext()){
+			while (iterator.hasNext()) {
 				Piece pieza = reader.getPieza(iterator.next());
 				evaluation += pieza.getValue();
 			}
-			
+
 			iterator = reader.iteratorSquareWhitoutKing(Color.BLACK);
-			while(iterator.hasNext()){
+			while (iterator.hasNext()) {
 				Piece pieza = reader.getPieza(iterator.next());
 				evaluation += pieza.getValue();
 			}
 		}
-		
+
 		return evaluation;
 	}
 	

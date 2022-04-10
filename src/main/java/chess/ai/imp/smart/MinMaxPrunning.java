@@ -1,0 +1,204 @@
+/**
+ * 
+ */
+package chess.ai.imp.smart;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
+import chess.ai.BestMoveFinder;
+import chess.board.Color;
+import chess.board.Game;
+import chess.board.Piece;
+import chess.board.PiecePositioned;
+import chess.board.GameState.GameStatus;
+import chess.board.iterators.square.SquareIterator;
+import chess.board.moves.Move;
+import chess.board.position.ChessPositionReader;
+
+/**
+ * @author Mauricio Coria
+ *
+ */
+public class MinMaxPrunning implements BestMoveFinder {
+
+	private final int maxLevel = 6;
+
+	@Override
+	public Move findBestMove(Game game) {
+		Move bestMove = null;
+		if (Color.WHITE.equals(game.getChessPositionReader().getTurnoActual())) {
+			bestMove = findBestMoveWhite(game);
+		} else {
+			bestMove = findBestMoveBlack(game);
+		}
+		return bestMove;
+	}
+
+	public Move findBestMoveWhite(Game game) {
+		int bestAlpha = Integer.MIN_VALUE;
+		final int beta = Integer.MAX_VALUE;
+		int currentValue = bestAlpha;
+
+		List<Move> posibleMoves = null;
+
+		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		for (Move move : movimientosPosible) {
+			game.executeMove(move);
+
+			currentValue = minimize(game, maxLevel - 1, bestAlpha, beta);
+
+			if (currentValue > bestAlpha) {
+				bestAlpha = currentValue;
+				posibleMoves = new ArrayList<Move>();
+				posibleMoves.add(move);
+			} else if (currentValue == bestAlpha) {
+				posibleMoves.add(move);
+			}
+
+			game.undoMove();
+		}
+
+		return selectedMove(posibleMoves);
+	}
+
+	public Move findBestMoveBlack(Game game) {
+		final int alpha = Integer.MIN_VALUE;
+		int bestBeta = Integer.MAX_VALUE;
+		int currentValue = bestBeta;
+
+		List<Move> posibleMoves = null;
+
+		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		for (Move move : movimientosPosible) {
+			game.executeMove(move);
+
+			currentValue = maximize(game, maxLevel - 1, alpha, bestBeta);
+
+			if (currentValue < bestBeta) {
+				bestBeta = currentValue;
+				posibleMoves = new ArrayList<Move>();
+				posibleMoves.add(move);
+			} else if (currentValue == bestBeta) {
+				posibleMoves.add(move);
+			}
+
+			game.undoMove();
+		}
+
+		return selectedMove(posibleMoves);
+	}
+
+	private int minimize(Game game, int currentLevel, final int alpha, final int beta) {
+		int bestBeta = Integer.MAX_VALUE;
+		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		if (currentLevel == 0 || movimientosPosible.size() == 0) {
+			bestBeta = evaluate(game, maxLevel - currentLevel);
+		} else {
+			int currentValue = bestBeta;
+			boolean breakLoop = false;
+			for (Move move : movimientosPosible) {
+				game.executeMove(move);
+
+				currentValue = maximize(game, currentLevel - 1, alpha, bestBeta);
+
+				if (currentValue < bestBeta) {
+					bestBeta = currentValue;
+					if (alpha >= bestBeta) {
+						breakLoop = true;
+					}
+				}
+
+				game.undoMove();
+
+				if (breakLoop) {
+					break;
+				}
+			}
+		}
+		return bestBeta;
+	}
+
+	private int maximize(Game game, int currentLevel, final int alpha, final int beta) {
+		int bestAlpha = Integer.MIN_VALUE;
+		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		if (currentLevel == 0 || movimientosPosible.size() == 0) {
+			bestAlpha = evaluate(game, maxLevel - currentLevel);
+		} else {
+			int currentValue = bestAlpha;
+			boolean breakLoop = false;
+			for (Move move : movimientosPosible) {
+				game.executeMove(move);
+
+				currentValue = minimize(game, currentLevel - 1, bestAlpha, beta);
+
+				if (currentValue > bestAlpha) {
+					bestAlpha = currentValue;
+					if (bestAlpha >= beta) {
+						breakLoop = true;
+					}
+				}
+
+				game.undoMove();
+
+				if (breakLoop) {
+					break;
+				}
+			}
+		}
+		return bestAlpha;
+	}
+
+	private int evaluate(Game game, int depth) {
+		int evaluation = 0;
+		if (GameStatus.JAQUE_MATE.equals(game.getGameStatus())) {
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth
+					: Integer.MIN_VALUE + depth;
+		} else if (GameStatus.JAQUE.equals(game.getGameStatus())) {
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth : -90 + depth;
+		} else {
+			ChessPositionReader reader = game.getChessPositionReader();
+
+			SquareIterator iterator = reader.iteratorSquareWhitoutKing(Color.WHITE);
+			while (iterator.hasNext()) {
+				Piece pieza = reader.getPieza(iterator.next());
+				evaluation += pieza.getValue();
+			}
+
+			iterator = reader.iteratorSquareWhitoutKing(Color.BLACK);
+			while (iterator.hasNext()) {
+				Piece pieza = reader.getPieza(iterator.next());
+				evaluation += pieza.getValue();
+			}
+		}
+
+		return evaluation;
+	}
+
+	private Move selectedMove(List<Move> moves) {
+		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
+
+		for (Move move : moves) {
+			PiecePositioned key = move.getFrom();
+			Collection<Move> positionMoves = moveMap.get(key);
+			if (positionMoves == null) {
+				positionMoves = new ArrayList<Move>();
+				moveMap.put(key, positionMoves);
+			}
+			positionMoves.add(move);
+		}
+
+		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
+		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
+
+		Collection<Move> selectedMovesCollection = moveMap.get(selectedPiece);
+		Move[] selectedMovesArray = selectedMovesCollection.toArray(new Move[selectedMovesCollection.size()]);
+
+		return selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
+	}
+
+}
