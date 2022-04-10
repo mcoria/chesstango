@@ -7,6 +7,7 @@ import chess.board.Square;
 import chess.board.ascii.ASCIIEncoder;
 import chess.board.builder.ChessPositionBuilder;
 import chess.board.fen.FENEncoder;
+import chess.board.iterators.pieceplacement.BoardBitIterator;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.moves.Move;
@@ -208,6 +209,11 @@ public class ChessPositionImp implements ChessPosition {
 	public SquareIterator iteratorSquareWhitoutKing(Color color) {
 		return colorBoard.iteratorSquareWhitoutKing(color, kingCacheBoard.getKingSquare(color));
 	}
+	
+	@Override
+	public PiecePlacementIterator iteratorAllPieces(){
+		return piecePlacement.iterator(colorBoard.getPosiciones(Color.WHITE) & colorBoard.getPosiciones(Color.BLACK));
+	}	
 
 	@Override
 	public Color getColor(Square square) {
