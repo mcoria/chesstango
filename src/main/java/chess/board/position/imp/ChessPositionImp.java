@@ -7,7 +7,6 @@ import chess.board.Square;
 import chess.board.ascii.ASCIIEncoder;
 import chess.board.builder.ChessPositionBuilder;
 import chess.board.fen.FENEncoder;
-import chess.board.iterators.pieceplacement.BoardBitIterator;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.moves.Move;

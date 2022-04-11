@@ -8,8 +8,6 @@ import org.junit.Test;
 
 import chess.board.Game;
 import chess.board.Square;
-import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
 import chess.board.perft.imp.PerftBrute;
 
 
@@ -18,7 +16,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class KiwipeteTest {
+public class KiwipeteTest extends AbstractPerftTest {
 
 	private Perft pert;
 	
@@ -1344,15 +1342,4 @@ public class KiwipeteTest {
 		assertEquals(48, result.getMovesCount());
 		assertEquals(48, result.getTotalNodes());			
 	}
-	
-	private Game getGame(String string) {		
-		//ChessBuilderGame builder = new ChessBuilderGame(new DebugChessFactory());
-		GameBuilder builder = new GameBuilder();
-
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(string);
-		
-		return builder.getResult();
-	}	
 }

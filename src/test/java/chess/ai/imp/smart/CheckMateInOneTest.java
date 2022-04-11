@@ -48,7 +48,7 @@ public class CheckMateInOneTest extends AbstractSmart {
 	}
 	
 	@Test
-	public void testFindBestMove3() {
+	public void testKingTrapped() {
 		// Jaque Mate en movimiento de QUEEN_WHITE	(rey está solo y atrapado por torre blanca)
 		Game game =  getGame("1k6/6R1/7Q/8/2KP3P/5P2/4P1P1/1N3BNR w - - 0 40");
 		
@@ -59,4 +59,17 @@ public class CheckMateInOneTest extends AbstractSmart {
 		Assert.assertEquals(Square.h8, smartMove.getTo().getKey());
 	}	
 
+	
+	@Test
+	public void testFoolsMateTest() {
+		// Fool's mate
+		Game game =  getGame("rnbqkbnr/pppp1ppp/4p3/8/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2");
+		
+		Move smartMove = bestMoveFinder.findBestMove(game);
+
+		Assert.assertEquals(Piece.QUEEN_BLACK, smartMove.getFrom().getValue());
+		Assert.assertEquals(Square.d8, smartMove.getFrom().getKey());
+		Assert.assertEquals(Square.h4, smartMove.getTo().getKey());
+	}	
+	
 }

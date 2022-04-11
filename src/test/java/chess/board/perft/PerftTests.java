@@ -8,16 +8,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import chess.board.Game;
-import chess.board.builder.imp.GameBuilder;
-import chess.board.debug.builder.DebugChessFactory;
-import chess.board.fen.FENDecoder;
 import chess.board.perft.imp.PerftBrute;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PerftTests {
+public class PerftTests extends AbstractPerftTest {
 
 	@Test
 	public void test_1() {
@@ -28,16 +25,5 @@ public class PerftTests {
 		
 		assertEquals(532933, result.getTotalNodes());
 	}
-	
-	private Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new DebugChessFactory());
-		//ChessBuilderGame builder = new ChessBuilderGame();
-
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(string);
-		
-		return builder.getResult();
-	}	
 	
 }

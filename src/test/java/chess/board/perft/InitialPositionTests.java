@@ -10,10 +10,8 @@ import org.junit.Test;
 
 import chess.board.Game;
 import chess.board.Square;
-import chess.board.builder.imp.GameBuilder;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.Move;
-import chess.board.perft.PerftResult;
 import chess.board.perft.imp.PerftBrute;
 
 
@@ -21,7 +19,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class InitialPositionTests {
+public class InitialPositionTests extends AbstractPerftTest  {
 
 	private Perft pert;
 
@@ -30,7 +28,7 @@ public class InitialPositionTests {
 	@Before
 	public void setUp() throws Exception {
 		pert = new PerftBrute();
-		board =  getDefaultGame();
+		board =  this.getGame(FENDecoder.INITIAL_FEN);
 	}
 
 	@Test
@@ -317,17 +315,6 @@ public class InitialPositionTests {
 			}
 		}
 		return false;
-	}
-	
-	
-	private Game getDefaultGame() {		
-		GameBuilder builder = new GameBuilder();
-
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(FENDecoder.INITIAL_FEN);
-		
-		return builder.getResult();
 	}	
 
 }

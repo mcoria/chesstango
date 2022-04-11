@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import chess.board.Game;
 import chess.board.Square;
-import chess.board.builder.imp.GameBuilder;
-import chess.board.debug.builder.DebugChessFactory;
-import chess.board.fen.FENDecoder;
 import chess.board.perft.imp.PerftBrute;
 
 
@@ -18,7 +15,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Tests {
+public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Tests extends AbstractPerftTest {
 	
 	private Perft pert;
 	
@@ -67,16 +64,5 @@ public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Tests {
 
 		assertEquals(14, result.getMovesCount());
 		assertEquals(14, result.getTotalNodes());
-	}	
-	
-	private Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new DebugChessFactory());
-		//ChessBuilderGame builder = new ChessBuilderGame();
-
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(string);
-		
-		return builder.getResult();
 	}	
 }
