@@ -43,13 +43,11 @@ public class MoveFactoryWhite implements MoveFactory {
 	public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino) {
 		Move rookMove = createSimpleMove(origen, destino);
 		Move result = rookMove;
-
 		if (Square.a1.equals(origen.getKey())) {
 			result = new MoveDecoratorState(rookMove, state -> state.setCastlingWhiteQueenAllowed(false));
 		} else if (Square.h1.equals(origen.getKey())) {
 			result = new MoveDecoratorState(rookMove, state -> state.setCastlingWhiteKingAllowed(false));
 		}
-
 		return result;
 	}
 
@@ -58,13 +56,11 @@ public class MoveFactoryWhite implements MoveFactory {
 	public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino) {
 		Move rookMove = createCaptureMove(origen, destino);
 		Move result = rookMove;
-
 		if (Square.a1.equals(origen.getKey())) {
 			result = new MoveDecoratorState(rookMove, state -> state.setCastlingWhiteQueenAllowed(false));
 		} else if (Square.h1.equals(origen.getKey())) {
 			result = new MoveDecoratorState(rookMove, state -> state.setCastlingWhiteKingAllowed(false));
 		}
-
 		return result;
 	}
 
@@ -74,7 +70,6 @@ public class MoveFactoryWhite implements MoveFactory {
 		return new SimpleMove(origen, destino);
 	}
 	
-
 	@Override
 	public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		Move move = new CaptureMove(origen, destino);
@@ -86,7 +81,6 @@ public class MoveFactoryWhite implements MoveFactory {
 		}
 		return result;
 	}
-
 
 	@Override
 	public Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
@@ -109,7 +103,14 @@ public class MoveFactoryWhite implements MoveFactory {
 
 	@Override
 	public Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-		return new CapturaPawnPromocion(origen, destino, piece);
+		Move move = new CapturaPawnPromocion(origen, destino, piece);
+		Move result = move;
+		if (Square.a8.equals(destino.getKey())) {
+			result = new MoveDecoratorState(move, state -> state.setCastlingBlackQueenAllowed(false));
+		} else if (Square.h8.equals(destino.getKey())) {
+			result = new MoveDecoratorState(move, state -> state.setCastlingBlackKingAllowed(false));
+		}
+		return result;
 	}
 	
 	protected MoveKing whiteLostCastlingWrapper(MoveKing move){
@@ -119,23 +120,14 @@ public class MoveFactoryWhite implements MoveFactory {
 		});
 	}
 	
-	protected Move blackLostCastlingWrapper(MoveKing move){
-		return new MoveDecoratorKingState(move, state -> {
-			state.setCastlingBlackQueenAllowed(false);
-			state.setCastlingBlackKingAllowed(false);				
-		});
-	}
-	
-	private MoveKing createCaptureKingMoveImp(PiecePositioned origen, PiecePositioned destino) {
+	protected MoveKing createCaptureKingMoveImp(PiecePositioned origen, PiecePositioned destino) {
 		MoveKing move = new CaptureKingMove(origen, destino);
 		MoveKing result = move;
-
 		if (Square.a8.equals(destino.getKey())) {
 			result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackQueenAllowed(false));
 		} else if (Square.h8.equals(destino.getKey())) {
 			result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackKingAllowed(false));
 		}
-
 		return result;
 	}
 
@@ -148,5 +140,4 @@ public class MoveFactoryWhite implements MoveFactory {
 	public MoveCastling createCastlingKingMove() {
 		return castlingKingMove;
 	}
-	
 }

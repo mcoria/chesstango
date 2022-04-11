@@ -16,6 +16,7 @@ import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.DebugChessFactory;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.imp.MoveFactoryBlack;
+import chess.board.position.ChessPositionReader;
 
 
 /**
@@ -435,6 +436,23 @@ public class GameTest {
 		
 		//Estado inicial
 		assertEquals(26, game.getPossibleMoves().size());		
+	}
+	
+	@Test
+	public void testKinkWhitePierdeCastling() {
+		Game game = getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
+		
+		game.executeMove(Square.a1, Square.b1);
+		
+		game.executeMove(Square.h3, Square.g2);
+		
+		game.executeMove(Square.b1, Square.c1);
+		
+		game.executeMove(Square.g2, Square.h1);
+		
+		ChessPositionReader reader = game.getChessPositionReader();
+		
+		assertFalse( reader.isCastlingWhiteKingAllowed() );
 	}
 	
 	private Game getGame(String string) {		
