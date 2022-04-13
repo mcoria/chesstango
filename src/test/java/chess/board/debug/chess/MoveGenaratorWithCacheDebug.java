@@ -28,7 +28,6 @@ public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
 		
 		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 		
-		MoveGeneratorResult generatorResultActual = moveGenerator.generatePseudoMoves(origen);
 		
 		if (generatorResult == null) {
 			
@@ -36,6 +35,8 @@ public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
 	
 			moveCache.setPseudoMoves(origenSquare, generatorResult);
 		} else {
+			
+			MoveGeneratorResult generatorResultActual = moveGenerator.generatePseudoMoves(origen);			
 
 			//comparar generatorResult vs generatorResultActual
 			if(generatorResultActual.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {

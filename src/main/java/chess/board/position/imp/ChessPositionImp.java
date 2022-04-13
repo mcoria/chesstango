@@ -96,6 +96,7 @@ public class ChessPositionImp implements ChessPosition {
 	
 	
 	@Override
+	//TODO: estaria bueno que en vez de estar concatenado sea todo mas compacto, el lado del tablero el codigo FEN
 	public String toString() {
 		FENEncoder fenEncoder = new FENEncoder();
 		ASCIIEncoder asciiEncoder = new ASCIIEncoder();

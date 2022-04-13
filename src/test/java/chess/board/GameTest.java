@@ -8,14 +8,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import chess.board.Color;
-import chess.board.Game;
-import chess.board.GameState;
-import chess.board.Square;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.DebugChessFactory;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.imp.MoveFactoryBlack;
+import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.ChessPositionReader;
 
 
@@ -454,10 +451,53 @@ public class GameTest {
 		
 		assertFalse( reader.isCastlingWhiteKingAllowed() );
 	}
+ 
+	
+	@Test
+	public void testCacheEnEstadoInvalido01() {
+		Game game = getGame("4k3/8/8/8/8/7p/6PP/R3K2R w KQ - 0 1");
+		
+		game.executeMove(Square.a1, Square.b1);
+		game.executeMove(Square.h3, Square.g2);
+		game.executeMove(Square.b1, Square.d1);
+		
+		game.executeMove(Square.g2, Square.h1);
+		game.undoMove();
+		
+		game.executeMove(Square.e8, Square.e7);
+		
+		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
+
+	}
+	
+
+	@Test
+	public void testCacheEnEstadoInvalido02() {
+		Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
+		
+		//Antes de mover blanca podemos ver que tenemos enroque 
+		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
+
+		// Mueve blanca
+		game.executeMove(Square.a1, Square.d1);
+		
+		// Negra come torre de Rey
+		game.executeMove(Square.e4, Square.h1);
+		game.undoMove(); //undo
+		
+		// Negra NO come torre de Rey
+		game.executeMove(Square.e4, Square.d5);
+		
+		//Deberiamos tener enroque nuevamente
+		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
+		
+		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
+
+	}	
 	
 	private Game getGame(String string) {		
 		GameBuilder builder = new GameBuilder(new DebugChessFactory());
-		//ChessBuilderGame builder = new ChessBuilderGame();
+		//GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);
 		
