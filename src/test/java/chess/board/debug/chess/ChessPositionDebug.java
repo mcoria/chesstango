@@ -2,6 +2,7 @@ package chess.board.debug.chess;
 
 import chess.board.moves.Move;
 import chess.board.position.imp.ChessPositionImp;
+import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 
 /**
@@ -10,6 +11,9 @@ import chess.board.position.imp.ChessPositionImp;
  */
 public class ChessPositionDebug extends ChessPositionImp {
 	
+
+	private MoveGeneratorImp moveGeneratorImp;
+
 
 	@Override
 	public void acceptForExecute(Move move) {
@@ -26,7 +30,8 @@ public class ChessPositionDebug extends ChessPositionImp {
 		((PositionStateDebug)positionState).validar(this.piecePlacement);
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
-		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);		
+		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);
+		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement, this.moveGeneratorImp);
 	}
 	
 	@Override
@@ -36,6 +41,11 @@ public class ChessPositionDebug extends ChessPositionImp {
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
 		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);			
+	}
+
+
+	public void setMoveGeneratorImp(MoveGeneratorImp moveGeneratorImp) {
+		this.moveGeneratorImp = moveGeneratorImp;
 	}
 
 }

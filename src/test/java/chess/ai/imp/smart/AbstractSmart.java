@@ -6,7 +6,7 @@ package chess.ai.imp.smart;
 import chess.ai.BestMoveFinder;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.fen.FENDecoder;
 
 /**
@@ -24,7 +24,7 @@ public class AbstractSmart {
 	}
 
 	protected Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new DebugChessFactory());
+		GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
 	
 		FENDecoder parser = new FENDecoder(builder);
 		

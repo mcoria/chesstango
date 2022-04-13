@@ -1,9 +1,14 @@
 package chess.board.debug.chess;
 
+import java.util.Collection;
+
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.moves.Move;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.MoveCacheBoard;
+import chess.board.pseudomovesgenerators.MoveGeneratorResult;
+import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 
 /**
@@ -21,7 +26,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 	}
 
 	public void validar(PiecePlacement dummyBoard) {
-		validar();
+		validarAffectedByAndAffects();
 		
 		for (PiecePositioned piecePositioned : dummyBoard) {
 			if(piecePositioned.getValue() == null && pseudoMoves[piecePositioned.getKey().toIdx()] != null){
@@ -35,8 +40,37 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 			}
 		}
 	}	
-	
-	public void validar() {
+
+
+	//TODO: esta es una validacion de una propiedad emergente
+	public void validar(PiecePlacement piecePlacement, MoveGeneratorImp moveGeneratorImp) {
+		for(int i = 0; i < 64; i++){
+			MoveGeneratorResult cacheMoveGeneratorResult = pseudoMoves[i];
+			if(cacheMoveGeneratorResult != null) {
+				MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(piecePlacement.getPosicion(Square.getSquare(i)));
+				compararMoveGeneratorResult(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
+			}
+		}
+	}
+
+
+	private void compararMoveGeneratorResult(MoveGeneratorResult expectedMoveGeneratorResults,
+			MoveGeneratorResult cacheMoveGeneratorResult) {
+		
+		Collection<Move> expectedPseudoMoves = expectedMoveGeneratorResults.getPseudoMoves();
+		
+		Collection<Move> cachePseudoMoves = cacheMoveGeneratorResult.getPseudoMoves();
+		
+		if(expectedPseudoMoves.size() != cachePseudoMoves.size()){
+			throw new RuntimeException("Hay inconsistencia en el cache de movimientos pseudo");
+		}
+		
+		if(expectedMoveGeneratorResults.getAffectedBy() != cacheMoveGeneratorResult.getAffectedBy()){
+			throw new RuntimeException("AffectedBy no coinciden");
+		}		
+	}
+
+	private void validarAffectedByAndAffects() {
 		//Validate affectedBy[]
 		for(int i = 0; i < 64; i++){
 			if(pseudoMoves[i] != null) {
@@ -62,6 +96,6 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 				}
 			}
 		}
-	}
+	}	
 
 }

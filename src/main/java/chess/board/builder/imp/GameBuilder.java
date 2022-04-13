@@ -23,15 +23,14 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 	
 	private Game game = null;
 
+	public GameBuilder() {
+		this(new ChessInjector());
+	}
 	
 	public GameBuilder(ChessInjector chessInjector) {
 		this.piecePlacement = chessInjector.getPiecePlacement();
 		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
-	}
-	
-	public GameBuilder() {
-		this(new ChessInjector());
 	}
 	
 	public GameBuilder(ChessFactory chessFactory) {

@@ -37,6 +37,8 @@ public class ChessInjector {
 	private ChessPosition chessPosition = null;	
 	
 	private MoveGenerator moveGenerator = null;
+	
+	private MoveGeneratorImp moveGeneratorImp = null;
 
 	private PositionAnalyzer positionAnalyzer = null;
 
@@ -166,17 +168,23 @@ public class ChessInjector {
 	}	
 
 	public MoveGenerator getMoveGenerator() {
-		if (moveGenerator == null) {
-			MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
-			moveGeneratorImp.setPiecePlacement(getPiecePlacement());
-			moveGeneratorImp.setBoardState(getPositionState());
-			moveGeneratorImp.setColorBoard(getColorBoard());
-			
-			moveGenerator =  chessFactory.createMoveGenaratorWithCacheProxy(moveGeneratorImp, getMoveCacheBoard());
+		if (moveGenerator == null) {		
+			moveGenerator =  chessFactory.createMoveGenaratorWithCacheProxy(getMoveGeneratorImp(), getMoveCacheBoard());
 		}
 		return moveGenerator;
 	}
 	
+
+	protected MoveGeneratorImp getMoveGeneratorImp() {
+		if (moveGeneratorImp == null) {
+			moveGeneratorImp = new MoveGeneratorImp();			
+			moveGeneratorImp.setPiecePlacement(getPiecePlacement());
+			moveGeneratorImp.setBoardState(getPositionState());
+			moveGeneratorImp.setColorBoard(getColorBoard());
+		}
+		return moveGeneratorImp;
+	}
+
 	public MoveFilter getMoveFilter() {
 		if (moveFilter == null) {
 			moveFilter = chessFactory.createMoveFilter(getPiecePlacement(), getKingCacheBoard(), getColorBoard(),  getPositionState(), getCapturer());

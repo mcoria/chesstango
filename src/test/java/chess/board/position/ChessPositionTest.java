@@ -17,7 +17,7 @@ import chess.board.Square;
 import chess.board.analyzer.AnalyzerResult;
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.factory.ChessInjector;
 import chess.board.fen.FENDecoder;
@@ -48,7 +48,7 @@ public class ChessPositionTest {
 	public void setUp() throws Exception {		
 		moveFactoryImp = new MoveFactoryWhite();
 		
-		factory = new DebugChessFactory();
+		factory = new ChessFactoryDebug();
 		
 		injector = new ChessInjector(factory);
 	}	

@@ -29,7 +29,7 @@ import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
  * @author Mauricio Coria
  *
  */
-public class DebugChessFactory extends ChessFactory {
+public class ChessFactoryDebug extends ChessFactory {
 
 	@Override
 	public ChessPositionImp createChessPosition() {
@@ -38,7 +38,6 @@ public class DebugChessFactory extends ChessFactory {
 	
 	@Override
 	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
-		
 		return new DefaultLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	

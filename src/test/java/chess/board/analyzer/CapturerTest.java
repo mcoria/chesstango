@@ -9,7 +9,7 @@ import chess.board.Color;
 import chess.board.Square;
 import chess.board.analyzer.Capturer;
 import chess.board.builder.imp.PiecePlacementBuilder;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.fen.FENDecoder;
 import chess.board.position.PiecePlacement;
@@ -63,7 +63,7 @@ public class CapturerTest {
 	}	
 	
 	private PiecePlacement getTablero(String string) {
-		ChessFactory chessFactory = new DebugChessFactory();
+		ChessFactory chessFactory = new ChessFactoryDebug();
 		
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(chessFactory);
 		

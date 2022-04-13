@@ -12,7 +12,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.builder.imp.PiecePlacementBuilder;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.fen.FENDecoder;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.BottomUpSquareIterator;
@@ -32,7 +32,7 @@ public class BoardteratorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		builder = new PiecePlacementBuilder(new DebugChessFactory());
+		builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		parser = new FENDecoder(builder);
 	}
 

@@ -5,7 +5,7 @@ package chess.board.perft;
 
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.fen.FENDecoder;
 
 /**
@@ -15,7 +15,7 @@ import chess.board.fen.FENDecoder;
 public abstract class AbstractPerftTest {
 
 	protected Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new DebugChessFactory());
+		GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
 		//GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);

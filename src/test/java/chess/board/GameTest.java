@@ -9,7 +9,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.board.builder.imp.GameBuilder;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
+import chess.board.debug.builder.ChessInjectorDebug;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
@@ -478,17 +479,27 @@ public class GameTest {
 		//Antes de mover blanca podemos ver que tenemos enroque 
 		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
 
-		// Mueve blanca
+		// Mueve torre blanca 
 		game.executeMove(Square.a1, Square.d1);
+		// .... y limpia los movimientos de cache de REY
 		
-		// Negra come torre de Rey
+		// Mueve Negra y capture torre blanca de Rey
 		game.executeMove(Square.e4, Square.h1);
-		game.undoMove(); //undo
+		
+		// Blanca pierde el enroque de rey
+		// Rey establece los movimientos en cache (sin enroque de Torre Rey)
+		// Los movimientos que establece en cache no dependen de lo que hay en h1 (puesto que no hay torre blanca)
+		assertFalse("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));		
+
+		// Aca comienza el bolonque
+		game.undoMove();
+		// El undo deja los movimientos de REY recien almacenados en cache
 		
 		// Negra NO come torre de Rey
 		game.executeMove(Square.e4, Square.d5);
+		// Y cuando se pregunta por movimientos de rey en cache
 		
-		//Deberiamos tener enroque nuevamente
+		//Blanca deberia tener enroque de rey nuevamente
 		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
 		
 		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
@@ -496,7 +507,7 @@ public class GameTest {
 	}	
 	
 	private Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new DebugChessFactory());
+		GameBuilder builder = new GameBuilder(new ChessInjectorDebug());
 		//GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);

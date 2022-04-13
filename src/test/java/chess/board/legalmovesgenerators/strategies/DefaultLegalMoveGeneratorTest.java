@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import chess.board.builder.imp.ChessPositionBuilderImp;
-import chess.board.debug.builder.DebugChessFactory;
+import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.factory.ChessInjector;
 import chess.board.fen.FENDecoder;
@@ -41,7 +41,7 @@ public class DefaultLegalMoveGeneratorTest {
 
 
 	private void initDependencies(String string) {
-		ChessFactory chessFactory = new DebugChessFactory();
+		ChessFactory chessFactory = new ChessFactoryDebug();
 		ChessInjector injector = new ChessInjector(chessFactory);
 		
 		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(injector);
