@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
-import chess.board.debug.builder.ChessInjectorDebug;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
@@ -452,28 +451,10 @@ public class GameTest {
 		
 		assertFalse( reader.isCastlingWhiteKingAllowed() );
 	}
- 
 	
+
 	@Test
 	public void testCacheEnEstadoInvalido01() {
-		Game game = getGame("4k3/8/8/8/8/7p/6PP/R3K2R w KQ - 0 1");
-		
-		game.executeMove(Square.a1, Square.b1);
-		game.executeMove(Square.h3, Square.g2);
-		game.executeMove(Square.b1, Square.d1);
-		
-		game.executeMove(Square.g2, Square.h1);
-		game.undoMove();
-		
-		game.executeMove(Square.e8, Square.e7);
-		
-		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
-
-	}
-	
-
-	@Test
-	public void testCacheEnEstadoInvalido02() {
 		Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
 		
 		//Antes de mover blanca podemos ver que tenemos enroque 
@@ -491,7 +472,7 @@ public class GameTest {
 		// Los movimientos que establece en cache no dependen de lo que hay en h1 (puesto que no hay torre blanca)
 		assertFalse("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));		
 
-		// Aca comienza el bolonque
+		// Aca comienza el bolonqui
 		game.undoMove();
 		// El undo deja los movimientos de REY recien almacenados en cache
 		
@@ -507,7 +488,7 @@ public class GameTest {
 	}	
 	
 	private Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new ChessInjectorDebug());
+		GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
 		//GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);
