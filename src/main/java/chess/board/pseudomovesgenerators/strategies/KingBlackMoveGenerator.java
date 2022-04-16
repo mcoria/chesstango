@@ -6,6 +6,7 @@ import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
+import chess.board.moves.MoveContainer;
 
 /**
  * @author Mauricio Coria
@@ -27,7 +28,7 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 
 	@Override
 	public Collection<Move> generateCastlingPseudoMoves() {
-		Collection<Move> moveContainer = createContainer();
+		Collection<Move> moveContainer = new MoveContainer();
 		if (this.positionState.isCastlingBlackQueenAllowed()){
 			if(puedeEnroqueQueen(	kingCacheBoard.getSquareKingBlackCache(), 
 								PiecePositioned.KING_BLACK, 

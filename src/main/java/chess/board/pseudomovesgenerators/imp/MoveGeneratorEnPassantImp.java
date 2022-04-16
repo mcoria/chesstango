@@ -3,7 +3,6 @@
  */
 package chess.board.pseudomovesgenerators.imp;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.board.Color;
@@ -11,6 +10,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
+import chess.board.moves.MoveContainer;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacementReader;
@@ -33,7 +33,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 
 	@Override
 	public Collection<Move> generateEnPassantPseudoMoves() {
-		Collection<Move> moveContainer = createContainer();
+		Collection<Move> moveContainer = new MoveContainer();
 		Square pawnPasanteSquare = positionState.getEnPassantSquare();
 		if (pawnPasanteSquare != null) {
 			if (Color.WHITE.equals(positionState.getTurnoActual())) {
@@ -118,21 +118,4 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 		this.tablero = tablero;
 	}
 	
-	private static Collection<Move> createContainer(){
-		return new ArrayList<Move>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
-	}	
 }

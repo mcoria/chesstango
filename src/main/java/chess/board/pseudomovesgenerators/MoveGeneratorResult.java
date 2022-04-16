@@ -1,11 +1,11 @@
 package chess.board.pseudomovesgenerators;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
+import chess.board.moves.MoveContainer;
 
 
 /**
@@ -21,7 +21,7 @@ public class MoveGeneratorResult {
 	private long affectedByContainer;
 
 	public MoveGeneratorResult() {
-		moveContainer = createContainer(); 
+		moveContainer = new MoveContainer();
 	}
 	
 	public Collection<Move> getPseudoMoves(){
@@ -39,32 +39,6 @@ public class MoveGeneratorResult {
 	
 	public void moveContainerAdd(Move move) {
 		moveContainer.add(move);
-	}	
-
-	
-	private static Collection<Move> createContainer(){
-		return new ArrayList<Move>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
-	}
-	
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer(); 
-		buffer.append(moveContainer.toString());
-		return buffer.toString();
 	}
 
 	public PiecePositioned getFrom() {
@@ -74,4 +48,11 @@ public class MoveGeneratorResult {
 	public void setFrom(PiecePositioned from) {
 		this.from = from;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer(); 
+		buffer.append(moveContainer.toString());
+		return buffer.toString();
+	}	
 }

@@ -1,12 +1,8 @@
 package chess.board.pseudomovesgenerators.strategies;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.moves.Move;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 import chess.board.pseudomovesgenerators.MoveGeneratorCastling;
@@ -78,24 +74,6 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	
 	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
 		this.kingCacheBoard = kingCacheBoard;
-	}
-	
-	protected static Collection<Move> createContainer(){
-		return new ArrayList<Move>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (Move move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
 	}	
 	
 }
