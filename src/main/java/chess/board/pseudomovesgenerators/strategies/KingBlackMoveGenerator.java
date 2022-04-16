@@ -1,5 +1,7 @@
 package chess.board.pseudomovesgenerators.strategies;
 
+import java.util.Collection;
+
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
@@ -22,42 +24,33 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 	public KingBlackMoveGenerator() {
 		super(Color.BLACK);
 	}
-	
+
 	@Override
-	public void generateMovesPseudoMoves(PiecePositioned origen) {		
-		super.generateMovesPseudoMoves(origen);
-		
-		//this.saveMovesInCache =  ! (this.boardState.isCastlingBlackQueenAllowed() ||  this.boardState.isCastlingBlackKingAllowed()) ;
-		
+	public Collection<Move> generateCastlingPseudoMoves() {
+		Collection<Move> moveContainer = createContainer();
 		if (this.positionState.isCastlingBlackQueenAllowed()){
-			result.affectedByContainerAdd(INTERMEDIO_ROOK_QUEEN_SQUARE);
-			result.affectedByContainerAdd(DESTINO_QUEEN_SQUARE);
-			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);		
-			result.affectedByContainerAdd(Square.a8); //La posicion de la torre
-			if(puedeEnroqueQueen(	origen, 
+			if(puedeEnroqueQueen(	kingCacheBoard.getSquareKingBlackCache(), 
 								PiecePositioned.KING_BLACK, 
 								PiecePositioned.ROOK_BLACK_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
 								DESTINO_QUEEN_SQUARE, 
 								INTERMEDIO_KING_QUEEN_SQUARE)) {
-				result.moveContainerAdd(moveFactory.createCastlingQueenMove());
+				moveContainer.add(moveFactory.createCastlingQueenMove());
 			}
 		}
 			
 			
 		if (this.positionState.isCastlingBlackKingAllowed()){
-			result.affectedByContainerAdd(INTERMEDIO_KING_KING_SQUARE);
-			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
-			result.affectedByContainerAdd(Square.h8); //La posicion de la torre
-			if(puedeEnroqueKing(	origen, 
+			if(puedeEnroqueKing(	kingCacheBoard.getSquareKingBlackCache(), 
 								PiecePositioned.KING_BLACK, 
 								PiecePositioned.ROOK_BLACK_KING,
 								DESTINO_KING_SQUARE, 
 								INTERMEDIO_KING_KING_SQUARE)) {
-				result.moveContainerAdd(moveFactory.createCastlingKingMove());
+				moveContainer.add(moveFactory.createCastlingKingMove());
 			}
 		}
-	}
+		return moveContainer;
+	}	
 
 	//TODO: agregar test case (cuando el king se muevOe pierde castling) y agregar validacion en state 
 	@Override

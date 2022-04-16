@@ -30,6 +30,8 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		
 		getEnPassantLegalMoves(moves);
 		
+		getCastlingMoves(moves);
+		
 		return moves;
 	}
 

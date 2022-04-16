@@ -46,6 +46,15 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		return positionReader.getKingSquare(positionReader.getTurnoActual());
 	}
 	
+	protected void getCastlingMoves(Collection<Move> moves) {
+		Collection<Move> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
+		for (Move move : pseudoMoves) {
+			if(move.filter(filter)){
+				moves.add(move);
+			}
+		}			
+	}	
+	
 	//TODO: Y si en vez de generar un Collection utilizamos una clase con un array
 	protected static <T> Collection<T> createContainer() {
 		return new ArrayList<T>() {

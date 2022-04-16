@@ -26,12 +26,7 @@ public class MoveGenaratorWithCacheProxy implements MoveGenerator {
 	public MoveGenaratorWithCacheProxy(MoveGeneratorImp implementation, MoveCacheBoard moveCache) {
 		this.moveGenerator = implementation;
 		this.moveCache = moveCache;
-	}
-
-	@Override
-	public Collection<Move> generateEnPassantPseudoMoves() {
-		return moveGenerator.generateEnPassantPseudoMoves();
-	}
+	}	
 
 
 	@Override
@@ -49,5 +44,15 @@ public class MoveGenaratorWithCacheProxy implements MoveGenerator {
 		
 		return generatorResult;
 	}
+	
+	@Override
+	public Collection<Move> generateEnPassantPseudoMoves() {
+		return moveGenerator.generateEnPassantPseudoMoves();
+	}
+	
+	@Override
+	public Collection<Move> generateCastlingPseudoMoves() {
+		return moveGenerator.generateCastlingPseudoMoves();
+	}	
 
 }

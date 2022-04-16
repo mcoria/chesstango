@@ -11,6 +11,7 @@ import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacementReader;
 import chess.board.position.imp.ColorBoard;
+import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 import chess.board.pseudomovesgenerators.MoveGeneratorByPiecePositioned;
@@ -30,28 +31,29 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
  * @author Mauricio Coria
  *
  */
-public class MoveGeneratorImp implements MoveGenerator {
+public class MoveGeneratorImp implements MoveGenerator {	
+	private final MoveFactory moveFactoryWhite;
+	private final MoveFactory moveFactoryBlack;
+	
+	private final PawnWhiteMoveGenerator pbmg;
+	private final PawnBlackMoveGenerator pnmg;
+	private final RookMoveGenerator tbmg;
+	private final RookMoveGenerator tnmg;
+	private final KnightMoveGenerator cbmg;
+	private final KnightMoveGenerator cnmg;
+	private final BishopMoveGenerator abmg;
+	private final BishopMoveGenerator anmg;
+	private final QueenMoveGenerator rebmg;
+	private final QueenMoveGenerator renmg;
+	private final KingWhiteMoveGenerator rbmg;
+	private final KingBlackMoveGenerator rnmg;
+
+	private final MoveGeneratorEnPassantImp ppmg;
+	
 	private PiecePlacementReader dummyBoard;
 	private ColorBoard colorBoard;
-	private PositionState positionState;
-	
-	private MoveFactory moveFactoryWhite;
-	private MoveFactory moveFactoryBlack;
-	
-	private PawnWhiteMoveGenerator pbmg;
-	private PawnBlackMoveGenerator pnmg;
-	private RookMoveGenerator tbmg;
-	private RookMoveGenerator tnmg;
-	private KnightMoveGenerator cbmg;
-	private KnightMoveGenerator cnmg;
-	private BishopMoveGenerator abmg;
-	private BishopMoveGenerator anmg;
-	private QueenMoveGenerator rebmg;
-	private QueenMoveGenerator renmg;
-	private KingWhiteMoveGenerator rbmg;
-	private KingBlackMoveGenerator rnmg;
-
-	private MoveGeneratorEnPassantImp ppmg = null;
+	private PositionState positionState;	
+	private KingCacheBoard kingCacheBoard;
 	
 	public MoveGeneratorImp() {
 		pbmg =  new PawnWhiteMoveGenerator();
@@ -97,6 +99,16 @@ public class MoveGeneratorImp implements MoveGenerator {
 	public Collection<Move> generateEnPassantPseudoMoves() {
 		return ppmg.generateEnPassantPseudoMoves();
 	}
+	
+
+	@Override
+	public Collection<Move> generateCastlingPseudoMoves() {
+		if (Color.WHITE.equals(positionState.getTurnoActual())) {
+			return rbmg.generateCastlingPseudoMoves();
+		} else {
+			return rnmg.generateCastlingPseudoMoves();
+		}
+	}	
 
 	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
 		this.dummyBoard = dummyBoard;
@@ -112,6 +124,11 @@ public class MoveGeneratorImp implements MoveGenerator {
 		this.positionState = positionState;
 		settupMoveGenerators();
 	}
+	
+	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+		this.kingCacheBoard = kingCacheBoard;
+		settupMoveGenerators();
+	}	
 	
 	private void settupMoveGenerators(){
 		settupMoveGenerator(pbmg);
@@ -143,21 +160,22 @@ public class MoveGeneratorImp implements MoveGenerator {
 	
 	private void settupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
 		if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator) {
-			((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setPiecePlacement(dummyBoard);
-			((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setColorBoard(colorBoard);		
+			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGeneratorByPiecePositioned;
+			generator.setPiecePlacement(dummyBoard);
+			generator.setColorBoard(colorBoard);
 			
 			if(moveGeneratorByPiecePositioned.equals(pbmg) || moveGeneratorByPiecePositioned.equals(tbmg) || moveGeneratorByPiecePositioned.equals(cbmg) || moveGeneratorByPiecePositioned.equals(abmg) || moveGeneratorByPiecePositioned.equals(rebmg) || moveGeneratorByPiecePositioned.equals(rbmg)){
-				((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setMoveFactory(moveFactoryWhite);
+				generator.setMoveFactory(moveFactoryWhite);
 			} else {
-				((AbstractMoveGenerator)moveGeneratorByPiecePositioned).setMoveFactory(moveFactoryBlack);
+				generator.setMoveFactory(moveFactoryBlack);
 			}
 		}
 		
 		if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator) {
 			AbstractKingMoveGenerator generator = (AbstractKingMoveGenerator) moveGeneratorByPiecePositioned;
 			generator.setBoardState(positionState);
+			generator.setKingCacheBoard(kingCacheBoard);
 		}
-		
 	}
 	
 

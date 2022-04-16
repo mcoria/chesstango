@@ -23,7 +23,6 @@ import chess.board.factory.ChessInjector;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.moves.imp.MoveFactoryWhite;
-import chess.board.position.ChessPosition;
 
 
 /**
@@ -54,7 +53,7 @@ public class ChessPositionTest {
 	}	
 	
 	@Test
-	public void test01() {		
+	public void testDefaultPosition() {		
 		settupWithDefaultBoard();	
 		
 		Collection<Move> moves = analyzerResult.getLegalMoves();
@@ -339,7 +338,7 @@ public class ChessPositionTest {
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}
 	
-	private Object createSimpleKingMoveWhite(Square origen, Square destino) {
+	private Move createSimpleKingMoveWhite(Square origen, Square destino) {
 		return moveFactoryImp.createSimpleKingMove(PiecePositioned.getPiecePositioned(origen, Piece.KING_WHITE), PiecePositioned.getPiecePositioned(destino, null));
 	}	
 	

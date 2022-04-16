@@ -181,6 +181,7 @@ public class ChessInjector {
 			moveGeneratorImp.setPiecePlacement(getPiecePlacement());
 			moveGeneratorImp.setBoardState(getPositionState());
 			moveGeneratorImp.setColorBoard(getColorBoard());
+			moveGeneratorImp.setKingCacheBoard(getKingCacheBoard());
 		}
 		return moveGeneratorImp;
 	}

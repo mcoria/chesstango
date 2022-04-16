@@ -13,6 +13,11 @@ import chess.board.moves.Move;
  */
 public interface MoveGeneratorEnPassant {
 
+	/*
+	 * Este tipo de movimientos no debe entrar en cache
+	 * Es necesario validar un movimiento de EnPassant dado que hay posibilidad de jaque
+	 * por mas que el peon que cubra al rey no sea pinned position 
+	 */
 	Collection<Move> generateEnPassantPseudoMoves();
 
 }

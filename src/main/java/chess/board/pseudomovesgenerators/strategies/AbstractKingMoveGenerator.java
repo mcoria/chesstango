@@ -1,18 +1,26 @@
 package chess.board.pseudomovesgenerators.strategies;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.moves.Move;
+import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
+import chess.board.pseudomovesgenerators.MoveGeneratorCastling;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerator {
+public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerator implements MoveGeneratorCastling{
 	
 	protected PositionState positionState;
+	
+	protected KingCacheBoard kingCacheBoard;
 	
 	public final static int[][] SALTOS_KING = { { 0, 1 }, // Norte
 			{ 1, 1 },   // NE
@@ -29,14 +37,14 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	}	
 
 	protected boolean puedeEnroqueQueen(
-			final PiecePositioned origen, 
+			final Square origen, 
 			final PiecePositioned king,
 			final PiecePositioned torre,
 			final Square casilleroIntermedioRook,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
-		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
-			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
+		if ( king.getKey().equals(origen) ) {           																//El king se encuentra en su lugar
+			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  		//La torre se encuentra en su lugar
 				if ( piecePlacement.isEmtpy(casilleroIntermedioRook)													//El casillero intermedio ROOK esta vacio
 				  && piecePlacement.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
 				  && piecePlacement.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
@@ -48,13 +56,13 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	}
 	
 	protected boolean puedeEnroqueKing(
-			final PiecePositioned origen, 
+			final Square origen, 
 			final PiecePositioned king,
 			final PiecePositioned torre,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
-		if ( king.equals(origen) ) {           																	//El king se encuentra en su lugar
-			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  	//La torre se encuentra en su lugar
+		if ( king.getKey().equals(origen) ) {           																//El king se encuentra en su lugar
+			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  		//La torre se encuentra en su lugar
 				if ( piecePlacement.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
 				  && piecePlacement.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
 						return true;
@@ -67,5 +75,27 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	public void setBoardState(PositionState positionState) {
 		this.positionState = positionState;
 	}
+	
+	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+		this.kingCacheBoard = kingCacheBoard;
+	}
+	
+	protected static Collection<Move> createContainer(){
+		return new ArrayList<Move>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 2237718042714336104L;
+
+			@Override
+			public String toString() {
+				StringBuffer buffer = new StringBuffer(); 
+				for (Move move : this) {
+					buffer.append(move.toString() + "\n");
+				}
+				return buffer.toString();
+			}
+		};
+	}	
 	
 }

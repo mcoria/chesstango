@@ -1,5 +1,7 @@
 package chess.board.pseudomovesgenerators.strategies;
 
+import java.util.Collection;
+
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
@@ -25,38 +27,31 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	}
 	
 	@Override
-	public void generateMovesPseudoMoves(PiecePositioned origen) {
-		super.generateMovesPseudoMoves(origen);
-		
+	public Collection<Move> generateCastlingPseudoMoves() {
+		Collection<Move> moveContainer = createContainer();
 		if (this.positionState.isCastlingWhiteQueenAllowed()){
-			result.affectedByContainerAdd(INTERMEDIO_ROOK_QUEEN_SQUARE);
-			result.affectedByContainerAdd(DESTINO_QUEEN_SQUARE);
-			result.affectedByContainerAdd(INTERMEDIO_KING_QUEEN_SQUARE);
-			result.affectedByContainerAdd(Square.a1); //La posicion de la torre
-			if(puedeEnroqueQueen(	origen, 
+			if(puedeEnroqueQueen(	kingCacheBoard.getSquareKingWhiteCache(), 
 								PiecePositioned.KING_WHITE, 
 								PiecePositioned.ROOK_WHITE_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
 								DESTINO_QUEEN_SQUARE, 
 								INTERMEDIO_KING_QUEEN_SQUARE)) {
-				result.moveContainerAdd(moveFactory.createCastlingQueenMove());
+				moveContainer.add(moveFactory.createCastlingQueenMove());
 			}
 		}
 		
 		
 		if (this.positionState.isCastlingWhiteKingAllowed() ){
-			result.affectedByContainerAdd(INTERMEDIO_KING_KING_SQUARE);
-			result.affectedByContainerAdd(DESTINO_KING_SQUARE);
-			result.affectedByContainerAdd(Square.h1); //La posicion de la torre		
-			if(puedeEnroqueKing(	origen, 
+			if(puedeEnroqueKing(	kingCacheBoard.getSquareKingWhiteCache(), 
 								PiecePositioned.KING_WHITE, 
 								PiecePositioned.ROOK_WHITE_KING,
 								DESTINO_KING_SQUARE, 
 								INTERMEDIO_KING_KING_SQUARE)) {
-				this.result.moveContainerAdd(moveFactory.createCastlingKingMove());
+				moveContainer.add(moveFactory.createCastlingKingMove());
 			}
 		}
-	}
+		return moveContainer;
+	}		
 	
 	//TODO: agregar test case (cuando el king se mueve pierde castling) y agregar validacion en state 
 	@Override
@@ -67,6 +62,7 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	@Override
 	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createCaptureKingMove(origen, destino);
-	}	
+	}
+
 
 }
