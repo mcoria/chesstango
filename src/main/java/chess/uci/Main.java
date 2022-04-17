@@ -54,7 +54,7 @@ public class Main implements UCIResponseChannel {
 		System.out.println(response.toString());
 	}
 	
-	public Engine getEngine(){
+	protected Engine getEngine(){
 		return engine;
 	}
 

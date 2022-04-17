@@ -13,8 +13,6 @@ import chess.board.moves.Move;
 import chess.board.moves.MoveKing;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
 
 
 /**
@@ -164,27 +162,7 @@ public class ChessPositionImp implements ChessPosition {
 	@Override
 	public void init() {
 		colorBoard.init(piecePlacement);
-		kingCacheBoard.init(piecePlacement);		
-		initCache();
-	}
-	
-	//TODO: esta inicializacion deberia pasar a MoveGenaratorWithCache
-	private void initCache() {
-		MoveGeneratorImp moveGeneratorImp = new MoveGeneratorImp();
-		moveGeneratorImp.setPiecePlacement(piecePlacement);
-		moveGeneratorImp.setBoardState(positionState);
-		moveGeneratorImp.setColorBoard(colorBoard);
-		
-		for(PiecePositioned origen: piecePlacement){
-			
-			if(origen.getValue() != null){
-
-				MoveGeneratorResult generatorResult = moveGeneratorImp.generatePseudoMoves(origen);
-	
-				moveCache.setPseudoMoves(origen.getKey(), generatorResult);
-			}
-		}		
-		
+		kingCacheBoard.init(piecePlacement);
 	}
 
 	@Override
