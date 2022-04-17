@@ -77,7 +77,7 @@ public class Game {
 	}
 
 	public Collection<Move> getPossibleMoves() {
-		return gameState.getAnalyzerResult().getLegalMoves();
+		return gameState.getLegalMoves();
 	}
 
 	public GameState.GameStatus getGameStatus() {

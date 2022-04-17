@@ -1,7 +1,7 @@
 package chess.board.debug.chess;
 
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
+import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 
@@ -10,7 +10,7 @@ import chess.board.pseudomovesgenerators.MoveGenerator;
  * @author Mauricio Coria
  *
  */
-public class DefaultLegalMoveGeneratorDebug extends DefaultLegalMoveGenerator {
+public class DefaultLegalMoveGeneratorDebug extends CheckLegalMoveGenerator {
 
 	public DefaultLegalMoveGeneratorDebug(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
 		super(positionReader, strategy, filter);

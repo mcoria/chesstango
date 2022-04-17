@@ -25,28 +25,27 @@ public class PositionAnalyzer {
 
 	private Capturer capturer;
 	
-	private LegalMoveGenerator defaultMoveCalculator;
-	
-	private LegalMoveGenerator noCheckLegalMoveGenerator;
-	
 	private GameState gameState;
 	
 	
+	private LegalMoveGenerator legalMoveGenerator;
+	
+	
 	public GameState.GameStatus updateGameStatus() {
-		AnalyzerResult analyzerResult = getAnalyzerResult();
-		Collection<Move> movimientosPosibles = analyzerResult.getLegalMoves();
-		boolean existsLegalMove = !movimientosPosibles.isEmpty();
+		AnalyzerResult analysis = getAnalyzerResult();
+		Collection<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+		boolean existsLegalMove = !legalMoves.isEmpty();
 		
 		GameState.GameStatus gameStatus = null;
 
 		if (existsLegalMove) {
-			if (analyzerResult.isKingInCheck()) {
+			if (analysis.isKingInCheck()) {
 				gameStatus = GameState.GameStatus.JAQUE;
 			} else {
 				gameStatus = GameState.GameStatus.IN_PROGRESS;
 			}
 		} else {
-			if (analyzerResult.isKingInCheck()) {
+			if (analysis.isKingInCheck()) {
 				gameStatus = GameState.GameStatus.JAQUE_MATE;
 			} else {
 				gameStatus = GameState.GameStatus.TABLAS;
@@ -54,16 +53,15 @@ public class PositionAnalyzer {
 		}
 
 		gameState.setStatus(gameStatus);
-		gameState.setAnalyzerResult(analyzerResult);
+		gameState.setAnalyzerResult(analysis);
+		gameState.setLegalMoves(legalMoves);
 
 		return gameStatus;
 	}	
 	
 	public AnalyzerResult getAnalyzerResult() {
-		boolean isKingInCheck = calculateKingInCheck();
 		AnalyzerResult result = new AnalyzerResult();
-		result.setKingInCheck(isKingInCheck);
-		result.setLegalMoves(getLegalMoves(isKingInCheck));
+		result.setKingInCheck(calculateKingInCheck());
 		return result;
 	}
 	
@@ -71,30 +69,10 @@ public class PositionAnalyzer {
 		Color turnoActual = positionReader.getTurnoActual();
 		
 		return capturer.positionCaptured(turnoActual.opositeColor(), positionReader.getKingSquare(turnoActual));
-	}	
-	
-	protected Collection<Move> getLegalMoves(boolean isKingInCheck) {
-		return getMoveCalculator(isKingInCheck).getLegalMoves();
-	}	
-	
-	protected LegalMoveGenerator getMoveCalculator(boolean isKingInCheck) {
-		if(! isKingInCheck){
-			return noCheckLegalMoveGenerator;
-		}
-		return defaultMoveCalculator;
 	}
 
 	public void setCapturer(Capturer capturer) {
 		this.capturer = capturer;
-	}
-	
-
-	public void setDefaultMoveCalculator(LegalMoveGenerator defaultMoveCalculator) {
-		this.defaultMoveCalculator = defaultMoveCalculator;
-	}
-
-	public void setNoCheckLegalMoveGenerator(LegalMoveGenerator noCheckLegalMoveGenerator) {
-		this.noCheckLegalMoveGenerator = noCheckLegalMoveGenerator;
 	}
 
 	public void setPositionReader(ChessPositionReader positionReader) {
@@ -103,6 +81,10 @@ public class PositionAnalyzer {
 
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+
+	public void setLegalMoveGenerator(LegalMoveGenerator legalMoveGenerator) {
+		this.legalMoveGenerator = legalMoveGenerator;
 	}	
 
 }

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.board.Color;
+import chess.board.GameState;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
@@ -42,6 +43,8 @@ public class ChessPositionTest {
 	private AnalyzerResult analyzerResult;
 	
 	private ChessPosition chessPosition;
+
+	private GameState gameState;
 	
 	@Before
 	public void setUp() throws Exception {		
@@ -56,7 +59,7 @@ public class ChessPositionTest {
 	public void testDefaultPosition() {		
 		settupWithDefaultBoard();	
 		
-		Collection<Move> moves = analyzerResult.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(Square.a2, Piece.PAWN_WHITE, Square.a3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Piece.PAWN_WHITE, Square.a4, Square.a3) ));
@@ -102,12 +105,10 @@ public class ChessPositionTest {
 	public void testKingInCheck01() {
 		settupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
-		AnalyzerResult result = analyzer.getAnalyzerResult();
-
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 
 		assertEquals(Color.BLACK, chessPosition.getTurnoActual());
-		assertTrue(result.isKingInCheck());
+		assertTrue(analyzerResult.isKingInCheck());
 
 		assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
 		assertFalse(moves.contains(createSimpleMove(Square.e8, Piece.KING_BLACK, Square.e7)));
@@ -125,7 +126,7 @@ public class ChessPositionTest {
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 
 		assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3)));
 		assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3)));
@@ -146,7 +147,7 @@ public class ChessPositionTest {
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d1)));
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d2)));
@@ -164,8 +165,7 @@ public class ChessPositionTest {
 	public void testJuegoPawnPromocion() {
 		settupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
-		AnalyzerResult result = analyzer.getAnalyzerResult();
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 
 		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
 				Piece.ROOK_BLACK)));
@@ -187,7 +187,8 @@ public class ChessPositionTest {
 		AnalyzerResult result = analyzer.getAnalyzerResult();
 		
 		assertTrue(result.isKingInCheck());
-		assertFalse(result.isExistsLegalMove());
+		assertTrue(gameState.getLegalMoves().isEmpty());
+		assertEquals(GameState.GameStatus.JAQUE_MATE, gameState.getStatus());
 	
 	}
 	
@@ -195,8 +196,7 @@ public class ChessPositionTest {
 	public void testKingNoPuedeMoverAJaque(){
 		settupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 		
-		AnalyzerResult result = analyzer.getAnalyzerResult();
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f1)));
@@ -210,8 +210,7 @@ public class ChessPositionTest {
 	public void testMovimientoEnPassantNoAllowed(){
 		settupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 		
-		AnalyzerResult result = analyzer.getAnalyzerResult();
-		Collection<Move> moves = result.getLegalMoves();
+		Collection<Move> moves = gameState.getLegalMoves();
 		
 		assertFalse(moves.contains(createCaptureEnPassantMoveBlack(Square.f4, Square.g3)));
 		
@@ -264,6 +263,8 @@ public class ChessPositionTest {
 		analyzer = injector.getAnalyzer();
 		
 		analyzerResult = analyzer.getAnalyzerResult();
+		
+		gameState = injector.getGameState();
 	}		
 
 		

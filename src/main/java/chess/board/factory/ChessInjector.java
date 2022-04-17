@@ -9,6 +9,7 @@ import chess.board.analyzer.Capturer;
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
+import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ChessPositionImp;
@@ -45,6 +46,8 @@ public class ChessInjector {
 	private LegalMoveGenerator defaultMoveCalculator = null;
 
 	private LegalMoveGenerator noCheckLegalMoveGenerator = null;
+	
+	private LegalMoveGeneratorImp legalMoveGenerator = null;
 
 	private Capturer capturer = null;
 
@@ -139,8 +142,7 @@ public class ChessInjector {
 			positionAnalyzer = chessFactory.createPositionAnalyzer();
 			positionAnalyzer.setPositionReader(getChessPosition());
 			positionAnalyzer.setCapturer(getCapturer());
-			positionAnalyzer.setDefaultMoveCalculator(getDefaultMoveCalculator());
-			positionAnalyzer.setNoCheckLegalMoveGenerator(getNoCheckLegalMoveGenerator());			
+			positionAnalyzer.setLegalMoveGenerator(getLegalMoveGenerator());		
 			positionAnalyzer.setGameState(getGameState());
 		}
 		return positionAnalyzer;
@@ -153,6 +155,17 @@ public class ChessInjector {
 		return capturer;
 	}
 
+	
+	private LegalMoveGenerator getLegalMoveGenerator() {
+		if (this.legalMoveGenerator == null) {
+			this.legalMoveGenerator = chessFactory.createLegalMoveGenerator();
+			this.legalMoveGenerator.setDefaultMoveCalculator(getDefaultMoveCalculator());
+			this.legalMoveGenerator.setNoCheckLegalMoveGenerator(getNoCheckLegalMoveGenerator());
+
+		}
+		return this.legalMoveGenerator;
+	}
+	
 	public LegalMoveGenerator getDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
 			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getMoveFilter());

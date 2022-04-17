@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import chess.board.Color;
 import chess.board.Square;
+import chess.board.analyzer.AnalyzerResult;
 import chess.board.analyzer.Pinned;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
@@ -30,14 +31,14 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 	@Override
-	public Collection<Move> getLegalMoves() {
+	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
 		Collection<Move> moves = new MoveContainer();
 		
 		getLegalMovesNotKing(moves);
 		
 		getLegalMovesKing(moves);
 		
-		getEnPassantLegalMoves(moves);
+		getEnPassantMoves(moves);
 		
 		getCastlingMoves(moves);		
 		
@@ -59,7 +60,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 			if ( (pinnedSquares & origenSquare.getPosicion()) != 0 ) {
 
-				filerMoveCollection(pseudoMoves, moves);
+				filterMoveCollection(pseudoMoves, moves);
 
 			} else {
 				
@@ -77,7 +78,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
 
-		filerMoveCollection(pseudoMovesKing, moves);
+		filterMoveCollection(pseudoMovesKing, moves);
 		
 		return moves;
 	}

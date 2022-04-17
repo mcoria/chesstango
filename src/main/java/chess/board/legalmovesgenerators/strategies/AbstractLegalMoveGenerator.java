@@ -34,17 +34,17 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		return generatorResult.getPseudoMoves();
 	}
 
-	protected void getEnPassantLegalMoves(Collection<Move> moves) {
+	protected void getEnPassantMoves(Collection<Move> moves) {
 		Collection<Move> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
-		filerMoveCollection(pseudoMoves, moves);		
+		filterMoveCollection(pseudoMoves, moves);		
 	}
 	
 	protected void getCastlingMoves(Collection<Move> moves) {
 		Collection<Move> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-		filerMoveCollection(pseudoMoves, moves);	
+		filterMoveCollection(pseudoMoves, moves);	
 	}
 	
-	protected void filerMoveCollection(Collection<Move> collectionToFilter, Collection<Move> collectionToAdd){
+	protected void filterMoveCollection(Collection<Move> collectionToFilter, Collection<Move> collectionToAdd){
 		for (Move move : collectionToFilter) {
 			if(move.filter(filter)){
 				collectionToAdd.add(move);

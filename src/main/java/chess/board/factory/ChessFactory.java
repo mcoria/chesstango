@@ -6,7 +6,8 @@ import chess.board.analyzer.Capturer;
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
+import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;
+import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
 import chess.board.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
 import chess.board.position.ChessPosition;
 import chess.board.position.ChessPositionReader;
@@ -32,9 +33,13 @@ public class ChessFactory {
 		return new ChessPositionImp();
 	}
 
+	public LegalMoveGeneratorImp createLegalMoveGenerator() {
+		return new LegalMoveGeneratorImp();
+	}
+	
 	public LegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader,
 			MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
-		return new DefaultLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
+		return new CheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
 	public LegalMoveGenerator createNoCheckLegalMoveGenerator(ChessPositionReader positionReader,

@@ -12,7 +12,7 @@ import chess.board.debug.chess.NoCheckLegalMoveGeneratorDebug;
 import chess.board.debug.chess.PositionStateDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
+import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
 import chess.board.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
 import chess.board.position.ChessPositionReader;
 import chess.board.position.PiecePlacement;
@@ -37,7 +37,7 @@ public class ChessFactoryDebug extends ChessFactory {
 	}	
 	
 	@Override
-	public DefaultLegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+	public CheckLegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new DefaultLegalMoveGeneratorDebug(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 	

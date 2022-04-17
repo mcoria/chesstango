@@ -4,13 +4,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import chess.board.GameState;
+import chess.board.analyzer.PositionAnalyzer;
 import chess.board.builder.imp.ChessPositionBuilderImp;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.factory.ChessInjector;
 import chess.board.fen.FENDecoder;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.strategies.DefaultLegalMoveGenerator;
+import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
 import chess.board.position.ChessPosition;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 
@@ -21,22 +23,25 @@ import chess.board.pseudomovesgenerators.MoveGenerator;
  */
 public class DefaultLegalMoveGeneratorTest {
 	
-	private DefaultLegalMoveGenerator moveCalculator;
+	private CheckLegalMoveGenerator moveGeneretor;
 	
 	private ChessPosition chessPosition;
 	
 	private MoveGenerator strategy;
 	
 	private MoveFilter filter;
+
+	private GameState gameState;
 	
 	
 	@Test
+	//TODO: no tiene sentido este test
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b - - 0 1");
 		
-		moveCalculator = new DefaultLegalMoveGenerator(chessPosition, strategy, filter);
+		moveGeneretor = new CheckLegalMoveGenerator(chessPosition, strategy, filter);
 
-		assertTrue(moveCalculator.getLegalMoves().isEmpty());
+		assertTrue(gameState.getLegalMoves().isEmpty());
 	}
 
 
@@ -53,6 +58,12 @@ public class DefaultLegalMoveGeneratorTest {
 		strategy = injector.getMoveGenerator();
 		
 		filter = injector.getMoveFilter();
+		
+		gameState = injector.getGameState();
+		
+		PositionAnalyzer analyzer = injector.getAnalyzer();
+		
+		analyzer.updateGameStatus();
 		
 	}
 }
