@@ -6,9 +6,9 @@ import chess.board.Square;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
+import chess.board.moves.MoveContainer;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria
@@ -24,7 +24,7 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	@Override
 	public Collection<Move> getLegalMoves() {
 		
-		Collection<Move> moves = createContainer();
+		Collection<Move> moves = new MoveContainer();
 		
 		getLegalMovesBySquare(moves);
 		
@@ -39,10 +39,8 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		for (SquareIterator iterator = this.positionReader.iteratorSquare(this.positionReader.getTurnoActual()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
-			
-			MoveGeneratorResult generatorResult = getPseudoMoves(origenSquare);
 
-			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();			
+			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
 			// De almacenar movimientos en un cache, estos moviemientos son pseudo, es imposible almacenar movimientos legales en un cache !!!
 			// Ejemplo supongamos que almacenamos movimientos de torre blanca en a5, king blanco se encuentra en e1 y es turno blancas.

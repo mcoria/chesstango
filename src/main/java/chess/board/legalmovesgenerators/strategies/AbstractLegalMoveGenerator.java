@@ -1,6 +1,5 @@
 package chess.board.legalmovesgenerators.strategies;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import chess.board.Square;
@@ -29,8 +28,10 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		this.filter = filter;
 	}
 
-	protected MoveGeneratorResult getPseudoMoves(Square origenSquare) {
-		return pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));
+	protected Collection<Move> getPseudoMoves(Square origenSquare) {
+		MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));		
+		
+		return generatorResult.getPseudoMoves();
 	}
 
 	protected void getEnPassantLegalMoves(Collection<Move> moves) {
@@ -40,10 +41,6 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 				moves.add(move);
 			}
 		}		
-	}	
-
-	protected Square getCurrentKingSquare() {
-		return positionReader.getKingSquare(positionReader.getTurnoActual());
 	}
 	
 	protected void getCastlingMoves(Collection<Move> moves) {
@@ -53,25 +50,10 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 				moves.add(move);
 			}
 		}			
-	}	
+	}
 	
-	//TODO: Y si en vez de generar un Collection utilizamos una clase con un array
-	protected static <T> Collection<T> createContainer() {
-		return new ArrayList<T>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 2237718042714336104L;
-	
-			@Override
-			public String toString() {
-				StringBuffer buffer = new StringBuffer(); 
-				for (T move : this) {
-					buffer.append(move.toString() + "\n");
-				}
-				return buffer.toString();
-			}
-		};
+	protected Square getCurrentKingSquare() {
+		return positionReader.getKingSquare(positionReader.getTurnoActual());
 	}	
 
 }

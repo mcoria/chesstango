@@ -8,9 +8,9 @@ import chess.board.analyzer.Pinned;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
+import chess.board.moves.MoveContainer;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -31,7 +31,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	@Override
 	public Collection<Move> getLegalMoves() {
-		Collection<Move> moves = createContainer();
+		Collection<Move> moves = new MoveContainer();
 		
 		getLegalMovesNotKing(moves);
 		
@@ -54,10 +54,8 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
-			
-			MoveGeneratorResult generatorResult = getPseudoMoves(origenSquare);
 
-			Collection<Move> pseudoMoves = generatorResult.getPseudoMoves();
+			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
 			if ( (pinnedSquares & origenSquare.getPosicion()) != 0 ) {
 				for (Move move : pseudoMoves) {
@@ -78,9 +76,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
 		Square 	kingSquare = getCurrentKingSquare();
 		
-		MoveGeneratorResult generatorResult = getPseudoMoves(kingSquare);
-		
-		Collection<Move> pseudoMovesKing = generatorResult.getPseudoMoves();
+		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
 
 		for (Move move : pseudoMovesKing) {
 			if(move.filter(filter)){
