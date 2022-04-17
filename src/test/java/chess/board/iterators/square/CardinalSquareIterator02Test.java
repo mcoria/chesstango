@@ -12,7 +12,7 @@ import chess.board.iterators.Cardinal;
  * @author Mauricio Coria
  *
  */
-public class CardinalSquareIteratorTest02 {
+public class CardinalSquareIterator02Test {
 
 	@Test
 	public void testNorte() {

@@ -15,7 +15,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Tests extends AbstractPerftTest {
+public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Test extends AbstractPerftTest {
 	
 	private Perft pert;
 	

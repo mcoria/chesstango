@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.board.debug.builder.ChessFactoryDebug;
-
 //TODO: Agrupar en una sola clase los tests de https://www.chessprogramming.org/Perft_Results
 //TODO: este set de test no esta en el archivo original, estaria bueno agregar una excepcion cuando falla alguno de los TESTs
 
@@ -15,14 +13,14 @@ import chess.board.debug.builder.ChessFactoryDebug;
  * @author Mauricio Coria
  *
  */
-public class PerftSuiteTest {
+public class PerftMainTestSuiteTest {
 	
-	private PerftSuite suite;
+	private PerftMainTestSuite suite;
 	
 	@Before
 	public void setUp() {
-		suite = new PerftSuite(new ChessFactoryDebug());
-		//suite = new PerftSuite();
+		//suite = new PerftSuite(new ChessFactoryDebug());
+		suite = new PerftMainTestSuite();
 	}
 	
 	@Test

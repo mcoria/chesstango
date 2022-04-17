@@ -17,7 +17,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class PerftSuite {
+public class PerftMainTestSuite {
 
 	public static void main(String[] args) {
 		execute("main/ferdy_perft_double_checks.epd");
@@ -59,7 +59,7 @@ public class PerftSuite {
 			
 			List<String> failedSuites = new ArrayList<String>();
 			
-			PerftSuite suite = new PerftSuite();
+			PerftMainTestSuite suite = new PerftMainTestSuite();
 			
 			InputStream instr = suite.getClass().getClassLoader().getResourceAsStream(filename);
 
@@ -97,11 +97,11 @@ public class PerftSuite {
 	
 	private ChessFactory chessFactory;
 	
-	public PerftSuite() {
+	public PerftMainTestSuite() {
 		this(new ChessFactory());
 	}
 	
-	public PerftSuite(ChessFactory chessFactory) {
+	public PerftMainTestSuite(ChessFactory chessFactory) {
 		this.chessFactory =  chessFactory;
 	}
 

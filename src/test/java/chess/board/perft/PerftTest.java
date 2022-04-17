@@ -14,7 +14,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class PerftTests extends AbstractPerftTest {
+public class PerftTest extends AbstractPerftTest {
 
 	@Test
 	public void test_1() {

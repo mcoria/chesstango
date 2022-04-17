@@ -43,7 +43,7 @@ public class MoveContainer implements Collection<Move> {
 	 */
 	@Override
 	public boolean contains(Object o) {
-		return imp.isEmpty();
+		return imp.contains(o);
 	}
 
 	/*

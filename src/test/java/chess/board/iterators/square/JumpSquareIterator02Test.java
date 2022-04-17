@@ -16,7 +16,7 @@ import chess.board.pseudomovesgenerators.strategies.KnightMoveGenerator;
  * @author Mauricio Coria
  *
  */
-public class JumpSquareIteratorTest02 {
+public class JumpSquareIterator02Test {
 
 	@Test
 	public void test01() {
