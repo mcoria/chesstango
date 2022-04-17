@@ -13,7 +13,7 @@ import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
-//      de esta forma cuendo se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
+//      de esta forma cuando se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
 
 /**
  * @author Mauricio Coria
@@ -58,14 +58,13 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 
 			if ( (pinnedSquares & origenSquare.getPosicion()) != 0 ) {
-				for (Move move : pseudoMoves) {
-					if(move.filter(filter)){
-						moves.add(move);
-					}
-				}
+
+				filerMoveCollection(pseudoMoves, moves);
 
 			} else {
+				
 				moves.addAll(pseudoMoves);
+				
 			}
 
 		}
@@ -78,11 +77,8 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
 
-		for (Move move : pseudoMovesKing) {
-			if(move.filter(filter)){
-				moves.add(move);
-			}
-		}
+		filerMoveCollection(pseudoMovesKing, moves);
+		
 		return moves;
 	}
 	

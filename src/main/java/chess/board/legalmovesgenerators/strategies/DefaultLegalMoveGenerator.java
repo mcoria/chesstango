@@ -47,12 +47,7 @@ public class DefaultLegalMoveGenerator extends AbstractLegalMoveGenerator {
 			// En movimiento anterior Queen Negra se movió desde h7 a e7 y ahora el king blanco e1 queda en jaque.
 			// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al king en Jaque
 			// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI
-			for (Move move : pseudoMoves) {
-				if(move.filter(filter)){
-					moves.add(move);
-				}
-			}
-
+			filerMoveCollection(pseudoMoves, moves);
 		}
 		
 		return moves;
