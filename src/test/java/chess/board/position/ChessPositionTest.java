@@ -31,7 +31,7 @@ import chess.board.moves.imp.MoveFactoryWhite;
  */
 public class ChessPositionTest {
 	
-	private MoveFactoryWhite moveFactoryImp;
+	private MoveFactoryWhite moveFactoryWhite;
 	
 	private ChessFactory factory;
 	
@@ -45,7 +45,7 @@ public class ChessPositionTest {
 	
 	@Before
 	public void setUp() throws Exception {		
-		moveFactoryImp = new MoveFactoryWhite();
+		moveFactoryWhite = new MoveFactoryWhite();
 		
 		factory = new ChessFactoryDebug();
 		
@@ -154,8 +154,8 @@ public class ChessPositionTest {
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f2)));
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.f1)));
 
-		assertFalse(moves.contains(moveFactoryImp.createCastlingKingMove()));
-		assertFalse(moves.contains(moveFactoryImp.createCastlingQueenMove()));
+		assertFalse(moves.contains(moveFactoryWhite.createCastlingKingMove()));
+		assertFalse(moves.contains(moveFactoryWhite.createCastlingQueenMove()));
 
 		assertEquals(4, moves.size());
 	}
@@ -177,82 +177,6 @@ public class ChessPositionTest {
 				Piece.QUEEN_BLACK)));
 
 		assertEquals(46, moves.size());
-	}
-
-	@Test
-	public void testJuegoEnPassantUndo() {
-		Collection<Move> legalMoves = null;
-		AnalyzerResult result = null;
-		Move move = null;
-
-		settupWithBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
-		
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();		
-
-		// Estado inicial
-		assertEquals(19, legalMoves.size());
-		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-
-		// Mueve el pawn pasante
-		move = geteMove(legalMoves, Square.c7, Square.c5);
-		chessPosition.acceptForExecute(move);
-
-		// Podemos capturarlo
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();	
-		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
-		assertEquals(22, legalMoves.size());
-
-		// Volvemos atras
-		chessPosition.acceptForUndo(move);
-
-		// No podemos capturarlo
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();	
-		assertEquals(19, legalMoves.size());
-		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-	}
-
-	@Test
-	public void testJuegoEnPassant01() {
-		Collection<Move> legalMoves = null;
-		AnalyzerResult result = null;
-		Move move = null;
-		
-		settupWithBoard("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
-
-		// Estado inicial
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();	
-		assertEquals(19, legalMoves.size());
-		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-
-		// Mueve el pawn pasante
-		move = geteMove(legalMoves, Square.c7, Square.c5);
-		chessPosition.acceptForExecute(move);
-
-		// Podemos capturarlo
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();
-		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
-		assertEquals(22, legalMoves.size());
-
-		// Pero NO lo capturamos
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();
-		move = geteMove(legalMoves, Square.h2, Square.h3);
-		chessPosition.acceptForExecute(move);
-
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();
-		move = geteMove(legalMoves, Square.h7, Square.h6);
-		chessPosition.acceptForExecute(move);
-
-		// Ahora no podemos capturar el pawn pasante !!!
-		result = analyzer.getAnalyzerResult();
-		legalMoves = result.getLegalMoves();
-		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 	}
 	
 	
@@ -276,7 +200,7 @@ public class ChessPositionTest {
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f1)));
-		assertFalse(moves.contains(moveFactoryImp.createCastlingKingMove()));
+		assertFalse(moves.contains(moveFactoryWhite.createCastlingKingMove()));
 		
 		assertEquals(12, moves.size());
 		
@@ -293,53 +217,34 @@ public class ChessPositionTest {
 		
 		assertEquals(17, moves.size());
 		
-	}
-
-	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
-		for (Move move : movimientos) {
-			if (from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected Move geteMove(Collection<Move> movimientos, Square from, Square to) {
-		for (Move move : movimientos) {
-			if (from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())) {
-				return move;
-			}
-		}
-		return null;
-	}
-		
+	}	
 	
 	private Move createSimpleMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-		return moveFactoryImp.createSimpleMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
+		return moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 	
 	private Move createCaptureMove(Square origenSquare, Piece origenPieza, Square destinoSquare, Piece destinoPieza) {
-		return moveFactoryImp.createCaptureMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
+		return moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}		
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
-		return moveFactoryImp.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante);		
+		return moveFactoryWhite.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante);		
 	}
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,
 			Piece destinoPieza, Piece promocion) {
-		return moveFactoryImp.createCapturePawnPromocion(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
+		return moveFactoryWhite.createCapturePawnPromocion(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
 				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	
 	private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassant(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
+		return moveFactoryWhite.createCaptureEnPassant(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
 				PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(
 						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}
 	
 	private Move createSimpleKingMoveWhite(Square origen, Square destino) {
-		return moveFactoryImp.createSimpleKingMove(PiecePositioned.getPiecePositioned(origen, Piece.KING_WHITE), PiecePositioned.getPiecePositioned(destino, null));
+		return moveFactoryWhite.createSimpleKingMove(PiecePositioned.getPiecePositioned(origen, Piece.KING_WHITE), PiecePositioned.getPiecePositioned(destino, null));
 	}	
 	
 	private void settupWithDefaultBoard() {

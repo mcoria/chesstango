@@ -6,11 +6,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
+
 import org.junit.Test;
 
 import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.fen.FENDecoder;
+import chess.board.moves.Move;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.ChessPositionReader;
@@ -486,6 +489,79 @@ public class GameTest {
 		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
 
 	}	
+	
+	
+	@Test
+	public void testJuegoEnPassantUndo() {
+		Collection<Move> legalMoves = null;
+
+		Game game = getGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
+		
+		legalMoves = game.getPossibleMoves();		
+
+		// Estado inicial
+		assertEquals(19, legalMoves.size());
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+
+		// Mueve el pawn pasante
+		game.executeMove(Square.c7, Square.c5);
+
+
+		// Podemos capturarlo
+		legalMoves = game.getPossibleMoves();	
+		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
+		assertEquals(22, legalMoves.size());
+
+		// Volvemos atras
+		game.undoMove();
+
+		// No podemos capturarlo
+		legalMoves = game.getPossibleMoves();	
+		assertEquals(19, legalMoves.size());
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+	}
+
+	@Test
+	public void testJuegoEnPassant01() {
+		Collection<Move> legalMoves = null;
+		
+		Game game = getGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
+
+		// Estado inicial
+		legalMoves = game.getPossibleMoves();
+		
+		assertEquals(19, legalMoves.size());
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+		
+		// Mueve el pawn pasante
+		game.executeMove(Square.c7, Square.c5);
+
+		// Podemos capturarlo
+		legalMoves = game.getPossibleMoves();
+		assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
+		assertEquals(22, legalMoves.size());
+
+		// Pero NO lo capturamos
+		game.executeMove(Square.h2, Square.h3);
+
+
+		game.executeMove(Square.h7, Square.h6);
+
+		// Ahora no podemos capturar el pawn pasante !!!
+		legalMoves = game.getPossibleMoves();
+		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+	}
+	
+	
+	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
+		for (Move move : movimientos) {
+			if (from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	private Game getGame(String string) {		
 		GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
