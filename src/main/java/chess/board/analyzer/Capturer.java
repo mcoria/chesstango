@@ -8,10 +8,10 @@ import chess.board.iterators.Cardinal;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.CardinalSquareIterator;
 import chess.board.iterators.square.JumpSquareIterator;
+import chess.board.iterators.square.statics.KnightSquareIterator;
 import chess.board.position.PiecePlacementReader;
 import chess.board.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
 import chess.board.pseudomovesgenerators.strategies.BishopMoveGenerator;
-import chess.board.pseudomovesgenerators.strategies.KnightMoveGenerator;
 import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 
 
@@ -128,7 +128,7 @@ public class Capturer {
 		}
 
 		private boolean positionCapturedByKnight(Square square) {
-			PiecePlacementIterator iterator = piecePlacementReader.iterator(new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO));
+			PiecePlacementIterator iterator = piecePlacementReader.iterator( new KnightSquareIterator(square));
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(caballo.equals(destino.getValue())){		    	

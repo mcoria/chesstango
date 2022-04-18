@@ -8,7 +8,7 @@ import chess.board.Square;
  */
 public class BitSquareIterator implements SquareIterator {
 
-	private static Square[] array = {  
+	private final static Square[] array = {  
 			Square.a1, Square.b1, Square.c1, Square.d1, Square.e1, Square.f1, Square.g1, Square.h1,
 			Square.a2, Square.b2, Square.c2, Square.d2, Square.e2, Square.f2, Square.g2, Square.h2,
 			Square.a3, Square.b3, Square.c3, Square.d3, Square.e3, Square.f3, Square.g3, Square.h3,
