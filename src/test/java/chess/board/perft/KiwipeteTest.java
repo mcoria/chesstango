@@ -808,7 +808,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(46, result.getTotalNodes());
 	}
 	
-	@Test
+	@Test //18segs
 	public void test_divide5() {
 		PerftResult result= pert.start(board, 5);
 		
@@ -866,6 +866,62 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(193690690, result.getTotalNodes());
 	}
 	
+	//Test //842segs
+	public void test_divide6() {
+		PerftResult result= pert.start(board, 6);
+		
+		assertEquals(197413067, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(153953689, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(141076301, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(151133066, result.getChildNode(Square.d5, Square.d6));
+		assertEquals(183872225, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(135208177, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(158328615, result.getChildNode(Square.g2, Square.h3));
+		assertEquals(203255191, result.getChildNode(Square.d5, Square.e6));
+		assertEquals(140737072, result.getChildNode(Square.e5, Square.d3));
+		assertEquals(145182844, result.getChildNode(Square.e5, Square.c4));
+		assertEquals(144264874, result.getChildNode(Square.e5, Square.g4));
+		assertEquals(169836097, result.getChildNode(Square.e5, Square.c6));
+		assertEquals(165477768, result.getChildNode(Square.e5, Square.g6));
+		assertEquals(193856446, result.getChildNode(Square.e5, Square.d7));
+		assertEquals(176070755, result.getChildNode(Square.e5, Square.f7));
+		assertEquals(165673862, result.getChildNode(Square.c3, Square.b1));
+		assertEquals(165415976, result.getChildNode(Square.c3, Square.d1));
+		assertEquals(191260040, result.getChildNode(Square.c3, Square.a4));
+		assertEquals(166970874, result.getChildNode(Square.c3, Square.b5));
+		assertEquals(158801466, result.getChildNode(Square.d2, Square.c1));
+		assertEquals(184114087, result.getChildNode(Square.d2, Square.e3));
+		assertEquals(165805784, result.getChildNode(Square.d2, Square.f4));
+		assertEquals(177883051, result.getChildNode(Square.d2, Square.g5));
+		assertEquals(161319567, result.getChildNode(Square.d2, Square.h6));
+		assertEquals(131348645, result.getChildNode(Square.e2, Square.d1));
+		assertEquals(174218453, result.getChildNode(Square.e2, Square.f1));
+		assertEquals(167737155, result.getChildNode(Square.e2, Square.d3));
+		assertEquals(170094798, result.getChildNode(Square.e2, Square.c4));
+		assertEquals(158033152, result.getChildNode(Square.e2, Square.b5));
+		assertEquals(130642863, result.getChildNode(Square.e2, Square.a6));
+		assertEquals(160413321, result.getChildNode(Square.a1, Square.b1));
+		assertEquals(159720218, result.getChildNode(Square.a1, Square.c1));
+		assertEquals(149265033, result.getChildNode(Square.a1, Square.d1));
+		assertEquals(154273720, result.getChildNode(Square.h1, Square.f1));
+		assertEquals(166086672, result.getChildNode(Square.h1, Square.g1));
+		assertEquals(164583144, result.getChildNode(Square.f3, Square.d3));
+		assertEquals(189120807, result.getChildNode(Square.f3, Square.e3));
+		assertEquals(198078522, result.getChildNode(Square.f3, Square.g3));
+		assertEquals(210100865, result.getChildNode(Square.f3, Square.h3));
+		assertEquals(181938761, result.getChildNode(Square.f3, Square.f4));
+		assertEquals(189789456, result.getChildNode(Square.f3, Square.g4));
+		assertEquals(226135507, result.getChildNode(Square.f3, Square.f5));
+		assertEquals(197839051, result.getChildNode(Square.f3, Square.h5));
+		assertEquals(146338070, result.getChildNode(Square.f3, Square.f6));
+		assertEquals(148612404, result.getChildNode(Square.e1, Square.d1));
+		assertEquals(139601450, result.getChildNode(Square.e1, Square.f1));
+		assertEquals(172063416, result.getChildNode(Square.e1, Square.g1));
+		assertEquals(148701308, result.getChildNode(Square.e1, Square.c1));
+		
+		assertEquals(48, result.getMovesCount());
+		assertEquals(8031647685L, result.getTotalNodes());
+	}	
 	
 	@Test
 	public void test_a1b1() {
