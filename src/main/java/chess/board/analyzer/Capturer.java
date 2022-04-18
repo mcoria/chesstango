@@ -24,6 +24,7 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 //       - buscar todas las posibilidades de captura de Rey
 //       - durante la busqueda deberia identificar posiciones pinned
 //       - deberia haber un capturer de posicion mas sencillo para LegalMoveGenerator
+//		 - deberiamos tener un capturer especifico para Castling
 public class Capturer {
 	private final PiecePlacementReader piecePlacementReader;
 	private final ImprovedCapturerColor capturerWhite = new ImprovedCapturerColor(Color.WHITE);

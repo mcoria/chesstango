@@ -14,7 +14,20 @@ import java.util.List;
  */
 public class MoveContainer implements Collection<Move> {
 
-	private List<Move> imp = new ArrayList<Move>();
+	private final List<Move> imp;
+	
+	
+
+	public MoveContainer() {
+		this.imp = new ArrayList<Move>();
+	}
+
+	/**
+	 * @param i
+	 */
+	public MoveContainer(int initialCapacity) {
+		this.imp = new ArrayList<Move>();
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -19,7 +19,7 @@ import chess.board.perft.imp.PerftBrute;
  * @author Mauricio Coria
  *
  */
-public class InitialPositionTests extends AbstractPerftTest  {
+public class InitialPositionTest extends AbstractPerftTest  {
 
 	private Perft pert;
 
@@ -211,7 +211,7 @@ public class InitialPositionTests extends AbstractPerftTest  {
 	}
 
 
-	@Test //394segs 279segs
+	//@Test //394segs 279segs
 	public void test_divide7() {
 		PerftResult result = pert.start(board, 7);
 		

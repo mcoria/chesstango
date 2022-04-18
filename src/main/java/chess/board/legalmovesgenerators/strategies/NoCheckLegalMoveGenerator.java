@@ -21,13 +21,15 @@ import chess.board.pseudomovesgenerators.MoveGenerator;
  */
 public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
+	private static final int CAPACITY_MOVE_CONTAINER = 70;
+
 	public NoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
 		super(positionReader, strategy, filter);
 	}
 
 	@Override
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
-		Collection<Move> moves = new MoveContainer();
+		Collection<Move> moves = new MoveContainer(CAPACITY_MOVE_CONTAINER);
 		
 		getLegalMovesNotKing(analysis.getPinnedSquares(), moves);
 		
@@ -35,7 +37,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		
 		getEnPassantMoves(moves);
 		
-		getCastlingMoves(moves);		
+		getCastlingMoves(moves);
 		
 		return moves;
 	}

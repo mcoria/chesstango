@@ -91,7 +91,8 @@ public class PerftBrute implements Perft {
 			}
 		}
 		//System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);
-		//System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);		
+		//System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);
+		//System.out.println("MAX_MOVECOUNTER_SIZE = "  + NoCheckLegalMoveGenerator.MAX_MOVECOUNTER_SIZE);
 	}	
 
 }

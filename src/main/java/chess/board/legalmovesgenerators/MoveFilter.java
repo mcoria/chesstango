@@ -62,10 +62,11 @@ public class MoveFilter {
 		return result;
 	}
 
+	//TODO: este metodo esta consumiendo el 20% del procesamiento, deberia crear CAPTURER especifico para validar castling
 	public boolean filterMove(MoveCastling moveCastling) {
+		// !capturer.positionCaptured(opositeColor, moveCastling.getFrom().getKey()) 					// El king no esta en jaque... lo asumimos
 		Color opositeColor = moveCastling.getFrom().getValue().getColor().opositeColor();
-		return !capturer.positionCaptured(opositeColor, moveCastling.getFrom().getKey()) 				// El king no esta en jaque
-			&& !capturer.positionCaptured(opositeColor, moveCastling.getRookMove().getTo().getKey()) 	// El king no puede ser capturado en casillero intermedio
+		return !capturer.positionCaptured(opositeColor, moveCastling.getRookMove().getTo().getKey()) 	// El king no puede ser capturado en casillero intermedio
 			&& !capturer.positionCaptured(opositeColor, moveCastling.getTo().getKey());  				// El king no puede  ser capturado en casillero destino
 		
 	}	
