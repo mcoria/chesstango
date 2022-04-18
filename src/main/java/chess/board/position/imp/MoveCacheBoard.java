@@ -28,11 +28,14 @@ public class MoveCacheBoard {
 		pseudoMoves[key.toIdx()] = generatorResult;
 		long keyAdded = key.getPosicion();
 		long affectedByCollection = generatorResult.getAffectedBy();
-		for(int i = 0; i < 64; i++){
-			if( (affectedByCollection & (1L << i))  != 0 ) {
-				 affects[i] |= keyAdded;
-			}
-		}
+
+		
+		while(affectedByCollection != 0){
+			long posicionLng = Long.lowestOneBit(affectedByCollection);
+			int idx = Long.numberOfTrailingZeros(posicionLng);
+			affects[idx] |= keyAdded;
+			affectedByCollection &= ~posicionLng;
+		}		
 	}		
 
 	public void clearPseudoMoves(Square key, boolean trackCleared) {
@@ -88,11 +91,9 @@ public class MoveCacheBoard {
 
 	//TODO: este metodo consume el 20% del procesamiento
 	public void popCleared() {
-		for(MoveGeneratorResult generatorResult: currentClearedSquares){
-			if(generatorResult != null){
-				setPseudoMoves(generatorResult.getFrom().getKey(), generatorResult);
-			}
-		}
+		currentClearedSquares.stream()
+				.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getKey(), generatorResult));
+		
 		currentClearedSquares = clearedSquares.pop();
 	}	
 
@@ -107,4 +108,5 @@ public class MoveCacheBoard {
 		
 		return buffer.toString();
 	}
+	
 }

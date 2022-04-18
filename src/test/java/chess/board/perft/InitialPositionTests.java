@@ -211,7 +211,7 @@ public class InitialPositionTests extends AbstractPerftTest  {
 	}
 
 
-	//Test //394segs
+	@Test //394segs 279segs
 	public void test_divide7() {
 		PerftResult result = pert.start(board, 7);
 		
