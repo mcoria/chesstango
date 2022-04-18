@@ -26,7 +26,7 @@ public class MoveContainer implements Collection<Move> {
 	 * @param i
 	 */
 	public MoveContainer(int initialCapacity) {
-		this.imp = new ArrayList<Move>();
+		this.imp = new ArrayList<Move>(initialCapacity);
 	}
 
 	/*
