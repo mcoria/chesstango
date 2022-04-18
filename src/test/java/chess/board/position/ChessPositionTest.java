@@ -121,7 +121,7 @@ public class ChessPositionTest {
 	public void testKingInCheck02() {
 		settupWithBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
 
-		AnalyzerResult result = analyzer.getAnalyzerResult();
+		AnalyzerResult result = analyzer.analyze();
 
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
@@ -142,7 +142,7 @@ public class ChessPositionTest {
 	public void testJuegoCastlingWhiteJaque() {		
 		settupWithBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
 
-		AnalyzerResult result = analyzer.getAnalyzerResult();
+		AnalyzerResult result = analyzer.analyze();
 
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
@@ -184,7 +184,7 @@ public class ChessPositionTest {
 	public void testJauqeMate() {	
 		settupWithBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 		
-		AnalyzerResult result = analyzer.getAnalyzerResult();
+		AnalyzerResult result = analyzer.analyze();
 		
 		assertTrue(result.isKingInCheck());
 		assertTrue(gameState.getLegalMoves().isEmpty());
@@ -262,7 +262,7 @@ public class ChessPositionTest {
 		
 		analyzer = injector.getAnalyzer();
 		
-		analyzerResult = analyzer.getAnalyzerResult();
+		analyzerResult = analyzer.analyze();
 		
 		gameState = injector.getGameState();
 	}		

@@ -31,7 +31,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	//      								a) no modifica el tablero
 	//										b) no modifica el estado
 	//										c) no modifica el cache de king
-	public AnalyzerResult getAnalyzerResult() {
+	public AnalyzerResult analyze() {
 		try {
 			boolean reportError = false;
 			
@@ -41,7 +41,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 			
 			PositionState boardStateInicial = this.positionState.clone();
 
-			AnalyzerResult result = getAnalyzerResult();
+			AnalyzerResult result = analyze();
 			
 			if (!this.positionState.equals(boardStateInicial)) {
 				System.out.println("El estado fué modificado");

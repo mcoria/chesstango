@@ -5,7 +5,6 @@ import java.util.Collection;
 import chess.board.Color;
 import chess.board.Square;
 import chess.board.analyzer.AnalyzerResult;
-import chess.board.analyzer.Pinned;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
@@ -21,20 +20,16 @@ import chess.board.pseudomovesgenerators.MoveGenerator;
  *
  */
 public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
-	
-	private final Pinned pinnedAlanyzer;
 
 	public NoCheckLegalMoveGenerator(ChessPositionReader positionReader, MoveGenerator strategy, MoveFilter filter) {
 		super(positionReader, strategy, filter);
-		
-		pinnedAlanyzer = new Pinned(positionReader);
 	}
 
 	@Override
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
 		Collection<Move> moves = new MoveContainer();
 		
-		getLegalMovesNotKing(moves);
+		getLegalMovesNotKing(analysis.getPinnedSquares(), moves);
 		
 		getLegalMovesKing(moves);
 		
@@ -45,12 +40,8 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
-	protected Collection<Move> getLegalMovesNotKing(Collection<Move> moves) {
+	protected Collection<Move> getLegalMovesNotKing(long pinnedSquares, Collection<Move> moves) {
 		final Color turnoActual = this.positionReader.getTurnoActual();
-
-		// Casilleros donde se encuentran piezas propias que de moverse pueden dejar en jaque al King.
-		//TODO: esto deberia venir precalculado
-		long pinnedSquares = pinnedAlanyzer.getPinnedSquare(turnoActual); 
 
 		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 

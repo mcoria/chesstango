@@ -22,7 +22,7 @@ import chess.board.pseudomovesgenerators.MoveGenerator;
  */
 public class NoCheckLegalMoveGeneratorTest {
 
-	private NoCheckLegalMoveGenerator moveCalculator;
+	private NoCheckLegalMoveGenerator moveGeneretor;
 	
 	private ChessPosition chessPosition;	
 	
@@ -38,7 +38,7 @@ public class NoCheckLegalMoveGeneratorTest {
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b - - 0 1");
 		
-		moveCalculator = new NoCheckLegalMoveGenerator(chessPosition, strategy, filter);
+		moveGeneretor = new NoCheckLegalMoveGenerator(chessPosition, strategy, filter);
 
 		assertTrue(gameState.getLegalMoves().isEmpty());
 	}

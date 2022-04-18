@@ -3,6 +3,7 @@ package chess.board.factory;
 import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.Capturer;
+import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
@@ -85,13 +86,18 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public Capturer creareCapturer(PiecePlacementReader piecePlacementReader) {
+	public Capturer createCapturer(PiecePlacementReader piecePlacementReader) {
 		return new Capturer(piecePlacementReader);
 	}
 
 
 	public GameState createGameState() {
 		return new GameState();
+	}
+
+
+	public Pinned createPinnedAlanyzer(ChessPositionReader positionReader) {
+		return new Pinned(positionReader);
 	}
 
 }

@@ -6,6 +6,7 @@ package chess.board.factory;
 import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.Capturer;
+import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
@@ -25,6 +26,9 @@ import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
  *
  */
 public class ChessInjector {
+	
+	private final ChessFactory chessFactory;
+	
 	private PiecePlacement piecePlacement = null;
 	
 	private PositionState positionState = null;
@@ -42,6 +46,8 @@ public class ChessInjector {
 	private MoveGeneratorImp moveGeneratorImp = null;
 
 	private PositionAnalyzer positionAnalyzer = null;
+	
+	private Pinned pinnedAlanyzer;
 
 	private LegalMoveGenerator defaultMoveCalculator = null;
 
@@ -56,8 +62,6 @@ public class ChessInjector {
 	private GameState gameState = null;	
 	
 	private Game game = null;	
-	
-	private final ChessFactory chessFactory;
 	
 	public ChessInjector() {
 		this.chessFactory = new ChessFactory();
@@ -144,13 +148,22 @@ public class ChessInjector {
 			positionAnalyzer.setCapturer(getCapturer());
 			positionAnalyzer.setLegalMoveGenerator(getLegalMoveGenerator());		
 			positionAnalyzer.setGameState(getGameState());
+			positionAnalyzer.setPinnedAlanyzer(getPinnedAlanyzer());
 		}
 		return positionAnalyzer;
 	}
 
+
+	private Pinned getPinnedAlanyzer() {
+		if(pinnedAlanyzer == null){
+			pinnedAlanyzer = chessFactory.createPinnedAlanyzer(getChessPosition());
+		}
+		return pinnedAlanyzer;
+	}
+
 	public Capturer getCapturer() {
 		if(capturer == null){
-			capturer = chessFactory.creareCapturer(getPiecePlacement());
+			capturer = chessFactory.createCapturer(getPiecePlacement());
 		}
 		return capturer;
 	}

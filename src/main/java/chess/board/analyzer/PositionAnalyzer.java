@@ -25,15 +25,18 @@ public class PositionAnalyzer {
 
 	private Capturer capturer;
 	
-	private GameState gameState;
+	private Pinned pinnedAnalyzer;
 	
+	private GameState gameState;
 	
 	private LegalMoveGenerator legalMoveGenerator;
 	
 	
 	public GameState.GameStatus updateGameStatus() {
-		AnalyzerResult analysis = getAnalyzerResult();
+		AnalyzerResult analysis = analyze();
+		
 		Collection<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+		
 		boolean existsLegalMove = !legalMoves.isEmpty();
 		
 		GameState.GameStatus gameStatus = null;
@@ -59,16 +62,16 @@ public class PositionAnalyzer {
 		return gameStatus;
 	}	
 	
-	public AnalyzerResult getAnalyzerResult() {
-		AnalyzerResult result = new AnalyzerResult();
-		result.setKingInCheck(calculateKingInCheck());
-		return result;
-	}
-	
-	protected boolean calculateKingInCheck() {
+	public AnalyzerResult analyze() {
 		Color turnoActual = positionReader.getTurnoActual();
 		
-		return capturer.positionCaptured(turnoActual.opositeColor(), positionReader.getKingSquare(turnoActual));
+		AnalyzerResult result = new AnalyzerResult();
+		
+		result.setKingInCheck(capturer.positionCaptured(turnoActual.opositeColor(), positionReader.getKingSquare(turnoActual)));
+		
+		result.setPinnedSquares(pinnedAnalyzer.getPinnedSquare(turnoActual));		
+		
+		return result;
 	}
 
 	public void setCapturer(Capturer capturer) {
@@ -85,6 +88,10 @@ public class PositionAnalyzer {
 
 	public void setLegalMoveGenerator(LegalMoveGenerator legalMoveGenerator) {
 		this.legalMoveGenerator = legalMoveGenerator;
+	}
+
+	public void setPinnedAlanyzer(Pinned pinnedAlanyzer) {
+		this.pinnedAnalyzer = pinnedAlanyzer;
 	}	
 
 }
