@@ -24,7 +24,7 @@ public class PerftBrute implements Perft {
 	public PerftResult start(Game game, int maxLevel) {
 		this.maxLevel = maxLevel;
 		PerftResult perftResult = new PerftResult();
-		int totalNodes = 0;
+		long totalNodes = 0;
 
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
 
@@ -79,7 +79,7 @@ public class PerftBrute implements Perft {
 		System.out.println("Total Moves: " + perftResult.getMovesCount());
 		System.out.println("Total Nodes: " + perftResult.getTotalNodes());
 		
-		Map<Move, Integer> childs = perftResult.getChilds();
+		Map<Move, Long> childs = perftResult.getChilds();
 		
 		if(childs != null){
 			List<Move> moves = new ArrayList<Move>(childs.keySet());

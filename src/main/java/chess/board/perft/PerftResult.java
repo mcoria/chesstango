@@ -13,32 +13,32 @@ import chess.board.moves.Move;
  */
 public class PerftResult {
 	
-	private int totalNodes;
+	private long totalNodes;
 	
-	private Map<Move, Integer> moves = new HashMap<Move, Integer>();
+	private Map<Move, Long> moves = new HashMap<Move, Long>();
 
-	public void add(Move move, int nodeCount) {
+	public void add(Move move, long nodeCount) {
 		moves.put(move, nodeCount);
 	}
 
-	public int getTotalNodes() {
+	public long getTotalNodes() {
 		return totalNodes;
 	}
 
-	public void setTotalNodes(int totalNodes) {
+	public void setTotalNodes(long totalNodes) {
 		this.totalNodes = totalNodes;
 	}
 
-	public int getMovesCount() {
+	public long getMovesCount() {
 		return moves.size();
 	}
 
-	public Map<Move, Integer> getChilds(){
+	public Map<Move, Long> getChilds(){
 		return moves;
 	}
 
-	public int getChildNode(Square from, Square to) {
-		for(Entry<Move, Integer> entry: moves.entrySet()){
+	public long getChildNode(Square from, Square to) {
+		for(Entry<Move, Long> entry: moves.entrySet()){
 			Move move = entry.getKey();
 			if(move.getFrom().getKey().equals(from) && move.getTo().getKey().equals(to)){
 				return entry.getValue();
@@ -48,7 +48,7 @@ public class PerftResult {
 	}
 	
 	public boolean moveExists(Square from, Square to) {
-		for(Entry<Move, Integer> entry: moves.entrySet()){
+		for(Entry<Move, Long> entry: moves.entrySet()){
 			Move move = entry.getKey();
 			if(move.getFrom().getKey().equals(from) && move.getTo().getKey().equals(to)){
 				return true;

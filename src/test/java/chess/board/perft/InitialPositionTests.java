@@ -209,15 +209,36 @@ public class InitialPositionTests extends AbstractPerftTest  {
 		assertEquals(20, result.getMovesCount());
 		assertEquals(119060324, result.getTotalNodes());
 	}
-	
-	//TODO: por algun motivo este test esta fallando y demora 340segs
-	//Test
+
+
+	//Test //394segs
 	public void test_divide7() {
 		PerftResult result = pert.start(board, 7);
 		
+		assertEquals(106743106, result.getChildNode(Square.a2, Square.a3));
+		assertEquals(133233975, result.getChildNode(Square.b2, Square.b3));
+		assertEquals(144074944, result.getChildNode(Square.c2, Square.c3));
+		assertEquals(227598692, result.getChildNode(Square.d2, Square.d3));
+		assertEquals(306138410, result.getChildNode(Square.e2, Square.e3));
+		assertEquals(102021008, result.getChildNode(Square.f2, Square.f3));
+		assertEquals(135987651, result.getChildNode(Square.g2, Square.g3));
+		assertEquals(106678423, result.getChildNode(Square.h2, Square.h3));
+		assertEquals(137077337, result.getChildNode(Square.a2, Square.a4));
+		assertEquals(134087476, result.getChildNode(Square.b2, Square.b4));
+		assertEquals(157756443, result.getChildNode(Square.c2, Square.c4));
+		assertEquals(269605599, result.getChildNode(Square.d2, Square.d4));
+		assertEquals(309478263, result.getChildNode(Square.e2, Square.e4));
+		assertEquals(119614841, result.getChildNode(Square.f2, Square.f4));
+		assertEquals(130293018, result.getChildNode(Square.g2, Square.g4));
+		assertEquals(138495290, result.getChildNode(Square.h2, Square.h4));
+		assertEquals(120142144, result.getChildNode(Square.b1, Square.a3));
+		assertEquals(148527161, result.getChildNode(Square.b1, Square.c3));
+		assertEquals(147678554, result.getChildNode(Square.g1, Square.f3));
+		assertEquals(120669525, result.getChildNode(Square.g1, Square.h3));
+		
 		assertEquals(20, result.getMovesCount());
-		assertEquals(119060324, result.getTotalNodes());
-	}	
+		assertEquals(3195901860L, result.getTotalNodes());
+	}
 	
 	@Test
 	public void test_d2d3() {

@@ -45,7 +45,7 @@ public class PerftWithMap implements Perft  {
 	private PerftResult visitLevel1(Game game) {
 		PerftResult perftResult = new PerftResult();
 
-		int totalNodes = 0;
+		long totalNodes = 0;
 
 		
 		Collection<Move> movimientosPosible = game.getPossibleMoves();
@@ -130,7 +130,7 @@ public class PerftWithMap implements Perft  {
 		System.out.println("Total Moves: " + result.getMovesCount());
 		System.out.println("Total Nodes: " + result.getTotalNodes());
 		
-		Map<Move, Integer> childs = result.getChilds();
+		Map<Move, Long> childs = result.getChilds();
 		
 		if(childs != null){
 			List<Move> moves = new ArrayList<Move>(childs.keySet());
