@@ -4,9 +4,11 @@ import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
-import chess.board.analyzer.capturer.Capturer;
+import chess.board.analyzer.capturers.Capturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
+import chess.board.legalmovesgenerators.filters.CheckMoveFilter;
+import chess.board.legalmovesgenerators.filters.NoCheckMoveFilter;
 import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;
 import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
 import chess.board.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
@@ -61,10 +63,15 @@ public class ChessFactory {
 		return new MoveCacheBoard();
 	}
 
-	public MoveFilter createMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			PositionState positionState, Capturer capturer) {
-		return new MoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
+	public CheckMoveFilter createCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+			PositionState positionState) {
+		return new CheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
+	
+	public NoCheckMoveFilter createNoCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+			PositionState positionState) {
+		return new NoCheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	}	
 
 	public PiecePlacement createPiecePlacement() {
 		return new ArrayPiecePlacement();

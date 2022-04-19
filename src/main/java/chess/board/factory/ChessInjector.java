@@ -7,7 +7,7 @@ import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
-import chess.board.analyzer.capturer.Capturer;
+import chess.board.analyzer.capturers.Capturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;
@@ -57,7 +57,9 @@ public class ChessInjector {
 
 	private Capturer capturer = null;
 
-	private MoveFilter moveFilter;
+	private MoveFilter checkMoveFilter;
+	
+	private MoveFilter noCheckMoveFilter;
 	
 	private GameState gameState = null;	
 	
@@ -181,14 +183,14 @@ public class ChessInjector {
 	
 	public LegalMoveGenerator getDefaultMoveCalculator() {
 		if (defaultMoveCalculator == null) {
-			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getMoveFilter());
+			defaultMoveCalculator = chessFactory.createDefaultLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getCheckMoveFilter());
 		}
 		return this.defaultMoveCalculator;
 	}
 
 	public LegalMoveGenerator getNoCheckLegalMoveGenerator() {
 		if (noCheckLegalMoveGenerator == null) {
-			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getMoveFilter());
+			noCheckLegalMoveGenerator = chessFactory.createNoCheckLegalMoveGenerator(getChessPosition(), getMoveGenerator(), getNoCheckMoveFilter());
 		}
 		return noCheckLegalMoveGenerator;
 	}	
@@ -212,10 +214,18 @@ public class ChessInjector {
 		return moveGeneratorImp;
 	}
 
-	public MoveFilter getMoveFilter() {
-		if (moveFilter == null) {
-			moveFilter = chessFactory.createMoveFilter(getPiecePlacement(), getKingCacheBoard(), getColorBoard(),  getPositionState(), getCapturer());
+	public MoveFilter getCheckMoveFilter() {
+		if (checkMoveFilter == null) {
+			checkMoveFilter = chessFactory.createCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getColorBoard(),  getPositionState());
 		}
-		return moveFilter;
-	}		
+		return checkMoveFilter;
+	}
+	
+	
+	public MoveFilter getNoCheckMoveFilter() {
+		if (noCheckMoveFilter == null) {
+			noCheckMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getColorBoard(),  getPositionState());
+		}
+		return noCheckMoveFilter;
+	}	
 }

@@ -29,7 +29,7 @@ public class DefaultLegalMoveGeneratorTest {
 	
 	private MoveGenerator strategy;
 	
-	private MoveFilter filter;
+	//private MoveFilter filter;
 
 	private GameState gameState;
 	
@@ -39,7 +39,7 @@ public class DefaultLegalMoveGeneratorTest {
 	public void testEquals01() {
 		initDependencies("k7/2Q5/K7/8/8/8/8/8 b - - 0 1");
 		
-		moveGeneretor = new CheckLegalMoveGenerator(chessPosition, strategy, filter);
+		//moveGeneretor = new CheckLegalMoveGenerator(chessPosition, strategy, filter);
 
 		assertTrue(gameState.getLegalMoves().isEmpty());
 	}
@@ -57,7 +57,7 @@ public class DefaultLegalMoveGeneratorTest {
 		
 		strategy = injector.getMoveGenerator();
 		
-		filter = injector.getMoveFilter();
+		//filter = injector.getMoveFilter();
 		
 		gameState = injector.getGameState();
 		

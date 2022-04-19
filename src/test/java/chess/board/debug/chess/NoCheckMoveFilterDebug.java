@@ -1,7 +1,6 @@
 package chess.board.debug.chess;
 
-import chess.board.analyzer.capturer.Capturer;
-import chess.board.legalmovesgenerators.MoveFilter;
+import chess.board.legalmovesgenerators.filters.NoCheckMoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.MoveKing;
 import chess.board.position.PiecePlacement;
@@ -15,11 +14,11 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-public class MoveFilterDebug extends MoveFilter {
+public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 	
-	public MoveFilterDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			PositionState positionState, Capturer capturer) {
-		super(dummyBoard, kingCacheBoard, colorBoard, positionState, capturer);
+	public NoCheckMoveFilterDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+			PositionState positionState) {
+		super(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 
 	@Override

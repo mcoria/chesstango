@@ -1,4 +1,4 @@
-package chess.board.analyzer.capturer;
+package chess.board.analyzer.capturers;
 
 import chess.board.Color;
 import chess.board.Piece;

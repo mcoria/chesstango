@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 import chess.board.GameTest;
 import chess.board.PieceTest;
 import chess.board.SquareTest;
-import chess.board.analyzer.CapturerTest;
+import chess.board.analyzer.capturer.CapturerTest;
 import chess.board.legalmovesgenerators.strategies.DefaultLegalMoveGeneratorTest;
 import chess.board.legalmovesgenerators.strategies.NoCheckLegalMoveGeneratorTest;
 import chess.board.position.ChessPositionTest;

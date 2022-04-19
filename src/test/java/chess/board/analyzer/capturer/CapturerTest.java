@@ -1,4 +1,4 @@
-package chess.board.analyzer;
+package chess.board.analyzer.capturer;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import chess.board.Color;
 import chess.board.Square;
-import chess.board.analyzer.capturer.Capturer;
+import chess.board.analyzer.capturers.Capturer;
 import chess.board.builder.imp.PiecePlacementBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
