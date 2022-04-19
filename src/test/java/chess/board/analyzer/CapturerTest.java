@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import chess.board.Color;
 import chess.board.Square;
-import chess.board.analyzer.Capturer;
+import chess.board.analyzer.capturer.Capturer;
 import chess.board.builder.imp.PiecePlacementBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;

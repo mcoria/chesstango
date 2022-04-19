@@ -5,9 +5,9 @@ package chess.board.factory;
 
 import chess.board.Game;
 import chess.board.GameState;
-import chess.board.analyzer.Capturer;
 import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
+import chess.board.analyzer.capturer.Capturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;

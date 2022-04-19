@@ -1,7 +1,7 @@
 package chess.board.legalmovesgenerators;
 
 import chess.board.Color;
-import chess.board.analyzer.Capturer;
+import chess.board.analyzer.capturer.Capturer;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
 import chess.board.moves.MoveKing;

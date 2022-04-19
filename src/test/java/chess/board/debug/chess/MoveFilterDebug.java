@@ -1,6 +1,6 @@
 package chess.board.debug.chess;
 
-import chess.board.analyzer.Capturer;
+import chess.board.analyzer.capturer.Capturer;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.MoveKing;

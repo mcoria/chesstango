@@ -1,6 +1,6 @@
 package chess.board.debug.builder;
 
-import chess.board.analyzer.Capturer;
+import chess.board.analyzer.capturer.Capturer;
 import chess.board.debug.chess.ChessPositionDebug;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.debug.chess.DefaultLegalMoveGeneratorDebug;

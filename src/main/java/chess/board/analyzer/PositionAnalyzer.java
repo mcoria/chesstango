@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import chess.board.Color;
 import chess.board.GameState;
+import chess.board.analyzer.capturer.Capturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.moves.Move;
 import chess.board.position.ChessPositionReader;
