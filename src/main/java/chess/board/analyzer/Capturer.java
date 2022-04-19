@@ -113,26 +113,37 @@ public class Capturer {
 			return false;
 		}
 
-		private Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
+		private final Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
 		private boolean positionCapturedByBishop(Square square) {
 			return positionCapturedByDireccion(square, direccionesBishop,  alfil);
 		}
 
-		private Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
+		private final Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
 		private boolean positionCapturedByRook(Square square) {		
 			return positionCapturedByDireccion(square, direccionesRook, torre);
 		}
 
 		private boolean positionCapturedByDireccion(Square square, Cardinal[] direcciones, Piece torreOalfil) {		
 			for (Cardinal cardinal : direcciones) {
-				if(cardinalPositionCapturedByPieza(torreOalfil, queen, square, cardinal)){
+				if(positionCapturedByCardinalPieza(torreOalfil, queen, square, cardinal)){
 					return true;
 				}
 			}
 			return false;
 		}
 		
-		private boolean cardinalPositionCapturedByPieza(Piece torreOalfil, Piece queen, Square square, Cardinal cardinal) {
+		private boolean positionCapturedByKnight(Square square) {
+			PiecePlacementIterator iterator = piecePlacementReader.iterator( Knight_ARRAY_SALTOS[square.toIdx()] );
+			while (iterator.hasNext()) {
+			    PiecePositioned destino = iterator.next();
+			    if(caballo.equals(destino.getValue())){		    	
+			    	return true;
+			    }
+			}
+			return false;
+		}		
+		
+		private boolean positionCapturedByCardinalPieza(Piece torreOalfil, Piece queen, Square square, Cardinal cardinal) {
 			PiecePlacementIterator iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
@@ -146,17 +157,6 @@ public class Capturer {
 				} else {
 					break;
 				}
-			}
-			return false;
-		}
-
-		private boolean positionCapturedByKnight(Square square) {
-			PiecePlacementIterator iterator = piecePlacementReader.iterator( Knight_ARRAY_SALTOS[square.toIdx()] );
-			while (iterator.hasNext()) {
-			    PiecePositioned destino = iterator.next();
-			    if(caballo.equals(destino.getValue())){		    	
-			    	return true;
-			    }
 			}
 			return false;
 		}
