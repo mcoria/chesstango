@@ -57,7 +57,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 			} else {
 				
-				moves.addAll(pseudoMoves);
+				//moves.addAll(pseudoMoves);
+				
+				pseudoMoves.forEach(move -> moves.add(move));
 				
 			}
 

@@ -5,6 +5,7 @@ package chess.board.legalmovesgenerators.filters;
 
 import chess.board.Color;
 import chess.board.analyzer.capturers.Capturer;
+import chess.board.analyzer.capturers.NoCheckCapturer;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
@@ -26,6 +27,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 	protected final PositionState positionState;
 
 	protected final Capturer capturer;
+	protected final NoCheckCapturer noCheckCapturer;
 	
 	public NoCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		this.dummyBoard = dummyBoard;
@@ -33,6 +35,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 		this.colorBoard = colorBoard;
 		this.positionState = positionState;
 		this.capturer = new Capturer(dummyBoard);
+		this.noCheckCapturer = new NoCheckCapturer(dummyBoard);
 	}
 	
 	@Override
@@ -45,7 +48,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 
-		if(! capturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! noCheckCapturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 
@@ -58,10 +61,20 @@ public class NoCheckMoveFilter implements MoveFilter{
 	@Override
 	public boolean filterMove(MoveKing move) {
 		boolean result = false;
+		final Color turnoActual = positionState.getTurnoActual();
+		final Color opositeTurnoActual = turnoActual.opositeColor();
 		
 		move.executeMove(this.kingCacheBoard);
 
-		result = filterMove((Move)move);
+		move.executeMove(this.dummyBoard);
+		move.executeMove(this.colorBoard);
+
+		if(! capturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+			result = true;
+		}
+
+		move.undoMove(this.colorBoard);
+		move.undoMove(this.dummyBoard);
 
 		move.undoMove(this.kingCacheBoard);
 		
@@ -72,7 +85,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 	@Override
 	public boolean filterMove(MoveCastling moveCastling) {
 		Color opositeColor = moveCastling.getFrom().getValue().getColor().opositeColor();
-		assert(!capturer.positionCaptured(opositeColor, moveCastling.getFrom().getKey())); 				// El king no esta en jaque... lo asumimos
+		//assert(!capturer.positionCaptured(opositeColor, moveCastling.getFrom().getKey())); 				// El king no esta en jaque... lo asumimos
 		return !capturer.positionCaptured(opositeColor, moveCastling.getRookMove().getTo().getKey()) 	// El king no puede ser capturado en casillero intermedio
 			&& !capturer.positionCaptured(opositeColor, moveCastling.getTo().getKey());  				// El king no puede  ser capturado en casillero destino
 		
