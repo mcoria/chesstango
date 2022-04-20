@@ -2,12 +2,9 @@ package chess.board.analyzer;
 
 import java.util.Collection;
 
-import chess.board.Color;
 import chess.board.GameState;
-import chess.board.analyzer.capturers.Capturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.moves.Move;
-import chess.board.position.ChessPositionReader;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
@@ -21,12 +18,8 @@ import chess.board.position.ChessPositionReader;
  *
  */
 public class PositionAnalyzer {
-
-	private ChessPositionReader positionReader;
-
-	private Capturer capturer;
 	
-	private Pinned pinnedAnalyzer;
+	private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
 	
 	private GameState gameState;
 	
@@ -64,23 +57,16 @@ public class PositionAnalyzer {
 	}	
 	
 	public AnalyzerResult analyze() {
-		Color turnoActual = positionReader.getTurnoActual();
 		
 		AnalyzerResult result = new AnalyzerResult();
 		
-		result.setKingInCheck(capturer.positionCaptured(turnoActual.opositeColor(), positionReader.getKingSquare(turnoActual)));
+		this.checkAndPinnedAnalyzer.analyze();
 		
-		result.setPinnedSquares(pinnedAnalyzer.getPinnedSquare(turnoActual));		
+		result.setKingInCheck(checkAndPinnedAnalyzer.isKingInCheck());
+		
+		result.setPinnedSquares(checkAndPinnedAnalyzer.getPinnedPositions());		
 		
 		return result;
-	}
-
-	public void setCapturer(Capturer capturer) {
-		this.capturer = capturer;
-	}
-
-	public void setPositionReader(ChessPositionReader positionReader) {
-		this.positionReader = positionReader;
 	}
 
 	public void setGameState(GameState gameState) {
@@ -91,8 +77,8 @@ public class PositionAnalyzer {
 		this.legalMoveGenerator = legalMoveGenerator;
 	}
 
-	public void setPinnedAlanyzer(Pinned pinnedAlanyzer) {
-		this.pinnedAnalyzer = pinnedAlanyzer;
+	public void setCheckAndPinnedAnalyzer(CheckAndPinnedAnalyzer checkAndPinnedAnalyzer) {
+		this.checkAndPinnedAnalyzer = checkAndPinnedAnalyzer;
 	}	
 
 }

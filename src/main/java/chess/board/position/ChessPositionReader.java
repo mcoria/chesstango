@@ -41,6 +41,8 @@ public interface ChessPositionReader {
 
 	PiecePlacementIterator iterator(SquareIterator squareIterator);
 	
+	PiecePlacementIterator iterator(long posiciones);
+	
 	PiecePlacementIterator iteratorAllPieces();	
 	
 	void constructBoardRepresentation(ChessPositionBuilder<?> builder);

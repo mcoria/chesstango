@@ -2,6 +2,7 @@ package chess.board.factory;
 
 import chess.board.Game;
 import chess.board.GameState;
+import chess.board.analyzer.CheckAndPinnedAnalyzer;
 import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.analyzer.capturers.Capturer;
@@ -105,6 +106,11 @@ public class ChessFactory {
 
 	public Pinned createPinnedAlanyzer(ChessPositionReader positionReader) {
 		return new Pinned(positionReader);
+	}
+
+
+	public CheckAndPinnedAnalyzer createCheckAndPinnedAnalyzer(ChessPositionReader positionReader) {
+		return new CheckAndPinnedAnalyzer(positionReader);
 	}
 
 }

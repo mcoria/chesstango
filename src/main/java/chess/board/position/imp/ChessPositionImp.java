@@ -207,6 +207,11 @@ public class ChessPositionImp implements ChessPosition {
 	@Override
 	public PiecePlacementIterator iterator(SquareIterator squareIterator) {
 		return piecePlacement.iterator(squareIterator);
+	}
+
+	@Override
+	public PiecePlacementIterator iterator(long posiciones) {
+		return piecePlacement.iterator(posiciones);
 	}	
 	
 }

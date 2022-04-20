@@ -33,7 +33,7 @@ public class PerftMain {
 		Perft main = new PerftBrute();
 		
 		Instant start = Instant.now();
-		PerftResult result = main.start(board, 5);
+		PerftResult result = main.start(board, 6);
 		Instant end = Instant.now();
 		
 		main.printResult(result);
