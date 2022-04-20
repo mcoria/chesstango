@@ -1,5 +1,7 @@
 package chess.board.analyzer;
 
+import chess.board.iterators.Cardinal;
+
 /**
  * @author Mauricio Coria
  *
@@ -24,6 +26,11 @@ public class AnalyzerResult {
 
 	public void setPinnedSquares(long pinnedSquares) {
 		this.pinnedSquares = pinnedSquares;
+	}
+
+
+	public Cardinal getThreatDirection(long currentPiecePosiction) {
+		return null;
 	}
 
 }

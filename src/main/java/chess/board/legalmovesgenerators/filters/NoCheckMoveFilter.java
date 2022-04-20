@@ -39,6 +39,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 	}
 	
 	@Override
+	//TODO: deberiamos crear un filtro especifico para EnPassant? solo movimientos EnPassant terminan siendo filtrados aca, el resto de los movimiento notking son filtrados por el NoCheckLegalMoveGenerator, 
 	public boolean filterMove(Move move) {
 		boolean result = false;
 		
@@ -54,6 +55,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
+		
 		
 		return result;
 	}	

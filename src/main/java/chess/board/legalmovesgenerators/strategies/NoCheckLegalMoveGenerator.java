@@ -85,6 +85,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}	
 	
 
+	//TODO: migrarlo a analysis
 	private Cardinal getDirection(Square kingSquare, Square moveSquare) {
 		for(Cardinal direction: Cardinal.values()){
 			if(direction.isInDirection(kingSquare, moveSquare)){
@@ -94,6 +95,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		throw new RuntimeException("No puede ser");
 	}
 
+	//TODO: migrarlo a Move
 	private Cardinal getMoveDirection(Move move) {
 		for(Cardinal direction: Cardinal.values()){
 			if(direction.isInDirection(move.getFrom().getKey(), move.getTo().getKey())){
