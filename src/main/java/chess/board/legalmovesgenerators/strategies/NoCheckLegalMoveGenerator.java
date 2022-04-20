@@ -5,6 +5,7 @@ import java.util.Collection;
 import chess.board.Color;
 import chess.board.Square;
 import chess.board.analyzer.AnalyzerResult;
+import chess.board.iterators.Cardinal;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
@@ -31,7 +32,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
 		Collection<Move> moves = new MoveContainer(CAPACITY_MOVE_CONTAINER);
 		
-		getLegalMovesNotKing(analysis.getPinnedSquares(), moves);
+		getLegalMovesNotKing(analysis, moves);
 		
 		getLegalMovesKing(moves);
 		
@@ -42,18 +43,33 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
-	protected Collection<Move> getLegalMovesNotKing(long pinnedSquares, Collection<Move> moves) {
+	protected Collection<Move> getLegalMovesNotKing(AnalyzerResult analysis, Collection<Move> moves) {
 		final Color turnoActual = this.positionReader.getTurnoActual();
 
+		long pinnedSquares = analysis.getPinnedSquares();
+		
 		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
 
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
+			
+			
+			long currentPiecePosiction = origenSquare.getPosicion();
+					
+			if ( (pinnedSquares & currentPiecePosiction) != 0 ) {
 
-			if ( (pinnedSquares & origenSquare.getPosicion()) != 0 ) {
-
-				filterMoveCollection(pseudoMoves, moves);
+				//TODO: migrarlo a analysis
+				//Cardinal threatDirection = analysis.getThreatDirection(currentPiecePosiction);
+				Cardinal threatDirection = getDirection(getCurrentKingSquare(), origenSquare);
+				
+				pseudoMoves.forEach(move -> {
+					Cardinal moveDirection = getMoveDirection(move);
+					if (moveBlocksThreat(threatDirection, moveDirection)) {
+						moves.add(move);
+					}
+				});
+				
 
 			} else {
 				
@@ -68,6 +84,61 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}	
 	
+
+	private Cardinal getDirection(Square kingSquare, Square moveSquare) {
+		for(Cardinal direction: Cardinal.values()){
+			if(direction.isInDirection(kingSquare, moveSquare)){
+				return direction;
+			}
+		}
+		throw new RuntimeException("No puede ser");
+	}
+
+	private Cardinal getMoveDirection(Move move) {
+		for(Cardinal direction: Cardinal.values()){
+			if(direction.isInDirection(move.getFrom().getKey(), move.getTo().getKey())){
+				return direction;
+			}
+		}
+		return null;
+	}
+
+	private boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
+		if(moveDirection != null){
+			switch (threatDirection) {
+			case Norte:
+			case Sur:
+				if (Cardinal.Norte.equals(moveDirection) || Cardinal.Sur.equals(moveDirection)) {
+					return true;
+				}			
+				break;
+			case Este:
+			case Oeste:
+				if (Cardinal.Este.equals(moveDirection) || Cardinal.Oeste.equals(moveDirection)) {
+					return true;
+				}				
+				break;
+			case NorteEste:
+			case SurOeste:
+				if (Cardinal.NorteEste.equals(moveDirection) || Cardinal.SurOeste.equals(moveDirection)) {
+					return true;
+				}				
+				break;
+			case NorteOeste:
+			case SurEste:
+				if (Cardinal.NorteOeste.equals(moveDirection) || Cardinal.SurEste.equals(moveDirection)) {
+					return true;
+				}				
+				break;
+			default:
+				throw new RuntimeException("Falta direccion");
+			}
+
+		}
+		return false;
+	}
+
+
 	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
 		Square 	kingSquare = getCurrentKingSquare();
 		
