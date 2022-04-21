@@ -44,18 +44,19 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	/*
 	 * Template method
 	 */	
-	protected void getPseudoMoves(PiecePositioned origen, Cardinal cardinal) {
-		Square casillero = origen.getKey();
-		Iterator<Square> iterator = new CardinalSquareIterator(casillero, cardinal);
+	protected void getPseudoMoves(PiecePositioned from, Cardinal cardinal) {
+		Square squareFrom = from.getKey();
+		Iterator<Square> iterator = new CardinalSquareIterator(squareFrom, cardinal);
 		while (iterator.hasNext()) {
-			Square destino = iterator.next();
-			this.result.affectedByContainerAdd(destino);
-			Color colorDestino = colorBoard.getColor(destino);
+			Square to = iterator.next();
+			this.result.affectedByContainerAdd(to);
+			this.result.capturedPositionsContainerAdd(to);
+			Color colorDestino = colorBoard.getColor(to);
 			if (colorDestino == null) {
-				Move move = createSimpleMove(origen, piecePlacement.getPosicion(destino));
+				Move move = createSimpleMove(from, piecePlacement.getPosicion(to));
 				result.moveContainerAdd(move);
 			} else if (color.opositeColor().equals(colorDestino)) {
-				Move move = createCaptureMove(origen, piecePlacement.getPosicion(destino));
+				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
 				result.moveContainerAdd(move);
 				break;
 			} else { // if(color.equals(pieza.getColor())){

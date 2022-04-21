@@ -25,7 +25,7 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	@Override
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
 		
-		Collection<Move> moves = new MoveContainer();
+		Collection<Move> moves = new MoveContainer<Move>();
 		
 		getBySquareMoves(moves);
 		

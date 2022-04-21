@@ -33,7 +33,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 
 	@Override
 	public Collection<Move> generateEnPassantPseudoMoves() {
-		Collection<Move> moveContainer = new MoveContainer();
+		Collection<Move> moveContainer = new MoveContainer<Move>();
 		Square pawnPasanteSquare = positionState.getEnPassantSquare();
 		if (pawnPasanteSquare != null) {
 			if (Color.WHITE.equals(positionState.getTurnoActual())) {

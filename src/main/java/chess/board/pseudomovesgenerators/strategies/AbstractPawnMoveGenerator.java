@@ -72,7 +72,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueIzquirda != null) {			
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueIzquirda);
-			result.affectedByContainerAdd(casilleroAtaqueIzquirda);
+			this.result.affectedByContainerAdd(casilleroAtaqueIzquirda);
+			this.result.capturedPositionsContainerAdd(casilleroAtaqueIzquirda);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.opositeColor().equals(piece.getColor())) {
@@ -90,7 +91,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueDerecha != null) {
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueDerecha);
-			result.affectedByContainerAdd(casilleroAtaqueDerecha);
+			this.result.affectedByContainerAdd(casilleroAtaqueDerecha);
+			this.result.capturedPositionsContainerAdd(casilleroAtaqueDerecha);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.opositeColor().equals(piece.getColor())) {

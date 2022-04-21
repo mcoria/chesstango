@@ -6,6 +6,7 @@ import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
+import chess.board.moves.MoveCastling;
 import chess.board.moves.MoveContainer;
 
 
@@ -28,8 +29,8 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generateCastlingPseudoMoves() {
-		Collection<Move> moveContainer = new MoveContainer();
+	public Collection<MoveCastling> generateCastlingPseudoMoves() {
+		Collection<MoveCastling> moveContainer = new MoveContainer<MoveCastling>();
 		if (this.positionState.isCastlingWhiteQueenAllowed()){
 			if(puedeEnroqueQueen(	kingCacheBoard.getSquareKingWhiteCache(), 
 								PiecePositioned.KING_WHITE, 

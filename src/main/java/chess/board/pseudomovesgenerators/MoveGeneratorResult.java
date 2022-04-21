@@ -19,9 +19,11 @@ public class MoveGeneratorResult {
 	private Collection<Move> moveContainer;
 	
 	private long affectedByContainer;
+	
+	private long capturedPositions;
 
 	public MoveGeneratorResult() {
-		moveContainer = new MoveContainer();
+		moveContainer = new MoveContainer<Move>();
 	}
 	
 	public Collection<Move> getPseudoMoves(){
@@ -35,6 +37,10 @@ public class MoveGeneratorResult {
 	
 	public void affectedByContainerAdd(Square key) {
 		affectedByContainer |= key.getPosicion();
+	}
+	
+	public void capturedPositionsContainerAdd(Square key) {
+		capturedPositions |= key.getPosicion();
 	}		
 	
 	public void moveContainerAdd(Move move) {
@@ -47,6 +53,10 @@ public class MoveGeneratorResult {
 
 	public void setFrom(PiecePositioned from) {
 		this.from = from;
+	}
+	
+	public long getCapturedPositions() {
+		return capturedPositions;
 	}
 	
 	@Override

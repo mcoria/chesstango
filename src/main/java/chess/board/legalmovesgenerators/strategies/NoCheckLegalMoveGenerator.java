@@ -9,6 +9,7 @@ import chess.board.iterators.Cardinal;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
+import chess.board.moves.MoveCastling;
 import chess.board.moves.MoveContainer;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
@@ -30,7 +31,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	@Override
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
-		Collection<Move> moves = new MoveContainer(CAPACITY_MOVE_CONTAINER);
+		Collection<Move> moves = new MoveContainer<Move>(CAPACITY_MOVE_CONTAINER);
 		
 		getLegalMovesNotKing(analysis, moves);
 		
@@ -82,6 +83,15 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		}
 
 		return moves;
+	}
+	
+	protected void getCastlingMoves(Collection<Move> moves) {
+		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
+		for (Move move : pseudoMoves) {
+			if(move.filter(filter)){
+				moves.add(move);
+			}
+		}
 	}	
 	
 

@@ -34,10 +34,10 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	
 	//TODO: revisar como estamos haciendo el settup de MoveGeneratorResult(), quizas conviene un metodo abstracto
 	@Override
-	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen){
+	public MoveGeneratorResult generatePseudoMoves(PiecePositioned from){
 		this.result = new MoveGeneratorResult();
-		this.result.setFrom(origen);
-		generateMovesPseudoMoves(origen);
+		this.result.setFrom(from);
+		generateMovesPseudoMoves(from);
 		return this.result;
 	}
 

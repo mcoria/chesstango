@@ -2,7 +2,9 @@ package chess.board.legalmovesgenerators.strategies;
 
 import java.util.Collection;
 
+import chess.board.Color;
 import chess.board.Square;
+import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
@@ -33,15 +35,27 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		
 		return generatorResult.getPseudoMoves();
 	}
+	
+	protected long getCapturedPositionsOponente(){
+		final Color turnoActual = this.positionReader.getTurnoActual();
+		long posicionesCapturadas = 0;
+		
+		for (SquareIterator iterator = this.positionReader.iteratorSquare( turnoActual.opositeColor() ); iterator.hasNext();) {
+
+			Square origenSquare = iterator.next();
+
+			MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));	
+			
+			posicionesCapturadas |= generatorResult.getCapturedPositions();
+
+		}
+
+		return posicionesCapturadas;		
+	}
 
 	protected void getEnPassantMoves(Collection<Move> moves) {
 		Collection<Move> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
 		filterMoveCollection(pseudoMoves, moves);		
-	}
-	
-	protected void getCastlingMoves(Collection<Move> moves) {
-		Collection<Move> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-		filterMoveCollection(pseudoMoves, moves);	
 	}
 	
 	protected void filterMoveCollection(Collection<Move> collectionToFilter, Collection<Move> collectionToAdd){

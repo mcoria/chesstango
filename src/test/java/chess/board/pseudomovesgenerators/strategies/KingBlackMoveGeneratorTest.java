@@ -3,7 +3,6 @@ package chess.board.pseudomovesgenerators.strategies;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -18,13 +17,13 @@ import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.fen.FENDecoder;
 import chess.board.moves.Move;
+import chess.board.moves.MoveCastling;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ColorBoard;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.strategies.KingBlackMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -34,7 +33,9 @@ public class KingBlackMoveGeneratorTest {
 
 	private KingBlackMoveGenerator moveGenerator;
 	
-	private Collection<Move> moves; 
+	private Collection<Move> moves;
+	
+	private Collection<MoveCastling> moveCastling; 
 	
 	private PositionState state;
 	
@@ -47,7 +48,6 @@ public class KingBlackMoveGeneratorTest {
 	@Before
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
-		moves = new ArrayList<Move>();
 		state = new PositionState();
 		state.setTurnoActual(Color.BLACK);
 		
@@ -96,11 +96,11 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 		
-		assertTrue(moves.contains( moveFactoryImp.createCastlingQueenMove() ));
+		assertTrue(moveCastling.contains( moveFactoryImp.createCastlingQueenMove() ));
 		
-		assertEquals(1, moves.size());
+		assertEquals(1, moveCastling.size());
 	}
 	
 	
@@ -139,11 +139,11 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.f6));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 		
-		assertTrue(moves.contains( moveFactoryImp.createCastlingQueenMove() ));
+		assertTrue(moveCastling.contains( moveFactoryImp.createCastlingQueenMove() ));
 		
-		assertEquals(1, moves.size());
+		assertEquals(1, moveCastling.size());
 	}
 	
 	@Test
@@ -181,11 +181,11 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.f5));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 		
-		assertTrue(moves.contains( moveFactoryImp.createCastlingQueenMove() ));
+		assertTrue(moveCastling.contains( moveFactoryImp.createCastlingQueenMove() ));
 		
-		assertEquals(1, moves.size());
+		assertEquals(1, moveCastling.size());
 	}		
 	
 	
@@ -228,11 +228,11 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.KING_BLACK, tablero.getPieza(PiecePositioned.KING_BLACK.getKey()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 		
-		assertTrue(moves.contains( moveFactoryImp.createCastlingKingMove() ));
+		assertTrue(moveCastling.contains( moveFactoryImp.createCastlingKingMove() ));
 		
-		assertEquals(1, moves.size());
+		assertEquals(1, moveCastling.size());
 	}	
 	
 	
@@ -277,11 +277,11 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.d6));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 		
-		assertTrue(moves.contains( moveFactoryImp.createCastlingKingMove() ));
+		assertTrue(moveCastling.contains( moveFactoryImp.createCastlingKingMove() ));
 		
-		assertEquals(1, moves.size());
+		assertEquals(1, moveCastling.size());
 	}
 	
 	
@@ -326,11 +326,11 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(Square.d5));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 		
-		assertTrue(moves.contains( moveFactoryImp.createCastlingKingMove() ));
+		assertTrue(moveCastling.contains( moveFactoryImp.createCastlingKingMove() ));
 		
-		assertEquals(1, moves.size());
+		assertEquals(1, moveCastling.size());
 	}
 	
 	
@@ -379,12 +379,12 @@ public class KingBlackMoveGeneratorTest {
 		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.h8));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.e5));
 		
-		moves = moveGenerator.generateCastlingPseudoMoves();
+		moveCastling = moveGenerator.generateCastlingPseudoMoves();
 
-		assertTrue(moves.contains(  moveFactoryImp.createCastlingKingMove() ));				// No se considera si el king esta en jaque
-		assertTrue(moves.contains(  moveFactoryImp.createCastlingQueenMove() ));			// No se considera si el king esta en jaque
+		assertTrue(moveCastling.contains(  moveFactoryImp.createCastlingKingMove() ));				// No se considera si el king esta en jaque
+		assertTrue(moveCastling.contains(  moveFactoryImp.createCastlingQueenMove() ));			// No se considera si el king esta en jaque
 		
-		assertEquals(2, moves.size());
+		assertEquals(2, moveCastling.size());
 	}
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {

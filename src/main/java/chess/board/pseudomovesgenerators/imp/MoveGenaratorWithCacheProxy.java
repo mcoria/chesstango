@@ -8,6 +8,7 @@ import java.util.Collection;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
+import chess.board.moves.MoveCastling;
 import chess.board.position.imp.MoveCacheBoard;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
@@ -51,7 +52,7 @@ public class MoveGenaratorWithCacheProxy implements MoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generateCastlingPseudoMoves() {
+	public Collection<MoveCastling> generateCastlingPseudoMoves() {
 		return moveGenerator.generateCastlingPseudoMoves();
 	}	
 

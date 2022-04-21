@@ -28,18 +28,19 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	//El calculo de movimientos lo puede hacer en funcion de ColorBoard
 	
 	@Override
-	public void generateMovesPseudoMoves(PiecePositioned origen) {
-		Square casillero = origen.getKey();
-		Iterator<Square> iterator = new JumpSquareIterator(casillero, saltos);
+	public void generateMovesPseudoMoves(PiecePositioned from) {
+		Square fromSquare = from.getKey();
+		Iterator<Square> iterator = new JumpSquareIterator(fromSquare, saltos);
 		while (iterator.hasNext()) {
-			Square destino = iterator.next();
-			this.result.affectedByContainerAdd(destino);
-			Color colorDestino = colorBoard.getColor(destino);
+			Square to = iterator.next();
+			this.result.affectedByContainerAdd(to);
+			this.result.capturedPositionsContainerAdd(to);
+			Color colorDestino = colorBoard.getColor(to);
 			if (colorDestino == null) {
-				Move move = createSimpleMove(origen, piecePlacement.getPosicion(destino));
+				Move move = createSimpleMove(from, piecePlacement.getPosicion(to));
 				this.result.moveContainerAdd(move);
 			} else if (color.opositeColor().equals(colorDestino)) {
-				Move move = createCaptureMove(origen, piecePlacement.getPosicion(destino));
+				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
 				this.result.moveContainerAdd(move);
 			} // else if(color.equals(pieza.getColor())){
 				// continue;

@@ -808,7 +808,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(46, result.getTotalNodes());
 	}
 	
-	@Test //18segs 14segs 12segs
+	@Test //18segs 14segs 12segs 11segs
 	public void test_divide5() {
 		PerftResult result= pert.start(board, 5);
 		

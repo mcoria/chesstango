@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Mauricio Coria
  *
  */
-public class MoveContainer extends ArrayList<Move> {	
+public class MoveContainer<T extends Move> extends ArrayList<T> {	
 
 	/**
 	 * 

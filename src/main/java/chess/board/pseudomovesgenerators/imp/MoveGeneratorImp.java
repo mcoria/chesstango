@@ -6,6 +6,7 @@ import chess.board.Color;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.moves.Move;
+import chess.board.moves.MoveCastling;
 import chess.board.moves.MoveFactory;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
@@ -102,7 +103,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	
 
 	@Override
-	public Collection<Move> generateCastlingPseudoMoves() {
+	public Collection<MoveCastling> generateCastlingPseudoMoves() {
 		if (Color.WHITE.equals(positionState.getTurnoActual())) {
 			return rbmg.generateCastlingPseudoMoves();
 		} else {
