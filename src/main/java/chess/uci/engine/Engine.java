@@ -101,7 +101,7 @@ public class Engine {
 					break;
 				}
 			}
-			if (findMove == false) {
+			if (!findMove) {
 				throw new RuntimeException("No move found " + moveStr);
 			}
 		}

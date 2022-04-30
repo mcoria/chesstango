@@ -89,15 +89,15 @@ public class CheckAndPinnedAnalyzer {
 
 			analyzeByKnight(squareKingOpponent);
 
-			if (CheckAndPinnedAnalyzer.this.kingInCheck == false){
+			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
 				analyzeByPawn(squareKingOpponent);
 			}
 			
-			if (CheckAndPinnedAnalyzer.this.kingInCheck == false){
+			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
 				analyzeByBishop(squareKingOpponent);
 			}
 			
-			if (CheckAndPinnedAnalyzer.this.kingInCheck == false){
+			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
 				analyzeByRook(squareKingOpponent);
 			}			
 			

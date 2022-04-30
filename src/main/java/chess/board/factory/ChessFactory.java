@@ -52,8 +52,7 @@ public class ChessFactory {
 	}
 
 	public ColorBoard createColorBoard() {
-		ColorBoard colorBoard = new ColorBoard();
-		return colorBoard;
+		return new ColorBoard();
 	}
 
 	public KingCacheBoard createKingCacheBoard() {

@@ -22,8 +22,8 @@ public enum Cardinal {
 		this.este = este;
 		this.norte = norte;
 		
-		this.offSetEste = this.este != null ? (this.este==true ? 1 : -1)  : 0;
-		this.offSetNorte = this.norte != null ? (this.norte==true ? 1 : -1)  : 0;
+		this.offSetEste = this.este != null ? (this.este ? 1 : -1)  : 0;
+		this.offSetNorte = this.norte != null ? (this.norte ? 1 : -1)  : 0;
 	}
 	
 	public Square calcularNextPoint(Square from) {
