@@ -15,7 +15,7 @@ import chess.uci.protocol.UCIResponseChannel;
  */
 public class RspMultiline implements UCIResponseBase {
 
-	private List<UCIResponseBase> responses = new ArrayList<UCIResponseBase>();
+	private final List<UCIResponseBase> responses = new ArrayList<UCIResponseBase>();
 	
 	public RspMultiline addResponse(UCIResponseBase response){
 		responses.add(response);

@@ -22,9 +22,9 @@ public class PositionState {
 		private boolean castlingBlackKingAllowed;
 	}
 
-	private PositionStateData dataNode = new PositionStateData();
+	private final PositionStateData dataNode = new PositionStateData();
 	
-	private Deque<PositionStateData> boardStateNodePila = new ArrayDeque<PositionStateData>();
+	private final Deque<PositionStateData> boardStateNodePila = new ArrayDeque<PositionStateData>();
 	
 	public Square getEnPassantSquare() {
 		return dataNode.pawnPasanteSquare;
@@ -76,7 +76,7 @@ public class PositionState {
 
 	
 	public void rollTurno() {
-		dataNode.turnoActual = dataNode.turnoActual.opositeColor();
+		dataNode.turnoActual = dataNode.turnoActual.oppositeColor();
 	}
 	
 	

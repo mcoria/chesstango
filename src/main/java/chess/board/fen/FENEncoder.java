@@ -13,7 +13,7 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 
 	@Override
 	public String getResult() {
-		return getFEN(new StringBuilder(70)).toString();
+		return getFEN(new StringBuilder(70));
 	}
 
 	public String getFEN(StringBuilder stringBuilder) {
@@ -48,7 +48,7 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 		if (pawnPasanteSquare == null) {
 			stringBuilder.append('-');
 		} else {
-			stringBuilder.append(pawnPasanteSquare.toString());
+			stringBuilder.append(pawnPasanteSquare);
 		}
 		return stringBuilder;
 	}

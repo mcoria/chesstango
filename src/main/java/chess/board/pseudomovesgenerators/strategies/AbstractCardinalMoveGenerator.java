@@ -55,7 +55,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 			if (colorDestino == null) {
 				Move move = createSimpleMove(from, piecePlacement.getPosicion(to));
 				result.moveContainerAdd(move);
-			} else if (color.opositeColor().equals(colorDestino)) {
+			} else if (color.oppositeColor().equals(colorDestino)) {
 				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
 				result.moveContainerAdd(move);
 				break;

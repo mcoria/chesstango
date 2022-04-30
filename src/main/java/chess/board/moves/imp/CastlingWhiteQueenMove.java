@@ -33,10 +33,7 @@ class CastlingWhiteQueenMove extends AbstractCastlingMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof CastlingWhiteQueenMove){
-			return true;
-		}
-		return false;
-	}	
+        return obj instanceof CastlingWhiteQueenMove;
+    }
 
 }

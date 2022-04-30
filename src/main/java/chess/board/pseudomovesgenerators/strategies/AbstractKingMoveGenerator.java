@@ -41,11 +41,10 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroIntermedioKing) {
 		if ( king.getKey().equals(origen) ) {           																//El king se encuentra en su lugar
 			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  		//La torre se encuentra en su lugar
-				if ( piecePlacement.isEmtpy(casilleroIntermedioRook)													//El casillero intermedio ROOK esta vacio
-				  && piecePlacement.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
-				  && piecePlacement.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
-						return true;
-				}
+                //El casillero intermedio KING esta vacio
+                return piecePlacement.isEmtpy(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
+                        && piecePlacement.isEmtpy(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && piecePlacement.isEmtpy(casilleroIntermedioKing);
 			}
 		}
 		return false;
@@ -59,10 +58,9 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroIntermedioKing) {
 		if ( king.getKey().equals(origen) ) {           																//El king se encuentra en su lugar
 			if (torre.getValue().equals(piecePlacement.getPieza(torre.getKey()))) {								  		//La torre se encuentra en su lugar
-				if ( piecePlacement.isEmtpy(casilleroDestinoKing) 														//El casillero destino KING esta vacio
-				  && piecePlacement.isEmtpy(casilleroIntermedioKing)) {										  			//El casillero intermedio KING esta vacio
-						return true;
-				}
+                //El casillero intermedio KING esta vacio
+                return piecePlacement.isEmtpy(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && piecePlacement.isEmtpy(casilleroIntermedioKing);
 			}
 		}
 		return false;

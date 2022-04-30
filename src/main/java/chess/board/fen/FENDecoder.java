@@ -12,14 +12,14 @@ import chess.board.builder.ChessPositionBuilder;
 public class FENDecoder {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-	private ChessPositionBuilder<?> chessPositionBuilder;
+	private final ChessPositionBuilder<?> chessPositionBuilder;
 	
 	public FENDecoder(ChessPositionBuilder<?> chessPositionBuilder) {
 		this.chessPositionBuilder = chessPositionBuilder; 
 	}	
 			
 	public void parseFEN(String input) {
-		String fields[] = input.split(" ");
+		String[] fields = input.split(" ");
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
@@ -65,7 +65,7 @@ public class FENDecoder {
 	
 	protected Piece[][] parsePieces(String piecePlacement){
 		Piece[][] tablero = new Piece[8][8];
-		String ranks[] = piecePlacement.split("/");
+		String[] ranks = piecePlacement.split("/");
 		int currentRank = 7;
 		for (int i = 0; i < 8; i++) {
 			Piece[] rankPiezas = parseRank(ranks[i]);
@@ -78,7 +78,7 @@ public class FENDecoder {
 	}	
 	
 	protected Piece[] parseRank(String rank) {
-		Piece piezas[] = new Piece[8];
+		Piece[] piezas = new Piece[8];
 		int position = 0;
 		for (int i = 0; i < rank.length(); i++) {
 			char theCharCode = rank.charAt(i);
@@ -188,8 +188,8 @@ public class FENDecoder {
 				throw new RuntimeException("Invalid FEV code");
 			}
 			result = Square.getSquare(fileNumber, rankNumber);
-		};
-		return result;
+		}
+        return result;
 	}	
 	
 	protected Color parseTurno(String activeColor) {
@@ -209,32 +209,20 @@ public class FENDecoder {
 	}
 
 	protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds){
-		if(castlingsAlloweds.contains("Q")){
-			return true;
-		}
-		return false;
-	}
+        return castlingsAlloweds.contains("Q");
+    }
 	
 	protected boolean isCastlingWhiteKingAllowed(String castlingsAlloweds){
-		if(castlingsAlloweds.contains("K")){
-			return true;
-		}
-		return false;
-	}	
+        return castlingsAlloweds.contains("K");
+    }
 	
 	protected boolean isCastlingBlackQueenAllowed(String castlingsAlloweds){
-		if(castlingsAlloweds.contains("q")){
-			return true;
-		}
-		return false;
-	}
+        return castlingsAlloweds.contains("q");
+    }
 	
 	protected boolean isCastlingBlackKingAllowed(String castlingsAlloweds){
-		if(castlingsAlloweds.contains("k")){
-			return true;
-		}
-		return false;
-	}
+        return castlingsAlloweds.contains("k");
+    }
 
 
 }

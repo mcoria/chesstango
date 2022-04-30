@@ -15,7 +15,7 @@ public class PerftResult {
 	
 	private long totalNodes;
 	
-	private Map<Move, Long> moves = new HashMap<Move, Long>();
+	private final Map<Move, Long> moves = new HashMap<Move, Long>();
 
 	public void add(Move move, long nodeCount) {
 		moves.put(move, nodeCount);

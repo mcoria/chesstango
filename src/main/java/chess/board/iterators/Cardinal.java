@@ -18,7 +18,7 @@ public enum Cardinal {
 	private final int offSetEste;
 	private final int offSetNorte;
 	
-	private Cardinal(Boolean este, Boolean norte) {
+	Cardinal(Boolean este, Boolean norte) {
 		this.este = este;
 		this.norte = norte;
 		
@@ -43,33 +43,17 @@ public enum Cardinal {
 					if (norte == null) { // Este
 						return true;
 					} else if (norte.equals(true)) { // NorteEste
-						if (to.getFile() - from.getFile() == to.getRank() - from.getRank()) {
-							return true;
-						} else {
-							return false;
-						}
+                        return to.getFile() - from.getFile() == to.getRank() - from.getRank();
 					} else { // norte.equals(false) --  SurEste
-						if (to.getFile() - from.getFile() == from.getRank() - to.getRank()) {
-							return true;
-						} else {
-							return false;
-						}
+                        return to.getFile() - from.getFile() == from.getRank() - to.getRank();
 					}
 				} else { // este.equals(false)  -- Puede ser Oeste,NorteOeste, SurOeste
 					if (norte == null) { // Oeste
 						return true;
 					} else if (norte.equals(true)) { // NorteOeste
-						if (from.getFile() - to.getFile() == to.getRank() - from.getRank()) {
-							return true;
-						} else {
-							return false;
-						}
+                        return from.getFile() - to.getFile() == to.getRank() - from.getRank();
 					} else { // norte.equals(false) SurOeste
-						if (from.getFile() - to.getFile() == from.getRank() - to.getRank()) {
-							return true;
-						} else {
-							return false;
-						}
+                        return from.getFile() - to.getFile() == from.getRank() - to.getRank();
 					}
 				}
 			} else {
@@ -83,10 +67,6 @@ public enum Cardinal {
 	private static Boolean getDirection(int from, int to) {
 		if( from == to ) {
 			return null;
-		} else if ( from < to){
-			return true;
-		} else {
-			return false;
-		}
+		} else return from < to;
 	}
 }

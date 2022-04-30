@@ -16,7 +16,7 @@ public class MoveGeneratorResult {
 	
 	private PiecePositioned from;
 	
-	private Collection<Move> moveContainer;
+	private final Collection<Move> moveContainer;
 	
 	private long affectedByContainer;
 	

@@ -23,8 +23,8 @@ import chess.board.pseudomovesgenerators.MoveGeneratorEnPassant;
  */
 public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 	
-	private EnPassantMoveGeneratorBlack pasanteMoveGeneratorBlack = new EnPassantMoveGeneratorBlack();
-	private EnPassantMoveGeneratorWhite pasanteMoveGeneratorWhite = new EnPassantMoveGeneratorWhite();
+	private final EnPassantMoveGeneratorBlack pasanteMoveGeneratorBlack = new EnPassantMoveGeneratorBlack();
+	private final EnPassantMoveGeneratorWhite pasanteMoveGeneratorWhite = new EnPassantMoveGeneratorWhite();
 	
 	private PositionState positionState;
 	
@@ -47,7 +47,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 
 
 	private class EnPassantMoveGeneratorBlack{
-		private MoveFactoryBlack moveFactoryImp = new MoveFactoryBlack();
+		private final MoveFactoryBlack moveFactoryImp = new MoveFactoryBlack();
 		
 		public Collection<Move> generatePseudoMoves(Collection<Move> moveContainer, Square pawnPasanteSquare) {
 			PiecePositioned origen = null;
@@ -78,7 +78,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 	}
 	
 	private class EnPassantMoveGeneratorWhite{
-		private MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();		
+		private final MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();
 
 		public Collection<Move> generatePseudoMoves(Collection<Move> moveContainer, Square pawnPasanteSquare) {
 			PiecePositioned origen = null;

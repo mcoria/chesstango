@@ -57,7 +57,7 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 			return returnValue;
 		}
 		
-		private static CachePosicioness theInstance  = new CachePosicioness();
+		private static final CachePosicioness theInstance  = new CachePosicioness();
 		
 		static CachePosicioness getInstance(){
 			return theInstance;

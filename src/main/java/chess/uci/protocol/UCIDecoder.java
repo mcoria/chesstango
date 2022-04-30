@@ -123,7 +123,7 @@ public class UCIDecoder {
 		List<String> moves = new ArrayList<String>();
 		for (int i = 2; i < words.length; i++) {
 			if (readingFen) {
-				if ("MOVES".equals(words[i].toUpperCase())) {
+				if ("MOVES".equalsIgnoreCase(words[i])) {
 					readingFen = false;
 				} else {
 					if (fenString.length() == 0) {

@@ -28,7 +28,7 @@ public class SmartMinMax implements BestMoveFinder {
 
 	@Override
 	public Move findBestMove(Game game) {
-		boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? true : false;
+		boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual());
 		int betterEvaluation = minOrMax ? Integer.MAX_VALUE: Integer.MIN_VALUE;
 		int currentEvaluation = betterEvaluation;
 		List<Move> posibleMoves = new ArrayList<Move>();

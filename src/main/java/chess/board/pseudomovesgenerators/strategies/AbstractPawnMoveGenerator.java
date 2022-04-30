@@ -76,7 +76,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			this.result.capturedPositionsContainerAdd(casilleroAtaqueIzquirda);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
-			if (piece != null && color.opositeColor().equals(piece.getColor())) {
+			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
 				Move moveCaptura = this.moveFactory.createCaptureMove(origen, destino);
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
@@ -95,7 +95,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			this.result.capturedPositionsContainerAdd(casilleroAtaqueDerecha);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
-			if (piece != null && color.opositeColor().equals(piece.getColor())) {
+			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
 				Move moveCaptura =  this.moveFactory.createCaptureMove(origen, destino);
 
 				toRank = saltoSimpleCasillero.getRank();

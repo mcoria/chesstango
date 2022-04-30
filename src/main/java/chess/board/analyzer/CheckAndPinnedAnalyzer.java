@@ -85,7 +85,7 @@ public class CheckAndPinnedAnalyzer {
 		}
 
 		public void analyze() {
-			Square squareKingOpponent = positionReader.getKingSquare(color.opositeColor());
+			Square squareKingOpponent = positionReader.getKingSquare(color.oppositeColor());
 
 			analyzeByKnight(squareKingOpponent);
 
@@ -148,7 +148,7 @@ public class CheckAndPinnedAnalyzer {
 		}		
 		
 		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece torreOalfil) {
-			Color opponentColor = this.color.opositeColor();
+			Color opponentColor = this.color.oppositeColor();
 			
 			PiecePositioned possiblePinned = null;
 			
@@ -160,16 +160,12 @@ public class CheckAndPinnedAnalyzer {
 
 				if (piece != null) {
 					if (possiblePinned == null){
-						if(opponentColor.equals(piece.getColor())){
+                        // La pieza es nuestra y de las que ponen en jaque al oponente
+                        // La pieza es nuestra pero no pone en jaque al oponente
+                        if(opponentColor.equals(piece.getColor())){
 							// La pieza es del oponente, es posiblemente pinned
 							possiblePinned = destino;
-						} else if (this.queen.equals(piece) || torreOalfil.equals(piece)) {
-							// La pieza es nuestra y de las que ponen en jaque al oponente
-							return true;
-						} else {
-							// La pieza es nuestra pero no pone en jaque al oponente
-							return false;
-						}
+						} else return this.queen.equals(piece) || torreOalfil.equals(piece);
 					} else {
 						
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
@@ -195,7 +191,7 @@ public class CheckAndPinnedAnalyzer {
 	}
 	
 	
-	private static final long Knight_ARRAY_SALTOS[] = { 132096L, 329728L, 659712L, 1319424L, 2638848L, 5277696L, 10489856L, 4202496L,
+	private static final long[] Knight_ARRAY_SALTOS = { 132096L, 329728L, 659712L, 1319424L, 2638848L, 5277696L, 10489856L, 4202496L,
 			33816580L, 84410376L, 168886289L, 337772578L, 675545156L, 1351090312L, 2685403152L, 1075839008L,
 			8657044482L, 21609056261L, 43234889994L, 86469779988L, 172939559976L, 345879119952L, 687463207072L,
 			275414786112L, 2216203387392L, 5531918402816L, 11068131838464L, 22136263676928L, 44272527353856L,
@@ -208,7 +204,7 @@ public class CheckAndPinnedAnalyzer {
 			9592139440717824L, 19184278881435648L, 38368557762871296L, 4679521487814656L, 9077567998918656L };
 
 	
-	private static final long PawnWhite_ARRAY_SALTOS[] = {
+	private static final long[] PawnWhite_ARRAY_SALTOS = {
 			0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 2L, 5L, 10L, 20L, 40L, 80L, 160L, 64L, 512L, 1280L, 2560L, 5120L, 10240L,
 			20480L, 40960L, 16384L, 131072L, 327680L, 655360L, 1310720L, 2621440L, 5242880L, 10485760L, 4194304L,
 			33554432L, 83886080L, 167772160L, 335544320L, 671088640L, 1342177280L, 2684354560L, 1073741824L,
@@ -217,7 +213,7 @@ public class CheckAndPinnedAnalyzer {
 			87960930222080L, 175921860444160L, 70368744177664L, 562949953421312L, 1407374883553280L, 2814749767106560L,
 			5629499534213120L, 11258999068426240L, 22517998136852480L, 45035996273704960L, 18014398509481984L };
 	
-	private static final long PawnBlack_ARRAY_SALTOS[] = {
+	private static final long[] PawnBlack_ARRAY_SALTOS = {
 			512L, 1280L, 2560L, 5120L, 10240L, 20480L, 40960L, 16384L, 131072L, 327680L, 655360L, 1310720L, 2621440L,
 			5242880L, 10485760L, 4194304L, 33554432L, 83886080L, 167772160L, 335544320L, 671088640L, 1342177280L,
 			2684354560L, 1073741824L, 8589934592L, 21474836480L, 42949672960L, 85899345920L, 171798691840L,

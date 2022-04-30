@@ -57,12 +57,9 @@ public class NoCheckCapturer {
 		}
 
 		public boolean positionCaptured(Square square) {
-			if(positionCapturedByRook(square)	||
-			   positionCapturedByBishop(square)) {
-				return true;
-			}
-			return false;
-		}
+            return positionCapturedByRook(square) ||
+                    positionCapturedByBishop(square);
+        }
 
 		private final Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
 		private boolean positionCapturedByBishop(Square square) {

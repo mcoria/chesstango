@@ -44,9 +44,9 @@ public class Pinned {
 		
 		public PinnedImp(Color color) {
 			this.color = color;
-			this.reina = Piece.getQueen(color.opositeColor());
-			this.torre = Piece.getRook(color.opositeColor());
-			this.alfil = Piece.getBishop(color.opositeColor());
+			this.reina = Piece.getQueen(color.oppositeColor());
+			this.torre = Piece.getRook(color.oppositeColor());
+			this.alfil = Piece.getBishop(color.oppositeColor());
 		}
 
 		public long getPinnedSquare(Square kingSquare) {
@@ -83,13 +83,13 @@ public class Pinned {
 				if (pinned == null) {
 					if (color.equals(colorDestino)) {
 						pinned = destino;
-					} else { // if (color.opositeColor().equals(colorDestino))
+					} else { // if (color.oppositeColor().equals(colorDestino))
 						return null;
 					}
 				} else {
 					if (color.equals(colorDestino)) {
 						return null;
-					} else { //// if (color.opositeColor().equals(colorDestino))
+					} else { //// if (color.oppositeColor().equals(colorDestino))
 						Piece piece = positionReader.getPieza(destino);
 						if (torreOBishop.equals(piece) || reina.equals(piece)) {
 							return pinned;

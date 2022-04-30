@@ -40,7 +40,7 @@ public class CheckMoveFilter implements MoveFilter {
 		boolean result = false;
 		
 		final Color turnoActual = positionState.getTurnoActual();
-		final Color opositeTurnoActual = turnoActual.opositeColor();
+		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);

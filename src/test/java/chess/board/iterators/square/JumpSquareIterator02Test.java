@@ -111,7 +111,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test06() {
-		long arraySaltos[] = new long[64];
+		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
 			JumpSquareIterator iterator = new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO);
@@ -132,7 +132,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test07() {
-		long arraySaltos[] = new long[64];
+		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
 			JumpSquareIterator iterator = new JumpSquareIterator(square, AbstractKingMoveGenerator.SALTOS_KING);
@@ -159,7 +159,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test08() {
-		long arraySaltos[] = new long[64];
+		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
 			JumpSquareIterator iterator = new JumpSquareIterator(square, casillerosPawnWhite);
@@ -185,7 +185,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test09() {
-		long arraySaltos[] = new long[64];
+		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
 			JumpSquareIterator iterator = new JumpSquareIterator(square, casillerosPawnBlack);

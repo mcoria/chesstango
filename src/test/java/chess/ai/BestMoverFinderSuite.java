@@ -67,7 +67,7 @@ public class BestMoverFinderSuite {
 		}		
 	}
 	
-	private ChessFactory chessFactory;
+	private final ChessFactory chessFactory;
 	
 	public BestMoverFinderSuite() {
 		this(new ChessFactory());

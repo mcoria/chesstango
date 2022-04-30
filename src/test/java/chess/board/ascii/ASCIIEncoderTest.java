@@ -61,7 +61,7 @@ public class ASCIIEncoderTest {
 	    	builder.getPiecePlacement(ps);
 	    }    
 	    
-		assertEquals(new String(baosExp.toByteArray()), new String(baosActual.toByteArray()));
+		assertEquals(baosExp.toString(), baosActual.toString());
 
 	}
 	
@@ -82,7 +82,7 @@ public class ASCIIEncoderTest {
 	    	builder.getState(ps);
 	    }    
 	    
-		assertEquals(new String(baosExp.toByteArray()), new String(baosActual.toByteArray()));
+		assertEquals(baosExp.toString(), baosActual.toString());
 	}
 	
 	@Test
@@ -117,7 +117,7 @@ public class ASCIIEncoderTest {
 	    
 	    String result = builder.getResult();
 	    
-		assertEquals(new String(baosExp.toByteArray()), result);
+		assertEquals(baosExp.toString(), result);
 	}		
 
 }

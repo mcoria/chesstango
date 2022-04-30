@@ -44,7 +44,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 		boolean result = false;
 		
 		final Color turnoActual = positionState.getTurnoActual();
-		final Color opositeTurnoActual = turnoActual.opositeColor();
+		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
@@ -64,7 +64,7 @@ public class NoCheckMoveFilter implements MoveFilter{
 	public boolean filterMove(MoveKing move) {
 		boolean result = false;
 		final Color turnoActual = positionState.getTurnoActual();
-		final Color opositeTurnoActual = turnoActual.opositeColor();
+		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.kingCacheBoard);
 
@@ -86,8 +86,8 @@ public class NoCheckMoveFilter implements MoveFilter{
 	//TODO: este metodo esta consumiendo el 20% del procesamiento, deberia crear CAPTURER especifico para validar castling
 	@Override
 	public boolean filterMove(MoveCastling moveCastling) {
-		Color opositeColor = moveCastling.getFrom().getValue().getColor().opositeColor();
-		//assert(!capturer.positionCaptured(opositeColor, moveCastling.getFrom().getKey())); 				// El king no esta en jaque... lo asumimos
+		Color opositeColor = moveCastling.getFrom().getValue().getColor().oppositeColor();
+		//assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 				// El king no esta en jaque... lo asumimos
 		return !capturer.positionCaptured(opositeColor, moveCastling.getRookMove().getTo().getKey()) 	// El king no puede ser capturado en casillero intermedio
 			&& !capturer.positionCaptured(opositeColor, moveCastling.getTo().getKey());  				// El king no puede  ser capturado en casillero destino
 		

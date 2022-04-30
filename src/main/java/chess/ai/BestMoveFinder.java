@@ -1,6 +1,3 @@
-/**
- * 
- */
 package chess.ai;
 
 import chess.board.Game;

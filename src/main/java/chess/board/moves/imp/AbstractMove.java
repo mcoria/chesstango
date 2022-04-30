@@ -117,7 +117,7 @@ abstract class AbstractMove implements Move {
 
 	@Override
 	public String toString() {
-		return from.toString() + " " + to.toString() + " - " + this.getClass().getSimpleName().toString();
+		return from.toString() + " " + to.toString() + " - " + this.getClass().getSimpleName();
 	}
 	
 

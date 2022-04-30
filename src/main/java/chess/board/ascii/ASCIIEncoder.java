@@ -23,7 +23,7 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 			getPiecePlacement(ps);
 			getState(ps);
 	    }
-	    return new String(baos.toByteArray());
+	    return baos.toString();
 	}
 	
 

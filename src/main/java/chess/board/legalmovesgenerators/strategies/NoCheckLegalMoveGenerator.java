@@ -87,8 +87,11 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	
 	protected void getCastlingMoves(Collection<Move> moves) {
 		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-		for (Move move : pseudoMoves) {
-			if(move.filter(filter)){
+		long capturedPositionsOponente = this.getCapturedPositionsOponente();
+		for (MoveCastling move : pseudoMoves) {
+			long posicionesRey = (move.getRookMove().getTo().getKey().getPosicion())
+					| (move.getTo().getKey().getPosicion());
+			if ((capturedPositionsOponente & posicionesRey) == 0) {
 				moves.add(move);
 			}
 		}

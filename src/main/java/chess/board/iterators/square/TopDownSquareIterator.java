@@ -8,7 +8,7 @@ import chess.board.Square;
  */
 public class TopDownSquareIterator implements SquareIterator {
 
-	private static Square[] array = {
+	private static final Square[] array = {
 			Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8,
 			Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
 			Square.a6, Square.b6, Square.c6, Square.d6, Square.e6, Square.f6, Square.g6, Square.h6,

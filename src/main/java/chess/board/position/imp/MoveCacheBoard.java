@@ -15,10 +15,10 @@ import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 public class MoveCacheBoard {
 	
 	protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
-	protected long affects[] = new long[64];
+	protected long[] affects = new long[64];
 
 	private List<MoveGeneratorResult> currentClearedSquares = new ArrayList<MoveGeneratorResult>();
-	private Deque<List<MoveGeneratorResult>> clearedSquares = new ArrayDeque<List<MoveGeneratorResult>>();
+	private final Deque<List<MoveGeneratorResult>> clearedSquares = new ArrayDeque<List<MoveGeneratorResult>>();
 	
 	public MoveGeneratorResult getPseudoMovesResult(Square key) {
 		return  pseudoMoves[key.toIdx()];
@@ -102,7 +102,7 @@ public class MoveCacheBoard {
 		StringBuffer buffer = new StringBuffer(); 
 		for (MoveGeneratorResult result : pseudoMoves) {
 			if(result != null){
-				buffer.append(result.toString() + "\n");
+				buffer.append(result + "\n");
 			}
 		}
 		

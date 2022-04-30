@@ -23,14 +23,14 @@ public class GameState {
 		private GameState.GameStatus status;		
 	}
 	
-	public static enum GameStatus {
+	public enum GameStatus {
 		IN_PROGRESS,
 		JAQUE,
 		JAQUE_MATE, 
 		TABLAS		
 	}
 
-	private Deque<GameState.Node> stackNode = new ArrayDeque<GameState.Node>();
+	private final Deque<GameState.Node> stackNode = new ArrayDeque<GameState.Node>();
 
 	public Move getSelectedMove() {
 		return selectedMove;

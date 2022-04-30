@@ -386,6 +386,33 @@ public class KingBlackMoveGeneratorTest {
 		
 		assertEquals(2, moveCastling.size());
 	}
+
+	
+	
+	@Test
+	public void testCapturedPositions() {
+		PiecePlacement tablero =  getTablero("8/8/8/8/8/8/6k1/4K2R");
+		
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g2, Piece.KING_BLACK);
+		
+		assertEquals(Piece.KING_BLACK, tablero.getPieza(Square.g2));
+		
+		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+		
+		long capturedPositions = generatorResult.getCapturedPositions();
+
+		assertTrue( (Square.f1.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.g1.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.h1.getPosicion() & capturedPositions) != 0 );
+
+		assertTrue( (Square.f2.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.h2.getPosicion() & capturedPositions) != 0 );
+		
+
+		assertTrue( (Square.f3.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.g3.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.h3.getPosicion() & capturedPositions) != 0 );
+	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createSimpleKingMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));

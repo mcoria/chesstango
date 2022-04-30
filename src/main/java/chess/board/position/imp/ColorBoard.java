@@ -136,7 +136,7 @@ public class ColorBoard {
 			printStream.println("   a   b   c   d   e   f   g   h");
 			printStream.flush();
 	    }
-	    return new String(baos.toByteArray());
+	    return baos.toString();
 	}	
 	
 }

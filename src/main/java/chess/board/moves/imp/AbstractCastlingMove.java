@@ -125,6 +125,6 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 
 	@Override
 	public String toString() {
-		return getFrom().toString() + " " + getTo().toString() + " - " + this.getClass().getSimpleName().toString();
+		return getFrom().toString() + " " + getTo().toString() + " - " + this.getClass().getSimpleName();
 	}
 }

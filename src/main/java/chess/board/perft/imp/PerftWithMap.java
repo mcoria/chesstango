@@ -19,11 +19,11 @@ import chess.board.perft.PerftResult;
  */
 public class PerftWithMap implements Perft  {
 	
-	private static final int capacities[] = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};
+	private static final int[] capacities = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};
 	
 	private int maxLevel;
 	
-	private FENEncoder coder = new FENEncoder();
+	private final FENEncoder coder = new FENEncoder();
 	
 	private List<Map<String, Integer>> nodeListMap;
 	private int[] repetedNodes;

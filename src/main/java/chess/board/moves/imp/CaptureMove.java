@@ -46,10 +46,7 @@ class CaptureMove extends AbstractMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof CaptureMove){
-			return true;
-		}
-		return false;
-	}
+        return super.equals(obj) && obj instanceof CaptureMove;
+    }
 
 }

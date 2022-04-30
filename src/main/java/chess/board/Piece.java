@@ -26,7 +26,7 @@ public enum Piece {
 	private final Color color;
 	private final int value;
 	
-	private Piece(Color color, int value) {
+	Piece(Color color, int value) {
 		this.color = color;
 		this.value = value;
 	}

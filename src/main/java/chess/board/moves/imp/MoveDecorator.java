@@ -89,7 +89,7 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	
 	@Override
 	public String toString() {
-		return move.toString() + " with " + this.getClass().getSimpleName().toString();
+		return move.toString() + " with " + this.getClass().getSimpleName();
 	}	
 
 }

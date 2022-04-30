@@ -35,20 +35,20 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 			boolean result = super.filterMove(move);
 			
 			if (!super.positionState.equals(boardStateInicial)) {
-				System.out.println("El estado fué modificado");
-				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.positionState.toString() + "]\n");
+				System.out.println("El estado fuï¿½ modificado");
+				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.positionState + "]\n");
 				reportError = true;				
 			}			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de king fué modificado");
-				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
+				System.out.println("El cache de king fuï¿½ modificado");
+				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard + "]\n");
 				reportError = true;
 			}
 	
 			if (!super.dummyBoard.equals(boardInicial)) {
-				System.out.println("El board fué modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard.toString());
+				System.out.println("El board fuï¿½ modificado");
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard);
 				reportError = true;				
 			}
 	
@@ -76,8 +76,8 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 			boolean result = super.filterMove(move);			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de king fué modificado");
-				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
+				System.out.println("El cache de king fuï¿½ modificado");
+				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard + "]\n");
 				reportError = true;
 			}
 	

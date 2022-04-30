@@ -95,7 +95,7 @@ public class PerftMainTestSuite {
 		}		
 	}
 	
-	private ChessFactory chessFactory;
+	private final ChessFactory chessFactory;
 	
 	public PerftMainTestSuite() {
 		this(new ChessFactory());

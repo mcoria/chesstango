@@ -39,7 +39,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 			if (colorDestino == null) {
 				Move move = createSimpleMove(from, piecePlacement.getPosicion(to));
 				this.result.moveContainerAdd(move);
-			} else if (color.opositeColor().equals(colorDestino)) {
+			} else if (color.oppositeColor().equals(colorDestino)) {
 				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
 				this.result.moveContainerAdd(move);
 			} // else if(color.equals(pieza.getColor())){

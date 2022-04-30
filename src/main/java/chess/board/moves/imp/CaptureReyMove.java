@@ -43,10 +43,7 @@ class CaptureKingMove extends CaptureMove  implements MoveKing  {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof CaptureKingMove){
-			return true;
-		}
-		return false;
-	}
+        return super.equals(obj) && obj instanceof CaptureKingMove;
+    }
 
 }

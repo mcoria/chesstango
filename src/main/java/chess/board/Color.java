@@ -8,7 +8,7 @@ public enum Color {
 	WHITE,
 	BLACK;
 	
-	public Color opositeColor(){
+	public Color oppositeColor(){
 		if(this == WHITE) 
 			return Color.BLACK;
 		else
