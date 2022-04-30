@@ -66,7 +66,7 @@ public class CheckAndPinnedAnalyzer {
 	private class CheckAndPinnedAnalyzerByColor {
 		private final Color color;
 		private final Piece rook;
-		private final Piece alfil;
+		private final Piece bishop;
 		private final Piece queen;
 		private final Piece knight;
 		private final long[] pawnJumps;
@@ -76,7 +76,7 @@ public class CheckAndPinnedAnalyzer {
 		public CheckAndPinnedAnalyzerByColor(Color color, long[] pawnJumps) {
 			this.color = color;
 			this.rook =  Piece.getRook(color);
-			this.alfil = Piece.getBishop(color);
+			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
 			this.knight = Piece.getKnight(color);
 			this.pawn = Piece.getPawn(color);
@@ -130,7 +130,7 @@ public class CheckAndPinnedAnalyzer {
 
 		private final Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
 		private void analyzeByBishop(Square square) {
-			positionCapturedByDireccion(square, direccionesBishop, this.alfil);
+			positionCapturedByDireccion(square, direccionesBishop, this.bishop);
 		}
 
 		private final Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
@@ -138,16 +138,16 @@ public class CheckAndPinnedAnalyzer {
 			positionCapturedByDireccion(squareKingOpponent, direccionesRook, this.rook);
 		}
 
-		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece rookOalfil) {		
+		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece rookObishop) {		
 			for (Cardinal cardinal : direcciones) {
-				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, rookOalfil)){
+				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, rookObishop)){
 					CheckAndPinnedAnalyzer.this.kingInCheck = true;
 					return;
 				}
 			}
 		}		
 		
-		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookOalfil) {
+		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookObishop) {
 			Color opponentColor = this.color.oppositeColor();
 			
 			PiecePositioned possiblePinned = null;
@@ -165,11 +165,11 @@ public class CheckAndPinnedAnalyzer {
                         if(opponentColor.equals(piece.getColor())){
 							// La pieza es del oponente, es posiblemente pinned
 							possiblePinned = destino;
-						} else return this.queen.equals(piece) || rookOalfil.equals(piece);
+						} else return this.queen.equals(piece) || rookObishop.equals(piece);
 					} else {
 						
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
-						if (this.queen.equals(piece) || rookOalfil.equals(piece)) {
+						if (this.queen.equals(piece) || rookObishop.equals(piece)) {
 							// Confirmado, tenemos pinned
 							CheckAndPinnedAnalyzer.this.pinnedPositions |= possiblePinned.getKey().getPosicion();
 						}

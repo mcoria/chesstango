@@ -40,19 +40,19 @@ public class Pinned {
 		
 		private final Piece reina;
 		private final Piece rook;
-		private final Piece alfil;	
+		private final Piece bishop;	
 		
 		public PinnedImp(Color color) {
 			this.color = color;
 			this.reina = Piece.getQueen(color.oppositeColor());
 			this.rook = Piece.getRook(color.oppositeColor());
-			this.alfil = Piece.getBishop(color.oppositeColor());
+			this.bishop = Piece.getBishop(color.oppositeColor());
 		}
 
 		public long getPinnedSquare(Square kingSquare) {
 			long pinnedCollection = 0;
 			
-			pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesBishop);
+			pinnedCollection |= getPinnedCardinales(kingSquare, bishop, reina, cardinalesBishop);
 			pinnedCollection |= getPinnedCardinales(kingSquare, rook, reina, cardinalesRook);
 
 			return pinnedCollection;
