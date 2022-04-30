@@ -21,7 +21,7 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 //       	- buscar todas las posibilidades de captura de Rey
 //       	- durante la busqueda deberia identificar posiciones pinned
 //       - deberiamos tener un capturer de posicion mas sencillo para LegalMoveGenerator
-//			- Si no se encuentra en Jaque NO es necesario preguntar por jaque de caballo; rey o peon !!!
+//			- Si no se encuentra en Jaque NO es necesario preguntar por jaque de knight; rey o peon !!!
 //				deberia buscar el jaque en direccion del pinned
 //			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
 //		 - deberiamos tener un capturer especifico para Castling
@@ -48,7 +48,7 @@ public class Capturer {
 		private final Piece rook;
 		private final Piece bishop;
 		private final Piece queen;
-		private final Piece caballo;
+		private final Piece knight;
 		private final long[] pawnJumps;
 		private final Piece pawn;
 		private final Piece king;	
@@ -58,7 +58,7 @@ public class Capturer {
 			this.rook =  Piece.getRook(color);
 			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
-			this.caballo = Piece.getKnight(color);
+			this.knight = Piece.getKnight(color);
 			this.pawn = Piece.getPawn(color);
 			this.king = Piece.getKing(color);
 			this.pawnJumps = pawnJumps;
@@ -96,7 +96,7 @@ public class Capturer {
 			PiecePlacementIterator iterator = piecePlacementReader.iterator( Knight_ARRAY_SALTOS[square.toIdx()] );
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
-			    if(caballo.equals(destino.getValue())){		    	
+			    if(knight.equals(destino.getValue())){		    	
 			    	return true;
 			    }
 			}

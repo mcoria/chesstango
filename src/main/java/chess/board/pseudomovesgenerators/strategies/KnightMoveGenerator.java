@@ -11,7 +11,7 @@ import chess.board.moves.Move;
  */
 public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 	
-	public final static int[][] SALTOS_CABALLO = { 
+	public final static int[][] KNIGHT_JUMPS = {
 			//Arriba
 			{ -1, 2 }, 
 			{ 1, 2 },
@@ -30,7 +30,7 @@ public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 	};	
 	
 	public KnightMoveGenerator(Color color) {
-		super(color, SALTOS_CABALLO);
+		super(color, KNIGHT_JUMPS);
 	}
 	
 	@Override

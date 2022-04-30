@@ -8,7 +8,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import chess.board.Square;
-import chess.board.iterators.square.JumpSquareIterator;
 import chess.board.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
 import chess.board.pseudomovesgenerators.strategies.KnightMoveGenerator;
 
@@ -21,7 +20,7 @@ public class JumpSquareIterator02Test {
 
 	@Test
 	public void test01() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.e5, KnightMoveGenerator.SALTOS_CABALLO);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.e5, KnightMoveGenerator.KNIGHT_JUMPS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -44,7 +43,7 @@ public class JumpSquareIterator02Test {
 
 	@Test
 	public void test02() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.a1, KnightMoveGenerator.SALTOS_CABALLO);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.a1, KnightMoveGenerator.KNIGHT_JUMPS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -61,7 +60,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test03() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KnightMoveGenerator.SALTOS_CABALLO);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KnightMoveGenerator.KNIGHT_JUMPS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -77,7 +76,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test04() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KnightMoveGenerator.SALTOS_CABALLO);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KnightMoveGenerator.KNIGHT_JUMPS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -94,7 +93,7 @@ public class JumpSquareIterator02Test {
 	
 	@Test
 	public void test05() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KnightMoveGenerator.SALTOS_CABALLO);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KnightMoveGenerator.KNIGHT_JUMPS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -114,7 +113,7 @@ public class JumpSquareIterator02Test {
 		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, KnightMoveGenerator.SALTOS_CABALLO);
+			JumpSquareIterator iterator = new JumpSquareIterator(square, KnightMoveGenerator.KNIGHT_JUMPS);
 			long posicionesSalto = 0;
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();

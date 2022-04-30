@@ -21,7 +21,7 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 //       	- buscar todas las posibilidades de captura de Rey
 //       	- durante la busqueda deberia identificar posiciones pinned
 //       - deberiamos tener un capturer de posicion mas sencillo para LegalMoveGenerator
-//			- Si no se encuentra en Jaque NO es necesario preguntar por jaque de caballo; rey o peon !!!
+//			- Si no se encuentra en Jaque NO es necesario preguntar por jaque de knight; rey o peon !!!
 //				deberia buscar el jaque en direccion del pinned
 //			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
 //		 - deberiamos tener un capturer especifico para Castling
