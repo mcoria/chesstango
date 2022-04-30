@@ -45,13 +45,13 @@ public class NoCheckCapturer {
 
 	
 	private class ImprovedCapturerColor {
-		private final Piece torre;
+		private final Piece rook;
 		private final Piece alfil;
 		private final Piece queen;	
 
 		
 		public ImprovedCapturerColor(Color color) {
-			this.torre =  Piece.getRook(color);
+			this.rook =  Piece.getRook(color);
 			this.alfil = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
 		}
@@ -68,12 +68,12 @@ public class NoCheckCapturer {
 
 		private final Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
 		private boolean positionCapturedByRook(Square square) {		
-			return positionCapturedByDireccion(square, direccionesRook, torre);
+			return positionCapturedByDireccion(square, direccionesRook, rook);
 		}
 
-		private boolean positionCapturedByDireccion(Square square, Cardinal[] direcciones, Piece torreOalfil) {		
+		private boolean positionCapturedByDireccion(Square square, Cardinal[] direcciones, Piece rookOalfil) {		
 			for (Cardinal cardinal : direcciones) {
-				if(positionCapturedByCardinalPieza(torreOalfil, queen, square, cardinal)){
+				if(positionCapturedByCardinalPieza(rookOalfil, queen, square, cardinal)){
 					return true;
 				}
 			}
@@ -82,7 +82,7 @@ public class NoCheckCapturer {
 		
 		
 		
-		private boolean positionCapturedByCardinalPieza(Piece torreOalfil, Piece queen, Square square, Cardinal cardinal) {
+		private boolean positionCapturedByCardinalPieza(Piece rookOalfil, Piece queen, Square square, Cardinal cardinal) {
 			PiecePlacementIterator iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
@@ -91,7 +91,7 @@ public class NoCheckCapturer {
 					continue;
 				} else if (queen.equals(piece)) {
 					return true;
-				} else if (torreOalfil.equals(piece)) {			
+				} else if (rookOalfil.equals(piece)) {			
 					return true;
 				} else {
 					break;

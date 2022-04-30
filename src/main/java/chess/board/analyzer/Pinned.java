@@ -39,13 +39,13 @@ public class Pinned {
 		private final Color color;
 		
 		private final Piece reina;
-		private final Piece torre;
+		private final Piece rook;
 		private final Piece alfil;	
 		
 		public PinnedImp(Color color) {
 			this.color = color;
 			this.reina = Piece.getQueen(color.oppositeColor());
-			this.torre = Piece.getRook(color.oppositeColor());
+			this.rook = Piece.getRook(color.oppositeColor());
 			this.alfil = Piece.getBishop(color.oppositeColor());
 		}
 
@@ -53,16 +53,16 @@ public class Pinned {
 			long pinnedCollection = 0;
 			
 			pinnedCollection |= getPinnedCardinales(kingSquare, alfil, reina, cardinalesBishop);
-			pinnedCollection |= getPinnedCardinales(kingSquare, torre, reina, cardinalesRook);
+			pinnedCollection |= getPinnedCardinales(kingSquare, rook, reina, cardinalesRook);
 
 			return pinnedCollection;
 		}
 		
-		protected long getPinnedCardinales(Square kingSquare, Piece torreOBishop, Piece reina,
+		protected long getPinnedCardinales(Square kingSquare, Piece rookOBishop, Piece reina,
 				Cardinal[] direcciones) {
 			long pinnedCollection = 0;
 			for (Cardinal cardinal : direcciones) {
-				Square pinned = getPinned(kingSquare, torreOBishop, reina, cardinal);
+				Square pinned = getPinned(kingSquare, rookOBishop, reina, cardinal);
 				if (pinned != null) {
 					pinnedCollection |= pinned.getPosicion();
 				}
@@ -71,7 +71,7 @@ public class Pinned {
 		}
 		
 		
-		protected Square getPinned(Square kingSquare, Piece torreOBishop, Piece reina, Cardinal cardinal) {
+		protected Square getPinned(Square kingSquare, Piece rookOBishop, Piece reina, Cardinal cardinal) {
 			Square pinned = null;
 			CardinalSquareIterator iterator = new CardinalSquareIterator(kingSquare, cardinal);
 			while (iterator.hasNext()) {
@@ -91,7 +91,7 @@ public class Pinned {
 						return null;
 					} else { //// if (color.oppositeColor().equals(colorDestino))
 						Piece piece = positionReader.getPieza(destino);
-						if (torreOBishop.equals(piece) || reina.equals(piece)) {
+						if (rookOBishop.equals(piece) || reina.equals(piece)) {
 							return pinned;
 						} else {
 							return null;

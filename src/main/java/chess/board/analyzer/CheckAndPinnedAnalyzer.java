@@ -65,7 +65,7 @@ public class CheckAndPinnedAnalyzer {
 
 	private class CheckAndPinnedAnalyzerByColor {
 		private final Color color;
-		private final Piece torre;
+		private final Piece rook;
 		private final Piece alfil;
 		private final Piece queen;
 		private final Piece knight;
@@ -75,7 +75,7 @@ public class CheckAndPinnedAnalyzer {
 		
 		public CheckAndPinnedAnalyzerByColor(Color color, long[] pawnJumps) {
 			this.color = color;
-			this.torre =  Piece.getRook(color);
+			this.rook =  Piece.getRook(color);
 			this.alfil = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
 			this.knight = Piece.getKnight(color);
@@ -135,19 +135,19 @@ public class CheckAndPinnedAnalyzer {
 
 		private final Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
 		private void analyzeByRook(Square squareKingOpponent) {		
-			positionCapturedByDireccion(squareKingOpponent, direccionesRook, this.torre);
+			positionCapturedByDireccion(squareKingOpponent, direccionesRook, this.rook);
 		}
 
-		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece torreOalfil) {		
+		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece rookOalfil) {		
 			for (Cardinal cardinal : direcciones) {
-				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, torreOalfil)){
+				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, rookOalfil)){
 					CheckAndPinnedAnalyzer.this.kingInCheck = true;
 					return;
 				}
 			}
 		}		
 		
-		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece torreOalfil) {
+		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookOalfil) {
 			Color opponentColor = this.color.oppositeColor();
 			
 			PiecePositioned possiblePinned = null;
@@ -165,11 +165,11 @@ public class CheckAndPinnedAnalyzer {
                         if(opponentColor.equals(piece.getColor())){
 							// La pieza es del oponente, es posiblemente pinned
 							possiblePinned = destino;
-						} else return this.queen.equals(piece) || torreOalfil.equals(piece);
+						} else return this.queen.equals(piece) || rookOalfil.equals(piece);
 					} else {
 						
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
-						if (this.queen.equals(piece) || torreOalfil.equals(piece)) {
+						if (this.queen.equals(piece) || rookOalfil.equals(piece)) {
 							// Confirmado, tenemos pinned
 							CheckAndPinnedAnalyzer.this.pinnedPositions |= possiblePinned.getKey().getPosicion();
 						}

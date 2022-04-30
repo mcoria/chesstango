@@ -3,11 +3,10 @@
  */
 package chess;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
 import chess.ai.BestMoverFinderSuiteTest;
 import chess.ai.imp.smart.CheckMateInOneTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * @author Mauricio Coria

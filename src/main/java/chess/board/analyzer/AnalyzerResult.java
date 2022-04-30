@@ -13,7 +13,6 @@ public class AnalyzerResult {
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
-
 	}
 
 	public void setKingInCheck(boolean isKingInCheck) {
