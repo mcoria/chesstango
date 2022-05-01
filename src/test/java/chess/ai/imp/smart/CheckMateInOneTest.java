@@ -49,7 +49,7 @@ public class CheckMateInOneTest extends AbstractSmart {
 	
 	@Test
 	public void testKingTrapped() {
-		// Jaque Mate en movimiento de QUEEN_WHITE	(rey está solo y atrapado por torre blanca)
+		// Jaque Mate en movimiento de QUEEN_WHITE	(rey esta solo y atrapado por torre blanca)
 		Game game =  getGame("1k6/6R1/7Q/8/2KP3P/5P2/4P1P1/1N3BNR w - - 0 40");
 		
 		Move smartMove = bestMoveFinder.findBestMove(game);

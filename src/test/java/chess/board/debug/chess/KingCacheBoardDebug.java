@@ -16,19 +16,19 @@ public class KingCacheBoardDebug extends KingCacheBoard {
 	
 	public void validar(PiecePlacement dummyBoard) {
 		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {
-			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
+			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedo desactualizado");
 		}
 
 		if (squareKingBlackCache != null && !Piece.KING_BLACK.equals(dummyBoard.getPieza(squareKingBlackCache))) {
-			throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedó desactualizado");
+			throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedo desactualizado");
 		}
 		
 		for (PiecePositioned pieza : dummyBoard) {
 			if (Piece.KING_WHITE.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingWhiteCache)) {
-				throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedó desactualizado");
+				throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedo desactualizado");
 			}
 			if (Piece.KING_BLACK.equals(pieza.getValue()) && !pieza.getKey().equals(squareKingBlackCache)) {
-				throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedó desactualizado");
+				throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedo desactualizado");
 			}			
 		}
 		

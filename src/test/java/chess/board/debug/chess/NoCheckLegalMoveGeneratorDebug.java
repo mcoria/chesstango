@@ -33,19 +33,19 @@ public class NoCheckLegalMoveGeneratorDebug extends NoCheckLegalMoveGenerator{
 			Collection<Move> result = super.getLegalMoves();
 			
 			if (!super.positionState.equals(boardStateInicial)) {
-				System.out.println("El estado fué modificado");
+				System.out.println("El estado fue modificado");
 				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + super.positionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			
 			if (!super.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de king fué modificado");
+				System.out.println("El cache de king fue modificado");
 				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + super.kingCacheBoard.toString() + "]\n");
 				reportError = true;
 			}
 	
 			if (!super.dummyBoard.equals(boardInicial)) {
-				System.out.println("El board fué modificado");
+				System.out.println("El board fue modificado");
 				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard.toString());
 				reportError = true;				
 			}

@@ -40,7 +40,7 @@ public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
 
 			//comparar generatorResult vs generatorResultActual
 			if(generatorResultActual.getPseudoMoves().size() != generatorResult.getPseudoMoves().size()) {
-				throw new RuntimeException("El cache quedó en estado inconsistente");
+				throw new RuntimeException("El cache quedÃ³ en estado inconsistente");
 			}
 			
 			if(generatorResultActual.getAffectedBy() != generatorResult.getAffectedBy()) {

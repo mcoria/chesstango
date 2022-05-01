@@ -44,19 +44,19 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 			AnalyzerResult result = analyze();
 			
 			if (!this.positionState.equals(boardStateInicial)) {
-				System.out.println("El estado fué modificado");
+				System.out.println("El estado fue modificado");
 				System.out.println("Inicial [" + boardStateInicial.toString() + "]\n" + "Final   [" + this.positionState.toString() + "]\n");
 				reportError = true;				
 			}			
 			
 			if (!this.kingCacheBoard.equals(kingCacheBoardInicial)) {
-				System.out.println("El cache de king fué modificado");
+				System.out.println("El cache de king fuï¿½ modificado");
 				System.out.println("Inicial [" + kingCacheBoardInicial.toString() + "]\n" + "Final   [" + this.kingCacheBoard.toString() + "]\n");
 				reportError = true;
 			}
 
 			if (!this.piecePlacementReader.equals(boardInicial)) {
-				System.out.println("El board fué modificado");
+				System.out.println("El board fuï¿½ modificado");
 				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.piecePlacementReader.toString());
 				reportError = true;				
 			}
