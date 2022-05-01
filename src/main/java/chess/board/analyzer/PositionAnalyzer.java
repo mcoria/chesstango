@@ -64,7 +64,9 @@ public class PositionAnalyzer {
 		
 		result.setKingInCheck(checkAndPinnedAnalyzer.isKingInCheck());
 		
-		result.setPinnedSquares(checkAndPinnedAnalyzer.getPinnedPositions());		
+		result.setPinnedSquares(checkAndPinnedAnalyzer.getPinnedPositions());
+
+		result.setPinnedPositionCardinals(checkAndPinnedAnalyzer.getPinnedPositionCardinals());
 		
 		return result;
 	}

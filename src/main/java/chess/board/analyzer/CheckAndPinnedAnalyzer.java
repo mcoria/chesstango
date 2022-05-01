@@ -11,6 +11,9 @@ import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.strategies.BishopMoveGenerator;
 import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -33,6 +36,8 @@ public class CheckAndPinnedAnalyzer {
 	private final CheckAndPinnedAnalyzerByColor analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK, PawnBlack_ARRAY_SALTOS);
 	
 	private long pinnedPositions;
+
+	private List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> pinnedPositionCardinals;
 	
 	private boolean kingInCheck;
 	
@@ -42,6 +47,7 @@ public class CheckAndPinnedAnalyzer {
 
 	public void analyze() {
 		pinnedPositions = 0;
+		pinnedPositionCardinals = new ArrayList<AbstractMap.SimpleImmutableEntry<Square, Cardinal>>(8);
 		kingInCheck = false;
 		
 		Color turnoActual = positionReader.getTurnoActual();
@@ -62,9 +68,14 @@ public class CheckAndPinnedAnalyzer {
 		return kingInCheck;
 	}
 
+	public List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> getPinnedPositionCardinals() {
+		return pinnedPositionCardinals;
+	}
+
 
 	private class CheckAndPinnedAnalyzerByColor {
 		private final Color color;
+		private final Color opponentColor;
 		private final Piece rook;
 		private final Piece bishop;
 		private final Piece queen;
@@ -75,6 +86,7 @@ public class CheckAndPinnedAnalyzer {
 		
 		public CheckAndPinnedAnalyzerByColor(Color color, long[] pawnJumps) {
 			this.color = color;
+			this.opponentColor = color.oppositeColor();
 			this.rook =  Piece.getRook(color);
 			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
@@ -138,18 +150,16 @@ public class CheckAndPinnedAnalyzer {
 			positionCapturedByDireccion(squareKingOpponent, direccionesRook, this.rook);
 		}
 
-		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece rookObishop) {		
+		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece rookOrBishop) {
 			for (Cardinal cardinal : direcciones) {
-				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, rookObishop)){
+				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, rookOrBishop)){
 					CheckAndPinnedAnalyzer.this.kingInCheck = true;
 					return;
 				}
 			}
 		}		
 		
-		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookObishop) {
-			Color opponentColor = this.color.oppositeColor();
-			
+		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookOrBishop) {
 			PiecePositioned possiblePinned = null;
 			
 			PiecePlacementIterator iterator = positionReader.iterator(new CardinalSquareIterator(squareKingOpponent, cardinal));
@@ -165,13 +175,16 @@ public class CheckAndPinnedAnalyzer {
                         if(opponentColor.equals(piece.getColor())){
 							// La pieza es del oponente, es posiblemente pinned
 							possiblePinned = destino;
-						} else return this.queen.equals(piece) || rookObishop.equals(piece);
+						} else {
+							return this.queen.equals(piece) || rookOrBishop.equals(piece);
+						}
 					} else {
 						
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
-						if (this.queen.equals(piece) || rookObishop.equals(piece)) {
+						if (this.queen.equals(piece) || rookOrBishop.equals(piece)) {
 							// Confirmado, tenemos pinned
 							CheckAndPinnedAnalyzer.this.pinnedPositions |= possiblePinned.getKey().getPosicion();
+							getPinnedPositionCardinals().add(new AbstractMap.SimpleImmutableEntry<Square, Cardinal>(possiblePinned.getKey(), cardinal));
 						}
 						// O ....
 						

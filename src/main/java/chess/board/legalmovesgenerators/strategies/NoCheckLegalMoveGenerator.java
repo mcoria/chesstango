@@ -44,6 +44,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
+	//TODO: Incluso este metodo lo podemos dividirlo en 2, aquellos pinned y aquellos no pinned
 	protected Collection<Move> getLegalMovesNotKing(AnalyzerResult analysis, Collection<Move> moves) {
 		final Color turnoActual = this.positionReader.getTurnoActual();
 
@@ -56,13 +57,12 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
 			
 			
-			long currentPiecePosiction = origenSquare.getPosicion();
+			long currentPiecePosition = origenSquare.getPosicion();
 					
-			if ( (pinnedSquares & currentPiecePosiction) != 0 ) {
+			if ( (pinnedSquares & currentPiecePosition) != 0 ) {
 
 				//TODO: migrarlo a analysis
-				//Cardinal threatDirection = analysis.getThreatDirection(currentPiecePosiction);
-				Cardinal threatDirection = getDirection(getCurrentKingSquare(), origenSquare);
+				Cardinal threatDirection = analysis.getThreatDirection(origenSquare);
 				
 				pseudoMoves.forEach(move -> {
 					Cardinal moveDirection = getMoveDirection(move);
@@ -73,10 +73,11 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 				
 
 			} else {
+
+				// TODO: implementar una clase contenedora de movimientos
+				moves.addAll(pseudoMoves);
 				
-				//moves.addAll(pseudoMoves);
-				
-				pseudoMoves.forEach(move -> moves.add(move));
+				//pseudoMoves.forEach(move -> moves.add(move));
 				
 			}
 
@@ -96,17 +97,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 			}
 		}
 	}	
-	
 
-	//TODO: migrarlo a analysis
-	private Cardinal getDirection(Square kingSquare, Square moveSquare) {
-		for(Cardinal direction: Cardinal.values()){
-			if(direction.isInDirection(kingSquare, moveSquare)){
-				return direction;
-			}
-		}
-		throw new RuntimeException("No puede ser");
-	}
 
 	//TODO: migrarlo a Move
 	private Cardinal getMoveDirection(Move move) {

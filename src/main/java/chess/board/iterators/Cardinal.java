@@ -12,45 +12,45 @@ public enum Cardinal {
 	Norte(null,true), Sur(null,false), Este(true,null), Oeste(false,null),
 	NorteEste(true,true), SurEste(true, false), SurOeste(false, false), NorteOeste(false, true);
 	
-	private final Boolean este;
-	private final Boolean norte;
+	private final Boolean east;
+	private final Boolean north;
 	
-	private final int offSetEste;
-	private final int offSetNorte;
+	private final int offSetEast;
+	private final int offSetNorth;
 	
-	Cardinal(Boolean este, Boolean norte) {
-		this.este = este;
-		this.norte = norte;
+	Cardinal(Boolean east, Boolean north) {
+		this.east = east;
+		this.north = north;
 		
-		this.offSetEste = this.este != null ? (this.este ? 1 : -1)  : 0;
-		this.offSetNorte = this.norte != null ? (this.norte ? 1 : -1)  : 0;
+		this.offSetEast = this.east == null ? 0 : (this.east ? 1 : -1);
+		this.offSetNorth = this.north == null ? 0 : (this.north ? 1 : -1);
 	}
 	
 	public Square calcularNextPoint(Square from) {
-		return Square.getSquare(from.getFile() + offSetEste, from.getRank() + offSetNorte);
+		return Square.getSquare(from.getFile() + offSetEast, from.getRank() + offSetNorth);
 	}
 	
 	public boolean isInDirection(Square from, Square to) {
-		if (Objects.equals(este, getDirection(from.getFile(), to.getFile()))) {
-			if (Objects.equals(norte, getDirection(from.getRank(), to.getRank()))) {
-				if (este == null) { // Puede ser mismo lugar; NORTE o SUR
-					if (norte == null) {
+		if (Objects.equals(east, getDirection(from.getFile(), to.getFile()))) {
+			if (Objects.equals(north, getDirection(from.getRank(), to.getRank()))) {
+				if (east == null) { // Puede ser mismo lugar; NORTE o SUR
+					if (north == null) {
 						throw new RuntimeException("from equals to");
 					} else { // NORTE o SUR
 						return true;
 					}
-				} else if (este.equals(true)) { // Puede ser Este, NorteEste; SurEste
-					if (norte == null) { // Este
+				} else if (east.equals(true)) { // Puede ser Este, NorteEste; SurEste
+					if (north == null) { // Este
 						return true;
-					} else if (norte.equals(true)) { // NorteEste
+					} else if (north.equals(true)) { // NorteEste
                         return to.getFile() - from.getFile() == to.getRank() - from.getRank();
 					} else { // norte.equals(false) --  SurEste
                         return to.getFile() - from.getFile() == from.getRank() - to.getRank();
 					}
 				} else { // este.equals(false)  -- Puede ser Oeste,NorteOeste, SurOeste
-					if (norte == null) { // Oeste
+					if (north == null) { // Oeste
 						return true;
-					} else if (norte.equals(true)) { // NorteOeste
+					} else if (north.equals(true)) { // NorteOeste
                         return from.getFile() - to.getFile() == to.getRank() - from.getRank();
 					} else { // norte.equals(false) SurOeste
                         return from.getFile() - to.getFile() == from.getRank() - to.getRank();
@@ -67,6 +67,8 @@ public enum Cardinal {
 	private static Boolean getDirection(int from, int to) {
 		if( from == to ) {
 			return null;
-		} else return from < to;
+		} else {
+			return from < to;
+		}
 	}
 }
