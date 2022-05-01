@@ -1,4 +1,4 @@
-package chess.board.analyzer.capturers;
+package chess.board.legalmovesgenerators.squarecapturers;
 
 import chess.board.Color;
 import chess.board.Piece;
@@ -14,24 +14,20 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 
 
 /**
+ * Este SquareCapturer busca las posibilidades de captura que existen para un Square dado considerando
+ * atacantes Queen, Rook o Bishop.
+ *
+ *
  * @author Mauricio Coria
  *
  */
-// TODO: el capturer para analyzer es distinto, deberia 
-//       	- buscar todas las posibilidades de captura de Rey
-//       	- durante la busqueda deberia identificar posiciones pinned
-//       - deberiamos tener un capturer de posicion mas sencillo para LegalMoveGenerator
-//			- Si no se encuentra en Jaque NO es necesario preguntar por jaque de knight; rey o peon !!!
-//				deberia buscar el jaque en direccion del pinned
-//			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
-//		 - deberiamos tener un capturer especifico para Castling
-public class NoCheckCapturer {
+public class CardinalSquareCapturer {
 	
 	private final PiecePlacementReader piecePlacementReader;
-	private final ImprovedCapturerColor capturerWhite = new ImprovedCapturerColor(Color.WHITE);
-	private final ImprovedCapturerColor capturerBlack = new ImprovedCapturerColor(Color.BLACK);
+	private final CapturerImp capturerWhite = new CapturerImp(Color.WHITE);
+	private final CapturerImp capturerBlack = new CapturerImp(Color.BLACK);
 	
-	public NoCheckCapturer(PiecePlacementReader piecePlacementReader) {
+	public CardinalSquareCapturer(PiecePlacementReader piecePlacementReader) {
 		this.piecePlacementReader = piecePlacementReader;
 	}	
 
@@ -44,13 +40,13 @@ public class NoCheckCapturer {
 	}
 
 	
-	private class ImprovedCapturerColor {
+	private class CapturerImp {
 		private final Piece rook;
 		private final Piece bishop;
 		private final Piece queen;	
 
 		
-		public ImprovedCapturerColor(Color color) {
+		public CapturerImp(Color color) {
 			this.rook =  Piece.getRook(color);
 			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);

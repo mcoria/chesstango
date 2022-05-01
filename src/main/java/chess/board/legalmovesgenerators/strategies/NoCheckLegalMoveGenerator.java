@@ -84,7 +84,18 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		return moves;
 	}
-	
+
+	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {
+		Square 	kingSquare = getCurrentKingSquare();
+
+		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
+
+		filterMoveCollection(pseudoMovesKing, moves);
+
+		return moves;
+	}
+
+	/*
 	protected void getCastlingMoves(Collection<Move> moves) {
 		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
 		long capturedPositionsOponente = this.getCapturedPositionsOponente();
@@ -95,8 +106,13 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 				moves.add(move);
 			}
 		}
-	}	
+	}
+	 */
 
+	protected void getCastlingMoves(Collection<Move> moves) {
+		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
+		filterMoveCollection(pseudoMoves, moves);
+	}
 
 	private boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
 		if(moveDirection != null){
@@ -131,17 +147,6 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		}
 		return false;
-	}
-
-
-	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {		
-		Square 	kingSquare = getCurrentKingSquare();
-		
-		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
-
-		filterMoveCollection(pseudoMovesKing, moves);
-		
-		return moves;
 	}
 	
 

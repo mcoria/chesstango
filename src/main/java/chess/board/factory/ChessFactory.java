@@ -3,9 +3,8 @@ package chess.board.factory;
 import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.CheckAndPinnedAnalyzer;
-import chess.board.analyzer.Pinned;
 import chess.board.analyzer.PositionAnalyzer;
-import chess.board.analyzer.capturers.Capturer;
+import chess.board.legalmovesgenerators.squarecapturers.FullScanSquareCapturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.legalmovesgenerators.filters.CheckMoveFilter;
@@ -93,18 +92,13 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public Capturer createCapturer(PiecePlacementReader piecePlacementReader) {
-		return new Capturer(piecePlacementReader);
+	public FullScanSquareCapturer createCapturer(PiecePlacementReader piecePlacementReader) {
+		return new FullScanSquareCapturer(piecePlacementReader);
 	}
 
 
 	public GameState createGameState() {
 		return new GameState();
-	}
-
-
-	public Pinned createPinnedAlanyzer(ChessPositionReader positionReader) {
-		return new Pinned(positionReader);
 	}
 
 

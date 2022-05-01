@@ -4,7 +4,7 @@
 package chess.board.legalmovesgenerators.filters;
 
 import chess.board.Color;
-import chess.board.analyzer.capturers.Capturer;
+import chess.board.legalmovesgenerators.squarecapturers.FullScanSquareCapturer;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
@@ -15,6 +15,8 @@ import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 
 /**
+ * Este filtro se utiliza cuando el jugador actual SI se encuentra en jaque
+ *
  * @author Mauricio Coria
  *
  */
@@ -25,14 +27,14 @@ public class CheckMoveFilter implements MoveFilter {
 	protected final ColorBoard colorBoard;	
 	protected final PositionState positionState;
 
-	protected final Capturer capturer;
+	protected final FullScanSquareCapturer fullScanSquareCapturer;
 	
 	public CheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.positionState = positionState;
-		this.capturer = new Capturer(dummyBoard);
+		this.fullScanSquareCapturer = new FullScanSquareCapturer(dummyBoard);
 	}
 	
 	@Override
@@ -45,7 +47,7 @@ public class CheckMoveFilter implements MoveFilter {
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 
-		if(! capturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! fullScanSquareCapturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 

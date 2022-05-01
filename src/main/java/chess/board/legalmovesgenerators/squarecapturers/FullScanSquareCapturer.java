@@ -1,4 +1,4 @@
-package chess.board.analyzer.capturers;
+package chess.board.legalmovesgenerators.squarecapturers;
 
 import chess.board.Color;
 import chess.board.Piece;
@@ -14,6 +14,8 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 
 
 /**
+ * Este SquareCapturer busca todas las posibilidades de captura que existen para un Square dado.
+ *
  * @author Mauricio Coria
  *
  */
@@ -25,13 +27,13 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 //				deberia buscar el jaque en direccion del pinned
 //			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
 //		 - deberiamos tener un capturer especifico para Castling
-public class Capturer {
+public class FullScanSquareCapturer {
 	
 	private final PiecePlacementReader piecePlacementReader;
-	private final ImprovedCapturerColor capturerWhite = new ImprovedCapturerColor(Color.WHITE, PawnWhite_ARRAY_SALTOS);
-	private final ImprovedCapturerColor capturerBlack = new ImprovedCapturerColor(Color.BLACK, PawnBlack_ARRAY_SALTOS);
+	private final CapturerImp capturerWhite = new CapturerImp(Color.WHITE, PawnWhite_ARRAY_SALTOS);
+	private final CapturerImp capturerBlack = new CapturerImp(Color.BLACK, PawnBlack_ARRAY_SALTOS);
 	
-	public Capturer(PiecePlacementReader piecePlacementReader) {
+	public FullScanSquareCapturer(PiecePlacementReader piecePlacementReader) {
 		this.piecePlacementReader = piecePlacementReader;
 	}	
 
@@ -44,7 +46,7 @@ public class Capturer {
 	}
 
 	
-	private class ImprovedCapturerColor {
+	private class CapturerImp {
 		private final Piece rook;
 		private final Piece bishop;
 		private final Piece queen;
@@ -54,7 +56,7 @@ public class Capturer {
 		private final Piece king;	
 
 		
-		public ImprovedCapturerColor(Color color, long[] pawnJumps) {
+		public CapturerImp(Color color, long[] pawnJumps) {
 			this.rook =  Piece.getRook(color);
 			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);

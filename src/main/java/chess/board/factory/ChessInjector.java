@@ -7,7 +7,7 @@ import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.CheckAndPinnedAnalyzer;
 import chess.board.analyzer.PositionAnalyzer;
-import chess.board.analyzer.capturers.Capturer;
+import chess.board.legalmovesgenerators.squarecapturers.FullScanSquareCapturer;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;
@@ -55,7 +55,7 @@ public class ChessInjector {
 	
 	private LegalMoveGeneratorImp legalMoveGenerator = null;
 
-	private Capturer capturer = null;
+	private FullScanSquareCapturer fullScanSquareCapturer = null;
 
 	private MoveFilter checkMoveFilter;
 	
@@ -160,11 +160,11 @@ public class ChessInjector {
 		return checkAndPinnedAnalyzer;
 	}
 
-	public Capturer getCapturer() {
-		if(capturer == null){
-			capturer = chessFactory.createCapturer(getPiecePlacement());
+	public FullScanSquareCapturer getCapturer() {
+		if(fullScanSquareCapturer == null){
+			fullScanSquareCapturer = chessFactory.createCapturer(getPiecePlacement());
 		}
-		return capturer;
+		return fullScanSquareCapturer;
 	}
 
 	

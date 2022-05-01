@@ -17,17 +17,12 @@ import java.util.List;
 
 
 /**
+ * Esta clase analiza si el jugador actual se encuentra en Jaque.
+ * De no estar en jaque se identifican todas las posiciones pinned y el Cardinal de la amenaza.
+ *
  * @author Mauricio Coria
  *
  */
-// TODO: el capturer para analyzer es distinto, deberia 
-//       	- buscar todas las posibilidades de captura de Rey
-//       	- durante la busqueda deberia identificar posiciones pinned
-//       - deberiamos tener un capturer de posicion mas sencillo para LegalMoveGenerator
-//			- Si no se encuentra en Jaque NO es necesario preguntar por jaque de knight; rey o peon !!!
-//				deberia buscar el jaque en direccion del pinned
-//			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
-//		 - deberiamos tener un capturer especifico para Castling
 public class CheckAndPinnedAnalyzer {
 	
 	private final ChessPositionReader positionReader;
@@ -47,7 +42,7 @@ public class CheckAndPinnedAnalyzer {
 
 	public void analyze() {
 		pinnedPositions = 0;
-		pinnedPositionCardinals = new ArrayList<AbstractMap.SimpleImmutableEntry<Square, Cardinal>>(8);
+		pinnedPositionCardinals = new ArrayList<>(8);
 		kingInCheck = false;
 		
 		Color turnoActual = positionReader.getTurnoActual();
@@ -100,10 +95,6 @@ public class CheckAndPinnedAnalyzer {
 			Square squareKingOpponent = positionReader.getKingSquare(color.oppositeColor());
 
 			analyzeByKnight(squareKingOpponent);
-
-			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
-				analyzeByPawn(squareKingOpponent);
-			}
 			
 			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
 				analyzeByBishop(squareKingOpponent);
@@ -111,9 +102,13 @@ public class CheckAndPinnedAnalyzer {
 			
 			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
 				analyzeByRook(squareKingOpponent);
-			}			
+			}
+
+			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
+				analyzeByPawn(squareKingOpponent);
+			}
 			
-			// Jamas el rey va a estar en jaque por el Rey oponente
+			// Another king can not check our king NEVER
 			// analyzeByKing(squareKing);
 
 		}
@@ -184,7 +179,7 @@ public class CheckAndPinnedAnalyzer {
 						if (this.queen.equals(piece) || rookOrBishop.equals(piece)) {
 							// Confirmado, tenemos pinned
 							CheckAndPinnedAnalyzer.this.pinnedPositions |= possiblePinned.getKey().getPosicion();
-							getPinnedPositionCardinals().add(new AbstractMap.SimpleImmutableEntry<Square, Cardinal>(possiblePinned.getKey(), cardinal));
+							getPinnedPositionCardinals().add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned.getKey(), cardinal));
 						}
 						// O ....
 						

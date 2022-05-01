@@ -58,7 +58,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		filterMoveCollection(pseudoMoves, moves);		
 	}
 	
-	protected void filterMoveCollection(Collection<Move> collectionToFilter, Collection<Move> collectionToAdd){
+	protected void filterMoveCollection(Collection<? extends Move> collectionToFilter, Collection<Move> collectionToAdd){
 		for (Move move : collectionToFilter) {
 			if(move.filter(filter)){
 				collectionToAdd.add(move);
