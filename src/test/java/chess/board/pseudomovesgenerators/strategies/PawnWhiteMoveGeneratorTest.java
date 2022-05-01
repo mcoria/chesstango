@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.board.iterators.Cardinal;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +20,6 @@ import chess.board.moves.Move;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacement;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.strategies.PawnWhiteMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -204,7 +204,7 @@ public class PawnWhiteMoveGeneratorTest {
 	}
 	
 	private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
-		return moveFactoryImp.createSaltoDoblePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
+		return moveFactoryImp.createSaltoDoblePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante, Cardinal.Norte);
 	}	
 	
 	private Move createCaptureMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza) {

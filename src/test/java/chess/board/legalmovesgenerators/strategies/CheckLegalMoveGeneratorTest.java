@@ -11,8 +11,6 @@ import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.factory.ChessInjector;
 import chess.board.fen.FENDecoder;
-import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
 import chess.board.position.ChessPosition;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 
@@ -21,7 +19,7 @@ import chess.board.pseudomovesgenerators.MoveGenerator;
  * @author Mauricio Coria
  *
  */
-public class DefaultLegalMoveGeneratorTest {
+public class CheckLegalMoveGeneratorTest {
 	
 	private CheckLegalMoveGenerator moveGeneretor;
 	

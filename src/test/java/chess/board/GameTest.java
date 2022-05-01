@@ -565,7 +565,6 @@ public class GameTest {
 	
 	private Game getGame(String string) {		
 		GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
-		//GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);
 		

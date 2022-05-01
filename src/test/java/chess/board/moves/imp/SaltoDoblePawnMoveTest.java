@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import chess.board.iterators.Cardinal;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,6 @@ import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.debug.chess.PositionStateDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.SaltoDoblePawnMove;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -58,7 +58,7 @@ public class SaltoDoblePawnMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);		
+		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3, Cardinal.Norte);
 	}
 	
 	
@@ -120,7 +120,7 @@ public class SaltoDoblePawnMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3);
+		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3, Cardinal.Norte);
 
 		// execute
 		moveExecutor.executeMove(chessPosition);

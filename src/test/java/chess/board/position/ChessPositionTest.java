@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import chess.board.iterators.Cardinal;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -227,7 +228,7 @@ public class ChessPositionTest {
 	}		
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
-		return moveFactoryWhite.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante);		
+		return moveFactoryWhite.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante, Cardinal.Norte);
 	}
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,

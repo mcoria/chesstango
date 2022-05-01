@@ -921,8 +921,9 @@ public class KiwipeteTest extends AbstractPerftTest {
 		
 		assertEquals(48, result.getMovesCount());
 		assertEquals(8031647685L, result.getTotalNodes());
-	}	
-	
+	}
+
+	//TODO: Falta detallar movimientos
 	@Test
 	public void test_a1b1() {
 		board.executeMove(Square.a1, Square.b1);

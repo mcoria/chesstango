@@ -24,6 +24,14 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Piece[] getPiezaPromocion();
 
+	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
+
+	protected abstract Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero);
+
+
+	protected abstract Move createCaptureMoveIzquierda(PiecePositioned origen, PiecePositioned destino);
+
+	protected abstract Move createCaptureMoveDerecha(PiecePositioned origen, PiecePositioned destino);
 	
 	public AbstractPawnMoveGenerator(Color color) {
 		super(color);
@@ -48,7 +56,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			this.result.affectedByContainerAdd(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
-				Move moveSaltoSimple = this.moveFactory.createSimpleMove(origen, destino);
+				Move moveSaltoSimple = this.createSimpleMove(origen, destino);
 				
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
@@ -62,7 +70,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 						result.affectedByContainerAdd(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
-							Move moveSaltoDoble = this.moveFactory.createSaltoDoblePawnMove(origen, destino, saltoSimpleCasillero);
+							Move moveSaltoDoble = this.createSaltoDoblePawnMove(origen, destino, saltoSimpleCasillero);
 							result.moveContainerAdd(moveSaltoDoble);
 						}
 					}					
@@ -77,7 +85,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura = this.moveFactory.createCaptureMove(origen, destino);
+				Move moveCaptura = this.createCaptureMoveIzquierda(origen, destino);
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -96,7 +104,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura =  this.moveFactory.createCaptureMove(origen, destino);
+				Move moveCaptura =  this.createCaptureMoveDerecha(origen, destino);
 
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion

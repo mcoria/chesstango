@@ -239,7 +239,8 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(20, result.getMovesCount());
 		assertEquals(3195901860L, result.getTotalNodes());
 	}
-	
+
+	//TODO: Falta detallar movimientos
 	@Test
 	public void test_d2d3() {
 		
@@ -250,10 +251,10 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(20, result.getMovesCount());
 		assertEquals(328511, result.getTotalNodes());
 	}
-	
+
+	//TODO: Falta detallar movimientos
 	@Test
 	public void test_d2d3_a7a5_b1a3_a5a4_c2c3() {
-		
 		board.executeMove(Square.d2, Square.d3);
 		board.executeMove(Square.a7, Square.a5);
 		board.executeMove(Square.b1, Square.a3);

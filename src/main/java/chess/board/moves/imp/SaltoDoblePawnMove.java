@@ -2,6 +2,7 @@ package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.iterators.Cardinal;
 import chess.board.position.imp.MoveCacheBoard;
 import chess.board.position.imp.PositionState;
 
@@ -14,8 +15,8 @@ class SaltoDoblePawnMove extends SimpleMove {
 	
 	private final Square pawnPasanteSquare;
 
-	public SaltoDoblePawnMove(PiecePositioned from, PiecePositioned to, Square pawnPasanteSquare) {
-		super(from, to);
+	public SaltoDoblePawnMove(PiecePositioned from, PiecePositioned to, Square pawnPasanteSquare, Cardinal cardinal) {
+		super(from, to, cardinal);
 		this.pawnPasanteSquare = pawnPasanteSquare;
 	}
 	

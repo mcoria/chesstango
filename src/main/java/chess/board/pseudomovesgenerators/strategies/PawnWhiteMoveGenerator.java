@@ -4,6 +4,8 @@ import chess.board.Color;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.iterators.Cardinal;
+import chess.board.moves.Move;
 
 /**
  * @author Mauricio Coria
@@ -47,4 +49,23 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 		return PROMOCIONES_WHITE;
 	}
 
+	@Override
+	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
+		return this.moveFactory.createSimpleMove(origen, destino, Cardinal.Norte);
+	}
+
+	@Override
+	protected Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
+		return this.moveFactory.createSaltoDoblePawnMove(origen, destino, saltoSimpleCasillero, Cardinal.Norte);
+	}
+
+	@Override
+	protected Move createCaptureMoveIzquierda(PiecePositioned origen, PiecePositioned destino) {
+		return this.moveFactory.createCaptureMove(origen, destino, Cardinal.NorteOeste);
+	}
+
+	@Override
+	protected Move createCaptureMoveDerecha(PiecePositioned origen, PiecePositioned destino) {
+		return this.moveFactory.createCaptureMove(origen, destino, Cardinal.NorteEste);
+	}
 }
