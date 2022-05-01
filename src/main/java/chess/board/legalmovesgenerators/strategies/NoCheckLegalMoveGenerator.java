@@ -61,11 +61,10 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 					
 			if ( (pinnedSquares & currentPiecePosition) != 0 ) {
 
-				//TODO: migrarlo a analysis
 				Cardinal threatDirection = analysis.getThreatDirection(origenSquare);
 				
 				pseudoMoves.forEach(move -> {
-					Cardinal moveDirection = getMoveDirection(move);
+					Cardinal moveDirection = move.getMoveDirection();
 					if (moveBlocksThreat(threatDirection, moveDirection)) {
 						moves.add(move);
 					}
@@ -98,16 +97,6 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		}
 	}	
 
-
-	//TODO: migrarlo a Move
-	private Cardinal getMoveDirection(Move move) {
-		for(Cardinal direction: Cardinal.values()){
-			if(direction.isInDirection(move.getFrom().getKey(), move.getTo().getKey())){
-				return direction;
-			}
-		}
-		return null;
-	}
 
 	private boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
 		if(moveDirection != null){

@@ -1,6 +1,7 @@
 package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.moves.Move;
 import chess.board.position.PiecePlacementWriter;
 import chess.board.position.imp.ColorBoard;
@@ -90,6 +91,11 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	@Override
 	public String toString() {
 		return move.toString() + " with " + this.getClass().getSimpleName();
-	}	
+	}
+
+	@Override
+	public Cardinal getMoveDirection() {
+		return move.getMoveDirection();
+	}
 
 }

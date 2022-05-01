@@ -1,6 +1,7 @@
 package chess.board.moves;
 
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.position.ChessPositionWriter;
 import chess.board.position.PiecePlacementWriter;
@@ -29,21 +30,23 @@ import chess.board.position.imp.PositionState;
 public interface Move extends Comparable<Move> {
 	PiecePositioned getFrom();
 	PiecePositioned getTo();
-	
+
 	void executeMove(ChessPositionWriter chessPosition);
 	void undoMove(ChessPositionWriter chessPosition);
-	
-	boolean filter(MoveFilter filter);	
+
+	boolean filter(MoveFilter filter);
 
 	void executeMove(PiecePlacementWriter board);
 	void undoMove(PiecePlacementWriter board);
-	
+
 	void executeMove(PositionState positionState);
 	void undoMove(PositionState positionState);
 
 	void executeMove(ColorBoard coloBoard);
 	void undoMove(ColorBoard colorBoard);
-	
+
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
+
+	Cardinal getMoveDirection();
 }

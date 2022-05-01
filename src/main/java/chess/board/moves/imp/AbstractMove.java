@@ -1,6 +1,7 @@
 package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.moves.Move;
 import chess.board.position.PiecePlacementWriter;
 import chess.board.position.imp.MoveCacheBoard;
@@ -119,7 +120,16 @@ abstract class AbstractMove implements Move {
 	public String toString() {
 		return from.toString() + " " + to.toString() + " - " + this.getClass().getSimpleName();
 	}
-	
 
+
+	@Override
+	public Cardinal getMoveDirection() {
+		for(Cardinal direction: Cardinal.values()){
+			if(direction.isInDirection(getFrom().getKey(), getTo().getKey())){
+				return direction;
+			}
+		}
+		return null;
+	}
 
 }

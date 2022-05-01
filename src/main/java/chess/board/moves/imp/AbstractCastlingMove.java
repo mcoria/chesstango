@@ -1,6 +1,7 @@
 package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
@@ -126,5 +127,10 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 	@Override
 	public String toString() {
 		return getFrom().toString() + " " + getTo().toString() + " - " + this.getClass().getSimpleName();
+	}
+
+	@Override
+	public Cardinal getMoveDirection() {
+		return null;
 	}
 }
