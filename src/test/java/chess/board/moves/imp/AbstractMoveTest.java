@@ -10,8 +10,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.imp.AbstractMove;
-import chess.board.moves.imp.SimpleMove;
 
 
 /**

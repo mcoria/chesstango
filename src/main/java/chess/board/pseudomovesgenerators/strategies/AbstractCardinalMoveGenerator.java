@@ -19,12 +19,12 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	/*
 	 * Factory Method
 	 */
-	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
+	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
 	/*
 	 * Factory Method
 	 */	
-	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);		
+	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 	
 	private final Cardinal[] directions;
 
@@ -53,10 +53,10 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 			this.result.capturedPositionsContainerAdd(to);
 			Color colorDestino = colorBoard.getColor(to);
 			if (colorDestino == null) {
-				Move move = createSimpleMove(from, piecePlacement.getPosicion(to));
+				Move move = createSimpleMove(from, piecePlacement.getPosicion(to), cardinal);
 				result.moveContainerAdd(move);
 			} else if (color.oppositeColor().equals(colorDestino)) {
-				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
+				Move move = createCaptureMove(from, piecePlacement.getPosicion(to), cardinal);
 				result.moveContainerAdd(move);
 				break;
 			} else { // if(color.equals(pieza.getColor())){

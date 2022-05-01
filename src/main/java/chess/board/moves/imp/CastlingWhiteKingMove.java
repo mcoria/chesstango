@@ -3,6 +3,7 @@ package chess.board.moves.imp;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.iterators.Cardinal;
 import chess.board.position.imp.PositionState;
 
 /**
@@ -18,7 +19,7 @@ class CastlingWhiteKingMove extends AbstractCastlingMove {
 	public static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.f1, null);
 	
 	private static final SimpleKingMove KING_MOVE = new SimpleKingMove(FROM, TO);
-	private static final SimpleMove ROOK_MOVE = new SimpleMove(ROOK_FROM, ROOK_TO);
+	private static final SimpleMove ROOK_MOVE = new SimpleMove(ROOK_FROM, ROOK_TO, Cardinal.Oeste);
 	
 	public CastlingWhiteKingMove() {
 		super(KING_MOVE, ROOK_MOVE);

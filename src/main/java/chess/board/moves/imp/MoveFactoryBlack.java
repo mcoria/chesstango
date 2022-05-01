@@ -3,6 +3,7 @@ package chess.board.moves.imp;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.iterators.Cardinal;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
 import chess.board.moves.MoveFactory;
@@ -71,8 +72,25 @@ public class MoveFactoryBlack implements MoveFactory {
 	}
 
 	@Override
+	public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+		return new SimpleMove(origen, destino, cardinal);
+	}
+
+	@Override
 	public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		Move move = new CaptureMove(origen, destino);
+		Move result = move;
+		if (Square.a1.equals(destino.getKey())) {
+			result = new MoveDecoratorState(move, state -> state.setCastlingWhiteQueenAllowed(false));
+		} else if (Square.h1.equals(destino.getKey())) {
+			result = new MoveDecoratorState(move, state -> state.setCastlingWhiteKingAllowed(false));
+		}
+		return result;
+	}
+
+	@Override
+	public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+		Move move = new CaptureMove(origen, destino, cardinal);
 		Move result = move;
 		if (Square.a1.equals(destino.getKey())) {
 			result = new MoveDecoratorState(move, state -> state.setCastlingWhiteQueenAllowed(false));

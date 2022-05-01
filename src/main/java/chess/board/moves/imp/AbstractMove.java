@@ -14,10 +14,18 @@ import chess.board.position.imp.PositionState;
 abstract class AbstractMove implements Move {
 	protected final PiecePositioned from;
 	protected final PiecePositioned to;
-	
+	protected final Cardinal direction;
+
+	public AbstractMove(PiecePositioned from, PiecePositioned to, Cardinal direction) {
+		this.from = from;
+		this.to = to;
+		this.direction = direction;
+	}
+
 	public AbstractMove(PiecePositioned from, PiecePositioned to) {
 		this.from = from;
 		this.to = to;
+		this.direction = calculateMoveDirection();
 	}	
 
 	@Override
@@ -124,6 +132,10 @@ abstract class AbstractMove implements Move {
 
 	@Override
 	public Cardinal getMoveDirection() {
+		return direction;
+	}
+
+	public Cardinal calculateMoveDirection() {
 		for(Cardinal direction: Cardinal.values()){
 			if(direction.isInDirection(getFrom().getKey(), getTo().getKey())){
 				return direction;

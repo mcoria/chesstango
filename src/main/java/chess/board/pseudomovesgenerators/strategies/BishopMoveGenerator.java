@@ -19,13 +19,13 @@ public class BishopMoveGenerator extends AbstractCardinalMoveGenerator {
 	}
 
 	@Override
-	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
-		return moveFactory.createSimpleMove(origen, destino);
+	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+		return moveFactory.createSimpleMove(origen, destino, cardinal);
 	}
-	
-	
+
+
 	@Override
-	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-		return moveFactory.createCaptureMove(origen, destino); 
-	}		
+	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+		return moveFactory.createCaptureMove(origen, destino, cardinal);
+	}
 }

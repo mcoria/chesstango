@@ -1,6 +1,7 @@
 package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.position.ChessPositionWriter;
 import chess.board.position.imp.ColorBoard;
@@ -11,9 +12,13 @@ import chess.board.position.imp.ColorBoard;
  *
  */
 class SimpleMove extends AbstractMove {
-	
+
 	public SimpleMove(PiecePositioned from, PiecePositioned to) {
 		super(from, to);
+	}
+
+	public SimpleMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+		super(from, to, cardinal);
 	}
 	
 	@Override

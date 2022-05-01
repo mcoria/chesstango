@@ -23,7 +23,6 @@ import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ColorBoard;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.strategies.AbstractCardinalMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -43,12 +42,12 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.SurEste}){
 
 			@Override
-			protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
+			protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
 				return moveFactory.createSimpleMove(origen, destino);
 			}
 
 			@Override
-			protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
+			protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
 				return moveFactory.createCaptureMove(origen, destino);
 			}
 			

@@ -1,6 +1,7 @@
 package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.position.ChessPositionWriter;
 import chess.board.position.imp.ColorBoard;
@@ -13,9 +14,13 @@ class CaptureMove extends AbstractMove {
 	
 	public CaptureMove(PiecePositioned from, PiecePositioned to) {
 		super(from, to);
-	}	
-	
-	@Override
+	}
+
+    public CaptureMove(PiecePositioned from, PiecePositioned to, Cardinal cardinal) {
+		super(from, to, cardinal);
+    }
+
+    @Override
 	public void executeMove(ChessPositionWriter chessPosition) {
 		chessPosition.executeMove(this);
 	}

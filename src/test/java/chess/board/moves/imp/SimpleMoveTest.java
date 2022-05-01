@@ -17,7 +17,6 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.SimpleMove;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -59,7 +58,7 @@ public class SimpleMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
-		moveExecutor =  new SimpleMove(origen, destino);		
+		moveExecutor =  new SimpleMove(origen, destino);
 	}
 	
 	

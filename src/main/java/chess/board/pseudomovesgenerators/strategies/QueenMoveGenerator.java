@@ -18,13 +18,13 @@ public class QueenMoveGenerator extends AbstractCardinalMoveGenerator{
 	}
 
 	@Override
-	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
+	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
 		return moveFactory.createSimpleMove(origen, destino);
 	}
 	
 	
 	@Override
-	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
+	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
 		return moveFactory.createCaptureMove(origen, destino); 
 	}	
 
