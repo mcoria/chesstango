@@ -10,7 +10,8 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.MoveContainer;
+import chess.board.moves.containsers.ArrayMoveContainer;
+import chess.board.moves.containsers.MovePair;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacementReader;
@@ -32,24 +33,24 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 	
 
 	@Override
-	public Collection<Move> generateEnPassantPseudoMoves() {
-		Collection<Move> moveContainer = new MoveContainer<Move>();
+	public MovePair generateEnPassantPseudoMoves() {
 		Square pawnPasanteSquare = positionState.getEnPassantSquare();
 		if (pawnPasanteSquare != null) {
 			if (Color.WHITE.equals(positionState.getTurnoActual())) {
-				return pasanteMoveGeneratorWhite.generatePseudoMoves(moveContainer, pawnPasanteSquare);
+				return pasanteMoveGeneratorWhite.generatePseudoMoves(pawnPasanteSquare);
 			} else {
-				return pasanteMoveGeneratorBlack.generatePseudoMoves(moveContainer, pawnPasanteSquare);
+				return pasanteMoveGeneratorBlack.generatePseudoMoves(pawnPasanteSquare);
 			}
 		}
-		return moveContainer;
+		return null;
 	}
 
 
 	private class EnPassantMoveGeneratorBlack{
 		private final MoveFactoryBlack moveFactoryImp = new MoveFactoryBlack();
 		
-		public Collection<Move> generatePseudoMoves(Collection<Move> moveContainer, Square pawnPasanteSquare) {
+		public MovePair generatePseudoMoves(Square pawnPasanteSquare) {
+			MovePair moveContainer = new MovePair();
 			PiecePositioned origen = null;
 			PiecePositioned captura = null;
 
@@ -59,7 +60,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 				captura = tablero.getPosicion(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
 				if (Piece.PAWN_BLACK.equals(origen.getValue())) {
 			    	Move move = moveFactoryImp.createCaptureEnPassant(origen, tablero.getPosicion(pawnPasanteSquare), captura);
-			    	moveContainer.add(move);
+			    	moveContainer.setFirst(move);
 				}
 			}
 			
@@ -69,7 +70,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 				captura = tablero.getPosicion(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
 				if (Piece.PAWN_BLACK.equals(origen.getValue())) {
 			    	Move move = moveFactoryImp.createCaptureEnPassant(origen, tablero.getPosicion(pawnPasanteSquare), captura);
-			    	moveContainer.add(move);
+					moveContainer.setSecond(move);
 				}
 			}				
 			
@@ -80,7 +81,8 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 	private class EnPassantMoveGeneratorWhite{
 		private final MoveFactoryWhite moveFactoryImp = new MoveFactoryWhite();
 
-		public Collection<Move> generatePseudoMoves(Collection<Move> moveContainer, Square pawnPasanteSquare) {
+		public MovePair generatePseudoMoves(Square pawnPasanteSquare) {
+			MovePair moveContainer = new MovePair();
 			PiecePositioned origen = null;
 			PiecePositioned captura = null;
 
@@ -90,7 +92,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 				captura = tablero.getPosicion(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
 				if (Piece.PAWN_WHITE.equals(origen.getValue())) {
 			    	Move move = this.moveFactoryImp.createCaptureEnPassant(origen, tablero.getPosicion(pawnPasanteSquare), captura);
-			    	moveContainer.add(move);
+			    	moveContainer.setFirst(move);
 				}
 			}
 			
@@ -100,7 +102,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 				captura = tablero.getPosicion(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
 				if (Piece.PAWN_WHITE.equals(origen.getValue())) {
 			    	Move move = moveFactoryImp.createCaptureEnPassant(origen, tablero.getPosicion(pawnPasanteSquare), captura);
-			    	moveContainer.add(move);
+			    	moveContainer.setSecond(move);
 				}
 			}				
 			

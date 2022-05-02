@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import chess.board.moves.containsers.MovePair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private Collection<Move> moves; 
 	
-	private Collection<MoveCastling> moveCastling; 
+	private MovePair moveCastling;
 	
 	private PositionState state;
 	

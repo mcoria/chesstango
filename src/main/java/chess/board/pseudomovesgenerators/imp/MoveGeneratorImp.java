@@ -8,6 +8,7 @@ import chess.board.PiecePositioned;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
 import chess.board.moves.MoveFactory;
+import chess.board.moves.containsers.MovePair;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacementReader;
@@ -97,13 +98,13 @@ public class MoveGeneratorImp implements MoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generateEnPassantPseudoMoves() {
+	public MovePair generateEnPassantPseudoMoves() {
 		return ppmg.generateEnPassantPseudoMoves();
 	}
 	
 
 	@Override
-	public Collection<MoveCastling> generateCastlingPseudoMoves() {
+	public MovePair generateCastlingPseudoMoves() {
 		if (Color.WHITE.equals(positionState.getTurnoActual())) {
 			return rbmg.generateCastlingPseudoMoves();
 		} else {

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.board.moves.containsers.MovePair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,8 +30,10 @@ import chess.board.pseudomovesgenerators.imp.MoveGeneratorEnPassantImp;
 public class MoveGeneratorEnPassantImpTest {
 	private MoveGeneratorEnPassantImp moveGenerator;
 	
-	private Collection<Move> moves; 
-	
+	private Collection<Move> moves;
+
+	private MovePair movePair;
+
 	private PositionState state;
 
 	private MoveFactoryWhite moveFactoryImp;
@@ -63,12 +66,12 @@ public class MoveGeneratorEnPassantImpTest {
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.d5));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+
+		movePair = moveGenerator.generateEnPassantPseudoMoves();
 		
-		moves = moveGenerator.generateEnPassantPseudoMoves();
+		assertEquals(1, movePair.size());
 		
-		assertEquals(1, moves.size());
-		
-		assertTrue(moves.contains( createCaptureBlackEnPassantMove(origen, Square.d6) ));
+		assertTrue(movePair.contains( createCaptureBlackEnPassantMove(origen, Square.d6) ));
 	}
 	
 	
@@ -88,12 +91,12 @@ public class MoveGeneratorEnPassantImpTest {
 		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.e5));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
+
+		movePair = moveGenerator.generateEnPassantPseudoMoves();
 		
-		moves = moveGenerator.generateEnPassantPseudoMoves();
+		assertEquals(1, movePair.size());
 		
-		assertEquals(1, moves.size());
-		
-		assertTrue(moves.contains( createCaptureBlackEnPassantMove(origen, Square.e6) ));
+		assertTrue(movePair.contains( createCaptureBlackEnPassantMove(origen, Square.e6) ));
 	}
 	
 
@@ -111,12 +114,12 @@ public class MoveGeneratorEnPassantImpTest {
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.e4));
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
+
+		movePair = moveGenerator.generateEnPassantPseudoMoves();
 		
-		moves = moveGenerator.generateEnPassantPseudoMoves();
+		assertEquals(1, movePair.size());
 		
-		assertEquals(1, moves.size());
-		
-		assertTrue(moves.contains( createCaptureWhiteEnPassantMove(origen, Square.e3) ));
+		assertTrue(movePair.contains( createCaptureWhiteEnPassantMove(origen, Square.e3) ));
 	}	
 
 	@Test
@@ -133,12 +136,12 @@ public class MoveGeneratorEnPassantImpTest {
 		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.d4));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
+
+		movePair = moveGenerator.generateEnPassantPseudoMoves();
 		
-		moves = moveGenerator.generateEnPassantPseudoMoves();
+		assertEquals(1, movePair.size());
 		
-		assertEquals(1, moves.size());
-		
-		assertTrue(moves.contains( createCaptureWhiteEnPassantMove(origen, Square.d3) ));
+		assertTrue(movePair.contains( createCaptureWhiteEnPassantMove(origen, Square.d3) ));
 	}
 
 	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {

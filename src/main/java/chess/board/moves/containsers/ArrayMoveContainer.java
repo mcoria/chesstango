@@ -1,7 +1,9 @@
 /**
  * 
  */
-package chess.board.moves;
+package chess.board.moves.containsers;
+
+import chess.board.moves.Move;
 
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  * @author Mauricio Coria
  *
  */
-public class MoveContainer<T extends Move> extends ArrayList<T> {	
+public class ArrayMoveContainer<T extends Move> extends ArrayList<T> {
 
 	/**
 	 * 
@@ -18,12 +20,12 @@ public class MoveContainer<T extends Move> extends ArrayList<T> {
 
 
 
-	public MoveContainer() {
+	public ArrayMoveContainer() {
 		super();
 	}
 
 
-	public MoveContainer(int initialCapacity) {
+	public ArrayMoveContainer(int initialCapacity) {
 		super(initialCapacity);
 	}
 

@@ -9,6 +9,7 @@ import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
+import chess.board.moves.containsers.MovePair;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
@@ -60,18 +61,34 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	}
 
 	protected void getEnPassantMoves(Collection<Move> moves) {
-		Collection<Move> pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
-		filterMoveCollection(pseudoMoves, moves);		
-	}
-	
-	protected void filterMoveCollection(Collection<? extends Move> collectionToFilter, Collection<Move> collectionToAdd){
-		for (Move move : collectionToFilter) {
-			if(move.filter(filter)){
-				collectionToAdd.add(move);
+		final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
+		if(pseudoMoves != null){
+			final Move first = pseudoMoves.getFirst();
+			final Move second = pseudoMoves.getSecond();
+
+			if(first != null) {
+				filter(first, moves);
+			}
+
+			if(second != null) {
+				filter(second, moves);
 			}
 		}
 	}
 	
+	protected void filterMoveCollection(Collection<? extends Move> moveCollectionToFilter, Collection<Move> collectionToAdd){
+		for (Move move : moveCollectionToFilter) {
+			filter(move, collectionToAdd);
+		}
+	}
+
+	protected void filter(Move move, Collection<Move> collectionToAdd) {
+		if(move.filter(filter)){
+			collectionToAdd.add(move);
+		}
+	}
+
+
 	protected Square getCurrentKingSquare() {
 		return positionReader.getKingSquare(positionReader.getTurnoActual());
 	}	

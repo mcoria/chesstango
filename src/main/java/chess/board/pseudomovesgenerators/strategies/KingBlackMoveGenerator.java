@@ -7,7 +7,8 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
-import chess.board.moves.MoveContainer;
+import chess.board.moves.containsers.ArrayMoveContainer;
+import chess.board.moves.containsers.MovePair;
 
 /**
  * @author Mauricio Coria
@@ -28,8 +29,8 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 	}
 
 	@Override
-	public Collection<MoveCastling> generateCastlingPseudoMoves() {
-		Collection<MoveCastling> moveContainer = new MoveContainer<MoveCastling>();
+	public MovePair generateCastlingPseudoMoves() {
+		MovePair moveContainer = new MovePair();
 		if (this.positionState.isCastlingBlackQueenAllowed()){
 			if(puedeEnroqueQueen(	kingCacheBoard.getSquareKingBlackCache(), 
 								PiecePositioned.KING_BLACK, 
@@ -37,7 +38,7 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
 								DESTINO_QUEEN_SQUARE, 
 								INTERMEDIO_KING_QUEEN_SQUARE)) {
-				moveContainer.add(moveFactory.createCastlingQueenMove());
+				moveContainer.setFirst(moveFactory.createCastlingQueenMove());
 			}
 		}
 			
@@ -48,7 +49,7 @@ public class KingBlackMoveGenerator extends AbstractKingMoveGenerator {
 								PiecePositioned.ROOK_BLACK_KING,
 								DESTINO_KING_SQUARE, 
 								INTERMEDIO_KING_KING_SQUARE)) {
-				moveContainer.add(moveFactory.createCastlingKingMove());
+				moveContainer.setSecond(moveFactory.createCastlingKingMove());
 			}
 		}
 		return moveContainer;

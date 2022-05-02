@@ -7,7 +7,7 @@ import chess.board.analyzer.AnalyzerResult;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
-import chess.board.moves.MoveContainer;
+import chess.board.moves.containsers.ArrayMoveContainer;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 
@@ -25,7 +25,7 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	@Override
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
 		
-		Collection<Move> moves = new MoveContainer<Move>();
+		Collection<Move> moves = new ArrayMoveContainer<Move>();
 		
 		getBySquareMoves(moves);
 		

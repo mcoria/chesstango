@@ -9,6 +9,7 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
+import chess.board.moves.containsers.MovePair;
 import chess.board.position.imp.MoveCacheBoard;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
@@ -47,12 +48,12 @@ public class MoveGenaratorWithCacheProxy implements MoveGenerator {
 	}
 	
 	@Override
-	public Collection<Move> generateEnPassantPseudoMoves() {
+	public MovePair generateEnPassantPseudoMoves() {
 		return moveGenerator.generateEnPassantPseudoMoves();
 	}
 	
 	@Override
-	public Collection<MoveCastling> generateCastlingPseudoMoves() {
+	public MovePair generateCastlingPseudoMoves() {
 		return moveGenerator.generateCastlingPseudoMoves();
 	}	
 
