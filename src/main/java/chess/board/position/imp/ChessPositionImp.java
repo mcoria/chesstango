@@ -203,6 +203,10 @@ public class ChessPositionImp implements ChessPosition {
 		return piecePlacement.getPieza(square);
 	}
 
+	@Override
+	public long getPosiciones(Color color) {
+		return colorBoard.getPosiciones(color);
+	}
 
 	@Override
 	public PiecePlacementIterator iterator(SquareIterator squareIterator) {

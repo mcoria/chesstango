@@ -1,5 +1,6 @@
 package chess.board.analyzer;
 
+import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
 
@@ -15,7 +16,7 @@ public class AnalyzerResult {
 	
 	private long pinnedSquares;
 
-	private List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> pinnedPositionCardinals;
+	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
 
 	public boolean isKingInCheck() {
 		return isKingInCheck;
@@ -33,16 +34,12 @@ public class AnalyzerResult {
 		this.pinnedSquares = pinnedSquares;
 	}
 
-	public List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> getPinnedPositionCardinals() {
+	public List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> getPinnedPositionCardinals() {
 		return pinnedPositionCardinals;
 	}
 
-	public void setPinnedPositionCardinals(List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> pinnedPositionCardinals) {
+	public void setPinnedPositionCardinals(List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals) {
 		this.pinnedPositionCardinals = pinnedPositionCardinals;
-	}
-
-	public Cardinal getThreatDirection(Square square) {
-		return pinnedPositionCardinals.stream().filter(entry -> entry.getKey().equals(square)).findFirst().get().getValue();
 	}
 
 }

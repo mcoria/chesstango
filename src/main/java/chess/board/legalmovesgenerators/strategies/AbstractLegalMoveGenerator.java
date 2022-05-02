@@ -3,6 +3,7 @@ package chess.board.legalmovesgenerators.strategies;
 import java.util.Collection;
 
 import chess.board.Color;
+import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
@@ -30,14 +31,19 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		this.filter = filter;
 	}
 
-	protected Collection<Move> getPseudoMoves(Square origenSquare) {
-		MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));		
-		
+	protected Collection<Move> getPseudoMoves(PiecePositioned origen) {
+		MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
 		return generatorResult.getPseudoMoves();
 	}
-	
+
+	protected Collection<Move> getPseudoMoves(Square origenSquare) {
+		return getPseudoMoves(positionReader.getPosicion(origenSquare));
+	}
+
+	//TODO: este metodo no tien buena performance
 	protected long getCapturedPositionsOponente(){
 		final Color turnoActual = this.positionReader.getTurnoActual();
+
 		long posicionesCapturadas = 0;
 		
 		for (SquareIterator iterator = this.positionReader.iteratorSquare( turnoActual.oppositeColor() ); iterator.hasNext();) {

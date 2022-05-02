@@ -25,6 +25,8 @@ public interface ChessPositionReader {
 	boolean isCastlingBlackQueenAllowed();
 	boolean isCastlingBlackKingAllowed();
 
+	Square getKingSquare(Color color);
+
 	Square getEnPassantSquare();
 	
 	PiecePositioned getPosicion(Square square);
@@ -33,7 +35,7 @@ public interface ChessPositionReader {
 	
 	Piece getPieza(Square square);
 
-	Square getKingSquare(Color color);
+	long getPosiciones (Color color);
 
 	SquareIterator iteratorSquare(Color color);
 

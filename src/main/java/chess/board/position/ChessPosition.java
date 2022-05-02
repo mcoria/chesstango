@@ -9,7 +9,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public interface ChessPosition extends ChessPositionReader, ChessPositionWriter{
+public interface ChessPosition extends ChessPositionReader, ChessPositionWriter {
 
 	void init();
 

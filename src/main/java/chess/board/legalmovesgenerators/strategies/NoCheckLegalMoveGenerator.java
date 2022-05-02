@@ -1,11 +1,14 @@
 package chess.board.legalmovesgenerators.strategies;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import chess.board.Color;
+import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.analyzer.AnalyzerResult;
 import chess.board.iterators.Cardinal;
+import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
@@ -31,9 +34,21 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	@Override
 	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
+		final Square kingSquare = getCurrentKingSquare();
+
+		final Color turnoActual = this.positionReader.getTurnoActual();
+
+		final long posicionesTurnoActual =  this.positionReader.getPosiciones(turnoActual);
+
+		final long pinnedSquares = analysis.getPinnedSquares();
+
+		final long posicionRey = kingSquare.getPosicion();
+
 		Collection<Move> moves = new MoveContainer<Move>(CAPACITY_MOVE_CONTAINER);
-		
-		getLegalMovesNotKing(analysis, moves);
+
+		getLegalMovesNotKingNotPinned(posicionesTurnoActual & ~pinnedSquares & ~posicionRey, moves);
+
+		getLegalMovesNotKingPinned(analysis, moves);
 		
 		getLegalMovesKing(moves);
 		
@@ -44,46 +59,34 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
-	//TODO: Incluso este metodo lo podemos dividirlo en 2, aquellos pinned y aquellos no pinned
-	protected Collection<Move> getLegalMovesNotKing(AnalyzerResult analysis, Collection<Move> moves) {
-		final Color turnoActual = this.positionReader.getTurnoActual();
 
-		long pinnedSquares = analysis.getPinnedSquares();
-		
-		for (SquareIterator iterator = this.positionReader.iteratorSquareWhitoutKing(turnoActual); iterator.hasNext();) {
+	protected Collection<Move> getLegalMovesNotKingNotPinned(long posicionesSafe, Collection<Move> moves) {
 
-			Square origenSquare = iterator.next();
+		for (PiecePlacementIterator iterator = this.positionReader.iterator(posicionesSafe) ; iterator.hasNext();) {
 
-			Collection<Move> pseudoMoves = getPseudoMoves(origenSquare);
-			
-			
-			long currentPiecePosition = origenSquare.getPosicion();
-					
-			if ( (pinnedSquares & currentPiecePosition) != 0 ) {
+			PiecePositioned origen = iterator.next();
 
-				Cardinal threatDirection = analysis.getThreatDirection(origenSquare);
-				
-				pseudoMoves.forEach(move -> {
-					Cardinal moveDirection = move.getMoveDirection();
-					if (moveBlocksThreat(threatDirection, moveDirection)) {
-						moves.add(move);
-					}
-				});
-				
+			Collection<Move> pseudoMoves = getPseudoMoves(origen);
 
-			} else {
-
-				// TODO: implementar una clase contenedora de movimientos
-				moves.addAll(pseudoMoves);
-				
-				//pseudoMoves.forEach(move -> moves.add(move));
-				
-			}
-
+			moves.addAll(pseudoMoves);
 		}
 
 		return moves;
 	}
+
+	protected Collection<Move> getLegalMovesNotKingPinned(AnalyzerResult analysis, Collection<Move> moves) {
+		analysis.getPinnedPositionCardinals().forEach( pinnedPositionCardinal -> {
+			getPseudoMoves(pinnedPositionCardinal.getKey())
+					.stream()
+					.filter(pseudoMove -> {
+						return NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(),  pseudoMove.getMoveDirection() );
+					} )
+					.forEach(move -> moves.add(move));
+		});
+
+		return moves;
+	}
+
 
 	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {
 		Square 	kingSquare = getCurrentKingSquare();
@@ -95,6 +98,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
+	//TODO: Esta complicado este metodo, se pierde demasiada performance
 	/*
 	protected void getCastlingMoves(Collection<Move> moves) {
 		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
@@ -114,7 +118,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		filterMoveCollection(pseudoMoves, moves);
 	}
 
-	private boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
+	public static boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
 		if(moveDirection != null){
 			switch (threatDirection) {
 			case Norte:

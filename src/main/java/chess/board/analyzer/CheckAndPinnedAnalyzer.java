@@ -32,7 +32,7 @@ public class CheckAndPinnedAnalyzer {
 	
 	private long pinnedPositions;
 
-	private List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> pinnedPositionCardinals;
+	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
 	
 	private boolean kingInCheck;
 	
@@ -63,7 +63,7 @@ public class CheckAndPinnedAnalyzer {
 		return kingInCheck;
 	}
 
-	public List<AbstractMap.SimpleImmutableEntry<Square, Cardinal>> getPinnedPositionCardinals() {
+	public List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> getPinnedPositionCardinals() {
 		return pinnedPositionCardinals;
 	}
 
@@ -178,8 +178,8 @@ public class CheckAndPinnedAnalyzer {
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
 						if (this.queen.equals(piece) || rookOrBishop.equals(piece)) {
 							// Confirmado, tenemos pinned
-							CheckAndPinnedAnalyzer.this.pinnedPositions |= possiblePinned.getKey().getPosicion();
-							getPinnedPositionCardinals().add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned.getKey(), cardinal));
+							pinnedPositions |= possiblePinned.getKey().getPosicion();
+							pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));
 						}
 						// O ....
 						
