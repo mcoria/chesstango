@@ -15,9 +15,11 @@ import chess.board.iterators.square.SquareIterator;
  * @author Mauricio Coria
  *
  */
-public interface ChessPositionReader {
+public interface ChessPositionReader extends PiecePlacementReader {
 
 	Color getTurnoActual();
+
+	Color getColor(Square square);
 
 	boolean isCastlingWhiteQueenAllowed();
 	boolean isCastlingWhiteKingAllowed();
@@ -28,12 +30,6 @@ public interface ChessPositionReader {
 	Square getKingSquare(Color color);
 
 	Square getEnPassantSquare();
-	
-	PiecePositioned getPosicion(Square square);
-	
-	Color getColor(Square square);
-	
-	Piece getPieza(Square square);
 
 	long getPosiciones (Color color);
 
@@ -41,11 +37,7 @@ public interface ChessPositionReader {
 
 	SquareIterator iteratorSquareWhitoutKing(Color color);
 
-	PiecePlacementIterator iterator(SquareIterator squareIterator);
-	
-	PiecePlacementIterator iterator(long posiciones);
-	
-	PiecePlacementIterator iteratorAllPieces();	
+	PiecePlacementIterator iteratorAllPieces();
 	
 	void constructBoardRepresentation(ChessPositionBuilder<?> builder);
 }

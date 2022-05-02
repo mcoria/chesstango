@@ -179,13 +179,12 @@ public class MinMaxPrunning implements BestMoveFinder {
 		} else if (GameStatus.JAQUE.equals(game.getGameStatus())) {
 			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth : -90 + depth;
 		} else {
-			ChessPositionReader reader = game.getChessPositionReader();
+			ChessPositionReader positionReader = game.getChessPositionReader();
 
-			PiecePlacementIterator iterator = reader.iteratorAllPieces();
-			while (iterator.hasNext()) {
-				PiecePositioned piecePlacement = iterator.next();
+			for (PiecePlacementIterator it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+				PiecePositioned piecePlacement = it.next();
 				Piece piece = piecePlacement.getValue();
-				
+
 				evaluation += piece.getValue();
 			}
 

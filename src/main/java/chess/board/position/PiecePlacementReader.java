@@ -29,5 +29,4 @@ public interface PiecePlacementReader extends Iterable<PiecePositioned> {
 	PiecePlacementIterator iterator(SquareIterator squareIterator);
 
 	PiecePlacementIterator iterator(long posiciones);
-
 }

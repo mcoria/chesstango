@@ -3,6 +3,7 @@
  */
 package chess.board.position;
 
+import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.moves.Move;
 
 /**
@@ -15,5 +16,5 @@ public interface ChessPosition extends ChessPositionReader, ChessPositionWriter 
 
 	void acceptForExecute(Move move);
 
-	void acceptForUndo(Move move);	
+	void acceptForUndo(Move move);
 }

@@ -2,6 +2,7 @@ package chess.board.position.imp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Iterator;
 
 import chess.board.Piece;
 import chess.board.PiecePositioned;
@@ -72,26 +73,6 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	public boolean isEmtpy(Square square) {
 		return getPieza(square) == null;
 	}
-	
-
-	@Override
-	public PiecePlacementIterator iterator() {
-		return new PiecePlacementIterator(){
-			
-			private int idx = 0;
-
-			@Override
-			public boolean hasNext() {
-				return this.idx < 64;
-			}
-
-			@Override
-			public PiecePositioned next() {
-				return tablero[idx++];
-			}
-			
-		};
-	}
 
 
 	@Override
@@ -107,14 +88,14 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 			public PiecePositioned next() {
 				return getPosicion(squareIterator.next());
 			}
-			
+
 		};
 	}
 	
 	@Override
 	public PiecePlacementIterator iterator(long posiciones){
 		return new BoardBitIterator(tablero, posiciones);
-	}	
+	}
 
 	@Override
 	public void move(PiecePositioned from, PiecePositioned to) {
@@ -157,6 +138,24 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 			return true;
 		}
 		return false;
-	}	
+	}
 
+	@Override
+	public Iterator<PiecePositioned> iterator() {
+		return new PiecePlacementIterator(){
+
+			private int idx = 0;
+
+			@Override
+			public boolean hasNext() {
+				return this.idx < 64;
+			}
+
+			@Override
+			public PiecePositioned next() {
+				return tablero[idx++];
+			}
+
+		};
+	}
 }

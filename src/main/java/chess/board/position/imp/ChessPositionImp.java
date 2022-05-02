@@ -14,6 +14,8 @@ import chess.board.moves.MoveKing;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 
+import java.util.Iterator;
+
 
 /**
  * @author Mauricio Coria
@@ -187,11 +189,11 @@ public class ChessPositionImp implements ChessPosition {
 	public SquareIterator iteratorSquareWhitoutKing(Color color) {
 		return colorBoard.iteratorSquareWhitoutKing(color, kingCacheBoard.getKingSquare(color));
 	}
-	
+
 	@Override
 	public PiecePlacementIterator iteratorAllPieces(){
 		return piecePlacement.iterator(colorBoard.getPosiciones(Color.WHITE) & colorBoard.getPosiciones(Color.BLACK));
-	}	
+	}
 
 	@Override
 	public Color getColor(Square square) {
@@ -201,6 +203,11 @@ public class ChessPositionImp implements ChessPosition {
 	@Override
 	public Piece getPieza(Square square) {
 		return piecePlacement.getPieza(square);
+	}
+
+	@Override
+	public boolean isEmtpy(Square square) {
+		return piecePlacement.isEmtpy(square);
 	}
 
 	@Override
@@ -216,6 +223,10 @@ public class ChessPositionImp implements ChessPosition {
 	@Override
 	public PiecePlacementIterator iterator(long posiciones) {
 		return piecePlacement.iterator(posiciones);
-	}	
-	
+	}
+
+	@Override
+	public Iterator<PiecePositioned> iterator() {
+		return piecePlacement.iterator();
+	}
 }
