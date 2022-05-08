@@ -7,7 +7,7 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
 import chess.board.moves.MoveCastling;
-import chess.board.moves.containsers.ArrayMoveContainer;
+import chess.board.moves.containsers.MoveContainer;
 import chess.board.moves.containsers.MovePair;
 
 

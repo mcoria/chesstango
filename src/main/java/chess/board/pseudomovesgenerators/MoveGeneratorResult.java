@@ -5,7 +5,7 @@ import java.util.Collection;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.containsers.ArrayMoveContainer;
+import chess.board.moves.containsers.MoveContainer;
 
 
 /**
@@ -23,7 +23,7 @@ public class MoveGeneratorResult {
 	private long capturedPositions;
 
 	public MoveGeneratorResult() {
-		moveContainer = new ArrayMoveContainer<Move>();
+		moveContainer = new MoveContainer<Move>();
 	}
 	
 	public Collection<Move> getPseudoMoves(){

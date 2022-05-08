@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author Mauricio Coria
  *
  */
-public class ArrayMoveContainer<T extends Move> extends ArrayList<T> {
+public class MoveContainer<T extends Move> extends ArrayList<T> {
 
 	/**
 	 * 
@@ -20,12 +20,12 @@ public class ArrayMoveContainer<T extends Move> extends ArrayList<T> {
 
 
 
-	public ArrayMoveContainer() {
+	public MoveContainer() {
 		super();
 	}
 
 
-	public ArrayMoveContainer(int initialCapacity) {
+	public MoveContainer(int initialCapacity) {
 		super(initialCapacity);
 	}
 

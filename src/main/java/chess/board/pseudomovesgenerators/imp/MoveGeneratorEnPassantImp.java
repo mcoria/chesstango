@@ -10,7 +10,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.containsers.ArrayMoveContainer;
+import chess.board.moves.containsers.MoveContainer;
 import chess.board.moves.containsers.MovePair;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
