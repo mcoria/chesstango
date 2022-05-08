@@ -114,18 +114,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	protected void getCastlingMoves(Collection<Move> moves) {
 		final MovePair pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-		if(pseudoMoves != null){
-			final Move first = pseudoMoves.getFirst();
-			final Move second = pseudoMoves.getSecond();
-
-			if(first != null) {
-				filter(first, moves);
-			}
-
-			if(second != null) {
-				filter(second, moves);
-			}
-		}
+		filterMoveCollection(pseudoMoves, moves);
 	}
 
 	public static boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
