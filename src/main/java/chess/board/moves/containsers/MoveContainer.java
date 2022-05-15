@@ -11,13 +11,10 @@ import java.util.ArrayList;
  * @author Mauricio Coria
  *
  */
-public class MoveContainer<T extends Move> extends ArrayList<T> {
+public class MoveContainer extends ArrayList<Move> {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-
 
 
 	public MoveContainer() {
@@ -28,8 +25,6 @@ public class MoveContainer<T extends Move> extends ArrayList<T> {
 	public MoveContainer(int initialCapacity) {
 		super(initialCapacity);
 	}
-
-
 
 	@Override
 	public String toString() {

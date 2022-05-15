@@ -17,7 +17,6 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.SimplePawnPromocion;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -30,13 +29,13 @@ import chess.board.position.imp.PositionState;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SimplePawnPromocionTest {
+public class CapturePawnPromotionTest {
 
 	private PiecePlacement piezaBoard;
 	
 	private PositionState positionState;
 	
-	private SimplePawnPromocion moveExecutor;
+	private CapturePawnPromotion moveExecutor;
 	
 	private ColorBoard colorBoard;
 	
@@ -53,13 +52,15 @@ public class SimplePawnPromocionTest {
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
+		piezaBoard.setPieza(Square.f8, Piece.KNIGHT_BLACK);
 		
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);	
+		colorBoard.init(piezaBoard);
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e8, null);
-		moveExecutor =  new SimplePawnPromocion(origen, destino, Piece.QUEEN_WHITE);		
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
+		
+		moveExecutor =  new CapturePawnPromotion(origen, destino, Piece.QUEEN_WHITE);
 	}
 	
 	
@@ -69,7 +70,7 @@ public class SimplePawnPromocionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPieza(Square.e8));
+		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPieza(Square.f8));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
@@ -77,11 +78,11 @@ public class SimplePawnPromocionTest {
 		
 		// asserts undos		
 		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
-		assertTrue(piezaBoard.isEmtpy(Square.e8));		
+		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPieza(Square.f8));		
 	}
 		
 	@Test
-	public void testMoveState() {		
+	public void testMoveState() {
 		// execute
 		moveExecutor.executeMove(positionState);
 		
@@ -102,7 +103,7 @@ public class SimplePawnPromocionTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e8));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.f8));
 		assertTrue(colorBoard.isEmpty(Square.e7));
 
 		// undos
@@ -110,7 +111,7 @@ public class SimplePawnPromocionTest {
 		
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
-		assertTrue(colorBoard.isEmpty(Square.e8));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
 	}	
 	
 	@Test

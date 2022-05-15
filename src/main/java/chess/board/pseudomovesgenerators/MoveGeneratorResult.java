@@ -23,7 +23,7 @@ public class MoveGeneratorResult {
 	private long capturedPositions;
 
 	public MoveGeneratorResult() {
-		moveContainer = new MoveContainer<Move>();
+		moveContainer = new MoveContainer();
 	}
 	
 	public Collection<Move> getPseudoMoves(){

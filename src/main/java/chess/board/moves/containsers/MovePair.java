@@ -4,6 +4,10 @@ import chess.board.moves.Move;
 
 import java.util.Iterator;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MovePair implements Iterable<Move> {
     private Move first;
     private Move second;

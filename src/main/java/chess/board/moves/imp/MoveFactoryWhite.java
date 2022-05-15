@@ -115,13 +115,13 @@ public class MoveFactoryWhite implements MoveFactory {
 
 	@Override
 	public Move createSimplePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-		return new SimplePawnPromocion(origen, destino, piece);
+		return new SimplePawnPromotion(origen, destino, piece);
 	}
 
 
 	@Override
 	public Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-		Move move = new CapturaPawnPromocion(origen, destino, piece);
+		Move move = new CapturePawnPromotion(origen, destino, piece);
 		Move result = move;
 		if (Square.a8.equals(destino.getKey())) {
 			result = new MoveDecoratorState(move, state -> state.setCastlingBlackQueenAllowed(false));
