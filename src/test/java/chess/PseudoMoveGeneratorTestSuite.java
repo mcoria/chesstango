@@ -36,6 +36,6 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGeneratorTest;
 		BishopMoveGeneratorTest.class, KingBlackMoveGeneratorTest.class, KingWhiteMoveGeneratorTest.class,
 		KnightMoveGeneratorTest.class, PawnBlackMoveGeneratorTest.class, PawnWhiteMoveGeneratorTest.class,
 		QueenMoveGeneratorTest.class, RookMoveGeneratorTest.class, MoveGeneratorEnPassantImpTest.class })
-public class PseudoMoveTestSuite {
+public class PseudoMoveGeneratorTestSuite {
 
 }
