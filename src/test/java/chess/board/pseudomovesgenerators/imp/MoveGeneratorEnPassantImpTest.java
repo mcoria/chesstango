@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import chess.board.moves.containsers.MovePair;
+import chess.board.moves.containers.MovePair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +21,6 @@ import chess.board.moves.Move;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.PositionState;
-import chess.board.pseudomovesgenerators.imp.MoveGeneratorEnPassantImp;
 
 /**
  * @author Mauricio Coria

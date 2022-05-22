@@ -10,9 +10,8 @@ import chess.board.iterators.Cardinal;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
-import chess.board.moves.MoveCastling;
-import chess.board.moves.containsers.MoveContainer;
-import chess.board.moves.containsers.MovePair;
+import chess.board.moves.containers.MoveList;
+import chess.board.moves.containers.MovePair;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 
@@ -43,7 +42,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		final long posicionRey = kingSquare.getPosicion();
 
-		Collection<Move> moves = new MoveContainer(CAPACITY_MOVE_CONTAINER);
+		Collection<Move> moves = new MoveList(CAPACITY_MOVE_CONTAINER);
 
 		getLegalMovesNotKingNotPinned(posicionesTurnoActual & ~pinnedSquares & ~posicionRey, moves);
 

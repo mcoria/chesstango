@@ -1,14 +1,10 @@
 package chess.board.pseudomovesgenerators.strategies;
 
-import java.util.Collection;
-
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.MoveCastling;
-import chess.board.moves.containsers.MoveContainer;
-import chess.board.moves.containsers.MovePair;
+import chess.board.moves.containers.MovePair;
 
 /**
  * @author Mauricio Coria

@@ -3,15 +3,12 @@
  */
 package chess.board.pseudomovesgenerators.imp;
 
-import java.util.Collection;
-
 import chess.board.Color;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.containsers.MoveContainer;
-import chess.board.moves.containsers.MovePair;
+import chess.board.moves.containers.MovePair;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacementReader;

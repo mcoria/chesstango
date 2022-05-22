@@ -9,7 +9,7 @@ import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
-import chess.board.moves.containsers.MovePair;
+import chess.board.moves.containers.MovePair;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;

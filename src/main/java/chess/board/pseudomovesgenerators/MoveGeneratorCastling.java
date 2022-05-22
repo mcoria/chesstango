@@ -3,10 +3,7 @@
  */
 package chess.board.pseudomovesgenerators;
 
-import java.util.Collection;
-
-import chess.board.moves.MoveCastling;
-import chess.board.moves.containsers.MovePair;
+import chess.board.moves.containers.MovePair;
 
 /**
  * @author Mauricio Coria

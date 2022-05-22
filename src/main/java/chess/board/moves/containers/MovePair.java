@@ -1,4 +1,4 @@
-package chess.board.moves.containsers;
+package chess.board.moves.containers;
 
 import chess.board.moves.Move;
 
