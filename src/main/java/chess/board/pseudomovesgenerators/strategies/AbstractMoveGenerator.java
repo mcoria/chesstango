@@ -24,9 +24,7 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	
 	protected MoveFactory moveFactory;
 	
-	protected MoveGeneratorResult result;
-	
-	public abstract void generateMovesPseudoMoves(PiecePositioned origen);
+	public abstract void generateMovesPseudoMoves(MoveGeneratorResult result);
 	
 	public AbstractMoveGenerator(Color color) {
 		this.color = color;
@@ -35,10 +33,9 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	//TODO: revisar como estamos haciendo el settup de MoveGeneratorResult(), quizas conviene un metodo abstracto
 	@Override
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned from){
-		this.result = new MoveGeneratorResult();
-		this.result.setFrom(from);
-		generateMovesPseudoMoves(from);
-		return this.result;
+		MoveGeneratorResult result = new MoveGeneratorResult(from);
+		generateMovesPseudoMoves(result);
+		return result;
 	}
 
 	public void setPiecePlacement(PiecePlacementReader piecePlacement) {

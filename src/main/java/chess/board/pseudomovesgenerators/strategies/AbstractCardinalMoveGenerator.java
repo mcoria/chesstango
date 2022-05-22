@@ -8,6 +8,7 @@ import chess.board.Square;
 import chess.board.iterators.Cardinal;
 import chess.board.iterators.square.CardinalSquareIterator;
 import chess.board.moves.Move;
+import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 
 
 /**
@@ -35,22 +36,23 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 
 	//TODO: explorar streams
 	@Override
-	public void generateMovesPseudoMoves(PiecePositioned origen) {
+	public void generateMovesPseudoMoves(MoveGeneratorResult result) {
 		for (Cardinal cardinal : this.directions) {
-			getPseudoMoves(origen, cardinal);
+			getPseudoMoves(result, cardinal);
 		}
 	}
 	
 	/*
 	 * Template method
 	 */	
-	protected void getPseudoMoves(PiecePositioned from, Cardinal cardinal) {
+	protected void getPseudoMoves(MoveGeneratorResult result, Cardinal cardinal) {
+		PiecePositioned from = result.getFrom();
 		Square squareFrom = from.getKey();
 		Iterator<Square> iterator = new CardinalSquareIterator(squareFrom, cardinal);
 		while (iterator.hasNext()) {
 			Square to = iterator.next();
-			this.result.affectedByContainerAdd(to);
-			this.result.capturedPositionsContainerAdd(to);
+			result.affectedByContainerAdd(to);
+			result.capturedPositionsContainerAdd(to);
 			Color colorDestino = colorBoard.getColor(to);
 			if (colorDestino == null) {
 				Move move = createSimpleMove(from, piecePlacement.getPosicion(to), cardinal);

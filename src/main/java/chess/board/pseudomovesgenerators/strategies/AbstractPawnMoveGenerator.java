@@ -5,6 +5,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
+import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria
@@ -38,10 +39,11 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMovesPseudoMoves(PiecePositioned origen){
+	public void generateMovesPseudoMoves(MoveGeneratorResult result){
+		PiecePositioned from = result.getFrom();
 		
 		int toRank = -1; //Just in case
-		Square casillero = origen.getKey();
+		Square casillero = from.getKey();
 		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
 		Square saltoDobleCasillero = getCasilleroSaltoDoble(casillero);
 		
@@ -53,15 +55,15 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		
 		if (saltoSimpleCasillero != null) {
 			destino = this.piecePlacement.getPosicion(saltoSimpleCasillero);
-			this.result.affectedByContainerAdd(saltoSimpleCasillero);
+			result.affectedByContainerAdd(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
-				Move moveSaltoSimple = this.createSimpleMove(origen, destino);
+				Move moveSaltoSimple = this.createSimpleMove(from, destino);
 				
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
-					addSaltoSimplePromocion(origen, destino);
+					addSaltoSimplePromocion(result, destino);
 				} else {
 					result.moveContainerAdd(moveSaltoSimple);
 					
@@ -70,7 +72,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 						result.affectedByContainerAdd(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
-							Move moveSaltoDoble = this.createSaltoDoblePawnMove(origen, destino, saltoSimpleCasillero);
+							Move moveSaltoDoble = this.createSaltoDoblePawnMove(from, destino, saltoSimpleCasillero);
 							result.moveContainerAdd(moveSaltoDoble);
 						}
 					}					
@@ -80,16 +82,16 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueIzquirda != null) {			
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueIzquirda);
-			this.result.affectedByContainerAdd(casilleroAtaqueIzquirda);
-			this.result.capturedPositionsContainerAdd(casilleroAtaqueIzquirda);
+			result.affectedByContainerAdd(casilleroAtaqueIzquirda);
+			result.capturedPositionsContainerAdd(casilleroAtaqueIzquirda);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura = this.createCaptureMoveIzquierda(origen, destino);
+				Move moveCaptura = this.createCaptureMoveIzquierda(from, destino);
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
-					addCapturaPromocion(origen, destino);
+					addCapturaPromocion(result, destino);
 				} else {
 					result.moveContainerAdd(moveCaptura);
 				}
@@ -99,16 +101,16 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueDerecha != null) {
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueDerecha);
-			this.result.affectedByContainerAdd(casilleroAtaqueDerecha);
-			this.result.capturedPositionsContainerAdd(casilleroAtaqueDerecha);
+			result.affectedByContainerAdd(casilleroAtaqueDerecha);
+			result.capturedPositionsContainerAdd(casilleroAtaqueDerecha);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura =  this.createCaptureMoveDerecha(origen, destino);
+				Move moveCaptura =  this.createCaptureMoveDerecha(from, destino);
 
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
-					addCapturaPromocion(origen, destino);
+					addCapturaPromocion(result, destino);
 				} else {
 					result.moveContainerAdd(moveCaptura);
 				}
@@ -116,17 +118,19 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		}
 	}
 
-	private void addSaltoSimplePromocion(PiecePositioned origen, PiecePositioned destino) {
+	private void addSaltoSimplePromocion(MoveGeneratorResult result, PiecePositioned destino) {
+		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			this.result.moveContainerAdd(this.moveFactory.createSimplePawnPromocion(origen, destino, promociones[i]));
+			result.moveContainerAdd(this.moveFactory.createSimplePawnPromocion(from, destino, promociones[i]));
 		}
 	}
 	
-	private void addCapturaPromocion(PiecePositioned origen, PiecePositioned destino) {
+	private void addCapturaPromocion(MoveGeneratorResult result, PiecePositioned destino) {
+		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			this.result.moveContainerAdd(this.moveFactory.createCapturePawnPromocion(origen, destino, promociones[i]));
+			result.moveContainerAdd(this.moveFactory.createCapturePawnPromocion(from, destino, promociones[i]));
 		}
 	}
 

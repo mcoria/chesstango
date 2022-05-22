@@ -14,7 +14,7 @@ import chess.board.moves.containers.MoveList;
  */
 public class MoveGeneratorResult {
 	
-	private PiecePositioned from;
+	private final PiecePositioned from;
 	
 	private final MoveList moveContainer;
 	
@@ -22,8 +22,9 @@ public class MoveGeneratorResult {
 	
 	private long capturedPositions;
 
-	public MoveGeneratorResult() {
+	public MoveGeneratorResult(PiecePositioned from) {
 		moveContainer = new MoveList();
+		this.from = from;
 	}
 	
 	public MoveList getPseudoMoves(){
@@ -48,10 +49,6 @@ public class MoveGeneratorResult {
 
 	public PiecePositioned getFrom() {
 		return from;
-	}
-
-	public void setFrom(PiecePositioned from) {
-		this.from = from;
 	}
 	
 	public long getCapturedPositions() {
