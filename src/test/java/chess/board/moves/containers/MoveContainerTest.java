@@ -10,6 +10,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveContainerTest {
 
     private MoveContainer moveContainerImp;

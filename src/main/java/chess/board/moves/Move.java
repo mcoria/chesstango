@@ -9,10 +9,9 @@ import chess.board.position.imp.ColorBoard;
 import chess.board.position.imp.MoveCacheBoard;
 import chess.board.position.imp.PositionState;
 
-//TOOD: Y si en vez de PosicionPieza utilizamos Square para To?
+//TODO: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a square vacios
 //      Tiene sentido puesto que las capturas solo son contra piezas contrarias, sin importar que pieza es.
-
 //TODO: y se implementamos un cache de movimientos? Implementar flyweight  pattern
 //TODO: implementar Factory para crear objetos, la creacion esta repartida por todas partes y habria que desacoplarla de move generators
 // 		ademas con Decorartor se complic por ejemplo:

@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class MoveContainer implements MoveContainerReader {
 
     private int size = 0;
