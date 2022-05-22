@@ -37,6 +37,7 @@ public class MoveContainerTest {
             }
         }
         Assert.assertEquals(move1, foundMove);
+        Assert.assertEquals(1, moveContainer.size());
     }
 
     @Test
@@ -58,6 +59,7 @@ public class MoveContainerTest {
             }
         }
         Assert.assertEquals(move1, foundMove1);
+        Assert.assertEquals(1, moveContainer.size());
     }
 
     @Test
@@ -88,6 +90,7 @@ public class MoveContainerTest {
 
         Assert.assertEquals(move1, foundMove1);
         Assert.assertEquals(move2, foundMove2);
+        Assert.assertEquals(2, moveContainer.size());
     }
 
 }

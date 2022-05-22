@@ -8,6 +8,8 @@ import java.util.List;
 
 public class MoveContainer implements Iterable<Move> {
 
+    private int size = 0;
+
     private enum IteratorSate{READING_MOVELIST, READING_CONTAINERLIST, READING_END};
 
     private List<MoveList> moveLists = new LinkedList<MoveList>();
@@ -16,12 +18,16 @@ public class MoveContainer implements Iterable<Move> {
 
 
     public void add(MoveList moveList) {
+        size += moveList.size();
         moveLists.add(moveList);
     }
 
     public void add(Move move) {
+        size ++;
         moveList.add(move);
     }
+
+    public int size() { return size; }
 
     @Override
     public Iterator<Move> iterator() {
