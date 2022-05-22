@@ -1,10 +1,8 @@
 package chess.board.analyzer;
 
-import java.util.Collection;
-
 import chess.board.GameState;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
-import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
@@ -28,8 +26,8 @@ public class PositionAnalyzer {
 	
 	public GameState.GameStatus updateGameStatus() {
 		AnalyzerResult analysis = analyze();
-		
-		Collection<Move> legalMoves = legalMoveGenerator.getLegalMoves(analysis);
+
+		MoveContainerReader legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 		
 		boolean existsLegalMove = !legalMoves.isEmpty();
 		

@@ -3,24 +3,22 @@
  */
 package chess.board.legalmovesgenerators.imp;
 
-import java.util.Collection;
-
 import chess.board.analyzer.AnalyzerResult;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
-import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class LegalMoveGeneratorImp implements LegalMoveGenerator{
+public class LegalMoveGeneratorImp implements LegalMoveGenerator {
 
 	private LegalMoveGenerator checkMoveGenerator;
 	
 	private LegalMoveGenerator noCheckLegalMoveGenerator;	
 
 	@Override
-	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
+	public MoveContainerReader getLegalMoves(AnalyzerResult analysis) {
 		if(analysis.isKingInCheck()){
 			return checkMoveGenerator.getLegalMoves(analysis);
 		}

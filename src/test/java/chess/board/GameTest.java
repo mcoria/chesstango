@@ -6,8 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
-
+import chess.board.moves.containers.MoveContainerReader;
 import org.junit.Test;
 
 import chess.board.builder.imp.GameBuilder;
@@ -493,7 +492,7 @@ public class GameTest {
 	
 	@Test
 	public void testJuegoEnPassantUndo() {
-		Collection<Move> legalMoves = null;
+		MoveContainerReader legalMoves = null;
 
 		Game game = getGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 		
@@ -523,7 +522,7 @@ public class GameTest {
 
 	@Test
 	public void testJuegoEnPassant01() {
-		Collection<Move> legalMoves = null;
+		MoveContainerReader legalMoves = null;
 		
 		Game game = getGame("rnbqkbnr/pppppppp/8/1P6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 
@@ -553,7 +552,7 @@ public class GameTest {
 	}
 	
 	
-	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
+	protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
 		for (Move move : movimientos) {
 			if (from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())) {
 				return true;

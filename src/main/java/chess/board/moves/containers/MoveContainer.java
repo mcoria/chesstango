@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MoveContainer implements Iterable<Move> {
+public class MoveContainer implements MoveContainerReader {
 
     private int size = 0;
 
@@ -27,7 +27,26 @@ public class MoveContainer implements Iterable<Move> {
         moveList.add(move);
     }
 
+    @Override
     public int size() { return size; }
+
+
+    @Override
+    public boolean isEmpty() { return size == 0;}
+
+    @Override
+    public boolean contains(Move move) {
+        if(moveList.contains(move)){
+            return true;
+        }
+        for (MoveList movelist:
+            moveLists) {
+            if(movelist.contains(move)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public Iterator<Move> iterator() {

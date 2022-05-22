@@ -18,6 +18,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 import chess.board.position.ChessPositionReader;
 
 /**
@@ -46,7 +47,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 
 		List<Move> posibleMoves = null;
 
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		boolean breakLoop = false;
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
@@ -82,7 +83,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 
 		List<Move> posibleMoves = null;
 
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		boolean breakLoop = false;
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
@@ -113,7 +114,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 
 	private int minimize(Game game, int currentLevel, final int alpha, final int beta) {
 		int bestBeta = Integer.MAX_VALUE;
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
 			bestBeta = evaluate(game, maxLevel - currentLevel);
 		} else {
@@ -143,7 +144,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 
 	private int maximize(Game game, int currentLevel, final int alpha, final int beta) {
 		int bestAlpha = Integer.MIN_VALUE;
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
 			bestAlpha = evaluate(game, maxLevel - currentLevel);
 		} else {

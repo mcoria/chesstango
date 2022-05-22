@@ -23,7 +23,7 @@ public class Dummy implements BestMoveFinder{
 
 	@Override
 	public Move findBestMove(Game game) {
-		Collection<Move> moves = game.getPossibleMoves();
+		Iterable<Move> moves = game.getPossibleMoves();
 
 		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
 

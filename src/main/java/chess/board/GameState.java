@@ -4,21 +4,21 @@
 package chess.board;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.Deque;
 
 import chess.board.analyzer.AnalyzerResult;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 
 public class GameState {
 	private AnalyzerResult analyzerResult;
-	private Collection<Move> legalMoves;
+	private MoveContainerReader legalMoves;
 	private Move selectedMove;
 	private GameState.GameStatus status;
 	
 	private static class Node {
 		private AnalyzerResult analyzerResult;
-		private Collection<Move> legalMoves;
+		private MoveContainerReader legalMoves;
 		private Move movimientoSeleccionado;
 		private GameState.GameStatus status;		
 	}
@@ -48,11 +48,11 @@ public class GameState {
 		this.status = status;
 	}
 	
-	public Collection<Move> getLegalMoves() {
+	public MoveContainerReader getLegalMoves() {
 		return legalMoves;
 	}
 
-	public void setLegalMoves(Collection<Move> legalMoves) {
+	public void setLegalMoves(MoveContainerReader legalMoves) {
 		this.legalMoves = legalMoves;
 	}	
 

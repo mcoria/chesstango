@@ -9,6 +9,8 @@ import chess.board.iterators.square.SquareIterator;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainer;
+import chess.board.moves.containers.MoveList;
 import chess.board.moves.containers.MovePair;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.MoveGenerator;
@@ -32,7 +34,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		this.filter = filter;
 	}
 
-	protected Collection<Move> getPseudoMoves(PiecePositioned origen) {
+	protected MoveList getPseudoMoves(PiecePositioned origen) {
 		MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(origen);
 		return generatorResult.getPseudoMoves();
 	}
@@ -60,12 +62,12 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		return posicionesCapturadas;		
 	}
 
-	protected void getEnPassantMoves(Collection<Move> moves) {
+	protected void getEnPassantMoves(MoveContainer moves) {
 		final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
 		filterMoveCollection(pseudoMoves, moves);
 	}
 
-	protected void filterMovePair(MovePair movePairToFilter, Collection<Move> collectionToAdd) {
+	protected void filterMovePair(MovePair movePairToFilter, MoveContainer collectionToAdd) {
 		if(movePairToFilter != null){
 			final Move first = movePairToFilter.getFirst();
 			final Move second = movePairToFilter.getSecond();
@@ -80,7 +82,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		}
 	}
 
-	protected void filterMoveCollection(Iterable<? extends Move> moveCollectionToFilter, Collection<Move> collectionToAdd){
+	protected void filterMoveCollection(Iterable<? extends Move> moveCollectionToFilter, MoveContainer collectionToAdd){
 		if(moveCollectionToFilter != null) {
 			for (Move move : moveCollectionToFilter) {
 				filter(move, collectionToAdd);
@@ -88,7 +90,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		}
 	}
 
-	protected void filter(Move move, Collection<Move> collectionToAdd) {
+	protected void filter(Move move, MoveContainer collectionToAdd) {
 		if(move.filter(filter)){
 			collectionToAdd.add(move);
 		}

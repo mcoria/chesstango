@@ -1,7 +1,6 @@
 package chess.board.perft.imp;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.Map;
 import chess.board.Game;
 import chess.board.fen.FENEncoder;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 import chess.board.perft.Perft;
 import chess.board.perft.PerftResult;
 
@@ -47,8 +47,8 @@ public class PerftWithMap implements Perft  {
 
 		long totalNodes = 0;
 
-		
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+
+		Iterable<Move> movimientosPosible = game.getPossibleMoves();
 		
 		
 		if (maxLevel == 1) {
@@ -88,7 +88,7 @@ public class PerftWithMap implements Perft  {
 	private int visitChilds(Game game, int level) {
 		int totalNodes = 0;
 
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		if (level < this.maxLevel) {
 			Map<String, Integer> nodeMap = nodeListMap.get(level);

@@ -6,25 +6,16 @@ package chess.board.moves.containers;
 import chess.board.moves.Move;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveList extends ArrayList<Move> {
-
+public class MoveList extends LinkedList<Move> {
 
 	private static final long serialVersionUID = 1L;
 
-
-	public MoveList() {
-		super();
-	}
-
-
-	public MoveList(int initialCapacity) {
-		super(initialCapacity);
-	}
 
 	@Override
 	public String toString() {

@@ -12,13 +12,13 @@ import org.junit.Test;
 
 public class MoveContainerTest {
 
-    private MoveContainer moveContainer;
+    private MoveContainer moveContainerImp;
 
     private MoveFactory factory;
 
     @Before
     public void setUp() throws Exception {
-        moveContainer = new MoveContainer();
+        moveContainerImp = new MoveContainer();
         factory = new MoveFactoryWhite();
     }
 
@@ -28,16 +28,16 @@ public class MoveContainerTest {
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
 
         Move move1 = factory.createSimpleMove(origen, destino);
-        moveContainer.add(move1);
+        moveContainerImp.add(move1);
 
         Move foundMove = null;
-        for(Move move: moveContainer){
+        for(Move move: moveContainerImp){
             if(move1.equals(move)){
                 foundMove = move;
             }
         }
         Assert.assertEquals(move1, foundMove);
-        Assert.assertEquals(1, moveContainer.size());
+        Assert.assertEquals(1, moveContainerImp.size());
     }
 
     @Test
@@ -50,16 +50,16 @@ public class MoveContainerTest {
         MoveList moveList = new MoveList();
         moveList.add(move1);
 
-        moveContainer.add(moveList);
+        moveContainerImp.add(moveList);
 
         Move foundMove1 = null;
-        for(Move move: moveContainer){
+        for(Move move: moveContainerImp){
             if(move1.equals(move)){
                 foundMove1 = move;
             }
         }
         Assert.assertEquals(move1, foundMove1);
-        Assert.assertEquals(1, moveContainer.size());
+        Assert.assertEquals(1, moveContainerImp.size());
     }
 
     @Test
@@ -69,17 +69,17 @@ public class MoveContainerTest {
         Move move1 = factory.createSimpleMove(origen, destino1);
         MoveList moveList1 = new MoveList();
         moveList1.add(move1);
-        moveContainer.add(moveList1);
+        moveContainerImp.add(moveList1);
 
         PiecePositioned destino2 = PiecePositioned.getPiecePositioned(Square.e8, null);
         Move move2 = factory.createSimpleMove(origen, destino2);
         MoveList moveList2 = new MoveList();
         moveList2.add(move2);
-        moveContainer.add(moveList2);
+        moveContainerImp.add(moveList2);
 
         Move foundMove1 = null;
         Move foundMove2= null;
-        for(Move move: moveContainer){
+        for(Move move: moveContainerImp){
             if(move1.equals(move)){
                 foundMove1 = move;
             }
@@ -90,7 +90,7 @@ public class MoveContainerTest {
 
         Assert.assertEquals(move1, foundMove1);
         Assert.assertEquals(move2, foundMove2);
-        Assert.assertEquals(2, moveContainer.size());
+        Assert.assertEquals(2, moveContainerImp.size());
     }
 
 }

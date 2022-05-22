@@ -15,6 +15,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 import chess.board.position.ChessPositionReader;
 
 /**
@@ -34,7 +35,7 @@ public class SmartMinMax implements BestMoveFinder {
 		List<Move> posibleMoves = new ArrayList<Move>();
 		//Move selectedMove = null;
 
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
 
@@ -67,7 +68,7 @@ public class SmartMinMax implements BestMoveFinder {
 
 	private int minMax(Game game, int currentLevel, boolean minOrMax) {
 		int betterEvaluation = minOrMax ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-		Collection<Move> movimientosPosible = game.getPossibleMoves();
+		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
 			betterEvaluation = evaluate(game, maxLevel - currentLevel);
 		} else {

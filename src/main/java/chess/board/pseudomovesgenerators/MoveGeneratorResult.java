@@ -16,7 +16,7 @@ public class MoveGeneratorResult {
 	
 	private PiecePositioned from;
 	
-	private final Collection<Move> moveContainer;
+	private final MoveList moveContainer;
 	
 	private long affectedByContainer;
 	
@@ -26,7 +26,7 @@ public class MoveGeneratorResult {
 		moveContainer = new MoveList();
 	}
 	
-	public Collection<Move> getPseudoMoves(){
+	public MoveList getPseudoMoves(){
 		return moveContainer;
 	}
 

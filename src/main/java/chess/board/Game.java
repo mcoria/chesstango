@@ -1,9 +1,8 @@
 package chess.board;
 
-import java.util.Collection;
-
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 import chess.board.position.ChessPosition;
 import chess.board.position.ChessPositionReader;
 
@@ -76,7 +75,7 @@ public class Game {
 		return chessPosition.toString();
 	}
 
-	public Collection<Move> getPossibleMoves() {
+	public MoveContainerReader getPossibleMoves() {
 		return gameState.getLegalMoves();
 	}
 

@@ -3,8 +3,7 @@ package chess.board.perft;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.util.Collection;
-
+import chess.board.moves.containers.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -211,7 +210,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	}
 
 
-	//Test //394segs 279segs 217segs
+	//Test //394segs 279segs 217segs 196segs
 	public void test_divide7() {
 		PerftResult result = pert.start(board, 7);
 		
@@ -330,7 +329,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	}
 
 	
-	protected boolean contieneMove(Collection<Move> movimientos, Square from, Square to) {
+	protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
 		for (Move move : movimientos) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				return true;

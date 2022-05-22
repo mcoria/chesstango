@@ -5,9 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
-
 import chess.board.iterators.Cardinal;
+import chess.board.moves.containers.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,9 +57,9 @@ public class ChessPositionTest {
 	
 	@Test
 	public void testDefaultPosition() {		
-		settupWithDefaultBoard();	
-		
-		Collection<Move> moves = gameState.getLegalMoves();
+		settupWithDefaultBoard();
+
+		MoveContainerReader moves = gameState.getLegalMoves();
 		
 		assertTrue(moves.contains( createSimpleMove(Square.a2, Piece.PAWN_WHITE, Square.a3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Piece.PAWN_WHITE, Square.a4, Square.a3) ));
@@ -106,7 +105,7 @@ public class ChessPositionTest {
 	public void testKingInCheck01() {
 		settupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
-		Collection<Move> moves = gameState.getLegalMoves();
+		MoveContainerReader moves = gameState.getLegalMoves();
 
 		assertEquals(Color.BLACK, chessPosition.getTurnoActual());
 		assertTrue(analyzerResult.isKingInCheck());
@@ -127,7 +126,7 @@ public class ChessPositionTest {
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
-		Collection<Move> moves = gameState.getLegalMoves();
+		MoveContainerReader moves = gameState.getLegalMoves();
 
 		assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3)));
 		assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3)));
@@ -148,7 +147,7 @@ public class ChessPositionTest {
 		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
 		assertTrue(result.isKingInCheck());
 
-		Collection<Move> moves = gameState.getLegalMoves();
+		MoveContainerReader moves = gameState.getLegalMoves();
 
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d1)));
 		assertTrue(moves.contains(createSimpleKingMoveWhite(Square.e1, Square.d2)));
@@ -166,7 +165,7 @@ public class ChessPositionTest {
 	public void testJuegoPawnPromocion() {
 		settupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
-		Collection<Move> moves = gameState.getLegalMoves();
+		MoveContainerReader moves = gameState.getLegalMoves();
 
 		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
 				Piece.ROOK_BLACK)));
@@ -196,8 +195,8 @@ public class ChessPositionTest {
 	@Test
 	public void testKingNoPuedeMoverAJaque(){
 		settupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
-		
-		Collection<Move> moves = gameState.getLegalMoves();
+
+		MoveContainerReader moves = gameState.getLegalMoves();
 		
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f2)));
 		assertFalse(moves.contains(createSimpleMove(Square.e1, Piece.KING_WHITE, Square.f1)));
@@ -210,8 +209,8 @@ public class ChessPositionTest {
 	@Test
 	public void testMovimientoEnPassantNoAllowed(){
 		settupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
-		
-		Collection<Move> moves = gameState.getLegalMoves();
+
+		MoveContainerReader moves = gameState.getLegalMoves();
 		
 		assertFalse(moves.contains(createCaptureEnPassantMoveBlack(Square.f4, Square.g3)));
 		

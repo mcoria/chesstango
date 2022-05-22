@@ -1,9 +1,7 @@
 package chess.board.legalmovesgenerators;
 
-import java.util.Collection;
-
 import chess.board.analyzer.AnalyzerResult;
-import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
 
 // Doble  Jaque 										-> Mover el King. 								El castling no est� permitido.
 // Simple Jaque (Rook; Bishop; Queen; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover king. El castling no est� permitido.
@@ -23,5 +21,5 @@ public interface LegalMoveGenerator {
 	// En movimiento anterior Queen Negra se movi� desde h7 a e7 y ahora el king blanco e1 queda en jaque.
 	// Solo movimiento de torre a5 e5 es VALIDO, el resto deja al king en Jaque
 	// Esto quiere decir que una vez obtenidos todos los movimientos pseudo debemos filtrarlos SI o SI	
-	Collection<Move> getLegalMoves(AnalyzerResult analysis);
+	MoveContainerReader getLegalMoves(AnalyzerResult analysis);
 }

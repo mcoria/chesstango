@@ -10,6 +10,8 @@ import chess.board.iterators.Cardinal;
 import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
+import chess.board.moves.containers.MoveContainerReader;
+import chess.board.moves.containers.MoveContainer;
 import chess.board.moves.containers.MoveList;
 import chess.board.moves.containers.MovePair;
 import chess.board.position.ChessPositionReader;
@@ -31,7 +33,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 	@Override
-	public Collection<Move> getLegalMoves(AnalyzerResult analysis) {
+	public MoveContainerReader getLegalMoves(AnalyzerResult analysis) {
 		final Square kingSquare = getCurrentKingSquare();
 
 		final Color turnoActual = this.positionReader.getTurnoActual();
@@ -42,7 +44,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		final long posicionRey = kingSquare.getPosicion();
 
-		Collection<Move> moves = new MoveList(CAPACITY_MOVE_CONTAINER);
+		MoveContainer moves = new MoveContainer();
 
 		getLegalMovesNotKingNotPinned(posicionesTurnoActual & ~pinnedSquares & ~posicionRey, moves);
 
@@ -58,21 +60,21 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 
-	protected Collection<Move> getLegalMovesNotKingNotPinned(long posicionesSafe, Collection<Move> moves) {
+	protected MoveContainer getLegalMovesNotKingNotPinned(long posicionesSafe, MoveContainer moves) {
 
 		for (PiecePlacementIterator iterator = this.positionReader.iterator(posicionesSafe) ; iterator.hasNext();) {
 
 			PiecePositioned origen = iterator.next();
 
-			Collection<Move> pseudoMoves = getPseudoMoves(origen);
+			MoveList pseudoMoves = getPseudoMoves(origen);
 
-			moves.addAll(pseudoMoves);
+			moves.add(pseudoMoves);
 		}
 
 		return moves;
 	}
 
-	protected Collection<Move> getLegalMovesNotKingPinned(AnalyzerResult analysis, Collection<Move> moves) {
+	protected MoveContainer getLegalMovesNotKingPinned(AnalyzerResult analysis, MoveContainer moves) {
 		analysis.getPinnedPositionCardinals().forEach( pinnedPositionCardinal -> {
 			getPseudoMoves(pinnedPositionCardinal.getKey())
 					.stream()
@@ -86,7 +88,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 
-	protected Collection<Move> getLegalMovesKing(Collection<Move> moves) {
+	protected MoveContainer getLegalMovesKing(MoveContainer moves) {
 		Square 	kingSquare = getCurrentKingSquare();
 
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
@@ -111,7 +113,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 	 */
 
-	protected void getCastlingMoves(Collection<Move> moves) {
+	protected void getCastlingMoves(MoveContainer moves) {
 		final MovePair pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
 		filterMoveCollection(pseudoMoves, moves);
 	}
