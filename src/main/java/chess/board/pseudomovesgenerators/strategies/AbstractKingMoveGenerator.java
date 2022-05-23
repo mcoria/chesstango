@@ -4,6 +4,7 @@ import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.square.JumpSquareIterator;
+import chess.board.iterators.square.KingJumpSquareIterator;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 import chess.board.pseudomovesgenerators.MoveGeneratorCastling;
@@ -20,16 +21,6 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	protected PositionState positionState;
 	
 	protected KingCacheBoard kingCacheBoard;
-	
-	public final static int[][] SALTOS_KING = { { 0, 1 }, // Norte
-			{ 1, 1 },   // NE
-			{ -1, 1 },  // NO
-			{ 0, -1 },  // Sur
-			{ 1, -1 },  // SE
-			{ -1, -1 }, // SO
-			{ 1, 0 },   // Este
-			{ -1, 0 },  // Oeste
-	};
 	
 	public AbstractKingMoveGenerator(Color color) {
 		super(color);
@@ -71,7 +62,7 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 
 	@Override
 	protected Iterator<Square> getSquareIterator(Square fromSquare) {
-		return new JumpSquareIterator(fromSquare, SALTOS_KING);
+		return new KingJumpSquareIterator(fromSquare);
 	}
 
 	public void setBoardState(PositionState positionState) {

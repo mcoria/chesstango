@@ -4,6 +4,7 @@ import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.square.JumpSquareIterator;
+import chess.board.iterators.square.KnightJumpSquareIterator;
 import chess.board.moves.Move;
 
 import java.util.Iterator;
@@ -14,24 +15,6 @@ import java.util.Iterator;
  *
  */
 public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
-	
-	public final static int[][] KNIGHT_JUMPS = {
-			//Arriba
-			{ -1, 2 }, 
-			{ 1, 2 },
-			
-			//Derecha
-			{ 2, -1 },
-			{ 2, 1 },
-			
-			//Izquierda
-			{ -2, -1 },
-			{ -2, 1 },
-			
-			//Abajo
-			{ -1, -2 }, 
-			{ 1, -2 },
-	};	
 	
 	public KnightMoveGenerator(Color color) {
 		super(color);
@@ -50,7 +33,7 @@ public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 
 	@Override
 	protected Iterator<Square> getSquareIterator(Square fromSquare) {
-		return new JumpSquareIterator(fromSquare, KNIGHT_JUMPS);
+		return new KnightJumpSquareIterator(fromSquare);
 	}
 
 }

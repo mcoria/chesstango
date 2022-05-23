@@ -23,7 +23,7 @@ public class JumpSquareIterator03Test {
 		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, KnightMoveGenerator.KNIGHT_JUMPS);
+			JumpSquareIterator iterator = new JumpSquareIterator(square, KnightJumpSquareIterator.KNIGHT_JUMPS);
 			long posicionesSalto = 0;
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();
@@ -42,7 +42,7 @@ public class JumpSquareIterator03Test {
 		long[] arraySaltos = new long[64];
 		for(int idx = 0; idx < 64; idx++){
 			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, AbstractKingMoveGenerator.SALTOS_KING);
+			JumpSquareIterator iterator = new JumpSquareIterator(square, KingJumpSquareIterator.SALTOS_KING);
 			long posicionesSalto = 0;
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();

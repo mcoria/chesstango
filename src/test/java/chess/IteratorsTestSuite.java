@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ TopDownSquareIteratorTest.class, BitSquareIteratorTest.class, TopDownSquareIteratorTest.class,
 		BottomUpSquareIteratorTest.class, CardinalSquareIterator01Test.class, CardinalSquareIterator02Test.class,
-		JumpSquareIterator01Test.class, JumpSquareIterator02Test.class})
+		KingJumpSquareIteratorTest.class, KnightJumpSquareIteratorTest.class})
 public class IteratorsTestSuite {
 
 }
