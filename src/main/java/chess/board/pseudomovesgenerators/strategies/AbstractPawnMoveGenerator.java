@@ -39,8 +39,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 	}
 	
 	@Override
-	public void generateMovesPseudoMoves(MoveGeneratorResult result){
-		PiecePositioned from = result.getFrom();
+	public MoveGeneratorResult generatePseudoMoves(PiecePositioned from){
+		MoveGeneratorResult result = new MoveGeneratorResult(from);
 		
 		int toRank = -1; //Just in case
 		Square casillero = from.getKey();
@@ -116,6 +116,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 				}
 			}
 		}
+
+		return result;
 	}
 
 	private void addSaltoSimplePromocion(MoveGeneratorResult result, PiecePositioned destino) {

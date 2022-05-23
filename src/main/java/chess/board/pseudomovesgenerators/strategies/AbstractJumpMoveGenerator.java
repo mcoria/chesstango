@@ -29,8 +29,8 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	//El calculo de movimientos lo puede hacer en funcion de ColorBoard
 	
 	@Override
-	public void generateMovesPseudoMoves(MoveGeneratorResult result) {
-		PiecePositioned from = result.getFrom();
+	public MoveGeneratorResult generatePseudoMoves(PiecePositioned from){
+		MoveGeneratorResult result = new MoveGeneratorResult(from);
 		Square fromSquare = from.getKey();
 		Iterator<Square> iterator = new JumpSquareIterator(fromSquare, saltos);
 		while (iterator.hasNext()) {
@@ -48,6 +48,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 				// continue;
 				// }
 		}
+		return result;
 	}
 
 }

@@ -6,7 +6,6 @@ package chess.board.moves.containers;
 import chess.board.moves.Move;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * @author Mauricio Coria
