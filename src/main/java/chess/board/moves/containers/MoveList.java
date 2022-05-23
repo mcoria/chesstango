@@ -12,7 +12,7 @@ import java.util.LinkedList;
  * @author Mauricio Coria
  *
  */
-public class MoveList extends LinkedList<Move> {
+public class MoveList extends ArrayList<Move> {
 
 	private static final long serialVersionUID = 1L;
 

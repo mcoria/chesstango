@@ -35,15 +35,15 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 		Iterator<Square> iterator = new JumpSquareIterator(fromSquare, saltos);
 		while (iterator.hasNext()) {
 			Square to = iterator.next();
-			result.affectedByContainerAdd(to);
-			result.capturedPositionsContainerAdd(to);
+			result.addAffectedByPositions(to);
+			result.addCapturedPositions(to);
 			Color colorDestino = colorBoard.getColor(to);
 			if (colorDestino == null) {
 				Move move = createSimpleMove(from, piecePlacement.getPosicion(to));
-				result.moveContainerAdd(move);
+				result.addPseudoMove(move);
 			} else if (color.oppositeColor().equals(colorDestino)) {
 				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
-				result.moveContainerAdd(move);
+				result.addPseudoMove(move);
 			} // else if(color.equals(pieza.getColor())){
 				// continue;
 				// }

@@ -1,7 +1,5 @@
 package chess.board.pseudomovesgenerators;
 
-import java.util.Collection;
-
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
@@ -23,38 +21,37 @@ public class MoveGeneratorResult {
 	private long capturedPositions;
 
 	public MoveGeneratorResult(PiecePositioned from) {
-		moveContainer = new MoveList();
+		this.moveContainer = new MoveList();
 		this.from = from;
 	}
-	
+
+	public void addPseudoMove(Move move) {
+		moveContainer.add(move);
+	}
+
 	public MoveList getPseudoMoves(){
 		return moveContainer;
 	}
 
-	public long getAffectedBy() {
-		return affectedByContainer;
-	}
-	
-	public void affectedByContainerAdd(Square key) {
+	public void addAffectedByPositions(Square key) {
 		affectedByContainer |= key.getPosicion();
 	}
-	
-	public void capturedPositionsContainerAdd(Square key) {
-		capturedPositions |= key.getPosicion();
-	}		
-	
-	public void moveContainerAdd(Move move) {
-		moveContainer.add(move);
+	public long getAffectedByPositions() {
+		return affectedByContainer;
 	}
+
+	public void addCapturedPositions(Square key) {
+		capturedPositions |= key.getPosicion();
+	}
+	public long getCapturedPositions() {
+		return capturedPositions;
+	}
+
 
 	public PiecePositioned getFrom() {
 		return from;
 	}
-	
-	public long getCapturedPositions() {
-		return capturedPositions;
-	}
-	
+
 	@Override
 	public String toString() {
 		return moveContainer.toString();

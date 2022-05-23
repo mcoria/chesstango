@@ -40,7 +40,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 		//Validate affectedBy[]
 		for(int i = 0; i < 64; i++){
 			if(pseudoMoves[i] != null) {
-				long affectedBySquares = pseudoMoves[i].getAffectedBy();
+				long affectedBySquares = pseudoMoves[i].getAffectedByPositions();
 				for(int j = 0; j < 64; j++){
 					if( (affectedBySquares & (1L << j))  != 0 ) {
 						if((affects[j] & (1L << i)) == 0){
@@ -56,7 +56,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 			long affectsSquares = affects[i];
 			for(int j = 0; j < 64; j++){
 				if( (affectsSquares & (1L << j)) != 0 ) {
-					if((pseudoMoves[j].getAffectedBy() & (1L << i)) == 0){
+					if((pseudoMoves[j].getAffectedByPositions() & (1L << i)) == 0){
 						throw new RuntimeException("MoveCacheBoard checkConsistence failed");
 					}
 				}

@@ -82,7 +82,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 			throw new RuntimeException("Hay inconsistencia en el cache de movimientos pseudo");
 		}
 		
-		if(expectedMoveGeneratorResults.getAffectedBy() != cacheMoveGeneratorResult.getAffectedBy()){
+		if(expectedMoveGeneratorResults.getAffectedByPositions() != cacheMoveGeneratorResult.getAffectedByPositions()){
 			throw new RuntimeException("AffectedBy no coinciden");
 		}		
 	}	

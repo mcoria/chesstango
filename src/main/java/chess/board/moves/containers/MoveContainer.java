@@ -14,8 +14,6 @@ public class MoveContainer implements MoveContainerReader {
 
     private int size = 0;
 
-    private enum IteratorSate{READING_MOVELIST, READING_CONTAINERLIST, READING_END};
-
     private List<MoveList> moveLists = new LinkedList<MoveList>();
 
     private List<Move> moveList = new LinkedList<Move>();
@@ -52,6 +50,7 @@ public class MoveContainer implements MoveContainerReader {
         return false;
     }
 
+    private enum IteratorSate{READING_MOVELIST, READING_CONTAINERLIST, READING_END};
     @Override
     public Iterator<Move> iterator() {
         return new Iterator<Move>() {
@@ -82,16 +81,16 @@ public class MoveContainer implements MoveContainerReader {
                 while(next == null && state != IteratorSate.READING_END) {
                     if(state==IteratorSate.READING_MOVELIST){
                         if(currentIterator.hasNext()){
-                            this.next = currentIterator.next();
+                            next = currentIterator.next();
                         } else {
                             state = IteratorSate.READING_CONTAINERLIST;
-                            computeNextIteratorFromContainers();
+                            computeNextIterator();
                         }
                     } else if(state==IteratorSate.READING_CONTAINERLIST){
                         if(currentIterator.hasNext()){
-                            this.next = currentIterator.next();
+                            next = currentIterator.next();
                         } else {
-                            computeNextIteratorFromContainers();
+                            computeNextIterator();
                         }
                     }
                     if(currentIterator == null) {
@@ -100,13 +99,12 @@ public class MoveContainer implements MoveContainerReader {
                 }
             }
 
-            private Iterator<Move> computeNextIteratorFromContainers() {
+            private void computeNextIterator() {
                 currentIterator = null;
                 if(currentMoveListIterator.hasNext()){
                     MoveList moveList = currentMoveListIterator.next();
                     currentIterator = moveList.iterator();
                 }
-                return currentIterator;
             }
         };
     }

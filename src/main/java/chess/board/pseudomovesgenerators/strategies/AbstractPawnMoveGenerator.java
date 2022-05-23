@@ -55,7 +55,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		
 		if (saltoSimpleCasillero != null) {
 			destino = this.piecePlacement.getPosicion(saltoSimpleCasillero);
-			result.affectedByContainerAdd(saltoSimpleCasillero);
+			result.addAffectedByPositions(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
 				Move moveSaltoSimple = this.createSimpleMove(from, destino);
@@ -65,15 +65,15 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 				if (toRank == 0 || toRank == 7) { // Es una promocion
 					addSaltoSimplePromocion(result, destino);
 				} else {
-					result.moveContainerAdd(moveSaltoSimple);
+					result.addPseudoMove(moveSaltoSimple);
 					
 					if (saltoDobleCasillero != null) {
 						destino = this.piecePlacement.getPosicion(saltoDobleCasillero);
-						result.affectedByContainerAdd(saltoDobleCasillero);
+						result.addAffectedByPositions(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
 							Move moveSaltoDoble = this.createSaltoDoblePawnMove(from, destino, saltoSimpleCasillero);
-							result.moveContainerAdd(moveSaltoDoble);
+							result.addPseudoMove(moveSaltoDoble);
 						}
 					}					
 				}
@@ -82,8 +82,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueIzquirda != null) {			
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueIzquirda);
-			result.affectedByContainerAdd(casilleroAtaqueIzquirda);
-			result.capturedPositionsContainerAdd(casilleroAtaqueIzquirda);
+			result.addAffectedByPositions(casilleroAtaqueIzquirda);
+			result.addCapturedPositions(casilleroAtaqueIzquirda);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
@@ -93,7 +93,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 				if (toRank == 0 || toRank == 7) { // Es una promocion
 					addCapturaPromocion(result, destino);
 				} else {
-					result.moveContainerAdd(moveCaptura);
+					result.addPseudoMove(moveCaptura);
 				}
 
 			}
@@ -101,8 +101,8 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 		if (casilleroAtaqueDerecha != null) {
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueDerecha);
-			result.affectedByContainerAdd(casilleroAtaqueDerecha);
-			result.capturedPositionsContainerAdd(casilleroAtaqueDerecha);
+			result.addAffectedByPositions(casilleroAtaqueDerecha);
+			result.addCapturedPositions(casilleroAtaqueDerecha);
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
@@ -112,7 +112,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 				if (toRank == 0 || toRank == 7) { // Es una promocion
 					addCapturaPromocion(result, destino);
 				} else {
-					result.moveContainerAdd(moveCaptura);
+					result.addPseudoMove(moveCaptura);
 				}
 			}
 		}
@@ -122,7 +122,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			result.moveContainerAdd(this.moveFactory.createSimplePawnPromocion(from, destino, promociones[i]));
+			result.addPseudoMove(this.moveFactory.createSimplePawnPromocion(from, destino, promociones[i]));
 		}
 	}
 	
@@ -130,7 +130,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			result.moveContainerAdd(this.moveFactory.createCapturePawnPromocion(from, destino, promociones[i]));
+			result.addPseudoMove(this.moveFactory.createCapturePawnPromocion(from, destino, promociones[i]));
 		}
 	}
 

@@ -22,7 +22,6 @@ import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ColorBoard;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.strategies.BishopMoveGenerator;
 
 /**
  * @author Mauricio Coria
@@ -86,7 +85,7 @@ public class BishopMoveGeneratorTest {
 		assertEquals(13, moves.size());
 
 		
-		Collection<Square> affectedBySquares = toSquareCollection(generatorResult.getAffectedBy());
+		Collection<Square> affectedBySquares = toSquareCollection(generatorResult.getAffectedByPositions());
 		
 		// NorteEste
 		assertTrue(affectedBySquares.contains( Square.f6 ));
@@ -141,7 +140,7 @@ public class BishopMoveGeneratorTest {
 		
 		assertEquals(4, moves.size());
 
-		Collection<Square> affectedBySquares =  toSquareCollection(generatorResult.getAffectedBy());
+		Collection<Square> affectedBySquares =  toSquareCollection(generatorResult.getAffectedByPositions());
 
 		//affectedBySquares
 		assertTrue(affectedBySquares.contains( Square.d2 ));

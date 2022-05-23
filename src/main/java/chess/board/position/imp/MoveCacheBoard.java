@@ -27,7 +27,7 @@ public class MoveCacheBoard {
 	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
 		pseudoMoves[key.toIdx()] = generatorResult;
 		long keyAdded = key.getPosicion();
-		long affectedByCollection = generatorResult.getAffectedBy();
+		long affectedByCollection = generatorResult.getAffectedByPositions();
 
 		
 		while(affectedByCollection != 0){
@@ -66,7 +66,7 @@ public class MoveCacheBoard {
 			if( (clearSquares & (1L << i))  != 0 ) {
 				MoveGeneratorResult pseudoMove = pseudoMoves[i];
 				if(pseudoMove != null){
-					affectsBySquares |= pseudoMove.getAffectedBy();
+					affectsBySquares |= pseudoMove.getAffectedByPositions();
 					if(trackCleared){
 						currentClearedSquares.add(pseudoMove);
 					}

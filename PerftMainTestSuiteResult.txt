@@ -1,0 +1,3 @@
+Starting Test suite main/ferdy_perft_double_checks.epd
+	 all tests executed successfully
+Starting Test suite main/perft-marcel.epd
