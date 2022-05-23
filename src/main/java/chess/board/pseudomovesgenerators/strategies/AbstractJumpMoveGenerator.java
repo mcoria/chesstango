@@ -13,17 +13,17 @@ import chess.board.pseudomovesgenerators.MoveGeneratorResult;
  * @author Mauricio Coria
  *
  */
+//TODO: En vez de computar los saltos podriamos ya tenerlos precargados para usar un iterador de bits
 public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	
 	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	
-	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);		
-	
-	private final int[][] saltos;
-	
-	public AbstractJumpMoveGenerator(Color color, int[][] saltos) {
+	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
+
+	protected abstract Iterator<Square> getSquareIterator(Square fromSquare);
+
+	public AbstractJumpMoveGenerator(Color color) {
 		super(color);
-		this.saltos = saltos;
 	}
 
 	//El calculo de movimientos lo puede hacer en funcion de ColorBoard
@@ -32,7 +32,7 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned from){
 		MoveGeneratorResult result = new MoveGeneratorResult(from);
 		Square fromSquare = from.getKey();
-		Iterator<Square> iterator = new JumpSquareIterator(fromSquare, saltos);
+		Iterator<Square> iterator = getSquareIterator(fromSquare);
 		while (iterator.hasNext()) {
 			Square to = iterator.next();
 			result.addAffectedByPositions(to);
@@ -44,9 +44,10 @@ public abstract class AbstractJumpMoveGenerator extends AbstractMoveGenerator {
 			} else if (color.oppositeColor().equals(colorDestino)) {
 				Move move = createCaptureMove(from, piecePlacement.getPosicion(to));
 				result.addPseudoMove(move);
-			} // else if(color.equals(pieza.getColor())){
+			}
+			// else if(color.equals(pieza.getColor())){
 				// continue;
-				// }
+			// }
 		}
 		return result;
 	}

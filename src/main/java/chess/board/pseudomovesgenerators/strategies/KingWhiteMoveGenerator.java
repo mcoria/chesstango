@@ -6,6 +6,8 @@ import chess.board.Square;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MovePair;
 
+import java.util.Iterator;
+
 
 /**
  * @author Mauricio Coria

@@ -3,9 +3,12 @@ package chess.board.pseudomovesgenerators.strategies;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.iterators.square.JumpSquareIterator;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 import chess.board.pseudomovesgenerators.MoveGeneratorCastling;
+
+import java.util.Iterator;
 
 
 /**
@@ -29,7 +32,7 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	};
 	
 	public AbstractKingMoveGenerator(Color color) {
-		super(color, SALTOS_KING);
+		super(color);
 	}	
 
 	protected boolean puedeEnroqueQueen(
@@ -64,6 +67,11 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			}
 		}
 		return false;
+	}
+
+	@Override
+	protected Iterator<Square> getSquareIterator(Square fromSquare) {
+		return new JumpSquareIterator(fromSquare, SALTOS_KING);
 	}
 
 	public void setBoardState(PositionState positionState) {
