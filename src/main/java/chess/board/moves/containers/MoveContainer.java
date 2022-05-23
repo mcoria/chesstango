@@ -50,12 +50,9 @@ public class MoveContainer implements MoveContainerReader {
         return false;
     }
 
-    private enum IteratorSate{READING_MOVELIST, READING_CONTAINERLIST, READING_END};
     @Override
     public Iterator<Move> iterator() {
         return new Iterator<Move>() {
-            private IteratorSate state = IteratorSate.READING_MOVELIST;
-
             private Iterator<Move> currentIterator = moveList.iterator();
 
             private Iterator<MoveList> currentMoveListIterator = moveLists.iterator();
@@ -78,23 +75,11 @@ public class MoveContainer implements MoveContainerReader {
             }
 
             private void computeNext(){
-                while(next == null && state != IteratorSate.READING_END) {
-                    if(state==IteratorSate.READING_MOVELIST){
-                        if(currentIterator.hasNext()){
-                            next = currentIterator.next();
-                        } else {
-                            state = IteratorSate.READING_CONTAINERLIST;
-                            computeNextIterator();
-                        }
-                    } else if(state==IteratorSate.READING_CONTAINERLIST){
-                        if(currentIterator.hasNext()){
-                            next = currentIterator.next();
-                        } else {
-                            computeNextIterator();
-                        }
-                    }
-                    if(currentIterator == null) {
-                        state = IteratorSate.READING_END;
+                while(next == null && currentIterator != null ) {
+                    if(currentIterator.hasNext()){
+                        next = currentIterator.next();
+                    } else {
+                        computeNextIterator();
                     }
                 }
             }

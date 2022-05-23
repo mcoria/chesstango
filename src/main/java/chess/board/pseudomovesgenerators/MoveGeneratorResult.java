@@ -14,23 +14,23 @@ public class MoveGeneratorResult {
 	
 	private final PiecePositioned from;
 	
-	private final MoveList moveContainer;
+	private final MoveList pseudoMoves;
 	
 	private long affectedByContainer;
 	
 	private long capturedPositions;
 
 	public MoveGeneratorResult(PiecePositioned from) {
-		this.moveContainer = new MoveList();
+		this.pseudoMoves = new MoveList();
 		this.from = from;
 	}
 
 	public void addPseudoMove(Move move) {
-		moveContainer.add(move);
+		pseudoMoves.add(move);
 	}
 
 	public MoveList getPseudoMoves(){
-		return moveContainer;
+		return pseudoMoves;
 	}
 
 	public void addAffectedByPositions(Square key) {
@@ -54,6 +54,6 @@ public class MoveGeneratorResult {
 
 	@Override
 	public String toString() {
-		return moveContainer.toString();
+		return pseudoMoves.toString();
 	}	
 }
