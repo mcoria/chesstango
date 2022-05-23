@@ -29,7 +29,7 @@ public class JumpSquareIterator02Test {
 			squares.add(square);
 		}
 
-		
+
 		assertEquals(8, squares.size());
 		assertTrue(squares.contains(Square.d7));
 		assertTrue(squares.contains(Square.f7));
@@ -52,12 +52,12 @@ public class JumpSquareIterator02Test {
 			squares.add(square);
 		}
 
-		
+
 		assertEquals(2, squares.size());
 		assertTrue(squares.contains(Square.b3));
 		assertTrue(squares.contains(Square.c2));
 	}
-	
+
 	@Test
 	public void test03() {
 		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KnightMoveGenerator.KNIGHT_JUMPS);
@@ -73,7 +73,7 @@ public class JumpSquareIterator02Test {
 		assertTrue(squares.contains(Square.g3));
 		assertTrue(squares.contains(Square.f2));
 	}
-	
+
 	@Test
 	public void test04() {
 		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KnightMoveGenerator.KNIGHT_JUMPS);
@@ -85,12 +85,12 @@ public class JumpSquareIterator02Test {
 			squares.add(square);
 		}
 
-		
+
 		assertEquals(2, squares.size());
 		assertTrue(squares.contains(Square.b6));
 		assertTrue(squares.contains(Square.c7));
 	}
-	
+
 	@Test
 	public void test05() {
 		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KnightMoveGenerator.KNIGHT_JUMPS);
@@ -106,101 +106,5 @@ public class JumpSquareIterator02Test {
 		assertTrue(squares.contains(Square.f7));
 		assertTrue(squares.contains(Square.g6));
 	}
-	
-	
-	@Test
-	public void test06() {
-		long[] arraySaltos = new long[64];
-		for(int idx = 0; idx < 64; idx++){
-			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, KnightMoveGenerator.KNIGHT_JUMPS);
-			long posicionesSalto = 0;
-			while (iterator.hasNext()) {
-				Square salto = iterator.next();
-				
-				posicionesSalto |= salto.getPosicion();
-			}			
-			arraySaltos[idx] = posicionesSalto;
-		}
-		
-		for(int idx = 0; idx < 64; idx++){
-			System.out.println(arraySaltos[idx] + "L,");
-		}
 
-	}
-	
-	@Test
-	public void test07() {
-		long[] arraySaltos = new long[64];
-		for(int idx = 0; idx < 64; idx++){
-			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, AbstractKingMoveGenerator.SALTOS_KING);
-			long posicionesSalto = 0;
-			while (iterator.hasNext()) {
-				Square salto = iterator.next();
-				
-				posicionesSalto |= salto.getPosicion();
-			}			
-			arraySaltos[idx] = posicionesSalto;
-		}
-		
-		for(int idx = 0; idx < 64; idx++){
-			System.out.println(arraySaltos[idx] + "L,");
-		}
-
-	}
-	
-	
-	private final int[][] casillerosPawnWhite = {
-			{ -1, -1 }, 
-			{ 1, -1 }
-		};
-	
-	@Test
-	public void test08() {
-		long[] arraySaltos = new long[64];
-		for(int idx = 0; idx < 64; idx++){
-			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, casillerosPawnWhite);
-			long posicionesSalto = 0;
-			while (iterator.hasNext()) {
-				Square salto = iterator.next();
-				
-				posicionesSalto |= salto.getPosicion();
-			}			
-			arraySaltos[idx] = posicionesSalto;
-		}
-		
-		for(int idx = 0; idx < 64; idx++){
-			System.out.println(arraySaltos[idx] + "L,");
-		}
-
-	}
-	
-	private final int[][] casillerosPawnBlack = {
-			{ -1, 1 }, 
-			{ 1, 1 }
-		};	
-	
-	@Test
-	public void test09() {
-		long[] arraySaltos = new long[64];
-		for(int idx = 0; idx < 64; idx++){
-			Square square = Square.getSquare(idx);
-			JumpSquareIterator iterator = new JumpSquareIterator(square, casillerosPawnBlack);
-			long posicionesSalto = 0;
-			while (iterator.hasNext()) {
-				Square salto = iterator.next();
-				
-				posicionesSalto |= salto.getPosicion();
-			}			
-			arraySaltos[idx] = posicionesSalto;
-		}
-		
-		for(int idx = 0; idx < 64; idx++){
-			System.out.println(arraySaltos[idx] + "L,");
-		}
-
-	}	
-	
 }

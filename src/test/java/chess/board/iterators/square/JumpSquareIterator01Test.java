@@ -110,5 +110,6 @@ public class JumpSquareIterator01Test {
 		assertTrue(squares.contains(Square.g8));
 		assertTrue(squares.contains(Square.g7));
 		assertTrue(squares.contains(Square.h7));
-	}		
+	}
+
 }

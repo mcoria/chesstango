@@ -1,7 +1,5 @@
 package chess;
 
-import chess.board.iterators.pieceplacement.BoardteratorTest;
-import chess.board.iterators.square.*;
 import chess.board.moves.imp.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
