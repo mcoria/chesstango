@@ -1,9 +1,6 @@
 package chess.board.perft;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,42 +17,50 @@ import chess.board.perft.imp.PerftBrute;
 public class PerftMainTestSuite {
 
 	public static void main(String[] args) {
-		execute("main/ferdy_perft_double_checks.epd");
-		execute("main/ferdy_perft_enpassant_1.epd");
-		
-		execute("main/ferdy_perft_single_check_1.epd");
-		execute("main/ferdy_perft_single_check_2.epd");
-		execute("main/ferdy_perft_single_check_3.epd");
-		execute("main/ferdy_perft_single_check_4.epd");
-		execute("main/ferdy_perft_single_check_5.epd");
-		execute("main/ferdy_perft_single_check_6.epd");
-		execute("main/ferdy_perft_single_check_7.epd");
-		execute("main/ferdy_perft_single_check_8.epd");
-		execute("main/ferdy_perft_single_check_9.epd");
-		execute("main/ferdy_perft_single_check_10.epd");
-		execute("main/ferdy_perft_single_check_11.epd");
-		execute("main/ferdy_perft_single_check_12.epd");
-		execute("main/ferdy_perft_single_check_13.epd");
-		execute("main/ferdy_perft_single_check_14.epd");
-		execute("main/ferdy_perft_single_check_15.epd");
-		execute("main/ferdy_perft_single_check_16.epd");
-		execute("main/ferdy_perft_single_check_17.epd");
-		execute("main/ferdy_perft_single_check_18.epd");
-		execute("main/ferdy_perft_single_check_19.epd");
-		
-		execute("main/ferdy_perft_double_checks.epd");
-		execute("main/perft-marcel.epd");
-		execute("main/perft.epd");
-		
-		
-		execute("main/perftsuite1.txt");
-		execute("main/perftsuite2.txt");
-		execute("main/perftsuite3.txt");
+		try (PrintStream out = new PrintStream(
+				new FileOutputStream("./PerftMainTestSuiteResult.txt", false))) {
+
+//			execute("main/ferdy_perft_double_checks.epd", out);
+//			execute("main/ferdy_perft_enpassant_1.epd", out);
+//
+//			execute("main/ferdy_perft_single_check_1.epd", out);
+//			execute("main/ferdy_perft_single_check_2.epd", out);
+//			execute("main/ferdy_perft_single_check_3.epd", out);
+//			execute("main/ferdy_perft_single_check_4.epd", out);
+//			execute("main/ferdy_perft_single_check_5.epd", out);
+//			execute("main/ferdy_perft_single_check_6.epd", out);
+//			execute("main/ferdy_perft_single_check_7.epd", out);
+//			execute("main/ferdy_perft_single_check_8.epd", out);
+//			execute("main/ferdy_perft_single_check_9.epd", out);
+//			execute("main/ferdy_perft_single_check_10.epd", out);
+//			execute("main/ferdy_perft_single_check_11.epd", out);
+//			execute("main/ferdy_perft_single_check_12.epd", out);
+//			execute("main/ferdy_perft_single_check_13.epd", out);
+//			execute("main/ferdy_perft_single_check_14.epd", out);
+//			execute("main/ferdy_perft_single_check_15.epd", out);
+//			execute("main/ferdy_perft_single_check_16.epd", out);
+//			execute("main/ferdy_perft_single_check_17.epd", out);
+//			execute("main/ferdy_perft_single_check_18.epd", out);
+//			execute("main/ferdy_perft_single_check_19.epd", out);
+//
+			execute("main/ferdy_perft_double_checks.epd", out);
+			execute("main/perft-marcel.epd", out);
+			execute("main/perft.epd", out);
+
+
+//			execute("main/perftsuite1.txt", out);
+//			execute("main/perftsuite2.txt", out);
+//			execute("main/perftsuite3.txt", out);
+
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
-	private static void execute(String filename){
+	private static void execute(String filename, PrintStream out){
 		try {
-			System.out.println("Starting suite " + filename);
+			System.out.println("Starting Test suite " + filename);
+			out.println("Starting Test suite " + filename);
 			
 			List<String> failedSuites = new ArrayList<String>();
 			
@@ -64,14 +69,14 @@ public class PerftMainTestSuite {
 			InputStream instr = suite.getClass().getClassLoader().getResourceAsStream(filename);
 
 			// reading the files with buffered reader
-			InputStreamReader strrd = new InputStreamReader(instr);
+			InputStreamReader inputStreamReader = new InputStreamReader(instr);
 
-			BufferedReader rr = new BufferedReader(strrd);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 			String line;
 
 			// outputting each line of the file.
-			while ((line = rr.readLine()) != null) {
+			while ((line = bufferedReader.readLine()) != null) {
 				if(!line.startsWith("#")){
 					if(suite.run(line) == false){
 						failedSuites.add(line);
@@ -81,18 +86,22 @@ public class PerftMainTestSuite {
 			
 			System.out.println("Suite summary " + filename);
 			if(failedSuites.isEmpty()){
-				System.out.println("\t all tests exceute sucessfully");	
+				System.out.println("\t all tests executed successfully");
+				out.println("\t all tests executed successfully");
 			} else {
 				for(String suiteStr: failedSuites){
 					System.out.println("\t test failed: " + suiteStr);
+					out.println("\t test failed: " + suiteStr);
 				}
 			}
 			System.out.println("=================");
 
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println(e);
-		}		
+			out.println(e);
+		}
+		out.flush();
 	}
 	
 	private final ChessFactory chessFactory;
@@ -106,47 +115,53 @@ public class PerftMainTestSuite {
 	}
 
 	protected String fen;
-	protected int[] perftResults;
-	private int startNivel;
-	
+	protected long[] expectedPerftResults;
+	private int startLevel;
+
+	private PrintStream out = System.out;
 
 	protected boolean run(String perfTest) {
-		boolean retunResult = true;
-		parseTests(perfTest);
-		
-		System.out.println("Testing FEN: " + this.fen);
-		for(int i = 0; i < perftResults.length; i++){
-			
-			PerftBrute main = new PerftBrute();
-			
-			PerftResult result = main.start(getGame(), this.startNivel + i);
-			
-			if(result.getTotalNodes() == perftResults[i]){
-				System.out.println("depth " + (this.startNivel + i) + " OK" );
-			} else {
-				System.out.println("depth " + (this.startNivel + i) + " FAIL, expected = " + perftResults[i] + ", actual = " + result.getTotalNodes());
-				retunResult = false;
-				break;
+		boolean returnResult = false;
+		try {
+			parseTests(perfTest);
+
+			out.println("Testing FEN: " + this.fen);
+			for (int i = 0; i < expectedPerftResults.length; i++) {
+
+				PerftBrute main = new PerftBrute();
+
+				PerftResult result = main.start(getGame(), this.startLevel + i);
+
+				if (result.getTotalNodes() == expectedPerftResults[i]) {
+					out.println("depth " + (this.startLevel + i) + " OK");
+				} else {
+					out.println("depth " + (this.startLevel + i) + " FAIL, expected = " + expectedPerftResults[i] + ", actual = " + result.getTotalNodes());
+					returnResult = false;
+					break;
+				}
+
 			}
-			
+			returnResult = true;
+			out.println("=============");
+		}catch (Exception e){
+			out.println(e);
 		}
-		System.out.println("=============");
-		return retunResult;
+		return returnResult;
 	}
 
 	protected void parseTests(String tests) {
 		String[] splitStrings = tests.split(";");
 		
 		this.fen = splitStrings[0].trim();
-		this.perftResults = new int[splitStrings.length - 1];
-		this.startNivel = 0;
+		this.expectedPerftResults = new long[splitStrings.length - 1];
+		this.startLevel = 0;
 		
 		for (int i = 1; i < splitStrings.length; i++) {
 			String[] perftResultStr = splitStrings[i].trim().split(" ");
-			if (this.startNivel == 0) {
-				this.startNivel = Integer.parseInt(perftResultStr[0].substring(1));
+			if (this.startLevel == 0) {
+				this.startLevel = Integer.parseInt(perftResultStr[0].substring(1));
 			}
-			perftResults[i - 1] = Integer.parseInt(perftResultStr[1]);
+			expectedPerftResults[i - 1] = Long.parseLong(perftResultStr[1]);
 		}
 		
 	}
@@ -159,6 +174,9 @@ public class PerftMainTestSuite {
 		parser.parseFEN(this.fen);
 		
 		return builder.getResult();
-	}		
+	}
 
+	public void setOut(PrintStream out) {
+		this.out = out;
+	}
 }
