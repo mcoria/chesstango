@@ -1,5 +1,6 @@
 package chess.board.iterators.square;
 
+import chess.board.PiecePositioned;
 import chess.board.Square;
 
 /**
@@ -18,31 +19,26 @@ public class BitSquareIterator implements SquareIterator {
 			Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
 			Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8};
 	
-	private final long posiciones;
-	
-	private int idx = -1;
+	private long posiciones;
 	
 	public BitSquareIterator(long posiciones) {
 		this.posiciones = posiciones;
-		calcularNextPoint();
 	}
-	
+
 	@Override
 	public boolean hasNext() {
-		return idx < 64;
+		return posiciones != 0;
 	}
 
 	@Override
 	public Square next() {
-		int currentIdx = this.idx;
-		calcularNextPoint();
-		return array[currentIdx];
-	}
-	
-	private void calcularNextPoint() {
-		do {
-			this.idx++;
-		} while (this.idx < 64 && (this.posiciones & (1L << this.idx)) == 0);
+		Square result = null;
+		if (posiciones != 0) {
+			long posicionLng = Long.lowestOneBit(posiciones);
+			result  = array[Long.numberOfTrailingZeros(posicionLng)];
+			posiciones &= ~posicionLng;
+		}
+		return result;
 	}
 
 }

@@ -9,40 +9,30 @@ import chess.board.PiecePositioned;
  *
  */
 public class BoardBitIterator implements PiecePlacementIterator {
-
 	private long posiciones;
-	private int idx = -1;
 
-	private final PiecePositioned[] tablero;
+	private final PiecePositioned[] piecePositioned;
 
-	// Observar este constructor
-	public BoardBitIterator(PiecePositioned[] tablero, long posiciones) {
+	public BoardBitIterator(PiecePositioned[] piecePositioned, long posiciones) {
 		this.posiciones = posiciones;
-		this.tablero = tablero;
-		calcularNextPoint();
+		this.piecePositioned = piecePositioned;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return idx != -1;
+		return posiciones != 0;
 	}
 
 	@Override
 	public PiecePositioned next() {
-		PiecePositioned currentPoint = tablero[idx];
-		calcularNextPoint();
-		return currentPoint;
-	}
-
-	// TODO: Llevar esta implementacion a otros iteradores
-	private void calcularNextPoint() {
+		PiecePositioned result = null;
 		if (posiciones != 0) {
 			long posicionLng = Long.lowestOneBit(posiciones);
-			idx = Long.numberOfTrailingZeros(posicionLng);
+			result  = piecePositioned[Long.numberOfTrailingZeros(posicionLng)];
 			posiciones &= ~posicionLng;
-		} else {
-			idx = -1;
 		}
+		return result;
 	}
+
 
 }
