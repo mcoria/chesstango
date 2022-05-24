@@ -10,7 +10,7 @@ import chess.board.iterators.square.BitSquareIterator;
  * @author Mauricio Coria
  *
  */
-public class KnightSquareIterator extends BitSquareIterator {
+public class KnightBitSquareIterator extends BitSquareIterator {
 
 	private static final long[] ARRAY_SALTOS = { 132096L, 329728L, 659712L, 1319424L, 2638848L, 5277696L, 10489856L, 4202496L,
 			33816580L, 84410376L, 168886289L, 337772578L, 675545156L, 1351090312L, 2685403152L, 1075839008L,
@@ -24,7 +24,7 @@ public class KnightSquareIterator extends BitSquareIterator {
 			1152939783987658752L, 2305878468463689728L, 1128098930098176L, 2257297371824128L, 4796069720358912L,
 			9592139440717824L, 19184278881435648L, 38368557762871296L, 4679521487814656L, 9077567998918656L };
 
-	public KnightSquareIterator(Square startingPoint) {
+	public KnightBitSquareIterator(Square startingPoint) {
 		super(ARRAY_SALTOS[startingPoint.toIdx()]);
 	}
 
