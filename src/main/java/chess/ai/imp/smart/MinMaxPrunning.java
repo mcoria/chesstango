@@ -3,11 +3,7 @@
  */
 package chess.ai.imp.smart;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import chess.ai.BestMoveFinder;
@@ -16,7 +12,6 @@ import chess.board.Game;
 import chess.board.GameState.GameStatus;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainerReader;
 import chess.board.position.ChessPositionReader;
@@ -182,7 +177,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 		} else {
 			ChessPositionReader positionReader = game.getChessPositionReader();
 
-			for (PiecePlacementIterator it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+			for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
 				PiecePositioned piecePlacement = it.next();
 				Piece piece = piecePlacement.getValue();
 

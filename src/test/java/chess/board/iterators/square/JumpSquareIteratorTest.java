@@ -1,12 +1,6 @@
 package chess.board.iterators.square;
 
 import chess.board.Square;
-import chess.board.pseudomovesgenerators.strategies.AbstractKingMoveGenerator;
-import chess.board.pseudomovesgenerators.strategies.KnightMoveGenerator;
-import org.junit.Test;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +10,7 @@ import static org.junit.Assert.assertTrue;
  * @author Mauricio Coria
  *
  */
-public class JumpSquareIterator03Test {
+public class JumpSquareIteratorTest {
 
 	//@Test
 	public void printSaltosKnightPosicionesLong() {

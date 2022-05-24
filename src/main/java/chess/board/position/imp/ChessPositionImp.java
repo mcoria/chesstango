@@ -7,7 +7,6 @@ import chess.board.Square;
 import chess.board.ascii.ASCIIEncoder;
 import chess.board.builder.ChessPositionBuilder;
 import chess.board.fen.FENEncoder;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.moves.Move;
 import chess.board.moves.MoveKing;
@@ -191,7 +190,7 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public PiecePlacementIterator iteratorAllPieces(){
+	public Iterator<PiecePositioned> iteratorAllPieces(){
 		return piecePlacement.iterator(colorBoard.getPosiciones(Color.WHITE) & colorBoard.getPosiciones(Color.BLACK));
 	}
 
@@ -216,17 +215,22 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public PiecePlacementIterator iterator(SquareIterator squareIterator) {
+	public Iterator<PiecePositioned> iterator(SquareIterator squareIterator) {
 		return piecePlacement.iterator(squareIterator);
 	}
 
 	@Override
-	public PiecePlacementIterator iterator(long posiciones) {
+	public Iterator<PiecePositioned> iterator(long posiciones) {
 		return piecePlacement.iterator(posiciones);
 	}
 
 	@Override
 	public Iterator<PiecePositioned> iterator() {
 		return piecePlacement.iterator();
+	}
+
+	@Override
+	public PiecePositioned getElement(int idx) {
+		return piecePlacement.getElement(idx);
 	}
 }

@@ -1,13 +1,13 @@
 package chess.board.legalmovesgenerators.strategies;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.analyzer.AnalyzerResult;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainerReader;
@@ -62,7 +62,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	protected MoveContainer getLegalMovesNotKingNotPinned(long posicionesSafe, MoveContainer moves) {
 
-		for (PiecePlacementIterator iterator = this.positionReader.iterator(posicionesSafe) ; iterator.hasNext();) {
+		for (Iterator<PiecePositioned> iterator = this.positionReader.iterator(posicionesSafe); iterator.hasNext();) {
 
 			PiecePositioned origen = iterator.next();
 

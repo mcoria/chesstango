@@ -8,8 +8,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.ascii.ASCIIEncoder;
-import chess.board.iterators.pieceplacement.BoardBitIterator;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
+import chess.board.iterators.pieceplacement.BitIterator;
 import chess.board.iterators.square.SquareIterator;
 import chess.board.position.PiecePlacement;
 
@@ -38,6 +37,10 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 		return tablero[square.toIdx()];
 	}
 
+	@Override
+	public PiecePositioned getElement(int idx) {
+		return tablero[idx] ;
+	}
 
 	@Override
 	public void setPosicion(PiecePositioned entry) {
@@ -76,8 +79,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 
 
 	@Override
-	public PiecePlacementIterator iterator(SquareIterator squareIterator){
-		return new PiecePlacementIterator(){
+	public Iterator<PiecePositioned> iterator(SquareIterator squareIterator){
+		return new Iterator<PiecePositioned>(){
 
 			@Override
 			public boolean hasNext() {
@@ -93,8 +96,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 	}
 	
 	@Override
-	public PiecePlacementIterator iterator(long posiciones){
-		return new BoardBitIterator(tablero, posiciones);
+	public Iterator<PiecePositioned> iterator(long posiciones){
+		return new BitIterator(this, posiciones);
 	}
 
 	@Override
@@ -142,7 +145,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 
 	@Override
 	public Iterator<PiecePositioned> iterator() {
-		return new PiecePlacementIterator(){
+		return new Iterator<PiecePositioned>(){
 
 			private int idx = 0;
 
@@ -158,4 +161,5 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable  {
 
 		};
 	}
+
 }

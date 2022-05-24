@@ -5,12 +5,12 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.CardinalSquareIterator;
 import chess.board.position.PiecePlacementReader;
 import chess.board.pseudomovesgenerators.strategies.BishopMoveGenerator;
 import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 
+import java.util.Iterator;
 
 
 /**
@@ -95,7 +95,7 @@ public class FullScanSquareCapturer {
 		}
 		
 		private boolean positionCapturedByKnight(Square square) {
-			PiecePlacementIterator iterator = piecePlacementReader.iterator( Knight_ARRAY_SALTOS[square.toIdx()] );
+			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator( Knight_ARRAY_SALTOS[square.toIdx()] );
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(knight.equals(destino.getValue())){		    	
@@ -106,7 +106,7 @@ public class FullScanSquareCapturer {
 		}		
 		
 		private boolean positionCapturedByCardinalPieza(Piece rookObishop, Piece queen, Square square, Cardinal cardinal) {
-			PiecePlacementIterator iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
+			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
 				Piece piece = destino.getValue();
@@ -125,7 +125,7 @@ public class FullScanSquareCapturer {
 
 
 		private boolean positionCapturedByPawn(Square square) {
-			PiecePlacementIterator iterator = piecePlacementReader.iterator( pawnJumps[square.toIdx()] );
+			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator( pawnJumps[square.toIdx()] );
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(pawn.equals(destino.getValue())){		    	
@@ -136,7 +136,7 @@ public class FullScanSquareCapturer {
 		}
 		
 		private boolean positionCapturedByKing(Square square) {
-			PiecePlacementIterator iterator = piecePlacementReader.iterator( King_ARRAY_SALTOS[square.toIdx()] );
+			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator( King_ARRAY_SALTOS[square.toIdx()] );
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
 				if (king.equals(destino.getValue())) {

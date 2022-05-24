@@ -3,7 +3,6 @@
  */
 package chess.board.position;
 
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.moves.Move;
 
 /**

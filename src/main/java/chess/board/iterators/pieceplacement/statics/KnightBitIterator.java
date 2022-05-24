@@ -5,13 +5,14 @@ package chess.board.iterators.pieceplacement.statics;
 
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.pieceplacement.BoardBitIterator;
+import chess.board.iterators.pieceplacement.BitIterator;
+import chess.board.position.GetElementByIndex;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class KnightBoardBitIterator extends BoardBitIterator {
+public class KnightBitIterator<T> extends BitIterator<T> {
 
 	private static final long[] ARRAY_SALTOS = { 132096L, 329728L, 659712L, 1319424L, 2638848L, 5277696L, 10489856L, 4202496L,
 			33816580L, 84410376L, 168886289L, 337772578L, 675545156L, 1351090312L, 2685403152L, 1075839008L,
@@ -26,8 +27,8 @@ public class KnightBoardBitIterator extends BoardBitIterator {
 			9592139440717824L, 19184278881435648L, 38368557762871296L, 4679521487814656L, 9077567998918656L };
 
 	
-	public KnightBoardBitIterator(PiecePositioned[] tablero, Square startingPoint) {
-		super(tablero, ARRAY_SALTOS[startingPoint.toIdx()]);
+	public KnightBitIterator(GetElementByIndex<T> getElementById, Square startingPoint) {
+		super(getElementById, ARRAY_SALTOS[startingPoint.toIdx()]);
 	}
 
 }

@@ -5,7 +5,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.CardinalSquareIterator;
 import chess.board.position.ChessPositionReader;
 import chess.board.pseudomovesgenerators.strategies.BishopMoveGenerator;
@@ -13,6 +12,7 @@ import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -114,7 +114,7 @@ public class CheckAndPinnedAnalyzer {
 		}
 		
 		private void analyzeByKnight(Square squareKingOpponent) {
-			PiecePlacementIterator iterator = positionReader.iterator( Knight_ARRAY_SALTOS[squareKingOpponent.toIdx()] );
+			Iterator<PiecePositioned> iterator = positionReader.iterator( Knight_ARRAY_SALTOS[squareKingOpponent.toIdx()] );
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(knight.equals(destino.getValue())){		    	
@@ -125,7 +125,7 @@ public class CheckAndPinnedAnalyzer {
 		}
 		
 		private void analyzeByPawn(Square squareKingOpponent) {
-			PiecePlacementIterator iterator = positionReader.iterator( pawnJumps[squareKingOpponent.toIdx()] );
+			Iterator<PiecePositioned> iterator = positionReader.iterator( pawnJumps[squareKingOpponent.toIdx()] );
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(pawn.equals(destino.getValue())){
@@ -156,8 +156,8 @@ public class CheckAndPinnedAnalyzer {
 		
 		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookOrBishop) {
 			PiecePositioned possiblePinned = null;
-			
-			PiecePlacementIterator iterator = positionReader.iterator(new CardinalSquareIterator(squareKingOpponent, cardinal));
+
+			Iterator<PiecePositioned> iterator = positionReader.iterator(new CardinalSquareIterator(squareKingOpponent, cardinal));
 			
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
@@ -198,7 +198,7 @@ public class CheckAndPinnedAnalyzer {
 
 	}
 	
-	
+
 	private static final long[] Knight_ARRAY_SALTOS = { 132096L, 329728L, 659712L, 1319424L, 2638848L, 5277696L, 10489856L, 4202496L,
 			33816580L, 84410376L, 168886289L, 337772578L, 675545156L, 1351090312L, 2685403152L, 1075839008L,
 			8657044482L, 21609056261L, 43234889994L, 86469779988L, 172939559976L, 345879119952L, 687463207072L,

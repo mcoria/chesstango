@@ -8,8 +8,9 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.builder.ChessPositionBuilder;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.iterators.square.SquareIterator;
+
+import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
@@ -37,7 +38,7 @@ public interface ChessPositionReader extends PiecePlacementReader {
 
 	SquareIterator iteratorSquareWhitoutKing(Color color);
 
-	PiecePlacementIterator iteratorAllPieces();
+	Iterator<PiecePositioned> iteratorAllPieces();
 	
 	void constructBoardRepresentation(ChessPositionBuilder<?> builder);
 }

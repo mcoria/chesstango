@@ -14,8 +14,9 @@ import chess.board.Square;
 import chess.board.builder.imp.PiecePlacementBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.fen.FENDecoder;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.position.PiecePlacement;
+
+import java.util.Iterator;
 
 
 /**
@@ -39,8 +40,8 @@ public class TopDownSquareIteratorTest {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
 		PiecePlacement tablero =  builder.getResult();
-		
-		PiecePlacementIterator iterator = tablero.iterator(new TopDownSquareIterator());
+
+		Iterator<PiecePositioned> iterator = tablero.iterator(new TopDownSquareIterator());
 		
 		PiecePositioned entry =  null;
 		

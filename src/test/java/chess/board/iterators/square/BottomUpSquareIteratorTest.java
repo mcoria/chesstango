@@ -5,13 +5,14 @@ import chess.board.PiecePositioned;
 import chess.board.builder.imp.PiecePlacementBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.fen.FENDecoder;
-import chess.board.iterators.pieceplacement.PiecePlacementIterator;
 import chess.board.position.PiecePlacement;
 import org.junit.Before;
 import org.junit.Test;
 
 import chess.board.Square;
 import chess.board.iterators.square.BottomUpSquareIterator;
+
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNull;
@@ -60,7 +61,7 @@ public class BottomUpSquareIteratorTest {
 
 		PiecePlacement tablero =  builder.getResult();
 
-		PiecePlacementIterator iterator = tablero.iterator(new BottomUpSquareIterator());
+		Iterator<PiecePositioned> iterator = tablero.iterator(new BottomUpSquareIterator());
 
 		PiecePositioned entry =  null;
 
