@@ -3,7 +3,6 @@
  */
 package chess.board.iterators.pieceplacement.statics;
 
-import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.pieceplacement.BitIterator;
 import chess.board.position.GetElementByIndex;
