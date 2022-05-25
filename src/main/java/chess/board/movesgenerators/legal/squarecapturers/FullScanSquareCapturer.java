@@ -9,6 +9,7 @@ import chess.board.iterators.byposition.bypiece.KingBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
+import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByCardinals;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKing;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
@@ -57,19 +58,14 @@ public class FullScanSquareCapturer implements SquareCapturer {
 
 	
 	private class CapturerImp {
-		private final Piece rook;
-		private final Piece bishop;
-		private final Piece queen;
 		private final SquareCapturerByPiece knightCapturer;
 		private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
 		private final Piece pawn;
 		private final SquareCapturerByPiece kingCapturer;
-
+		private final SquareCapturerByPiece cardinalCapturer;
 
 		public CapturerImp(Color color, Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator) {
-			this.rook =  Piece.getRook(color);
-			this.bishop = Piece.getBishop(color);
-			this.queen = Piece.getQueen(color);
+			this.cardinalCapturer = new CapturerByCardinals(piecePlacementReader, color);
 			this.knightCapturer = new CapturerByKnight(piecePlacementReader, color);
 			this.pawn = Piece.getPawn(color);
 			this.kingCapturer = new CapturerByKing(piecePlacementReader, color);
@@ -78,48 +74,12 @@ public class FullScanSquareCapturer implements SquareCapturer {
 
 		public boolean positionCaptured(Square square) {
             return knightCapturer.positionCaptured(square) ||
-                    positionCapturedByRook(square) ||
-                    positionCapturedByBishop(square) ||
+					cardinalCapturer.positionCaptured(square) ||
                     positionCapturedByPawn(square) ||
 					kingCapturer.positionCaptured(square);
         }
 
-		private final Cardinal[] direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
-		private boolean positionCapturedByBishop(Square square) {
-			return positionCapturedByDireccion(square, direccionesBishop,  bishop);
-		}
 
-		private final Cardinal[] direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
-		private boolean positionCapturedByRook(Square square) {		
-			return positionCapturedByDireccion(square, direccionesRook, rook);
-		}
-
-		private boolean positionCapturedByDireccion(Square square, Cardinal[] direcciones, Piece rookObishop) {		
-			for (Cardinal cardinal : direcciones) {
-				if(positionCapturedByCardinalPieza(rookObishop, queen, square, cardinal)){
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		private boolean positionCapturedByCardinalPieza(Piece rookObishop, Piece queen, Square square, Cardinal cardinal) {
-			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
-			while (iterator.hasNext()) {
-				PiecePositioned destino = iterator.next();
-				Piece piece = destino.getValue();
-				if (piece == null) {
-					continue;
-				} else if (queen.equals(piece)) {
-					return true;
-				} else if (rookObishop.equals(piece)) {			
-					return true;
-				} else {
-					break;
-				}
-			}
-			return false;
-		}
 
 
 		private boolean positionCapturedByPawn(Square square) {
