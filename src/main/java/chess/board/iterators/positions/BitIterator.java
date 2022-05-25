@@ -1,4 +1,4 @@
-package chess.board.iterators.bit;
+package chess.board.iterators.positions;
 
 import chess.board.position.GetElementByIndex;
 
@@ -14,8 +14,8 @@ public class BitIterator<T> implements Iterator<T> {
 
 	private final GetElementByIndex<T> getElementById;
 
-	public BitIterator(GetElementByIndex<T> getElementById, long posiciones) {
-		this.posiciones = posiciones;
+	public BitIterator(GetElementByIndex<T> getElementById, long positions) {
+		this.posiciones = positions;
 		this.getElementById = getElementById;
 	}
 
