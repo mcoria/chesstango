@@ -5,7 +5,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.byposition.bypiece.KingBitIterator;
-import chess.board.iterators.byposition.bypiece.KnightBitIterator;
 import chess.board.position.PiecePlacementReader;
 
 import java.util.Iterator;

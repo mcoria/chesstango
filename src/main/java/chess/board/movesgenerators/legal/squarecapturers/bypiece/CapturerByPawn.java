@@ -4,7 +4,6 @@ import chess.board.Color;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.byposition.bypiece.KingBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.position.PiecePlacementReader;

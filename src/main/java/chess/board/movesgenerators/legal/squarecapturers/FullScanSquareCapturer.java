@@ -1,21 +1,9 @@
 package chess.board.movesgenerators.legal.squarecapturers;
 
 import chess.board.Color;
-import chess.board.Piece;
-import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.Cardinal;
-import chess.board.iterators.byposition.bypiece.KingBitIterator;
-import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
-import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
-import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.*;
-import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
-import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 import chess.board.position.PiecePlacementReader;
-
-import java.util.Iterator;
-import java.util.function.Function;
 
 
 /**
@@ -35,13 +23,13 @@ import java.util.function.Function;
 public class FullScanSquareCapturer implements SquareCapturer {
 	
 	private final PiecePlacementReader piecePlacementReader;
-	private final CapturerImp capturerWhite;
-	private final CapturerImp capturerBlack;
+	private final CapturerAgregate capturerWhite;
+	private final CapturerAgregate capturerBlack;
 	
 	public FullScanSquareCapturer(PiecePlacementReader piecePlacementReader) {
 		this.piecePlacementReader = piecePlacementReader;
-		this.capturerWhite = new CapturerImp(Color.WHITE);
-		this.capturerBlack = new CapturerImp(Color.BLACK);
+		this.capturerWhite = new CapturerAgregate(Color.WHITE);
+		this.capturerBlack = new CapturerAgregate(Color.BLACK);
 	}
 
 	@Override
@@ -54,13 +42,13 @@ public class FullScanSquareCapturer implements SquareCapturer {
 	}
 
 	
-	private class CapturerImp {
+	private class CapturerAgregate implements SquareCapturerByPiece{
 		private final SquareCapturerByPiece knightCapturer;
 		private final SquareCapturerByPiece pawnCapturer;
 		private final SquareCapturerByPiece kingCapturer;
 		private final SquareCapturerByPiece cardinalCapturer;
 
-		public CapturerImp(Color color) {
+		public CapturerAgregate(Color color) {
 			this.cardinalCapturer = new CapturerByCardinals(piecePlacementReader, color);
 			this.knightCapturer = new CapturerByKnight(piecePlacementReader, color);
 			this.pawnCapturer = new CapturerByPawn(piecePlacementReader, color);

@@ -1,10 +1,5 @@
 package chess.board.movesgenerators.legal.squarecapturers;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import chess.board.Color;
 import chess.board.Square;
 import chess.board.builder.imp.PiecePlacementBuilder;
@@ -12,6 +7,10 @@ import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.fen.FENDecoder;
 import chess.board.position.PiecePlacement;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Mauricio Coria
