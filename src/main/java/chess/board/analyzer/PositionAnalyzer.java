@@ -35,15 +35,15 @@ public class PositionAnalyzer {
 
 		if (existsLegalMove) {
 			if (analysis.isKingInCheck()) {
-				gameStatus = GameState.GameStatus.JAQUE;
+				gameStatus = GameState.GameStatus.CHECK;
 			} else {
 				gameStatus = GameState.GameStatus.IN_PROGRESS;
 			}
 		} else {
 			if (analysis.isKingInCheck()) {
-				gameStatus = GameState.GameStatus.JAQUE_MATE;
+				gameStatus = GameState.GameStatus.CHECKMATE;
 			} else {
-				gameStatus = GameState.GameStatus.TABLAS;
+				gameStatus = GameState.GameStatus.DRAW;
 			}
 		}
 

@@ -169,10 +169,10 @@ public class MinMaxPrunning implements BestMoveFinder {
 
 	private int evaluate(Game game, int depth) {
 		int evaluation = 0;
-		if (GameStatus.JAQUE_MATE.equals(game.getGameStatus())) {
+		if (GameStatus.CHECKMATE.equals(game.getGameStatus())) {
 			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MAX_VALUE - depth
 					: Integer.MIN_VALUE + depth;
-		} else if (GameStatus.JAQUE.equals(game.getGameStatus())) {
+		} else if (GameStatus.CHECK.equals(game.getGameStatus())) {
 			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? 90 - depth : -90 + depth;
 		} else {
 			ChessPositionReader positionReader = game.getChessPositionReader();

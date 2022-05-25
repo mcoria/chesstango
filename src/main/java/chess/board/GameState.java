@@ -3,32 +3,26 @@
  */
 package chess.board;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 import chess.board.analyzer.AnalyzerResult;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainerReader;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class GameState {
+
+	public enum GameStatus {
+		IN_PROGRESS,
+		CHECK,
+		CHECKMATE,
+		DRAW
+	}
+
 	private AnalyzerResult analyzerResult;
 	private MoveContainerReader legalMoves;
 	private Move selectedMove;
 	private GameState.GameStatus status;
-	
-	private static class Node {
-		private AnalyzerResult analyzerResult;
-		private MoveContainerReader legalMoves;
-		private Move movimientoSeleccionado;
-		private GameState.GameStatus status;		
-	}
-	
-	public enum GameStatus {
-		IN_PROGRESS,
-		JAQUE,
-		JAQUE_MATE, 
-		TABLAS		
-	}
 
 	private final Deque<GameState.Node> stackNode = new ArrayDeque<GameState.Node>();
 
@@ -48,13 +42,19 @@ public class GameState {
 		this.status = status;
 	}
 	
-	public MoveContainerReader getLegalMoves() {
-		return legalMoves;
-	}
+	public MoveContainerReader getLegalMoves() { return legalMoves; }
 
 	public void setLegalMoves(MoveContainerReader legalMoves) {
 		this.legalMoves = legalMoves;
-	}	
+	}
+
+	public AnalyzerResult getAnalyzerResult() {
+		return analyzerResult;
+	}
+
+	public void setAnalyzerResult(AnalyzerResult analyzerResult) {
+		this.analyzerResult = analyzerResult;
+	}
 
 	public void push() {
 		GameState.Node node = new Node();
@@ -79,11 +79,10 @@ public class GameState {
 		this.legalMoves = node.legalMoves;
 	}
 
-	public AnalyzerResult getAnalyzerResult() {
-		return analyzerResult;
-	}
-
-	public void setAnalyzerResult(AnalyzerResult analyzerResult) {
-		this.analyzerResult = analyzerResult;
+	private static class Node {
+		private AnalyzerResult analyzerResult;
+		private MoveContainerReader legalMoves;
+		private Move movimientoSeleccionado;
+		private GameState.GameStatus status;
 	}
 }

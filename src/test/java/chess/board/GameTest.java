@@ -49,7 +49,7 @@ public class GameTest {
 		game.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
-		assertEquals(GameState.GameStatus.JAQUE_MATE, game.getGameStatus());
+		assertEquals(GameState.GameStatus.CHECKMATE, game.getGameStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
 	}
 
@@ -68,7 +68,7 @@ public class GameTest {
 		game.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
-		assertEquals(GameState.GameStatus.JAQUE_MATE, game.getGameStatus());
+		assertEquals(GameState.GameStatus.CHECKMATE, game.getGameStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
 		
 		game.undoMove();
@@ -116,7 +116,7 @@ public class GameTest {
 		
 		game.executeMove(Square.f3, Square.f7);
 		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
-		assertEquals(GameState.GameStatus.JAQUE, game.getGameStatus());
+		assertEquals(GameState.GameStatus.CHECK, game.getGameStatus());
 		assertEquals(1, game.getPossibleMoves().size());
 	}
 	
@@ -129,7 +129,7 @@ public class GameTest {
 		game.executeMove(Square.h7, Square.c7);
 
 		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
-		assertEquals(GameState.GameStatus.TABLAS, game.getGameStatus());
+		assertEquals(GameState.GameStatus.DRAW, game.getGameStatus());
 		assertEquals(0, game.getPossibleMoves().size());
 	}
 	
