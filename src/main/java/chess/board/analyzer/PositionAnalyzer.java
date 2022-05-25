@@ -41,7 +41,7 @@ public class PositionAnalyzer {
 			}
 		} else {
 			if (analysis.isKingInCheck()) {
-				gameStatus = GameState.GameStatus.CHECKMATE;
+				gameStatus = GameState.GameStatus.MATE;
 			} else {
 				gameStatus = GameState.GameStatus.DRAW;
 			}

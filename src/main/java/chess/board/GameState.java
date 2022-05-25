@@ -15,7 +15,7 @@ public class GameState {
 	public enum GameStatus {
 		IN_PROGRESS,
 		CHECK,
-		CHECKMATE,
+		MATE,
 		DRAW
 	}
 

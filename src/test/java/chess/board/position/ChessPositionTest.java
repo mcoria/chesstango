@@ -186,7 +186,7 @@ public class ChessPositionTest {
 		
 		assertTrue(result.isKingInCheck());
 		assertTrue(gameState.getLegalMoves().isEmpty());
-		assertEquals(GameState.GameStatus.CHECKMATE, gameState.getStatus());
+		assertEquals(GameState.GameStatus.MATE, gameState.getStatus());
 	
 	}
 	

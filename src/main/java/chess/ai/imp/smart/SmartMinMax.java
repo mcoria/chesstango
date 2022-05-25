@@ -99,7 +99,7 @@ public class SmartMinMax implements BestMoveFinder {
 
 	private int evaluate(Game game, int depth) {
 		int evaluation = 0;
-		if (GameStatus.CHECKMATE.equals(game.getGameStatus())) {
+		if (GameStatus.MATE.equals(game.getGameStatus())) {
 			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MAX_VALUE - depth
 					: Integer.MIN_VALUE + depth;
 		} else if (GameStatus.CHECK.equals(game.getGameStatus())) {
