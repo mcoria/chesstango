@@ -27,7 +27,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 	@Override
 	public Move findBestMove(Game game) {
 		Move bestMove = null;
-		if (Color.WHITE.equals(game.getChessPositionReader().getTurnoActual())) {
+		if (Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn())) {
 			bestMove = findBestMoveWhite(game);
 		} else {
 			bestMove = findBestMoveBlack(game);
@@ -170,10 +170,10 @@ public class MinMaxPrunning implements BestMoveFinder {
 	private int evaluate(Game game, int depth) {
 		int evaluation = 0;
 		if (GameStatus.JAQUE_MATE.equals(game.getGameStatus())) {
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MAX_VALUE - depth
 					: Integer.MIN_VALUE + depth;
 		} else if (GameStatus.JAQUE.equals(game.getGameStatus())) {
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth : -90 + depth;
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? 90 - depth : -90 + depth;
 		} else {
 			ChessPositionReader positionReader = game.getChessPositionReader();
 

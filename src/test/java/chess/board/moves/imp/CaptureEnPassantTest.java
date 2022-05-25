@@ -17,7 +17,6 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.CaptureEnPassant;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -48,7 +47,7 @@ public class CaptureEnPassantTest {
 	@Before
 	public void setUp() throws Exception {
 		positionState = new PositionState();
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setEnPassantSquare(Square.a6);		
 		
 		piezaBoard = new ArrayPiecePlacement();
@@ -92,14 +91,14 @@ public class CaptureEnPassantTest {
 		
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.BLACK, positionState.getTurnoActual());	
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		
 		// undos
 		moveExecutor.undoMove(positionState);	
 		
 		// asserts undos
 		assertEquals(Square.a6, positionState.getEnPassantSquare());
-		assertEquals(Color.WHITE, positionState.getTurnoActual());			
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		
 	}
 	
@@ -162,7 +161,7 @@ public class CaptureEnPassantTest {
 		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.a6));
 		
 		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.BLACK, positionState.getTurnoActual());	
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
 		assertTrue(colorBoard.isEmpty(Square.a5));
@@ -181,7 +180,7 @@ public class CaptureEnPassantTest {
 		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPieza(Square.a5));	
 		
 		assertEquals(Square.a6, positionState.getEnPassantSquare());
-		assertEquals(Color.WHITE, positionState.getTurnoActual());	
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		
 		assertTrue(colorBoard.isEmpty(Square.a6));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.a5));

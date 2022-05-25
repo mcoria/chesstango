@@ -7,6 +7,7 @@ import java.util.Set;
 
 import chess.board.iterators.square.JumpSquareIterator;
 import chess.board.iterators.square.bypiece.KnightJumpSquareIterator;
+import org.junit.Assert;
 import org.junit.Test;
 
 import chess.board.Square;

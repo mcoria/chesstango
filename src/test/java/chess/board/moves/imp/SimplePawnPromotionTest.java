@@ -48,7 +48,7 @@ public class SimplePawnPromotionTest {
 	@Before
 	public void setUp() throws Exception {
 		positionState = new PositionState();
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
@@ -86,13 +86,13 @@ public class SimplePawnPromotionTest {
 		
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		
 		// undos
 		moveExecutor.undoMove(positionState);
 
 		// asserts undos	
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 	}
 	
 	@Test

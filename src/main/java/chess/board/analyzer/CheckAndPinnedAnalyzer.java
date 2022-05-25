@@ -46,7 +46,7 @@ public class CheckAndPinnedAnalyzer {
 		pinnedPositionCardinals = new ArrayList<>(8);
 		kingInCheck = false;
 		
-		Color turnoActual = positionReader.getTurnoActual();
+		Color turnoActual = positionReader.getCurrentTurn();
 		
 		if(Color.WHITE.equals(turnoActual)){
 			analyzerBlack.analyze();

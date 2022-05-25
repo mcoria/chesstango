@@ -17,7 +17,7 @@ import java.util.Iterator;
  */
 public interface ChessPositionReader extends PiecePlacementReader {
 
-	Color getTurnoActual();
+	Color getCurrentTurn();
 
 	Color getColor(Square square);
 
@@ -31,11 +31,11 @@ public interface ChessPositionReader extends PiecePlacementReader {
 
 	Square getEnPassantSquare();
 
-	long getPosiciones (Color color);
+	long getPositions(Color color);
 
 	SquareIterator iteratorSquare(Color color);
 
-	SquareIterator iteratorSquareWhitoutKing(Color color);
+	SquareIterator iteratorSquareWithoutKing(Color color);
 
 	Iterator<PiecePositioned> iteratorAllPieces();
 	

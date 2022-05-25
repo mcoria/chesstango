@@ -48,7 +48,7 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 
 	@Override
 	public ChessPositionBuilder<Game> withTurno(Color turno) {
-		positionState.setTurnoActual(turno);
+		positionState.setCurrentTurn(turno);
 		return this;
 	}
 

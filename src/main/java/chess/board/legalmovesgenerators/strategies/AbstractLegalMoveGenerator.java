@@ -45,7 +45,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 	//TODO: este metodo no tien buena performance
 	protected long getCapturedPositionsOponente(){
-		final Color turnoActual = this.positionReader.getTurnoActual();
+		final Color turnoActual = this.positionReader.getCurrentTurn();
 
 		long posicionesCapturadas = 0;
 		
@@ -98,7 +98,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 
 	protected Square getCurrentKingSquare() {
-		return positionReader.getKingSquare(positionReader.getTurnoActual());
+		return positionReader.getKingSquare(positionReader.getCurrentTurn());
 	}	
 
 }

@@ -50,7 +50,7 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 
 	@Override
 	public ChessPositionBuilder<ChessPosition> withTurno(Color turno) {
-		positionState.setTurnoActual(turno);
+		positionState.setCurrentTurn(turno);
 		return this;
 	}
 

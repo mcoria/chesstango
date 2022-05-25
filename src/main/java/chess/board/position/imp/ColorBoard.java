@@ -56,7 +56,7 @@ public class ColorBoard {
 		return Color.WHITE.equals(color) ? new BitSquareIterator(squareWhites) : new BitSquareIterator(squareBlacks);		
 	}
 	
-	public SquareIterator iteratorSquareWhitoutKing(Color color, Square kingSquare){
+	public SquareIterator iteratorSquareWithoutKing(Color color, Square kingSquare){
 		return new BitSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getPosicion());		
 	}
 	

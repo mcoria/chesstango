@@ -14,7 +14,7 @@ import chess.board.Square;
 public class PositionState {
 
 	private static class PositionStateData{
-		private Color turnoActual;
+		private Color currentTurn;
 		private Square pawnPasanteSquare;
 		private boolean castlingWhiteQueenAllowed;
 		private boolean castlingWhiteKingAllowed;
@@ -66,17 +66,17 @@ public class PositionState {
 		dataNode.castlingBlackKingAllowed = castlingBlackKingAllowed;
 	}
 	
-	public Color getTurnoActual() {
-		return dataNode.turnoActual;
+	public Color getCurrentTurn() {
+		return dataNode.currentTurn;
 	}
 
-	public void setTurnoActual(Color turnoActual) {
-		dataNode.turnoActual = turnoActual;
+	public void setCurrentTurn(Color turn) {
+		dataNode.currentTurn = turn;
 	}	
 
 	
-	public void rollTurno() {
-		dataNode.turnoActual = dataNode.turnoActual.oppositeColor();
+	public void rollTurn() {
+		dataNode.currentTurn = dataNode.currentTurn.oppositeColor();
 	}
 	
 	
@@ -98,7 +98,7 @@ public class PositionState {
 		node.castlingWhiteKingAllowed = dataNode.castlingWhiteKingAllowed;
 		node.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
 		node.castlingBlackKingAllowed = dataNode.castlingBlackKingAllowed;
-		node.turnoActual = dataNode.turnoActual;
+		node.currentTurn = dataNode.currentTurn;
 		
 		return node;
 	}	
@@ -109,7 +109,7 @@ public class PositionState {
 		dataNode.castlingWhiteKingAllowed = lastState.castlingWhiteKingAllowed;
 		dataNode.castlingBlackQueenAllowed = lastState.castlingBlackQueenAllowed;
 		dataNode.castlingBlackKingAllowed = lastState.castlingBlackKingAllowed;	
-		dataNode.turnoActual = lastState.turnoActual;	
+		dataNode.currentTurn = lastState.currentTurn;
 	}
 
 	
@@ -121,7 +121,7 @@ public class PositionState {
 		clone.dataNode.castlingWhiteKingAllowed = dataNode.castlingWhiteKingAllowed;
 		clone.dataNode.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
 		clone.dataNode.castlingBlackKingAllowed = dataNode.castlingBlackKingAllowed;
-		clone.dataNode.turnoActual = dataNode.turnoActual;
+		clone.dataNode.currentTurn = dataNode.currentTurn;
 		return clone;
 	}
 	
@@ -129,7 +129,7 @@ public class PositionState {
 	public boolean equals(Object obj) {
 		if(obj instanceof PositionState){
 			PositionState theInstance = (PositionState) obj;
-			return Objects.equals(dataNode.turnoActual, theInstance.dataNode.turnoActual) && Objects.equals(dataNode.pawnPasanteSquare, theInstance.dataNode.pawnPasanteSquare) &&  
+			return Objects.equals(dataNode.currentTurn, theInstance.dataNode.currentTurn) && Objects.equals(dataNode.pawnPasanteSquare, theInstance.dataNode.pawnPasanteSquare) &&
 					dataNode.castlingWhiteQueenAllowed == theInstance.dataNode.castlingWhiteQueenAllowed &&
 					dataNode.castlingWhiteKingAllowed == theInstance.dataNode.castlingWhiteKingAllowed &&
 					dataNode.castlingBlackQueenAllowed == theInstance.dataNode.castlingBlackQueenAllowed &&
@@ -140,7 +140,7 @@ public class PositionState {
 	
 	@Override
 	public String toString() {
-		return "Turno Actual: " + String.format("%-6s", dataNode.turnoActual.toString()) + ", pawnPasanteSquare: " +  (dataNode.pawnPasanteSquare == null ? "- " : dataNode.pawnPasanteSquare.toString()) + 
+		return "Turno Actual: " + String.format("%-6s", dataNode.currentTurn.toString()) + ", pawnPasanteSquare: " +  (dataNode.pawnPasanteSquare == null ? "- " : dataNode.pawnPasanteSquare.toString()) +
 				", castlingWhiteQueenAllowed: " + dataNode.castlingWhiteQueenAllowed +
 				", castlingWhiteKingAllowed: " + dataNode.castlingWhiteKingAllowed +
 				", castlingBlackQueenAllowed: " + dataNode.castlingBlackQueenAllowed +

@@ -49,7 +49,7 @@ public class KingBlackMoveGeneratorTest {
 	public void setUp() throws Exception {
 		moveFactoryImp = new MoveFactoryWhite();
 		state = new PositionState();
-		state.setTurnoActual(Color.BLACK);
+		state.setCurrentTurn(Color.BLACK);
 		
 		moveGenerator = new KingBlackMoveGenerator();
 		moveGenerator.setBoardState(state);

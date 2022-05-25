@@ -36,9 +36,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	public MoveContainerReader getLegalMoves(AnalyzerResult analysis) {
 		final Square kingSquare = getCurrentKingSquare();
 
-		final Color turnoActual = this.positionReader.getTurnoActual();
+		final Color turnoActual = this.positionReader.getCurrentTurn();
 
-		final long posicionesTurnoActual =  this.positionReader.getPosiciones(turnoActual);
+		final long posicionesTurnoActual =  this.positionReader.getPositions(turnoActual);
 
 		final long pinnedSquares = analysis.getPinnedSquares();
 

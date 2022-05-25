@@ -29,7 +29,7 @@ public class SmartMinMax implements BestMoveFinder {
 
 	@Override
 	public Move findBestMove(Game game) {
-		boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual());
+		boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn());
 		int betterEvaluation = minOrMax ? Integer.MAX_VALUE: Integer.MIN_VALUE;
 		int currentEvaluation = betterEvaluation;
 		List<Move> posibleMoves = new ArrayList<Move>();
@@ -100,20 +100,20 @@ public class SmartMinMax implements BestMoveFinder {
 	private int evaluate(Game game, int depth) {
 		int evaluation = 0;
 		if (GameStatus.JAQUE_MATE.equals(game.getGameStatus())) {
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? Integer.MAX_VALUE - depth
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MAX_VALUE - depth
 					: Integer.MIN_VALUE + depth;
 		} else if (GameStatus.JAQUE.equals(game.getGameStatus())) {
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getTurnoActual()) ? 90 - depth : -90 + depth;
+			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? 90 - depth : -90 + depth;
 		} else {
 			ChessPositionReader reader = game.getChessPositionReader();
 
-			SquareIterator iterator = reader.iteratorSquareWhitoutKing(Color.WHITE);
+			SquareIterator iterator = reader.iteratorSquareWithoutKing(Color.WHITE);
 			while (iterator.hasNext()) {
 				Piece pieza = reader.getPieza(iterator.next());
 				evaluation += pieza.getValue();
 			}
 
-			iterator = reader.iteratorSquareWhitoutKing(Color.BLACK);
+			iterator = reader.iteratorSquareWithoutKing(Color.BLACK);
 			while (iterator.hasNext()) {
 				Piece pieza = reader.getPieza(iterator.next());
 				evaluation += pieza.getValue();

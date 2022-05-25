@@ -16,7 +16,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.CaptureKingMove;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -84,7 +83,7 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testBoardState() {
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -93,11 +92,11 @@ public class CaptureKingMoveTest {
 
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 
 		moveExecutor.undoMove(positionState);
 
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 	}		
 
 	@Test
@@ -190,7 +189,7 @@ public class CaptureKingMoveTest {
 		colorBoard = new ColorBoard();
 		colorBoard.init(piezaBoard);
 		
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -209,7 +208,7 @@ public class CaptureKingMoveTest {
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e1));
@@ -227,7 +226,7 @@ public class CaptureKingMoveTest {
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.e2));

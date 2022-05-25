@@ -81,7 +81,7 @@ public class ChessPositionImp implements ChessPosition {
 	
 	@Override
 	public void constructBoardRepresentation(ChessPositionBuilder<?> builder){		
-		builder.withTurno(positionState.getTurnoActual())
+		builder.withTurno(positionState.getCurrentTurn())
 				.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
 				.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
 				.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
@@ -129,8 +129,8 @@ public class ChessPositionImp implements ChessPosition {
 
 
 	@Override
-	public Color getTurnoActual() {
-		return this.positionState.getTurnoActual();
+	public Color getCurrentTurn() {
+		return this.positionState.getCurrentTurn();
 	}
 
 	@Override
@@ -185,8 +185,8 @@ public class ChessPositionImp implements ChessPosition {
 
 
 	@Override
-	public SquareIterator iteratorSquareWhitoutKing(Color color) {
-		return colorBoard.iteratorSquareWhitoutKing(color, kingCacheBoard.getKingSquare(color));
+	public SquareIterator iteratorSquareWithoutKing(Color color) {
+		return colorBoard.iteratorSquareWithoutKing(color, kingCacheBoard.getKingSquare(color));
 	}
 
 	@Override
@@ -210,7 +210,7 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public long getPosiciones(Color color) {
+	public long getPositions(Color color) {
 		return colorBoard.getPosiciones(color);
 	}
 

@@ -14,15 +14,15 @@ import chess.board.position.imp.PositionState;
 public class PositionStateDebug extends PositionState{
 
 	public void validar() {
-		if(this.getTurnoActual() == null){
+		if(this.getCurrentTurn() == null){
 			throw new RuntimeException("Y el turno?");
 		}
 		
 		if(this.getEnPassantSquare() != null){
-			if(Color.WHITE.equals(this.getTurnoActual()) && this.getEnPassantSquare().getRank() != 5){
+			if(Color.WHITE.equals(this.getCurrentTurn()) && this.getEnPassantSquare().getRank() != 5){
 				throw new RuntimeException("EnPassantSquare mal setteado: " + this.getEnPassantSquare());
 			}
-			if(Color.BLACK.equals(this.getTurnoActual()) && this.getEnPassantSquare().getRank() != 2){
+			if(Color.BLACK.equals(this.getCurrentTurn()) && this.getEnPassantSquare().getRank() != 2){
 				throw new RuntimeException("EnPassantSquare mal setteado: " + this.getEnPassantSquare());				
 			}			
 		}

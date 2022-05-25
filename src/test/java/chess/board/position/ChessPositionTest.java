@@ -97,7 +97,7 @@ public class ChessPositionTest {
 		assertEquals(20, moves.size());
 		
 		//State
-		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
+		assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
 		assertNull(chessPosition.getEnPassantSquare());
 	}
 
@@ -107,7 +107,7 @@ public class ChessPositionTest {
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 
-		assertEquals(Color.BLACK, chessPosition.getTurnoActual());
+		assertEquals(Color.BLACK, chessPosition.getCurrentTurn());
 		assertTrue(analyzerResult.isKingInCheck());
 
 		assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
@@ -123,7 +123,7 @@ public class ChessPositionTest {
 
 		AnalyzerResult result = analyzer.analyze();
 
-		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
+		assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
 		assertTrue(result.isKingInCheck());
 
 		MoveContainerReader moves = gameState.getLegalMoves();
@@ -144,7 +144,7 @@ public class ChessPositionTest {
 
 		AnalyzerResult result = analyzer.analyze();
 
-		assertEquals(Color.WHITE, chessPosition.getTurnoActual());
+		assertEquals(Color.WHITE, chessPosition.getCurrentTurn());
 		assertTrue(result.isKingInCheck());
 
 		MoveContainerReader moves = gameState.getLegalMoves();

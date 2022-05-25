@@ -18,7 +18,6 @@ import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.debug.chess.KingCacheBoardDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.SimpleKingMove;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -65,7 +64,7 @@ public class SimpleKingMoveTest {
 		moveExecutor = new SimpleKingMove(origen, destino);
 		
 		positionState = new PositionState();
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingWhiteKingAllowed(true);
 		positionState.setCastlingWhiteQueenAllowed(true);
 	}
@@ -92,11 +91,11 @@ public class SimpleKingMoveTest {
 	public void testBoardState() {
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 
 		moveExecutor.undoMove(positionState);
 
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 	}		
 
 	@Test
@@ -168,7 +167,7 @@ public class SimpleKingMoveTest {
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e1));
@@ -189,7 +188,7 @@ public class SimpleKingMoveTest {
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertTrue(colorBoard.isEmpty(Square.e2));

@@ -17,7 +17,6 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.CaptureMove;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -48,7 +47,7 @@ public class CaptureMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		positionState = new PositionState();
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e5, Piece.ROOK_WHITE);
@@ -88,13 +87,13 @@ public class CaptureMoveTest {
 
 		// asserts execute	
 		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		
 		// undos
 		moveExecutor.undoMove(positionState);
 
 		// asserts undos
-		assertEquals(Color.WHITE, positionState.getTurnoActual());		
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 	}
 	
 	@Test

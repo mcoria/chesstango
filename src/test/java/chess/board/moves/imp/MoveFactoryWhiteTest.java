@@ -11,7 +11,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.imp.MoveFactoryWhite;
 import chess.board.position.imp.PositionState;
 
 
@@ -35,7 +34,7 @@ public class MoveFactoryWhiteTest {
 	
 	@Test
 	public void testSimpleKingMoveWhitePierdeEnroque() {
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 
@@ -46,14 +45,14 @@ public class MoveFactoryWhiteTest {
 		
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingWhiteKingAllowed());
 		assertFalse(positionState.isCastlingWhiteQueenAllowed());
 	}
 	
 	@Test
 	public void testCapturaKingMoveWhitePierdeEnroque() {
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingWhiteKingAllowed(true);
 		positionState.setCastlingWhiteQueenAllowed(true);
 
@@ -64,7 +63,7 @@ public class MoveFactoryWhiteTest {
 
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingWhiteKingAllowed());
 		assertFalse(positionState.isCastlingWhiteQueenAllowed());
 	}	

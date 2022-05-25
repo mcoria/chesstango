@@ -48,7 +48,7 @@ public class SaltoDoblePawnMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		boardState = new PositionStateDebug();
-		boardState.setTurnoActual(Color.WHITE);
+		boardState.setCurrentTurn(Color.WHITE);
 		
 		piezaBoard = new ArrayPiecePlacement();
 		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
@@ -86,14 +86,14 @@ public class SaltoDoblePawnMoveTest {
 		
 		// asserts execute
 		assertEquals(Square.e3, boardState.getEnPassantSquare());
-		assertEquals(Color.BLACK, boardState.getTurnoActual());
+		assertEquals(Color.BLACK, boardState.getCurrentTurn());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
 
 		// asserts undos
 		assertNull(boardState.getEnPassantSquare());		
-		assertEquals(Color.WHITE, boardState.getTurnoActual());
+		assertEquals(Color.WHITE, boardState.getCurrentTurn());
 	}
 	
 	@Test

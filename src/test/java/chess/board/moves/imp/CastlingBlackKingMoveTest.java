@@ -17,7 +17,6 @@ import chess.board.Piece;
 import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.moves.imp.CastlingBlackKingMove;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;
@@ -54,7 +53,7 @@ public class CastlingBlackKingMoveTest {
 		moveExecutor = new CastlingBlackKingMove();
 		
 		positionState = new PositionState();		
-		positionState.setTurnoActual(Color.BLACK);
+		positionState.setCurrentTurn(Color.BLACK);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 		
@@ -91,14 +90,14 @@ public class CastlingBlackKingMoveTest {
 		moveExecutor.executeMove(positionState);		
 
 		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.WHITE, positionState.getTurnoActual());		
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
 		
 		moveExecutor.undoMove(positionState);
 		
 		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.BLACK, positionState.getTurnoActual());		
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertTrue(positionState.isCastlingBlackQueenAllowed());
 		assertTrue(positionState.isCastlingBlackKingAllowed());		
 		

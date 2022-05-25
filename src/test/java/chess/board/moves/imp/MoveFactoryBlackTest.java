@@ -11,7 +11,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.Move;
-import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.position.imp.PositionState;
 
 
@@ -35,7 +34,7 @@ public class MoveFactoryBlackTest {
 	
 	@Test
 	public void testSimpleKingMoveWhitePierdeEnroque() {
-		positionState.setTurnoActual(Color.WHITE);
+		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 
@@ -46,7 +45,7 @@ public class MoveFactoryBlackTest {
 		
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.BLACK, positionState.getTurnoActual());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingWhiteKingAllowed());
 		assertFalse(positionState.isCastlingWhiteQueenAllowed());
 	}
@@ -54,7 +53,7 @@ public class MoveFactoryBlackTest {
 	
 	@Test
 	public void testSimpleKingMoveBlackPierdeEnroque() {
-		positionState.setTurnoActual(Color.BLACK);
+		positionState.setCurrentTurn(Color.BLACK);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 
@@ -65,14 +64,14 @@ public class MoveFactoryBlackTest {
 
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
 	}
 	
 	@Test
 	public void testCapturaKingMoveBlackPierdeEnroque() {
-		positionState.setTurnoActual(Color.BLACK);
+		positionState.setCurrentTurn(Color.BLACK);
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 
@@ -83,7 +82,7 @@ public class MoveFactoryBlackTest {
 
 		moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.WHITE, positionState.getTurnoActual());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
 	}

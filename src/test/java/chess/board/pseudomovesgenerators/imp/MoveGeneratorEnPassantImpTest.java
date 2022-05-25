@@ -56,7 +56,7 @@ public class MoveGeneratorEnPassantImpTest {
 		PiecePlacement tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
 		state.setEnPassantSquare(Square.d6);
-		state.setTurnoActual(Color.WHITE);
+		state.setCurrentTurn(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
 
@@ -81,7 +81,7 @@ public class MoveGeneratorEnPassantImpTest {
 		PiecePlacement tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
 		state.setEnPassantSquare(Square.e6);
-		state.setTurnoActual(Color.WHITE);
+		state.setCurrentTurn(Color.WHITE);
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -104,7 +104,7 @@ public class MoveGeneratorEnPassantImpTest {
 		PiecePlacement tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
 		state.setEnPassantSquare(Square.e3);
-		state.setTurnoActual(Color.BLACK);
+		state.setCurrentTurn(Color.BLACK);
 		
 		moveGenerator.setTablero(tablero);
 		
@@ -126,7 +126,7 @@ public class MoveGeneratorEnPassantImpTest {
 		PiecePlacement tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
 		state.setEnPassantSquare(Square.d3);
-		state.setTurnoActual(Color.BLACK);		
+		state.setCurrentTurn(Color.BLACK);
 		
 		moveGenerator.setTablero(tablero);
 		

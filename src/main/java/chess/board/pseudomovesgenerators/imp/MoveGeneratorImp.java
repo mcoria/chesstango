@@ -101,7 +101,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 	@Override
 	public MovePair generateCastlingPseudoMoves() {
-		if (Color.WHITE.equals(positionState.getTurnoActual())) {
+		if (Color.WHITE.equals(positionState.getCurrentTurn())) {
 			return rbmg.generateCastlingPseudoMoves();
 		} else {
 			return rnmg.generateCastlingPseudoMoves();

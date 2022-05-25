@@ -51,7 +51,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	public boolean filterMove(Move move) {
 		boolean result = false;
 		
-		final Color turnoActual = positionState.getTurnoActual();
+		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.dummyBoard);
@@ -71,7 +71,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 	@Override
 	public boolean filterMove(MoveKing move) {
 		boolean result = false;
-		final Color turnoActual = positionState.getTurnoActual();
+		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.kingCacheBoard);

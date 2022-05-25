@@ -35,7 +35,7 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 	protected MoveContainer getBySquareMoves(MoveContainer moves) {
-		for (SquareIterator iterator = this.positionReader.iteratorSquare(this.positionReader.getTurnoActual()); iterator.hasNext();) {
+		for (SquareIterator iterator = this.positionReader.iteratorSquare(this.positionReader.getCurrentTurn()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 
