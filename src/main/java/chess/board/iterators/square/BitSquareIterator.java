@@ -1,7 +1,7 @@
 package chess.board.iterators.square;
 
-import chess.board.PiecePositioned;
 import chess.board.Square;
+import chess.board.iterators.SquareIterator;
 
 /**
  * @author Mauricio Coria

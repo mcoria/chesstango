@@ -1,6 +1,7 @@
-package chess.board.iterators.square;
+package chess.board.iterators.square.bypiece;
 
 import chess.board.Square;
+import chess.board.iterators.square.JumpSquareIterator;
 
 /**
  * @author Mauricio Coria

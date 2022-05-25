@@ -1,4 +1,4 @@
-package chess.board.iterators.square;
+package chess.board.iterators;
 
 import java.util.Iterator;
 

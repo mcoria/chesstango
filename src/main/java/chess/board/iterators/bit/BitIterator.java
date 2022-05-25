@@ -1,4 +1,4 @@
-package chess.board.iterators.pieceplacement;
+package chess.board.iterators.bit;
 
 import chess.board.position.GetElementByIndex;
 

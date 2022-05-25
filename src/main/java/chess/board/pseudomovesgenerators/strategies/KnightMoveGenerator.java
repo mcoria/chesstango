@@ -3,7 +3,7 @@ package chess.board.pseudomovesgenerators.strategies;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.square.statics.KnightBitSquareIterator;
+import chess.board.iterators.square.bypiece.KnightBitSquareIterator;
 import chess.board.moves.Move;
 
 import java.util.Iterator;

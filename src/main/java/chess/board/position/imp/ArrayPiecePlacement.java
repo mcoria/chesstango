@@ -8,8 +8,8 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.ascii.ASCIIEncoder;
-import chess.board.iterators.pieceplacement.BitIterator;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.bit.BitIterator;
+import chess.board.iterators.SquareIterator;
 import chess.board.position.PiecePlacement;
 
 /**

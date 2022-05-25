@@ -1,12 +1,13 @@
 package chess.board.iterators.square;
 
 import chess.board.Square;
+import chess.board.iterators.SquareIterator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class JumpSquareIterator implements SquareIterator {	
+public class JumpSquareIterator implements SquareIterator {
 	
 	private final int[][] saltos;
 	private final Square startingPoint;

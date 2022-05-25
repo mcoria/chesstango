@@ -2,6 +2,7 @@ package chess.board.iterators.square;
 
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
+import chess.board.iterators.SquareIterator;
 
 /**
  * @author Mauricio Coria

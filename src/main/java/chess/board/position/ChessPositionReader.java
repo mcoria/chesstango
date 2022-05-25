@@ -4,11 +4,10 @@
 package chess.board.position;
 
 import chess.board.Color;
-import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.builder.ChessPositionBuilder;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.SquareIterator;
 
 import java.util.Iterator;
 

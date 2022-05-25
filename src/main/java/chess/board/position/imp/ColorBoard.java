@@ -8,7 +8,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.square.BitSquareIterator;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.SquareIterator;
 import chess.board.iterators.square.TopDownSquareIterator;
 import chess.board.position.PiecePlacementReader;
 

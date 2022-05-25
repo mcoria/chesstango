@@ -5,7 +5,7 @@ import java.util.Collection;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.SquareIterator;
 import chess.board.legalmovesgenerators.LegalMoveGenerator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;

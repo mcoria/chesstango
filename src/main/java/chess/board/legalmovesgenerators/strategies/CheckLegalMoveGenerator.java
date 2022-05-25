@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import chess.board.Square;
 import chess.board.analyzer.AnalyzerResult;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.SquareIterator;
 import chess.board.legalmovesgenerators.MoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainer;

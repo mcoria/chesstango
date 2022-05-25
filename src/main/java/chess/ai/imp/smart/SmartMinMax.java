@@ -13,7 +13,7 @@ import chess.board.Game;
 import chess.board.GameState.GameStatus;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.SquareIterator;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainerReader;
 import chess.board.position.ChessPositionReader;

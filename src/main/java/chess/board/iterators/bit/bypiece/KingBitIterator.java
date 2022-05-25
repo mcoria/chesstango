@@ -1,10 +1,10 @@
 /**
  * 
  */
-package chess.board.iterators.pieceplacement.statics;
+package chess.board.iterators.bit.bypiece;
 
 import chess.board.Square;
-import chess.board.iterators.pieceplacement.BitIterator;
+import chess.board.iterators.bit.BitIterator;
 import chess.board.position.GetElementByIndex;
 
 /**

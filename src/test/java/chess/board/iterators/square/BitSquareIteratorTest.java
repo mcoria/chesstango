@@ -8,8 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import chess.board.Square;
-import chess.board.iterators.square.BitSquareIterator;
-import chess.board.iterators.square.SquareIterator;
+import chess.board.iterators.SquareIterator;
 
 
 /**

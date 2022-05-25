@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import chess.board.iterators.square.bypiece.KingJumpSquareIterator;
 import org.junit.Test;
 
 import chess.board.Square;

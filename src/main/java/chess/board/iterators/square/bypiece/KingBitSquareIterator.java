@@ -1,7 +1,7 @@
 /**
  * 
  */
-package chess.board.iterators.square.statics;
+package chess.board.iterators.square.bypiece;
 
 import chess.board.Square;
 import chess.board.iterators.square.BitSquareIterator;
