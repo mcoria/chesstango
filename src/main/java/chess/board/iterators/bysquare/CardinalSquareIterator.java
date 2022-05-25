@@ -1,4 +1,4 @@
-package chess.board.iterators.bysquares;
+package chess.board.iterators.bysquare;
 
 import chess.board.Square;
 import chess.board.iterators.Cardinal;

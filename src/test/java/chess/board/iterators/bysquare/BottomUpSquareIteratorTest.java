@@ -1,4 +1,4 @@
-package chess.board.iterators.bysquares;
+package chess.board.iterators.bysquare;
 
 import chess.board.Piece;
 import chess.board.PiecePositioned;

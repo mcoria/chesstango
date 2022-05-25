@@ -1,16 +1,16 @@
 /**
  * 
  */
-package chess.board.iterators.bysquares.bypiece;
+package chess.board.iterators.bysquare.bypiece;
 
 import chess.board.Square;
-import chess.board.iterators.bysquares.BitSquareIterator;
+import chess.board.iterators.bysquare.PositionsSquareIterator;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class KingBitSquareIterator extends BitSquareIterator {
+public class KingPositionsSquareIterator extends PositionsSquareIterator {
 
 	private static final long[] ARRAY_SALTOS = {
 			770L, 1797L, 3594L, 7188L, 14376L, 28752L, 57504L, 49216L, 197123L, 460039L, 920078L, 1840156L, 3680312L,
@@ -24,7 +24,7 @@ public class KingBitSquareIterator extends BitSquareIterator {
 			-4593460513685372928L, 144959613005987840L, 362258295026614272L, 724516590053228544L, 1449033180106457088L,
 			2898066360212914176L, 5796132720425828352L, -6854478632857894912L, 4665729213955833856L };
 
-	public KingBitSquareIterator(Square startingPoint) {
+	public KingPositionsSquareIterator(Square startingPoint) {
 		super(ARRAY_SALTOS[startingPoint.toIdx()]);
 	}
 

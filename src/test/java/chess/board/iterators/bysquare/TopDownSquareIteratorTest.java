@@ -1,4 +1,4 @@
-package chess.board.iterators.bysquares;
+package chess.board.iterators.bysquare;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

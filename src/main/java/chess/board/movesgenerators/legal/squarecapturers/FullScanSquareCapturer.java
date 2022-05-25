@@ -7,7 +7,7 @@ import chess.board.Square;
 import chess.board.iterators.Cardinal;
 import chess.board.iterators.byposition.bypiece.KingBitIterator;
 import chess.board.iterators.byposition.bypiece.KnightBitIterator;
-import chess.board.iterators.bysquares.CardinalSquareIterator;
+import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.position.PiecePlacementReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;

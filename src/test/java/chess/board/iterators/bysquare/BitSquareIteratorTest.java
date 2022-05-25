@@ -1,4 +1,4 @@
-package chess.board.iterators.bysquares;
+package chess.board.iterators.bysquare;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +25,7 @@ public class BitSquareIteratorTest {
 		
 		List<Square> squares = new ArrayList<Square>();
 		
-		for (SquareIterator iterator =  new BitSquareIterator(posiciones); iterator.hasNext();) {
+		for (SquareIterator iterator = new PositionsSquareIterator(posiciones); iterator.hasNext();) {
 			squares.add(iterator.next());
 		}
 		

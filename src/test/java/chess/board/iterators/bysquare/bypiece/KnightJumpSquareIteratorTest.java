@@ -1,9 +1,9 @@
-package chess.board.iterators.bysquares.bypiece;
+package chess.board.iterators.bysquare.bypiece;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import chess.board.iterators.bysquares.JumpSquareIterator;
+import chess.board.iterators.bysquare.JumpSquareIterator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class KnightJumpSquareIteratorTest {
 
 		while (iterator.hasNext()) {
 			Square square = iterator.next();
-			//System.out.println(bysquares);
+			//System.out.println(bysquare);
 			squares.add(square);
 		}
 
@@ -46,7 +46,7 @@ public class KnightJumpSquareIteratorTest {
 
 		while (iterator.hasNext()) {
 			Square square = iterator.next();
-			//System.out.println(bysquares);
+			//System.out.println(bysquare);
 			squares.add(square);
 		}
 
@@ -63,7 +63,7 @@ public class KnightJumpSquareIteratorTest {
 
 		while (iterator.hasNext()) {
 			Square square = iterator.next();
-			//System.out.println(bysquares);
+			//System.out.println(bysquare);
 			squares.add(square);
 		}
 
@@ -79,7 +79,7 @@ public class KnightJumpSquareIteratorTest {
 
 		while (iterator.hasNext()) {
 			Square square = iterator.next();
-			//System.out.println(bysquares);
+			//System.out.println(bysquare);
 			squares.add(square);
 		}
 
@@ -96,7 +96,7 @@ public class KnightJumpSquareIteratorTest {
 
 		while (iterator.hasNext()) {
 			Square square = iterator.next();
-			//System.out.println(bysquares);
+			//System.out.println(bysquare);
 			squares.add(square);
 		}
 

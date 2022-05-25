@@ -1,4 +1,4 @@
-package chess.board.iterators.bysquares;
+package chess.board.iterators.bysquare;
 
 import chess.board.Square;
 import chess.board.iterators.SquareIterator;
@@ -7,9 +7,9 @@ import chess.board.iterators.SquareIterator;
  * @author Mauricio Coria
  *
  */
-public class BitSquareIterator implements SquareIterator {
+public class BottomUpSquareIterator implements SquareIterator {
 
-	private final static Square[] array = {  
+	private static final Square[] array = {
 			Square.a1, Square.b1, Square.c1, Square.d1, Square.e1, Square.f1, Square.g1, Square.h1,
 			Square.a2, Square.b2, Square.c2, Square.d2, Square.e2, Square.f2, Square.g2, Square.h2,
 			Square.a3, Square.b3, Square.c3, Square.d3, Square.e3, Square.f3, Square.g3, Square.h3,
@@ -19,26 +19,16 @@ public class BitSquareIterator implements SquareIterator {
 			Square.a7, Square.b7, Square.c7, Square.d7, Square.e7, Square.f7, Square.g7, Square.h7,
 			Square.a8, Square.b8, Square.c8, Square.d8, Square.e8, Square.f8, Square.g8, Square.h8};
 	
-	private long posiciones;
+    private int nextIdx = 0;
 	
-	public BitSquareIterator(long posiciones) {
-		this.posiciones = posiciones;
-	}
-
 	@Override
 	public boolean hasNext() {
-		return posiciones != 0;
+		return this.nextIdx < 64;
 	}
 
 	@Override
 	public Square next() {
-		Square result = null;
-		if (posiciones != 0) {
-			long posicionLng = Long.lowestOneBit(posiciones);
-			result  = array[Long.numberOfTrailingZeros(posicionLng)];
-			posiciones &= ~posicionLng;
-		}
-		return result;
+		return array[nextIdx++];
 	}
 
 }

@@ -3,7 +3,7 @@ package chess.board.movesgenerators.pseudo.strategies;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.bysquares.bypiece.KingBitSquareIterator;
+import chess.board.iterators.bysquare.bypiece.KingPositionsSquareIterator;
 import chess.board.movesgenerators.pseudo.MoveGeneratorCastling;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
@@ -61,7 +61,7 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 
 	@Override
 	protected Iterator<Square> getSquareIterator(Square fromSquare) {
-		return new KingBitSquareIterator(fromSquare);
+		return new KingPositionsSquareIterator(fromSquare);
 	}
 
 	public void setBoardState(PositionState positionState) {

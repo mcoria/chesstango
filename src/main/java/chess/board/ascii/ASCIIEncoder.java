@@ -7,7 +7,7 @@ import chess.board.Piece;
 import chess.board.Square;
 import chess.board.builder.imp.AbstractChessPositionBuilder;
 import chess.board.iterators.SquareIterator;
-import chess.board.iterators.bysquares.TopDownSquareIterator;
+import chess.board.iterators.bysquare.TopDownSquareIterator;
 
 /**
  * @author Mauricio Coria

@@ -3,9 +3,9 @@
  */
 package chess;
 
-import chess.board.iterators.bysquares.*;
-import chess.board.iterators.bysquares.bypiece.KingJumpSquareIteratorTest;
-import chess.board.iterators.bysquares.bypiece.KnightJumpSquareIteratorTest;
+import chess.board.iterators.bysquare.*;
+import chess.board.iterators.bysquare.bypiece.KingJumpSquareIteratorTest;
+import chess.board.iterators.bysquare.bypiece.KnightJumpSquareIteratorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

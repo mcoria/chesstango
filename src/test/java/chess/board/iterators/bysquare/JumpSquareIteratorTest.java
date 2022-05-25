@@ -1,8 +1,8 @@
-package chess.board.iterators.bysquares;
+package chess.board.iterators.bysquare;
 
 import chess.board.Square;
-import chess.board.iterators.bysquares.bypiece.KingJumpSquareIterator;
-import chess.board.iterators.bysquares.bypiece.KnightJumpSquareIterator;
+import chess.board.iterators.bysquare.bypiece.KingJumpSquareIterator;
+import chess.board.iterators.bysquare.bypiece.KnightJumpSquareIterator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

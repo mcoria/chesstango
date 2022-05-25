@@ -3,7 +3,7 @@ package chess.board.debug.chess;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.bysquares.BitSquareIterator;
+import chess.board.iterators.bysquare.PositionsSquareIterator;
 import chess.board.iterators.SquareIterator;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ColorBoard;
@@ -37,7 +37,7 @@ public class ColorBoardDebug extends ColorBoard {
 		long solapados = this.squareWhites & this.squareBlacks;
 		if( solapados != 0 ){
 			String solapadosStr = "";
-			for (SquareIterator iterator =  new BitSquareIterator(solapados); iterator.hasNext();) {
+			for (SquareIterator iterator = new PositionsSquareIterator(solapados); iterator.hasNext();) {
 				solapadosStr = solapadosStr + iterator.next().toString() + " ";
 			}
 

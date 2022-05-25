@@ -3,7 +3,7 @@ package chess.board.movesgenerators.pseudo.strategies;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.bysquares.bypiece.KnightBitSquareIterator;
+import chess.board.iterators.bysquare.bypiece.KnightPositionsSquareIterator;
 import chess.board.moves.Move;
 
 import java.util.Iterator;
@@ -32,7 +32,7 @@ public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 
 	@Override
 	protected Iterator<Square> getSquareIterator(Square fromSquare) {
-		return new KnightBitSquareIterator(fromSquare);
+		return new KnightPositionsSquareIterator(fromSquare);
 	}
 
 }

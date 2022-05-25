@@ -7,9 +7,9 @@ import chess.board.Color;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.bysquares.BitSquareIterator;
+import chess.board.iterators.bysquare.PositionsSquareIterator;
 import chess.board.iterators.SquareIterator;
-import chess.board.iterators.bysquares.TopDownSquareIterator;
+import chess.board.iterators.bysquare.TopDownSquareIterator;
 import chess.board.position.PiecePlacementReader;
 
 /**
@@ -53,11 +53,11 @@ public class ColorBoard {
 	
 
 	public SquareIterator iteratorSquare(Color color){
-		return Color.WHITE.equals(color) ? new BitSquareIterator(squareWhites) : new BitSquareIterator(squareBlacks);		
+		return Color.WHITE.equals(color) ? new PositionsSquareIterator(squareWhites) : new PositionsSquareIterator(squareBlacks);
 	}
 	
 	public SquareIterator iteratorSquareWithoutKing(Color color, Square kingSquare){
-		return new BitSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getPosicion());		
+		return new PositionsSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getPosicion());
 	}
 	
 	public long getPosiciones (Color color){
@@ -74,7 +74,7 @@ public class ColorBoard {
 		} else if(Color.BLACK.equals(color)){
 			return (squareBlacks & square.getPosicion()) != 0;
 		} else{
-			throw new RuntimeException("Empty bysquares");
+			throw new RuntimeException("Empty bysquare");
 		}
 	}
 

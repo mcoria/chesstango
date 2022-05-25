@@ -6,7 +6,7 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
 import chess.board.iterators.byposition.bypiece.KnightBitIterator;
-import chess.board.iterators.bysquares.CardinalSquareIterator;
+import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.position.ChessPositionReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
