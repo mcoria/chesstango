@@ -5,22 +5,18 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.byposition.bypiece.KnightBitIterator;
-import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
-import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPawn;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
-import chess.board.position.ChessPositionReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
+import chess.board.position.ChessPositionReader;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 
 
 /**
