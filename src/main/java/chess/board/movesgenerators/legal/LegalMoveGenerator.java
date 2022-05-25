@@ -5,7 +5,7 @@ import chess.board.moves.containers.MoveContainerReader;
 
 // Doble  Jaque 										-> Mover el King. 								El castling no est� permitido.
 // Simple Jaque (Rook; Bishop; Queen; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover king. El castling no est� permitido.
-// Simple Jaque (Knight; Pawn; a UN SOLO paso) 			-> Comer jaqueador, mover king. 					El castling no est� permitido.
+// Simple Jaque (CapturerByKnight; Pawn; a UN SOLO paso) 			-> Comer jaqueador, mover king. 					El castling no est� permitido.
 // Sin Jaque    										-> El castling esta permidito.
 // Movemos la validacion de castlings aqui?
 

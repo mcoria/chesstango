@@ -85,11 +85,11 @@ public class ChessPositionTest {
 		assertTrue(moves.contains( createSimpleMove(Square.h2, Piece.PAWN_WHITE, Square.h3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.h2, Piece.PAWN_WHITE, Square.h4, Square.h3) ));
 		
-		//Knight Kingna
+		//CapturerByKnight Kingna
 		assertTrue(moves.contains( createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.a3) ));
 		assertTrue(moves.contains( createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3) ));
 		
-		//Knight King
+		//CapturerByKnight King
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Piece.KNIGHT_WHITE, Square.f3) ));
 		assertTrue(moves.contains( createSimpleMove(Square.g1, Piece.KNIGHT_WHITE, Square.h3) ));
 		
