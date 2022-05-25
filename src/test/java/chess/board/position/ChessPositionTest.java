@@ -38,9 +38,7 @@ public class ChessPositionTest {
 	
 	private ChessInjector injector;
 	
-	private PositionAnalyzer analyzer; 
-	
-	private AnalyzerResult analyzerResult;
+	private PositionAnalyzer analyzer;
 	
 	private ChessPosition chessPosition;
 
@@ -108,7 +106,7 @@ public class ChessPositionTest {
 		MoveContainerReader moves = gameState.getLegalMoves();
 
 		assertEquals(Color.BLACK, chessPosition.getCurrentTurn());
-		assertTrue(analyzerResult.isKingInCheck());
+		assertEquals(GameState.GameStatus.JAQUE, gameState.getStatus());
 
 		assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
 		assertFalse(moves.contains(createSimpleMove(Square.e8, Piece.KING_BLACK, Square.e7)));
@@ -259,12 +257,12 @@ public class ChessPositionTest {
 		builder.getResult();
 		
 		chessPosition =  injector.getChessPosition();
-		
-		analyzer = injector.getAnalyzer();
-		
-		analyzerResult = analyzer.analyze();
-		
+
 		gameState = injector.getGameState();
+
+		analyzer = injector.getAnalyzer();
+
+		analyzer.updateGameStatus();
 	}		
 
 		

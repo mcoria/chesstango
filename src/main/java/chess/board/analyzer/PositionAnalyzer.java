@@ -58,7 +58,7 @@ public class PositionAnalyzer {
 		
 		AnalyzerResult result = new AnalyzerResult();
 		
-		this.checkAndPinnedAnalyzer.analyze();
+		checkAndPinnedAnalyzer.analyze();
 		
 		result.setKingInCheck(checkAndPinnedAnalyzer.isKingInCheck());
 		
