@@ -5,8 +5,8 @@ import java.util.Collection;
 import chess.board.Square;
 import chess.board.moves.Move;
 import chess.board.position.imp.ChessPositionImp;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.board.movesgenerators.pseudo.MoveGeneratorResult;
+import chess.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
 
 /**

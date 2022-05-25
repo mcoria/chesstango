@@ -6,7 +6,7 @@ import java.util.Deque;
 import java.util.List;
 
 import chess.board.Square;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
+import chess.board.movesgenerators.pseudo.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria

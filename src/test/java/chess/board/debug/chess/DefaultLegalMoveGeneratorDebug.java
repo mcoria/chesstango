@@ -1,9 +1,9 @@
 package chess.board.debug.chess;
 
-import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
+import chess.board.movesgenerators.legal.MoveFilter;
+import chess.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
 import chess.board.position.ChessPositionReader;
-import chess.board.pseudomovesgenerators.MoveGenerator;
+import chess.board.movesgenerators.pseudo.MoveGenerator;
 
 
 /**

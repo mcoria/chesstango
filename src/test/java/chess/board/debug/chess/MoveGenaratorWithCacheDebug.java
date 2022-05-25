@@ -6,9 +6,9 @@ package chess.board.debug.chess;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.position.imp.MoveCacheBoard;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
-import chess.board.pseudomovesgenerators.imp.MoveGenaratorWithCacheProxy;
-import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.board.movesgenerators.pseudo.MoveGeneratorResult;
+import chess.board.movesgenerators.pseudo.imp.MoveGenaratorWithCacheProxy;
+import chess.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria

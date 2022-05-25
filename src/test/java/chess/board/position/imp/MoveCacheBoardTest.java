@@ -9,7 +9,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.moves.imp.MoveFactoryWhite;
-import chess.board.pseudomovesgenerators.MoveGeneratorResult;
+import chess.board.movesgenerators.pseudo.MoveGeneratorResult;
 
 
 /**

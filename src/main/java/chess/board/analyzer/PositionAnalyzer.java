@@ -1,7 +1,7 @@
 package chess.board.analyzer;
 
 import chess.board.GameState;
-import chess.board.legalmovesgenerators.LegalMoveGenerator;
+import chess.board.movesgenerators.legal.LegalMoveGenerator;
 import chess.board.moves.containers.MoveContainerReader;
 
 /*

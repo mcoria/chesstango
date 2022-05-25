@@ -18,7 +18,7 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.debug.chess.ColorBoardDebug;
 import chess.board.debug.chess.PositionStateDebug;
-import chess.board.legalmovesgenerators.MoveFilter;
+import chess.board.movesgenerators.legal.MoveFilter;
 import chess.board.position.ChessPosition;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ArrayPiecePlacement;

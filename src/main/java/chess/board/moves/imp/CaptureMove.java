@@ -2,7 +2,7 @@ package chess.board.moves.imp;
 
 import chess.board.PiecePositioned;
 import chess.board.iterators.Cardinal;
-import chess.board.legalmovesgenerators.MoveFilter;
+import chess.board.movesgenerators.legal.MoveFilter;
 import chess.board.position.ChessPositionWriter;
 import chess.board.position.imp.ColorBoard;
 

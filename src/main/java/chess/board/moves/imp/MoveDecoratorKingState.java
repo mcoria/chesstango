@@ -2,7 +2,7 @@ package chess.board.moves.imp;
 
 import java.util.function.Consumer;
 
-import chess.board.legalmovesgenerators.MoveFilter;
+import chess.board.movesgenerators.legal.MoveFilter;
 import chess.board.moves.MoveKing;
 import chess.board.position.ChessPositionWriter;
 import chess.board.position.imp.KingCacheBoard;

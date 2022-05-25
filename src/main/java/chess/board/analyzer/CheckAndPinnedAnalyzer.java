@@ -8,8 +8,8 @@ import chess.board.iterators.Cardinal;
 import chess.board.iterators.byposition.bypiece.KnightBitIterator;
 import chess.board.iterators.bysquares.CardinalSquareIterator;
 import chess.board.position.ChessPositionReader;
-import chess.board.pseudomovesgenerators.strategies.BishopMoveGenerator;
-import chess.board.pseudomovesgenerators.strategies.RookMoveGenerator;
+import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
+import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

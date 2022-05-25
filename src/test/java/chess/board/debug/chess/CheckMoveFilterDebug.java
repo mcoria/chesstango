@@ -1,6 +1,6 @@
 package chess.board.debug.chess;
 
-import chess.board.legalmovesgenerators.filters.CheckMoveFilter;
+import chess.board.movesgenerators.legal.filters.CheckMoveFilter;
 import chess.board.moves.Move;
 import chess.board.moves.MoveKing;
 import chess.board.position.PiecePlacement;

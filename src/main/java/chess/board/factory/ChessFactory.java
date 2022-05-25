@@ -4,14 +4,14 @@ import chess.board.Game;
 import chess.board.GameState;
 import chess.board.analyzer.CheckAndPinnedAnalyzer;
 import chess.board.analyzer.PositionAnalyzer;
-import chess.board.legalmovesgenerators.squarecapturers.FullScanSquareCapturer;
-import chess.board.legalmovesgenerators.LegalMoveGenerator;
-import chess.board.legalmovesgenerators.MoveFilter;
-import chess.board.legalmovesgenerators.filters.CheckMoveFilter;
-import chess.board.legalmovesgenerators.filters.NoCheckMoveFilter;
-import chess.board.legalmovesgenerators.imp.LegalMoveGeneratorImp;
-import chess.board.legalmovesgenerators.strategies.CheckLegalMoveGenerator;
-import chess.board.legalmovesgenerators.strategies.NoCheckLegalMoveGenerator;
+import chess.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
+import chess.board.movesgenerators.legal.LegalMoveGenerator;
+import chess.board.movesgenerators.legal.MoveFilter;
+import chess.board.movesgenerators.legal.filters.CheckMoveFilter;
+import chess.board.movesgenerators.legal.filters.NoCheckMoveFilter;
+import chess.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
+import chess.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
+import chess.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import chess.board.position.ChessPosition;
 import chess.board.position.ChessPositionReader;
 import chess.board.position.PiecePlacement;
@@ -22,9 +22,9 @@ import chess.board.position.imp.ColorBoard;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.MoveCacheBoard;
 import chess.board.position.imp.PositionState;
-import chess.board.pseudomovesgenerators.MoveGenerator;
-import chess.board.pseudomovesgenerators.imp.MoveGenaratorWithCacheProxy;
-import chess.board.pseudomovesgenerators.imp.MoveGeneratorImp;
+import chess.board.movesgenerators.pseudo.MoveGenerator;
+import chess.board.movesgenerators.pseudo.imp.MoveGenaratorWithCacheProxy;
+import chess.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
