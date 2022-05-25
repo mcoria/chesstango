@@ -29,7 +29,7 @@ import java.util.Iterator;
 //				deberia buscar el jaque en direccion del pinned
 //			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
 //		 - deberiamos tener un capturer especifico para Castling
-public class FullScanSquareCapturer {
+public class FullScanSquareCapturer implements SquareCapturer {
 	
 	private final PiecePlacementReader piecePlacementReader;
 	private final CapturerImp capturerWhite = new CapturerImp(Color.WHITE, PawnWhite_ARRAY_SALTOS);
@@ -37,8 +37,9 @@ public class FullScanSquareCapturer {
 	
 	public FullScanSquareCapturer(PiecePlacementReader piecePlacementReader) {
 		this.piecePlacementReader = piecePlacementReader;
-	}	
+	}
 
+	@Override
 	public boolean positionCaptured(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
 			return capturerWhite.positionCaptured(square);

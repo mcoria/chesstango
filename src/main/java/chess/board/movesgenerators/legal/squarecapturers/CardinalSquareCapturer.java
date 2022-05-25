@@ -21,7 +21,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  */
-public class CardinalSquareCapturer {
+public class CardinalSquareCapturer implements SquareCapturer {
 	
 	private final PiecePlacementReader piecePlacementReader;
 	private final CapturerImp capturerWhite = new CapturerImp(Color.WHITE);
@@ -31,6 +31,7 @@ public class CardinalSquareCapturer {
 		this.piecePlacementReader = piecePlacementReader;
 	}	
 
+	@Override
 	public boolean positionCaptured(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
 			return capturerWhite.positionCaptured(square);
@@ -75,9 +76,7 @@ public class CardinalSquareCapturer {
 			}
 			return false;
 		}
-		
-		
-		
+
 		private boolean positionCapturedByCardinalPieza(Piece rookObishop, Piece queen, Square square, Cardinal cardinal) {
 			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
 			while (iterator.hasNext()) {
