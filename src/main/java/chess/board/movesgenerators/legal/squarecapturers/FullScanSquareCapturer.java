@@ -5,16 +5,14 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.SquareIterator;
-import chess.board.iterators.byposition.BitIterator;
 import chess.board.iterators.byposition.bypiece.KingBitIterator;
 import chess.board.iterators.byposition.bypiece.KnightBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
-import chess.board.position.PiecePlacementReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
+import chess.board.position.PiecePlacementReader;
 
 import java.util.Iterator;
 import java.util.function.Function;
@@ -72,7 +70,6 @@ public class FullScanSquareCapturer implements SquareCapturer {
 			this.pawn = Piece.getPawn(color);
 			this.king = Piece.getKing(color);
 			this.createPawnJumpsIterator = createPawnJumpsIterator;
-				
 		}
 
 		public boolean positionCaptured(Square square) {

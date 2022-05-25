@@ -6,6 +6,8 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
 import chess.board.iterators.byposition.bypiece.KnightBitIterator;
+import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
+import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.position.ChessPositionReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
@@ -15,6 +17,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -28,8 +31,8 @@ public class CheckAndPinnedAnalyzer {
 	
 	private final ChessPositionReader positionReader;
 	
-	private final CheckAndPinnedAnalyzerByColor analyzerWhite = new CheckAndPinnedAnalyzerByColor(Color.WHITE, PawnWhite_ARRAY_SALTOS);
-	private final CheckAndPinnedAnalyzerByColor analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK, PawnBlack_ARRAY_SALTOS);
+	private final CheckAndPinnedAnalyzerByColor analyzerWhite = new CheckAndPinnedAnalyzerByColor(Color.WHITE, this::createPawnWhiteIterator);
+	private final CheckAndPinnedAnalyzerByColor analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK, this::createPawnBlackIterator);
 	
 	private long pinnedPositions;
 
@@ -46,9 +49,9 @@ public class CheckAndPinnedAnalyzer {
 		pinnedPositionCardinals = new ArrayList<>(8);
 		kingInCheck = false;
 		
-		Color turnoActual = positionReader.getCurrentTurn();
+		Color currentTurn = positionReader.getCurrentTurn();
 		
-		if(Color.WHITE.equals(turnoActual)){
+		if(Color.WHITE.equals(currentTurn)){
 			analyzerBlack.analyze();
 		} else {
 			analyzerWhite.analyze();
@@ -76,11 +79,11 @@ public class CheckAndPinnedAnalyzer {
 		private final Piece bishop;
 		private final Piece queen;
 		private final Piece knight;
-		private final long[] pawnJumps;
+		private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
 		private final Piece pawn;
 
 		
-		public CheckAndPinnedAnalyzerByColor(Color color, long[] pawnJumps) {
+		public CheckAndPinnedAnalyzerByColor(Color color, Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator) {
 			this.color = color;
 			this.opponentColor = color.oppositeColor();
 			this.rook =  Piece.getRook(color);
@@ -88,74 +91,65 @@ public class CheckAndPinnedAnalyzer {
 			this.queen = Piece.getQueen(color);
 			this.knight = Piece.getKnight(color);
 			this.pawn = Piece.getPawn(color);
-			this.pawnJumps = pawnJumps;
-				
+			this.createPawnJumpsIterator = createPawnJumpsIterator;
 		}
 
 		public void analyze() {
 			Square squareKingOpponent = positionReader.getKingSquare(color.oppositeColor());
 
-			analyzeByKnight(squareKingOpponent);
-			
-			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
-				analyzeByBishop(squareKingOpponent);
-			}
-			
-			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
-				analyzeByRook(squareKingOpponent);
-			}
-
-			if (!CheckAndPinnedAnalyzer.this.kingInCheck){
-				analyzeByPawn(squareKingOpponent);
+			if(analyzeByKnight(squareKingOpponent) ||
+					analyzeByBishop(squareKingOpponent) ||
+					analyzeByRook(squareKingOpponent) ||
+					analyzeByPawn(squareKingOpponent) ) {
+				CheckAndPinnedAnalyzer.this.kingInCheck = true;
 			}
 			
 			// Another king can not check our king NEVER
-			// analyzeByKing(squareKing);
+			// analyzeByKing(squareKing)
 
 		}
 		
-		private void analyzeByKnight(Square squareKingOpponent) {
+		private boolean analyzeByKnight(Square squareKingOpponent) {
 			Iterator<PiecePositioned> iterator = new KnightBitIterator<PiecePositioned>(positionReader, squareKingOpponent);
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
-			    if(knight.equals(destino.getValue())){		    	
-			    	CheckAndPinnedAnalyzer.this.kingInCheck = true;
-			    	return;
+			    if(knight.equals(destino.getValue())){
+			    	return true;
 			    }
 			}
+			return false;
 		}
 		
-		private void analyzeByPawn(Square squareKingOpponent) {
-			Iterator<PiecePositioned> iterator = positionReader.iterator( pawnJumps[squareKingOpponent.toIdx()] );
+		private boolean analyzeByPawn(Square squareKingOpponent) {
+			Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(squareKingOpponent);
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(pawn.equals(destino.getValue())){
 			    	CheckAndPinnedAnalyzer.this.kingInCheck = true;
-			    	return;
+					return true;
 			    }
 			}
+			return false;
 		}
 
-		private final Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
-		private void analyzeByBishop(Square square) {
-			positionCapturedByDireccion(square, direccionesBishop, this.bishop);
+		private boolean analyzeByBishop(Square square) {
+			return positionCapturedByDirections(square, BishopMoveGenerator.BISHOP_CARDINAL, this.bishop);
 		}
 
-		private final Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
-		private void analyzeByRook(Square squareKingOpponent) {		
-			positionCapturedByDireccion(squareKingOpponent, direccionesRook, this.rook);
+		private boolean analyzeByRook(Square squareKingOpponent) {
+			return positionCapturedByDirections(squareKingOpponent, RookMoveGenerator.ROOK_CARDINAL, this.rook);
 		}
 
-		private void positionCapturedByDireccion(Square squareKingOpponent, Cardinal[] direcciones, Piece rookOrBishop) {
+		private boolean positionCapturedByDirections(Square squareKingOpponent, Cardinal[] direcciones, Piece rookOrBishop) {
 			for (Cardinal cardinal : direcciones) {
-				if(positionCapturedByCardinalPieza(squareKingOpponent, cardinal, rookOrBishop)){
-					CheckAndPinnedAnalyzer.this.kingInCheck = true;
-					return;
+				if(positionCapturedByDirection(squareKingOpponent, cardinal, rookOrBishop)){
+					return true;
 				}
 			}
-		}		
+			return false;
+		}
 		
-		private boolean positionCapturedByCardinalPieza(Square squareKingOpponent, Cardinal cardinal, Piece rookOrBishop) {
+		private boolean positionCapturedByDirection(Square squareKingOpponent, Cardinal cardinal, Piece rookOrBishop) {
 			PiecePositioned possiblePinned = null;
 
 			Iterator<PiecePositioned> iterator = positionReader.iterator(new CardinalSquareIterator(squareKingOpponent, cardinal));
@@ -198,24 +192,12 @@ public class CheckAndPinnedAnalyzer {
 		}
 
 	}
-	
-	private static final long[] PawnWhite_ARRAY_SALTOS = {
-			0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 2L, 5L, 10L, 20L, 40L, 80L, 160L, 64L, 512L, 1280L, 2560L, 5120L, 10240L,
-			20480L, 40960L, 16384L, 131072L, 327680L, 655360L, 1310720L, 2621440L, 5242880L, 10485760L, 4194304L,
-			33554432L, 83886080L, 167772160L, 335544320L, 671088640L, 1342177280L, 2684354560L, 1073741824L,
-			8589934592L, 21474836480L, 42949672960L, 85899345920L, 171798691840L, 343597383680L, 687194767360L,
-			274877906944L, 2199023255552L, 5497558138880L, 10995116277760L, 21990232555520L, 43980465111040L,
-			87960930222080L, 175921860444160L, 70368744177664L, 562949953421312L, 1407374883553280L, 2814749767106560L,
-			5629499534213120L, 11258999068426240L, 22517998136852480L, 45035996273704960L, 18014398509481984L };
-	
-	private static final long[] PawnBlack_ARRAY_SALTOS = {
-			512L, 1280L, 2560L, 5120L, 10240L, 20480L, 40960L, 16384L, 131072L, 327680L, 655360L, 1310720L, 2621440L,
-			5242880L, 10485760L, 4194304L, 33554432L, 83886080L, 167772160L, 335544320L, 671088640L, 1342177280L,
-			2684354560L, 1073741824L, 8589934592L, 21474836480L, 42949672960L, 85899345920L, 171798691840L,
-			343597383680L, 687194767360L, 274877906944L, 2199023255552L, 5497558138880L, 10995116277760L,
-			21990232555520L, 43980465111040L, 87960930222080L, 175921860444160L, 70368744177664L, 562949953421312L,
-			1407374883553280L, 2814749767106560L, 5629499534213120L, 11258999068426240L, 22517998136852480L,
-			45035996273704960L, 18014398509481984L, 144115188075855872L, 360287970189639680L, 720575940379279360L,
-			1441151880758558720L, 2882303761517117440L, 5764607523034234880L, -6917529027641081856L,
-			4611686018427387904L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L };	
+
+	private Iterator<PiecePositioned> createPawnWhiteIterator(Square square) {
+		return new PawnWhiteBitIterator<PiecePositioned>(positionReader, square);
+	}
+
+	private Iterator<PiecePositioned> createPawnBlackIterator(Square square) {
+		return new PawnBlackBitIterator<PiecePositioned>(positionReader, square);
+	}
 }
