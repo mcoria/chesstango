@@ -1,10 +1,11 @@
-package chess.board.iterators.square;
+package chess.board.iterators.square.bypiece;
 
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import chess.board.iterators.square.JumpSquareIterator;
 import chess.board.iterators.square.bypiece.KnightJumpSquareIterator;
 import org.junit.Test;
 
@@ -29,15 +30,15 @@ public class KnightJumpSquareIteratorTest {
 		}
 
 
-		assertEquals(8, squares.size());
-		assertTrue(squares.contains(Square.d7));
-		assertTrue(squares.contains(Square.f7));
-		assertTrue(squares.contains(Square.c4));
-		assertTrue(squares.contains(Square.c6));
-		assertTrue(squares.contains(Square.g4));
-		assertTrue(squares.contains(Square.g6));
-		assertTrue(squares.contains(Square.d3));
-		assertTrue(squares.contains(Square.f3));
+		Assert.assertEquals(8, squares.size());
+		Assert.assertTrue(squares.contains(Square.d7));
+		Assert.assertTrue(squares.contains(Square.f7));
+		Assert.assertTrue(squares.contains(Square.c4));
+		Assert.assertTrue(squares.contains(Square.c6));
+		Assert.assertTrue(squares.contains(Square.g4));
+		Assert.assertTrue(squares.contains(Square.g6));
+		Assert.assertTrue(squares.contains(Square.d3));
+		Assert.assertTrue(squares.contains(Square.f3));
 	}
 
 	@Test
@@ -52,9 +53,9 @@ public class KnightJumpSquareIteratorTest {
 		}
 
 
-		assertEquals(2, squares.size());
-		assertTrue(squares.contains(Square.b3));
-		assertTrue(squares.contains(Square.c2));
+		Assert.assertEquals(2, squares.size());
+		Assert.assertTrue(squares.contains(Square.b3));
+		Assert.assertTrue(squares.contains(Square.c2));
 	}
 
 	@Test
@@ -68,9 +69,9 @@ public class KnightJumpSquareIteratorTest {
 			squares.add(square);
 		}
 
-		assertEquals(2, squares.size());
-		assertTrue(squares.contains(Square.g3));
-		assertTrue(squares.contains(Square.f2));
+		Assert.assertEquals(2, squares.size());
+		Assert.assertTrue(squares.contains(Square.g3));
+		Assert.assertTrue(squares.contains(Square.f2));
 	}
 
 	@Test
@@ -85,9 +86,9 @@ public class KnightJumpSquareIteratorTest {
 		}
 
 
-		assertEquals(2, squares.size());
-		assertTrue(squares.contains(Square.b6));
-		assertTrue(squares.contains(Square.c7));
+		Assert.assertEquals(2, squares.size());
+		Assert.assertTrue(squares.contains(Square.b6));
+		Assert.assertTrue(squares.contains(Square.c7));
 	}
 
 	@Test
@@ -101,9 +102,9 @@ public class KnightJumpSquareIteratorTest {
 			squares.add(square);
 		}
 
-		assertEquals(2, squares.size());
-		assertTrue(squares.contains(Square.f7));
-		assertTrue(squares.contains(Square.g6));
+		Assert.assertEquals(2, squares.size());
+		Assert.assertTrue(squares.contains(Square.f7));
+		Assert.assertTrue(squares.contains(Square.g6));
 	}
 
 }
