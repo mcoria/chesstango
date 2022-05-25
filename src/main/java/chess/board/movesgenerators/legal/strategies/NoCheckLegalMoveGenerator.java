@@ -44,9 +44,11 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		final long posicionRey = kingSquare.getPosicion();
 
-		MoveContainer moves = new MoveContainer();
+		long safePositions = posicionesTurnoActual & ~pinnedSquares & ~posicionRey;
 
-		getLegalMovesNotKingNotPinned(posicionesTurnoActual & ~pinnedSquares & ~posicionRey, moves);
+		MoveContainer moves = new MoveContainer(Long.bitCount(safePositions));
+
+		getLegalMovesNotKingNotPinned(safePositions, moves);
 
 		getLegalMovesNotKingPinned(analysis, moves);
 		

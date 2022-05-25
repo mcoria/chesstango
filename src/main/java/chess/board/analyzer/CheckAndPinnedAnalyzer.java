@@ -5,18 +5,22 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
+import chess.board.iterators.byposition.bypiece.KnightBitIterator;
+import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
+import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPawn;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
+import chess.board.position.ChessPositionReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
-import chess.board.position.ChessPositionReader;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 
 /**
@@ -50,9 +54,9 @@ public class CheckAndPinnedAnalyzer {
 		Color currentTurn = positionReader.getCurrentTurn();
 		
 		if(Color.WHITE.equals(currentTurn)){
-			analyzerBlack.analyze();
-		} else {
 			analyzerWhite.analyze();
+		} else {
+			analyzerBlack.analyze();
 		}
 	}
 
@@ -83,20 +87,20 @@ public class CheckAndPinnedAnalyzer {
 		public CheckAndPinnedAnalyzerByColor(Color color) {
 			this.color = color;
 			this.opponentColor = color.oppositeColor();
-			this.rook =  Piece.getRook(color);
-			this.bishop = Piece.getBishop(color);
-			this.queen = Piece.getQueen(color);
-			this.knightCapturer = new CapturerByKnight(positionReader, color);
-			this.pawnCapturer = new CapturerByPawn(positionReader, color);
+			this.rook =  Piece.getRook(opponentColor);
+			this.bishop = Piece.getBishop(opponentColor);
+			this.queen = Piece.getQueen(opponentColor);
+			this.knightCapturer = new CapturerByKnight(positionReader, opponentColor);
+			this.pawnCapturer = new CapturerByPawn(positionReader, opponentColor);
 		}
 
 		public void analyze() {
-			Square squareKingOpponent = positionReader.getKingSquare(color.oppositeColor());
+			Square squareKing = positionReader.getKingSquare(color);
 
-			if( knightCapturer.positionCaptured(squareKingOpponent) ||
-				analyzeByBishop(squareKingOpponent) ||
-				analyzeByRook(squareKingOpponent) ||
-				pawnCapturer.positionCaptured(squareKingOpponent) ) {
+			if( knightCapturer.positionCaptured(squareKing) ||
+				analyzeByBishop(squareKing) ||
+				analyzeByRook(squareKing) ||
+				pawnCapturer.positionCaptured(squareKing) ) {
 					CheckAndPinnedAnalyzer.this.kingInCheck = true;
 			}
 			
@@ -106,11 +110,11 @@ public class CheckAndPinnedAnalyzer {
 		}
 
 		private boolean analyzeByBishop(Square square) {
-			return positionCapturedByDirections(square, BishopMoveGenerator.BISHOP_CARDINAL, this.bishop);
+			return positionCapturedByDirections(square, BishopMoveGenerator.BISHOP_CARDINAL, bishop);
 		}
 
 		private boolean analyzeByRook(Square squareKingOpponent) {
-			return positionCapturedByDirections(squareKingOpponent, RookMoveGenerator.ROOK_CARDINAL, this.rook);
+			return positionCapturedByDirections(squareKingOpponent, RookMoveGenerator.ROOK_CARDINAL, rook);
 		}
 
 		private boolean positionCapturedByDirections(Square squareKingOpponent, Cardinal[] direcciones, Piece rookOrBishop) {
@@ -135,7 +139,7 @@ public class CheckAndPinnedAnalyzer {
 					if (possiblePinned == null){
                         // La pieza es nuestra y de las que ponen en jaque al oponente
                         // La pieza es nuestra pero no pone en jaque al oponente
-                        if(opponentColor.equals(piece.getColor())){
+                        if(color.equals(piece.getColor())){
 							// La pieza es del oponente, es posiblemente pinned
 							possiblePinned = destino;
 						} else {
@@ -144,7 +148,7 @@ public class CheckAndPinnedAnalyzer {
 					} else {
 						
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
-						if (this.queen.equals(piece) || rookOrBishop.equals(piece)) {
+						if (queen.equals(piece) || rookOrBishop.equals(piece)) {
 							// Confirmado, tenemos pinned
 							pinnedPositions |= possiblePinned.getKey().getPosicion();
 							pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));

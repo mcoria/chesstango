@@ -2,6 +2,7 @@ package chess.board.moves.containers;
 
 import chess.board.moves.Move;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,9 +15,17 @@ public class MoveContainer implements MoveContainerReader {
 
     private int size = 0;
 
-    private List<MoveList> moveLists = new LinkedList<MoveList>();
+    private List<MoveList> moveLists = null;
 
     private List<Move> moveList = new LinkedList<Move>();
+
+    public MoveContainer(int moveListCount) {
+        moveLists = new ArrayList<>(moveListCount);
+    }
+
+    public MoveContainer() {
+        this(0);
+    }
 
 
     public void add(MoveList moveList) {
