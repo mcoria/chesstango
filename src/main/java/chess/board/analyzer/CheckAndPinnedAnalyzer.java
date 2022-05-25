@@ -9,6 +9,9 @@ import chess.board.iterators.byposition.bypiece.KnightBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
 import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
+import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
+import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPawn;
+import chess.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
 import chess.board.position.ChessPositionReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
@@ -30,18 +33,17 @@ import java.util.function.Function;
 public class CheckAndPinnedAnalyzer {
 	
 	private final ChessPositionReader positionReader;
-	
-	private final CheckAndPinnedAnalyzerByColor analyzerWhite = new CheckAndPinnedAnalyzerByColor(Color.WHITE, this::createPawnWhiteIterator);
-	private final CheckAndPinnedAnalyzerByColor analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK, this::createPawnBlackIterator);
+	private final CheckAndPinnedAnalyzerByColor analyzerWhite;
+	private final CheckAndPinnedAnalyzerByColor analyzerBlack;
 	
 	private long pinnedPositions;
-
 	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
-	
 	private boolean kingInCheck;
 	
 	public CheckAndPinnedAnalyzer(ChessPositionReader positionReader) {
 		this.positionReader = positionReader;
+		this.analyzerWhite = new CheckAndPinnedAnalyzerByColor(Color.WHITE);
+		this.analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK);
 	}	
 
 	public void analyze() {
@@ -78,58 +80,33 @@ public class CheckAndPinnedAnalyzer {
 		private final Piece rook;
 		private final Piece bishop;
 		private final Piece queen;
-		private final Piece knight;
-		private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
-		private final Piece pawn;
+		private final SquareCapturerByPiece knightCapturer;
+		private final SquareCapturerByPiece pawnCapturer;
 
 		
-		public CheckAndPinnedAnalyzerByColor(Color color, Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator) {
+		public CheckAndPinnedAnalyzerByColor(Color color) {
 			this.color = color;
 			this.opponentColor = color.oppositeColor();
 			this.rook =  Piece.getRook(color);
 			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
-			this.knight = Piece.getKnight(color);
-			this.pawn = Piece.getPawn(color);
-			this.createPawnJumpsIterator = createPawnJumpsIterator;
+			this.knightCapturer = new CapturerByKnight(positionReader, color);
+			this.pawnCapturer = new CapturerByPawn(positionReader, color);
 		}
 
 		public void analyze() {
 			Square squareKingOpponent = positionReader.getKingSquare(color.oppositeColor());
 
-			if(analyzeByKnight(squareKingOpponent) ||
-					analyzeByBishop(squareKingOpponent) ||
-					analyzeByRook(squareKingOpponent) ||
-					analyzeByPawn(squareKingOpponent) ) {
-				CheckAndPinnedAnalyzer.this.kingInCheck = true;
+			if( knightCapturer.positionCaptured(squareKingOpponent) ||
+				analyzeByBishop(squareKingOpponent) ||
+				analyzeByRook(squareKingOpponent) ||
+				pawnCapturer.positionCaptured(squareKingOpponent) ) {
+					CheckAndPinnedAnalyzer.this.kingInCheck = true;
 			}
 			
 			// Another king can not check our king NEVER
 			// analyzeByKing(squareKing)
 
-		}
-		
-		private boolean analyzeByKnight(Square squareKingOpponent) {
-			Iterator<PiecePositioned> iterator = new KnightBitIterator<PiecePositioned>(positionReader, squareKingOpponent);
-			while (iterator.hasNext()) {
-			    PiecePositioned destino = iterator.next();
-			    if(knight.equals(destino.getValue())){
-			    	return true;
-			    }
-			}
-			return false;
-		}
-		
-		private boolean analyzeByPawn(Square squareKingOpponent) {
-			Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(squareKingOpponent);
-			while (iterator.hasNext()) {
-			    PiecePositioned destino = iterator.next();
-			    if(pawn.equals(destino.getValue())){
-			    	CheckAndPinnedAnalyzer.this.kingInCheck = true;
-					return true;
-			    }
-			}
-			return false;
 		}
 
 		private boolean analyzeByBishop(Square square) {
@@ -191,13 +168,5 @@ public class CheckAndPinnedAnalyzer {
 			return false;
 		}
 
-	}
-
-	private Iterator<PiecePositioned> createPawnWhiteIterator(Square square) {
-		return new PawnWhiteBitIterator<PiecePositioned>(positionReader, square);
-	}
-
-	private Iterator<PiecePositioned> createPawnBlackIterator(Square square) {
-		return new PawnBlackBitIterator<PiecePositioned>(positionReader, square);
 	}
 }
