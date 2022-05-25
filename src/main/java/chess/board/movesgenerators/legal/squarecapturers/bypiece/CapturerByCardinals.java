@@ -16,11 +16,8 @@ public class CapturerByCardinals implements SquareCapturerByPiece{
 
     private final PiecePlacementReader piecePlacementReader;
     private final Color color;
-
     private final Piece rook;
-
     private final Piece bishop;
-
     private final Piece queen;
 
     public CapturerByCardinals(PiecePlacementReader piecePlacementReader, Color color) {

@@ -17,7 +17,6 @@ public class CapturerByPawn implements SquareCapturerByPiece{
     private final PiecePlacementReader piecePlacementReader;
     private final Color color;
     private final Piece pawn;
-
     private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
 
     public CapturerByPawn(PiecePlacementReader piecePlacementReader, Color color) {
