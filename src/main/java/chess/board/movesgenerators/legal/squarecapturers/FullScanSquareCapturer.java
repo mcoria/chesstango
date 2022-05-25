@@ -5,14 +5,19 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
+import chess.board.iterators.SquareIterator;
+import chess.board.iterators.byposition.BitIterator;
 import chess.board.iterators.byposition.bypiece.KingBitIterator;
 import chess.board.iterators.byposition.bypiece.KnightBitIterator;
+import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
+import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.position.PiecePlacementReader;
 import chess.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import chess.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 
 import java.util.Iterator;
+import java.util.function.Function;
 
 
 /**
@@ -32,8 +37,8 @@ import java.util.Iterator;
 public class FullScanSquareCapturer implements SquareCapturer {
 	
 	private final PiecePlacementReader piecePlacementReader;
-	private final CapturerImp capturerWhite = new CapturerImp(Color.WHITE, PawnWhite_ARRAY_SALTOS);
-	private final CapturerImp capturerBlack = new CapturerImp(Color.BLACK, PawnBlack_ARRAY_SALTOS);
+	private final CapturerImp capturerWhite = new CapturerImp(Color.WHITE, this::createPawnWhiteIterator);
+	private final CapturerImp capturerBlack = new CapturerImp(Color.BLACK, this::createPawnBlackIterator);
 	
 	public FullScanSquareCapturer(PiecePlacementReader piecePlacementReader) {
 		this.piecePlacementReader = piecePlacementReader;
@@ -54,19 +59,19 @@ public class FullScanSquareCapturer implements SquareCapturer {
 		private final Piece bishop;
 		private final Piece queen;
 		private final Piece knight;
-		private final long[] pawnJumps;
+		private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
 		private final Piece pawn;
 		private final Piece king;	
 
 		
-		public CapturerImp(Color color, long[] pawnJumps) {
+		public CapturerImp(Color color, Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator) {
 			this.rook =  Piece.getRook(color);
 			this.bishop = Piece.getBishop(color);
 			this.queen = Piece.getQueen(color);
 			this.knight = Piece.getKnight(color);
 			this.pawn = Piece.getPawn(color);
 			this.king = Piece.getKing(color);
-			this.pawnJumps = pawnJumps;
+			this.createPawnJumpsIterator = createPawnJumpsIterator;
 				
 		}
 
@@ -78,12 +83,12 @@ public class FullScanSquareCapturer implements SquareCapturer {
                     positionCapturedByKing(square);
         }
 
-		private final Cardinal[]  direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
+		private final Cardinal[] direccionesBishop = BishopMoveGenerator.BISHOP_CARDINAL;
 		private boolean positionCapturedByBishop(Square square) {
 			return positionCapturedByDireccion(square, direccionesBishop,  bishop);
 		}
 
-		private final Cardinal[]  direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
+		private final Cardinal[] direccionesRook = RookMoveGenerator.ROOK_CARDINAL;
 		private boolean positionCapturedByRook(Square square) {		
 			return positionCapturedByDireccion(square, direccionesRook, rook);
 		}
@@ -128,7 +133,7 @@ public class FullScanSquareCapturer implements SquareCapturer {
 
 
 		private boolean positionCapturedByPawn(Square square) {
-			Iterator<PiecePositioned> iterator = piecePlacementReader.iterator( pawnJumps[square.toIdx()] );
+			Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(square);
 			while (iterator.hasNext()) {
 			    PiecePositioned destino = iterator.next();
 			    if(pawn.equals(destino.getValue())){		    	
@@ -150,24 +155,12 @@ public class FullScanSquareCapturer implements SquareCapturer {
 		}	
 
 	}
-	
-	private static final long[] PawnWhite_ARRAY_SALTOS = {
-			0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 2L, 5L, 10L, 20L, 40L, 80L, 160L, 64L, 512L, 1280L, 2560L, 5120L, 10240L,
-			20480L, 40960L, 16384L, 131072L, 327680L, 655360L, 1310720L, 2621440L, 5242880L, 10485760L, 4194304L,
-			33554432L, 83886080L, 167772160L, 335544320L, 671088640L, 1342177280L, 2684354560L, 1073741824L,
-			8589934592L, 21474836480L, 42949672960L, 85899345920L, 171798691840L, 343597383680L, 687194767360L,
-			274877906944L, 2199023255552L, 5497558138880L, 10995116277760L, 21990232555520L, 43980465111040L,
-			87960930222080L, 175921860444160L, 70368744177664L, 562949953421312L, 1407374883553280L, 2814749767106560L,
-			5629499534213120L, 11258999068426240L, 22517998136852480L, 45035996273704960L, 18014398509481984L };
-	
-	private static final long[] PawnBlack_ARRAY_SALTOS = {
-			512L, 1280L, 2560L, 5120L, 10240L, 20480L, 40960L, 16384L, 131072L, 327680L, 655360L, 1310720L, 2621440L,
-			5242880L, 10485760L, 4194304L, 33554432L, 83886080L, 167772160L, 335544320L, 671088640L, 1342177280L,
-			2684354560L, 1073741824L, 8589934592L, 21474836480L, 42949672960L, 85899345920L, 171798691840L,
-			343597383680L, 687194767360L, 274877906944L, 2199023255552L, 5497558138880L, 10995116277760L,
-			21990232555520L, 43980465111040L, 87960930222080L, 175921860444160L, 70368744177664L, 562949953421312L,
-			1407374883553280L, 2814749767106560L, 5629499534213120L, 11258999068426240L, 22517998136852480L,
-			45035996273704960L, 18014398509481984L, 144115188075855872L, 360287970189639680L, 720575940379279360L,
-			1441151880758558720L, 2882303761517117440L, 5764607523034234880L, -6917529027641081856L,
-			4611686018427387904L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L };	
+
+	private Iterator<PiecePositioned> createPawnWhiteIterator(Square square) {
+		return new PawnWhiteBitIterator<PiecePositioned>(piecePlacementReader, square);
+	}
+
+	private Iterator<PiecePositioned> createPawnBlackIterator(Square square) {
+		return new PawnBlackBitIterator<PiecePositioned>(piecePlacementReader, square);
+	}
 }
