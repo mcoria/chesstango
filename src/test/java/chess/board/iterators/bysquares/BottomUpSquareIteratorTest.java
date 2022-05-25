@@ -1,4 +1,4 @@
-package chess.board.iterators.square;
+package chess.board.iterators.bysquares;
 
 import chess.board.Piece;
 import chess.board.PiecePositioned;
@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.board.Square;
-import chess.board.iterators.square.BottomUpSquareIterator;
 
 import java.util.Iterator;
 

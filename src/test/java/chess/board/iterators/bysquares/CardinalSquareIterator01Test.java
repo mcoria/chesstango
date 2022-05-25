@@ -1,4 +1,4 @@
-package chess.board.iterators.square;
+package chess.board.iterators.bysquares;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.square.CardinalSquareIterator;
 
 
 /**

@@ -3,7 +3,7 @@ package chess.board.debug.chess;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.square.BitSquareIterator;
+import chess.board.iterators.bysquares.BitSquareIterator;
 import chess.board.iterators.SquareIterator;
 import chess.board.position.PiecePlacement;
 import chess.board.position.imp.ColorBoard;

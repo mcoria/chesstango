@@ -6,7 +6,7 @@ import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.square.CardinalSquareIterator;
+import chess.board.iterators.bysquares.CardinalSquareIterator;
 import chess.board.moves.Move;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 

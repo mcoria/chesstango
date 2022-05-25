@@ -1,10 +1,10 @@
 /**
  * 
  */
-package chess.board.iterators.positions.bypiece;
+package chess.board.iterators.byposition.bypiece;
 
 import chess.board.Square;
-import chess.board.iterators.positions.BitIterator;
+import chess.board.iterators.byposition.BitIterator;
 import chess.board.position.GetElementByIndex;
 
 /**

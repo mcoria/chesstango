@@ -5,7 +5,6 @@ import java.util.Iterator;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.square.JumpSquareIterator;
 import chess.board.moves.Move;
 import chess.board.pseudomovesgenerators.MoveGeneratorResult;
 

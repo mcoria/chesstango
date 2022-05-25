@@ -1,10 +1,10 @@
 /**
  * 
  */
-package chess.board.iterators.square.bypiece;
+package chess.board.iterators.bysquares.bypiece;
 
 import chess.board.Square;
-import chess.board.iterators.square.BitSquareIterator;
+import chess.board.iterators.bysquares.BitSquareIterator;
 
 /**
  * @author Mauricio Coria

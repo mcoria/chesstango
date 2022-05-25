@@ -1,4 +1,4 @@
-package chess.board.iterators.positions;
+package chess.board.iterators.byposition;
 
 import chess.board.position.GetElementByIndex;
 
@@ -10,27 +10,27 @@ import java.util.Iterator;
  *
  */
 public class BitIterator<T> implements Iterator<T> {
-	private long posiciones;
+	private long positions;
 
 	private final GetElementByIndex<T> getElementById;
 
 	public BitIterator(GetElementByIndex<T> getElementById, long positions) {
-		this.posiciones = positions;
+		this.positions = positions;
 		this.getElementById = getElementById;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return posiciones != 0;
+		return positions != 0;
 	}
 
 	@Override
 	public T next() {
 		T result = null;
-		if (posiciones != 0) {
-			long posicionLng = Long.lowestOneBit(posiciones);
+		if (positions != 0) {
+			long posicionLng = Long.lowestOneBit(positions);
 			result  = getElementById.getElement(Long.numberOfTrailingZeros(posicionLng));
-			posiciones &= ~posicionLng;
+			positions &= ~posicionLng;
 		}
 		return result;
 	}

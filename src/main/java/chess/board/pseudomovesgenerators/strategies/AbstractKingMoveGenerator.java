@@ -3,7 +3,7 @@ package chess.board.pseudomovesgenerators.strategies;
 import chess.board.Color;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.square.bypiece.KingBitSquareIterator;
+import chess.board.iterators.bysquares.bypiece.KingBitSquareIterator;
 import chess.board.position.imp.KingCacheBoard;
 import chess.board.position.imp.PositionState;
 import chess.board.pseudomovesgenerators.MoveGeneratorCastling;

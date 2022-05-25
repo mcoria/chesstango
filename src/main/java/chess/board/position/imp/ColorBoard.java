@@ -7,9 +7,9 @@ import chess.board.Color;
 import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
-import chess.board.iterators.square.BitSquareIterator;
+import chess.board.iterators.bysquares.BitSquareIterator;
 import chess.board.iterators.SquareIterator;
-import chess.board.iterators.square.TopDownSquareIterator;
+import chess.board.iterators.bysquares.TopDownSquareIterator;
 import chess.board.position.PiecePlacementReader;
 
 /**
@@ -74,7 +74,7 @@ public class ColorBoard {
 		} else if(Color.BLACK.equals(color)){
 			return (squareBlacks & square.getPosicion()) != 0;
 		} else{
-			throw new RuntimeException("Empty square");
+			throw new RuntimeException("Empty bysquares");
 		}
 	}
 

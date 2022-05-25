@@ -1,16 +1,17 @@
 /**
  * 
  */
-package chess.board.iterators.square.bypiece;
+package chess.board.iterators.byposition.bypiece;
 
 import chess.board.Square;
-import chess.board.iterators.square.BitSquareIterator;
+import chess.board.iterators.byposition.BitIterator;
+import chess.board.position.GetElementByIndex;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class KnightBitSquareIterator extends BitSquareIterator {
+public class KnightBitIterator<T> extends BitIterator<T> {
 
 	private static final long[] ARRAY_SALTOS = { 132096L, 329728L, 659712L, 1319424L, 2638848L, 5277696L, 10489856L, 4202496L,
 			33816580L, 84410376L, 168886289L, 337772578L, 675545156L, 1351090312L, 2685403152L, 1075839008L,
@@ -24,8 +25,9 @@ public class KnightBitSquareIterator extends BitSquareIterator {
 			1152939783987658752L, 2305878468463689728L, 1128098930098176L, 2257297371824128L, 4796069720358912L,
 			9592139440717824L, 19184278881435648L, 38368557762871296L, 4679521487814656L, 9077567998918656L };
 
-	public KnightBitSquareIterator(Square startingPoint) {
-		super(ARRAY_SALTOS[startingPoint.toIdx()]);
+	
+	public KnightBitIterator(GetElementByIndex<T> getElementById, Square startingPoint) {
+		super(getElementById, ARRAY_SALTOS[startingPoint.toIdx()]);
 	}
 
 }
