@@ -3,10 +3,7 @@
  */
 package chess.ai.imp.dummy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import chess.ai.BestMoveFinder;
@@ -24,21 +21,19 @@ public class Dummy implements BestMoveFinder{
 	public Move findBestMove(Game game) {
 		Iterable<Move> moves = game.getPossibleMoves();
 
-		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
+		Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
 
-		moves.forEach(move -> {
-			PiecePositioned key = move.getFrom();
-			Collection<Move> positionMoves = moveMap.computeIfAbsent(key, k -> new ArrayList<Move>());
-			positionMoves.add(move);
-		});
+		moves.forEach(move ->
+				moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
+						.add(move)
+		);
 
 		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
 		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
 
-		Collection<Move> selectedMovesCollection = moveMap.get(selectedPiece);
-		Move[] selectedMovesArray = selectedMovesCollection.toArray(new Move[selectedMovesCollection.size()]);
+		List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-		return  selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
+		return selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size()));
 	}
 
 }

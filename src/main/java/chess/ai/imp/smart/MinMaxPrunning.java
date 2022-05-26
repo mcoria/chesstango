@@ -4,25 +4,21 @@
 package chess.ai.imp.smart;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
-import chess.ai.BestMoveFinder;
 import chess.board.Color;
 import chess.board.Game;
-import chess.board.GameState.GameStatus;
-import chess.board.Piece;
-import chess.board.PiecePositioned;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainerReader;
-import chess.board.position.ChessPositionReader;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MinMaxPrunning implements BestMoveFinder {
+public class MinMaxPrunning extends AbstractSmart {
 
 	private final int maxLevel = 3;
+
+	private final GameEvaluator evaluator = new GameEvaluator();
 
 	@Override
 	public Move findBestMove(Game game) {
@@ -68,7 +64,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 			}			
 		}
 
-		return selectedMove(posibleMoves);
+		return selectMove(posibleMoves);
 	}
 
 	public Move findBestMoveBlack(Game game) {
@@ -104,14 +100,14 @@ public class MinMaxPrunning implements BestMoveFinder {
 			}
 		}
 
-		return selectedMove(posibleMoves);
+		return selectMove(posibleMoves);
 	}
 
 	private int minimize(Game game, int currentLevel, final int alpha, final int beta) {
 		int bestBeta = Integer.MAX_VALUE;
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
-			bestBeta = evaluate(game, maxLevel - currentLevel);
+			bestBeta = evaluator.evaluate(game, maxLevel - currentLevel);
 		} else {
 			int currentValue = bestBeta;
 			boolean breakLoop = false;
@@ -141,7 +137,7 @@ public class MinMaxPrunning implements BestMoveFinder {
 		int bestAlpha = Integer.MIN_VALUE;
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
-			bestAlpha = evaluate(game, maxLevel - currentLevel);
+			bestAlpha = evaluator.evaluate(game, maxLevel - currentLevel);
 		} else {
 			int currentValue = bestAlpha;
 			boolean breakLoop = false;
@@ -167,49 +163,5 @@ public class MinMaxPrunning implements BestMoveFinder {
 		return bestAlpha;
 	}
 
-	private int evaluate(Game game, int depth) {
-		int evaluation = 0;
-		if (GameStatus.MATE.equals(game.getGameStatus())) {
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MAX_VALUE - depth
-					: Integer.MIN_VALUE + depth;
-		} else if (GameStatus.CHECK.equals(game.getGameStatus())) {
-			evaluation = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? 90 - depth : -90 + depth;
-		} else {
-			ChessPositionReader positionReader = game.getChessPositionReader();
-
-			for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-				PiecePositioned piecePlacement = it.next();
-				Piece piece = piecePlacement.getValue();
-
-				evaluation += piece.getValue();
-			}
-
-
-		}
-
-		return evaluation;
-	}
-
-	private Move selectedMove(List<Move> moves) {
-		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
-
-		for (Move move : moves) {
-			PiecePositioned key = move.getFrom();
-			Collection<Move> positionMoves = moveMap.get(key);
-			if (positionMoves == null) {
-				positionMoves = new ArrayList<Move>();
-				moveMap.put(key, positionMoves);
-			}
-			positionMoves.add(move);
-		}
-
-		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
-		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
-
-		Collection<Move> selectedMovesCollection = moveMap.get(selectedPiece);
-		Move[] selectedMovesArray = selectedMovesCollection.toArray(new Move[selectedMovesCollection.size()]);
-
-		return selectedMovesArray[ThreadLocalRandom.current().nextInt(0, selectedMovesArray.length)];
-	}
 
 }

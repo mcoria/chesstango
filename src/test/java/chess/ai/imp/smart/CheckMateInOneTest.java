@@ -16,7 +16,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class CheckMateInOneTest extends AbstractSmart {
+public class CheckMateInOneTest extends AbstractSmartTest {
 	
 	@Before
 	public void setUp() {
@@ -24,7 +24,7 @@ public class CheckMateInOneTest extends AbstractSmart {
 	}
 	
 	@Test
-	public void testFindBestMove1() {
+	public void testQueenWhiteCheckMate() {
 		// Jaque Mate en movimiento de QUEEN_WHITE
 		Game game =  getGame("rnbqkbnr/2pppppp/8/pp4N1/8/4PQ2/PPPP1PPP/RNB1KB1R w KQkq - 0 5");
 		
@@ -36,7 +36,7 @@ public class CheckMateInOneTest extends AbstractSmart {
 	}
 	
 	@Test
-	public void testFindBestMove2() {
+	public void testQueenBlackCheckMate() {
 		// Jaque Mate en movimiento de QUEEN_BLACK		
 		Game game =  getGame("rnb1kb1r/pppp1ppp/4pq2/PN6/1P4n1/8/2PPPPPP/R1BQKBNR b KQkq - 0 7");
 		

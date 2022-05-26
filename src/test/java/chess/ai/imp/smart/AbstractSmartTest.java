@@ -12,7 +12,7 @@ import chess.board.fen.FENDecoder;
  * @author Mauricio Coria
  *
  */
-public class AbstractSmart {
+public class AbstractSmartTest {
 
 	protected BestMoveFinder bestMoveFinder = null;
 	
@@ -22,8 +22,7 @@ public class AbstractSmart {
 		bestMoveFinder = new MinMaxPrunning();
 	}
 
-	protected Game getGame(String string) {		
-		//GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
+	protected Game getGame(String string) {
 		GameBuilder builder = new GameBuilder();
 	
 		FENDecoder parser = new FENDecoder(builder);
