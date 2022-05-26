@@ -20,22 +20,17 @@ import chess.board.moves.Move;
  */
 public class Dummy implements BestMoveFinder{
 
-
 	@Override
 	public Move findBestMove(Game game) {
 		Iterable<Move> moves = game.getPossibleMoves();
 
 		Map<PiecePositioned, Collection<Move>> moveMap = new HashMap<PiecePositioned, Collection<Move>>();
 
-		for (Move move : moves) {
+		moves.forEach(move -> {
 			PiecePositioned key = move.getFrom();
-			Collection<Move> positionMoves = moveMap.get(key);
-			if (positionMoves == null) {
-				positionMoves = new ArrayList<Move>();
-				moveMap.put(key, positionMoves);
-			}
+			Collection<Move> positionMoves = moveMap.computeIfAbsent(key, k -> new ArrayList<Move>());
 			positionMoves.add(move);
-		}
+		});
 
 		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
 		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];

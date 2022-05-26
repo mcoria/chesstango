@@ -35,7 +35,6 @@ public class Engine {
 		this.bestMoveFinder = new SmartMinMax();
 	}
 
-
 	public void do_start() {
 		new RspUci().respond(responseChannel);
 	}
@@ -48,13 +47,13 @@ public class Engine {
 	}
 	
 	public void do_position_startpos(List<String> moves) {
-		this.game = getGame(FENDecoder.INITIAL_FEN);
+		this.game = loadGame(FENDecoder.INITIAL_FEN);
 		executeMoves(moves);
 	}
 
 
 	public void do_position_fen(String fen, List<String> moves) {
-		this.game = getGame(fen);
+		this.game = loadGame(fen);
 		executeMoves(moves);
 	}
 	
@@ -62,7 +61,6 @@ public class Engine {
 		Move selectedMove = bestMoveFinder.findBestMove(game);
 
 		new RspBestMove(encodeMove(selectedMove)).respond(responseChannel);
-		//new RspBestMove("f7f6").respond(responseChannel);
 	}	
 	
 	public void do_quit() {
@@ -80,7 +78,9 @@ public class Engine {
 		return keepProcessing;
 	}
 
-	private Game getGame(String fen) {		
+	public Game getGame(){ return game;}
+
+	private Game loadGame(String fen) {
 		GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);
@@ -89,7 +89,7 @@ public class Engine {
 		
 		return builder.getResult();
 	}
-	
+
 	private void executeMoves(List<String> moves) {
 		for (String moveStr : moves) {
 			boolean findMove = false;
@@ -137,9 +137,4 @@ public class Engine {
 		return move.getFrom().getKey().toString() + move.getTo().getKey().toString() + promotionStr;
 	}
 
-
-	public Game getGame() {
-		return game;
-		
-	}	
 }

@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import chess.board.Game;
 import chess.board.fen.FENEncoder;
-import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.UCIRequest;
 import chess.uci.protocol.UCIResponse;

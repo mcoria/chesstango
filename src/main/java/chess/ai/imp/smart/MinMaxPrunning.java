@@ -22,7 +22,7 @@ import chess.board.position.ChessPositionReader;
  */
 public class MinMaxPrunning implements BestMoveFinder {
 
-	private final int maxLevel = 6;
+	private final int maxLevel = 3;
 
 	@Override
 	public Move findBestMove(Game game) {
