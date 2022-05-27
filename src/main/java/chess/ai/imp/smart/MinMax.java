@@ -12,27 +12,26 @@ import chess.board.moves.containers.MoveContainerReader;
  * @author Mauricio Coria
  *
  */
-public class SmartMinMax extends AbstractSmart {
-	
-	private final int maxLevel = 3;
+public class MinMax extends AbstractSmart {
+
+	// Beyond level 4, the performance is really bad
+	private final int maxLevel = 4;
 
 	private final GameEvaluator evaluator = new GameEvaluator();
 
-
 	@Override
 	public Move findBestMove(Game game) {
-		boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn());
+		final boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn());
+		final List<Move> posibleMoves = new ArrayList<Move>();
+		final MoveContainerReader movimientosPosible = game.getPossibleMoves();
+
 		int betterEvaluation = minOrMax ? Integer.MAX_VALUE: Integer.MIN_VALUE;
 		int currentEvaluation = betterEvaluation;
-		List<Move> posibleMoves = new ArrayList<Move>();
-		//Move selectedMove = null;
 
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
 
 			currentEvaluation = minMax(game, maxLevel - 1, !minOrMax);
-
 
 			if (currentEvaluation == betterEvaluation) {
 				posibleMoves.add(move);
@@ -40,13 +39,13 @@ public class SmartMinMax extends AbstractSmart {
 				if (minOrMax) {
 					if (currentEvaluation < betterEvaluation) {
 						betterEvaluation = currentEvaluation;
-						posibleMoves = new ArrayList<Move>();
+						posibleMoves.clear();
 						posibleMoves.add(move);
 					}
 				} else {
 					if (currentEvaluation > betterEvaluation) {
 						betterEvaluation = currentEvaluation;
-						posibleMoves = new ArrayList<Move>();
+						posibleMoves.clear();
 						posibleMoves.add(move);
 					}
 				}
@@ -64,14 +63,11 @@ public class SmartMinMax extends AbstractSmart {
 		if (currentLevel == 0 || movimientosPosible.size() == 0) {
 			betterEvaluation = evaluator.evaluate(game, maxLevel - currentLevel);
 		} else {
-
-			int currentEvaluation = betterEvaluation;
 			for (Move move : movimientosPosible) {
 
 				game.executeMove(move);
 
-				currentEvaluation = minMax(game, currentLevel - 1, !minOrMax);
-
+				int currentEvaluation = minMax(game, currentLevel - 1, !minOrMax);
 				if (minOrMax) {
 					if (currentEvaluation < betterEvaluation) {
 						betterEvaluation = currentEvaluation;

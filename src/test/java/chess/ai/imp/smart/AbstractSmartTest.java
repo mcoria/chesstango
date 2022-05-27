@@ -18,7 +18,7 @@ public class AbstractSmartTest {
 	
 
 	public void setUp() {
-		//bestMoveFinder = new SmartMinMax();
+		//bestMoveFinder = new MinMax();
 		bestMoveFinder = new MinMaxPrunning();
 	}
 

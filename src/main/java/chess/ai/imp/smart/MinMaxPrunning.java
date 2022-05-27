@@ -49,9 +49,6 @@ public class MinMaxPrunning extends AbstractSmart {
 				bestAlpha = currentValue;
 				posibleMoves = new ArrayList<Move>();
 				posibleMoves.add(move);
-				if (currentValue == Integer.MAX_VALUE - 100) {
-					breakLoop = true;
-				}				
 			} else if (currentValue == bestAlpha) {
 				posibleMoves.add(move);
 			}			
@@ -85,10 +82,6 @@ public class MinMaxPrunning extends AbstractSmart {
 				bestBeta = currentValue;
 				posibleMoves = new ArrayList<Move>();
 				posibleMoves.add(move);
-
-				if (currentValue == Integer.MIN_VALUE + 100) {
-					breakLoop = true;
-				}
 			} else if (currentValue == bestBeta) {
 				posibleMoves.add(move);
 			}
