@@ -18,8 +18,8 @@ public class AbstractSmartTest {
 	
 
 	public void setUp() {
-		bestMoveFinder = new SmartMinMax();
-		//bestMoveFinder = new MinMaxPrunning();
+		//bestMoveFinder = new SmartMinMax();
+		bestMoveFinder = new MinMaxPrunning();
 	}
 
 	protected Game getGame(String string) {

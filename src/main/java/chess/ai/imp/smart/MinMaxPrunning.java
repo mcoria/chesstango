@@ -16,7 +16,7 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMaxPrunning extends AbstractSmart {
 
-	private final int maxLevel = 4;
+	private final int maxLevel = 3;
 
 	private final GameEvaluator evaluator = new GameEvaluator();
 

@@ -31,6 +31,16 @@
          Assert.assertEquals(Square.c4, smartMove.getTo().getKey());
      }
 
+     @Test
+     public void testKnightMove1() {
+         Game game =  getGame("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 1 ");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         Assert.assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getValue());
+         Assert.assertEquals(Square.d5, smartMove.getFrom().getKey());
+         Assert.assertEquals(Square.f6, smartMove.getTo().getKey());
+     }
 
 
  }
