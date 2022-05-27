@@ -1,7 +1,4 @@
-/**
- * 
- */
-package chess.ai.imp.smart;
+ package chess.ai.imp.smart;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +13,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class CheckMateInOneTest extends AbstractSmartTest {
+public class MateInOneTest extends AbstractSmartTest {
 	
 	@Before
 	public void setUp() {

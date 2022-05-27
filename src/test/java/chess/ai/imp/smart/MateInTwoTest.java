@@ -1,0 +1,36 @@
+
+ package chess.ai.imp.smart;
+
+ import chess.board.Game;
+ import chess.board.Piece;
+ import chess.board.Square;
+ import chess.board.moves.Move;
+ import org.junit.Assert;
+ import org.junit.Before;
+ import org.junit.Test;
+
+ /**
+  * @author Mauricio Coria
+  *
+  */
+ public class MateInTwoTest extends AbstractSmartTest {
+
+     @Before
+     public void setUp() {
+         super.setUp();
+     }
+
+     @Test
+     public void testQueenMove1() {
+         Game game =  getGame("5K2/1b6/2p1Bp2/2N1k3/1B3p2/2pQ2n1/1b2pp2/8 w - - 0 1");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getValue());
+         Assert.assertEquals(Square.d3, smartMove.getFrom().getKey());
+         Assert.assertEquals(Square.c4, smartMove.getTo().getKey());
+     }
+
+
+
+ }
