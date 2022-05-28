@@ -9,6 +9,7 @@ import chess.board.moves.containers.MoveContainerReader;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 
 public class GameState {
 
@@ -24,7 +25,7 @@ public class GameState {
 	private Move selectedMove;
 	private GameState.GameStatus status;
 
-	private final Deque<GameState.Node> stackNode = new ArrayDeque<GameState.Node>();
+	private final Deque<GameStateNode> stackGameStateNode = new ArrayDeque<GameStateNode>();
 
 	public Move getSelectedMove() {
 		return selectedMove;
@@ -57,13 +58,13 @@ public class GameState {
 	}
 
 	public void push() {
-		GameState.Node node = new Node();
-		node.movimientoSeleccionado = this.selectedMove;
-		node.analyzerResult = this.analyzerResult;
-		node.status = this.status;
-		node.legalMoves = this.legalMoves;
+		GameStateNode gameStateNode = new GameStateNode();
+		gameStateNode.selectedMove = this.selectedMove;
+		gameStateNode.analyzerResult = this.analyzerResult;
+		gameStateNode.status = this.status;
+		gameStateNode.legalMoves = this.legalMoves;
 		
-		stackNode.push(node);
+		stackGameStateNode.push(gameStateNode);
 		
 		this.selectedMove = null;
 		this.analyzerResult = null;
@@ -72,17 +73,21 @@ public class GameState {
 	}
 
 	public void pop() {
-		GameState.Node node = stackNode.pop();
-		this.selectedMove = node.movimientoSeleccionado;
-		this.analyzerResult = node.analyzerResult;
-		this.status = node.status;	
-		this.legalMoves = node.legalMoves;
+		GameStateNode gameStateNode = stackGameStateNode.pop();
+		this.selectedMove = gameStateNode.selectedMove;
+		this.analyzerResult = gameStateNode.analyzerResult;
+		this.status = gameStateNode.status;
+		this.legalMoves = gameStateNode.legalMoves;
 	}
 
-	private static class Node {
-		private AnalyzerResult analyzerResult;
-		private MoveContainerReader legalMoves;
-		private Move movimientoSeleccionado;
-		private GameState.GameStatus status;
+	public Iterator<GameStateNode> iterateGameStates(){
+		return stackGameStateNode.iterator();
+	}
+
+	public static class GameStateNode {
+		public AnalyzerResult analyzerResult;
+		public MoveContainerReader legalMoves;
+		public Move selectedMove;
+		public GameState.GameStatus status;
 	}
 }

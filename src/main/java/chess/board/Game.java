@@ -79,6 +79,14 @@ public class Game {
 		}
 		return gameState.getStatus();
 	}
+
+	public GameState getGameState() {
+		if(analyze){
+			analyzer.updateGameStatus();
+			analyze = false;
+		}
+		return gameState;
+	}
 	
 	public void init() {
 		chessPosition.init();
