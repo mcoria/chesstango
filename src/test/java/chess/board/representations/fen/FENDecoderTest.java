@@ -1,4 +1,4 @@
-package chess.board.fen;
+package chess.board.representations.fen;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -11,7 +11,6 @@ import chess.board.Color;
 import chess.board.Piece;
 import chess.board.Square;
 import chess.board.builder.ChessPositionBuilder;
-import chess.board.fen.FENDecoder;
 
 /**
  * @author Mauricio Coria

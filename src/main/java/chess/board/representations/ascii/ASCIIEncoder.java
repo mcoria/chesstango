@@ -1,4 +1,4 @@
-package chess.board.ascii;
+package chess.board.representations.ascii;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import chess.board.Game;
-import chess.board.fen.FENEncoder;
+import chess.board.representations.fen.FENEncoder;
 import chess.board.moves.Move;
 import chess.board.moves.containers.MoveContainerReader;
 import chess.board.perft.Perft;

@@ -9,7 +9,7 @@ import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.MinMax;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.moves.MovePromotion;
 import chess.uci.protocol.UCIResponseChannel;

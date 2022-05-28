@@ -21,7 +21,7 @@ import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.factory.ChessFactory;
 import chess.board.factory.ChessInjector;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.moves.imp.MoveFactoryWhite;
 

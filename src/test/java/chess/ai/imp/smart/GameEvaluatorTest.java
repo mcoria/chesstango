@@ -2,7 +2,7 @@ package chess.ai.imp.smart;
 
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

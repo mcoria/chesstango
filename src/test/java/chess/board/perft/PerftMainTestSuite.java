@@ -7,7 +7,7 @@ import java.util.List;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.factory.ChessFactory;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.perft.imp.PerftBrute;
 
 /**

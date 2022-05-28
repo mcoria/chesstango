@@ -6,7 +6,7 @@ package chess.ai.imp.smart;
 import chess.ai.BestMoveFinder;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 
 /**
  * @author Mauricio Coria

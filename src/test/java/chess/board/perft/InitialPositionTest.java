@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import chess.board.Game;
 import chess.board.Square;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.perft.imp.PerftBrute;
 

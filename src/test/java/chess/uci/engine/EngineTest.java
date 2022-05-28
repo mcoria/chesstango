@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chess.board.Game;
-import chess.board.fen.FENEncoder;
+import chess.board.representations.fen.FENEncoder;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.UCIRequest;
 import chess.uci.protocol.UCIResponse;

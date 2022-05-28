@@ -13,7 +13,7 @@ import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.builder.imp.PiecePlacementBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.position.PiecePlacement;
 
 import java.util.Iterator;

@@ -11,7 +11,7 @@ import chess.ai.imp.smart.MinMaxPrunning;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.factory.ChessFactory;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.moves.MovePromotion;
 

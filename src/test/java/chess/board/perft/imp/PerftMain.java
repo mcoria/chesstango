@@ -8,10 +8,9 @@ import java.time.Instant;
 
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.perft.Perft;
 import chess.board.perft.PerftResult;
-import chess.board.perft.imp.PerftBrute;
 
 /**
  * @author Mauricio Coria

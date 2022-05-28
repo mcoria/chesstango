@@ -9,7 +9,7 @@ import chess.board.Piece;
 import chess.board.builder.imp.PiecePlacementBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
 import chess.board.debug.chess.ColorBoardDebug;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.iterators.SquareIterator;
 import chess.board.position.PiecePlacement;
 

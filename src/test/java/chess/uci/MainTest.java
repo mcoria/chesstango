@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import chess.board.Game;
-import chess.board.fen.FENEncoder;
+import chess.board.representations.fen.FENEncoder;
 
 /**
  * @author Mauricio Coria

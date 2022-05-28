@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import chess.board.builder.imp.GameBuilder;
 import chess.board.debug.builder.ChessFactoryDebug;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.moves.imp.MoveFactoryBlack;
 import chess.board.moves.imp.MoveFactoryWhite;

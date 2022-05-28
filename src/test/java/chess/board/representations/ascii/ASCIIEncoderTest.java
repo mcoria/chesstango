@@ -1,15 +1,15 @@
-package chess.board.ascii;
+package chess.board.representations.ascii;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import chess.board.representations.ascii.ASCIIEncoder;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.board.ascii.ASCIIEncoder;
-import chess.board.fen.FENDecoder;
+import chess.board.representations.fen.FENDecoder;
 
 
 /**

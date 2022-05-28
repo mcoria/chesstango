@@ -1,4 +1,4 @@
-package chess.board.fen;
+package chess.board.representations.fen;
 
 import chess.board.Color;
 import chess.board.Piece;

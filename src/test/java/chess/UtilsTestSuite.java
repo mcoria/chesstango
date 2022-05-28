@@ -6,10 +6,10 @@ package chess;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import chess.board.ascii.ASCIIEncoderTest;
-import chess.board.fen.FENDecoderTest;
-import chess.board.fen.FENEncoderTest;
-import chess.board.fen.FENIntegrationTest;
+import chess.board.representations.ascii.ASCIIEncoderTest;
+import chess.board.representations.fen.FENDecoderTest;
+import chess.board.representations.fen.FENEncoderTest;
+import chess.board.representations.fen.FENIntegrationTest;
 
 /**
  * @author Mauricio Coria
