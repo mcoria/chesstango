@@ -9,6 +9,7 @@ import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.MinMax;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
+import chess.board.representations.MoveEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
 import chess.board.moves.MovePromotion;
@@ -27,12 +28,15 @@ public class Engine {
 	private final UCIResponseChannel responseChannel;
 
 	private final BestMoveFinder bestMoveFinder;
-	
+
+	private final MoveEncoder moveEncoder;
+
 	private Game game;
 	
 	public Engine(UCIResponseChannel responseChannel) {
 		this.responseChannel = responseChannel;
 		this.bestMoveFinder = new MinMax();
+		this.moveEncoder = new MoveEncoder();
 	}
 
 	public void do_start() {
@@ -60,7 +64,7 @@ public class Engine {
 	public void do_go() {
 		Move selectedMove = bestMoveFinder.findBestMove(game);
 
-		new RspBestMove(encodeMove(selectedMove)).respond(responseChannel);
+		new RspBestMove(moveEncoder.encode(selectedMove)).respond(responseChannel);
 	}	
 	
 	public void do_quit() {
@@ -94,7 +98,7 @@ public class Engine {
 		for (String moveStr : moves) {
 			boolean findMove = false;
 			for (Move move : game.getPossibleMoves()) {
-				String encodedMoveStr = encodeMove(move);
+				String encodedMoveStr = moveEncoder.encode(move);
 				if (encodedMoveStr.equals(moveStr)) {
 					game.executeMove(move);
 					findMove = true;
@@ -108,33 +112,6 @@ public class Engine {
 	}
 
 
-	private String encodeMove(Move move) {
-		String promotionStr = "";
-		if(move instanceof MovePromotion){
-			MovePromotion movePromotion = (MovePromotion) move;
-			switch (movePromotion.getPromotion()) {
-				case ROOK_WHITE:
-				case ROOK_BLACK:
-					promotionStr = "r";
-					break;
-				case KNIGHT_WHITE:
-				case KNIGHT_BLACK:
-					promotionStr = "k";
-					break;
-				case BISHOP_WHITE:
-				case BISHOP_BLACK:
-					promotionStr = "b";
-					break;
-				case QUEEN_WHITE:
-				case QUEEN_BLACK:
-					promotionStr = "q";
-					break;
-			default:
-				throw new RuntimeException("Invalid promotion " + move);
-			} 
-		}
-		
-		return move.getFrom().getKey().toString() + move.getTo().getKey().toString() + promotionStr;
-	}
+
 
 }
