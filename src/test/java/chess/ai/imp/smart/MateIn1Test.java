@@ -13,7 +13,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class MateInOneTest extends AbstractSmartTest {
+public class MateIn1Test extends AbstractSmartTest {
 	
 	@Before
 	public void setUp() {

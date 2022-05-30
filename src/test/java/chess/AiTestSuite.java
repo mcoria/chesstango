@@ -4,9 +4,7 @@
 package chess;
 
 import chess.ai.BestMoverFinderSuiteTest;
-import chess.ai.imp.smart.GameEvaluatorTest;
-import chess.ai.imp.smart.MateInOneTest;
-import chess.ai.imp.smart.MateInTwoTest;
+import chess.ai.imp.smart.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -16,7 +14,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ BestMoverFinderSuiteTest.class, GameEvaluatorTest.class,
-        MateInOneTest.class, MateInTwoTest.class})
+        MateIn1Test.class, MateIn2Test.class, MateIn3Test.class, MateIn4Test.class})
 public class AiTestSuite {
 
 }

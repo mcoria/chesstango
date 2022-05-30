@@ -16,7 +16,7 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMaxPrunning extends AbstractSmart {
 
-    private final int maxLevel = 3;
+    private final int maxLevel = 5;
 
     private final GameEvaluator evaluator = new GameEvaluator();
 
@@ -33,22 +33,15 @@ public class MinMaxPrunning extends AbstractSmart {
         Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
         while (possibleMovesIterator.hasNext() && search) {
             Move move = possibleMovesIterator.next();
-
             game.executeMove(move);
 
             int currentValue = minOrMax ? maximize(maxLevel - 1, Integer.MIN_VALUE, bestValue) :
                     						minimize(maxLevel - 1, bestValue, Integer.MAX_VALUE);
 
-            if (minOrMax && currentValue < bestValue) {
+            if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
                 possibleMoves.clear();
-                if (bestValue == Integer.MIN_VALUE) {
-                    search = false;
-                }
-            } else if (!minOrMax && currentValue > bestValue) {
-                bestValue = currentValue;
-                possibleMoves.clear();
-                if (bestValue == Integer.MAX_VALUE) {
+                if (minOrMax && bestValue == Integer.MIN_VALUE || !minOrMax && bestValue == Integer.MAX_VALUE) {
                     search = false;
                 }
             }
@@ -56,7 +49,6 @@ public class MinMaxPrunning extends AbstractSmart {
             if (currentValue == bestValue) {
                 possibleMoves.add(move);
             }
-
             game.undoMove();
         }
         return selectMove(possibleMoves);
@@ -69,7 +61,7 @@ public class MinMaxPrunning extends AbstractSmart {
         } else {
             int minValue = Integer.MAX_VALUE;
             boolean search = true;
-            Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+            Iterator<Move> possibleMovesIterator = possibleMoves.iterator();
             while (possibleMovesIterator.hasNext() && search) {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);
@@ -93,7 +85,7 @@ public class MinMaxPrunning extends AbstractSmart {
         } else {
             int maxValue = Integer.MIN_VALUE;
             boolean search = true;
-            Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+            Iterator<Move> possibleMovesIterator = possibleMoves.iterator();
             while (possibleMovesIterator.hasNext() && search) {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);

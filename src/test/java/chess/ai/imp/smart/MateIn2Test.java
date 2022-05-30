@@ -13,7 +13,7 @@
   * @author Mauricio Coria
   *
   */
- public class MateInTwoTest extends AbstractSmartTest {
+ public class MateIn2Test extends AbstractSmartTest {
 
      @Before
      public void setUp() {
