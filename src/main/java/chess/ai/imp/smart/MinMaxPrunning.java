@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package chess.ai.imp.smart;
 
@@ -16,145 +16,98 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMaxPrunning extends AbstractSmart {
 
-	private final int maxLevel = 3;
+    private final int maxLevel = 3;
 
-	private final GameEvaluator evaluator = new GameEvaluator();
+    private final GameEvaluator evaluator = new GameEvaluator();
 
-	@Override
-	public Move findBestMove(Game game) {
-		Move bestMove = null;
-		if (Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn())) {
-			bestMove = findBestMoveWhite(game);
-		} else {
-			bestMove = findBestMoveBlack(game);
-		}
-		return bestMove;
-	}
+    @Override
+    public Move findBestMove(final Game game) {
+        final List<Move> possibleMoves = new ArrayList<Move>();
+        final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 
-	public Move findBestMoveWhite(Game game) {
-		int bestAlpha = Integer.MIN_VALUE;
-		final int beta = Integer.MAX_VALUE;
-		int currentValue = bestAlpha;
+        int bestValue = minOrMax ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        boolean search = true;
+        Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+        while (possibleMovesIterator.hasNext() && search) {
+            Move move = possibleMovesIterator.next();
 
-		List<Move> posibleMoves = null;
+            game.executeMove(move);
 
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
-		boolean breakLoop = false;
-		for (Move move : movimientosPosible) {
-			game.executeMove(move);
+            int currentValue = minOrMax ? maximize(game, maxLevel - 1, Integer.MIN_VALUE, bestValue) :
+                    minimize(game, maxLevel - 1, bestValue, Integer.MAX_VALUE);
 
-			currentValue = minimize(game, maxLevel - 1, bestAlpha, beta);
+            if (minOrMax && currentValue < bestValue) {
+                bestValue = currentValue;
+                possibleMoves.clear();
+                if (bestValue == Integer.MIN_VALUE) {
+                    search = false;
+                }
+            } else if (!minOrMax && currentValue > bestValue) {
+                bestValue = currentValue;
+                possibleMoves.clear();
+                if (bestValue == Integer.MAX_VALUE) {
+                    search = false;
+                }
+            }
 
-			if (currentValue > bestAlpha) {
-				bestAlpha = currentValue;
-				posibleMoves = new ArrayList<Move>();
-				posibleMoves.add(move);
-			} else if (currentValue == bestAlpha) {
-				posibleMoves.add(move);
-			}			
+            if (currentValue == bestValue) {
+                possibleMoves.add(move);
+            }
 
-			game.undoMove();
-			
+            game.undoMove();
+        }
+        return selectMove(possibleMoves);
+    }
 
-			if (breakLoop) {
-				break;
-			}			
-		}
+    private int minimize(final Game game, final int currentLevel, final int alpha, int beta) {
+        MoveContainerReader possibleMoves = game.getPossibleMoves();
+        if (currentLevel == 0 || possibleMoves.size() == 0) {
+            return evaluator.evaluate(game, maxLevel - currentLevel);
+        } else {
+            int minValue = Integer.MAX_VALUE;
+            boolean search = true;
+            Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+            while (possibleMovesIterator.hasNext() && search) {
+                Move move = possibleMovesIterator.next();
+                game.executeMove(move);
 
-		return selectMove(posibleMoves);
-	}
+                minValue = Math.min(minValue, maximize(game, currentLevel - 1, alpha, beta));
+                beta = Math.min(beta, minValue);
 
-	public Move findBestMoveBlack(Game game) {
-		final int alpha = Integer.MIN_VALUE;
-		int bestBeta = Integer.MAX_VALUE;
-		int currentValue = bestBeta;
+                if (alpha >= beta) {
+                    search = false;
+                }
 
-		List<Move> posibleMoves = null;
+                game.undoMove();
+            }
+            return minValue;
+        }
+    }
 
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
-		boolean breakLoop = false;
-		for (Move move : movimientosPosible) {
-			game.executeMove(move);
+    private int maximize(final Game game, final int currentLevel, int alpha, final int beta) {
+        MoveContainerReader possibleMoves = game.getPossibleMoves();
+        if (currentLevel == 0 || possibleMoves.size() == 0) {
+            return evaluator.evaluate(game, maxLevel - currentLevel);
+        } else {
+            int maxValue = Integer.MIN_VALUE;
+            boolean search = true;
+            Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+            while (possibleMovesIterator.hasNext() && search) {
+                Move move = possibleMovesIterator.next();
+                game.executeMove(move);
 
-			currentValue = maximize(game, maxLevel - 1, alpha, bestBeta);
+                maxValue = Math.max(maxValue, minimize(game, currentLevel - 1, alpha, beta));
+                alpha = Math.max(alpha, maxValue);
 
-			if (currentValue < bestBeta) {
-				bestBeta = currentValue;
-				posibleMoves = new ArrayList<Move>();
-				posibleMoves.add(move);
-			} else if (currentValue == bestBeta) {
-				posibleMoves.add(move);
-			}
+                if (alpha >= beta) {
+                    search = false;
+                }
 
-			game.undoMove();
-
-			if (breakLoop) {
-				break;
-			}
-		}
-
-		return selectMove(posibleMoves);
-	}
-
-	private int minimize(Game game, int currentLevel, final int alpha, final int beta) {
-		int bestBeta = Integer.MAX_VALUE;
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
-		if (currentLevel == 0 || movimientosPosible.size() == 0) {
-			bestBeta = evaluator.evaluate(game, maxLevel - currentLevel);
-		} else {
-			int currentValue = bestBeta;
-			boolean breakLoop = false;
-			for (Move move : movimientosPosible) {
-				game.executeMove(move);
-
-				currentValue = maximize(game, currentLevel - 1, alpha, bestBeta);
-
-				if (currentValue < bestBeta) {
-					bestBeta = currentValue;
-					if (alpha >= bestBeta) {
-						breakLoop = true;
-					}
-				}
-
-				game.undoMove();
-
-				if (breakLoop) {
-					break;
-				}
-			}
-		}
-		return bestBeta;
-	}
-
-	private int maximize(Game game, int currentLevel, final int alpha, final int beta) {
-		int bestAlpha = Integer.MIN_VALUE;
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
-		if (currentLevel == 0 || movimientosPosible.size() == 0) {
-			bestAlpha = evaluator.evaluate(game, maxLevel - currentLevel);
-		} else {
-			int currentValue = bestAlpha;
-			boolean breakLoop = false;
-			for (Move move : movimientosPosible) {
-				game.executeMove(move);
-
-				currentValue = minimize(game, currentLevel - 1, bestAlpha, beta);
-
-				if (currentValue > bestAlpha) {
-					bestAlpha = currentValue;
-					if (bestAlpha >= beta) {
-						breakLoop = true;
-					}
-				}
-
-				game.undoMove();
-
-				if (breakLoop) {
-					break;
-				}
-			}
-		}
-		return bestAlpha;
-	}
+                game.undoMove();
+            }
+            return maxValue;
+        }
+    }
 
 
 }

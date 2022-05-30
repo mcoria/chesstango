@@ -31,8 +31,6 @@
          Assert.assertEquals(Square.c4, smartMove.getTo().getKey());
      }
 
-     //8/8/5p2/1R1Nk3/R7/7K/8/1Q6 w - - 0 1
-
      @Test
      public void testQueenMove2() {
          Game game =  getGame("8/8/5p2/1R1Nk3/R7/7K/8/1Q6 w - - 0 1");
@@ -46,7 +44,7 @@
 
      @Test
      public void testKnightMove1() {
-         Game game =  getGame("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 1 ");
+         Game game =  getGame("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 1");
 
          Move smartMove = bestMoveFinder.findBestMove(game);
 

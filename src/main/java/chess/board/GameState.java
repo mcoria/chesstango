@@ -81,7 +81,7 @@ public class GameState {
 	}
 
 	public Iterator<GameStateNode> iterateGameStates(){
-		return stackGameStateNode.iterator();
+		return stackGameStateNode.descendingIterator();
 	}
 
 	public static class GameStateNode {
