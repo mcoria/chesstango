@@ -20,8 +20,11 @@ public class MinMaxPrunning extends AbstractSmart {
 
     private final GameEvaluator evaluator = new GameEvaluator();
 
+	private Game game = null;
+
     @Override
     public Move findBestMove(final Game game) {
+		this.game = game;
         final List<Move> possibleMoves = new ArrayList<Move>();
         final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 
@@ -33,8 +36,8 @@ public class MinMaxPrunning extends AbstractSmart {
 
             game.executeMove(move);
 
-            int currentValue = minOrMax ? maximize(game, maxLevel - 1, Integer.MIN_VALUE, bestValue) :
-                    minimize(game, maxLevel - 1, bestValue, Integer.MAX_VALUE);
+            int currentValue = minOrMax ? maximize(maxLevel - 1, Integer.MIN_VALUE, bestValue) :
+                    						minimize(maxLevel - 1, bestValue, Integer.MAX_VALUE);
 
             if (minOrMax && currentValue < bestValue) {
                 bestValue = currentValue;
@@ -59,7 +62,7 @@ public class MinMaxPrunning extends AbstractSmart {
         return selectMove(possibleMoves);
     }
 
-    private int minimize(final Game game, final int currentLevel, final int alpha, int beta) {
+    private int minimize(final int currentLevel, final int alpha, int beta) {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
             return evaluator.evaluate(game, maxLevel - currentLevel);
@@ -71,20 +74,19 @@ public class MinMaxPrunning extends AbstractSmart {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);
 
-                minValue = Math.min(minValue, maximize(game, currentLevel - 1, alpha, beta));
+                minValue = Math.min(minValue, maximize(currentLevel - 1, alpha, beta));
                 beta = Math.min(beta, minValue);
 
                 if (alpha >= beta) {
                     search = false;
                 }
-
                 game.undoMove();
             }
             return minValue;
         }
     }
 
-    private int maximize(final Game game, final int currentLevel, int alpha, final int beta) {
+    private int maximize(final int currentLevel, int alpha, final int beta) {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
             return evaluator.evaluate(game, maxLevel - currentLevel);
@@ -96,13 +98,12 @@ public class MinMaxPrunning extends AbstractSmart {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);
 
-                maxValue = Math.max(maxValue, minimize(game, currentLevel - 1, alpha, beta));
+                maxValue = Math.max(maxValue, minimize(currentLevel - 1, alpha, beta));
                 alpha = Math.max(alpha, maxValue);
 
                 if (alpha >= beta) {
                     search = false;
                 }
-
                 game.undoMove();
             }
             return maxValue;
