@@ -64,53 +64,53 @@ public class MinMaxPrunning extends AbstractSmart {
         return selectMove(possibleMoves);
     }
 
-    private int minimize(final int currentLevel, final int alpha, int beta) {
+    private int minimize(final int currentLevel, final int alpha, final int beta) {
+        int minValue = Integer.MAX_VALUE;
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
-            return evaluator.evaluate(game, maxLevel - currentLevel);
+            minValue = evaluator.evaluate(game, maxLevel - currentLevel);
         } else {
-            int minValue = Integer.MAX_VALUE;
             boolean search = true;
             Iterator<Move> possibleMovesIterator = possibleMoves.iterator();
             while (possibleMovesIterator.hasNext() && search) {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);
 
-                minValue = Math.min(minValue, maximize(currentLevel - 1, alpha, beta));
-                beta = Math.min(beta, minValue);
+                minValue = Math.min(minValue, maximize(currentLevel - 1, alpha, Math.min(beta, minValue)));
 
-                if (alpha >= beta) {
+                if (alpha >= minValue) {
                     search = false;
                 }
+
                 game.undoMove();
             }
-            return minValue;
         }
+        return minValue;
     }
 
-    private int maximize(final int currentLevel, int alpha, final int beta) {
+    private int maximize(final int currentLevel, final int alpha, final int beta) {
+        int maxValue = Integer.MIN_VALUE;
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
-            return evaluator.evaluate(game, maxLevel - currentLevel);
+            maxValue =  evaluator.evaluate(game, maxLevel - currentLevel);
         } else {
-            int maxValue = Integer.MIN_VALUE;
             boolean search = true;
             Iterator<Move> possibleMovesIterator = possibleMoves.iterator();
             while (possibleMovesIterator.hasNext() && search) {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);
 
-                maxValue = Math.max(maxValue, minimize(currentLevel - 1, alpha, beta));
-                alpha = Math.max(alpha, maxValue);
+                maxValue = Math.max(maxValue, minimize(currentLevel - 1, Math.max(alpha, maxValue), beta));
 
-                if (alpha >= beta) {
+                if (maxValue >= beta) {
                     search = false;
                 }
+
                 game.undoMove();
             }
-            return maxValue;
-        }
-    }
 
+        }
+        return maxValue;
+    }
 
 }
