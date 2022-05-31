@@ -5,6 +5,7 @@
  import chess.board.Piece;
  import chess.board.Square;
  import chess.board.moves.Move;
+ import chess.board.representations.fen.FENDecoder;
  import org.junit.Assert;
  import org.junit.Before;
  import org.junit.Test;
@@ -48,5 +49,13 @@
          Assert.assertEquals(Square.d8, smartMove.getTo().getKey());
      }
 
+     @Test
+     public void test3() {
+         Game game =  getGame(FENDecoder.INITIAL_FEN);
 
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         System.out.println(smartMove);
+
+     }
  }

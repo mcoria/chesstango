@@ -25,6 +25,7 @@ public class GameEvaluator {
                 Piece piece = piecePlacement.getValue();
                 evaluation += piece.getValue();
             }
+            evaluation +=  game.getPossibleMoves().size();
         }
         return evaluation;
     }
