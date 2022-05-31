@@ -12,7 +12,7 @@ import chess.board.representations.fen.FENDecoder;
  * @author Mauricio Coria
  *
  */
-public abstract class MateInAbstract {
+public abstract class MateInTestAbstract {
 
 	protected BestMoveFinder bestMoveFinder = null;
 	
@@ -21,6 +21,7 @@ public abstract class MateInAbstract {
 
 	public void setUp() {
 		bestMoveFinder = new MinMaxPrunning(getMaxLevel());
+		//bestMoveFinder = new MinMax();
 	}
 
 	protected Game getGame(String string) {

@@ -13,7 +13,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class MateIn1Test extends MateInAbstract {
+public class MateIn1Test extends MateInTestAbstract {
 
 	@Override
 	protected int getMaxLevel() {

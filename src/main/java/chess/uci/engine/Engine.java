@@ -7,6 +7,7 @@ import java.util.List;
 
 import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.MinMax;
+import chess.ai.imp.smart.MinMaxPrunning;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.representations.MoveEncoder;
@@ -35,7 +36,8 @@ public class Engine {
 	
 	public Engine(UCIResponseChannel responseChannel) {
 		this.responseChannel = responseChannel;
-		this.bestMoveFinder = new MinMax();
+		//this.bestMoveFinder = new MinMax();
+		this.bestMoveFinder = new MinMaxPrunning();
 		this.moveEncoder = new MoveEncoder();
 	}
 

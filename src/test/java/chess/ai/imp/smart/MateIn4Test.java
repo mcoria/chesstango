@@ -14,7 +14,7 @@
   * @author Mauricio Coria
   *
   */
- public class MateIn4Test extends MateInAbstract {
+ public class MateIn4Test extends MateInTestAbstract {
 
      @Override
      protected int getMaxLevel() {

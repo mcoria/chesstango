@@ -11,7 +11,7 @@ public class GameEvaluator {
     public int evaluate(Game game, int depth) {
         int evaluation = 0;
         if (GameState.GameStatus.MATE.equals(game.getGameStatus())) {
-            evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MIN_VALUE: Integer.MAX_VALUE;
+            evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MIN_VALUE + depth: Integer.MAX_VALUE - depth;
             //printGameStack(game);
             //System.out.println(evaluation);
         }  else if (GameState.GameStatus.DRAW.equals(game.getGameStatus())) {

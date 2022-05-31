@@ -15,9 +15,10 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMaxPrunning extends AbstractSmart {
 
-    private static final int DEFAULT_MAXLEVEL = 5;
-
+    private static final int DEFAULT_MAXLEVEL = 7;
     private final int maxLevel;
+    private final int minPossibleValue;
+    private final int maxPossibleValue;
 
     private final GameEvaluator evaluator = new GameEvaluator();
 
@@ -29,6 +30,8 @@ public class MinMaxPrunning extends AbstractSmart {
 
     public MinMaxPrunning(int level) {
         this.maxLevel = level;
+        this.minPossibleValue = Integer.MIN_VALUE + level + 1;
+        this.maxPossibleValue = Integer.MAX_VALUE - level - 1;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class MinMaxPrunning extends AbstractSmart {
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
                 possibleMoves.clear();
-                if (minOrMax && bestValue == Integer.MIN_VALUE || !minOrMax && bestValue == Integer.MAX_VALUE) {
+                if (minOrMax && bestValue < minPossibleValue || !minOrMax && bestValue > maxPossibleValue) {
                     search = false;
                 }
             }
@@ -77,7 +80,7 @@ public class MinMaxPrunning extends AbstractSmart {
                 game.executeMove(move);
 
                 minValue = Math.min(minValue, maximize(currentLevel - 1, alpha, Math.min(minValue, beta)));
-                if (alpha >= minValue) {
+                if (alpha >= minValue || minValue < minPossibleValue ) {
                     search = false;
                 }
 
@@ -100,7 +103,7 @@ public class MinMaxPrunning extends AbstractSmart {
                 game.executeMove(move);
 
                 maxValue = Math.max(maxValue, minimize(currentLevel - 1, Math.max(maxValue, alpha), beta));
-                if (maxValue >= beta) {
+                if (maxValue >= beta || maxValue > maxPossibleValue) {
                     search = false;
                 }
 

@@ -26,12 +26,11 @@ public class MinMax extends AbstractSmart {
 		final MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		int betterEvaluation = minOrMax ? Integer.MAX_VALUE: Integer.MIN_VALUE;
-		int currentEvaluation = betterEvaluation;
 
 		for (Move move : movimientosPosible) {
 			game.executeMove(move);
 
-			currentEvaluation = minMax(game, maxLevel - 1, !minOrMax);
+			int currentEvaluation = minMax(game, maxLevel - 1, !minOrMax);
 
 			if (currentEvaluation == betterEvaluation) {
 				posibleMoves.add(move);
