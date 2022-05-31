@@ -18,6 +18,13 @@ public class GameEvaluator {
             evaluation = 0;
         }  else if (GameState.GameStatus.CHECK.equals(game.getGameStatus())) {
             evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? - 100  : 100;
+            ChessPositionReader positionReader = game.getChessPositionReader();
+            for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+                PiecePositioned piecePlacement = it.next();
+                Piece piece = piecePlacement.getValue();
+                evaluation += piece.getValue();
+            }
+            evaluation +=  game.getPossibleMoves().size();
         } else {
             ChessPositionReader positionReader = game.getChessPositionReader();
             for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {

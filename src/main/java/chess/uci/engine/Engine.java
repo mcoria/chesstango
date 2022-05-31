@@ -78,6 +78,7 @@ public class Engine {
 	}
 
 	public void do_stop() {
+		//TODO: implementar stop
 	}
 	
 	public boolean keepProcessing() {
@@ -112,8 +113,5 @@ public class Engine {
 			}
 		}
 	}
-
-
-
 
 }
