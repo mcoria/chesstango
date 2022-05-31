@@ -12,14 +12,15 @@ import chess.board.representations.fen.FENDecoder;
  * @author Mauricio Coria
  *
  */
-public class AbstractSmartTest {
+public abstract class MateInAbstract {
 
 	protected BestMoveFinder bestMoveFinder = null;
 	
 
+	protected abstract int getMaxLevel();
+
 	public void setUp() {
-		//bestMoveFinder = new MinMax();
-		bestMoveFinder = new MinMaxPrunning();
+		bestMoveFinder = new MinMaxPrunning(getMaxLevel());
 	}
 
 	protected Game getGame(String string) {

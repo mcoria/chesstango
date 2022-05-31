@@ -16,11 +16,21 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMaxPrunning extends AbstractSmart {
 
-    private final int maxLevel = 5;
+    private static final int DEFAULT_MAXLEVEL = 5;
+
+    private final int maxLevel;
 
     private final GameEvaluator evaluator = new GameEvaluator();
 
 	private Game game = null;
+
+    public  MinMaxPrunning(){
+        this(DEFAULT_MAXLEVEL);
+    }
+
+    public  MinMaxPrunning(int level){
+        this.maxLevel = level;
+    }
 
     @Override
     public Move findBestMove(final Game game) {

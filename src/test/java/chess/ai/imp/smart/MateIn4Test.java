@@ -13,7 +13,12 @@
   * @author Mauricio Coria
   *
   */
- public class MateIn4Test extends AbstractSmartTest {
+ public class MateIn4Test extends MateInAbstract {
+
+     @Override
+     protected int getMaxLevel() {
+         return 7;
+     }
 
      @Before
      public void setUp() {

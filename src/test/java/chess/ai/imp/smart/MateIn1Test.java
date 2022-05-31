@@ -13,8 +13,13 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class MateIn1Test extends AbstractSmartTest {
-	
+public class MateIn1Test extends MateInAbstract {
+
+	@Override
+	protected int getMaxLevel() {
+		return 1;
+	}
+
 	@Before
 	public void setUp() {
 		super.setUp();
