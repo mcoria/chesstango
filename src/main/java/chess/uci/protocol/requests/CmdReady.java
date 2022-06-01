@@ -1,6 +1,3 @@
-/**
- * 
- */
 package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
@@ -11,7 +8,7 @@ import chess.uci.protocol.UCIRequestType;
  * @author Mauricio Coria
  *
  */
-public class CmdIsReady implements UCIRequest {
+public class CmdReady implements UCIRequest {
 
 
 	@Override

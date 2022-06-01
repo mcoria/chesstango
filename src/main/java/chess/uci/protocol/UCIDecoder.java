@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chess.uci.protocol.requests.CmdGo;
-import chess.uci.protocol.requests.CmdIsReady;
+import chess.uci.protocol.requests.CmdReady;
 import chess.uci.protocol.requests.CmdPositionFen;
 import chess.uci.protocol.requests.CmdPositionStart;
 import chess.uci.protocol.requests.CmdQuit;
@@ -51,7 +51,7 @@ public class UCIDecoder {
 				result = new CmdQuit();
 				break;
 			case "ISREADY":
-				result = new CmdIsReady();
+				result = new CmdReady();
 				break;
 			case "GO":
 				result = parseGo(words);

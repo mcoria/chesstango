@@ -1,6 +1,3 @@
-/**
- * 
- */
 package chess.uci.protocol.responses;
 
 import chess.uci.protocol.UCIResponseType;

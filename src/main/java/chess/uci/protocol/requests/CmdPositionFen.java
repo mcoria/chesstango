@@ -1,6 +1,3 @@
-/**
- * 
- */
 package chess.uci.protocol.requests;
 
 import java.util.List;
