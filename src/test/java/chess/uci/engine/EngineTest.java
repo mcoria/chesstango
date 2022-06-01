@@ -25,8 +25,8 @@ public class EngineTest {
 	private Engine engine;
 	
 	private final UCIDecoder uciDecoder = new UCIDecoder();
-	
-	protected UCIResponse response;
+
+	private UCIResponse response;
 	
 	@Before
 	public void setUp() {
@@ -34,6 +34,11 @@ public class EngineTest {
 			@Override
 			public void send(UCIResponse response) {
 				EngineTest.this.response = response;
+			}
+
+			@Override
+			public void close() {
+
 			}
 		});
 		this.response = null;

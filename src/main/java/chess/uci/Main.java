@@ -17,6 +17,8 @@ public class Main implements UCIResponseChannel {
 	
 	private final Engine engine;
 
+	private boolean keepProcessing = true;
+
 	public static void main(String[] args) {
 		Main main = new Main();
 		main.mainLoop();
@@ -26,14 +28,23 @@ public class Main implements UCIResponseChannel {
 	public Main() {
 		engine = new Engine(this);
 	}
-	
+
+	@Override
+	public void send(UCIResponse response) {
+		System.out.println(response.toString());
+	}
+
+	@Override
+	public void close() {
+		keepProcessing = false;
+	}
+
 	protected void mainLoop() {
 		Scanner scanner = new Scanner(System.in);
-		while (engine.keepProcessing() && scanner.hasNext()) {
+		while (keepProcessing && scanner.hasNext()) {
 			String input = scanner.nextLine();
 
 			processInput(input);
-
 		}
 		scanner.close();
 	}
@@ -45,11 +56,6 @@ public class Main implements UCIResponseChannel {
 		uciRequest.execute(engine);
 	}
 
-
-	@Override
-	public void send(UCIResponse response) {
-		System.out.println(response.toString());
-	}
 	
 	protected Engine getEngine(){
 		return engine;

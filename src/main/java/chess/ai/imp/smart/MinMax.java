@@ -14,6 +14,7 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMax extends AbstractSmart {
 
+	private boolean keepProcessing;
 	// Beyond level 4, the performance is really bad
 	private final int maxLevel = 4;
 
@@ -21,6 +22,7 @@ public class MinMax extends AbstractSmart {
 
 	@Override
 	public Move findBestMove(Game game) {
+		keepProcessing = true;
 		final boolean minOrMax = Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn());
 		final List<Move> posibleMoves = new ArrayList<Move>();
 		final MoveContainerReader movimientosPosible = game.getPossibleMoves();
@@ -81,6 +83,11 @@ public class MinMax extends AbstractSmart {
 			}
 		}
 		return betterEvaluation;
+	}
+
+	@Override
+	public void stopProcessing() {
+		keepProcessing = false;
 	}
 
 }

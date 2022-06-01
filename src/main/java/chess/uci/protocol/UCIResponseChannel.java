@@ -8,4 +8,5 @@ public interface UCIResponseChannel {
 
 	void send(UCIResponse response);
 
+	void close();
 }

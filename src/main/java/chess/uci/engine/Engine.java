@@ -4,16 +4,16 @@
 package chess.uci.engine;
 
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import chess.ai.BestMoveFinder;
-import chess.ai.imp.smart.MinMax;
 import chess.ai.imp.smart.MinMaxPrunning;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.representations.MoveEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
-import chess.board.moves.MovePromotion;
 import chess.uci.protocol.UCIResponseChannel;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspReadyOk;
@@ -24,7 +24,6 @@ import chess.uci.protocol.responses.uci.RspUci;
  *
  */
 public class Engine {
-	private boolean keepProcessing = true;
 	
 	private final UCIResponseChannel responseChannel;
 
@@ -33,6 +32,8 @@ public class Engine {
 	private final MoveEncoder moveEncoder;
 
 	private Game game;
+
+	private Executor executor = Executors.newSingleThreadExecutor();
 	
 	public Engine(UCIResponseChannel responseChannel) {
 		this.responseChannel = responseChannel;
@@ -53,36 +54,35 @@ public class Engine {
 	}
 	
 	public void do_position_startpos(List<String> moves) {
-		this.game = loadGame(FENDecoder.INITIAL_FEN);
+		game = loadGame(FENDecoder.INITIAL_FEN);
 		executeMoves(moves);
 	}
 
 
 	public void do_position_fen(String fen, List<String> moves) {
-		this.game = loadGame(fen);
+		game = loadGame(fen);
 		executeMoves(moves);
 	}
 	
 	public void do_go() {
-		Move selectedMove = bestMoveFinder.findBestMove(game);
+		executor.execute(() -> {
+			Move selectedMove = bestMoveFinder.findBestMove(game);
 
-		new RspBestMove(moveEncoder.encode(selectedMove)).respond(responseChannel);
+			new RspBestMove(moveEncoder.encode(selectedMove)).respond(responseChannel);
+		});
 	}	
 	
 	public void do_quit() {
-		keepProcessing = false;
+		bestMoveFinder.stopProcessing();
+		responseChannel.close();
+	}
+
+	public void do_stop() {
+		bestMoveFinder.stopProcessing();
 	}
 
 	public void do_ping() {
 		new RspReadyOk().respond(responseChannel);
-	}
-
-	public void do_stop() {
-		//TODO: implementar stop
-	}
-	
-	public boolean keepProcessing() {
-		return keepProcessing;
 	}
 
 	public Game getGame(){ return game;}
@@ -113,5 +113,4 @@ public class Engine {
 			}
 		}
 	}
-
 }

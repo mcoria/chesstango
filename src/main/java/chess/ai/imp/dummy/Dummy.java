@@ -36,4 +36,9 @@ public class Dummy implements BestMoveFinder{
 		return selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size()));
 	}
 
+	@Override
+	public void stopProcessing() {
+
+	}
+
 }

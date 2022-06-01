@@ -11,4 +11,5 @@ public interface BestMoveFinder {
 	
 	Move findBestMove(Game game);
 
+    void stopProcessing();
 }
