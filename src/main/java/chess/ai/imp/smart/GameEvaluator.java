@@ -32,7 +32,7 @@ public class GameEvaluator {
                 Piece piece = piecePlacement.getValue();
                 evaluation += piece.getValue();
             }
-            evaluation +=  game.getPossibleMoves().size();
+            evaluation =  Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation + game.getPossibleMoves().size(): evaluation - game.getPossibleMoves().size();
         }
         return evaluation;
     }
