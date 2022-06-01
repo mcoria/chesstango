@@ -14,11 +14,21 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMax extends AbstractSmart {
 
+	private static final int DEFAULT_MAXLEVEL = 4;
+
 	private boolean keepProcessing;
 	// Beyond level 4, the performance is really bad
-	private final int maxLevel = 4;
+	private final int maxLevel;
 
 	private final GameEvaluator evaluator = new GameEvaluator();
+
+	public MinMax() {
+		this(DEFAULT_MAXLEVEL);
+	}
+
+	public MinMax(int level) {
+		this.maxLevel = level;
+	}
 
 	@Override
 	public Move findBestMove(Game game) {
