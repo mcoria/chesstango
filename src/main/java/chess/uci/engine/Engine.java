@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 
 import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.MinMaxPrunning;
+import chess.ai.imp.smart.NegaMinMaxPrunning;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.representations.MoveEncoder;
@@ -38,7 +39,8 @@ public class Engine {
 	public Engine(UCIResponseChannel responseChannel) {
 		this.responseChannel = responseChannel;
 		//this.bestMoveFinder = new MinMax();
-		this.bestMoveFinder = new MinMaxPrunning();
+		//this.bestMoveFinder = new MinMaxPrunning();
+		this.bestMoveFinder = new NegaMinMaxPrunning(5);
 		this.moveEncoder = new MoveEncoder();
 	}
 
