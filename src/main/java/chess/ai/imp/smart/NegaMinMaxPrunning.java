@@ -53,14 +53,16 @@ public class NegaMinMaxPrunning extends AbstractSmart {
             if (maxValue > alpha) {
                 alpha = maxValue;
                 possibleMoves.clear();
+                possibleMoves.add(move);
                 if (maxValue == GameEvaluator.INFINITE_POSITIVE) {
                     search = false;
                 }
             }
 
+            /*
             if (alpha == maxValue) {
                 possibleMoves.add(move);
-            }
+            }*/
 
             game.undoMove();
         }
