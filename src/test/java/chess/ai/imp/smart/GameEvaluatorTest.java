@@ -17,14 +17,9 @@ public class GameEvaluatorTest {
     }
 
     @Test
-    public void testQueenWhiteCheckMate() {
-        Game game = getGame("rnbqkbnr/2pppQpp/8/pp4N1/8/4P3/PPPP1PPP/RNB1KB1R b KQkq - 0 5");
-
-        int mateDepth1 = evaluator.evaluate(game, 1);
-
-        int mateDepth3 = evaluator.evaluate(game, 3);
-
-        Assert.assertTrue("Mate now is better than Mate later", mateDepth1 > mateDepth3);
+    public void testInfinites() {
+        Assert.assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
+        Assert.assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
     }
 
 
@@ -32,23 +27,37 @@ public class GameEvaluatorTest {
     public void testDraw() {
         Game game = getGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1 ");
 
-        int eval = evaluator.evaluate(game, 1);
+        int eval = evaluator.evaluate(game);
 
         Assert.assertEquals("Draw", 0, eval);
     }
 
     @Test
-    public void testMateCheckAndDraw() {
-        Game mate = getGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1 ");
-        Game check = getGame("7k/8/7K/8/3Q4/8/8/8 b - - 0 1 ");
-        Game draw = getGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1 ");
+    public void testBlackMateCheckAndDraw() {
+        Game mate = getGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
+        Game check = getGame("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
+        Game draw = getGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");       // Draw
 
-        int mateEval = evaluator.evaluate(mate, 1);
-        int checkEval = evaluator.evaluate(check, 1);
-        int drawEval = evaluator.evaluate(draw, 1);
+        int mateEval = evaluator.evaluate(mate);
+        int checkEval = evaluator.evaluate(check);
+        int drawEval = evaluator.evaluate(draw);
 
-        Assert.assertTrue("Mate is better than check", mateEval > checkEval);
-        Assert.assertTrue("Check is better than draw", checkEval > drawEval);
+        Assert.assertTrue("Mate is worst than check", mateEval < checkEval);
+        Assert.assertTrue("Check is worst than draw", checkEval < drawEval);
+    }
+
+    @Test
+    public void testWhiteMateCheckAndDraw() {
+        Game mate = getGame("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
+        Game check = getGame("8/8/8/3q4/8/7k/8/2Q4K w - - 0 1");     // White is in Check
+        Game draw = getGame("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
+
+        int mateEval = evaluator.evaluate(mate);
+        int checkEval = evaluator.evaluate(check);
+        int drawEval = evaluator.evaluate(draw);
+
+        Assert.assertTrue("Mate is worst than check", mateEval < checkEval);
+        Assert.assertTrue("Check is worst than draw", checkEval < drawEval);
     }
 
     @Test
@@ -56,8 +65,8 @@ public class GameEvaluatorTest {
         Game promotionInTwoMoves = getGame("7k/8/P7/8/8/8/8/7K w - - 0 1");
         Game promotionInOneMoves = getGame("7k/P7/8/8/8/8/8/7K w - - 0 1 ");
 
-        int evalPromotionInTwoMoves = evaluator.evaluate(promotionInTwoMoves, 1);
-        int evalPromotionInOneMoves = evaluator.evaluate(promotionInOneMoves, 1);
+        int evalPromotionInTwoMoves = evaluator.evaluate(promotionInTwoMoves);
+        int evalPromotionInOneMoves = evaluator.evaluate(promotionInOneMoves);
 
         Assert.assertTrue("Promotion in One move is better than promotion in two moves", evalPromotionInOneMoves > evalPromotionInTwoMoves);
     }

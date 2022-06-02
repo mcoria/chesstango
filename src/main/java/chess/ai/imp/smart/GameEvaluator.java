@@ -8,42 +8,32 @@ import chess.board.representations.MoveEncoder;
 import java.util.Iterator;
 
 public class GameEvaluator {
-    public int evaluate(Game game, int depth) {
+
+    public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
+    public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
+
+    public int evaluate(Game game) {
         int evaluation = 0;
-        if (GameState.GameStatus.MATE.equals(game.getGameStatus())) {
-            evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? Integer.MIN_VALUE + depth: Integer.MAX_VALUE - depth;
-            //printGameStack(game);
-            //System.out.println(evaluation);
-        }  else if (GameState.GameStatus.DRAW.equals(game.getGameStatus())) {
-            evaluation = 0;
-        }  else if (GameState.GameStatus.CHECK.equals(game.getGameStatus())) {
-            evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? - 100  : 100;
-            ChessPositionReader positionReader = game.getChessPositionReader();
-            for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-                PiecePositioned piecePlacement = it.next();
-                Piece piece = piecePlacement.getValue();
-                evaluation += piece.getValue();
-            }
-            evaluation +=  game.getPossibleMoves().size();
-        } else {
-            ChessPositionReader positionReader = game.getChessPositionReader();
-            for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-                PiecePositioned piecePlacement = it.next();
-                Piece piece = piecePlacement.getValue();
-                evaluation += piece.getValue();
-            }
-            evaluation =  Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation + game.getPossibleMoves().size(): evaluation - game.getPossibleMoves().size();
+        switch (game.getGameStatus()){
+            case MATE:
+                // If white is on check then evaluation is INFINITE_NEGATIVE
+                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? INFINITE_NEGATIVE : INFINITE_POSITIVE;
+                break;
+            case DRAW:
+                evaluation = 0;
+                break;
+            case  CHECK:
+                // If white is on check then evaluation starts at -100
+                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? -100 : +100;
+            case IN_PROGRESS:
+                ChessPositionReader positionReader = game.getChessPositionReader();
+                for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+                    PiecePositioned piecePlacement = it.next();
+                    Piece piece = piecePlacement.getValue();
+                    evaluation += piece.getValue();
+                }
         }
-        return evaluation;
+        return Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation : - evaluation;
     }
 
-    private void printGameStack(Game game) {
-        MoveEncoder moveEncoder = new MoveEncoder();
-        GameState currentGameState = game.getGameState();
-        Iterator<GameState.GameStateNode> iterator = currentGameState.iterateGameStates();
-        while (iterator.hasNext()){
-            GameState.GameStateNode state = iterator.next();
-            System.out.print(moveEncoder.encode(state.selectedMove) + ", ");
-        }
-    }
 }

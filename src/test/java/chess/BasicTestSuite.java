@@ -4,6 +4,7 @@
 package chess;
 
 import chess.board.moves.containers.MoveContainerTest;
+import chess.board.position.imp.ChessPositionImpTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -24,7 +25,7 @@ import chess.board.position.imp.MoveCacheBoardTest;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ PieceTest.class, SquareTest.class, GameTest.class, FullScanSquareCapturerTest.class, ChessPositionTest.class,
-		MoveCacheBoardTest.class, ColorBoardTest.class, ArrayPiecePlacementTest.class,
+		MoveCacheBoardTest.class, ColorBoardTest.class, ArrayPiecePlacementTest.class, ChessPositionImpTest.class,
 		CheckLegalMoveGeneratorTest.class, NoCheckLegalMoveGeneratorTest.class, MoveContainerTest.class })
 public class BasicTestSuite {
 

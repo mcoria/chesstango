@@ -70,7 +70,7 @@ public class MinMaxPrunning extends AbstractSmart {
     private int minimize(final int currentLevel, final int alpha, final int beta) {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
-            return evaluator.evaluate(game, maxLevel - currentLevel);
+            return evaluator.evaluate(game);
         } else {
             boolean search = true;
             int minValue = Integer.MAX_VALUE;
@@ -93,7 +93,7 @@ public class MinMaxPrunning extends AbstractSmart {
     private Integer maximize(final int currentLevel, final int alpha, final int beta) {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
-            return evaluator.evaluate(game, maxLevel - currentLevel);
+            return evaluator.evaluate(game);
         } else {
             boolean search = true;
             int maxValue = Integer.MIN_VALUE;

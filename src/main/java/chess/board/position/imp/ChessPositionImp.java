@@ -191,7 +191,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
-		return piecePlacement.iterator(colorBoard.getPosiciones(Color.WHITE) & colorBoard.getPosiciones(Color.BLACK));
+		return piecePlacement.iterator(colorBoard.getPosiciones(Color.WHITE) | colorBoard.getPosiciones(Color.BLACK));
 	}
 
 	@Override

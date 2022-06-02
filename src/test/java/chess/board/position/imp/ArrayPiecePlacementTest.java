@@ -65,8 +65,8 @@ public class ArrayPiecePlacementTest {
 		assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK)));
 		assertTrue(posicionesList.contains(PiecePositioned.getPiecePositioned(Square.e3, null)));
 		assertEquals(6, posicionesList.size());
-
 	}
+
 	
 	@Test
 	public void testToString() {
