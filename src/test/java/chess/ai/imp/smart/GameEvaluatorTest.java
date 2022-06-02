@@ -71,6 +71,19 @@ public class GameEvaluatorTest {
         Assert.assertTrue("Promotion in One move is better than promotion in two moves", evalPromotionInOneMoves > evalPromotionInTwoMoves);
     }
 
+    //moves
+
+    @Test
+    public void test2() {
+        Game game = getGame("1k6/3Q4/6P1/1pP5/8/1B3P2/3R4/6K1 w - - 0 1");
+
+        int eval = evaluator.evaluate(game);
+
+        Assert.assertTrue("White has not won yet", eval != GameEvaluator.INFINITE_POSITIVE);
+        Assert.assertTrue("White has not lost yet", eval != GameEvaluator.INFINITE_NEGATIVE);
+        Assert.assertTrue("White has a good position", eval > 0);
+    }
+
     protected Game getGame(String string) {
         GameBuilder builder = new GameBuilder();
 

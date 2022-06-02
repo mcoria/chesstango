@@ -40,7 +40,6 @@ public class NegaMinMaxPrunning extends AbstractSmart {
 
         int alpha =  GameEvaluator.INFINITE_NEGATIVE;
         final int beta = GameEvaluator.INFINITE_POSITIVE;
-        int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
         boolean search = true;
         Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
@@ -48,21 +47,18 @@ public class NegaMinMaxPrunning extends AbstractSmart {
             Move move = possibleMovesIterator.next();
             game.executeMove(move);
 
-            maxValue = Math.max(maxValue, - negaMinMax(maxLevel - 1, -beta, -alpha));
+            int currentValue = - negaMinMax(maxLevel - 1, -beta, -alpha);
 
-            if (maxValue > alpha) {
-                alpha = maxValue;
+            if (currentValue > alpha) {
+                alpha = currentValue;
                 possibleMoves.clear();
                 possibleMoves.add(move);
-                if (maxValue == GameEvaluator.INFINITE_POSITIVE) {
+                if (alpha == GameEvaluator.INFINITE_POSITIVE) {
                     search = false;
                 }
-            }
-
-            /*
-            if (alpha == maxValue) {
+            } else if (currentValue == alpha) {
                 possibleMoves.add(move);
-            }*/
+            }
 
             game.undoMove();
         }

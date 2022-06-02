@@ -10,13 +10,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class AbstractSmart implements BestMoveFinder {
 
     protected Move selectMove(List<Move> moves) {
+        if(moves.size() == 0){
+            throw new RuntimeException("There is no move to select");
+        }
         Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
-
         moves.forEach(move ->
                  moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
                         .add(move)
         );
-
         PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
         PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
 
