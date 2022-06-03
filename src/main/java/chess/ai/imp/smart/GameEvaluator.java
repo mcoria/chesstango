@@ -34,7 +34,8 @@ public class GameEvaluator {
                 }
                 //evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? game.getPossibleMoves().size() : - game.getPossibleMoves().size() ;
         }
-        return Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation : - evaluation;
+        //return Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation : - evaluation;
+        return evaluation;
     }
 
 }
