@@ -24,7 +24,7 @@ public class GameEvaluator {
                 break;
             case  CHECK:
                 // If white is on check then evaluation starts at -100
-                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? -100 : +100;
+                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? -5 : +5;
             case IN_PROGRESS:
                 ChessPositionReader positionReader = game.getChessPositionReader();
                 for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
@@ -32,6 +32,7 @@ public class GameEvaluator {
                     Piece piece = piecePlacement.getValue();
                     evaluation += piece.getValue();
                 }
+                //evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? game.getPossibleMoves().size() : - game.getPossibleMoves().size() ;
         }
         return Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation : - evaluation;
     }

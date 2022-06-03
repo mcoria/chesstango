@@ -67,4 +67,16 @@
          Assert.assertEquals("There is no other option for black King", Square.b8, smartMove.getTo().getKey());
      }
 
+
+     @Test
+     public void test_promotion() {
+         Game game =  getGame("4k3/8/4P3/6P1/2p2P2/PpPq1B2/7p/RNQ1K1NR b - - 1 35");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         System.out.println(smartMove);
+         //Assert.assertEquals(Piece.KING_BLACK, smartMove.getFrom().getValue());
+         //Assert.assertEquals(Square.c7, smartMove.getFrom().getKey());
+         //Assert.assertEquals("There is no other option for black King", Square.b8, smartMove.getTo().getKey());
+     }
  }
