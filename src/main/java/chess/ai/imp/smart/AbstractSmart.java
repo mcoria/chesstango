@@ -23,7 +23,7 @@ public abstract class AbstractSmart implements BestMoveFinder {
         keepProcessing = false;
     }
 
-    protected Move selectMove(List<Move> moves) {
+    protected Move selectMove(Collection<Move> moves) {
         if(moves.size() == 0){
             throw new RuntimeException("There is no move to select");
         }

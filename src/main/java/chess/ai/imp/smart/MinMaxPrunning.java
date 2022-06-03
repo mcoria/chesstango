@@ -38,7 +38,6 @@ public class MinMaxPrunning extends AbstractSmart {
         this.game = game;
         this.keepProcessing = true;
 
-        final List<Move> possibleMoves = new ArrayList<Move>();
         final List<List<Move>> possiblePaths = new ArrayList<List<Move>>();
         final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 
@@ -55,17 +54,17 @@ public class MinMaxPrunning extends AbstractSmart {
                                             minimize(maxLevel - 1, bestValue, GameEvaluator.INFINITE_POSITIVE);
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
-                if (minOrMax && bestValue == GameEvaluator.INFINITE_NEGATIVE || !minOrMax && bestValue == GameEvaluator.INFINITE_POSITIVE) {
+                bestValue = currentValue;
+                if (minOrMax && bestValue == GameEvaluator.INFINITE_NEGATIVE ||             //Black wins
+                        !minOrMax && bestValue == GameEvaluator.INFINITE_POSITIVE) {        //White wins
                     search = false;
                 }
 
-                bestValue = currentValue;
-                possibleMoves.clear();
+
                 possiblePaths.clear();
             }
 
             if (currentValue == bestValue) {
-                possibleMoves.add(move);
                 currentPath.add(move);
                 if(maxLevel > 1){
                     currentPath.addAll(this.possiblePaths[maxLevel - 2]);
@@ -77,9 +76,12 @@ public class MinMaxPrunning extends AbstractSmart {
 
             game.undoMove();
         }
+        evaluation = bestValue;
+
         printpossiblePaths(possiblePaths);
 
-        evaluation = bestValue;
+        Collection possibleMoves = new HashSet<Move>();
+        possiblePaths.stream().forEach( path -> possibleMoves.add(path.get(0)) );
 
         return selectMove(possibleMoves);
     }
