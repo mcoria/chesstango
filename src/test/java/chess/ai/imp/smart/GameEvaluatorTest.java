@@ -17,7 +17,7 @@ public class GameEvaluatorTest {
     }
 
     @Test
-    public void testInfinites() {
+    public void testInfinities() {
         Assert.assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
         Assert.assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
     }
@@ -44,7 +44,13 @@ public class GameEvaluatorTest {
 
         // White's interest is to maximize
         // Black's interest is to minimize
+        Assert.assertTrue(GameEvaluator.INFINITE_POSITIVE > mateEval);
+
+        Assert.assertEquals(GameEvaluator.BLACK_LOST, mateEval);
+        Assert.assertEquals(GameEvaluator.WHITE_WON, mateEval);
+
         Assert.assertTrue(mateEval > checkEval);
+
         Assert.assertTrue(checkEval > drawEval);
     }
 
@@ -60,7 +66,14 @@ public class GameEvaluatorTest {
 
         // White's interest is to maximize
         // Black's interest is to minimize
+
+        Assert.assertTrue(GameEvaluator.INFINITE_NEGATIVE <  mateEval);
+
+        Assert.assertEquals(GameEvaluator.BLACK_WON, mateEval);
+        Assert.assertEquals(GameEvaluator.WHITE_LOST, mateEval);
+
         Assert.assertTrue(mateEval < checkEval);
+
         Assert.assertTrue(checkEval < drawEval);
     }
 
@@ -75,17 +88,17 @@ public class GameEvaluatorTest {
         Assert.assertTrue("Promotion in One move is better than promotion in two moves", evalPromotionInOneMoves > evalPromotionInTwoMoves);
     }
 
-    //moves
-
     @Test
-    public void test2() {
+    public void testComparations() {
         Game game = getGame("1k6/3Q4/6P1/1pP5/8/1B3P2/3R4/6K1 w - - 0 1");
 
         int eval = evaluator.evaluate(game);
 
-        Assert.assertTrue("White has not won yet", eval != GameEvaluator.INFINITE_POSITIVE);
-        Assert.assertTrue("White has not lost yet", eval != GameEvaluator.INFINITE_NEGATIVE);
-        Assert.assertTrue("White has a good position", eval > 0);
+        Assert.assertTrue("White has not won yet", eval != GameEvaluator.WHITE_WON);
+        Assert.assertTrue("White has not lost yet", eval != GameEvaluator.WHITE_LOST);
+        Assert.assertTrue("Black has not won yet", eval != GameEvaluator.BLACK_WON);
+        Assert.assertTrue("Black has not lost yet", eval != GameEvaluator.BLACK_LOST);
+        Assert.assertTrue("White has a better position than Black", eval > 0);
     }
 
     protected Game getGame(String string) {
