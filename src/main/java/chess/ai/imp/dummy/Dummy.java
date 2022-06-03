@@ -15,7 +15,7 @@ import chess.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class Dummy implements BestMoveFinder{
+public class Dummy implements BestMoveFinder {
 
 	@Override
 	public Move findBestMove(Game game) {
@@ -39,6 +39,11 @@ public class Dummy implements BestMoveFinder{
 	@Override
 	public void stopProcessing() {
 
+	}
+
+	@Override
+	public int getEvaluation() {
+		return 0;
 	}
 
 }

@@ -16,7 +16,6 @@ public class MinMax extends AbstractSmart {
 
 	private static final int DEFAULT_MAXLEVEL = 4;
 
-	private boolean keepProcessing;
 	// Beyond level 4, the performance is really bad
 	private final int maxLevel;
 
@@ -95,9 +94,5 @@ public class MinMax extends AbstractSmart {
 		return betterEvaluation;
 	}
 
-	@Override
-	public void stopProcessing() {
-		keepProcessing = false;
-	}
 
 }

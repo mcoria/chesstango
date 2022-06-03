@@ -16,7 +16,7 @@ public class GameEvaluator {
         int evaluation = 0;
         switch (game.getGameStatus()){
             case MATE:
-                // If white is on check then evaluation is INFINITE_NEGATIVE
+                // If white is on mate then evaluation is INFINITE_NEGATIVE
                 evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? INFINITE_NEGATIVE : INFINITE_POSITIVE;
                 break;
             case DRAW:
@@ -34,7 +34,6 @@ public class GameEvaluator {
                 }
                 //evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? game.getPossibleMoves().size() : - game.getPossibleMoves().size() ;
         }
-        //return Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? evaluation : - evaluation;
         return evaluation;
     }
 

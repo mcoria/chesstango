@@ -33,7 +33,7 @@ public class GameEvaluatorTest {
     }
 
     @Test
-    public void testBlackMateCheckAndDraw() {
+    public void testBlackMateInCheckAndDraw() {
         Game mate = getGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
         Game check = getGame("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
         Game draw = getGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");       // Draw
@@ -42,12 +42,14 @@ public class GameEvaluatorTest {
         int checkEval = evaluator.evaluate(check);
         int drawEval = evaluator.evaluate(draw);
 
-        Assert.assertTrue("Mate is worst than check", mateEval < checkEval);
-        Assert.assertTrue("Check is worst than draw", checkEval < drawEval);
+        // White's interest is to maximize
+        // Black's interest is to minimize
+        Assert.assertTrue(mateEval > checkEval);
+        Assert.assertTrue(checkEval > drawEval);
     }
 
     @Test
-    public void testWhiteMateCheckAndDraw() {
+    public void testWhiteInMateCheckAndDraw() {
         Game mate = getGame("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
         Game check = getGame("8/8/8/3q4/8/7k/8/2Q4K w - - 0 1");     // White is in Check
         Game draw = getGame("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
@@ -56,8 +58,10 @@ public class GameEvaluatorTest {
         int checkEval = evaluator.evaluate(check);
         int drawEval = evaluator.evaluate(draw);
 
-        Assert.assertTrue("Mate is worst than check", mateEval < checkEval);
-        Assert.assertTrue("Check is worst than draw", checkEval < drawEval);
+        // White's interest is to maximize
+        // Black's interest is to minimize
+        Assert.assertTrue(mateEval < checkEval);
+        Assert.assertTrue(checkEval < drawEval);
     }
 
     @Test

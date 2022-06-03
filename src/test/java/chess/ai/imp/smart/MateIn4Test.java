@@ -35,6 +35,8 @@
          Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.g4, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.g7, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
      }
 
 
@@ -47,10 +49,25 @@
          Assert.assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.h8, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.d8, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+     }
+
+     @Test //Alexander Meek vs. Paul Morphy
+     public void test3() {
+         Game game =  getGame("Q7/p1p1q1pk/3p2rp/4n3/3bP3/7b/PP3PPK/R1B2R2 b - - 0 1");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         Assert.assertEquals(Piece.BISHOP_BLACK, smartMove.getFrom().getValue());
+         Assert.assertEquals(Square.h3, smartMove.getFrom().getKey());
+         Assert.assertEquals(Square.g2, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
      }
 
      @Test
-     public void test3() {
+     public void getGame() {
          Game game =  getGame(FENDecoder.INITIAL_FEN);
 
          Move smartMove = bestMoveFinder.findBestMove(game);

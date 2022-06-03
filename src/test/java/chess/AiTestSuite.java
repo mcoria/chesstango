@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ BestMoverFinderSuiteTest.class, GameEvaluatorTest.class,
-        MateIn1Test.class, MateIn2Test.class, MateIn3Test.class, MateIn4Test.class})
+        MateIn1Test.class, MateIn2Test.class, MateIn3Test.class, MateIn4Test.class, BlackBestMovesTest.class})
 public class AiTestSuite {
 
 }

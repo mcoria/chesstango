@@ -9,6 +9,20 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractSmart implements BestMoveFinder {
 
+    protected int evaluation;
+
+    protected boolean keepProcessing;
+
+    @Override
+    public int getEvaluation() {
+        return this.evaluation;
+    }
+
+    @Override
+    public void stopProcessing() {
+        keepProcessing = false;
+    }
+
     protected Move selectMove(List<Move> moves) {
         if(moves.size() == 0){
             throw new RuntimeException("There is no move to select");

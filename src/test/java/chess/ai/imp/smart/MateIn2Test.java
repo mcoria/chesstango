@@ -5,6 +5,7 @@
  import chess.board.Piece;
  import chess.board.Square;
  import chess.board.moves.Move;
+ import chess.board.moves.MovePromotion;
  import org.junit.Assert;
  import org.junit.Before;
  import org.junit.Test;
@@ -34,6 +35,8 @@
          Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.d3, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.c4, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
      }
 
      @Test
@@ -45,6 +48,8 @@
          Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.b1, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.f5, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
      }
 
      @Test
@@ -56,7 +61,25 @@
          Assert.assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.d5, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.f6, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
      }
 
+     //Robert Thacker vs. Bobby Fischer
+     @Test
+     public void testPromotion() {
+         Game game =  getGame("2r2r2/6kp/3p4/3P4/4Pp2/5P1P/PP1pq1P1/4R2K b - - 0 1");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         Assert.assertEquals(Piece.PAWN_BLACK, smartMove.getFrom().getValue());
+         Assert.assertEquals(Square.d2, smartMove.getFrom().getKey());
+         Assert.assertEquals(Square.e1, smartMove.getTo().getKey());
+
+         Assert.assertTrue(smartMove instanceof MovePromotion);
+         Assert.assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion)smartMove).getPromotion());
+
+         Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
+     }
 
  }

@@ -22,7 +22,6 @@ public class MinMaxPrunning extends AbstractSmart {
     private final GameEvaluator evaluator = new GameEvaluator();
     private final List<Move> moveStack[];
     private Game game = null;
-    private boolean keepProcessing;
 
 
     public MinMaxPrunning() {
@@ -82,6 +81,9 @@ public class MinMaxPrunning extends AbstractSmart {
             game.undoMove();
         }
         printpossiblePaths(possiblePaths);
+
+        this.evaluation = bestValue;
+
         return selectMove(possibleMoves);
     }
 
@@ -168,9 +170,5 @@ public class MinMaxPrunning extends AbstractSmart {
         }
     }
 
-    @Override
-    public void stopProcessing() {
-        keepProcessing = false;
-    }
 
 }
