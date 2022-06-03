@@ -36,7 +36,7 @@
          Assert.assertEquals(Square.g4, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.g7, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
 
@@ -50,7 +50,7 @@
          Assert.assertEquals(Square.h8, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.d8, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test //Alexander Meek vs. Paul Morphy
@@ -63,10 +63,9 @@
          Assert.assertEquals(Square.h3, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.g2, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }
 
-     @Test
      public void getGame() {
          Game game =  getGame(FENDecoder.INITIAL_FEN);
 

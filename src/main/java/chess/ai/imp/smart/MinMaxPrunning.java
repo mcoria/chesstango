@@ -17,7 +17,7 @@ public class MinMaxPrunning extends AbstractSmart {
     private static final int DEFAULT_MAXLEVEL = 5;
     private final int maxLevel;
     private final GameEvaluator evaluator = new GameEvaluator();
-    private final List<Move> possiblePaths[];
+    private final List<Move> moveStacks[];
     private Game game = null;
 
 
@@ -27,9 +27,9 @@ public class MinMaxPrunning extends AbstractSmart {
 
     public MinMaxPrunning(int level) {
         this.maxLevel = level;
-        this.possiblePaths = new List[level];
+        this.moveStacks = new List[level];
         for (int i = 0; i < level; i++) {
-            possiblePaths[i] = new ArrayList<>();
+            moveStacks[i] = new ArrayList<>();
         }
     }
 
@@ -41,7 +41,7 @@ public class MinMaxPrunning extends AbstractSmart {
         final List<List<Move>> possiblePaths = new ArrayList<List<Move>>();
         final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 
-        List<Move> currentPath = this.possiblePaths[maxLevel - 1];
+        List<Move> currentPath = this.moveStacks[maxLevel - 1];
 
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE ;
         boolean search = true;
@@ -55,8 +55,8 @@ public class MinMaxPrunning extends AbstractSmart {
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
-                if (minOrMax && bestValue == GameEvaluator.INFINITE_NEGATIVE ||             //Black wins
-                        !minOrMax && bestValue == GameEvaluator.INFINITE_POSITIVE) {        //White wins
+                if (minOrMax && bestValue == GameEvaluator.BLACK_WON||             //Black wins
+                        !minOrMax && bestValue == GameEvaluator.WHITE_WON) {        //White wins
                     search = false;
                 }
 
@@ -67,7 +67,7 @@ public class MinMaxPrunning extends AbstractSmart {
             if (currentValue == bestValue) {
                 currentPath.add(move);
                 if(maxLevel > 1){
-                    currentPath.addAll(this.possiblePaths[maxLevel - 2]);
+                    currentPath.addAll(this.moveStacks[maxLevel - 2]);
                 }
                 possiblePaths.add(currentPath);
 
@@ -90,11 +90,11 @@ public class MinMaxPrunning extends AbstractSmart {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
             if(currentLevel > 0) {
-                possiblePaths[currentLevel - 1].clear();;
+                moveStacks[currentLevel - 1].clear();
             }
             return evaluator.evaluate(game);
         } else {
-            final List<Move> currentPath = possiblePaths[currentLevel - 1];
+            final List<Move> currentPath = moveStacks[currentLevel - 1];
             currentPath.clear();
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
@@ -114,7 +114,7 @@ public class MinMaxPrunning extends AbstractSmart {
                     currentPath.clear();
                     currentPath.add(move);
                     if(currentLevel > 1){
-                        currentPath.addAll(possiblePaths[currentLevel - 2]);
+                        currentPath.addAll(moveStacks[currentLevel - 2]);
                     }
                 }
 
@@ -128,11 +128,11 @@ public class MinMaxPrunning extends AbstractSmart {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
         if (currentLevel == 0 || possibleMoves.size() == 0) {
             if(currentLevel > 0) {
-                possiblePaths[currentLevel - 1].clear();;
+                moveStacks[currentLevel - 1].clear();;
             }
             return evaluator.evaluate(game);
         } else {
-            final List<Move> currentPath = possiblePaths[currentLevel - 1];
+            final List<Move> currentPath = moveStacks[currentLevel - 1];
             currentPath.clear();
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
@@ -152,7 +152,7 @@ public class MinMaxPrunning extends AbstractSmart {
                     currentPath.clear();
                     currentPath.add(move);
                     if(currentLevel > 1){
-                        currentPath.addAll(possiblePaths[currentLevel - 2]);
+                        currentPath.addAll(moveStacks[currentLevel - 2]);
                     }
                 }
 
@@ -164,6 +164,7 @@ public class MinMaxPrunning extends AbstractSmart {
 
     private void printpossiblePaths(List<List<Move>> possiblePaths) {
         int pathNumber = 1;
+        System.out.println("Evaluation = " + this.evaluation);
         for (List<Move> path:
                 possiblePaths) {
             System.out.println("Path " + pathNumber);

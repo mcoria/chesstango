@@ -35,7 +35,7 @@
          Assert.assertEquals(Square.c5, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.a6, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test //Johannes Zukertort vs. William Norwood Potter
@@ -48,7 +48,7 @@
          Assert.assertEquals(Square.c3, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.e5, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test //Ossip Bernstein vs. Alexander Kotov
@@ -61,7 +61,7 @@
          Assert.assertEquals(Square.f4, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.f5, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
 
@@ -76,7 +76,7 @@
          Assert.assertEquals(Square.e5, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.e1, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test //Géza Maróczy vs. Heinrich Wolf
@@ -89,7 +89,7 @@
          Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.e7, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test //William Evans vs. Alexander MacDonnell
@@ -102,7 +102,7 @@
          Assert.assertEquals(Square.c4, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.b5, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test //Max Walter vs. Emanuel Lasker
@@ -115,6 +115,6 @@
          Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.g6, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }
  }

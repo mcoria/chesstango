@@ -36,7 +36,7 @@ public class MateIn1Test extends MateInTestAbstract {
 		Assert.assertEquals(Square.f3, smartMove.getFrom().getKey());
 		Assert.assertEquals(Square.f7, smartMove.getTo().getKey());
 
-		Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+		Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class MateIn1Test extends MateInTestAbstract {
 		Assert.assertEquals(Square.f6, smartMove.getFrom().getKey());
 		Assert.assertEquals(Square.f2, smartMove.getTo().getKey());
 
-		Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
+		Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
 	}
 	
 	@Test
@@ -64,7 +64,7 @@ public class MateIn1Test extends MateInTestAbstract {
 		Assert.assertEquals(Square.h6, smartMove.getFrom().getKey());
 		Assert.assertEquals(Square.h8, smartMove.getTo().getKey());
 
-		Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+		Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
 	}	
 
 	
@@ -78,6 +78,8 @@ public class MateIn1Test extends MateInTestAbstract {
 		Assert.assertEquals(Piece.QUEEN_BLACK, smartMove.getFrom().getValue());
 		Assert.assertEquals(Square.d8, smartMove.getFrom().getKey());
 		Assert.assertEquals(Square.h4, smartMove.getTo().getKey());
+
+		Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
 	}	
 	
 }

@@ -36,7 +36,7 @@
          Assert.assertEquals(Square.d3, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.c4, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test
@@ -49,7 +49,7 @@
          Assert.assertEquals(Square.b1, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.f5, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      @Test
@@ -62,7 +62,7 @@
          Assert.assertEquals(Square.d5, smartMove.getFrom().getKey());
          Assert.assertEquals(Square.f6, smartMove.getTo().getKey());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
      //Robert Thacker vs. Bobby Fischer
@@ -79,7 +79,7 @@
          Assert.assertTrue(smartMove instanceof MovePromotion);
          Assert.assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion)smartMove).getPromotion());
 
-         Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, bestMoveFinder.getEvaluation());
+         Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }
 
  }
