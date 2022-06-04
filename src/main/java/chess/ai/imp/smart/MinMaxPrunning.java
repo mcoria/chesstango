@@ -14,14 +14,14 @@ import chess.board.moves.containers.MoveContainerReader;
  * @author Mauricio Coria
  */
 public class MinMaxPrunning extends AbstractSmart {
-    private static final int DEFAULT_MAXLEVEL = 6;
+    private static final int DEFAULT_MAX_PLIES = 6;
     private final int plies;
     private final GameEvaluator evaluator = new GameEvaluator();
     private final List<Move> moveStacks[];
     private Game game = null;
 
     public MinMaxPrunning() {
-        this(DEFAULT_MAXLEVEL);
+        this(DEFAULT_MAX_PLIES);
     }
 
     public MinMaxPrunning(int level) {
@@ -75,8 +75,7 @@ public class MinMaxPrunning extends AbstractSmart {
     }
 
     private int minimize(final int currentPly, final int alpha, final int beta) {
-        MoveContainerReader possibleMoves = game.getPossibleMoves();
-        if (currentPly == 0 || possibleMoves.size() == 0) {
+        if (currentPly == 0 || game.getPossibleMoves().size() == 0) {
             if(currentPly > 0) {
                 moveStacks[currentPly - 1].clear();
             }
@@ -86,9 +85,11 @@ public class MinMaxPrunning extends AbstractSmart {
             currentPath.clear();
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
-            Iterator<Move> possibleMovesIterator = possibleMoves.iterator();
-            while (possibleMovesIterator.hasNext() && search && keepProcessing) {
+
+            for (Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+                 search && keepProcessing && possibleMovesIterator.hasNext(); ) {
                 Move move = possibleMovesIterator.next();
+
                 game.executeMove(move);
 
                 int currentValue = maximize(currentPly - 1, alpha, Math.min(minValue, beta));
@@ -113,20 +114,20 @@ public class MinMaxPrunning extends AbstractSmart {
     }
 
     private Integer maximize(final int currentLevel, final int alpha, final int beta) {
-        MoveContainerReader possibleMoves = game.getPossibleMoves();
-        if (currentLevel == 0 || possibleMoves.size() == 0) {
+        if (currentLevel == 0 || game.getPossibleMoves().size() == 0) {
             if(currentLevel > 0) {
                 moveStacks[currentLevel - 1].clear();;
             }
             return evaluator.evaluate(game);
         } else {
             final List<Move> currentPath = moveStacks[currentLevel - 1];
-            currentPath.clear();
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
-            Iterator<Move> possibleMovesIterator = possibleMoves.iterator();
-            while (possibleMovesIterator.hasNext() && search && keepProcessing) {
+
+            for (Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
+                 search && keepProcessing && possibleMovesIterator.hasNext(); ) {
                 Move move = possibleMovesIterator.next();
+
                 game.executeMove(move);
 
                 int currentValue = minimize(currentLevel - 1, Math.max(maxValue, alpha), beta);

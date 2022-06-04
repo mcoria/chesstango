@@ -20,8 +20,8 @@ public abstract class MateInTestAbstract {
 	protected abstract int getMaxLevel();
 
 	public void setUp() {
-		bestMoveFinder = new MinMax(getMaxLevel());
-		//bestMoveFinder = new MinMaxPrunning(getMaxLevel());
+		//bestMoveFinder = new MinMax(getMaxLevel());
+		bestMoveFinder = new MinMaxPrunning(getMaxLevel());
 	}
 
 	protected Game getGame(String string) {
