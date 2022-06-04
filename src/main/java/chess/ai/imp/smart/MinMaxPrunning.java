@@ -15,7 +15,7 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class MinMaxPrunning extends AbstractSmart {
     private static final int DEFAULT_MAXLEVEL = 6;
-    private final int maxLevel;
+    private final int plies;
     private final GameEvaluator evaluator = new GameEvaluator();
     private final List<Move> moveStacks[];
     private Game game = null;
@@ -25,7 +25,7 @@ public class MinMaxPrunning extends AbstractSmart {
     }
 
     public MinMaxPrunning(int level) {
-        this.maxLevel = level;
+        this.plies = level;
         this.moveStacks = new List[level];
         for (int i = 0; i < level; i++) {
             moveStacks[i] = new ArrayList<>();
@@ -39,7 +39,7 @@ public class MinMaxPrunning extends AbstractSmart {
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 
-        List<Move> currentPath = this.moveStacks[maxLevel - 1];
+        List<Move> currentPath = this.moveStacks[plies - 1];
 
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE ;
         boolean search = true;
@@ -48,8 +48,8 @@ public class MinMaxPrunning extends AbstractSmart {
             Move move = possibleMovesIterator.next();
             game.executeMove(move);
 
-            int currentValue = minOrMax ? maximize(maxLevel - 1, GameEvaluator.INFINITE_NEGATIVE, bestValue) :
-                                            minimize(maxLevel - 1, bestValue, GameEvaluator.INFINITE_POSITIVE);
+            int currentValue = minOrMax ? maximize(plies - 1, GameEvaluator.INFINITE_NEGATIVE, bestValue) :
+                                            minimize(plies - 1, bestValue, GameEvaluator.INFINITE_POSITIVE);
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
@@ -60,8 +60,8 @@ public class MinMaxPrunning extends AbstractSmart {
 
                 currentPath.clear();
                 currentPath.add(move);
-                if(maxLevel > 1){
-                    currentPath.addAll(this.moveStacks[maxLevel - 2]);
+                if(plies > 1){
+                    currentPath.addAll(this.moveStacks[plies - 2]);
                 }
             }
 
@@ -74,15 +74,15 @@ public class MinMaxPrunning extends AbstractSmart {
         return currentPath.get(0);
     }
 
-    private int minimize(final int currentLevel, final int alpha, final int beta) {
+    private int minimize(final int currentPly, final int alpha, final int beta) {
         MoveContainerReader possibleMoves = game.getPossibleMoves();
-        if (currentLevel == 0 || possibleMoves.size() == 0) {
-            if(currentLevel > 0) {
-                moveStacks[currentLevel - 1].clear();
+        if (currentPly == 0 || possibleMoves.size() == 0) {
+            if(currentPly > 0) {
+                moveStacks[currentPly - 1].clear();
             }
             return evaluator.evaluate(game);
         } else {
-            final List<Move> currentPath = moveStacks[currentLevel - 1];
+            final List<Move> currentPath = moveStacks[currentPly - 1];
             currentPath.clear();
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
@@ -91,7 +91,7 @@ public class MinMaxPrunning extends AbstractSmart {
                 Move move = possibleMovesIterator.next();
                 game.executeMove(move);
 
-                int currentValue = maximize(currentLevel - 1, alpha, Math.min(minValue, beta));
+                int currentValue = maximize(currentPly - 1, alpha, Math.min(minValue, beta));
 
                 if(currentValue < minValue) {
                     minValue = currentValue;
@@ -101,8 +101,8 @@ public class MinMaxPrunning extends AbstractSmart {
 
                     currentPath.clear();
                     currentPath.add(move);
-                    if(currentLevel > 1){
-                        currentPath.addAll(moveStacks[currentLevel - 2]);
+                    if(currentPly > 1){
+                        currentPath.addAll(moveStacks[currentPly - 2]);
                     }
                 }
 

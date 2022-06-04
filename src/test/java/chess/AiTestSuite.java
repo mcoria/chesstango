@@ -13,8 +13,16 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ BestMoverFinderSuiteTest.class, GameEvaluatorTest.class,
-        MateIn1Test.class, MateIn2Test.class, MateIn3Test.class, MateIn4Test.class, BlackBestMovesTest.class})
+@Suite.SuiteClasses({
+        GameEvaluatorTest.class,
+        BlackBestMovesTest.class,
+        SmartLoopTest.class,
+        BestMoverFinderSuiteTest.class,
+        MateIn1Test.class,
+        MateIn2Test.class,
+        MateIn3Test.class,
+        MateIn4Test.class
+})
 public class AiTestSuite {
 
 }
