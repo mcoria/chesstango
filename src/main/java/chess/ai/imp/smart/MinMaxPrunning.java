@@ -14,7 +14,7 @@ import chess.board.moves.containers.MoveContainerReader;
  * @author Mauricio Coria
  */
 public class MinMaxPrunning extends AbstractSmart {
-    private static final int DEFAULT_MAXLEVEL = 5;
+    private static final int DEFAULT_MAXLEVEL = 6;
     private final int maxLevel;
     private final GameEvaluator evaluator = new GameEvaluator();
     private final List<Move> moveStacks[];

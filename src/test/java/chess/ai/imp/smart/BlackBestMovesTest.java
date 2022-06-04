@@ -70,6 +70,23 @@
          Assert.assertEquals(GameEvaluator.WHITE_WON, bestMoveFinder.getEvaluation());
      }
 
+     //5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 2 55
+
+     @Test
+     public void test_Mate() {
+         settupMoveFinder(5);
+         // Black can win the game in the next move
+         Game game =  getGame("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         Assert.assertEquals(Piece.QUEEN_BLACK, smartMove.getFrom().getValue());
+         Assert.assertEquals(Square.b1, smartMove.getFrom().getKey());
+         Assert.assertEquals(Square.b4, smartMove.getTo().getKey());
+
+         Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
+     }
+
      protected Game getGame(String string) {
          GameBuilder builder = new GameBuilder();
 

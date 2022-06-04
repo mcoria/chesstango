@@ -39,7 +39,7 @@ public class GameEvaluator {
                     Piece piece = piecePlacement.getValue();
                     evaluation += piece.getValue();
                 }
-                //evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? game.getPossibleMoves().size() : - game.getPossibleMoves().size() ;
+                evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? game.getPossibleMoves().size() : - game.getPossibleMoves().size() ;
         }
         return evaluation;
     }
