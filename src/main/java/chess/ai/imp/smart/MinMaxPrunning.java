@@ -20,7 +20,6 @@ public class MinMaxPrunning extends AbstractSmart {
     private final List<Move> moveStacks[];
     private Game game = null;
 
-
     public MinMaxPrunning() {
         this(DEFAULT_MAXLEVEL);
     }
@@ -38,7 +37,6 @@ public class MinMaxPrunning extends AbstractSmart {
         this.game = game;
         this.keepProcessing = true;
 
-        final List<List<Move>> possiblePaths = new ArrayList<List<Move>>();
         final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 
         List<Move> currentPath = this.moveStacks[maxLevel - 1];
@@ -60,30 +58,20 @@ public class MinMaxPrunning extends AbstractSmart {
                     search = false;
                 }
 
-
-                possiblePaths.clear();
-            }
-
-            if (currentValue == bestValue) {
+                currentPath.clear();
                 currentPath.add(move);
                 if(maxLevel > 1){
                     currentPath.addAll(this.moveStacks[maxLevel - 2]);
                 }
-                possiblePaths.add(currentPath);
-
-                currentPath = new ArrayList<>();
             }
 
             game.undoMove();
         }
         evaluation = bestValue;
 
-        printpossiblePaths(possiblePaths);
+        //printPath(currentPath);
 
-        Collection possibleMoves = new HashSet<Move>();
-        possiblePaths.stream().forEach( path -> possibleMoves.add(path.get(0)) );
-
-        return selectMove(possibleMoves);
+        return currentPath.get(0);
     }
 
     private int minimize(final int currentLevel, final int alpha, final int beta) {
@@ -162,20 +150,14 @@ public class MinMaxPrunning extends AbstractSmart {
         }
     }
 
-    private void printpossiblePaths(List<List<Move>> possiblePaths) {
-        int pathNumber = 1;
+    private void printPath(List<Move> path) {
         System.out.println("Evaluation = " + this.evaluation);
-        for (List<Move> path:
-                possiblePaths) {
-            System.out.println("Path " + pathNumber);
-            for (Move move:
-                    path) {
-                System.out.println(move);
+        for (Move move: path) {
+            System.out.println(move);
 
-            }
-            System.out.println("=======================");
-            pathNumber++;
         }
+        System.out.println("=======================");
+
     }
 
 }

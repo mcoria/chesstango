@@ -22,21 +22,4 @@ public abstract class AbstractSmart implements BestMoveFinder {
     public void stopProcessing() {
         keepProcessing = false;
     }
-
-    protected Move selectMove(Collection<Move> moves) {
-        if(moves.size() == 0){
-            throw new RuntimeException("There is no move to select");
-        }
-        Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
-        moves.forEach(move ->
-                 moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
-                        .add(move)
-        );
-        PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
-        PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
-
-        List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
-
-        return selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size()));
-    }
 }
