@@ -82,7 +82,24 @@
 
          Assert.assertEquals(Piece.QUEEN_BLACK, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.b1, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.b4, smartMove.getTo().getKey());
+
+         Square to = smartMove.getTo().getKey();
+         Assert.assertTrue(Square.b4.equals(to) || Square.a2.equals(to) );
+
+         Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
+     }
+
+     @Test //Max Walter vs. Emanuel Lasker
+     public void test_MateInTwo() {
+         settupMoveFinder(3);
+
+         Game game =  getGame("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1");
+
+         Move smartMove = bestMoveFinder.findBestMove(game);
+
+         Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getValue());
+         Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());
+         Assert.assertEquals(Square.g6, smartMove.getTo().getKey());
 
          Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }
@@ -98,6 +115,7 @@
      }
 
      private void settupMoveFinder(int maxLevel) {
-         bestMoveFinder = new MinMaxPrunning(maxLevel);
+         //bestMoveFinder = new MinMaxPrunning(maxLevel);
+         bestMoveFinder = new SmartLoop(maxLevel);
      }
  }

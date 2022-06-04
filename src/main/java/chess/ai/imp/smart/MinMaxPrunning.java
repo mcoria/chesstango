@@ -157,7 +157,6 @@ public class MinMaxPrunning extends AbstractSmart {
 
         }
         System.out.println("=======================");
-
     }
 
 }
