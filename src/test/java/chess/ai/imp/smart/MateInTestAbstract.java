@@ -24,14 +24,4 @@ public abstract class MateInTestAbstract {
 		bestMoveFinder = new MinMaxPrunning(getMaxLevel());
 	}
 
-	protected Game getGame(String string) {
-		GameBuilder builder = new GameBuilder();
-	
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(string);
-		
-		return builder.getResult();
-	}
-
 }

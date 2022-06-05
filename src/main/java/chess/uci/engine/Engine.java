@@ -8,7 +8,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import chess.ai.BestMoveFinder;
-import chess.ai.imp.smart.MinMaxPrunning;
 import chess.ai.imp.smart.SmartLoop;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
@@ -89,13 +88,7 @@ public class Engine {
 	public Game getGame(){ return game;}
 
 	private Game loadGame(String fen) {
-		GameBuilder builder = new GameBuilder();
-
-		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(fen);
-		
-		return builder.getResult();
+		return FENDecoder.loadGame(fen);
 	}
 
 	private void executeMoves(List<String> moves) {

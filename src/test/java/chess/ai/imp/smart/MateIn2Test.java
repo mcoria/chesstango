@@ -6,6 +6,7 @@
  import chess.board.Square;
  import chess.board.moves.Move;
  import chess.board.moves.MovePromotion;
+ import chess.board.representations.fen.FENDecoder;
  import org.junit.Assert;
  import org.junit.Before;
  import org.junit.Test;
@@ -28,7 +29,7 @@
 
      @Test
      public void testQueenMove1() {
-         Game game =  getGame("5K2/1b6/2p1Bp2/2N1k3/1B3p2/2pQ2n1/1b2pp2/8 w - - 0 1");
+         Game game =  FENDecoder.loadGame("5K2/1b6/2p1Bp2/2N1k3/1B3p2/2pQ2n1/1b2pp2/8 w - - 0 1");
 
          Move smartMove = bestMoveFinder.findBestMove(game);
 
@@ -41,7 +42,7 @@
 
      @Test
      public void testQueenMove2() {
-         Game game =  getGame("8/8/5p2/1R1Nk3/R7/7K/8/1Q6 w - - 0 1");
+         Game game =  FENDecoder.loadGame("8/8/5p2/1R1Nk3/R7/7K/8/1Q6 w - - 0 1");
 
          Move smartMove = bestMoveFinder.findBestMove(game);
 
@@ -54,7 +55,7 @@
 
      @Test
      public void testKnightMove1() {
-         Game game =  getGame("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 1");
+         Game game =  FENDecoder.loadGame("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 1");
 
          Move smartMove = bestMoveFinder.findBestMove(game);
 
@@ -68,7 +69,7 @@
      //Robert Thacker vs. Bobby Fischer
      @Test
      public void testPromotion() {
-         Game game =  getGame("2r2r2/6kp/3p4/3P4/4Pp2/5P1P/PP1pq1P1/4R2K b - - 0 1");
+         Game game =  FENDecoder.loadGame("2r2r2/6kp/3p4/3P4/4Pp2/5P1P/PP1pq1P1/4R2K b - - 0 1");
 
          Move smartMove = bestMoveFinder.findBestMove(game);
 

@@ -1,9 +1,11 @@
 package chess.board.representations.fen;
 
 import chess.board.Color;
+import chess.board.Game;
 import chess.board.Piece;
 import chess.board.Square;
 import chess.board.builder.ChessPositionBuilder;
+import chess.board.builder.imp.GameBuilder;
 
 /**
  * @author Mauricio Coria
@@ -23,7 +25,7 @@ public class FENDecoder {
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
-		String castlingsAlloweds = fields[2];
+		String castingsAllowed = fields[2];
 		String pawnPasante = fields[3];
 		
 		parsePiecePlacement(piecePlacement);
@@ -32,19 +34,19 @@ public class FENDecoder {
 		
 		chessPositionBuilder.withTurno(parseTurno(activeColor));
 		
-		if(isCastlingWhiteQueenAllowed(castlingsAlloweds)){
+		if(isCastlingWhiteQueenAllowed(castingsAllowed)){
 			chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
 		}
 		
-		if(isCastlingWhiteKingAllowed(castlingsAlloweds)){
+		if(isCastlingWhiteKingAllowed(castingsAllowed)){
 			chessPositionBuilder.withCastlingWhiteKingAllowed(true);
 		}
 		
-		if(isCastlingBlackQueenAllowed(castlingsAlloweds)){
+		if(isCastlingBlackQueenAllowed(castingsAllowed)){
 			chessPositionBuilder.withCastlingBlackQueenAllowed(true);
 		}
 		
-		if(isCastlingBlackKingAllowed(castlingsAlloweds)){
+		if(isCastlingBlackKingAllowed(castingsAllowed)){
 			chessPositionBuilder.withCastlingBlackKingAllowed(true);
 		}
 		
@@ -224,5 +226,15 @@ public class FENDecoder {
         return castlingsAlloweds.contains("k");
     }
 
+
+	public static Game loadGame(String fen) {
+		GameBuilder builder = new GameBuilder();
+
+		FENDecoder parser = new FENDecoder(builder);
+
+		parser.parseFEN(fen);
+
+		return builder.getResult();
+	}
 
 }

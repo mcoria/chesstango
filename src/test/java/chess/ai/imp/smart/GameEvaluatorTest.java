@@ -25,7 +25,7 @@ public class GameEvaluatorTest {
 
     @Test
     public void testDraw() {
-        Game game = getGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1 ");
+        Game game = FENDecoder.loadGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1 ");
 
         int eval = evaluator.evaluate(game);
 
@@ -34,9 +34,9 @@ public class GameEvaluatorTest {
 
     @Test
     public void testBlackMateInCheckAndDraw() {
-        Game mate = getGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
-        Game check = getGame("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
-        Game draw = getGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");       // Draw
+        Game mate = FENDecoder.loadGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
+        Game check = FENDecoder.loadGame("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
+        Game draw = FENDecoder.loadGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");       // Draw
 
         int mateEval = evaluator.evaluate(mate);
         int checkEval = evaluator.evaluate(check);
@@ -56,9 +56,9 @@ public class GameEvaluatorTest {
 
     @Test
     public void testWhiteInMateCheckAndDraw() {
-        Game mate = getGame("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
-        Game check = getGame("8/8/8/3q4/8/7k/8/2Q4K w - - 0 1");     // White is in Check
-        Game draw = getGame("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
+        Game mate = FENDecoder.loadGame("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
+        Game check = FENDecoder.loadGame("8/8/8/3q4/8/7k/8/2Q4K w - - 0 1");     // White is in Check
+        Game draw = FENDecoder.loadGame("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
 
         int mateEval = evaluator.evaluate(mate);
         int checkEval = evaluator.evaluate(check);
@@ -79,8 +79,8 @@ public class GameEvaluatorTest {
 
     @Test
     public void testCloseToPromotion() {
-        Game promotionInTwoMoves = getGame("7k/8/P7/8/8/8/8/7K w - - 0 1");
-        Game promotionInOneMoves = getGame("7k/P7/8/8/8/8/8/7K w - - 0 1 ");
+        Game promotionInTwoMoves = FENDecoder.loadGame("7k/8/P7/8/8/8/8/7K w - - 0 1");
+        Game promotionInOneMoves = FENDecoder.loadGame("7k/P7/8/8/8/8/8/7K w - - 0 1 ");
 
         int evalPromotionInTwoMoves = evaluator.evaluate(promotionInTwoMoves);
         int evalPromotionInOneMoves = evaluator.evaluate(promotionInOneMoves);
@@ -90,7 +90,7 @@ public class GameEvaluatorTest {
 
     @Test
     public void testComparations() {
-        Game game = getGame("1k6/3Q4/6P1/1pP5/8/1B3P2/3R4/6K1 w - - 0 1");
+        Game game = FENDecoder.loadGame("1k6/3Q4/6P1/1pP5/8/1B3P2/3R4/6K1 w - - 0 1");
 
         int eval = evaluator.evaluate(game);
 
@@ -101,13 +101,4 @@ public class GameEvaluatorTest {
         Assert.assertTrue("White has a better position than Black", eval > 0);
     }
 
-    protected Game getGame(String string) {
-        GameBuilder builder = new GameBuilder();
-
-        FENDecoder parser = new FENDecoder(builder);
-
-        parser.parseFEN(string);
-
-        return builder.getResult();
-    }
 }
