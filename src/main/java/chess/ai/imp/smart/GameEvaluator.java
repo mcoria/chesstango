@@ -12,10 +12,10 @@ public class GameEvaluator {
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
     public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
 
-    public static final int WHITE_LOST = INFINITE_NEGATIVE + 1;
+    public static final int WHITE_LOST = INFINITE_NEGATIVE;
     public static final int BLACK_WON = WHITE_LOST;
 
-    public static final int BLACK_LOST = INFINITE_POSITIVE - 1;
+    public static final int BLACK_LOST = INFINITE_POSITIVE;
     public static final int WHITE_WON = BLACK_LOST;
 
 

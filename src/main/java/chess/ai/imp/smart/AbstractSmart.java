@@ -11,7 +11,7 @@ public abstract class AbstractSmart implements BestMoveFinder {
 
     protected int evaluation;
 
-    protected boolean keepProcessing;
+    protected boolean keepProcessing = true;
 
     @Override
     public int getEvaluation() {

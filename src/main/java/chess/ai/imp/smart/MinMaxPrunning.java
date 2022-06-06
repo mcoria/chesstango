@@ -117,7 +117,7 @@ public class MinMaxPrunning extends AbstractSmart {
         }
     }
 
-    protected Integer maximize(Game game, final int currentLevel, final int alpha, final int beta) {
+    protected int maximize(Game game, final int currentLevel, final int alpha, final int beta) {
         if (currentLevel == 0 || game.getPossibleMoves().size() == 0) {
             if(currentLevel > 0) {
                 moveStacks[currentLevel - 1].clear();;

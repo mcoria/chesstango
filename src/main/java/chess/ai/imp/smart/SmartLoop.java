@@ -13,7 +13,7 @@ public class SmartLoop implements BestMoveFinder {
 
     private BestMoveFinder imp;
 
-    private boolean stopped;
+    private boolean stopped = false;
 
     private final int maxDepth;
     private final List<BestMove> bestMovesByDepth;
