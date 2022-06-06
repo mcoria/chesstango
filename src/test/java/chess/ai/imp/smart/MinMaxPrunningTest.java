@@ -122,10 +122,48 @@ public class MinMaxPrunningTest {
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(GameEvaluator.WHITE_WON, minMax.getEvaluation());
 
+        verify(rootGame, times(1)).executeMove(move1);
+        verify(rootGame, times(1)).executeMove(move2);
+        verify(rootGame, never()).executeMove(move3);
+
         verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2,0, 1, GameEvaluator.INFINITE_POSITIVE);
 
+        verify(evaluator, times(1)).evaluate(childGame1);
+        verify(evaluator, times(1)).evaluate(childGame2);
+        verify(evaluator, never()).evaluate(childGame3);
+    }
+
+    @Test
+    public void test_maximize_WhitePlays_Mate(){
+        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+
+        Game rootGame = setupGame(Color.WHITE);
+
+        Game childGame1 = setupGame(Color.BLACK);
+        when(evaluator.evaluate(childGame1)).thenReturn(1);
+
+        Game childGame2 = setupGame(Color.BLACK);
+        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.WHITE_WON);
+
+        Game childGame3 = setupGame(Color.BLACK);
+        //when(evaluator.evaluate(childGame3)).thenReturn(3);
+
+        Move move1 = mock(Move.class);
+        Move move2 = mock(Move.class);
+        Move move3 = mock(Move.class);
+        linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
+
+        Integer bestValue = minMax.maximize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+
+        Assert.assertEquals(GameEvaluator.WHITE_WON, bestValue.intValue());
+
+        verify(rootGame, times(1)).executeMove(move1);
+        verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
+
+        verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).minimize(childGame2,0, 1, GameEvaluator.INFINITE_POSITIVE);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);
@@ -184,6 +222,10 @@ public class MinMaxPrunningTest {
 
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(GameEvaluator.BLACK_WON, minMax.getEvaluation());
+
+        verify(rootGame, times(1)).executeMove(move1);
+        verify(rootGame, times(1)).executeMove(move2);
+        verify(rootGame, never()).executeMove(move3);
 
         verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, 1);
