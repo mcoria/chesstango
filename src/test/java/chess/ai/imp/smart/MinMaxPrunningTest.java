@@ -135,6 +135,84 @@ public class MinMaxPrunningTest {
     }
 
     @Test
+    public void test_findBestMove_WhitePlays_ImminentMate(){
+        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        //MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+
+        Game rootGame = setupGame(Color.WHITE);
+
+        Game childGame1 = setupGame(Color.BLACK);
+        when(evaluator.evaluate(childGame1)).thenReturn(GameEvaluator.WHITE_LOST);
+
+        Game childGame2 = setupGame(Color.BLACK);
+        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.WHITE_LOST);
+
+        Game childGame3 = setupGame(Color.BLACK);
+        when(evaluator.evaluate(childGame3)).thenReturn(GameEvaluator.WHITE_LOST);
+
+        Move move1 = mock(Move.class);
+        Move move2 = mock(Move.class);
+        Move move3 = mock(Move.class);
+        linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
+
+        Move bestMove = minMax.findBestMove(rootGame);
+
+        Assert.assertNotNull(bestMove);
+        Assert.assertEquals(GameEvaluator.WHITE_LOST, minMax.getEvaluation());
+
+        verify(rootGame, times(1)).executeMove(move1);
+        verify(rootGame, times(1)).executeMove(move2);
+        verify(rootGame, times(1)).executeMove(move3);
+
+        verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).minimize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).minimize(childGame3,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+
+        verify(evaluator, times(1)).evaluate(childGame1);
+        verify(evaluator, times(1)).evaluate(childGame2);
+        verify(evaluator, times(1)).evaluate(childGame3);
+    }
+
+    @Test
+    public void test_findBestMove_BlackPlays_ImminentMate(){
+        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        //MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+
+        Game rootGame = setupGame(Color.BLACK);
+
+        Game childGame1 = setupGame(Color.WHITE);
+        when(evaluator.evaluate(childGame1)).thenReturn(GameEvaluator.BLACK_LOST);
+
+        Game childGame2 = setupGame(Color.WHITE);
+        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.BLACK_LOST);
+
+        Game childGame3 = setupGame(Color.WHITE);
+        when(evaluator.evaluate(childGame3)).thenReturn(GameEvaluator.BLACK_LOST);
+
+        Move move1 = mock(Move.class);
+        Move move2 = mock(Move.class);
+        Move move3 = mock(Move.class);
+        linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
+
+        Move bestMove = minMax.findBestMove(rootGame);
+
+        Assert.assertNotNull(bestMove);
+        Assert.assertEquals(GameEvaluator.BLACK_LOST, minMax.getEvaluation());
+
+        verify(rootGame, times(1)).executeMove(move1);
+        verify(rootGame, times(1)).executeMove(move2);
+        verify(rootGame, times(1)).executeMove(move3);
+
+        verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).maximize(childGame3,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+
+        verify(evaluator, times(1)).evaluate(childGame1);
+        verify(evaluator, times(1)).evaluate(childGame2);
+        verify(evaluator, times(1)).evaluate(childGame3);
+    }
+
+    @Test
     public void test_maximize_WhitePlays_MateCutOff(){
         MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
         //MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
@@ -309,7 +387,7 @@ public class MinMaxPrunningTest {
 
         MoveContainerReader mockMoveCollection = mock(MoveContainerReader.class);
         when(parentGame.getPossibleMoves()).thenReturn(mockMoveCollection);
-        when(mockMoveCollection.iterator()).thenReturn(moveList.iterator());
+        when(mockMoveCollection.iterator()).thenAnswer( a->  moveList.iterator() );
         when(mockMoveCollection.size()).thenReturn(moveList.size());
     }
 }

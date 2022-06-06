@@ -20,6 +20,12 @@ public class GameEvaluatorTest {
     public void testInfinities() {
         Assert.assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
         Assert.assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
+
+        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.WHITE_WON);
+        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.BLACK_LOST);
+
+        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.BLACK_WON);
+        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.WHITE_LOST);
     }
 
 
@@ -44,9 +50,10 @@ public class GameEvaluatorTest {
 
         // White's interest is to maximize
         // Black's interest is to minimize
-        Assert.assertTrue(GameEvaluator.INFINITE_POSITIVE > mateEval);
+        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, mateEval);
 
         Assert.assertEquals(GameEvaluator.BLACK_LOST, mateEval);
+
         Assert.assertEquals(GameEvaluator.WHITE_WON, mateEval);
 
         Assert.assertTrue(mateEval > checkEval);
@@ -67,9 +74,10 @@ public class GameEvaluatorTest {
         // White's interest is to maximize
         // Black's interest is to minimize
 
-        Assert.assertTrue(GameEvaluator.INFINITE_NEGATIVE <  mateEval);
+        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, mateEval);
 
         Assert.assertEquals(GameEvaluator.BLACK_WON, mateEval);
+
         Assert.assertEquals(GameEvaluator.WHITE_LOST, mateEval);
 
         Assert.assertTrue(mateEval < checkEval);

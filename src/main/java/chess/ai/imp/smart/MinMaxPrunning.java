@@ -44,7 +44,8 @@ public class MinMaxPrunning extends AbstractSmart {
 
         List<Move> currentPath = this.moveStacks[plies - 1];
 
-        int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE ;
+        int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
+        Move bestMove = null;
         boolean search = true;
         Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
         while (possibleMovesIterator.hasNext() && search && keepProcessing) {
@@ -57,13 +58,14 @@ public class MinMaxPrunning extends AbstractSmart {
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
+                bestMove = move;
                 if (minOrMax && bestValue == GameEvaluator.BLACK_WON||             //Black wins
                         !minOrMax && bestValue == GameEvaluator.WHITE_WON) {        //White wins
                     search = false;
                 }
 
                 currentPath.clear();
-                currentPath.add(move);
+                currentPath.add(bestMove);
                 if(plies > 1){
                     currentPath.addAll(this.moveStacks[plies - 2]);
                 }
@@ -73,9 +75,26 @@ public class MinMaxPrunning extends AbstractSmart {
         }
         evaluation = bestValue;
 
+
+        if (minOrMax && evaluation == GameEvaluator.INFINITE_POSITIVE  || !minOrMax && evaluation == GameEvaluator.INFINITE_NEGATIVE) {
+            assert(currentPath.size() == 0);
+            currentPath.clear();
+            // Necesitamos seleccionar algun movimiento
+            possibleMovesIterator = game.getPossibleMoves().iterator();
+            while (possibleMovesIterator.hasNext()) {
+                Move move = possibleMovesIterator.next();
+                bestMove = move;
+                currentPath.add(bestMove);
+                break;
+            }
+            //TODO: deberiamos selecionar algun path
+            //if(plies > 1){
+            //    currentPath.addAll(this.moveStacks[plies - 2]);
+            //}
+        }
         //printPath(currentPath);
 
-        return currentPath.get(0);
+        return bestMove;
     }
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {
