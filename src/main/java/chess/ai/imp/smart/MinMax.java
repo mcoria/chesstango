@@ -20,22 +20,24 @@ public class MinMax extends AbstractSmart {
 	// Beyond level 4, the performance is really bad
 	private final int totalPlies;
 
-	private final GameEvaluator evaluator = new GameEvaluator();
-
-	private Game game = null;
+	private final GameEvaluator evaluator;
 
 	public MinMax() {
-		this(DEFAULT_MAX_PLIES);
+		this(DEFAULT_MAX_PLIES, new GameEvaluator());
 	}
 
 	public MinMax(int level) {
+		this(level, new GameEvaluator());
+	}
+
+	public MinMax(int level, GameEvaluator evaluator) {
 		this.totalPlies = level;
+		this.evaluator = evaluator;
 	}
 
 	@Override
 	public Move findBestMove(Game game) {
 		this.keepProcessing = true;
-		this.game = game;
 
 		final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
 		final List<Move> possibleMoves = new ArrayList<Move>();
@@ -43,9 +45,9 @@ public class MinMax extends AbstractSmart {
 		int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE: GameEvaluator.INFINITE_NEGATIVE;
 
 		for (Move move : game.getPossibleMoves()) {
-			game.executeMove(move);
+			game = game.executeMove(move);
 
-			int currentEvaluation = minMax(!minOrMax, totalPlies - 1);
+			int currentEvaluation = minMax(game, !minOrMax, totalPlies - 1);
 
 			if (currentEvaluation == betterEvaluation) {
 				possibleMoves.add(move);
@@ -65,23 +67,22 @@ public class MinMax extends AbstractSmart {
 				}
 			}
 
-			game.undoMove();
+			game = game.undoMove();
 		}
 		evaluation = betterEvaluation;
 
 		return selectMove(possibleMoves);
 	}
 
-	private int minMax(final boolean minOrMax, final int currentPly) {
+	protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
 		int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE: GameEvaluator.INFINITE_NEGATIVE;
 		if (currentPly == 0 || game.getPossibleMoves().size() == 0) {
 			betterEvaluation = evaluator.evaluate(game);
 		} else {
 			for (Move move : game.getPossibleMoves()) {
+				game = game.executeMove(move);
 
-				game.executeMove(move);
-
-				int currentEvaluation = minMax( !minOrMax, currentPly - 1);
+				int currentEvaluation = minMax(game, !minOrMax, currentPly - 1);
 				if (minOrMax) {
 					if (currentEvaluation < betterEvaluation) {
 						betterEvaluation = currentEvaluation;
@@ -92,7 +93,7 @@ public class MinMax extends AbstractSmart {
 					}
 				}
 
-				game.undoMove();
+				game = game.undoMove();
 			}
 		}
 		return betterEvaluation;

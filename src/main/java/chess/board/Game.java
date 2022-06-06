@@ -27,13 +27,36 @@ public class Game {
 		this.analyze = true;
 	}
 
-	public void executeMove(Square from, Square to) {
+	public Game executeMove(Square from, Square to) {
 		Move move = getMove(from, to);
 		if (move != null) {
-			executeMove(move);
+			return executeMove(move);
 		} else {
 			throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
 		}
+	}
+
+	public Game executeMove(Move move) {
+		gameState.setSelectedMove(move);
+		
+		gameState.push();
+		
+		chessPosition.acceptForExecute(move);
+
+		analyze = true;
+
+		return this;
+	}
+
+
+	public Game undoMove() {
+		gameState.pop();
+		
+		Move lastMove = gameState.getSelectedMove();
+		
+		chessPosition.acceptForUndo(lastMove);
+
+		return this;
 	}
 
 	public Move getMove(Square from, Square to) {
@@ -43,25 +66,6 @@ public class Game {
 			}
 		}
 		return null;
-	}
-
-	public void executeMove(Move move) {
-		gameState.setSelectedMove(move);
-		
-		gameState.push();
-		
-		chessPosition.acceptForExecute(move);
-
-		analyze = true;
-	}
-
-
-	public void undoMove() {
-		gameState.pop();
-		
-		Move lastMove = gameState.getSelectedMove();
-		
-		chessPosition.acceptForUndo(lastMove);
 	}
 
 	public MoveContainerReader getPossibleMoves() {
@@ -88,10 +92,6 @@ public class Game {
 		return gameState;
 	}
 	
-	public void init() {
-		chessPosition.init();
-	}
-	
 	public ChessPositionReader getChessPositionReader(){
 		return chessPosition;
 	}
@@ -100,5 +100,8 @@ public class Game {
 	public String toString() {
 		return chessPosition.toString();
 	}
-	
+
+	public void init() {
+		chessPosition.init();
+	}
 }

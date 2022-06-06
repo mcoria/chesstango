@@ -26,7 +26,7 @@ public class GameTest {
 
 	
 	@Test
-	public void testPosicionInicial() {
+	public void testInitialPosition() {
 		Game game =  getDefaultGame();
 		
 		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
@@ -40,13 +40,13 @@ public class GameTest {
 		assertEquals(20, game.getPossibleMoves().size());
 		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
 		
-		game.executeMove(Square.e2, Square.e4);
-		game.executeMove(Square.e7, Square.e5);
-		game.executeMove(Square.f1, Square.c4);	
-		game.executeMove(Square.b8, Square.c6);
-		game.executeMove(Square.d1, Square.f3);
-		game.executeMove(Square.f8, Square.c5);
-		game.executeMove(Square.f3, Square.f7);
+		game.executeMove(Square.e2, Square.e4)
+		.executeMove(Square.e7, Square.e5)
+		.executeMove(Square.f1, Square.c4)
+		.executeMove(Square.b8, Square.c6)
+		.executeMove(Square.d1, Square.f3)
+		.executeMove(Square.f8, Square.c5)
+		.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
 		assertEquals(GameState.GameStatus.MATE, game.getGameStatus());

@@ -16,10 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MinMaxTest {
+public class MinMaxPrunningTest {
 
     @Mock
     private GameEvaluator evaluator;
@@ -31,7 +30,7 @@ public class MinMaxTest {
 
     @Test
     public void testSingleMoveWhitePlays(){
-        MinMax minMax = new MinMax(1, evaluator);
+        MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -51,7 +50,7 @@ public class MinMaxTest {
 
     @Test
     public void testSingleMoveBlackPlays(){
-        MinMax minMax = new MinMax(1, evaluator);
+        MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -71,7 +70,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesWhitePlays(){
-        MinMax minMax = spy(new MinMax(1, evaluator));
+        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -90,8 +89,8 @@ public class MinMaxTest {
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, minMax.getEvaluation());
 
-        verify(minMax).minMax(childGame1, true, 0);
-        verify(minMax).minMax(childGame2, true, 0);
+        verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).minimize(childGame2,0, 1, GameEvaluator.INFINITE_POSITIVE);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);
@@ -99,7 +98,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesBlackPlays(){
-        MinMax minMax = spy(new MinMax(1, evaluator));
+        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -118,8 +117,8 @@ public class MinMaxTest {
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
 
-        verify(minMax).minMax(childGame1, false, 0);
-        verify(minMax).minMax(childGame2, false, 0);
+        verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, 1);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);
