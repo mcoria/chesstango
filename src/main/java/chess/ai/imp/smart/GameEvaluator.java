@@ -5,7 +5,9 @@ import chess.board.moves.Move;
 import chess.board.position.ChessPositionReader;
 import chess.board.representations.MoveEncoder;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 public class GameEvaluator {
 
@@ -30,17 +32,41 @@ public class GameEvaluator {
                 evaluation = 0;
                 break;
             case  CHECK:
-                // If white is on check then evaluation starts at -100
-                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? -5 : +5;
+                // If white is on check then evaluation starts at -5
+                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? -1 : +1;
             case IN_PROGRESS:
-                ChessPositionReader positionReader = game.getChessPositionReader();
-                for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-                    PiecePositioned piecePlacement = it.next();
-                    Piece piece = piecePlacement.getValue();
-                    evaluation += piece.getValue();
-                }
-                evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? game.getPossibleMoves().size() : - game.getPossibleMoves().size() ;
+                evaluation += evaluateByMaterial(game);
+                evaluation += evaluateByMoves(game);
         }
+        return evaluation;
+    }
+
+    protected int evaluateByMaterial(Game game) {
+        int evaluation = 0;
+        ChessPositionReader positionReader = game.getChessPositionReader();
+        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+            PiecePositioned piecePlacement = it.next();
+            Piece piece = piecePlacement.getValue();
+            evaluation += piece.getValue();
+        }
+        return evaluation;
+    }
+
+    protected int evaluateByMoves(final Game game){
+        int evaluation = 0;
+        Set<Square> factorDeOcupacion = new HashSet<>();
+        for(Move move: game.getPossibleMoves()){
+            PiecePositioned to = move.getTo();
+
+            factorDeOcupacion.add(to.getKey());
+
+            /*
+            if(to.getValue() != null){
+                Piece capture = to.getValue();
+                evaluation -= capture.getValue() / 100;
+            }*/
+        };
+        evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? factorDeOcupacion.size() : - factorDeOcupacion.size();
         return evaluation;
     }
 

@@ -64,7 +64,7 @@ public class GameEvaluatorTest {
     @Test
     public void testWhiteInMateCheckAndDraw() {
         Game mate = FENDecoder.loadGame("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
-        Game check = FENDecoder.loadGame("8/8/8/3q4/8/7k/8/2Q4K w - - 0 1");     // White is in Check
+        Game check = FENDecoder.loadGame("7k/8/8/3q4/8/8/8/2Q4K w - - 0 1");     // White is in Check
         Game draw = FENDecoder.loadGame("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
 
         int mateEval = evaluator.evaluate(mate);
@@ -107,6 +107,52 @@ public class GameEvaluatorTest {
         Assert.assertTrue("Black has not won yet", eval != GameEvaluator.BLACK_WON);
         Assert.assertTrue("Black has not lost yet", eval != GameEvaluator.BLACK_LOST);
         Assert.assertTrue("White has a better position than Black", eval > 0);
+    }
+
+    @Test
+    public void testMaterial() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        int eval = evaluator.evaluateByMaterial(game);
+        Assert.assertEquals(0, eval);
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ");
+        eval = evaluator.evaluateByMaterial(game);
+        Assert.assertTrue(eval > 0);
+
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        eval = evaluator.evaluateByMaterial(game);
+        Assert.assertTrue(eval < 0);
+    }
+
+    @Test
+    public void test_evaluateByMoves_white() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        int eval1 = evaluator.evaluateByMoves(game);
+
+
+        game = FENDecoder.loadGame("rnbqkbnr/p1pppppp/1p6/8/8/4P3/PPPP1PPP/RNBQKBNR w KQkq - 0 2");
+        int eval2 = evaluator.evaluateByMoves(game);
+
+        Assert.assertTrue(eval1 > 0);
+        Assert.assertTrue(eval2 > 0);
+
+        Assert.assertTrue(eval2 > eval1);
+    }
+
+    @Test
+    public void test_evaluateByMoves_black() {
+        Game game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/4P3/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        int eval1 = evaluator.evaluateByMoves(game);
+
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/4p3/8/8/4P2P/PPPP1PP1/RNBQKBNR b KQkq - 0 2");
+        int eval2 = evaluator.evaluateByMoves(game);
+
+        Assert.assertTrue(eval1 < 0);
+        Assert.assertTrue(eval2 < 0);
+
+        Assert.assertTrue(eval2 < eval1);
     }
 
 }

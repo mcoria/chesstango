@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SmartLoop implements BestMoveFinder {
 
-    private static final int MAX_DEPTH = 3;
+    private static final int MAX_DEPTH = 2;
 
     private BestMoveFinder imp;
 
@@ -30,9 +30,10 @@ public class SmartLoop implements BestMoveFinder {
     @Override
     public Move findBestMove(Game game) {
         stopped = false;
+        bestMovesByDepth.clear();
         for(int i = 2; i <= 2 * maxDepth ; i += 2){
 
-            imp = new MinMaxPrunning(i);
+            imp = getBestMoveFinder(i);
 
             Move move = imp.findBestMove(game);
             int evaluation = imp.getEvaluation();
@@ -63,6 +64,10 @@ public class SmartLoop implements BestMoveFinder {
     @Override
     public int getEvaluation() {
         return bestMovesByDepth.get(bestMovesByDepth.size() - 1).evaluation;
+    }
+
+    protected BestMoveFinder getBestMoveFinder(int depth) {
+        return new MinMaxPrunning(depth);
     }
 
     private static class BestMove{
