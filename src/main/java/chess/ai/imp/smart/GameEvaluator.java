@@ -21,7 +21,7 @@ public class GameEvaluator {
     public static final int WHITE_WON = BLACK_LOST;
 
 
-    public int evaluate(Game game) {
+    public int evaluate(final Game game) {
         int evaluation = 0;
         switch (game.getGameStatus()){
             case MATE:
@@ -41,7 +41,7 @@ public class GameEvaluator {
         return evaluation;
     }
 
-    protected int evaluateByMaterial(Game game) {
+    protected int evaluateByMaterial(final Game game) {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPositionReader();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
@@ -54,20 +54,22 @@ public class GameEvaluator {
 
     protected int evaluateByMoves(final Game game){
         int evaluation = 0;
-        Set<Square> factorDeOcupacion = new HashSet<>();
+        Set<Square> origenes = new HashSet<>();
+        Set<Square> territorioExpansion = new HashSet<>();
+        Set<Square> territorioAtaque = new HashSet<>();
         for(Move move: game.getPossibleMoves()){
+            origenes.add(move.getFrom().getKey());
+
             PiecePositioned to = move.getTo();
-
-            factorDeOcupacion.add(to.getKey());
-
-            /*
+            territorioExpansion.add(to.getKey());
             if(to.getValue() != null){
-                Piece capture = to.getValue();
-                evaluation -= capture.getValue() / 100;
-            }*/
+                territorioAtaque.add(to.getKey());
+            }
         };
-        evaluation += Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? factorDeOcupacion.size() : - factorDeOcupacion.size();
-        return evaluation;
+
+        evaluation = 2 * origenes.size() + territorioExpansion.size() + 2 * territorioAtaque.size();
+
+        return (Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn())) ? evaluation : - evaluation;
     }
 
 }
