@@ -27,7 +27,10 @@ public class UCIDecoderTest {
 
 	@Test
 	public void tes1t() {
-		UCIRequest result = (UCIRequest) decoder.parseMessage("position startpos");
+		UCIMessage result =  decoder.parseMessage("position startpos");
+
+		Assert.assertTrue(result instanceof UCIRequest);
+
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -40,7 +43,8 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void test2() {
-		UCIRequest result = (UCIRequest) decoder.parseMessage("position startpos moves f2f4");
+		UCIMessage result = decoder.parseMessage("position startpos moves f2f4");
+
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -54,7 +58,8 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void test3() {
-		UCIRequest result = (UCIRequest) decoder.parseMessage("position startpos moves e2e3 e7e5");
+		UCIMessage result = decoder.parseMessage("position startpos moves e2e3 e7e5");
+
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -69,7 +74,8 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void test4() {
-		UCIRequest result = (UCIRequest)  decoder.parseMessage("position startpos moves e2e4");
+		UCIMessage result =  decoder.parseMessage("position startpos moves e2e4");
+
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -83,7 +89,7 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void parseFen() {
-		UCIRequest result = (UCIRequest)  decoder.parseMessage("position fen 2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1 moves e2e4");
+		UCIMessage result =  decoder.parseMessage("position fen 2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1 moves e2e4");
 		
 		Assert.assertTrue(result instanceof CmdPositionFen);
 		
