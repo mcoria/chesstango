@@ -1,4 +1,4 @@
-package chess.uci.protocol.responses.uci;
+package chess.uci.protocol.responses;
 
 import chess.uci.protocol.UCIResponse;
 
@@ -6,7 +6,13 @@ import chess.uci.protocol.UCIResponse;
  * @author Mauricio Coria
  *
  */
-public class RspIdEngineAuthor implements UCIResponse {
+public class RspId implements UCIResponse {
+
+	private final String text;
+
+	public RspId(String text) {
+		this.text = text;
+	}
 
 	@Override
 	public MessageType getMessageType() {
@@ -21,7 +27,7 @@ public class RspIdEngineAuthor implements UCIResponse {
 
 	@Override
 	public String toString() {
-		return "id author Mauricio Coria";
+		return "id " + text;
 	}
 
 }

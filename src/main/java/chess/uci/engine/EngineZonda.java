@@ -18,9 +18,8 @@ import chess.uci.protocol.requests.CmdIsReady;
 import chess.uci.protocol.requests.CmdUci;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspReadyOk;
-import chess.uci.protocol.responses.uci.RspIdEngineAuthor;
-import chess.uci.protocol.responses.uci.RspIdEngineName;
-import chess.uci.protocol.responses.uci.RspUciOk;
+import chess.uci.protocol.responses.RspId;
+import chess.uci.protocol.responses.RspUciOk;
 
 /**
  * @author Mauricio Coria
@@ -44,8 +43,8 @@ public class EngineZonda extends EngineAbstract  {
 
 	@Override
 	public void do_uci(CmdUci cmdUci) {
-		output.write(new RspIdEngineName());
-		output.write(new RspIdEngineAuthor());
+		output.write(new RspId("name Zonda"));
+		output.write(new RspId("author Mauricio Coria"));
 		output.write(new RspUciOk());
 	}
 

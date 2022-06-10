@@ -4,6 +4,10 @@
 package chess.uci.protocol;
 
 import chess.uci.protocol.requests.*;
+import chess.uci.protocol.responses.RspBestMove;
+import chess.uci.protocol.responses.RspId;
+import chess.uci.protocol.responses.RspReadyOk;
+import chess.uci.protocol.responses.RspUciOk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +34,7 @@ public class UCIDecoder {
 				result = new CmdUci();
 				break;
 			case "SETOPTION":
-				result = parseSetOption(words);
+				result = parseSetOption(input);
 				break;
 			case "UCINEWGAME":
 				result = new CmdUciNewGame();
@@ -49,7 +53,24 @@ public class UCIDecoder {
 				break;
 			case "STOP":
 				result = new CmdStop();
-				break;				
+				break;
+
+			// ====================== RESPONSES
+			case "READYOK":
+				result = new RspReadyOk();
+				break;
+			case "UCIOK":
+				result = new RspUciOk();
+				break;
+			case "BESTMOVE":
+				result = parseBestMove(words);
+				break;
+
+			case "ID":
+				result = parseId(words);
+				break;
+
+			// ====================== UNKNOWN
 			default:
 				result = new UCIMessageUnknown(input);
 				break;
@@ -58,14 +79,35 @@ public class UCIDecoder {
 		return result;
 	}
 
+	private UCIMessage parseId(String[] words) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 1; i < words.length; i++) {
+			sb.append(words[i]);
+			if(i <  words.length - 1){
+				sb.append(" ");
+			}
+		}
+		return new RspId(sb.toString());
+	}
 
-
-	private UCIRequest parseSetOption(String[] words) {
-		return new CmdSetOption();
+	private UCIMessage parseBestMove(String[] words) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 1; i < words.length; i++) {
+			sb.append(words[i]);
+			if(i <  words.length - 1){
+				sb.append(" ");
+			}
+		}
+		return new RspBestMove(sb.toString());
 	}
 
 
-	private UCIRequest parseGo(String[] words) {
+	private UCIMessage parseSetOption(String input) {
+		return new CmdSetOption(input);
+	}
+
+
+	private UCIMessage parseGo(String[] words) {
 		return new CmdGo();
 	}
 
@@ -103,11 +145,11 @@ public class UCIDecoder {
 			}
 
 		}
-		return result == null ? new UCIMessageUnknown(words.toString()) : result;
+		return new CmdPositionStart(moves);
 	}
 
 
-	private UCIRequest parsePositionFEN(String[] words) {
+	private UCIMessage parsePositionFEN(String[] words) {
 		boolean readingFen = true;
 		String fenString = "";
 		List<String> moves = new ArrayList<String>();

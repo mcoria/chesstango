@@ -9,6 +9,12 @@ import chess.uci.protocol.UCIRequest;
  */
 public class CmdSetOption implements UCIRequest {
 
+	private final String input;
+
+	public CmdSetOption(String input) {
+		this.input = input;
+	}
+
 	@Override
 	public MessageType getMessageType() {
 		return MessageType.Request;
@@ -25,4 +31,8 @@ public class CmdSetOption implements UCIRequest {
 		engine.do_setOptions();
 	}
 
+	@Override
+	public String toString() {
+		return input;
+	}
 }

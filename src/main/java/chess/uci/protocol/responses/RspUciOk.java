@@ -1,4 +1,4 @@
-package chess.uci.protocol.responses.uci;
+package chess.uci.protocol.responses;
 
 import chess.uci.protocol.UCIResponse;
 
