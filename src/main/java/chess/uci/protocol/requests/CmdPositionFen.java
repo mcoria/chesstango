@@ -27,7 +27,7 @@ public class CmdPositionFen implements UCIRequest {
 	}
 
 	@Override
-	public UCIRequestType getType() {
+	public UCIRequestType getRequestType() {
 		return UCIRequestType.POSITION;
 	}
 

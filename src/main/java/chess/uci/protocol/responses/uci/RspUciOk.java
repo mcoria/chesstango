@@ -14,7 +14,7 @@ public class RspUciOk implements UCIResponse {
 	}
 
 	@Override
-	public UCIResponseType getType() {
+	public UCIResponseType getResponseType() {
 		return UCIResponseType.UCIOK;
 	}
 	

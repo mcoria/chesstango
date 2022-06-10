@@ -9,11 +9,11 @@ import chess.uci.engine.Engine;
 public interface UCIRequest extends UCIMessage {
 
 	enum UCIRequestType {
-		UCI, UNKNOWN, QUIT, ISREADY, STOP, GO, SETOPTION, UCINEWGAME, POSITION
+		UCI, QUIT, ISREADY, STOP, GO, SETOPTION, UCINEWGAME, POSITION
 	}
 
 
-	UCIRequestType getType();
+	UCIRequestType getRequestType();
 
 
 	void execute(Engine engine);

@@ -16,7 +16,7 @@ public class CmdGo implements UCIRequest {
 	}
 
 	@Override
-	public UCIRequestType getType() {
+	public UCIRequestType getRequestType() {
 		return UCIRequestType.GO;
 	}
 

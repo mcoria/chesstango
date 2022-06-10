@@ -51,7 +51,7 @@ public class UCIDecoder {
 				result = new CmdStop();
 				break;				
 			default:
-				result = new CmdUnknown();
+				result = new UCIMessageUnknown(input);
 				break;
 			}
 		}
@@ -85,7 +85,7 @@ public class UCIDecoder {
 				break;
 			}
 		}
-		return result == null ? new CmdUnknown() : result;
+		return result == null ? new UCIMessageUnknown(words.toString()) : result;
 	}
 
 	private UCIMessage parsePositionSTARTPOS(String[] words) {
@@ -103,7 +103,7 @@ public class UCIDecoder {
 			}
 
 		}
-		return result == null ? new CmdUnknown() : result;
+		return result == null ? new UCIMessageUnknown(words.toString()) : result;
 	}
 
 

@@ -15,7 +15,7 @@ public class CmdUciNewGame implements UCIRequest {
 	}
 
 	@Override
-	public UCIRequestType getType() {
+	public UCIRequestType getRequestType() {
 		return UCIRequestType.UCINEWGAME;
 	}
 

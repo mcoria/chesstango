@@ -15,7 +15,7 @@ public class CmdQuit implements UCIRequest {
 	}
 
 	@Override
-	public UCIRequestType getType() {
+	public UCIRequestType getRequestType() {
 		return UCIRequestType.QUIT;
 	}
 

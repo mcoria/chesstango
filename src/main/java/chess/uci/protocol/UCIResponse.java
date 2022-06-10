@@ -10,6 +10,6 @@ public interface UCIResponse extends UCIMessage {
 		ID, UCIOK, READYOK, BESTMOVE
 	}
 
-	UCIResponseType getType();
+	UCIResponseType getResponseType();
 
 }

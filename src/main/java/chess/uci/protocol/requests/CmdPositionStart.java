@@ -24,7 +24,7 @@ public class CmdPositionStart implements UCIRequest {
 	}
 
 	@Override
-	public UCIRequestType getType() {
+	public UCIRequestType getRequestType() {
 		return UCIRequestType.POSITION;
 	}
 

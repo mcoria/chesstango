@@ -15,7 +15,7 @@ public class CmdSetOption implements UCIRequest {
 	}
 
 	@Override
-	public UCIRequestType getType() {
+	public UCIRequestType getRequestType() {
 		return UCIRequestType.SETOPTION;
 	}
 
