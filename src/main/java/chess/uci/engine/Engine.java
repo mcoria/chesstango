@@ -1,110 +1,41 @@
-/**
- * 
- */
 package chess.uci.engine;
 
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import chess.uci.protocol.UCIInputStream;
+import chess.uci.protocol.UCIOutputStream;
+import chess.uci.protocol.requests.CmdGo;
+import chess.uci.protocol.requests.CmdIsReady;
+import chess.uci.protocol.requests.CmdUci;
 
-import chess.ai.BestMoveFinder;
-import chess.ai.imp.smart.SmartLoop;
-import chess.board.Game;
-import chess.board.builder.imp.GameBuilder;
-import chess.board.representations.MoveEncoder;
-import chess.board.representations.fen.FENDecoder;
-import chess.board.moves.Move;
-import chess.uci.protocol.UCIResponseChannel;
-import chess.uci.protocol.responses.RspBestMove;
-import chess.uci.protocol.responses.RspReadyOk;
-import chess.uci.protocol.responses.uci.RspUci;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class Engine {
-	
-	private final UCIResponseChannel responseChannel;
+public interface Engine {
 
-	private final BestMoveFinder bestMoveFinder;
+    void main();
 
-	private final MoveEncoder moveEncoder;
+    void do_uci(CmdUci cmdUci);
 
-	private Game game;
+    void do_isReady(CmdIsReady cmdIsReady);
 
-	private Executor executor = Executors.newSingleThreadExecutor();
-	
-	public Engine(UCIResponseChannel responseChannel) {
-		this.responseChannel = responseChannel;
-		//this.bestMoveFinder = new MinMax();
-		this.bestMoveFinder = new SmartLoop();
-		this.moveEncoder = new MoveEncoder();
-	}
+    void do_go(CmdGo cmdGo);
 
-	public void do_start() {
-		new RspUci().respond(responseChannel);
-	}
-	
-	public void do_setOptions() {
-	}	
-	
-	public void do_newGame() {
-		this.game = null;
-	}
-	
-	public void do_position_startpos(List<String> moves) {
-		game = loadGame(FENDecoder.INITIAL_FEN);
-		executeMoves(moves);
-	}
+    void do_position_fen(String fen, List<String> moves);
 
+    void do_position_startpos(List<String> moves);
 
-	public void do_position_fen(String fen, List<String> moves) {
-		game = loadGame(fen);
-		executeMoves(moves);
-	}
-	
-	public void do_go() {
-		executor.execute(() -> {
-			Move selectedMove = bestMoveFinder.findBestMove(game);
+    void do_quit();
 
-			new RspBestMove(moveEncoder.encode(selectedMove)).respond(responseChannel);
-		});
-	}	
-	
-	public void do_quit() {
-		bestMoveFinder.stopProcessing();
-		responseChannel.close();
-	}
+    void do_setOptions();
 
-	public void do_stop() {
-		bestMoveFinder.stopProcessing();
-	}
+    void do_stop();
 
-	public void do_ping() {
-		new RspReadyOk().respond(responseChannel);
-	}
+    void do_newGame();
 
-	public Game getGame(){ return game;}
+    void setInputStream(UCIInputStream input);
 
-	private Game loadGame(String fen) {
-		return FENDecoder.loadGame(fen);
-	}
+    void setOutputStream(UCIOutputStream output);
 
-	private void executeMoves(List<String> moves) {
-		for (String moveStr : moves) {
-			boolean findMove = false;
-			for (Move move : game.getPossibleMoves()) {
-				String encodedMoveStr = moveEncoder.encode(move);
-				if (encodedMoveStr.equals(moveStr)) {
-					game.executeMove(move);
-					findMove = true;
-					break;
-				}
-			}
-			if (!findMove) {
-				throw new RuntimeException("No move found " + moveStr);
-			}
-		}
-	}
 }

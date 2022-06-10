@@ -2,7 +2,6 @@ package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIRequest;
-import chess.uci.protocol.UCIRequestType;
 
 /**
  * @author Mauricio Coria
@@ -10,6 +9,10 @@ import chess.uci.protocol.UCIRequestType;
  */
 public class CmdUciNewGame implements UCIRequest {
 
+	@Override
+	public MessageType getMessageType() {
+		return MessageType.Request;
+	}
 
 	@Override
 	public UCIRequestType getType() {
@@ -22,4 +25,8 @@ public class CmdUciNewGame implements UCIRequest {
 		engine.do_newGame();
 	}
 
+	@Override
+	public String toString() {
+		return "ucinewgame";
+	}
 }

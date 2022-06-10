@@ -2,7 +2,6 @@ package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIRequest;
-import chess.uci.protocol.UCIRequestType;
 
 /**
  * @author Mauricio Coria
@@ -10,6 +9,10 @@ import chess.uci.protocol.UCIRequestType;
  */
 public class CmdQuit implements UCIRequest {
 
+	@Override
+	public MessageType getMessageType() {
+		return MessageType.Request;
+	}
 
 	@Override
 	public UCIRequestType getType() {

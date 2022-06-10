@@ -3,19 +3,10 @@
  */
 package chess.uci.protocol;
 
+import chess.uci.protocol.requests.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import chess.uci.protocol.requests.CmdGo;
-import chess.uci.protocol.requests.CmdReady;
-import chess.uci.protocol.requests.CmdPositionFen;
-import chess.uci.protocol.requests.CmdPositionStart;
-import chess.uci.protocol.requests.CmdQuit;
-import chess.uci.protocol.requests.CmdSetOption;
-import chess.uci.protocol.requests.CmdStop;
-import chess.uci.protocol.requests.CmdUci;
-import chess.uci.protocol.requests.CmdUciNewGame;
-import chess.uci.protocol.requests.CmdUnknown;
 
 /**
  * @author Mauricio Coria
@@ -27,8 +18,8 @@ public class UCIDecoder {
 	 * @param input
 	 * @return
 	 */
-	public UCIRequest parseInput(String input) {
-		UCIRequest result = null;
+	public UCIMessage parseMessage(String input) {
+		UCIMessage result = null;
 		
 		String[] words = input.split(" ");
 		
@@ -51,7 +42,7 @@ public class UCIDecoder {
 				result = new CmdQuit();
 				break;
 			case "ISREADY":
-				result = new CmdReady();
+				result = new CmdIsReady();
 				break;
 			case "GO":
 				result = parseGo(words);
@@ -64,7 +55,6 @@ public class UCIDecoder {
 				break;
 			}
 		}
-		
 		return result;
 	}
 
@@ -80,8 +70,8 @@ public class UCIDecoder {
 	}
 
 
-	private UCIRequest parsePosition(String[] words) {
-		UCIRequest result = null;
+	private UCIMessage parsePosition(String[] words) {
+		UCIMessage result = null;
 		if (words.length > 1) {
 			String positionType = words[1].toUpperCase();
 			switch (positionType) {
@@ -98,8 +88,8 @@ public class UCIDecoder {
 		return result == null ? new CmdUnknown() : result;
 	}
 
-	private UCIRequest parsePositionSTARTPOS(String[] words) {
-		UCIRequest result = null;
+	private UCIMessage parsePositionSTARTPOS(String[] words) {
+		UCIMessage result = null;
 		List<String> moves = new ArrayList<String>();
 		if (words.length == 2) {
 			result = new CmdPositionStart(moves);

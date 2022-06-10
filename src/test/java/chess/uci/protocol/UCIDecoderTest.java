@@ -9,8 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import chess.uci.protocol.UCIDecoder;
-import chess.uci.protocol.UCIRequest;
 import chess.uci.protocol.requests.CmdPositionFen;
 import chess.uci.protocol.requests.CmdPositionStart;
 
@@ -29,7 +27,7 @@ public class UCIDecoderTest {
 
 	@Test
 	public void tes1t() {
-		UCIRequest result = decoder.parseInput("position startpos");
+		UCIRequest result = (UCIRequest) decoder.parseMessage("position startpos");
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -42,7 +40,7 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void test2() {
-		UCIRequest result = decoder.parseInput("position startpos moves f2f4");
+		UCIRequest result = (UCIRequest) decoder.parseMessage("position startpos moves f2f4");
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -56,7 +54,7 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void test3() {
-		UCIRequest result = decoder.parseInput("position startpos moves e2e3 e7e5");
+		UCIRequest result = (UCIRequest) decoder.parseMessage("position startpos moves e2e3 e7e5");
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -71,7 +69,7 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void test4() {
-		UCIRequest result = decoder.parseInput("position startpos moves e2e4");
+		UCIRequest result = (UCIRequest)  decoder.parseMessage("position startpos moves e2e4");
 		Assert.assertTrue(result instanceof CmdPositionStart);
 		
 		CmdPositionStart command = (CmdPositionStart) result;
@@ -85,7 +83,7 @@ public class UCIDecoderTest {
 	
 	@Test
 	public void parseFen() {
-		UCIRequest result = decoder.parseInput("position fen 2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1 moves e2e4");
+		UCIRequest result = (UCIRequest)  decoder.parseMessage("position fen 2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1 moves e2e4");
 		
 		Assert.assertTrue(result instanceof CmdPositionFen);
 		

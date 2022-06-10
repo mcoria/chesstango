@@ -4,10 +4,12 @@ package chess.uci.protocol;
  * @author Mauricio Coria
  *
  */
-public interface UCIResponse extends UCIResponseBase {
-	
+public interface UCIResponse extends UCIMessage {
+
+	enum UCIResponseType {
+		ID, UCIOK, READYOK, BESTMOVE
+	}
+
 	UCIResponseType getType();
-	
-	String encode();
 
 }

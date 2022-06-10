@@ -2,14 +2,18 @@ package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIRequest;
-import chess.uci.protocol.UCIRequestType;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class CmdReady implements UCIRequest {
+public class CmdIsReady implements UCIRequest {
 
+
+	@Override
+	public MessageType getMessageType() {
+		return MessageType.Request;
+	}
 
 	@Override
 	public UCIRequestType getType() {
@@ -19,7 +23,11 @@ public class CmdReady implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_ping();
+		engine.do_isReady(this);
 	}
 
+	@Override
+	public String toString() {
+		return "isready";
+	}
 }

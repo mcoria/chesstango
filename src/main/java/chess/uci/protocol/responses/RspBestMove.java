@@ -1,12 +1,11 @@
 package chess.uci.protocol.responses;
 
-import chess.uci.protocol.UCIResponseType;
-
+import chess.uci.protocol.UCIResponse;
 /**
  * @author Mauricio Coria
  *
  */
-public class RspBestMove extends RspAbstractSinlgeResponse {
+public class RspBestMove implements UCIResponse {
 	
 	private final String bestMove;
 	
@@ -15,12 +14,17 @@ public class RspBestMove extends RspAbstractSinlgeResponse {
 	}
 
 	@Override
+	public MessageType getMessageType() {
+		return MessageType.Response;
+	}
+
+	@Override
 	public UCIResponseType getType() {
 		return UCIResponseType.BESTMOVE;
 	}
 
 	@Override
-	public String encode() {
+	public String toString() {
 		return "bestmove " + bestMove;
 	}
 

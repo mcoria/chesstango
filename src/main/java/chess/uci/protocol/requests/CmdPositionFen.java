@@ -1,10 +1,9 @@
 package chess.uci.protocol.requests;
 
-import java.util.List;
-
 import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIRequest;
-import chess.uci.protocol.UCIRequestType;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -20,6 +19,11 @@ public class CmdPositionFen implements UCIRequest {
 	public CmdPositionFen(String fen, List<String> moves) {
 		this.fen = fen;
 		this.moves = moves;
+	}
+
+	@Override
+	public MessageType getMessageType() {
+		return MessageType.Request;
 	}
 
 	@Override

@@ -1,13 +1,18 @@
 package chess.uci.protocol.responses;
 
-import chess.uci.protocol.UCIResponseType;
+import chess.uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class RspReadyOk extends RspAbstractSinlgeResponse {
+public class RspReadyOk implements UCIResponse {
 
+
+	@Override
+	public MessageType getMessageType() {
+		return MessageType.Response;
+	}
 
 	@Override
 	public UCIResponseType getType() {
@@ -16,7 +21,7 @@ public class RspReadyOk extends RspAbstractSinlgeResponse {
 
 
 	@Override
-	public String encode() {
+	public String toString() {
 		return "readyok";
 	}
 
