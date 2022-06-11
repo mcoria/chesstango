@@ -25,6 +25,8 @@ import chess.uci.protocol.responses.RspUciOk;
  */
 public class EngineZonda extends EngineAbstract {
 
+	private final ExecutorService executorService;
+
 	private final BestMoveFinder bestMoveFinder;
 
 	private final UCIEncoder uciEncoder;
@@ -38,6 +40,7 @@ public class EngineZonda extends EngineAbstract {
 		this.bestMoveFinder = new SmartLoop();
 		this.uciEncoder = new UCIEncoder();
 		this.currentState = new WaitCmdUci();
+		this.executorService = Executors.newSingleThreadExecutor();
 	}
 
 	@Override
@@ -115,14 +118,12 @@ public class EngineZonda extends EngineAbstract {
 
 	private class WaitCmdUci implements ZondaState {
 
-		private final ZondaState waitCmdUciNewGame =  new WaitCmdUciNewGame();
-
 		@Override
 		public void do_uci() {
 			output.write(new RspId("name Zonda"));
 			output.write(new RspId("author Mauricio Coria"));
 			output.write(new RspUciOk());
-			currentState = waitCmdUciNewGame;
+			currentState = new WaitCmdUciNewGame();
 		}
 
 		@Override
@@ -148,16 +149,14 @@ public class EngineZonda extends EngineAbstract {
 
 	private class WaitCmdUciNewGame implements ZondaState{
 
-		private final ZondaState waitCmdPosition =  new WaitCmdPosition();
-
 		@Override
 		public void do_uci() {
-			throw new RuntimeException("invalida state");
 		}
 
 		@Override
 		public void do_newGame() {
-			currentState = waitCmdPosition;
+			game = null;
+			currentState =  new WaitCmdPosition();
 		}
 
 		@Override
@@ -177,8 +176,6 @@ public class EngineZonda extends EngineAbstract {
 
 	private class WaitCmdPosition implements ZondaState {
 
-		private final ZondaState waitCmdGo  =  new WaitCmdGo();
-
 		@Override
 		public void do_uci() {
 		}
@@ -191,7 +188,7 @@ public class EngineZonda extends EngineAbstract {
 		public void do_position(CmdPosition cmdPosition) {
 			game = FENDecoder.loadGame(cmdPosition.getFen());
 			executeMoves(cmdPosition.getMoves());
-			currentState = waitCmdGo;
+			currentState =  new WaitCmdGo();
 		}
 
 		@Override
@@ -206,8 +203,6 @@ public class EngineZonda extends EngineAbstract {
 
 	private class WaitCmdGo implements ZondaState {
 
-		private final FindingBestMove findingBestMove  =  new FindingBestMove();
-
 		@Override
 		public void do_uci() {
 		}
@@ -222,8 +217,9 @@ public class EngineZonda extends EngineAbstract {
 
 		@Override
 		public void do_go(CmdGo cmdGo) {
+			FindingBestMove findingBestMove = new FindingBestMove();
 			currentState = findingBestMove;
-			findingBestMove.findBestMove();
+			executorService.execute(findingBestMove::findBestMove);
 		}
 
 		@Override
@@ -233,11 +229,6 @@ public class EngineZonda extends EngineAbstract {
 
 	private class FindingBestMove implements ZondaState {
 
-		private final ExecutorService executorService;
-
-		public FindingBestMove(){
-			this.executorService = Executors.newSingleThreadExecutor();
-		}
 
 		@Override
 		public void do_uci() {
@@ -261,11 +252,11 @@ public class EngineZonda extends EngineAbstract {
 		}
 
 		public void findBestMove() {
-			executorService.execute(() -> {
-				Move selectedMove = bestMoveFinder.findBestMove(game);
+			Move selectedMove = bestMoveFinder.findBestMove(game);
 
-				output.write(new RspBestMove(uciEncoder.encode(selectedMove)));
-			});
+			output.write(new RspBestMove(uciEncoder.encode(selectedMove)));
+
+			currentState = new WaitCmdPosition();
 		}
 	}
 }
