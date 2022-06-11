@@ -29,9 +29,9 @@ public class UCIDecoder01Test {
 
 		Assert.assertTrue(result instanceof UCIRequest);
 
-		Assert.assertTrue(result instanceof CmdPositionStart);
-		
-		CmdPositionStart command = (CmdPositionStart) result;
+		Assert.assertTrue(result instanceof CmdPosition);
+
+		CmdPosition command = (CmdPosition) result;
 		
 		List<String> moves = command.getMoves();
 		
@@ -43,9 +43,9 @@ public class UCIDecoder01Test {
 	public void test_parse_postition_startpos_with_1_move() {
 		UCIMessage result = decoder.parseMessage("position startpos moves f2f4");
 
-		Assert.assertTrue(result instanceof CmdPositionStart);
-		
-		CmdPositionStart command = (CmdPositionStart) result;
+		Assert.assertTrue(result instanceof CmdPosition);
+
+		CmdPosition command = (CmdPosition) result;
 		
 		List<String> moves = command.getMoves();
 		
@@ -58,9 +58,9 @@ public class UCIDecoder01Test {
 	public void test_parse_postition_startpos_with_2_move() {
 		UCIMessage result = decoder.parseMessage("position startpos moves e2e3 e7e5");
 
-		Assert.assertTrue(result instanceof CmdPositionStart);
-		
-		CmdPositionStart command = (CmdPositionStart) result;
+		Assert.assertTrue(result instanceof CmdPosition);
+
+		CmdPosition command = (CmdPosition) result;
 		
 		List<String> moves = command.getMoves();
 		
@@ -75,9 +75,9 @@ public class UCIDecoder01Test {
 	public void test_parse_postition_fen_with_1_move() {
 		UCIMessage result =  decoder.parseMessage("position fen 2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1 moves e2e4");
 		
-		Assert.assertTrue(result instanceof CmdPositionFen);
+		Assert.assertTrue(result instanceof CmdPosition);
 		
-		CmdPositionFen command = (CmdPositionFen) result;
+		CmdPosition command = (CmdPosition) result;
 		
 		List<String> moves = command.getMoves();
 		

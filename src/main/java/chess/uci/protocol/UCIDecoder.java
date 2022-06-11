@@ -3,6 +3,7 @@
  */
 package chess.uci.protocol;
 
+import chess.board.representations.fen.FENDecoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspId;
@@ -131,21 +132,17 @@ public class UCIDecoder {
 	}
 
 	private UCIMessage parsePositionSTARTPOS(String[] words) {
-		UCIMessage result = null;
 		List<String> moves = new ArrayList<String>();
-		if (words.length == 2) {
-			result = new CmdPositionStart(moves);
-		} else {
+		if (words.length  > 2) {
 			String movesword = words[2].toUpperCase();
 			if ("MOVES".equals(movesword) && words.length > 3) {
 				for (int i = 3; i < words.length; i++) {
 					moves.add(words[i]);
 				}
-				result = new CmdPositionStart(moves);
 			}
 
 		}
-		return new CmdPositionStart(moves);
+		return new CmdPosition(CmdPosition.CmdType.STARTPOS, FENDecoder.INITIAL_FEN, moves);
 	}
 
 
@@ -169,7 +166,7 @@ public class UCIDecoder {
 			}
 		}
 
-		return new CmdPositionFen(fenString, moves);
+		return new CmdPosition(CmdPosition.CmdType.FEN, fenString, moves);
 	}
 
 }

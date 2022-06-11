@@ -3,15 +3,13 @@
  */
 package chess.uci.protocol;
 
-import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspId;
 import chess.uci.protocol.responses.RspReadyOk;
+import chess.uci.protocol.responses.RspUciOk;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -27,7 +25,7 @@ public class UCIDecoder02Test {
 	}
 
 	@Test
-	public void test_parse_response(){
+	public void test_parse_readyok(){
 		UCIMessage result =  decoder.parseMessage("readyok");
 
 		Assert.assertTrue(result instanceof RspReadyOk);
@@ -51,5 +49,14 @@ public class UCIDecoder02Test {
 		Assert.assertTrue(result instanceof RspId);
 
 		Assert.assertEquals("id author Mauricio Coria", result.toString());
+	}
+
+	@Test
+	public void test_parse_uciok(){
+		UCIMessage result =  decoder.parseMessage("uciok");
+
+		Assert.assertTrue(result instanceof RspUciOk);
+
+		Assert.assertEquals("uciok", result.toString());
 	}
 }

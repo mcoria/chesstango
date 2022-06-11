@@ -18,8 +18,8 @@ public class Main {
 	private final BufferedReader reader;
 
 	public static void main(String[] args) {
-		//Main main = new Main(new EngineZonda(), System.out, System.in);
-		Main main = new Main(new EngineProxy(), System.out, System.in);
+		Main main = new Main(new EngineZonda(), System.out, System.in);
+		//Main main = new Main(new EngineProxy(), System.out, System.in);
 		main.start();
 	}
 

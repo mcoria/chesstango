@@ -18,9 +18,7 @@ public interface Engine {
 
     void do_go(CmdGo cmdGo);
 
-    void do_position_fen(CmdPositionFen cmdPositionFen);
-
-    void do_position_startpos(CmdPositionStart cmdPositionStart);
+    void do_position(CmdPosition cmdPosition);
 
     void do_quit(CmdQuit cmdQuit);
 

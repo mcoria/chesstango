@@ -4,7 +4,6 @@
 package chess.uci.engine;
 
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -56,18 +55,10 @@ public class EngineZonda extends EngineAbstract  {
 		this.game = null;
 	}
 
-
 	@Override
-	public void do_position_startpos(CmdPositionStart cmdPositionStart) {
-		game = loadGame(FENDecoder.INITIAL_FEN);
-		executeMoves(cmdPositionStart.getMoves());
-	}
-
-
-	@Override
-	public void do_position_fen(CmdPositionFen cmdPositionFen) {
-		game = loadGame(cmdPositionFen.getFen());
-		executeMoves(cmdPositionFen.getMoves());
+	public void do_position(CmdPosition cmdPosition) {
+		game = loadGame(cmdPosition.getFen());
+		executeMoves(cmdPosition.getMoves());
 	}
 
 	@Override

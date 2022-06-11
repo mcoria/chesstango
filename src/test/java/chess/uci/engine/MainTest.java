@@ -5,14 +5,11 @@ package chess.uci.engine;
 
 import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.requests.CmdIsReady;
-import chess.uci.protocol.requests.CmdPositionStart;
+import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.requests.CmdUci;
 import chess.uci.protocol.requests.CmdUciNewGame;
 import org.junit.Assert;
 import org.junit.Test;
-
-import chess.board.Game;
-import chess.board.representations.fen.FENEncoder;
 
 import java.io.*;
 
@@ -55,7 +52,7 @@ public class MainTest {
 		Assert.assertTrue(message instanceof CmdIsReady);
 
 		message = main.readMessage();
-		Assert.assertTrue(message instanceof CmdPositionStart);
+		Assert.assertTrue(message instanceof CmdPosition);
 
 	}
 

@@ -4,7 +4,6 @@ import chess.uci.protocol.*;
 import chess.uci.protocol.requests.*;
 
 import java.io.*;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -55,13 +54,8 @@ public class EngineProxy extends EngineAbstract {
     }
 
     @Override
-    public void do_position_startpos(CmdPositionStart moves) {
-        outputStreamProcess.println(moves);
-    }
-
-    @Override
-    public void do_position_fen(CmdPositionFen cmdPositionFen) {
-        outputStreamProcess.println(cmdPositionFen);
+    public void do_position(CmdPosition cmdPosition) {
+        outputStreamProcess.println(cmdPosition);
     }
 
     @Override
