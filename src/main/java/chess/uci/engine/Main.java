@@ -27,18 +27,8 @@ public class Main {
 		this.engine = engine;
 		this.out = out;
 		this.reader =  new BufferedReader(new InputStreamReader(in));
-		this.engine.setInputStream(new UCIInputStream() {
-			@Override
-			public UCIMessage read() {
-				return readMessage();
-			}
-		});
-		this.engine.setOutputStream(new UCIOutputStream() {
-			@Override
-			public void write(UCIMessage message) {
-				writeMessage(message);
-			}
-		});
+		this.engine.setInputStream(() -> readMessage());
+		this.engine.setOutputStream(message -> writeMessage(message));
 	}
 
 	protected void start() {

@@ -20,5 +20,8 @@ public class UCIMessageUnknown implements UCIMessage {
 		return Unknown;
 	}
 
-
+	@Override
+	public String toString() {
+		return line;
+	}
 }
