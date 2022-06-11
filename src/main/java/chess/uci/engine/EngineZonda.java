@@ -13,6 +13,7 @@ import chess.board.Game;
 import chess.board.representations.MoveEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
+import chess.uci.engine.EngineAbstract;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspReadyOk;
@@ -23,7 +24,7 @@ import chess.uci.protocol.responses.RspUciOk;
  * @author Mauricio Coria
  *
  */
-public class EngineZonda extends EngineAbstract  {
+public class EngineZonda extends EngineAbstract {
 
 	private final BestMoveFinder bestMoveFinder;
 
@@ -31,19 +32,18 @@ public class EngineZonda extends EngineAbstract  {
 
 	private Game game;
 
-	private ExecutorService executorService = Executors.newSingleThreadExecutor();
+	private ZondaState currentState;
 
 	public EngineZonda() {
 		this.keepProcessing = true;
 		this.bestMoveFinder = new SmartLoop();
 		this.moveEncoder = new MoveEncoder();
+		this.currentState = new WaitCmdUci();
 	}
 
 	@Override
 	public void do_uci(CmdUci cmdUci) {
-		output.write(new RspId("name Zonda"));
-		output.write(new RspId("author Mauricio Coria"));
-		output.write(new RspUciOk());
+		currentState.do_uci();
 	}
 
 	@Override
@@ -52,34 +52,28 @@ public class EngineZonda extends EngineAbstract  {
 
 	@Override
 	public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-		this.game = null;
+		currentState.do_newGame();
 	}
 
 	@Override
 	public void do_position(CmdPosition cmdPosition) {
-		game = loadGame(cmdPosition.getFen());
-		executeMoves(cmdPosition.getMoves());
+		currentState.do_position(cmdPosition);
 	}
 
 	@Override
 	public void do_go(CmdGo cmdGo) {
-		executorService.execute(() -> {
-			Move selectedMove = bestMoveFinder.findBestMove(game);
+		currentState.do_go(cmdGo);
+	}
 
-			output.write(new RspBestMove(moveEncoder.encode(selectedMove)));
-		});
+	@Override
+	public void do_stop(CmdStop cmdStop) {
+		currentState.do_stop();
 	}
 
 	@Override
 	public void do_quit(CmdQuit cmdQuit) {
 		keepProcessing = false;
-		bestMoveFinder.stopProcessing();
-	}
-
-	@Override
-	public void do_stop(CmdStop cmdStop) {
-		keepProcessing = false;
-		bestMoveFinder.stopProcessing();
+		currentState.do_stop();
 	}
 
 	@Override
@@ -88,10 +82,6 @@ public class EngineZonda extends EngineAbstract  {
 	}
 
 	public Game getGame(){ return game;}
-
-	private Game loadGame(String fen) {
-		return FENDecoder.loadGame(fen);
-	}
 
 	private void executeMoves(List<String> moves) {
 		for (String moveStr : moves) {
@@ -107,6 +97,176 @@ public class EngineZonda extends EngineAbstract  {
 			if (!findMove) {
 				throw new RuntimeException("No move found " + moveStr);
 			}
+		}
+	}
+
+
+	private interface ZondaState {
+
+		void do_uci();
+
+		void do_newGame();
+
+		void do_position(CmdPosition cmdPosition);
+
+		void do_go(CmdGo cmdGo);
+
+		void do_stop();
+	}
+
+	private class WaitCmdUci implements ZondaState {
+
+		private final ZondaState waitCmdUciNewGame =  new WaitCmdUciNewGame();
+
+		@Override
+		public void do_uci() {
+			output.write(new RspId("name Zonda"));
+			output.write(new RspId("author Mauricio Coria"));
+			output.write(new RspUciOk());
+			currentState = waitCmdUciNewGame;
+		}
+
+		@Override
+		public void do_newGame() {
+
+		}
+
+		@Override
+		public void do_position(CmdPosition cmdPosition) {
+
+		}
+
+		@Override
+		public void do_go(CmdGo cmdGo) {
+
+		}
+
+		@Override
+		public void do_stop() {
+
+		}
+	}
+
+	private class WaitCmdUciNewGame implements ZondaState{
+
+		private final ZondaState waitCmdPosition =  new WaitCmdPosition();
+
+		@Override
+		public void do_uci() {
+			throw new RuntimeException("invalida state");
+		}
+
+		@Override
+		public void do_newGame() {
+			currentState = waitCmdPosition;
+		}
+
+		@Override
+		public void do_position(CmdPosition cmdPosition) {
+		}
+
+		@Override
+		public void do_go(CmdGo cmdGo) {
+
+		}
+
+		@Override
+		public void do_stop() {
+
+		}
+	}
+
+	private class WaitCmdPosition implements ZondaState {
+
+		private final ZondaState waitCmdGo  =  new WaitCmdGo();
+
+		@Override
+		public void do_uci() {
+		}
+
+		@Override
+		public void do_newGame() {
+		}
+
+		@Override
+		public void do_position(CmdPosition cmdPosition) {
+			game = FENDecoder.loadGame(cmdPosition.getFen());
+			executeMoves(cmdPosition.getMoves());
+			currentState = waitCmdGo;
+		}
+
+		@Override
+		public void do_go(CmdGo cmdGo) {
+		}
+
+		@Override
+		public void do_stop() {
+
+		}
+	}
+
+	private class WaitCmdGo implements ZondaState {
+
+		private final FindingBestMove findingBestMove  =  new FindingBestMove();
+
+		@Override
+		public void do_uci() {
+		}
+
+		@Override
+		public void do_newGame() {
+		}
+
+		@Override
+		public void do_position(CmdPosition cmdPosition) {
+		}
+
+		@Override
+		public void do_go(CmdGo cmdGo) {
+			currentState = findingBestMove;
+			findingBestMove.findBestMove();
+		}
+
+		@Override
+		public void do_stop() {
+		}
+	}
+
+	private class FindingBestMove implements ZondaState {
+
+		private final ExecutorService executorService;
+
+		public FindingBestMove(){
+			this.executorService = Executors.newSingleThreadExecutor();
+		}
+
+		@Override
+		public void do_uci() {
+		}
+
+		@Override
+		public void do_newGame() {
+		}
+
+		@Override
+		public void do_position(CmdPosition cmdPosition) {
+		}
+
+		@Override
+		public void do_go(CmdGo cmdGo) {
+		}
+
+		@Override
+		public void do_stop() {
+			bestMoveFinder.stopProcessing();
+		}
+
+		public void findBestMove() {
+			executorService.execute(() -> {
+				Move selectedMove = bestMoveFinder.findBestMove(game);
+
+				output.write(new RspBestMove(moveEncoder.encode(selectedMove)));
+			});
 		}
 	}
 }

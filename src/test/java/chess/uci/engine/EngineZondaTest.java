@@ -3,8 +3,7 @@
  */
 package chess.uci.engine;
 
-import java.util.Arrays;
-
+import chess.uci.engine.EngineZonda;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

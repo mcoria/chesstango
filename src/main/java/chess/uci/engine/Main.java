@@ -1,7 +1,6 @@
 package chess.uci.engine;
 
 import java.io.*;
-import java.util.Scanner;
 
 import chess.uci.protocol.*;
 
