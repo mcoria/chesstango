@@ -10,10 +10,9 @@ import java.util.concurrent.Executors;
 import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.SmartLoop;
 import chess.board.Game;
-import chess.board.representations.MoveEncoder;
+import chess.uci.protocol.UCIEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
-import chess.uci.engine.EngineAbstract;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspReadyOk;
@@ -28,7 +27,7 @@ public class EngineZonda extends EngineAbstract {
 
 	private final BestMoveFinder bestMoveFinder;
 
-	private final MoveEncoder moveEncoder;
+	private final UCIEncoder uciEncoder;
 
 	private Game game;
 
@@ -37,7 +36,7 @@ public class EngineZonda extends EngineAbstract {
 	public EngineZonda() {
 		this.keepProcessing = true;
 		this.bestMoveFinder = new SmartLoop();
-		this.moveEncoder = new MoveEncoder();
+		this.uciEncoder = new UCIEncoder();
 		this.currentState = new WaitCmdUci();
 	}
 
@@ -87,7 +86,7 @@ public class EngineZonda extends EngineAbstract {
 		for (String moveStr : moves) {
 			boolean findMove = false;
 			for (Move move : game.getPossibleMoves()) {
-				String encodedMoveStr = moveEncoder.encode(move);
+				String encodedMoveStr = uciEncoder.encode(move);
 				if (encodedMoveStr.equals(moveStr)) {
 					game.executeMove(move);
 					findMove = true;
@@ -265,7 +264,7 @@ public class EngineZonda extends EngineAbstract {
 			executorService.execute(() -> {
 				Move selectedMove = bestMoveFinder.findBestMove(game);
 
-				output.write(new RspBestMove(moveEncoder.encode(selectedMove)));
+				output.write(new RspBestMove(uciEncoder.encode(selectedMove)));
 			});
 		}
 	}

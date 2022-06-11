@@ -3,7 +3,6 @@ package chess.ai.imp.smart;
 import chess.board.*;
 import chess.board.moves.Move;
 import chess.board.position.ChessPositionReader;
-import chess.board.representations.MoveEncoder;
 
 import java.util.HashSet;
 import java.util.Iterator;

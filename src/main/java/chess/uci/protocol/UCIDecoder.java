@@ -31,6 +31,8 @@ public class UCIDecoder {
 		if(words.length > 0){
 			String command = words[0].toUpperCase();
 			switch (command) {
+
+			// ====================== REQUESTS
 			case "UCI":
 				result = new CmdUci();
 				break;

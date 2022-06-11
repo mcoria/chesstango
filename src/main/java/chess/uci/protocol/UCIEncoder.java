@@ -1,9 +1,9 @@
-package chess.board.representations;
+package chess.uci.protocol;
 
 import chess.board.moves.Move;
 import chess.board.moves.MovePromotion;
 
-public class MoveEncoder {
+public class UCIEncoder {
 
     public String encode(Move move) {
         String promotionStr = "";
