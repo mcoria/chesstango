@@ -13,9 +13,7 @@ import chess.board.Game;
 import chess.board.representations.MoveEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
-import chess.uci.protocol.requests.CmdGo;
-import chess.uci.protocol.requests.CmdIsReady;
-import chess.uci.protocol.requests.CmdUci;
+import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspReadyOk;
 import chess.uci.protocol.responses.RspId;
@@ -49,26 +47,26 @@ public class EngineZonda extends EngineAbstract  {
 	}
 
 	@Override
-	public void do_setOptions() {
+	public void do_setOptions(CmdSetOption cmdSetOption) {
 	}
 
 	@Override
-	public void do_newGame() {
+	public void do_newGame(CmdUciNewGame cmdUciNewGame) {
 		this.game = null;
 	}
 
 
 	@Override
-	public void do_position_startpos(List<String> moves) {
+	public void do_position_startpos(CmdPositionStart cmdPositionStart) {
 		game = loadGame(FENDecoder.INITIAL_FEN);
-		executeMoves(moves);
+		//executeMoves(moves);
 	}
 
 
 	@Override
-	public void do_position_fen(String fen, List<String> moves) {
-		game = loadGame(fen);
-		executeMoves(moves);
+	public void do_position_fen(CmdPositionFen cmdPositionFen) {
+		//game = loadGame(fen);
+		//executeMoves(moves);
 	}
 
 	@Override
@@ -81,13 +79,13 @@ public class EngineZonda extends EngineAbstract  {
 	}
 
 	@Override
-	public void do_quit() {
+	public void do_quit(CmdQuit cmdQuit) {
 		keepProcessing = false;
 		bestMoveFinder.stopProcessing();
 	}
 
 	@Override
-	public void do_stop() {
+	public void do_stop(CmdStop cmdStop) {
 		keepProcessing = false;
 		bestMoveFinder.stopProcessing();
 	}

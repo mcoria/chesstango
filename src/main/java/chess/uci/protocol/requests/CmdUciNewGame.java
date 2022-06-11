@@ -22,7 +22,7 @@ public class CmdUciNewGame implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_newGame();
+		engine.do_newGame(this);
 	}
 
 	@Override

@@ -2,11 +2,7 @@ package chess.uci.engine;
 
 import chess.uci.protocol.UCIInputStream;
 import chess.uci.protocol.UCIOutputStream;
-import chess.uci.protocol.requests.CmdGo;
-import chess.uci.protocol.requests.CmdIsReady;
-import chess.uci.protocol.requests.CmdUci;
-
-import java.util.List;
+import chess.uci.protocol.requests.*;
 
 /**
  * @author Mauricio Coria
@@ -22,17 +18,17 @@ public interface Engine {
 
     void do_go(CmdGo cmdGo);
 
-    void do_position_fen(String fen, List<String> moves);
+    void do_position_fen(CmdPositionFen cmdPositionFen);
 
-    void do_position_startpos(List<String> moves);
+    void do_position_startpos(CmdPositionStart cmdPositionStart);
 
-    void do_quit();
+    void do_quit(CmdQuit cmdQuit);
 
-    void do_setOptions();
+    void do_setOptions(CmdSetOption cmdSetOption);
 
-    void do_stop();
+    void do_stop(CmdStop cmdStop);
 
-    void do_newGame();
+    void do_newGame(CmdUciNewGame cmdUciNewGame);
 
     void setInputStream(UCIInputStream input);
 

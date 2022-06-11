@@ -28,7 +28,7 @@ public class CmdSetOption implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_setOptions();
+		engine.do_setOptions(this);
 	}
 
 	@Override

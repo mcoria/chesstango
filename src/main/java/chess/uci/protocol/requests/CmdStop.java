@@ -21,7 +21,11 @@ public class CmdStop implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_stop();
+		engine.do_stop(this);
 	}
 
+	@Override
+	public String toString() {
+		return "stop";
+	}
 }

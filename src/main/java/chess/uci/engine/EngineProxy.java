@@ -1,14 +1,13 @@
 package chess.uci.engine;
 
 import chess.uci.protocol.*;
-import chess.uci.protocol.requests.CmdGo;
-import chess.uci.protocol.requests.CmdIsReady;
-import chess.uci.protocol.requests.CmdUci;
+import chess.uci.protocol.requests.*;
 
 import java.io.*;
-import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
@@ -22,15 +21,13 @@ public class EngineProxy extends EngineAbstract {
 
     private PrintStream outputStreamProcess;
 
-    private Executor executor = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     public void main() {
         this.keepProcessing = true;
 
         startProcess();
-
-        executor.execute(this::readFromProcess);
 
         super.main();
 
@@ -48,38 +45,39 @@ public class EngineProxy extends EngineAbstract {
     }
 
     @Override
+    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+        outputStreamProcess.println(cmdUciNewGame);
+    }
+
+    @Override
+    public void do_setOptions(CmdSetOption cmdSetOption) {
+        outputStreamProcess.println(cmdSetOption);
+    }
+
+    @Override
+    public void do_position_startpos(CmdPositionStart moves) {
+        outputStreamProcess.println(moves);
+    }
+
+    @Override
+    public void do_position_fen(CmdPositionFen cmdPositionFen) {
+        outputStreamProcess.println(cmdPositionFen);
+    }
+
+    @Override
     public void do_go(CmdGo cmdGo) {
         outputStreamProcess.println(cmdGo);
     }
 
     @Override
-    public void do_position_fen(String fen, List<String> moves) {
-
+    public void do_stop(CmdStop cmdStop) {
+        outputStreamProcess.println(cmdStop);
     }
 
     @Override
-    public void do_position_startpos(List<String> moves) {
-
-    }
-
-    @Override
-    public void do_quit() {
-
-    }
-
-    @Override
-    public void do_setOptions() {
-
-    }
-
-    @Override
-    public void do_stop() {
-
-    }
-
-    @Override
-    public void do_newGame() {
-
+    public void do_quit(CmdQuit cmdQuit) {
+        keepProcessing = false;
+        outputStreamProcess.println(cmdQuit);
     }
 
     public void readFromProcess() {
@@ -87,16 +85,19 @@ public class EngineProxy extends EngineAbstract {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStreamProcess));
         try {
             while (keepProcessing) {
-                UCIMessage message = uciDecoder.parseMessage(reader.readLine());
-                output.write(message);
+                String line = reader.readLine();
+                if(line != null) {
+                    UCIMessage message = uciDecoder.parseMessage(line);
+                    output.write(message);
+                }
             }
         } catch (IOException io){
             throw new RuntimeException(io);
         }
-        System.out.println("Dejamos de leer del proceso");
+        System.out.println("Bye");
     }
 
-    protected boolean startProcess(){
+    protected void startProcess(){
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
 
@@ -106,19 +107,20 @@ public class EngineProxy extends EngineAbstract {
 
             outputStreamProcess = new PrintStream(process.getOutputStream(), true);
 
-            return true;
+            executorService.execute(this::readFromProcess);
         } catch (IOException e) {
-            System.out.println(e);
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
     protected void stopProcess() {
         try {
-            process.destroyForcibly();
+            outputStreamProcess.close();
+            executorService.shutdown();
+            executorService.awaitTermination(1000, TimeUnit.MILLISECONDS);
             process.waitFor();
         } catch (InterruptedException e) {
-            System.out.println(e);
+            throw new RuntimeException(e);
         }
     }
 

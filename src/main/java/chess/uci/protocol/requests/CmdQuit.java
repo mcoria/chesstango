@@ -22,7 +22,11 @@ public class CmdQuit implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_quit();
+		engine.do_quit(this);
 	}
 
+	@Override
+	public String toString() {
+		return "quit";
+	}
 }

@@ -17,7 +17,7 @@ public abstract class EngineAbstract implements Engine {
     public void main() {
         while (keepProcessing) {
             UCIMessage message = input.read();
-            if(message instanceof UCIRequest){
+            if(message != null && message instanceof UCIRequest){
                 UCIRequest request = (UCIRequest) message;
                 request.execute(this);
             }

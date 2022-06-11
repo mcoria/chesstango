@@ -34,7 +34,7 @@ public class CmdPositionFen implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_position_fen(fen, moves);
+		engine.do_position_fen(this);
 	}
 
 

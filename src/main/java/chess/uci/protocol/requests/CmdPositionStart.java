@@ -31,7 +31,7 @@ public class CmdPositionStart implements UCIRequest {
 
 	@Override
 	public void execute(Engine engine) {
-		engine.do_position_startpos(moves);
+		engine.do_position_startpos(this);
 	}
 
 	
