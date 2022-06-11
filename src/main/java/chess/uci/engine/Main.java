@@ -9,12 +9,7 @@ import chess.uci.protocol.*;
  *
  */
 public class Main {
-	private final UCIDecoder uciDecoder = new UCIDecoder();
-
 	private final Engine engine;
-
-	private final PrintStream out;
-	private final BufferedReader reader;
 
 	public static void main(String[] args) {
 		Main main = new Main(new EngineZonda(), System.out, System.in);
@@ -24,26 +19,13 @@ public class Main {
 
 	public Main(Engine engine, PrintStream out, InputStream in) {
 		this.engine = engine;
-		this.out = out;
-		this.reader =  new BufferedReader(new InputStreamReader(in));
-		this.engine.setInputStream(() -> readMessage());
-		this.engine.setOutputStream(message -> writeMessage(message));
+
+		this.engine.setInputStream(new UCIInputStreamReader(in)::read);
+		this.engine.setOutputStream(new UCIOutputStreamWriter(out)::write);
 	}
 
 	protected void start() {
 		engine.main();
-	}
-
-	protected UCIMessage readMessage() {
-		try {
-			return uciDecoder.parseMessage(reader.readLine());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected void writeMessage(UCIMessage message) {
-		out.println(message);
 	}
 
 }
