@@ -25,7 +25,7 @@ public class EngineProxy extends EngineAbstract {
 
     @Override
     public void main() {
-        this.keepProcessing = true;
+        keepProcessing = true;
 
         startProcess();
 
@@ -50,7 +50,7 @@ public class EngineProxy extends EngineAbstract {
     }
 
     @Override
-    public void do_setOptions(CmdSetOption cmdSetOption) {
+    public void do_setOption(CmdSetOption cmdSetOption) {
         outputStreamProcess.println(cmdSetOption);
     }
 

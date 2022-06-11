@@ -24,7 +24,7 @@ public interface Engine {
 
     void do_quit(CmdQuit cmdQuit);
 
-    void do_setOptions(CmdSetOption cmdSetOption);
+    void do_setOption(CmdSetOption cmdSetOption);
 
     void do_stop(CmdStop cmdStop);
 

@@ -82,7 +82,7 @@ public class UCIDecoder01Test {
 		List<String> moves = command.getMoves();
 		
 		Assert.assertEquals(1, moves.size());
-		Assert.assertEquals("2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1", command.fen());
+		Assert.assertEquals("2Q4R/5p2/2bPkb1B/p1p2p1p/7P/P4PP1/4n2Q/4K1NR b - - 0 1", command.getFen());
 		Assert.assertEquals("e2e4", moves.get(0));
 	}
 

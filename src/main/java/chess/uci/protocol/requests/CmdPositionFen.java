@@ -38,7 +38,7 @@ public class CmdPositionFen implements UCIRequest {
 	}
 
 
-	public String fen() {
+	public String getFen() {
 		return fen;
 	}
 	

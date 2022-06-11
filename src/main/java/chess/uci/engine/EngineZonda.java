@@ -5,6 +5,7 @@ package chess.uci.engine;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import chess.ai.BestMoveFinder;
@@ -31,7 +32,7 @@ public class EngineZonda extends EngineAbstract  {
 
 	private Game game;
 
-	private Executor executor = Executors.newSingleThreadExecutor();
+	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 	public EngineZonda() {
 		this.keepProcessing = true;
@@ -47,7 +48,7 @@ public class EngineZonda extends EngineAbstract  {
 	}
 
 	@Override
-	public void do_setOptions(CmdSetOption cmdSetOption) {
+	public void do_setOption(CmdSetOption cmdSetOption) {
 	}
 
 	@Override
@@ -59,19 +60,19 @@ public class EngineZonda extends EngineAbstract  {
 	@Override
 	public void do_position_startpos(CmdPositionStart cmdPositionStart) {
 		game = loadGame(FENDecoder.INITIAL_FEN);
-		//executeMoves(moves);
+		executeMoves(cmdPositionStart.getMoves());
 	}
 
 
 	@Override
 	public void do_position_fen(CmdPositionFen cmdPositionFen) {
-		//game = loadGame(fen);
-		//executeMoves(moves);
+		game = loadGame(cmdPositionFen.getFen());
+		executeMoves(cmdPositionFen.getMoves());
 	}
 
 	@Override
 	public void do_go(CmdGo cmdGo) {
-		executor.execute(() -> {
+		executorService.execute(() -> {
 			Move selectedMove = bestMoveFinder.findBestMove(game);
 
 			output.write(new RspBestMove(moveEncoder.encode(selectedMove)));
