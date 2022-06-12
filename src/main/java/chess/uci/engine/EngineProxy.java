@@ -23,12 +23,12 @@ public class EngineProxy extends EngineAbstract {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
-    public void main() {
+    public void mainReadRequestLoop() {
         keepProcessing = true;
 
         startProcess();
 
-        super.main();
+        super.mainReadRequestLoop();
 
         stopProcess();
     }

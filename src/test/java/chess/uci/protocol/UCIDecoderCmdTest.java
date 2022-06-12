@@ -14,7 +14,7 @@ import org.junit.Test;
  * @author Mauricio Coria
  *
  */
-public class UCIDecoder01Test {
+public class UCIDecoderCmdTest {
 	
 	private UCIDecoder decoder = null;
 

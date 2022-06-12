@@ -1,10 +1,5 @@
 package chess.uci.ui;
 
-import chess.uci.engine.Engine;
-import chess.uci.engine.EngineProxy;
-import chess.uci.engine.EngineZonda;
-import chess.uci.protocol.requests.CmdUci;
-
 public class Main {
 
     private EngineClient engine1;
@@ -20,7 +15,14 @@ public class Main {
     }
 
     private void startEngines() {
-        engine1.startEngine();
+        engine1.send_CmdUci();
+        engine1.send_CmdIsReady();
+        engine1.send_CmdUciNewGame();
+        engine1.send_CmdPosition();
+        engine1.send_CmdGo();
+        engine1.send_CmdStop();
+        engine1.send_CmdQuit();
+
     }
 
 

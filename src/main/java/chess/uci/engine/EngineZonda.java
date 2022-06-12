@@ -120,8 +120,8 @@ public class EngineZonda extends EngineAbstract {
 
 		@Override
 		public void do_uci() {
-			output.write(new RspId("name Zonda"));
-			output.write(new RspId("author Mauricio Coria"));
+			output.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
+			output.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
 			output.write(new RspUciOk());
 			currentState = new WaitCmdUciNewGame();
 		}

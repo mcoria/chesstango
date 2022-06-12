@@ -14,7 +14,7 @@ public abstract class EngineAbstract implements Engine {
     protected UCIOutputStream output;
 
     @Override
-    public void main() {
+    public void mainReadRequestLoop() {
         while (keepProcessing) {
             UCIMessage message = input.read();
             if(message != null && message instanceof UCIRequest){

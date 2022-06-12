@@ -10,7 +10,7 @@ import chess.uci.protocol.requests.*;
  */
 public interface Engine {
 
-    void main();
+    void mainReadRequestLoop();
 
     void do_uci(CmdUci cmdUci);
 

@@ -68,7 +68,6 @@ public class UCIDecoder {
 			case "BESTMOVE":
 				result = parseBestMove(words);
 				break;
-
 			case "ID":
 				result = parseId(words);
 				break;
@@ -83,14 +82,29 @@ public class UCIDecoder {
 	}
 
 	private UCIMessage parseId(String[] words) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 1; i < words.length; i++) {
-			sb.append(words[i]);
-			if(i <  words.length - 1){
-				sb.append(" ");
+		UCIMessage result = null;
+		if(words.length > 2) {
+			String typeStr = words[1].toUpperCase();
+			RspId.RspIdType type = null;
+			if(RspId.RspIdType.AUTHOR.toString().equalsIgnoreCase(typeStr)){
+				type = RspId.RspIdType.AUTHOR;
+			} else if(RspId.RspIdType.NAME.toString().equalsIgnoreCase(typeStr)){
+				type = RspId.RspIdType.NAME;
+			}
+
+			if(type != null) {
+					StringBuilder sb = new StringBuilder();
+					for (int i = 2; i < words.length; i++) {
+						sb.append(words[i]);
+						if (i < words.length - 1) {
+							sb.append(" ");
+						}
+					}
+
+				result = new RspId(type, sb.toString());
 			}
 		}
-		return new RspId(sb.toString());
+		return result == null ? new UCIMessageUnknown(words.toString()) : result;
 	}
 
 	private UCIMessage parseBestMove(String[] words) {

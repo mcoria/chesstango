@@ -1,6 +1,7 @@
 package chess.uci.protocol.responses;
 
 import chess.uci.protocol.UCIResponse;
+import chess.uci.ui.EngineClientResponseListener;
 
 /**
  * @author Mauricio Coria
@@ -8,15 +9,33 @@ import chess.uci.protocol.UCIResponse;
  */
 public class RspId implements UCIResponse {
 
+	public enum RspIdType{NAME, AUTHOR};
+
+	private final RspIdType type;
+
 	private final String text;
 
-	public RspId(String text) {
+	public RspId(RspIdType type, String text) {
+		this.type = type;
 		this.text = text;
+	}
+
+	public RspIdType getIdType() {
+		return type;
+	}
+
+	public String getText() {
+		return text;
 	}
 
 	@Override
 	public MessageType getMessageType() {
 		return MessageType.Response;
+	}
+
+	@Override
+	public void execute(EngineClientResponseListener engineClient) {
+		engineClient.receive_id(this);
 	}
 
 	@Override
@@ -27,7 +46,7 @@ public class RspId implements UCIResponse {
 
 	@Override
 	public String toString() {
-		return "id " + text;
+		return "id " +  (RspIdType.AUTHOR.equals(type) ? "author " : "name ") + getText();
 	}
 
 }

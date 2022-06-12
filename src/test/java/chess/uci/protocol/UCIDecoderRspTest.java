@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author Mauricio Coria
  *
  */
-public class UCIDecoder02Test {
+public class UCIDecoderRspTest {
 	
 	private UCIDecoder decoder = null;
 
@@ -43,12 +43,29 @@ public class UCIDecoder02Test {
 	}
 
 	@Test
-	public void test_parse_id(){
+	public void test_parse_id_author(){
 		UCIMessage result =  decoder.parseMessage("id author Mauricio Coria");
 
 		Assert.assertTrue(result instanceof RspId);
 
+		RspId rspId = (RspId) result;
+
+		Assert.assertEquals(RspId.RspIdType.AUTHOR, rspId.getIdType());
+
 		Assert.assertEquals("id author Mauricio Coria", result.toString());
+	}
+
+	@Test
+	public void test_parse_id_name(){
+		UCIMessage result =  decoder.parseMessage("id name Zonda");
+
+		Assert.assertTrue(result instanceof RspId);
+
+		RspId rspId = (RspId) result;
+
+		Assert.assertEquals(RspId.RspIdType.NAME, rspId.getIdType());
+
+		Assert.assertEquals("id name Zonda", result.toString());
 	}
 
 	@Test
