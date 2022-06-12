@@ -1,7 +1,7 @@
 package chess.uci.ui;
 
 import chess.uci.protocol.UCIMessage;
-import chess.uci.protocol.UCIOutputStream;
+import chess.uci.protocol.stream.UCIOutputStream;
 import chess.uci.protocol.UCIResponse;
 
 public class UCIOutputStreamEngineClientWriter implements UCIOutputStream {

@@ -1,7 +1,7 @@
 package chess.uci.engine;
 
-import chess.uci.protocol.UCIInputStream;
-import chess.uci.protocol.UCIOutputStream;
+import chess.uci.protocol.stream.UCIInputStream;
+import chess.uci.protocol.stream.UCIOutputStream;
 import chess.uci.protocol.requests.*;
 
 /**

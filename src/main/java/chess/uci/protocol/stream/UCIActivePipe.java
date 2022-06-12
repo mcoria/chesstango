@@ -1,11 +1,9 @@
-package chess.uci.engine;
+package chess.uci.protocol.stream;
 
-import chess.uci.protocol.stream.UCIInputStream;
 import chess.uci.protocol.UCIMessage;
-import chess.uci.protocol.stream.UCIOutputStream;
 import chess.uci.protocol.UCIRequest;
 
-public abstract class EngineAbstract implements Engine {
+public class UCIActivePipe {
 
     protected boolean keepProcessing;
 
@@ -13,26 +11,23 @@ public abstract class EngineAbstract implements Engine {
 
     protected UCIOutputStream output;
 
-    @Override
-    public void mainReadRequestLoop() {
+    public void activate() {
         while (keepProcessing) {
             UCIMessage message = input.read();
-            if(message != null && message instanceof UCIRequest){
-                UCIRequest request = (UCIRequest) message;
-                request.execute(this);
-            }
+            output.write(message);
         }
     }
 
+    public void deactivate() {
+        keepProcessing = false;
+    }
 
-    @Override
+
     public void setInputStream(UCIInputStream input) {
         this.input = input;
     }
 
-    @Override
     public void setOutputStream(UCIOutputStream output) {
         this.output = output;
     }
-
 }

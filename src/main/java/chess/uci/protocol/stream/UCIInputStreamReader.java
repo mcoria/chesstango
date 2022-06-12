@@ -1,16 +1,16 @@
-package chess.uci.protocol;
+package chess.uci.protocol.stream;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import chess.uci.protocol.UCIDecoder;
+import chess.uci.protocol.UCIMessage;
+
+import java.io.*;
 
 public class UCIInputStreamReader implements UCIInputStream {
     private final UCIDecoder uciDecoder = new UCIDecoder();
     private final BufferedReader reader;
 
-    public UCIInputStreamReader(InputStream inputStream) {
-        this.reader =  new BufferedReader(new InputStreamReader(inputStream));
+    public UCIInputStreamReader(Reader reader) {
+        this.reader =  new BufferedReader(reader);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package chess.uci.ui;
 
 import chess.uci.engine.Engine;
-import chess.uci.protocol.UCIInputStream;
+import chess.uci.protocol.stream.UCIInputStream;
 import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.UCIRequest;
 import chess.uci.protocol.UCIResponse;

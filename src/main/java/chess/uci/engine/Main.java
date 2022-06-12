@@ -2,7 +2,8 @@ package chess.uci.engine;
 
 import java.io.*;
 
-import chess.uci.protocol.*;
+import chess.uci.protocol.stream.UCIInputStreamReader;
+import chess.uci.protocol.stream.UCIOutputStreamWriter;
 
 /**
  * @author Mauricio Coria
@@ -20,8 +21,8 @@ public class Main {
 	public Main(Engine engine, PrintStream out, InputStream in) {
 		this.engine = engine;
 
-		this.engine.setInputStream(new UCIInputStreamReader(in)::read);
-		this.engine.setOutputStream(new UCIOutputStreamWriter(out)::write);
+		this.engine.setInputStream(new UCIInputStreamReader(new InputStreamReader(in))::read);
+		this.engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(out))::write);
 	}
 
 	protected void start() {
