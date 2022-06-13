@@ -23,7 +23,7 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
 
     public EngineClient(Engine engine) {
         this.engine = engine;
-        this.engine.setOutputStream(new UCIOutputStreamEngineClientWriter(this));
+        this.engine.setOutputStream(null);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
             UCIMessage message = input.read();
             if(message != null && message instanceof UCIResponse){
                 UCIResponse response = (UCIResponse) message;
-                response.execute(this);
+                //response.execute(this);
             }
         }
     }

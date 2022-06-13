@@ -8,4 +8,6 @@ public interface UCIMessage {
     }
 
     MessageType getMessageType();
+
+    void execute(UCIMessageExecutor executor);
 }

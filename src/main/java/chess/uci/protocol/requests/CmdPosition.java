@@ -1,6 +1,7 @@
 package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
+import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIRequest;
 
 import java.util.List;
@@ -37,8 +38,8 @@ public class CmdPosition implements UCIRequest {
 
 
 	@Override
-	public void execute(Engine engine) {
-		engine.do_position(this);
+	public void execute(UCIMessageExecutor executor) {
+		executor.do_position(this);
 	}
 
 	public CmdType getType(){

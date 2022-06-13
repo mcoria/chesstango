@@ -1,11 +1,10 @@
 package chess.uci.protocol.stream;
 
 import chess.uci.protocol.UCIMessage;
-import chess.uci.protocol.UCIRequest;
 
 public class UCIActivePipe {
 
-    protected boolean keepProcessing;
+    protected boolean keepProcessing = true;
 
     protected UCIInputStream input;
 

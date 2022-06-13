@@ -4,7 +4,7 @@ import chess.uci.protocol.UCIMessage;
 
 import java.io.*;
 
-public class UCIOutputStreamWriter implements UCIOutputStream{
+public class UCIOutputStreamWriter implements UCIOutputStream {
 
     private final BufferedWriter out;
 
@@ -17,6 +17,7 @@ public class UCIOutputStreamWriter implements UCIOutputStream{
         try {
             out.write(message.toString());
             out.newLine();
+            out.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

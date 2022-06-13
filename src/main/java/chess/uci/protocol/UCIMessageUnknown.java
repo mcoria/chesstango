@@ -8,7 +8,6 @@ import static chess.uci.protocol.UCIMessage.MessageType.Unknown;
  */
 public class UCIMessageUnknown implements UCIMessage {
 
-
 	private final String line;
 
 	public UCIMessageUnknown(String line) {
@@ -18,6 +17,11 @@ public class UCIMessageUnknown implements UCIMessage {
 	@Override
 	public MessageType getMessageType() {
 		return Unknown;
+	}
+
+	@Override
+	public void execute(UCIMessageExecutor executor) {
+
 	}
 
 	@Override

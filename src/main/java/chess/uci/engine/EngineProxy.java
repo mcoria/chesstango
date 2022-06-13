@@ -2,6 +2,14 @@ package chess.uci.engine;
 
 import chess.uci.protocol.*;
 import chess.uci.protocol.requests.*;
+import chess.uci.protocol.responses.RspBestMove;
+import chess.uci.protocol.responses.RspId;
+import chess.uci.protocol.responses.RspReadyOk;
+import chess.uci.protocol.responses.RspUciOk;
+import chess.uci.protocol.stream.UCIActivePipe;
+import chess.uci.protocol.stream.UCIInputStream;
+import chess.uci.protocol.stream.UCIOutputStream;
+import chess.uci.protocol.stream.UCIOutputStreamExecutor;
 
 import java.io.*;
 import java.util.concurrent.ExecutorService;
@@ -12,7 +20,9 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  *
  */
-public class EngineProxy extends EngineAbstract {
+public class EngineProxy implements Engine {
+
+    private boolean keepProcessing;
 
     private Process process;
 
@@ -22,13 +32,34 @@ public class EngineProxy extends EngineAbstract {
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
+    private UCIOutputStream output;
+    private UCIInputStream input;
+
     @Override
-    public void mainReadRequestLoop() {
+    public void setInputStream(UCIInputStream input) {
+        this.input = input;
+    }
+
+    @Override
+    public void setOutputStream(UCIOutputStream output){
+        this.output = output;
+    }
+
+    @Override
+    public void main() {
+        UCIActivePipe pipe = new UCIActivePipe();
+        pipe.setInputStream(input);
+        pipe.setOutputStream(new UCIOutputStreamExecutor(this));
+
+        pipe.activate();
+    }
+
+    public void activate() {
         keepProcessing = true;
 
         startProcess();
 
-        super.mainReadRequestLoop();
+        //super.mainReadRequestLoop();
 
         stopProcess();
     }
@@ -74,6 +105,26 @@ public class EngineProxy extends EngineAbstract {
         outputStreamProcess.println(cmdQuit);
     }
 
+    @Override
+    public void receive_uciOk(RspUciOk rspUciOk) {
+
+    }
+
+    @Override
+    public void receive_id(RspId rspId) {
+
+    }
+
+    @Override
+    public void receive_readyOk(RspReadyOk rspReadyOk) {
+
+    }
+
+    @Override
+    public void receive_bestMove(RspBestMove rspBestMove) {
+
+    }
+
     public void readFromProcess() {
         UCIDecoder uciDecoder = new UCIDecoder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStreamProcess));
@@ -82,7 +133,7 @@ public class EngineProxy extends EngineAbstract {
                 String line = reader.readLine();
                 if(line != null) {
                     UCIMessage message = uciDecoder.parseMessage(line);
-                    output.write(message);
+                    //output.write(message);
                 }
             }
         } catch (IOException io){
@@ -117,5 +168,4 @@ public class EngineProxy extends EngineAbstract {
             throw new RuntimeException(e);
         }
     }
-
 }

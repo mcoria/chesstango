@@ -9,8 +9,6 @@ import chess.uci.ui.EngineClientResponseListener;
  */
 public interface UCIResponse extends UCIMessage {
 
-    void execute(EngineClientResponseListener engineClient);
-
     enum UCIResponseType {
 		ID, UCIOK, READYOK, BESTMOVE
 	}

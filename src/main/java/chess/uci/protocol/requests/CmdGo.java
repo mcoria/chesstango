@@ -1,6 +1,7 @@
 package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
+import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIRequest;
 
 /**
@@ -22,8 +23,8 @@ public class CmdGo implements UCIRequest {
 
 
 	@Override
-	public void execute(Engine engine) {
-		engine.do_go(this);
+	public void execute(UCIMessageExecutor executor) {
+		executor.do_go(this);
 	}
 
 }

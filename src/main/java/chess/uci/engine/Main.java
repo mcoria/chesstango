@@ -13,20 +13,19 @@ public class Main {
 	private final Engine engine;
 
 	public static void main(String[] args) {
-		Main main = new Main(new EngineZonda(), System.out, System.in);
+		Main main = new Main(new EngineZonda(), System.in, System.out);
 		//Main main = new Main(new EngineProxy(), System.out, System.in);
-		main.start();
+		main.main();
 	}
 
-	public Main(Engine engine, PrintStream out, InputStream in) {
+	public Main(Engine engine, InputStream in, PrintStream out) {
 		this.engine = engine;
-
-		this.engine.setInputStream(new UCIInputStreamReader(new InputStreamReader(in))::read);
-		this.engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(out))::write);
+		this.engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(out)));
+		this.engine.setInputStream(new UCIInputStreamReader(new InputStreamReader(in)));
 	}
 
-	protected void start() {
-		engine.mainReadRequestLoop();
+	protected void main() {
+		engine.main();
 	}
 
 }

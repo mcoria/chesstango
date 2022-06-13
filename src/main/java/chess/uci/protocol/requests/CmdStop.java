@@ -1,6 +1,7 @@
 package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
+import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIRequest;
 
 /**
@@ -20,8 +21,8 @@ public class CmdStop implements UCIRequest {
 	}
 
 	@Override
-	public void execute(Engine engine) {
-		engine.do_stop(this);
+	public void execute(UCIMessageExecutor executor) {
+		executor.do_stop(this);
 	}
 
 	@Override

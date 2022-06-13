@@ -12,9 +12,6 @@ public interface UCIRequest extends UCIMessage {
 		UCI, QUIT, ISREADY, STOP, GO, SETOPTION, UCINEWGAME, POSITION
 	}
 
-
 	UCIRequestType getRequestType();
 
-
-	void execute(Engine engine);
 }

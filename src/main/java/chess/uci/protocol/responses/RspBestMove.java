@@ -1,5 +1,6 @@
 package chess.uci.protocol.responses;
 
+import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIResponse;
 import chess.uci.ui.EngineClient;
 import chess.uci.ui.EngineClientResponseListener;
@@ -22,8 +23,8 @@ public class RspBestMove implements UCIResponse {
 	}
 
 	@Override
-	public void execute(EngineClientResponseListener engineClient) {
-		engineClient.receive_bestMove(this);
+	public void execute(UCIMessageExecutor executor) {
+		executor.receive_bestMove(this);
 	}
 
 	@Override

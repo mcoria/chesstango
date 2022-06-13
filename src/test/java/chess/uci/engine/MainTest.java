@@ -3,15 +3,15 @@
  */
 package chess.uci.engine;
 
+import chess.board.Game;
+import chess.board.representations.fen.FENEncoder;
 import chess.uci.protocol.UCIMessage;
-import chess.uci.protocol.requests.CmdIsReady;
-import chess.uci.protocol.requests.CmdPosition;
-import chess.uci.protocol.requests.CmdUci;
-import chess.uci.protocol.requests.CmdUciNewGame;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.mockito.Mockito.mock;
 
@@ -21,74 +21,22 @@ import static org.mockito.Mockito.mock;
  */
 public class MainTest {
 
+	private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
 	@Test
-	public void test_readMessage() throws IOException {
-		PipedInputStream pis = new PipedInputStream();
-		PipedOutputStream pos = new PipedOutputStream(pis);
-
-		Engine engine = mock(Engine.class);
-
-		Main main = new Main(engine, System.out, pis);
-
-		PrintStream out = new PrintStream(pos);
-		out.println("uci");
-		out.println("isready");
-		out.println("ucinewgame");
-		out.println("isready");
-		out.println("position startpos moves e2e4");
-
-		UCIMessage message = null;
-
-		/*
-		message = main.readMessage();
-		Assert.assertTrue(message instanceof CmdUci);
-
-		message = main.readMessage();
-		Assert.assertTrue(message instanceof CmdIsReady);
-
-		message = main.readMessage();
-		Assert.assertTrue(message instanceof CmdUciNewGame);
-
-		message = main.readMessage();
-		Assert.assertTrue(message instanceof CmdIsReady);
-
-		message = main.readMessage();
-		Assert.assertTrue(message instanceof CmdPosition);
-		 */
-
+	public void test_play() throws IOException {
+		//probar que settea input/output y llama a la activacion
 	}
 
-	@Test
-	public void test_writeMessage() throws IOException {
-		PipedInputStream pis = new PipedInputStream();
-		PipedOutputStream pos = new PipedOutputStream(pis);
+	private void runMainLoop(Main main) {
+		executorService.execute(main::main);
+	}
 
-		Engine engine = mock(Engine.class);
 
-		Main main = new Main(engine, new PrintStream(pos), System.in);
-
-		/*
-		main.writeMessage(new CmdUci());
-		main.writeMessage(new CmdIsReady());
-		main.writeMessage(new CmdUciNewGame());
-		main.writeMessage(new CmdIsReady());
-		*/
-
-		BufferedReader reader = new BufferedReader(new InputStreamReader(pis));
-		String message = null;
-
-		message = reader.readLine();
-		Assert.assertEquals("uci", message);
-
-		message = reader.readLine();
-		Assert.assertEquals("isready", message);
-
-		message = reader.readLine();
-		Assert.assertEquals("ucinewgame", message);
-
-		message = reader.readLine();
-		Assert.assertEquals("isready", message);
-
+	private String fenCode(Game board) {
+		FENEncoder coder = new FENEncoder();
+		board.getChessPositionReader().constructBoardRepresentation(coder);
+		return coder.getResult();
 	}
 
 }

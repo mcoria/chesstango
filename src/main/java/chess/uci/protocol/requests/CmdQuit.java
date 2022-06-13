@@ -1,6 +1,7 @@
 package chess.uci.protocol.requests;
 
 import chess.uci.engine.Engine;
+import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIRequest;
 
 /**
@@ -21,8 +22,8 @@ public class CmdQuit implements UCIRequest {
 
 
 	@Override
-	public void execute(Engine engine) {
-		engine.do_quit(this);
+	public void execute(UCIMessageExecutor executor) {
+		executor.do_quit(this);
 	}
 
 	@Override

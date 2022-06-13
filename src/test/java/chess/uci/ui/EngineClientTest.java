@@ -9,7 +9,7 @@ public class EngineClientTest {
 
     @Test
     public void test1(){
-        Engine engine = new EngineZonda();
+        Engine engine = null; // new EngineZonda();
 
         EngineClient client = new EngineClient(engine);
 
