@@ -27,8 +27,8 @@ import chess.uci.protocol.stream.*;
  *
  */
 public class EngineZonda implements Engine {
-	private boolean keepProcessing;
 	private final ExecutorService executorService;
+	private final UCIActivePipe pipe = new UCIActivePipe();
 	private final BestMoveFinder bestMoveFinder;
 	private Game game;
 	private ZondaState currentState;
@@ -36,7 +36,6 @@ public class EngineZonda implements Engine {
 	private UCIInputStream input;
 
 	public EngineZonda() {
-		this.keepProcessing = true;
 		this.bestMoveFinder = new SmartLoop();
 		this.currentState =  new Ready();
 		this.executorService = Executors.newSingleThreadExecutor();
@@ -53,7 +52,6 @@ public class EngineZonda implements Engine {
 
 	@Override
 	public void main() {
-		UCIActivePipe pipe = new UCIActivePipe();
 		pipe.setInputStream(input);
 		pipe.setOutputStream(new UCIOutputStreamExecutor(this));
 
@@ -94,8 +92,8 @@ public class EngineZonda implements Engine {
 
 	@Override
 	public void do_quit(CmdQuit cmdQuit) {
-		keepProcessing = false;
 		currentState.do_stop();
+		pipe.deactivate();
 	}
 
 	@Override

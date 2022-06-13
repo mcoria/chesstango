@@ -16,9 +16,15 @@ public class UCIInputStreamReader implements UCIInputStream {
     @Override
     public UCIMessage read() {
         try {
-            return uciDecoder.parseMessage(reader.readLine());
+            String line = reader.readLine();
+            return line == null ? null : uciDecoder.parseMessage(line);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+        reader.close();
     }
 }

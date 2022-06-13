@@ -2,23 +2,32 @@ package chess.uci.protocol.stream;
 
 import chess.uci.protocol.UCIMessage;
 
+import java.io.IOException;
+
 public class UCIActivePipe {
 
-    protected boolean keepProcessing = true;
-
+    private boolean active;
     protected UCIInputStream input;
 
     protected UCIOutputStream output;
 
     public void activate() {
-        while (keepProcessing) {
-            UCIMessage message = input.read();
+        active = true;
+        UCIMessage message = null;
+        while ( active && (message = input.read()) != null ) {
             output.write(message);
         }
     }
 
     public void deactivate() {
-        keepProcessing = false;
+        try {
+            active = false;
+            if(input != null) {
+                input.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

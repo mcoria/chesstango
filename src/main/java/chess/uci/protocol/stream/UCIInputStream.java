@@ -2,6 +2,8 @@ package chess.uci.protocol.stream;
 
 import chess.uci.protocol.UCIMessage;
 
-public interface UCIInputStream {
+import java.io.Closeable;
+
+public interface UCIInputStream extends Closeable {
     UCIMessage read();
 }

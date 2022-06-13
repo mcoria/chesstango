@@ -77,8 +77,6 @@ public class EngineZondaTest {
 
 	@Test
 	public void test_play() throws IOException, InterruptedException {
-		String responseLine;
-		EngineZonda.ZondaState engineState;
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -97,15 +95,13 @@ public class EngineZondaTest {
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
-		engineState = engine.getCurrentState();
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// uci command
 		out.println("uci");
 		Assert.assertEquals("id name Zonda", in.readLine());
 		Assert.assertEquals("id author Mauricio Coria", in.readLine());
-
-		engineState = engine.getCurrentState();
+		Assert.assertEquals("uciok", in.readLine());
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// isready command
@@ -131,6 +127,9 @@ public class EngineZondaTest {
 		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
 		Thread.sleep(200);
 		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
+
+		// quit command
+		out.println("quit");
 
 		executorService.shutdown();
 		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
