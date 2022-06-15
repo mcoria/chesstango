@@ -47,6 +47,20 @@ public class UCIDecoderRspTest {
 	}
 
 	@Test
+	public void test_parse_bestmove_ponder(){
+		UCIMessage result =  decoder.parseMessage("bestmove a2a4 ponder a5a7");
+
+		Assert.assertTrue(result instanceof RspBestMove);
+
+		RspBestMove bestMove = (RspBestMove) result;
+
+		Assert.assertEquals("a2a4", bestMove.getBestMove());
+		Assert.assertEquals("a5a7", bestMove.getPonderMove());
+
+		Assert.assertEquals("bestmove a2a4 ponder a5a7", result.toString());
+	}
+
+	@Test
 	public void test_parse_id_author(){
 		UCIMessage result =  decoder.parseMessage("id author Mauricio Coria");
 

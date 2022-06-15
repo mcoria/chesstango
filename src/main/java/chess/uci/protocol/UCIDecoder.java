@@ -107,14 +107,14 @@ public class UCIDecoder {
 	}
 
 	private UCIMessage parseBestMove(String[] words) {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 1; i < words.length; i++) {
-			sb.append(words[i]);
-			if(i <  words.length - 1){
-				sb.append(" ");
+		String bestMove = words[1];
+		String ponderMove = null;
+		if(words.length == 4){
+			if("ponder".equalsIgnoreCase(words[2])){
+				ponderMove = words[3];
 			}
 		}
-		return new RspBestMove(sb.toString());
+		return new RspBestMove(bestMove, ponderMove);
 	}
 
 

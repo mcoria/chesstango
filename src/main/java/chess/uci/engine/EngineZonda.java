@@ -116,19 +116,21 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 
 
 	private void executeMoves(List<String> moves) {
-		UCIEncoder uciEncoder = new UCIEncoder();
-		for (String moveStr : moves) {
-			boolean findMove = false;
-			for (Move move : game.getPossibleMoves()) {
-				String encodedMoveStr = uciEncoder.encode(move);
-				if (encodedMoveStr.equals(moveStr)) {
-					game.executeMove(move);
-					findMove = true;
-					break;
+		if(moves != null && !moves.isEmpty()) {
+			UCIEncoder uciEncoder = new UCIEncoder();
+			for (String moveStr : moves) {
+				boolean findMove = false;
+				for (Move move : game.getPossibleMoves()) {
+					String encodedMoveStr = uciEncoder.encode(move);
+					if (encodedMoveStr.equals(moveStr)) {
+						game.executeMove(move);
+						findMove = true;
+						break;
+					}
 				}
-			}
-			if (!findMove) {
-				throw new RuntimeException("No move found " + moveStr);
+				if (!findMove) {
+					throw new RuntimeException("No move found " + moveStr);
+				}
 			}
 		}
 	}

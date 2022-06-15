@@ -1,5 +1,6 @@
 package chess.uci.ui;
 
+import chess.uci.engine.EngineZonda;
 import chess.uci.protocol.requests.CmdPosition;
 
 public class Main {
@@ -8,7 +9,7 @@ public class Main {
     private EngineClient engine2;
 
     public Main(){
-        //engine1 = new EngineZonda();
+        //engine1 = new EngineClient();
         //engine2 = new EngineProxy();
     }
 

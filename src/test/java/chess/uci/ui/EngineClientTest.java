@@ -33,6 +33,18 @@ public class EngineClientTest {
         client.send_CmdIsReady();
 
         client.send_CmdUciNewGame();
+
+        client.send_CmdPosition(new CmdPosition());
+
+        RspBestMove bestmove = client.send_CmdGo(new CmdGo()
+                .setGoType(CmdGo.GoType.DEPTH)
+                .setDepth(1));
+
+        Assert.assertNotNull(bestmove);
+
+        System.out.println(bestmove.toString());
+
+        client.send_CmdQuit();
     }
 
     @Test
