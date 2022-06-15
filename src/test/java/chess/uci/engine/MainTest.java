@@ -5,8 +5,6 @@ package chess.uci.engine;
 
 import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
-import chess.uci.protocol.stream.UCIInputStreamAdapter;
-import chess.uci.protocol.stream.UCIOutputStreamAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,11 +21,11 @@ import static org.mockito.Mockito.mock;
  */
 public class MainTest {
 
-	private ExecutorService executorService = Executors.newSingleThreadExecutor();
+	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 
 	@Test
-	public void test_play() throws IOException, InterruptedException {
+	public void test_playZonada() throws IOException, InterruptedException {
 		PipedOutputStream outputToEngine = new PipedOutputStream();
 
 		PipedInputStream inputFromEngine = new PipedInputStream();
@@ -76,6 +74,47 @@ public class MainTest {
 
 		// quit command
 		out.println("quit");
+
+		executorService.shutdown();
+		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
+
+		Assert.assertTrue("El thread no termino", terminated);
+	}
+
+	@Test
+	public void test_playProxy() throws IOException, InterruptedException {
+		PipedOutputStream outputToEngine = new PipedOutputStream();
+
+		EngineProxy engine = new EngineProxy();
+
+		Main main = new Main(engine, new PipedInputStream(outputToEngine), System.out);
+		main.main(executorService);
+
+		PrintStream out = new PrintStream(outputToEngine,true);
+
+		// uci command
+		out.println("uci");
+		Thread.sleep(200);
+
+		// isready command
+		out.println("isready");
+		Thread.sleep(200);
+
+		// ucinewgame command
+		out.println("ucinewgame");
+		Thread.sleep(200);
+
+		// isready command
+		out.println("isready");
+		Thread.sleep(200);
+
+		// isrpositioneady command
+		out.println("position startpos moves e2e4");
+		Thread.sleep(200);
+
+		// quit command
+		out.println("quit");
+		Thread.sleep(200);
 
 		executorService.shutdown();
 		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);

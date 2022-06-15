@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class EngineProxy implements Engine, Runnable {
-    private Process process;
 
     private InputStream inputStreamProcess;
 
@@ -24,6 +23,14 @@ public class EngineProxy implements Engine, Runnable {
     private UCIOutputStream responseOutputStream;
 
     private UCIActivePipe pipe;
+
+    private ProcessBuilder processBuilder;
+    private Process process;
+
+    public EngineProxy(){
+        processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
+        pipe = new UCIActivePipe();
+    }
 
     public void activate() {
         startProcess();
@@ -35,17 +42,15 @@ public class EngineProxy implements Engine, Runnable {
 
     protected void startProcess(){
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
+            synchronized (processBuilder) {
+                process = processBuilder.start();
 
-            process = processBuilder.start();
+                inputStreamProcess = process.getInputStream();
+                outputStreamProcess = new PrintStream(process.getOutputStream(), true);
+            }
 
-            inputStreamProcess = process.getInputStream();
-
-            outputStreamProcess = new PrintStream(process.getOutputStream(), true);
-
-            pipe = new UCIActivePipe();
-            this.pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(inputStreamProcess)));
-            this.pipe.setOutputStream(responseOutputStream);
+            pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(inputStreamProcess)));
+            pipe.setOutputStream(responseOutputStream);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -62,6 +67,22 @@ public class EngineProxy implements Engine, Runnable {
 
     @Override
     public void write(UCIMessage message) {
+        if(outputStreamProcess == null){
+            int counter = 0;
+            try {
+                do {
+                    counter++;
+                    synchronized (processBuilder) {
+                        processBuilder.wait(100);
+                    }
+                } while(outputStreamProcess == null && counter < 10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if(outputStreamProcess == null){
+                throw new RuntimeException("Process has not started yet");
+            }
+        }
         outputStreamProcess.println(message);
     }
 
@@ -79,4 +100,5 @@ public class EngineProxy implements Engine, Runnable {
     public void run() {
         activate();
     }
+
 }

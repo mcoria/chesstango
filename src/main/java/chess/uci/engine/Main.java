@@ -29,8 +29,8 @@ public class Main {
 
 		executorService.shutdown();
 		try {
-			while(!executorService.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
-				System.out.println("Engine still executing");
+			while(!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+				//System.out.println("Engine still executing");
 			}
 		} catch (InterruptedException e) {
 			executorService.shutdownNow();
@@ -48,10 +48,10 @@ public class Main {
 
 
 	protected void main(ExecutorService executorService) {
-		executorService.execute(this.pipe);
 		if(engine instanceof  Runnable){
 			executorService.execute((Runnable) engine);
 		}
+		executorService.execute(this.pipe);
 	}
 
 }

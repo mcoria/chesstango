@@ -57,7 +57,7 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
     @Override
     public void send_CmdPosition() {
         currentState = new NoWaitRsp();
-        currentState.sendRequest(new CmdPosition(CmdPosition.CmdType.STARTPOS, null, new ArrayList<String>()), false);
+        currentState.sendRequest(new CmdPosition(new ArrayList<String>()), false);
     }
 
     @Override

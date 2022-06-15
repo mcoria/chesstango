@@ -20,9 +20,15 @@ public class CmdPosition implements UCIRequest {
 
 	private final List<String> moves;
 
-	public CmdPosition(CmdType type, String fen, List<String> moves) {
-		this.type = type;
+	public CmdPosition(String fen, List<String> moves) {
+		this.type = CmdType.FEN;
 		this.fen = fen;
+		this.moves = moves;
+	}
+
+	public CmdPosition(List<String> moves) {
+		this.type = CmdType.STARTPOS;
+		this.fen = null;
 		this.moves = moves;
 	}
 

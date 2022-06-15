@@ -158,7 +158,7 @@ public class UCIDecoder {
 			}
 
 		}
-		return new CmdPosition(CmdPosition.CmdType.STARTPOS, FENDecoder.INITIAL_FEN, moves);
+		return new CmdPosition(moves);
 	}
 
 
@@ -182,7 +182,7 @@ public class UCIDecoder {
 			}
 		}
 
-		return new CmdPosition(CmdPosition.CmdType.FEN, fenString, moves);
+		return new CmdPosition(fenString, moves);
 	}
 
 }
