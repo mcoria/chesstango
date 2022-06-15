@@ -1,5 +1,9 @@
 package chess.uci.ui;
 
+import chess.uci.protocol.requests.CmdGo;
+import chess.uci.protocol.requests.CmdPosition;
+import chess.uci.protocol.responses.RspBestMove;
+
 public interface EngineClientRequestSender {
     void send_CmdUci();
 
@@ -7,9 +11,9 @@ public interface EngineClientRequestSender {
 
     void send_CmdUciNewGame();
 
-    void send_CmdPosition();
+    void send_CmdPosition(CmdPosition cmdPosition);
 
-    void send_CmdGo();
+    RspBestMove send_CmdGo(CmdGo cmdGo);
 
     void send_CmdStop();
 

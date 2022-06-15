@@ -32,6 +32,12 @@ public class CmdPosition implements UCIRequest {
 		this.moves = moves;
 	}
 
+	public CmdPosition() {
+		this.type = CmdType.STARTPOS;
+		this.fen = null;
+		this.moves = null;
+	}
+
 	@Override
 	public MessageType getMessageType() {
 		return MessageType.Request;
@@ -70,7 +76,7 @@ public class CmdPosition implements UCIRequest {
 			sb.append("fen " + fen);
 		}
 
-		if(moves.size() > 0){
+		if(moves != null && moves.size() > 0){
 			sb.append(" moves");
 			for (String move: moves){
 				sb.append(" ");

@@ -1,7 +1,7 @@
 package chess.uci.ui;
 
 import chess.uci.engine.Engine;
-import chess.uci.protocol.stream.UCIInputStream;
+import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.UCIRequest;
 import chess.uci.protocol.UCIResponse;
@@ -10,10 +10,11 @@ import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspId;
 import chess.uci.protocol.responses.RspReadyOk;
 import chess.uci.protocol.responses.RspUciOk;
+import chess.uci.protocol.stream.UCIOutputStream;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
-public class EngineClient implements EngineClientResponseListener, EngineClientRequestSender {
+public class EngineClient implements UCIOutputStream, EngineClientRequestSender, UCIMessageExecutor {
     private final Engine engine;
 
     private EngineClientState currentState;
@@ -23,18 +24,13 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
 
     public EngineClient(Engine engine) {
         this.engine = engine;
-        this.engine.setResponseOutputStream(null);
+        this.engine.setResponseOutputStream(this);
     }
 
     @Override
     public void send_CmdUci() {
         currentState = new WaitRspUciOk();
         currentState.sendRequest(new CmdUci(), true);
-    }
-
-    @Override
-    public void receive_uciOk(RspUciOk rspUciOk) {
-        currentState.receive_uciOk(rspUciOk);
     }
 
     @Override
@@ -50,30 +46,16 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
     }
 
     @Override
-    public void receive_readyOk(RspReadyOk rspReadyOk) {
-        currentState.receive_readyOk(rspReadyOk);
-    }
-
-    @Override
-    public void send_CmdPosition() {
+    public void send_CmdPosition(CmdPosition cmdPosition) {
         currentState = new NoWaitRsp();
-        currentState.sendRequest(new CmdPosition(new ArrayList<String>()), false);
+        currentState.sendRequest(cmdPosition, false);
     }
 
     @Override
-    public void send_CmdGo() {
+    public RspBestMove send_CmdGo(CmdGo cmdGo) {
         currentState = new WaitRspBestMove();
-        currentState.sendRequest(new CmdGo(), true);
-    }
-
-    @Override
-    public void receive_bestMove(RspBestMove rspBestMove) {
-        currentState.receive_bestMove(rspBestMove);
-    }
-
-    @Override
-    public void receive_id(RspId rspId) {
-        currentState.receive_id(rspId);
+        currentState.sendRequest(cmdGo, true);
+        return (RspBestMove) currentState.getResponse();
     }
 
     @Override
@@ -88,16 +70,48 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
         currentState.sendRequest(new CmdQuit(), false);
     }
 
-    protected UCIInputStream input;
-    protected boolean keepProcessing;
-    public void mainReadResponseLoop(){
-        while (keepProcessing) {
-            UCIMessage message = input.read();
-            if(message != null && message instanceof UCIResponse){
-                UCIResponse response = (UCIResponse) message;
-                //response.execute(this);
-            }
-        }
+    @Override
+    public void do_uci(CmdUci cmdUci) {    }
+
+    @Override
+    public void do_setOption(CmdSetOption cmdSetOption) {}
+
+    @Override
+    public void do_isReady(CmdIsReady cmdIsReady) {}
+
+    @Override
+    public void do_newGame(CmdUciNewGame cmdUciNewGame) {}
+
+    @Override
+    public void do_position(CmdPosition cmdPosition) {}
+
+    @Override
+    public void do_go(CmdGo cmdGo) {}
+
+    @Override
+    public void do_stop(CmdStop cmdStop) {}
+
+    @Override
+    public void do_quit(CmdQuit cmdQuit) {}
+
+    @Override
+    public void receive_uciOk(RspUciOk rspUciOk) {
+        currentState.receive_uciOk(rspUciOk);
+    }
+
+    @Override
+    public void receive_readyOk(RspReadyOk rspReadyOk) {
+        currentState.receive_readyOk(rspReadyOk);
+    }
+
+    @Override
+    public void receive_bestMove(RspBestMove rspBestMove) {
+        currentState.receive_bestMove(rspBestMove);
+    }
+
+    @Override
+    public void receive_id(RspId rspId) {
+        currentState.receive_id(rspId);
     }
 
     public String getEngineName() {
@@ -108,20 +122,33 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
         return engineAuthor;
     }
 
+    @Override
+    public void write(UCIMessage message) {
+        message.execute(this);
+    }
+
+    @Override
+    public void close() throws IOException {
+
+    }
+
 
     private interface EngineClientState extends EngineClientResponseListener {
         void sendRequest(UCIRequest request, boolean waitResponse);
+
+        UCIResponse getResponse();
     }
 
     private abstract class RspAbstract implements EngineClientState {
-        private boolean responseReceived = false;
+
+        private UCIResponse response;
 
         @Override
         public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
-            //request.execute(engine);
+            engine.write(request);
             if(waitResponse) {
                 try {
-                    if(!responseReceived){
+                    if(response == null){
                         wait();
                     }
                 } catch (InterruptedException e) {
@@ -130,16 +157,21 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
             }
         }
 
-        protected synchronized void responseReceived(){
-            responseReceived = true;
+        protected synchronized void responseReceived(UCIResponse response){
+            this.response = response;
             notifyAll();
+        }
+
+        @Override
+        public UCIResponse getResponse() {
+            return response;
         }
     }
 
     private class WaitRspUciOk extends RspAbstract {
         @Override
         public void receive_uciOk(RspUciOk rspUciOk) {
-            responseReceived();
+            responseReceived(rspUciOk);
         }
 
         @Override
@@ -169,12 +201,11 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
 
         @Override
         public void receive_readyOk(RspReadyOk rspReadyOk) {
-            responseReceived();
+            responseReceived(rspReadyOk);
         }
 
         @Override
         public void receive_bestMove(RspBestMove rspBestMove) {
-
         }
 
         @Override
@@ -185,40 +216,32 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
 
     private class NoWaitRsp extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {
-        }
+        public void receive_uciOk(RspUciOk rspUciOk) {}
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {
-        }
+        public void receive_readyOk(RspReadyOk rspReadyOk) {}
 
         @Override
-        public void receive_bestMove(RspBestMove rspBestMove) {
-        }
+        public void receive_bestMove(RspBestMove rspBestMove) {}
 
         @Override
-        public void receive_id(RspId rspId) {
-
-        }
+        public void receive_id(RspId rspId) {}
     }
 
 
     private class WaitRspBestMove extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {
-        }
+        public void receive_uciOk(RspUciOk rspUciOk) {}
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {
-        }
+        public void receive_readyOk(RspReadyOk rspReadyOk) {}
 
         @Override
         public void receive_bestMove(RspBestMove rspBestMove) {
+            responseReceived(rspBestMove);
         }
 
         @Override
-        public void receive_id(RspId rspId) {
-
-        }
+        public void receive_id(RspId rspId) {}
     }
 }

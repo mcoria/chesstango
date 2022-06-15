@@ -38,7 +38,7 @@ public class EngineZondaTest {
 
 		engine.write(new CmdUci());
 		engine.write(new CmdUciNewGame());
-		engine.write(new CmdPosition(Arrays.asList("e2e4") ));
+		engine.write(new CmdPosition(Arrays.asList("e2e4")));
 		
 		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
 	}

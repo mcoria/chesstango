@@ -29,12 +29,14 @@ public class CmdGo implements UCIRequest {
 	}
 
 
-	public void setGoType(GoType type) {
+	public CmdGo setGoType(GoType type) {
 		this.type = type;
+		return this;
 	}
 
-	public void setDepth(int depth) {
+	public CmdGo setDepth(int depth) {
 		this.depth = depth;
+		return this;
 	}
 
 	@Override

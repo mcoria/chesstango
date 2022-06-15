@@ -1,5 +1,7 @@
 package chess.uci.ui;
 
+import chess.uci.protocol.requests.CmdPosition;
+
 public class Main {
 
     private EngineClient engine1;
@@ -18,8 +20,8 @@ public class Main {
         engine1.send_CmdUci();
         engine1.send_CmdIsReady();
         engine1.send_CmdUciNewGame();
-        engine1.send_CmdPosition();
-        engine1.send_CmdGo();
+        engine1.send_CmdPosition(new CmdPosition());
+        //engine1.send_CmdGo();
         engine1.send_CmdStop();
         engine1.send_CmdQuit();
 
