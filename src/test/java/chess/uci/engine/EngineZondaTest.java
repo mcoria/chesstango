@@ -16,7 +16,6 @@ import chess.uci.protocol.UCIRequest;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
@@ -35,7 +34,7 @@ public class EngineZondaTest {
 
 	@Test
 	public void test1_execute_position_startpos_01() {
-		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
+		engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
 		new CmdUci().execute(engine);
 		new CmdUciNewGame().execute(engine);
 
@@ -47,7 +46,7 @@ public class EngineZondaTest {
 	
 	@Test
 	public void test1_execute_position_startpos_02() {
-		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
+		engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
 		new CmdUci().execute(engine);
 		new CmdUciNewGame().execute(engine);
 
@@ -59,7 +58,7 @@ public class EngineZondaTest {
 	
 	@Test
 	public void test1_execute_position_fen() {
-		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
+		engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
 		new CmdUci().execute(engine);
 		new CmdUciNewGame().execute(engine);
 
@@ -76,7 +75,7 @@ public class EngineZondaTest {
 		PipedInputStream pisOutput = new PipedInputStream(posOutput);
 
 		engine = new EngineZonda();
-		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(new PrintStream(posOutput,true))));
+		engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(new PrintStream(posOutput,true))));
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 

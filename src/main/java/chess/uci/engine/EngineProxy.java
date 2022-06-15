@@ -1,15 +1,9 @@
 package chess.uci.engine;
 
 import chess.uci.protocol.*;
-import chess.uci.protocol.requests.*;
-import chess.uci.protocol.responses.RspBestMove;
-import chess.uci.protocol.responses.RspId;
-import chess.uci.protocol.responses.RspReadyOk;
-import chess.uci.protocol.responses.RspUciOk;
 import chess.uci.protocol.stream.UCIActivePipe;
-import chess.uci.protocol.stream.UCIInputStream;
+import chess.uci.protocol.stream.UCIInputStreamAdapter;
 import chess.uci.protocol.stream.UCIOutputStream;
-import chess.uci.protocol.stream.UCIOutputStreamExecutor;
 
 import java.io.*;
 import java.util.concurrent.ExecutorService;
@@ -20,51 +14,23 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  *
  */
-public class EngineProxy implements Engine {
-
-    private boolean keepProcessing;
-
+public class EngineProxy implements Engine, Runnable {
     private Process process;
 
     private InputStream inputStreamProcess;
 
     private PrintStream outputStreamProcess;
 
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private UCIOutputStream responseOutputStream;
 
-    private UCIOutputStream output;
-
-    @Override
-    public void setOutputStream(UCIOutputStream output){
-        this.output = output;
-    }
-
+    private UCIActivePipe pipe;
 
     public void activate() {
-        keepProcessing = true;
-
         startProcess();
 
-        //super.mainReadRequestLoop();
+        pipe.activate();
 
         stopProcess();
-    }
-
-    public void readFromProcess() {
-        UCIDecoder uciDecoder = new UCIDecoder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStreamProcess));
-        try {
-            while (keepProcessing) {
-                String line = reader.readLine();
-                if(line != null) {
-                    UCIMessage message = uciDecoder.parseMessage(line);
-                    //output.write(message);
-                }
-            }
-        } catch (IOException io){
-            throw new RuntimeException(io);
-        }
-        System.out.println("Bye");
     }
 
     protected void startProcess(){
@@ -77,7 +43,10 @@ public class EngineProxy implements Engine {
 
             outputStreamProcess = new PrintStream(process.getOutputStream(), true);
 
-            executorService.execute(this::readFromProcess);
+            pipe = new UCIActivePipe();
+            this.pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(inputStreamProcess)));
+            this.pipe.setOutputStream(responseOutputStream);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -85,9 +54,6 @@ public class EngineProxy implements Engine {
 
     protected void stopProcess() {
         try {
-            outputStreamProcess.close();
-            executorService.shutdown();
-            executorService.awaitTermination(1000, TimeUnit.MILLISECONDS);
             process.waitFor();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -96,11 +62,21 @@ public class EngineProxy implements Engine {
 
     @Override
     public void write(UCIMessage message) {
-
+        outputStreamProcess.println(message);
     }
 
     @Override
     public void close() throws IOException {
+        outputStreamProcess.close();
+    }
 
+    @Override
+    public void setResponseOutputStream(UCIOutputStream output){
+        this.responseOutputStream = output;
+    }
+
+    @Override
+    public void run() {
+        activate();
     }
 }

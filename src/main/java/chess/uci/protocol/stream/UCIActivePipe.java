@@ -5,7 +5,7 @@ import chess.uci.protocol.requests.CmdQuit;
 
 import java.io.IOException;
 
-public class UCIActivePipe {
+public class UCIActivePipe implements Runnable {
 
     private boolean active;
     protected UCIInputStream input;
@@ -16,7 +16,7 @@ public class UCIActivePipe {
         UCIOutputStreamSwitch actionOut = new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, this::deactivate);
         actionOut.setOutputStream(output);
         active = true;
-        UCIMessage message = null;
+        UCIMessage message;
         while ( active && (message = input.read()) != null ) {
             actionOut.write(message);
         }
@@ -39,5 +39,10 @@ public class UCIActivePipe {
 
     public void setOutputStream(UCIOutputStream output) {
         this.output = output;
+    }
+
+    @Override
+    public void run() {
+        activate();
     }
 }

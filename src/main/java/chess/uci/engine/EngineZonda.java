@@ -4,7 +4,6 @@
 package chess.uci.engine;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,7 +32,7 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 	private final BestMoveFinder bestMoveFinder;
 	private Game game;
 	private ZondaState currentState;
-	private UCIOutputStream output;
+	private UCIOutputStream responseOutputStream;
 
 	public EngineZonda() {
 		this.bestMoveFinder = new SmartLoop();
@@ -42,25 +41,23 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 	}
 
 
-	public void setOutputStream(UCIOutputStream output){
-		this.output = output;
-	}
-
-
 	@Override
 	public void do_uci(CmdUci cmdUci) {
-		output.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
-		output.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
-		output.write(new RspUciOk());
+		responseOutputStream.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
+		responseOutputStream.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
+		responseOutputStream.write(new RspUciOk());
 	}
 
 	@Override
-	public void do_setOption(CmdSetOption cmdSetOption) {
+	public void do_isReady(CmdIsReady cmdIsReady) {
+		responseOutputStream.write(new RspReadyOk());
 	}
 
 	@Override
-	public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-	}
+	public void do_setOption(CmdSetOption cmdSetOption) {}
+
+	@Override
+	public void do_newGame(CmdUciNewGame cmdUciNewGame) {}
 
 	@Override
 	public void do_position(CmdPosition cmdPosition) {
@@ -83,42 +80,40 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 	public void do_quit(CmdQuit cmdQuit) {
 		currentState.do_stop();
 		try {
-			output.close();
+			responseOutputStream.close();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void receive_uciOk(RspUciOk rspUciOk) {
+	public void receive_uciOk(RspUciOk rspUciOk) {}
 
+	@Override
+	public void receive_id(RspId rspId) {}
+
+	@Override
+	public void receive_readyOk(RspReadyOk rspReadyOk) {}
+
+	@Override
+	public void receive_bestMove(RspBestMove rspBestMove) {}
+
+	@Override
+	public void write(UCIMessage message) {
+		message.execute(this);
 	}
 
 	@Override
-	public void receive_id(RspId rspId) {
-
-	}
-
-	@Override
-	public void receive_readyOk(RspReadyOk rspReadyOk) {
-
-	}
-
-	@Override
-	public void receive_bestMove(RspBestMove rspBestMove) {
-
-	}
-
-	@Override
-	public void do_isReady(CmdIsReady cmdIsReady) {
-		output.write(new RspReadyOk());
+	public void close() throws IOException {
+		responseOutputStream.close();
 	}
 
 	public Game getGame(){ return game;}
 
-	protected ZondaState getCurrentState() {
-		return currentState;
+	public void setResponseOutputStream(UCIOutputStream output){
+		this.responseOutputStream = output;
 	}
+
 
 	private void executeMoves(List<String> moves) {
 		UCIEncoder uciEncoder = new UCIEncoder();
@@ -138,14 +133,8 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 		}
 	}
 
-	@Override
-	public void write(UCIMessage message) {
-		message.execute(this);
-	}
-
-	@Override
-	public void close() throws IOException {
-		output.close();
+	ZondaState getCurrentState() {
+		return currentState;
 	}
 
 	interface ZondaState {
@@ -197,7 +186,7 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 		public void findBestMove() {
 			Move selectedMove = bestMoveFinder.findBestMove(game);
 
-			output.write(new RspBestMove(uciEncoder.encode(selectedMove)));
+			responseOutputStream.write(new RspBestMove(uciEncoder.encode(selectedMove)));
 
 			currentState = new Ready();
 		}

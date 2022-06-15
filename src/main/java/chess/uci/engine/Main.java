@@ -1,6 +1,10 @@
 package chess.uci.engine;
 
 import java.io.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;
@@ -16,23 +20,38 @@ public class Main {
 	private final UCIActivePipe pipe;
 
 	public static void main(String[] args) {
-		Main main = new Main(new EngineZonda(), System.in, System.out);
-		//Main main = new Main(new EngineProxy(), System.out, System.in);
-		main.main();
+		//Main main = new Main(new EngineZonda(), System.in, System.out);
+		Main main = new Main(new EngineProxy(), System.in, System.out);
+
+		ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+		main.main(executorService);
+
+		executorService.shutdown();
+		try {
+			while(!executorService.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+				System.out.println("Engine still executing");
+			}
+		} catch (InterruptedException e) {
+			executorService.shutdownNow();
+		}
 	}
 
 	public Main(Engine engine, InputStream in, PrintStream out) {
 		this.engine = engine;
-		this.engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(out)));
+		this.engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(out)));
 
-		pipe = new UCIActivePipe();
+		this.pipe = new UCIActivePipe();
 		this.pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(in)));
 		this.pipe.setOutputStream(this.engine);
 	}
 
 
-	protected void main() {
-		pipe.activate();
+	protected void main(ExecutorService executorService) {
+		executorService.execute(this.pipe);
+		if(engine instanceof  Runnable){
+			executorService.execute((Runnable) engine);
+		}
 	}
 
 }

@@ -23,7 +23,7 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
 
     public EngineClient(Engine engine) {
         this.engine = engine;
-        this.engine.setOutputStream(null);
+        this.engine.setResponseOutputStream(null);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class MainTest {
 
 		Main main = new Main(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
 
-		executorService.execute(main::main);
+		main.main(executorService);
 		PrintStream out = new PrintStream(outputToEngine,true);
 		BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
 
@@ -67,11 +67,11 @@ public class MainTest {
 
 		// isrpositioneady command
 		out.println("position startpos moves e2e4");
-		Thread.sleep(200);
+		Thread.sleep(500);
 		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
 
 		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
-		Thread.sleep(200);
+		Thread.sleep(500);
 		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
 
 		// quit command
@@ -81,10 +81,6 @@ public class MainTest {
 		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
 
 		Assert.assertTrue("El thread no termino", terminated);
-	}
-
-	private void runMainLoop(Main main) {
-		executorService.execute(main::main);
 	}
 
 	private String fenCode(Game board) {
