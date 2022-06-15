@@ -5,11 +5,11 @@ import chess.uci.protocol.UCIMessage;
 
 import java.io.*;
 
-public class UCIInputStreamReader implements UCIInputStream {
+public class UCIInputStreamAdapter implements UCIInputStream {
     private final UCIDecoder uciDecoder = new UCIDecoder();
     private final BufferedReader reader;
 
-    public UCIInputStreamReader(Reader reader) {
+    public UCIInputStreamAdapter(Reader reader) {
         this.reader =  new BufferedReader(reader);
     }
 

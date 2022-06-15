@@ -4,11 +4,11 @@ import chess.uci.protocol.UCIMessage;
 
 import java.io.*;
 
-public class UCIOutputStreamWriter implements UCIOutputStream {
+public class UCIOutputStreamAdapter implements UCIOutputStream {
 
     private final BufferedWriter out;
 
-    public UCIOutputStreamWriter(Writer writer) {
+    public UCIOutputStreamAdapter(Writer writer) {
         this.out = new BufferedWriter(writer);
     }
 
@@ -21,5 +21,10 @@ public class UCIOutputStreamWriter implements UCIOutputStream {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+        out.close();
     }
 }

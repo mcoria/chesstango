@@ -3,11 +3,8 @@
  */
 package chess.uci.engine;
 
-import chess.uci.engine.EngineZonda;
-import chess.uci.protocol.requests.CmdUci;
-import chess.uci.protocol.requests.CmdUciNewGame;
-import chess.uci.protocol.stream.UCIInputStreamReader;
-import chess.uci.protocol.stream.UCIOutputStreamWriter;
+import chess.uci.protocol.requests.*;
+import chess.uci.protocol.stream.UCIOutputStreamAdapter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,11 +13,9 @@ import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.UCIRequest;
-import chess.uci.protocol.UCIResponse;
 
 import java.io.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,7 +35,7 @@ public class EngineZondaTest {
 
 	@Test
 	public void test1_execute_position_startpos_01() {
-		engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(System.out))::write);
+		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
 		new CmdUci().execute(engine);
 		new CmdUciNewGame().execute(engine);
 
@@ -52,7 +47,7 @@ public class EngineZondaTest {
 	
 	@Test
 	public void test1_execute_position_startpos_02() {
-		engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(System.out))::write);
+		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
 		new CmdUci().execute(engine);
 		new CmdUciNewGame().execute(engine);
 
@@ -64,7 +59,7 @@ public class EngineZondaTest {
 	
 	@Test
 	public void test1_execute_position_fen() {
-		engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(System.out))::write);
+		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(System.out)));
 		new CmdUci().execute(engine);
 		new CmdUciNewGame().execute(engine);
 
@@ -77,64 +72,47 @@ public class EngineZondaTest {
 
 	@Test
 	public void test_play() throws IOException, InterruptedException {
-
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-		PipedOutputStream posInput = new PipedOutputStream();
-		PipedInputStream pisInput = new PipedInputStream(posInput);
-
 		PipedOutputStream posOutput = new PipedOutputStream();
 		PipedInputStream pisOutput = new PipedInputStream(posOutput);
 
 		engine = new EngineZonda();
-		engine.setOutputStream(new UCIOutputStreamWriter(new OutputStreamWriter(new PrintStream(posOutput,true))));
-		engine.setInputStream(new UCIInputStreamReader(new InputStreamReader(pisInput)));
-		executorService.execute(engine::main);
-
-		PrintStream out = new PrintStream(posInput,true);
+		engine.setOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(new PrintStream(posOutput,true))));
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
+		// Initial state
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// uci command
-		out.println("uci");
+		new CmdUci().execute(engine);
 		Assert.assertEquals("id name Zonda", in.readLine());
 		Assert.assertEquals("id author Mauricio Coria", in.readLine());
 		Assert.assertEquals("uciok", in.readLine());
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// isready command
-		out.println("isready");
+		new CmdIsReady().execute(engine);
 		Assert.assertEquals("readyok", in.readLine());
-
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// ucinewgame command
-		out.println("ucinewgame");
+		new CmdUciNewGame().execute(engine);
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// isready command
-		out.println("isready");
+		new CmdIsReady().execute(engine);
 		Assert.assertEquals("readyok", in.readLine());
 		Assert.assertEquals(EngineZonda.Ready.class,  engine.getCurrentState().getClass());
 
 		// isrpositioneady command
-		out.println("position startpos moves e2e4");
-		Thread.sleep(200);
+		new CmdPosition(CmdPosition.CmdType.STARTPOS, "", Arrays.asList("e2e4") ).execute(engine);
 		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
-
 		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
 		Thread.sleep(200);
 		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
 
 		// quit command
-		out.println("quit");
-
-		executorService.shutdown();
-		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-
-		Assert.assertTrue("El thread no termino", terminated);
+		new CmdQuit().execute(engine);
 	}
 
 	private String fenCode(Game board) {

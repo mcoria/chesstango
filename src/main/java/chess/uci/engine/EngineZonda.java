@@ -3,6 +3,7 @@
  */
 package chess.uci.engine;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -14,6 +15,7 @@ import chess.board.Game;
 import chess.uci.protocol.UCIEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
+import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
@@ -26,14 +28,12 @@ import chess.uci.protocol.stream.*;
  * @author Mauricio Coria
  *
  */
-public class EngineZonda implements Engine {
+public class EngineZonda implements Engine, UCIMessageExecutor {
 	private final ExecutorService executorService;
-	private final UCIActivePipe pipe = new UCIActivePipe();
 	private final BestMoveFinder bestMoveFinder;
 	private Game game;
 	private ZondaState currentState;
 	private UCIOutputStream output;
-	private UCIInputStream input;
 
 	public EngineZonda() {
 		this.bestMoveFinder = new SmartLoop();
@@ -41,22 +41,11 @@ public class EngineZonda implements Engine {
 		this.executorService = Executors.newSingleThreadExecutor();
 	}
 
-	@Override
-	public void setInputStream(UCIInputStream input) {
-		this.input = input;
-	}
 
 	public void setOutputStream(UCIOutputStream output){
 		this.output = output;
 	}
 
-	@Override
-	public void main() {
-		pipe.setInputStream(input);
-		pipe.setOutputStream(new UCIOutputStreamExecutor(this));
-
-		pipe.activate();
-	}
 
 	@Override
 	public void do_uci(CmdUci cmdUci) {
@@ -75,7 +64,7 @@ public class EngineZonda implements Engine {
 
 	@Override
 	public void do_position(CmdPosition cmdPosition) {
-		game = FENDecoder.loadGame(cmdPosition.getFen());
+		game = CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ?  FENDecoder.loadGame(FENDecoder.INITIAL_FEN) : FENDecoder.loadGame(cmdPosition.getFen());
 		executeMoves(cmdPosition.getMoves());
 		currentState =  new WaitCmdGo();
 	}
@@ -93,7 +82,11 @@ public class EngineZonda implements Engine {
 	@Override
 	public void do_quit(CmdQuit cmdQuit) {
 		currentState.do_stop();
-		pipe.deactivate();
+		try {
+			output.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -143,6 +136,16 @@ public class EngineZonda implements Engine {
 				throw new RuntimeException("No move found " + moveStr);
 			}
 		}
+	}
+
+	@Override
+	public void write(UCIMessage message) {
+		message.execute(this);
+	}
+
+	@Override
+	public void close() throws IOException {
+		output.close();
 	}
 
 	interface ZondaState {

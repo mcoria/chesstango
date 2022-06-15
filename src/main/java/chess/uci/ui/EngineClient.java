@@ -118,7 +118,7 @@ public class EngineClient implements EngineClientResponseListener, EngineClientR
 
         @Override
         public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
-            request.execute(engine);
+            //request.execute(engine);
             if(waitResponse) {
                 try {
                     if(!responseReceived){
