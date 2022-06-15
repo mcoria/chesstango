@@ -3,25 +3,25 @@
  */
 package chess.uci.engine;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.SmartLoop;
 import chess.board.Game;
-import chess.uci.protocol.UCIEncoder;
-import chess.board.representations.fen.FENDecoder;
 import chess.board.moves.Move;
+import chess.board.representations.fen.FENDecoder;
+import chess.uci.protocol.UCIEncoder;
 import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
-import chess.uci.protocol.responses.RspReadyOk;
 import chess.uci.protocol.responses.RspId;
+import chess.uci.protocol.responses.RspReadyOk;
 import chess.uci.protocol.responses.RspUciOk;
-import chess.uci.protocol.stream.*;
+import chess.uci.protocol.stream.UCIOutputStream;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Mauricio Coria

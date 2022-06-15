@@ -1,8 +1,5 @@
 package chess.uci.protocol;
 
-import chess.uci.ui.EngineClient;
-import chess.uci.ui.EngineClientResponseListener;
-
 /**
  * @author Mauricio Coria
  *

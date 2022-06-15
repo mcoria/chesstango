@@ -3,7 +3,9 @@ package chess.uci.protocol.stream;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.UCIMessage;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 
 public class UCIInputStreamAdapter implements UCIInputStream {
     private final UCIDecoder uciDecoder = new UCIDecoder();

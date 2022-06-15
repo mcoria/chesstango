@@ -3,10 +3,7 @@
  */
 package chess.uci.engine;
 
-import chess.board.Game;
-import chess.board.representations.fen.FENEncoder;
 import chess.uci.protocol.UCIDecoder;
-import chess.uci.protocol.UCIRequest;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
 import org.junit.Assert;

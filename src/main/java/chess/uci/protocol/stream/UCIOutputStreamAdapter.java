@@ -2,7 +2,9 @@ package chess.uci.protocol.stream;
 
 import chess.uci.protocol.UCIMessage;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 public class UCIOutputStreamAdapter implements UCIOutputStream {
 

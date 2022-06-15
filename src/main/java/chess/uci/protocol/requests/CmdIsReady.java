@@ -1,6 +1,5 @@
 package chess.uci.protocol.requests;
 
-import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIMessageExecutor;
 import chess.uci.protocol.UCIRequest;
 

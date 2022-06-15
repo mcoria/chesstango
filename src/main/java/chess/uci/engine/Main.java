@@ -1,14 +1,16 @@
 package chess.uci.engine;
 
-import java.io.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria

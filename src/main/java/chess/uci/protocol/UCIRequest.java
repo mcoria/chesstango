@@ -1,7 +1,5 @@
 package chess.uci.protocol;
 
-import chess.uci.engine.Engine;
-
 /**
  * @author Mauricio Coria
  *
