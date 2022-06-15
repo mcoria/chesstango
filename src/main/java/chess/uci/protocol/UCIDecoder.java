@@ -3,7 +3,6 @@
  */
 package chess.uci.protocol;
 
-import chess.board.representations.fen.FENDecoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.protocol.responses.RspId;
@@ -125,7 +124,36 @@ public class UCIDecoder {
 
 
 	private UCIMessage parseGo(String[] words) {
-		return new CmdGo();
+		CmdGo result = null;
+		if (words.length > 1) {
+			String goType = words[1].toUpperCase();
+			switch (goType) {
+				case "INFINITE":
+					result = new CmdGo();
+					result.setGoType(CmdGo.GoType.INFINITE);
+					break;
+				case "DEPTH":
+					result = parseGoDepth(words);
+					break;
+				default:
+					break;
+			}
+		} else {
+			result = new CmdGo();
+		}
+		return result == null ? new UCIMessageUnknown(words.toString()) : result;
+	}
+
+	private CmdGo parseGoDepth(String[] words) {
+		CmdGo result = new CmdGo();
+
+		String depth = words[2].toUpperCase();
+		int depthInt = Integer.parseInt(depth);
+
+		result.setGoType(CmdGo.GoType.DEPTH);
+		result.setDepth(depthInt);
+
+		return result;
 	}
 
 

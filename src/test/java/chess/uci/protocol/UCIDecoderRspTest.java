@@ -39,6 +39,10 @@ public class UCIDecoderRspTest {
 
 		Assert.assertTrue(result instanceof RspBestMove);
 
+		RspBestMove bestMove = (RspBestMove) result;
+
+		Assert.assertEquals("a2a4", bestMove.getBestMove());
+
 		Assert.assertEquals("bestmove a2a4", result.toString());
 	}
 

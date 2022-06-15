@@ -37,4 +37,7 @@ public class RspBestMove implements UCIResponse {
 		return "bestmove " + bestMove;
 	}
 
+	public String getBestMove() {
+		return bestMove;
+	}
 }
