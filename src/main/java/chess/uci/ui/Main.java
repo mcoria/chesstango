@@ -13,11 +13,19 @@ import chess.uci.protocol.responses.RspBestMove;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    private EngineClient white;
-    private EngineClient black;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+    private final EngineClient white;
+    private final EngineClient black;
+
+    private final Engine engine1;
+    private final Engine engine2;
 
     private Game game;
 
@@ -26,10 +34,10 @@ public class Main {
     }
 
     public Main(){
-        Engine engine1 = new EngineZonda();
+        engine1 = new EngineZonda(executorService);
         white = new EngineClientImp(engine1);
 
-        Engine engine2 = new EngineZonda();
+        engine2 = new EngineZonda(executorService);
         black = new EngineClientImp(engine2);
 
         game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
@@ -43,8 +51,8 @@ public class Main {
         List<String> executedMoves = new ArrayList<>();
         EngineClient currentTurn = white;
 
-        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && executedMoves.size() < 100){
-            String moveStr = askForBestNove(currentTurn, executedMoves);
+        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && executedMoves.size() < 10){
+            String moveStr = askForBestMove(currentTurn, executedMoves);
 
             Move move = findMove(moveStr);
             game.executeMove(move);
@@ -60,7 +68,7 @@ public class Main {
         quit();
     }
 
-    private String askForBestNove(EngineClient currentTurn, List<String> moves) {
+    private String askForBestMove(EngineClient currentTurn, List<String> moves) {
         currentTurn.send_CmdPosition(new CmdPosition(moves));
 
         RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
@@ -81,9 +89,15 @@ public class Main {
 
 
     private void startEngines() {
+        if(engine1 instanceof  Runnable){
+            executorService.execute((Runnable) engine1);
+        }
         white.send_CmdUci();
         white.send_CmdIsReady();
 
+        if(engine2 instanceof  Runnable){
+            executorService.execute((Runnable) engine2);
+        }
         black.send_CmdUci();
         black.send_CmdIsReady();
     }
@@ -99,6 +113,16 @@ public class Main {
     private void quit() {
         white.send_CmdQuit();
         black.send_CmdQuit();
+
+        executorService.shutdown();
+        try {
+            boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
+            if(terminated == false) {
+                throw new RuntimeException("El thread no termino");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

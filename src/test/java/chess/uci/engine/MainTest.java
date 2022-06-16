@@ -5,6 +5,7 @@ package chess.uci.engine;
 
 import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,13 +23,26 @@ public class MainTest {
 	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 
+	@After
+	public void teardown(){
+		executorService.shutdown();
+		try {
+			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
+			if(terminated == false) {
+				throw new RuntimeException("El thread no termino");
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Test
 	public void test_playZonada() throws IOException, InterruptedException {
 		PipedOutputStream outputToEngine = new PipedOutputStream();
 
 		PipedInputStream inputFromEngine = new PipedInputStream();
 
-		EngineZonda engine = new EngineZonda();
+		EngineZonda engine = new EngineZonda(executorService);
 
 		Main main = new Main(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
 
@@ -72,11 +86,6 @@ public class MainTest {
 
 		// quit command
 		out.println("quit");
-
-		executorService.shutdown();
-		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-
-		Assert.assertTrue("El thread no termino", terminated);
 	}
 
 	@Test
@@ -114,10 +123,6 @@ public class MainTest {
 		out.println("quit");
 		Thread.sleep(200);
 
-		executorService.shutdown();
-		boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-
-		Assert.assertTrue("El thread no termino", terminated);
 	}
 
 	private String fenCode(Game board) {

@@ -5,29 +5,45 @@ package chess.uci.engine;
 
 import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
-import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  *
  */
 public class EngineZondaTest {
-	private final UCIDecoder uciDecoder = new UCIDecoder();
-
 	private EngineZonda engine;
+
+	private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
 	
 	@Before
 	public void setUp() {
-		this.engine = new EngineZonda();
+		engine = new EngineZonda(executorService);
+	}
+
+	@After
+	public void teardown(){
+		executorService.shutdown();
+		try {
+			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
+			if(terminated == false) {
+				throw new RuntimeException("El thread no termino");
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Test

@@ -22,21 +22,13 @@ public class Main {
 	private final UCIActivePipe pipe;
 
 	public static void main(String[] args) {
-		Main main = new Main(new EngineZonda(), System.in, System.out);
-		//Main main = new Main(new EngineProxy(), System.in, System.out);
-
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-		main.main(executorService);
+		Main main = new Main(new EngineZonda(executorService), System.in, System.out);
+		//Main main = new Main(new EngineProxy(), System.in, System.out);
 
-		executorService.shutdown();
-		try {
-			while(!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-				//System.out.println("Engine still executing");
-			}
-		} catch (InterruptedException e) {
-			executorService.shutdownNow();
-		}
+
+		main.main(executorService);
 	}
 
 	public Main(Engine engine, InputStream in, PrintStream out) {
@@ -53,7 +45,16 @@ public class Main {
 		if(engine instanceof  Runnable){
 			executorService.execute((Runnable) engine);
 		}
-		executorService.execute(this.pipe);
+		executorService.execute(pipe);
+
+		executorService.shutdown();
+		try {
+			while(!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+				//System.out.println("Engine still executing");
+			}
+		} catch (InterruptedException e) {
+			executorService.shutdownNow();
+		}
 	}
 
 }

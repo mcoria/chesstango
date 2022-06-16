@@ -13,12 +13,12 @@ public class UCIActivePipe implements Runnable {
     protected UCIOutputStream output;
 
     public void activate() {
-        UCIOutputStreamSwitch actionOut = new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, this::deactivate);
-        actionOut.setOutputStream(output);
+        UCIOutputStreamSwitch actionOutput = new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, this::deactivate);
+        actionOutput.setOutputStream(output);
         active = true;
         UCIMessage message;
         while ( active && (message = input.read()) != null ) {
-            actionOut.write(message);
+            actionOutput.write(message);
         }
     }
 
