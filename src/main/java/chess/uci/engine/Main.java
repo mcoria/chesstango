@@ -22,8 +22,8 @@ public class Main {
 	private final UCIActivePipe pipe;
 
 	public static void main(String[] args) {
-		//Main main = new Main(new EngineZonda(), System.in, System.out);
-		Main main = new Main(new EngineProxy(), System.in, System.out);
+		Main main = new Main(new EngineZonda(), System.in, System.out);
+		//Main main = new Main(new EngineProxy(), System.in, System.out);
 
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
