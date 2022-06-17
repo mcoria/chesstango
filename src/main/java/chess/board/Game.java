@@ -2,6 +2,7 @@ package chess.board;
 
 import chess.board.analyzer.PositionAnalyzer;
 import chess.board.moves.Move;
+import chess.board.moves.MovePromotion;
 import chess.board.moves.containers.MoveContainerReader;
 import chess.board.position.ChessPosition;
 import chess.board.position.ChessPositionReader;
@@ -63,6 +64,18 @@ public class Game {
 		for (Move move : getPossibleMoves() ) {
 			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
 				return move;
+			}
+		}
+		return null;
+	}
+
+	public Move getMove(Square from, Square to, Piece promotionPiece) {
+		for (Move move : getPossibleMoves() ) {
+			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey()) && (move instanceof MovePromotion)){
+				MovePromotion movePromotion = (MovePromotion) move;
+				if(movePromotion.getPromotion().equals(promotionPiece)) {
+					return move;
+				}
 			}
 		}
 		return null;

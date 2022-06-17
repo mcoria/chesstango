@@ -21,7 +21,7 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
 			getPiecePlacement(ps);
-			getState(ps);
+			//getState(ps);
 	    }
 	    return baos.toString();
 	}

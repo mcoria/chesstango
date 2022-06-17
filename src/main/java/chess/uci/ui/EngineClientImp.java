@@ -114,10 +114,12 @@ public class EngineClientImp implements UCIOutputStream, EngineClient, UCIMessag
         currentState.receive_id(rspId);
     }
 
+    @Override
     public String getEngineName() {
         return engineName;
     }
 
+    @Override
     public String getEngineAuthor() {
         return engineAuthor;
     }

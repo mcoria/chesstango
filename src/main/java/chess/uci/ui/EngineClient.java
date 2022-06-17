@@ -18,4 +18,8 @@ public interface EngineClient {
     void send_CmdStop();
 
     void send_CmdQuit();
+
+    String getEngineName();
+
+    String getEngineAuthor();
 }
