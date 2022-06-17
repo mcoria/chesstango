@@ -36,16 +36,24 @@ public class PGNEncoder {
 
             String encodedMove = sanEncoder.encode(gameStateNode.selectedMove, gameStateNode.legalMoves);
 
-            if(moveCounter==0){
-                sb.append("1.");
-            } else if(moveCounter%2 == 0){
-                sb.append( " " + (moveCounter/2 + 1)  + ".");
+            if(moveCounter > 0 && moveCounter % 10 == 0){
+                sb.append("\n");
             }
+
+            if(moveCounter % 2 == 0) {
+                if (moveCounter % 10 == 0) {
+                    sb.append((moveCounter / 2 + 1) + ".");
+                } else {
+                    sb.append(" " + (moveCounter / 2 + 1) + ".");
+                }
+            }
+
 
             sb.append(" " + encodedMove);
 
             moveCounter++;
         }
+
 
         sb.append(encodeGameResult(game, true));
 

@@ -91,13 +91,14 @@ public class SANEncoder {
 
         if(solveAmb){
             if(fileAmb == false){
-                return Character.toString(getFile(to));
+                return Character.toString(getFile(from));
             } else if(rankAmb == false){
-                return Integer.toString (to.getKey().getRank() + 1);
+                return Integer.toString (from.getKey().getRank() + 1);
             } else{
                 return from.getKey().toString();
             }
         }
+
         return "";
     }
 

@@ -11,6 +11,7 @@ import chess.board.builder.imp.AbstractChessPositionBuilder;
 public class FENEncoder extends AbstractChessPositionBuilder<String> {
 	
 
+
 	@Override
 	public String getResult() {
 		return getFEN(new StringBuilder(70));

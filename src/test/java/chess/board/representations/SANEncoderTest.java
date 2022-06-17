@@ -79,4 +79,16 @@ public class SANEncoderTest {
         Assert.assertEquals("O-O", encodedMove);
     }
 
+    @Test
+    public void test_knight_move(){
+        Game game =  FENDecoder.loadGame("r1k4r/ppp4p/2nb1pq1/3p1np1/4p1Q1/4P3/PPPPNPPP/RNB1K2R w KQ - 0 1");
+
+        Move move = null;
+        String encodedMove = null;
+
+        move = game.getMove(Square.b1, Square.c3);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("Nbc3", encodedMove);
+    }
+
 }
