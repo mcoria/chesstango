@@ -17,6 +17,20 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 		return getFEN(new StringBuilder(70));
 	}
 
+	public String getFENWithoutClocks(){
+		StringBuilder stringBuilder = new StringBuilder(70);
+
+		getPiecePlacement(stringBuilder).append(' ');
+
+		getTurno(stringBuilder).append(' ');
+
+		getEnroques(stringBuilder).append(' ');
+
+		getEnPassant(stringBuilder);
+
+		return stringBuilder.toString();
+	}
+
 	public String getFEN(StringBuilder stringBuilder) {
 		getPiecePlacement(stringBuilder).append(' ');
 		

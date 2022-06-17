@@ -1,9 +1,7 @@
 package chess.uci.ui;
 
-import chess.board.Color;
 import chess.board.Game;
 import chess.board.GameState;
-import chess.board.Square;
 import chess.board.moves.Move;
 import chess.board.position.ChessPositionReader;
 import chess.board.representations.PGNEncoder;
@@ -17,9 +15,7 @@ import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +38,7 @@ public class Main {
 
     public Main(){
         engine1 = new EngineZonda(executorService);
+        //engine1 = new EngineProxy();
         white = new EngineClientImp(engine1);
 
         //engine2 = new EngineZonda(executorService);
@@ -56,20 +53,26 @@ public class Main {
         startNewGame();
 
         game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        List<String> executedMoves = new ArrayList<>();
+        List<String> executedMovesStr = new ArrayList<>();
+        Map<String, Integer> pastPositions = new HashMap<>();
         EngineClient currentTurn = white;
 
-        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && executedMoves.size() < 150){
-            String moveStr = askForBestMove(currentTurn, executedMoves);
+        boolean repetition = false;
+        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && !repetition && executedMovesStr.size() < 250){
+            String moveStr = askForBestMove(currentTurn, executedMovesStr);
 
             Move move = findMove(moveStr);
             game.executeMove(move);
 
-            executedMoves.add(moveStr);
+            executedMovesStr.add(moveStr);
 
+            repetition = repeatedPosition(pastPositions);
             currentTurn = (currentTurn == white ? black : white);
         }
 
+        if(repetition){
+            game.getGameState().setStatus(GameState.GameStatus.DRAW);
+        }
 
         System.out.println("El juego termino: \n" + game.toString());
 
@@ -77,6 +80,23 @@ public class Main {
         //printMoveExecution();
 
         quit();
+    }
+
+    private boolean repeatedPosition(Map<String, Integer> pastPositions) {
+        FENEncoder encoder = new FENEncoder();
+
+        game.getChessPositionReader().constructBoardRepresentation(encoder);
+
+        String fenWithoutClocks = encoder.getFENWithoutClocks();
+
+        int positionCount = pastPositions.computeIfAbsent(fenWithoutClocks, key -> 0);
+
+        positionCount++;
+
+        pastPositions.put(fenWithoutClocks, positionCount);
+
+
+        return positionCount > 2 ? true : false;
     }
 
     private void printPGN() {

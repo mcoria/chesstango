@@ -2,6 +2,7 @@ package chess.board.representations.fen;
 
 import static org.junit.Assert.assertEquals;
 
+import chess.board.Game;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -244,6 +245,18 @@ public class FENEncoderTest {
 		String actual = coder.getResult();
 		
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", actual);		
-	}	
+	}
+
+
+	@Test
+	public void test_encode_without_clocks(){
+		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+		game.getChessPositionReader().constructBoardRepresentation(coder);
+
+		String fenWithoutClocks = coder.getFENWithoutClocks();
+
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", fenWithoutClocks);
+	}
 
 }
