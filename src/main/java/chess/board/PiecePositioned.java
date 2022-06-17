@@ -7,10 +7,7 @@ import java.util.AbstractMap.SimpleImmutableEntry;
  *
  */
 public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	public static final PiecePositioned ROOK_BLACK_QUEEN = new PiecePositioned(Square.a8, Piece.ROOK_BLACK);

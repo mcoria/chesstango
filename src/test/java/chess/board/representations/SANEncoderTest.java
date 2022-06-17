@@ -6,8 +6,10 @@ import chess.board.representations.fen.FENDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class SANEncoderTest {
 
     private SANEncoder encoder = new SANEncoder();
@@ -23,8 +25,6 @@ public class SANEncoderTest {
 
         Assert.assertEquals("e3", encodedMove);
     }
-
-
 
     @Test
     public void test_pawnMove_capture(){
