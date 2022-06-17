@@ -108,7 +108,7 @@ public class ASCIIEncoderTest {
 			ps.println("1| R | N | B | Q | K | B | N | R |");
 			ps.println("  -------------------------------");
 			ps.println("   a   b   c   d   e   f   g   h");
-			ps.println("Turno Actual: WHITE , pawnPasanteSquare: - , castlingWhiteQueenAllowed: true, castlingWhiteKingAllowed: true, castlingBlackQueenAllowed: true, castlingBlackKingAllowed: true");
+			//ps.println("Turno Actual: WHITE , pawnPasanteSquare: - , castlingWhiteQueenAllowed: true, castlingWhiteKingAllowed: true, castlingBlackQueenAllowed: true, castlingBlackKingAllowed: true");
 	    	ps.flush();
 	    }		
 	    

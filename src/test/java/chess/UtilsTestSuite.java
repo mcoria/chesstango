@@ -3,6 +3,8 @@
  */
 package chess;
 
+import chess.board.representations.PGNEncoderTest;
+import chess.board.representations.SANEncoderTest;
 import chess.board.representations.ascii.ASCIIEncoderTest;
 import chess.board.representations.fen.FENDecoderTest;
 import chess.board.representations.fen.FENEncoderTest;
@@ -15,7 +17,8 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class})
+@Suite.SuiteClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class,
+        SANEncoderTest.class, PGNEncoderTest.class})
 public class UtilsTestSuite {
 
 }

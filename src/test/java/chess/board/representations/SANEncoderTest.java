@@ -49,18 +49,18 @@ public class SANEncoderTest {
 
     @Test
     public void test_pawnMove_promotion(){
-        Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1 ");
+        Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1");
 
         Move move = null;
         String encodedMove = null;
 
         move = game.getMove(Square.c7, Square.c8, Piece.ROOK_WHITE);
         encodedMove = encoder.encode(move, game.getPossibleMoves());
-        Assert.assertEquals("c8R", encodedMove);
+        Assert.assertEquals("c8=R", encodedMove);
 
         move = game.getMove(Square.c7, Square.d8, Piece.QUEEN_WHITE);
         encodedMove = encoder.encode(move, game.getPossibleMoves());
-        Assert.assertEquals("cxd8Q", encodedMove);
+        Assert.assertEquals("cxd8=Q", encodedMove);
     }
 
     @Test

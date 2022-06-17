@@ -12,8 +12,8 @@ import chess.board.moves.containers.MoveContainerReader;
  * @author Mauricio Coria
  *
  * <SAN move descriptor piece moves>   ::= <Piece symbol>[<from file>|<from rank>|<from square>]['x']<to square>
- * <SAN move descriptor pawn captures> ::= 			   <from file>[<from rank>]               'x' <to square>[<promoted to>]
- * <SAN move descriptor pawn push>     ::= 														  <to square>[<promoted to>]
+ * <SAN move descriptor pawn captures> ::= 			      <from file>[<from rank>]               'x' <to square>[<promoted to>]
+ * <SAN move descriptor pawn push>     ::= 														     <to square>[<promoted to>]
  *
  */
 public class SANEncoder {
@@ -59,7 +59,7 @@ public class SANEncoder {
 
         if(move instanceof MovePromotion){
             MovePromotion movePromotion = (MovePromotion) move;
-            sb.append(gePiecetCode(movePromotion.getPromotion()));
+            sb.append("=" + gePiecetCode(movePromotion.getPromotion()));
         }
 
         return sb.toString();

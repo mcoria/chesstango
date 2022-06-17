@@ -25,7 +25,7 @@ public class PGNEncoder {
         sb.append("[Black \"" + header.getBlack() + "\"]\n");
 
 
-        sb.append("[Result \"" + encodeGameResult(game, false) +"\"]\n");
+        sb.append("[Result \"" + encodeGameResult(game) +"\"]\n");
 
         sb.append("\n");
 
@@ -35,6 +35,10 @@ public class PGNEncoder {
             GameState.GameStateNode gameStateNode = gameStateIterator.next();
 
             String encodedMove = sanEncoder.encode(gameStateNode.selectedMove, gameStateNode.legalMoves);
+
+            if(moveCounter > 0){
+                sb.append(encodeGameStatusAtMove(gameStateNode.status));
+            }
 
             if(moveCounter > 0 && moveCounter % 10 == 0){
                 sb.append("\n");
@@ -48,24 +52,41 @@ public class PGNEncoder {
                 }
             }
 
-
             sb.append(" " + encodedMove);
 
             moveCounter++;
         }
 
+        sb.append(encodeGameStatusAtMove(game.getGameStatus()));
 
-        sb.append(encodeGameResult(game, true));
+        sb.append(" " + encodeGameResult(game));
 
         return sb.toString();
     }
 
-    private String encodeGameResult(Game game, boolean forMoveList) {
+    private String encodeGameStatusAtMove(GameState.GameStatus status) {
+        switch (status){
+            case IN_PROGRESS:
+            case DRAW:
+                return "";
+            case CHECK:
+                return "+";
+            case MATE:
+                return "#";
+            default:
+                throw new RuntimeException("Invalid game status");
+        }
+    }
+
+    private String encodeGameResult(Game game) {
         switch (game.getGameStatus()){
             case IN_PROGRESS:
-                return (forMoveList ? " " : "") +  "*";
+            case CHECK:
+                return "*";
+            case DRAW:
+                return "1/2-1/2";
             case MATE:
-                return (forMoveList ? "# " : "") + (Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn())  ? "1-0" : "0-1");
+                return Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? "1-0" : "0-1";
             default:
                 throw new RuntimeException("Invalid game status");
         }
