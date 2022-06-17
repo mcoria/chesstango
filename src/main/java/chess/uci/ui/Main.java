@@ -74,7 +74,7 @@ public class Main {
         System.out.println("El juego termino: \n" + game.toString());
 
         printPGN();
-        printMoveExecution();
+        //printMoveExecution();
 
         quit();
     }
@@ -88,7 +88,7 @@ public class Main {
         pgnHeader.setDate("2022.06.17");
         pgnHeader.setRound("?");
         pgnHeader.setWhite(white.getEngineAuthor());
-        pgnHeader.setBlack(white.getEngineAuthor());
+        pgnHeader.setBlack(black.getEngineAuthor());
 
         System.out.println(encoder.encode(pgnHeader, game));
     }

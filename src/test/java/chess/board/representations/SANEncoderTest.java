@@ -80,7 +80,7 @@ public class SANEncoderTest {
     }
 
     @Test
-    public void test_knight_move(){
+    public void test_knight_move1(){
         Game game =  FENDecoder.loadGame("r1k4r/ppp4p/2nb1pq1/3p1np1/4p1Q1/4P3/PPPPNPPP/RNB1K2R w KQ - 0 1");
 
         Move move = null;
@@ -89,6 +89,35 @@ public class SANEncoderTest {
         move = game.getMove(Square.b1, Square.c3);
         encodedMove = encoder.encode(move, game.getPossibleMoves());
         Assert.assertEquals("Nbc3", encodedMove);
+    }
+
+    @Test
+    public void test_knight_move2(){
+        Game game =  FENDecoder.loadGame("rk2q3/ppp5/6n1/2b5/4pp2/P1N5/1PPPKPRP/R1B5 b - - 19 47");
+
+        Move move = null;
+        String encodedMove = null;
+
+        move = game.getMove(Square.g6, Square.h4);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("Nh4", encodedMove);
+    }
+
+
+    @Test
+    public void test_knight_move3(){
+        Game game =  FENDecoder.loadGame("rk2q3/ppp5/5p2/2b2np1/4p3/P1N1Pn2/1PPPKPRP/R1B5 b - - 3 34");
+
+        Move move = null;
+        String encodedMove = null;
+
+        move = game.getMove(Square.f3, Square.h4);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("N3h4", encodedMove);
+
+        move = game.getMove(Square.f5, Square.h4);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("N5h4", encodedMove);
     }
 
 }

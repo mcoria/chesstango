@@ -80,10 +80,10 @@ public class SANEncoder {
             Piece aMovePiece = aMoveFrom.getValue();
             if(!aMoveFrom.equals(from) && aMoveTo.equals(to) && aMovePiece.equals(piece)){
                 solveAmb = true;
-                if(aMoveFrom.getKey().getFile() == to.getKey().getFile() ){
+                if(aMoveFrom.getKey().getFile() == from.getKey().getFile() ){
                     fileAmb = true;
                 }
-                if(aMoveFrom.getKey().getRank() == to.getKey().getRank() ){
+                if(aMoveFrom.getKey().getRank() == from.getKey().getRank() ){
                     rankAmb = true;
                 }
             }
