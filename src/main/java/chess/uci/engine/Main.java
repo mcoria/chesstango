@@ -29,7 +29,18 @@ public class Main {
 
 
 		main.main(executorService);
+
+		//TODO: no podemos llamar a shutdown() aca, de lo contrario impedimos que Go se ejecute en Zonda
+		//      de momento terminamos en EngineZonda.do_quit()
+		try {
+			while(!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+				//System.out.println("Engine still executing");
+			}
+		} catch (InterruptedException e) {
+			executorService.shutdownNow();
+		}
 	}
+
 
 	public Main(Engine engine, InputStream in, PrintStream out) {
 		this.engine = engine;
@@ -47,14 +58,7 @@ public class Main {
 		}
 		executorService.execute(pipe);
 
-		executorService.shutdown();
-		try {
-			while(!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-				//System.out.println("Engine still executing");
-			}
-		} catch (InterruptedException e) {
-			executorService.shutdownNow();
-		}
+		//TODO: no podemos esperar que los threads terminen, de lo contrario impedimos la ejecucion de test unitarios
 	}
 
 }

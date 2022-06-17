@@ -27,13 +27,13 @@ import java.util.concurrent.ExecutorService;
  * @author Mauricio Coria
  */
 public class EngineZonda implements Engine, UCIMessageExecutor {
-    private final Executor executor;
+    private final ExecutorService executor;
     private final BestMoveFinder bestMoveFinder;
     private Game game;
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
 
-    public EngineZonda(Executor executor) {
+    public EngineZonda(ExecutorService executor) {
         this.executor = executor;
         this.bestMoveFinder = new SmartLoop();
         this.currentState = new Ready();
@@ -85,6 +85,9 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        //TODO: esta malo, que pasa si hay mas de un engine procesando.....
+        executor.shutdown();
     }
 
     @Override

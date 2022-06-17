@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class EngineZondaTest {
 	private EngineZonda engine;
 
-	private ExecutorService executorService = Executors.newFixedThreadPool(1);
+	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 	
 	@Before
@@ -33,9 +33,8 @@ public class EngineZondaTest {
 		engine = new EngineZonda(executorService);
 	}
 
-	@After
+	//TODO: No en todos los tests se llama a la operacion de shutdown()
 	public void teardown(){
-		executorService.shutdown();
 		try {
 			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
 			if(terminated == false) {
@@ -121,6 +120,8 @@ public class EngineZondaTest {
 
 		// quit command
 		engine.write(new CmdQuit());
+
+		teardown();
 	}
 
 	private String fenCode(Game board) {

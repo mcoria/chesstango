@@ -36,7 +36,7 @@ public class MainTest {
 		}
 	}
 
-	@Test
+	@Test(timeout = 3000)
 	public void test_playZonada() throws IOException, InterruptedException {
 		PipedOutputStream outputToEngine = new PipedOutputStream();
 
@@ -88,7 +88,7 @@ public class MainTest {
 		out.println("quit");
 	}
 
-	@Test
+	@Test(timeout = 3000)
 	public void test_playProxy() throws IOException, InterruptedException {
 		PipedOutputStream outputToEngine = new PipedOutputStream();
 

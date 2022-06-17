@@ -6,6 +6,7 @@ package chess.uci.engine;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
@@ -24,12 +26,24 @@ public class EngineProxyTest {
 
 	private EngineProxy engine;
 
-	private ExecutorService executorService = Executors.newSingleThreadExecutor();
+	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 	
 	@Before
 	public void setUp() {
 		this.engine = new EngineProxy();
+	}
+
+	@After
+	public void teardown(){
+		try {
+			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
+			if(terminated == false) {
+				throw new RuntimeException("El thread no termino");
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 

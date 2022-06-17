@@ -59,7 +59,7 @@ public class Main {
         List<String> executedMoves = new ArrayList<>();
         EngineClient currentTurn = white;
 
-        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && executedMoves.size() < 100){
+        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && executedMoves.size() < 150){
             String moveStr = askForBestMove(currentTurn, executedMoves);
 
             Move move = findMove(moveStr);
@@ -166,7 +166,7 @@ public class Main {
         white.send_CmdQuit();
         black.send_CmdQuit();
 
-        executorService.shutdown();
+        //executorService.shutdown();
         try {
             boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
             if(terminated == false) {
