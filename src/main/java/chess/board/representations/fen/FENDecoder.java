@@ -26,11 +26,13 @@ public class FENDecoder {
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
 		String castingsAllowed = fields[2];
-		String pawnPasante = fields[3];
+		String enPassantSquare = fields[3];
+		String halfMoveClock = fields[4];
+		String fullMoveClock = fields[5];
 		
 		parsePiecePlacement(piecePlacement);
 		
-		chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(pawnPasante));
+		chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
 		
 		chessPositionBuilder.withTurn(parseTurno(activeColor));
 		
@@ -49,7 +51,11 @@ public class FENDecoder {
 		if(isCastlingBlackKingAllowed(castingsAllowed)){
 			chessPositionBuilder.withCastlingBlackKingAllowed(true);
 		}
-		
+
+		chessPositionBuilder.withHalfMoveClock(Integer.parseInt(halfMoveClock));
+
+		chessPositionBuilder.withFullMoveClock(Integer.parseInt(fullMoveClock));
+
 	}
 	
 	public void parsePiecePlacement(String piecePlacement){

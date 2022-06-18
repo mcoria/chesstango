@@ -30,12 +30,18 @@ public class GameTest {
 		Game game =  getDefaultGame();
 		
 		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(1, game.getChessPositionReader().getFullMoveClock());
+		assertEquals(0, game.getChessPositionReader().getHalfMoveClock());
+		assertTrue(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
+		assertTrue(game.getChessPositionReader().isCastlingWhiteKingAllowed());
+		assertTrue(game.getChessPositionReader().isCastlingBlackQueenAllowed());
+		assertTrue(game.getChessPositionReader().isCastlingBlackKingAllowed());
 		assertEquals(GameState.GameStatus.IN_PROGRESS, game.getGameStatus());
 		assertEquals(20, game.getPossibleMoves().size());
 	}
 
 	@Test
-	public void testJuegoJaqueMate() {
+	public void test_mate() {
 		Game game =  getDefaultGame();
 		assertEquals(20, game.getPossibleMoves().size());
 		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
@@ -54,7 +60,7 @@ public class GameTest {
 	}
 
 	@Test
-	public void testJuegoJaqueMateUndo() {
+	public void test_mateAndUndo() {
 		Game game =  getDefaultGame();
 		assertEquals(20, game.getPossibleMoves().size());
 		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
@@ -181,7 +187,7 @@ public class GameTest {
 
 	@Test
 	public void testJuegoKiwipeteTestUndo() {
-		Game game =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+		Game game =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
 		
 		assertEquals(48, game.getPossibleMoves().size());
 		
@@ -381,7 +387,7 @@ public class GameTest {
 	
 	@Test
 	public void testUndoCaptureRook() {
-		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k -");
+		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
 		
 		//Estado inicial
 		assertEquals(18, game.getPossibleMoves().size());

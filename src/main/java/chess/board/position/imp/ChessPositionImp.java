@@ -161,6 +161,16 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public int getHalfMoveClock() {
+		return this.positionState.getHalfMoveClock();
+	}
+
+	@Override
+	public int getFullMoveClock() {
+		return this.positionState.getFullMoveClock();
+	}
+
+	@Override
 	public void init() {
 		colorBoard.init(piecePlacement);
 		kingCacheBoard.init(piecePlacement);

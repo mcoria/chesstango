@@ -27,6 +27,10 @@ public interface ChessPositionReader extends PiecePlacementReader {
 	boolean isCastlingBlackQueenAllowed();
 	boolean isCastlingBlackKingAllowed();
 
+	int getHalfMoveClock();
+
+	int getFullMoveClock();
+
 	Square getKingSquare(Color color);
 
 	Square getEnPassantSquare();
