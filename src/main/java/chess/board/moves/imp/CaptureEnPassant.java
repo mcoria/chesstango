@@ -6,6 +6,7 @@ import chess.board.position.ChessPositionWriter;
 import chess.board.position.PiecePlacementWriter;
 import chess.board.position.imp.ColorBoard;
 import chess.board.position.imp.MoveCacheBoard;
+import chess.board.position.imp.PositionState;
 
 //TODO: lo podemos modelar como dos movimientos, similar al castling. El 1er move una captura; luego un move simple
 
@@ -15,11 +16,11 @@ import chess.board.position.imp.MoveCacheBoard;
  */
 class CaptureEnPassant extends AbstractMove {
 
-	private final PiecePositioned captura;
+	private final PiecePositioned capture;
 			
-	public CaptureEnPassant(PiecePositioned from, PiecePositioned to, PiecePositioned captura) {
+	public CaptureEnPassant(PiecePositioned from, PiecePositioned to, PiecePositioned capture) {
 		super(from, to);
-		this.captura = captura;
+		this.capture = capture;
 	}
 	
 	@Override
@@ -40,18 +41,24 @@ class CaptureEnPassant extends AbstractMove {
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
 		super.executeMove(board);
-		board.setEmptyPosicion(captura);		//Capturamos pawn
+		board.setEmptyPosicion(capture);		//Capturamos pawn
 	}
 
 	@Override
 	public void undoMove(PiecePlacementWriter board) {
 		super.undoMove(board);
-		board.setPosicion(captura);				//Devolvemos pawn
+		board.setPosicion(capture);				//Devolvemos pawn
 	}
-	
+
+	@Override
+	public void executeMove(PositionState positionState) {
+		super.executeMove(positionState);
+		positionState.resetHalfMoveClock();
+	}
+
 	@Override
 	public void executeMove(ColorBoard colorBoard) {
-		colorBoard.removePositions(captura);
+		colorBoard.removePositions(capture);
 		
 		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
 	}
@@ -60,18 +67,18 @@ class CaptureEnPassant extends AbstractMove {
 	public void undoMove(ColorBoard colorBoard) {
 		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
 		
-		colorBoard.addPositions(captura);
+		colorBoard.addPositions(capture);
 	}
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {	
 		moveCache.pushCleared();
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), captura.getKey(), true);		
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), capture.getKey(), true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), captura.getKey(), false);
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), capture.getKey(), false);
 		moveCache.popCleared();
 	}	
 	
@@ -79,7 +86,7 @@ class CaptureEnPassant extends AbstractMove {
 	public boolean equals(Object obj) {
 		if(super.equals(obj) && obj instanceof CaptureEnPassant){
 			CaptureEnPassant theOther = (CaptureEnPassant) obj;
-			return captura.equals(theOther.captura) ;
+			return capture.equals(theOther.capture) ;
 		}
 		return false;
 	}

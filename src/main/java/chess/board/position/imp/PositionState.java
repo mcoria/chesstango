@@ -74,6 +74,7 @@ public class PositionState {
 	public void setCurrentTurn(Color turn) {
 		dataNode.currentTurn = turn;
 	}
+
 	public void rollTurn() {
 		dataNode.currentTurn = dataNode.currentTurn.oppositeColor();
 	}
@@ -86,8 +87,18 @@ public class PositionState {
 		this.dataNode.halfMoveClock = halfMoveClock;
 	}
 
+	public void resetHalfMoveClock() {
+		this.dataNode.halfMoveClock = 0;
+	}
+
 	public int getFullMoveClock() {
 		return dataNode.fullMoveClock;
+	}
+
+	public void incrementFullMoveClock(){
+		if(Color.BLACK.equals(dataNode.currentTurn)){
+			dataNode.fullMoveClock++;
+		}
 	}
 
 	public void setFullMoveClock(int fullMoveClock) {
@@ -114,6 +125,8 @@ public class PositionState {
 		node.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
 		node.castlingBlackKingAllowed = dataNode.castlingBlackKingAllowed;
 		node.currentTurn = dataNode.currentTurn;
+		node.halfMoveClock = dataNode.halfMoveClock;
+		node.fullMoveClock = dataNode.fullMoveClock;
 		
 		return node;
 	}	
@@ -125,6 +138,8 @@ public class PositionState {
 		dataNode.castlingBlackQueenAllowed = lastState.castlingBlackQueenAllowed;
 		dataNode.castlingBlackKingAllowed = lastState.castlingBlackKingAllowed;	
 		dataNode.currentTurn = lastState.currentTurn;
+		dataNode.halfMoveClock = lastState.halfMoveClock;
+		dataNode.fullMoveClock = lastState.fullMoveClock;
 	}
 
 	
@@ -137,6 +152,8 @@ public class PositionState {
 		clone.dataNode.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
 		clone.dataNode.castlingBlackKingAllowed = dataNode.castlingBlackKingAllowed;
 		clone.dataNode.currentTurn = dataNode.currentTurn;
+		clone.dataNode.halfMoveClock = dataNode.halfMoveClock;
+		clone.dataNode.fullMoveClock = dataNode.fullMoveClock;
 		return clone;
 	}
 	
@@ -148,7 +165,10 @@ public class PositionState {
 					dataNode.castlingWhiteQueenAllowed == theInstance.dataNode.castlingWhiteQueenAllowed &&
 					dataNode.castlingWhiteKingAllowed == theInstance.dataNode.castlingWhiteKingAllowed &&
 					dataNode.castlingBlackQueenAllowed == theInstance.dataNode.castlingBlackQueenAllowed &&
-					dataNode.castlingBlackKingAllowed == theInstance.dataNode.castlingBlackKingAllowed;
+					dataNode.castlingBlackKingAllowed == theInstance.dataNode.castlingBlackKingAllowed &&
+					dataNode.halfMoveClock == theInstance.dataNode.halfMoveClock &&
+					dataNode.fullMoveClock == theInstance.dataNode.fullMoveClock
+					;
 		}
 		return false;
 	}
@@ -159,7 +179,9 @@ public class PositionState {
 				", castlingWhiteQueenAllowed: " + dataNode.castlingWhiteQueenAllowed +
 				", castlingWhiteKingAllowed: " + dataNode.castlingWhiteKingAllowed +
 				", castlingBlackQueenAllowed: " + dataNode.castlingBlackQueenAllowed +
-				", castlingBlackKingAllowed: " + dataNode.castlingBlackKingAllowed 
-		;
+				", castlingBlackKingAllowed: " + dataNode.castlingBlackKingAllowed +
+				", halfMoveClock: " + dataNode.halfMoveClock +
+				", fullMoveClock: " + dataNode.fullMoveClock
+				;
 	}
 }

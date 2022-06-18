@@ -53,6 +53,7 @@ abstract class AbstractMove implements Move {
 	@Override
 	public void executeMove(PositionState positionState) {
 		positionState.pushState();
+		positionState.incrementFullMoveClock();
 		positionState.rollTurn();
 		positionState.setEnPassantSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePawnMove		
 	}
