@@ -23,22 +23,22 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 	}
 
 	public static PiecePositioned getPiecePositioned(Square key, Piece value){
-		return CachePosicioness.getInstance().getPosicion(key, value);
+		return PiecePositionedCache.getInstance().getPosicion(key, value);
 	}
 
 
-	private static class CachePosicioness {
+	private static class PiecePositionedCache {
 
-		private final PiecePositioned[][] tablero = new PiecePositioned[64][13];
+		private final PiecePositioned[][] board = new PiecePositioned[64][13];
 
-		private CachePosicioness() {
+		private PiecePositionedCache() {
 			for (int file = 0; file < 8; file++) {
 				for (int rank = 0; rank < 8; rank++) {
 					for (Piece piece : Piece.values()) {
-						tablero[Square.getSquare(file, rank).toIdx()][piece.ordinal()] = new PiecePositioned(
+						board[Square.getSquare(file, rank).toIdx()][piece.ordinal()] = new PiecePositioned(
 								Square.getSquare(file, rank), piece);
 					}
-					tablero[Square.getSquare(file, rank).toIdx()][12] = new PiecePositioned(
+					board[Square.getSquare(file, rank).toIdx()][12] = new PiecePositioned(
 							Square.getSquare(file, rank), null);
 				}
 			}
@@ -47,16 +47,16 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 		PiecePositioned getPosicion(Square square, Piece piece) {
 			PiecePositioned returnValue = null;
 			if (piece == null) {
-				returnValue = tablero[square.toIdx()][12];
+				returnValue = board[square.toIdx()][12];
 			} else {
-				returnValue = tablero[square.toIdx()][piece.ordinal()];
+				returnValue = board[square.toIdx()][piece.ordinal()];
 			}
 			return returnValue;
 		}
 		
-		private static final CachePosicioness theInstance  = new CachePosicioness();
+		private static final PiecePositionedCache theInstance  = new PiecePositionedCache();
 		
-		static CachePosicioness getInstance(){
+		static PiecePositionedCache getInstance(){
 			return theInstance;
 		}
 
