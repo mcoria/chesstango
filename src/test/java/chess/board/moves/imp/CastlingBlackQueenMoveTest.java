@@ -70,16 +70,16 @@ public class CastlingBlackQueenMoveTest {
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piezaBoard);
 		
-		assertEquals(Piece.KING_BLACK, piezaBoard.getPieza(Square.c8));		
-		assertEquals(Piece.ROOK_BLACK, piezaBoard.getPieza(Square.d8));
+		assertEquals(Piece.KING_BLACK, piezaBoard.getPiece(Square.c8));
+		assertEquals(Piece.ROOK_BLACK, piezaBoard.getPiece(Square.d8));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.a8));
 		assertTrue(piezaBoard.isEmtpy(Square.e8));
 		
 		moveExecutor.undoMove(piezaBoard);
 		
-		assertEquals(Piece.KING_BLACK, piezaBoard.getPieza(Square.e8));
-		assertEquals(Piece.ROOK_BLACK, piezaBoard.getPieza(Square.a8));
+		assertEquals(Piece.KING_BLACK, piezaBoard.getPiece(Square.e8));
+		assertEquals(Piece.ROOK_BLACK, piezaBoard.getPiece(Square.a8));
 		
 		assertTrue(piezaBoard.isEmtpy(Square.c8));
 		assertTrue(piezaBoard.isEmtpy(Square.d8));		

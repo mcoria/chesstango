@@ -49,7 +49,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
 
     @Override
-    public Piece getPieza(Square square) {
+    public Piece getPiece(Square square) {
         return tablero[square.toIdx()].getValue();
     }
 
@@ -73,7 +73,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
     @Override
     public boolean isEmtpy(Square square) {
-        return getPieza(square) == null;
+        return getPiece(square) == null;
     }
 
 
@@ -95,8 +95,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
     }
 
     @Override
-    public Iterator<PiecePositioned> iterator(long posiciones) {
-        return new BitIterator(this, posiciones);
+    public Iterator<PiecePositioned> iterator(long positions) {
+        return new BitIterator(this, positions);
     }
 
     @Override

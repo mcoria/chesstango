@@ -53,9 +53,9 @@ public class KnightMoveGeneratorTest {
 		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
-		assertEquals(Piece.KNIGHT_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.d7));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.f7));		
+		assertEquals(Piece.KNIGHT_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(Square.d7));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.f7));
 	
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.KNIGHT_WHITE);
 		

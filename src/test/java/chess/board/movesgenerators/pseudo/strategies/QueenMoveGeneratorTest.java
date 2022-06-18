@@ -52,7 +52,7 @@ public class QueenMoveGeneratorTest {
 		moveGenerator.setColorBoard(colorBoard);
 
 		Square from = Square.e5;
-		assertEquals(Piece.QUEEN_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.QUEEN_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.QUEEN_WHITE);
 

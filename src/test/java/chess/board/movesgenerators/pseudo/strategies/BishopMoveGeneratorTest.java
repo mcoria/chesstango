@@ -52,7 +52,7 @@ public class BishopMoveGeneratorTest {
 		moveGenerator.setColorBoard(colorBoard);
 
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 
@@ -123,8 +123,8 @@ public class BishopMoveGeneratorTest {
 		moveGenerator.setColorBoard(colorBoard);
 
 		Square from = Square.c1;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.g5));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.g5));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 

@@ -49,7 +49,7 @@ public class PawnWhiteMoveGeneratorTest {
 		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.a3;		
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
@@ -69,7 +69,7 @@ public class PawnWhiteMoveGeneratorTest {
 		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.a2;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
@@ -90,7 +90,7 @@ public class PawnWhiteMoveGeneratorTest {
 		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.a2;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
@@ -110,8 +110,8 @@ public class PawnWhiteMoveGeneratorTest {
 		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.e2;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.d3));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.d3));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
@@ -134,8 +134,8 @@ public class PawnWhiteMoveGeneratorTest {
 		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.e2;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.f3));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.f3));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
@@ -158,7 +158,7 @@ public class PawnWhiteMoveGeneratorTest {
 		
 		Square from = Square.d7;
 		
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		
@@ -181,9 +181,9 @@ public class PawnWhiteMoveGeneratorTest {
 		
 		Square from = Square.d7;
 		
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.c8));
-		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.d8));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.c8));
+		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.d8));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 		

@@ -76,14 +76,14 @@ public class SimpleKingMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 
 		// asserts execute
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e2));
-		assertNull(piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e2));
+		assertNull(piezaBoard.getPiece(Square.e1));
 
 		// undos
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 	}	
 	
@@ -162,8 +162,8 @@ public class SimpleKingMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e2));
-		assertNull(piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e2));
+		assertNull(piezaBoard.getPiece(Square.e1));
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
@@ -183,7 +183,7 @@ public class SimpleKingMoveTest {
 
 		
 		// asserts undos
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPieza(Square.e1));
+		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e1));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());

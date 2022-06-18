@@ -61,8 +61,8 @@ public class MoveGeneratorEnPassantImpTest {
 		moveGenerator.setTablero(tablero);
 
 		Square from = Square.e5;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.d5));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.d5));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 
@@ -86,8 +86,8 @@ public class MoveGeneratorEnPassantImpTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d5;
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.e5));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.e5));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_WHITE);
 
@@ -109,8 +109,8 @@ public class MoveGeneratorEnPassantImpTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.d4;
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.e4));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(Square.e4));
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 
@@ -131,8 +131,8 @@ public class MoveGeneratorEnPassantImpTest {
 		moveGenerator.setTablero(tablero);
 		
 		Square from = Square.e4;
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_WHITE, tablero.getPieza(Square.d4));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(Square.d4));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.PAWN_BLACK);
 

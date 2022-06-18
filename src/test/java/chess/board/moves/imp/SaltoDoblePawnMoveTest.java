@@ -68,14 +68,14 @@ public class SaltoDoblePawnMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e4));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e4));
 		assertTrue(piezaBoard.isEmtpy(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e2));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e2));
 		assertTrue(piezaBoard.isEmtpy(Square.e4));		
 	}
 		

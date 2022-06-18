@@ -70,15 +70,15 @@ public class CapturePawnPromotionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPieza(Square.f8));
+		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPiece(Square.f8));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
-		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPieza(Square.f8));		
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e7));
+		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPiece(Square.f8));
 	}
 		
 	@Test

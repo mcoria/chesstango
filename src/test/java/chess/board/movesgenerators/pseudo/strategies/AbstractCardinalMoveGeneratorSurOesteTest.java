@@ -67,7 +67,7 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 	
@@ -94,8 +94,8 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(Square.a1));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 	
@@ -121,8 +121,8 @@ public class AbstractCardinalMoveGeneratorSurOesteTest {
 		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
-		assertEquals(Piece.BISHOP_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.ROOK_BLACK, tablero.getPieza(Square.a1));
+		assertEquals(Piece.BISHOP_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.a1));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.BISHOP_WHITE);
 	

@@ -210,8 +210,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public Piece getPieza(Square square) {
-		return piecePlacement.getPieza(square);
+	public Piece getPiece(Square square) {
+		return piecePlacement.getPiece(square);
 	}
 
 	@Override
@@ -230,8 +230,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public Iterator<PiecePositioned> iterator(long posiciones) {
-		return piecePlacement.iterator(posiciones);
+	public Iterator<PiecePositioned> iterator(long positions) {
+		return piecePlacement.iterator(positions);
 	}
 
 	@Override

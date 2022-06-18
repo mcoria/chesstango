@@ -69,15 +69,15 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute	
-		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPiece(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e5));	
 		
 		// undos	
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos
-		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPieza(Square.e5));
-		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.ROOK_WHITE, piezaBoard.getPiece(Square.e5));
+		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPiece(Square.e7));
 	}
 	
 	@Test

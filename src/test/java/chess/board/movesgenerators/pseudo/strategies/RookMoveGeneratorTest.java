@@ -53,7 +53,7 @@ public class RookMoveGeneratorTest {
 		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
-		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
 	
@@ -98,8 +98,8 @@ public class RookMoveGeneratorTest {
 		moveGenerator.setColorBoard(colorBoard);
 		
 		Square from = Square.e5;
-		assertEquals(Piece.ROOK_WHITE, tablero.getPieza(from));
-		assertEquals(Piece.PAWN_BLACK, tablero.getPieza(Square.e7));
+		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
+		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.e7));
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.ROOK_WHITE);
 	

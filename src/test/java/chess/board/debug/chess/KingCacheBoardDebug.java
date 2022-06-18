@@ -15,11 +15,11 @@ import chess.board.position.imp.KingCacheBoard;
 public class KingCacheBoardDebug extends KingCacheBoard {
 	
 	public void validar(PiecePlacement dummyBoard) {
-		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPieza(squareKingWhiteCache))) {
+		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPiece(squareKingWhiteCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedo desactualizado");
 		}
 
-		if (squareKingBlackCache != null && !Piece.KING_BLACK.equals(dummyBoard.getPieza(squareKingBlackCache))) {
+		if (squareKingBlackCache != null && !Piece.KING_BLACK.equals(dummyBoard.getPiece(squareKingBlackCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedo desactualizado");
 		}
 		

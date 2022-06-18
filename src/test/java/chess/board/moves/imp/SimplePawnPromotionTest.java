@@ -68,14 +68,14 @@ public class SimplePawnPromotionTest {
 		moveExecutor.executeMove(piezaBoard);
 		
 		// asserts execute		
-		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPieza(Square.e8));
+		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPiece(Square.e8));
 		assertTrue(piezaBoard.isEmtpy(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piezaBoard);
 		
 		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPieza(Square.e7));
+		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e7));
 		assertTrue(piezaBoard.isEmtpy(Square.e8));		
 	}
 		

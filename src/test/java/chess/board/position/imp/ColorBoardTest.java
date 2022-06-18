@@ -33,7 +33,7 @@ public class ColorBoardTest {
 		colorBoard.init(tablero);
 		
 		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.WHITE); iterator.hasNext();) {
-			Piece piece = tablero.getPieza(iterator.next());
+			Piece piece = tablero.getPiece(iterator.next());
 			assertEquals(Color.WHITE, piece.getColor());
 			totalPiezas++;
 		}
