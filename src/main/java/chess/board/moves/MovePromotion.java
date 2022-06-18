@@ -9,6 +9,6 @@ import chess.board.Piece;
  * @author Mauricio Coria
  *
  */
-public interface MovePromotion {
+public interface MovePromotion extends Move {
 	Piece getPromotion();
 }
