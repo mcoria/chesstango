@@ -17,6 +17,7 @@ public interface MoveFactory {
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
 	Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal norte);
+	Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);

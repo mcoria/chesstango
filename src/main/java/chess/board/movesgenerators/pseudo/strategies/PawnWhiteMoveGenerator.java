@@ -61,11 +61,11 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 
 	@Override
 	protected Move createCaptureMoveIzquierda(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureMove(origen, destino, Cardinal.NorteOeste);
+		return this.moveFactory.createCapturePawnMove(origen, destino, Cardinal.NorteOeste);
 	}
 
 	@Override
 	protected Move createCaptureMoveDerecha(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureMove(origen, destino, Cardinal.NorteEste);
+		return this.moveFactory.createCapturePawnMove(origen, destino, Cardinal.NorteEste);
 	}
 }

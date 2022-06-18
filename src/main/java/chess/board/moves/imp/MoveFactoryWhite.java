@@ -82,6 +82,18 @@ public class MoveFactoryWhite implements MoveFactory {
 	}
 
 	@Override
+	public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+		Move move = new CapturePawnMove(origen, destino, cardinal);
+		Move result = move;
+		if (Square.a8.equals(destino.getKey())) {
+			result = new MoveDecoratorState(move, state -> state.setCastlingBlackQueenAllowed(false));
+		} else if (Square.h8.equals(destino.getKey())) {
+			result = new MoveDecoratorState(move, state -> state.setCastlingBlackKingAllowed(false));
+		}
+		return result;
+	}
+
+	@Override
 	public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		Move move = new CaptureMove(origen, destino);
 		Move result = move;
