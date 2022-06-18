@@ -32,6 +32,8 @@ public class Main {
 
     private Game game;
 
+    private String gameFenSeed;
+
     public static void main(String[] args) {
         new Main().compete();
     }
@@ -45,14 +47,14 @@ public class Main {
         engine2 = new EngineProxy();
         black = new EngineClientImp(engine2);
 
-        game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 8 1"; //FENDecoder.INITIAL_FEN;
     }
 
     public void compete(){
         startEngines();
         startNewGame();
 
-        game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        game = FENDecoder.loadGame(gameFenSeed);
         List<String> executedMovesStr = new ArrayList<>();
         Map<String, Integer> pastPositions = new HashMap<>();
         EngineClient currentTurn = white;
@@ -66,7 +68,7 @@ public class Main {
 
             executedMovesStr.add(moveStr);
 
-            repetition = repeatedPosition(pastPositions);
+            //repetition = repeatedPosition(pastPositions);
             currentTurn = (currentTurn == white ? black : white);
         }
 
@@ -109,6 +111,7 @@ public class Main {
         pgnHeader.setRound("?");
         pgnHeader.setWhite(white.getEngineAuthor());
         pgnHeader.setBlack(black.getEngineAuthor());
+        pgnHeader.setFen(gameFenSeed);
 
         System.out.println(encoder.encode(pgnHeader, game));
     }
@@ -141,7 +144,11 @@ public class Main {
     }
 
     private String askForBestMove(EngineClient currentTurn, List<String> moves) {
-        currentTurn.send_CmdPosition(new CmdPosition(moves));
+        if(FENDecoder.INITIAL_FEN.equals(gameFenSeed)) {
+            currentTurn.send_CmdPosition(new CmdPosition(moves));
+        } else {
+            currentTurn.send_CmdPosition(new CmdPosition(gameFenSeed, moves));
+        }
 
         RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 

@@ -3,8 +3,10 @@ package chess.board.representations;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.GameState;
+import chess.board.representations.fen.FENDecoder;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -23,10 +25,10 @@ public class PGNEncoder {
         sb.append("[Round \"" + header.getRound() + "\"]\n");
         sb.append("[White \"" + header.getWhite() + "\"]\n");
         sb.append("[Black \"" + header.getBlack() + "\"]\n");
-
-
+        if(header.getFen() != null && !Objects.equals(FENDecoder.INITIAL_FEN, header.getFen())){
+            sb.append("[FEN \"" + header.getFen() + "\"]\n");
+        }
         sb.append("[Result \"" + encodeGameResult(game) +"\"]\n");
-
         sb.append("\n");
 
         int moveCounter = 0;
@@ -101,6 +103,8 @@ public class PGNEncoder {
         private String white;
         private String black;
 
+        private String fen;
+
         public String getEvent() {
             return event;
         }
@@ -147,6 +151,14 @@ public class PGNEncoder {
 
         public void setBlack(String black) {
             this.black = black;
+        }
+
+        public String getFen() {
+            return fen;
+        }
+
+        public void setFen(String fen) {
+            this.fen = fen;
         }
     }
 }
