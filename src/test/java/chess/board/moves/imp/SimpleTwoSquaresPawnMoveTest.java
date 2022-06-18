@@ -29,7 +29,7 @@ import chess.board.position.imp.ArrayPiecePlacement;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SaltoDoblePawnMoveTest {
+public class SimpleTwoSquaresPawnMoveTest {
 
 	private PiecePlacement piecePlacement;
 	
@@ -37,7 +37,7 @@ public class SaltoDoblePawnMoveTest {
 	
 	private ColorBoardDebug colorBoard;
 	
-	private SaltoDoblePawnMove moveExecutor;
+	private SimpleTwoSquaresPawnMove moveExecutor;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -58,7 +58,7 @@ public class SaltoDoblePawnMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3, Cardinal.Norte);
+		moveExecutor =  new SimpleTwoSquaresPawnMove(origen, destino, Square.e3, Cardinal.Norte);
 	}
 	
 	
@@ -124,7 +124,7 @@ public class SaltoDoblePawnMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-		moveExecutor =  new SaltoDoblePawnMove(origen, destino, Square.e3, Cardinal.Norte);
+		moveExecutor =  new SimpleTwoSquaresPawnMove(origen, destino, Square.e3, Cardinal.Norte);
 
 		// execute
 		moveExecutor.executeMove(chessPosition);

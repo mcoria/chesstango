@@ -102,7 +102,7 @@ public class MoveFactoryBlack implements MoveFactory {
 
 	@Override
 	public Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero, Cardinal cardinal) {
-		return new SaltoDoblePawnMove(origen, destino, saltoSimpleCasillero, cardinal);
+		return new SimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero, cardinal);
 	}
 
 

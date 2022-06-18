@@ -11,35 +11,35 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class SaltoDoblePawnMove extends SimpleMove {
+class SimpleTwoSquaresPawnMove extends SimpleMove {
 	
-	private final Square pawnPasanteSquare;
+	private final Square enPassantSquare;
 
-	public SaltoDoblePawnMove(PiecePositioned from, PiecePositioned to, Square pawnPasanteSquare, Cardinal cardinal) {
+	public SimpleTwoSquaresPawnMove(PiecePositioned from, PiecePositioned to, Square enPassantSquare, Cardinal cardinal) {
 		super(from, to, cardinal);
-		this.pawnPasanteSquare = pawnPasanteSquare;
+		this.enPassantSquare = enPassantSquare;
 	}
 	
 	@Override
 	public void executeMove(PositionState positionState) {
 		super.executeMove(positionState);
-		positionState.setEnPassantSquare(pawnPasanteSquare);
+		positionState.setEnPassantSquare(enPassantSquare);
 	}
 	
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushCleared();		
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), pawnPasanteSquare, true);
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), enPassantSquare, true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), pawnPasanteSquare, false);
+		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), enPassantSquare, false);
 		moveCache.popCleared();
 	}	
 	
 	@Override
 	public boolean equals(Object obj) {
-        return super.equals(obj) && obj instanceof SaltoDoblePawnMove;
+        return super.equals(obj) && obj instanceof SimpleTwoSquaresPawnMove;
     }
 }
