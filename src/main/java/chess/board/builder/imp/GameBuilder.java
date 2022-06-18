@@ -47,15 +47,15 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 	}
 
 	@Override
-	public ChessPositionBuilder<Game> withTurno(Color turno) {
-		positionState.setCurrentTurn(turno);
+	public ChessPositionBuilder<Game> withTurn(Color turn) {
+		positionState.setCurrentTurn(turn);
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<Game> withEnPassantSquare(Square pawnPasanteSquare) {
-		positionState.setEnPassantSquare(pawnPasanteSquare);
+	public ChessPositionBuilder<Game> withEnPassantSquare(Square enPassantSquare) {
+		positionState.setEnPassantSquare(enPassantSquare);
 		return this;
 	}
 
@@ -86,9 +86,21 @@ public class GameBuilder implements ChessPositionBuilder<Game> {
 		return this;
 	}
 
-	public ChessPositionBuilder<Game> withPieza(Square square, Piece piece) {
+	public ChessPositionBuilder<Game> withPiece(Square square, Piece piece) {
 		piecePlacement.setPieza(square, piece);
 		return this;
 	}
-	
+
+	@Override
+	public ChessPositionBuilder<Game> withHalfMoveClock(int halfMoveClock) {
+		positionState.setHalfMoveClock(halfMoveClock);
+		return null;
+	}
+
+	@Override
+	public ChessPositionBuilder<Game> withFullMoveClock(int fullMoveClock) {
+		positionState.setFullMoveClock(fullMoveClock);
+		return null;
+	}
+
 }

@@ -28,7 +28,7 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 	
 
 	public void getState(PrintStream printStream) {
-		printStream.println("Turno Actual: " + String.format("%-6s", turno.toString()) + ", pawnPasanteSquare: " +  (pawnPasanteSquare == null ? "- " : pawnPasanteSquare.toString()) + 
+		printStream.println("Turn: " + String.format("%-6s", turn.toString()) + ", enPassantSquare: " +  (enPassantSquare == null ? "- " : enPassantSquare.toString()) +
 				", castlingWhiteQueenAllowed: " + castlingWhiteQueenAllowed +
 				", castlingWhiteKingAllowed: " + castlingWhiteKingAllowed +
 				", castlingBlackQueenAllowed: " + castlingBlackQueenAllowed +
@@ -42,7 +42,7 @@ public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
 		do {
 			Square square = iterator.next();
 			
-			Piece piece = tablero[square.getRank()][square.getFile()];
+			Piece piece = board[square.getRank()][square.getFile()];
 
 			if (square.getFile() == 0) {
 				printStream.print((square.getRank() + 1));

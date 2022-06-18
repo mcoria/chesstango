@@ -111,7 +111,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
         try (PrintStream ps = new PrintStream(baos)) {
             ASCIIEncoder output = new ASCIIEncoder();
             this.forEach(posicionPieza -> {
-                output.withPieza(posicionPieza.getKey(), posicionPieza.getValue());
+                output.withPiece(posicionPieza.getKey(), posicionPieza.getValue());
             });
             output.getPiecePlacement(ps);
         }

@@ -81,7 +81,7 @@ public class ChessPositionImp implements ChessPosition {
 	
 	@Override
 	public void constructBoardRepresentation(ChessPositionBuilder<?> builder){		
-		builder.withTurno(positionState.getCurrentTurn())
+		builder.withTurn(positionState.getCurrentTurn())
 				.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
 				.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
 				.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
@@ -89,7 +89,7 @@ public class ChessPositionImp implements ChessPosition {
 				.withEnPassantSquare(positionState.getEnPassantSquare());
 		
 		for(PiecePositioned pieza: piecePlacement){
-			builder.withPieza(pieza.getKey(), pieza.getValue());
+			builder.withPiece(pieza.getKey(), pieza.getValue());
 		}
 	}
 	

@@ -10,9 +10,9 @@ import chess.board.Square;
  */
 public interface ChessPositionBuilder<T> {
 
-	ChessPositionBuilder<T> withTurno(Color turno);
+	ChessPositionBuilder<T> withTurn(Color turn);
 
-	ChessPositionBuilder<T> withEnPassantSquare(Square pawnPasanteSquare);
+	ChessPositionBuilder<T> withEnPassantSquare(Square enPassantSquare);
 
 	ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed);
 
@@ -22,8 +22,11 @@ public interface ChessPositionBuilder<T> {
 
 	ChessPositionBuilder<T> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed);
 	
-	ChessPositionBuilder<T> withPieza(Square square, Piece piece);
-	
+	ChessPositionBuilder<T> withPiece(Square square, Piece piece);
+
+	ChessPositionBuilder<T> withHalfMoveClock(int halfMoveClock);
+
+	ChessPositionBuilder<T> withFullMoveClock(int fullMoveClock);
 	
 	T getResult();
 

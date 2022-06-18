@@ -32,7 +32,7 @@ public class FENDecoder {
 		
 		chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(pawnPasante));
 		
-		chessPositionBuilder.withTurno(parseTurno(activeColor));
+		chessPositionBuilder.withTurn(parseTurno(activeColor));
 		
 		if(isCastlingWhiteQueenAllowed(castingsAllowed)){
 			chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
@@ -59,7 +59,7 @@ public class FENDecoder {
 				Square square = Square.getSquare(file, rank);
 				Piece piece = piezas[rank][file];
 				if(piece != null){
-					chessPositionBuilder.withPieza(square, piece);
+					chessPositionBuilder.withPiece(square, piece);
 				}
 			}
 		}

@@ -31,13 +31,13 @@ public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacemen
 	}
 
 	@Override
-	public ChessPositionBuilder<PiecePlacement> withTurno(Color turno) {
+	public ChessPositionBuilder<PiecePlacement> withTurn(Color turn) {
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<PiecePlacement> withEnPassantSquare(Square pawnPasanteSquare) {
+	public ChessPositionBuilder<PiecePlacement> withEnPassantSquare(Square enPassantSquare) {
 		return this;
 	}
 
@@ -57,16 +57,25 @@ public class PiecePlacementBuilder implements ChessPositionBuilder<PiecePlacemen
 		return this;
 	}
 
-
 	@Override
 	public ChessPositionBuilder<PiecePlacement> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		return this;
 	}
 
-	public ChessPositionBuilder<PiecePlacement> withPieza(Square square, Piece piece) {
+	@Override
+	public ChessPositionBuilder<PiecePlacement> withHalfMoveClock(int halfMoveClock) {
+		return this;
+	}
+
+	@Override
+	public ChessPositionBuilder<PiecePlacement> withFullMoveClock(int fullMoveClock) {
+		return this;
+	}
+
+	public ChessPositionBuilder<PiecePlacement> withPiece(Square square, Piece piece) {
 		piecePlacement.setPieza(square, piece);
 		return this;
 	}
-	
+
 
 }

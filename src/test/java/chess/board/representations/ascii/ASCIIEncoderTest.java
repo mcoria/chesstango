@@ -70,7 +70,7 @@ public class ASCIIEncoderTest {
 	    // Expected
 	    final ByteArrayOutputStream baosExp = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baosExp)) {
-	    	ps.println("Turno Actual: WHITE , pawnPasanteSquare: - , castlingWhiteQueenAllowed: true, castlingWhiteKingAllowed: true, castlingBlackQueenAllowed: true, castlingBlackKingAllowed: true");
+	    	ps.println("Turn: WHITE , enPassantSquare: - , castlingWhiteQueenAllowed: true, castlingWhiteKingAllowed: true, castlingBlackQueenAllowed: true, castlingBlackKingAllowed: true");
 	    	ps.flush();
 	    }	
 	    

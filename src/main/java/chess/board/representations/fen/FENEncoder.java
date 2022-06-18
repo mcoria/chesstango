@@ -45,12 +45,12 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 	
 
 	public StringBuilder getTurno(StringBuilder stringBuilder) {
-		return Color.WHITE.equals(turno) ? stringBuilder.append('w') : stringBuilder.append('b');
+		return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');
 	}
 
 	public StringBuilder getPiecePlacement(StringBuilder stringBuilder) {
 		for (int i = 7; i >= 0; i--) {
-			codePiecePlacementRank(tablero[i], stringBuilder);
+			codePiecePlacementRank(board[i], stringBuilder);
 			if(i > 0){
 				stringBuilder.append('/');
 			}
@@ -60,10 +60,10 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 	}
 	
 	public StringBuilder getEnPassant(StringBuilder stringBuilder) {
-		if (pawnPasanteSquare == null) {
+		if (enPassantSquare == null) {
 			stringBuilder.append('-');
 		} else {
-			stringBuilder.append(pawnPasanteSquare);
+			stringBuilder.append(enPassantSquare);
 		}
 		return stringBuilder;
 	}

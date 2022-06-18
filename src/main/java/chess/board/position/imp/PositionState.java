@@ -15,11 +15,13 @@ public class PositionState {
 
 	private static class PositionStateData{
 		private Color currentTurn;
-		private Square pawnPasanteSquare;
+		private Square enPassantSquare;
 		private boolean castlingWhiteQueenAllowed;
 		private boolean castlingWhiteKingAllowed;
 		private boolean castlingBlackQueenAllowed;
 		private boolean castlingBlackKingAllowed;
+		private int halfMoveClock;
+		private int fullMoveClock;
 	}
 
 	private final PositionStateData dataNode = new PositionStateData();
@@ -27,11 +29,10 @@ public class PositionState {
 	private final Deque<PositionStateData> boardStateNodePila = new ArrayDeque<PositionStateData>();
 	
 	public Square getEnPassantSquare() {
-		return dataNode.pawnPasanteSquare;
+		return dataNode.enPassantSquare;
 	}
-
-	public void setEnPassantSquare(Square pawnPasanteSquare) {
-		dataNode.pawnPasanteSquare = pawnPasanteSquare;
+	public void setEnPassantSquare(Square enPassantSquare) {
+		dataNode.enPassantSquare = enPassantSquare;
 	}
 	
 	public boolean isCastlingWhiteQueenAllowed() {
@@ -40,7 +41,7 @@ public class PositionState {
 
 	public void setCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		dataNode.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
-	}	
+	}
 	
 	public boolean isCastlingWhiteKingAllowed() {
 		return dataNode.castlingWhiteKingAllowed;
@@ -72,14 +73,28 @@ public class PositionState {
 
 	public void setCurrentTurn(Color turn) {
 		dataNode.currentTurn = turn;
-	}	
-
-	
+	}
 	public void rollTurn() {
 		dataNode.currentTurn = dataNode.currentTurn.oppositeColor();
 	}
-	
-	
+
+	public int getHalfMoveClock() {
+		return dataNode.halfMoveClock;
+	}
+
+	public void setHalfMoveClock(int halfMoveClock) {
+		this.dataNode.halfMoveClock = halfMoveClock;
+	}
+
+	public int getFullMoveClock() {
+		return dataNode.fullMoveClock;
+	}
+
+	public void setFullMoveClock(int fullMoveClock) {
+		this.dataNode.fullMoveClock = fullMoveClock;
+	}
+
+
 	public void pushState() {
 		PositionStateData state = saveState();
 		boardStateNodePila.push( state );
@@ -93,7 +108,7 @@ public class PositionState {
 	
 	private PositionStateData saveState() {
 		PositionStateData node = new PositionStateData();
-		node.pawnPasanteSquare = dataNode.pawnPasanteSquare;
+		node.enPassantSquare = dataNode.enPassantSquare;
 		node.castlingWhiteQueenAllowed = dataNode.castlingWhiteQueenAllowed;
 		node.castlingWhiteKingAllowed = dataNode.castlingWhiteKingAllowed;
 		node.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
@@ -104,7 +119,7 @@ public class PositionState {
 	}	
 	
 	private void restoreState(PositionStateData lastState){
-		dataNode.pawnPasanteSquare = lastState.pawnPasanteSquare;
+		dataNode.enPassantSquare = lastState.enPassantSquare;
 		dataNode.castlingWhiteQueenAllowed = lastState.castlingWhiteQueenAllowed;
 		dataNode.castlingWhiteKingAllowed = lastState.castlingWhiteKingAllowed;
 		dataNode.castlingBlackQueenAllowed = lastState.castlingBlackQueenAllowed;
@@ -116,7 +131,7 @@ public class PositionState {
 	@Override
 	public PositionState clone() throws CloneNotSupportedException {
 		PositionState clone = new PositionState();
-		clone.dataNode.pawnPasanteSquare = dataNode.pawnPasanteSquare;
+		clone.dataNode.enPassantSquare = dataNode.enPassantSquare;
 		clone.dataNode.castlingWhiteQueenAllowed = dataNode.castlingWhiteQueenAllowed;
 		clone.dataNode.castlingWhiteKingAllowed = dataNode.castlingWhiteKingAllowed;
 		clone.dataNode.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
@@ -129,7 +144,7 @@ public class PositionState {
 	public boolean equals(Object obj) {
 		if(obj instanceof PositionState){
 			PositionState theInstance = (PositionState) obj;
-			return Objects.equals(dataNode.currentTurn, theInstance.dataNode.currentTurn) && Objects.equals(dataNode.pawnPasanteSquare, theInstance.dataNode.pawnPasanteSquare) &&
+			return Objects.equals(dataNode.currentTurn, theInstance.dataNode.currentTurn) && Objects.equals(dataNode.enPassantSquare, theInstance.dataNode.enPassantSquare) &&
 					dataNode.castlingWhiteQueenAllowed == theInstance.dataNode.castlingWhiteQueenAllowed &&
 					dataNode.castlingWhiteKingAllowed == theInstance.dataNode.castlingWhiteKingAllowed &&
 					dataNode.castlingBlackQueenAllowed == theInstance.dataNode.castlingBlackQueenAllowed &&
@@ -140,7 +155,7 @@ public class PositionState {
 	
 	@Override
 	public String toString() {
-		return "Turno Actual: " + String.format("%-6s", dataNode.currentTurn.toString()) + ", pawnPasanteSquare: " +  (dataNode.pawnPasanteSquare == null ? "- " : dataNode.pawnPasanteSquare.toString()) +
+		return "Turno Actual: " + String.format("%-6s", dataNode.currentTurn.toString()) + ", pawnPasanteSquare: " +  (dataNode.enPassantSquare == null ? "- " : dataNode.enPassantSquare.toString()) +
 				", castlingWhiteQueenAllowed: " + dataNode.castlingWhiteQueenAllowed +
 				", castlingWhiteKingAllowed: " + dataNode.castlingWhiteKingAllowed +
 				", castlingBlackQueenAllowed: " + dataNode.castlingBlackQueenAllowed +

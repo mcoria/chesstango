@@ -13,29 +13,31 @@ import chess.board.builder.ChessPositionBuilder;
  *
  */
 public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBuilder<T> {
-	protected Color turno;
-	protected Square pawnPasanteSquare;
+	protected Color turn;
+	protected Square enPassantSquare;
 	protected boolean castlingBlackKingAllowed;
 	protected boolean castlingBlackQueenAllowed;
 	protected boolean castlingWhiteKingAllowed;
 	protected boolean castlingWhiteQueenAllowed;
-	protected Piece[][] tablero = new Piece[8][8];
+	private int halfMoveClock;
+	private int fullMoveClock;
+	protected Piece[][] board = new Piece[8][8];
 
 	@Override
-	public ChessPositionBuilder<T> withPieza(Square square, Piece piece) {
-		this.tablero[square.getRank()][square.getFile()] = piece;
+	public ChessPositionBuilder<T> withPiece(Square square, Piece piece) {
+		this.board[square.getRank()][square.getFile()] = piece;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withTurno(Color turno) {
-		this.turno = turno;
+	public ChessPositionBuilder<T> withTurn(Color turn) {
+		this.turn = turn;
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<T> withEnPassantSquare(Square pawnPasanteSquare) {
-		this.pawnPasanteSquare = pawnPasanteSquare;
+	public ChessPositionBuilder<T> withEnPassantSquare(Square enPassantSquare) {
+		this.enPassantSquare = enPassantSquare;
 		return this;
 	}
 
@@ -60,6 +62,18 @@ public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBu
 	@Override
 	public ChessPositionBuilder<T> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		this.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
+		return this;
+	}
+
+	@Override
+	public ChessPositionBuilder<T> withHalfMoveClock(int halfMoveClock){
+		this.halfMoveClock = halfMoveClock;
+		return this;
+	}
+
+	@Override
+	public ChessPositionBuilder<T> withFullMoveClock(int fullMoveClock){
+		this.fullMoveClock = fullMoveClock;
 		return this;
 	}
 

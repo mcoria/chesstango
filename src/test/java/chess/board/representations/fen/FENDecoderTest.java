@@ -20,35 +20,45 @@ public class FENDecoderTest {
 
 	private FENDecoder parser = null;
 	
-	private Color turno;
-	private Square pawnPasanteSquare;
+	private Color turn;
+	private Square enPassantSquare;
 	private boolean castlingBlackKingAllowed;
 	private boolean castlingBlackQueenAllowed;
 	private boolean castlingWhiteKingAllowed;
 	private boolean castlingWhiteQueenAllowed;
 	
-	private Piece[][] tablero = null;
+	private Piece[][] board = null;
 			
 	@Before
 	public void setUp() throws Exception {
-		tablero = new Piece[8][8];
+		board = new Piece[8][8];
 		
 		parser = new FENDecoder(new ChessPositionBuilder<Object>() {
 			@Override
-			public ChessPositionBuilder<Object> withPieza(Square square, Piece piece) {
-				tablero[square.getRank()][square.getFile()] = piece;
+			public ChessPositionBuilder<Object> withPiece(Square square, Piece piece) {
+				board[square.getRank()][square.getFile()] = piece;
+				return this;
+			}
+
+			@Override
+			public ChessPositionBuilder<Object> withHalfMoveClock(int halfMoveClock) {
+				return null;
+			}
+
+			@Override
+			public ChessPositionBuilder<Object> withFullMoveClock(int fullMoveClock) {
+				return null;
+			}
+
+			@Override
+			public ChessPositionBuilder<Object> withTurn(Color turn) {
+				FENDecoderTest.this.turn = turn;
 				return this;
 			}
 			
 			@Override
-			public ChessPositionBuilder<Object> withTurno(Color turno) {
-				FENDecoderTest.this.turno = turno;
-				return this;
-			}
-			
-			@Override
-			public ChessPositionBuilder<Object> withEnPassantSquare(Square pawnPasanteSquare) {
-				FENDecoderTest.this.pawnPasanteSquare = pawnPasanteSquare;
+			public ChessPositionBuilder<Object> withEnPassantSquare(Square enPassantSquare) {
+				FENDecoderTest.this.enPassantSquare = enPassantSquare;
 				return this;
 			}
 			
@@ -272,7 +282,7 @@ public class FENDecoderTest {
 	public void testParseInitialFen() {
 		parser.parseFEN(FENDecoder.INITIAL_FEN);
 		
-		assertEquals(Color.WHITE, this.turno);
+		assertEquals(Color.WHITE, this.turn);
 		
 		assertTrue(this.castlingWhiteQueenAllowed);
 		assertTrue(this.castlingWhiteKingAllowed);
@@ -280,80 +290,80 @@ public class FENDecoderTest {
 		assertTrue(this.castlingBlackQueenAllowed);
 		assertTrue(this.castlingBlackKingAllowed);		
 		
-		assertNull(this.pawnPasanteSquare);
+		assertNull(this.enPassantSquare);
 		
-		assertEquals(Piece.ROOK_WHITE, getPieza(tablero, Square.a1));
-		assertEquals(Piece.KNIGHT_WHITE, getPieza(tablero, Square.b1));
-		assertEquals(Piece.BISHOP_WHITE, getPieza(tablero, Square.c1));
-		assertEquals(Piece.QUEEN_WHITE, getPieza(tablero, Square.d1));
-		assertEquals(Piece.KING_WHITE, getPieza(tablero, Square.e1));
-		assertEquals(Piece.BISHOP_WHITE, getPieza(tablero, Square.f1));
-		assertEquals(Piece.KNIGHT_WHITE, getPieza(tablero, Square.g1));
-		assertEquals(Piece.ROOK_WHITE, getPieza(tablero, Square.h1));
+		assertEquals(Piece.ROOK_WHITE, getPieza(board, Square.a1));
+		assertEquals(Piece.KNIGHT_WHITE, getPieza(board, Square.b1));
+		assertEquals(Piece.BISHOP_WHITE, getPieza(board, Square.c1));
+		assertEquals(Piece.QUEEN_WHITE, getPieza(board, Square.d1));
+		assertEquals(Piece.KING_WHITE, getPieza(board, Square.e1));
+		assertEquals(Piece.BISHOP_WHITE, getPieza(board, Square.f1));
+		assertEquals(Piece.KNIGHT_WHITE, getPieza(board, Square.g1));
+		assertEquals(Piece.ROOK_WHITE, getPieza(board, Square.h1));
 		
 		
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.a2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.b2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.c2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.d2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.e2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.f2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.g2));
-		assertEquals(Piece.PAWN_WHITE, getPieza(tablero, Square.h2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.a2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.b2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.c2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.d2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.e2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.f2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.g2));
+		assertEquals(Piece.PAWN_WHITE, getPieza(board, Square.h2));
 		
-		assertTrue( isEmtpy(tablero, Square.a3) );
-		assertTrue( isEmtpy(tablero, Square.b3) );
-		assertTrue( isEmtpy(tablero, Square.c3) );
-		assertTrue( isEmtpy(tablero, Square.d3) );
-		assertTrue( isEmtpy(tablero, Square.e3) );
-		assertTrue( isEmtpy(tablero, Square.f3) );
-		assertTrue( isEmtpy(tablero, Square.g3) );
-		assertTrue( isEmtpy(tablero, Square.h3) );
+		assertTrue( isEmtpy(board, Square.a3) );
+		assertTrue( isEmtpy(board, Square.b3) );
+		assertTrue( isEmtpy(board, Square.c3) );
+		assertTrue( isEmtpy(board, Square.d3) );
+		assertTrue( isEmtpy(board, Square.e3) );
+		assertTrue( isEmtpy(board, Square.f3) );
+		assertTrue( isEmtpy(board, Square.g3) );
+		assertTrue( isEmtpy(board, Square.h3) );
 		
-		assertTrue( isEmtpy(tablero, Square.a4) );
-		assertTrue( isEmtpy(tablero, Square.b4) );
-		assertTrue( isEmtpy(tablero, Square.c4) );
-		assertTrue( isEmtpy(tablero, Square.d4) );
-		assertTrue( isEmtpy(tablero, Square.e4) );
-		assertTrue( isEmtpy(tablero, Square.f4) );
-		assertTrue( isEmtpy(tablero, Square.g4) );
-		assertTrue( isEmtpy(tablero, Square.h4) );
+		assertTrue( isEmtpy(board, Square.a4) );
+		assertTrue( isEmtpy(board, Square.b4) );
+		assertTrue( isEmtpy(board, Square.c4) );
+		assertTrue( isEmtpy(board, Square.d4) );
+		assertTrue( isEmtpy(board, Square.e4) );
+		assertTrue( isEmtpy(board, Square.f4) );
+		assertTrue( isEmtpy(board, Square.g4) );
+		assertTrue( isEmtpy(board, Square.h4) );
 		
-		assertTrue( isEmtpy(tablero, Square.a5) );
-		assertTrue( isEmtpy(tablero, Square.b5) );
-		assertTrue( isEmtpy(tablero, Square.c5) );
-		assertTrue( isEmtpy(tablero, Square.d5) );
-		assertTrue( isEmtpy(tablero, Square.e5) );
-		assertTrue( isEmtpy(tablero, Square.f5) );
-		assertTrue( isEmtpy(tablero, Square.g5) );
-		assertTrue( isEmtpy(tablero, Square.h5) );
+		assertTrue( isEmtpy(board, Square.a5) );
+		assertTrue( isEmtpy(board, Square.b5) );
+		assertTrue( isEmtpy(board, Square.c5) );
+		assertTrue( isEmtpy(board, Square.d5) );
+		assertTrue( isEmtpy(board, Square.e5) );
+		assertTrue( isEmtpy(board, Square.f5) );
+		assertTrue( isEmtpy(board, Square.g5) );
+		assertTrue( isEmtpy(board, Square.h5) );
 		
-		assertTrue( isEmtpy(tablero, Square.a6) );
-		assertTrue( isEmtpy(tablero, Square.b6) );
-		assertTrue( isEmtpy(tablero, Square.c6) );
-		assertTrue( isEmtpy(tablero, Square.d6) );
-		assertTrue( isEmtpy(tablero, Square.e6) );
-		assertTrue( isEmtpy(tablero, Square.f6) );
-		assertTrue( isEmtpy(tablero, Square.g6) );
-		assertTrue( isEmtpy(tablero, Square.h6) );
+		assertTrue( isEmtpy(board, Square.a6) );
+		assertTrue( isEmtpy(board, Square.b6) );
+		assertTrue( isEmtpy(board, Square.c6) );
+		assertTrue( isEmtpy(board, Square.d6) );
+		assertTrue( isEmtpy(board, Square.e6) );
+		assertTrue( isEmtpy(board, Square.f6) );
+		assertTrue( isEmtpy(board, Square.g6) );
+		assertTrue( isEmtpy(board, Square.h6) );
 		
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.a7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.b7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.c7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.d7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.e7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.f7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.g7));
-		assertEquals(Piece.PAWN_BLACK, getPieza(tablero, Square.h7));		
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.a7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.b7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.c7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.d7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.e7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.f7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.g7));
+		assertEquals(Piece.PAWN_BLACK, getPieza(board, Square.h7));
 		
-		assertEquals(Piece.ROOK_BLACK, getPieza(tablero, Square.a8));
-		assertEquals(Piece.KNIGHT_BLACK, getPieza(tablero, Square.b8));
-		assertEquals(Piece.BISHOP_BLACK, getPieza(tablero, Square.c8));
-		assertEquals(Piece.QUEEN_BLACK, getPieza(tablero, Square.d8));
-		assertEquals(Piece.KING_BLACK, getPieza(tablero, Square.e8));
-		assertEquals(Piece.BISHOP_BLACK, getPieza(tablero, Square.f8));
-		assertEquals(Piece.KNIGHT_BLACK, getPieza(tablero, Square.g8));
-		assertEquals(Piece.ROOK_BLACK, getPieza(tablero, Square.h8));		
+		assertEquals(Piece.ROOK_BLACK, getPieza(board, Square.a8));
+		assertEquals(Piece.KNIGHT_BLACK, getPieza(board, Square.b8));
+		assertEquals(Piece.BISHOP_BLACK, getPieza(board, Square.c8));
+		assertEquals(Piece.QUEEN_BLACK, getPieza(board, Square.d8));
+		assertEquals(Piece.KING_BLACK, getPieza(board, Square.e8));
+		assertEquals(Piece.BISHOP_BLACK, getPieza(board, Square.f8));
+		assertEquals(Piece.KNIGHT_BLACK, getPieza(board, Square.g8));
+		assertEquals(Piece.ROOK_BLACK, getPieza(board, Square.h8));
 	}
 
 	private boolean isEmtpy(Piece[][] tablero, Square square) {
