@@ -105,7 +105,7 @@ public class Game {
 		return gameState;
 	}
 	
-	public ChessPositionReader getChessPositionReader(){
+	public ChessPositionReader getChessPosition(){
 		return chessPosition;
 	}
 

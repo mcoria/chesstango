@@ -7,7 +7,6 @@ import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -126,7 +125,7 @@ public class EngineZondaTest {
 
 	private String fenCode(Game board) {
 		FENEncoder coder = new FENEncoder();
-		board.getChessPositionReader().constructBoardRepresentation(coder);
+		board.getChessPosition().constructBoardRepresentation(coder);
 		return coder.getResult();
 	}	
 }

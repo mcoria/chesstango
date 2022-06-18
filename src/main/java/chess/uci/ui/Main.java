@@ -87,7 +87,7 @@ public class Main {
     private boolean repeatedPosition(Map<String, Integer> pastPositions) {
         FENEncoder encoder = new FENEncoder();
 
-        game.getChessPositionReader().constructBoardRepresentation(encoder);
+        game.getChessPosition().constructBoardRepresentation(encoder);
 
         String fenWithoutClocks = encoder.getFENWithoutClocks();
 
@@ -130,7 +130,7 @@ public class Main {
             System.out.print(".executeMove(Square." + move.getFrom().getKey().toString() + ", Square." + move.getTo().getKey().toString() + ")");
 
             FENEncoder fenEncoder = new FENEncoder();
-            ChessPositionReader theGamePositionReader = theGame.getChessPositionReader();
+            ChessPositionReader theGamePositionReader = theGame.getChessPosition();
             theGamePositionReader.constructBoardRepresentation(fenEncoder);
 
             if(counter % 2 == 0){

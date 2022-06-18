@@ -130,7 +130,7 @@ public class MinMaxTest {
         Game game = mock(Game.class);
 
         ChessPositionReader mockPositionReader = mock(ChessPositionReader.class);
-        when(game.getChessPositionReader()).thenReturn(mockPositionReader);
+        when(game.getChessPosition()).thenReturn(mockPositionReader);
         when(mockPositionReader.getCurrentTurn()).thenReturn(turn);
 
         return game;

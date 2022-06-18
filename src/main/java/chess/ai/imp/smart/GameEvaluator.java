@@ -25,14 +25,14 @@ public class GameEvaluator {
         switch (game.getGameStatus()){
             case MATE:
                 // If white is on mate then evaluation is INFINITE_NEGATIVE
-                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
+                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
                 break;
             case DRAW:
                 evaluation = 0;
                 break;
             case  CHECK:
                 // If white is on check then evaluation starts at -5
-                evaluation = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? -1 : +1;
+                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case IN_PROGRESS:
                 evaluation += evaluateByMaterial(game);
                 evaluation += evaluateByMoves(game);
@@ -42,7 +42,7 @@ public class GameEvaluator {
 
     protected int evaluateByMaterial(final Game game) {
         int evaluation = 0;
-        ChessPositionReader positionReader = game.getChessPositionReader();
+        ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getValue();
@@ -68,7 +68,7 @@ public class GameEvaluator {
 
         evaluation = 2 * origenes.size() + territorioExpansion.size() + 2 * territorioAtaque.size();
 
-        return (Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn())) ? evaluation : - evaluation;
+        return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? evaluation : - evaluation;
     }
 
 }

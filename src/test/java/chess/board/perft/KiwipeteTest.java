@@ -930,7 +930,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 		
 		PerftResult result= pert.start(board, 4);
 		
-		assertFalse(board.getChessPositionReader().isCastlingWhiteQueenAllowed());
+		assertFalse(board.getChessPosition().isCastlingWhiteQueenAllowed());
 		
 		assertEquals(43, result.getMovesCount());
 		assertEquals(3827454, result.getTotalNodes());

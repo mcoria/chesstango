@@ -88,7 +88,7 @@ public class PGNEncoder {
             case DRAW:
                 return "1/2-1/2";
             case MATE:
-                return Color.BLACK.equals(game.getChessPositionReader().getCurrentTurn()) ? "1-0" : "0-1";
+                return Color.BLACK.equals(game.getChessPosition().getCurrentTurn()) ? "1-0" : "0-1";
             default:
                 throw new RuntimeException("Invalid game status");
         }

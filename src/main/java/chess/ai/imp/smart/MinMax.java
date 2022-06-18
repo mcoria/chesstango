@@ -7,7 +7,6 @@ import chess.board.Color;
 import chess.board.Game;
 import chess.board.PiecePositioned;
 import chess.board.moves.Move;
-import chess.board.moves.containers.MoveContainerReader;
 
 /**
  * @author Mauricio Coria
@@ -39,7 +38,7 @@ public class MinMax extends AbstractSmart {
 	public Move findBestMove(Game game) {
 		this.keepProcessing = true;
 
-		final boolean minOrMax = Color.WHITE.equals(game.getChessPositionReader().getCurrentTurn()) ? false : true;
+		final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
 		final List<Move> possibleMoves = new ArrayList<Move>();
 
 		int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE: GameEvaluator.INFINITE_NEGATIVE;

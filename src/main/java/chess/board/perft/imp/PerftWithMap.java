@@ -152,7 +152,7 @@ public class PerftWithMap implements Perft  {
 	
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	private String getGameId(Game board) {
-		board.getChessPositionReader().constructBoardRepresentation(coder);
+		board.getChessPosition().constructBoardRepresentation(coder);
 		return coder.getResult();
 	}
 
