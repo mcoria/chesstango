@@ -29,13 +29,14 @@ public class GameTest {
 	public void testInitialPosition() {
 		Game game =  getDefaultGame();
 		
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
-		assertEquals(1, game.getChessPositionReader().getFullMoveClock());
-		assertEquals(0, game.getChessPositionReader().getHalfMoveClock());
-		assertTrue(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
-		assertTrue(game.getChessPositionReader().isCastlingWhiteKingAllowed());
-		assertTrue(game.getChessPositionReader().isCastlingBlackQueenAllowed());
-		assertTrue(game.getChessPositionReader().isCastlingBlackKingAllowed());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertTrue(game.getChessPosition().isCastlingWhiteQueenAllowed());
+		assertTrue(game.getChessPosition().isCastlingWhiteKingAllowed());
+		assertTrue(game.getChessPosition().isCastlingBlackQueenAllowed());
+		assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
+
 		assertEquals(GameState.GameStatus.IN_PROGRESS, game.getGameStatus());
 		assertEquals(20, game.getPossibleMoves().size());
 	}
@@ -44,7 +45,7 @@ public class GameTest {
 	public void test_mate() {
 		Game game =  getDefaultGame();
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.e2, Square.e4)
 		.executeMove(Square.e7, Square.e5)
@@ -54,38 +55,44 @@ public class GameTest {
 		.executeMove(Square.f8, Square.c5)
 		.executeMove(Square.f3, Square.f7);
 		
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		assertEquals(GameState.GameStatus.MATE, game.getGameStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(4, game.getChessPosition().getFullMoveClock());
 	}
 
 	@Test
 	public void test_mateAndUndo() {
 		Game game =  getDefaultGame();
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 		
-		game.executeMove(Square.e2, Square.e4);
-		game.executeMove(Square.e7, Square.e5);
-		game.executeMove(Square.f1, Square.c4);	
-		game.executeMove(Square.b8, Square.c6);
-		game.executeMove(Square.d1, Square.f3);
-		game.executeMove(Square.f8, Square.c5);
-		game.executeMove(Square.f3, Square.f7);
+		game.executeMove(Square.e2, Square.e4)
+		.executeMove(Square.e7, Square.e5)
+		.executeMove(Square.f1, Square.c4)
+		.executeMove(Square.b8, Square.c6)
+		.executeMove(Square.d1, Square.f3)
+		.executeMove(Square.f8, Square.c5)
+		.executeMove(Square.f3, Square.f7);
 		
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		assertEquals(GameState.GameStatus.MATE, game.getGameStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(4, game.getChessPosition().getFullMoveClock());
 		
-		game.undoMove();
-		game.undoMove();
-		game.undoMove();	
-		game.undoMove();
-		game.undoMove();
-		game.undoMove();
-		game.undoMove();
+		game.undoMove()
+		.undoMove()
+		.undoMove()
+		.undoMove()
+		.undoMove()
+		.undoMove()
+		.undoMove();
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
 	}	
 	
 	@Test
@@ -93,35 +100,35 @@ public class GameTest {
 		Game game =  getDefaultGame();
 		
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.e2, Square.e4);
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.e7, Square.e5);
 		assertEquals(29, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.f1, Square.c4);
 		assertEquals(29, game.getPossibleMoves().size());
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.b8, Square.c6);
 		assertEquals(33, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.d1, Square.f3);
 		assertEquals(31, game.getPossibleMoves().size());
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		
 		game.executeMove(Square.g8, Square.h6);
 		assertEquals(42, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 		
 		
 		game.executeMove(Square.f3, Square.f7);
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		assertEquals(GameState.GameStatus.CHECK, game.getGameStatus());
 		assertEquals(1, game.getPossibleMoves().size());
 	}
@@ -130,27 +137,39 @@ public class GameTest {
 	public void testJuegoTablas() {
 		Game game =  getGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
 		
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
 		
 		game.executeMove(Square.h7, Square.c7);
 
-		assertEquals(Color.BLACK, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
 		assertEquals(GameState.GameStatus.DRAW, game.getGameStatus());
 		assertEquals(0, game.getPossibleMoves().size());
+		assertEquals(1, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
 	}
 	
 	@Test
-	public void testJuegoUndo() {
+	public void test_undo() {
 		Game game =  getDefaultGame();
 		
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
 		
 		game.executeMove(Square.e2, Square.e4);
+		assertEquals(20, game.getPossibleMoves().size());
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+		assertEquals(1, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
 		
 		game.undoMove();
 		assertEquals(20, game.getPossibleMoves().size());
-		assertEquals(Color.WHITE, game.getChessPositionReader().getCurrentTurn());
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
 	}
 	
 	@Test
@@ -160,6 +179,8 @@ public class GameTest {
 		game.executeMove(Square.b6, Square.b5);
 		
 		assertEquals(22, game.getPossibleMoves().size());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(3, game.getChessPosition().getFullMoveClock()); // Movio Negras
 	}
 	
 	@Test
@@ -167,7 +188,8 @@ public class GameTest {
 		Game game =  getGame("rnbqkbnr/1ppppppp/8/pP6/8/8/P1PPPPPP/RNBQKBNR b KQkq - 0 2");
 		
 		game.executeMove(Square.c7, Square.c5);
-		
+
+		assertEquals(Square.c6, game.getChessPosition().getEnPassantSquare());
 		assertNotNull(game.getMove(Square.b5, Square.c6));
 		assertEquals(22, game.getPossibleMoves().size());
 	}
@@ -180,7 +202,7 @@ public class GameTest {
 		
 		game.executeMove(Square.a1, Square.b1);
 		
-		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
+		assertFalse(game.getChessPosition().isCastlingWhiteQueenAllowed());
 		
 		assertEquals(43, game.getPossibleMoves().size());
 	}	
@@ -455,7 +477,7 @@ public class GameTest {
 		
 		game.executeMove(Square.g2, Square.h1);
 		
-		ChessPositionReader reader = game.getChessPositionReader();
+		ChessPositionReader reader = game.getChessPosition();
 		
 		assertFalse( reader.isCastlingWhiteKingAllowed() );
 	}
@@ -491,7 +513,7 @@ public class GameTest {
 		//Blanca deberia tener enroque de rey nuevamente
 		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
 		
-		assertFalse(game.getChessPositionReader().isCastlingWhiteQueenAllowed());
+		assertFalse(game.getChessPosition().isCastlingWhiteQueenAllowed());
 
 	}	
 	

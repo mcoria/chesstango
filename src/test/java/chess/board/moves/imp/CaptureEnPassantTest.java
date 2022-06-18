@@ -30,7 +30,7 @@ import chess.board.position.imp.PositionState;
 @RunWith(MockitoJUnitRunner.class)
 public class CaptureEnPassantTest {
 
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 	
@@ -48,14 +48,16 @@ public class CaptureEnPassantTest {
 	public void setUp() throws Exception {
 		positionState = new PositionState();
 		positionState.setCurrentTurn(Color.WHITE);
-		positionState.setEnPassantSquare(Square.a6);		
+		positionState.setEnPassantSquare(Square.a6);
+		positionState.setHalfMoveClock(2);
+		positionState.setFullMoveClock(5);
 		
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.b5, Piece.PAWN_WHITE);
-		piezaBoard.setPieza(Square.a5, Piece.PAWN_BLACK);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.b5, Piece.PAWN_WHITE);
+		piecePlacement.setPieza(Square.a5, Piece.PAWN_BLACK);
 		
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);
+		colorBoard.init(piecePlacement);
 		
 		PiecePositioned pawnWhite = PiecePositioned.getPiecePositioned(Square.b5, Piece.PAWN_WHITE);
 		PiecePositioned pawnBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
@@ -67,20 +69,20 @@ public class CaptureEnPassantTest {
 	@Test
 	public void testPosicionPiezaBoard() {		
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute
-		assertTrue(piezaBoard.isEmtpy(Square.a5));
-		assertTrue(piezaBoard.isEmtpy(Square.b5));
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.a6));
+		assertTrue(piecePlacement.isEmtpy(Square.a5));
+		assertTrue(piecePlacement.isEmtpy(Square.b5));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.a6));
 		
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos
-		assertTrue(piezaBoard.isEmtpy(Square.a6));
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.b5));
-		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPiece(Square.a5));
+		assertTrue(piecePlacement.isEmtpy(Square.a6));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.b5));
+		assertEquals(Piece.PAWN_BLACK, piecePlacement.getPiece(Square.a5));
 		
 	}
 	
@@ -92,6 +94,8 @@ public class CaptureEnPassantTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
 		moveExecutor.undoMove(positionState);	
@@ -99,6 +103,8 @@ public class CaptureEnPassantTest {
 		// asserts undos
 		assertEquals(Square.a6, positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 		
 	}
 	
@@ -151,14 +157,14 @@ public class CaptureEnPassantTest {
 	@Test
 	public void testIntegrated() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertTrue(piezaBoard.isEmtpy(Square.a5));
-		assertTrue(piezaBoard.isEmtpy(Square.b5));
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.a6));
+		assertTrue(piecePlacement.isEmtpy(Square.a5));
+		assertTrue(piecePlacement.isEmtpy(Square.b5));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.a6));
 		
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
@@ -166,18 +172,18 @@ public class CaptureEnPassantTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
 		assertTrue(colorBoard.isEmpty(Square.a5));
 		assertTrue(colorBoard.isEmpty(Square.b5));		
-		colorBoard.validar(piezaBoard);
+		colorBoard.validar(piecePlacement);
 		
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 
 		
 		// asserts undos
-		assertTrue(piezaBoard.isEmtpy(Square.a6));
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.b5));
-		assertEquals(Piece.PAWN_BLACK, piezaBoard.getPiece(Square.a5));
+		assertTrue(piecePlacement.isEmtpy(Square.a6));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.b5));
+		assertEquals(Piece.PAWN_BLACK, piecePlacement.getPiece(Square.a5));
 		
 		assertEquals(Square.a6, positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
@@ -185,6 +191,6 @@ public class CaptureEnPassantTest {
 		assertTrue(colorBoard.isEmpty(Square.a6));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.a5));
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.b5));
-		colorBoard.validar(piezaBoard);	
+		colorBoard.validar(piecePlacement);
 	}	
 }

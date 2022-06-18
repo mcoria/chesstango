@@ -33,7 +33,7 @@ public class CaptureKingMoveTest {
 
 	private CaptureKingMove moveExecutor;
 	
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 
@@ -52,14 +52,14 @@ public class CaptureKingMoveTest {
 		positionState = new PositionState();
 		kingCacheBoard = new KingCacheBoard();
 		moveExecutor = null;
-		piezaBoard = null;
+		piecePlacement = null;
 	}
 	
 	
 	@Test
 	public void testPosicionPiezaBoard() {
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -67,23 +67,25 @@ public class CaptureKingMoveTest {
 		moveExecutor = new CaptureKingMove(origen, destino);
 
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 
 		// asserts execute
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e2));
-		assertNull(piezaBoard.getPiece(Square.e1));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
+		assertNull(piecePlacement.getPiece(Square.e1));
 
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e1));
-		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPiece(Square.e2));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
+		assertEquals(Piece.KNIGHT_BLACK, piecePlacement.getPiece(Square.e2));
 	}	
 	
 	@Test
 	public void testBoardState() {
 		positionState.setCurrentTurn(Color.WHITE);
+		positionState.setHalfMoveClock(2);
+		positionState.setFullMoveClock(5);
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -91,12 +93,16 @@ public class CaptureKingMoveTest {
 		moveExecutor = new CaptureKingMove(origen, destino);
 
 		moveExecutor.executeMove(positionState);
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 
 		moveExecutor.undoMove(positionState);
 
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 	}		
 
 	@Test
@@ -119,11 +125,11 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testColorBoard() {
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoard();
-		colorBoard.init(piezaBoard);
+		colorBoard.init(piecePlacement);
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -183,11 +189,11 @@ public class CaptureKingMoveTest {
 	
 	@Test
 	public void testExecuteUndo() {
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoard();
-		colorBoard.init(piezaBoard);
+		colorBoard.init(piecePlacement);
 		
 		positionState.setCurrentTurn(Color.WHITE);
 
@@ -197,14 +203,14 @@ public class CaptureKingMoveTest {
 		moveExecutor = new CaptureKingMove(origen, destino);
 
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(kingCacheBoard);
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e2));
-		assertNull(piezaBoard.getPiece(Square.e1));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
+		assertNull(piecePlacement.getPiece(Square.e1));
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
@@ -214,15 +220,15 @@ public class CaptureKingMoveTest {
 		assertTrue(colorBoard.isEmpty(Square.e1));
 
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(kingCacheBoard);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 
 		
 		// asserts undos
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e1));
-		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPiece(Square.e2));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
+		assertEquals(Piece.KNIGHT_BLACK, piecePlacement.getPiece(Square.e2));
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		

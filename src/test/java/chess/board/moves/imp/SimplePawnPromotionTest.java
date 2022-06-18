@@ -31,7 +31,7 @@ import chess.board.position.imp.PositionState;
 @RunWith(MockitoJUnitRunner.class)
 public class SimplePawnPromotionTest {
 
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 	
@@ -50,11 +50,11 @@ public class SimplePawnPromotionTest {
 		positionState = new PositionState();
 		positionState.setCurrentTurn(Color.WHITE);
 		
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e7, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);	
+		colorBoard.init(piecePlacement);
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e8, null);
@@ -65,18 +65,18 @@ public class SimplePawnPromotionTest {
 	@Test
 	public void testPosicionPiezaBoard() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute		
-		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPiece(Square.e8));
-		assertTrue(piezaBoard.isEmtpy(Square.e7));
+		assertEquals(Piece.QUEEN_WHITE, piecePlacement.getPiece(Square.e8));
+		assertTrue(piecePlacement.isEmtpy(Square.e7));
 		
 		// undos		
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e7));
-		assertTrue(piezaBoard.isEmtpy(Square.e8));		
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e7));
+		assertTrue(piecePlacement.isEmtpy(Square.e8));
 	}
 		
 	@Test
@@ -87,12 +87,16 @@ public class SimplePawnPromotionTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
 		moveExecutor.undoMove(positionState);
 
 		// asserts undos	
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 	}
 	
 	@Test

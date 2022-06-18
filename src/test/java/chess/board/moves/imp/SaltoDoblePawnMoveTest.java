@@ -31,7 +31,7 @@ import chess.board.position.imp.ArrayPiecePlacement;
 @RunWith(MockitoJUnitRunner.class)
 public class SaltoDoblePawnMoveTest {
 
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionStateDebug boardState;
 	
@@ -50,11 +50,11 @@ public class SaltoDoblePawnMoveTest {
 		boardState = new PositionStateDebug();
 		boardState.setCurrentTurn(Color.WHITE);
 		
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);	
+		colorBoard.init(piecePlacement);
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
@@ -65,18 +65,18 @@ public class SaltoDoblePawnMoveTest {
 	@Test
 	public void testPosicionPiezaBoard() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e4));
-		assertTrue(piezaBoard.isEmtpy(Square.e2));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e4));
+		assertTrue(piecePlacement.isEmtpy(Square.e2));
 		
 		// undos		
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e2));
-		assertTrue(piezaBoard.isEmtpy(Square.e4));		
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
+		assertTrue(piecePlacement.isEmtpy(Square.e4));
 	}
 		
 	@Test
@@ -87,6 +87,8 @@ public class SaltoDoblePawnMoveTest {
 		// asserts execute
 		assertEquals(Square.e3, boardState.getEnPassantSquare());
 		assertEquals(Color.BLACK, boardState.getCurrentTurn());
+		assertEquals(4, boardState.getHalfMoveClock());
+		assertEquals(6, boardState.getFullMoveClock());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
@@ -94,6 +96,8 @@ public class SaltoDoblePawnMoveTest {
 		// asserts undos
 		assertNull(boardState.getEnPassantSquare());		
 		assertEquals(Color.WHITE, boardState.getCurrentTurn());
+		assertEquals(4, boardState.getHalfMoveClock());
+		assertEquals(6, boardState.getFullMoveClock());
 	}
 	
 	@Test
@@ -115,8 +119,8 @@ public class SaltoDoblePawnMoveTest {
 	
 	@Test
 	public void testBoard() {
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e2, Piece.PAWN_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
@@ -149,22 +153,22 @@ public class SaltoDoblePawnMoveTest {
 	@Test
 	public void testIntegrated() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(boardState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		colorBoard.validar(piezaBoard);
-		boardState.validar(piezaBoard);
+		colorBoard.validar(piecePlacement);
+		boardState.validar(piecePlacement);
 		
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(boardState);
 		moveExecutor.undoMove(colorBoard);
 
 		
 		// asserts undos
-		colorBoard.validar(piezaBoard);	
-		boardState.validar(piezaBoard);		
+		colorBoard.validar(piecePlacement);
+		boardState.validar(piecePlacement);
 	}	
 }

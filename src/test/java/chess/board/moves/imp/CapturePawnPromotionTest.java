@@ -31,7 +31,7 @@ import chess.board.position.imp.PositionState;
 @RunWith(MockitoJUnitRunner.class)
 public class CapturePawnPromotionTest {
 
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 	
@@ -49,13 +49,14 @@ public class CapturePawnPromotionTest {
 	public void setUp() throws Exception {
 		positionState = new PositionState();
 		positionState.setCurrentTurn(Color.WHITE);
+		positionState.setHalfMoveClock(3);
 		
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e7, Piece.PAWN_WHITE);
-		piezaBoard.setPieza(Square.f8, Piece.KNIGHT_BLACK);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e7, Piece.PAWN_WHITE);
+		piecePlacement.setPieza(Square.f8, Piece.KNIGHT_BLACK);
 		
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);
+		colorBoard.init(piecePlacement);
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.f8, Piece.KNIGHT_BLACK);
@@ -67,18 +68,18 @@ public class CapturePawnPromotionTest {
 	@Test
 	public void testPosicionPiezaBoard() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute		
-		assertEquals(Piece.QUEEN_WHITE, piezaBoard.getPiece(Square.f8));
-		assertTrue(piezaBoard.isEmtpy(Square.e7));
+		assertEquals(Piece.QUEEN_WHITE, piecePlacement.getPiece(Square.f8));
+		assertTrue(piecePlacement.isEmtpy(Square.e7));
 		
 		// undos		
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piezaBoard.getPiece(Square.e7));
-		assertEquals(Piece.KNIGHT_BLACK, piezaBoard.getPiece(Square.f8));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e7));
+		assertEquals(Piece.KNIGHT_BLACK, piecePlacement.getPiece(Square.f8));
 	}
 		
 	@Test
@@ -89,12 +90,16 @@ public class CapturePawnPromotionTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
 		moveExecutor.undoMove(positionState);
 
 		// asserts undos	
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 	}
 	
 	@Test

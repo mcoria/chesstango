@@ -32,7 +32,7 @@ import chess.board.position.imp.PositionState;
 @RunWith(MockitoJUnitRunner.class)
 public class CastlingBlackQueenMoveTest {
 
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 	
@@ -57,32 +57,32 @@ public class CastlingBlackQueenMoveTest {
 		positionState.setCastlingBlackQueenAllowed(true);
 		positionState.setCastlingBlackKingAllowed(true);
 		
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.a8, Piece.ROOK_BLACK);	
-		piezaBoard.setPieza(Square.e8, Piece.KING_BLACK);	
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.a8, Piece.ROOK_BLACK);
+		piecePlacement.setPieza(Square.e8, Piece.KING_BLACK);
 		
 		kingCacheBoard = new KingCacheBoard();
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);
+		colorBoard.init(piecePlacement);
 	}
 	
 	@Test
 	public void testPosicionPiezaBoard() {
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		
-		assertEquals(Piece.KING_BLACK, piezaBoard.getPiece(Square.c8));
-		assertEquals(Piece.ROOK_BLACK, piezaBoard.getPiece(Square.d8));
+		assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.c8));
+		assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.d8));
 		
-		assertTrue(piezaBoard.isEmtpy(Square.a8));
-		assertTrue(piezaBoard.isEmtpy(Square.e8));
+		assertTrue(piecePlacement.isEmtpy(Square.a8));
+		assertTrue(piecePlacement.isEmtpy(Square.e8));
 		
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
-		assertEquals(Piece.KING_BLACK, piezaBoard.getPiece(Square.e8));
-		assertEquals(Piece.ROOK_BLACK, piezaBoard.getPiece(Square.a8));
+		assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.e8));
+		assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.a8));
 		
-		assertTrue(piezaBoard.isEmtpy(Square.c8));
-		assertTrue(piezaBoard.isEmtpy(Square.d8));		
+		assertTrue(piecePlacement.isEmtpy(Square.c8));
+		assertTrue(piecePlacement.isEmtpy(Square.d8));
 	}
 
 	@Test
@@ -93,6 +93,8 @@ public class CastlingBlackQueenMoveTest {
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 		
 		moveExecutor.undoMove(positionState);
 		

@@ -33,7 +33,7 @@ public class SimpleKingMoveTest {
 
 	private SimpleKingMove moveExecutor;
 	
-	private PiecePlacement piezaBoard;
+	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 
@@ -49,14 +49,14 @@ public class SimpleKingMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		piezaBoard = new ArrayPiecePlacement();
-		piezaBoard.setPieza(Square.e1, Piece.KING_WHITE);
+		piecePlacement = new ArrayPiecePlacement();
+		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piezaBoard);
+		colorBoard.init(piecePlacement);
 
 		kingCacheBoard = new KingCacheBoardDebug();
-		kingCacheBoard.init(piezaBoard);
+		kingCacheBoard.init(piecePlacement);
 
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, null);
@@ -73,18 +73,18 @@ public class SimpleKingMoveTest {
 	@Test
 	public void testPosicionPiezaBoard() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 
 		// asserts execute
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e2));
-		assertNull(piezaBoard.getPiece(Square.e1));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
+		assertNull(piecePlacement.getPiece(Square.e1));
 
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e1));
-		assertTrue(piezaBoard.isEmtpy(Square.e2));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
+		assertTrue(piecePlacement.isEmtpy(Square.e2));
 	}	
 	
 	@Test
@@ -92,10 +92,14 @@ public class SimpleKingMoveTest {
 		moveExecutor.executeMove(positionState);
 
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 
 		moveExecutor.undoMove(positionState);
 
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 	}		
 
 	@Test
@@ -156,14 +160,14 @@ public class SimpleKingMoveTest {
 	@Test
 	public void testIntegrated() {
 		// execute
-		moveExecutor.executeMove(piezaBoard);
+		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(kingCacheBoard);
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e2));
-		assertNull(piezaBoard.getPiece(Square.e1));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
+		assertNull(piecePlacement.getPiece(Square.e1));
 		
 		assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 		
@@ -172,19 +176,19 @@ public class SimpleKingMoveTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e1));
 
-		colorBoard.validar(piezaBoard);
-		kingCacheBoard.validar(piezaBoard);
+		colorBoard.validar(piecePlacement);
+		kingCacheBoard.validar(piecePlacement);
 		
 		// undos
-		moveExecutor.undoMove(piezaBoard);
+		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(kingCacheBoard);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 
 		
 		// asserts undos
-		assertEquals(Piece.KING_WHITE, piezaBoard.getPiece(Square.e1));
-		assertTrue(piezaBoard.isEmtpy(Square.e2));
+		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
+		assertTrue(piecePlacement.isEmtpy(Square.e2));
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		
@@ -193,7 +197,7 @@ public class SimpleKingMoveTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertTrue(colorBoard.isEmpty(Square.e2));
 		
-		colorBoard.validar(piezaBoard);
-		kingCacheBoard.validar(piezaBoard);		
+		colorBoard.validar(piecePlacement);
+		kingCacheBoard.validar(piecePlacement);
 	}
 }
