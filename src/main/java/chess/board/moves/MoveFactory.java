@@ -15,6 +15,9 @@ import chess.board.iterators.Cardinal;
 public interface MoveFactory {
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+
+	Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal norte);
+
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 

@@ -77,6 +77,11 @@ public class MoveFactoryBlack implements MoveFactory {
 	}
 
 	@Override
+	public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+		return new SimpleMove(origen, destino, cardinal);
+	}
+
+	@Override
 	public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
 		Move move = new CaptureMove(origen, destino);
 		Move result = move;
