@@ -20,37 +20,37 @@ public class PerftMainTestSuite {
 		try (PrintStream out = new PrintStream(
 				new FileOutputStream("./PerftMainTestSuiteResult.txt", false))) {
 
-//			execute("main/ferdy_perft_double_checks.epd", out);
-//			execute("main/ferdy_perft_enpassant_1.epd", out);
-//
-//			execute("main/ferdy_perft_single_check_1.epd", out);
-//			execute("main/ferdy_perft_single_check_2.epd", out);
-//			execute("main/ferdy_perft_single_check_3.epd", out);
-//			execute("main/ferdy_perft_single_check_4.epd", out);
-//			execute("main/ferdy_perft_single_check_5.epd", out);
-//			execute("main/ferdy_perft_single_check_6.epd", out);
-//			execute("main/ferdy_perft_single_check_7.epd", out);
-//			execute("main/ferdy_perft_single_check_8.epd", out);
-//			execute("main/ferdy_perft_single_check_9.epd", out);
-//			execute("main/ferdy_perft_single_check_10.epd", out);
-//			execute("main/ferdy_perft_single_check_11.epd", out);
-//			execute("main/ferdy_perft_single_check_12.epd", out);
-//			execute("main/ferdy_perft_single_check_13.epd", out);
-//			execute("main/ferdy_perft_single_check_14.epd", out);
-//			execute("main/ferdy_perft_single_check_15.epd", out);
-//			execute("main/ferdy_perft_single_check_16.epd", out);
-//			execute("main/ferdy_perft_single_check_17.epd", out);
-//			execute("main/ferdy_perft_single_check_18.epd", out);
-//			execute("main/ferdy_perft_single_check_19.epd", out);
-//
+			execute("main/ferdy_perft_double_checks.epd", out);
+			execute("main/ferdy_perft_enpassant_1.epd", out);
+
+			execute("main/ferdy_perft_single_check_1.epd", out);
+			execute("main/ferdy_perft_single_check_2.epd", out);
+			execute("main/ferdy_perft_single_check_3.epd", out);
+			execute("main/ferdy_perft_single_check_4.epd", out);
+			execute("main/ferdy_perft_single_check_5.epd", out);
+			execute("main/ferdy_perft_single_check_6.epd", out);
+			execute("main/ferdy_perft_single_check_7.epd", out);
+			execute("main/ferdy_perft_single_check_8.epd", out);
+			execute("main/ferdy_perft_single_check_9.epd", out);
+			execute("main/ferdy_perft_single_check_10.epd", out);
+			execute("main/ferdy_perft_single_check_11.epd", out);
+			execute("main/ferdy_perft_single_check_12.epd", out);
+			execute("main/ferdy_perft_single_check_13.epd", out);
+			execute("main/ferdy_perft_single_check_14.epd", out);
+			execute("main/ferdy_perft_single_check_15.epd", out);
+			execute("main/ferdy_perft_single_check_16.epd", out);
+			execute("main/ferdy_perft_single_check_17.epd", out);
+			execute("main/ferdy_perft_single_check_18.epd", out);
+			execute("main/ferdy_perft_single_check_19.epd", out);
+
 			execute("main/ferdy_perft_double_checks.epd", out);
 			execute("main/perft-marcel.epd", out);
 			execute("main/perft.epd", out);
 
 
-//			execute("main/perftsuite1.txt", out);
-//			execute("main/perftsuite2.txt", out);
-//			execute("main/perftsuite3.txt", out);
+			execute("main/perftsuite1.txt", out);
+			execute("main/perftsuite2.txt", out);
+			execute("main/perftsuite3.txt", out);
 
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
@@ -144,6 +144,7 @@ public class PerftMainTestSuite {
 			returnResult = true;
 			out.println("=============");
 		}catch (Exception e){
+			e.printStackTrace();
 			out.println(e);
 		}
 		return returnResult;

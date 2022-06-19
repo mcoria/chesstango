@@ -26,6 +26,10 @@ public class FENDecoderTest {
 	private boolean castlingBlackQueenAllowed;
 	private boolean castlingWhiteKingAllowed;
 	private boolean castlingWhiteQueenAllowed;
+
+	private int halfMoveClock;
+
+	private int fullMoveClock;
 	
 	private Piece[][] board = null;
 			
@@ -42,11 +46,13 @@ public class FENDecoderTest {
 
 			@Override
 			public ChessPositionBuilder<Object> withHalfMoveClock(int halfMoveClock) {
+				FENDecoderTest.this.halfMoveClock = halfMoveClock;
 				return null;
 			}
 
 			@Override
 			public ChessPositionBuilder<Object> withFullMoveClock(int fullMoveClock) {
+				FENDecoderTest.this.fullMoveClock = fullMoveClock;
 				return null;
 			}
 
@@ -364,6 +370,16 @@ public class FENDecoderTest {
 		assertEquals(Piece.BISHOP_BLACK, getPieza(board, Square.f8));
 		assertEquals(Piece.KNIGHT_BLACK, getPieza(board, Square.g8));
 		assertEquals(Piece.ROOK_BLACK, getPieza(board, Square.h8));
+	}
+
+
+	@Test
+	public void testParseFenWithSpaces() {
+		parser.parseFEN("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4  w   -   -    4       10");
+
+		assertEquals(Color.WHITE, this.turn);
+		assertEquals(4, this.halfMoveClock);
+		assertEquals(10, this.fullMoveClock);
 	}
 
 	private boolean isEmtpy(Piece[][] tablero, Square square) {

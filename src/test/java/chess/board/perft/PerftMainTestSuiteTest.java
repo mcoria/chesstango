@@ -57,6 +57,13 @@ public class PerftMainTestSuiteTest {
 		assertEquals(8031647685L, suite.expectedPerftResults[5]);
 	}
 
+	@Test
+	public void test_parse4() {
+		suite.parseTests("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1; D4 23441");
+		assertEquals("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1", suite.fen);
+		assertEquals(23441L, suite.expectedPerftResults[0]);
+	}
+
 	
 	@Test
 	public void run_1() {
@@ -84,5 +91,10 @@ public class PerftMainTestSuiteTest {
 	@Test
 	public void run_5() {
 		assertTrue(suite.run("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1 ;D6 824064"));
+	}
+
+	@Test
+	public void run_6() {
+		assertTrue(suite.run("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1; D4 23441"));
 	}
 }

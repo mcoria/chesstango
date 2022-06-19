@@ -21,7 +21,7 @@ public class FENDecoder {
 	}	
 			
 	public void parseFEN(String input) {
-		String[] fields = input.split(" ");
+		String[] fields = input.trim().split("\\s+");
 		
 		String piecePlacement = fields[0];
 		String activeColor= fields[1];
