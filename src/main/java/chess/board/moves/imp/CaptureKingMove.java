@@ -17,21 +17,6 @@ class CaptureKingMove extends CaptureMove  implements MoveKing  {
 	}
 	
 	@Override
-	public void executeMove(ChessPositionWriter chessPosition) {
-		chessPosition.executeMove(this);
-	}
-	
-	@Override
-	public void undoMove(ChessPositionWriter chessPosition) {
-		chessPosition.undoMove(this);
-	}	
-	
-	@Override
-	public boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
-	}
-	
-	@Override
 	public void executeMove(KingCacheBoard kingCacheBoard){
 		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());
 	}
