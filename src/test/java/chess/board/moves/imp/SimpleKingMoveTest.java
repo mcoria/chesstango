@@ -67,6 +67,8 @@ public class SimpleKingMoveTest {
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingWhiteKingAllowed(true);
 		positionState.setCastlingWhiteQueenAllowed(true);
+		positionState.setHalfMoveClock(2);
+		positionState.setFullMoveClock(5);
 	}
 	
 	
@@ -98,7 +100,7 @@ public class SimpleKingMoveTest {
 		moveExecutor.undoMove(positionState);
 
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(2, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 	}		
 

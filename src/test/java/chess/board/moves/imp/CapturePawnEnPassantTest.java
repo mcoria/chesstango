@@ -94,7 +94,7 @@ public class CapturePawnEnPassantTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(0, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
@@ -103,7 +103,7 @@ public class CapturePawnEnPassantTest {
 		// asserts undos
 		assertEquals(Square.a6, positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(2, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 		
 	}

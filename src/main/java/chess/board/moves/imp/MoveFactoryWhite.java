@@ -131,13 +131,13 @@ public class MoveFactoryWhite implements MoveFactory {
 
 
 	@Override
-	public Move createSimplePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+	public Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
 		return new SimplePawnPromotion(origen, destino, piece);
 	}
 
 
 	@Override
-	public Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+	public Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
 		Move move = new CapturePawnPromotion(origen, destino, piece);
 		Move result = move;
 		if (Square.a8.equals(destino.getKey())) {

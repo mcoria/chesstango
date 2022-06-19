@@ -96,7 +96,7 @@ public class CastlingBlackKingMoveTest {
 		assertFalse(positionState.isCastlingBlackQueenAllowed());
 		assertFalse(positionState.isCastlingBlackKingAllowed());
 		assertEquals(4, positionState.getHalfMoveClock());
-		assertEquals(6, positionState.getFullMoveClock());
+		assertEquals(11, positionState.getFullMoveClock());
 		
 		moveExecutor.undoMove(positionState);
 		
@@ -105,7 +105,7 @@ public class CastlingBlackKingMoveTest {
 		assertTrue(positionState.isCastlingBlackQueenAllowed());
 		assertTrue(positionState.isCastlingBlackKingAllowed());
 		assertEquals(3, positionState.getHalfMoveClock());
-		assertEquals(5, positionState.getFullMoveClock());
+		assertEquals(10, positionState.getFullMoveClock());
 		
 	}
 	

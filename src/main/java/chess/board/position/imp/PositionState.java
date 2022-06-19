@@ -87,6 +87,10 @@ public class PositionState {
 		this.dataNode.halfMoveClock = halfMoveClock;
 	}
 
+	public void incrementHalfMoveClock() {
+		this.dataNode.halfMoveClock++;
+	}
+
 	public void resetHalfMoveClock() {
 		this.dataNode.halfMoveClock = 0;
 	}

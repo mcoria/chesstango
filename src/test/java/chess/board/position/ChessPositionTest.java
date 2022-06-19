@@ -59,28 +59,28 @@ public class ChessPositionTest {
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 		
-		assertTrue(moves.contains( createSimpleMove(Square.a2, Piece.PAWN_WHITE, Square.a3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.a2, Piece.PAWN_WHITE, Square.a3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.a2, Piece.PAWN_WHITE, Square.a4, Square.a3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.b2, Piece.PAWN_WHITE, Square.b3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.b2, Piece.PAWN_WHITE, Square.b3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.c2, Piece.PAWN_WHITE, Square.c3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.c2, Piece.PAWN_WHITE, Square.c3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.c2, Piece.PAWN_WHITE, Square.c4, Square.c3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.d2, Piece.PAWN_WHITE, Square.d3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.d2, Piece.PAWN_WHITE, Square.d3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.d2, Piece.PAWN_WHITE, Square.d4, Square.d3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.e2, Piece.PAWN_WHITE, Square.e3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.e2, Piece.PAWN_WHITE, Square.e3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.e2, Piece.PAWN_WHITE, Square.e4, Square.e3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.f2, Piece.PAWN_WHITE, Square.f3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.f2, Piece.PAWN_WHITE, Square.f3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.f2, Piece.PAWN_WHITE, Square.f4, Square.f3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.g2, Piece.PAWN_WHITE, Square.g3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.g2, Piece.PAWN_WHITE, Square.g3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.g2, Piece.PAWN_WHITE, Square.g4, Square.g3) ));
 		
-		assertTrue(moves.contains( createSimpleMove(Square.h2, Piece.PAWN_WHITE, Square.h3) ));
+		assertTrue(moves.contains( createSimplePawnMove(Square.h2, Piece.PAWN_WHITE, Square.h3) ));
 		assertTrue(moves.contains( createSaltoDobleMove(Square.h2, Piece.PAWN_WHITE, Square.h4, Square.h3) ));
 		
 		//CapturerByKnight Kingna
@@ -128,7 +128,7 @@ public class ChessPositionTest {
 
 		assertTrue(moves.contains(createSimpleMove(Square.b1, Piece.KNIGHT_WHITE, Square.c3)));
 		assertTrue(moves.contains(createSaltoDobleMove(Square.b2, Piece.PAWN_WHITE, Square.b4, Square.b3)));
-		assertTrue(moves.contains(createSimpleMove(Square.c2, Piece.PAWN_WHITE, Square.c3)));
+		assertTrue(moves.contains(createSimplePawnMove(Square.c2, Piece.PAWN_WHITE, Square.c3)));
 		assertTrue(moves.contains(createSimpleMove(Square.d2, Piece.KING_WHITE, Square.e3)));
 
 		assertFalse(moves.contains(createSimpleMove(Square.d2, Piece.KING_WHITE, Square.e1)));
@@ -222,7 +222,12 @@ public class ChessPositionTest {
 	
 	private Move createCaptureMove(Square origenSquare, Piece origenPieza, Square destinoSquare, Piece destinoPieza) {
 		return moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
-	}		
+	}
+
+
+	private Move createSimplePawnMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
+		return moveFactoryWhite.createSimplePawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.Norte);
+	}
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
 		return moveFactoryWhite.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante, Cardinal.Norte);
@@ -230,7 +235,7 @@ public class ChessPositionTest {
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,
 			Piece destinoPieza, Piece promocion) {
-		return moveFactoryWhite.createCapturePawnPromocion(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
+		return moveFactoryWhite.createCapturePawnPromotion(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
 				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	

@@ -56,6 +56,8 @@ public class CastlingWhiteQueenMoveTest {
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingWhiteQueenAllowed(true);
 		positionState.setCastlingWhiteKingAllowed(true);
+		positionState.setHalfMoveClock(3);
+		positionState.setFullMoveClock(10);
 		
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.a1, Piece.ROOK_WHITE);
@@ -93,8 +95,8 @@ public class CastlingWhiteQueenMoveTest {
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertFalse(positionState.isCastlingWhiteQueenAllowed());
 		assertFalse(positionState.isCastlingWhiteKingAllowed());
-		assertEquals(3, positionState.getHalfMoveClock());
-		assertEquals(5, positionState.getFullMoveClock());
+		assertEquals(4, positionState.getHalfMoveClock());
+		assertEquals(10, positionState.getFullMoveClock());
 		
 		moveExecutor.undoMove(positionState);
 		
@@ -103,7 +105,7 @@ public class CastlingWhiteQueenMoveTest {
 		assertTrue(positionState.isCastlingWhiteQueenAllowed());
 		assertTrue(positionState.isCastlingWhiteKingAllowed());
 		assertEquals(3, positionState.getHalfMoveClock());
-		assertEquals(5, positionState.getFullMoveClock());
+		assertEquals(10, positionState.getFullMoveClock());
 		
 	}	
 	

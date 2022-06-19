@@ -26,7 +26,7 @@ class CapturePawnPromotion extends CapturePawnMove implements MovePromotion {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj)  && obj instanceof CaptureMove){
+		if(super.equals(obj)  && obj instanceof CapturePawnPromotion){
 			CapturePawnPromotion other = (CapturePawnPromotion) obj;
 			return promotion.equals(other.promotion);
 		}

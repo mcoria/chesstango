@@ -50,6 +50,7 @@ public class CapturePawnPromotionTest {
 		positionState = new PositionState();
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setHalfMoveClock(3);
+		positionState.setFullMoveClock(5);
 		
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.e7, Piece.PAWN_WHITE);
@@ -90,7 +91,7 @@ public class CapturePawnPromotionTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(0, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos

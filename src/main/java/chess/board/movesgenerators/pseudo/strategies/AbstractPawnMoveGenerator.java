@@ -124,7 +124,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			result.addPseudoMove(this.moveFactory.createSimplePawnPromocion(from, destino, promociones[i]));
+			result.addPseudoMove(this.moveFactory.createSimplePawnPromotion(from, destino, promociones[i]));
 		}
 	}
 	
@@ -132,7 +132,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPiezaPromocion();
 		for (int i = 0; i < promociones.length; i++) {
-			result.addPseudoMove(this.moveFactory.createCapturePawnPromocion(from, destino, promociones[i]));
+			result.addPseudoMove(this.moveFactory.createCapturePawnPromotion(from, destino, promociones[i]));
 		}
 	}
 

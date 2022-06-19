@@ -93,7 +93,7 @@ public class CaptureKingMoveTest {
 		moveExecutor = new CaptureKingMove(origen, destino);
 
 		moveExecutor.executeMove(positionState);
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(0, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
@@ -101,7 +101,7 @@ public class CaptureKingMoveTest {
 		moveExecutor.undoMove(positionState);
 
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(2, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 	}		
 

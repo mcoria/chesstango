@@ -49,6 +49,8 @@ public class SimpleTwoSquaresPawnMoveTest {
 	public void setUp() throws Exception {
 		boardState = new PositionStateDebug();
 		boardState.setCurrentTurn(Color.WHITE);
+		boardState.setHalfMoveClock(2);
+		boardState.setFullMoveClock(5);
 		
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
@@ -87,8 +89,8 @@ public class SimpleTwoSquaresPawnMoveTest {
 		// asserts execute
 		assertEquals(Square.e3, boardState.getEnPassantSquare());
 		assertEquals(Color.BLACK, boardState.getCurrentTurn());
-		assertEquals(4, boardState.getHalfMoveClock());
-		assertEquals(6, boardState.getFullMoveClock());
+		assertEquals(0, boardState.getHalfMoveClock());
+		assertEquals(5, boardState.getFullMoveClock());
 		
 		// undos
 		moveExecutor.undoMove(boardState);
@@ -96,8 +98,8 @@ public class SimpleTwoSquaresPawnMoveTest {
 		// asserts undos
 		assertNull(boardState.getEnPassantSquare());		
 		assertEquals(Color.WHITE, boardState.getCurrentTurn());
-		assertEquals(4, boardState.getHalfMoveClock());
-		assertEquals(6, boardState.getFullMoveClock());
+		assertEquals(2, boardState.getHalfMoveClock());
+		assertEquals(5, boardState.getFullMoveClock());
 	}
 	
 	@Test

@@ -30,8 +30,8 @@ public interface MoveFactory {
 
 	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaEnPassant);
 
-	Move createSimplePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece);
-	Move createCapturePawnPromocion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
 
 	MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino);
 	MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino);
