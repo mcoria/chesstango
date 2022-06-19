@@ -30,10 +30,15 @@ public interface Move extends Comparable<Move> {
 	PiecePositioned getFrom();
 	PiecePositioned getTo();
 
-	void executeMove(ChessPositionWriter chessPosition);
-	void undoMove(ChessPositionWriter chessPosition);
-
-	boolean filter(MoveFilter filter);
+	default void executeMove(ChessPositionWriter chessPosition){
+		chessPosition.executeMove(this);
+	}
+	default void undoMove(ChessPositionWriter chessPosition){
+		chessPosition.undoMove(this);
+	}
+	default boolean filter(MoveFilter filter){
+		return filter.filterMove(this);
+	}
 
 	void executeMove(PiecePlacementWriter board);
 	void undoMove(PiecePlacementWriter board);
