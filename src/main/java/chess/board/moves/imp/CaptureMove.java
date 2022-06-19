@@ -10,7 +10,7 @@ import chess.board.position.imp.PositionState;
 /**
  * @author Mauricio Coria
  */
-class CaptureMove extends AbstractMove {
+class CaptureMove extends AbstractNotPawnMove {
 
     public CaptureMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

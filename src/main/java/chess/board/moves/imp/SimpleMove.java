@@ -10,7 +10,7 @@ import chess.board.position.imp.ColorBoard;
 /**
  * @author Mauricio Coria
  */
-class SimpleMove extends AbstractMove {
+class SimpleMove extends AbstractNotPawnMove {
 
     public SimpleMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);
