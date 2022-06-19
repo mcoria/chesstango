@@ -13,13 +13,13 @@ import chess.board.movesgenerators.pseudo.MoveGeneratorResult;
  */
 abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
-	protected abstract Square getCasilleroSaltoSimple(Square casillero);
+	protected abstract Square getSquareSimplePawnMove(Square square);
 
-	protected abstract Square getCasilleroSaltoDoble(Square casillero);
+	protected abstract Square getSquareSimpleTwoSquaresPawnMove(Square square);
 
-	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
+	protected abstract Square getSquareAttackLeft(Square square);
 	
-	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
+	protected abstract Square getSquareAttackRight(Square square);
 
 	protected abstract Piece[] getPromotionPieces();
 
@@ -42,11 +42,11 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		
 		int toRank = -1; //Just in case
 		Square casillero = from.getKey();
-		Square saltoSimpleCasillero = getCasilleroSaltoSimple(casillero);
-		Square saltoDobleCasillero = getCasilleroSaltoDoble(casillero);
+		Square saltoSimpleCasillero = getSquareSimplePawnMove(casillero);
+		Square saltoDobleCasillero = getSquareSimpleTwoSquaresPawnMove(casillero);
 		
-		Square casilleroAtaqueIzquirda = getCasilleroAtaqueIzquirda(casillero);
-		Square casilleroAtaqueDerecha = getCasilleroAtaqueDerecha(casillero);
+		Square casilleroAtaqueIzquirda = getSquareAttackLeft(casillero);
+		Square casilleroAtaqueDerecha = getSquareAttackRight(casillero);
 		
 			
 		PiecePositioned destino = null;

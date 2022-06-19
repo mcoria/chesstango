@@ -21,23 +21,23 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 
 
 	@Override
-	protected Square getCasilleroSaltoSimple(Square casillero) {
-		return Square.getSquare(casillero.getFile(), casillero.getRank() - 1);
+	protected Square getSquareSimplePawnMove(Square square) {
+		return Square.getSquare(square.getFile(), square.getRank() - 1);
 	}
 
 	@Override
-	protected Square getCasilleroSaltoDoble(Square casillero) {
-		return casillero.getRank() == 6 ? Square.getSquare(casillero.getFile(), 4) : null;
+	protected Square getSquareSimpleTwoSquaresPawnMove(Square square) {
+		return square.getRank() == 6 ? Square.getSquare(square.getFile(), 4) : null;
 	}
 
 	@Override
-	protected Square getCasilleroAtaqueIzquirda(Square casillero) {
-		return Square.getSquare(casillero.getFile() - 1, casillero.getRank() - 1);
+	protected Square getSquareAttackLeft(Square square) {
+		return Square.getSquare(square.getFile() - 1, square.getRank() - 1);
 	}
 	
 	@Override
-	protected Square getCasilleroAtaqueDerecha(Square casillero) {
-		return Square.getSquare(casillero.getFile() + 1, casillero.getRank() - 1);
+	protected Square getSquareAttackRight(Square square) {
+		return Square.getSquare(square.getFile() + 1, square.getRank() - 1);
 	}
 
 	@Override
