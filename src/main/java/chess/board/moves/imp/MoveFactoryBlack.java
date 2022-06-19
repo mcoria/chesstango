@@ -25,7 +25,7 @@ public class MoveFactoryBlack implements MoveFactory {
 
     @Override
     public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return addLostCastlingByKingMoveWrapper(createCaptureKingMoveImp(origen, destino));
+        return addLostCastlingByKingMoveWrapper(addOpponentLostCastlingRookCapturedByKingWrapper(origen, destino));
     }
 
     @Override
@@ -60,17 +60,17 @@ public class MoveFactoryBlack implements MoveFactory {
 
     @Override
     public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return addOpponentLostCastlingByRookCaptureWrapper(new CapturePawnMove(origen, destino));
+        return addOpponentLostCastlingByRookCapturedWrapper(new CapturePawnMove(origen, destino));
     }
 
     @Override
     public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-        return addOpponentLostCastlingByRookCaptureWrapper(new CaptureMove(origen, destino));
+        return addOpponentLostCastlingByRookCapturedWrapper(new CaptureMove(origen, destino));
     }
 
     @Override
     public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return addOpponentLostCastlingByRookCaptureWrapper(new CaptureMove(origen, destino, cardinal));
+        return addOpponentLostCastlingByRookCapturedWrapper(new CaptureMove(origen, destino, cardinal));
     }
 
 
@@ -89,7 +89,7 @@ public class MoveFactoryBlack implements MoveFactory {
 
     @Override
     public Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return addOpponentLostCastlingByRookCaptureWrapper(new CapturePawnPromotion(origen, destino, piece));
+        return addOpponentLostCastlingByRookCapturedWrapper(new CapturePawnPromotion(origen, destino, piece));
     }
 
     protected MoveKing addLostCastlingByKingMoveWrapper(MoveKing kingMove) {
@@ -103,7 +103,17 @@ public class MoveFactoryBlack implements MoveFactory {
         return result;
     }
 
-    protected Move addOpponentLostCastlingByRookCaptureWrapper(Move move) {
+    protected Move addLostCastlingByRookMoveWrapper(Move rookMove) {
+        Move result = rookMove;
+        if (Square.a8.equals(rookMove.getFrom().getKey())) {
+            result = new MoveDecoratorState(rookMove, state -> state.setCastlingBlackQueenAllowed(false));
+        } else if (Square.h8.equals(rookMove.getFrom().getKey())) {
+            result = new MoveDecoratorState(rookMove, state -> state.setCastlingBlackKingAllowed(false));
+        }
+        return result;
+    }
+
+    protected Move addOpponentLostCastlingByRookCapturedWrapper(Move move) {
         Move result = move;
         if (Square.a1.equals(move.getTo().getKey())) {
             result = new MoveDecoratorState(move, state -> state.setCastlingWhiteQueenAllowed(false));
@@ -113,7 +123,7 @@ public class MoveFactoryBlack implements MoveFactory {
         return result;
     }
 
-    protected MoveKing createCaptureKingMoveImp(PiecePositioned origen, PiecePositioned destino) {
+    protected MoveKing addOpponentLostCastlingRookCapturedByKingWrapper(PiecePositioned origen, PiecePositioned destino) {
         MoveKing kingMove = new CaptureKingMove(origen, destino);
         if (Square.a1.equals(destino.getKey())) {
             kingMove = new MoveDecoratorKingState(kingMove, state -> state.setCastlingWhiteQueenAllowed(false));
@@ -121,16 +131,6 @@ public class MoveFactoryBlack implements MoveFactory {
             kingMove = new MoveDecoratorKingState(kingMove, state -> state.setCastlingWhiteKingAllowed(false));
         }
         return kingMove;
-    }
-
-    protected Move addLostCastlingByRookMoveWrapper(Move rookMove) {
-        Move result = rookMove;
-        if (Square.a8.equals(rookMove.getFrom().getKey())) {
-            result = new MoveDecoratorState(rookMove, state -> state.setCastlingBlackQueenAllowed(false));
-        } else if (Square.h8.equals(rookMove.getFrom().getKey())) {
-            result = new MoveDecoratorState(rookMove, state -> state.setCastlingBlackKingAllowed(false));
-        }
-        return result;
     }
 
     @Override
