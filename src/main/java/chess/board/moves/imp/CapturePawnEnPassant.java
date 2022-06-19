@@ -14,7 +14,7 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class CapturePawnEnPassant extends AbstractMove {
+class CapturePawnEnPassant extends AbstractPawnMove {
 
 	private final PiecePositioned capture;
 			
