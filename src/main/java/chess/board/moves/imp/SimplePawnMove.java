@@ -21,21 +21,6 @@ class SimplePawnMove extends AbstractPawnMove {
     }
 
     @Override
-    public void executeMove(ChessPositionWriter chessPosition) {
-        chessPosition.executeMove(this);
-    }
-
-    @Override
-    public void undoMove(ChessPositionWriter chessPosition) {
-        chessPosition.undoMove(this);
-    }
-
-    @Override
-    public boolean filter(MoveFilter filter) {
-        return filter.filterMove(this);
-    }
-
-    @Override
     public void executeMove(ColorBoard colorBoard) {
         colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
     }
