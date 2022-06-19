@@ -126,7 +126,7 @@ public class MoveFactoryBlack implements MoveFactory {
 	@Override
 	public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino,
 			PiecePositioned capturaEnPassant) {
-		return new CaptureEnPassant(origen, destino, capturaEnPassant);
+		return new CapturePawnEnPassant(origen, destino, capturaEnPassant);
 	}
 
 

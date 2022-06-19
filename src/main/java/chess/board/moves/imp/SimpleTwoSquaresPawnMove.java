@@ -11,7 +11,7 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class SimpleTwoSquaresPawnMove extends SimpleMove {
+class SimpleTwoSquaresPawnMove extends SimplePawnMove {
 	
 	private final Square enPassantSquare;
 

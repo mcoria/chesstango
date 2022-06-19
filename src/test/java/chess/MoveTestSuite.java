@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ AbstractMoveTest.class, CaptureEnPassantTest.class, CaptureKingMoveTest.class, CaptureMoveTest.class,
+@Suite.SuiteClasses({ AbstractMoveTest.class, CapturePawnEnPassantTest.class, CaptureKingMoveTest.class, CaptureMoveTest.class,
         CapturePawnPromotionTest.class, CastlingBlackKingMoveTest.class, CastlingBlackQueenMoveTest.class,
         CastlingWhiteKingMoveTest.class, CastlingWhiteQueenMoveTest.class, MoveFactoryBlackTest.class, MoveFactoryWhiteTest.class,
         SimpleTwoSquaresPawnMoveTest.class, SimpleKingMoveTest.class, SimpleMoveTest.class, SimplePawnPromotionTest.class,

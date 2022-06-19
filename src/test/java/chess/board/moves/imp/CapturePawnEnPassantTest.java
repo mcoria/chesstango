@@ -28,13 +28,13 @@ import chess.board.position.imp.PositionState;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CaptureEnPassantTest {
+public class CapturePawnEnPassantTest {
 
 	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 	
-	private CaptureEnPassant moveExecutor;
+	private CapturePawnEnPassant moveExecutor;
 	
 	private ColorBoardDebug colorBoard;
 	
@@ -63,7 +63,7 @@ public class CaptureEnPassantTest {
 		PiecePositioned pawnBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
 		PiecePositioned pawnPasanteSquare = PiecePositioned.getPiecePositioned(Square.a6, null);
 		
-		moveExecutor = new CaptureEnPassant(pawnWhite, pawnPasanteSquare, pawnBlack);		
+		moveExecutor = new CapturePawnEnPassant(pawnWhite, pawnPasanteSquare, pawnBlack);
 	}
 	
 	@Test

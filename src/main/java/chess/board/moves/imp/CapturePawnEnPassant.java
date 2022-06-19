@@ -14,11 +14,11 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class CaptureEnPassant extends AbstractMove {
+class CapturePawnEnPassant extends AbstractMove {
 
 	private final PiecePositioned capture;
 			
-	public CaptureEnPassant(PiecePositioned from, PiecePositioned to, PiecePositioned capture) {
+	public CapturePawnEnPassant(PiecePositioned from, PiecePositioned to, PiecePositioned capture) {
 		super(from, to);
 		this.capture = capture;
 	}
@@ -84,8 +84,8 @@ class CaptureEnPassant extends AbstractMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(super.equals(obj) && obj instanceof CaptureEnPassant){
-			CaptureEnPassant theOther = (CaptureEnPassant) obj;
+		if(super.equals(obj) && obj instanceof CapturePawnEnPassant){
+			CapturePawnEnPassant theOther = (CapturePawnEnPassant) obj;
 			return capture.equals(theOther.capture) ;
 		}
 		return false;
