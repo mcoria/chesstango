@@ -77,8 +77,13 @@ public class MoveFactoryWhite implements MoveFactory {
 	}
 
 	@Override
-	public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-		return new SimplePawnMove(origen, destino, cardinal);
+	public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+		return new SimplePawnMove(origen, destino, Cardinal.Norte);
+	}
+
+	@Override
+	public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
+		return new SimpleTwoSquaresPawnMove(origen, destino, enPassantSquare, Cardinal.Norte);
 	}
 
 	@Override
@@ -115,11 +120,6 @@ public class MoveFactoryWhite implements MoveFactory {
 			result = new MoveDecoratorState(move, state -> state.setCastlingBlackKingAllowed(false));
 		}
 		return result;
-	}
-
-	@Override
-	public Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero, Cardinal cardinal) {
-		return new SimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero, cardinal);
 	}
 
 

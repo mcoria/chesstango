@@ -11,7 +11,7 @@ import chess.board.movesgenerators.pseudo.MoveGeneratorResult;
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
+abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 	protected abstract Square getCasilleroSaltoSimple(Square casillero);
 
@@ -20,19 +20,17 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 	protected abstract Square getCasilleroAtaqueIzquirda(Square casillero);
 	
 	protected abstract Square getCasilleroAtaqueDerecha(Square casillero);
-	
-	protected abstract PiecePositioned getCapturaEnPassant(Square pawnPasanteSquare);	
-	
-	protected abstract Piece[] getPiezaPromocion();
 
-	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
+	protected abstract Piece[] getPromotionPieces();
 
-	protected abstract Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero);
+	protected abstract Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino);
+
+	protected abstract Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero);
 
 
-	protected abstract Move createCaptureMoveIzquierda(PiecePositioned origen, PiecePositioned destino);
+	protected abstract Move createCapturePawnMoveLeft(PiecePositioned origen, PiecePositioned destino);
 
-	protected abstract Move createCaptureMoveDerecha(PiecePositioned origen, PiecePositioned destino);
+	protected abstract Move createCapturePawnMoveRight(PiecePositioned origen, PiecePositioned destino);
 	
 	public AbstractPawnMoveGenerator(Color color) {
 		super(color);
@@ -58,7 +56,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			result.addAffectedByPositions(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getValue() == null) {
-				Move moveSaltoSimple = this.createSimpleMove(from, destino);
+				Move moveSaltoSimple = this.createSimplePawnMove(from, destino);
 				
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
@@ -72,7 +70,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 						result.addAffectedByPositions(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getValue() == null) {
-							Move moveSaltoDoble = this.createSaltoDoblePawnMove(from, destino, saltoSimpleCasillero);
+							Move moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, destino, saltoSimpleCasillero);
 							result.addPseudoMove(moveSaltoDoble);
 						}
 					}					
@@ -87,7 +85,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura = this.createCaptureMoveIzquierda(from, destino);
+				Move moveCaptura = this.createCapturePawnMoveLeft(from, destino);
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -106,7 +104,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			Piece piece = destino.getValue();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura =  this.createCaptureMoveDerecha(from, destino);
+				Move moveCaptura =  this.createCapturePawnMoveRight(from, destino);
 
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
@@ -122,7 +120,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 	private void addSaltoSimplePromocion(MoveGeneratorResult result, PiecePositioned destino) {
 		PiecePositioned from = result.getFrom();
-		Piece[] promociones = getPiezaPromocion();
+		Piece[] promociones = getPromotionPieces();
 		for (int i = 0; i < promociones.length; i++) {
 			result.addPseudoMove(this.moveFactory.createSimplePawnPromotion(from, destino, promociones[i]));
 		}
@@ -130,7 +128,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 	
 	private void addCapturaPromocion(MoveGeneratorResult result, PiecePositioned destino) {
 		PiecePositioned from = result.getFrom();
-		Piece[] promociones = getPiezaPromocion();
+		Piece[] promociones = getPromotionPieces();
 		for (int i = 0; i < promociones.length; i++) {
 			result.addPseudoMove(this.moveFactory.createCapturePawnPromotion(from, destino, promociones[i]));
 		}

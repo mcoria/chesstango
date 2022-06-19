@@ -40,32 +40,27 @@ public class PawnWhiteMoveGenerator extends AbstractPawnMoveGenerator {
 	}
 
 	@Override
-	protected PiecePositioned getCapturaEnPassant(Square pawnPasanteSquare) {
-		return PiecePositioned.getPiecePositioned(Square.getSquare(pawnPasanteSquare.getFile(), 4), Piece.PAWN_BLACK);
-	}
-
-	@Override
-	protected Piece[] getPiezaPromocion() {
+	protected Piece[] getPromotionPieces() {
 		return PROMOCIONES_WHITE;
 	}
 
 	@Override
-	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createSimplePawnMove(origen, destino, Cardinal.Norte);
+	protected Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+		return this.moveFactory.createSimplePawnMove(origen, destino);
 	}
 
 	@Override
-	protected Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
-		return this.moveFactory.createSaltoDoblePawnMove(origen, destino, saltoSimpleCasillero, Cardinal.Norte);
+	protected Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
+		return this.moveFactory.createSimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero);
 	}
 
 	@Override
-	protected Move createCaptureMoveIzquierda(PiecePositioned origen, PiecePositioned destino) {
+	protected Move createCapturePawnMoveLeft(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createCapturePawnMove(origen, destino, Cardinal.NorteOeste);
 	}
 
 	@Override
-	protected Move createCaptureMoveDerecha(PiecePositioned origen, PiecePositioned destino) {
+	protected Move createCapturePawnMoveRight(PiecePositioned origen, PiecePositioned destino) {
 		return this.moveFactory.createCapturePawnMove(origen, destino, Cardinal.NorteEste);
 	}
 }

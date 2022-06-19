@@ -13,25 +13,22 @@ import chess.board.iterators.Cardinal;
  *
  */
 public interface MoveFactory {
+
+	Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino);
+	Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare);
+	Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaEnPassant);
+	Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
-
-	Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal norte);
-	Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
 	Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino);
-
-	
-	Move createSaltoDoblePawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero, Cardinal norte);
-
-	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaEnPassant);
-
-	Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
-	Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
 
 	MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino);
 	MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino);

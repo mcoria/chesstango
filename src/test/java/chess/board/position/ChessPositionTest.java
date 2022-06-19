@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import chess.board.iterators.Cardinal;
 import chess.board.moves.containers.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -226,11 +225,11 @@ public class ChessPositionTest {
 
 
 	private Move createSimplePawnMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-		return moveFactoryWhite.createSimplePawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.Norte);
+		return moveFactoryWhite.createSimplePawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
-		return moveFactoryWhite.createSaltoDoblePawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante, Cardinal.Norte);
+		return moveFactoryWhite.createSimpleTwoSquaresPawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante);
 	}
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,

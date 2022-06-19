@@ -199,11 +199,11 @@ public class PawnWhiteMoveGeneratorTest {
     }
 
     private Move createSimplePawnMove(PiecePositioned origen, Square destinoSquare, Cardinal cardinal) {
-        return moveFactoryImp.createSimplePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), cardinal);
+        return moveFactoryImp.createSimplePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 
     private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
-        return moveFactoryImp.createSaltoDoblePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante, Cardinal.Norte);
+        return moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
     }
 
     private Move createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {

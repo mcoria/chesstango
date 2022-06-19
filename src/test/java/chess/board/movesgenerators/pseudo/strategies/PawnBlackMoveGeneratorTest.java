@@ -58,7 +58,7 @@ public class PawnBlackMoveGeneratorTest {
 
         assertEquals(1, moves.size());
 
-        assertTrue(moves.contains(createSimpleMove(origen, Square.a5)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.a5)));
     }
 
     @Test
@@ -78,8 +78,8 @@ public class PawnBlackMoveGeneratorTest {
 
         assertEquals(2, moves.size());
 
-        assertTrue(moves.contains(createSimpleMove(origen, Square.a6)));
-        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.a5, Square.a6)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.a6)));
+        assertTrue(moves.contains(createSimpleTwoSquaresPawnMove(origen, Square.a5, Square.a6)));
     }
 
     @Test
@@ -100,8 +100,8 @@ public class PawnBlackMoveGeneratorTest {
 
         assertEquals(3, moves.size());
 
-        assertTrue(moves.contains(createSimpleMove(origen, Square.e6)));
-        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e5, Square.a6)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.e6)));
+        assertTrue(moves.contains(createSimpleTwoSquaresPawnMove(origen, Square.e5, Square.a6)));
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.d6, Piece.PAWN_WHITE, Cardinal.SurOeste)));
     }
 
@@ -121,19 +121,19 @@ public class PawnBlackMoveGeneratorTest {
 
         moves = generatorResult.getPseudoMoves();
 
-        assertTrue(moves.contains(createSimpleMove(origen, Square.e6)));
-        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e5, Square.e6)));
-        assertTrue(moves.contains( createCapturePawnMove(origen, Square.f6, Piece.PAWN_WHITE, Cardinal.SurEste) ));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.e6)));
+        assertTrue(moves.contains(createSimpleTwoSquaresPawnMove(origen, Square.e5, Square.e6)));
+        assertTrue(moves.contains(createCapturePawnMove(origen, Square.f6, Piece.PAWN_WHITE, Cardinal.SurEste)));
 
         assertEquals(3, moves.size());
     }
 
-    private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {
-        return moveFactoryImp.createSimplePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.Sur);
+    private Move createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
+        return moveFactoryImp.createSimplePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 
-    private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
-        return moveFactoryImp.createSaltoDoblePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante, Cardinal.Sur);
+    private Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
+        return moveFactoryImp.createSimpleTwoSquaresPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), squarePasante);
     }
 
     private Move createCapturePawnMove(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Cardinal cardinal) {
