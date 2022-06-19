@@ -15,6 +15,9 @@ import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
 
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,7 +38,11 @@ public class Main {
     private String gameFenSeed;
 
     public static void main(String[] args) {
+        Instant start = Instant.now();
         new Main().compete();
+        Instant end = Instant.now();
+        Duration timeElapsed = Duration.between(start, end);
+        System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
     }
 
     public Main(){
@@ -43,11 +50,12 @@ public class Main {
         //engine1 = new EngineProxy();
         white = new EngineClientImp(engine1);
 
-        //engine2 = new EngineZonda(executorService);
-        engine2 = new EngineProxy();
+        engine2 = new EngineZonda(executorService);
+        //engine2 = new EngineProxy();
         black = new EngineClientImp(engine2);
 
-        gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1"; //FENDecoder.INITIAL_FEN;
+        //gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1";
+        gameFenSeed = FENDecoder.INITIAL_FEN;
     }
 
     public void compete(){
@@ -73,12 +81,18 @@ public class Main {
             fiftyMoveRule = game.getChessPosition().getHalfMoveClock() < 50 ? false : true;
             currentTurn = (currentTurn == white ? black : white);
         }
-
         if(repetition || fiftyMoveRule){
             game.getGameState().setStatus(GameState.GameStatus.DRAW);
         }
 
-        System.out.println("El juego termino: \n" + game.toString());
+        if(repetition){
+            System.out.println("El juego termino por repeticion:");
+        } else if (fiftyMoveRule) {
+            System.out.println("El juego termino por fiftyMoveRule:");
+        } else {
+            System.out.println("El juego termino");
+        }
+        System.out.println(game.toString());
 
         printPGN();
         //printMoveExecution();
@@ -108,14 +122,30 @@ public class Main {
         PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
 
         pgnHeader.setEvent("Computer chess game");
-        pgnHeader.setSite("KANO-COMPUTER");
-        pgnHeader.setDate("2022.06.17");
+        pgnHeader.setSite(getComputerName());
+        pgnHeader.setDate(getToday());
         pgnHeader.setRound("?");
         pgnHeader.setWhite(white.getEngineName());
         pgnHeader.setBlack(black.getEngineName());
         pgnHeader.setFen(gameFenSeed);
 
         System.out.println(encoder.encode(pgnHeader, game));
+    }
+
+    private String getToday() {
+        String pattern = "yyyy.MM.dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(new Date());
+    }
+
+    private String getComputerName() {
+        Map<String, String> env = System.getenv();
+        if (env.containsKey("COMPUTERNAME"))
+            return env.get("COMPUTERNAME");
+        else if (env.containsKey("HOSTNAME"))
+            return env.get("HOSTNAME");
+        else
+            return "Unknown Computer";
     }
 
     private void printMoveExecution() {
