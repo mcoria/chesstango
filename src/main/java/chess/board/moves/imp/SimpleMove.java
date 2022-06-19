@@ -7,7 +7,6 @@ import chess.board.position.ChessPositionWriter;
 import chess.board.position.imp.ColorBoard;
 import chess.board.position.imp.PositionState;
 
-
 /**
  * @author Mauricio Coria
  */
@@ -36,7 +35,6 @@ class SimpleMove extends AbstractNotPawnMove {
     public void undoMove(ColorBoard colorBoard) {
         colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
     }
-
 
     @Override
     public boolean equals(Object obj) {

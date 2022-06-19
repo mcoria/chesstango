@@ -18,14 +18,21 @@ public interface MoveKing extends Move {
 	default void executeMove(ChessPositionWriter chessPosition){
 		chessPosition.executeMove(this);
 	}
+
 	default void undoMove(ChessPositionWriter chessPosition){
 		chessPosition.undoMove(this);
 	}
+
 	default boolean filter(MoveFilter filter){
 		return filter.filterMove(this);
 	}
 
-	void executeMove(KingCacheBoard kingCacheBoard);
-	void undoMove(KingCacheBoard kingCacheBoard);	
+	default void executeMove(KingCacheBoard kingCacheBoard) {
+		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());
+	}
+
+	default void undoMove(KingCacheBoard kingCacheBoard) {
+		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getFrom().getKey());
+	}
 
 }

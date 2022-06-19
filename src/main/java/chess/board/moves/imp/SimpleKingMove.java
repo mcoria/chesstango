@@ -8,26 +8,15 @@ import chess.board.position.imp.KingCacheBoard;
 
 /**
  * @author Mauricio Coria
- *
  */
 class SimpleKingMove extends SimpleMove implements MoveKing {
 
-	public SimpleKingMove(PiecePositioned from, PiecePositioned to) {
-		super(from, to);
-	}
+    public SimpleKingMove(PiecePositioned from, PiecePositioned to) {
+        super(from, to);
+    }
 
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard) {
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());
-	}
-
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard) {
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getFrom().getKey());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
         return super.equals(obj) && obj instanceof SimpleKingMove;
     }
 
