@@ -47,7 +47,7 @@ public class Main {
         engine2 = new EngineProxy();
         black = new EngineClientImp(engine2);
 
-        gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 8 1"; //FENDecoder.INITIAL_FEN;
+        gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1"; //FENDecoder.INITIAL_FEN;
     }
 
     public void compete(){
@@ -60,7 +60,8 @@ public class Main {
         EngineClient currentTurn = white;
 
         boolean repetition = false;
-        while( !GameState.GameStatus.MATE.equals(game.getGameStatus()) && !GameState.GameStatus.DRAW.equals(game.getGameStatus()) && !repetition && executedMovesStr.size() < 250){
+        boolean fiftyMoveRule = false;
+        while( !game.getGameStatus().isEndGame() && !repetition && !fiftyMoveRule){
             String moveStr = askForBestMove(currentTurn, executedMovesStr);
 
             Move move = findMove(moveStr);
@@ -68,11 +69,12 @@ public class Main {
 
             executedMovesStr.add(moveStr);
 
-            //repetition = repeatedPosition(pastPositions);
+            repetition = repeatedPosition(pastPositions);
+            fiftyMoveRule = game.getChessPosition().getHalfMoveClock() < 50 ? false : true;
             currentTurn = (currentTurn == white ? black : white);
         }
 
-        if(repetition){
+        if(repetition || fiftyMoveRule){
             game.getGameState().setStatus(GameState.GameStatus.DRAW);
         }
 
@@ -109,8 +111,8 @@ public class Main {
         pgnHeader.setSite("KANO-COMPUTER");
         pgnHeader.setDate("2022.06.17");
         pgnHeader.setRound("?");
-        pgnHeader.setWhite(white.getEngineAuthor());
-        pgnHeader.setBlack(black.getEngineAuthor());
+        pgnHeader.setWhite(white.getEngineName());
+        pgnHeader.setBlack(black.getEngineName());
         pgnHeader.setFen(gameFenSeed);
 
         System.out.println(encoder.encode(pgnHeader, game));

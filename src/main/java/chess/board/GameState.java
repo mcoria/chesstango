@@ -14,10 +14,20 @@ import java.util.Iterator;
 public class GameState {
 
 	public enum GameStatus {
-		IN_PROGRESS,
-		CHECK,
-		MATE,
-		DRAW
+		IN_PROGRESS(false),
+		CHECK(false),
+		MATE(true),
+		DRAW(true);
+
+		private final boolean endGame;
+
+		GameStatus(boolean endGame) {
+			this.endGame = endGame;
+		}
+
+		public boolean isEndGame(){
+			return endGame;
+		}
 	}
 
 	private AnalyzerResult analyzerResult;
