@@ -1,191 +1,161 @@
 package chess.board.position.imp;
 
+import chess.board.Color;
+import chess.board.Square;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;
 
-import chess.board.Color;
-import chess.board.Square;
-
 /**
  * @author Mauricio Coria
- *
  */
 public class PositionState {
+    private static class PositionStateData {
+        private Color currentTurn;
+        private Square enPassantSquare;
+        private boolean castlingWhiteQueenAllowed;
+        private boolean castlingWhiteKingAllowed;
+        private boolean castlingBlackQueenAllowed;
+        private boolean castlingBlackKingAllowed;
+        private int halfMoveClock;
+        private int fullMoveClock;
 
-	private static class PositionStateData{
-		private Color currentTurn;
-		private Square enPassantSquare;
-		private boolean castlingWhiteQueenAllowed;
-		private boolean castlingWhiteKingAllowed;
-		private boolean castlingBlackQueenAllowed;
-		private boolean castlingBlackKingAllowed;
-		private int halfMoveClock;
-		private int fullMoveClock;
-	}
+    }
 
-	private final PositionStateData dataNode = new PositionStateData();
-	
-	private final Deque<PositionStateData> boardStateNodePila = new ArrayDeque<PositionStateData>();
-	
-	public Square getEnPassantSquare() {
-		return dataNode.enPassantSquare;
-	}
-	public void setEnPassantSquare(Square enPassantSquare) {
-		dataNode.enPassantSquare = enPassantSquare;
-	}
-	
-	public boolean isCastlingWhiteQueenAllowed() {
-		return dataNode.castlingWhiteQueenAllowed;
-	}
+    private final Deque<PositionStateData> stackPositionStates = new ArrayDeque<PositionStateData>();
+    private PositionStateData currentPositionState = new PositionStateData();
 
-	public void setCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
-		dataNode.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
-	}
-	
-	public boolean isCastlingWhiteKingAllowed() {
-		return dataNode.castlingWhiteKingAllowed;
-	}
+    public Square getEnPassantSquare() {
+        return currentPositionState.enPassantSquare;
+    }
 
-	public void setCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
-		dataNode.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
-	}
-	
-	public boolean isCastlingBlackQueenAllowed() {
-		return dataNode.castlingBlackQueenAllowed;
-	}
+    public void setEnPassantSquare(Square enPassantSquare) {
+        currentPositionState.enPassantSquare = enPassantSquare;
+    }
 
-	public void setCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
-		dataNode.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
-	}
+    public boolean isCastlingWhiteQueenAllowed() {
+        return currentPositionState.castlingWhiteQueenAllowed;
+    }
 
-	public boolean isCastlingBlackKingAllowed() {
-		return dataNode.castlingBlackKingAllowed;
-	}
+    public void setCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+        currentPositionState.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
+    }
 
-	public void setCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
-		dataNode.castlingBlackKingAllowed = castlingBlackKingAllowed;
-	}
-	
-	public Color getCurrentTurn() {
-		return dataNode.currentTurn;
-	}
+    public boolean isCastlingWhiteKingAllowed() {
+        return currentPositionState.castlingWhiteKingAllowed;
+    }
 
-	public void setCurrentTurn(Color turn) {
-		dataNode.currentTurn = turn;
-	}
+    public void setCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+        currentPositionState.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
+    }
 
-	public void rollTurn() {
-		dataNode.currentTurn = dataNode.currentTurn.oppositeColor();
-	}
+    public boolean isCastlingBlackQueenAllowed() {
+        return currentPositionState.castlingBlackQueenAllowed;
+    }
 
-	public int getHalfMoveClock() {
-		return dataNode.halfMoveClock;
-	}
+    public void setCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+        currentPositionState.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
+    }
 
-	public void setHalfMoveClock(int halfMoveClock) {
-		this.dataNode.halfMoveClock = halfMoveClock;
-	}
+    public boolean isCastlingBlackKingAllowed() {
+        return currentPositionState.castlingBlackKingAllowed;
+    }
 
-	public void incrementHalfMoveClock() {
-		this.dataNode.halfMoveClock++;
-	}
+    public void setCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+        currentPositionState.castlingBlackKingAllowed = castlingBlackKingAllowed;
+    }
 
-	public void resetHalfMoveClock() {
-		this.dataNode.halfMoveClock = 0;
-	}
+    public Color getCurrentTurn() {
+        return currentPositionState.currentTurn;
+    }
 
-	public int getFullMoveClock() {
-		return dataNode.fullMoveClock;
-	}
+    public void setCurrentTurn(Color turn) {
+        currentPositionState.currentTurn = turn;
+    }
 
-	public void incrementFullMoveClock(){
-		if(Color.BLACK.equals(dataNode.currentTurn)){
-			dataNode.fullMoveClock++;
-		}
-	}
-
-	public void setFullMoveClock(int fullMoveClock) {
-		this.dataNode.fullMoveClock = fullMoveClock;
-	}
+    public void rollTurn() {
+        currentPositionState.currentTurn = currentPositionState.currentTurn.oppositeColor();
+    }
 
 
-	public void pushState() {
-		PositionStateData state = saveState();
-		boardStateNodePila.push( state );
-	}
+    public int getHalfMoveClock() {
+        return currentPositionState.halfMoveClock;
+    }
 
-	public void popState() {
-		PositionStateData lastState = boardStateNodePila.pop();
-		
-		restoreState(lastState);
-	}
-	
-	private PositionStateData saveState() {
-		PositionStateData node = new PositionStateData();
-		node.enPassantSquare = dataNode.enPassantSquare;
-		node.castlingWhiteQueenAllowed = dataNode.castlingWhiteQueenAllowed;
-		node.castlingWhiteKingAllowed = dataNode.castlingWhiteKingAllowed;
-		node.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
-		node.castlingBlackKingAllowed = dataNode.castlingBlackKingAllowed;
-		node.currentTurn = dataNode.currentTurn;
-		node.halfMoveClock = dataNode.halfMoveClock;
-		node.fullMoveClock = dataNode.fullMoveClock;
-		
-		return node;
-	}	
-	
-	private void restoreState(PositionStateData lastState){
-		dataNode.enPassantSquare = lastState.enPassantSquare;
-		dataNode.castlingWhiteQueenAllowed = lastState.castlingWhiteQueenAllowed;
-		dataNode.castlingWhiteKingAllowed = lastState.castlingWhiteKingAllowed;
-		dataNode.castlingBlackQueenAllowed = lastState.castlingBlackQueenAllowed;
-		dataNode.castlingBlackKingAllowed = lastState.castlingBlackKingAllowed;	
-		dataNode.currentTurn = lastState.currentTurn;
-		dataNode.halfMoveClock = lastState.halfMoveClock;
-		dataNode.fullMoveClock = lastState.fullMoveClock;
-	}
+    public void setHalfMoveClock(int halfMoveClock) {
+        this.currentPositionState.halfMoveClock = halfMoveClock;
+    }
 
-	
-	@Override
-	public PositionState clone() throws CloneNotSupportedException {
-		PositionState clone = new PositionState();
-		clone.dataNode.enPassantSquare = dataNode.enPassantSquare;
-		clone.dataNode.castlingWhiteQueenAllowed = dataNode.castlingWhiteQueenAllowed;
-		clone.dataNode.castlingWhiteKingAllowed = dataNode.castlingWhiteKingAllowed;
-		clone.dataNode.castlingBlackQueenAllowed = dataNode.castlingBlackQueenAllowed;
-		clone.dataNode.castlingBlackKingAllowed = dataNode.castlingBlackKingAllowed;
-		clone.dataNode.currentTurn = dataNode.currentTurn;
-		clone.dataNode.halfMoveClock = dataNode.halfMoveClock;
-		clone.dataNode.fullMoveClock = dataNode.fullMoveClock;
-		return clone;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof PositionState){
-			PositionState theInstance = (PositionState) obj;
-			return Objects.equals(dataNode.currentTurn, theInstance.dataNode.currentTurn) && Objects.equals(dataNode.enPassantSquare, theInstance.dataNode.enPassantSquare) &&
-					dataNode.castlingWhiteQueenAllowed == theInstance.dataNode.castlingWhiteQueenAllowed &&
-					dataNode.castlingWhiteKingAllowed == theInstance.dataNode.castlingWhiteKingAllowed &&
-					dataNode.castlingBlackQueenAllowed == theInstance.dataNode.castlingBlackQueenAllowed &&
-					dataNode.castlingBlackKingAllowed == theInstance.dataNode.castlingBlackKingAllowed &&
-					dataNode.halfMoveClock == theInstance.dataNode.halfMoveClock &&
-					dataNode.fullMoveClock == theInstance.dataNode.fullMoveClock
-					;
-		}
-		return false;
-	}
-	
-	@Override
-	public String toString() {
-		return "Turno Actual: " + String.format("%-6s", dataNode.currentTurn.toString()) + ", pawnPasanteSquare: " +  (dataNode.enPassantSquare == null ? "- " : dataNode.enPassantSquare.toString()) +
-				", castlingWhiteQueenAllowed: " + dataNode.castlingWhiteQueenAllowed +
-				", castlingWhiteKingAllowed: " + dataNode.castlingWhiteKingAllowed +
-				", castlingBlackQueenAllowed: " + dataNode.castlingBlackQueenAllowed +
-				", castlingBlackKingAllowed: " + dataNode.castlingBlackKingAllowed +
-				", halfMoveClock: " + dataNode.halfMoveClock +
-				", fullMoveClock: " + dataNode.fullMoveClock
-				;
-	}
+    public void incrementHalfMoveClock() {
+        this.currentPositionState.halfMoveClock++;
+    }
+
+    public void resetHalfMoveClock() {
+        this.currentPositionState.halfMoveClock = 0;
+    }
+
+
+    public int getFullMoveClock() {
+        return currentPositionState.fullMoveClock;
+    }
+
+    public void setFullMoveClock(int fullMoveClock) {
+        this.currentPositionState.fullMoveClock = fullMoveClock;
+    }
+
+    public void incrementFullMoveClock() {
+        if (Color.BLACK.equals(currentPositionState.currentTurn)) {
+            currentPositionState.fullMoveClock++;
+        }
+    }
+
+
+    public void pushState() {
+        PositionStateData node = new PositionStateData();
+        node.enPassantSquare = currentPositionState.enPassantSquare;
+        node.castlingWhiteQueenAllowed = currentPositionState.castlingWhiteQueenAllowed;
+        node.castlingWhiteKingAllowed = currentPositionState.castlingWhiteKingAllowed;
+        node.castlingBlackQueenAllowed = currentPositionState.castlingBlackQueenAllowed;
+        node.castlingBlackKingAllowed = currentPositionState.castlingBlackKingAllowed;
+        node.currentTurn = currentPositionState.currentTurn;
+        node.halfMoveClock = currentPositionState.halfMoveClock;
+        node.fullMoveClock = currentPositionState.fullMoveClock;
+
+        stackPositionStates.push(node);
+    }
+
+    public void popState() {
+        PositionStateData lastState = stackPositionStates.pop();
+
+        currentPositionState = lastState;
+    }
+
+    @Override
+    public PositionState clone() throws CloneNotSupportedException {
+        PositionState clone = new PositionState();
+        clone.currentPositionState.enPassantSquare = currentPositionState.enPassantSquare;
+        clone.currentPositionState.castlingWhiteQueenAllowed = currentPositionState.castlingWhiteQueenAllowed;
+        clone.currentPositionState.castlingWhiteKingAllowed = currentPositionState.castlingWhiteKingAllowed;
+        clone.currentPositionState.castlingBlackQueenAllowed = currentPositionState.castlingBlackQueenAllowed;
+        clone.currentPositionState.castlingBlackKingAllowed = currentPositionState.castlingBlackKingAllowed;
+        clone.currentPositionState.currentTurn = currentPositionState.currentTurn;
+        clone.currentPositionState.halfMoveClock = currentPositionState.halfMoveClock;
+        clone.currentPositionState.fullMoveClock = currentPositionState.fullMoveClock;
+        return clone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PositionState) {
+            PositionState theInstance = (PositionState) obj;
+            return Objects.equals(currentPositionState.currentTurn, theInstance.currentPositionState.currentTurn) && Objects.equals(currentPositionState.enPassantSquare, theInstance.currentPositionState.enPassantSquare) && currentPositionState.castlingWhiteQueenAllowed == theInstance.currentPositionState.castlingWhiteQueenAllowed && currentPositionState.castlingWhiteKingAllowed == theInstance.currentPositionState.castlingWhiteKingAllowed && currentPositionState.castlingBlackQueenAllowed == theInstance.currentPositionState.castlingBlackQueenAllowed && currentPositionState.castlingBlackKingAllowed == theInstance.currentPositionState.castlingBlackKingAllowed && currentPositionState.halfMoveClock == theInstance.currentPositionState.halfMoveClock && currentPositionState.fullMoveClock == theInstance.currentPositionState.fullMoveClock;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Turno Actual: " + String.format("%-6s", currentPositionState.currentTurn.toString()) + ", pawnPasanteSquare: " + (currentPositionState.enPassantSquare == null ? "- " : currentPositionState.enPassantSquare.toString()) + ", castlingWhiteQueenAllowed: " + currentPositionState.castlingWhiteQueenAllowed + ", castlingWhiteKingAllowed: " + currentPositionState.castlingWhiteKingAllowed + ", castlingBlackQueenAllowed: " + currentPositionState.castlingBlackQueenAllowed + ", castlingBlackKingAllowed: " + currentPositionState.castlingBlackKingAllowed + ", halfMoveClock: " + currentPositionState.halfMoveClock + ", fullMoveClock: " + currentPositionState.fullMoveClock;
+    }
 }

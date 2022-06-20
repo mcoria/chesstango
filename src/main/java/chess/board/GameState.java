@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package chess.board;
 
@@ -13,95 +13,93 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class GameState {
 
-	public enum Status {
-		NO_CHECK(true),
-		CHECK(true),
-		MATE(false),
-		DRAW(false);
+    public enum Status {
+        NO_CHECK(true),
+        CHECK(true),
+        MATE(false),
+        DRAW(false);
 
-		private final boolean inProgress;
+        private final boolean inProgress;
 
-		Status(boolean inProgress) {
-			this.inProgress = inProgress;
-		}
+        Status(boolean inProgress) {
+            this.inProgress = inProgress;
+        }
 
-		public boolean isInProgress(){
-			return inProgress;
-		}
-	}
+        public boolean isInProgress() {
+            return inProgress;
+        }
+    }
 
-	private AnalyzerResult analyzerResult;
-	private MoveContainerReader legalMoves;
-	private Move selectedMove;
-	private Status status;
+    public static class GameStateData {
+        public AnalyzerResult analyzerResult;
+        public MoveContainerReader legalMoves;
+        public Move selectedMove;
+        public Status status;
+    }
 
-	private final Deque<GameStateNode> stackGameStateNode = new ArrayDeque<GameStateNode>();
+    private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
+    private GameStateData currentGameState = new GameStateData();
 
-	public Move getSelectedMove() {
-		return selectedMove;
-	}
+    public Iterator<GameStateData> iterateGameStates() {
+        return stackGameStates.descendingIterator();
+    }
 
-	public void setSelectedMove(Move selectedMove) {
-		this.selectedMove = selectedMove;
-	}
+    public Status getStatus() {
+        return currentGameState.status;
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public void setStatus(Status status) {
+        currentGameState.status = status;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-	
-	public MoveContainerReader getLegalMoves() { return legalMoves; }
 
-	public void setLegalMoves(MoveContainerReader legalMoves) {
-		this.legalMoves = legalMoves;
-	}
+    public MoveContainerReader getLegalMoves() {
+        return currentGameState.legalMoves;
+    }
 
-	public AnalyzerResult getAnalyzerResult() {
-		return analyzerResult;
-	}
+    public void setLegalMoves(MoveContainerReader legalMoves) {
+        currentGameState.legalMoves = legalMoves;
+    }
 
-	public void setAnalyzerResult(AnalyzerResult analyzerResult) {
-		this.analyzerResult = analyzerResult;
-	}
+    public Move getSelectedMove() {
+        return currentGameState.selectedMove;
+    }
 
-	public void push() {
-		GameStateNode gameStateNode = new GameStateNode();
-		gameStateNode.selectedMove = this.selectedMove;
-		gameStateNode.analyzerResult = this.analyzerResult;
-		gameStateNode.status = this.status;
-		gameStateNode.legalMoves = this.legalMoves;
-		
-		stackGameStateNode.push(gameStateNode);
-		
-		this.selectedMove = null;
-		this.analyzerResult = null;
-		this.status = null;
-		this.legalMoves = null;
-	}
+    public void setSelectedMove(Move selectedMove) {
+        currentGameState.selectedMove = selectedMove;
+    }
 
-	public void pop() {
-		GameStateNode gameStateNode = stackGameStateNode.pop();
-		this.selectedMove = gameStateNode.selectedMove;
-		this.analyzerResult = gameStateNode.analyzerResult;
-		this.status = gameStateNode.status;
-		this.legalMoves = gameStateNode.legalMoves;
-	}
 
-	public Iterator<GameStateNode> iterateGameStates(){
-		return stackGameStateNode.descendingIterator();
-	}
+    public AnalyzerResult getAnalyzerResult() {
+        return currentGameState.analyzerResult;
+    }
 
-	public static class GameStateNode {
-		public AnalyzerResult analyzerResult;
-		public MoveContainerReader legalMoves;
-		public Move selectedMove;
-		public Status status;
-	}
+    public void setAnalyzerResult(AnalyzerResult analyzerResult) {
+        currentGameState.analyzerResult = analyzerResult;
+    }
+
+    public void push() {
+        GameStateData gameStateData = new GameStateData();
+        gameStateData.selectedMove = currentGameState.selectedMove;
+        gameStateData.analyzerResult = currentGameState.analyzerResult;
+        gameStateData.status = currentGameState.status;
+        gameStateData.legalMoves = currentGameState.legalMoves;
+
+        stackGameStates.push(gameStateData);
+
+        currentGameState.selectedMove = null;
+        currentGameState.analyzerResult = null;
+        currentGameState.status = null;
+        currentGameState.legalMoves = null;
+    }
+
+    public void pop() {
+        GameStateData lastState = stackGameStates.pop();
+
+        currentGameState = lastState;
+    }
+
 }

@@ -153,10 +153,10 @@ public class Main {
         int counter = 0;
         System.out.println("Game game =  getDefaultGame();");
         System.out.println("game");
-        Iterator<GameState.GameStateNode> gameStateIterator = game.getGameState().iterateGameStates();
+        Iterator<GameState.GameStateData> gameStateIterator = game.getGameState().iterateGameStates();
         while (gameStateIterator.hasNext()){
-            GameState.GameStateNode gameStateNode = gameStateIterator.next();
-            Move move = gameStateNode.selectedMove;
+            GameState.GameStateData gameStateData = gameStateIterator.next();
+            Move move = gameStateData.selectedMove;
             theGame.executeMove(move);
             System.out.print(".executeMove(Square." + move.getFrom().getKey().toString() + ", Square." + move.getTo().getKey().toString() + ")");
 

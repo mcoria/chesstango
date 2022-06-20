@@ -32,14 +32,14 @@ public class PGNEncoder {
         sb.append("\n");
 
         int moveCounter = 0;
-        Iterator<GameState.GameStateNode> gameStateIterator = game.getGameState().iterateGameStates();
+        Iterator<GameState.GameStateData> gameStateIterator = game.getGameState().iterateGameStates();
         while (gameStateIterator.hasNext()){
-            GameState.GameStateNode gameStateNode = gameStateIterator.next();
+            GameState.GameStateData gameStateData = gameStateIterator.next();
 
-            String encodedMove = sanEncoder.encode(gameStateNode.selectedMove, gameStateNode.legalMoves);
+            String encodedMove = sanEncoder.encode(gameStateData.selectedMove, gameStateData.legalMoves);
 
             if(moveCounter > 0){
-                sb.append(encodeGameStatusAtMove(gameStateNode.status));
+                sb.append(encodeGameStatusAtMove(gameStateData.status));
             }
 
             if(moveCounter > 0 && moveCounter % 10 == 0){
