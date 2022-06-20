@@ -7,7 +7,7 @@ import chess.board.moves.Move;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmartLoop implements BestMoveFinder {
+public class IterativeDeeping implements BestMoveFinder {
 
     private static final int MAX_DEPTH = 2;
 
@@ -18,11 +18,11 @@ public class SmartLoop implements BestMoveFinder {
     private final int maxDepth;
     private final List<BestMove> bestMovesByDepth;
 
-    public SmartLoop(){
+    public IterativeDeeping(){
         this(MAX_DEPTH);
     }
 
-    public SmartLoop(int maxDepth) {
+    public IterativeDeeping(int maxDepth) {
         this.maxDepth = maxDepth;
         this.bestMovesByDepth = new ArrayList<>();
     }

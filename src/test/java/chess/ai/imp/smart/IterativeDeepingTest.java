@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-public class SmartLoopTest {
+public class IterativeDeepingTest {
 
     @Test
     public void testFindBestMove(){
-        SmartLoop loop = spy(new SmartLoop());
+        IterativeDeeping loop = spy(new IterativeDeeping());
 
         Game game = mock (Game.class);
 

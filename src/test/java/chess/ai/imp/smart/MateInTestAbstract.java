@@ -15,7 +15,6 @@ import chess.board.representations.fen.FENDecoder;
 public abstract class MateInTestAbstract {
 
 	protected BestMoveFinder bestMoveFinder = null;
-	
 
 	protected abstract int getMaxLevel();
 

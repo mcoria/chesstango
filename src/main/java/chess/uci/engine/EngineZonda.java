@@ -4,7 +4,7 @@
 package chess.uci.engine;
 
 import chess.ai.BestMoveFinder;
-import chess.ai.imp.smart.SmartLoop;
+import chess.ai.imp.smart.IterativeDeeping;
 import chess.board.Game;
 import chess.board.moves.Move;
 import chess.board.representations.fen.FENDecoder;
@@ -20,7 +20,6 @@ import chess.uci.protocol.stream.UCIOutputStream;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -35,7 +34,7 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
 
     public EngineZonda(ExecutorService executor) {
         this.executor = executor;
-        this.bestMoveFinder = new SmartLoop();
+        this.bestMoveFinder = new IterativeDeeping();
         this.currentState = new Ready();
     }
 

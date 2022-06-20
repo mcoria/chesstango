@@ -5,11 +5,9 @@
  import chess.board.Game;
  import chess.board.Piece;
  import chess.board.Square;
- import chess.board.builder.imp.GameBuilder;
  import chess.board.moves.Move;
  import chess.board.representations.fen.FENDecoder;
  import org.junit.Assert;
- import org.junit.Before;
  import org.junit.Test;
 
  /**
@@ -106,6 +104,6 @@
 
      private void settupMoveFinder(int maxLevel) {
          //bestMoveFinder = new MinMaxPrunning(maxLevel);
-         bestMoveFinder = new SmartLoop(maxLevel);
+         bestMoveFinder = new IterativeDeeping(maxLevel);
      }
  }

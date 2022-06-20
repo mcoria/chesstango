@@ -18,7 +18,7 @@ import org.junit.runners.Suite;
         MinMaxPrunningTest.class,
         GameEvaluatorTest.class,
         BlackBestMovesTest.class,
-        SmartLoopTest.class,
+        IterativeDeepingTest.class,
         BestMoverFinderSuiteTest.class,
         MateIn1Test.class,
         MateIn2Test.class,
