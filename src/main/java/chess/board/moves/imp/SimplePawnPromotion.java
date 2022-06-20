@@ -2,6 +2,7 @@ package chess.board.moves.imp;
 
 import chess.board.Piece;
 import chess.board.PiecePositioned;
+import chess.board.iterators.Cardinal;
 import chess.board.moves.MovePromotion;
 import chess.board.position.PiecePlacementWriter;
 
@@ -16,6 +17,11 @@ class SimplePawnPromotion extends SimplePawnMove implements MovePromotion {
 
 	public SimplePawnPromotion(PiecePositioned from, PiecePositioned to, Piece promotion) {
 		super(from, to);
+		this.promotion = promotion;
+	}
+
+	public SimplePawnPromotion(PiecePositioned from, PiecePositioned to, Cardinal cardinal, Piece promotion) {
+		super(from, to, cardinal);
 		this.promotion = promotion;
 	}
 

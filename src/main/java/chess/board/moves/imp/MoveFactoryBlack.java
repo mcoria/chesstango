@@ -76,14 +76,14 @@ public class MoveFactoryBlack implements MoveFactory {
 
     @Override
     public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino,
-                                       PiecePositioned capturaEnPassant, Cardinal cardinal) {
-        return new CapturePawnEnPassant(origen, destino, capturaEnPassant);
+                                       Cardinal cardinal, PiecePositioned capture) {
+        return new CapturePawnEnPassant(origen, destino, capture);
     }
 
 
     @Override
     public Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return new SimplePawnPromotion(origen, destino, piece);
+        return new SimplePawnPromotion(origen, destino, Cardinal.Sur, piece);
     }
 
 

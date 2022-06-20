@@ -241,8 +241,8 @@ public class ChessPositionTest {
 	
 	private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
 		return moveFactoryWhite.createCaptureEnPassant(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
-				PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(
-						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen, destinoSquare));
+				PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.calculateSquaresDirection(origen, destinoSquare), PiecePositioned.getPiecePositioned(
+						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
 	}
 	
 	private Move createSimpleKingMoveWhite(Square origen, Square destino) {
