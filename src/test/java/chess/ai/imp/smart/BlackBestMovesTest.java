@@ -103,7 +103,7 @@
      }
 
      private void settupMoveFinder(int maxLevel) {
-         //bestMoveFinder = new MinMaxPrunning(maxLevel);
+         //bestMoveFinder = new MinMaxPruning(maxLevel);
          bestMoveFinder = new IterativeDeeping(maxLevel);
      }
  }

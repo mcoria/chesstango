@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import chess.ai.imp.smart.MinMaxPrunning;
+import chess.ai.imp.smart.MinMaxPruning;
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
 import chess.board.factory.ChessFactory;
@@ -80,7 +80,7 @@ public class BestMoverFinderSuite {
 	protected boolean run(String epd) {
 		EdpParsed edpParsed = parseTests(epd);
 		
-		BestMoveFinder moveFinder = new MinMaxPrunning();
+		BestMoveFinder moveFinder = new MinMaxPruning();
 		
 		Game game = getGame(edpParsed.fen);
 

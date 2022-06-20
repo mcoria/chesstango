@@ -67,7 +67,7 @@ public class IterativeDeeping implements BestMoveFinder {
     }
 
     protected BestMoveFinder getBestMoveFinder(int depth) {
-        return new MinMaxPrunning(depth);
+        return new MinMaxPruning(depth);
     }
 
     private static class BestMove{

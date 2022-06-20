@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MinMaxPrunningTest {
+public class MinMaxPruningTest {
 
     @Mock
     private GameEvaluator evaluator;
@@ -31,7 +31,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_SingleMove(){
-        MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+        MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -51,7 +51,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_SingleMove(){
-        MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+        MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -71,7 +71,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_TwoMoves(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -99,7 +99,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_MateCutOff(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -136,8 +136,8 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_ImminentMate(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
-        //MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
+        //MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -175,8 +175,8 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_ImminentMate(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
-        //MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
+        //MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -214,8 +214,8 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_maximize_WhitePlays_MateCutOff(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
-        //MinMaxPrunning minMax = new MinMaxPrunning(1, evaluator);
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
+        //MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -254,7 +254,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_TwoMoves(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -282,7 +282,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_MateCutOff(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -323,7 +323,7 @@ public class MinMaxPrunningTest {
 
     @Test
     public void test_minimize_BlackPlays_MateCutOff(){
-        MinMaxPrunning minMax = spy(new MinMaxPrunning(1, evaluator));
+        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator));
 
         Game rootGame = setupGame(Color.BLACK);
 

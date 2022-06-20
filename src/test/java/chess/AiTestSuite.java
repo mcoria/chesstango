@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         MinMaxTest.class,
-        MinMaxPrunningTest.class,
+        MinMaxPruningTest.class,
         GameEvaluatorTest.class,
         BlackBestMovesTest.class,
         IterativeDeepingTest.class,

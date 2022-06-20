@@ -23,8 +23,8 @@ Factory method pattern is usually applied in combination with Template method pa
 Builder pattern has been implemented with different participant classes
 - Builder: ChessBuilder class declares the interface.
 - Concrete Builders
-    - ASCIIOutput, the result is retrived with method xXX
-    - FENCoder, the result is retrived with method XX
+    - ASCIIOutput, the result is retried with method xXX
+    - FENCoder, the result is retried with method XX
     - ChessBuilderParts 
     - ChessBuilderBoard 
     - ChessBuilderGame
@@ -71,13 +71,16 @@ Classes in package chess.moves.imp implement these interfaces.
 Strategy pattern is implemented at chess.pseudomovesgenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
 ### Iterators
-Iterators can by found at chess.iterators package, two different iterator types are defined:
+Iterators can be found at chess.iterators package, two different iterator types are defined:
 - Square Iterators
 - Piece Placement Iterators
 
 ## Project roadmap
-- Implement a chess state machine. (DONE)
-- Implement communication protocol. (TBD)
-- Implement AI player.
-
+- Implement chess state machine. (DONE)
+- FEN decoder/encoder and PGN decoder. (DONE)
+- UCI communication protocol. (DONE)
+- Implement AI (WIP)
+  - MinMax
+  - MinMax with Alpha Beta Pruning
+  - Iterative Deepening
 

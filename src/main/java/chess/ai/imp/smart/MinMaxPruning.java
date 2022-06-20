@@ -12,21 +12,21 @@ import chess.board.moves.Move;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPrunning extends AbstractSmart {
+public class MinMaxPruning extends AbstractSmart {
     private static final int DEFAULT_MAX_PLIES = 6;
     private final int plies;
     private final GameEvaluator evaluator;
     private final List<Move> moveStacks[];
 
-    public MinMaxPrunning() {
+    public MinMaxPruning() {
         this(DEFAULT_MAX_PLIES);
     }
 
-    public MinMaxPrunning(int level) {
+    public MinMaxPruning(int level) {
         this(level, new GameEvaluator());
     }
 
-    public MinMaxPrunning(int level, GameEvaluator evaluator) {
+    public MinMaxPruning(int level, GameEvaluator evaluator) {
         this.plies = level;
         this.moveStacks = new List[level];
         for (int i = 0; i < level; i++) {
