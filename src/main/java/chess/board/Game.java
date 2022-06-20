@@ -82,19 +82,11 @@ public class Game {
 	}
 
 	public MoveContainerReader getPossibleMoves() {
-		if(analyze){
-			analyzer.updateGameStatus();
-			analyze = false;
-		}
-		return gameState.getLegalMoves();
+		return getGameState().getLegalMoves();
 	}
 
-	public GameState.GameStatus getGameStatus() {
-		if(analyze){
-			analyzer.updateGameStatus();
-			analyze = false;
-		}
-		return gameState.getStatus();
+	public GameState.Status getStatus() {
+		return getGameState().getStatus();
 	}
 
 	public GameState getGameState() {

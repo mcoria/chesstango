@@ -59,16 +59,16 @@ public class PGNEncoder {
             moveCounter++;
         }
 
-        sb.append(encodeGameStatusAtMove(game.getGameStatus()));
+        sb.append(encodeGameStatusAtMove(game.getStatus()));
 
         sb.append(" " + encodeGameResult(game));
 
         return sb.toString();
     }
 
-    private String encodeGameStatusAtMove(GameState.GameStatus status) {
+    private String encodeGameStatusAtMove(GameState.Status status) {
         switch (status){
-            case IN_PROGRESS:
+            case NO_CHECK:
             case DRAW:
                 return "";
             case CHECK:
@@ -81,8 +81,8 @@ public class PGNEncoder {
     }
 
     private String encodeGameResult(Game game) {
-        switch (game.getGameStatus()){
-            case IN_PROGRESS:
+        switch (game.getStatus()){
+            case NO_CHECK:
             case CHECK:
                 return "*";
             case DRAW:

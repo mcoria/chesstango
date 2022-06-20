@@ -11,29 +11,33 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class GameState {
 
-	public enum GameStatus {
-		IN_PROGRESS(false),
-		CHECK(false),
-		MATE(true),
-		DRAW(true);
+	public enum Status {
+		NO_CHECK(true),
+		CHECK(true),
+		MATE(false),
+		DRAW(false);
 
-		private final boolean endGame;
+		private final boolean inProgress;
 
-		GameStatus(boolean endGame) {
-			this.endGame = endGame;
+		Status(boolean inProgress) {
+			this.inProgress = inProgress;
 		}
 
-		public boolean isEndGame(){
-			return endGame;
+		public boolean isInProgress(){
+			return inProgress;
 		}
 	}
 
 	private AnalyzerResult analyzerResult;
 	private MoveContainerReader legalMoves;
 	private Move selectedMove;
-	private GameState.GameStatus status;
+	private Status status;
 
 	private final Deque<GameStateNode> stackGameStateNode = new ArrayDeque<GameStateNode>();
 
@@ -45,11 +49,11 @@ public class GameState {
 		this.selectedMove = selectedMove;
 	}
 
-	public GameState.GameStatus getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(GameState.GameStatus status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 	
@@ -98,6 +102,6 @@ public class GameState {
 		public AnalyzerResult analyzerResult;
 		public MoveContainerReader legalMoves;
 		public Move selectedMove;
-		public GameState.GameStatus status;
+		public Status status;
 	}
 }

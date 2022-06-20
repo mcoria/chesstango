@@ -37,7 +37,7 @@ public class GameTest {
 		assertEquals(0, game.getChessPosition().getHalfMoveClock());
 		assertEquals(1, game.getChessPosition().getFullMoveClock());
 
-		assertEquals(GameState.GameStatus.IN_PROGRESS, game.getGameStatus());
+		assertEquals(GameState.Status.NO_CHECK, game.getStatus());
 		assertEquals(20, game.getPossibleMoves().size());
 	}
 
@@ -56,7 +56,7 @@ public class GameTest {
 		.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(GameState.GameStatus.MATE, game.getGameStatus());
+		assertEquals(GameState.Status.MATE, game.getStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
 		assertEquals(0, game.getChessPosition().getHalfMoveClock());
 		assertEquals(4, game.getChessPosition().getFullMoveClock());
@@ -77,7 +77,7 @@ public class GameTest {
 		.executeMove(Square.f3, Square.f7);
 		
 		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(GameState.GameStatus.MATE, game.getGameStatus());
+		assertEquals(GameState.Status.MATE, game.getStatus());
 		assertTrue(game.getPossibleMoves().isEmpty());
 		assertEquals(0, game.getChessPosition().getHalfMoveClock());
 		assertEquals(4, game.getChessPosition().getFullMoveClock());
@@ -129,7 +129,7 @@ public class GameTest {
 		
 		game.executeMove(Square.f3, Square.f7);
 		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(GameState.GameStatus.CHECK, game.getGameStatus());
+		assertEquals(GameState.Status.CHECK, game.getStatus());
 		assertEquals(1, game.getPossibleMoves().size());
 	}
 	
@@ -144,7 +144,7 @@ public class GameTest {
 		game.executeMove(Square.h7, Square.c7);
 
 		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(GameState.GameStatus.DRAW, game.getGameStatus());
+		assertEquals(GameState.Status.DRAW, game.getStatus());
 		assertEquals(0, game.getPossibleMoves().size());
 		assertEquals(1, game.getChessPosition().getHalfMoveClock());
 		assertEquals(1, game.getChessPosition().getFullMoveClock());

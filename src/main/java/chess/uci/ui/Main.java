@@ -8,7 +8,6 @@ import chess.board.representations.PGNEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.representations.fen.FENEncoder;
 import chess.uci.engine.Engine;
-import chess.uci.engine.EngineProxy;
 import chess.uci.engine.EngineZonda;
 import chess.uci.protocol.UCIEncoder;
 import chess.uci.protocol.requests.CmdGo;
@@ -69,7 +68,7 @@ public class Main {
 
         boolean repetition = false;
         boolean fiftyMoveRule = false;
-        while( !game.getGameStatus().isEndGame() && !repetition && !fiftyMoveRule){
+        while( game.getStatus().isInProgress() && !repetition && !fiftyMoveRule){
             String moveStr = askForBestMove(currentTurn, executedMovesStr);
 
             Move move = findMove(moveStr);
@@ -82,7 +81,7 @@ public class Main {
             currentTurn = (currentTurn == white ? black : white);
         }
         if(repetition || fiftyMoveRule){
-            game.getGameState().setStatus(GameState.GameStatus.DRAW);
+            game.getGameState().setStatus(GameState.Status.DRAW);
         }
 
         if(repetition){

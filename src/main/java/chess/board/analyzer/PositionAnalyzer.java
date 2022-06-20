@@ -24,34 +24,34 @@ public class PositionAnalyzer {
 	private LegalMoveGenerator legalMoveGenerator;
 	
 	
-	public GameState.GameStatus updateGameStatus() {
+	public GameState.Status updateGameStatus() {
 		AnalyzerResult analysis = analyze();
 
 		MoveContainerReader legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 		
 		boolean existsLegalMove = !legalMoves.isEmpty();
 		
-		GameState.GameStatus gameStatus = null;
+		GameState.Status status = null;
 
 		if (existsLegalMove) {
 			if (analysis.isKingInCheck()) {
-				gameStatus = GameState.GameStatus.CHECK;
+				status = GameState.Status.CHECK;
 			} else {
-				gameStatus = GameState.GameStatus.IN_PROGRESS;
+				status = GameState.Status.NO_CHECK;
 			}
 		} else {
 			if (analysis.isKingInCheck()) {
-				gameStatus = GameState.GameStatus.MATE;
+				status = GameState.Status.MATE;
 			} else {
-				gameStatus = GameState.GameStatus.DRAW;
+				status = GameState.Status.DRAW;
 			}
 		}
 
-		gameState.setStatus(gameStatus);
+		gameState.setStatus(status);
 		gameState.setAnalyzerResult(analysis);
 		gameState.setLegalMoves(legalMoves);
 
-		return gameStatus;
+		return status;
 	}	
 	
 	public AnalyzerResult analyze() {
