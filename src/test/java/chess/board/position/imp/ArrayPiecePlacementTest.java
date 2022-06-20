@@ -44,12 +44,12 @@ public class ArrayPiecePlacementTest {
 		
 		
 		long posiciones = 0;
-		posiciones |= Square.a1.getPosicion();
-		posiciones |= Square.b7.getPosicion();
-		posiciones |= Square.b8.getPosicion();
-		posiciones |= Square.e1.getPosicion();
-		posiciones |= Square.e8.getPosicion();
-		posiciones |= Square.e3.getPosicion();
+		posiciones |= Square.a1.getBitPosition();
+		posiciones |= Square.b7.getBitPosition();
+		posiciones |= Square.b8.getBitPosition();
+		posiciones |= Square.e1.getBitPosition();
+		posiciones |= Square.e8.getBitPosition();
+		posiciones |= Square.e3.getBitPosition();
 		
 		List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();
 

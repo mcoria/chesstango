@@ -401,17 +401,17 @@ public class KingBlackMoveGeneratorTest {
 		
 		long capturedPositions = generatorResult.getCapturedPositions();
 
-		assertTrue( (Square.f1.getPosicion() & capturedPositions) != 0 );
-		assertTrue( (Square.g1.getPosicion() & capturedPositions) != 0 );
-		assertTrue( (Square.h1.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.f1.getBitPosition() & capturedPositions) != 0 );
+		assertTrue( (Square.g1.getBitPosition() & capturedPositions) != 0 );
+		assertTrue( (Square.h1.getBitPosition() & capturedPositions) != 0 );
 
-		assertTrue( (Square.f2.getPosicion() & capturedPositions) != 0 );
-		assertTrue( (Square.h2.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.f2.getBitPosition() & capturedPositions) != 0 );
+		assertTrue( (Square.h2.getBitPosition() & capturedPositions) != 0 );
 		
 
-		assertTrue( (Square.f3.getPosicion() & capturedPositions) != 0 );
-		assertTrue( (Square.g3.getPosicion() & capturedPositions) != 0 );
-		assertTrue( (Square.h3.getPosicion() & capturedPositions) != 0 );
+		assertTrue( (Square.f3.getBitPosition() & capturedPositions) != 0 );
+		assertTrue( (Square.g3.getBitPosition() & capturedPositions) != 0 );
+		assertTrue( (Square.h3.getBitPosition() & capturedPositions) != 0 );
 	}	
 	
 	private Move createSimpleMove(PiecePositioned origen, Square destinoSquare) {

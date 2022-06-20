@@ -24,7 +24,7 @@ public class JumpSquareIteratorTest {
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();
 
-				posicionesSalto |= salto.getPosicion();
+				posicionesSalto |= salto.getBitPosition();
 			}
 			arraySaltos[idx] = posicionesSalto;
 		}
@@ -42,7 +42,7 @@ public class JumpSquareIteratorTest {
 			long posicionesSalto = 0;
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();
-				posicionesSalto |= salto.getPosicion();
+				posicionesSalto |= salto.getBitPosition();
 			}
 			arraySaltos[idx] = posicionesSalto;
 		}
@@ -69,7 +69,7 @@ public class JumpSquareIteratorTest {
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();
 				
-				posicionesSalto |= salto.getPosicion();
+				posicionesSalto |= salto.getBitPosition();
 			}			
 			arraySaltos[idx] = posicionesSalto;
 		}
@@ -95,7 +95,7 @@ public class JumpSquareIteratorTest {
 			while (iterator.hasNext()) {
 				Square salto = iterator.next();
 				
-				posicionesSalto |= salto.getPosicion();
+				posicionesSalto |= salto.getBitPosition();
 			}			
 			arraySaltos[idx] = posicionesSalto;
 		}

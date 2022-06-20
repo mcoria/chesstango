@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import chess.board.Square;
-
 
 /**
  * @author Mauricio Coria
@@ -96,13 +94,13 @@ public class SquareTest {
 	
 	@Test
 	public void testPosicion() {
-		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000001L, Square.a1.getPosicion());
-		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000010L, Square.b1.getPosicion());
-		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000001_00000000L, Square.a2.getPosicion());
-		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000010_00000000L, Square.b2.getPosicion());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000001L, Square.a1.getBitPosition());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000010L, Square.b1.getBitPosition());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000001_00000000L, Square.a2.getBitPosition());
+		assertEquals(0b00000000_00000000_00000000_00000000_00000000_00000000_00000010_00000000L, Square.b2.getBitPosition());
 		
-		assertEquals(0b01000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L, Square.g8.getPosicion());
-		assertEquals(0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L, Square.h8.getPosicion());		
+		assertEquals(0b01000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L, Square.g8.getBitPosition());
+		assertEquals(0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L, Square.h8.getBitPosition());
 	}
 	
 	@Test
@@ -110,7 +108,7 @@ public class SquareTest {
 		long posiciones = 0;
 		Square[] values = Square.values();
 		for (int i = 0; i < values.length; i++) {
-			posiciones &= values[i].getPosicion();
+			posiciones &= values[i].getBitPosition();
 		}
 		
 		assertEquals(0, posiciones);

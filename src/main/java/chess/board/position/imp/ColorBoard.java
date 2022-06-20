@@ -23,13 +23,13 @@ public class ColorBoard {
 	
 	public void swapPositions(Color color, Square remove, Square add){
 		if (Color.WHITE.equals(color)) {
-			squareWhites &= ~remove.getPosicion();
+			squareWhites &= ~remove.getBitPosition();
 
-			squareWhites |= add.getPosicion();
+			squareWhites |= add.getBitPosition();
 		} else if (Color.BLACK.equals(color)) {
-			squareBlacks &= ~remove.getPosicion();
+			squareBlacks &= ~remove.getBitPosition();
 
-			squareBlacks |= add.getPosicion();
+			squareBlacks |= add.getBitPosition();
 		} else {
 			throw new RuntimeException("Missing color");
 		}
@@ -37,17 +37,17 @@ public class ColorBoard {
 	
 	public void addPositions(PiecePositioned position) {
 		if (Color.WHITE.equals(position.getValue().getColor())) {
-			squareWhites |= position.getKey().getPosicion();
+			squareWhites |= position.getKey().getBitPosition();
 		} else {
-			squareBlacks |= position.getKey().getPosicion();
+			squareBlacks |= position.getKey().getBitPosition();
 		}
 	}
 	
 	public void removePositions(PiecePositioned position){
 		if(Color.WHITE.equals(position.getValue().getColor())){
-			squareWhites &= ~position.getKey().getPosicion();
+			squareWhites &= ~position.getKey().getBitPosition();
 		} else {
-			squareBlacks &= ~position.getKey().getPosicion();
+			squareBlacks &= ~position.getKey().getBitPosition();
 		}
 	}		
 	
@@ -57,7 +57,7 @@ public class ColorBoard {
 	}
 	
 	public SquareIterator iteratorSquareWithoutKing(Color color, Square kingSquare){
-		return new PositionsSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getPosicion());
+		return new PositionsSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getBitPosition());
 	}
 	
 	public long getPosiciones (Color color){
@@ -65,23 +65,23 @@ public class ColorBoard {
 	}
 	
 	public boolean isEmpty(Square destino) {
-		return ((~(squareWhites | squareBlacks)) &  destino.getPosicion()) != 0 ;
+		return ((~(squareWhites | squareBlacks)) &  destino.getBitPosition()) != 0 ;
 	}	
 	
 	public boolean isColor(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
-			return (squareWhites & square.getPosicion()) != 0;
+			return (squareWhites & square.getBitPosition()) != 0;
 		} else if(Color.BLACK.equals(color)){
-			return (squareBlacks & square.getPosicion()) != 0;
+			return (squareBlacks & square.getBitPosition()) != 0;
 		} else{
 			throw new RuntimeException("Empty bysquare");
 		}
 	}
 
 	public Color getColor(Square square) {
-		if ((squareWhites & square.getPosicion()) != 0) {
+		if ((squareWhites & square.getBitPosition()) != 0) {
 			return Color.WHITE;
-		} else if ((squareBlacks & square.getPosicion()) != 0) {
+		} else if ((squareBlacks & square.getBitPosition()) != 0) {
 			return Color.BLACK;
 		}
 		return null;
@@ -94,9 +94,9 @@ public class ColorBoard {
 			Piece piece = piecePositioned.getValue();
 			if (piece != null) {
 				if (Color.WHITE.equals(piece.getColor())) {
-					squareWhites |= piecePositioned.getKey().getPosicion();
+					squareWhites |= piecePositioned.getKey().getBitPosition();
 				} else if (Color.BLACK.equals(piece.getColor())) {
-					squareBlacks |= piecePositioned.getKey().getPosicion();
+					squareBlacks |= piecePositioned.getKey().getBitPosition();
 				}
 			}			
 		}

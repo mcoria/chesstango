@@ -16,12 +16,12 @@ public enum Square {
 	
 	private final int file;
 	private final int rank;
-	private final long posicion;
+	private final long bitPosition;
 	
 	Square(int file, int rank){
 		this.file = file;
 		this.rank = rank;
-		this.posicion = 1L << toIdx();
+		this.bitPosition = 1L << toIdx();
 	}
 	
 	public int getRank() {
@@ -32,8 +32,8 @@ public enum Square {
 		return file;
 	}
 	
-	public long getPosicion(){
-		return posicion;
+	public long getBitPosition(){
+		return bitPosition;
 	}
 
 	

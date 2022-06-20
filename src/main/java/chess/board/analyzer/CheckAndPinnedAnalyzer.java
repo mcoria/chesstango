@@ -5,9 +5,6 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.iterators.byposition.bypiece.KnightBitIterator;
-import chess.board.iterators.byposition.bypiece.PawnBlackBitIterator;
-import chess.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
 import chess.board.iterators.bysquare.CardinalSquareIterator;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
 import chess.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPawn;
@@ -20,7 +17,6 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 
 
 /**
@@ -150,7 +146,7 @@ public class CheckAndPinnedAnalyzer {
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
 						if (queen.equals(piece) || rookOrBishop.equals(piece)) {
 							// Confirmado, tenemos pinned
-							pinnedPositions |= possiblePinned.getKey().getPosicion();
+							pinnedPositions |= possiblePinned.getKey().getBitPosition();
 							pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));
 						}
 						// O ....

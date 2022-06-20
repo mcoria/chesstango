@@ -33,14 +33,14 @@ public class MoveGeneratorResult {
 	}
 
 	public void addAffectedByPositions(Square key) {
-		affectedByContainer |= key.getPosicion();
+		affectedByContainer |= key.getBitPosition();
 	}
 	public long getAffectedByPositions() {
 		return affectedByContainer;
 	}
 
 	public void addCapturedPositions(Square key) {
-		capturedPositions |= key.getPosicion();
+		capturedPositions |= key.getBitPosition();
 	}
 	public long getCapturedPositions() {
 		return capturedPositions;

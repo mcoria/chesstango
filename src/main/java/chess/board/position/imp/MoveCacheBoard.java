@@ -26,7 +26,7 @@ public class MoveCacheBoard {
 	 
 	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
 		pseudoMoves[key.toIdx()] = generatorResult;
-		long keyAdded = key.getPosicion();
+		long keyAdded = key.getBitPosition();
 		long affectedByCollection = generatorResult.getAffectedByPositions();
 
 		
@@ -39,25 +39,25 @@ public class MoveCacheBoard {
 	}		
 
 	public void clearPseudoMoves(Square key, boolean trackCleared) {
-		clearPseudoMoves(affects[key.toIdx()] | (pseudoMoves[key.toIdx()] != null ? key.getPosicion() : 0), trackCleared);
+		clearPseudoMoves(affects[key.toIdx()] | (pseudoMoves[key.toIdx()] != null ? key.getBitPosition() : 0), trackCleared);
 	}
 
 	public void clearPseudoMoves(Square key1, Square key2, boolean trackCleared) {
-		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getPosicion() : 0)
-				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getPosicion() : 0), trackCleared);
+		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
+				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0), trackCleared);
 	}
 
 	public void clearPseudoMoves(Square key1, Square key2, Square key3, boolean trackCleared) {
-		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getPosicion() : 0)
-				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getPosicion() : 0)
-				| affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getPosicion() : 0), trackCleared);
+		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
+				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
+				| affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0), trackCleared);
 	}
 
 	public void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4, boolean trackCleared) {
-		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getPosicion() : 0)
-				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getPosicion() : 0)
-				| affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getPosicion() : 0)
-				| affects[key4.toIdx()] | (pseudoMoves[key4.toIdx()] != null ? key4.getPosicion() : 0), trackCleared);
+		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
+				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
+				| affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0)
+				| affects[key4.toIdx()] | (pseudoMoves[key4.toIdx()] != null ? key4.getBitPosition() : 0), trackCleared);
 	}	
 	
 	private void clearPseudoMoves(long clearSquares, boolean trackCleared) {

@@ -42,7 +42,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		final long pinnedSquares = analysis.getPinnedSquares();
 
-		final long posicionRey = kingSquare.getPosicion();
+		final long posicionRey = kingSquare.getBitPosition();
 
 		long safePositions = posicionesTurnoActual & ~pinnedSquares & ~posicionRey;
 
