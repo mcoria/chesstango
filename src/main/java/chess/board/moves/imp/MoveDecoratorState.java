@@ -12,28 +12,13 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class MoveDecoratorState extends MoveDecorator<Move> {
+class MoveDecoratorState extends MoveDecorator {
 	
 	protected Consumer<PositionState> decoratorState;
 
 	public MoveDecoratorState(Move move, Consumer<PositionState> decoratorState) {
 		super(move);
 		this.decoratorState = decoratorState;
-	}
-	
-	@Override
-	public void executeMove(ChessPositionWriter chessPosition) {
-		chessPosition.executeMove(this);
-	}
-
-	@Override
-	public void undoMove(ChessPositionWriter chessPosition) {
-		chessPosition.undoMove(this);
-	}	
-
-	@Override
-	public boolean filter(MoveFilter filter) {
-		return filter.filterMove(this);
 	}
 	
 	@Override

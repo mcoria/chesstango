@@ -3,6 +3,8 @@ package chess.board.moves.imp;
 import chess.board.PiecePositioned;
 import chess.board.iterators.Cardinal;
 import chess.board.moves.Move;
+import chess.board.movesgenerators.legal.MoveFilter;
+import chess.board.position.ChessPositionWriter;
 import chess.board.position.PiecePlacementWriter;
 import chess.board.position.imp.ColorBoard;
 import chess.board.position.imp.MoveCacheBoard;
@@ -12,11 +14,11 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class MoveDecorator<T extends Move> implements Move {
+abstract class MoveDecorator implements Move {
 	
-	protected final T move;	
+	protected final Move move;
 	
-	public MoveDecorator(T move) {
+	public MoveDecorator(Move move) {
 		this.move = move;
 	}	
 
@@ -29,7 +31,7 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	public PiecePositioned getTo() {
 		return move.getTo();
 	}
-	
+
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
 		move.executeMove(board);
@@ -78,7 +80,7 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof MoveDecorator){
-			return move.equals( ((MoveDecorator<?>) obj).move );
+			return move.equals( ((MoveDecorator) obj).move );
 		}
 		return false;
 	}	

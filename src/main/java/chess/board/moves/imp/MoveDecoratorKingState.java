@@ -12,43 +12,9 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class MoveDecoratorKingState extends MoveDecorator<MoveKing> implements MoveKing   {
-	
-	protected Consumer<PositionState> decoratorState;
+class MoveDecoratorKingState extends MoveDecoratorState implements MoveKing {
 
 	public MoveDecoratorKingState(MoveKing move, Consumer<PositionState> decoratorState) {
-		super(move);
-		this.decoratorState = decoratorState;
+		super(move, decoratorState);
 	}
-	
-	@Override
-	public void executeMove(PositionState positionState) {
-		super.executeMove(positionState);
-		decoratorState.accept(positionState);
-	}	
-	
-	@Override
-	public void executeMove(ChessPositionWriter chessPosition) {
-		chessPosition.executeMove(this);
-	}
-	
-	@Override
-	public void undoMove(ChessPositionWriter chessPosition) {
-		chessPosition.undoMove(this);
-	}	
-	
-	@Override
-	public boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
-	}
-	
-	@Override
-	public void executeMove(KingCacheBoard kingCacheBoard){
-		move.executeMove(kingCacheBoard);
-	}
-	
-	@Override
-	public void undoMove(KingCacheBoard kingCacheBoard){
-		move.undoMove(kingCacheBoard);
-	}	
 }
