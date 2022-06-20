@@ -95,7 +95,7 @@ public class MoveFactoryBlack implements MoveFactory {
     protected MoveKing addLostCastlingByKingMoveWrapper(MoveKing kingMove) {
         MoveKing result = kingMove;
         if (Square.e8.equals(kingMove.getFrom().getKey())) {
-            result =  new MoveDecoratorKingState(kingMove, state -> {
+            result = new MoveDecoratorKingState(kingMove, state -> {
                 state.setCastlingBlackQueenAllowed(false);
                 state.setCastlingBlackKingAllowed(false);
             });
