@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import chess.board.iterators.Cardinal;
 import chess.board.moves.containers.MovePair;
 import org.junit.Before;
 import org.junit.Test;
@@ -144,11 +145,13 @@ public class MoveGeneratorEnPassantImpTest {
 	}
 
 	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4), Piece.PAWN_BLACK));
+		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null),
+				PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
+				Piece.PAWN_BLACK), Cardinal.calculateSquaresDirection(origen.getKey(), destinoSquare));
 	}
 	
 	private Move createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
+		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getKey(), destinoSquare));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

@@ -21,13 +21,13 @@ public class KnightMoveGenerator extends AbstractJumpMoveGenerator {
 	
 	@Override
 	protected Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createSimpleMove(origen, destino);
+		return this.moveFactory.createSimpleMove(origen, destino, null);
 	}
 
 
 	@Override
 	protected Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCaptureMove(origen, destino);
+		return this.moveFactory.createCaptureMove(origen, destino, null);
 	}
 
 	@Override

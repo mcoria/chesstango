@@ -137,12 +137,7 @@ abstract class AbstractMove implements Move {
 	}
 
 	private Cardinal calculateMoveDirection() {
-		for(Cardinal direction: Cardinal.values()){
-			if(direction.isInDirection(getFrom().getKey(), getTo().getKey())){
-				return direction;
-			}
-		}
-		return null;
+		return Cardinal.calculateSquaresDirection(getFrom().getKey(), getTo().getKey());
 	}
 
 }

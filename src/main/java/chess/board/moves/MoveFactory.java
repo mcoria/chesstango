@@ -17,7 +17,7 @@ public interface MoveFactory {
 	Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino);
 	Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare);
 	Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
-	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaEnPassant);
+	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, PiecePositioned capturaEnPassant, Cardinal cardinal);
 	Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
 	Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
 
@@ -27,8 +27,8 @@ public interface MoveFactory {
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino);
 	Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
-	Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino);
-	Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino);
+	Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
+	Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
 	MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino);
 	MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino);

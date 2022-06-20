@@ -71,4 +71,13 @@ public enum Cardinal {
 			return from < to;
 		}
 	}
+
+	public static Cardinal calculateSquaresDirection(Square from, Square to) {
+		for(Cardinal direction: Cardinal.values()){
+			if(direction.isInDirection(from, to)){
+				return direction;
+			}
+		}
+		return null;
+	}
 }

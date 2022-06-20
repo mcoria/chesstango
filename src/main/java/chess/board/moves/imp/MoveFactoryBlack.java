@@ -29,13 +29,13 @@ public class MoveFactoryBlack implements MoveFactory {
     }
 
     @Override
-    public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino) {
+    public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         return addLostCastlingByRookMoveWrapper(createSimpleMove(origen, destino));
     }
 
     @Override
-    public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino) {
-        return addLostCastlingByRookMoveWrapper(createCaptureMove(origen, destino));
+    public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        return addLostCastlingByRookMoveWrapper(createCaptureMove(origen, destino, cardinal));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MoveFactoryBlack implements MoveFactory {
 
     @Override
     public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino,
-                                       PiecePositioned capturaEnPassant) {
+                                       PiecePositioned capturaEnPassant, Cardinal cardinal) {
         return new CapturePawnEnPassant(origen, destino, capturaEnPassant);
     }
 

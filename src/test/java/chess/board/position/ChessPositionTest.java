@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import chess.board.iterators.Cardinal;
 import chess.board.moves.containers.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -241,7 +242,7 @@ public class ChessPositionTest {
 	private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
 		return moveFactoryWhite.createCaptureEnPassant(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
 				PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(
-						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
+						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen, destinoSquare));
 	}
 	
 	private Move createSimpleKingMoveWhite(Square origen, Square destino) {
