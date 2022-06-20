@@ -42,8 +42,7 @@ public class PerftMainTestSuite {
 			execute("main/ferdy_perft_single_check_17.epd", out);
 			execute("main/ferdy_perft_single_check_18.epd", out);
 			execute("main/ferdy_perft_single_check_19.epd", out);
-
-			execute("main/ferdy_perft_double_checks.epd", out);
+			
 			execute("main/perft-marcel.epd", out);
 			execute("main/perft.epd", out);
 
