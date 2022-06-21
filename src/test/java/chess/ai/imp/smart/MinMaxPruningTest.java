@@ -18,6 +18,9 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 
+/**
+ * @author Mauricio Coria
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MinMaxPruningTest {
 

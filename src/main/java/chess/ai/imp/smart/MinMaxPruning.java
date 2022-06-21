@@ -18,6 +18,8 @@ public class MinMaxPruning extends AbstractSmart {
     private final GameEvaluator evaluator;
     private final List<Move> moveStacks[];
 
+    private final MoveSorter moveSorter = new MoveSorter();
+
     public MinMaxPruning() {
         this(DEFAULT_MAX_PLIES);
     }
@@ -46,9 +48,10 @@ public class MinMaxPruning extends AbstractSmart {
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         Move bestMove = null;
         boolean search = true;
-        Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
-        while (possibleMovesIterator.hasNext() && search && keepProcessing) {
-            Move move = possibleMovesIterator.next();
+
+        Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+        while (!sortedMoves.isEmpty() && search && keepProcessing) {
+            Move move = sortedMoves.poll();
 
             game = game.executeMove(move);
 
@@ -79,7 +82,7 @@ public class MinMaxPruning extends AbstractSmart {
             assert(currentPath.size() == 0);
             currentPath.clear();
             // Necesitamos seleccionar algun movimiento
-            possibleMovesIterator = game.getPossibleMoves().iterator();
+            Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
             while (possibleMovesIterator.hasNext()) {
                 Move move = possibleMovesIterator.next();
                 bestMove = move;
@@ -108,9 +111,9 @@ public class MinMaxPruning extends AbstractSmart {
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
 
-            for (Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
-                 search && keepProcessing && possibleMovesIterator.hasNext(); ) {
-                Move move = possibleMovesIterator.next();
+            for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+                 search && keepProcessing && !sortedMoves.isEmpty(); ) {
+                Move move = sortedMoves.poll();
 
                 game = game.executeMove(move);
 
@@ -146,9 +149,9 @@ public class MinMaxPruning extends AbstractSmart {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-            for (Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
-                 search && keepProcessing && possibleMovesIterator.hasNext(); ) {
-                Move move = possibleMovesIterator.next();
+            for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+                 search && keepProcessing && !sortedMoves.isEmpty(); ) {
+                Move move = sortedMoves.poll();
 
                 game = game.executeMove(move);
 

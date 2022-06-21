@@ -26,9 +26,14 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 		return PiecePositionedCache.getInstance().getPosicion(key, value);
 	}
 
+	public static PiecePositioned getPiecePositioned(Square square) {
+		return PiecePositionedCache.getInstance().getPosicion(square);
+	}
+
 
 	private static class PiecePositionedCache {
 
+		private static final PiecePositionedCache theInstance  = new PiecePositionedCache();
 		private final PiecePositioned[][] board = new PiecePositioned[64][13];
 
 		private PiecePositionedCache() {
@@ -44,7 +49,7 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 			}
 		}
 
-		PiecePositioned getPosicion(Square square, Piece piece) {
+		public PiecePositioned getPosicion(Square square, Piece piece) {
 			PiecePositioned returnValue = null;
 			if (piece == null) {
 				returnValue = board[square.toIdx()][12];
@@ -53,13 +58,15 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 			}
 			return returnValue;
 		}
+
+		public PiecePositioned getPosicion(Square square) {
+			return board[square.toIdx()][12];
+		}
 		
-		private static final PiecePositionedCache theInstance  = new PiecePositionedCache();
-		
-		static PiecePositionedCache getInstance(){
+
+		public static PiecePositionedCache getInstance(){
 			return theInstance;
 		}
-
 	}
 
 }
