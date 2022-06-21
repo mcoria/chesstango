@@ -46,7 +46,7 @@ public class GameEvaluator {
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getValue();
-            evaluation += piece.getValue();
+            evaluation += piece.getPieceValue();
         }
         return evaluation;
     }

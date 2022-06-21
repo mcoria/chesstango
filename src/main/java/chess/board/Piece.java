@@ -24,19 +24,19 @@ public enum Piece {
 	KING_BLACK(Color.BLACK, -1000);
 	
 	private final Color color;
-	private final int value;
+	private final int pieceValue;
 	
-	Piece(Color color, int value) {
+	Piece(Color color, int pieceValue) {
 		this.color = color;
-		this.value = value;
+		this.pieceValue = pieceValue;
 	}
 
 	public Color getColor() {
 		return color;
 	}
 	
-	public int getValue() {
-		return value;
+	public int getPieceValue() {
+		return pieceValue;
 	}	
 
 	

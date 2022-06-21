@@ -8,6 +8,7 @@ import chess.board.representations.PGNEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.representations.fen.FENEncoder;
 import chess.uci.engine.Engine;
+import chess.uci.engine.EngineProxy;
 import chess.uci.engine.EngineZonda;
 import chess.uci.protocol.UCIEncoder;
 import chess.uci.protocol.requests.CmdGo;
@@ -49,8 +50,8 @@ public class Main {
         //engine1 = new EngineProxy();
         white = new EngineClientImp(engine1);
 
-        engine2 = new EngineZonda(executorService);
-        //engine2 = new EngineProxy();
+        //engine2 = new EngineZonda(executorService);
+        engine2 = new EngineProxy();
         black = new EngineClientImp(engine2);
 
         //gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1";
