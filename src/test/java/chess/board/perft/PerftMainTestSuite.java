@@ -16,6 +16,8 @@ import chess.board.perft.imp.PerftBrute;
  */
 public class PerftMainTestSuite {
 
+	private static List<String> fenTested = new ArrayList<>();
+
 	public static void main(String[] args) {
 		try (PrintStream out = new PrintStream(
 				new FileOutputStream("./PerftMainTestSuiteResult.txt", false))) {
@@ -42,14 +44,13 @@ public class PerftMainTestSuite {
 			execute("main/ferdy_perft_single_check_17.epd", out);
 			execute("main/ferdy_perft_single_check_18.epd", out);
 			execute("main/ferdy_perft_single_check_19.epd", out);
-			
+
+			execute("main/perft_suite0.epd", out);
+			execute("main/perft_suite1.epd", out);
+			execute("main/perft_suite2.epd", out);
+			execute("main/perft_suite3.epd", out);
+
 			execute("main/perft-marcel.epd", out);
-			execute("main/perft.epd", out);
-
-
-			execute("main/perftsuite1.txt", out);
-			execute("main/perftsuite2.txt", out);
-			execute("main/perftsuite3.txt", out);
 
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
@@ -62,6 +63,7 @@ public class PerftMainTestSuite {
 			out.println("Starting Test suite " + filename);
 			
 			List<String> failedSuites = new ArrayList<String>();
+			List<String> duplicatedSuites = new ArrayList<String>();
 			
 			PerftMainTestSuite suite = new PerftMainTestSuite();
 			
@@ -77,8 +79,15 @@ public class PerftMainTestSuite {
 			// outputting each line of the file.
 			while ((line = bufferedReader.readLine()) != null) {
 				if(!line.startsWith("#")){
-					if(suite.run(line) == false){
-						failedSuites.add(line);
+					suite.parseTests(line);
+					String currentFen = suite.getFen();
+					if(!fenTested.contains(currentFen)) {
+						fenTested.add(currentFen);
+						if (suite.run() == false) {
+							failedSuites.add(line);
+						}
+					} else {
+						duplicatedSuites.add(currentFen);
 					}
 				}
 			}
@@ -93,6 +102,10 @@ public class PerftMainTestSuite {
 					out.println("\t test failed: " + suiteStr);
 				}
 			}
+			for(String suiteStr: duplicatedSuites){
+				System.out.println("\t test duplicated: " + suiteStr);
+				out.println("\t test duplicated: " + suiteStr);
+			}
 			System.out.println("=================");
 
 			
@@ -102,28 +115,20 @@ public class PerftMainTestSuite {
 		}
 		out.flush();
 	}
-	
-	private final ChessFactory chessFactory;
-	
-	public PerftMainTestSuite() {
-		this(new ChessFactory());
-	}
-	
-	public PerftMainTestSuite(ChessFactory chessFactory) {
-		this.chessFactory =  chessFactory;
-	}
 
-	protected String fen;
+	private String fen;
 	protected long[] expectedPerftResults;
 	private int startLevel;
-
 	private PrintStream out = System.out;
 
 	protected boolean run(String perfTest) {
-		boolean returnResult = false;
-		try {
-			parseTests(perfTest);
+		parseTests(perfTest);
+		return run();
+	}
 
+	protected boolean run() {
+		Boolean returnResult = null;
+		try {
 			out.println("Testing FEN: " + this.fen);
 			for (int i = 0; i < expectedPerftResults.length; i++) {
 
@@ -140,7 +145,9 @@ public class PerftMainTestSuite {
 				}
 
 			}
-			returnResult = true;
+			if(returnResult == null) {
+				returnResult = true;
+			}
 			out.println("=============");
 		}catch (Exception e){
 			e.printStackTrace();
@@ -167,7 +174,7 @@ public class PerftMainTestSuite {
 	}
 	
 	private Game getGame() {		
-		GameBuilder builder = new GameBuilder(chessFactory);
+		GameBuilder builder = new GameBuilder(new ChessFactory());
 
 		FENDecoder parser = new FENDecoder(builder);
 		
@@ -178,5 +185,9 @@ public class PerftMainTestSuite {
 
 	public void setOut(PrintStream out) {
 		this.out = out;
+	}
+
+	public String getFen() {
+		return fen;
 	}
 }

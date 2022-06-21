@@ -15,8 +15,9 @@ import chess.board.perft.PerftResult;
 /**
  * @author Mauricio Coria
  *
+ * In case we want to excecute a very long test and measure performance
  */
-public class PerftMain {
+public class PerftMainSingle {
 
 	public static void main(String[] args) {
 		GameBuilder builder = new GameBuilder();
@@ -32,7 +33,7 @@ public class PerftMain {
 		Perft main = new PerftBrute();
 		
 		Instant start = Instant.now();
-		PerftResult result = main.start(board, 7);
+		PerftResult result = main.start(board, 4);
 		Instant end = Instant.now();
 		
 		main.printResult(result);

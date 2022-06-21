@@ -27,7 +27,7 @@ public class PerftMainTestSuiteTest {
 	public void test_parse0() {
 		suite.parseTests("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ;D1 20 ;D2 400 ;D3 8902 ;D4 197281 ;D5 4865609 ;D6 119060324");
 		
-		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", suite.fen);
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", suite.getFen());
 		assertEquals(20, suite.expectedPerftResults[0]);
 		assertEquals(400, suite.expectedPerftResults[1]);
 		assertEquals(8902, suite.expectedPerftResults[2]);
@@ -39,28 +39,28 @@ public class PerftMainTestSuiteTest {
 	@Test
 	public void test_parse1() {
 		suite.parseTests("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1 ;D6 824064");
-		assertEquals("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1", suite.fen);
+		assertEquals("8/8/1k6/8/2pP4/8/5BK1/8 b - d3 0 1", suite.getFen());
 		assertEquals(824064, suite.expectedPerftResults[0]);
 	}
 
 	@Test
 	public void test_parse2() {
 		suite.parseTests("rn2qb1r/N1pkp1pp/Qp6/3bnP2/2pP1P2/4P2P/PP1NB3/R1B1K1R1 w Q - 0 1; D1 45; D2 1457; D3 61279; D4 1916981; D5 79775362; D6 2487489850");
-		assertEquals("rn2qb1r/N1pkp1pp/Qp6/3bnP2/2pP1P2/4P2P/PP1NB3/R1B1K1R1 w Q - 0 1", suite.fen);
+		assertEquals("rn2qb1r/N1pkp1pp/Qp6/3bnP2/2pP1P2/4P2P/PP1NB3/R1B1K1R1 w Q - 0 1", suite.getFen());
 		assertEquals(2487489850L, suite.expectedPerftResults[5]);
 	}
 
 	@Test
 	public void test_parse3() {
 		suite.parseTests("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1; D1 48; D2 2039; D3 97862; D4 4085603; D5 193690690; D6 8031647685");
-		assertEquals("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1", suite.fen);
+		assertEquals("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1", suite.getFen());
 		assertEquals(8031647685L, suite.expectedPerftResults[5]);
 	}
 
 	@Test
 	public void test_parse4() {
 		suite.parseTests("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1; D4 23441");
-		assertEquals("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1", suite.fen);
+		assertEquals("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1", suite.getFen());
 		assertEquals(23441L, suite.expectedPerftResults[0]);
 	}
 
