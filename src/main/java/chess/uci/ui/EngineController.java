@@ -4,7 +4,11 @@ import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
 
-public interface EngineClient {
+/**
+ * @author Mauricio Coria
+ *
+ */
+public interface EngineController {
     void send_CmdUci();
 
     void send_CmdIsReady();

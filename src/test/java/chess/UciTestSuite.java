@@ -3,12 +3,12 @@
  */
 package chess;
 
-import chess.uci.engine.EngineProxyTest;
-import chess.uci.engine.EngineZondaTest;
-import chess.uci.engine.MainTest;
+import chess.uci.engine.imp.EngineProxyTest;
+import chess.uci.engine.imp.EngineZondaTest;
+import chess.uci.engine.EngineMainTest;
 import chess.uci.protocol.UCIDecoderCmdTest;
 import chess.uci.protocol.UCIDecoderRspTest;
-import chess.uci.ui.EngineClientImpTest;
+import chess.uci.ui.imp.EngineControllerImpTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -17,8 +17,8 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ MainTest.class, UCIDecoderCmdTest.class, UCIDecoderRspTest.class, EngineZondaTest.class,
-        EngineProxyTest.class, EngineClientImpTest.class, chess.uci.ui.MainTest.class})
+@Suite.SuiteClasses({ EngineMainTest.class, UCIDecoderCmdTest.class, UCIDecoderRspTest.class, EngineZondaTest.class,
+        EngineProxyTest.class, EngineControllerImpTest.class, EngineMainTest.class})
 public class UciTestSuite {
 
 }

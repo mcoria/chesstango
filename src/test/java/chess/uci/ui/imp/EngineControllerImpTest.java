@@ -1,8 +1,8 @@
-package chess.uci.ui;
+package chess.uci.ui.imp;
 
 import chess.uci.engine.Engine;
-import chess.uci.engine.EngineProxy;
-import chess.uci.engine.EngineZonda;
+import chess.uci.engine.imp.EngineProxy;
+import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class EngineClientImpTest {
+public class EngineControllerImpTest {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -21,7 +21,7 @@ public class EngineClientImpTest {
     public void test_Zonda(){
         Engine engine = new EngineZonda(executorService);
 
-        EngineClientImp client = new EngineClientImp(engine);
+        EngineControllerImp client = new EngineControllerImp(engine);
 
         client.send_CmdUci();
 
@@ -49,7 +49,7 @@ public class EngineClientImpTest {
     public void test_Proxy(){
         EngineProxy engine = new EngineProxy();
 
-        EngineClientImp client = new EngineClientImp(engine);
+        EngineControllerImp client = new EngineControllerImp(engine);
 
         executorService.execute(engine);
 

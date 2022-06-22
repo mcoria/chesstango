@@ -1,8 +1,9 @@
 /**
  * 
  */
-package chess.uci.engine;
+package chess.uci.engine.imp;
 
+import chess.uci.engine.imp.EngineProxy;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;

@@ -1,13 +1,14 @@
 /**
  *
  */
-package chess.uci.engine;
+package chess.uci.engine.imp;
 
 import chess.ai.BestMoveFinder;
 import chess.ai.imp.smart.IterativeDeeping;
 import chess.board.Game;
 import chess.board.moves.Move;
 import chess.board.representations.fen.FENDecoder;
+import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIEncoder;
 import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.UCIMessageExecutor;
@@ -25,9 +26,12 @@ import java.util.concurrent.ExecutorService;
 /**
  * @author Mauricio Coria
  */
-public class EngineZonda implements Engine, UCIMessageExecutor {
+public class EngineZonda implements Engine {
     private final ExecutorService executor;
     private final BestMoveFinder bestMoveFinder;
+
+    private final UCIMessageExecutor messageExecutor;
+
     private Game game;
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
@@ -36,78 +40,80 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
         this.executor = executor;
         this.bestMoveFinder = new IterativeDeeping();
         this.currentState = new Ready();
-    }
+        this.messageExecutor = new UCIMessageExecutor(){
 
+            @Override
+            public void do_uci(CmdUci cmdUci) {
+                responseOutputStream.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
+                responseOutputStream.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
+                responseOutputStream.write(new RspUciOk());
+            }
 
-    @Override
-    public void do_uci(CmdUci cmdUci) {
-        responseOutputStream.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
-        responseOutputStream.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
-        responseOutputStream.write(new RspUciOk());
-    }
+            @Override
+            public void do_isReady(CmdIsReady cmdIsReady) {
+                responseOutputStream.write(new RspReadyOk());
+            }
 
-    @Override
-    public void do_isReady(CmdIsReady cmdIsReady) {
-        responseOutputStream.write(new RspReadyOk());
-    }
+            @Override
+            public void do_setOption(CmdSetOption cmdSetOption) {
+            }
 
-    @Override
-    public void do_setOption(CmdSetOption cmdSetOption) {
-    }
+            @Override
+            public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+            }
 
-    @Override
-    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-    }
+            @Override
+            public void do_position(CmdPosition cmdPosition) {
+                game = CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.loadGame(FENDecoder.INITIAL_FEN) : FENDecoder.loadGame(cmdPosition.getFen());
+                executeMoves(cmdPosition.getMoves());
+                currentState = new WaitCmdGo();
+            }
 
-    @Override
-    public void do_position(CmdPosition cmdPosition) {
-        game = CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.loadGame(FENDecoder.INITIAL_FEN) : FENDecoder.loadGame(cmdPosition.getFen());
-        executeMoves(cmdPosition.getMoves());
-        currentState = new WaitCmdGo();
-    }
+            @Override
+            public void do_go(CmdGo cmdGo) {
+                currentState.do_go(cmdGo);
+            }
 
-    @Override
-    public void do_go(CmdGo cmdGo) {
-        currentState.do_go(cmdGo);
-    }
+            @Override
+            public void do_stop(CmdStop cmdStop) {
+                currentState.do_stop();
+            }
 
-    @Override
-    public void do_stop(CmdStop cmdStop) {
-        currentState.do_stop();
-    }
+            @Override
+            public void do_quit(CmdQuit cmdQuit) {
+                currentState.do_stop();
+                try {
+                    responseOutputStream.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
-    @Override
-    public void do_quit(CmdQuit cmdQuit) {
-        currentState.do_stop();
-        try {
-            responseOutputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+                //TODO: esta malo, que pasa si hay mas de un engine procesando.....
+                executor.shutdown();
+            }
 
-        //TODO: esta malo, que pasa si hay mas de un engine procesando.....
-        executor.shutdown();
-    }
+            @Override
+            public void receive_uciOk(RspUciOk rspUciOk) {
+            }
 
-    @Override
-    public void receive_uciOk(RspUciOk rspUciOk) {
-    }
+            @Override
+            public void receive_id(RspId rspId) {
+            }
 
-    @Override
-    public void receive_id(RspId rspId) {
-    }
+            @Override
+            public void receive_readyOk(RspReadyOk rspReadyOk) {
+            }
 
-    @Override
-    public void receive_readyOk(RspReadyOk rspReadyOk) {
-    }
+            @Override
+            public void receive_bestMove(RspBestMove rspBestMove) {
+            }
 
-    @Override
-    public void receive_bestMove(RspBestMove rspBestMove) {
+        };
     }
 
     @Override
     public void write(UCIMessage message) {
-        message.execute(this);
+        message.execute(messageExecutor);
     }
 
     @Override
@@ -144,12 +150,12 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
         }
     }
 
-    ZondaState getCurrentState() {
+    public ZondaState getCurrentState() {
         return currentState;
     }
 
 
-    interface ZondaState {
+    public interface ZondaState {
 
         void do_go(CmdGo cmdGo);
 
@@ -157,7 +163,7 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
     }
 
 
-    class Ready implements ZondaState {
+    public class Ready implements ZondaState {
         @Override
         public void do_go(CmdGo cmdGo) {
         }
@@ -168,7 +174,7 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
     }
 
 
-    class WaitCmdGo implements ZondaState {
+    public class WaitCmdGo implements ZondaState {
         @Override
         public void do_go(CmdGo cmdGo) {
             FindingBestMove findingBestMove = new FindingBestMove();
@@ -181,7 +187,7 @@ public class EngineZonda implements Engine, UCIMessageExecutor {
         }
     }
 
-    class FindingBestMove implements ZondaState {
+    public class FindingBestMove implements ZondaState {
 
         private UCIEncoder uciEncoder = new UCIEncoder();
 

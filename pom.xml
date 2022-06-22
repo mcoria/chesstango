@@ -35,7 +35,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>chess.uci.engine.Main</mainClass>
+							<mainClass>chess.uci.engine.EngineMain</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

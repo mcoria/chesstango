@@ -1,10 +1,11 @@
 /**
  * 
  */
-package chess.uci.engine;
+package chess.uci.engine.imp;
 
 import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
+import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
 import org.junit.Assert;

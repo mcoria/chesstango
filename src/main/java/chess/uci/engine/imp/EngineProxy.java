@@ -1,5 +1,6 @@
-package chess.uci.engine;
+package chess.uci.engine.imp;
 
+import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;

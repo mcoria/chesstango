@@ -1,5 +1,6 @@
 package chess.uci.engine;
 
+import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  *
  */
-public class Main {
+public class EngineMain {
 	private final Engine engine;
 
 	private final UCIActivePipe pipe;
@@ -24,11 +25,11 @@ public class Main {
 	public static void main(String[] args) {
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-		Main main = new Main(new EngineZonda(executorService), System.in, System.out);
+		EngineMain engineMain = new EngineMain(new EngineZonda(executorService), System.in, System.out);
 		//Main main = new Main(new EngineProxy(), System.in, System.out);
 
 
-		main.main(executorService);
+		engineMain.main(executorService);
 
 		//TODO: no podemos llamar a shutdown() aca, de lo contrario impedimos que Go se ejecute en Zonda
 		//      de momento terminamos en EngineZonda.do_quit()
@@ -42,7 +43,7 @@ public class Main {
 	}
 
 
-	public Main(Engine engine, InputStream in, PrintStream out) {
+	public EngineMain(Engine engine, InputStream in, PrintStream out) {
 		this.engine = engine;
 		this.engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(out)));
 

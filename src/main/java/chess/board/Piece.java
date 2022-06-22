@@ -5,23 +5,23 @@ package chess.board;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE, 100, 1),
-	PAWN_BLACK(Color.BLACK, -100, 1),
+	PAWN_WHITE(Color.WHITE, 1, 1),
+	PAWN_BLACK(Color.BLACK, -1, 1),
 	
-	KNIGHT_WHITE(Color.WHITE, 300, 4),
-	KNIGHT_BLACK(Color.BLACK, -300, 4),
+	KNIGHT_WHITE(Color.WHITE, 3, 4),
+	KNIGHT_BLACK(Color.BLACK, -3, 4),
 	
-	BISHOP_WHITE(Color.WHITE, 300, 3),
-	BISHOP_BLACK(Color.BLACK, -300, 3),
+	BISHOP_WHITE(Color.WHITE, 3, 3),
+	BISHOP_BLACK(Color.BLACK, -3, 3),
 
-	ROOK_WHITE(Color.WHITE, 500, 2),
-	ROOK_BLACK(Color.BLACK, -500, 2),
+	ROOK_WHITE(Color.WHITE, 5, 2),
+	ROOK_BLACK(Color.BLACK, -5, 2),
 	
-	QUEEN_WHITE(Color.WHITE, 900, 4),
-	QUEEN_BLACK(Color.BLACK, -900, 4),
+	QUEEN_WHITE(Color.WHITE, 9, 4),
+	QUEEN_BLACK(Color.BLACK, -9, 4),
 	
-	KING_WHITE(Color.WHITE, 1000, 0),
-	KING_BLACK(Color.BLACK, -1000, 0);
+	KING_WHITE(Color.WHITE, 10, 0),
+	KING_BLACK(Color.BLACK, -10, 0);
 	
 	private final Color color;
 	private final int pieceValue;

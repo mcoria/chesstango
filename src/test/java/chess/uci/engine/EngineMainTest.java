@@ -5,6 +5,8 @@ package chess.uci.engine;
 
 import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
+import chess.uci.engine.imp.EngineProxy;
+import chess.uci.engine.imp.EngineZonda;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  *
  */
-public class MainTest {
+public class EngineMainTest {
 
 	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -44,9 +46,9 @@ public class MainTest {
 
 		EngineZonda engine = new EngineZonda(executorService);
 
-		Main main = new Main(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
+		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
 
-		main.main(executorService);
+		engineMain.main(executorService);
 		PrintStream out = new PrintStream(outputToEngine,true);
 		BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
 
@@ -94,8 +96,8 @@ public class MainTest {
 
 		EngineProxy engine = new EngineProxy();
 
-		Main main = new Main(engine, new PipedInputStream(outputToEngine), System.out);
-		main.main(executorService);
+		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), System.out);
+		engineMain.main(executorService);
 
 		PrintStream out = new PrintStream(outputToEngine,true);
 

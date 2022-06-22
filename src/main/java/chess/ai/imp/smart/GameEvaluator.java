@@ -31,10 +31,10 @@ public class GameEvaluator {
                 evaluation = 0;
                 break;
             case  CHECK:
-                // If white is on check then evaluation starts at -5
+                // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation += evaluateByMaterial(game);
+                evaluation += 1000 * evaluateByMaterial(game);
                 evaluation += evaluateByMoves(game);
         }
         return evaluation;
@@ -56,17 +56,21 @@ public class GameEvaluator {
         Set<Square> origenes = new HashSet<>();
         Set<Square> territorioExpansion = new HashSet<>();
         Set<Square> territorioAtaque = new HashSet<>();
+        int posiblesCapturasValor = 0;
         for(Move move: game.getPossibleMoves()){
             origenes.add(move.getFrom().getKey());
 
             PiecePositioned to = move.getTo();
+
             territorioExpansion.add(to.getKey());
+
             if(to.getValue() != null){
                 territorioAtaque.add(to.getKey());
+                posiblesCapturasValor += Math.abs(to.getValue().getPieceValue());
             }
         };
 
-        evaluation = 2 * origenes.size() + territorioExpansion.size() + 2 * territorioAtaque.size();
+        evaluation = origenes.size() + 2 * territorioExpansion.size() + territorioAtaque.size() + posiblesCapturasValor;
 
         return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? evaluation : - evaluation;
     }

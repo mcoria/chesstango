@@ -8,12 +8,13 @@ import chess.board.representations.PGNEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.representations.fen.FENEncoder;
 import chess.uci.engine.Engine;
-import chess.uci.engine.EngineProxy;
-import chess.uci.engine.EngineZonda;
+import chess.uci.engine.imp.EngineProxy;
+import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.UCIEncoder;
 import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
+import chess.uci.ui.imp.EngineControllerImp;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -23,12 +24,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class Main {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-    private final EngineClient white;
-    private final EngineClient black;
+    private final EngineController white;
+    private final EngineController black;
 
     private final Engine engine1;
     private final Engine engine2;
@@ -46,13 +51,13 @@ public class Main {
     }
 
     public Main(){
-        engine1 = new EngineZonda(executorService);
-        //engine1 = new EngineProxy();
-        white = new EngineClientImp(engine1);
+        //engine1 = new EngineZonda(executorService);
+        engine1 = new EngineProxy();
+        white = new EngineControllerImp(engine1);
 
-        //engine2 = new EngineZonda(executorService);
-        engine2 = new EngineProxy();
-        black = new EngineClientImp(engine2);
+        engine2 = new EngineZonda(executorService);
+        //engine2 = new EngineProxy();
+        black = new EngineControllerImp(engine2);
 
         //gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1";
         gameFenSeed = FENDecoder.INITIAL_FEN;
@@ -65,7 +70,7 @@ public class Main {
         game = FENDecoder.loadGame(gameFenSeed);
         List<String> executedMovesStr = new ArrayList<>();
         Map<String, Integer> pastPositions = new HashMap<>();
-        EngineClient currentTurn = white;
+        EngineController currentTurn = white;
 
         boolean repetition = false;
         boolean fiftyMoveRule = false;
@@ -175,7 +180,7 @@ public class Main {
         }
     }
 
-    private String askForBestMove(EngineClient currentTurn, List<String> moves) {
+    private String askForBestMove(EngineController currentTurn, List<String> moves) {
         if(FENDecoder.INITIAL_FEN.equals(gameFenSeed)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
