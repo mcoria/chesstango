@@ -5,30 +5,33 @@ package chess.board;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE, 100),
-	PAWN_BLACK(Color.BLACK, -100),
+	PAWN_WHITE(Color.WHITE, 100, 1),
+	PAWN_BLACK(Color.BLACK, -100, 1),
 	
-	KNIGHT_WHITE(Color.WHITE, 300),
-	KNIGHT_BLACK(Color.BLACK, -300),
+	KNIGHT_WHITE(Color.WHITE, 300, 4),
+	KNIGHT_BLACK(Color.BLACK, -300, 4),
 	
-	BISHOP_WHITE(Color.WHITE, 300),
-	BISHOP_BLACK(Color.BLACK, -300),
+	BISHOP_WHITE(Color.WHITE, 300, 3),
+	BISHOP_BLACK(Color.BLACK, -300, 3),
 
-	ROOK_WHITE(Color.WHITE, 500),
-	ROOK_BLACK(Color.BLACK, -500),
+	ROOK_WHITE(Color.WHITE, 500, 2),
+	ROOK_BLACK(Color.BLACK, -500, 2),
 	
-	QUEEN_WHITE(Color.WHITE, 900),
-	QUEEN_BLACK(Color.BLACK, -900),
+	QUEEN_WHITE(Color.WHITE, 900, 4),
+	QUEEN_BLACK(Color.BLACK, -900, 4),
 	
-	KING_WHITE(Color.WHITE, 1000),
-	KING_BLACK(Color.BLACK, -1000);
+	KING_WHITE(Color.WHITE, 1000, 0),
+	KING_BLACK(Color.BLACK, -1000, 0);
 	
 	private final Color color;
 	private final int pieceValue;
+
+	private final int moveValue;
 	
-	Piece(Color color, int pieceValue) {
+	Piece(Color color, int pieceValue, int moveValue) {
 		this.color = color;
 		this.pieceValue = pieceValue;
+		this.moveValue = moveValue;
 	}
 
 	public Color getColor() {
@@ -37,8 +40,11 @@ public enum Piece {
 	
 	public int getPieceValue() {
 		return pieceValue;
-	}	
+	}
 
+	public int getMoveValue() {
+		return moveValue;
+	}
 	
 	public static Piece getKing(Color color){
 		switch (color) {
@@ -104,6 +110,6 @@ public enum Piece {
 		default:
 			throw new RuntimeException("Invalid color");
 		}
-	}	
+	}
 
 }

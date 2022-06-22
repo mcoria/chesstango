@@ -23,8 +23,9 @@ public class MoveSorter {
         public int compare(Move move1, Move move2) {
             int result = 0;
 
+
             if (move1.getTo().getValue() == null && move2.getTo().getValue() == null) {
-                result = Math.abs(move1.getFrom().getValue().getPieceValue()) - Math.abs(move2.getFrom().getValue().getPieceValue());
+                result = Math.abs(move1.getFrom().getValue().getMoveValue()) - Math.abs(move2.getFrom().getValue().getMoveValue());
 
             }else if(move1.getTo().getValue() == null && move2.getTo().getValue() != null){
                 result =  -1;
