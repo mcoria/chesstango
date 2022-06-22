@@ -51,9 +51,9 @@ public class ArrayPiecePlacementTest {
 		posiciones |= Square.e8.getBitPosition();
 		posiciones |= Square.e3.getBitPosition();
 		
-		List<PiecePositioned> posicionesList = new ArrayList<PiecePositioned>();
+		List<PiecePositioned> posicionesList = new ArrayList<>();
 
-		for (Iterator<PiecePositioned> iterator = new BitIterator(tablero, posiciones); iterator.hasNext();) {
+		for (Iterator<PiecePositioned> iterator = new BitIterator<>(tablero, posiciones); iterator.hasNext();) {
 			posicionesList.add(iterator.next());
 		}
 		

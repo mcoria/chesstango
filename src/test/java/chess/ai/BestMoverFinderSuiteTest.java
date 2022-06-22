@@ -4,6 +4,7 @@
 package chess.ai;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -13,6 +14,7 @@ import org.junit.Test;
 public class BestMoverFinderSuiteTest {
 
 	@Test
+	@Ignore
 	public void test01() {
 		BestMoverFinderSuite suite = new BestMoverFinderSuite();
 		

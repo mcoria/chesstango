@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import chess.board.moves.containers.MoveContainerReader;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import chess.board.Game;
@@ -210,7 +211,8 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	}
 
 
-	//Test //394segs 279segs 217segs 196segs
+	@Test //394segs 279segs 217segs 196segs
+	@Ignore
 	public void test_divide7() {
 		PerftResult result = pert.start(board, 7);
 		

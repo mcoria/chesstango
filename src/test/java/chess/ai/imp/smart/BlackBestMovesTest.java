@@ -82,7 +82,7 @@
          Assert.assertEquals(Square.b1, smartMove.getFrom().getKey());
 
          Square to = smartMove.getTo().getKey();
-         Assert.assertTrue(Square.b4.equals(to) || Square.a2.equals(to) );
+         Assert.assertTrue(Square.a1.equals(to) || Square.a2.equals(to) || Square.b3.equals(to) || Square.b4.equals(to) || Square.b5.equals(to));
 
          Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }

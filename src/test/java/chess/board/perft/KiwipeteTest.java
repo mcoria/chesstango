@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import chess.board.Game;
@@ -866,7 +867,8 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(193690690, result.getTotalNodes());
 	}
 	
-	//Test //842segs 772segs 701segs 673segs 554segs 522segs 506segs 490segs
+	@Test //842segs 772segs 701segs 673segs 554segs 522segs 506segs 490segs
+	@Ignore
 	public void test_divide6() {
 		PerftResult result= pert.start(board, 6);
 		
