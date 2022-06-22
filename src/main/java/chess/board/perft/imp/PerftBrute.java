@@ -26,10 +26,10 @@ public class PerftBrute implements Perft {
 		PerftResult perftResult = new PerftResult();
 		long totalNodes = 0;
 
-		MoveContainerReader movimientosPosible = game.getPossibleMoves();
+		Iterable<Move> movimientosPosible = game.getPossibleMoves();
 
 		for (Move move : movimientosPosible) {
-			int nodeCount = 0;
+			long nodeCount = 0;
 
 			if(maxLevel > 1){
 				game.executeMove(move);
@@ -51,8 +51,8 @@ public class PerftBrute implements Perft {
 		
 	}
 
-	private int visitChilds(Game game, int level) {
-		int totalNodes = 0;
+	private long visitChilds(Game game, int level) {
+		long totalNodes = 0;
 
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 		

@@ -25,16 +25,16 @@ public class PerftWithMap implements Perft  {
 	
 	private final FENEncoder coder = new FENEncoder();
 	
-	private List<Map<String, Integer>> nodeListMap;
+	private List<Map<String, Long>> nodeListMap;
 	private int[] repetedNodes;
 
 	public PerftResult start(Game board, int maxLevel) {
 		this.maxLevel = maxLevel;
-		this.nodeListMap = new  ArrayList<Map<String, Integer>>(maxLevel + 1);
+		this.nodeListMap = new  ArrayList<Map<String, Long>>(maxLevel + 1);
 		this.repetedNodes = new int[maxLevel + 1];
 		
 		for(int i = 0; i < maxLevel + 1; i++){
-			Map<String, Integer> nodeMap = new HashMap<String, Integer>(capacities[i]);
+			Map<String, Long> nodeMap = new HashMap<String, Long>(capacities[i]);
 			nodeListMap.add(nodeMap);
 		}
 		
@@ -61,7 +61,7 @@ public class PerftWithMap implements Perft  {
 			}
 		} else {
 			for (Move move : movimientosPosible) {
-				int nodeCount = 0;
+				long nodeCount = 0;
 
 				game.executeMove(move);
 
@@ -85,16 +85,16 @@ public class PerftWithMap implements Perft  {
 		return perftResult;
 	}	
 
-	private int visitChilds(Game game, int level) {
-		int totalNodes = 0;
+	private long visitChilds(Game game, int level) {
+		long totalNodes = 0;
 
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		if (level < this.maxLevel) {
-			Map<String, Integer> nodeMap = nodeListMap.get(level);
+			Map<String, Long> nodeMap = nodeListMap.get(level);
 			
 			for (Move move : movimientosPosible) {
-				Integer nodeCount = null;
+				Long nodeCount = null;
 						
 				game.executeMove(move);
 

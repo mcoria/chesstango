@@ -75,7 +75,7 @@ public class MinMax extends AbstractSmart {
 
 	protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
 		int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE: GameEvaluator.INFINITE_NEGATIVE;
-		if (currentPly == 0 || game.getPossibleMoves().size() == 0) {
+		if (currentPly == 0 || !game.getStatus().isInProgress()) {
 			betterEvaluation = evaluator.evaluate(game);
 		} else {
 			for (Move move : game.getPossibleMoves()) {

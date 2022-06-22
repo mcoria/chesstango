@@ -18,7 +18,7 @@ import chess.board.moves.containers.MoveContainerReader;
  */
 public class SANEncoder {
 
-    public String encode(Move move, MoveContainerReader possibleMoves) {
+    public String encode(Move move, Iterable<Move> possibleMoves) {
         if(move instanceof MoveCastling){
             MoveCastling moveCastling = (MoveCastling) move;
             Move rookMove = moveCastling.getRookMove();
@@ -33,7 +33,7 @@ public class SANEncoder {
         }
     }
 
-    public String encodeNotCastlingMove(Move move, MoveContainerReader possibleMoves) {
+    public String encodeNotCastlingMove(Move move, Iterable<Move>  possibleMoves) {
         StringBuilder sb = new StringBuilder();
 
 
@@ -65,7 +65,7 @@ public class SANEncoder {
         return sb.toString();
     }
 
-    private String solveAmbiguityFrom(Move move, MoveContainerReader possibleMoves) {
+    private String solveAmbiguityFrom(Move move, Iterable<Move>  possibleMoves) {
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
         Piece piece = from.getValue();
