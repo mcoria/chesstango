@@ -3,6 +3,7 @@ package chess.board.perft;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 import chess.board.Game;
 import chess.board.builder.imp.GameBuilder;
@@ -65,9 +66,7 @@ public class PerftMainTestSuite {
 			List<String> failedSuites = new ArrayList<String>();
 			List<String> duplicatedSuites = new ArrayList<String>();
 			
-			PerftMainTestSuite suite = new PerftMainTestSuite();
-			
-			InputStream instr = suite.getClass().getClassLoader().getResourceAsStream(filename);
+			InputStream instr = PerftMainTestSuite.class.getClassLoader().getResourceAsStream(filename);
 
 			// reading the files with buffered reader
 			InputStreamReader inputStreamReader = new InputStreamReader(instr);
@@ -76,39 +75,75 @@ public class PerftMainTestSuite {
 
 			String line;
 
-			// outputting each line of the file.
+
+			ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+			List<Future<PerftMainTestSuite>> futures = new ArrayList<>();
 			while ((line = bufferedReader.readLine()) != null) {
 				if(!line.startsWith("#")){
+					PerftMainTestSuite suite = new PerftMainTestSuite();
 					suite.parseTests(line);
 					String currentFen = suite.getFen();
 					if(!fenTested.contains(currentFen)) {
 						fenTested.add(currentFen);
-						if (suite.run() == false) {
-							failedSuites.add(line);
-						}
+						futures.add(executorService.submit(new Callable<PerftMainTestSuite>() {
+							@Override
+							public PerftMainTestSuite call() throws Exception {
+								suite.run();
+								return suite;
+							}
+						}));
 					} else {
 						duplicatedSuites.add(currentFen);
 					}
 				}
 			}
-			
+
+			executorService.shutdown();
+			try {
+				while (!executorService.awaitTermination(1, TimeUnit.MINUTES)) {
+					int totalTasks = futures.size();
+					int completed = 0;
+					for (Future<PerftMainTestSuite> future: futures) {
+						if(future.isDone()){
+							completed++;
+						}
+					}
+					System.out.println("Completed: " + completed + "/" + totalTasks);
+				}
+			} catch (InterruptedException e) {
+				executorService.shutdownNow();
+			}
+
+			for (Future<PerftMainTestSuite> future: futures) {
+				PerftMainTestSuite suite = future.get();
+				if (suite.isResult() == false) {
+					failedSuites.add(suite.getFen());
+				}
+			}
+
 			System.out.println("Suite summary " + filename);
+			out.println("Suite summary " + filename);
+
+			System.out.println("\t Tests executed: " +  futures.size() );
+			out.println("\t Tests executed: " +  futures.size() );
+
 			if(failedSuites.isEmpty()){
 				System.out.println("\t all tests executed successfully");
 				out.println("\t all tests executed successfully");
 			} else {
+				System.out.println("\t Tests executed failed: " +  failedSuites.size() );
+				out.println("\t Tests executed failed: " +  failedSuites.size() );
 				for(String suiteStr: failedSuites){
-					System.out.println("\t test failed: " + suiteStr);
-					out.println("\t test failed: " + suiteStr);
+					System.out.println("\t test executed failed: " + suiteStr);
+					out.println("\t test executed failed: " + suiteStr);
 				}
 			}
 			for(String suiteStr: duplicatedSuites){
-				System.out.println("\t test duplicated: " + suiteStr);
-				out.println("\t test duplicated: " + suiteStr);
+				System.out.println("\t test duplicated (not executed): " + suiteStr);
+				out.println("\t test duplicated (not executed): " + suiteStr);
 			}
 			System.out.println("=================");
-
-			
 		} catch (Exception e) {
 			System.out.println(e);
 			out.println(e);
@@ -117,6 +152,7 @@ public class PerftMainTestSuite {
 	}
 
 	private String fen;
+	private boolean result = false;
 	protected long[] expectedPerftResults;
 	private int startLevel;
 	private PrintStream out = System.out;
@@ -129,7 +165,7 @@ public class PerftMainTestSuite {
 	protected boolean run() {
 		Boolean returnResult = null;
 		try {
-			out.println("Testing FEN: " + this.fen);
+			out.println(Thread.currentThread().getName() + ">> " + "Testing FEN: " + this.fen);
 			for (int i = 0; i < expectedPerftResults.length; i++) {
 
 				PerftBrute main = new PerftBrute();
@@ -137,9 +173,9 @@ public class PerftMainTestSuite {
 				PerftResult result = main.start(getGame(), this.startLevel + i);
 
 				if (result.getTotalNodes() == expectedPerftResults[i]) {
-					out.println("depth " + (this.startLevel + i) + " OK");
+					out.println(Thread.currentThread().getName() + ">> " + "depth " + (this.startLevel + i) + " OK");
 				} else {
-					out.println("depth " + (this.startLevel + i) + " FAIL, expected = " + expectedPerftResults[i] + ", actual = " + result.getTotalNodes());
+					out.println(Thread.currentThread().getName() + ">> " + "depth " + (this.startLevel + i) + " FAIL, expected = " + expectedPerftResults[i] + ", actual = " + result.getTotalNodes());
 					returnResult = false;
 					break;
 				}
@@ -148,11 +184,13 @@ public class PerftMainTestSuite {
 			if(returnResult == null) {
 				returnResult = true;
 			}
-			out.println("=============");
+			out.println(Thread.currentThread().getName() + ">> " + "=============");
 		}catch (Exception e){
 			e.printStackTrace();
-			out.println(e);
+			out.println(Thread.currentThread().getName() + ">> " + e);
 		}
+
+		this.result = returnResult;
 		return returnResult;
 	}
 
@@ -183,11 +221,12 @@ public class PerftMainTestSuite {
 		return builder.getResult();
 	}
 
-	public void setOut(PrintStream out) {
-		this.out = out;
-	}
 
 	public String getFen() {
 		return fen;
+	}
+
+	public boolean isResult() {
+		return result;
 	}
 }
