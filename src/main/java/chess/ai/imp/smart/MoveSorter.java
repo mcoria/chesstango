@@ -10,11 +10,11 @@ import java.util.*;
 public class MoveSorter {
     public Queue<Move> sortMoves(Iterable<Move> possibleMoves) {
 
-        Queue<Move> result = new PriorityQueue<Move>(new MoveComparator());
+        Queue<Move> queue = new PriorityQueue<Move>(new MoveComparator());
 
-        possibleMoves.forEach(result::add);
+        possibleMoves.forEach(queue::add);
 
-        return result;
+        return queue;
     }
 
     private static class MoveComparator implements Comparator<Move> {

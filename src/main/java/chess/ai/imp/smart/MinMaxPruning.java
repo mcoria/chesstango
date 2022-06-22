@@ -14,27 +14,28 @@ import chess.board.moves.Move;
  */
 public class MinMaxPruning extends AbstractSmart {
     private static final int DEFAULT_MAX_PLIES = 6;
-    private final int plies;
     private final GameEvaluator evaluator;
-    private final List<Move> moveStacks[];
+    private final MoveSorter moveSorter;
 
-    private final MoveSorter moveSorter = new MoveSorter();
+    private final int plies;
+    private final List<Move> moveStacks[];
 
     public MinMaxPruning() {
         this(DEFAULT_MAX_PLIES);
     }
 
     public MinMaxPruning(int level) {
-        this(level, new GameEvaluator());
+        this(level, new GameEvaluator(), new MoveSorter());
     }
 
-    public MinMaxPruning(int level, GameEvaluator evaluator) {
+    public MinMaxPruning(int level, GameEvaluator evaluator, MoveSorter moveSorter) {
         this.plies = level;
         this.moveStacks = new List[level];
         for (int i = 0; i < level; i++) {
             moveStacks[i] = new ArrayList<>();
         }
         this.evaluator = evaluator;
+        this.moveSorter = moveSorter;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class MinMaxPruning extends AbstractSmart {
     }
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {
-        if (currentPly == 0 || game.getPossibleMoves().size() == 0) {
+        if (currentPly == 0 || !game.getStatus().isInProgress()) {
             if(currentPly > 0) {
                 moveStacks[currentPly - 1].clear();
             }
@@ -139,7 +140,7 @@ public class MinMaxPruning extends AbstractSmart {
     }
 
     protected int maximize(Game game, final int currentLevel, final int alpha, final int beta) {
-        if (currentLevel == 0 || game.getPossibleMoves().size() == 0) {
+        if (currentLevel == 0 || !game.getStatus().isInProgress()) {
             if(currentLevel > 0) {
                 moveStacks[currentLevel - 1].clear();;
             }
