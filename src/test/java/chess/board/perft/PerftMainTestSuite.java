@@ -20,6 +20,9 @@ public class PerftMainTestSuite {
 	private static List<String> fenTested = new ArrayList<>();
 
 	public static void main(String[] args) {
+
+		Runtime.getRuntime().addShutdownHook( new InterrupProcessing(Thread.currentThread()) );
+
 		try (PrintStream out = new PrintStream(
 				new FileOutputStream("./PerftMainTestSuiteResult.txt", false))) {
 
@@ -73,14 +76,13 @@ public class PerftMainTestSuite {
 
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-			String line;
-
-
 			ExecutorService executorService = Executors.newFixedThreadPool(4);
 
 			List<Future<PerftMainTestSuite>> futures = new ArrayList<>();
+			String line;
 			while ((line = bufferedReader.readLine()) != null) {
-				if(!line.startsWith("#")){
+				line = line.trim();
+				if(!line.startsWith("#") && line.length() > 0){
 					PerftMainTestSuite suite = new PerftMainTestSuite();
 					suite.parseTests(line);
 					String currentFen = suite.getFen();
@@ -112,21 +114,34 @@ public class PerftMainTestSuite {
 					System.out.println("Completed: " + completed + "/" + totalTasks);
 				}
 			} catch (InterruptedException e) {
+				System.out.println("Stopping executorService....");
 				executorService.shutdownNow();
 			}
 
+			int testExcecuted = 0;
+			int testPending = 0;
 			for (Future<PerftMainTestSuite> future: futures) {
-				PerftMainTestSuite suite = future.get();
-				if (suite.isResult() == false) {
-					failedSuites.add(suite.getFen());
+				if(future.isDone()) {
+					testExcecuted++;
+					PerftMainTestSuite suite = future.get();
+					if (suite.isResult() == false) {
+						failedSuites.add(suite.getFen());
+					}
+				} else {
+					testPending++;
 				}
 			}
 
 			System.out.println("Suite summary " + filename);
 			out.println("Suite summary " + filename);
 
-			System.out.println("\t Tests executed: " +  futures.size() );
-			out.println("\t Tests executed: " +  futures.size() );
+			System.out.println("\t Tests executed: " +  testExcecuted );
+			out.println("\t Tests executed: " +  testExcecuted);
+
+			if(testPending > 0){
+				System.out.println("\t Tests pending: " +  testPending );
+				out.println("\t Tests pending: " +  testPending);
+			}
 
 			if(failedSuites.isEmpty()){
 				System.out.println("\t all tests executed successfully");
@@ -139,9 +154,11 @@ public class PerftMainTestSuite {
 					out.println("\t test executed failed: " + suiteStr);
 				}
 			}
+
+
 			for(String suiteStr: duplicatedSuites){
-				System.out.println("\t test duplicated (not executed): " + suiteStr);
-				out.println("\t test duplicated (not executed): " + suiteStr);
+				System.out.println("\t Test duplicated (not executed): " + suiteStr);
+				out.println("\t Test duplicated (not executed): " + suiteStr);
 			}
 			System.out.println("=================");
 		} catch (Exception e) {
@@ -149,6 +166,27 @@ public class PerftMainTestSuite {
 			out.println(e);
 		}
 		out.flush();
+	}
+
+	private static class InterrupProcessing extends Thread{
+
+		private final Thread mainThread;
+
+		private InterrupProcessing(Thread mainThread) {
+			this.mainThread = mainThread;
+		}
+
+
+		@Override
+		public void run() {
+			System.out.println("Shutting down....");
+			mainThread.interrupt();
+			try {
+				mainThread.join();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	private String fen;
@@ -185,7 +223,7 @@ public class PerftMainTestSuite {
 				returnResult = true;
 			}
 			out.println(Thread.currentThread().getName() + ">> " + "=============");
-		}catch (Exception e){
+		} catch (Exception e){
 			e.printStackTrace();
 			out.println(Thread.currentThread().getName() + ">> " + e);
 		}
