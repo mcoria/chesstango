@@ -86,7 +86,9 @@ public class ChessPositionImp implements ChessPosition {
 				.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
 				.withCastlingBlackQueenAllowed(positionState.isCastlingBlackQueenAllowed())
 				.withCastlingBlackKingAllowed(positionState.isCastlingBlackKingAllowed())
-				.withEnPassantSquare(positionState.getEnPassantSquare());
+				.withEnPassantSquare(positionState.getEnPassantSquare())
+				.withHalfMoveClock(positionState.getHalfMoveClock())
+				.withFullMoveClock(positionState.getFullMoveClock());
 		
 		for(PiecePositioned pieza: piecePlacement){
 			builder.withPiece(pieza.getKey(), pieza.getValue());

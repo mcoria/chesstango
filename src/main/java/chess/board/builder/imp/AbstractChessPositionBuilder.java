@@ -19,8 +19,9 @@ public abstract class AbstractChessPositionBuilder<T> implements ChessPositionBu
 	protected boolean castlingBlackQueenAllowed;
 	protected boolean castlingWhiteKingAllowed;
 	protected boolean castlingWhiteQueenAllowed;
-	private int halfMoveClock;
-	private int fullMoveClock;
+	protected int halfMoveClock;
+	protected int fullMoveClock;
+
 	protected Piece[][] board = new Piece[8][8];
 
 	@Override

@@ -38,11 +38,17 @@ public class FENEncoder extends AbstractChessPositionBuilder<String> {
 		
 		getEnroques(stringBuilder).append(' ');
 		
-		getEnPassant(stringBuilder).append(" 0 1");
+		getEnPassant(stringBuilder).append(' ');
+
+		getClocks(stringBuilder);
 
 		return stringBuilder.toString();
 	}
-	
+
+	private void getClocks(StringBuilder stringBuilder) {
+		stringBuilder.append(this.halfMoveClock + " " + this.fullMoveClock);
+	}
+
 
 	public StringBuilder getTurno(StringBuilder stringBuilder) {
 		return Color.WHITE.equals(turn) ? stringBuilder.append('w') : stringBuilder.append('b');

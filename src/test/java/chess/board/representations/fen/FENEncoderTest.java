@@ -239,11 +239,14 @@ public class FENEncoderTest {
 		coder.withCastlingWhiteKingAllowed(true);
 		coder.withCastlingBlackQueenAllowed(true);
 		coder.withCastlingBlackKingAllowed(true);
+
+		coder.withHalfMoveClock(3);
+		coder.withFullMoveClock(5);
 		
 		
 		String actual = coder.getResult();
 		
-		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", actual);		
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 3 5", actual);
 	}
 
 
@@ -256,6 +259,46 @@ public class FENEncoderTest {
 		String fenWithoutClocks = coder.getFENWithoutClocks();
 
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -", fenWithoutClocks);
+	}
+
+
+	@Test
+	public void test_encode_with_clocks1(){
+		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+		game.getChessPosition().constructBoardRepresentation(coder);
+
+		String fen = coder.getResult();
+
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", fen);
+	}
+
+	@Test
+	public void test_encode_with_clocks2(){
+		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+		game.executeMove(Square.g1, Square.f3);
+
+		game.getChessPosition().constructBoardRepresentation(coder);
+
+		String fen = coder.getResult();
+
+		assertEquals("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", fen);
+	}
+
+
+	@Test
+	public void test_encode_with_clocks3(){
+		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+		game.executeMove(Square.g1, Square.f3)
+			.executeMove(Square.g8, Square.f6);
+
+		game.getChessPosition().constructBoardRepresentation(coder);
+
+		String fen = coder.getResult();
+
+		assertEquals("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", fen);
 	}
 
 }
