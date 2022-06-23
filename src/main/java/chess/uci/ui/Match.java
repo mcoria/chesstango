@@ -1,5 +1,6 @@
 package chess.uci.ui;
 
+import chess.board.Color;
 import chess.board.Game;
 import chess.board.GameState;
 import chess.board.moves.Move;
@@ -24,12 +25,10 @@ import java.util.*;
  *
  */
 public class Match {
-    private EngineController white;
-    private EngineController black;
+    private EngineController engine1;
+    private EngineController engine2;
 
     private Game game;
-
-    private String fen;
 
     public static void main(String[] args) {
         EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda());
@@ -52,44 +51,63 @@ public class Match {
         System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
     }
 
-    public Match(EngineController white, EngineController black){
-        this.white = white;
-        this.black = black;
+    public Match(EngineController engine1, EngineController engine2){
+        this.engine1 = engine1;
+        this.engine2 = engine2;
     }
 
     public void switchChairs() {
-        EngineController tmpController = white;
-        white = black;
-        black = tmpController;
+        EngineController tmpController = engine1;
+        engine1 = engine2;
+        engine2 = tmpController;
     }
 
     public void startEngines() {
-        white.send_CmdUci();
-        white.send_CmdIsReady();
+        engine1.send_CmdUci();
+        engine1.send_CmdIsReady();
 
-        black.send_CmdUci();
-        black.send_CmdIsReady();
+        engine2.send_CmdUci();
+        engine2.send_CmdIsReady();
     }
 
     public void quitEngines() {
-        white.send_CmdQuit();
-        black.send_CmdQuit();
+        engine1.send_CmdQuit();
+        engine2.send_CmdQuit();
+    }
+
+    public List<MathResult> play(List<String> fenList){
+        List<MathResult> result = new ArrayList<>();
+
+        fenList.stream().forEach(fen ->{
+            result.addAll(play(fen));
+        });
+
+        return result;
+    }
+
+    public List<MathResult> play(String fen){
+        List<MathResult> result = new ArrayList<>();
+
+        result.add(compete(fen));
+        switchChairs();
+        result.add(compete(fen));
+
+        return result;
     }
 
     public MathResult compete(String fen){
         startNewGame();
 
-        this.fen = fen;
-        this.game = FENDecoder.loadGame(this.fen);
+        this.game = FENDecoder.loadGame(fen);
 
         List<String> executedMovesStr = new ArrayList<>();
         Map<String, Integer> pastPositions = new HashMap<>();
-        EngineController currentTurn = white;
+        EngineController currentTurn = engine1;
 
         boolean repetition = false;
         boolean fiftyMoveRule = false;
         while( game.getStatus().isInProgress() && !repetition && !fiftyMoveRule){
-            String moveStr = askForBestMove(currentTurn, executedMovesStr);
+            String moveStr = askForBestMove(currentTurn, fen, executedMovesStr);
 
             Move move = findMove(moveStr);
             game.executeMove(move);
@@ -98,7 +116,7 @@ public class Match {
 
             repetition = repeatedPosition(pastPositions);
             fiftyMoveRule = game.getChessPosition().getHalfMoveClock() < 50 ? false : true;
-            currentTurn = (currentTurn == white ? black : white);
+            currentTurn = (currentTurn == engine1 ? engine2 : engine1);
         }
 
         MathResult result = null;
@@ -107,13 +125,22 @@ public class Match {
             result = new MathResult(1, 1);
         } else if(GameState.Status.DRAW.equals(game.getStatus())) {
             result = new MathResult(1, 1);
-        } else if(GameState.Status.MATE.equals(game.getStatus()) && currentTurn == white) {
-            result = new MathResult(2, 0);
-        } else if(GameState.Status.MATE.equals(game.getStatus()) && currentTurn == black) {
+        } else if(GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             result = new MathResult(0, 2);
+        } else if(GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
+            result = new MathResult(2, 0);
         } else {
             throw new RuntimeException("Inconsistent game status");
         }
+
+        if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())){
+            result.setWhite( currentTurn == engine1 ? engine1 : engine2 );
+            result.setBlack( currentTurn == engine1 ? engine2 : engine1 );
+        } else {
+            result.setBlack( currentTurn == engine1 ? engine1 : engine2 );
+            result.setWhite( currentTurn == engine1 ? engine2 : engine1 );
+        }
+
 
         if(repetition){
             System.out.println("El juego termino por repeticion:");
@@ -124,18 +151,18 @@ public class Match {
         }
         System.out.println(game.toString());
 
-        printPGN();
+        printPGN(fen);
         //printMoveExecution();
 
         return result;
     }
 
     protected void startNewGame() {
-        white.send_CmdUciNewGame();
-        white.send_CmdIsReady();
+        engine1.send_CmdUciNewGame();
+        engine1.send_CmdIsReady();
 
-        black.send_CmdUciNewGame();
-        black.send_CmdIsReady();
+        engine2.send_CmdUciNewGame();
+        engine2.send_CmdIsReady();
     }
 
     private boolean repeatedPosition(Map<String, Integer> pastPositions) {
@@ -155,7 +182,7 @@ public class Match {
         return positionCount > 2 ? true : false;
     }
 
-    private String askForBestMove(EngineController currentTurn, List<String> moves) {
+    private String askForBestMove(EngineController currentTurn, String fen, List<String> moves) {
         if(FENDecoder.INITIAL_FEN.equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
@@ -179,19 +206,19 @@ public class Match {
     }
 
 
-    private void printPGN() {
+    private void printPGN(String fen) {
         PGNEncoder encoder = new PGNEncoder();
         PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
 
         pgnHeader.setEvent("Computer chess game");
-        pgnHeader.setWhite(white.getEngineName());
-        pgnHeader.setBlack(black.getEngineName());
+        pgnHeader.setWhite(engine1.getEngineName());
+        pgnHeader.setBlack(engine2.getEngineName());
         pgnHeader.setFen(fen);
 
         System.out.println(encoder.encode(pgnHeader, game));
     }
 
-    private void printMoveExecution() {
+    private void printMoveExecution(String fen) {
         Game theGame =  FENDecoder.loadGame(fen);
 
         int counter = 0;
@@ -222,6 +249,9 @@ public class Match {
         private final int whitePoints;
         private final int blackPoints;
 
+        private EngineController engineWhite;
+
+        private EngineController engineBlack;
 
         public MathResult(int whitePoints, int blackPoints) {
             this.whitePoints = whitePoints;
@@ -234,6 +264,14 @@ public class Match {
 
         public int getBlackPoints() {
             return blackPoints;
+        }
+
+        public void setWhite(EngineController engineController) {
+            this.engineWhite = engineController;
+        }
+
+        public void setBlack(EngineController engineController) {
+            this.engineBlack = engineController;
         }
     }
 
