@@ -1,9 +1,11 @@
 package chess.uci.engine;
 
 import chess.uci.engine.imp.EngineZonda;
+import chess.uci.protocol.requests.CmdQuit;
 import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
+import chess.uci.protocol.stream.UCIOutputStreamSwitch;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,15 +24,40 @@ public class EngineMain {
 
 	private final UCIActivePipe pipe;
 
-	public static void main(String[] args) {
-		ExecutorService executorService = Executors.newFixedThreadPool(2);
-
+	public static void activate(String[] args) {
 		EngineMain engineMain = new EngineMain(new EngineZonda(), System.in, System.out);
-		//Main main = new Main(new EngineProxy(), System.in, System.out);
+		//EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
+
+		engineMain.open();
+
+		engineMain.waitTermination();
+	}
 
 
-		engineMain.main(executorService);
+	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
+	public EngineMain(Engine engine, InputStream in, PrintStream out) {
+		this.engine = engine;
+		this.engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(out)));
+
+		UCIOutputStreamSwitch actionOutput = new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, executorService::shutdown);
+		actionOutput.setOutputStream(this.engine);
+
+		this.pipe = new UCIActivePipe();
+		this.pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(in)));
+		this.pipe.setOutputStream(actionOutput);
+	}
+
+
+	public void open() {
+		engine.open();
+
+		executorService.execute(pipe);
+		//TODO: no podemos esperar que los threads terminen, de lo contrario impedimos la ejecucion de test unitarios
+	}
+
+
+	public void waitTermination(){
 		//TODO: no podemos llamar a shutdown() aca, de lo contrario impedimos que Go se ejecute en Zonda
 		//      de momento terminamos en EngineZonda.do_quit()
 		try {
@@ -40,26 +67,8 @@ public class EngineMain {
 		} catch (InterruptedException e) {
 			executorService.shutdownNow();
 		}
-	}
 
-
-	public EngineMain(Engine engine, InputStream in, PrintStream out) {
-		this.engine = engine;
-		this.engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(out)));
-
-		this.pipe = new UCIActivePipe();
-		this.pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(in)));
-		this.pipe.setOutputStream(this.engine);
-	}
-
-
-	protected void main(ExecutorService executorService) {
-		if(engine instanceof  Runnable){
-			executorService.execute((Runnable) engine);
-		}
-		executorService.execute(pipe);
-
-		//TODO: no podemos esperar que los threads terminen, de lo contrario impedimos la ejecucion de test unitarios
+		engine.close();
 	}
 
 }

@@ -5,6 +5,10 @@ import chess.uci.protocol.requests.CmdQuit;
 
 import java.io.IOException;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIActivePipe implements Runnable {
 
     private boolean active;

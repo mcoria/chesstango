@@ -5,6 +5,10 @@ import chess.uci.protocol.UCIMessageExecutor;
 
 import java.io.IOException;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIOutputStreamExecutor implements UCIOutputStream {
 
     private final UCIMessageExecutor executor;

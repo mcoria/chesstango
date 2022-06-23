@@ -6,6 +6,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIOutputStreamAdapter implements UCIOutputStream {
 
     private final BufferedWriter out;

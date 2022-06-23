@@ -7,6 +7,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIInputStreamAdapter implements UCIInputStream {
     private final UCIDecoder uciDecoder = new UCIDecoder();
     private final BufferedReader reader;

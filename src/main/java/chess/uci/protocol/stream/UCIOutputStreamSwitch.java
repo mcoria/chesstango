@@ -5,6 +5,10 @@ import chess.uci.protocol.UCIMessage;
 import java.io.IOException;
 import java.util.function.Predicate;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIOutputStreamSwitch implements UCIOutputStream {
 
     private UCIOutputStream output;

@@ -7,14 +7,10 @@ import chess.board.Game;
 import chess.board.representations.fen.FENEncoder;
 import chess.uci.engine.imp.EngineProxy;
 import chess.uci.engine.imp.EngineZonda;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
@@ -22,24 +18,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class EngineMainTest {
 
-	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-
-	@After
-	public void teardown(){
-		executorService.shutdown();
-		try {
-			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-			if(terminated == false) {
-				throw new RuntimeException("El thread no termino");
-			}
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	@Test(timeout = 3000)
-	public void test_playZonada() throws IOException, InterruptedException {
+	public void test_playZonda() throws IOException, InterruptedException {
 		PipedOutputStream outputToEngine = new PipedOutputStream();
 
 		PipedInputStream inputFromEngine = new PipedInputStream();
@@ -47,8 +29,8 @@ public class EngineMainTest {
 		EngineZonda engine = new EngineZonda();
 
 		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
+		engineMain.open();
 
-		engineMain.main(executorService);
 		PrintStream out = new PrintStream(outputToEngine,true);
 		BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
 
@@ -88,6 +70,8 @@ public class EngineMainTest {
 
 		// quit command
 		out.println("quit");
+
+		engineMain.waitTermination();
 	}
 
 	@Test(timeout = 3000)
@@ -97,7 +81,7 @@ public class EngineMainTest {
 		EngineProxy engine = new EngineProxy();
 
 		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), System.out);
-		engineMain.main(executorService);
+		engineMain.open();
 
 		PrintStream out = new PrintStream(outputToEngine,true);
 
@@ -125,6 +109,7 @@ public class EngineMainTest {
 		out.println("quit");
 		Thread.sleep(200);
 
+		engineMain.waitTermination();
 	}
 
 	private String fenCode(Game board) {

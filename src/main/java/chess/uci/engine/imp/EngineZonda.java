@@ -33,6 +33,7 @@ public class EngineZonda implements Engine {
     private final UCIMessageExecutor messageExecutor;
 
     private ExecutorService executor;
+
     private Game game;
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
@@ -44,9 +45,6 @@ public class EngineZonda implements Engine {
 
             @Override
             public void do_uci(CmdUci cmdUci) {
-                if(executor == null) {
-                    executor = Executors.newSingleThreadExecutor();
-                }
                 responseOutputStream.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
                 responseOutputStream.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
                 responseOutputStream.write(new RspUciOk());
@@ -85,20 +83,7 @@ public class EngineZonda implements Engine {
             @Override
             public void do_quit(CmdQuit cmdQuit) {
                 currentState.do_stop();
-                try {
-                    responseOutputStream.close();
-                } catch (IOException e) {
-                    executor.shutdownNow();
-                    throw new RuntimeException(e);
-                }
-
-                try {
-                    executor.shutdown();
-                    while(!executor.awaitTermination(1, TimeUnit.SECONDS)) {
-                    }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                close();
             }
 
             @Override
@@ -126,8 +111,30 @@ public class EngineZonda implements Engine {
     }
 
     @Override
-    public void close() throws IOException {
-        responseOutputStream.close();
+    public void open() {
+        if(executor == null) {
+            executor = Executors.newSingleThreadExecutor();
+        }
+    }
+
+    @Override
+    public void close() {
+        try {
+            responseOutputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(executor != null) {
+            try {
+                executor.shutdown();
+                while (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
+                }
+                executor = null;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public Game getGame() {
@@ -188,7 +195,11 @@ public class EngineZonda implements Engine {
         public void do_go(CmdGo cmdGo) {
             FindingBestMove findingBestMove = new FindingBestMove();
             currentState = findingBestMove;
-            executor.execute(findingBestMove::findBestMove);
+            if(executor != null) {
+                executor.execute(findingBestMove::findBestMove);
+            }else{
+                findingBestMove.findBestMove();
+            }
         }
 
         @Override

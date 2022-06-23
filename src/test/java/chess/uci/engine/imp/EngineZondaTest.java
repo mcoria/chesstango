@@ -117,9 +117,7 @@ public class EngineZondaTest {
 
 		// position command
 		engine.write(new CmdPosition(Arrays.asList("e2e4") ));
-		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
 		Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
-		Thread.sleep(200);
 		Assert.assertEquals(EngineZonda.WaitCmdGo.class,  engine.getCurrentState().getClass());
 
 		// quit command

@@ -29,14 +29,8 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class Main {
-
-    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
-
     private final EngineController white;
     private final EngineController black;
-
-    private final Engine engine1;
-    private final Engine engine2;
 
     private Game game;
 
@@ -44,19 +38,16 @@ public class Main {
 
     public static void main(String[] args) {
         Instant start = Instant.now();
-        new Main().compete();
+        //new Main(new EngineProxy(), new EngineZonda()).compete();
+        new Main(new EngineZonda(), new EngineProxy()).compete();
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
     }
 
-    public Main(){
-        //engine1 = new EngineZonda(executorService);
-        engine1 = new EngineProxy();
+    public Main(Engine engine1, Engine engine2){
         white = new EngineControllerImp(engine1);
 
-        engine2 = new EngineZonda();
-        //engine2 = new EngineProxy();
         black = new EngineControllerImp(engine2);
 
         //gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1";
@@ -65,6 +56,7 @@ public class Main {
 
     public void compete(){
         startEngines();
+
         startNewGame();
 
         game = FENDecoder.loadGame(gameFenSeed);
@@ -205,15 +197,9 @@ public class Main {
 
 
     private void startEngines() {
-        if(engine1 instanceof  Runnable){
-            executorService.execute((Runnable) engine1);
-        }
         white.send_CmdUci();
         white.send_CmdIsReady();
 
-        if(engine2 instanceof  Runnable){
-            executorService.execute((Runnable) engine2);
-        }
         black.send_CmdUci();
         black.send_CmdIsReady();
     }
@@ -229,16 +215,6 @@ public class Main {
     private void quit() {
         white.send_CmdQuit();
         black.send_CmdQuit();
-
-        //executorService.shutdown();
-        try {
-            boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-            if(terminated == false) {
-                throw new RuntimeException("El thread no termino");
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

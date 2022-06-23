@@ -9,13 +9,8 @@ import chess.uci.protocol.responses.RspBestMove;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class EngineControllerImpTest {
-
-    private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     @Test
     public void test_Zonda(){
@@ -51,8 +46,6 @@ public class EngineControllerImpTest {
 
         EngineControllerImp client = new EngineControllerImp(engine);
 
-        executorService.execute(engine);
-
         client.send_CmdUci();
 
         //Assert.assertEquals("Ralf Schäfer und Volker Böhm", client.getEngineAuthor());
@@ -74,19 +67,6 @@ public class EngineControllerImpTest {
 
         client.send_CmdQuit();
 
-        executorServiceShutdown();
-
-    }
-
-    private void executorServiceShutdown() {
-        executorService.shutdown();
-        try {
-            while(!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-                //System.out.println("Engine still executing");
-            }
-        } catch (InterruptedException e) {
-            executorService.shutdownNow();
-        }
     }
 
 

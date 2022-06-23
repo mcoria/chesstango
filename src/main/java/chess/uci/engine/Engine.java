@@ -8,5 +8,9 @@ import chess.uci.protocol.stream.UCIOutputStream;
  */
 public interface Engine extends UCIOutputStream {
 
+    void open();
+
+    void close();
+
     void setResponseOutputStream(UCIOutputStream output);
 }

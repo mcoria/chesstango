@@ -15,7 +15,7 @@ import java.io.PrintStream;
  * @author Mauricio Coria
  *
  */
-public class EngineProxy implements Engine, Runnable {
+public class EngineProxy implements Engine {
 
     private InputStream inputStreamProcess;
 
@@ -27,6 +27,8 @@ public class EngineProxy implements Engine, Runnable {
 
     private ProcessBuilder processBuilder;
     private Process process;
+
+    private Thread processingThread;
 
     public EngineProxy(){
         processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
@@ -88,8 +90,19 @@ public class EngineProxy implements Engine, Runnable {
     }
 
     @Override
-    public void close() throws IOException {
+    public void open() {
+        processingThread = new Thread(this::activate);
+        processingThread.start();
+    }
+
+    @Override
+    public void close()  {
         outputStreamProcess.close();
+        try {
+            processingThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -97,9 +110,5 @@ public class EngineProxy implements Engine, Runnable {
         this.responseOutputStream = output;
     }
 
-    @Override
-    public void run() {
-        activate();
-    }
 
 }

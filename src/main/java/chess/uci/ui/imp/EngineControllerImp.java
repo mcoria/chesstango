@@ -82,6 +82,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     @Override
     public void send_CmdUci() {
+        engine.open();
         currentState = new WaitRspUciOk();
         currentState.sendRequest(new CmdUci(), true);
     }
@@ -121,6 +122,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
     public void send_CmdQuit() {
         currentState = new NoWaitRsp();
         currentState.sendRequest(new CmdQuit(), false);
+        engine.close();
     }
 
     @Override

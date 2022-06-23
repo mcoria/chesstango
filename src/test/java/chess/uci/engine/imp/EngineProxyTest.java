@@ -32,18 +32,6 @@ public class EngineProxyTest {
 		this.engine = new EngineProxy();
 	}
 
-	//TODO: No en todos los tests se llama a la operacion de shutdown()
-	public void teardown(){
-		try {
-			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-			if(terminated == false) {
-				throw new RuntimeException("El thread no termino");
-			}
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 
 	@Test
 	@Ignore
@@ -52,8 +40,7 @@ public class EngineProxyTest {
 		PipedInputStream pisOutput = new PipedInputStream(posOutput);
 
 		engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(new PrintStream(posOutput,true))));
-
-		executorService.execute(engine);
+		engine.open();
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
@@ -61,19 +48,23 @@ public class EngineProxyTest {
 
 		// uci command
 		engine.write(new CmdUci());
+		Thread.sleep(200);
 		Assert.assertEquals("id name Zonda", in.readLine());
 		Assert.assertEquals("id author Mauricio Coria", in.readLine());
 		Assert.assertEquals("uciok", in.readLine());
 
 		// isready command
 		engine.write(new CmdIsReady());
+		Thread.sleep(200);
 		Assert.assertEquals("readyok", in.readLine());
 
 		// ucinewgame command
 		engine.write(new CmdUciNewGame());
+		Thread.sleep(200);
 
 		// isready command
 		engine.write(new CmdIsReady());
+		Thread.sleep(200);
 		Assert.assertEquals("readyok", in.readLine());
 
 		// startpos command
@@ -82,6 +73,9 @@ public class EngineProxyTest {
 
 		// quit command
 		engine.write(new CmdQuit());
+		Thread.sleep(200);
+
+		engine.close();
 	}
 
 }
