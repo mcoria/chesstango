@@ -25,7 +25,7 @@ public class EngineMain {
 	public static void main(String[] args) {
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-		EngineMain engineMain = new EngineMain(new EngineZonda(executorService), System.in, System.out);
+		EngineMain engineMain = new EngineMain(new EngineZonda(), System.in, System.out);
 		//Main main = new Main(new EngineProxy(), System.in, System.out);
 
 

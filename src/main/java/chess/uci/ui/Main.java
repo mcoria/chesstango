@@ -55,7 +55,7 @@ public class Main {
         engine1 = new EngineProxy();
         white = new EngineControllerImp(engine1);
 
-        engine2 = new EngineZonda(executorService);
+        engine2 = new EngineZonda();
         //engine2 = new EngineProxy();
         black = new EngineControllerImp(engine2);
 

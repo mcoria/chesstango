@@ -19,7 +19,7 @@ public class EngineControllerImpTest {
 
     @Test
     public void test_Zonda(){
-        Engine engine = new EngineZonda(executorService);
+        Engine engine = new EngineZonda();
 
         EngineControllerImp client = new EngineControllerImp(engine);
 

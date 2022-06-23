@@ -30,20 +30,10 @@ public class EngineZondaTest {
 	
 	@Before
 	public void setUp() {
-		engine = new EngineZonda(executorService);
+		engine = new EngineZonda();
 	}
 
-	//TODO: No en todos los tests se llama a la operacion de shutdown()
-	public void teardown(){
-		try {
-			boolean terminated = executorService.awaitTermination(2000, TimeUnit.MILLISECONDS);
-			if(terminated == false) {
-				throw new RuntimeException("El thread no termino");
-			}
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
+
 
 	@Test
 	public void test1_execute_position_startpos_01() {
@@ -134,8 +124,6 @@ public class EngineZondaTest {
 
 		// quit command
 		engine.write(new CmdQuit());
-
-		teardown();
 	}
 
 	private String fenCode(Game board) {

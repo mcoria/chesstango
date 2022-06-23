@@ -22,28 +22,31 @@ import chess.uci.protocol.stream.UCIOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  */
 public class EngineZonda implements Engine {
-    private final ExecutorService executor;
     private final BestMoveFinder bestMoveFinder;
-
     private final UCIMessageExecutor messageExecutor;
 
+    private ExecutorService executor;
     private Game game;
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
 
-    public EngineZonda(ExecutorService executor) {
-        this.executor = executor;
+    public EngineZonda() {
         this.bestMoveFinder = new IterativeDeeping();
         this.currentState = new Ready();
         this.messageExecutor = new UCIMessageExecutor(){
 
             @Override
             public void do_uci(CmdUci cmdUci) {
+                if(executor == null) {
+                    executor = Executors.newSingleThreadExecutor();
+                }
                 responseOutputStream.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
                 responseOutputStream.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
                 responseOutputStream.write(new RspUciOk());
@@ -85,11 +88,17 @@ public class EngineZonda implements Engine {
                 try {
                     responseOutputStream.close();
                 } catch (IOException e) {
+                    executor.shutdownNow();
                     throw new RuntimeException(e);
                 }
 
-                //TODO: esta malo, que pasa si hay mas de un engine procesando.....
-                executor.shutdown();
+                try {
+                    executor.shutdown();
+                    while(!executor.awaitTermination(1, TimeUnit.SECONDS)) {
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override

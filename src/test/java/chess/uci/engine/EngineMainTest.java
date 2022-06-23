@@ -44,7 +44,7 @@ public class EngineMainTest {
 
 		PipedInputStream inputFromEngine = new PipedInputStream();
 
-		EngineZonda engine = new EngineZonda(executorService);
+		EngineZonda engine = new EngineZonda();
 
 		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
 
