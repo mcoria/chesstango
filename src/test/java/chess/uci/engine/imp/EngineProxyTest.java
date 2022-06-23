@@ -6,6 +6,7 @@ package chess.uci.engine.imp;
 import chess.uci.protocol.UCIDecoder;
 import chess.uci.protocol.requests.*;
 import chess.uci.protocol.stream.UCIOutputStreamAdapter;
+import chess.uci.protocol.stream.strings.StringConsumer;
 import org.junit.*;
 
 import java.io.*;
@@ -37,7 +38,7 @@ public class EngineProxyTest {
 		PipedOutputStream posOutput = new PipedOutputStream();
 		PipedInputStream pisOutput = new PipedInputStream(posOutput);
 
-		engine.setResponseOutputStream(new UCIOutputStreamAdapter(new OutputStreamWriter(new PrintStream(posOutput,true))));
+		engine.setResponseOutputStream(new UCIOutputStreamAdapter( new StringConsumer( new OutputStreamWriter(new PrintStream(posOutput,true) ) ) ) );
 		engine.open();
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));

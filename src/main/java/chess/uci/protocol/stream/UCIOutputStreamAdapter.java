@@ -5,6 +5,7 @@ import chess.uci.protocol.UCIMessage;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -12,25 +13,19 @@ import java.io.Writer;
  */
 public class UCIOutputStreamAdapter implements UCIOutputStream {
 
-    private final BufferedWriter out;
+    private final Consumer<String> out;
 
-    public UCIOutputStreamAdapter(Writer writer) {
-        this.out = new BufferedWriter(writer);
+    public UCIOutputStreamAdapter(Consumer<String> out) {
+        this.out = out;
     }
 
     @Override
     public void accept(UCIMessage message) {
-        try {
-            out.write(message.toString());
-            out.newLine();
-            out.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        out.accept(message.toString());
     }
 
     @Override
     public void close() throws IOException {
-        out.close();
+        //out.close();
     }
 }

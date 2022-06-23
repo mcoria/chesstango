@@ -5,6 +5,7 @@ import chess.uci.protocol.UCIMessage;
 import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;
 import chess.uci.protocol.stream.UCIOutputStream;
+import chess.uci.protocol.stream.strings.StringSupplier;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +14,6 @@ import java.io.PrintStream;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class EngineProxy implements Engine {
 
@@ -30,7 +30,7 @@ public class EngineProxy implements Engine {
 
     private Thread processingThread;
 
-    public EngineProxy(){
+    public EngineProxy() {
         processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
         pipe = new UCIActivePipe();
     }
@@ -43,7 +43,7 @@ public class EngineProxy implements Engine {
         stopProcess();
     }
 
-    protected void startProcess(){
+    protected void startProcess() {
         try {
             synchronized (processBuilder) {
                 process = processBuilder.start();
@@ -52,7 +52,7 @@ public class EngineProxy implements Engine {
                 outputStreamProcess = new PrintStream(process.getOutputStream(), true);
             }
 
-            pipe.setInputStream(new UCIInputStreamAdapter(new InputStreamReader(inputStreamProcess)));
+            pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(inputStreamProcess))));
             pipe.setOutputStream(responseOutputStream);
 
         } catch (IOException e) {
@@ -70,7 +70,7 @@ public class EngineProxy implements Engine {
 
     @Override
     public void accept(UCIMessage message) {
-        if(outputStreamProcess == null){
+        if (outputStreamProcess == null) {
             int counter = 0;
             try {
                 do {
@@ -78,11 +78,11 @@ public class EngineProxy implements Engine {
                     synchronized (processBuilder) {
                         processBuilder.wait(100);
                     }
-                } while(outputStreamProcess == null && counter < 10);
+                } while (outputStreamProcess == null && counter < 10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if(outputStreamProcess == null){
+            if (outputStreamProcess == null) {
                 throw new RuntimeException("Process has not started yet");
             }
         }
@@ -97,7 +97,7 @@ public class EngineProxy implements Engine {
     }
 
     @Override
-    public void close()  {
+    public void close() {
         outputStreamProcess.close();
         try {
             processingThread.join();
@@ -107,7 +107,7 @@ public class EngineProxy implements Engine {
     }
 
     @Override
-    public void setResponseOutputStream(UCIOutputStream output){
+    public void setResponseOutputStream(UCIOutputStream output) {
         this.responseOutputStream = output;
     }
 
