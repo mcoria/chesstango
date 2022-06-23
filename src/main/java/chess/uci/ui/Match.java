@@ -7,7 +7,6 @@ import chess.board.position.ChessPositionReader;
 import chess.board.representations.PGNEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.representations.fen.FENEncoder;
-import chess.uci.engine.Engine;
 import chess.uci.engine.imp.EngineProxy;
 import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.UCIEncoder;
@@ -20,46 +19,70 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class Main {
-    private final EngineController white;
-    private final EngineController black;
+public class Match {
+    private EngineController white;
+    private EngineController black;
 
     private Game game;
 
-    private String gameFenSeed;
+    private String fen;
 
     public static void main(String[] args) {
+        EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda());
+        EngineControllerImp engine2 = new EngineControllerImp(new EngineProxy());
+
         Instant start = Instant.now();
-        //new Main(new EngineProxy(), new EngineZonda()).compete();
-        new Main(new EngineZonda(), new EngineProxy()).compete();
+
+        Match match = new Match(engine1, engine2);
+        match.startEngines();
+
+        match.compete(FENDecoder.INITIAL_FEN);
+        match.switchChairs();
+        match.compete(FENDecoder.INITIAL_FEN);
+
+        match.quitEngines();
+
+
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
     }
 
-    public Main(Engine engine1, Engine engine2){
-        white = new EngineControllerImp(engine1);
-
-        black = new EngineControllerImp(engine2);
-
-        //gameFenSeed = "1k6/8/8/8/8/8/4K3/8 w - - 0 1";
-        gameFenSeed = FENDecoder.INITIAL_FEN;
+    public Match(EngineController white, EngineController black){
+        this.white = white;
+        this.black = black;
     }
 
-    public void compete(){
-        startEngines();
+    public void switchChairs() {
+        EngineController tmpController = white;
+        white = black;
+        black = tmpController;
+    }
 
+    public void startEngines() {
+        white.send_CmdUci();
+        white.send_CmdIsReady();
+
+        black.send_CmdUci();
+        black.send_CmdIsReady();
+    }
+
+    public void quitEngines() {
+        white.send_CmdQuit();
+        black.send_CmdQuit();
+    }
+
+    public void compete(String fen){
         startNewGame();
 
-        game = FENDecoder.loadGame(gameFenSeed);
+        this.fen = fen;
+        this.game = FENDecoder.loadGame(this.fen);
+
         List<String> executedMovesStr = new ArrayList<>();
         Map<String, Integer> pastPositions = new HashMap<>();
         EngineController currentTurn = white;
@@ -93,8 +116,14 @@ public class Main {
 
         printPGN();
         //printMoveExecution();
+    }
 
-        quit();
+    protected void startNewGame() {
+        white.send_CmdUciNewGame();
+        white.send_CmdIsReady();
+
+        black.send_CmdUciNewGame();
+        black.send_CmdIsReady();
     }
 
     private boolean repeatedPosition(Map<String, Integer> pastPositions) {
@@ -114,39 +143,44 @@ public class Main {
         return positionCount > 2 ? true : false;
     }
 
+    private String askForBestMove(EngineController currentTurn, List<String> moves) {
+        if(FENDecoder.INITIAL_FEN.equals(fen)) {
+            currentTurn.send_CmdPosition(new CmdPosition(moves));
+        } else {
+            currentTurn.send_CmdPosition(new CmdPosition(fen, moves));
+        }
+
+        RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
+
+        return bestMove.getBestMove();
+    }
+
+    private Move findMove(String bestMove) {
+        UCIEncoder uciEncoder = new UCIEncoder();
+        for (Move move : game.getPossibleMoves()) {
+            String encodedMoveStr = uciEncoder.encode(move);
+            if (encodedMoveStr.equals(bestMove)) {
+                return move;
+            }
+        }
+        throw new RuntimeException("No move found " + bestMove);
+    }
+
+
     private void printPGN() {
         PGNEncoder encoder = new PGNEncoder();
         PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
 
         pgnHeader.setEvent("Computer chess game");
-        pgnHeader.setSite(getComputerName());
-        pgnHeader.setDate(getToday());
-        pgnHeader.setRound("?");
         pgnHeader.setWhite(white.getEngineName());
         pgnHeader.setBlack(black.getEngineName());
-        pgnHeader.setFen(gameFenSeed);
+        pgnHeader.setFen(fen);
 
         System.out.println(encoder.encode(pgnHeader, game));
     }
 
-    private String getToday() {
-        String pattern = "yyyy.MM.dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        return simpleDateFormat.format(new Date());
-    }
-
-    private String getComputerName() {
-        Map<String, String> env = System.getenv();
-        if (env.containsKey("COMPUTERNAME"))
-            return env.get("COMPUTERNAME");
-        else if (env.containsKey("HOSTNAME"))
-            return env.get("HOSTNAME");
-        else
-            return "Unknown Computer";
-    }
-
     private void printMoveExecution() {
-        Game theGame =  FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game theGame =  FENDecoder.loadGame(fen);
 
         int counter = 0;
         System.out.println("Game game =  getDefaultGame();");
@@ -171,51 +205,5 @@ public class Main {
             counter++;
         }
     }
-
-    private String askForBestMove(EngineController currentTurn, List<String> moves) {
-        if(FENDecoder.INITIAL_FEN.equals(gameFenSeed)) {
-            currentTurn.send_CmdPosition(new CmdPosition(moves));
-        } else {
-            currentTurn.send_CmdPosition(new CmdPosition(gameFenSeed, moves));
-        }
-
-        RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
-
-        return bestMove.getBestMove();
-    }
-
-    private Move findMove(String bestMove) {
-        UCIEncoder uciEncoder = new UCIEncoder();
-        for (Move move : game.getPossibleMoves()) {
-            String encodedMoveStr = uciEncoder.encode(move);
-            if (encodedMoveStr.equals(bestMove)) {
-                return move;
-            }
-        }
-        throw new RuntimeException("No move found " + bestMove);
-    }
-
-
-    private void startEngines() {
-        white.send_CmdUci();
-        white.send_CmdIsReady();
-
-        black.send_CmdUci();
-        black.send_CmdIsReady();
-    }
-
-    private void startNewGame() {
-        white.send_CmdUciNewGame();
-        white.send_CmdIsReady();
-
-        black.send_CmdUciNewGame();
-        black.send_CmdIsReady();
-    }
-
-    private void quit() {
-        white.send_CmdQuit();
-        black.send_CmdQuit();
-    }
-
 
 }

@@ -2,6 +2,7 @@ package chess.board.perft;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -21,7 +22,7 @@ public class PerftMainTestSuite {
 
 	public static void main(String[] args) {
 
-		Runtime.getRuntime().addShutdownHook( new InterrupProcessing(Thread.currentThread()) );
+		Runtime.getRuntime().addShutdownHook( new ShutdownHook(Thread.currentThread()) );
 
 		try (PrintStream out = new PrintStream(
 				new FileOutputStream("./PerftMainTestSuiteResult.txt", false))) {
@@ -76,7 +77,7 @@ public class PerftMainTestSuite {
 
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-			ExecutorService executorService = Executors.newFixedThreadPool(4);
+			ExecutorService executorService = Executors.newFixedThreadPool(6);
 
 			List<Future<PerftMainTestSuite>> futures = new ArrayList<>();
 			String line;
@@ -149,13 +150,14 @@ public class PerftMainTestSuite {
 			} else {
 				System.out.println("\t Tests executed failed: " +  failedSuites.size() );
 				out.println("\t Tests executed failed: " +  failedSuites.size() );
+				Collections.sort(failedSuites);
 				for(String suiteStr: failedSuites){
 					System.out.println("\t test executed failed: " + suiteStr);
 					out.println("\t test executed failed: " + suiteStr);
 				}
 			}
 
-
+			Collections.sort(duplicatedSuites);
 			for(String suiteStr: duplicatedSuites){
 				System.out.println("\t Test duplicated (not executed): " + suiteStr);
 				out.println("\t Test duplicated (not executed): " + suiteStr);
@@ -168,11 +170,11 @@ public class PerftMainTestSuite {
 		out.flush();
 	}
 
-	private static class InterrupProcessing extends Thread{
+	private static class ShutdownHook extends Thread {
 
 		private final Thread mainThread;
 
-		private InterrupProcessing(Thread mainThread) {
+		private ShutdownHook(Thread mainThread) {
 			this.mainThread = mainThread;
 		}
 

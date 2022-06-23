@@ -5,7 +5,10 @@ import chess.board.Game;
 import chess.board.GameState;
 import chess.board.representations.fen.FENDecoder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -20,9 +23,9 @@ public class PGNEncoder {
         StringBuilder sb = new StringBuilder();
 
         sb.append("[Event \"" + header.getEvent() + "\"]\n");
-        sb.append("[Site \"" + header.getSite() + "\"]\n");
-        sb.append("[Date \"" + header.getDate() + "\"]\n");
-        sb.append("[Round \"" + header.getRound() + "\"]\n");
+        sb.append("[Site \"" + (header.getSite()  == null ? getComputerName() : header.getSite()) + "\"]\n");
+        sb.append("[Date \"" + (header.getDate() == null ? getToday() : header.getDate()) + "\"]\n");
+        sb.append("[Round \"" + (header.getRound() == null ? "?" : header.getRound()) + "\"]\n");
         sb.append("[White \"" + header.getWhite() + "\"]\n");
         sb.append("[Black \"" + header.getBlack() + "\"]\n");
         if(header.getFen() != null && !Objects.equals(FENDecoder.INITIAL_FEN, header.getFen())){
@@ -94,6 +97,21 @@ public class PGNEncoder {
         }
     }
 
+    private String getToday() {
+        String pattern = "yyyy.MM.dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(new Date());
+    }
+
+    private String getComputerName() {
+        Map<String, String> env = System.getenv();
+        if (env.containsKey("COMPUTERNAME"))
+            return env.get("COMPUTERNAME");
+        else if (env.containsKey("HOSTNAME"))
+            return env.get("HOSTNAME");
+        else
+            return "Unknown Computer";
+    }
 
     public static class PGNHeader{
         private String event;
@@ -161,4 +179,5 @@ public class PGNEncoder {
             this.fen = fen;
         }
     }
+
 }
