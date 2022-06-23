@@ -69,7 +69,7 @@ public class EngineProxy implements Engine {
     }
 
     @Override
-    public void write(UCIMessage message) {
+    public void accept(UCIMessage message) {
         if(outputStreamProcess == null){
             int counter = 0;
             try {
@@ -87,6 +87,7 @@ public class EngineProxy implements Engine {
             }
         }
         outputStreamProcess.println(message);
+        System.out.println(">>" + message);
     }
 
     @Override

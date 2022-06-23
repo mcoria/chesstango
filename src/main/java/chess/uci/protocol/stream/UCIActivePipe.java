@@ -21,8 +21,8 @@ public class UCIActivePipe implements Runnable {
         actionOutput.setOutputStream(output);
         active = true;
         UCIMessage message;
-        while ( active && (message = input.read()) != null ) {
-            actionOutput.write(message);
+        while ( active && (message = input.get()) != null ) {
+            actionOutput.accept(message);
         }
     }
 

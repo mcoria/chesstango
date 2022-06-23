@@ -136,7 +136,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
     }
 
     @Override
-    public void write(UCIMessage message) {
+    public void accept(UCIMessage message) {
         message.execute(messageExecutor);
     }
 
@@ -164,7 +164,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
         @Override
         public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
-            engine.write(request);
+            engine.accept(request);
             if(waitResponse) {
                 try {
                     if(response == null){

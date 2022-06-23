@@ -45,14 +45,14 @@ public class EngineZonda implements Engine {
 
             @Override
             public void do_uci(CmdUci cmdUci) {
-                responseOutputStream.write(new RspId(RspId.RspIdType.NAME, "Zonda"));
-                responseOutputStream.write(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
-                responseOutputStream.write(new RspUciOk());
+                responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Zonda"));
+                responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
+                responseOutputStream.accept(new RspUciOk());
             }
 
             @Override
             public void do_isReady(CmdIsReady cmdIsReady) {
-                responseOutputStream.write(new RspReadyOk());
+                responseOutputStream.accept(new RspReadyOk());
             }
 
             @Override
@@ -106,7 +106,7 @@ public class EngineZonda implements Engine {
     }
 
     @Override
-    public void write(UCIMessage message) {
+    public void accept(UCIMessage message) {
         message.execute(messageExecutor);
     }
 
@@ -224,7 +224,7 @@ public class EngineZonda implements Engine {
         public void findBestMove() {
             Move selectedMove = bestMoveFinder.findBestMove(game);
 
-            responseOutputStream.write(new RspBestMove(uciEncoder.encode(selectedMove)));
+            responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
 
             currentState = new Ready();
         }

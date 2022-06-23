@@ -18,7 +18,7 @@ public class UCIOutputStreamExecutor implements UCIOutputStream {
     }
 
     @Override
-    public void write(UCIMessage message) {
+    public void accept(UCIMessage message) {
         message.execute(executor);
     }
 

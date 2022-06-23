@@ -19,7 +19,7 @@ public class UCIOutputStreamAdapter implements UCIOutputStream {
     }
 
     @Override
-    public void write(UCIMessage message) {
+    public void accept(UCIMessage message) {
         try {
             out.write(message.toString());
             out.newLine();

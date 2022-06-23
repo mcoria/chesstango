@@ -27,8 +27,8 @@ public class UCIOutputStreamSwitch implements UCIOutputStream {
     }
 
     @Override
-    public void write(UCIMessage message) {
-        output.write(message);
+    public void accept(UCIMessage message) {
+        output.accept(message);
         if(predicateCondition.test(message)){
             execute.run();
         }

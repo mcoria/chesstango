@@ -20,9 +20,10 @@ public class UCIInputStreamAdapter implements UCIInputStream {
     }
 
     @Override
-    public UCIMessage read() {
+    public UCIMessage get() {
         try {
             String line = reader.readLine();
+            System.out.println("<<" + line);
             return line == null ? null : uciDecoder.parseMessage(line);
         } catch (IOException e) {
             throw new RuntimeException(e);
