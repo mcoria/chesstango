@@ -5,6 +5,7 @@ import chess.uci.engine.Engine;
 import chess.uci.engine.imp.EngineProxy;
 import chess.uci.engine.imp.EngineZonda;
 import chess.uci.ui.imp.EngineControllerImp;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -21,9 +22,15 @@ public class MatchTest {
         Match match = new Match(engine1, engine2);
         match.startEngines();
 
-        match.compete(FENDecoder.INITIAL_FEN);
+        Match.MathResult result = null;
+        result = match.compete(FENDecoder.INITIAL_FEN);
+
+        Assert.assertEquals(2, result.getWhitePoints() + result.getBlackPoints());
+
         match.switchChairs();
+
         match.compete(FENDecoder.INITIAL_FEN);
+        Assert.assertEquals(2, result.getWhitePoints() + result.getBlackPoints());
 
         match.quitEngines();
     }

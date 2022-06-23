@@ -15,7 +15,6 @@ import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
 import chess.uci.ui.imp.EngineControllerImp;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -77,7 +76,7 @@ public class Match {
         black.send_CmdQuit();
     }
 
-    public void compete(String fen){
+    public MathResult compete(String fen){
         startNewGame();
 
         this.fen = fen;
@@ -101,8 +100,19 @@ public class Match {
             fiftyMoveRule = game.getChessPosition().getHalfMoveClock() < 50 ? false : true;
             currentTurn = (currentTurn == white ? black : white);
         }
+
+        MathResult result = null;
         if(repetition || fiftyMoveRule){
             game.getGameState().setStatus(GameState.Status.DRAW);
+            result = new MathResult(1, 1);
+        } else if(GameState.Status.DRAW.equals(game.getStatus())) {
+            result = new MathResult(1, 1);
+        } else if(GameState.Status.MATE.equals(game.getStatus()) && currentTurn == white) {
+            result = new MathResult(2, 0);
+        } else if(GameState.Status.MATE.equals(game.getStatus()) && currentTurn == black) {
+            result = new MathResult(0, 2);
+        } else {
+            throw new RuntimeException("Inconsistent game status");
         }
 
         if(repetition){
@@ -110,12 +120,14 @@ public class Match {
         } else if (fiftyMoveRule) {
             System.out.println("El juego termino por fiftyMoveRule:");
         } else {
-            System.out.println("El juego termino");
+            System.out.println("El juego termino por mate o draw");
         }
         System.out.println(game.toString());
 
         printPGN();
         //printMoveExecution();
+
+        return result;
     }
 
     protected void startNewGame() {
@@ -203,6 +215,25 @@ public class Match {
             }
 
             counter++;
+        }
+    }
+
+    public static class MathResult {
+        private final int whitePoints;
+        private final int blackPoints;
+
+
+        public MathResult(int whitePoints, int blackPoints) {
+            this.whitePoints = whitePoints;
+            this.blackPoints = blackPoints;
+        }
+
+        public int getWhitePoints() {
+            return whitePoints;
+        }
+
+        public int getBlackPoints() {
+            return blackPoints;
         }
     }
 
