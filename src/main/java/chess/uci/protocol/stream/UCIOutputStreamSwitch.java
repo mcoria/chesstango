@@ -22,8 +22,9 @@ public class UCIOutputStreamSwitch implements UCIOutputStream {
         this.execute = execute;
     }
 
-    public void setOutputStream(UCIOutputStream output){
+    public UCIOutputStreamSwitch setOutputStream(UCIOutputStream output){
         this.output = output;
+        return this;
     }
 
     @Override

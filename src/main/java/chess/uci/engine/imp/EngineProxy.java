@@ -6,11 +6,13 @@ import chess.uci.protocol.stream.UCIActivePipe;
 import chess.uci.protocol.stream.UCIInputStreamAdapter;
 import chess.uci.protocol.stream.UCIOutputStream;
 import chess.uci.protocol.stream.strings.StringSupplier;
+import chess.uci.protocol.stream.strings.StringSupplierLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -52,7 +54,10 @@ public class EngineProxy implements Engine {
                 outputStreamProcess = new PrintStream(process.getOutputStream(), true);
             }
 
-            pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(inputStreamProcess))));
+            Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
+            stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
+
+            pipe.setInputStream(new UCIInputStreamAdapter( stringSupplier ));
             pipe.setOutputStream(responseOutputStream);
 
         } catch (IOException e) {
@@ -86,8 +91,8 @@ public class EngineProxy implements Engine {
                 throw new RuntimeException("Process has not started yet");
             }
         }
+        System.out.println("proxy >> " + message);
         outputStreamProcess.println(message);
-        System.out.println(">>" + message);
     }
 
     @Override

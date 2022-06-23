@@ -39,14 +39,13 @@ public class EngineMain {
 
     public EngineMain(Engine engine, InputStream in, PrintStream out) {
         this.engine = engine;
-        this.engine.setResponseOutputStream(new UCIOutputStreamAdapter( new StringConsumer( new OutputStreamWriter(out))));
+        this.engine.setResponseOutputStream(new UCIOutputStreamAdapter(new StringConsumer(new OutputStreamWriter(out))));
 
-        UCIOutputStreamSwitch actionOutput = new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, executorService::shutdown);
-        actionOutput.setOutputStream(this.engine);
 
         this.pipe = new UCIActivePipe();
         this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
-        this.pipe.setOutputStream(actionOutput);
+        this.pipe.setOutputStream(new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, executorService::shutdown)
+                .setOutputStream(this.engine));
     }
 
 

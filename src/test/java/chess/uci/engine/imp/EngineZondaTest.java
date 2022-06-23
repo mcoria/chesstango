@@ -16,6 +16,8 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
@@ -120,6 +122,19 @@ public class EngineZondaTest {
 
         // quit command
         engine.accept(new CmdQuit());
+    }
+
+    @Test
+    public void testAndThen(){
+        Consumer<String> consumer1 = string -> System.out.println("From consumer1 : " + string);
+
+        Consumer<String> consumer2 = consumer1.andThen(string2 -> System.out.println("From consumer2 : " + string2));
+
+        consumer1.accept("A");
+
+        System.out.println("------------------");
+
+        consumer2.accept("B");
     }
 
     private String fenCode(Game board) {
