@@ -38,13 +38,10 @@ public class Match {
 
         Match match = new Match(engine1, engine2);
         match.startEngines();
-
         match.compete(FENDecoder.INITIAL_FEN);
         match.switchChairs();
         match.compete(FENDecoder.INITIAL_FEN);
-
         match.quitEngines();
-
 
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
@@ -134,11 +131,11 @@ public class Match {
         }
 
         if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())){
-            result.setWhite( currentTurn == engine1 ? engine1 : engine2 );
-            result.setBlack( currentTurn == engine1 ? engine2 : engine1 );
+            result.setEngineWhite( currentTurn == engine1 ? engine1 : engine2 );
+            result.setEngineBlack( currentTurn == engine1 ? engine2 : engine1 );
         } else {
-            result.setBlack( currentTurn == engine1 ? engine1 : engine2 );
-            result.setWhite( currentTurn == engine1 ? engine2 : engine1 );
+            result.setEngineBlack( currentTurn == engine1 ? engine1 : engine2 );
+            result.setEngineWhite( currentTurn == engine1 ? engine2 : engine1 );
         }
 
 
@@ -257,21 +254,28 @@ public class Match {
             this.whitePoints = whitePoints;
             this.blackPoints = blackPoints;
         }
-
         public int getWhitePoints() {
             return whitePoints;
         }
-
         public int getBlackPoints() {
             return blackPoints;
         }
 
-        public void setWhite(EngineController engineController) {
-            this.engineWhite = engineController;
+
+        public EngineController getEngineWhite() {
+            return engineWhite;
         }
 
-        public void setBlack(EngineController engineController) {
-            this.engineBlack = engineController;
+        public void setEngineWhite(EngineController engineWhite) {
+            this.engineWhite = engineWhite;
+        }
+
+        public EngineController getEngineBlack() {
+            return engineBlack;
+        }
+
+        public void setEngineBlack(EngineController engineBlack) {
+            this.engineBlack = engineBlack;
         }
     }
 
