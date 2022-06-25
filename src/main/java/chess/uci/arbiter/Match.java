@@ -1,6 +1,8 @@
 package chess.uci.arbiter;
 
-import chess.ai.imp.dummy.Dummy;
+import chess.ai.imp.smart.IterativeDeeping;
+import chess.ai.imp.smart.MinMaxPruning;
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.GameState;
@@ -9,6 +11,7 @@ import chess.board.position.ChessPositionReader;
 import chess.board.representations.PGNEncoder;
 import chess.board.representations.fen.FENDecoder;
 import chess.board.representations.fen.FENEncoder;
+import chess.uci.engine.Engine;
 import chess.uci.engine.imp.EngineProxy;
 import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.UCIEncoder;
@@ -32,17 +35,19 @@ public class Match {
     private Game game;
 
     public static void main(String[] args) {
-        //EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda());
-        EngineControllerImp engine1 = new EngineControllerImp(new EngineProxy());
-        EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
+        EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda( new IterativeDeeping( new MinMaxPruning( new GameEvaluator()))));
+        EngineControllerImp engine2 = new EngineControllerImp(new EngineProxy());
+        //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 
         Instant start = Instant.now();
 
         Match match = new Match(engine1, engine2);
         match.startEngines();
+
         match.compete(FENDecoder.INITIAL_FEN);
         match.switchChairs();
         match.compete(FENDecoder.INITIAL_FEN);
+
         match.quitEngines();
 
         Instant end = Instant.now();
@@ -280,6 +285,13 @@ public class Match {
         public void setEngineBlack(EngineController engineBlack) {
             this.engineBlack = engineBlack;
         }
+    }
+
+    static public Match createMatch(Engine engine1, Engine engine2){
+        EngineControllerImp ec1 = new EngineControllerImp(engine1);
+        EngineControllerImp ec2 = new EngineControllerImp(engine2);
+
+        return new Match(ec1, ec2);
     }
 
 }

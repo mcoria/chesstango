@@ -28,6 +28,10 @@ public class MinMaxPruning extends AbstractSmart {
         this(new GameEvaluator(), new MoveSorter());
     }
 
+    public MinMaxPruning(GameEvaluator evaluator) {
+        this(evaluator, new MoveSorter());
+    }
+
     public MinMaxPruning(GameEvaluator evaluator, MoveSorter moveSorter) {
         this.evaluator = evaluator;
         this.moveSorter = moveSorter;
