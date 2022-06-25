@@ -1,5 +1,6 @@
 package chess.ai.imp.smart;
 
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.moves.Move;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MinMaxTest {

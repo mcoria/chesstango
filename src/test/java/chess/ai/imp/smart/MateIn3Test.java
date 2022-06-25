@@ -1,6 +1,7 @@
 
  package chess.ai.imp.smart;
 
+ import chess.ai.imp.smart.evaluation.GameEvaluator;
  import chess.board.Game;
  import chess.board.Piece;
  import chess.board.Square;

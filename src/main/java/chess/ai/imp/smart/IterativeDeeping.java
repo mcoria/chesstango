@@ -1,12 +1,16 @@
 package chess.ai.imp.smart;
 
-import chess.ai.BestMoveFinder;
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.board.Game;
 import chess.board.moves.Move;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class IterativeDeeping extends AbstractSmart {
 
     private static final int MAX_DEPTH = 2;

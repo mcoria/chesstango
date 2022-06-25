@@ -1,12 +1,13 @@
 package chess.ai.imp.smart;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.PiecePositioned;
 import chess.board.moves.Move;
+
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Mauricio Coria

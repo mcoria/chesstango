@@ -1,14 +1,14 @@
  package chess.ai.imp.smart;
 
-import chess.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import chess.board.Game;
-import chess.board.Piece;
-import chess.board.Square;
-import chess.board.moves.Move;
+ import chess.ai.imp.smart.evaluation.GameEvaluator;
+ import chess.board.Game;
+ import chess.board.Piece;
+ import chess.board.Square;
+ import chess.board.moves.Move;
+ import chess.board.representations.fen.FENDecoder;
+ import org.junit.Assert;
+ import org.junit.Before;
+ import org.junit.Test;
 
 /**
  * @author Mauricio Coria

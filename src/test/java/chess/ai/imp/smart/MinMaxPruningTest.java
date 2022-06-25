@@ -1,5 +1,6 @@
 package chess.ai.imp.smart;
 
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.GameState;
@@ -13,7 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 

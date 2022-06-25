@@ -1,13 +1,16 @@
-package chess.ai.imp.smart;
+package chess.ai.imp.smart.evaluation;
 
 import chess.board.Game;
-import chess.board.builder.imp.GameBuilder;
 import chess.board.representations.fen.FENDecoder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class GameEvaluatorTest {
 
     private GameEvaluator evaluator;

@@ -1,4 +1,4 @@
-package chess.ai.imp.smart;
+package chess.ai.imp.smart.evaluation;
 
 import chess.board.*;
 import chess.board.moves.Move;
@@ -8,6 +8,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class GameEvaluator {
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;

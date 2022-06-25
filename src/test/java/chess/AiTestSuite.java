@@ -5,6 +5,7 @@ package chess;
 
 import chess.ai.BestMoveFinderSuiteTest;
 import chess.ai.imp.smart.*;
+import chess.ai.imp.smart.evaluation.GameEvaluatorTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

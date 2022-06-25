@@ -1,12 +1,11 @@
 package chess.ai.imp.smart;
 
 import chess.ai.BestMoveFinder;
-import chess.board.PiecePositioned;
-import chess.board.moves.Move;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
+/**
+ * @author Mauricio Coria
+ *
+ */
 public abstract class AbstractSmart implements BestMoveFinder {
 
     protected int evaluation;

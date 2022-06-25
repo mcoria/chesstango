@@ -3,11 +3,15 @@
  */
 package chess.ai.imp.smart;
 
-import java.util.*;
-
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.moves.Move;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Mauricio Coria

@@ -2,7 +2,9 @@ package chess.ai.imp.smart;
 
 import chess.board.moves.Move;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * @author Mauricio Coria

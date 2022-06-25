@@ -31,6 +31,7 @@ public class EngineProxy implements Engine {
     private Process process;
 
     private Thread processingThread;
+    private boolean logging;
 
     public EngineProxy() {
         processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
@@ -55,7 +56,9 @@ public class EngineProxy implements Engine {
             }
 
             Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
-            stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
+            if(logging) {
+                stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
+            }
 
             pipe.setInputStream(new UCIInputStreamAdapter( stringSupplier ));
             pipe.setOutputStream(responseOutputStream);
@@ -91,7 +94,9 @@ public class EngineProxy implements Engine {
                 throw new RuntimeException("Process has not started yet");
             }
         }
-        System.out.println("proxy >> " + message);
+        if(logging) {
+            System.out.println("proxy >> " + message);
+        }
         outputStreamProcess.println(message);
     }
 
@@ -114,6 +119,11 @@ public class EngineProxy implements Engine {
     @Override
     public void setResponseOutputStream(UCIOutputStream output) {
         this.responseOutputStream = output;
+    }
+
+    public EngineProxy setLogging(boolean flag){
+        this.logging = flag;
+        return this;
     }
 
 

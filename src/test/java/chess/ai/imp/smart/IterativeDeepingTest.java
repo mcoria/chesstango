@@ -1,6 +1,5 @@
 package chess.ai.imp.smart;
 
-import chess.ai.BestMoveFinder;
 import chess.board.Game;
 import chess.board.moves.Move;
 import org.junit.Assert;
@@ -8,6 +7,10 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class IterativeDeepingTest {
 
     @Test

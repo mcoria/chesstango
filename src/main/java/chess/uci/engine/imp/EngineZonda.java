@@ -39,7 +39,11 @@ public class EngineZonda implements Engine {
     private UCIOutputStream responseOutputStream;
 
     public EngineZonda() {
-        this.bestMoveFinder = new IterativeDeeping();
+        this(new IterativeDeeping());
+    }
+
+    public EngineZonda(BestMoveFinder bestMoveFinder) {
+        this.bestMoveFinder = bestMoveFinder;
         this.currentState = new Ready();
         this.messageExecutor = new UCIMessageExecutor(){
 

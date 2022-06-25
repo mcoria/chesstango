@@ -3,8 +3,6 @@
  */
 package chess.ai.imp.smart;
 
-import chess.ai.BestMoveFinder;
-
 /**
  * @author Mauricio Coria
  *

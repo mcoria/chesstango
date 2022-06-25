@@ -1,5 +1,6 @@
 package chess.uci.arbiter;
 
+import chess.ai.imp.dummy.Dummy;
 import chess.board.Color;
 import chess.board.Game;
 import chess.board.GameState;
@@ -31,8 +32,9 @@ public class Match {
     private Game game;
 
     public static void main(String[] args) {
-        EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda());
-        EngineControllerImp engine2 = new EngineControllerImp(new EngineProxy());
+        //EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda());
+        EngineControllerImp engine1 = new EngineControllerImp(new EngineProxy());
+        EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 
         Instant start = Instant.now();
 
@@ -213,6 +215,7 @@ public class Match {
         pgnHeader.setFen(fen);
 
         System.out.println(encoder.encode(pgnHeader, game));
+        System.out.println("--------------------------------------------------------------------------------");
     }
 
     private void printMoveExecution(String fen) {
