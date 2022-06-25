@@ -13,37 +13,33 @@ import java.util.List;
  */
 public class IterativeDeeping extends AbstractSmart {
 
-    private static final int MAX_DEPTH = 2;
+    private final AbstractSmart imp;
 
-    private AbstractSmart imp;
-
-    private final int maxDepth;
     private final List<BestMove> bestMovesByDepth;
 
-    public IterativeDeeping(){
-        this(MAX_DEPTH);
+
+    public IterativeDeeping() {
+        this(new MinMaxPruning());
     }
 
-    public IterativeDeeping(int maxDepth) {
-        this.maxDepth = maxDepth;
+    public IterativeDeeping(AbstractSmart minMax) {
         this.bestMovesByDepth = new ArrayList<>();
+        this.imp = minMax;
     }
 
     @Override
-    public Move searchBestMove(Game game) {
+    public Move searchBestMove(Game game, int depth) {
         keepProcessing = true;
         bestMovesByDepth.clear();
-        for(int i = 2; i <= 2 * maxDepth ; i += 2){
+        for(int i = 2; i <= 2 * depth ; i += 2){
 
-            imp = getBestMoveFinder(i);
-
-            Move move = imp.searchBestMove(game);
+            Move move = imp.searchBestMove(game, i);
             int evaluation = imp.getEvaluation();
 
             BestMove bestMove = new BestMove(move, evaluation);
             if(keepProcessing){
                 bestMovesByDepth.add(bestMove);
-                if(GameEvaluator.WHITE_WON == evaluation|| GameEvaluator.BLACK_WON == evaluation){
+                if(GameEvaluator.WHITE_WON == evaluation || GameEvaluator.BLACK_WON == evaluation){
                     break;
                 }
             } else {
@@ -69,9 +65,6 @@ public class IterativeDeeping extends AbstractSmart {
         return bestMovesByDepth.get(bestMovesByDepth.size() - 1).evaluation;
     }
 
-    protected AbstractSmart getBestMoveFinder(int depth) {
-        return new MinMaxPruning(depth);
-    }
 
     private static class BestMove{
         public final Move move;

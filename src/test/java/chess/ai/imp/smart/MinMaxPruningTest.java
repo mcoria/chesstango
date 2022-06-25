@@ -39,7 +39,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_SingleMove(){
-        MinMaxPruning minMax = new MinMaxPruning(1, evaluator, moveSorter);
+        MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
@@ -50,7 +50,7 @@ public class MinMaxPruningTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
@@ -59,7 +59,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_SingleMove(){
-        MinMaxPruning minMax = new MinMaxPruning(1, evaluator, moveSorter);
+        MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
@@ -70,7 +70,7 @@ public class MinMaxPruningTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
@@ -79,7 +79,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_TwoMoves(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
@@ -93,7 +93,7 @@ public class MinMaxPruningTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, minMax.getEvaluation());
@@ -107,7 +107,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_MateCutOff(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
@@ -125,7 +125,7 @@ public class MinMaxPruningTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(GameEvaluator.WHITE_WON, minMax.getEvaluation());
@@ -144,7 +144,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_ImminentMate(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(1, evaluator, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
@@ -163,7 +163,7 @@ public class MinMaxPruningTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertNotNull(bestMove);
         Assert.assertEquals(GameEvaluator.WHITE_LOST, minMax.getEvaluation());
@@ -183,7 +183,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_ImminentMate(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
@@ -202,7 +202,7 @@ public class MinMaxPruningTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertNotNull(bestMove);
         Assert.assertEquals(GameEvaluator.BLACK_LOST, minMax.getEvaluation());
@@ -222,8 +222,9 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_maximize_WhitePlays_MateCutOff(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
-        //MinMaxPruning minMax = new MinMaxPruning(1, evaluator, moveSorter);
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
+        //MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
+        minMax.initObjects(1);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
@@ -262,7 +263,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_TwoMoves(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
@@ -276,7 +277,7 @@ public class MinMaxPruningTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
@@ -290,7 +291,7 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_MateCutOff(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
@@ -308,7 +309,7 @@ public class MinMaxPruningTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        Move bestMove = minMax.searchBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame, 1);
 
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(GameEvaluator.BLACK_WON, minMax.getEvaluation());
@@ -331,7 +332,8 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_minimize_BlackPlays_MateCutOff(){
-        MinMaxPruning minMax = spy(new MinMaxPruning(1, evaluator, moveSorter));
+        MinMaxPruning minMax = spy(new MinMaxPruning(evaluator, moveSorter));
+        minMax.initObjects(1);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 

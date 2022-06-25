@@ -17,33 +17,28 @@ import java.util.Queue;
  * @author Mauricio Coria
  */
 public class MinMaxPruning extends AbstractSmart {
-    private static final int DEFAULT_MAX_PLIES = 6;
     private final GameEvaluator evaluator;
     private final MoveSorter moveSorter;
 
-    private final int plies;
-    private final List<Move> moveStacks[];
+    private int plies;
+    private List<Move> moveStacks[];
+
 
     public MinMaxPruning() {
-        this(DEFAULT_MAX_PLIES);
+        this(new GameEvaluator(), new MoveSorter());
     }
 
-    public MinMaxPruning(int level) {
-        this(level, new GameEvaluator(), new MoveSorter());
-    }
-
-    public MinMaxPruning(int level, GameEvaluator evaluator, MoveSorter moveSorter) {
-        this.plies = level;
-        this.moveStacks = new List[level];
-        for (int i = 0; i < level; i++) {
-            moveStacks[i] = new ArrayList<>();
-        }
+    public MinMaxPruning(GameEvaluator evaluator, MoveSorter moveSorter) {
         this.evaluator = evaluator;
         this.moveSorter = moveSorter;
     }
 
     @Override
-    public Move searchBestMove(Game game) {
+    public Move searchBestMove(Game game, int depth) {
+        this.plies = depth;
+
+        initObjects(depth);
+
         this.keepProcessing = true;
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
@@ -178,6 +173,13 @@ public class MinMaxPruning extends AbstractSmart {
                 game = game.undoMove();
             }
             return maxValue;
+        }
+    }
+
+    protected void initObjects(int depth) {
+        this.moveStacks = new List[depth];
+        for (int i = 0; i < depth; i++) {
+            moveStacks[i] = new ArrayList<>();
         }
     }
 

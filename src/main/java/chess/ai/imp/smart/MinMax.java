@@ -36,7 +36,7 @@ public class MinMax extends AbstractSmart {
 	}
 
 	@Override
-	public Move searchBestMove(Game game) {
+	public Move searchBestMove(Game game, int depth) {
 		this.keepProcessing = true;
 
 		final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;

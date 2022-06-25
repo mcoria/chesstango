@@ -18,7 +18,7 @@ import chess.board.moves.Move;
 public class Dummy implements BestMoveFinder {
 
 	@Override
-	public Move searchBestMove(Game game) {
+	public Move searchBestMove(Game game, int depth) {
 		Iterable<Move> moves = game.getPossibleMoves();
 
 		Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();

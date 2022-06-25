@@ -200,9 +200,9 @@ public class EngineZonda implements Engine {
             FindingBestMove findingBestMove = new FindingBestMove();
             currentState = findingBestMove;
             if(executor != null) {
-                executor.execute(findingBestMove::findBestMove);
+                executor.execute(() -> findingBestMove.findBestMove(cmdGo));
             }else{
-                findingBestMove.findBestMove();
+                findingBestMove.findBestMove(cmdGo);
             }
         }
 
@@ -225,8 +225,9 @@ public class EngineZonda implements Engine {
             bestMoveFinder.stopSearching();
         }
 
-        public void findBestMove() {
-            Move selectedMove = bestMoveFinder.searchBestMove(game);
+        public void findBestMove(CmdGo cmdGo) {
+
+            Move selectedMove = bestMoveFinder.searchBestMove(game, cmdGo.getDepth());
 
             responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
 

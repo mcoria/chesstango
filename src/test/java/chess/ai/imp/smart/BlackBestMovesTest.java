@@ -8,6 +8,7 @@
  import chess.board.moves.Move;
  import chess.board.representations.fen.FENDecoder;
  import org.junit.Assert;
+ import org.junit.Before;
  import org.junit.Test;
 
  /**
@@ -19,13 +20,17 @@
      protected AbstractSmart bestMoveFinder = null;
 
 
+     @Before
+     public void setup(){
+         bestMoveFinder = new IterativeDeeping();
+     }
+
      @Test
      public void test_moveQueen() {
-        settupMoveFinder(2);
         // hay que sacar a la reina negra de donde esta, sino se la morfa el caballo
         Game game =  FENDecoder.loadGame("r1b1kb1r/ppp1ppp1/n2q1n2/1N1P3p/3P4/5N2/PPP2PPP/R1BQKB1R b KQkq - 1 1");
 
-        Move smartMove = bestMoveFinder.searchBestMove(game);
+        Move smartMove = bestMoveFinder.searchBestMove(game, 2);
 
         Assert.assertEquals(Piece.QUEEN_BLACK, smartMove.getFrom().getValue());
         Assert.assertEquals(Square.d6, smartMove.getFrom().getKey());
@@ -39,11 +44,10 @@
 
      @Test
      public void test_imminentMateIn2Moves() {
-         settupMoveFinder(2);
          // Black will be in checkmate in the next 1 move
          Game game =  FENDecoder.loadGame("8/2kQ2P1/8/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
 
-         Move smartMove = bestMoveFinder.searchBestMove(game);
+         Move smartMove = bestMoveFinder.searchBestMove(game, 2);
 
          Assert.assertEquals(Piece.KING_BLACK, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.c7, smartMove.getFrom().getKey());
@@ -55,11 +59,10 @@
 
      @Test
      public void test_imminentMateIn4Moves() {
-         settupMoveFinder(4);
          // Black will be in checkmate in the next 2 move
          Game game =  FENDecoder.loadGame("8/2kQ4/6P1/1pP5/8/1B3P2/3R4/6K1 b - - 1 1");
 
-         Move smartMove = bestMoveFinder.searchBestMove(game);
+         Move smartMove = bestMoveFinder.searchBestMove(game, 4);
 
          Assert.assertEquals(Piece.KING_BLACK, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.c7, smartMove.getFrom().getKey());
@@ -72,11 +75,10 @@
 
      @Test
      public void test_Mate() {
-         settupMoveFinder(5);
          // Black can win the game in the next move
          Game game =  FENDecoder.loadGame("5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 1 1");
 
-         Move smartMove = bestMoveFinder.searchBestMove(game);
+         Move smartMove = bestMoveFinder.searchBestMove(game, 5);
 
          Assert.assertEquals(Piece.QUEEN_BLACK, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.b1, smartMove.getFrom().getKey());
@@ -89,11 +91,10 @@
 
      @Test //Max Walter vs. Emanuel Lasker
      public void test_MateInTwo() {
-         settupMoveFinder(3);
 
          Game game =  FENDecoder.loadGame("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1");
 
-         Move smartMove = bestMoveFinder.searchBestMove(game);
+         Move smartMove = bestMoveFinder.searchBestMove(game, 3);
 
          Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());
@@ -102,8 +103,4 @@
          Assert.assertEquals(GameEvaluator.BLACK_WON, bestMoveFinder.getEvaluation());
      }
 
-     private void settupMoveFinder(int maxLevel) {
-         //bestMoveFinder = new MinMaxPruning(maxLevel);
-         bestMoveFinder = new IterativeDeeping(maxLevel);
-     }
  }
