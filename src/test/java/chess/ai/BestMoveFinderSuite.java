@@ -19,7 +19,7 @@ import chess.board.moves.MovePromotion;
  * @author Mauricio Coria
  *
  */
-public class BestMoverFinderSuite {
+public class BestMoveFinderSuite {
 
 	public static void main(String[] args) {
 		execute("main/ferdy_perft_double_checks.epd");
@@ -31,7 +31,7 @@ public class BestMoverFinderSuite {
 			
 			List<String> failedSuites = new ArrayList<String>();
 			
-			BestMoverFinderSuite suite = new BestMoverFinderSuite();
+			BestMoveFinderSuite suite = new BestMoveFinderSuite();
 			
 			InputStream instr = suite.getClass().getClassLoader().getResourceAsStream(filename);
 
@@ -69,11 +69,11 @@ public class BestMoverFinderSuite {
 	
 	private final ChessFactory chessFactory;
 	
-	public BestMoverFinderSuite() {
+	public BestMoveFinderSuite() {
 		this(new ChessFactory());
 	}
 	
-	public BestMoverFinderSuite(ChessFactory chessFactory) {
+	public BestMoveFinderSuite(ChessFactory chessFactory) {
 		this.chessFactory =  chessFactory;
 	}	
 
@@ -84,7 +84,7 @@ public class BestMoverFinderSuite {
 		
 		Game game = getGame(edpParsed.fen);
 
-		Move resulBestMove = moveFinder.findBestMove(game);
+		Move resulBestMove = moveFinder.searchBestMove(game);
 		
 		return encodeMove(resulBestMove).equals(edpParsed.bestMove);
 	}

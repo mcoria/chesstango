@@ -1,4 +1,4 @@
-package chess.uci.ui.imp;
+package chess.uci.arbiter.imp;
 
 import chess.uci.engine.Engine;
 import chess.uci.engine.imp.EngineProxy;

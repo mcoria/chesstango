@@ -3,7 +3,7 @@
  */
 package chess;
 
-import chess.ai.BestMoverFinderSuiteTest;
+import chess.ai.BestMoveFinderSuiteTest;
 import chess.ai.imp.smart.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -20,7 +20,7 @@ import org.junit.runners.Suite;
         MoveSorterTest.class,
         BlackBestMovesTest.class,
         IterativeDeepingTest.class,
-        BestMoverFinderSuiteTest.class,
+        BestMoveFinderSuiteTest.class,
         MateIn1Test.class,
         MateIn2Test.class,
         MateIn3Test.class,

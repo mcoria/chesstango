@@ -18,7 +18,7 @@ import chess.board.moves.Move;
 public class Dummy implements BestMoveFinder {
 
 	@Override
-	public Move findBestMove(Game game) {
+	public Move searchBestMove(Game game) {
 		Iterable<Move> moves = game.getPossibleMoves();
 
 		Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
@@ -37,13 +37,7 @@ public class Dummy implements BestMoveFinder {
 	}
 
 	@Override
-	public void stopProcessing() {
-
-	}
-
-	@Override
-	public int getEvaluation() {
-		return 0;
+	public void stopSearching() {
 	}
 
 }

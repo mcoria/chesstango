@@ -9,9 +9,7 @@ import chess.board.moves.Move;
  */
 public interface BestMoveFinder {
 	
-	Move findBestMove(Game game);
+	Move searchBestMove(Game game);
 
-    void stopProcessing();
-
-    int getEvaluation();
+    void stopSearching();
 }

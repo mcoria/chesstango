@@ -8,7 +8,7 @@ import chess.uci.engine.imp.EngineZondaTest;
 import chess.uci.engine.EngineMainTest;
 import chess.uci.protocol.UCIDecoderCmdTest;
 import chess.uci.protocol.UCIDecoderRspTest;
-import chess.uci.ui.imp.EngineControllerImpTest;
+import chess.uci.arbiter.imp.EngineControllerImpTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

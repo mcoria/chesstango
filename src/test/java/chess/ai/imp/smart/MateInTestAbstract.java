@@ -11,7 +11,7 @@ import chess.ai.BestMoveFinder;
  */
 public abstract class MateInTestAbstract {
 
-	protected BestMoveFinder bestMoveFinder = null;
+	protected AbstractSmart bestMoveFinder = null;
 
 	protected abstract int getMaxLevel();
 

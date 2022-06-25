@@ -1,4 +1,7 @@
-package chess.uci.ui;
+package chess.arena;
+
+import chess.uci.arbiter.EngineController;
+import chess.uci.arbiter.Match;
 
 import java.util.ArrayList;
 import java.util.HashMap;

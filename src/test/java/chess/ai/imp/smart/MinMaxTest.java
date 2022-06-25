@@ -42,7 +42,7 @@ public class MinMaxTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        Move bestMove = minMax.findBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame);
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
@@ -62,7 +62,7 @@ public class MinMaxTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        Move bestMove = minMax.findBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame);
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
@@ -85,7 +85,7 @@ public class MinMaxTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        Move bestMove = minMax.findBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame);
 
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, minMax.getEvaluation());
@@ -113,7 +113,7 @@ public class MinMaxTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        Move bestMove = minMax.findBestMove(rootGame);
+        Move bestMove = minMax.searchBestMove(rootGame);
 
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());

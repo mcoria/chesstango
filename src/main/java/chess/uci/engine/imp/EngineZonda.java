@@ -218,11 +218,11 @@ public class EngineZonda implements Engine {
 
         @Override
         public void do_stop() {
-            bestMoveFinder.stopProcessing();
+            bestMoveFinder.stopSearching();
         }
 
         public void findBestMove() {
-            Move selectedMove = bestMoveFinder.findBestMove(game);
+            Move selectedMove = bestMoveFinder.searchBestMove(game);
 
             responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
 

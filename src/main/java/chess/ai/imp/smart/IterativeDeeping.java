@@ -7,13 +7,11 @@ import chess.board.moves.Move;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IterativeDeeping implements BestMoveFinder {
+public class IterativeDeeping extends AbstractSmart {
 
     private static final int MAX_DEPTH = 2;
 
-    private BestMoveFinder imp;
-
-    private boolean stopped = false;
+    private AbstractSmart imp;
 
     private final int maxDepth;
     private final List<BestMove> bestMovesByDepth;
@@ -28,27 +26,28 @@ public class IterativeDeeping implements BestMoveFinder {
     }
 
     @Override
-    public Move findBestMove(Game game) {
-        stopped = false;
+    public Move searchBestMove(Game game) {
+        keepProcessing = true;
         bestMovesByDepth.clear();
         for(int i = 2; i <= 2 * maxDepth ; i += 2){
 
             imp = getBestMoveFinder(i);
 
-            Move move = imp.findBestMove(game);
+            Move move = imp.searchBestMove(game);
             int evaluation = imp.getEvaluation();
 
             BestMove bestMove = new BestMove(move, evaluation);
-            if(stopped){
-                BestMove lastBestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-                if(evaluation >= lastBestMove.evaluation){
-                    bestMovesByDepth.add(bestMove);
-                }
-            } else {
+            if(keepProcessing){
                 bestMovesByDepth.add(bestMove);
                 if(GameEvaluator.WHITE_WON == evaluation|| GameEvaluator.BLACK_WON == evaluation){
                     break;
                 }
+            } else {
+                BestMove lastBestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+                if(evaluation >= lastBestMove.evaluation){
+                    bestMovesByDepth.add(bestMove);
+                }
+                break;
             }
         }
 
@@ -56,9 +55,9 @@ public class IterativeDeeping implements BestMoveFinder {
     }
 
     @Override
-    public void stopProcessing() {
-        this.stopped = true;
-        imp.stopProcessing();
+    public void stopSearching() {
+       super.stopSearching();
+       imp.stopSearching();
     }
 
     @Override
@@ -66,7 +65,7 @@ public class IterativeDeeping implements BestMoveFinder {
         return bestMovesByDepth.get(bestMovesByDepth.size() - 1).evaluation;
     }
 
-    protected BestMoveFinder getBestMoveFinder(int depth) {
+    protected AbstractSmart getBestMoveFinder(int depth) {
         return new MinMaxPruning(depth);
     }
 

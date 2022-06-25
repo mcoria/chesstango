@@ -1,4 +1,4 @@
-package chess.uci.ui;
+package chess.uci.arbiter;
 
 import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;

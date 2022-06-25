@@ -1,4 +1,4 @@
-package chess.uci.ui.imp;
+package chess.uci.arbiter.imp;
 
 import chess.uci.engine.Engine;
 import chess.uci.protocol.UCIMessage;
@@ -11,7 +11,7 @@ import chess.uci.protocol.responses.RspId;
 import chess.uci.protocol.responses.RspReadyOk;
 import chess.uci.protocol.responses.RspUciOk;
 import chess.uci.protocol.stream.UCIOutputStream;
-import chess.uci.ui.EngineController;
+import chess.uci.arbiter.EngineController;
 
 import java.io.IOException;
 

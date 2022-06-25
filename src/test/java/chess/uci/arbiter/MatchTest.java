@@ -1,9 +1,9 @@
-package chess.uci.ui;
+package chess.uci.arbiter;
 
 import chess.board.representations.fen.FENDecoder;
 import chess.uci.engine.imp.EngineProxy;
 import chess.uci.engine.imp.EngineZonda;
-import chess.uci.ui.imp.EngineControllerImp;
+import chess.uci.arbiter.imp.EngineControllerImp;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;

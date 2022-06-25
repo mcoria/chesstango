@@ -1,4 +1,4 @@
-package chess.uci.ui;
+package chess.uci.arbiter;
 
 import chess.board.Color;
 import chess.board.Game;
@@ -14,7 +14,7 @@ import chess.uci.protocol.UCIEncoder;
 import chess.uci.protocol.requests.CmdGo;
 import chess.uci.protocol.requests.CmdPosition;
 import chess.uci.protocol.responses.RspBestMove;
-import chess.uci.ui.imp.EngineControllerImp;
+import chess.uci.arbiter.imp.EngineControllerImp;
 
 import java.time.Duration;
 import java.time.Instant;
