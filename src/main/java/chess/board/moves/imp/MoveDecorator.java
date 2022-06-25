@@ -14,11 +14,11 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class MoveDecorator implements Move {
+abstract class MoveDecorator<T extends Move> implements Move {
 	
-	protected final Move move;
+	protected final T move;
 	
-	public MoveDecorator(Move move) {
+	public MoveDecorator(T move) {
 		this.move = move;
 	}	
 

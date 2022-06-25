@@ -4,10 +4,7 @@ import chess.board.Piece;
 import chess.board.PiecePositioned;
 import chess.board.Square;
 import chess.board.iterators.Cardinal;
-import chess.board.moves.Move;
-import chess.board.moves.MoveCastling;
-import chess.board.moves.MoveFactory;
-import chess.board.moves.MoveKing;
+import chess.board.moves.*;
 
 
 /**
@@ -25,7 +22,7 @@ public class MoveFactoryWhite implements MoveFactory {
 
     @Override
     public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return addLostCastlingByKingMoveWrapper(addOpponentLostCastlingRookCapturedByKingWrapper(origen, destino));
+        return addOpponentLostCastlingRookCapturedByKingWrapper(addLostCastlingByKingMoveWrapper(new CaptureKingMove(origen, destino)));
     }
 
     @Override
@@ -89,13 +86,13 @@ public class MoveFactoryWhite implements MoveFactory {
 
     @Override
     public Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return addOpponentLostCastlingByRookCapturedWrapper(new CapturePawnPromotion(origen, destino, piece));
+        return addOpponentLostCastlingRookCapturedByPromotion(new CapturePawnPromotion(origen, destino, piece));
     }
 
     protected MoveKing addLostCastlingByKingMoveWrapper(MoveKing kingMove) {
         MoveKing result = kingMove;
         if (Square.e1.equals(kingMove.getFrom().getKey())) {
-            result =  new MoveDecoratorKingState(kingMove, state -> {
+            result = new MoveDecoratorKingState(kingMove, state -> {
                 state.setCastlingWhiteQueenAllowed(false);
                 state.setCastlingWhiteKingAllowed(false);
             });
@@ -106,9 +103,9 @@ public class MoveFactoryWhite implements MoveFactory {
     protected Move addLostCastlingByRookMoveWrapper(Move rookMove) {
         Move result = rookMove;
         if (Square.a1.equals(rookMove.getFrom().getKey())) {
-            result = new MoveDecoratorState(rookMove, state -> state.setCastlingWhiteQueenAllowed(false));
+            result = new MoveDecoratorState<Move>(rookMove, state -> state.setCastlingWhiteQueenAllowed(false));
         } else if (Square.h1.equals(rookMove.getFrom().getKey())) {
-            result = new MoveDecoratorState(rookMove, state -> state.setCastlingWhiteKingAllowed(false));
+            result = new MoveDecoratorState<Move>(rookMove, state -> state.setCastlingWhiteKingAllowed(false));
         }
         return result;
     }
@@ -116,21 +113,31 @@ public class MoveFactoryWhite implements MoveFactory {
     protected Move addOpponentLostCastlingByRookCapturedWrapper(Move move) {
         Move result = move;
         if (Square.a8.equals(move.getTo().getKey())) {
-            result = new MoveDecoratorState(move, state -> state.setCastlingBlackQueenAllowed(false));
+            result = new MoveDecoratorState<Move>(move, state -> state.setCastlingBlackQueenAllowed(false));
         } else if (Square.h8.equals(move.getTo().getKey())) {
-            result = new MoveDecoratorState(move, state -> state.setCastlingBlackKingAllowed(false));
+            result = new MoveDecoratorState<Move>(move, state -> state.setCastlingBlackKingAllowed(false));
         }
         return result;
     }
 
-    protected MoveKing addOpponentLostCastlingRookCapturedByKingWrapper(PiecePositioned origen, PiecePositioned destino) {
-        MoveKing kingMove = new CaptureKingMove(origen, destino);
-        if (Square.a8.equals(destino.getKey())) {
-            kingMove = new MoveDecoratorKingState(kingMove, state -> state.setCastlingBlackQueenAllowed(false));
-        } else if (Square.h8.equals(destino.getKey())) {
-            kingMove = new MoveDecoratorKingState(kingMove, state -> state.setCastlingBlackKingAllowed(false));
+    protected MoveKing addOpponentLostCastlingRookCapturedByKingWrapper(MoveKing move) {
+        MoveKing result = move;
+        if (Square.a8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackQueenAllowed(false));
+        } else if (Square.h8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackKingAllowed(false));
         }
-        return kingMove;
+        return result;
+    }
+
+    protected MovePromotion addOpponentLostCastlingRookCapturedByPromotion(MovePromotion move) {
+        MovePromotion result = move;
+        if (Square.a8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorPromotionState(move, state -> state.setCastlingBlackQueenAllowed(false));
+        } else if (Square.h8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorPromotionState(move, state -> state.setCastlingBlackKingAllowed(false));
+        }
+        return result;
     }
 
     @Override

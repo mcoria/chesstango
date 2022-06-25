@@ -12,7 +12,7 @@ import chess.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class MoveDecoratorKingState extends MoveDecoratorState implements MoveKing {
+class MoveDecoratorKingState extends MoveDecoratorState<MoveKing> implements MoveKing {
 
 	public MoveDecoratorKingState(MoveKing move, Consumer<PositionState> decoratorState) {
 		super(move, decoratorState);

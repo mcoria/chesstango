@@ -1,5 +1,8 @@
 package chess.uci.engine;
 
+import chess.ai.imp.smart.IterativeDeeping;
+import chess.ai.imp.smart.MinMaxPruning;
+import chess.ai.imp.smart.evaluation.GameEvaluator;
 import chess.uci.engine.imp.EngineZonda;
 import chess.uci.protocol.requests.CmdQuit;
 import chess.uci.protocol.stream.UCIActivePipe;
@@ -25,8 +28,8 @@ public class EngineMain {
 
     private final UCIActivePipe pipe;
 
-    public static void activate(String[] args) {
-        EngineMain engineMain = new EngineMain(new EngineZonda(), System.in, System.out);
+    public static void main(String[] args) {
+        EngineMain engineMain = new EngineMain(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))), System.in, System.out);
         //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
 
         engineMain.open();
