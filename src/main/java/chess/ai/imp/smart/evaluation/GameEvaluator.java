@@ -12,7 +12,9 @@ import java.util.Set;
  * @author Mauricio Coria
  *
  */
-public class GameEvaluator {
+public class GameEvaluator  {
+
+    private static final int FACTOR_EXPANSION_DEFAULT = 2;
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
     public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
@@ -23,6 +25,15 @@ public class GameEvaluator {
     public static final int BLACK_LOST = INFINITE_POSITIVE;
     public static final int WHITE_WON = BLACK_LOST;
 
+    private final int expansion;
+
+    public GameEvaluator(){
+        this(FACTOR_EXPANSION_DEFAULT);
+    }
+
+    public GameEvaluator(int expansion){
+        this.expansion =  expansion;
+    }
 
     public int evaluate(final Game game) {
         int evaluation = 0;
@@ -74,7 +85,7 @@ public class GameEvaluator {
             }
         };
 
-        evaluation = origenes.size() + 2 * territorioExpansion.size() + territorioAtaque.size() + posiblesCapturasValor;
+        evaluation = origenes.size() + expansion * territorioExpansion.size() + territorioAtaque.size() + posiblesCapturasValor;
 
         return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? evaluation : - evaluation;
     }

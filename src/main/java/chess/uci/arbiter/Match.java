@@ -35,8 +35,8 @@ public class Match {
     private Game game;
 
     public static void main(String[] args) {
-        EngineControllerImp engine1 = new EngineControllerImp(new EngineZonda( new IterativeDeeping( new MinMaxPruning( new GameEvaluator()))));
-        EngineControllerImp engine2 = new EngineControllerImp(new EngineProxy());
+        EngineController engine1 = new EngineControllerImp(new EngineZonda( new IterativeDeeping( new MinMaxPruning( new GameEvaluator()))));
+        EngineController engine2 = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 
         Instant start = Instant.now();
@@ -147,15 +147,18 @@ public class Match {
 
 
         if(repetition){
-            System.out.println("El juego termino por repeticion:");
+            System.out.println("DRAW (por repeticion)");
         } else if (fiftyMoveRule) {
-            System.out.println("El juego termino por fiftyMoveRule:");
-        } else {
-            System.out.println("El juego termino por mate o draw");
+            System.out.println("DRAW (por fiftyMoveRule)");
+        } else if(GameState.Status.DRAW.equals(game.getStatus())) {
+            System.out.println("DRAW");
+        } else if(GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            System.out.println("MATE " + result.getEngineWhite().getEngineName());
+        } else if(GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
+            System.out.println("MATE " + result.getEngineBlack().getEngineName());
         }
-        System.out.println(game.toString());
 
-        printPGN(fen);
+        //printPGN(fen);
         //printMoveExecution();
 
         return result;
@@ -211,6 +214,8 @@ public class Match {
 
 
     private void printPGN(String fen) {
+        System.out.println(game.toString());
+
         PGNEncoder encoder = new PGNEncoder();
         PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
 
@@ -220,7 +225,7 @@ public class Match {
         pgnHeader.setFen(fen);
 
         System.out.println(encoder.encode(pgnHeader, game));
-        System.out.println("--------------------------------------------------------------------------------");
+        //System.out.println("--------------------------------------------------------------------------------");
     }
 
     private void printMoveExecution(String fen) {
@@ -287,11 +292,5 @@ public class Match {
         }
     }
 
-    static public Match createMatch(Engine engine1, Engine engine2){
-        EngineControllerImp ec1 = new EngineControllerImp(engine1);
-        EngineControllerImp ec2 = new EngineControllerImp(engine2);
-
-        return new Match(ec1, ec2);
-    }
 
 }
