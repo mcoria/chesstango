@@ -14,7 +14,8 @@ import java.util.Set;
  */
 public class GameEvaluator  {
 
-    private static final int FACTOR_EXPANSION_DEFAULT = 2;
+    private static final int FACTOR_EXPANSION_DEFAULT = 42;
+    private static final int FACTOR_ATAQUE_DEFAULT = 7;
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
     public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
@@ -26,13 +27,15 @@ public class GameEvaluator  {
     public static final int WHITE_WON = BLACK_LOST;
 
     private final int expansion;
+    private final int ataque;
 
     public GameEvaluator(){
-        this(FACTOR_EXPANSION_DEFAULT);
+        this(FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluator(int expansion){
+    public GameEvaluator(int expansion, int ataque){
         this.expansion =  expansion;
+        this.ataque = ataque;
     }
 
     public int evaluate(final Game game) {
@@ -85,7 +88,7 @@ public class GameEvaluator  {
             }
         };
 
-        evaluation = origenes.size() + expansion * territorioExpansion.size() + territorioAtaque.size() + posiblesCapturasValor;
+        evaluation = origenes.size() + expansion * territorioExpansion.size() + ataque * territorioAtaque.size() + posiblesCapturasValor;
 
         return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? evaluation : - evaluation;
     }
