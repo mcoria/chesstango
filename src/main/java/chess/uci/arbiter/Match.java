@@ -30,6 +30,8 @@ public class Match {
     private EngineController engine1;
     private EngineController engine2;
 
+    private final int depth;
+
     public static void main(String[] args) {
         EngineController engine1 = new EngineControllerImp(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))).disableAsync());
         EngineController engine2 = new EngineControllerImp(new EngineProxy());
@@ -37,7 +39,7 @@ public class Match {
 
         Instant start = Instant.now();
 
-        Match match = new Match(engine1, engine2);
+        Match match = new Match(engine1, engine2, 1);
         match.startEngines();
 
         match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
@@ -49,9 +51,10 @@ public class Match {
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
     }
 
-    public Match(EngineController engine1, EngineController engine2) {
+    public Match(EngineController engine1, EngineController engine2, int depth) {
         this.engine1 = engine1;
         this.engine2 = engine2;
+        this.depth = depth;
     }
 
     public void switchChairs() {
@@ -206,7 +209,7 @@ public class Match {
             currentTurn.send_CmdPosition(new CmdPosition(fen, moves));
         }
 
-        RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
+        RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(depth));
 
         return bestMove.getBestMove();
     }

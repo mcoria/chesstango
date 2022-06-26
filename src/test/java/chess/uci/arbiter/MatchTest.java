@@ -42,7 +42,7 @@ public class MatchTest {
 
     @Test
     public void test01() {
-        Match match = new Match(engine1, engine2);
+        Match match = new Match(engine1, engine2, 1);
 
         Match.MathResult result = null;
         result = match.compete(FENDecoder.INITIAL_FEN);
@@ -52,7 +52,7 @@ public class MatchTest {
 
     @Test
     public void test02() {
-        Match match = new Match(engine1, engine2);
+        Match match = new Match(engine1, engine2, 1);
 
         List<Match.MathResult> results = null;
 
@@ -64,7 +64,7 @@ public class MatchTest {
 
     @Test
     public void test03() {
-        Match match = new Match(engine1, engine2);
+        Match match = new Match(engine1, engine2, 1);
 
         List<Match.MathResult> results = null;
 
