@@ -31,7 +31,7 @@ public class Match {
     private EngineController engine2;
 
     public static void main(String[] args) {
-        EngineController engine1 = new EngineControllerImp(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))));
+        EngineController engine1 = new EngineControllerImp(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))).disableAsync());
         EngineController engine2 = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 

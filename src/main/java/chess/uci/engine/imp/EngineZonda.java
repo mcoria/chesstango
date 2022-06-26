@@ -34,6 +34,8 @@ public class EngineZonda implements Engine {
 
     private ExecutorService executor;
 
+    private boolean asyncEnabled;
+
     private Game game;
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
@@ -42,9 +44,11 @@ public class EngineZonda implements Engine {
         this(new IterativeDeeping());
     }
 
+
     public EngineZonda(BestMoveFinder bestMoveFinder) {
         this.bestMoveFinder = bestMoveFinder;
         this.currentState = new Ready();
+        this.asyncEnabled = true;
         this.messageExecutor = new UCIMessageExecutor(){
 
             @Override
@@ -109,14 +113,20 @@ public class EngineZonda implements Engine {
         };
     }
 
+
     @Override
     public void accept(UCIMessage message) {
         message.execute(messageExecutor);
     }
 
+    public EngineZonda disableAsync() {
+        asyncEnabled = false;
+        return this;
+    }
+
     @Override
     public void open() {
-        if(executor == null) {
+        if(asyncEnabled && executor == null) {
             executor = Executors.newSingleThreadExecutor();
         }
     }
@@ -129,7 +139,7 @@ public class EngineZonda implements Engine {
             throw new RuntimeException(e);
         }
 
-        if(executor != null) {
+        if(asyncEnabled && executor != null) {
             try {
                 executor.shutdown();
                 while (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
