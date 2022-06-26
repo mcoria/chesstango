@@ -16,7 +16,7 @@ public class UCIEncoder {
                     break;
                 case KNIGHT_WHITE:
                 case KNIGHT_BLACK:
-                    promotionStr = "k";
+                    promotionStr = "n";
                     break;
                 case BISHOP_WHITE:
                 case BISHOP_BLACK:
