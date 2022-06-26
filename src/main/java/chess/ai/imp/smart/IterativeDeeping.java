@@ -31,7 +31,7 @@ public class IterativeDeeping extends AbstractSmart {
     public Move searchBestMove(Game game, int depth) {
         keepProcessing = true;
         bestMovesByDepth.clear();
-        for(int i = 2; i <= 2 * depth ; i += 2){
+        for(int i = 1; i <=  depth ; i++){
 
             Move move = imp.searchBestMove(game, i);
             int evaluation = imp.getEvaluation();
@@ -66,7 +66,7 @@ public class IterativeDeeping extends AbstractSmart {
     }
 
 
-    private static class BestMove{
+    private static class BestMove {
         public final Move move;
         public final int evaluation;
 

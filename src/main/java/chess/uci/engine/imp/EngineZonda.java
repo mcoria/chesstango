@@ -227,7 +227,7 @@ public class EngineZonda implements Engine {
 
         public void findBestMove(CmdGo cmdGo) {
 
-            Move selectedMove = bestMoveFinder.searchBestMove(game, cmdGo.getDepth());
+            Move selectedMove = bestMoveFinder.searchBestMove(game, 4);
 
             responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
 
