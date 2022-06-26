@@ -40,9 +40,7 @@ public class Match {
         Match match = new Match(engine1, engine2);
         match.startEngines();
 
-        match.compete(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20"));
-        match.switchChairs();
-        match.compete(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20"));
+        match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7"));
 
         match.quitEngines();
 
@@ -119,7 +117,7 @@ public class Match {
         while (game.getStatus().isInProgress() && !repetition && !fiftyMoveRule) {
             String moveStr = askForBestMove(currentTurn, fen, executedMovesStr);
 
-            Move move = findMove(game, moveStr);
+            Move move = findMove(fen, game, moveStr);
             game.executeMove(move);
 
             executedMovesStr.add(moveStr);
@@ -169,7 +167,7 @@ public class Match {
             System.out.println("MATE " + result.getEngineBlack().getEngineName());
         }
 
-        printPGN(fen, game);
+        //printPGN(fen, game);
 
         //printMoveExecution(fen, game);
 
@@ -213,7 +211,7 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private Move findMove(Game game, String bestMove) {
+    private Move findMove(String fen, Game game, String bestMove) {
         UCIEncoder uciEncoder = new UCIEncoder();
         for (Move move : game.getPossibleMoves()) {
             String encodedMoveStr = uciEncoder.encode(move);
@@ -221,6 +219,8 @@ public class Match {
                 return move;
             }
         }
+        printPGN(fen, game);
+        printMoveExecution(fen, game);
         throw new RuntimeException("No move found " + bestMove);
     }
 

@@ -14,8 +14,9 @@ import java.util.Set;
  */
 public class GameEvaluator  {
 
-    private static final int FACTOR_EXPANSION_DEFAULT = 42;
-    private static final int FACTOR_ATAQUE_DEFAULT = 7;
+    private static final int FACTOR_MATERIAL_DEFAULT = 1000;
+    private static final int FACTOR_EXPANSION_DEFAULT = 461;
+    private static final int FACTOR_ATAQUE_DEFAULT = 4;
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
     public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
@@ -26,14 +27,16 @@ public class GameEvaluator  {
     public static final int BLACK_LOST = INFINITE_POSITIVE;
     public static final int WHITE_WON = BLACK_LOST;
 
+    private final int material;
     private final int expansion;
     private final int ataque;
 
     public GameEvaluator(){
-        this(FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluator(int expansion, int ataque){
+    public GameEvaluator(int material, int expansion, int ataque){
+        this.material = material;
         this.expansion =  expansion;
         this.ataque = ataque;
     }
@@ -52,7 +55,7 @@ public class GameEvaluator  {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation += 1000 * evaluateByMaterial(game);
+                evaluation += 10 * material * evaluateByMaterial(game);
                 evaluation += evaluateByMoves(game);
         }
         return evaluation;
