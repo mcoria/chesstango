@@ -6,35 +6,38 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
+
 
 /**
  * @author Mauricio Coria
- *
  */
 public class IterativeDeepingTest {
 
     @Test
-    public void testFindBestMove(){
+    public void testFindBestMove() {
         //IterativeDeeping loop = spy(new IterativeDeeping());
         AbstractSmart smart = mock(AbstractSmart.class);
 
-        IterativeDeeping loop = new IterativeDeeping(smart);
+        IterativeDeeping loop = spy(new IterativeDeeping(smart));
 
-        Game game = mock (Game.class);
+        Game game = mock(Game.class);
 
         Move move1 = mock(Move.class);
-        when(smart.searchBestMove(game, 2)).thenReturn(move1);
-        when(smart.getEvaluation()).thenReturn(1);
+        when(smart.searchBestMove(game, 1)).thenReturn(move1);
+        when(smart.getEvaluation()).thenReturn(30);
 
         Move move2 = mock(Move.class);
-        when(smart.searchBestMove(game, 4)).thenReturn(move2);
-        when(smart.getEvaluation()).thenReturn(4);
+        when(smart.searchBestMove(game, 2)).thenReturn(move2);
+        when(smart.getEvaluation()).thenReturn(20);
 
-        Move bestMove = loop.searchBestMove(game, 2);
+        Move move3 = mock(Move.class);
+        when(smart.searchBestMove(game, 3)).thenReturn(move3);
+        when(smart.getEvaluation()).thenReturn(10);
+
+        Move bestMove = loop.searchBestMove(game, 3);
         int evaluation = loop.getEvaluation();
 
-        Assert.assertEquals(move2, bestMove);
-        Assert.assertEquals(4, evaluation);
+        Assert.assertEquals(move3, bestMove);
+        Assert.assertEquals(10, evaluation); // Notar que a medida que profundiza empeora el score
     }
 }

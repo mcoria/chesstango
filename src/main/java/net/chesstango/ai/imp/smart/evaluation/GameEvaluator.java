@@ -14,8 +14,8 @@ import java.util.Set;
  */
 public class GameEvaluator  {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 833;
-    private static final int FACTOR_EXPANSION_DEFAULT = 352;
+    private static final int FACTOR_MATERIAL_DEFAULT = 365;
+    private static final int FACTOR_EXPANSION_DEFAULT = 325;
     private static final int FACTOR_ATAQUE_DEFAULT = 91;
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;

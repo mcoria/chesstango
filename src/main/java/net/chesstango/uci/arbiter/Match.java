@@ -13,7 +13,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.arbiter.imp.EngineControllerImp;
 import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineZonda;
+import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
@@ -33,7 +33,7 @@ public class Match {
     private final int depth;
 
     public static void main(String[] args) {
-        EngineController engine1 = new EngineControllerImp(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))).disableAsync());
+        EngineController engine1 = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))).disableAsync());
         EngineController engine2 = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 

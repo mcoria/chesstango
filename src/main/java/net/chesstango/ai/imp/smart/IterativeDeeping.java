@@ -28,6 +28,11 @@ public class IterativeDeeping extends AbstractSmart {
     }
 
     @Override
+    public Move searchBestMove(Game game) {
+        return searchBestMove(game, 10);
+    }
+
+    @Override
     public Move searchBestMove(Game game, int depth) {
         keepProcessing = true;
         bestMovesByDepth.clear();

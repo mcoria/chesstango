@@ -18,6 +18,11 @@ import net.chesstango.board.moves.Move;
 public class Dummy implements BestMoveFinder {
 
 	@Override
+	public Move searchBestMove(Game game) {
+		return searchBestMove(game, 10);
+	}
+
+	@Override
 	public Move searchBestMove(Game game, int depth) {
 		Iterable<Move> moves = game.getPossibleMoves();
 

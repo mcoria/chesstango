@@ -3,7 +3,7 @@ package net.chesstango.uci.engine;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
-import net.chesstango.uci.engine.imp.EngineZonda;
+import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdQuit;
 import net.chesstango.uci.protocol.stream.UCIActivePipe;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
@@ -29,7 +29,7 @@ public class EngineMain {
     private final UCIActivePipe pipe;
 
     public static void main(String[] args) {
-        EngineMain engineMain = new EngineMain(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))), System.in, System.out);
+        EngineMain engineMain = new EngineMain(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))), System.in, System.out);
         //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
 
         engineMain.open();

@@ -90,11 +90,11 @@
      }
 
      @Test //Max Walter vs. Emanuel Lasker
-     public void test_MateInTwo() {
+     public void test_MateInThree() {
 
          Game game =  FENDecoder.loadGame("4r1k1/3n1ppp/4r3/3n3q/Q2P4/5P2/PP2BP1P/R1B1R1K1 b - - 0 1");
 
-         Move smartMove = bestMoveFinder.searchBestMove(game, 3);
+         Move smartMove = bestMoveFinder.searchBestMove(game, 5);
 
          Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getValue());
          Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());

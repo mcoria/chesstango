@@ -2,7 +2,7 @@ package net.chesstango.uci.arbiter;
 
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineZonda;
+import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.arbiter.imp.EngineControllerImp;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -24,7 +24,7 @@ public class MatchTest {
 
     @BeforeClass
     public static void setup() {
-        engine1 = new EngineControllerImp(new EngineZonda());
+        engine1 = new EngineControllerImp(new EngineTango());
         engine2 = new EngineControllerImp(new EngineProxy());
 
         engine1.send_CmdUci();

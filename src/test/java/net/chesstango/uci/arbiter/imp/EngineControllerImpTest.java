@@ -2,7 +2,7 @@ package net.chesstango.uci.arbiter.imp;
 
 import net.chesstango.uci.engine.Engine;
 import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineZonda;
+import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -14,7 +14,7 @@ public class EngineControllerImpTest {
 
     @Test
     public void test_Zonda(){
-        Engine engine = new EngineZonda();
+        Engine engine = new EngineTango();
 
         EngineControllerImp client = new EngineControllerImp(engine);
 

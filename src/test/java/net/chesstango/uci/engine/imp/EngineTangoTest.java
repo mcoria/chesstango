@@ -6,7 +6,6 @@ package net.chesstango.uci.engine.imp;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import org.junit.Assert;
@@ -23,15 +22,15 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  *
  */
-public class EngineZondaTest {
-    private EngineZonda engine;
+public class EngineTangoTest {
+    private EngineTango engine;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 
     @Before
     public void setUp() {
-        engine = new EngineZonda();
+        engine = new EngineTango();
     }
 
 
@@ -92,33 +91,33 @@ public class EngineZondaTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
         // Initial state
-        Assert.assertEquals(EngineZonda.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
 
         // uci command
         engine.accept(new CmdUci());
         Assert.assertEquals("id name Zonda", in.readLine());
         Assert.assertEquals("id author Mauricio Coria", in.readLine());
         Assert.assertEquals("uciok", in.readLine());
-        Assert.assertEquals(EngineZonda.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
 
         // isready command
         engine.accept(new CmdIsReady());
         Assert.assertEquals("readyok", in.readLine());
-        Assert.assertEquals(EngineZonda.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
 
         // ucinewgame command
         engine.accept(new CmdUciNewGame());
-        Assert.assertEquals(EngineZonda.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
 
         // isready command
         engine.accept(new CmdIsReady());
         Assert.assertEquals("readyok", in.readLine());
-        Assert.assertEquals(EngineZonda.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
 
         // position command
         engine.accept(new CmdPosition(Arrays.asList("e2e4")));
         Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
-        Assert.assertEquals(EngineZonda.WaitCmdGo.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(EngineTango.WaitCmdGo.class, engine.getCurrentState().getClass());
 
         // quit command
         engine.accept(new CmdQuit());

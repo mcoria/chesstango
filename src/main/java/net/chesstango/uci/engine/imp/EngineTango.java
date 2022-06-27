@@ -18,7 +18,6 @@ import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
-import net.chesstango.uci.protocol.requests.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Mauricio Coria
  */
-public class EngineZonda implements Engine {
+public class EngineTango implements Engine {
     private final BestMoveFinder bestMoveFinder;
     private final UCIMessageExecutor messageExecutor;
 
@@ -41,16 +40,16 @@ public class EngineZonda implements Engine {
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
 
-    public EngineZonda() {
+    public EngineTango() {
         this(new IterativeDeeping());
     }
 
 
-    public EngineZonda(BestMoveFinder bestMoveFinder) {
+    public EngineTango(BestMoveFinder bestMoveFinder) {
         this.bestMoveFinder = bestMoveFinder;
         this.currentState = new Ready();
         this.asyncEnabled = true;
-        this.messageExecutor = new UCIMessageExecutor(){
+        this.messageExecutor = new UCIMessageExecutor() {
 
             @Override
             public void do_uci(CmdUci cmdUci) {
@@ -120,14 +119,14 @@ public class EngineZonda implements Engine {
         message.execute(messageExecutor);
     }
 
-    public EngineZonda disableAsync() {
+    public EngineTango disableAsync() {
         asyncEnabled = false;
         return this;
     }
 
     @Override
     public void open() {
-        if(asyncEnabled && executor == null) {
+        if (asyncEnabled && executor == null) {
             executor = Executors.newSingleThreadExecutor();
         }
     }
@@ -140,7 +139,7 @@ public class EngineZonda implements Engine {
             throw new RuntimeException(e);
         }
 
-        if(asyncEnabled && executor != null) {
+        if (asyncEnabled && executor != null) {
             try {
                 executor.shutdown();
                 while (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
@@ -210,9 +209,9 @@ public class EngineZonda implements Engine {
         public void do_go(CmdGo cmdGo) {
             FindingBestMove findingBestMove = new FindingBestMove();
             currentState = findingBestMove;
-            if(executor != null) {
+            if (executor != null) {
                 executor.execute(() -> findingBestMove.findBestMove(cmdGo));
-            }else{
+            } else {
                 findingBestMove.findBestMove(cmdGo);
             }
         }
@@ -239,7 +238,15 @@ public class EngineZonda implements Engine {
         public void findBestMove(CmdGo cmdGo) {
 
             // TODO: for the moment we are cheating
-            Move selectedMove = bestMoveFinder.searchBestMove(game, cmdGo.getDepth() + 2);
+            Move selectedMove = null;
+
+            if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
+                selectedMove = bestMoveFinder.searchBestMove(game);
+            } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
+                selectedMove = bestMoveFinder.searchBestMove(game, cmdGo.getDepth() + 2);
+            } else {
+                throw new RuntimeException("go subtype not implemented yet");
+            }
 
             responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
 

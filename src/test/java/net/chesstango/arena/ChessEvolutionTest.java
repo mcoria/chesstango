@@ -8,7 +8,7 @@ import net.chesstango.uci.arbiter.EngineController;
 import net.chesstango.uci.arbiter.Match;
 import net.chesstango.uci.arbiter.imp.EngineControllerImp;
 import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineZonda;
+import net.chesstango.uci.engine.imp.EngineTango;
 import io.jenetics.*;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
@@ -190,7 +190,7 @@ public class ChessEvolutionTest {
     }
 
     private EngineController createZonda(int gene1, int gene2, int gene3) {
-        EngineController zonda = new EngineControllerImp(new EngineZonda(new IterativeDeeping(new MinMaxPruning(new GameEvaluator(gene1, gene2, gene3)))).disableAsync());
+        EngineController zonda = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluator(gene1, gene2, gene3)))).disableAsync());
         zonda.send_CmdUci();
         zonda.send_CmdIsReady();
         return zonda;
