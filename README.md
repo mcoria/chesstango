@@ -16,8 +16,8 @@ Although performance is taken into consideration, this is not the top non-functi
 
 ### Factory Method
 Factory method pattern is usually applied in combination with Template method pattern:
-- [AbstractCardinalMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
-- [AbstractJumpMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class.
+- [AbstractCardinalMoveGenerator](src/main/java/net/chesstango/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
+- [AbstractJumpMoveGenerator](src/main/java/net/chesstango/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class.
 
 ### Builder
 Builder pattern has been implemented with different participant classes
@@ -40,9 +40,9 @@ MoveFactory class declares the interface. MoveFactoryBlack and MoveFactoryWhite 
 - Facade
 - Proxy
 
-Facade pattern is implemented by [Game](src/main/java/chess/Game.java) class.
+Facade pattern is implemented by [Game](src/main/java/net/chesstango/Game.java) class.
 
-Decorator pattern is implemented by [MoveDecorator](src/main/java/chess/moves/imp/MoveDecorator.java) class, this abstract class declares a reference to concrete Move being decorated.
+Decorator pattern is implemented by [MoveDecorator](src/main/java/net/chesstango/moves/imp/MoveDecorator.java) class, this abstract class declares a reference to concrete Move being decorated.
 
 Proxy pattern is implemented by ChessPositionReader as access control interface to underlying implementation classes. Game and ChessPosition implements this interface, Game forwards all requests to ChessPosition class for actual implementation.
 MoveGenaratorWithCacheProxy implements a cache proxy.
@@ -56,7 +56,7 @@ MoveGenaratorWithCacheProxy implements a cache proxy.
 
 ### Template method
 Template method pattern is applied in different situations by abstract classes: 
-[AbstractPawnMoveGenerator](src/main/java/chess/pseudomovesgenerators/AbstractPawnMoveGenerator.java)
+[AbstractPawnMoveGenerator](src/main/java/net/chesstango/pseudomovesgenerators/AbstractPawnMoveGenerator.java)
 
 By convention, those classes with template methods are abstract classes and named with the prefix Abstract.
  

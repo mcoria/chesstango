@@ -1,0 +1,153 @@
+package net.chesstango.board.moves.imp;
+
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
+import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.moves.*;
+import net.chesstango.board.moves.*;
+
+
+/**
+ * @author Mauricio Coria
+ */
+public class MoveFactoryWhite implements MoveFactory {
+
+    public static final MoveCastling castlingKingMove = new CastlingWhiteKingMove();
+    public static final MoveCastling castlingQueenMove = new CastlingWhiteQueenMove();
+
+    @Override
+    public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
+        return addLostCastlingByKingMoveWrapper(new SimpleKingMove(origen, destino));
+    }
+
+    @Override
+    public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
+        return addOpponentLostCastlingRookCapturedByKingWrapper(addLostCastlingByKingMoveWrapper(new CaptureKingMove(origen, destino)));
+    }
+
+    @Override
+    public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        return addLostCastlingByRookMoveWrapper(createSimpleMove(origen, destino));
+    }
+
+    @Override
+    public Move createCaptureRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        return addLostCastlingByRookMoveWrapper(createCaptureMove(origen, destino, cardinal));
+    }
+
+    @Override
+    public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
+        return new SimpleMove(origen, destino);
+    }
+
+    @Override
+    public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        return new SimpleMove(origen, destino, cardinal);
+    }
+
+    @Override
+    public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+        return new SimplePawnMove(origen, destino, Cardinal.Norte);
+    }
+
+    @Override
+    public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
+        return new SimpleTwoSquaresPawnMove(origen, destino, enPassantSquare, Cardinal.Norte);
+    }
+
+    @Override
+    public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        return addOpponentLostCastlingByRookCapturedWrapper(new CapturePawnMove(origen, destino, cardinal));
+    }
+
+    @Override
+    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
+        return addOpponentLostCastlingByRookCapturedWrapper(new CaptureMove(origen, destino));
+    }
+
+    @Override
+    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
+        return addOpponentLostCastlingByRookCapturedWrapper(new CaptureMove(origen, destino, cardinal));
+    }
+
+
+    @Override
+    public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino,
+                                       Cardinal cardinal, PiecePositioned capture) {
+        return new CapturePawnEnPassant(origen, destino, capture);
+    }
+
+
+    @Override
+    public Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+        return new SimplePawnPromotion(origen, destino, Cardinal.Norte, piece);
+    }
+
+
+    @Override
+    public Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+        return addOpponentLostCastlingRookCapturedByPromotion(new CapturePawnPromotion(origen, destino, piece));
+    }
+
+    protected MoveKing addLostCastlingByKingMoveWrapper(MoveKing kingMove) {
+        MoveKing result = kingMove;
+        if (Square.e1.equals(kingMove.getFrom().getKey())) {
+            result = new MoveDecoratorKingState(kingMove, state -> {
+                state.setCastlingWhiteQueenAllowed(false);
+                state.setCastlingWhiteKingAllowed(false);
+            });
+        }
+        return result;
+    }
+
+    protected Move addLostCastlingByRookMoveWrapper(Move rookMove) {
+        Move result = rookMove;
+        if (Square.a1.equals(rookMove.getFrom().getKey())) {
+            result = new MoveDecoratorState<Move>(rookMove, state -> state.setCastlingWhiteQueenAllowed(false));
+        } else if (Square.h1.equals(rookMove.getFrom().getKey())) {
+            result = new MoveDecoratorState<Move>(rookMove, state -> state.setCastlingWhiteKingAllowed(false));
+        }
+        return result;
+    }
+
+    protected Move addOpponentLostCastlingByRookCapturedWrapper(Move move) {
+        Move result = move;
+        if (Square.a8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorState<Move>(move, state -> state.setCastlingBlackQueenAllowed(false));
+        } else if (Square.h8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorState<Move>(move, state -> state.setCastlingBlackKingAllowed(false));
+        }
+        return result;
+    }
+
+    protected MoveKing addOpponentLostCastlingRookCapturedByKingWrapper(MoveKing move) {
+        MoveKing result = move;
+        if (Square.a8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackQueenAllowed(false));
+        } else if (Square.h8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackKingAllowed(false));
+        }
+        return result;
+    }
+
+    protected MovePromotion addOpponentLostCastlingRookCapturedByPromotion(MovePromotion move) {
+        MovePromotion result = move;
+        if (Square.a8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorPromotionState(move, state -> state.setCastlingBlackQueenAllowed(false));
+        } else if (Square.h8.equals(move.getTo().getKey())) {
+            result = new MoveDecoratorPromotionState(move, state -> state.setCastlingBlackKingAllowed(false));
+        }
+        return result;
+    }
+
+    @Override
+    public MoveCastling createCastlingQueenMove() {
+        return castlingQueenMove;
+    }
+
+    @Override
+    public MoveCastling createCastlingKingMove() {
+        return castlingKingMove;
+    }
+}
