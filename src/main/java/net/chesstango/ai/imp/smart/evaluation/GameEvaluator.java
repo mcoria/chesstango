@@ -49,9 +49,9 @@ public class GameEvaluator  {
 
 
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 320;
-    private static final int FACTOR_EXPANSION_DEFAULT = 268;
-    private static final int FACTOR_ATAQUE_DEFAULT = 991;
+    private static final int FACTOR_MATERIAL_DEFAULT = 652;
+    private static final int FACTOR_EXPANSION_DEFAULT = 704;
+    private static final int FACTOR_ATAQUE_DEFAULT = 959;
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
     public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
@@ -96,7 +96,7 @@ public class GameEvaluator  {
         return evaluation;
     }
 
-    protected int evaluateByMaterial(final Game game) {
+    public static int evaluateByMaterial(final Game game) {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {

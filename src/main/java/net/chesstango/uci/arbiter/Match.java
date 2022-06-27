@@ -131,43 +131,48 @@ public class Match {
         }
 
         MathResult result = null;
-        if (repetition || fiftyMoveRule || GameState.Status.DRAW.equals(game.getStatus())) {
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            result = new MathResult(game, currentTurn == engine1 ? engine1 : engine2, currentTurn == engine1 ? engine2 : engine1);
+
+        } else {
+            result = new MathResult(game, currentTurn == engine1 ? engine1 : engine2, currentTurn == engine1 ? engine2 : engine1);
+
+        }
+
+        int materialPoints = GameEvaluator.evaluateByMaterial(game);
+        if (repetition) {
             game.getGameState().setStatus(GameState.Status.DRAW);
-            result = new MathResult(game, 1, 1);
+            System.out.println("DRAW (por repeticion)");
+            result.setWhitePoints(materialPoints);
+            result.setBlackPoints(materialPoints);
 
-        } else if (GameState.Status.MATE.equals(game.getStatus())) {
-            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                result = new MathResult(game, 0, 2);
+        } else if (fiftyMoveRule) {
+            game.getGameState().setStatus(GameState.Status.DRAW);
+            System.out.println("DRAW (por fiftyMoveRule)");
+            result.setWhitePoints(materialPoints);
+            result.setBlackPoints(materialPoints);
 
-            } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-                result = new MathResult(game, 2, 0);
-            }
+        } else if (GameState.Status.DRAW.equals(game.getStatus())) {
+            game.getGameState().setStatus(GameState.Status.DRAW);
+            System.out.println("DRAW");
+            result.setWhitePoints(materialPoints);
+            result.setBlackPoints(materialPoints);
+
+
+        } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            System.out.println("MATE " + result.getEngineWhite().getEngineName());
+
+            result.setWhitePoints(GameEvaluator.WHITE_LOST);
+            result.setBlackPoints(GameEvaluator.BLACK_WON);
+
+        } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
+            System.out.println("MATE " + result.getEngineBlack().getEngineName());
+
+            result.setWhitePoints(GameEvaluator.WHITE_WON);
+            result.setBlackPoints(GameEvaluator.BLACK_LOST);
 
         } else {
             throw new RuntimeException("Inconsistent game status");
-        }
-
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            result.setEngineWhite(currentTurn == engine1 ? engine1 : engine2);
-            result.setEngineBlack(currentTurn == engine1 ? engine2 : engine1);
-
-        } else {
-            result.setEngineBlack(currentTurn == engine1 ? engine1 : engine2);
-            result.setEngineWhite(currentTurn == engine1 ? engine2 : engine1);
-
-        }
-
-
-        if (repetition) {
-            System.out.println("DRAW (por repeticion)");
-        } else if (fiftyMoveRule) {
-            System.out.println("DRAW (por fiftyMoveRule)");
-        } else if (GameState.Status.DRAW.equals(game.getStatus())) {
-            System.out.println("DRAW");
-        } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            System.out.println("MATE " + result.getEngineWhite().getEngineName());
-        } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-            System.out.println("MATE " + result.getEngineBlack().getEngineName());
         }
 
         //printPGN(fen, game);
@@ -273,18 +278,19 @@ public class Match {
     public static class MathResult {
         private final Game game;
 
-        private final int whitePoints;
-        private final int blackPoints;
+        private final EngineController engineWhite;
 
-        private EngineController engineWhite;
+        private final EngineController engineBlack;
 
-        private EngineController engineBlack;
+        private int whitePoints;
+        private int blackPoints;
 
 
-        public MathResult(Game game, int whitePoints, int blackPoints) {
+
+        public MathResult(Game game, EngineController engineWhite, EngineController engineBlack) {
             this.game = game;
-            this.whitePoints = whitePoints;
-            this.blackPoints = blackPoints;
+            this.engineWhite = engineWhite;
+            this.engineBlack = engineBlack;
         }
 
         public int getWhitePoints() {
@@ -300,16 +306,17 @@ public class Match {
             return engineWhite;
         }
 
-        public void setEngineWhite(EngineController engineWhite) {
-            this.engineWhite = engineWhite;
-        }
 
         public EngineController getEngineBlack() {
             return engineBlack;
         }
 
-        public void setEngineBlack(EngineController engineBlack) {
-            this.engineBlack = engineBlack;
+        public void setWhitePoints(int whitePoints) {
+            this.whitePoints = whitePoints;
+        }
+
+        public void setBlackPoints(int blackPoints) {
+            this.blackPoints = blackPoints;
         }
     }
 

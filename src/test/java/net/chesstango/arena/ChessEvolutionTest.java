@@ -55,12 +55,13 @@ public class ChessEvolutionTest {
                 Genotype.of(IntegerChromosome.of(geneRange, 3));
 
         // 3.) Create the execution environment.
-        Engine<IntegerGene, Integer> engine = Engine.builder(this::expresar_genotipo01, gtf)
+        Engine<IntegerGene, Long> engine = Engine.builder(this::expresar_genotipo01, gtf)
                 .selector(new EliteSelector<>(3))
                 .populationSize(15)
                 .executor((Executor) Runnable::run)
                 .build();
 
+        /*
         // Pheno = 6
         Phenotype<IntegerGene, Integer> phenotype0 = Phenotype.of(Genotype.of(IntegerChromosome.of(
                 IntegerGene.of(1000, geneRange ),
@@ -108,10 +109,11 @@ public class ChessEvolutionTest {
         EvolutionStart<IntegerGene, Integer> initial =
                 EvolutionStart.of( ISeq.of(phenotype0, phenotype1, phenotype2, phenotype3, phenotype4, phenotype5), 1);
 
+         */
         // 4.) Start the execution (evolution) and collect the result.
-        Phenotype<IntegerGene, Integer> result = engine
-                .stream(initial)
-                .limit(1000)
+        Phenotype<IntegerGene, Long> result = engine
+                .stream()
+                .limit(1)
                 .collect(EvolutionResult.toBestPhenotype());
 
         System.out.println("El mejor fenotipo encontrado= " + result.fitness());
@@ -121,7 +123,7 @@ public class ChessEvolutionTest {
 
     private Map<String, Integer> gameMemory = new HashMap<>();
 
-    private int expresar_genotipo01(Genotype<IntegerGene> gt) {
+    private long expresar_genotipo01(Genotype<IntegerGene> gt) {
         Chromosome<IntegerGene> chromo1 = gt.get(0);
 
         IntegerGene gene1 = chromo1.get(0);
