@@ -53,7 +53,7 @@ public class EngineTango implements Engine {
 
             @Override
             public void do_uci(CmdUci cmdUci) {
-                responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Zonda"));
+                responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Tango"));
                 responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
                 responseOutputStream.accept(new RspUciOk());
             }
