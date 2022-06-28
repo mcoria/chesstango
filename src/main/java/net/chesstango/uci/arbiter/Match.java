@@ -33,22 +33,33 @@ public class Match {
     private final int depth;
 
     public static void main(String[] args) {
-        EngineController engine1 = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))).disableAsync());
+
+        EngineController engineZonda = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluator()))).disableAsync());
         EngineController engine2 = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 
         Instant start = Instant.now();
 
-        Match match = new Match(engine1, engine2, 1);
+        Match match = new Match(engineZonda, engine2, 1);
         match.startEngines();
 
-        match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
+        List<MathResult> matchResult = match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
 
         match.quitEngines();
 
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
+
+
+        long puntosWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToLong(result -> result.getWhitePoints()).sum();
+
+        long puntosBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToLong(result -> result.getBlackPoints()).sum();
+
+        long puntosTotal = puntosWhite + puntosBlack;
+
+        System.out.println("Puntos withe = " + puntosWhite + ", puntos black = " + puntosBlack + ", total = " + puntosTotal);
+
     }
 
     public Match(EngineController engine1, EngineController engine2, int depth) {
@@ -132,10 +143,14 @@ public class Match {
 
         MathResult result = null;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            result = new MathResult(game, currentTurn == engine1 ? engine1 : engine2, currentTurn == engine1 ? engine2 : engine1);
+            EngineController white = currentTurn == engine1 ? engine1 : engine2;
+            EngineController black = white == engine1 ? engine2 : engine1;
+            result = new MathResult(game, white, black);
 
         } else {
-            result = new MathResult(game, currentTurn == engine1 ? engine1 : engine2, currentTurn == engine1 ? engine2 : engine1);
+            EngineController black = currentTurn == engine1 ? engine1 : engine2;
+            EngineController white = black == engine1 ? engine2 : engine1;
+            result = new MathResult(game, white, black);
 
         }
 
@@ -160,13 +175,13 @@ public class Match {
 
 
         } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            System.out.println("MATE " + result.getEngineWhite().getEngineName());
+            System.out.println("MATE WHITE " + result.getEngineWhite().getEngineName());
 
             result.setWhitePoints(GameEvaluator.WHITE_LOST);
             result.setBlackPoints(GameEvaluator.BLACK_WON);
 
         } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-            System.out.println("MATE " + result.getEngineBlack().getEngineName());
+            System.out.println("MATE BLACK " + result.getEngineBlack().getEngineName());
 
             result.setWhitePoints(GameEvaluator.WHITE_WON);
             result.setBlackPoints(GameEvaluator.BLACK_LOST);
@@ -284,7 +299,6 @@ public class Match {
 
         private int whitePoints;
         private int blackPoints;
-
 
 
         public MathResult(Game game, EngineController engineWhite, EngineController engineBlack) {

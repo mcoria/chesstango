@@ -57,7 +57,7 @@ public class ChessEvolutionTest {
         // 3.) Create the execution environment.
         Engine<IntegerGene, Long> engine = Engine.builder(this::expresar_genotipo01, gtf)
                 .selector(new EliteSelector<>(3))
-                .populationSize(15)
+                .populationSize(20)
                 .executor((Executor) Runnable::run)
                 .build();
 
@@ -113,7 +113,7 @@ public class ChessEvolutionTest {
         // 4.) Start the execution (evolution) and collect the result.
         Phenotype<IntegerGene, Long> result = engine
                 .stream()
-                .limit(1)
+                .limit(500)
                 .collect(EvolutionResult.toBestPhenotype());
 
         System.out.println("El mejor fenotipo encontrado= " + result.fitness());
@@ -121,7 +121,7 @@ public class ChessEvolutionTest {
     }
 
 
-    private Map<String, Integer> gameMemory = new HashMap<>();
+    private Map<String, Long> gameMemory = new HashMap<>();
 
     private long expresar_genotipo01(Genotype<IntegerGene> gt) {
         Chromosome<IntegerGene> chromo1 = gt.get(0);
@@ -135,10 +135,10 @@ public class ChessEvolutionTest {
         IntegerGene gene3 = chromo1.get(2);
         int gene3Value = gene3.intValue();
 
-        int points = 0;
+        long points = 0;
 
         String keyGenes = gene1Value + "|" + gene2Value + "|" + gene3Value;
-        Integer previousGamePoints = gameMemory.get(keyGenes);
+        Long previousGamePoints = gameMemory.get(keyGenes);
 
         if (previousGamePoints == null) {
 
@@ -150,9 +150,9 @@ public class ChessEvolutionTest {
 
             tearDownEngine(engineZonda);
 
-            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToInt(result -> result.getWhitePoints()).sum();
+            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToLong(result -> result.getWhitePoints()).sum();
 
-            points += matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToInt(result -> result.getBlackPoints()).sum();
+            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToLong(result -> result.getBlackPoints()).sum();
 
             gameMemory.put(keyGenes, points);
 

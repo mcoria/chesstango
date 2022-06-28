@@ -49,9 +49,9 @@ public class GameEvaluator  {
 
 
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 652;
-    private static final int FACTOR_EXPANSION_DEFAULT = 704;
-    private static final int FACTOR_ATAQUE_DEFAULT = 959;
+    private static final int FACTOR_MATERIAL_DEFAULT = 68;
+    private static final int FACTOR_EXPANSION_DEFAULT = 41;
+    private static final int FACTOR_ATAQUE_DEFAULT = 827;
 
     public static final int INFINITE_POSITIVE = Integer.MAX_VALUE;
     public static final int INFINITE_NEGATIVE = -INFINITE_POSITIVE;

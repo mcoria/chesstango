@@ -36,10 +36,10 @@ public class Tournament {
             EngineController theEngine = match.getEngineWhite();
             if(primaryEngine.equals(theEngine)){
                 TournamentResult tournamentResult = tournamentResultMap.computeIfAbsent(match.getEngineBlack(), engine -> new TournamentResult(engine));
-                tournamentResult.increaseBlack(match.getBlackPoints());
+                //tournamentResult.increaseBlack(match.getBlackPoints());
             } else {
                 TournamentResult tournamentResult = tournamentResultMap.computeIfAbsent(match.getEngineWhite(), engine -> new TournamentResult(engine));
-                tournamentResult.increaseWhite(match.getWhitePoints());
+                //tournamentResult.increaseWhite(match.getWhitePoints());
             }
         });
 
