@@ -21,7 +21,7 @@ public class EngineControllerImpTest {
         client.send_CmdUci();
 
         Assert.assertEquals("Mauricio Coria", client.getEngineAuthor());
-        Assert.assertEquals("Zonda", client.getEngineName());
+        Assert.assertEquals("Tango", client.getEngineName());
 
         client.send_CmdIsReady();
 

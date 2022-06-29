@@ -1,13 +1,11 @@
 package net.chesstango.uci.arbiter;
 
+import net.chesstango.ai.imp.dummy.Dummy;
+import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.arbiter.imp.EngineControllerImp;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import net.chesstango.uci.engine.imp.EngineTango;
+import org.junit.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,61 +16,49 @@ import java.util.List;
  */
 public class MatchTest {
 
-    private static EngineControllerImp engine1;
-    private static EngineControllerImp engine2;
+    private static EngineControllerImp smartEngine;
+    private static EngineControllerImp dummyEngine;
 
 
     @BeforeClass
     public static void setup() {
-        engine1 = new EngineControllerImp(new EngineTango());
-        engine2 = new EngineControllerImp(new EngineProxy());
+        smartEngine = new EngineControllerImp(new EngineTango());
+        dummyEngine = new EngineControllerImp(new EngineTango(new Dummy()));
 
-        engine1.send_CmdUci();
-        engine1.send_CmdIsReady();
+        smartEngine.send_CmdUci();
+        smartEngine.send_CmdIsReady();
 
-        engine2.send_CmdUci();
-        engine2.send_CmdIsReady();
+        dummyEngine.send_CmdUci();
+        dummyEngine.send_CmdIsReady();
     }
 
     @AfterClass
     public static void tearDown() {
-        engine1.send_CmdQuit();
-        engine2.send_CmdQuit();
+        smartEngine.send_CmdQuit();
+        dummyEngine.send_CmdQuit();
     }
 
     @Test
     public void test01() {
-        Match match = new Match(engine1, engine2, 1);
+        Match match = new Match(smartEngine, dummyEngine, 1);
 
-        Match.MathResult result = null;
-        result = match.compete(FENDecoder.INITIAL_FEN);
+        Match.MathResult result = match.compete(FENDecoder.INITIAL_FEN);
 
-        Assert.assertEquals(2, result.getWhitePoints() + result.getBlackPoints());
+        // Deberia ganar el engine  blanco dado que el engine en negro ejecuta la funcion basica de evaluacion
+        Assert.assertTrue(result.getPoints() > 0 );
     }
 
     @Test
     public void test02() {
-        Match match = new Match(engine1, engine2, 1);
+        Match match = new Match(smartEngine, dummyEngine, 1);
 
-        List<Match.MathResult> results = null;
+        List<Match.MathResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
 
-        results = match.play(FENDecoder.INITIAL_FEN);
+        Assert.assertEquals(2, matchResult.size()  );
 
-        Assert.assertEquals(2, results.size()  );
-        Assert.assertEquals(4, results.stream().mapToInt( result -> result.getWhitePoints() +  result.getBlackPoints() ).sum()  );
+        // Deberia ganar el engine  blanco dado que el engine en negro ejecuta la funcion basica de evaluacion
+        Assert.assertEquals(GameEvaluator.WHITE_WON, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine).mapToLong(Match.MathResult::getPoints).sum() );
+        Assert.assertEquals(GameEvaluator.BLACK_WON, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine).mapToLong(Match.MathResult::getPoints).sum() );
     }
 
-    @Test
-    public void test03() {
-        Match match = new Match(engine1, engine2, 1);
-
-        List<Match.MathResult> results = null;
-
-        List<String> fenList = Arrays.asList(FENDecoder.INITIAL_FEN, "6r1/8/k7/8/3P4/P4K1R/8/3N4 b - - 0 1");
-
-        results = match.play(fenList);
-
-        Assert.assertEquals(4, results.size()  );
-        Assert.assertEquals(8, results.stream().mapToInt( result -> result.getWhitePoints() +  result.getBlackPoints() ).sum()  );
-    }
 }

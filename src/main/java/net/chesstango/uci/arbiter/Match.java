@@ -1,9 +1,6 @@
 package net.chesstango.uci.arbiter;
 
-import net.chesstango.ai.imp.smart.IterativeDeeping;
-import net.chesstango.ai.imp.smart.MinMaxPruning;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameState;
@@ -35,13 +32,13 @@ public class Match {
 
     public static void main(String[] args) {
 
-        EngineController engineZonda = new EngineControllerImp(new EngineTango().disableAsync());
-        EngineController engine2 = new EngineControllerImp(new EngineProxy());
+        EngineController engineTango = new EngineControllerImp(new EngineTango().disableAsync());
+        EngineController engineProxy = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 
         Instant start = Instant.now();
 
-        Match match = new Match(engineZonda, engine2, 1);
+        Match match = new Match(engineTango, engineProxy, 1);
         match.startEngines();
 
         List<MathResult> matchResult = match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
@@ -54,13 +51,11 @@ public class Match {
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
 
-        long puntosWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToLong(result -> result.getWhitePoints()).sum();
+        long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(result -> result.getPoints()).sum();
+        long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(result -> result.getPoints()).sum();
+        long puntosTotal = puntosAsWhite + puntosAsBlack;
 
-        long puntosBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToLong(result -> result.getBlackPoints()).sum();
-
-        long puntosTotal = puntosWhite + puntosBlack;
-
-        System.out.println("Puntos withe = " + puntosWhite + ", puntos black = " + puntosBlack + ", total = " + puntosTotal);
+        System.out.println("Puntos withe = " + puntosAsWhite + ", puntos black = " + puntosAsBlack + ", total = " + puntosTotal);
 
     }
 
@@ -160,33 +155,26 @@ public class Match {
         if (repetition) {
             game.getGameState().setStatus(GameState.Status.DRAW);
             System.out.println("DRAW (por repeticion)");
-            result.setWhitePoints(materialPoints);
-            result.setBlackPoints(materialPoints);
+            result.setPoints(materialPoints);
 
         } else if (fiftyMoveRule) {
             game.getGameState().setStatus(GameState.Status.DRAW);
             System.out.println("DRAW (por fiftyMoveRule)");
-            result.setWhitePoints(materialPoints);
-            result.setBlackPoints(materialPoints);
+            result.setPoints(materialPoints);
 
         } else if (GameState.Status.DRAW.equals(game.getStatus())) {
             game.getGameState().setStatus(GameState.Status.DRAW);
             System.out.println("DRAW");
-            result.setWhitePoints(materialPoints);
-            result.setBlackPoints(materialPoints);
+            result.setPoints(materialPoints);
 
 
         } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             System.out.println("MATE WHITE " + result.getEngineWhite().getEngineName());
-
-            result.setWhitePoints(GameEvaluator.WHITE_LOST);
-            result.setBlackPoints(GameEvaluator.BLACK_WON);
+            result.setPoints(GameEvaluator.WHITE_LOST);
 
         } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
             System.out.println("MATE BLACK " + result.getEngineBlack().getEngineName());
-
-            result.setWhitePoints(GameEvaluator.WHITE_WON);
-            result.setBlackPoints(GameEvaluator.BLACK_LOST);
+            result.setPoints(GameEvaluator.BLACK_LOST);
 
         } else {
             throw new RuntimeException("Inconsistent game status");
@@ -299,8 +287,7 @@ public class Match {
 
         private final EngineController engineBlack;
 
-        private int whitePoints;
-        private int blackPoints;
+        private int points;
 
 
         public MathResult(Game game, EngineController engineWhite, EngineController engineBlack) {
@@ -309,31 +296,22 @@ public class Match {
             this.engineBlack = engineBlack;
         }
 
-        public int getWhitePoints() {
-            return whitePoints;
+        public int getPoints() {
+            return points;
         }
-
-        public int getBlackPoints() {
-            return blackPoints;
-        }
-
 
         public EngineController getEngineWhite() {
             return engineWhite;
         }
 
-
         public EngineController getEngineBlack() {
             return engineBlack;
         }
 
-        public void setWhitePoints(int whitePoints) {
-            this.whitePoints = whitePoints;
+        public void setPoints(int points) {
+            this.points = points;
         }
 
-        public void setBlackPoints(int blackPoints) {
-            this.blackPoints = blackPoints;
-        }
     }
 
 

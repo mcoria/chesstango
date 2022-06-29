@@ -95,7 +95,7 @@ public class EngineTangoTest {
 
         // uci command
         engine.accept(new CmdUci());
-        Assert.assertEquals("id name Zonda", in.readLine());
+        Assert.assertEquals("id name Tango", in.readLine());
         Assert.assertEquals("id author Mauricio Coria", in.readLine());
         Assert.assertEquals("uciok", in.readLine());
         Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());

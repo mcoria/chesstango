@@ -1,6 +1,11 @@
 package net.chesstango.ai.imp.smart.evaluation.tunning;
 
+import io.jenetics.*;
 import io.jenetics.engine.Constraint;
+import io.jenetics.engine.Engine;
+import io.jenetics.engine.EvolutionResult;
+import io.jenetics.util.Factory;
+import io.jenetics.util.IntRange;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
 import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
@@ -10,11 +15,6 @@ import net.chesstango.uci.arbiter.Match;
 import net.chesstango.uci.arbiter.imp.EngineControllerImp;
 import net.chesstango.uci.engine.imp.EngineProxy;
 import net.chesstango.uci.engine.imp.EngineTango;
-import io.jenetics.*;
-import io.jenetics.engine.Engine;
-import io.jenetics.engine.EvolutionResult;
-import io.jenetics.util.Factory;
-import io.jenetics.util.IntRange;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.PooledObject;
@@ -27,26 +27,20 @@ import org.junit.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author Mauricio Coria
+ */
 public class ChessEvolutionTest {
-
-    //private EngineController engineProxy;
 
     private ObjectPool<EngineController> pool;
 
     @Before
     public void settup() {
-        //EngineProxy coreEngineProxy = new EngineProxy();
-        //coreEngineProxy.setLogging(true);
-        //engineProxy = new EngineControllerImp(coreEngineProxy);
-        //engineProxy.send_CmdUci();
-        //engineProxy.send_CmdIsReady();
-
         pool = new GenericObjectPool<EngineController>(new EngineControllerProxyFactory());
     }
 
     @After
     public void tearDown() {
-        //engineProxy.send_CmdQuit();
         pool.close();
     }
 
@@ -104,7 +98,7 @@ public class ChessEvolutionTest {
     };
 
     @Test
-    public void evolveEvaluationFunction() {
+    public void evolveChessFunction() {
         // 1.) Define the genotype (factory) suitable for the problem.
 
         IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
@@ -113,7 +107,7 @@ public class ChessEvolutionTest {
                 Genotype.of(IntegerChromosome.of(geneRange, 3));
 
         // 3.) Create the execution environment.
-        Engine<IntegerGene, Long> engine = Engine.builder(this::expresar_genotipo01, gtf)
+        Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, gtf)
                 .selector(new EliteSelector<>(4))
                 .constraint(myConstraint)
                 .populationSize(10)
@@ -143,8 +137,8 @@ public class ChessEvolutionTest {
 
     private Map<String, Long> gameMemory = new HashMap<>();
 
-    private long expresar_genotipo01(Genotype<IntegerGene> gt){
-        Chromosome<IntegerGene> chromo1 = gt.get(0);
+    private long fitness(Genotype<IntegerGene> genotype){
+        Chromosome<IntegerGene> chromo1 = genotype.get(0);
 
         IntegerGene gene1 = chromo1.get(0);
         int gene1Value = gene1.intValue();
@@ -162,35 +156,20 @@ public class ChessEvolutionTest {
 
         if (previousGamePoints == null) {
 
-            EngineController engineZonda = createZonda(gene1Value, gene2Value, gene3Value);
+            EngineController engineZonda = createTango(gene1Value, gene2Value, gene3Value);
 
-            EngineController engineProxy = null;
-
-            try {
-                engineProxy = pool.borrowObject();
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-
-            Match match = new Match(engineProxy, engineZonda, 1);
-
-            List<Match.MathResult> matchResult = match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
+            List<Match.MathResult> matchResult = fitnessEval(engineZonda);
 
             tearDownEngine(engineZonda);
 
-            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToLong(result -> result.getWhitePoints()).sum();
+            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToLong(Match.MathResult::getPoints).sum();
 
-            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToLong(result -> result.getBlackPoints()).sum();
+            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToLong(Match.MathResult::getPoints).sum();
 
             gameMemory.put(keyGenes, points);
 
             System.out.println("Evaluacion con gene1=[" + gene1Value + "] gene2=[" + gene2Value + "] gene3=[" + gene3Value + "] ; puntos = [" + points + "]");
 
-            try {
-                pool.returnObject(engineProxy);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
         } else {
             points = previousGamePoints;
         }
@@ -198,7 +177,25 @@ public class ChessEvolutionTest {
         return points;
     }
 
-    private EngineController createZonda(int gene1, int gene2, int gene3) {
+    private List<Match.MathResult> fitnessEval(EngineController engineZonda) {
+        List<Match.MathResult> matchResult = null;
+
+        try {
+            EngineController engineProxy = pool.borrowObject();
+
+            Match match = new Match(engineProxy, engineZonda, 1);
+
+            matchResult = match.play(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"));
+
+            pool.returnObject(engineProxy);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return matchResult;
+    }
+
+    private EngineController createTango(int gene1, int gene2, int gene3) {
         EngineController zonda = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp(gene1, gene2, gene3)))).disableAsync());
         zonda.send_CmdUci();
         zonda.send_CmdIsReady();

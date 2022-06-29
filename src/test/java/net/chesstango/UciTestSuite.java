@@ -3,6 +3,7 @@
  */
 package net.chesstango;
 
+import net.chesstango.uci.arbiter.MatchTest;
 import net.chesstango.uci.engine.imp.EngineProxyTest;
 import net.chesstango.uci.engine.imp.EngineTangoTest;
 import net.chesstango.uci.engine.EngineMainTest;
@@ -18,7 +19,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ EngineMainTest.class, UCIDecoderCmdTest.class, UCIDecoderRspTest.class, EngineTangoTest.class,
-        EngineProxyTest.class, EngineControllerImpTest.class, EngineMainTest.class})
+        EngineProxyTest.class, EngineControllerImpTest.class, EngineMainTest.class, MatchTest.class})
 public class UciTestSuite {
 
 }
