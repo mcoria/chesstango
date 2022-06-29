@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 /**
  * @author Mauricio Coria
  */
-public class ChessEvolutionTest {
-    private static int CONSTRAINT_MAX_VALUE = 100;
-    private static int POPULATION_SIZE = 2;
-    private static int LIMIT = 20;
+public class ChessEvolutionMain {
+    private static int CONSTRAINT_MAX_VALUE = 10000;
+    private static int POPULATION_SIZE = 20;
+    private static int LIMIT = 1000;
 
     private static ObjectPool<EngineController> pool;
     private static ExecutorService executor;
@@ -40,14 +40,14 @@ public class ChessEvolutionTest {
     private List<String> fenList;
     private Map<String, Long> gameMemory = new HashMap<>();
 
-    public ChessEvolutionTest(List<String> fenList) {
+    public ChessEvolutionMain(List<String> fenList) {
         this.fenList = fenList;
     }
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
         pool = new GenericObjectPool<>(new EngineControllerProxyFactory());
-        new ChessEvolutionTest(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5")).findGenotype();
+        new ChessEvolutionMain(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5")).findGenotype();
         pool.close();
         executor.shutdown();
     }
@@ -194,7 +194,7 @@ public class ChessEvolutionTest {
                     IntegerGene.of(gene2Value, geneRange ),
                     IntegerGene.of(gene3Value, geneRange )
             )), generation);
-            
+
             return newPhenotype;
         }
     };
