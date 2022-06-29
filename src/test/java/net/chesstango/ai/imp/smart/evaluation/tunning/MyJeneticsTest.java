@@ -327,8 +327,6 @@ public class MyJeneticsTest {
             }
         };
 
-        //myConstraint.
-
         // 3.) Create the execution environment.
         Engine<IntegerGene, Integer> engine = Engine.builder(this::expresar_genotipo01, gtf)
                 .selector(new EliteSelector<>(2))
