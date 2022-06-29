@@ -12,25 +12,13 @@ import org.junit.Test;
  * @author Mauricio Coria
  *
  */
-public class GameEvaluatorTest {
+public class GameEvaluatorImpTest {
 
     private GameEvaluatorImp evaluator;
 
     @Before
     public void setUp() {
         evaluator = new GameEvaluatorImp();
-    }
-
-    @Test
-    public void testInfinities() {
-        Assert.assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluatorImp.INFINITE_POSITIVE, (-1) * GameEvaluatorImp.INFINITE_NEGATIVE);
-        Assert.assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluatorImp.INFINITE_NEGATIVE, (-1) * GameEvaluatorImp.INFINITE_POSITIVE);
-
-        Assert.assertEquals(GameEvaluatorImp.INFINITE_POSITIVE, GameEvaluatorImp.WHITE_WON);
-        Assert.assertEquals(GameEvaluatorImp.INFINITE_POSITIVE, GameEvaluatorImp.BLACK_LOST);
-
-        Assert.assertEquals(GameEvaluatorImp.INFINITE_NEGATIVE, GameEvaluatorImp.BLACK_WON);
-        Assert.assertEquals(GameEvaluatorImp.INFINITE_NEGATIVE, GameEvaluatorImp.WHITE_LOST);
     }
 
 
@@ -79,11 +67,11 @@ public class GameEvaluatorTest {
         // White's interest is to maximize
         // Black's interest is to minimize
 
-        Assert.assertEquals(GameEvaluatorImp.INFINITE_NEGATIVE, mateEval);
+        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, mateEval);
 
-        Assert.assertEquals(GameEvaluatorImp.BLACK_WON, mateEval);
+        Assert.assertEquals(GameEvaluator.BLACK_WON, mateEval);
 
-        Assert.assertEquals(GameEvaluatorImp.WHITE_LOST, mateEval);
+        Assert.assertEquals(GameEvaluator.WHITE_LOST, mateEval);
 
         Assert.assertTrue(mateEval < checkEval);
 
@@ -108,10 +96,10 @@ public class GameEvaluatorTest {
 
         int eval = evaluator.evaluate(game);
 
-        Assert.assertTrue("White has not won yet", eval != GameEvaluatorImp.WHITE_WON);
-        Assert.assertTrue("White has not lost yet", eval != GameEvaluatorImp.WHITE_LOST);
-        Assert.assertTrue("Black has not won yet", eval != GameEvaluatorImp.BLACK_WON);
-        Assert.assertTrue("Black has not lost yet", eval != GameEvaluatorImp.BLACK_LOST);
+        Assert.assertTrue("White has not won yet", eval != GameEvaluator.WHITE_WON);
+        Assert.assertTrue("White has not lost yet", eval != GameEvaluator.WHITE_LOST);
+        Assert.assertTrue("Black has not won yet", eval != GameEvaluator.BLACK_WON);
+        Assert.assertTrue("Black has not lost yet", eval != GameEvaluator.BLACK_LOST);
         Assert.assertTrue("White has a better position than Black", eval > 0);
     }
 
