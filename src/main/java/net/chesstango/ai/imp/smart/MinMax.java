@@ -1,6 +1,7 @@
 package net.chesstango.ai.imp.smart;
 
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
+import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
@@ -23,11 +24,11 @@ public class MinMax extends AbstractSmart {
 	private final GameEvaluator evaluator;
 
 	public MinMax() {
-		this(DEFAULT_MAX_PLIES, new GameEvaluator());
+		this(DEFAULT_MAX_PLIES, new GameEvaluatorImp());
 	}
 
 	public MinMax(int level) {
-		this(level, new GameEvaluator());
+		this(level, new GameEvaluatorImp());
 	}
 
 	public MinMax(int level, GameEvaluator evaluator) {

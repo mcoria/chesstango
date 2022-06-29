@@ -4,6 +4,7 @@
 package net.chesstango.ai.imp.smart;
 
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
+import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -25,7 +26,7 @@ public class MinMaxPruning extends AbstractSmart {
 
 
     public MinMaxPruning() {
-        this(new GameEvaluator(), new MoveSorter());
+        this(new GameEvaluatorImp(), new MoveSorter());
     }
 
     public MinMaxPruning(GameEvaluator evaluator) {

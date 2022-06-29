@@ -1,4 +1,4 @@
-package net.chesstango.arena;
+package net.chesstango.uci.arbiter;
 
 import net.chesstango.uci.arbiter.EngineController;
 import net.chesstango.uci.arbiter.Match;

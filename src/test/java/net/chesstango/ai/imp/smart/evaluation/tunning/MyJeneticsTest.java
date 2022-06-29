@@ -1,4 +1,4 @@
-package net.chesstango.arena;
+package net.chesstango.ai.imp.smart.evaluation.tunning;
 
 import io.jenetics.*;
 import io.jenetics.engine.*;
@@ -289,6 +289,7 @@ public class MyJeneticsTest {
         System.out.println(statistics);
     }
 
+    private int contador = 1;
 
     @Test
     public void test_evolucionar01(){
@@ -296,9 +297,43 @@ public class MyJeneticsTest {
         Factory<Genotype<IntegerGene>> gtf =
                 Genotype.of(IntegerChromosome.of(IntRange.of(-1000, 1000), 2));
 
+        Constraint<IntegerGene, Integer> myConstraint = new Constraint<IntegerGene, Integer>() {
+            @Override
+            public boolean test(Phenotype<IntegerGene, Integer> phenotype) {
+                Genotype<IntegerGene> genotype = phenotype.genotype();
+                Chromosome<IntegerGene> chromo1 = genotype.get(0);
+
+                IntegerGene gene1 = chromo1.get(0);
+                int gene1Value = gene1.intValue();
+
+                IntegerGene gene2 = chromo1.get(1);
+                int gene2Value = gene2.intValue();
+
+                return (gene1Value +  gene2Value) % 114 == 0 ;
+            }
+
+            @Override
+            public Phenotype<IntegerGene, Integer> repair(Phenotype<IntegerGene, Integer> phenotype, long generation) {
+
+                IntRange geneRange = IntRange.of(0, 1000);
+
+                Phenotype<IntegerGene, Integer> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
+                        IntegerGene.of(64, geneRange ),
+                        IntegerGene.of(contador++, geneRange )
+                )), generation);
+
+
+                return newPhenotype;
+            }
+        };
+
+        //myConstraint.
+
         // 3.) Create the execution environment.
         Engine<IntegerGene, Integer> engine = Engine.builder(this::expresar_genotipo01, gtf)
                 .selector(new EliteSelector<>(2))
+                .constraint(myConstraint)
+                .populationSize(2)
                 .minimizing()
                 .executor ( (Executor) Runnable::run )
                 .build();
@@ -337,4 +372,5 @@ public class MyJeneticsTest {
 
         return eval;
     }
+
 }
