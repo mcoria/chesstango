@@ -17,22 +17,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MinMax extends AbstractSmart {
 
 	private static final int DEFAULT_MAX_PLIES = 4;
-
-	// Beyond level 4, the performance is really bad
-	private final int totalPlies;
-
 	private final GameEvaluator evaluator;
 
-	public MinMax() {
-		this(DEFAULT_MAX_PLIES, new GameEvaluatorImp());
-	}
 
-	public MinMax(int level) {
-		this(level, new GameEvaluatorImp());
-	}
-
-	public MinMax(int level, GameEvaluator evaluator) {
-		this.totalPlies = level;
+	public MinMax(GameEvaluator evaluator) {
 		this.evaluator = evaluator;
 	}
 
@@ -40,6 +28,8 @@ public class MinMax extends AbstractSmart {
 	public Move searchBestMove(Game game) {
 		return searchBestMove(game, 10);
 	}
+
+	// Beyond level 4, the performance is really bad
 
 	@Override
 	public Move searchBestMove(Game game, int depth) {
@@ -53,7 +43,7 @@ public class MinMax extends AbstractSmart {
 		for (Move move : game.getPossibleMoves()) {
 			game = game.executeMove(move);
 
-			int currentEvaluation = minMax(game, !minOrMax, totalPlies - 1);
+			int currentEvaluation = minMax(game, !minOrMax, depth - 1);
 
 			if (currentEvaluation == betterEvaluation) {
 				possibleMoves.add(move);

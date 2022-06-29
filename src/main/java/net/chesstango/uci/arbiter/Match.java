@@ -35,7 +35,7 @@ public class Match {
 
     public static void main(String[] args) {
 
-        EngineController engineZonda = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp()))).disableAsync());
+        EngineController engineZonda = new EngineControllerImp(new EngineTango().disableAsync());
         EngineController engine2 = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engine2 = new EngineControllerImp(new EngineZonda(new Dummy()));
 
@@ -179,14 +179,14 @@ public class Match {
         } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             System.out.println("MATE WHITE " + result.getEngineWhite().getEngineName());
 
-            result.setWhitePoints(GameEvaluatorImp.WHITE_LOST);
-            result.setBlackPoints(GameEvaluatorImp.BLACK_WON);
+            result.setWhitePoints(GameEvaluator.WHITE_LOST);
+            result.setBlackPoints(GameEvaluator.BLACK_WON);
 
         } else if (GameState.Status.MATE.equals(game.getStatus()) && Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
             System.out.println("MATE BLACK " + result.getEngineBlack().getEngineName());
 
-            result.setWhitePoints(GameEvaluatorImp.WHITE_WON);
-            result.setBlackPoints(GameEvaluatorImp.BLACK_LOST);
+            result.setWhitePoints(GameEvaluator.WHITE_WON);
+            result.setBlackPoints(GameEvaluator.BLACK_LOST);
 
         } else {
             throw new RuntimeException("Inconsistent game status");

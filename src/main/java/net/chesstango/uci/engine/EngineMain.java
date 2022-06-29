@@ -29,7 +29,7 @@ public class EngineMain {
     private final UCIActivePipe pipe;
 
     public static void main(String[] args) {
-        EngineMain engineMain = new EngineMain(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp()))), System.in, System.out);
+        EngineMain engineMain = new EngineMain(new EngineTango(), System.in, System.out);
         //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
 
         engineMain.open();

@@ -27,12 +27,11 @@ public class MinMaxTest {
 
     @Before
     public void setUp() {
-
     }
 
     @Test
     public void testSingleMoveWhitePlays(){
-        MinMax minMax = new MinMax(1, evaluator);
+        MinMax minMax = new MinMax(evaluator);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -52,7 +51,7 @@ public class MinMaxTest {
 
     @Test
     public void testSingleMoveBlackPlays(){
-        MinMax minMax = new MinMax(1, evaluator);
+        MinMax minMax = new MinMax(evaluator);
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -72,7 +71,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesWhitePlays(){
-        MinMax minMax = Mockito.spy(new MinMax(1, evaluator));
+        MinMax minMax = Mockito.spy(new MinMax(evaluator));
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -100,7 +99,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesBlackPlays(){
-        MinMax minMax = Mockito.spy(new MinMax(1, evaluator));
+        MinMax minMax = Mockito.spy(new MinMax(evaluator));
 
         Game rootGame = setupGame(Color.BLACK);
 
