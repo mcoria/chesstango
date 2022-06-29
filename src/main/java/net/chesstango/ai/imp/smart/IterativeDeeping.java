@@ -1,6 +1,7 @@
 package net.chesstango.ai.imp.smart;
 
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
+import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 
@@ -19,7 +20,7 @@ public class IterativeDeeping extends AbstractSmart {
 
 
     public IterativeDeeping() {
-        this(new MinMaxPruning());
+        this(new MinMaxPruning(new GameEvaluatorImp(), new MoveSorter()));
     }
 
     public IterativeDeeping(AbstractSmart minMax) {
