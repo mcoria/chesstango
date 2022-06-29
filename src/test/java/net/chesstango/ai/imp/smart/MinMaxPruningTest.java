@@ -35,7 +35,6 @@ public class MinMaxPruningTest {
 
     @Before
     public void setUp() {
-
     }
 
     @Test

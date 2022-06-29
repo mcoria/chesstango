@@ -2,6 +2,7 @@
  package net.chesstango.ai.imp.smart;
 
  import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
+ import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorBasic;
  import net.chesstango.board.Game;
  import net.chesstango.board.Piece;
  import net.chesstango.board.Square;
@@ -21,7 +22,7 @@
 
      @Before
      public void setUp() {
-         bestMoveFinder = new MinMaxPruning();
+         bestMoveFinder = new MinMaxPruning(new GameEvaluatorBasic());
      }
 
      @Test //Roberto Grau vs. Edgar Colle
