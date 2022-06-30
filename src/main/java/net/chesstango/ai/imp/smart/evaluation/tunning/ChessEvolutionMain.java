@@ -8,7 +8,7 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.IntRange;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
+import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arbiter.EngineController;
 import net.chesstango.uci.arbiter.Match;
@@ -146,7 +146,7 @@ public class ChessEvolutionMain {
     }
 
     private EngineController createTango(int gene1, int gene2, int gene3) {
-        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp(gene1, gene2, gene3)))).disableAsync());
+        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp01(gene1, gene2, gene3)))).disableAsync());
         tango.send_CmdUci();
         tango.send_CmdIsReady();
         return tango;

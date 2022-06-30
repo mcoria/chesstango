@@ -1,7 +1,6 @@
 package net.chesstango.ai.imp.smart;
 
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;

@@ -1,8 +1,5 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.ai.imp.smart.IterativeDeeping;
-import net.chesstango.ai.imp.smart.MinMaxPruning;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp;
 import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdQuit;
 import net.chesstango.uci.protocol.stream.UCIActivePipe;

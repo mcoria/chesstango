@@ -12,13 +12,13 @@ import org.junit.Test;
  * @author Mauricio Coria
  *
  */
-public class GameEvaluatorImpTest {
+public class GameEvaluatorImp01Test {
 
-    private GameEvaluatorImp evaluator;
+    private GameEvaluatorImp01 evaluator;
 
     @Before
     public void setUp() {
-        evaluator = new GameEvaluatorImp();
+        evaluator = new GameEvaluatorImp01();
     }
 
 
@@ -43,11 +43,11 @@ public class GameEvaluatorImpTest {
 
         // White's interest is to maximize
         // Black's interest is to minimize
-        Assert.assertEquals(GameEvaluatorImp.INFINITE_POSITIVE, mateEval);
+        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, mateEval);
 
-        Assert.assertEquals(GameEvaluatorImp.BLACK_LOST, mateEval);
+        Assert.assertEquals(GameEvaluator.BLACK_LOST, mateEval);
 
-        Assert.assertEquals(GameEvaluatorImp.WHITE_WON, mateEval);
+        Assert.assertEquals(GameEvaluator.WHITE_WON, mateEval);
 
         Assert.assertTrue(mateEval > checkEval);
 

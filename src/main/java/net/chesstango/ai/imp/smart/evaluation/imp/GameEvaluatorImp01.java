@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp implements GameEvaluator {
+public class GameEvaluatorImp01 implements GameEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 2110;
     private static final int FACTOR_EXPANSION_DEFAULT = 188;
@@ -23,11 +23,11 @@ public class GameEvaluatorImp implements GameEvaluator {
     private final int expansion;
     private final int ataque;
 
-    public GameEvaluatorImp() {
+    public GameEvaluatorImp01() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluatorImp(int material, int expansion, int ataque) {
+    public GameEvaluatorImp01(int material, int expansion, int ataque) {
         this.material = material;
         this.expansion = expansion;
         this.ataque = ataque;
