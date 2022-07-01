@@ -8,17 +8,13 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.IntRange;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
+import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp02;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arbiter.EngineController;
 import net.chesstango.uci.arbiter.Match;
 import net.chesstango.uci.arbiter.imp.EngineControllerImp;
-import net.chesstango.uci.engine.imp.EngineProxy;
 import net.chesstango.uci.engine.imp.EngineTango;
-import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.ObjectPool;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.*;
@@ -29,10 +25,10 @@ import java.util.stream.Collectors;
 /**
  * @author Mauricio Coria
  */
-public class ChessEvolutionMain {
-    private static int CONSTRAINT_MAX_VALUE = 10000;
+public class ChessEvolutionMain02 {
+    private static int CONSTRAINT_MAX_VALUE = 1000;
     private static int POPULATION_SIZE = 20;
-    private static int LIMIT = 1000;
+    private static int LIMIT = 20000;
 
     private static ObjectPool<EngineController> pool;
     private static ExecutorService executor;
@@ -40,14 +36,14 @@ public class ChessEvolutionMain {
     private List<String> fenList;
     private Map<String, Long> gameMemory = new HashMap<>();
 
-    public ChessEvolutionMain(List<String> fenList) {
+    public ChessEvolutionMain02(List<String> fenList) {
         this.fenList = fenList;
     }
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
         pool = new GenericObjectPool<>(new EngineControllerProxyFactory());
-        new ChessEvolutionMain(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5")).findGenotype();
+        new ChessEvolutionMain02(Arrays.asList(FENDecoder.INITIAL_FEN, "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7", "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5")).findGenotype();
         pool.close();
         executor.shutdown();
     }
@@ -57,7 +53,7 @@ public class ChessEvolutionMain {
         IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
         Factory<Genotype<IntegerGene>> genotypeFactory =
-                Genotype.of(IntegerChromosome.of(geneRange, 3));
+                Genotype.of(IntegerChromosome.of(geneRange, 2));
 
         // 3) Create the execution environment.
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, genotypeFactory)
@@ -94,17 +90,15 @@ public class ChessEvolutionMain {
         IntegerGene gene2 = chromo1.get(1);
         int gene2Value = gene2.intValue();
 
-        IntegerGene gene3 = chromo1.get(2);
-        int gene3Value = gene3.intValue();
 
         long points = 0;
 
-        String keyGenes = gene1Value + "|" + gene2Value + "|" + gene3Value;
+        String keyGenes = gene1Value + "|" + gene2Value;
         Long previousGamePoints = gameMemory.get(keyGenes);
 
         if (previousGamePoints == null) {
 
-            EngineController engineZonda = createTango(gene1Value, gene2Value, gene3Value);
+            EngineController engineZonda = createTango(gene1Value, gene2Value);
 
             List<Match.MathResult> matchResult = fitnessEval(engineZonda);
 
@@ -116,7 +110,7 @@ public class ChessEvolutionMain {
 
             gameMemory.put(keyGenes, points);
 
-            System.out.println("Evaluacion con gene1=[" + gene1Value + "] gene2=[" + gene2Value + "] gene3=[" + gene3Value + "] ; puntos = [" + points + "]");
+            System.out.println("Evaluacion con gene1=[" + gene1Value + "] gene2=[" + gene2Value + "] ; puntos = [" + points + "]");
 
         } else {
             points = previousGamePoints;
@@ -145,8 +139,8 @@ public class ChessEvolutionMain {
         return matchResult;
     }
 
-    private EngineController createTango(int gene1, int gene2, int gene3) {
-        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp01(gene1, gene2, gene3)))).disableAsync());
+    private EngineController createTango(int gene1, int gene2) {
+        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp02(gene1, gene2)))).disableAsync());
         tango.send_CmdUci();
         tango.send_CmdIsReady();
         return tango;
@@ -168,10 +162,7 @@ public class ChessEvolutionMain {
             IntegerGene gene2 = chromo1.get(1);
             int gene2Value = gene2.intValue();
 
-            IntegerGene gene3 = chromo1.get(2);
-            int gene3Value = gene3.intValue();
-
-            return (gene1Value +  gene2Value + gene3Value) % CONSTRAINT_MAX_VALUE == 0 ;
+            return (gene1Value +  gene2Value) % CONSTRAINT_MAX_VALUE == 0 ;
         }
 
         @Override
@@ -183,43 +174,16 @@ public class ChessEvolutionMain {
             IntegerGene gene1 = chromo1.get(0);
             int gene1Value = gene1.intValue() % CONSTRAINT_MAX_VALUE;
 
-            IntegerGene gene2 = chromo1.get(1);
-            int gene2Value = gene2.intValue() % (CONSTRAINT_MAX_VALUE - gene1Value);
+            int gene2Value = CONSTRAINT_MAX_VALUE - gene1Value;
 
-            int gene3Value = CONSTRAINT_MAX_VALUE - gene2Value - gene1Value;
 
             IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
             Phenotype<IntegerGene, Long> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
                     IntegerGene.of(gene1Value, geneRange ),
-                    IntegerGene.of(gene2Value, geneRange ),
-                    IntegerGene.of(gene3Value, geneRange )
+                    IntegerGene.of(gene2Value, geneRange )
             )), generation);
 
             return newPhenotype;
         }
     };
-
-    private static class EngineControllerProxyFactory extends BasePooledObjectFactory<EngineController> {
-
-        @Override
-        public EngineController create() {
-            EngineProxy coreEngineProxy = new EngineProxy();
-            //coreEngineProxy.setLogging(true);
-            EngineController engineProxy = new EngineControllerImp(coreEngineProxy);
-            engineProxy.send_CmdUci();
-            engineProxy.send_CmdIsReady();
-
-            return engineProxy;
-        }
-
-        @Override
-        public PooledObject<EngineController> wrap(EngineController engineController) {
-            return new DefaultPooledObject<EngineController>(engineController);
-        }
-
-        @Override
-        public void destroyObject(PooledObject<EngineController> pooledController) {
-            pooledController.getObject().send_CmdQuit();
-        }
-    }
 }

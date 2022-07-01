@@ -4,6 +4,7 @@ import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 
@@ -14,6 +15,8 @@ import net.chesstango.board.position.ChessPositionReader;
 public class Game {
 	
 	private final ChessPosition chessPosition;
+
+	private final MoveGenerator pseudoMovesGenerator;
 	
 	private final GameState gameState;
 	
@@ -21,8 +24,9 @@ public class Game {
 
 	private boolean analyze;
 	
-	public Game(ChessPosition chessPosition, PositionAnalyzer analyzer, GameState gameState){
+	public Game(ChessPosition chessPosition, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer, GameState gameState){
 		this.chessPosition = chessPosition;
+		this.pseudoMovesGenerator = pseudoMovesGenerator;
 		this.analyzer = analyzer;
 		this.gameState = gameState;
 		this.analyze = true;
@@ -108,5 +112,9 @@ public class Game {
 
 	public void init() {
 		chessPosition.init();
+	}
+
+	public MoveGenerator getPseudoMovesGenerator() {
+		return pseudoMovesGenerator;
 	}
 }

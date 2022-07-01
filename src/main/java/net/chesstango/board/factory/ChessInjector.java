@@ -129,7 +129,7 @@ public class ChessInjector {
 	
 	public Game getGame() {
 		if (game == null) {
-			game = chessFactory.createGame(getChessPosition(), getAnalyzer(), getGameState());
+			game = chessFactory.createGame(getChessPosition(), getMoveGenerator(), getAnalyzer(), getGameState());
 			game.init();
 		}
 		return game;

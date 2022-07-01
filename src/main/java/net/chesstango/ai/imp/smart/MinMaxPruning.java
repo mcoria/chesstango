@@ -24,11 +24,6 @@ public class MinMaxPruning extends AbstractSmart {
     private int plies;
     private List<Move> moveStacks[];
 
-
-    public MinMaxPruning() {
-        this(new GameEvaluatorImp01(), new MoveSorter());
-    }
-
     public MinMaxPruning(GameEvaluator evaluator) {
         this(evaluator, new MoveSorter());
     }
