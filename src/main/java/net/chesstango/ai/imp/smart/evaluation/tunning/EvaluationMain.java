@@ -18,8 +18,8 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class EvaluationMain{
-    private static int POPULATION_SIZE = 1;
-    private static int LIMIT = 5;
+    private static int POPULATION_SIZE = 5;
+    private static int LIMIT = 20;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
     private static ExecutorService executor;
@@ -37,7 +37,7 @@ public class EvaluationMain{
         new EvaluationMain(Arrays.asList(FENDecoder.INITIAL_FEN,
                 "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
                 "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"),
-                new GeneticProviderImp02()).findGenotype();
+                new GeneticProviderImp03()).findGenotype();
         pool.close();
         executor.shutdown();
     }
