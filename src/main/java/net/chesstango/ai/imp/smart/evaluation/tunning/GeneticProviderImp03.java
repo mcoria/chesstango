@@ -6,6 +6,7 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.IntRange;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
+import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp02;
 import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp03;
 import net.chesstango.uci.arbiter.EngineController;
@@ -33,12 +34,10 @@ public class GeneticProviderImp03 implements GeneticProvider  {
     }
 
     @Override
-    public EngineController createTango(Genotype<IntegerGene> genotype) {
+    public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp03(decodedGenotype.getGene1(), decodedGenotype.getGene2())))).disableAsync());
-
-        return tango;
+        return new GameEvaluatorImp03(decodedGenotype.getGene1(), decodedGenotype.getGene2());
     }
 
     @Override

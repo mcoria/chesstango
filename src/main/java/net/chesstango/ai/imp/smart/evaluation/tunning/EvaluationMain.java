@@ -6,9 +6,15 @@ import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
+import net.chesstango.ai.imp.smart.IterativeDeeping;
+import net.chesstango.ai.imp.smart.MinMaxPruning;
+import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
+import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arbiter.EngineController;
 import net.chesstango.uci.arbiter.Match;
+import net.chesstango.uci.arbiter.imp.EngineControllerImp;
+import net.chesstango.uci.engine.imp.EngineTango;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
@@ -105,9 +111,13 @@ public class EvaluationMain{
     }
 
     public EngineController createTango(Genotype<IntegerGene> genotype) {
-        EngineController tango = geneticProvider.createTango(genotype);
+        GameEvaluator gameEvaluator = geneticProvider.createGameEvaluator(genotype);
+
+        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning( gameEvaluator ))).disableAsync());
+
         tango.send_CmdUci();
         tango.send_CmdIsReady();
+        
         return tango;
     }
 

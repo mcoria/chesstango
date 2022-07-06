@@ -4,12 +4,8 @@ import io.jenetics.*;
 import io.jenetics.engine.Constraint;
 import io.jenetics.util.Factory;
 import io.jenetics.util.IntRange;
-import net.chesstango.ai.imp.smart.IterativeDeeping;
-import net.chesstango.ai.imp.smart.MinMaxPruning;
+import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
-import net.chesstango.uci.arbiter.EngineController;
-import net.chesstango.uci.arbiter.imp.EngineControllerImp;
-import net.chesstango.uci.engine.imp.EngineTango;
 
 /**
  * @author Mauricio Coria
@@ -31,13 +27,12 @@ public class GeneticProviderImp01 implements GeneticProvider {
         return decodedGenotype.getGene1() + "|" + decodedGenotype.getGene2() + "|" + decodedGenotype.getGene3();
     }
 
+
     @Override
-    public EngineController createTango(Genotype<IntegerGene> genotype) {
+    public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning(new GameEvaluatorImp01(decodedGenotype.getGene1(), decodedGenotype.getGene2(), decodedGenotype.getGene3())))).disableAsync());
-
-        return tango;
+        return new GameEvaluatorImp01(decodedGenotype.getGene1(), decodedGenotype.getGene2(), decodedGenotype.getGene3());
     }
 
     @Override
