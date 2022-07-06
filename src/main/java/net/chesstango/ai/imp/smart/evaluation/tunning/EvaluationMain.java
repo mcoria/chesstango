@@ -9,7 +9,6 @@ import io.jenetics.engine.EvolutionResult;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arbiter.EngineController;
 import net.chesstango.uci.arbiter.Match;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 public class EvaluationMain{
     private static int POPULATION_SIZE = 5;
     private static int LIMIT = 50;
-
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -46,7 +44,8 @@ public class EvaluationMain{
         executor = Executors.newFixedThreadPool(4);
         pool = new GenericObjectPool<>(new EngineControllerProxyFactory());
         new EvaluationMain(Arrays.asList(FENDecoder.INITIAL_FEN,
-                "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20", "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
+                "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
+                "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
                 "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"),
                 new GeneticProviderImp03()).findGenotype();
         pool.close();
@@ -56,7 +55,7 @@ public class EvaluationMain{
     private void findGenotype() {
 
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
-                .selector(new EliteSelector<>(4))
+                .selector(new EliteSelector<>(3))
                 .constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
                 .executor(executor)
@@ -117,7 +116,7 @@ public class EvaluationMain{
 
         tango.send_CmdUci();
         tango.send_CmdIsReady();
-        
+
         return tango;
     }
 

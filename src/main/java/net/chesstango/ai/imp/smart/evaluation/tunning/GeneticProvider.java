@@ -5,7 +5,6 @@ import io.jenetics.IntegerGene;
 import io.jenetics.engine.Constraint;
 import io.jenetics.util.Factory;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
-import net.chesstango.uci.arbiter.EngineController;
 
 /**
  * @author Mauricio Coria

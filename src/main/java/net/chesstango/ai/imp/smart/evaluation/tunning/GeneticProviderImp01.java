@@ -47,7 +47,7 @@ public class GeneticProviderImp01 implements GeneticProvider {
         return phenotypeConstraint;
     }
 
-    protected Constraint<IntegerGene, Long> phenotypeConstraint = new Constraint<IntegerGene, Long>() {
+    protected final Constraint<IntegerGene, Long> phenotypeConstraint = new Constraint<IntegerGene, Long>() {
         @Override
         public boolean test(Phenotype<IntegerGene, Long> phenotype) {
             GenoDecoder decodedGenotype = decodeGenotype(phenotype.genotype());
@@ -69,7 +69,6 @@ public class GeneticProviderImp01 implements GeneticProvider {
 
             int gene3Value = CONSTRAINT_MAX_VALUE - gene2Value - gene1Value;
 
-            IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
             Phenotype<IntegerGene, Long> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
                     IntegerGene.of(gene1Value, geneRange ),
                     IntegerGene.of(gene2Value, geneRange ),

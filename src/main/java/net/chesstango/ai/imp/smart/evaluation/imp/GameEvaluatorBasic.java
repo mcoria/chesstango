@@ -3,12 +3,6 @@ package net.chesstango.ai.imp.smart.evaluation.imp;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Mauricio Coria

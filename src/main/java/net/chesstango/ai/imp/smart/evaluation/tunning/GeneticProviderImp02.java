@@ -4,14 +4,8 @@ import io.jenetics.*;
 import io.jenetics.engine.Constraint;
 import io.jenetics.util.Factory;
 import io.jenetics.util.IntRange;
-import net.chesstango.ai.imp.smart.IterativeDeeping;
-import net.chesstango.ai.imp.smart.MinMaxPruning;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp02;
-import net.chesstango.uci.arbiter.EngineController;
-import net.chesstango.uci.arbiter.imp.EngineControllerImp;
-import net.chesstango.uci.engine.imp.EngineTango;
 
 /**
  * @author Mauricio Coria
@@ -52,7 +46,7 @@ public class GeneticProviderImp02 implements GeneticProvider  {
         return phenotypeConstraint;
     }
 
-    protected Constraint<IntegerGene, Long> phenotypeConstraint = new Constraint<IntegerGene, Long>() {
+    protected final Constraint<IntegerGene, Long> phenotypeConstraint = new Constraint<IntegerGene, Long>() {
         @Override
         public boolean test(Phenotype<IntegerGene, Long> phenotype) {
             GenoDecoder decodedGenotype = decodeGenotype(phenotype.genotype());
@@ -71,8 +65,6 @@ public class GeneticProviderImp02 implements GeneticProvider  {
 
             int gene2Value = CONSTRAINT_MAX_VALUE - gene1Value;
 
-
-            IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
             Phenotype<IntegerGene, Long> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
                     IntegerGene.of(gene1Value, geneRange ),
                     IntegerGene.of(gene2Value, geneRange )

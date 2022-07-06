@@ -3,12 +3,7 @@ package net.chesstango.ai.imp.smart.evaluation.imp;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveList;
-import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Iterator;
