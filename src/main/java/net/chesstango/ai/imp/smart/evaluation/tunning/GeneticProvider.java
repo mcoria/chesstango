@@ -6,6 +6,9 @@ import io.jenetics.engine.Constraint;
 import io.jenetics.util.Factory;
 import net.chesstango.uci.arbiter.EngineController;
 
+/**
+ * @author Mauricio Coria
+ */
 public interface GeneticProvider {
     Factory getGenotypeFactory();
 

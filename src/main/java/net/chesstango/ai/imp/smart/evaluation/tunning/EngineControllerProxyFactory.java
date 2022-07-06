@@ -7,6 +7,9 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
+/**
+ * @author Mauricio Coria
+ */
 public class EngineControllerProxyFactory extends BasePooledObjectFactory<EngineController> {
 
     @Override

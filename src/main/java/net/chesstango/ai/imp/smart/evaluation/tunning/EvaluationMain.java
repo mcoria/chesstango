@@ -17,18 +17,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+/**
+ * @author Mauricio Coria
+ */
 public class EvaluationMain{
     private static int POPULATION_SIZE = 5;
-    private static int LIMIT = 20;
+    private static int LIMIT = 50;
+
+    private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
-    private static ExecutorService executor;
-    private List<String> fenList;
-    private Map<String, Long> gameMemory = new HashMap<>();
+    private final List<String> fenList;
+    private final Map<String, Long> gameMemory;
 
     public EvaluationMain(List<String> fenList, GeneticProvider geneticProvider) {
         this.fenList = fenList;
         this.geneticProvider = geneticProvider;
+        this.gameMemory = new HashMap<>();
     }
 
     public static void main(String[] args) {
@@ -78,15 +83,15 @@ public class EvaluationMain{
 
         if (previousGamePoints == null) {
 
-            EngineController engineZonda = createTango(genotype);
+            EngineController engineTango = createTango(genotype);
 
-            List<Match.MathResult> matchResult = fitnessEval(engineZonda);
+            List<Match.MathResult> matchResult = fitnessEval(engineTango);
 
-            quitTango(engineZonda);
+            quitTango(engineTango);
 
-            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineZonda).mapToLong(Match.MathResult::getPoints).sum();
+            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(Match.MathResult::getPoints).sum();
 
-            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineZonda).mapToLong(Match.MathResult::getPoints).sum();
+            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(Match.MathResult::getPoints).sum();
 
             gameMemory.put(keyGenes, points);
 

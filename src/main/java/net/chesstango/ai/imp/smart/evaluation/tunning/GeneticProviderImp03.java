@@ -16,7 +16,7 @@ import net.chesstango.uci.engine.imp.EngineTango;
  * @author Mauricio Coria
  */
 public class GeneticProviderImp03 implements GeneticProvider  {
-    private static int CONSTRAINT_MAX_VALUE = 10;
+    private static int CONSTRAINT_MAX_VALUE = 100;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
