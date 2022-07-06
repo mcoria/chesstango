@@ -59,13 +59,15 @@ public class GeneticProviderImp01 implements GeneticProvider {
         public Phenotype<IntegerGene, Long> repair(Phenotype<IntegerGene, Long> phenotype, long generation) {
             Genotype<IntegerGene> genotype = phenotype.genotype();
 
-            Chromosome<IntegerGene> chromo1 = genotype.get(0);
+            Chromosome<IntegerGene> chromo1 = genotype.chromosome();
 
-            IntegerGene gene1 = chromo1.get(0);
-            int gene1Value = gene1.intValue() % CONSTRAINT_MAX_VALUE;
+            IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);
 
-            IntegerGene gene2 = chromo1.get(1);
-            int gene2Value = gene2.intValue() % (CONSTRAINT_MAX_VALUE - gene1Value);
+            int[] array = integerChromo.toArray();
+
+            int gene1Value = array[0] % CONSTRAINT_MAX_VALUE;
+
+            int gene2Value = array[1] % (CONSTRAINT_MAX_VALUE - gene1Value);
 
             int gene3Value = CONSTRAINT_MAX_VALUE - gene2Value - gene1Value;
 

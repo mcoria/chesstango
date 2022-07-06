@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class EvaluationMain{
     private static int POPULATION_SIZE = 5;
-    private static int LIMIT = 50;
+    private static int GENERATION_LIMIT = 10;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -64,7 +64,7 @@ public class EvaluationMain{
 
         Phenotype<IntegerGene, Long> result = engine
                 .stream()
-                .limit(LIMIT)
+                .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 
         System.out.println("El mejor fenotipo encontrado = " + result.fitness());
