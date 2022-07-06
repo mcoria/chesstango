@@ -95,14 +95,12 @@ public class GeneticProviderImp02 implements GeneticProvider  {
     }
 
     protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype){
-        Chromosome<IntegerGene> chromo1 = genotype.get(0);
+        Chromosome<IntegerGene> chromo1 = genotype.chromosome();
 
-        IntegerGene gene1 = chromo1.get(0);
-        int gene1Value = gene1.intValue();
+        IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);
 
-        IntegerGene gene2 = chromo1.get(1);
-        int gene2Value = gene2.intValue();
+        int[] array = integerChromo.toArray();
 
-        return new GenoDecoder(gene1Value, gene2Value);
+        return new GenoDecoder(array[0], array[1]);
     }
 }

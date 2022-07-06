@@ -11,7 +11,7 @@ import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
  * @author Mauricio Coria
  */
 public class GeneticProviderImp01 implements GeneticProvider {
-    private static int CONSTRAINT_MAX_VALUE = 10000;
+    private static int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
@@ -104,17 +104,12 @@ public class GeneticProviderImp01 implements GeneticProvider {
     }
 
     protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype){
-        Chromosome<IntegerGene> chromo1 = genotype.get(0);
+        Chromosome<IntegerGene> chromo1 = genotype.chromosome();
 
-        IntegerGene gene1 = chromo1.get(0);
-        int gene1Value = gene1.intValue();
+        IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);
 
-        IntegerGene gene2 = chromo1.get(1);
-        int gene2Value = gene2.intValue();
+        int[] array = integerChromo.toArray();
 
-        IntegerGene gene3 = chromo1.get(2);
-        int gene3Value = gene3.intValue();
-
-        return new GenoDecoder(gene1Value, gene2Value, gene3Value);
+        return new GenoDecoder(array[0], array[1], array[2]);
     }
 }
