@@ -58,12 +58,13 @@ public class GameEvaluatorImp02 implements GameEvaluator {
 
         ChessPositionReader positionReader = game.getChessPosition();
 
-        Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
-
         MoveGenerator pseudoMovesGenerator = game.getPseudoMovesGenerator();
+
+        Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
 
         while(iteratorAllPieces.hasNext()){
             PiecePositioned piecePositioned = iteratorAllPieces.next();
+
             MoveGeneratorResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
 
             MoveList pseudoMoves = generationResult.getPseudoMoves();

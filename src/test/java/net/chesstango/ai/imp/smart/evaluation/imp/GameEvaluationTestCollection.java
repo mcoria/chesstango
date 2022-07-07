@@ -4,9 +4,10 @@ import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
+/**
+ * @author Mauricio Coria
+ */
 public abstract class GameEvaluationTestCollection {
 
     protected abstract GameEvaluator getEvaluator();

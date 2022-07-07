@@ -72,11 +72,10 @@ public class GameEvaluatorImp01 implements GameEvaluator {
                 posiblesCapturasValor += Math.abs(to.getValue().getPieceValue());
             }
         }
-        ;
 
         evaluation = origenes.size() + expansion * territorioExpansion.size() + ataque * territorioAtaque.size() + posiblesCapturasValor;
 
-        return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? evaluation : -evaluation;
+        return (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) ? +evaluation : -evaluation;
     }
 
 }

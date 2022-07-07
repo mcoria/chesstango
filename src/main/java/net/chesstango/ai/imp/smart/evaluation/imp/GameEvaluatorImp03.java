@@ -54,7 +54,7 @@ public class GameEvaluatorImp03 implements GameEvaluator {
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
-            evaluation += Color.WHITE.equals(piecePlacement.getValue().getColor()) ? + 1 : - 1;
+            evaluation += Color.WHITE.equals(piecePlacement.getValue().getColor()) ? +1 : -1;
         }
         return evaluation;
     }
