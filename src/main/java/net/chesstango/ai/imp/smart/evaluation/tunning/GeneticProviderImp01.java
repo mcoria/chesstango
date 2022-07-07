@@ -2,10 +2,14 @@ package net.chesstango.ai.imp.smart.evaluation.tunning;
 
 import io.jenetics.*;
 import io.jenetics.engine.Constraint;
-import io.jenetics.util.Factory;
-import io.jenetics.util.IntRange;
+import io.jenetics.engine.EvolutionStart;
+import io.jenetics.util.*;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author Mauricio Coria
@@ -16,8 +20,27 @@ public class GeneticProviderImp01 implements GeneticProvider {
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
     @Override
-    public Factory getGenotypeFactory() {
-        return Genotype.of(IntegerChromosome.of(geneRange, 3));
+    public Factory<Genotype<IntegerGene>>  getGenotypeFactory() {
+        return new Factory<Genotype<IntegerGene>>(){
+            private final Random random = RandomRegistry.random();
+
+            @Override
+            public Genotype<IntegerGene> newInstance() {
+                int value1 = Math.abs(random.nextInt()) % CONSTRAINT_MAX_VALUE;
+
+                int value2 = Math.abs(random.nextInt()) % (CONSTRAINT_MAX_VALUE - value1);
+
+                int value3 = CONSTRAINT_MAX_VALUE - value2 -  value1;
+
+                return Genotype.of(
+                        IntegerChromosome.of(
+                                IntegerGene.of(value1, geneRange ),
+                                IntegerGene.of(value2, geneRange ),
+                                IntegerGene.of(value3, geneRange )
+                        )
+                );
+            }
+        };
     }
 
     @Override
@@ -43,6 +66,34 @@ public class GeneticProviderImp01 implements GeneticProvider {
     }
 
     @Override
+    public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
+
+        List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
+                createPhenotype(731,60,209),
+                createPhenotype(709,60,231),
+                createPhenotype(663,60,277),
+                createPhenotype(624,59,317),
+                createPhenotype(352,60,588)
+        );
+
+        ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
+
+        return EvolutionStart.of( population, 1);
+    }
+
+    private Phenotype<IntegerGene, Long> createPhenotype(int value1, int value2, int value3) {
+        return Phenotype.of(
+                Genotype.of(
+                        IntegerChromosome.of(
+                                IntegerGene.of(value1, geneRange ),
+                                IntegerGene.of(value2, geneRange ),
+                                IntegerGene.of(value3, geneRange )
+                        )
+                ), 1);
+    }
+
+
+    @Override
     public Constraint getPhenotypeConstraint() {
         return phenotypeConstraint;
     }
@@ -59,11 +110,11 @@ public class GeneticProviderImp01 implements GeneticProvider {
         public Phenotype<IntegerGene, Long> repair(Phenotype<IntegerGene, Long> phenotype, long generation) {
             Genotype<IntegerGene> genotype = phenotype.genotype();
 
-            Chromosome<IntegerGene> chromo1 = genotype.chromosome();
+            Chromosome<IntegerGene> chromosome = genotype.chromosome();
 
-            IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);
+            IntegerChromosome integerChromosome = chromosome.as(IntegerChromosome.class);
 
-            int[] array = integerChromo.toArray();
+            int[] array = integerChromosome.toArray();
 
             int gene1Value = array[0] % CONSTRAINT_MAX_VALUE;
 

@@ -4,8 +4,10 @@ import io.jenetics.EliteSelector;
 import io.jenetics.Genotype;
 import io.jenetics.IntegerGene;
 import io.jenetics.Phenotype;
+import io.jenetics.engine.Codec;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
+import io.jenetics.engine.EvolutionStart;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
@@ -62,8 +64,10 @@ public class EvaluationMain{
                 .build();
 
 
+        //EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+
         Phenotype<IntegerGene, Long> result = engine
-                .stream()
+                .stream(geneticProvider.getEvolutionStart(POPULATION_SIZE))
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 

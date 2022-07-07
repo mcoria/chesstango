@@ -2,6 +2,7 @@ package net.chesstango.ai.imp.smart.evaluation.tunning;
 
 import io.jenetics.*;
 import io.jenetics.engine.Constraint;
+import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import io.jenetics.util.IntRange;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
@@ -16,7 +17,7 @@ public class GeneticProviderImp02 implements GeneticProvider  {
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
     @Override
-    public Factory getGenotypeFactory() {
+    public Factory<Genotype<IntegerGene>>  getGenotypeFactory() {
         return Genotype.of(IntegerChromosome.of(geneRange, 2));
     }
 
@@ -39,6 +40,11 @@ public class GeneticProviderImp02 implements GeneticProvider  {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
         System.out.println("Evaluacion con gene1=[" + decodedGenotype.getGene1() + "] gene2=[" + decodedGenotype.getGene2()  + "] ; puntos = [" + points + "]");
+    }
+
+    @Override
+    public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
+        return null;
     }
 
     @Override
