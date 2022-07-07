@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class EvaluationMain{
-    private static int POPULATION_SIZE = 5;
-    private static int GENERATION_LIMIT = 10;
+    private static int POPULATION_SIZE = 15;
+    private static int GENERATION_LIMIT = 100;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -57,7 +57,7 @@ public class EvaluationMain{
     private void findGenotype() {
 
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
-                .selector(new EliteSelector<>(3))
+                .selector(new EliteSelector<>(5))
                 .constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
                 .executor(executor)

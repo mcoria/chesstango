@@ -69,11 +69,12 @@ public class GeneticProviderImp01 implements GeneticProvider {
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
 
         List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
+                createPhenotype(732,60,203),
+                createPhenotype(731,65,204),
+                createPhenotype(736,65,199),
                 createPhenotype(731,60,209),
-                createPhenotype(709,60,231),
-                createPhenotype(663,60,277),
-                createPhenotype(624,59,317),
-                createPhenotype(352,60,588)
+                createPhenotype(742,65,193),
+                createPhenotype(744,65,191)
         );
 
         ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
