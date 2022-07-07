@@ -22,6 +22,7 @@ public class GameEvaluatorBasic implements GameEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
+                evaluation += 100 * GameEvaluator.evaluateByMaterial(game);
                 evaluation += Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size();
         }
         return evaluation;
