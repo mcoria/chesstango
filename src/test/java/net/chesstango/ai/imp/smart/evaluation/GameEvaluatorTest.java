@@ -25,4 +25,20 @@ public class GameEvaluatorTest {
 
         Assert.assertEquals(0, GameEvaluator.evaluateByMaterial(game));
     }
+
+    @Test
+    public void testMaterial() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        int eval = GameEvaluator.evaluateByMaterial(game);
+        Assert.assertEquals(0, eval);
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ");
+        eval = GameEvaluator.evaluateByMaterial(game);
+        Assert.assertTrue(eval > 0);
+
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        eval = GameEvaluator.evaluateByMaterial(game);
+        Assert.assertTrue(eval < 0);
+    }
 }
