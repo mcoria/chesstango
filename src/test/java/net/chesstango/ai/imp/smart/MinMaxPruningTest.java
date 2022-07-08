@@ -224,7 +224,6 @@ public class MinMaxPruningTest {
     public void test_maximize_WhitePlays_MateCutOff(){
         MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
-        minMax.initObjects(1);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
@@ -333,7 +332,6 @@ public class MinMaxPruningTest {
     @Test
     public void test_minimize_BlackPlays_MateCutOff(){
         MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
-        minMax.initObjects(1);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
