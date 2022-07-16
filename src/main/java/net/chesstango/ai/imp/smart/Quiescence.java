@@ -7,6 +7,9 @@ import net.chesstango.board.moves.MovePromotion;
 
 import java.util.Queue;
 
+/**
+ * @author Mauricio Coria
+ */
 public class Quiescence {
     private final GameEvaluator evaluator;
     private final MoveSorter moveSorter;

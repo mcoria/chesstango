@@ -69,6 +69,27 @@ public class GeneticProviderImp01 implements GeneticProvider {
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
 
         List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
+//                  CODIFICAR
+//                key = [628|288|84]; value=[6442450947]
+//                key = [628|282|90]; value=[6442450947]
+//                key = [630|106|264]; value=[6442450947]
+//                key = [628|106|266]; value=[6442450947]
+//                key = [151|106|743]; value=[6442450944]
+//                key = [150|106|744]; value=[6442450944]
+//                key = [332|258|410]; value=[6442450932]
+//                key = [751|103|146]; value=[4294967293]
+//                key = [752|106|142]; value=[2147483658]
+//                key = [788|83|129]; value=[2147483658]
+//                key = [879|60|61]; value=[2147483658]
+//                key = [720|106|174]; value=[2147483658]
+//                key = [879|53|68]; value=[2147483658]
+//                key = [950|19|31]; value=[2147483658]
+//                key = [783|106|111]; value=[2147483658]
+//                key = [974|12|14]; value=[2147483658]
+//                key = [770|110|120]; value=[2147483658]
+//                key = [877|58|65]; value=[2147483658]
+//                key = [780|82|138]; value=[2147483658]
+
                 createPhenotype(979, 19, 2),
                 createPhenotype(979, 8, 13),
                 createPhenotype(979, 18, 3),

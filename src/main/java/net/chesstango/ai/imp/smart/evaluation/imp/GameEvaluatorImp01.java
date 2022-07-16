@@ -15,9 +15,9 @@ import java.util.Set;
  */
 public class GameEvaluatorImp01 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 979;
-    private static final int FACTOR_EXPANSION_DEFAULT = 19;
-    private static final int FACTOR_ATAQUE_DEFAULT = 2;
+    private static final int FACTOR_MATERIAL_DEFAULT = 628;
+    private static final int FACTOR_EXPANSION_DEFAULT = 288;
+    private static final int FACTOR_ATAQUE_DEFAULT = 84;
 
     private final int material;
     private final int expansion;
@@ -45,7 +45,7 @@ public class GameEvaluatorImp01 implements GameEvaluator {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation +=  material * GameEvaluator.evaluateByMaterial(game);
+                evaluation +=  material * 10 * GameEvaluator.evaluateByMaterial(game);
                 evaluation += evaluateByMoves(game);
         }
         return evaluation;

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 public class EvaluationMain{
     private static int POPULATION_SIZE = 15;
-    private static int GENERATION_LIMIT = 20;
+    private static int GENERATION_LIMIT = 100;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -64,8 +64,11 @@ public class EvaluationMain{
                 .executor(executor)
                 .build();
 
+        EvolutionStart<IntegerGene, Long>  start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+
         Phenotype<IntegerGene, Long> result = engine
-                .stream(geneticProvider.getEvolutionStart(POPULATION_SIZE))
+                //.stream(start)
+                .stream()
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 
