@@ -22,7 +22,7 @@
 
      @Before
      public void setUp() {
-         bestMoveFinder = new MinMaxPruning(new GameEvaluatorBasic());
+         bestMoveFinder = new MinMaxPruning();
      }
 
      @Test //Viktor Korchnoi vs. Peterson

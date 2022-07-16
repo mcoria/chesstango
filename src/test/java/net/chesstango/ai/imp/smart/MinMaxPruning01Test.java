@@ -18,7 +18,7 @@ public class MinMaxPruning01Test {
 
     @Test
     public void testHorizontEffect(){
-        MinMaxPruning minMaxPruning = new MinMaxPruning(new GameEvaluatorBasic());
+        MinMaxPruning minMaxPruning = new MinMaxPruning();
         Game game = FENDecoder.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
         Move bestMove = minMaxPruning.searchBestMove(game, 1);

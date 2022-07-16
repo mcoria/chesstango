@@ -20,7 +20,7 @@ public class IterativeDeeping extends AbstractSmart {
 
 
     public IterativeDeeping() {
-        this(new MinMaxPruning(new GameEvaluatorImp01()));
+        this(new MinMaxPruning());
     }
 
     public IterativeDeeping(AbstractSmart minMax) {

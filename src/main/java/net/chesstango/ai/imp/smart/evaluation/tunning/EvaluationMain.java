@@ -10,6 +10,7 @@ import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
 import net.chesstango.ai.imp.smart.IterativeDeeping;
 import net.chesstango.ai.imp.smart.MinMaxPruning;
+import net.chesstango.ai.imp.smart.Quiescence;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arbiter.EngineController;
@@ -116,7 +117,7 @@ public class EvaluationMain{
     public EngineController createTango(Genotype<IntegerGene> genotype) {
         GameEvaluator gameEvaluator = geneticProvider.createGameEvaluator(genotype);
 
-        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning( gameEvaluator ))).disableAsync());
+        EngineController tango = new EngineControllerImp(new EngineTango(new IterativeDeeping(new MinMaxPruning( new Quiescence( gameEvaluator ) ))).disableAsync());
 
         tango.send_CmdUci();
         tango.send_CmdIsReady();

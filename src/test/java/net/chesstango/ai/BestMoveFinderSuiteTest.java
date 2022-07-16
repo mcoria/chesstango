@@ -23,6 +23,7 @@ public class BestMoveFinderSuiteTest {
 	
 	
 	@Test
+	@Ignore
 	public void test02() {
 		BestMoveFinderSuite suite = new BestMoveFinderSuite();
 		

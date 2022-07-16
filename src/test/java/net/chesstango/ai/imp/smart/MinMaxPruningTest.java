@@ -28,10 +28,10 @@ import static org.mockito.Mockito.*;
 public class MinMaxPruningTest {
 
     @Mock
-    private GameEvaluator evaluator;
+    private MoveSorter moveSorter;
 
     @Mock
-    private MoveSorter moveSorter;
+    private Quiescence quiescence;
 
     @Before
     public void setUp() {
@@ -39,12 +39,12 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_WhitePlays_SingleMove(){
-        MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
+        MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
         Game childGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame)).thenReturn(1);
+        when(quiescence.quiescenceMin(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Move move = mock(Move.class);
 
@@ -54,17 +54,17 @@ public class MinMaxPruningTest {
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
-        verify(evaluator, times(1)).evaluate(childGame);
+        verify(quiescence, times(1)).quiescenceMin(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
     }
 
     @Test
     public void test_findBestMove_BlackPlays_SingleMove(){
-        MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
+        MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
         Game childGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame)).thenReturn(1);
+        when(quiescence.quiescenceMax(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Move move = mock(Move.class);
 
@@ -74,20 +74,21 @@ public class MinMaxPruningTest {
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
-        verify(evaluator, times(1)).evaluate(childGame);
+        verify(quiescence, times(1)).quiescenceMax(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
     }
 
     @Test
     public void test_findBestMove_WhitePlays_TwoMoves(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
+        //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
+        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(2);
+        when(quiescence.quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(2);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -98,27 +99,27 @@ public class MinMaxPruningTest {
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, minMax.getEvaluation());
 
+        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMin(childGame2,1, GameEvaluator.INFINITE_POSITIVE);
+
         verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2,0, 1, GameEvaluator.INFINITE_POSITIVE);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
     }
 
     @Test
     public void test_findBestMove_WhitePlays_MateCutOff(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
+        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.WHITE_WON);
+        when(quiescence.quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_WON);
 
+        // childGame3 no llega a evaluarse, dado que existe CuteOff por el mate que se encuentra en childGame2
         Game childGame3 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        //when(evaluator.evaluate(childGame3)).thenReturn(3);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -134,29 +135,31 @@ public class MinMaxPruningTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
+        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMin(childGame2,1, GameEvaluator.INFINITE_POSITIVE);
+
         verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2,0, 1, GameEvaluator.INFINITE_POSITIVE);
 
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
-        verify(evaluator, never()).evaluate(childGame3);
+        verifyNoInteractions(move3);
+        verifyNoInteractions(childGame3);
     }
 
     @Test
     public void test_findBestMove_WhitePlays_ImminentMate(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
-        //MinMaxPruning minMax = new MinMaxPruning(1, evaluator, moveSorter);
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
+        //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
 
         Game childGame2 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.quiescenceMin(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
 
         Game childGame3 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame3)).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.quiescenceMin(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -172,30 +175,30 @@ public class MinMaxPruningTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, times(1)).executeMove(move3);
 
+        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMin(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMin(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+
         verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame3,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
-        verify(evaluator, times(1)).evaluate(childGame3);
     }
 
     @Test
     public void test_findBestMove_BlackPlays_ImminentMate(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
-        //MinMaxPruning minMax = new MinMaxPruning(1, evaluator);
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
+        //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(GameEvaluator.BLACK_LOST);
+        when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
         Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.BLACK_LOST);
+        when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
         Game childGame3 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame3)).thenReturn(GameEvaluator.BLACK_LOST);
+        when(quiescence.quiescenceMax(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -211,30 +214,29 @@ public class MinMaxPruningTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, times(1)).executeMove(move3);
 
+        verify(quiescence, times(1)).quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMax(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+
         verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).maximize(childGame3,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
-        verify(evaluator, times(1)).evaluate(childGame3);
     }
 
     @Test
     public void test_maximize_WhitePlays_MateCutOff(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
-        //MinMaxPruning minMax = new MinMaxPruning(evaluator, moveSorter);
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
+        //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
+        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.WHITE_WON);
+        when(quiescence.quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_WON);
 
         Game childGame3 = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
-        //when(evaluator.evaluate(childGame3)).thenReturn(3);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -249,12 +251,12 @@ public class MinMaxPruningTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
+        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMin(childGame2,1, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, never()).quiescenceMin(childGame3,GameEvaluator.WHITE_WON, GameEvaluator.INFINITE_POSITIVE);
+
         verify(minMax).minimize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2,0, 1, GameEvaluator.INFINITE_POSITIVE);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
-        verify(evaluator, never()).evaluate(childGame3);
 
         verifyNoInteractions(move3);
         verifyNoInteractions(childGame3);
@@ -262,15 +264,16 @@ public class MinMaxPruningTest {
 
     @Test
     public void test_findBestMove_BlackPlays_TwoMoves(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
+        //MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
+        when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(2);
+        when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, 1)).thenReturn(2);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -281,27 +284,26 @@ public class MinMaxPruningTest {
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, minMax.getEvaluation());
 
+        verify(quiescence, times(1)).quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMax(childGame2,GameEvaluator.INFINITE_NEGATIVE, 1);
+
         verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, 1);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
     }
 
     @Test
     public void test_findBestMove_BlackPlays_MateCutOff(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
+        when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.BLACK_WON);
+        when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, 1)).thenReturn(GameEvaluator.BLACK_WON);
 
         Game childGame3 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        //when(evaluator.evaluate(childGame3)).thenReturn(3);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -317,32 +319,30 @@ public class MinMaxPruningTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
+        verify(quiescence, times(1)).quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMax(childGame2,GameEvaluator.INFINITE_NEGATIVE, 1);
+
         verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, 1);
 
-        verify(rootGame, times(1)).executeMove(move1);
-        verify(rootGame, times(1)).executeMove(move2);
-        verify(rootGame, never()).executeMove(move3);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
-        verify(evaluator, never()).evaluate(childGame3);
+        verifyNoInteractions(move3);
+        verifyNoInteractions(childGame3);
     }
 
     @Test
     public void test_minimize_BlackPlays_MateCutOff(){
-        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(evaluator, moveSorter));
+        MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
+        //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
+        when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        when(evaluator.evaluate(childGame2)).thenReturn(GameEvaluator.BLACK_WON);
+        when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE,1)).thenReturn(GameEvaluator.BLACK_WON);
 
         Game childGame3 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
-        //when(evaluator.evaluate(childGame3)).thenReturn(3);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -357,16 +357,15 @@ public class MinMaxPruningTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
-        verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-        verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, 1);
-
         verify(rootGame, times(1)).executeMove(move1);
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
-        verify(evaluator, never()).evaluate(childGame3);
+        verify(quiescence, times(1)).quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).quiescenceMax(childGame2,GameEvaluator.INFINITE_NEGATIVE, 1);
+
+        verify(minMax).maximize(childGame1,0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(minMax).maximize(childGame2,0, GameEvaluator.INFINITE_NEGATIVE, 1);
 
         verifyNoInteractions(move3);
         verifyNoInteractions(childGame3);

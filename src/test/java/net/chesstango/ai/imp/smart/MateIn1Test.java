@@ -21,7 +21,7 @@ public class MateIn1Test  {
 
 	@Before
 	public void setUp() {
-		bestMoveFinder = new MinMaxPruning(new GameEvaluatorBasic());
+		bestMoveFinder = new MinMaxPruning();
 	}
 	
 	@Test

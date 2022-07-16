@@ -22,7 +22,7 @@
 
      @Before
      public void setUp() {
-         bestMoveFinder = new MinMaxPruning(new GameEvaluatorBasic());
+         bestMoveFinder = new MinMaxPruning();
      }
 
      @Test //Roberto Grau vs. Edgar Colle

@@ -9,25 +9,26 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Queue;
 
 /**
  * @author Mauricio Coria
  */
 public class MinMaxPruning extends AbstractSmart {
-    private final GameEvaluator evaluator;
     private final MoveSorter moveSorter;
+    private final Quiescence quiescence;
 
-    public MinMaxPruning(GameEvaluator evaluator) {
-        this(evaluator, new MoveSorter());
+    public MinMaxPruning() {
+        this(new Quiescence(new GameEvaluatorImp01(), new MoveSorter()), new MoveSorter());
     }
 
-    public MinMaxPruning(GameEvaluator evaluator, MoveSorter moveSorter) {
-        this.evaluator = evaluator;
+    public MinMaxPruning(Quiescence quiescence) {
+        this(quiescence, new MoveSorter());
+    }
+
+    public MinMaxPruning(Quiescence quiescence, MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
+        this.quiescence = quiescence;
     }
 
     @Override
@@ -71,9 +72,7 @@ public class MinMaxPruning extends AbstractSmart {
 
         if (bestMove == null && (minOrMax && evaluation == GameEvaluator.WHITE_WON  || !minOrMax && evaluation == GameEvaluator.BLACK_WON) ) {
             // Seleccionamos el primer movimiento
-            Iterator<Move> possibleMovesIterator = game.getPossibleMoves().iterator();
-            while (possibleMovesIterator.hasNext()) {
-                Move move = possibleMovesIterator.next();
+            for (Move move : game.getPossibleMoves()) {
                 bestMove = move;
                 break;
             }
@@ -84,9 +83,9 @@ public class MinMaxPruning extends AbstractSmart {
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {
         if (!game.getStatus().isInProgress()) {
-            return evaluator.evaluate(game);
+            return GameEvaluator.evaluateFinalStatus(game);
         } if (currentPly == 0 ){
-            return quiescenceMin(game, alpha, beta);
+            return quiescence.quiescenceMin(game, alpha, beta);
         } else {
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
@@ -112,41 +111,11 @@ public class MinMaxPruning extends AbstractSmart {
         }
     }
 
-    private int quiescenceMin(Game game, final int alpha, final int beta) {
-        boolean search = true;
-        int minValue = evaluator.evaluate(game);
-
-        if (alpha >= minValue) {
-            return minValue;
-        }
-
-        for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             search && keepProcessing && !sortedMoves.isEmpty(); ) {
-            Move move = sortedMoves.poll();
-
-            if(move.getTo().getValue() != null) {
-                game = game.executeMove(move);
-
-                int currentValue = quiescenceMax(game, alpha, Math.min(minValue, beta));
-
-                if (currentValue < minValue) {
-                    minValue = currentValue;
-                    if (alpha >= minValue) {
-                        search = false;
-                    }
-                }
-
-                game = game.undoMove();
-            }
-        }
-        return minValue;
-    }
-
     protected int maximize(Game game, final int currentPly, final int alpha, final int beta) {
         if (!game.getStatus().isInProgress()) {
-            return evaluator.evaluate(game);
+            return GameEvaluator.evaluateFinalStatus(game);
         } if (currentPly == 0 ){
-            return quiescenceMax(game, alpha, beta);
+            return quiescence.quiescenceMax(game, alpha, beta);
         } else {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
@@ -170,38 +139,6 @@ public class MinMaxPruning extends AbstractSmart {
             }
             return maxValue;
         }
-    }
-
-
-    private int quiescenceMax(Game game, final int alpha, final int beta) {
-        boolean search = true;
-
-        int maxValue = evaluator.evaluate(game);
-
-        if (maxValue >= beta) {
-            return maxValue;
-        }
-
-        for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             search && keepProcessing && !sortedMoves.isEmpty(); ) {
-            Move move = sortedMoves.poll();
-
-            if(move.getTo().getValue() != null) {
-                game = game.executeMove(move);
-
-                int currentValue = quiescenceMin(game, Math.max(maxValue, alpha), beta);
-
-                if (currentValue > maxValue) {
-                    maxValue = currentValue;
-                    if (maxValue >= beta) {
-                        search = false;
-                    }
-                }
-
-                game = game.undoMove();
-            }
-        }
-        return maxValue;
     }
 
 }

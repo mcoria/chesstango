@@ -31,6 +31,10 @@ public class GameState {
         public boolean isInProgress() {
             return inProgress;
         }
+
+        public boolean isFinalStatus(){
+            return !isInProgress();
+        }
     }
 
     public static class GameStateData {

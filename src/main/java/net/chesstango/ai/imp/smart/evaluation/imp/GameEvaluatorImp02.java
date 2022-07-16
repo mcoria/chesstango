@@ -37,11 +37,8 @@ public class GameEvaluatorImp02 implements GameEvaluator {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
-                // If white is on mate then evaluation is INFINITE_NEGATIVE
-                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-                break;
             case DRAW:
-                evaluation = 0;
+                evaluation = GameEvaluator.evaluateFinalStatus(game);
                 break;
             case CHECK:
                 // If white is on check then evaluation starts at -1
