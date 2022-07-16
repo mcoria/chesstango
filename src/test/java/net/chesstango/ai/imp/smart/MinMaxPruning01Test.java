@@ -1,6 +1,5 @@
 package net.chesstango.ai.imp.smart;
 
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorBasic;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -17,8 +16,9 @@ public class MinMaxPruning01Test {
     private MoveFactoryWhite moveFactoryWhite = new MoveFactoryWhite();
 
     @Test
-    public void testHorizontEffect(){
+    public void testHorizonteEffect(){
         MinMaxPruning minMaxPruning = new MinMaxPruning();
+
         Game game = FENDecoder.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
         Move bestMove = minMaxPruning.searchBestMove(game, 1);
