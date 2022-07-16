@@ -15,9 +15,9 @@ import java.util.Set;
  */
 public class GameEvaluatorImp01 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 731;
-    private static final int FACTOR_EXPANSION_DEFAULT = 65;
-    private static final int FACTOR_ATAQUE_DEFAULT = 204;
+    private static final int FACTOR_MATERIAL_DEFAULT = 979;
+    private static final int FACTOR_EXPANSION_DEFAULT = 19;
+    private static final int FACTOR_ATAQUE_DEFAULT = 2;
 
     private final int material;
     private final int expansion;

@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         MinMaxTest.class,
         MinMaxPruningTest.class,
+        MinMaxPruning01Test.class,
         GameEvaluatorTest.class,
         GameEvaluatorImp01Test.class,
         MoveSorterTest.class,
