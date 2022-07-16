@@ -3,6 +3,7 @@ package net.chesstango.ai.imp.smart;
 import net.chesstango.ai.imp.smart.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 
 import java.util.Queue;
 
@@ -31,7 +32,7 @@ public class Quiescence {
              search  && !sortedMoves.isEmpty(); ) {
             Move move = sortedMoves.poll();
 
-            if(move.getTo().getValue() != null) {
+            if(move.getTo().getValue() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
                 int currentValue = quiescenceMax(game, alpha, Math.min(minValue, beta));
@@ -62,7 +63,7 @@ public class Quiescence {
              search  && !sortedMoves.isEmpty(); ) {
             Move move = sortedMoves.poll();
 
-            if(move.getTo().getValue() != null) {
+            if(move.getTo().getValue() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
                 int currentValue = quiescenceMin(game, Math.max(maxValue, alpha), beta);
