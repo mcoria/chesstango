@@ -17,18 +17,22 @@ import java.util.Iterator;
  */
 public class GameEvaluatorImp02 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 2110;
-    private static final int FACTOR_ATAQUE_DEFAULT = 601;
+    private static final int FACTOR_MATERIAL_DEFAULT = 422;
+
+    private static final int FACTOR_EXPANSION_DEFAULT = 3;
+
+    private static final int FACTOR_ATAQUE_DEFAULT = 575;
 
     private final int material;
+    private final int expansion;
     private final int ataque;
-
     public GameEvaluatorImp02() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_ATAQUE_DEFAULT);
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT,  FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluatorImp02(int material, int ataque) {
+    public GameEvaluatorImp02(int material, int expansion, int ataque) {
         this.material = material;
+        this.expansion = expansion;
         this.ataque = ataque;
     }
 
@@ -44,14 +48,16 @@ public class GameEvaluatorImp02 implements GameEvaluator {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation += material * GameEvaluator.evaluateByMaterial(game);
-                evaluation += ataque * evaluateByAttack(game);
+                evaluation += material * 10 * GameEvaluator.evaluateByMaterial(game);
+                evaluation += evaluateByMoveAndByAttack(game);
         }
         return evaluation;
     }
 
-    protected int evaluateByAttack(final Game game) {
-        int evaluation = 0;
+    protected int evaluateByMoveAndByAttack(final Game game) {
+        int evaluationByAttack = 0;
+
+        int evaluationByMoveToEmptySquare = 0;
 
         ChessPositionReader positionReader = game.getChessPosition();
 
@@ -67,15 +73,18 @@ public class GameEvaluatorImp02 implements GameEvaluator {
             MoveList pseudoMoves = generationResult.getPseudoMoves();
 
             for (Move move: pseudoMoves) {
+                PiecePositioned fromPosition = move.getFrom();
                 PiecePositioned toPosition = move.getTo();
-                if (toPosition.getValue() != null) {
-                    evaluation += toPosition.getValue().getPieceValue();
+                if (toPosition.getValue() == null) {
+                    evaluationByMoveToEmptySquare += fromPosition.getValue().getPieceValue();
+                } else {
+                    evaluationByAttack -= toPosition.getValue().getPieceValue();
                 }
             }
         }
 
         // From white point of view
-        return  -  evaluation;
+        return  expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack ;
     }
 
 }
