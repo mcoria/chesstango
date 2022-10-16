@@ -1,0 +1,13 @@
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\Quiescence.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\evaluation\imp\GameEvaluatorBasic.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\MinMax.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\AbstractSmart.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\evaluation\GameEvaluator.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\evaluation\imp\GameEvaluatorImp02.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\IterativeDeeping.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\evaluation\imp\GameEvaluatorImp03.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\dummy\Dummy.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\MinMaxPruning.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\MoveSorter.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\imp\smart\evaluation\imp\GameEvaluatorImp01.java
+C:\Java\projects\chesstango\ai\src\main\java\net\chesstango\ai\BestMoveFinder.java
