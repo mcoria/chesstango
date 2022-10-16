@@ -2,13 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>chesstango</artifactId>
         <groupId>net.chesstango</groupId>
         <version>0.0.8-SNAPSHOT</version>
     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>uci</artifactId>
     <packaging>jar</packaging>
 
@@ -22,7 +23,14 @@
         <dependency>
             <groupId>net.chesstango</groupId>
             <artifactId>ai</artifactId>
-            <version>0.0.8-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
         </dependency>
     </dependencies>
 
