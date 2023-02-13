@@ -34,7 +34,7 @@ public class EngineProxy implements Engine {
     private boolean logging;
 
     public EngineProxy() {
-        processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
+        processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
         pipe = new UCIActivePipe();
     }
 

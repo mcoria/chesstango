@@ -25,6 +25,8 @@ public class EngineMain {
 
     private final UCIActivePipe pipe;
 
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+
     public static void main(String[] args) {
         EngineMain engineMain = new EngineMain(new EngineTango(), System.in, System.out);
         //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
@@ -33,9 +35,6 @@ public class EngineMain {
 
         engineMain.waitTermination();
     }
-
-
-    private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     public EngineMain(Engine engine, InputStream in, PrintStream out) {
         this.engine = engine;

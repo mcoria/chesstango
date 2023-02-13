@@ -31,11 +31,8 @@ import java.util.concurrent.TimeUnit;
 public class EngineTango implements Engine {
     private final BestMoveFinder bestMoveFinder;
     private final UCIMessageExecutor messageExecutor;
-
     private ExecutorService executor;
-
     private boolean asyncEnabled;
-
     private Game game;
     private ZondaState currentState;
     private UCIOutputStream responseOutputStream;
