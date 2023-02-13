@@ -46,7 +46,7 @@ public class SANEncoder {
                 sb.append(getFile(from));
             }
         } else {
-            sb.append(gePiecetCode(piece));
+            sb.append(getPieceCode(piece));
             sb.append(solveAmbiguityFrom(move, possibleMoves));
         }
 
@@ -58,7 +58,7 @@ public class SANEncoder {
 
         if(move instanceof MovePromotion){
             MovePromotion movePromotion = (MovePromotion) move;
-            sb.append("=" + gePiecetCode(movePromotion.getPromotion()));
+            sb.append("=" + getPieceCode(movePromotion.getPromotion()));
         }
 
         return sb.toString();
@@ -124,7 +124,7 @@ public class SANEncoder {
     }
 
 
-    private char gePiecetCode(Piece piece) {
+    private char getPieceCode(Piece piece) {
         switch (piece) {
             case PAWN_WHITE:
             case PAWN_BLACK:

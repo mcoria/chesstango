@@ -3,8 +3,8 @@
  */
 package net.chesstango;
 
-import net.chesstango.ai.BestMoveFinderSuiteTest;
-import net.chesstango.ai.imp.smart.*;
+import net.chesstango.search.BestMoveFinderSuiteTest;
+import net.chesstango.search.imp.smart.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

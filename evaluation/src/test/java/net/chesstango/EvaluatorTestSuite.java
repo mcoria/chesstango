@@ -3,9 +3,9 @@
  */
 package net.chesstango;
 
-import net.chesstango.ai.imp.smart.evaluation.GameEvaluatorTest;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01Test;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp02Test;
+import net.chesstango.evaluation.GameEvaluatorTest;
+import net.chesstango.evaluation.imp.GameEvaluatorImp01Test;
+import net.chesstango.evaluation.imp.GameEvaluatorImp02Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
