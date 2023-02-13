@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>uci-engine</artifactId>
+    <artifactId>search</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -21,11 +21,11 @@
     <dependencies>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>uci-protocol</artifactId>
+            <artifactId>board</artifactId>
         </dependency>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>search</artifactId>
+            <artifactId>evaluation</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -36,22 +36,5 @@
             <artifactId>mockito-inline</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>net.chesstango.uci.engine.EngineMain</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

@@ -10,6 +10,7 @@
     <modules>
         <module>board</module>
         <module>evaluation</module>
+        <module>search</module>
         <module>uci-protocol</module>
 		<module>uci-engine</module>
         <module>uci-arena</module>
@@ -33,6 +34,11 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>evaluation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>search</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

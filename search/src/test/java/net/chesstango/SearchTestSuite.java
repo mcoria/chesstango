@@ -5,8 +5,6 @@ package net.chesstango;
 
 import net.chesstango.ai.BestMoveFinderSuiteTest;
 import net.chesstango.ai.imp.smart.*;
-import net.chesstango.ai.imp.smart.evaluation.GameEvaluatorTest;
-import net.chesstango.ai.imp.smart.evaluation.imp.GameEvaluatorImp01Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -20,8 +18,6 @@ import org.junit.runners.Suite;
         MinMaxPruningWhiteTest.class,
         MinMaxPruningBlackTest.class,
         MinMaxPruning01Test.class,
-        GameEvaluatorTest.class,
-        GameEvaluatorImp01Test.class,
         MoveSorterTest.class,
         BlackBestMovesTest.class,
         IterativeDeepingTest.class,
@@ -31,6 +27,6 @@ import org.junit.runners.Suite;
         MateIn3Test.class,
         MateIn4Test.class
 })
-public class AiTestSuite {
+public class SearchTestSuite {
 
 }
