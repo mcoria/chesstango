@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ai-tunning</artifactId>
+    <artifactId>uci-protocol</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -24,22 +24,6 @@
             <artifactId>board</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>ai</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>uci-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jenetics</groupId>
-            <artifactId>jenetics</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
@@ -48,5 +32,6 @@
             <artifactId>mockito-inline</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>

@@ -5,12 +5,13 @@
     <groupId>net.chesstango</groupId>
     <artifactId>chesstango</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.9-SNAPSHOT</version>
 
     <modules>
         <module>board</module>
         <module>ai</module>
-        <module>uci</module>
+        <module>uci-protocol</module>
+		<module>uci-engine</module>
         <module>ai-tunning</module>
     </modules>
 
@@ -35,7 +36,12 @@
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
-                <artifactId>uci</artifactId>
+                <artifactId>uci-protocol</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>uci-engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

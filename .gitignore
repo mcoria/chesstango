@@ -1,9 +1,6 @@
-/target/
+**/target/
 .project
 .classpath
 .settings/
 .idea/
-ai/target/
-ai-tunning/target/
-board/target/
-uci/target/
+
