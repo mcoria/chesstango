@@ -8,6 +8,9 @@ import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Iterator;
 
+/**
+ * @author Mauricio Coria
+ */
 public interface GameEvaluator {
     int INFINITE_POSITIVE = Integer.MAX_VALUE;
     int INFINITE_NEGATIVE = -INFINITE_POSITIVE;

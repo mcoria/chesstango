@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>ai</artifactId>
+            <artifactId>evaluation</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

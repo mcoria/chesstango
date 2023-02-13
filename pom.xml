@@ -9,11 +9,11 @@
 
     <modules>
         <module>board</module>
-        <module>ai</module>
+        <module>evaluation</module>
         <module>uci-protocol</module>
 		<module>uci-engine</module>
         <module>uci-arena</module>
-        <module>ai-tunning</module>
+        <module>evaluation-tunning</module>
     </modules>
 
     <properties>
@@ -32,7 +32,7 @@
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
-                <artifactId>ai</artifactId>
+                <artifactId>evaluation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
