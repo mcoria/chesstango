@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ai-tunning</artifactId>
+    <artifactId>uci-arena</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -21,27 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>board</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>ai</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.chesstango</groupId>
             <artifactId>uci-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.chesstango</groupId>
-            <artifactId>uci-arena</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jenetics</groupId>
-            <artifactId>jenetics</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

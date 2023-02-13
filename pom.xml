@@ -12,6 +12,7 @@
         <module>ai</module>
         <module>uci-protocol</module>
 		<module>uci-engine</module>
+        <module>uci-arena</module>
         <module>ai-tunning</module>
     </modules>
 
@@ -42,6 +43,11 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>uci-engine</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>uci-arena</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
