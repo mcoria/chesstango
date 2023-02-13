@@ -1,4 +1,4 @@
-package net.chesstango.search.imp.smart;
+package net.chesstango.search.smart;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;

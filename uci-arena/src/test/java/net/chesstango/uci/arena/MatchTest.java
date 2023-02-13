@@ -1,6 +1,6 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.search.imp.dummy.Dummy;
+import net.chesstango.search.dummy.Dummy;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arena.imp.EngineControllerImp;

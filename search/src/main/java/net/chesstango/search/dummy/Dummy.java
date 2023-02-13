@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.chesstango.search.imp.dummy;
+package net.chesstango.search.dummy;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;

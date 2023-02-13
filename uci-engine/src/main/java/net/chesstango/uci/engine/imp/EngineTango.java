@@ -4,7 +4,7 @@
 package net.chesstango.uci.engine.imp;
 
 import net.chesstango.search.BestMoveFinder;
-import net.chesstango.search.imp.smart.IterativeDeeping;
+import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;

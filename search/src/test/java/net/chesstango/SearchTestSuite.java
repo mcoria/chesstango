@@ -4,7 +4,7 @@
 package net.chesstango;
 
 import net.chesstango.search.BestMoveFinderSuiteTest;
-import net.chesstango.search.imp.smart.*;
+import net.chesstango.search.smart.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

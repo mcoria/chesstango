@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.chesstango.search.imp.smart.MinMaxPruning;
-import net.chesstango.search.imp.smart.Quiescence;
+import net.chesstango.search.smart.MinMaxPruning;
+import net.chesstango.search.smart.Quiescence;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.board.Game;
 import net.chesstango.board.builder.imp.GameBuilder;

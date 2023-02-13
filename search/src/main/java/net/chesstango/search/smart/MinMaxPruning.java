@@ -1,7 +1,7 @@
 /**
  *
  */
-package net.chesstango.search.imp.smart;
+package net.chesstango.search.smart;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorImp02;
