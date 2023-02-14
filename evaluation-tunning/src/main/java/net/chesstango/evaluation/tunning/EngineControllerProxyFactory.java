@@ -2,7 +2,7 @@ package net.chesstango.evaluation.tunning;
 
 import net.chesstango.uci.arena.EngineController;
 import net.chesstango.uci.arena.imp.EngineControllerImp;
-import net.chesstango.uci.engine.imp.EngineProxy;
+import net.chesstango.uci.engine.EngineProxy;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;

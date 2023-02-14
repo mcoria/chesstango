@@ -1,8 +1,8 @@
 package net.chesstango.uci.arena.imp;
 
 import net.chesstango.uci.engine.Engine;
-import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineTango;
+import net.chesstango.uci.engine.EngineProxy;
+import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;

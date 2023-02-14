@@ -116,6 +116,9 @@ public class BestMoveFinderSuite {
 		return builder.getChessRepresentation();
 	}		
 
+	/*
+	 * TODO: similar a UCIEncoder
+	 */
 	private String encodeMove(Move move) {
 		String promotionStr = "";
 		if(move instanceof MovePromotion){

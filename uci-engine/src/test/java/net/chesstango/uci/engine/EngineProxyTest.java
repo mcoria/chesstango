@@ -1,9 +1,10 @@
 /**
  * 
  */
-package net.chesstango.uci.engine.imp;
+package net.chesstango.uci.engine;
 
 
+import net.chesstango.uci.engine.EngineProxy;
 import net.chesstango.uci.protocol.UCIDecoder;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamAdapter;

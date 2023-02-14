@@ -11,7 +11,6 @@ import java.util.function.Consumer;
  */
 public class StringConsumer implements Consumer<String> {
 
-
     private final BufferedWriter out;
 
     public StringConsumer(Writer writer) {

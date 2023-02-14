@@ -16,7 +16,7 @@ import net.chesstango.uci.arena.EngineController;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MathResult;
 import net.chesstango.uci.arena.imp.EngineControllerImp;
-import net.chesstango.uci.engine.imp.EngineTango;
+import net.chesstango.uci.engine.EngineTango;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 

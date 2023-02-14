@@ -3,8 +3,8 @@
  */
 package net.chesstango;
 
-import net.chesstango.uci.engine.imp.EngineProxyTest;
-import net.chesstango.uci.engine.imp.EngineTangoTest;
+import net.chesstango.uci.engine.EngineProxyTest;
+import net.chesstango.uci.engine.EngineTangoTest;
 import net.chesstango.uci.engine.EngineMainTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -1,14 +1,13 @@
 /**
  *
  */
-package net.chesstango.uci.engine.imp;
+package net.chesstango.uci.engine;
 
 import net.chesstango.search.BestMoveFinder;
 import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.engine.Engine;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.UCIMessageExecutor;

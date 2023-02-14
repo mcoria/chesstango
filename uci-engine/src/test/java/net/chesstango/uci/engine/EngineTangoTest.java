@@ -1,10 +1,11 @@
 /**
  *
  */
-package net.chesstango.uci.engine.imp;
+package net.chesstango.uci.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;

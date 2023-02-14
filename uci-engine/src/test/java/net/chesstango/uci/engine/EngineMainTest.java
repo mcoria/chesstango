@@ -5,8 +5,6 @@ package net.chesstango.uci.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENEncoder;
-import net.chesstango.uci.engine.imp.EngineProxy;
-import net.chesstango.uci.engine.imp.EngineTango;
 import org.junit.Assert;
 import org.junit.Test;
 

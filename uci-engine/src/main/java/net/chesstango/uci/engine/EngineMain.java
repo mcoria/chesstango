@@ -1,6 +1,5 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.uci.engine.imp.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdQuit;
 import net.chesstango.uci.protocol.stream.UCIActivePipe;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
