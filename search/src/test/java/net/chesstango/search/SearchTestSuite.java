@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.chesstango;
+package net.chesstango.search;
 
 import net.chesstango.search.BestMoveFinderSuiteTest;
 import net.chesstango.search.smart.*;
