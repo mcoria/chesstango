@@ -6,11 +6,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.MoveContainerReader;
 import org.junit.Test;
 
-import net.chesstango.board.builder.imp.GameBuilder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryBlack;

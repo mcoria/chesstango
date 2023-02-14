@@ -5,7 +5,7 @@ import java.io.PrintStream;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builder.imp.AbstractChessPositionBuilder;
+import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 
@@ -13,7 +13,7 @@ import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
  * @author Mauricio Coria
  *
  */
-public class ASCIIEncoder extends AbstractChessPositionBuilder<String> {
+public class ASCIIEncoder extends AbstractChessRepresentationBuilder<String> {
 	
 
 	@Override

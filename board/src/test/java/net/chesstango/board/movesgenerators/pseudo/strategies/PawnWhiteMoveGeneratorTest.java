@@ -11,7 +11,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builder.imp.PiecePlacementBuilder;
+import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;

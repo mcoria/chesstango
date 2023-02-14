@@ -4,7 +4,7 @@
 package net.chesstango.board.perft;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.builder.imp.GameBuilder;
+import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 /**

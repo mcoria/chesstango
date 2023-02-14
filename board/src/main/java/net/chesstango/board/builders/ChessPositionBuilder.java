@@ -1,9 +1,8 @@
-package net.chesstango.board.builder.imp;
+package net.chesstango.board.builders;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builder.ChessPositionBuilder;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.position.ChessPosition;
@@ -15,7 +14,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPosition> {
+public class ChessPositionBuilder implements ChessRepresentationBuilder<ChessPosition> {
 	
 	private final PiecePlacement piecePlacement;
 	private final PositionState positionState;
@@ -23,17 +22,17 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 	private ChessPosition chessPosition = null;
 
 	
-	public ChessPositionBuilderImp(ChessInjector chessInjector) {
+	public ChessPositionBuilder(ChessInjector chessInjector) {
 		this.piecePlacement = chessInjector.getPiecePlacement();
 		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
 	}
 	
-	public ChessPositionBuilderImp() {
+	public ChessPositionBuilder() {
 		this(new ChessInjector());
 	}	
 	
-	public ChessPositionBuilderImp(ChessFactory chessFactory) {
+	public ChessPositionBuilder(ChessFactory chessFactory) {
 		this(new ChessInjector(chessFactory));
 	}
 	
@@ -49,55 +48,55 @@ public class ChessPositionBuilderImp implements ChessPositionBuilder<ChessPositi
 	}
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withTurn(Color turn) {
+	public ChessRepresentationBuilder<ChessPosition> withTurn(Color turn) {
 		positionState.setCurrentTurn(turn);
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withEnPassantSquare(Square enPassantSquare) {
+	public ChessRepresentationBuilder<ChessPosition> withEnPassantSquare(Square enPassantSquare) {
 		positionState.setEnPassantSquare(enPassantSquare);
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+	public ChessRepresentationBuilder<ChessPosition> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		positionState.setCastlingWhiteQueenAllowed(castlingWhiteQueenAllowed);
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+	public ChessRepresentationBuilder<ChessPosition> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		positionState.setCastlingWhiteKingAllowed(castlingWhiteKingAllowed);
 		return this;
 	}
 
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+	public ChessRepresentationBuilder<ChessPosition> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		positionState.setCastlingBlackQueenAllowed(castlingBlackQueenAllowed);
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+	public ChessRepresentationBuilder<ChessPosition> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		positionState.setCastlingBlackKingAllowed(castlingBlackKingAllowed);
 		return this;
 	}
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withHalfMoveClock(int halfMoveClock) {
+	public ChessRepresentationBuilder<ChessPosition> withHalfMoveClock(int halfMoveClock) {
 		return null;
 	}
 
 	@Override
-	public ChessPositionBuilder<ChessPosition> withFullMoveClock(int fullMoveClock) {
+	public ChessRepresentationBuilder<ChessPosition> withFullMoveClock(int fullMoveClock) {
 		return null;
 	}
 
-	public ChessPositionBuilder<ChessPosition> withPiece(Square square, Piece piece) {
+	public ChessRepresentationBuilder<ChessPosition> withPiece(Square square, Piece piece) {
 		piecePlacement.setPieza(square, piece);
 		return this;
 	}

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.builder.imp.PiecePlacementBuilder;
+import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.iterators.SquareIterator;

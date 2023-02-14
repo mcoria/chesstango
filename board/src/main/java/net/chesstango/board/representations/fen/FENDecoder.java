@@ -4,8 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.builder.ChessPositionBuilder;
-import net.chesstango.board.builder.imp.GameBuilder;
+import net.chesstango.board.builders.ChessRepresentationBuilder;
+import net.chesstango.board.builders.GameBuilder;
 
 /**
  * @author Mauricio Coria
@@ -14,10 +14,10 @@ import net.chesstango.board.builder.imp.GameBuilder;
 public class FENDecoder {
 	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-	private final ChessPositionBuilder<?> chessPositionBuilder;
+	private final ChessRepresentationBuilder<?> chessRepresentationBuilder;
 	
-	public FENDecoder(ChessPositionBuilder<?> chessPositionBuilder) {
-		this.chessPositionBuilder = chessPositionBuilder; 
+	public FENDecoder(ChessRepresentationBuilder<?> chessRepresentationBuilder) {
+		this.chessRepresentationBuilder = chessRepresentationBuilder;
 	}	
 			
 	public void parseFEN(String input) {
@@ -32,29 +32,29 @@ public class FENDecoder {
 		
 		parsePiecePlacement(piecePlacement);
 		
-		chessPositionBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
+		chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
 		
-		chessPositionBuilder.withTurn(parseTurno(activeColor));
+		chessRepresentationBuilder.withTurn(parseTurno(activeColor));
 		
 		if(isCastlingWhiteQueenAllowed(castingsAllowed)){
-			chessPositionBuilder.withCastlingWhiteQueenAllowed(true);
+			chessRepresentationBuilder.withCastlingWhiteQueenAllowed(true);
 		}
 		
 		if(isCastlingWhiteKingAllowed(castingsAllowed)){
-			chessPositionBuilder.withCastlingWhiteKingAllowed(true);
+			chessRepresentationBuilder.withCastlingWhiteKingAllowed(true);
 		}
 		
 		if(isCastlingBlackQueenAllowed(castingsAllowed)){
-			chessPositionBuilder.withCastlingBlackQueenAllowed(true);
+			chessRepresentationBuilder.withCastlingBlackQueenAllowed(true);
 		}
 		
 		if(isCastlingBlackKingAllowed(castingsAllowed)){
-			chessPositionBuilder.withCastlingBlackKingAllowed(true);
+			chessRepresentationBuilder.withCastlingBlackKingAllowed(true);
 		}
 
-		chessPositionBuilder.withHalfMoveClock(Integer.parseInt(halfMoveClock));
+		chessRepresentationBuilder.withHalfMoveClock(Integer.parseInt(halfMoveClock));
 
-		chessPositionBuilder.withFullMoveClock(Integer.parseInt(fullMoveClock));
+		chessRepresentationBuilder.withFullMoveClock(Integer.parseInt(fullMoveClock));
 
 	}
 	
@@ -65,7 +65,7 @@ public class FENDecoder {
 				Square square = Square.getSquare(file, rank);
 				Piece piece = piezas[rank][file];
 				if(piece != null){
-					chessPositionBuilder.withPiece(square, piece);
+					chessRepresentationBuilder.withPiece(square, piece);
 				}
 			}
 		}

@@ -12,7 +12,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builder.imp.PiecePlacementBuilder;
+import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;

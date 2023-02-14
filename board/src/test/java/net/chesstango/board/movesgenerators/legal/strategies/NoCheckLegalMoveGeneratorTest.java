@@ -6,7 +6,7 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.GameState;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.builder.imp.ChessPositionBuilderImp;
+import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
@@ -47,7 +47,7 @@ public class NoCheckLegalMoveGeneratorTest {
 		ChessFactory chessFactory = new ChessFactoryDebug();
 		ChessInjector injector = new ChessInjector(chessFactory);
 		
-		ChessPositionBuilderImp builder = new ChessPositionBuilderImp(injector);
+		ChessPositionBuilder builder = new ChessPositionBuilder(injector);
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 

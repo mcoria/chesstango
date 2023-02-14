@@ -18,7 +18,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.builder.imp.GameBuilder;
+import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.representations.fen.FENDecoder;

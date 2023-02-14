@@ -6,7 +6,7 @@ package net.chesstango.board.position;
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builder.ChessPositionBuilder;
+import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 
 import java.util.Iterator;
@@ -43,5 +43,5 @@ public interface ChessPositionReader extends PiecePlacementReader {
 
 	Iterator<PiecePositioned> iteratorAllPieces();
 	
-	void constructBoardRepresentation(ChessPositionBuilder<?> builder);
+	void constructBoardRepresentation(ChessRepresentationBuilder<?> builder);
 }

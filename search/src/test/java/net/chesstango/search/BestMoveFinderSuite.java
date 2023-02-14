@@ -11,7 +11,7 @@ import net.chesstango.search.smart.MinMaxPruning;
 import net.chesstango.search.smart.Quiescence;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.board.Game;
-import net.chesstango.board.builder.imp.GameBuilder;
+import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
