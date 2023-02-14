@@ -113,7 +113,7 @@ public class BestMoveFinderSuite {
 		
 		parser.parseFEN(fen);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}		
 
 	private String encodeMove(Move move) {

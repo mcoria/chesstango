@@ -273,9 +273,9 @@ public class Match {
             theGamePositionReader.constructBoardRepresentation(fenEncoder);
 
             if (counter % 2 == 0) {
-                System.out.println(" // " + (counter / 2 + 1) + " " + fenEncoder.getResult());
+                System.out.println(" // " + (counter / 2 + 1) + " " + fenEncoder.getChessRepresentation());
             } else {
-                System.out.println(" // " + fenEncoder.getResult());
+                System.out.println(" // " + fenEncoder.getChessRepresentation());
             }
 
             counter++;

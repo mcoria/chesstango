@@ -424,7 +424,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		PiecePlacement tablero = builder.getResult();
+		PiecePlacement tablero = builder.getChessRepresentation();
 		
 		colorBoard.init(tablero);
 		kingCacheBoard.init(tablero);

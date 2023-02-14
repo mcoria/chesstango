@@ -105,7 +105,7 @@ public class ChessPositionImp implements ChessPosition {
 		constructBoardRepresentation(fenEncoder);
 		constructBoardRepresentation(asciiEncoder);
 		
-	    return asciiEncoder.getResult() + fenEncoder.getResult();
+	    return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
 	}
 
 	public void setPiecePlacement(PiecePlacement dummyBoard) {

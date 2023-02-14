@@ -240,7 +240,7 @@ public class FENDecoder {
 
 		parser.parseFEN(fen);
 
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}
 
 }

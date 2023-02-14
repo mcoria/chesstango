@@ -11,7 +11,7 @@ import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
 
 	@Override
-	public String getResult() {
+	public String getChessRepresentation() {
 		return getFEN(new StringBuilder(70));
 	}
 

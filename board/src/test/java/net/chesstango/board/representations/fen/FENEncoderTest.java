@@ -243,7 +243,7 @@ public class FENEncoderTest {
 		coder.withFullMoveClock(5);
 		
 		
-		String actual = coder.getResult();
+		String actual = coder.getChessRepresentation();
 		
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 3 5", actual);
 	}
@@ -267,7 +267,7 @@ public class FENEncoderTest {
 
 		game.getChessPosition().constructBoardRepresentation(coder);
 
-		String fen = coder.getResult();
+		String fen = coder.getChessRepresentation();
 
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", fen);
 	}
@@ -280,7 +280,7 @@ public class FENEncoderTest {
 
 		game.getChessPosition().constructBoardRepresentation(coder);
 
-		String fen = coder.getResult();
+		String fen = coder.getChessRepresentation();
 
 		assertEquals("rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1", fen);
 	}
@@ -295,7 +295,7 @@ public class FENEncoderTest {
 
 		game.getChessPosition().constructBoardRepresentation(coder);
 
-		String fen = coder.getResult();
+		String fen = coder.getChessRepresentation();
 
 		assertEquals("rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2", fen);
 	}

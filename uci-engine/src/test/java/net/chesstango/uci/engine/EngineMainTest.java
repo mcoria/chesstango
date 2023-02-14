@@ -115,7 +115,7 @@ public class EngineMainTest {
 	private String fenCode(Game board) {
 		FENEncoder coder = new FENEncoder();
 		board.getChessPosition().constructBoardRepresentation(coder);
-		return coder.getResult();
+		return coder.getChessRepresentation();
 	}
 
 }

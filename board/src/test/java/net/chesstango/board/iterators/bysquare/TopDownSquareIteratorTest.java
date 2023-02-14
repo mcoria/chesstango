@@ -38,7 +38,7 @@ public class TopDownSquareIteratorTest {
 	public void testTopDownSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		PiecePlacement tablero =  builder.getResult();
+		PiecePlacement tablero =  builder.getChessRepresentation();
 
 		Iterator<PiecePositioned> iterator = tablero.iterator(new TopDownSquareIterator());
 		

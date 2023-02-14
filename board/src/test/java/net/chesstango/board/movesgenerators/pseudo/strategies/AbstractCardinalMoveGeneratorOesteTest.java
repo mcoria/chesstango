@@ -150,6 +150,6 @@ public class AbstractCardinalMoveGeneratorOesteTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}	
 }

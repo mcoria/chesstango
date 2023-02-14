@@ -259,7 +259,7 @@ public class ChessPositionTest {
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 		
-		builder.getResult();
+		builder.getChessRepresentation();
 		
 		chessPosition =  injector.getChessPosition();
 

@@ -27,5 +27,5 @@ public interface ChessRepresentationBuilder<T> {
 
 	ChessRepresentationBuilder<T> withFullMoveClock(int fullMoveClock);
 	
-	T getResult();
+	T getChessRepresentation();
 }

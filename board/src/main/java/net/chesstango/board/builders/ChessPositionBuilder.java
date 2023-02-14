@@ -37,7 +37,7 @@ public class ChessPositionBuilder implements ChessRepresentationBuilder<ChessPos
 	}
 	
 	@Override
-	public ChessPosition getResult() {
+	public ChessPosition getChessRepresentation() {
 		if (chessPosition == null) {
 			
 			chessPosition = chessInjector.getChessPosition();

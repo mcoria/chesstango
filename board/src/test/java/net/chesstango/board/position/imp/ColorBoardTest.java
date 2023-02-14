@@ -48,7 +48,7 @@ public class ColorBoardTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}	
 
 }

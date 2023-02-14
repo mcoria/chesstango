@@ -25,7 +25,7 @@ public class PiecePlacementBuilder implements ChessRepresentationBuilder<PiecePl
 	}	
 	
 	@Override
-	public PiecePlacement getResult() {
+	public PiecePlacement getChessRepresentation() {
 		return piecePlacement;
 	}
 

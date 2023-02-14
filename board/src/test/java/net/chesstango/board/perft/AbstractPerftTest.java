@@ -21,6 +21,6 @@ public abstract class AbstractPerftTest {
 		
 		parser.parseFEN(string);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}	
 }

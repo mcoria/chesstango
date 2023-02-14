@@ -37,7 +37,7 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	}
 	
 	@Override
-	public Game getResult() {
+	public Game getChessRepresentation() {
 		if (game == null) {
 			game = chessInjector.getGame();
 			game.init();

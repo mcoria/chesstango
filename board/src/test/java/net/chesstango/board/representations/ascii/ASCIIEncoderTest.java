@@ -113,7 +113,7 @@ public class ASCIIEncoderTest {
 		//Actual
 	    parser.parseFEN(FENDecoder.INITIAL_FEN);
 	    
-	    String result = builder.getResult();
+	    String result = builder.getChessRepresentation();
 	    
 		assertEquals(baosExp.toString(), result);
 	}		

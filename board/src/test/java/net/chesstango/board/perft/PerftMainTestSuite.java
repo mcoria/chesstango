@@ -258,7 +258,7 @@ public class PerftMainTestSuite {
 		
 		parser.parseFEN(this.fen);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}
 
 

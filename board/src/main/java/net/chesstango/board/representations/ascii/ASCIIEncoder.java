@@ -17,7 +17,7 @@ public class ASCIIEncoder extends AbstractChessRepresentationBuilder<String> {
 	
 
 	@Override
-	public String getResult() {
+	public String getChessRepresentation() {
 	    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    try (PrintStream ps = new PrintStream(baos)) {
 			getPiecePlacement(ps);

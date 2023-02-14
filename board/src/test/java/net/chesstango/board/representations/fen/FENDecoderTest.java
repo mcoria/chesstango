@@ -92,7 +92,7 @@ public class FENDecoderTest {
 			}
 
 			@Override
-			public Object getResult() {
+			public Object getChessRepresentation() {
 				// TODO Auto-generated method stub
 				return null;
 			}

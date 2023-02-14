@@ -50,7 +50,7 @@ public class CheckLegalMoveGeneratorTest {
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 
-		chessPosition = builder.getResult();
+		chessPosition = builder.getChessRepresentation();
 		
 		strategy = injector.getMoveGenerator();
 		

@@ -116,7 +116,7 @@ public class QueenMoveGeneratorTest {
 		
 		parser.parsePiecePlacement(string);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}
 
 }

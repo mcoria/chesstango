@@ -597,7 +597,7 @@ public class GameTest {
 		
 		parser.parseFEN(string);
 		
-		return builder.getResult();
+		return builder.getChessRepresentation();
 	}
 	
 	

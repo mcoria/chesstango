@@ -57,7 +57,7 @@ public class BottomUpSquareIteratorTest {
 	public void testBottomUpSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-		PiecePlacement tablero =  builder.getResult();
+		PiecePlacement tablero =  builder.getChessRepresentation();
 
 		Iterator<PiecePositioned> iterator = tablero.iterator(new BottomUpSquareIterator());
 
