@@ -6,7 +6,7 @@ import net.chesstango.board.moves.MoveKing;
 /**
  * @author Mauricio Coria
  */
-class CaptureKingMove extends CaptureMove implements MoveKing {
+public class CaptureKingMove extends CaptureMove implements MoveKing {
 
     public CaptureKingMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

@@ -11,7 +11,7 @@ import net.chesstango.board.position.PiecePlacementWriter;
  * @author Mauricio Coria
  *
  */
-class SimplePawnPromotion extends SimplePawnMove implements MovePromotion {
+public class SimplePawnPromotion extends SimplePawnMove implements MovePromotion {
 
 	protected final Piece promotion;
 

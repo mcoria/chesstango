@@ -9,7 +9,7 @@ import java.util.Map;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.perft.Perft;
 import net.chesstango.board.perft.PerftResult;
 

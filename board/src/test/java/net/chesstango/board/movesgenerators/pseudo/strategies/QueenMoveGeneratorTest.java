@@ -14,7 +14,7 @@ import net.chesstango.board.builder.imp.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.ColorBoard;

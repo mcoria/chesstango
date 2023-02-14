@@ -9,7 +9,7 @@ import net.chesstango.board.position.PiecePlacementWriter;
  * @author Mauricio Coria
  *
  */
-class CapturePawnPromotion extends CapturePawnMove implements MovePromotion {
+public class CapturePawnPromotion extends CapturePawnMove implements MovePromotion {
 
 	protected final Piece promotion;
 	

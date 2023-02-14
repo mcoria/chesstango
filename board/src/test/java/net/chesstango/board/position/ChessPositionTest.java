@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.factories.MoveFactoryWhite;
 
 
 /**

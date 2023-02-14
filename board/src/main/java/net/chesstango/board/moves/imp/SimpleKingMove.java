@@ -6,7 +6,7 @@ import net.chesstango.board.moves.MoveKing;
 /**
  * @author Mauricio Coria
  */
-class SimpleKingMove extends SimpleMove implements MoveKing {
+public class SimpleKingMove extends SimpleMove implements MoveKing {
 
     public SimpleKingMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

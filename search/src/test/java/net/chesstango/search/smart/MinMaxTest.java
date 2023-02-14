@@ -4,7 +4,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 import org.junit.Assert;
 import org.junit.Before;

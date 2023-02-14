@@ -8,7 +8,7 @@ import net.chesstango.board.position.imp.PositionState;
 /**
  * @author Mauricio Coria
  */
-class SimpleMove extends AbstractNotPawnMove {
+public class SimpleMove extends AbstractNotPawnMove {
 
     public SimpleMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

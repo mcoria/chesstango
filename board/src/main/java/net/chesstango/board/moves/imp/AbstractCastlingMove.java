@@ -14,7 +14,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class AbstractCastlingMove implements MoveCastling  {
+public abstract class AbstractCastlingMove implements MoveCastling  {
 	protected final SimpleKingMove kingMove;
 	protected final SimpleMove rookMove;	
 	

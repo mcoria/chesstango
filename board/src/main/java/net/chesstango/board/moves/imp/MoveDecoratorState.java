@@ -10,7 +10,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class MoveDecoratorState<T extends Move> extends MoveDecorator<T> {
+public class MoveDecoratorState<T extends Move> extends MoveDecorator<T> {
 	
 	protected Consumer<PositionState> decoratorState;
 

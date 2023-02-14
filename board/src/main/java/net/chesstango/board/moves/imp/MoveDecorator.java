@@ -12,7 +12,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class MoveDecorator<T extends Move> implements Move {
+public abstract class MoveDecorator<T extends Move> implements Move {
 	
 	protected final T move;
 	

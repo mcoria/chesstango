@@ -3,7 +3,7 @@ package net.chesstango.board.perft;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

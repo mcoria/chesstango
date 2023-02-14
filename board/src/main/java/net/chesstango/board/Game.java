@@ -3,7 +3,7 @@ package net.chesstango.board;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;

@@ -11,7 +11,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-abstract class AbstractMove implements Move {
+public abstract class AbstractMove implements Move {
 	protected final PiecePositioned from;
 	protected final PiecePositioned to;
 	protected final Cardinal direction;

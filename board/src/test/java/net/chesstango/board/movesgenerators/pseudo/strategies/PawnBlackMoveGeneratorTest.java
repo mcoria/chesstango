@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;

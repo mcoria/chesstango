@@ -7,14 +7,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 import org.junit.Test;
 
 import net.chesstango.board.builder.imp.GameBuilder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.factories.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;
 
 

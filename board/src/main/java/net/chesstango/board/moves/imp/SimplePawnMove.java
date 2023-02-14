@@ -8,7 +8,7 @@ import net.chesstango.board.position.imp.ColorBoard;
 /**
  * @author Mauricio Coria
  */
-class SimplePawnMove extends AbstractPawnMove {
+public class SimplePawnMove extends AbstractPawnMove {
 
     public SimplePawnMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

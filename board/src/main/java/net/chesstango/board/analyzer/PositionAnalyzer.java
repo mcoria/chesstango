@@ -2,7 +2,7 @@ package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
-import net.chesstango.board.moves.containers.MoveContainerReader;
+import net.chesstango.board.moves.MoveContainerReader;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde

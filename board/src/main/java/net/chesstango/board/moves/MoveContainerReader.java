@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.containers;
+package net.chesstango.board.moves;
 
 import net.chesstango.board.moves.Move;
 
@@ -11,5 +11,5 @@ public interface MoveContainerReader extends Iterable<Move> {
 
     boolean isEmpty();
 
-    boolean contains(Move simpleMove);
+    boolean contains(Move move);
 }

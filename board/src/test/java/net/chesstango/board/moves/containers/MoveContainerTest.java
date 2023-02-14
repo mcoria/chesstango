@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

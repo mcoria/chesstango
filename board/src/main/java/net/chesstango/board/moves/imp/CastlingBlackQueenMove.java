@@ -10,7 +10,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-class CastlingBlackQueenMove extends AbstractCastlingMove {
+public class CastlingBlackQueenMove extends AbstractCastlingMove {
 
 	public static final PiecePositioned FROM = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
 	public static final PiecePositioned TO = PiecePositioned.getPiecePositioned(Square.c8, null);
