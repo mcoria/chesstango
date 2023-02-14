@@ -8,12 +8,9 @@ import net.chesstango.board.moves.Move;
  *
  */
 public interface BestMoveFinder {
-
     Move searchBestMove(Game game);
 
 	Move searchBestMove(Game game, int depth);
 
     void stopSearching();
-
-
 }

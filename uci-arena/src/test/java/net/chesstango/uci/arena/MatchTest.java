@@ -41,7 +41,7 @@ public class MatchTest {
     public void test01() {
         Match match = new Match(smartEngine, dummyEngine, 1);
 
-        Match.MathResult result = match.compete(FENDecoder.INITIAL_FEN);
+        MathResult result = match.compete(FENDecoder.INITIAL_FEN);
 
         // Deberia ganar el engine  blanco dado que el engine en negro ejecuta la funcion basica de evaluacion
         Assert.assertTrue(result.getPoints() > 0 );
@@ -51,13 +51,13 @@ public class MatchTest {
     public void test02() {
         Match match = new Match(smartEngine, dummyEngine, 1);
 
-        List<Match.MathResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
+        List<MathResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
 
         Assert.assertEquals(2, matchResult.size()  );
 
         // Deberia ganar el engine  blanco dado que el engine en negro ejecuta la funcion basica de evaluacion
-        Assert.assertEquals(GameEvaluator.WHITE_WON, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine).mapToLong(Match.MathResult::getPoints).sum() );
-        Assert.assertEquals(GameEvaluator.BLACK_WON, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine).mapToLong(Match.MathResult::getPoints).sum() );
+        Assert.assertEquals(GameEvaluator.WHITE_WON, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine).mapToLong(MathResult::getPoints).sum() );
+        Assert.assertEquals(GameEvaluator.BLACK_WON, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine).mapToLong(MathResult::getPoints).sum() );
     }
 
 }

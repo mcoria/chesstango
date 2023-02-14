@@ -22,7 +22,7 @@ public class Tournament {
     }
 
     public Map<EngineController, TournamentResult> play(List<String> fenList) {
-        List<Match.MathResult> matchResults = new ArrayList<>();
+        List<MathResult> matchResults = new ArrayList<>();
         for ( EngineController engineController : engineControllerList) {
             Match match = new Match(primaryEngine, engineController, 1);
             matchResults.addAll(match.play(fenList));
