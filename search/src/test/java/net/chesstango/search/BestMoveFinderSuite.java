@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.search.smart.MinMaxPruning;
 import net.chesstango.search.smart.Quiescence;
-import net.chesstango.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
@@ -82,7 +82,7 @@ public class BestMoveFinderSuite {
 	protected boolean run(String epd) {
 		EdpParsed edpParsed = parseTests(epd);
 		
-		BestMoveFinder moveFinder = new MinMaxPruning( new Quiescence( new GameEvaluatorImp01() ) );
+		BestMoveFinder moveFinder = new MinMaxPruning( new Quiescence( new DefaultGameEvaluator() ) );
 		
 		Game game = getGame(edpParsed.fen);
 

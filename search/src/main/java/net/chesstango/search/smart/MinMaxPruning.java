@@ -3,8 +3,8 @@
  */
 package net.chesstango.search.smart;
 
+import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorImp02;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -18,8 +18,9 @@ public class MinMaxPruning extends AbstractSmart {
     private final MoveSorter moveSorter;
     private final Quiescence quiescence;
 
+
     public MinMaxPruning() {
-        this(new Quiescence(new GameEvaluatorImp02(), new MoveSorter()), new MoveSorter());
+        this(new Quiescence(new DefaultGameEvaluator(), new MoveSorter()), new MoveSorter());
     }
 
     public MinMaxPruning(Quiescence quiescence) {

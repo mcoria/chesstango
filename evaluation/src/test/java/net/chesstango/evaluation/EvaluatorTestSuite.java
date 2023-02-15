@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.chesstango;
+package net.chesstango.evaluation;
 
 import net.chesstango.evaluation.GameEvaluatorTest;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01Test;
