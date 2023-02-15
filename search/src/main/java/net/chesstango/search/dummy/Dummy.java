@@ -6,7 +6,8 @@ package net.chesstango.search.dummy;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-import net.chesstango.search.BestMoveFinder;
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMove;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
@@ -15,7 +16,7 @@ import net.chesstango.board.moves.Move;
  * @author Mauricio Coria
  *
  */
-public class Dummy implements BestMoveFinder {
+public class Dummy implements SearchMove {
 
 	@Override
 	public Move searchBestMove(Game game) {
@@ -43,6 +44,11 @@ public class Dummy implements BestMoveFinder {
 
 	@Override
 	public void stopSearching() {
+	}
+
+	@Override
+	public void setGameEvaluator(GameEvaluator evaluator) {
+
 	}
 
 }

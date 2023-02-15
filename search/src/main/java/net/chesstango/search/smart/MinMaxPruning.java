@@ -20,7 +20,7 @@ public class MinMaxPruning extends AbstractSmart {
 
 
     public MinMaxPruning() {
-        this(new Quiescence(new DefaultGameEvaluator(), new MoveSorter()), new MoveSorter());
+        this(new Quiescence(new MoveSorter()), new MoveSorter());
     }
 
     public MinMaxPruning(Quiescence quiescence) {
@@ -80,6 +80,11 @@ public class MinMaxPruning extends AbstractSmart {
         }
 
         return bestMove;
+    }
+
+    @Override
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        quiescence.setGameEvaluator(evaluator);
     }
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {

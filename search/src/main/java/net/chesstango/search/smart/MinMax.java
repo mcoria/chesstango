@@ -16,12 +16,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MinMax extends AbstractSmart {
 
 	private static final int DEFAULT_MAX_PLIES = 4;
-	private final GameEvaluator evaluator;
+	private GameEvaluator evaluator;
 
-
-	public MinMax(GameEvaluator evaluator) {
-		this.evaluator = evaluator;
-	}
 
 	@Override
 	public Move searchBestMove(Game game) {
@@ -67,6 +63,11 @@ public class MinMax extends AbstractSmart {
 		evaluation = betterEvaluation;
 
 		return selectMove(possibleMoves);
+	}
+
+	@Override
+	public void setGameEvaluator(GameEvaluator evaluator) {
+		this.evaluator = evaluator;
 	}
 
 	protected int minMax(Game game, final boolean minOrMax, final int currentPly) {

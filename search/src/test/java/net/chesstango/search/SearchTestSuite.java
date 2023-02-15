@@ -3,7 +3,6 @@
  */
 package net.chesstango.search;
 
-import net.chesstango.search.BestMoveFinderSuiteTest;
 import net.chesstango.search.smart.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -21,7 +20,7 @@ import org.junit.runners.Suite;
         MoveSorterTest.class,
         BlackBestMovesTest.class,
         IterativeDeepingTest.class,
-        BestMoveFinderSuiteTest.class,
+        SearchMoveSuiteTest.class,
         MateIn1Test.class,
         MateIn2Test.class,
         MateIn3Test.class,

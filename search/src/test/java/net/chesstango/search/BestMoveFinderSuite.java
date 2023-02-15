@@ -1,21 +1,18 @@
 package net.chesstango.search;
 
+import net.chesstango.board.Game;
+import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.factory.ChessFactory;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.representations.fen.FENDecoder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.chesstango.evaluation.DefaultGameEvaluator;
-import net.chesstango.search.smart.MinMaxPruning;
-import net.chesstango.search.smart.Quiescence;
-import net.chesstango.board.Game;
-import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MovePromotion;
 
 /**
  * @author Mauricio Coria
@@ -82,7 +79,7 @@ public class BestMoveFinderSuite {
 	protected boolean run(String epd) {
 		EdpParsed edpParsed = parseTests(epd);
 		
-		BestMoveFinder moveFinder = new MinMaxPruning( new Quiescence( new DefaultGameEvaluator() ) );
+		SearchMove moveFinder = new DefaultSearchMove();
 		
 		Game game = getGame(edpParsed.fen);
 

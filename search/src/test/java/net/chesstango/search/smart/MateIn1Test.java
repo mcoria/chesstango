@@ -1,11 +1,12 @@
  package net.chesstango.search.smart;
 
- import net.chesstango.evaluation.GameEvaluator;
  import net.chesstango.board.Game;
  import net.chesstango.board.Piece;
  import net.chesstango.board.Square;
  import net.chesstango.board.moves.Move;
  import net.chesstango.board.representations.fen.FENDecoder;
+ import net.chesstango.evaluation.DefaultGameEvaluator;
+ import net.chesstango.evaluation.GameEvaluator;
  import org.junit.Assert;
  import org.junit.Before;
  import org.junit.Test;
@@ -21,6 +22,7 @@ public class MateIn1Test  {
 	@Before
 	public void setUp() {
 		bestMoveFinder = new MinMaxPruning();
+		bestMoveFinder.setGameEvaluator(new DefaultGameEvaluator());
 	}
 	
 	@Test

@@ -8,17 +8,25 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.evaluation.DefaultGameEvaluator;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MinMaxPruning01Test {
 
     private MoveFactoryWhite moveFactoryWhite = new MoveFactoryWhite();
 
+    private MinMaxPruning minMaxPruning = null;
+
+    @Before
+    public void setUp() {
+        minMaxPruning = new MinMaxPruning();
+        minMaxPruning.setGameEvaluator(new DefaultGameEvaluator());
+    }
+
     @Test
     public void testHorizonteEffectCapture(){
-        MinMaxPruning minMaxPruning = new MinMaxPruning();
-
         Game game = FENDecoder.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
         Move bestMove = minMaxPruning.searchBestMove(game, 1);
@@ -30,8 +38,6 @@ public class MinMaxPruning01Test {
 
     @Test
     public void testHorizonteEffectPromotion(){
-        MinMaxPruning minMaxPruning = new MinMaxPruning();
-
         Game game = FENDecoder.loadGame("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1");
 
         Move bestMove = minMaxPruning.searchBestMove(game, 1);

@@ -66,6 +66,11 @@ public class IterativeDeeping extends AbstractSmart {
     }
 
     @Override
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        imp.setGameEvaluator(evaluator);
+    }
+
+    @Override
     public int getEvaluation() {
         return bestMovesByDepth.get(bestMovesByDepth.size() - 1).evaluation;
     }

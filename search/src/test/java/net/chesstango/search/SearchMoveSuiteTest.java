@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author Mauricio Coria
  *
  */
-public class BestMoveFinderSuiteTest {
+public class SearchMoveSuiteTest {
 
 	@Test
 	@Ignore

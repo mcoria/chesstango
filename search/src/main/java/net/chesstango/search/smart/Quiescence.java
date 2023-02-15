@@ -11,15 +11,15 @@ import java.util.Queue;
  * @author Mauricio Coria
  */
 public class Quiescence {
-    private final GameEvaluator evaluator;
     private final MoveSorter moveSorter;
 
-    public Quiescence(GameEvaluator evaluator) {
-        this(evaluator, new MoveSorter());
+    private GameEvaluator evaluator;
+
+    public Quiescence() {
+        this(new MoveSorter());
     }
 
-    public Quiescence(GameEvaluator evaluator, MoveSorter moveSorter) {
-        this.evaluator = evaluator;
+    public Quiescence(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
     }
 
@@ -82,5 +82,9 @@ public class Quiescence {
             }
         }
         return maxValue;
+    }
+
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        this.evaluator = evaluator;
     }
 }

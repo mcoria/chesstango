@@ -1,12 +1,12 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.search.BestMoveFinder;
+import net.chesstango.search.SearchMove;
 
 /**
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractSmart implements BestMoveFinder {
+public abstract class AbstractSmart implements SearchMove {
 
     protected int evaluation;
 

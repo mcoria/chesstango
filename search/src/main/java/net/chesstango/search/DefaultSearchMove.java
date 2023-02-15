@@ -1,0 +1,37 @@
+package net.chesstango.search;
+
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
+import net.chesstango.evaluation.DefaultGameEvaluator;
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.IterativeDeeping;
+
+public class DefaultSearchMove implements SearchMove {
+
+    private final SearchMove imp;
+
+    public DefaultSearchMove() {
+        this.imp = new IterativeDeeping();
+        this.setGameEvaluator(new DefaultGameEvaluator());
+    }
+
+    @Override
+    public Move searchBestMove(Game game) {
+        return imp.searchBestMove(game);
+    }
+
+    @Override
+    public Move searchBestMove(Game game, int depth) {
+        return imp.searchBestMove(game, depth);
+    }
+
+    @Override
+    public void stopSearching() {
+        imp.stopSearching();
+    }
+
+    @Override
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        imp.setGameEvaluator(evaluator);
+    }
+}

@@ -35,8 +35,6 @@ public class EngineControllerImpTest {
 
         Assert.assertNotNull(bestmove);
 
-        System.out.println(bestmove.toString());
-
         client.send_CmdQuit();
     }
 

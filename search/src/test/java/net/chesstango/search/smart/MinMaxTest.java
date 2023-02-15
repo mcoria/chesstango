@@ -1,11 +1,11 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.evaluation.GameEvaluator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,14 +25,16 @@ public class MinMaxTest {
     @Mock
     private GameEvaluator evaluator;
 
+    private MinMax minMax;
+
     @Before
-    public void setUp() {
+    public void setup(){
+        minMax = new MinMax();
+        minMax.setGameEvaluator(evaluator);
     }
 
     @Test
     public void testSingleMoveWhitePlays(){
-        MinMax minMax = new MinMax(evaluator);
-
         Game rootGame = setupGame(Color.WHITE);
 
         Game childGame = setupGame(Color.BLACK);
@@ -51,8 +53,6 @@ public class MinMaxTest {
 
     @Test
     public void testSingleMoveBlackPlays(){
-        MinMax minMax = new MinMax(evaluator);
-
         Game rootGame = setupGame(Color.BLACK);
 
         Game childGame = setupGame(Color.WHITE);
@@ -71,7 +71,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesWhitePlays(){
-        MinMax minMax = Mockito.spy(new MinMax(evaluator));
+        MinMax minMax = Mockito.spy(this.minMax);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -99,7 +99,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesBlackPlays(){
-        MinMax minMax = Mockito.spy(new MinMax(evaluator));
+        MinMax minMax = Mockito.spy(this.minMax);
 
         Game rootGame = setupGame(Color.BLACK);
 

@@ -3,8 +3,8 @@
  */
 package net.chesstango.uci.engine;
 
-import net.chesstango.search.BestMoveFinder;
-import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  */
 public class EngineTango implements Engine {
-    private final BestMoveFinder bestMoveFinder;
+    private final SearchMove searchMove;
     private final UCIMessageExecutor messageExecutor;
     private ExecutorService executor;
     private boolean asyncEnabled;
@@ -37,12 +37,12 @@ public class EngineTango implements Engine {
     private UCIOutputStream responseOutputStream;
 
     public EngineTango() {
-        this(new IterativeDeeping());
+        this(new DefaultSearchMove());
     }
 
 
-    public EngineTango(BestMoveFinder bestMoveFinder) {
-        this.bestMoveFinder = bestMoveFinder;
+    public EngineTango(SearchMove searchMove) {
+        this.searchMove = searchMove;
         this.currentState = new Ready();
         this.asyncEnabled = true;
         this.messageExecutor = new UCIMessageExecutor() {
@@ -228,7 +228,7 @@ public class EngineTango implements Engine {
 
         @Override
         public void do_stop() {
-            bestMoveFinder.stopSearching();
+            searchMove.stopSearching();
         }
 
         public void findBestMove(CmdGo cmdGo) {
@@ -237,9 +237,9 @@ public class EngineTango implements Engine {
             Move selectedMove = null;
 
             if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
-                selectedMove = bestMoveFinder.searchBestMove(game);
+                selectedMove = searchMove.searchBestMove(game);
             } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-                selectedMove = bestMoveFinder.searchBestMove(game, cmdGo.getDepth() + 2);
+                selectedMove = searchMove.searchBestMove(game, cmdGo.getDepth() + 2);
             } else {
                 throw new RuntimeException("go subtype not implemented yet");
             }
