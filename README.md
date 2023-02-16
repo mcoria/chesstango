@@ -79,8 +79,8 @@ Iterators can be found at chess.iterators package, two different iterator types 
 - Implement chess state machine. (DONE)
 - FEN decoder/encoder and PGN decoder. (DONE)
 - UCI communication protocol. (DONE)
-- Implement AI (WIP)
+- Implement Search algorithms (WIP)
   - MinMax
   - MinMax with Alpha Beta Pruning
   - Iterative Deepening
-
+- Implement Evaluation algorithms (WIP)

@@ -6,6 +6,10 @@ import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.IterativeDeeping;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class DefaultSearchMove implements SearchMove {
 
     private final SearchMove imp;

@@ -7,10 +7,7 @@ import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringSupplierLogger;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.function.Supplier;
 
 /**
@@ -32,8 +29,14 @@ public class EngineProxy implements Engine {
     private Thread processingThread;
     private boolean logging;
 
+
+    /**
+     * Para que Spike pueda leer sus settings, el working directory debe ser el del ejecutable.
+     * Los settings generales para todos los engines se controlan desde EngineManagement -> UCI en Arena.
+     */
     public EngineProxy() {
         processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
+        processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike"));
         pipe = new UCIActivePipe();
     }
 
