@@ -5,6 +5,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMoveResult;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,14 +21,14 @@ public class MinMax extends AbstractSmart {
 
 
 	@Override
-	public Move searchBestMove(Game game) {
+	public SearchMoveResult searchBestMove(Game game) {
 		return searchBestMove(game, 10);
 	}
 
 	// Beyond level 4, the performance is really bad
 
 	@Override
-	public Move searchBestMove(Game game, int depth) {
+	public SearchMoveResult searchBestMove(Game game, int depth) {
 		this.keepProcessing = true;
 
 		final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
@@ -60,9 +61,8 @@ public class MinMax extends AbstractSmart {
 
 			game = game.undoMove();
 		}
-		evaluation = betterEvaluation;
 
-		return selectMove(possibleMoves);
+		return new SearchMoveResult(betterEvaluation, selectMove(possibleMoves), null);
 	}
 
 	@Override

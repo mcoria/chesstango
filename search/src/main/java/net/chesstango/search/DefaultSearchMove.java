@@ -1,7 +1,6 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.IterativeDeeping;
@@ -20,12 +19,12 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     @Override
-    public Move searchBestMove(Game game) {
+    public SearchMoveResult searchBestMove(Game game) {
         return imp.searchBestMove(game);
     }
 
     @Override
-    public Move searchBestMove(Game game, int depth) {
+    public SearchMoveResult searchBestMove(Game game, int depth) {
         return imp.searchBestMove(game, depth);
     }
 

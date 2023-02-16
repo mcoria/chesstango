@@ -11,6 +11,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMoveResult;
 
 /**
  * @author Mauricio Coria
@@ -19,12 +20,12 @@ import net.chesstango.board.moves.Move;
 public class Dummy implements SearchMove {
 
 	@Override
-	public Move searchBestMove(Game game) {
+	public SearchMoveResult searchBestMove(Game game) {
 		return searchBestMove(game, 10);
 	}
 
 	@Override
-	public Move searchBestMove(Game game, int depth) {
+	public SearchMoveResult searchBestMove(Game game, int depth) {
 		Iterable<Move> moves = game.getPossibleMoves();
 
 		Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
@@ -39,7 +40,7 @@ public class Dummy implements SearchMove {
 
 		List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-		return selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size()));
+		return new SearchMoveResult(0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
 	}
 
 	@Override

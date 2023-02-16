@@ -3,11 +3,11 @@
  */
 package net.chesstango.search.smart;
 
-import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMoveResult;
 
 import java.util.Queue;
 
@@ -33,12 +33,12 @@ public class MinMaxPruning extends AbstractSmart {
     }
 
     @Override
-    public Move searchBestMove(Game game) {
+    public SearchMoveResult searchBestMove(Game game) {
         return searchBestMove(game, 10);
     }
 
     @Override
-    public Move searchBestMove(Game game, final int depth) {
+    public SearchMoveResult searchBestMove(Game game, final int depth) {
         this.keepProcessing = true;
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
@@ -68,10 +68,8 @@ public class MinMaxPruning extends AbstractSmart {
 
             game = game.undoMove();
         }
-        evaluation = bestValue;
 
-
-        if (bestMove == null && (minOrMax && evaluation == GameEvaluator.WHITE_WON  || !minOrMax && evaluation == GameEvaluator.BLACK_WON) ) {
+        if (bestMove == null && (minOrMax && bestValue == GameEvaluator.WHITE_WON  || !minOrMax && bestValue == GameEvaluator.BLACK_WON) ) {
             // Seleccionamos el primer movimiento
             for (Move move : game.getPossibleMoves()) {
                 bestMove = move;
@@ -79,7 +77,7 @@ public class MinMaxPruning extends AbstractSmart {
             }
         }
 
-        return bestMove;
+        return new SearchMoveResult(bestValue, bestMove, null);
     }
 
     @Override

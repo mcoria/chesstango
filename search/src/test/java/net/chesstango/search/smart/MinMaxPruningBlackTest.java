@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,10 +52,12 @@ public class MinMaxPruningBlackTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        Move bestMove = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+
+        Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move, bestMove);
-        Assert.assertEquals(1, minMax.getEvaluation());
+        Assert.assertEquals(1, searchResult.getEvaluation());
         verify(quiescence, times(1)).quiescenceMax(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
     }
 
@@ -75,10 +78,12 @@ public class MinMaxPruningBlackTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        Move bestMove = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+
+        Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move1, bestMove);
-        Assert.assertEquals(1, minMax.getEvaluation());
+        Assert.assertEquals(1, searchResult.getEvaluation());
 
         verify(quiescence, times(1)).quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(quiescence, times(1)).quiescenceMax(childGame2,GameEvaluator.INFINITE_NEGATIVE, 1);
@@ -108,10 +113,12 @@ public class MinMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        Move bestMove = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+
+        Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move2, bestMove);
-        Assert.assertEquals(GameEvaluator.BLACK_WON, minMax.getEvaluation());
+        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
 
         verify(rootGame, times(1)).executeMove(move1);
         verify(rootGame, times(1)).executeMove(move2);
@@ -148,10 +155,12 @@ public class MinMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        Move bestMove = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+
+        Move bestMove = searchResult.getBestMove();
 
         Assert.assertNotNull(bestMove);
-        Assert.assertEquals(GameEvaluator.BLACK_LOST, minMax.getEvaluation());
+        Assert.assertEquals(GameEvaluator.BLACK_LOST, searchResult.getEvaluation());
 
         verify(rootGame, times(1)).executeMove(move1);
         verify(rootGame, times(1)).executeMove(move2);

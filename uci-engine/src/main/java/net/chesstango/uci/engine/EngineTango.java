@@ -237,9 +237,9 @@ public class EngineTango implements Engine {
             Move selectedMove = null;
 
             if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
-                selectedMove = searchMove.searchBestMove(game);
+                selectedMove = searchMove.searchBestMove(game).getBestMove();
             } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-                selectedMove = searchMove.searchBestMove(game, cmdGo.getDepth() + 2);
+                selectedMove = searchMove.searchBestMove(game, cmdGo.getDepth() + 2).getBestMove();
             } else {
                 throw new RuntimeException("go subtype not implemented yet");
             }

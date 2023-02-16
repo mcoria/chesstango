@@ -83,9 +83,9 @@ public class BestMoveFinderSuite {
 		
 		Game game = getGame(edpParsed.fen);
 
-		Move resulBestMove = moveFinder.searchBestMove(game, 1);
+		Move bestMove = moveFinder.searchBestMove(game, 1).getBestMove();
 		
-		return encodeMove(resulBestMove).equals(edpParsed.bestMove);
+		return encodeMove(bestMove).equals(edpParsed.bestMove);
 	}
 
 	protected EdpParsed parseTests(String tests) {

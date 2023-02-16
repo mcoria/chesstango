@@ -1,7 +1,6 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 
 /**
@@ -9,9 +8,9 @@ import net.chesstango.evaluation.GameEvaluator;
  *
  */
 public interface SearchMove {
-    Move searchBestMove(Game game);
+    SearchMoveResult searchBestMove(Game game);
 
-	Move searchBestMove(Game game, int depth);
+	SearchMoveResult searchBestMove(Game game, int depth);
 
     void stopSearching();
 
