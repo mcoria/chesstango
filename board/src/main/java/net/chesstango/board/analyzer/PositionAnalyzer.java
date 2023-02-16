@@ -3,6 +3,7 @@ package net.chesstango.board.analyzer;
 import net.chesstango.board.GameState;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.position.imp.PositionState;
 
 /*
  * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
@@ -20,6 +21,8 @@ public class PositionAnalyzer {
 	private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
 	
 	private GameState gameState;
+
+	private PositionState positionState;
 	
 	private LegalMoveGenerator legalMoveGenerator;
 	
@@ -34,10 +37,14 @@ public class PositionAnalyzer {
 		GameState.Status status = null;
 
 		if (existsLegalMove) {
-			if (analysis.isKingInCheck()) {
-				status = GameState.Status.CHECK;
-			} else {
-				status = GameState.Status.NO_CHECK;
+			if ( positionState.getHalfMoveClock() < 50) {
+				if (analysis.isKingInCheck()) {
+					status = GameState.Status.CHECK;
+				} else {
+					status = GameState.Status.NO_CHECK;
+				}
+			}else {
+				status = GameState.Status.DRAW_BY_FIFTY_RULE;
 			}
 		} else {
 			if (analysis.isKingInCheck()) {
@@ -79,6 +86,9 @@ public class PositionAnalyzer {
 
 	public void setCheckAndPinnedAnalyzer(CheckAndPinnedAnalyzer checkAndPinnedAnalyzer) {
 		this.checkAndPinnedAnalyzer = checkAndPinnedAnalyzer;
-	}	
+	}
 
+	public void setPositionState(PositionState positionState) {
+		this.positionState = positionState;
+	}
 }

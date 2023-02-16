@@ -134,7 +134,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void testJuegoTablas() {
+	public void testJuegoDraw() {
 		Game game =  getGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
 		
 		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
@@ -148,6 +148,23 @@ public class GameTest {
 		assertEquals(0, game.getPossibleMoves().size());
 		assertEquals(1, game.getChessPosition().getHalfMoveClock());
 		assertEquals(1, game.getChessPosition().getFullMoveClock());
+	}
+
+	@Test
+	public void testJuegoDraw_fiftyMoveRule() {
+		Game game =  getGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq - 49 25");
+
+		assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+		assertEquals(49, game.getChessPosition().getHalfMoveClock());
+		assertEquals(25, game.getChessPosition().getFullMoveClock());
+
+		game.executeMove(Square.f5, Square.e4); // 1 rn1qkbnr/pp2ppp1/2p4p/3pP3/3Pb1PP/8/PPP2P2/RNBQKBNR w KQkq - 50 26
+
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertEquals(GameState.Status.DRAW_BY_FIFTY_RULE, game.getStatus());
+		assertEquals(37, game.getPossibleMoves().size());
+		assertEquals(50, game.getChessPosition().getHalfMoveClock());
+		assertEquals(26, game.getChessPosition().getFullMoveClock());
 	}
 	
 	@Test

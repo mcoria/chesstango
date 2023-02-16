@@ -20,7 +20,8 @@ public class GameState {
         NO_CHECK(true),
         CHECK(true),
         MATE(false),
-        DRAW(false);
+        DRAW(false),
+        DRAW_BY_FIFTY_RULE(false);
 
         private final boolean inProgress;
 

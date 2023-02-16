@@ -40,7 +40,8 @@ public class Match {
         Match match = new Match(engineTango, engineOponente, 1);
         match.startEngines();
 
-        List<MathResult> matchResult = match.play(Arrays.asList(FENDecoder.INITIAL_FEN,
+        List<MathResult> matchResult = match.play(Arrays.asList(
+                FENDecoder.INITIAL_FEN,
                 "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
                 "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
                 "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"
@@ -52,13 +53,11 @@ public class Match {
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-
         long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(result -> result.getPoints()).sum();
         long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(result -> result.getPoints()).sum();
         long puntosTotal = puntosAsWhite + puntosAsBlack;
 
         System.out.println("Puntos withe = " + puntosAsWhite + ", puntos black = " + puntosAsBlack + ", total = " + puntosTotal);
-
     }
 
     public Match(EngineController engine1, EngineController engine2, int depth) {
@@ -126,8 +125,7 @@ public class Match {
         EngineController currentTurn = engine1;
 
         boolean repetition = false;
-        boolean fiftyMoveRule = false;
-        while (game.getStatus().isInProgress() && !repetition && !fiftyMoveRule) {
+        while (game.getStatus().isInProgress() && !repetition) {
             String moveStr = askForBestMove(currentTurn, fen, executedMovesStr);
 
             Move move = findMove(fen, game, moveStr);
@@ -136,7 +134,6 @@ public class Match {
             executedMovesStr.add(moveStr);
 
             repetition = repeatedPosition(game, pastPositions);
-            fiftyMoveRule = game.getChessPosition().getHalfMoveClock() < 50 ? false : true;
             currentTurn = (currentTurn == engine1 ? engine2 : engine1);
         }
 
@@ -150,7 +147,6 @@ public class Match {
             EngineController black = currentTurn == engine1 ? engine1 : engine2;
             EngineController white = black == engine1 ? engine2 : engine1;
             result = new MathResult(game, white, black);
-
         }
 
         int materialPoints = GameEvaluator.evaluateByMaterial(game);
@@ -159,7 +155,7 @@ public class Match {
             System.out.println("DRAW (por repeticion)");
             result.setPoints(materialPoints);
 
-        } else if (fiftyMoveRule) {
+        } else if (GameState.Status.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             game.getGameState().setStatus(GameState.Status.DRAW);
             System.out.println("DRAW (por fiftyMoveRule)");
             result.setPoints(materialPoints);
@@ -182,12 +178,12 @@ public class Match {
             throw new RuntimeException("Inconsistent game status");
         }
 
-        //printPGN(fen, game);
 
-        //printMoveExecution(fen, game);
+        //printDebug(fen, game);
 
         return result;
     }
+
 
     protected void startNewGame() {
         engine1.send_CmdUciNewGame();
@@ -209,7 +205,6 @@ public class Match {
         positionCount++;
 
         pastPositions.put(fenWithoutClocks, positionCount);
-
 
         return positionCount > 2 ? true : false;
     }
@@ -239,10 +234,21 @@ public class Match {
         throw new RuntimeException("No move found " + bestMove);
     }
 
-
-    private void printPGN(String fen, Game game) {
+    private void printDebug(String fen, Game game) {
         System.out.println(game.toString());
 
+        System.out.println();
+
+        printPGN(fen, game);
+
+        System.out.println();
+
+        printMoveExecution(fen, game);
+
+        System.out.println("--------------------------------------------------------------------------------");
+    }
+
+    private void printPGN(String fen, Game game) {
         PGNEncoder encoder = new PGNEncoder();
         PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
 
@@ -252,14 +258,13 @@ public class Match {
         pgnHeader.setFen(fen);
 
         System.out.println(encoder.encode(pgnHeader, game));
-        //System.out.println("--------------------------------------------------------------------------------");
     }
 
     private void printMoveExecution(String fen, Game game) {
         Game theGame = FENDecoder.loadGame(fen);
 
         int counter = 0;
-        System.out.println("Game game =  getDefaultGame();");
+        System.out.println("Game game = getDefaultGame();");
         System.out.println("game");
         Iterator<GameState.GameStateData> gameStateIterator = game.getGameState().iterateGameStates();
         while (gameStateIterator.hasNext()) {

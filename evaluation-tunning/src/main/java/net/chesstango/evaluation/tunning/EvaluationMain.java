@@ -32,6 +32,12 @@ import java.util.stream.Collectors;
 public class EvaluationMain{
     private static int POPULATION_SIZE = 15;
     private static int GENERATION_LIMIT = 100;
+
+    private static List<String> GAMES = Arrays.asList(FENDecoder.INITIAL_FEN,
+            "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
+            "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
+            "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
+
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -47,17 +53,13 @@ public class EvaluationMain{
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
         pool = new GenericObjectPool<>(new EngineControllerProxyFactory());
-        new EvaluationMain(Arrays.asList(FENDecoder.INITIAL_FEN,
-                "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
-                "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
-                "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"),
-                new GeneticProviderImp02()).findGenotype();
+        EvaluationMain main = new EvaluationMain(GAMES, new GeneticProviderImp02());
+        main.findGenotype();
         pool.close();
         executor.shutdown();
     }
 
     private void findGenotype() {
-
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
                 .selector(new EliteSelector<>(5))
                 .constraint(geneticProvider.getPhenotypeConstraint())

@@ -149,6 +149,7 @@ public class ChessInjector {
 			positionAnalyzer.setLegalMoveGenerator(getLegalMoveGenerator());		
 			positionAnalyzer.setGameState(getGameState());
 			positionAnalyzer.setCheckAndPinnedAnalyzer(getCheckAndPinnedAnalyzer());
+			positionAnalyzer.setPositionState(getPositionState());
 		}
 		return positionAnalyzer;
 	}
