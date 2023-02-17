@@ -1,14 +1,13 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.GameStatus;
+import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameState;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.arena.imp.EngineControllerImp;
 import net.chesstango.uci.engine.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
@@ -149,19 +148,19 @@ public class Match {
 
         int materialPoints = GameEvaluator.evaluateByMaterial(game);
 
-        if (GameState.Status.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
+        if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             System.out.println("DRAW (por repeticion)");
             result.setPoints(materialPoints);
 
-        } else if (GameState.Status.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
+        } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             System.out.println("DRAW (por fiftyMoveRule)");
             result.setPoints(materialPoints);
 
-        } else if (GameState.Status.DRAW.equals(game.getStatus())) {
+        } else if (GameStatus.DRAW.equals(game.getStatus())) {
             System.out.println("DRAW");
             result.setPoints(materialPoints);
 
-        } else if (GameState.Status.MATE.equals(game.getStatus())) {
+        } else if (GameStatus.MATE.equals(game.getStatus())) {
             if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
                 System.out.println("MATE WHITE " + result.getEngineWhite().getEngineName());
                 result.setPoints(GameEvaluator.WHITE_LOST);
@@ -176,7 +175,7 @@ public class Match {
         }
 
 
-        //printDebug(fen, game);
+        printDebug(fen, game);
 
         return result;
     }
@@ -242,30 +241,9 @@ public class Match {
     }
 
     private void printMoveExecution(String fen, Game game) {
-        Game theGame = FENDecoder.loadGame(fen);
+        GameDebugEncoder encoder = new GameDebugEncoder();
 
-        int counter = 0;
-        System.out.println("Game game = getDefaultGame();");
-        System.out.println("game");
-        Iterator<GameState.GameStateData> gameStateIterator = game.getGameState().iterateGameStates();
-        while (gameStateIterator.hasNext()) {
-            GameState.GameStateData gameStateData = gameStateIterator.next();
-            Move move = gameStateData.selectedMove;
-            theGame.executeMove(move);
-            System.out.print(".executeMove(Square." + move.getFrom().getKey().toString() + ", Square." + move.getTo().getKey().toString() + ")");
-
-            FENEncoder fenEncoder = new FENEncoder();
-            ChessPositionReader theGamePositionReader = theGame.getChessPosition();
-            theGamePositionReader.constructBoardRepresentation(fenEncoder);
-
-            if (counter % 2 == 0) {
-                System.out.println(" // " + (counter / 2 + 1) + " " + fenEncoder.getChessRepresentation());
-            } else {
-                System.out.println(" // " + fenEncoder.getChessRepresentation());
-            }
-
-            counter++;
-        }
+        System.out.println(encoder.encode(fen, game));
     }
 
 

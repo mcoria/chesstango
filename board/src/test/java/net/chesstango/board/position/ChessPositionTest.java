@@ -5,17 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import net.chesstango.board.*;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveContainerReader;
 import org.junit.Before;
 import org.junit.Test;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.GameState;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
@@ -106,7 +102,7 @@ public class ChessPositionTest {
 		MoveContainerReader moves = gameState.getLegalMoves();
 
 		assertEquals(Color.BLACK, chessPosition.getCurrentTurn());
-		assertEquals(GameState.Status.CHECK, gameState.getStatus());
+		assertEquals(GameStatus.CHECK, gameState.getStatus());
 
 		assertTrue(moves.contains(createCaptureMove(Square.h6, Piece.KNIGHT_BLACK, Square.f7, Piece.QUEEN_WHITE)));
 		assertFalse(moves.contains(createSimpleMove(Square.e8, Piece.KING_BLACK, Square.e7)));
@@ -186,7 +182,7 @@ public class ChessPositionTest {
 		
 		assertTrue(result.isKingInCheck());
 		assertTrue(gameState.getLegalMoves().isEmpty());
-		assertEquals(GameState.Status.MATE, gameState.getStatus());
+		assertEquals(GameStatus.MATE, gameState.getStatus());
 	
 	}
 	

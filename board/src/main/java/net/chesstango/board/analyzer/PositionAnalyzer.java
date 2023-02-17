@@ -1,6 +1,7 @@
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.imp.PositionState;
@@ -29,24 +30,24 @@ public class PositionAnalyzer {
     private boolean detectRepetitions;
 
 
-    public GameState.Status updateGameState() {
+    public GameStatus updateGameState() {
         AnalyzerResult analysis = analyze();
 
         MoveContainerReader legalMoves = legalMoveGenerator.getLegalMoves(analysis);
 
         boolean existsLegalMove = !legalMoves.isEmpty();
 
-        GameState.Status status = null;
+        GameStatus gameStatus = null;
 
         if (existsLegalMove) {
             if (positionState.getHalfMoveClock() < 50) {
                 if (analysis.isKingInCheck()) {
-                    status = GameState.Status.CHECK;
+                    gameStatus = GameStatus.CHECK;
                 } else {
-                    status = GameState.Status.NO_CHECK;
+                    gameStatus = GameStatus.NO_CHECK;
                 }
             } else {
-                status = GameState.Status.DRAW_BY_FIFTY_RULE;
+                gameStatus = GameStatus.DRAW_BY_FIFTY_RULE;
             }
 
             if (detectRepetitions) {
@@ -60,23 +61,23 @@ public class PositionAnalyzer {
                     }
                 }
                 if (repetitionCounter > 2) {
-                    status = GameState.Status.DRAW_BY_FOLD_REPETITION;
+                    gameStatus = GameStatus.DRAW_BY_FOLD_REPETITION;
                 }
             }
 
         } else {
             if (analysis.isKingInCheck()) {
-                status = GameState.Status.MATE;
+                gameStatus = GameStatus.MATE;
             } else {
-                status = GameState.Status.DRAW;
+                gameStatus = GameStatus.DRAW;
             }
         }
 
-        gameState.setStatus(status);
+        gameState.setStatus(gameStatus);
         gameState.setAnalyzerResult(analysis);
         gameState.setLegalMoves(legalMoves);
 
-        return status;
+        return gameStatus;
     }
 
     public AnalyzerResult analyze() {

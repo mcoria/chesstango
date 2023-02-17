@@ -16,37 +16,6 @@ import java.util.Iterator;
  */
 public class GameState {
 
-    public enum Status {
-        NO_CHECK(true),
-        CHECK(true),
-        MATE(false),
-        DRAW(false),
-        DRAW_BY_FIFTY_RULE(false),
-        DRAW_BY_FOLD_REPETITION(false);
-
-        private final boolean inProgress;
-
-        Status(boolean inProgress) {
-            this.inProgress = inProgress;
-        }
-
-        public boolean isInProgress() {
-            return inProgress;
-        }
-
-        public boolean isFinalStatus(){
-            return !isInProgress();
-        }
-    }
-
-    public static class GameStateData {
-        public AnalyzerResult analyzerResult;
-        public MoveContainerReader legalMoves;
-        public Move selectedMove;
-        public Status status;
-        public String fenWithoutClocks;
-    }
-
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
 
@@ -54,14 +23,13 @@ public class GameState {
         return stackGameStates.descendingIterator();
     }
 
-    public Status getStatus() {
-        return currentGameState.status;
+    public GameStatus getStatus() {
+        return currentGameState.gameStatus;
     }
 
-    public void setStatus(Status status) {
-        currentGameState.status = status;
+    public void setStatus(GameStatus gameStatus) {
+        currentGameState.gameStatus = gameStatus;
     }
-
 
     public MoveContainerReader getLegalMoves() {
         return currentGameState.legalMoves;
@@ -78,7 +46,6 @@ public class GameState {
     public void setSelectedMove(Move selectedMove) {
         currentGameState.selectedMove = selectedMove;
     }
-
 
     public AnalyzerResult getAnalyzerResult() {
         return currentGameState.analyzerResult;
@@ -100,7 +67,7 @@ public class GameState {
         GameStateData gameStateData = new GameStateData();
         gameStateData.selectedMove = currentGameState.selectedMove;
         gameStateData.analyzerResult = currentGameState.analyzerResult;
-        gameStateData.status = currentGameState.status;
+        gameStateData.gameStatus = currentGameState.gameStatus;
         gameStateData.legalMoves = currentGameState.legalMoves;
         gameStateData.fenWithoutClocks = currentGameState.fenWithoutClocks;
 
@@ -108,7 +75,7 @@ public class GameState {
 
         currentGameState.selectedMove = null;
         currentGameState.analyzerResult = null;
-        currentGameState.status = null;
+        currentGameState.gameStatus = null;
         currentGameState.legalMoves = null;
         currentGameState.fenWithoutClocks = null;
     }
@@ -119,4 +86,25 @@ public class GameState {
         currentGameState = lastState;
     }
 
+    public void accept(GameStateVisitor gameStateVisitor) {
+        gameStateVisitor.visit(this);
+
+        Iterator<GameStateData> iterator = stackGameStates.descendingIterator();
+
+        while(iterator.hasNext()){
+            GameStateData gameStateDate = iterator.next();
+
+            gameStateVisitor.visit(gameStateDate);
+        }
+
+        gameStateVisitor.visit(currentGameState);
+    }
+
+    public static class GameStateData {
+        public AnalyzerResult analyzerResult;
+        public MoveContainerReader legalMoves;
+        public Move selectedMove;
+        public GameStatus gameStatus;
+        public String fenWithoutClocks;
+    }
 }

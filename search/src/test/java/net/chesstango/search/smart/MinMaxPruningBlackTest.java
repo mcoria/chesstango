@@ -2,7 +2,7 @@ package net.chesstango.search.smart;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameState;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
@@ -43,9 +43,9 @@ public class MinMaxPruningBlackTest {
     public void test_findBestMove_BlackPlays_SingleMove(){
         MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
-        Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
+        Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
-        Game childGame = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Move move = mock(Move.class);
@@ -66,12 +66,12 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
         //MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
 
-        Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
+        Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
-        Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
-        Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, 1)).thenReturn(2);
 
         Move move1 = mock(Move.class);
@@ -97,16 +97,16 @@ public class MinMaxPruningBlackTest {
     public void test_findBestMove_BlackPlays_MateCutOff(){
         MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
 
-        Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
+        Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
-        Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
-        Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, 1)).thenReturn(GameEvaluator.BLACK_WON);
 
         // childGame3 no llega a evaluarse, dado que existe CuteOff por el mate que se encuentra en childGame2
-        Game childGame3 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -139,15 +139,15 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
-        Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
+        Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
-        Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
-        Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
-        Game childGame3 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
         Move move1 = mock(Move.class);
@@ -180,15 +180,15 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
-        Game rootGame = setupGame(Color.BLACK, GameState.Status.NO_CHECK);
+        Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
-        Game childGame1 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
-        Game childGame2 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE,1)).thenReturn(GameEvaluator.BLACK_WON);
 
-        Game childGame3 = setupGame(Color.WHITE, GameState.Status.NO_CHECK);
+        Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -213,12 +213,12 @@ public class MinMaxPruningBlackTest {
         verifyNoInteractions(childGame3);
     }
 
-    private Game setupGame(Color turn, GameState.Status status) {
+    private Game setupGame(Color turn, GameStatus gameStatus) {
         Game game = mock(Game.class);
 
         ChessPositionReader mockPositionReader = mock(ChessPositionReader.class);
         when(game.getChessPosition()).thenReturn(mockPositionReader);
-        when(game.getStatus()).thenReturn(status);
+        when(game.getStatus()).thenReturn(gameStatus);
         when(mockPositionReader.getCurrentTurn()).thenReturn(turn);
 
         return game;

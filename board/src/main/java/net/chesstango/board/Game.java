@@ -52,7 +52,7 @@ public class Game {
 		chessPosition.acceptForExecute(move);
 
 		if(detectRepetitions){
-			updateFen();
+			saveFENWithoutClocks();
 		}
 
 		analyzer.updateGameState();
@@ -95,11 +95,11 @@ public class Game {
 		this.detectRepetitions = flag;
 		this.analyzer.detectRepetitions(flag);
 		if(detectRepetitions){
-			updateFen();
+			saveFENWithoutClocks();
 		}
 	}
 
-	private void updateFen() {
+	private void saveFENWithoutClocks() {
 		FENEncoder encoder = new FENEncoder();
 
 		chessPosition.constructBoardRepresentation(encoder);
@@ -113,7 +113,7 @@ public class Game {
 		return getGameState().getLegalMoves();
 	}
 
-	public GameState.Status getStatus() {
+	public GameStatus getStatus() {
 		return getGameState().getStatus();
 	}
 
@@ -129,6 +129,9 @@ public class Game {
 		return pseudoMovesGenerator;
 	}
 
+	public void accept(GameStateVisitor gameStateVisitor){
+		gameState.accept(gameStateVisitor);
+	}
 
 	@Override
 	public String toString() {
