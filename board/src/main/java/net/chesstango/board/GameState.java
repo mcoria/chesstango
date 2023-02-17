@@ -19,10 +19,6 @@ public class GameState {
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
 
-    public Iterator<GameStateData> iterateGameStates() {
-        return stackGameStates.descendingIterator();
-    }
-
     public GameStatus getStatus() {
         return currentGameState.gameStatus;
     }

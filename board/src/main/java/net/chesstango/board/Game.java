@@ -110,15 +110,11 @@ public class Game {
 	}
 
 	public MoveContainerReader getPossibleMoves() {
-		return getGameState().getLegalMoves();
+		return gameState.getLegalMoves();
 	}
 
 	public GameStatus getStatus() {
-		return getGameState().getStatus();
-	}
-
-	public GameState getGameState() {
-		return gameState;
+		return gameState.getStatus();
 	}
 
 	public ChessPositionReader getChessPosition(){
