@@ -7,6 +7,7 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 /**
  * @author Mauricio Coria
@@ -22,14 +23,16 @@ public class Game {
 	
 	private final PositionAnalyzer analyzer;
 
-	private boolean analyze;
+	private boolean detectRepetitions;
 	
-	public Game(ChessPosition chessPosition, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer, GameState gameState){
+	public Game(ChessPosition chessPosition, GameState gameState, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer){
 		this.chessPosition = chessPosition;
 		this.pseudoMovesGenerator = pseudoMovesGenerator;
-		this.analyzer = analyzer;
 		this.gameState = gameState;
-		this.analyze = true;
+		this.analyzer = analyzer;
+
+		this.chessPosition.init();
+		this.analyzer.updateGameState();
 	}
 
 	public Game executeMove(Square from, Square to) {
@@ -48,7 +51,11 @@ public class Game {
 		
 		chessPosition.acceptForExecute(move);
 
-		analyze = true;
+		if(detectRepetitions){
+			updateFen();
+		}
+
+		analyzer.updateGameState();
 
 		return this;
 	}
@@ -84,6 +91,23 @@ public class Game {
 		}
 		return null;
 	}
+	public void detectRepetitions(boolean flag) {
+		this.detectRepetitions = flag;
+		this.analyzer.detectRepetitions(flag);
+		if(detectRepetitions){
+			updateFen();
+		}
+	}
+
+	private void updateFen() {
+		FENEncoder encoder = new FENEncoder();
+
+		chessPosition.constructBoardRepresentation(encoder);
+
+		String fenWithoutClocks = encoder.getFENWithoutClocks();
+
+		gameState.setFenWithoutClocks(fenWithoutClocks);
+	}
 
 	public MoveContainerReader getPossibleMoves() {
 		return getGameState().getLegalMoves();
@@ -94,27 +118,20 @@ public class Game {
 	}
 
 	public GameState getGameState() {
-		if(analyze){
-			analyzer.updateGameStatus();
-			analyze = false;
-		}
 		return gameState;
 	}
-	
+
 	public ChessPositionReader getChessPosition(){
 		return chessPosition;
 	}
 
+	public MoveGenerator getPseudoMovesGenerator() {
+		return pseudoMovesGenerator;
+	}
+
+
 	@Override
 	public String toString() {
 		return chessPosition.toString();
-	}
-
-	public void init() {
-		chessPosition.init();
-	}
-
-	public MoveGenerator getPseudoMovesGenerator() {
-		return pseudoMovesGenerator;
 	}
 }

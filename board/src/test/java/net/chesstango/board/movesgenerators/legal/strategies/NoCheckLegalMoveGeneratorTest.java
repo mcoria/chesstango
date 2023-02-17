@@ -61,6 +61,6 @@ public class NoCheckLegalMoveGeneratorTest {
 		
 		PositionAnalyzer analyzer = injector.getAnalyzer();
 		
-		analyzer.updateGameStatus();		
+		analyzer.updateGameState();
 	}
 }

@@ -60,7 +60,7 @@ public class CheckLegalMoveGeneratorTest {
 		
 		PositionAnalyzer analyzer = injector.getAnalyzer();
 		
-		analyzer.updateGameStatus();
+		analyzer.updateGameState();
 		
 	}
 }

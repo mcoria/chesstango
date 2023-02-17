@@ -129,8 +129,7 @@ public class ChessInjector {
 	
 	public Game getGame() {
 		if (game == null) {
-			game = chessFactory.createGame(getChessPosition(), getMoveGenerator(), getAnalyzer(), getGameState());
-			game.init();
+			game = chessFactory.createGame(getChessPosition(), getGameState(), getMoveGenerator(), getAnalyzer());
 		}
 		return game;
 	}
@@ -195,7 +194,7 @@ public class ChessInjector {
 
 	public MoveGenerator getMoveGenerator() {
 		if (moveGenerator == null) {		
-			moveGenerator =  chessFactory.createMoveGenaratorWithCacheProxy(getMoveGeneratorImp(), getMoveCacheBoard());
+			moveGenerator =  chessFactory.createMoveGeneratorWithCacheProxy(getMoveGeneratorImp(), getMoveCacheBoard());
 		}
 		return moveGenerator;
 	}

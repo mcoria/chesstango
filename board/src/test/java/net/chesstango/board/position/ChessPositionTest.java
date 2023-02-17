@@ -267,7 +267,7 @@ public class ChessPositionTest {
 
 		analyzer = injector.getAnalyzer();
 
-		analyzer.updateGameStatus();
+		analyzer.updateGameState();
 	}		
 
 		

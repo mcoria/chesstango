@@ -80,12 +80,12 @@ public class ChessFactory {
 		return new PositionState();
 	}
 
-	public MoveGenerator createMoveGenaratorWithCacheProxy(MoveGeneratorImp moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGeneratorImp moveGenerator, MoveCacheBoard moveCacheBoard) {
 		return new MoveGenaratorWithCacheProxy(moveGenerator, moveCacheBoard);
 	}
 
-	public Game createGame(ChessPosition chessPosition, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer, GameState gameState) {
-		return new Game(chessPosition, pseudoMovesGenerator, analyzer, gameState);
+	public Game createGame(ChessPosition chessPosition, GameState gameState, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer) {
+		return new Game(chessPosition, gameState, pseudoMovesGenerator, analyzer);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {

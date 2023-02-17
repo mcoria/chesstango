@@ -166,7 +166,51 @@ public class GameTest {
 		assertEquals(50, game.getChessPosition().getHalfMoveClock());
 		assertEquals(26, game.getChessPosition().getFullMoveClock());
 	}
-	
+
+
+	@Test
+	public void testJuegoDraw_foldRepetition() {
+		Game game =  getDefaultGame();
+		game.detectRepetitions(true);
+
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertTrue(game.getChessPosition().isCastlingWhiteQueenAllowed());
+		assertTrue(game.getChessPosition().isCastlingWhiteKingAllowed());
+		assertTrue(game.getChessPosition().isCastlingBlackQueenAllowed());
+		assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
+		assertEquals(0, game.getChessPosition().getHalfMoveClock());
+		assertEquals(1, game.getChessPosition().getFullMoveClock());
+		assertEquals(20, game.getPossibleMoves().size());
+		assertEquals(GameState.Status.NO_CHECK, game.getStatus());
+
+		game
+		.executeMove(Square.g1, Square.f3)
+		.executeMove(Square.b8, Square.c6)
+		.executeMove(Square.f3, Square.g1)
+		.executeMove(Square.c6, Square.b8)
+
+		.executeMove(Square.g1, Square.f3)
+		.executeMove(Square.b8, Square.c6)
+		.executeMove(Square.f3, Square.g1)
+		.executeMove(Square.c6, Square.b8)
+
+		.executeMove(Square.g1, Square.f3)
+		.executeMove(Square.b8, Square.c6)
+		.executeMove(Square.f3, Square.g1)
+		.executeMove(Square.c6, Square.b8);
+
+		assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
+		assertTrue(game.getChessPosition().isCastlingWhiteQueenAllowed());
+		assertTrue(game.getChessPosition().isCastlingWhiteKingAllowed());
+		assertTrue(game.getChessPosition().isCastlingBlackQueenAllowed());
+		assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
+		assertEquals(12, game.getChessPosition().getHalfMoveClock());
+		assertEquals(7, game.getChessPosition().getFullMoveClock());
+		assertEquals(20, game.getPossibleMoves().size());
+		assertEquals(GameState.Status.DRAW_BY_FOLD_REPETITION, game.getStatus());
+
+	}
+
 	@Test
 	public void test_undo() {
 		Game game =  getDefaultGame();

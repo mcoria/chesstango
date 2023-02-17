@@ -21,7 +21,8 @@ public class GameState {
         CHECK(true),
         MATE(false),
         DRAW(false),
-        DRAW_BY_FIFTY_RULE(false);
+        DRAW_BY_FIFTY_RULE(false),
+        DRAW_BY_FOLD_REPETITION(false);
 
         private final boolean inProgress;
 
@@ -43,6 +44,7 @@ public class GameState {
         public MoveContainerReader legalMoves;
         public Move selectedMove;
         public Status status;
+        public String fenWithoutClocks;
     }
 
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
@@ -86,12 +88,21 @@ public class GameState {
         currentGameState.analyzerResult = analyzerResult;
     }
 
+    public void setFenWithoutClocks(String fenWithoutClocks) {
+        currentGameState.fenWithoutClocks = fenWithoutClocks;
+    }
+
+    public String getFenWithoutClocks() {
+        return currentGameState.fenWithoutClocks;
+    }
+
     public void push() {
         GameStateData gameStateData = new GameStateData();
         gameStateData.selectedMove = currentGameState.selectedMove;
         gameStateData.analyzerResult = currentGameState.analyzerResult;
         gameStateData.status = currentGameState.status;
         gameStateData.legalMoves = currentGameState.legalMoves;
+        gameStateData.fenWithoutClocks = currentGameState.fenWithoutClocks;
 
         stackGameStates.push(gameStateData);
 
@@ -99,6 +110,7 @@ public class GameState {
         currentGameState.analyzerResult = null;
         currentGameState.status = null;
         currentGameState.legalMoves = null;
+        currentGameState.fenWithoutClocks = null;
     }
 
     public void pop() {

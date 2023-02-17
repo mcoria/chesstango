@@ -119,13 +119,12 @@ public class Match {
         startNewGame();
 
         Game game = FENDecoder.loadGame(fen);
+        game.detectRepetitions(true);
 
         List<String> executedMovesStr = new ArrayList<>();
-        Map<String, Integer> pastPositions = new HashMap<>();
         EngineController currentTurn = engine1;
 
-        boolean repetition = false;
-        while (game.getStatus().isInProgress() && !repetition) {
+        while (game.getStatus().isInProgress()) {
             String moveStr = askForBestMove(currentTurn, fen, executedMovesStr);
 
             Move move = findMove(fen, game, moveStr);
@@ -133,7 +132,6 @@ public class Match {
 
             executedMovesStr.add(moveStr);
 
-            repetition = repeatedPosition(game, pastPositions);
             currentTurn = (currentTurn == engine1 ? engine2 : engine1);
         }
 
@@ -150,29 +148,28 @@ public class Match {
         }
 
         int materialPoints = GameEvaluator.evaluateByMaterial(game);
-        if (repetition) {
-            game.getGameState().setStatus(GameState.Status.DRAW);
+
+        if (GameState.Status.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             System.out.println("DRAW (por repeticion)");
             result.setPoints(materialPoints);
 
         } else if (GameState.Status.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
-            game.getGameState().setStatus(GameState.Status.DRAW);
             System.out.println("DRAW (por fiftyMoveRule)");
             result.setPoints(materialPoints);
 
         } else if (GameState.Status.DRAW.equals(game.getStatus())) {
-            game.getGameState().setStatus(GameState.Status.DRAW);
             System.out.println("DRAW");
             result.setPoints(materialPoints);
-
 
         } else if (GameState.Status.MATE.equals(game.getStatus())) {
             if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
                 System.out.println("MATE WHITE " + result.getEngineWhite().getEngineName());
                 result.setPoints(GameEvaluator.WHITE_LOST);
+
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
                 System.out.println("MATE BLACK " + result.getEngineBlack().getEngineName());
                 result.setPoints(GameEvaluator.BLACK_LOST);
+
             }
         } else {
             throw new RuntimeException("Inconsistent game status");
@@ -191,22 +188,6 @@ public class Match {
 
         engine2.send_CmdUciNewGame();
         engine2.send_CmdIsReady();
-    }
-
-    private boolean repeatedPosition(Game game, Map<String, Integer> pastPositions) {
-        FENEncoder encoder = new FENEncoder();
-
-        game.getChessPosition().constructBoardRepresentation(encoder);
-
-        String fenWithoutClocks = encoder.getFENWithoutClocks();
-
-        int positionCount = pastPositions.computeIfAbsent(fenWithoutClocks, key -> 0);
-
-        positionCount++;
-
-        pastPositions.put(fenWithoutClocks, positionCount);
-
-        return positionCount > 2 ? true : false;
     }
 
     private String askForBestMove(EngineController currentTurn, String fen, List<String> moves) {

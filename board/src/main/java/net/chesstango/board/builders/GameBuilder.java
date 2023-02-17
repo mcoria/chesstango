@@ -40,7 +40,6 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	public Game getChessRepresentation() {
 		if (game == null) {
 			game = chessInjector.getGame();
-			game.init();
 		}
 		return game;
 	}
