@@ -24,7 +24,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 		validarAffectedByAndAffects();
 		
 		for (PiecePositioned piecePositioned : dummyBoard) {
-			if(piecePositioned.getValue() == null && pseudoMoves[piecePositioned.getKey().toIdx()] != null){
+			if(piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().toIdx()] != null){
 				throw new RuntimeException("En un casillero vacio de tablero existe movimeintos de cache!!!");
 			}
 		}

@@ -28,7 +28,7 @@ public class SimplePawnPromotion extends SimplePawnMove implements MovePromotion
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
 		board.setEmptyPosicion(from); // Dejamos el origen
-		board.setPieza(to.getKey(), this.promotion); // Promocion
+		board.setPieza(to.getSquare(), this.promotion); // Promocion
 	}
 
 	@Override

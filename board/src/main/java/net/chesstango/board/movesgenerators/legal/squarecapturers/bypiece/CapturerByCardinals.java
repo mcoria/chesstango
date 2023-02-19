@@ -47,7 +47,7 @@ public class CapturerByCardinals implements SquareCapturerByPiece{
         Iterator<PiecePositioned> iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
-            Piece piece = destino.getValue();
+            Piece piece = destino.getPiece();
             if (piece == null) {
                 continue;
             } else if (queen.equals(piece)) {

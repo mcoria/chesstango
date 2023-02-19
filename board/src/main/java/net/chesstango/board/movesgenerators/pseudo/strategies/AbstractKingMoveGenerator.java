@@ -32,8 +32,8 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroIntermedioRook,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
-		if ( king.getKey().equals(origen) ) {           																//El king se encuentra en su lugar
-			if (torre.getValue().equals(piecePlacement.getPiece(torre.getKey()))) {								  		//La torre se encuentra en su lugar
+		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
+			if (torre.getPiece().equals(piecePlacement.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
                 return piecePlacement.isEmtpy(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
                         && piecePlacement.isEmtpy(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
@@ -49,8 +49,8 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final PiecePositioned torre,
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
-		if ( king.getKey().equals(origen) ) {           																//El king se encuentra en su lugar
-			if (torre.getValue().equals(piecePlacement.getPiece(torre.getKey()))) {								  		//La torre se encuentra en su lugar
+		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
+			if (torre.getPiece().equals(piecePlacement.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
                 return piecePlacement.isEmtpy(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
                         && piecePlacement.isEmtpy(casilleroIntermedioKing);

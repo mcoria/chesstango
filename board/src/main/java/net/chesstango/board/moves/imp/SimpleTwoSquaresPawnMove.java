@@ -29,12 +29,12 @@ public class SimpleTwoSquaresPawnMove extends SimplePawnMove {
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushCleared();		
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), enPassantSquare, true);
+		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), enPassantSquare, true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), enPassantSquare, false);
+		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), enPassantSquare, false);
 		moveCache.popCleared();
 	}	
 	

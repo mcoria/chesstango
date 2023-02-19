@@ -43,12 +43,12 @@ public class CapturePawnEnPassant extends AbstractPawnMove {
 	public void executeMove(ColorBoard colorBoard) {
 		colorBoard.removePositions(capture);
 		
-		colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
+		colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
 	}
 
 	@Override
 	public void undoMove(ColorBoard colorBoard) {
-		colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
+		colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
 		
 		colorBoard.addPositions(capture);
 	}
@@ -56,12 +56,12 @@ public class CapturePawnEnPassant extends AbstractPawnMove {
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushCleared();
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), capture.getKey(), true);
+		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), capture.getSquare(), true);
 	}
 	
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), capture.getKey(), false);
+		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), capture.getSquare(), false);
 		moveCache.popCleared();
 	}	
 	

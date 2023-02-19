@@ -24,7 +24,7 @@ public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
 
 	@Override
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
-		Square origenSquare = origen.getKey();
+		Square origenSquare = origen.getSquare();
 		
 		MoveGeneratorResult generatorResult = moveCache.getPseudoMovesResult(origenSquare);
 		

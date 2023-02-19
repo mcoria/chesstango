@@ -28,11 +28,11 @@ public interface MoveKing extends Move {
 	}
 
 	default void executeMove(KingCacheBoard kingCacheBoard) {
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getTo().getKey());
+		kingCacheBoard.setKingSquare(getFrom().getPiece().getColor(), getTo().getSquare());
 	}
 
 	default void undoMove(KingCacheBoard kingCacheBoard) {
-		kingCacheBoard.setKingSquare(getFrom().getValue().getColor(), getFrom().getKey());
+		kingCacheBoard.setKingSquare(getFrom().getPiece().getColor(), getFrom().getSquare());
 	}
 
 }

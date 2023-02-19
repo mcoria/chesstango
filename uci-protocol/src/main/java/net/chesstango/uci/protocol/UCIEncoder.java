@@ -30,6 +30,6 @@ public class UCIEncoder {
                     throw new RuntimeException("Invalid promotion " + move);
             }
         }
-        return move.getFrom().getKey().toString() + move.getTo().getKey().toString() + promotionStr;
+        return move.getFrom().getSquare().toString() + move.getTo().getSquare().toString() + promotionStr;
     }
 }

@@ -66,18 +66,18 @@ public abstract class AbstractMove implements Move {
 	@Override
 	public void executeMove(MoveCacheBoard moveCache) {
 		moveCache.pushCleared();
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), true);		
+		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), true);
 	}
 
 	@Override
 	public void undoMove(MoveCacheBoard moveCache) {
-		moveCache.clearPseudoMoves(from.getKey(), to.getKey(), false);
+		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), false);
 		moveCache.popCleared();
 	}
 	
 	@Override
 	public int hashCode() {
-		return from.getKey().hashCode();
+		return from.getSquare().hashCode();
 	}
 	
 	@Override
@@ -92,31 +92,31 @@ public abstract class AbstractMove implements Move {
 	@Override
 	public int compareTo(Move theOther) {
 		//Comparamos from
-		if(this.from.getKey().getRank() > theOther.getFrom().getKey().getRank()){
+		if(this.from.getSquare().getRank() > theOther.getFrom().getSquare().getRank()){
 			return 1;
-		} else if (this.from.getKey().getRank() < theOther.getFrom().getKey().getRank()){
+		} else if (this.from.getSquare().getRank() < theOther.getFrom().getSquare().getRank()){
 			return -1;
 		}
 		
 
-		if(this.from.getKey().getFile() <  theOther.getFrom().getKey().getFile()){
+		if(this.from.getSquare().getFile() <  theOther.getFrom().getSquare().getFile()){
 			return 1;
-		} else if(this.from.getKey().getFile() >  theOther.getFrom().getKey().getFile()){
+		} else if(this.from.getSquare().getFile() >  theOther.getFrom().getSquare().getFile()){
 			return -1;
 		}
 		
 		//---------------
 		//Son iguales asi que comparamos to
-		if(this.to.getKey().getRank() < theOther.getTo().getKey().getRank()){
+		if(this.to.getSquare().getRank() < theOther.getTo().getSquare().getRank()){
 			return 1;
-		} else if (this.to.getKey().getRank() > theOther.getTo().getKey().getRank()){
+		} else if (this.to.getSquare().getRank() > theOther.getTo().getSquare().getRank()){
 			return -1;
 		}
 		
 
-		if(this.to.getKey().getFile() <  theOther.getTo().getKey().getFile()){
+		if(this.to.getSquare().getFile() <  theOther.getTo().getSquare().getFile()){
 			return -1;
-		} else if(this.to.getKey().getFile() >  theOther.getTo().getKey().getFile()){
+		} else if(this.to.getSquare().getFile() >  theOther.getTo().getSquare().getFile()){
 			return 1;
 		}
 		
@@ -137,7 +137,7 @@ public abstract class AbstractMove implements Move {
 	}
 
 	private Cardinal calculateMoveDirection() {
-		return Cardinal.calculateSquaresDirection(getFrom().getKey(), getTo().getKey());
+		return Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
 	}
 
 }

@@ -142,6 +142,6 @@ public class BestMoveFinderSuite {
 			} 
 		}
 		
-		return move.getFrom().getKey().toString() + move.getTo().getKey().toString() + promotionStr;
+		return move.getFrom().getSquare().toString() + move.getTo().getSquare().toString() + promotionStr;
 	}	
 }

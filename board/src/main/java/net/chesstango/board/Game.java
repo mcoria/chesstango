@@ -73,7 +73,7 @@ public class Game {
 
 	public Move getMove(Square from, Square to) {
 		for (Move move : getPossibleMoves() ) {
-			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey())){
+			if(from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())){
 				return move;
 			}
 		}
@@ -82,7 +82,7 @@ public class Game {
 
 	public Move getMove(Square from, Square to, Piece promotionPiece) {
 		for (Move move : getPossibleMoves() ) {
-			if(from.equals(move.getFrom().getKey()) && to.equals(move.getTo().getKey()) && (move instanceof MovePromotion)){
+			if(from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion)){
 				MovePromotion movePromotion = (MovePromotion) move;
 				if(movePromotion.getPromotion().equals(promotionPiece)) {
 					return move;

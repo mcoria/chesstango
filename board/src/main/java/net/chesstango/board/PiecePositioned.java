@@ -1,25 +1,24 @@
 package net.chesstango.board;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-
 /**
  * @author Mauricio Coria
  *
  */
-public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
-
-	private static final long serialVersionUID = 1L;
+public class PiecePositioned{
+	private final Square key;
+	private final Piece value;
 	
-	public static final PiecePositioned ROOK_BLACK_QUEEN = new PiecePositioned(Square.a8, Piece.ROOK_BLACK);
-	public static final PiecePositioned ROOK_BLACK_KING = new PiecePositioned(Square.h8, Piece.ROOK_BLACK);
-	public static final PiecePositioned KING_BLACK = new PiecePositioned(Square.e8, Piece.KING_BLACK);
+	public static final PiecePositioned ROOK_BLACK_QUEEN = PiecePositionedCache.getInstance().getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
+	public static final PiecePositioned ROOK_BLACK_KING = PiecePositionedCache.getInstance().getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+	public static final PiecePositioned KING_BLACK = PiecePositionedCache.getInstance().getPiecePositioned(Square.e8, Piece.KING_BLACK);
 
-	public static final PiecePositioned ROOK_WHITE_QUEEN = new PiecePositioned(Square.a1, Piece.ROOK_WHITE);
-	public static final PiecePositioned ROOK_WHITE_KING = new PiecePositioned(Square.h1, Piece.ROOK_WHITE);
-	public static final PiecePositioned KING_WHITE = new PiecePositioned(Square.e1, Piece.KING_WHITE);
+	public static final PiecePositioned ROOK_WHITE_QUEEN = PiecePositionedCache.getInstance().getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
+	public static final PiecePositioned ROOK_WHITE_KING = PiecePositionedCache.getInstance().getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
+	public static final PiecePositioned KING_WHITE = PiecePositionedCache.getInstance().getPiecePositioned(Square.e1, Piece.KING_WHITE);
 
 	private PiecePositioned(Square key, Piece value) {
-		super(key, value);
+		this.key = key;
+		this.value = value;
 	}
 
 	public static PiecePositioned getPiecePositioned(Square key, Piece value){
@@ -30,6 +29,20 @@ public class PiecePositioned extends SimpleImmutableEntry<Square, Piece> {
 		return PiecePositionedCache.getInstance().getPosition(square);
 	}
 
+
+	public Square getSquare() {
+		return key;
+	}
+
+
+	public Piece getPiece() {
+		return value;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s=%s", key, value);
+	}
 
 	private static class PiecePositionedCache {
 

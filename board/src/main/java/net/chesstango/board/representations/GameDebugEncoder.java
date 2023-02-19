@@ -32,7 +32,7 @@ public class GameDebugEncoder {
                 Move move = gameStateData.selectedMove;
 
                 if (move != null) {
-                    sb.append(".executeMove(Square." + move.getFrom().getKey().toString() + ", Square." + move.getTo().getKey().toString() + ")");
+                    sb.append(".executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");
 
                     theGame.executeMove(move);
                     FENEncoder fenEncoder = new FENEncoder();

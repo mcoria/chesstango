@@ -59,22 +59,22 @@ public class MoveSorterTest {
 
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
 
         Assert.assertTrue(movesSorted.isEmpty());
     }
@@ -107,22 +107,22 @@ public class MoveSorterTest {
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_WHITE, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
 
         Assert.assertTrue(movesSorted.isEmpty());
     }
@@ -155,22 +155,22 @@ public class MoveSorterTest {
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
         Assert.assertTrue(movesSorted.isEmpty());
     }
@@ -203,22 +203,22 @@ public class MoveSorterTest {
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_BLACK, move.getFrom().getValue());
+        Assert.assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
         Assert.assertTrue(movesSorted.isEmpty());
     }

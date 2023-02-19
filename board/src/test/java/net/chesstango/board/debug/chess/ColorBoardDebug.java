@@ -49,16 +49,16 @@ public class ColorBoardDebug extends ColorBoard {
 		validar();
 		
 		for (PiecePositioned piecePositioned : board) {
-			if(piecePositioned.getValue() == null){				
-				if(! this.isEmpty(piecePositioned.getKey()) ){
-					throw new RuntimeException("ColorBoard contiene una pieza " + this.getColor(piecePositioned.getKey()) + " en " + piecePositioned.getKey() + " pero en PosicionPieza esta vacia");
+			if(piecePositioned.getPiece() == null){
+				if(! this.isEmpty(piecePositioned.getSquare()) ){
+					throw new RuntimeException("ColorBoard contiene una pieza " + this.getColor(piecePositioned.getSquare()) + " en " + piecePositioned.getSquare() + " pero en PosicionPieza esta vacia");
 				}
 			} else {
-				Color colorBoard = piecePositioned.getValue().getColor();
-				Color color = getColor(piecePositioned.getKey());
+				Color colorBoard = piecePositioned.getPiece().getColor();
+				Color color = getColor(piecePositioned.getSquare());
 				
 				if(! colorBoard.equals(color) ){
-					throw new RuntimeException("PosicionPieza contiene una pieza de color distinto a ColorBoard en " + piecePositioned.getKey());
+					throw new RuntimeException("PosicionPieza contiene una pieza de color distinto a ColorBoard en " + piecePositioned.getSquare());
 				}				
 				
 			}

@@ -129,7 +129,7 @@ public class CheckAndPinnedAnalyzer {
 			
 			while (iterator.hasNext()) {
 				PiecePositioned destino = iterator.next();
-				Piece piece = destino.getValue();
+				Piece piece = destino.getPiece();
 
 				if (piece != null) {
 					if (possiblePinned == null){
@@ -146,7 +146,7 @@ public class CheckAndPinnedAnalyzer {
 						// La pieza es nuestra y de las que ponen en jaque al oponente, tenemos pinned
 						if (queen.equals(piece) || rookOrBishop.equals(piece)) {
 							// Confirmado, tenemos pinned
-							pinnedPositions |= possiblePinned.getKey().getBitPosition();
+							pinnedPositions |= possiblePinned.getSquare().getBitPosition();
 							pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));
 						}
 						// O ....

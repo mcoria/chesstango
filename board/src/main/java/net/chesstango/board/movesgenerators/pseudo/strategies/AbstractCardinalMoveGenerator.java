@@ -49,7 +49,7 @@ public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerato
 	 */	
 	protected void getPseudoMoves(MoveGeneratorResult result, Cardinal cardinal) {
 		PiecePositioned from = result.getFrom();
-		Square squareFrom = from.getKey();
+		Square squareFrom = from.getSquare();
 		Iterator<Square> iterator = new CardinalSquareIterator(squareFrom, cardinal);
 		while (iterator.hasNext()) {
 			Square to = iterator.next();

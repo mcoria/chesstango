@@ -75,10 +75,10 @@ public class GameEvaluatorImp02 implements GameEvaluator {
             for (Move move: pseudoMoves) {
                 PiecePositioned fromPosition = move.getFrom();
                 PiecePositioned toPosition = move.getTo();
-                if (toPosition.getValue() == null) {
-                    evaluationByMoveToEmptySquare += fromPosition.getValue().getPieceValue();
+                if (toPosition.getPiece() == null) {
+                    evaluationByMoveToEmptySquare += fromPosition.getPiece().getPieceValue();
                 } else {
-                    evaluationByAttack -= toPosition.getValue().getPieceValue();
+                    evaluationByAttack -= toPosition.getPiece().getPieceValue();
                 }
             }
         }

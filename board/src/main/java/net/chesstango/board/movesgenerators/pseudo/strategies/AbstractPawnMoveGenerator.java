@@ -41,7 +41,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		MoveGeneratorResult result = new MoveGeneratorResult(from);
 		
 		int toRank = -1; //Just in case
-		Square casillero = from.getKey();
+		Square casillero = from.getSquare();
 		Square saltoSimpleCasillero = getSquareSimplePawnMove(casillero);
 		Square saltoDobleCasillero = getSquareSimpleTwoSquaresPawnMove(casillero);
 		
@@ -55,7 +55,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			destino = this.piecePlacement.getPosicion(saltoSimpleCasillero);
 			result.addAffectedByPositions(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
-			if (destino.getValue() == null) {
+			if (destino.getPiece() == null) {
 				Move moveSaltoSimple = this.createSimplePawnMove(from, destino);
 				
 				// En caso de promocion
@@ -69,7 +69,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 						destino = this.piecePlacement.getPosicion(saltoDobleCasillero);
 						result.addAffectedByPositions(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
-						if (destino.getValue() == null) {
+						if (destino.getPiece() == null) {
 							Move moveSaltoDoble = this.createSimpleTwoSquaresPawnMove(from, destino, saltoSimpleCasillero);
 							result.addPseudoMove(moveSaltoDoble);
 						}
@@ -82,7 +82,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueIzquirda);
 			result.addAffectedByPositions(casilleroAtaqueIzquirda);
 			result.addCapturedPositions(casilleroAtaqueIzquirda);
-			Piece piece = destino.getValue();
+			Piece piece = destino.getPiece();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
 				Move moveCaptura = this.createCapturePawnMoveLeft(from, destino);
@@ -101,7 +101,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			destino = this.piecePlacement.getPosicion(casilleroAtaqueDerecha);
 			result.addAffectedByPositions(casilleroAtaqueDerecha);
 			result.addCapturedPositions(casilleroAtaqueDerecha);
-			Piece piece = destino.getValue();
+			Piece piece = destino.getPiece();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
 				Move moveCaptura =  this.createCapturePawnMoveRight(from, destino);

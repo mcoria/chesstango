@@ -120,10 +120,10 @@ public class KingWhiteMoveGeneratorTest {
 		
 		moveGenerator.setPiecePlacement(tablero);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -144,7 +144,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		
 		moveCastling = moveGenerator.generateCastlingPseudoMoves();
@@ -160,11 +160,11 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.f3));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -185,7 +185,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.f3));
 		
@@ -203,11 +203,11 @@ public class KingWhiteMoveGeneratorTest {
 		state.setCastlingWhiteQueenAllowed(true);
 
 
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.f4));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -228,7 +228,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.f4));
 		
@@ -246,11 +246,11 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.KNIGHT_WHITE, tablero.getPiece(Square.b1));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -272,7 +272,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.KNIGHT_WHITE, tablero.getPiece(Square.b1));
 		
@@ -290,10 +290,10 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -314,7 +314,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		
 		moveCastling = moveGenerator.generateCastlingPseudoMoves();
@@ -331,11 +331,11 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.d3));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -356,7 +356,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.d3));
 		
@@ -374,11 +374,11 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.d4));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -399,7 +399,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.BISHOP_BLACK, tablero.getPiece(Square.d4));
 		
@@ -417,11 +417,11 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.g2));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -442,7 +442,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(Square.g2));
 		
@@ -460,12 +460,12 @@ public class KingWhiteMoveGeneratorTest {
 		state.setCastlingWhiteKingAllowed(true);
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.e4));
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getKey(), Piece.KING_WHITE);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(PiecePositioned.KING_WHITE.getSquare(), Piece.KING_WHITE);
 		
 		MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
 		
@@ -487,7 +487,7 @@ public class KingWhiteMoveGeneratorTest {
 		state.setCastlingWhiteKingAllowed(true);
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getKey()));
+		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.h1));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.e4));

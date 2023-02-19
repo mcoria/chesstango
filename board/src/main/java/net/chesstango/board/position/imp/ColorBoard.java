@@ -36,18 +36,18 @@ public class ColorBoard {
 	}
 	
 	public void addPositions(PiecePositioned position) {
-		if (Color.WHITE.equals(position.getValue().getColor())) {
-			squareWhites |= position.getKey().getBitPosition();
+		if (Color.WHITE.equals(position.getPiece().getColor())) {
+			squareWhites |= position.getSquare().getBitPosition();
 		} else {
-			squareBlacks |= position.getKey().getBitPosition();
+			squareBlacks |= position.getSquare().getBitPosition();
 		}
 	}
 	
 	public void removePositions(PiecePositioned position){
-		if(Color.WHITE.equals(position.getValue().getColor())){
-			squareWhites &= ~position.getKey().getBitPosition();
+		if(Color.WHITE.equals(position.getPiece().getColor())){
+			squareWhites &= ~position.getSquare().getBitPosition();
 		} else {
-			squareBlacks &= ~position.getKey().getBitPosition();
+			squareBlacks &= ~position.getSquare().getBitPosition();
 		}
 	}		
 	
@@ -91,12 +91,12 @@ public class ColorBoard {
 	//TODO: quitar este metodo de carga, moverlo a un builder
 	public void init(PiecePlacementReader board) {
 		for (PiecePositioned piecePositioned : board) {
-			Piece piece = piecePositioned.getValue();
+			Piece piece = piecePositioned.getPiece();
 			if (piece != null) {
 				if (Color.WHITE.equals(piece.getColor())) {
-					squareWhites |= piecePositioned.getKey().getBitPosition();
+					squareWhites |= piecePositioned.getSquare().getBitPosition();
 				} else if (Color.BLACK.equals(piece.getColor())) {
-					squareBlacks |= piecePositioned.getKey().getBitPosition();
+					squareBlacks |= piecePositioned.getSquare().getBitPosition();
 				}
 			}			
 		}

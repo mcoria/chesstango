@@ -91,7 +91,7 @@ public class ChessPositionImp implements ChessPosition {
 				.withFullMoveClock(positionState.getFullMoveClock());
 		
 		for(PiecePositioned pieza: piecePlacement){
-			builder.withPiece(pieza.getKey(), pieza.getValue());
+			builder.withPiece(pieza.getSquare(), pieza.getPiece());
 		}
 	}
 	

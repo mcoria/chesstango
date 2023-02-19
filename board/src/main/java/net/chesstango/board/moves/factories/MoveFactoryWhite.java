@@ -34,7 +34,7 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     @Override
     protected MoveKing addLostCastlingByKingMoveWrapper(MoveKing kingMove) {
         MoveKing result = kingMove;
-        if (Square.e1.equals(kingMove.getFrom().getKey())) {
+        if (Square.e1.equals(kingMove.getFrom().getSquare())) {
             result = new MoveDecoratorKingState(kingMove, state -> {
                 state.setCastlingWhiteQueenAllowed(false);
                 state.setCastlingWhiteKingAllowed(false);
@@ -46,9 +46,9 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     @Override
     protected Move addLostCastlingByRookMoveWrapper(Move rookMove) {
         Move result = rookMove;
-        if (Square.a1.equals(rookMove.getFrom().getKey())) {
+        if (Square.a1.equals(rookMove.getFrom().getSquare())) {
             result = new MoveDecoratorState<Move>(rookMove, state -> state.setCastlingWhiteQueenAllowed(false));
-        } else if (Square.h1.equals(rookMove.getFrom().getKey())) {
+        } else if (Square.h1.equals(rookMove.getFrom().getSquare())) {
             result = new MoveDecoratorState<Move>(rookMove, state -> state.setCastlingWhiteKingAllowed(false));
         }
         return result;
@@ -57,9 +57,9 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     @Override
     protected Move addOpponentLostCastlingByRookCapturedWrapper(Move move) {
         Move result = move;
-        if (Square.a8.equals(move.getTo().getKey())) {
+        if (Square.a8.equals(move.getTo().getSquare())) {
             result = new MoveDecoratorState<Move>(move, state -> state.setCastlingBlackQueenAllowed(false));
-        } else if (Square.h8.equals(move.getTo().getKey())) {
+        } else if (Square.h8.equals(move.getTo().getSquare())) {
             result = new MoveDecoratorState<Move>(move, state -> state.setCastlingBlackKingAllowed(false));
         }
         return result;
@@ -68,9 +68,9 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     @Override
     protected MoveKing addOpponentLostCastlingRookCapturedByKingWrapper(MoveKing move) {
         MoveKing result = move;
-        if (Square.a8.equals(move.getTo().getKey())) {
+        if (Square.a8.equals(move.getTo().getSquare())) {
             result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackQueenAllowed(false));
-        } else if (Square.h8.equals(move.getTo().getKey())) {
+        } else if (Square.h8.equals(move.getTo().getSquare())) {
             result = new MoveDecoratorKingState(move, state -> state.setCastlingBlackKingAllowed(false));
         }
         return result;
@@ -79,9 +79,9 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     @Override
     protected MovePromotion addOpponentLostCastlingRookCapturedByPromotion(MovePromotion move) {
         MovePromotion result = move;
-        if (Square.a8.equals(move.getTo().getKey())) {
+        if (Square.a8.equals(move.getTo().getSquare())) {
             result = new MoveDecoratorPromotionState(move, state -> state.setCastlingBlackQueenAllowed(false));
-        } else if (Square.h8.equals(move.getTo().getKey())) {
+        } else if (Square.h8.equals(move.getTo().getSquare())) {
             result = new MoveDecoratorPromotionState(move, state -> state.setCastlingBlackKingAllowed(false));
         }
         return result;

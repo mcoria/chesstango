@@ -35,7 +35,7 @@ public class Quiescence {
              search  && !sortedMoves.isEmpty(); ) {
             Move move = sortedMoves.poll();
 
-            if(move.getTo().getValue() != null || move instanceof MovePromotion) {
+            if(move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
                 int currentValue = quiescenceMax(game, alpha, Math.min(minValue, beta));
@@ -66,7 +66,7 @@ public class Quiescence {
              search  && !sortedMoves.isEmpty(); ) {
             Move move = sortedMoves.poll();
 
-            if(move.getTo().getValue() != null || move instanceof MovePromotion) {
+            if(move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
                 int currentValue = quiescenceMin(game, Math.max(maxValue, alpha), beta);

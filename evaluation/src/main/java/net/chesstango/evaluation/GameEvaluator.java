@@ -41,7 +41,7 @@ public interface GameEvaluator {
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getValue();
+            Piece piece = piecePlacement.getPiece();
             evaluation += piece.getPieceValue();
         }
         return evaluation;

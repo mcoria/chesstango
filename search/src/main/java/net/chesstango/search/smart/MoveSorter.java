@@ -25,22 +25,22 @@ public class MoveSorter {
         public int compare(Move move1, Move move2) {
             int result = 0;
 
-            if (move1.getTo().getValue() == null && move2.getTo().getValue() == null) {
+            if (move1.getTo().getPiece() == null && move2.getTo().getPiece() == null) {
                 //Ambos movimientos no son capturas
-                result = Math.abs(move1.getFrom().getValue().getMoveValue()) - Math.abs(move2.getFrom().getValue().getMoveValue());
+                result = Math.abs(move1.getFrom().getPiece().getMoveValue()) - Math.abs(move2.getFrom().getPiece().getMoveValue());
 
-            }else if(move1.getTo().getValue() == null && move2.getTo().getValue() != null){
+            }else if(move1.getTo().getPiece() == null && move2.getTo().getPiece() != null){
                 result =  -1;
 
-            } else if(move1.getTo().getValue() != null && move2.getTo().getValue() == null){
+            } else if(move1.getTo().getPiece() != null && move2.getTo().getPiece() == null){
                 result =  1;
 
-            } else  if (move1.getTo().getValue() != null && move2.getTo().getValue() != null) {
+            } else  if (move1.getTo().getPiece() != null && move2.getTo().getPiece() != null) {
                 //Ambos movimientos no son capturas
-                result = Math.abs(move1.getTo().getValue().getPieceValue()) - Math.abs(move2.getTo().getValue().getPieceValue());
+                result = Math.abs(move1.getTo().getPiece().getPieceValue()) - Math.abs(move2.getTo().getPiece().getPieceValue());
                 if(result == 0){
                     // Si capturamos, intentamos capturar con la pieza de menos valor primero
-                    result = Math.abs(move1.getFrom().getValue().getMoveValue()) - Math.abs(move2.getFrom().getValue().getMoveValue());
+                    result = Math.abs(move1.getFrom().getPiece().getMoveValue()) - Math.abs(move2.getFrom().getPiece().getMoveValue());
                 }
 
             }

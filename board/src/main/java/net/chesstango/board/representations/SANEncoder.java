@@ -21,7 +21,7 @@ public class SANEncoder {
         if(move instanceof MoveCastling){
             MoveCastling moveCastling = (MoveCastling) move;
             Move rookMove = moveCastling.getRookMove();
-            Square rookFromSquare = rookMove.getFrom().getKey();
+            Square rookFromSquare = rookMove.getFrom().getSquare();
             if(rookFromSquare.getFile() == 0){
                 return "O-O-O";
             } else {
@@ -38,8 +38,8 @@ public class SANEncoder {
 
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
-        Piece piece = from.getValue();
-        boolean capture = to.getValue() == null ? false : true;
+        Piece piece = from.getPiece();
+        boolean capture = to.getPiece() == null ? false : true;
 
         if(Piece.PAWN_WHITE.equals(piece) || Piece.PAWN_BLACK.equals(piece)){
             if(capture){
@@ -54,7 +54,7 @@ public class SANEncoder {
             sb.append("x");
         }
 
-        sb.append(to.getKey());
+        sb.append(to.getSquare());
 
         if(move instanceof MovePromotion){
             MovePromotion movePromotion = (MovePromotion) move;
@@ -67,7 +67,7 @@ public class SANEncoder {
     private String solveAmbiguityFrom(Move move, Iterable<Move>  possibleMoves) {
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
-        Piece piece = from.getValue();
+        Piece piece = from.getPiece();
 
         boolean solveAmb = false;
         boolean fileAmb = false;
@@ -76,13 +76,13 @@ public class SANEncoder {
         for (Move aMove: possibleMoves){
             PiecePositioned aMoveFrom = aMove.getFrom();
             PiecePositioned aMoveTo = aMove.getTo();
-            Piece aMovePiece = aMoveFrom.getValue();
+            Piece aMovePiece = aMoveFrom.getPiece();
             if(!aMoveFrom.equals(from) && aMoveTo.equals(to) && aMovePiece.equals(piece)){
                 solveAmb = true;
-                if(aMoveFrom.getKey().getFile() == from.getKey().getFile() ){
+                if(aMoveFrom.getSquare().getFile() == from.getSquare().getFile() ){
                     fileAmb = true;
                 }
-                if(aMoveFrom.getKey().getRank() == from.getKey().getRank() ){
+                if(aMoveFrom.getSquare().getRank() == from.getSquare().getRank() ){
                     rankAmb = true;
                 }
             }
@@ -92,9 +92,9 @@ public class SANEncoder {
             if(fileAmb == false){
                 return Character.toString(getFile(from));
             } else if(rankAmb == false){
-                return Integer.toString (from.getKey().getRank() + 1);
+                return Integer.toString (from.getSquare().getRank() + 1);
             } else{
-                return from.getKey().toString();
+                return from.getSquare().toString();
             }
         }
 
@@ -102,7 +102,7 @@ public class SANEncoder {
     }
 
     private char getFile(PiecePositioned position) {
-        switch (position.getKey().getFile()){
+        switch (position.getSquare().getFile()){
             case 0:
                 return 'a';
             case 1:

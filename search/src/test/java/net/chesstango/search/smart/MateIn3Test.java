@@ -35,9 +35,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-                 Assert.assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.c5, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.a6, smartMove.getTo().getKey());
+                 Assert.assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.c5, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.a6, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
      }
@@ -50,9 +50,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-         Assert.assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.c3, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.e5, smartMove.getTo().getKey());
+         Assert.assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.c3, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.e5, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
      }
@@ -65,9 +65,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-         Assert.assertEquals(Piece.PAWN_WHITE, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.f4, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.f5, smartMove.getTo().getKey());
+         Assert.assertEquals(Piece.PAWN_WHITE, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.f4, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.f5, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
      }
@@ -80,9 +80,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-         Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.e5, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.e1, smartMove.getTo().getKey());
+         Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.e5, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.e1, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
      }
@@ -95,9 +95,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-         Assert.assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.e7, smartMove.getTo().getKey());
+         Assert.assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.e6, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.e7, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
      }
@@ -110,9 +110,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-         Assert.assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.c4, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.b5, smartMove.getTo().getKey());
+         Assert.assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.c4, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.b5, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
      }
@@ -125,9 +125,9 @@
 
          Move smartMove = searchResult.getBestMove();
 
-         Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getValue());
-         Assert.assertEquals(Square.e6, smartMove.getFrom().getKey());
-         Assert.assertEquals(Square.g6, smartMove.getTo().getKey());
+         Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
+         Assert.assertEquals(Square.e6, smartMove.getFrom().getSquare());
+         Assert.assertEquals(Square.g6, smartMove.getTo().getSquare());
 
          Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
      }

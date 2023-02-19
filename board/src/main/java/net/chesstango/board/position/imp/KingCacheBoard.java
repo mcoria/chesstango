@@ -47,8 +47,8 @@ public class KingCacheBoard {
 		Square kingSquare = null;
 		Piece king = Piece.getKing(color);
 		for (PiecePositioned entry : board) {
-			Square currentSquare = entry.getKey();
-			Piece currentPieza = entry.getValue();
+			Square currentSquare = entry.getSquare();
+			Piece currentPieza = entry.getPiece();
 			if(king.equals(currentPieza)){
 				kingSquare = currentSquare;
 				break;

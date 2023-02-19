@@ -30,7 +30,7 @@ public class CapturerByPawn implements SquareCapturerByPiece{
         Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
-            if(pawn.equals(destino.getValue())){
+            if(pawn.equals(destino.getPiece())){
                 return true;
             }
         }

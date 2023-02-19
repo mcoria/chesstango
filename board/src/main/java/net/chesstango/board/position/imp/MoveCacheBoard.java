@@ -92,7 +92,7 @@ public class MoveCacheBoard {
 	//TODO: este metodo consume el 20% del procesamiento
 	public void popCleared() {
 		currentClearedSquares.stream()
-				.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getKey(), generatorResult));
+				.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult));
 		
 		currentClearedSquares = clearedSquares.pop();
 	}	

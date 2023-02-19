@@ -58,15 +58,15 @@ public class GameEvaluatorImp01 implements GameEvaluator {
         Set<Square> territorioAtaque = new HashSet<>();
         int posiblesCapturasValor = 0;
         for (Move move : game.getPossibleMoves()) {
-            origenes.add(move.getFrom().getKey());
+            origenes.add(move.getFrom().getSquare());
 
             PiecePositioned to = move.getTo();
 
-            territorioExpansion.add(to.getKey());
+            territorioExpansion.add(to.getSquare());
 
-            if (to.getValue() != null) {
-                territorioAtaque.add(to.getKey());
-                posiblesCapturasValor += Math.abs(to.getValue().getPieceValue());
+            if (to.getPiece() != null) {
+                territorioAtaque.add(to.getSquare());
+                posiblesCapturasValor += Math.abs(to.getPiece().getPieceValue());
             }
         }
 

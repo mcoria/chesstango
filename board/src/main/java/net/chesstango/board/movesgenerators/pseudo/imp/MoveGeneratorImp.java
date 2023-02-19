@@ -87,7 +87,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 	@Override
 	public MoveGeneratorResult generatePseudoMoves(PiecePositioned origen) {
-		Piece piece = origen.getValue();
+		Piece piece = origen.getPiece();
 		//MoveGeneratorStrategy strategy = piece.selectMoveGeneratorStrategy(this);
 		MoveGeneratorByPiecePositioned strategy = selectMoveGeneratorStrategy(piece);
 		return strategy.generatePseudoMoves(origen);

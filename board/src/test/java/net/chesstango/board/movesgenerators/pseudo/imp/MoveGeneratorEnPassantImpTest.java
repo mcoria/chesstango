@@ -145,12 +145,12 @@ public class MoveGeneratorEnPassantImpTest {
 
 	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
 		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null),
-				Cardinal.calculateSquaresDirection(origen.getKey(), destinoSquare), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
+				Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
 				Piece.PAWN_BLACK));
 	}
 	
 	private Move createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.calculateSquaresDirection(origen.getKey(), destinoSquare), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
+		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

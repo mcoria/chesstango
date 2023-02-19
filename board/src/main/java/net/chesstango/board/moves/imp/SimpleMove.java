@@ -26,12 +26,12 @@ public class SimpleMove extends AbstractNotPawnMove {
 
     @Override
     public void executeMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getValue().getColor(), from.getKey(), to.getKey());
+        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
     }
 
     @Override
     public void undoMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getValue().getColor(), to.getKey(), from.getKey());
+        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
     }
 
     @Override

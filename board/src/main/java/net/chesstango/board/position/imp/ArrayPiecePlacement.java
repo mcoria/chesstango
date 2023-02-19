@@ -43,14 +43,14 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
     @Override
     public void setPosicion(PiecePositioned entry) {
-        Square square = entry.getKey();
+        Square square = entry.getSquare();
         tablero[square.toIdx()] = entry;
     }
 
 
     @Override
     public Piece getPiece(Square square) {
-        return tablero[square.toIdx()].getValue();
+        return tablero[square.toIdx()].getPiece();
     }
 
 
@@ -67,7 +67,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
     @Override
     public void setEmptyPosicion(PiecePositioned captura) {
-        setEmptySquare(captura.getKey());
+        setEmptySquare(captura.getSquare());
     }
 
 
@@ -101,8 +101,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
     @Override
     public void move(PiecePositioned from, PiecePositioned to) {
-        this.setEmptySquare(from.getKey());                            //Dejamos el origen
-        this.setPieza(to.getKey(), from.getValue());                //Vamos al destino
+        this.setEmptySquare(from.getSquare());                            //Dejamos el origen
+        this.setPieza(to.getSquare(), from.getPiece());                //Vamos al destino
     }
 
     @Override
@@ -111,7 +111,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
         try (PrintStream ps = new PrintStream(baos)) {
             ASCIIEncoder output = new ASCIIEncoder();
             this.forEach(posicionPieza -> {
-                output.withPiece(posicionPieza.getKey(), posicionPieza.getValue());
+                output.withPiece(posicionPieza.getSquare(), posicionPieza.getPiece());
             });
             output.getPiecePlacement(ps);
         }
