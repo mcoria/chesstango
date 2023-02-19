@@ -1,24 +1,20 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.GameStatus;
-import net.chesstango.board.representations.GameDebugEncoder;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.arena.imp.EngineControllerImp;
-import net.chesstango.uci.engine.EngineProxy;
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -26,62 +22,12 @@ import java.util.*;
 public class Match {
     private EngineController engine1;
     private EngineController engine2;
-
     private final int depth;
-
-    public static void main(String[] args) {
-        EngineController engineTango = new EngineControllerImp(new EngineTango().disableAsync());
-        EngineController engineOponente = new EngineControllerImp(new EngineProxy());
-        //EngineControllerImp engineOponente = new EngineControllerImp(new EngineTango(new Dummy()));
-
-        Instant start = Instant.now();
-
-        Match match = new Match(engineTango, engineOponente, 1);
-        match.startEngines();
-
-        List<MathResult> matchResult = match.play(Arrays.asList(
-                FENDecoder.INITIAL_FEN,
-                "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
-                "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
-                "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"
-                ));
-
-        match.quitEngines();
-
-        Instant end = Instant.now();
-        Duration timeElapsed = Duration.between(start, end);
-        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
-
-        long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(result -> result.getPoints()).sum();
-        long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(result -> result.getPoints()).sum();
-        long puntosTotal = puntosAsWhite + puntosAsBlack;
-
-        System.out.println("Puntos withe = " + puntosAsWhite + ", puntos black = " + puntosAsBlack + ", total = " + puntosTotal);
-    }
 
     public Match(EngineController engine1, EngineController engine2, int depth) {
         this.engine1 = engine1;
         this.engine2 = engine2;
         this.depth = depth;
-    }
-
-    public void switchChairs() {
-        EngineController tmpController = engine1;
-        engine1 = engine2;
-        engine2 = tmpController;
-    }
-
-    public void startEngines() {
-        engine1.send_CmdUci();
-        engine1.send_CmdIsReady();
-
-        engine2.send_CmdUci();
-        engine2.send_CmdIsReady();
-    }
-
-    public void quitEngines() {
-        engine1.send_CmdQuit();
-        engine2.send_CmdQuit();
     }
 
     public List<MathResult> play(List<String> fenList) {
@@ -104,16 +50,6 @@ public class Match {
         return result;
     }
 
-    public List<MathResult> compete(List<String> fenList) {
-        List<MathResult> result = new ArrayList<>();
-
-        fenList.stream().forEach(fen -> {
-            result.add(compete(fen));
-        });
-
-        return result;
-    }
-
     public MathResult compete(String fen) {
         startNewGame();
 
@@ -124,9 +60,10 @@ public class Match {
         EngineController currentTurn = engine1;
 
         while (game.getStatus().isInProgress()) {
-            String moveStr = askForBestMove(currentTurn, fen, executedMovesStr);
+            String moveStr = calculateBestMove(currentTurn, fen, executedMovesStr);
 
-            Move move = findMove(fen, game, moveStr);
+            Move move = decodeMove(fen, game, moveStr);
+
             game.executeMove(move);
 
             executedMovesStr.add(moveStr);
@@ -171,11 +108,12 @@ public class Match {
 
             }
         } else {
+            printDebug(fen, game);
             throw new RuntimeException("Inconsistent game status");
         }
 
 
-        printDebug(fen, game);
+        //printDebug(fen, game);
 
         return result;
     }
@@ -189,7 +127,7 @@ public class Match {
         engine2.send_CmdIsReady();
     }
 
-    private String askForBestMove(EngineController currentTurn, String fen, List<String> moves) {
+    private String calculateBestMove(EngineController currentTurn, String fen, List<String> moves) {
         if (FENDecoder.INITIAL_FEN.equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
@@ -201,7 +139,7 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private Move findMove(String fen, Game game, String bestMove) {
+    private Move decodeMove(String fen, Game game, String bestMove) {
         UCIEncoder uciEncoder = new UCIEncoder();
         for (Move move : game.getPossibleMoves()) {
             String encodedMoveStr = uciEncoder.encode(move);
@@ -209,8 +147,9 @@ public class Match {
                 return move;
             }
         }
-        printPGN(fen, game);
-        printMoveExecution(fen, game);
+
+        printDebug(fen, game);
+
         throw new RuntimeException("No move found " + bestMove);
     }
 
@@ -247,4 +186,9 @@ public class Match {
     }
 
 
+    private void switchChairs() {
+        EngineController tmpController = engine1;
+        engine1 = engine2;
+        engine2 = tmpController;
+    }
 }

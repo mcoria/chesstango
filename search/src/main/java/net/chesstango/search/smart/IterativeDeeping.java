@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.ArrayList;

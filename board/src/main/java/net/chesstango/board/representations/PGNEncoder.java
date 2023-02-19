@@ -5,7 +5,6 @@ import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;

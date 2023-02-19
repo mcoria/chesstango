@@ -7,7 +7,6 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.imp.PositionState;
 
-import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /*

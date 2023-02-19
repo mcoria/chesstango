@@ -8,9 +8,6 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * @author Mauricio Coria
  */

@@ -13,6 +13,8 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
+ *
+ * Almacena tanto el estado actual como estados anteriores.
  */
 public class GameState {
 

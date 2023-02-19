@@ -11,7 +11,6 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MinMaxPruning;
 import net.chesstango.search.smart.Quiescence;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arena.EngineController;
 import net.chesstango.uci.arena.Match;
