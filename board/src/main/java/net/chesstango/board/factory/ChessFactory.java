@@ -23,7 +23,7 @@ import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.imp.MoveGenaratorWithCacheProxy;
+import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
 /**
@@ -81,7 +81,7 @@ public class ChessFactory {
 	}
 
 	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGeneratorImp moveGenerator, MoveCacheBoard moveCacheBoard) {
-		return new MoveGenaratorWithCacheProxy(moveGenerator, moveCacheBoard);
+		return new MoveGeneratorWithCacheProxy(moveGenerator, moveCacheBoard);
 	}
 
 	public Game createGame(ChessPosition chessPosition, GameState gameState, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer) {

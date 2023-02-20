@@ -7,14 +7,14 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.movesgenerators.pseudo.imp.MoveGenaratorWithCacheProxy;
+import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveGenaratorWithCacheDebug extends MoveGenaratorWithCacheProxy {
+public class MoveGenaratorWithCacheDebug extends MoveGeneratorWithCacheProxy {
 
 
 	public MoveGenaratorWithCacheDebug(MoveGeneratorImp moveGenerator, MoveCacheBoard moveCacheBoard) {

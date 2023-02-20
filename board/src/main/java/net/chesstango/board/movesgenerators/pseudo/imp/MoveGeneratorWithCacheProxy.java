@@ -14,14 +14,14 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
  * @author Mauricio Coria
  *
  */
-public class MoveGenaratorWithCacheProxy implements MoveGenerator {
+public class MoveGeneratorWithCacheProxy implements MoveGenerator {
 
 	protected MoveGeneratorImp moveGenerator = null;
 	
 	protected MoveCacheBoard moveCache = null;
 	
 
-	public MoveGenaratorWithCacheProxy(MoveGeneratorImp implementation, MoveCacheBoard moveCache) {
+	public MoveGeneratorWithCacheProxy(MoveGeneratorImp implementation, MoveCacheBoard moveCache) {
 		this.moveGenerator = implementation;
 		this.moveCache = moveCache;
 	}	

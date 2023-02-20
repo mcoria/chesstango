@@ -58,7 +58,7 @@ public class MoveGeneratorEnPassantImpTest {
 		state.setEnPassantSquare(Square.d6);
 		state.setCurrentTurn(Color.WHITE);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 
 		Square from = Square.e5;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
@@ -83,7 +83,7 @@ public class MoveGeneratorEnPassantImpTest {
 		state.setEnPassantSquare(Square.e6);
 		state.setCurrentTurn(Color.WHITE);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.d5;
 		assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
@@ -106,7 +106,7 @@ public class MoveGeneratorEnPassantImpTest {
 		state.setEnPassantSquare(Square.e3);
 		state.setCurrentTurn(Color.BLACK);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.d4;
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
@@ -128,7 +128,7 @@ public class MoveGeneratorEnPassantImpTest {
 		state.setEnPassantSquare(Square.d3);
 		state.setCurrentTurn(Color.BLACK);
 		
-		moveGenerator.setTablero(tablero);
+		moveGenerator.setPiecePlacement(tablero);
 		
 		Square from = Square.e4;
 		assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));

@@ -48,7 +48,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 	private final MoveGeneratorEnPassantImp ppmg;
 	
-	private PiecePlacementReader dummyBoard;
+	private PiecePlacementReader piecePlacement;
 	private ColorBoard colorBoard;
 	private PositionState positionState;	
 	private KingCacheBoard kingCacheBoard;
@@ -109,7 +109,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	}	
 
 	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
-		this.dummyBoard = dummyBoard;
+		this.piecePlacement = dummyBoard;
 		settupMoveGenerators();
 	}
 
@@ -159,7 +159,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private void settupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
 		if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator) {
 			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGeneratorByPiecePositioned;
-			generator.setPiecePlacement(dummyBoard);
+			generator.setPiecePlacement(piecePlacement);
 			generator.setColorBoard(colorBoard);
 			
 			if(moveGeneratorByPiecePositioned.equals(pbmg) || moveGeneratorByPiecePositioned.equals(tbmg) || moveGeneratorByPiecePositioned.equals(cbmg) || moveGeneratorByPiecePositioned.equals(abmg) || moveGeneratorByPiecePositioned.equals(rebmg) || moveGeneratorByPiecePositioned.equals(rbmg)){
@@ -179,7 +179,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 	private void settupEnPassantMoveGenerator() {
 		ppmg.setBoardState(positionState);
-		ppmg.setTablero(dummyBoard);
+		ppmg.setPiecePlacement(piecePlacement);
 	}
 	
 	
