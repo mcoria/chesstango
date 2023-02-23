@@ -73,7 +73,7 @@ public class CapturePawnPromotionTest {
 		
 		// asserts execute		
 		assertEquals(Piece.QUEEN_WHITE, piecePlacement.getPiece(Square.f8));
-		assertTrue(piecePlacement.isEmtpy(Square.e7));
+		assertTrue(piecePlacement.isEmpty(Square.e7));
 		
 		// undos		
 		moveExecutor.undoMove(piecePlacement);

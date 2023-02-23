@@ -1,10 +1,11 @@
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
-import net.chesstango.board.GameStateVisitor;
+import net.chesstango.board.GameVisitor;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.imp.PositionState;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,13 +21,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Mauricio Coria
  */
 public class PositionAnalyzer {
-
     private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
-
     private GameState gameState;
-
-    private PositionState positionState;
-
+    private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
     private boolean detectRepetitions;
 
@@ -41,7 +38,7 @@ public class PositionAnalyzer {
         GameStatus gameStatus = null;
 
         if (existsLegalMove) {
-            if (positionState.getHalfMoveClock() < 50) {
+            if (positionReader.getHalfMoveClock() < 50) {
                 if (analysis.isKingInCheck()) {
                     gameStatus = GameStatus.CHECK;
                 } else {
@@ -56,7 +53,7 @@ public class PositionAnalyzer {
 
                 AtomicInteger repetitionCounter = new AtomicInteger();
 
-                gameState.accept(new GameStateVisitor() {
+                gameState.accept(new GameVisitor() {
                     @Override
                     public void visit(GameState gameState) {
                     }
@@ -116,11 +113,12 @@ public class PositionAnalyzer {
         this.checkAndPinnedAnalyzer = checkAndPinnedAnalyzer;
     }
 
-    public void setPositionState(PositionState positionState) {
-        this.positionState = positionState;
+    public void setPositionReader(ChessPositionReader positionReader) {
+        this.positionReader = positionReader;
     }
 
     public void detectRepetitions(boolean flag) {
         this.detectRepetitions = flag;
     }
+
 }

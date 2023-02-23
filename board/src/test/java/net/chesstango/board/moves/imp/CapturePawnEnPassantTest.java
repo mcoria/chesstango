@@ -72,15 +72,15 @@ public class CapturePawnEnPassantTest {
 		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute
-		assertTrue(piecePlacement.isEmtpy(Square.a5));
-		assertTrue(piecePlacement.isEmtpy(Square.b5));
+		assertTrue(piecePlacement.isEmpty(Square.a5));
+		assertTrue(piecePlacement.isEmpty(Square.b5));
 		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.a6));
 		
 		// undos
 		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos
-		assertTrue(piecePlacement.isEmtpy(Square.a6));
+		assertTrue(piecePlacement.isEmpty(Square.a6));
 		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.b5));
 		assertEquals(Piece.PAWN_BLACK, piecePlacement.getPiece(Square.a5));
 		
@@ -162,8 +162,8 @@ public class CapturePawnEnPassantTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertTrue(piecePlacement.isEmtpy(Square.a5));
-		assertTrue(piecePlacement.isEmtpy(Square.b5));
+		assertTrue(piecePlacement.isEmpty(Square.a5));
+		assertTrue(piecePlacement.isEmpty(Square.b5));
 		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.a6));
 		
 		assertNull(positionState.getEnPassantSquare());
@@ -181,7 +181,7 @@ public class CapturePawnEnPassantTest {
 
 		
 		// asserts undos
-		assertTrue(piecePlacement.isEmtpy(Square.a6));
+		assertTrue(piecePlacement.isEmpty(Square.a6));
 		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.b5));
 		assertEquals(Piece.PAWN_BLACK, piecePlacement.getPiece(Square.a5));
 		

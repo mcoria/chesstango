@@ -23,7 +23,6 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 	protected final ChessPositionReader positionReader;
-	
 	protected final MoveGenerator pseudoMovesGenerator;
 	
 	protected final MoveFilter filter;

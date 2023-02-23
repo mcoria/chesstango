@@ -71,14 +71,14 @@ public class SimpleMoveTest {
 		
 		// asserts execute		
 		assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.e7));
-		assertTrue(piecePlacement.isEmtpy(Square.e5));
+		assertTrue(piecePlacement.isEmpty(Square.e5));
 		
 		// undos		
 		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
 		assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.e5));
-		assertTrue(piecePlacement.isEmtpy(Square.e7));
+		assertTrue(piecePlacement.isEmpty(Square.e7));
 	}
 		
 	@Test

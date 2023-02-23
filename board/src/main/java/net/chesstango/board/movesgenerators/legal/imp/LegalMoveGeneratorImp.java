@@ -13,20 +13,20 @@ import net.chesstango.board.moves.MoveContainerReader;
  */
 public class LegalMoveGeneratorImp implements LegalMoveGenerator {
 
-	private LegalMoveGenerator checkMoveGenerator;
+	private LegalMoveGenerator checkLegalMoveGenerator;
 	
 	private LegalMoveGenerator noCheckLegalMoveGenerator;	
 
 	@Override
 	public MoveContainerReader getLegalMoves(AnalyzerResult analysis) {
 		if(analysis.isKingInCheck()){
-			return checkMoveGenerator.getLegalMoves(analysis);
+			return checkLegalMoveGenerator.getLegalMoves(analysis);
 		}
 		return noCheckLegalMoveGenerator.getLegalMoves(analysis);
 	}
 	
-	public void setDefaultMoveCalculator(LegalMoveGenerator defaultMoveCalculator) {
-		this.checkMoveGenerator = defaultMoveCalculator;
+	public void setCheckLegalMoveGenerator(LegalMoveGenerator defaultMoveCalculator) {
+		this.checkLegalMoveGenerator = defaultMoveCalculator;
 	}
 
 	public void setNoCheckLegalMoveGenerator(LegalMoveGenerator noCheckLegalMoveGenerator) {

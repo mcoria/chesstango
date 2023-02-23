@@ -86,7 +86,7 @@ public class SimpleKingMoveTest {
 		
 		// asserts undos
 		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
-		assertTrue(piecePlacement.isEmtpy(Square.e2));
+		assertTrue(piecePlacement.isEmpty(Square.e2));
 	}	
 	
 	@Test
@@ -190,7 +190,7 @@ public class SimpleKingMoveTest {
 		
 		// asserts undos
 		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
-		assertTrue(piecePlacement.isEmtpy(Square.e2));
+		assertTrue(piecePlacement.isEmpty(Square.e2));
 		
 		assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 		

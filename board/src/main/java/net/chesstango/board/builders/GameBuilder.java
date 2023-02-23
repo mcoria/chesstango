@@ -22,6 +22,10 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	
 	private Game game = null;
 
+	public GameBuilder(ChessFactory chessFactory) {
+		this(new ChessInjector(chessFactory));
+	}
+
 	public GameBuilder() {
 		this(new ChessInjector());
 	}
@@ -30,10 +34,6 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 		this.piecePlacement = chessInjector.getPiecePlacement();
 		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
-	}
-	
-	public GameBuilder(ChessFactory chessFactory) {
-		this(new ChessInjector(chessFactory));
 	}
 	
 	@Override

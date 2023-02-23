@@ -3,10 +3,10 @@ package net.chesstango.board.movesgenerators.legal;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.moves.MoveContainerReader;
 
-// Doble  Jaque 										-> Mover el King. 								El castling no est� permitido.
-// Simple Jaque (Rook; Bishop; Queen; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover king. El castling no est� permitido.
-// Simple Jaque (CapturerByKnight; Pawn; a UN SOLO paso) 			-> Comer jaqueador, mover king. 					El castling no est� permitido.
-// Sin Jaque    										-> El castling esta permidito.
+// Doble  Jaque 										-> Mover el King. 								 El castling no esta permitido.
+// Simple Jaque (Rook; Bishop; Queen; a mas de un paso) -> Comer jaqueador, tapar jaqueador, mover king. El castling no esta permitido.
+// Simple Jaque (CapturerByKnight; Pawn; a UN SOLO paso) 			-> Comer jaqueador, mover king. 	 El castling no esta permitido.
+// Sin Jaque    										-> El castling esta permidito. Solo considerar posiciones pinned.
 // Movemos la validacion de castlings aqui?
 
 /**

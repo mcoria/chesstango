@@ -53,7 +53,7 @@ public class NoCheckLegalMoveGeneratorTest {
 
 		chessPosition = builder.getChessRepresentation();
 		
-		strategy = injector.getMoveGenerator();
+		strategy = injector.getPseudoMoveGenerator();
 		
 		//filter = injector.getMoveFilter();	
 		

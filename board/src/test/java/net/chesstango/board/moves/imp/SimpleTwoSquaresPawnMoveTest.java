@@ -71,14 +71,14 @@ public class SimpleTwoSquaresPawnMoveTest {
 		
 		// asserts execute		
 		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e4));
-		assertTrue(piecePlacement.isEmtpy(Square.e2));
+		assertTrue(piecePlacement.isEmpty(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
 		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
-		assertTrue(piecePlacement.isEmtpy(Square.e4));
+		assertTrue(piecePlacement.isEmpty(Square.e4));
 	}
 		
 	@Test

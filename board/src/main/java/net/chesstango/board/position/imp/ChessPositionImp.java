@@ -217,8 +217,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public boolean isEmtpy(Square square) {
-		return piecePlacement.isEmtpy(square);
+	public boolean isEmpty(Square square) {
+		return piecePlacement.isEmpty(square);
 	}
 
 	@Override

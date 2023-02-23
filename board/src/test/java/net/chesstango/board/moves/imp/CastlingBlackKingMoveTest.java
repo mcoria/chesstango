@@ -75,16 +75,16 @@ public class CastlingBlackKingMoveTest {
 		assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.g8));
 		assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.f8));
 		
-		assertTrue(piecePlacement.isEmtpy(Square.e8));
-		assertTrue(piecePlacement.isEmtpy(Square.h8));
+		assertTrue(piecePlacement.isEmpty(Square.e8));
+		assertTrue(piecePlacement.isEmpty(Square.h8));
 		
 		moveExecutor.undoMove(piecePlacement);
 		
 		assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.e8));
 		assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.h8));
 		
-		assertTrue(piecePlacement.isEmtpy(Square.g8));
-		assertTrue(piecePlacement.isEmtpy(Square.f8));
+		assertTrue(piecePlacement.isEmpty(Square.g8));
+		assertTrue(piecePlacement.isEmpty(Square.f8));
 	}
 
 	@Test

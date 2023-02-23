@@ -26,6 +26,8 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
+import java.util.Map;
+
 /**
  * @author Mauricio Coria
  *
@@ -40,8 +42,8 @@ public class ChessFactory {
 		return new LegalMoveGeneratorImp();
 	}
 	
-	public LegalMoveGenerator createDefaultLegalMoveGenerator(ChessPositionReader positionReader,
-                                                              MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
+	public LegalMoveGenerator createCheckLegalMoveGenerator(ChessPositionReader positionReader,
+															MoveGenerator buildMoveGeneratorStrategy, MoveFilter filter) {
 		return new CheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
@@ -84,8 +86,8 @@ public class ChessFactory {
 		return new MoveGeneratorWithCacheProxy(moveGenerator, moveCacheBoard);
 	}
 
-	public Game createGame(ChessPosition chessPosition, GameState gameState, MoveGenerator pseudoMovesGenerator, PositionAnalyzer analyzer) {
-		return new Game(chessPosition, gameState, pseudoMovesGenerator, analyzer);
+	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class, Object> objectMap) {
+		return new Game(chessPosition, gameState, analyzer, objectMap);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {

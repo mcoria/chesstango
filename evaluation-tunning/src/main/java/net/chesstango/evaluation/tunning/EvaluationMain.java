@@ -7,6 +7,7 @@ import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
+import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MinMaxPruning;
@@ -117,8 +118,7 @@ public class EvaluationMain{
     }
 
     public EngineController createTango(Genotype<IntegerGene> genotype) {
-
-        SearchMove search = new IterativeDeeping(new MinMaxPruning(new Quiescence()));
+        SearchMove search = new DefaultSearchMove();
 
         search.setGameEvaluator(geneticProvider.createGameEvaluator(genotype));
 

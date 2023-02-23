@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class AnalyzerResult {
 	private boolean isKingInCheck;
-	
 	private long pinnedSquares;
 
 	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;

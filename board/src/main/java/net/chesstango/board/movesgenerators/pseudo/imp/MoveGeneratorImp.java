@@ -45,7 +45,6 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private final QueenMoveGenerator renmg;
 	private final KingWhiteMoveGenerator rbmg;
 	private final KingBlackMoveGenerator rnmg;
-
 	private final MoveGeneratorEnPassantImp ppmg;
 	
 	private PiecePlacementReader piecePlacement;
@@ -110,53 +109,53 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
 		this.piecePlacement = dummyBoard;
-		settupMoveGenerators();
+		setupMoveGenerators();
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {
 		this.colorBoard = colorBoard;
-		settupMoveGenerators();
+		setupMoveGenerators();
 	}
 
 	public void setBoardState(PositionState positionState) {
 		this.positionState = positionState;
-		settupMoveGenerators();
+		setupMoveGenerators();
 	}
 	
 	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
 		this.kingCacheBoard = kingCacheBoard;
-		settupMoveGenerators();
+		setupMoveGenerators();
 	}	
 	
-	private void settupMoveGenerators(){
-		settupMoveGenerator(pbmg);
+	private void setupMoveGenerators(){
+		setupMoveGenerator(pbmg);
 
-		settupMoveGenerator(pnmg);
+		setupMoveGenerator(pnmg);
 
-		settupMoveGenerator(tbmg);
+		setupMoveGenerator(tbmg);
 		
-		settupMoveGenerator(tnmg);
+		setupMoveGenerator(tnmg);
 		
-		settupMoveGenerator(cbmg);
+		setupMoveGenerator(cbmg);
 		
-		settupMoveGenerator(cnmg);
+		setupMoveGenerator(cnmg);
 		
-		settupMoveGenerator(abmg);
+		setupMoveGenerator(abmg);
 		
-		settupMoveGenerator(anmg);
-		
-		settupMoveGenerator(rebmg);
-		
-		settupMoveGenerator(renmg);
-		
-		settupMoveGenerator(rbmg);
-		
-		settupMoveGenerator(rnmg);
+		setupMoveGenerator(anmg);
+
+		setupMoveGenerator(rebmg);
+
+		setupMoveGenerator(renmg);
+
+		setupMoveGenerator(rbmg);
+
+		setupMoveGenerator(rnmg);
 		
 		settupEnPassantMoveGenerator();
 	}	
 	
-	private void settupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
+	private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
 		if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator) {
 			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGeneratorByPiecePositioned;
 			generator.setPiecePlacement(piecePlacement);

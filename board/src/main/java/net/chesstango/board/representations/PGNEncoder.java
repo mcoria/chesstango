@@ -32,7 +32,7 @@ public class PGNEncoder {
         sb.append("\n");
 
         AtomicInteger moveCounter = new AtomicInteger();
-        game.accept(new GameStateVisitor() {
+        game.accept(new GameVisitor() {
 
             @Override
             public void visit(GameState gameState) {

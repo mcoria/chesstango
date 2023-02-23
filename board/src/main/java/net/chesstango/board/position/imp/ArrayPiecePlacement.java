@@ -72,7 +72,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
 
     @Override
-    public boolean isEmtpy(Square square) {
+    public boolean isEmpty(Square square) {
         return getPiece(square) == null;
     }
 

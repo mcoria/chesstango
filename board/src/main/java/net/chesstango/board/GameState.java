@@ -62,20 +62,9 @@ public class GameState {
     }
 
     public void push() {
-        GameStateData gameStateData = new GameStateData();
-        gameStateData.selectedMove = currentGameState.selectedMove;
-        gameStateData.analyzerResult = currentGameState.analyzerResult;
-        gameStateData.gameStatus = currentGameState.gameStatus;
-        gameStateData.legalMoves = currentGameState.legalMoves;
-        gameStateData.fenWithoutClocks = currentGameState.fenWithoutClocks;
+        stackGameStates.push(currentGameState);
 
-        stackGameStates.push(gameStateData);
-
-        currentGameState.selectedMove = null;
-        currentGameState.analyzerResult = null;
-        currentGameState.gameStatus = null;
-        currentGameState.legalMoves = null;
-        currentGameState.fenWithoutClocks = null;
+        currentGameState = new GameStateData();
     }
 
     public void pop() {
@@ -84,18 +73,18 @@ public class GameState {
         currentGameState = lastState;
     }
 
-    public void accept(GameStateVisitor gameStateVisitor) {
-        gameStateVisitor.visit(this);
+    public void accept(GameVisitor gameVisitor) {
+        gameVisitor.visit(this);
 
         Iterator<GameStateData> iterator = stackGameStates.descendingIterator();
 
         while(iterator.hasNext()){
             GameStateData gameStateDate = iterator.next();
 
-            gameStateVisitor.visit(gameStateDate);
+            gameVisitor.visit(gameStateDate);
         }
 
-        gameStateVisitor.visit(currentGameState);
+        gameVisitor.visit(currentGameState);
     }
 
     public static class GameStateData {

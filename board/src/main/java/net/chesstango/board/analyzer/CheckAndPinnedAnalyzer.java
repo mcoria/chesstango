@@ -27,7 +27,6 @@ import java.util.List;
  *
  */
 public class CheckAndPinnedAnalyzer {
-	
 	private final ChessPositionReader positionReader;
 	private final CheckAndPinnedAnalyzerByColor analyzerWhite;
 	private final CheckAndPinnedAnalyzerByColor analyzerBlack;

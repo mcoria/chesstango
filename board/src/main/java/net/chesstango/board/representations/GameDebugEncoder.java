@@ -2,7 +2,7 @@ package net.chesstango.board.representations;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.GameState;
-import net.chesstango.board.GameStateVisitor;
+import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -21,10 +21,9 @@ public class GameDebugEncoder {
         sb.append("Game game = getDefaultGame();\n");
         sb.append("game\n");
 
-        game.accept(new GameStateVisitor() {
+        game.accept(new GameVisitor() {
             @Override
             public void visit(GameState gameState) {
-
             }
 
             @Override

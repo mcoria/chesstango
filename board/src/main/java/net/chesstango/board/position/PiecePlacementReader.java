@@ -20,7 +20,7 @@ public interface PiecePlacementReader extends Iterable<PiecePositioned>, GetElem
 
 	Piece getPiece(Square square);
 
-	boolean isEmtpy(Square square);
+	boolean isEmpty(Square square);
 
 	Iterator<PiecePositioned> iterator(SquareIterator squareIterator);
 

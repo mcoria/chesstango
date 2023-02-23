@@ -35,9 +35,9 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
 			if (torre.getPiece().equals(piecePlacement.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
-                return piecePlacement.isEmtpy(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
-                        && piecePlacement.isEmtpy(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
-                        && piecePlacement.isEmtpy(casilleroIntermedioKing);
+                return piecePlacement.isEmpty(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
+                        && piecePlacement.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && piecePlacement.isEmpty(casilleroIntermedioKing);
 			}
 		}
 		return false;
@@ -52,8 +52,8 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
 			if (torre.getPiece().equals(piecePlacement.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
-                return piecePlacement.isEmtpy(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
-                        && piecePlacement.isEmtpy(casilleroIntermedioKing);
+                return piecePlacement.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && piecePlacement.isEmpty(casilleroIntermedioKing);
 			}
 		}
 		return false;

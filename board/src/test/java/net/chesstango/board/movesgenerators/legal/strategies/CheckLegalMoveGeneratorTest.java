@@ -52,7 +52,7 @@ public class CheckLegalMoveGeneratorTest {
 
 		chessPosition = builder.getChessRepresentation();
 		
-		strategy = injector.getMoveGenerator();
+		strategy = injector.getPseudoMoveGenerator();
 		
 		//filter = injector.getMoveFilter();
 		

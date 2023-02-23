@@ -1,9 +1,7 @@
 package net.chesstango.evaluation.imp;
 
+import net.chesstango.board.*;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
@@ -16,16 +14,18 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 public class GameEvaluatorImp02 implements GameEvaluator {
-
     private static final int FACTOR_MATERIAL_DEFAULT = 422;
-
     private static final int FACTOR_EXPANSION_DEFAULT = 3;
-
     private static final int FACTOR_ATAQUE_DEFAULT = 575;
 
     private final int material;
     private final int expansion;
     private final int ataque;
+
+    private Game gameEvaluated;
+    private ChessPositionReader positionReader;
+    private MoveGenerator pseudoMovesGenerator;
+
     public GameEvaluatorImp02() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT,  FACTOR_ATAQUE_DEFAULT);
     }
@@ -55,13 +55,11 @@ public class GameEvaluatorImp02 implements GameEvaluator {
     }
 
     protected int evaluateByMoveAndByAttack(final Game game) {
+        getGameReferences(game);
+
         int evaluationByAttack = 0;
 
         int evaluationByMoveToEmptySquare = 0;
-
-        ChessPositionReader positionReader = game.getChessPosition();
-
-        MoveGenerator pseudoMovesGenerator = game.getPseudoMovesGenerator();
 
         Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
 
@@ -85,6 +83,14 @@ public class GameEvaluatorImp02 implements GameEvaluator {
 
         // From white point of view
         return  expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack ;
+    }
+
+    private void getGameReferences(Game game) {
+        if(game != gameEvaluated){
+            pseudoMovesGenerator = game.getObject(MoveGenerator.class);
+            positionReader = game.getChessPosition();
+            gameEvaluated = game;
+        }
     }
 
 }
