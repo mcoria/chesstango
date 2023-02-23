@@ -5,13 +5,12 @@ import net.chesstango.board.moves.MovePromotion;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class UCIEncoder {
 
     public String encode(Move move) {
         String promotionStr = "";
-        if(move instanceof MovePromotion){
+        if (move instanceof MovePromotion) {
             MovePromotion movePromotion = (MovePromotion) move;
             switch (movePromotion.getPromotion()) {
                 case ROOK_WHITE:

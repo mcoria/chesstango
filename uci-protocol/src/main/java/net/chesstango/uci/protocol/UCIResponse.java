@@ -2,15 +2,14 @@ package net.chesstango.uci.protocol;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface UCIResponse extends UCIMessage {
 
     enum UCIResponseType {
-		ID, UCIOK, READYOK, BESTMOVE
-	}
+        ID, UCIOK, READYOK, BESTMOVE
+    }
 
-	UCIResponseType getResponseType();
+    UCIResponseType getResponseType();
 
-	void execute(UCIGui executor);
+    void execute(UCIGui executor);
 }

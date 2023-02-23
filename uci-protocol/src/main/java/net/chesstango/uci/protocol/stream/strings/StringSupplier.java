@@ -7,14 +7,13 @@ import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class StringSupplier implements Supplier<String> {
 
     private final BufferedReader reader;
 
     public StringSupplier(Reader reader) {
-        this.reader =  new BufferedReader(reader);
+        this.reader = new BufferedReader(reader);
     }
 
     @Override

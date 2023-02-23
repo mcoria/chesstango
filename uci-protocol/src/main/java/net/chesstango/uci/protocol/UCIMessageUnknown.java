@@ -4,20 +4,19 @@ import static net.chesstango.uci.protocol.UCIMessage.MessageType.Unknown;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class UCIMessageUnknown implements UCIMessage {
 
-	private final String line;
+    private final String line;
 
-	public UCIMessageUnknown(String line) {
-		this.line = line;
-	}
+    public UCIMessageUnknown(String line) {
+        this.line = line;
+    }
 
-	@Override
-	public MessageType getMessageType() {
-		return Unknown;
-	}
+    @Override
+    public MessageType getMessageType() {
+        return Unknown;
+    }
 
 	/*
 	@Override
@@ -25,8 +24,8 @@ public class UCIMessageUnknown implements UCIMessage {
 		throw new RuntimeException("Nothing to execute !!!!");
 	}*/
 
-	@Override
-	public String toString() {
-		return line;
-	}
+    @Override
+    public String toString() {
+        return line;
+    }
 }

@@ -5,48 +5,47 @@ import net.chesstango.uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class RspBestMove implements UCIResponse {
-	
-	private final String bestMove;
-	private final String ponderMove;
 
-	public RspBestMove(String bestMove) {
-		this.bestMove = bestMove;
-		this.ponderMove = null;
-	}
+    private final String bestMove;
+    private final String ponderMove;
 
-	public RspBestMove(String bestMove, String ponderMove) {
-		this.bestMove = bestMove;
-		this.ponderMove = ponderMove;
-	}
+    public RspBestMove(String bestMove) {
+        this.bestMove = bestMove;
+        this.ponderMove = null;
+    }
 
-	@Override
-	public MessageType getMessageType() {
-		return MessageType.Response;
-	}
+    public RspBestMove(String bestMove, String ponderMove) {
+        this.bestMove = bestMove;
+        this.ponderMove = ponderMove;
+    }
 
-	@Override
-	public void execute(UCIGui executor) {
-		executor.receive_bestMove(this);
-	}
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.Response;
+    }
 
-	@Override
-	public UCIResponseType getResponseType() {
-		return UCIResponseType.BESTMOVE;
-	}
+    @Override
+    public void execute(UCIGui executor) {
+        executor.receive_bestMove(this);
+    }
 
-	@Override
-	public String toString() {
-		return "bestmove " + bestMove + (ponderMove == null ? "" : " ponder " + ponderMove ) ;
-	}
+    @Override
+    public UCIResponseType getResponseType() {
+        return UCIResponseType.BESTMOVE;
+    }
 
-	public String getBestMove() {
-		return bestMove;
-	}
+    @Override
+    public String toString() {
+        return "bestmove " + bestMove + (ponderMove == null ? "" : " ponder " + ponderMove);
+    }
 
-	public String getPonderMove() {
-		return ponderMove;
-	}
+    public String getBestMove() {
+        return bestMove;
+    }
+
+    public String getPonderMove() {
+        return ponderMove;
+    }
 }

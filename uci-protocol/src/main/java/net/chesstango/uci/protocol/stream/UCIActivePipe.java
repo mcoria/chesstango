@@ -7,13 +7,11 @@ import java.io.IOException;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class UCIActivePipe implements Runnable {
 
     private boolean active;
     protected UCIInputStream input;
-
     protected UCIOutputStream output;
 
     public void activate() {
@@ -21,7 +19,7 @@ public class UCIActivePipe implements Runnable {
         actionOutput.setOutputStream(output);
         active = true;
         UCIMessage message;
-        while ( active && (message = input.get()) != null ) {
+        while (active && (message = input.get()) != null) {
             actionOutput.accept(message);
         }
     }

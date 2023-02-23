@@ -4,7 +4,6 @@ import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class StringSupplierLogger implements Supplier<String> {
 
@@ -12,8 +11,8 @@ public class StringSupplierLogger implements Supplier<String> {
     private final Supplier<String> reader;
 
     public StringSupplierLogger(String logprefix, Supplier<String> reader) {
-        this.logprefix =  logprefix;
-        this.reader =  reader;
+        this.logprefix = logprefix;
+        this.reader = reader;
     }
 
     @Override

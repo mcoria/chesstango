@@ -7,7 +7,6 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface UCIGui {
     void receive_uciOk(RspUciOk rspUciOk);

@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface UCIOutputStream extends Consumer<UCIMessage>, Closeable {
 }

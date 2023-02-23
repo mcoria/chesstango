@@ -4,7 +4,6 @@ import net.chesstango.uci.protocol.requests.*;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface UCIEngine {
     void do_uci(CmdUci cmdUci);

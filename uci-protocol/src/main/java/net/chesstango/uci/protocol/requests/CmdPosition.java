@@ -7,82 +7,83 @@ import java.util.List;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class CmdPosition implements UCIRequest {
 
-	public enum CmdType {STARTPOS, FEN};
+    public enum CmdType {STARTPOS, FEN}
 
-	private final CmdType type;
+    ;
 
-	private final String fen;
+    private final CmdType type;
 
-	private final List<String> moves;
+    private final String fen;
 
-	public CmdPosition(String fen, List<String> moves) {
-		this.type = CmdType.FEN;
-		this.fen = fen;
-		this.moves = moves;
-	}
+    private final List<String> moves;
 
-	public CmdPosition(List<String> moves) {
-		this.type = CmdType.STARTPOS;
-		this.fen = null;
-		this.moves = moves;
-	}
+    public CmdPosition(String fen, List<String> moves) {
+        this.type = CmdType.FEN;
+        this.fen = fen;
+        this.moves = moves;
+    }
 
-	public CmdPosition() {
-		this.type = CmdType.STARTPOS;
-		this.fen = null;
-		this.moves = null;
-	}
+    public CmdPosition(List<String> moves) {
+        this.type = CmdType.STARTPOS;
+        this.fen = null;
+        this.moves = moves;
+    }
 
-	@Override
-	public MessageType getMessageType() {
-		return MessageType.Request;
-	}
+    public CmdPosition() {
+        this.type = CmdType.STARTPOS;
+        this.fen = null;
+        this.moves = null;
+    }
 
-	@Override
-	public UCIRequestType getRequestType() {
-		return UCIRequestType.POSITION;
-	}
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.Request;
+    }
+
+    @Override
+    public UCIRequestType getRequestType() {
+        return UCIRequestType.POSITION;
+    }
 
 
-	@Override
-	public void execute(UCIEngine executor) {
-		executor.do_position(this);
-	}
+    @Override
+    public void execute(UCIEngine executor) {
+        executor.do_position(this);
+    }
 
-	public CmdType getType(){
-		return type;
-	}
+    public CmdType getType() {
+        return type;
+    }
 
-	public String getFen() {
-		return fen;
-	}
-	
-	public List<String> getMoves(){
-		return moves;
-	}
+    public String getFen() {
+        return fen;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("position ");
-		if(CmdType.STARTPOS.equals(type)){
-			sb.append("startpos");
-		} else{
-			sb.append("fen " + fen);
-		}
+    public List<String> getMoves() {
+        return moves;
+    }
 
-		if(moves != null && moves.size() > 0){
-			sb.append(" moves");
-			for (String move: moves){
-				sb.append(" ");
-				sb.append(move);
-			}
-		}
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("position ");
+        if (CmdType.STARTPOS.equals(type)) {
+            sb.append("startpos");
+        } else {
+            sb.append("fen " + fen);
+        }
 
-		return sb.toString();
-	}
+        if (moves != null && moves.size() > 0) {
+            sb.append(" moves");
+            for (String move : moves) {
+                sb.append(" ");
+                sb.append(move);
+            }
+        }
+
+        return sb.toString();
+    }
 }

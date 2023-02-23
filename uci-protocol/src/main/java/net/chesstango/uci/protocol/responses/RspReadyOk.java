@@ -5,30 +5,29 @@ import net.chesstango.uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class RspReadyOk implements UCIResponse {
 
 
-	@Override
-	public MessageType getMessageType() {
-		return MessageType.Response;
-	}
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.Response;
+    }
 
-	@Override
-	public void execute(UCIGui executor) {
-		executor.receive_readyOk(this);
-	}
+    @Override
+    public void execute(UCIGui executor) {
+        executor.receive_readyOk(this);
+    }
 
-	@Override
-	public UCIResponseType getResponseType() {
-		return UCIResponseType.READYOK;
-	}
+    @Override
+    public UCIResponseType getResponseType() {
+        return UCIResponseType.READYOK;
+    }
 
 
-	@Override
-	public String toString() {
-		return "readyok";
-	}
+    @Override
+    public String toString() {
+        return "readyok";
+    }
 
 }

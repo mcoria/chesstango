@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class UCIOutputStreamSwitch implements UCIOutputStream {
 
@@ -22,7 +21,7 @@ public class UCIOutputStreamSwitch implements UCIOutputStream {
         this.execute = execute;
     }
 
-    public UCIOutputStreamSwitch setOutputStream(UCIOutputStream output){
+    public UCIOutputStreamSwitch setOutputStream(UCIOutputStream output) {
         this.output = output;
         return this;
     }
@@ -30,7 +29,7 @@ public class UCIOutputStreamSwitch implements UCIOutputStream {
     @Override
     public void accept(UCIMessage message) {
         output.accept(message);
-        if(predicateCondition.test(message)){
+        if (predicateCondition.test(message)) {
             execute.run();
         }
     }
