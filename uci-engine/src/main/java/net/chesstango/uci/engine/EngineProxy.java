@@ -1,6 +1,8 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.uci.protocol.UCIMessage;
+import net.chesstango.uci.protocol.UCIRequest;
+import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.stream.UCIActivePipe;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;

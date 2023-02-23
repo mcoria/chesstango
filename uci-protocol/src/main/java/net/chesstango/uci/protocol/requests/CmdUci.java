@@ -1,6 +1,6 @@
 package net.chesstango.uci.protocol.requests;
 
-import net.chesstango.uci.protocol.UCIMessageExecutor;
+import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIRequest;
 
 /**
@@ -21,7 +21,7 @@ public class CmdUci implements UCIRequest {
 
 
 	@Override
-	public void execute(UCIMessageExecutor executor) {
+	public void execute(UCIEngine executor) {
 		executor.do_uci(this);
 	}
 

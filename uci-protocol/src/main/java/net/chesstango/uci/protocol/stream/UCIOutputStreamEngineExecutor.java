@@ -1,7 +1,8 @@
 package net.chesstango.uci.protocol.stream;
 
+import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
-import net.chesstango.uci.protocol.UCIMessageExecutor;
+import net.chesstango.uci.protocol.UCIRequest;
 
 import java.io.IOException;
 
@@ -9,17 +10,17 @@ import java.io.IOException;
  * @author Mauricio Coria
  *
  */
-public class UCIOutputStreamExecutor implements UCIOutputStream {
+public class UCIOutputStreamEngineExecutor implements UCIOutputStream {
 
-    private final UCIMessageExecutor executor;
+    private final UCIEngine executor;
 
-    public UCIOutputStreamExecutor(UCIMessageExecutor executor) {
+    public UCIOutputStreamEngineExecutor(UCIEngine executor) {
         this.executor = executor;
     }
 
     @Override
     public void accept(UCIMessage message) {
-        message.execute(executor);
+        ((UCIRequest)message).execute(executor);
     }
 
     @Override

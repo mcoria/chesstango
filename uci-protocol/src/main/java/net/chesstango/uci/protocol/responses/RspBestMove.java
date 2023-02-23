@@ -1,6 +1,6 @@
 package net.chesstango.uci.protocol.responses;
 
-import net.chesstango.uci.protocol.UCIMessageExecutor;
+import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIResponse;
 
 /**
@@ -28,7 +28,7 @@ public class RspBestMove implements UCIResponse {
 	}
 
 	@Override
-	public void execute(UCIMessageExecutor executor) {
+	public void execute(UCIGui executor) {
 		executor.receive_bestMove(this);
 	}
 

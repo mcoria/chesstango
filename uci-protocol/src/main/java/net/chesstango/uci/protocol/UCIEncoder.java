@@ -3,6 +3,10 @@ package net.chesstango.uci.protocol;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIEncoder {
 
     public String encode(Move move) {

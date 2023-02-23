@@ -2,8 +2,8 @@ package net.chesstango.uci.arena.imp;
 
 import net.chesstango.uci.arena.EngineController;
 import net.chesstango.uci.engine.Engine;
+import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIMessage;
-import net.chesstango.uci.protocol.UCIMessageExecutor;
 import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.requests.*;
@@ -17,12 +17,11 @@ import java.io.IOException;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class EngineControllerImp implements UCIOutputStream, EngineController {
     private final Engine engine;
 
-    private final UCIMessageExecutor messageExecutor;
+    private final UCIGui messageExecutor;
 
     private EngineClientState currentState;
 
@@ -32,32 +31,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
     public EngineControllerImp(Engine engine) {
         this.engine = engine;
         this.engine.setResponseOutputStream(this);
-        this.messageExecutor = new UCIMessageExecutor() {
-
-            @Override
-            public void do_uci(CmdUci cmdUci) {}
-
-            @Override
-            public void do_setOption(CmdSetOption cmdSetOption) {}
-
-            @Override
-            public void do_isReady(CmdIsReady cmdIsReady) {}
-
-            @Override
-            public void do_newGame(CmdUciNewGame cmdUciNewGame) {}
-
-            @Override
-            public void do_position(CmdPosition cmdPosition) {}
-
-            @Override
-            public void do_go(CmdGo cmdGo) {}
-
-            @Override
-            public void do_stop(CmdStop cmdStop) {}
-
-            @Override
-            public void do_quit(CmdQuit cmdQuit) {}
-
+        this.messageExecutor = new UCIGui() {
             @Override
             public void receive_uciOk(RspUciOk rspUciOk) {
                 currentState.receive_uciOk(rspUciOk);
@@ -137,14 +111,18 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     @Override
     public void accept(UCIMessage message) {
-        message.execute(messageExecutor);
+
+        if(message instanceof UCIResponse) {
+            ((UCIResponse) message).execute(messageExecutor);
+        }
     }
 
     @Override
-    public void close() throws IOException {}
+    public void close() throws IOException {
+    }
 
 
-    private interface EngineClientState{
+    private interface EngineClientState {
         void receive_uciOk(RspUciOk rspUciOk);
 
         void receive_readyOk(RspReadyOk rspReadyOk);
@@ -165,9 +143,9 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
         @Override
         public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
             engine.accept(request);
-            if(waitResponse) {
+            if (waitResponse) {
                 try {
-                    if(response == null){
+                    if (response == null) {
                         wait();
                     }
                 } catch (InterruptedException e) {
@@ -176,7 +154,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
             }
         }
 
-        protected synchronized void responseReceived(UCIResponse response){
+        protected synchronized void responseReceived(UCIResponse response) {
             this.response = response;
             notifyAll();
         }
@@ -203,10 +181,10 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
         @Override
         public void receive_id(RspId rspId) {
-            if(RspId.RspIdType.NAME.equals(rspId.getIdType())){
+            if (RspId.RspIdType.NAME.equals(rspId.getIdType())) {
                 engineName = rspId.getText();
             }
-            if(RspId.RspIdType.AUTHOR.equals(rspId.getIdType())){
+            if (RspId.RspIdType.AUTHOR.equals(rspId.getIdType())) {
                 engineAuthor = rspId.getText();
             }
         }
@@ -235,25 +213,31 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     private class NoWaitRsp extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {}
+        public void receive_uciOk(RspUciOk rspUciOk) {
+        }
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {}
+        public void receive_readyOk(RspReadyOk rspReadyOk) {
+        }
 
         @Override
-        public void receive_bestMove(RspBestMove rspBestMove) {}
+        public void receive_bestMove(RspBestMove rspBestMove) {
+        }
 
         @Override
-        public void receive_id(RspId rspId) {}
+        public void receive_id(RspId rspId) {
+        }
     }
 
 
     private class WaitRspBestMove extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {}
+        public void receive_uciOk(RspUciOk rspUciOk) {
+        }
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {}
+        public void receive_readyOk(RspReadyOk rspReadyOk) {
+        }
 
         @Override
         public void receive_bestMove(RspBestMove rspBestMove) {
@@ -261,6 +245,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
         }
 
         @Override
-        public void receive_id(RspId rspId) {}
+        public void receive_id(RspId rspId) {
+        }
     }
 }

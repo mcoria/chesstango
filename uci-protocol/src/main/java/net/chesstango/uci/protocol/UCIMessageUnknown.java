@@ -19,10 +19,11 @@ public class UCIMessageUnknown implements UCIMessage {
 		return Unknown;
 	}
 
+	/*
 	@Override
-	public void execute(UCIMessageExecutor executor) {
-
-	}
+	public void execute(Object executor) {
+		throw new RuntimeException("Nothing to execute !!!!");
+	}*/
 
 	@Override
 	public String toString() {

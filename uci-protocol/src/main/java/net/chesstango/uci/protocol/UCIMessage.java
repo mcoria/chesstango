@@ -1,6 +1,6 @@
 package net.chesstango.uci.protocol;
 
-public interface UCIMessage {
+public interface UCIMessage{
     enum MessageType{
         Request,
         Response,
@@ -8,6 +8,4 @@ public interface UCIMessage {
     }
 
     MessageType getMessageType();
-
-    void execute(UCIMessageExecutor executor);
 }

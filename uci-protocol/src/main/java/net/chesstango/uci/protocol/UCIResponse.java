@@ -12,4 +12,5 @@ public interface UCIResponse extends UCIMessage {
 
 	UCIResponseType getResponseType();
 
+	void execute(UCIGui executor);
 }

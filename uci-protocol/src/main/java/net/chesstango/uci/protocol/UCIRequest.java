@@ -4,7 +4,7 @@ package net.chesstango.uci.protocol;
  * @author Mauricio Coria
  *
  */
-public interface UCIRequest extends UCIMessage {
+public interface UCIRequest extends UCIMessage{
 
 	enum UCIRequestType {
 		UCI, QUIT, ISREADY, STOP, GO, SETOPTION, UCINEWGAME, POSITION
@@ -12,4 +12,5 @@ public interface UCIRequest extends UCIMessage {
 
 	UCIRequestType getRequestType();
 
+	void execute(UCIEngine executor);
 }

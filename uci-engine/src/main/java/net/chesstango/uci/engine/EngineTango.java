@@ -3,14 +3,15 @@
  */
 package net.chesstango.uci.engine;
 
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEncoder;
+import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
-import net.chesstango.uci.protocol.UCIMessageExecutor;
+import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspId;
@@ -29,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class EngineTango implements Engine {
     private final SearchMove searchMove;
-    private final UCIMessageExecutor messageExecutor;
+    private final UCIEngine messageExecutor;
     private ExecutorService executor;
     private boolean asyncEnabled;
     private Game game;
@@ -45,7 +46,7 @@ public class EngineTango implements Engine {
         this.searchMove = searchMove;
         this.currentState = new Ready();
         this.asyncEnabled = true;
-        this.messageExecutor = new UCIMessageExecutor() {
+        this.messageExecutor = new UCIEngine() {
 
             @Override
             public void do_uci(CmdUci cmdUci) {
@@ -89,30 +90,13 @@ public class EngineTango implements Engine {
                 currentState.do_stop();
                 close();
             }
-
-            @Override
-            public void receive_uciOk(RspUciOk rspUciOk) {
-            }
-
-            @Override
-            public void receive_id(RspId rspId) {
-            }
-
-            @Override
-            public void receive_readyOk(RspReadyOk rspReadyOk) {
-            }
-
-            @Override
-            public void receive_bestMove(RspBestMove rspBestMove) {
-            }
-
         };
     }
 
 
     @Override
     public void accept(UCIMessage message) {
-        message.execute(messageExecutor);
+        ((UCIRequest)message).execute(messageExecutor);
     }
 
     public EngineTango disableAsync() {
