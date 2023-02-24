@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.imp;
+package net.chesstango.uci.engine;
 
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.service.UCIService;
