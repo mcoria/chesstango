@@ -51,7 +51,7 @@ public class ServiceMain {
     public void open() {
         service.open();
 
-        executorService.execute(pipe);
+        executorService.execute(pipe::read);
         //TODO: no podemos esperar que los threads terminen, de lo contrario impedimos la ejecucion de test unitarios
     }
 

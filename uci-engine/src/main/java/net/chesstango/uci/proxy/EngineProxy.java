@@ -41,7 +41,7 @@ public class EngineProxy implements UCIService {
         if (outputStreamProcess == null) {
             waitProcessStart();
         }
-        if(logging) {
+        if (logging) {
             System.out.println("proxy >> " + message);
         }
         outputStreamProcess.println(message);
@@ -50,18 +50,24 @@ public class EngineProxy implements UCIService {
 
     @Override
     public void open() {
-        processingThread = new Thread(this::activate);
+        startProcess();
+        processingThread = new Thread(pipe::read);
         processingThread.start();
     }
 
     @Override
     public void close() {
-        outputStreamProcess.close();
+        pipe.stopReading();
+
+        closeProcessIO();
+
         try {
             processingThread.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        stopProcess();
     }
 
     @Override
@@ -69,18 +75,20 @@ public class EngineProxy implements UCIService {
         this.responseOutputStream = output;
     }
 
-    public EngineProxy setLogging(boolean flag){
+    public EngineProxy setLogging(boolean flag) {
         this.logging = flag;
         return this;
     }
 
-    private void activate() {
-        startProcess();
-
-        pipe.activate();
-
-        stopProcess();
+    private void closeProcessIO() {
+        try {
+            outputStreamProcess.close();
+            inputStreamProcess.close();
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
     }
+
     private void startProcess() {
         ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
         processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike"));
@@ -95,11 +103,11 @@ public class EngineProxy implements UCIService {
 
             Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
 
-            if(logging) {
+            if (logging) {
                 stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
             }
 
-            pipe.setInputStream(new UCIInputStreamAdapter( stringSupplier ));
+            pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
             pipe.setOutputStream(responseOutputStream);
 
         } catch (IOException e) {

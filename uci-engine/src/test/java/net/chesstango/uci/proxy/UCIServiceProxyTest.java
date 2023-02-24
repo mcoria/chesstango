@@ -1,7 +1,7 @@
 /**
  *
  */
-package net.chesstango.uci.engine.proxy;
+package net.chesstango.uci.proxy;
 
 
 import net.chesstango.uci.protocol.requests.*;
@@ -29,9 +29,19 @@ public class UCIServiceProxyTest {
         this.engine.setLogging(true);
     }
 
+    @Test
+    public void test_OpenAndClose() throws IOException, InterruptedException {
+        PipedOutputStream posOutput = new PipedOutputStream();
+        PipedInputStream pisOutput = new PipedInputStream(posOutput);
+
+        engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(new PrintStream(posOutput, true)))));
+        engine.open();
+        Thread.sleep(1000);
+        engine.close();
+    }
 
     @Test
-    public void test_play() throws IOException, InterruptedException {
+    public void test_HappyPath() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();
         PipedInputStream pisOutput = new PipedInputStream(posOutput);

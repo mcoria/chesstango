@@ -22,7 +22,8 @@ public class StringSupplier implements Supplier<String> {
             String line = reader.readLine();
             return line;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace(System.err);
+            return null;
         }
     }
 }

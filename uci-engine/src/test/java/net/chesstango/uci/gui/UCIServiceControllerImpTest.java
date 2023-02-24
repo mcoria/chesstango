@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine.gui;
+package net.chesstango.uci.gui;
 
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.service.UCIService;
