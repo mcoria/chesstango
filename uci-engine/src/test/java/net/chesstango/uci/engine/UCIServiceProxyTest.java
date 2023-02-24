@@ -4,11 +4,11 @@
 package net.chesstango.uci.engine;
 
 
-import net.chesstango.uci.engine.EngineProxy;
 import net.chesstango.uci.protocol.UCIDecoder;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.stream.UCIOutputStreamAdapter;
+import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
+import net.chesstango.uci.proxy.EngineProxy;
 import org.junit.*;
 
 import java.io.*;
@@ -20,7 +20,7 @@ import java.util.concurrent.Executors;
  * @author Mauricio Coria
  *
  */
-public class EngineProxyTest {
+public class UCIServiceProxyTest {
 	private final UCIDecoder uciDecoder = new UCIDecoder();
 
 	private EngineProxy engine;
@@ -41,7 +41,7 @@ public class EngineProxyTest {
 		PipedOutputStream posOutput = new PipedOutputStream();
 		PipedInputStream pisOutput = new PipedInputStream(posOutput);
 
-		engine.setResponseOutputStream(new UCIOutputStreamAdapter( new StringConsumer( new OutputStreamWriter(new PrintStream(posOutput,true) ) ) ) );
+		engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter( new StringConsumer( new OutputStreamWriter(new PrintStream(posOutput,true) ) ) ) );
 		engine.open();
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));

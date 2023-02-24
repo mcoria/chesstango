@@ -7,6 +7,7 @@ import java.io.IOException;
 /**
  * @author Mauricio Coria
  */
+//TODO: NO SE UTILIZA
 public class UCIOutputStreamGuiExecutor implements UCIOutputStream {
 
     private final UCIGui executor;
@@ -20,7 +21,4 @@ public class UCIOutputStreamGuiExecutor implements UCIOutputStream {
         ((UCIResponse) message).execute(executor);
     }
 
-    @Override
-    public void close() throws IOException {
-    }
 }

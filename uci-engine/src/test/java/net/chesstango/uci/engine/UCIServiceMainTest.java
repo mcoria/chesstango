@@ -5,6 +5,8 @@ package net.chesstango.uci.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.service.ServiceMain;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +16,7 @@ import java.io.*;
  * @author Mauricio Coria
  *
  */
-public class EngineMainTest {
+public class UCIServiceMainTest {
 
 
 
@@ -26,8 +28,8 @@ public class EngineMainTest {
 
 		EngineTango engine = new EngineTango();
 
-		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
-		engineMain.open();
+		ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine),true));
+		serviceMain.open();
 
 		PrintStream out = new PrintStream(outputToEngine,true);
 		BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
@@ -69,7 +71,7 @@ public class EngineMainTest {
 		// quit command
 		out.println("quit");
 
-		engineMain.waitTermination();
+		serviceMain.waitTermination();
 	}
 
 	@Test(timeout = 3000)
@@ -78,8 +80,8 @@ public class EngineMainTest {
 
 		EngineProxy engine = new EngineProxy();
 
-		EngineMain engineMain = new EngineMain(engine, new PipedInputStream(outputToEngine), System.out);
-		engineMain.open();
+		ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), System.out);
+		serviceMain.open();
 
 		PrintStream out = new PrintStream(outputToEngine,true);
 
@@ -107,7 +109,7 @@ public class EngineMainTest {
 		out.println("quit");
 		Thread.sleep(200);
 
-		engineMain.waitTermination();
+		serviceMain.waitTermination();
 	}
 
 	private String fenCode(Game board) {

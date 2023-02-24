@@ -23,8 +23,4 @@ public class UCIInputStreamAdapter implements UCIInputStream {
         return line == null ? null : uciDecoder.parseMessage(line);
     }
 
-    @Override
-    public void close() throws IOException {
-        //reader.close();
-    }
 }

@@ -1,13 +1,12 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.proxy;
 
 import net.chesstango.uci.protocol.UCIMessage;
-import net.chesstango.uci.protocol.UCIRequest;
-import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.stream.UCIActivePipe;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringSupplierLogger;
+import net.chesstango.uci.service.UCIService;
 
 import java.io.*;
 import java.util.function.Supplier;
@@ -15,7 +14,7 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
-public class EngineProxy implements Engine {
+public class EngineProxy implements UCIService {
 
     private InputStream inputStreamProcess;
 

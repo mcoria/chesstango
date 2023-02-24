@@ -2,7 +2,7 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arena.imp.EngineControllerImp;
-import net.chesstango.uci.engine.EngineProxy;
+import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
 
 import java.time.Duration;
@@ -13,7 +13,7 @@ import java.util.List;
 public class MatchMain {
 
     public static void main(String[] args) {
-        EngineController engineTango = new EngineControllerImp(new EngineTango().disableAsync());
+        EngineController engineTango = new EngineControllerImp(new EngineTango());
         EngineController engineOponente = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engineOponente = new EngineControllerImp(new EngineTango(new Dummy()));
 

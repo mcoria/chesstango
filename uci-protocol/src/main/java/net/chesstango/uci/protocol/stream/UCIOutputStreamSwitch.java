@@ -34,8 +34,4 @@ public class UCIOutputStreamSwitch implements UCIOutputStream {
         }
     }
 
-    @Override
-    public void close() throws IOException {
-
-    }
 }

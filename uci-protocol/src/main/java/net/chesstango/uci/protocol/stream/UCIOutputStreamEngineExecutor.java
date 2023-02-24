@@ -8,8 +8,8 @@ import java.io.IOException;
 
 /**
  * @author Mauricio Coria
- *
  */
+//TODO: NO SE UTILIZA
 public class UCIOutputStreamEngineExecutor implements UCIOutputStream {
 
     private final UCIEngine executor;
@@ -20,10 +20,7 @@ public class UCIOutputStreamEngineExecutor implements UCIOutputStream {
 
     @Override
     public void accept(UCIMessage message) {
-        ((UCIRequest)message).execute(executor);
+        ((UCIRequest) message).execute(executor);
     }
 
-    @Override
-    public void close() throws IOException {
-    }
 }

@@ -27,9 +27,9 @@ public class UCIActivePipe implements Runnable {
     public void deactivate() {
         try {
             active = false;
-            input.close();
-            output.close();
-        } catch (IOException e) {
+            //input.close();
+            //output.close();
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
     }

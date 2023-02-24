@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena.imp;
 
-import net.chesstango.uci.engine.Engine;
-import net.chesstango.uci.engine.EngineProxy;
+import net.chesstango.uci.service.UCIService;
+import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
@@ -10,13 +10,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class EngineControllerImpTest {
+public class UCIServiceControllerImpTest {
 
     @Test
     public void test_Zonda(){
-        Engine engine = new EngineTango();
+        UCIService UCIService = new EngineTango();
 
-        EngineControllerImp client = new EngineControllerImp(engine);
+        EngineControllerImp client = new EngineControllerImp(UCIService);
 
         client.send_CmdUci();
 

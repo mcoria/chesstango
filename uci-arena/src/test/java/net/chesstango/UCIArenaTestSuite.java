@@ -5,7 +5,7 @@ package net.chesstango;
 
 
 import net.chesstango.uci.arena.MatchTest;
-import net.chesstango.uci.arena.imp.EngineControllerImpTest;
+import net.chesstango.uci.arena.imp.UCIServiceControllerImpTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ EngineControllerImpTest.class, MatchTest.class })
-public class TuningTestSuite {
+@Suite.SuiteClasses({ UCIServiceControllerImpTest.class, MatchTest.class })
+public class UCIArenaTestSuite {
 
 }

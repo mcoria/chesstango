@@ -1,10 +1,10 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.service;
 
-import net.chesstango.uci.protocol.UCIResponse;
+import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdQuit;
 import net.chesstango.uci.protocol.stream.UCIActivePipe;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
-import net.chesstango.uci.protocol.stream.UCIOutputStreamAdapter;
+import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamSwitch;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
@@ -20,36 +20,36 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Mauricio Coria
  */
-public class EngineMain {
-    private final Engine engine;
+public class ServiceMain {
+    private final UCIService service;
 
     private final UCIActivePipe pipe;
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     public static void main(String[] args) {
-        EngineMain engineMain = new EngineMain(new EngineTango(), System.in, System.out);
+        ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
         //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
 
-        engineMain.open();
+        serviceMain.open();
 
-        engineMain.waitTermination();
+        serviceMain.waitTermination();
     }
 
-    public EngineMain(Engine engine, InputStream in, PrintStream out) {
-        this.engine = engine;
-        this.engine.setResponseOutputStream(new UCIOutputStreamAdapter(new StringConsumer(new OutputStreamWriter(out))));
+    public ServiceMain(UCIService service, InputStream in, PrintStream out) {
+        this.service = service;
+        this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
 
 
         this.pipe = new UCIActivePipe();
         this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
         this.pipe.setOutputStream(new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, executorService::shutdown)
-                .setOutputStream(this.engine));
+                .setOutputStream(this.service));
     }
 
 
     public void open() {
-        engine.open();
+        service.open();
 
         executorService.execute(pipe);
         //TODO: no podemos esperar que los threads terminen, de lo contrario impedimos la ejecucion de test unitarios
@@ -67,7 +67,7 @@ public class EngineMain {
             executorService.shutdownNow();
         }
 
-        engine.close();
+        service.close();
     }
 
 }

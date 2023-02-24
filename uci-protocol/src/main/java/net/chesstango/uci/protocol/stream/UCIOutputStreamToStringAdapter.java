@@ -2,17 +2,16 @@ package net.chesstango.uci.protocol.stream;
 
 import net.chesstango.uci.protocol.UCIMessage;
 
-import java.io.IOException;
 import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
  */
-public class UCIOutputStreamAdapter implements UCIOutputStream {
+public class UCIOutputStreamToStringAdapter implements UCIOutputStream {
 
     private final Consumer<String> out;
 
-    public UCIOutputStreamAdapter(Consumer<String> out) {
+    public UCIOutputStreamToStringAdapter(Consumer<String> out) {
         this.out = out;
     }
 
@@ -21,8 +20,4 @@ public class UCIOutputStreamAdapter implements UCIOutputStream {
         out.accept(message.toString());
     }
 
-    @Override
-    public void close() throws IOException {
-        //out.close();
-    }
 }

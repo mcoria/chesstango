@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena.imp;
 
 import net.chesstango.uci.arena.EngineController;
-import net.chesstango.uci.engine.Engine;
+import net.chesstango.uci.service.UCIService;
 import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.UCIRequest;
@@ -13,13 +13,11 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 
-import java.io.IOException;
-
 /**
  * @author Mauricio Coria
  */
 public class EngineControllerImp implements UCIOutputStream, EngineController {
-    private final Engine engine;
+    private final UCIService UCIService;
 
     private final UCIGui messageExecutor;
 
@@ -28,9 +26,9 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
     private String engineName;
     private String engineAuthor;
 
-    public EngineControllerImp(Engine engine) {
-        this.engine = engine;
-        this.engine.setResponseOutputStream(this);
+    public EngineControllerImp(UCIService UCIService) {
+        this.UCIService = UCIService;
+        this.UCIService.setResponseOutputStream(this);
         this.messageExecutor = new UCIGui() {
             @Override
             public void receive_uciOk(RspUciOk rspUciOk) {
@@ -56,7 +54,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     @Override
     public void send_CmdUci() {
-        engine.open();
+        UCIService.open();
         currentState = new WaitRspUciOk();
         currentState.sendRequest(new CmdUci(), true);
     }
@@ -96,7 +94,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
     public void send_CmdQuit() {
         currentState = new NoWaitRsp();
         currentState.sendRequest(new CmdQuit(), false);
-        engine.close();
+        UCIService.close();
     }
 
     @Override
@@ -111,14 +109,10 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     @Override
     public void accept(UCIMessage message) {
-
+        //TODO: Horrible
         if(message instanceof UCIResponse) {
             ((UCIResponse) message).execute(messageExecutor);
         }
-    }
-
-    @Override
-    public void close() throws IOException {
     }
 
 
@@ -142,7 +136,7 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
         @Override
         public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
-            engine.accept(request);
+            UCIService.accept(request);
             if (waitResponse) {
                 try {
                     if (response == null) {

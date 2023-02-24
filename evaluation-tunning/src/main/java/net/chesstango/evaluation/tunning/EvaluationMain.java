@@ -122,7 +122,7 @@ public class EvaluationMain{
 
         search.setGameEvaluator(geneticProvider.createGameEvaluator(genotype));
 
-        EngineController tango = new EngineControllerImp(new EngineTango( search ).disableAsync());
+        EngineController tango = new EngineControllerImp(new EngineTango( search ));
 
         tango.send_CmdUci();
         tango.send_CmdIsReady();
