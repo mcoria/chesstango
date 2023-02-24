@@ -7,7 +7,6 @@ import java.io.IOException;
 /**
  * @author Mauricio Coria
  */
-//TODO: NO SE UTILIZA
 public class UCIOutputStreamGuiExecutor implements UCIOutputStream {
 
     private final UCIGui executor;
@@ -18,7 +17,10 @@ public class UCIOutputStreamGuiExecutor implements UCIOutputStream {
 
     @Override
     public void accept(UCIMessage message) {
-        ((UCIResponse) message).execute(executor);
+        //TODO: implementar filtrado, se me ocurre una canal para descartar
+        if(message instanceof UCIResponse) {
+            ((UCIResponse) message).execute(executor);
+        }
     }
 
 }

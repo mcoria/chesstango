@@ -4,23 +4,22 @@ import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.UCIRequest;
 
-import java.io.IOException;
-
 /**
  * @author Mauricio Coria
+ * TODO: Aca deberiamos hacer el filtrado para asegurarnos que solo llegan requests
  */
-//TODO: NO SE UTILIZA
 public class UCIOutputStreamEngineExecutor implements UCIOutputStream {
 
-    private final UCIEngine executor;
+    private final UCIEngine engine;
 
-    public UCIOutputStreamEngineExecutor(UCIEngine executor) {
-        this.executor = executor;
+    public UCIOutputStreamEngineExecutor(UCIEngine engine) {
+        this.engine = engine;
     }
 
     @Override
     public void accept(UCIMessage message) {
-        ((UCIRequest) message).execute(executor);
+        //TODO: implementar filtrado, se me ocurre una canal para descartar
+        ((UCIRequest) message).execute(engine);
     }
 
 }

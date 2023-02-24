@@ -1,7 +1,8 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.arena.imp.EngineControllerImp;
+import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
 

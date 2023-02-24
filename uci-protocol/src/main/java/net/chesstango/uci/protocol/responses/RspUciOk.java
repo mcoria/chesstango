@@ -20,7 +20,7 @@ public class RspUciOk implements UCIResponse {
 
     @Override
     public void execute(UCIGui executor) {
-        executor.receive_uciOk(this);
+        executor.received_uciOk(this);
     }
 
     @Override

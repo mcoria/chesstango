@@ -1,9 +1,6 @@
-package net.chesstango.uci.arena.imp;
+package net.chesstango.uci.gui;
 
-import net.chesstango.uci.arena.EngineController;
-import net.chesstango.uci.service.UCIService;
 import net.chesstango.uci.protocol.UCIGui;
-import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.requests.*;
@@ -11,45 +8,43 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
-import net.chesstango.uci.protocol.stream.UCIOutputStream;
+import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
+import net.chesstango.uci.service.UCIService;
 
 /**
  * @author Mauricio Coria
  */
-public class EngineControllerImp implements UCIOutputStream, EngineController {
+public class EngineControllerImp implements EngineController {
     private final UCIService UCIService;
-
-    private final UCIGui messageExecutor;
-
     private EngineClientState currentState;
-
     private String engineName;
     private String engineAuthor;
 
     public EngineControllerImp(UCIService UCIService) {
-        this.UCIService = UCIService;
-        this.UCIService.setResponseOutputStream(this);
-        this.messageExecutor = new UCIGui() {
+        UCIGui messageExecutor = new UCIGui() {
             @Override
-            public void receive_uciOk(RspUciOk rspUciOk) {
-                currentState.receive_uciOk(rspUciOk);
+            public void received_uciOk(RspUciOk rspUciOk) {
+                currentState.received_uciOk(rspUciOk);
             }
 
             @Override
-            public void receive_readyOk(RspReadyOk rspReadyOk) {
-                currentState.receive_readyOk(rspReadyOk);
+            public void received_readyOk(RspReadyOk rspReadyOk) {
+                currentState.received_readyOk(rspReadyOk);
             }
 
             @Override
-            public void receive_bestMove(RspBestMove rspBestMove) {
-                currentState.receive_bestMove(rspBestMove);
+            public void received_bestMove(RspBestMove rspBestMove) {
+                currentState.received_bestMove(rspBestMove);
             }
 
             @Override
-            public void receive_id(RspId rspId) {
-                currentState.receive_id(rspId);
+            public void received_id(RspId rspId) {
+                currentState.received_id(rspId);
             }
         };
+
+        this.UCIService = UCIService;
+        this.UCIService.setResponseOutputStream( new UCIOutputStreamGuiExecutor(messageExecutor) );
     }
 
     @Override
@@ -107,23 +102,15 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
         return engineAuthor;
     }
 
-    @Override
-    public void accept(UCIMessage message) {
-        //TODO: Horrible
-        if(message instanceof UCIResponse) {
-            ((UCIResponse) message).execute(messageExecutor);
-        }
-    }
-
 
     private interface EngineClientState {
-        void receive_uciOk(RspUciOk rspUciOk);
+        void received_uciOk(RspUciOk rspUciOk);
 
-        void receive_readyOk(RspReadyOk rspReadyOk);
+        void received_readyOk(RspReadyOk rspReadyOk);
 
-        void receive_bestMove(RspBestMove rspBestMove);
+        void received_bestMove(RspBestMove rspBestMove);
 
-        void receive_id(RspId rspId);
+        void received_id(RspId rspId);
 
         void sendRequest(UCIRequest request, boolean waitResponse);
 
@@ -161,20 +148,20 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     private class WaitRspUciOk extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {
+        public void received_uciOk(RspUciOk rspUciOk) {
             responseReceived(rspUciOk);
         }
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {
+        public void received_readyOk(RspReadyOk rspReadyOk) {
         }
 
         @Override
-        public void receive_bestMove(RspBestMove rspBestMove) {
+        public void received_bestMove(RspBestMove rspBestMove) {
         }
 
         @Override
-        public void receive_id(RspId rspId) {
+        public void received_id(RspId rspId) {
             if (RspId.RspIdType.NAME.equals(rspId.getIdType())) {
                 engineName = rspId.getText();
             }
@@ -187,59 +174,59 @@ public class EngineControllerImp implements UCIOutputStream, EngineController {
 
     private class WaitRspReadyOk extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {
+        public void received_uciOk(RspUciOk rspUciOk) {
         }
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {
+        public void received_readyOk(RspReadyOk rspReadyOk) {
             responseReceived(rspReadyOk);
         }
 
         @Override
-        public void receive_bestMove(RspBestMove rspBestMove) {
+        public void received_bestMove(RspBestMove rspBestMove) {
         }
 
         @Override
-        public void receive_id(RspId rspId) {
+        public void received_id(RspId rspId) {
 
         }
     }
 
     private class NoWaitRsp extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {
+        public void received_uciOk(RspUciOk rspUciOk) {
         }
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {
+        public void received_readyOk(RspReadyOk rspReadyOk) {
         }
 
         @Override
-        public void receive_bestMove(RspBestMove rspBestMove) {
+        public void received_bestMove(RspBestMove rspBestMove) {
         }
 
         @Override
-        public void receive_id(RspId rspId) {
+        public void received_id(RspId rspId) {
         }
     }
 
 
     private class WaitRspBestMove extends RspAbstract {
         @Override
-        public void receive_uciOk(RspUciOk rspUciOk) {
+        public void received_uciOk(RspUciOk rspUciOk) {
         }
 
         @Override
-        public void receive_readyOk(RspReadyOk rspReadyOk) {
+        public void received_readyOk(RspReadyOk rspReadyOk) {
         }
 
         @Override
-        public void receive_bestMove(RspBestMove rspBestMove) {
+        public void received_bestMove(RspBestMove rspBestMove) {
             responseReceived(rspBestMove);
         }
 
         @Override
-        public void receive_id(RspId rspId) {
+        public void received_id(RspId rspId) {
         }
     }
 }

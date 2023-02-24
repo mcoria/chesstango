@@ -28,7 +28,7 @@ public class RspBestMove implements UCIResponse {
 
     @Override
     public void execute(UCIGui executor) {
-        executor.receive_bestMove(this);
+        executor.received_bestMove(this);
     }
 
     @Override

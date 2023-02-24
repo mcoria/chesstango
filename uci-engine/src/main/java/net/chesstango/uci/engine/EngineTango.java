@@ -11,74 +11,28 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
-import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
+import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
 import net.chesstango.uci.service.UCIService;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  */
 public class EngineTango implements UCIService {
     private final SearchMove searchMove;
-    private final UCIEngine messageExecutor = new UCIEngine() {
-        @Override
-        public void do_uci(CmdUci cmdUci) {
-            responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Tango"));
-            responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
-            responseOutputStream.accept(new RspUciOk());
-        }
-
-        @Override
-        public void do_isReady(CmdIsReady cmdIsReady) {
-            responseOutputStream.accept(new RspReadyOk());
-        }
-
-        @Override
-        public void do_setOption(CmdSetOption cmdSetOption) {
-        }
-
-        @Override
-        public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-        }
-
-        @Override
-        public void do_position(CmdPosition cmdPosition) {
-            game = CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.loadGame(FENDecoder.INITIAL_FEN) : FENDecoder.loadGame(cmdPosition.getFen());
-            executeMoves(cmdPosition.getMoves());
-            currentState = new WaitCmdGo();
-        }
-
-        @Override
-        public void do_go(CmdGo cmdGo) {
-            currentState.do_go(cmdGo);
-        }
-
-        @Override
-        public void do_stop(CmdStop cmdStop) {
-            currentState.do_stop();
-        }
-
-        @Override
-        public void do_quit(CmdQuit cmdQuit) {
-            currentState.do_stop();
-            close();
-        }
-    };
-
+    private final UCIOutputStreamEngineExecutor engineExecutor;
     private ZondaState currentState = new Ready();
     private UCIOutputStream responseOutputStream;
     private Game game;
-
     private ExecutorService executor;
 
     public EngineTango() {
@@ -86,12 +40,58 @@ public class EngineTango implements UCIService {
     }
 
     public EngineTango(SearchMove searchMove) {
+        UCIEngine messageExecutor = new UCIEngine() {
+            @Override
+            public void do_uci(CmdUci cmdUci) {
+                responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Tango"));
+                responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
+                responseOutputStream.accept(new RspUciOk());
+            }
+
+            @Override
+            public void do_isReady(CmdIsReady cmdIsReady) {
+                responseOutputStream.accept(new RspReadyOk());
+            }
+
+            @Override
+            public void do_setOption(CmdSetOption cmdSetOption) {
+            }
+
+            @Override
+            public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+            }
+
+            @Override
+            public void do_position(CmdPosition cmdPosition) {
+                game = CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.loadGame(FENDecoder.INITIAL_FEN) : FENDecoder.loadGame(cmdPosition.getFen());
+                executeMoves(cmdPosition.getMoves());
+                currentState = new WaitCmdGo();
+            }
+
+            @Override
+            public void do_go(CmdGo cmdGo) {
+                currentState.do_go(cmdGo);
+            }
+
+            @Override
+            public void do_stop(CmdStop cmdStop) {
+                currentState.do_stop();
+            }
+
+            @Override
+            public void do_quit(CmdQuit cmdQuit) {
+                currentState.do_stop();
+                close();
+            }
+        };
+
         this.searchMove = searchMove;
+        this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
     }
 
     @Override
     public void accept(UCIMessage message) {
-        ((UCIRequest)message).execute(messageExecutor);
+        engineExecutor.accept(message);
     }
 
     public EngineTango enableAsync() {

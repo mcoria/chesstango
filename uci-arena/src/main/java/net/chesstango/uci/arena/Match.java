@@ -8,6 +8,7 @@ import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;

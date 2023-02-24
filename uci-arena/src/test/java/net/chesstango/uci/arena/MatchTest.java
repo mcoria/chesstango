@@ -3,7 +3,7 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.dummy.Dummy;
-import net.chesstango.uci.arena.imp.EngineControllerImp;
+import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.engine.EngineTango;
 import org.junit.AfterClass;
 import org.junit.Assert;

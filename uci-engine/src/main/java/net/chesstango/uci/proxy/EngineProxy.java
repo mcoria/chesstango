@@ -128,6 +128,4 @@ public class EngineProxy implements UCIService {
         this.logging = flag;
         return this;
     }
-
-
 }

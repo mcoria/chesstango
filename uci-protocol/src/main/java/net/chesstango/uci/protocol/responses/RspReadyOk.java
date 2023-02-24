@@ -16,7 +16,7 @@ public class RspReadyOk implements UCIResponse {
 
     @Override
     public void execute(UCIGui executor) {
-        executor.receive_readyOk(this);
+        executor.received_readyOk(this);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena;
+package net.chesstango.uci.gui;
 
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;

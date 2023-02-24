@@ -1,5 +1,7 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.uci.gui.EngineController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

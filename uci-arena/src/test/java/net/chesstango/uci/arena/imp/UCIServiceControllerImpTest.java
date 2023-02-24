@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena.imp;
 
+import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.service.UCIService;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
