@@ -1,4 +1,4 @@
-package net.chesstango.uci.engine;
+package net.chesstango.uci.engine.gui;
 
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.service.UCIService;
@@ -41,7 +41,7 @@ public class UCIServiceControllerImpTest {
 
     @Test
     public void test_Proxy(){
-        EngineProxy engine = new EngineProxy();
+        EngineProxy engine = new EngineProxy().setLogging(true);
 
         EngineControllerImp client = new EngineControllerImp(engine);
 
@@ -62,10 +62,7 @@ public class UCIServiceControllerImpTest {
 
         Assert.assertNotNull(bestmove);
 
-        System.out.println(bestmove.toString());
-
         client.send_CmdQuit();
-
     }
 
 

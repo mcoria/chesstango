@@ -3,13 +3,10 @@ package net.chesstango.uci.protocol.stream;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.CmdQuit;
 
-import java.io.IOException;
-
 /**
  * @author Mauricio Coria
  */
-public class UCIActivePipe implements Runnable {
-
+public class UCIActiveStreamReader implements Runnable {
     private boolean active;
     protected UCIInputStream input;
     protected UCIOutputStream output;
@@ -27,8 +24,6 @@ public class UCIActivePipe implements Runnable {
     public void deactivate() {
         try {
             active = false;
-            //input.close();
-            //output.close();
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }

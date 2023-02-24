@@ -8,9 +8,7 @@ import net.chesstango.uci.protocol.UCIRequest;
  */
 public class CmdGo implements UCIRequest {
 
-    public enum GoType {NO_SUBCOMMAND, INFINITE, DEPTH}
-
-    ;
+    public enum GoType {NO_SUBCOMMAND, INFINITE, DEPTH};
 
     private GoType type;
 
@@ -36,6 +34,7 @@ public class CmdGo implements UCIRequest {
     }
 
     public CmdGo setDepth(int depth) {
+        setGoType(GoType.DEPTH);
         this.depth = depth;
         return this;
     }

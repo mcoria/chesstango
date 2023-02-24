@@ -2,7 +2,7 @@ package net.chesstango.uci.service;
 
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdQuit;
-import net.chesstango.uci.protocol.stream.UCIActivePipe;
+import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamSwitch;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class ServiceMain {
     private final UCIService service;
 
-    private final UCIActivePipe pipe;
+    private final UCIActiveStreamReader pipe;
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -41,7 +41,7 @@ public class ServiceMain {
         this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
 
 
-        this.pipe = new UCIActivePipe();
+        this.pipe = new UCIActiveStreamReader();
         this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
         this.pipe.setOutputStream(new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, executorService::shutdown)
                 .setOutputStream(this.service));

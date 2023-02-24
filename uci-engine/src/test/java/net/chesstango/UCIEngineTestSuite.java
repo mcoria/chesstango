@@ -3,7 +3,7 @@
  */
 package net.chesstango;
 
-import net.chesstango.uci.engine.UCIServiceProxyTest;
+import net.chesstango.uci.engine.proxy.UCIServiceProxyTest;
 import net.chesstango.uci.engine.UCIServiceTangoTest;
 import net.chesstango.uci.engine.UCIServiceMainTest;
 import org.junit.runner.RunWith;
