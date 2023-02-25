@@ -1,9 +1,8 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
-import net.chesstango.board.GameStatus;
+import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -15,6 +14,7 @@ import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -84,19 +84,19 @@ public class Match {
             result = new MathResult(game, white, black);
         }
 
-        int materialPoints = GameEvaluator.evaluateByMaterial(game);
+        int matchPoints = evaluateByMaterial(game);
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             System.out.println("DRAW (por repeticion)");
-            result.setPoints(materialPoints);
+            result.setPoints(matchPoints);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             System.out.println("DRAW (por fiftyMoveRule)");
-            result.setPoints(materialPoints);
+            result.setPoints(matchPoints);
 
         } else if (GameStatus.DRAW.equals(game.getStatus())) {
             System.out.println("DRAW");
-            result.setPoints(materialPoints);
+            result.setPoints(matchPoints);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
             if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
@@ -191,5 +191,33 @@ public class Match {
         EngineController tmpController = engine1;
         engine1 = engine2;
         engine2 = tmpController;
+    }
+
+    static public int evaluateByMaterial(Game game) {
+        int evaluation = 0;
+        ChessPositionReader positionReader = game.getChessPosition();
+        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+            PiecePositioned piecePlacement = it.next();
+            Piece piece = piecePlacement.getPiece();
+            evaluation += getPieceValue(piece);
+        }
+        return evaluation;
+    }
+
+    static public int getPieceValue(Piece piece) {
+        return switch (piece){
+            case PAWN_WHITE -> 1;
+            case PAWN_BLACK -> -1;
+            case KNIGHT_WHITE -> 3;
+            case KNIGHT_BLACK -> -3;
+            case BISHOP_WHITE -> 3;
+            case BISHOP_BLACK -> -3;
+            case ROOK_WHITE -> 5;
+            case ROOK_BLACK -> -5;
+            case QUEEN_WHITE -> 9;
+            case QUEEN_BLACK -> -9;
+            case KING_WHITE -> 10;
+            case KING_BLACK -> -10;
+        };
     }
 }

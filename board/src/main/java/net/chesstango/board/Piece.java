@@ -5,41 +5,35 @@ package net.chesstango.board;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE, 1, 1),
-	PAWN_BLACK(Color.BLACK, -1, 1),
+	PAWN_WHITE(Color.WHITE,  1),
+	PAWN_BLACK(Color.BLACK,  1),
 	
-	KNIGHT_WHITE(Color.WHITE, 3, 4),
-	KNIGHT_BLACK(Color.BLACK, -3, 4),
+	KNIGHT_WHITE(Color.WHITE, 4),
+	KNIGHT_BLACK(Color.BLACK, 4),
 	
-	BISHOP_WHITE(Color.WHITE, 3, 3),
-	BISHOP_BLACK(Color.BLACK, -3, 3),
+	BISHOP_WHITE(Color.WHITE, 3),
+	BISHOP_BLACK(Color.BLACK, 3),
 
-	ROOK_WHITE(Color.WHITE, 5, 2),
-	ROOK_BLACK(Color.BLACK, -5, 2),
+	ROOK_WHITE(Color.WHITE, 2),
+	ROOK_BLACK(Color.BLACK, 2),
 	
-	QUEEN_WHITE(Color.WHITE, 9, 4),
-	QUEEN_BLACK(Color.BLACK, -9, 4),
+	QUEEN_WHITE(Color.WHITE, 4),
+	QUEEN_BLACK(Color.BLACK, 4),
 	
-	KING_WHITE(Color.WHITE, 10, 0),
-	KING_BLACK(Color.BLACK, -10, 0);
+	KING_WHITE(Color.WHITE, 0),
+	KING_BLACK(Color.BLACK, 0);
 	
 	private final Color color;
-	private final int pieceValue;
 
 	private final int moveValue;
 	
-	Piece(Color color, int pieceValue, int moveValue) {
+	Piece(Color color, int moveValue) {
 		this.color = color;
-		this.pieceValue = pieceValue;
 		this.moveValue = moveValue;
 	}
 
 	public Color getColor() {
 		return color;
-	}
-	
-	public int getPieceValue() {
-		return pieceValue;
 	}
 
 	public int getMoveValue() {

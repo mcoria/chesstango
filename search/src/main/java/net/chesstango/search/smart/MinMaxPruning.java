@@ -18,7 +18,6 @@ public class MinMaxPruning extends AbstractSmart {
     private final MoveSorter moveSorter;
     private final Quiescence quiescence;
 
-
     public MinMaxPruning() {
         this(new Quiescence(new MoveSorter()), new MoveSorter());
     }

@@ -36,16 +36,18 @@ public interface GameEvaluator {
         return evaluation;
     }
 
-    static int evaluateByMaterial(Game game) {
+    default int evaluateByMaterial(final Game game) {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
-            evaluation += piece.getPieceValue();
+            evaluation += getPieceValue(game, piece);
         }
         return evaluation;
     }
 
-    int evaluate(Game game);
+    int getPieceValue(final Game game, Piece piece);
+
+    int evaluate(final Game game);
 }
