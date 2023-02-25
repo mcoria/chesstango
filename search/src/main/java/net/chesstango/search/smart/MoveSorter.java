@@ -1,6 +1,5 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 
@@ -29,7 +28,7 @@ public class MoveSorter {
 
             if (move1.getTo().getPiece() == null && move2.getTo().getPiece() == null) {
                 //Ambos movimientos no son capturas
-                result = Math.abs(move1.getFrom().getPiece().getMoveValue()) - Math.abs(move2.getFrom().getPiece().getMoveValue());
+                result = Math.abs(getMoveValue(move1.getFrom().getPiece())) - Math.abs(getMoveValue(move2.getFrom().getPiece()));
 
             }else if(move1.getTo().getPiece() == null && move2.getTo().getPiece() != null){
                 result =  -1;
@@ -42,7 +41,7 @@ public class MoveSorter {
                 result = Math.abs(getPieceValue(move1.getTo().getPiece())) - Math.abs(getPieceValue(move2.getTo().getPiece()));
                 if(result == 0){
                     // Si capturamos, intentamos capturar con la pieza de menos valor primero
-                    result = Math.abs(move1.getFrom().getPiece().getMoveValue()) - Math.abs(move2.getFrom().getPiece().getMoveValue());
+                    result = Math.abs(getMoveValue(move1.getFrom().getPiece())) - Math.abs(getMoveValue(move2.getFrom().getPiece()));
                 }
 
             }
@@ -72,6 +71,17 @@ public class MoveSorter {
             case QUEEN_BLACK -> -9;
             case KING_WHITE -> 10;
             case KING_BLACK -> -10;
+        };
+    }
+
+    static public int getMoveValue(Piece piece) {
+        return switch (piece){
+            case PAWN_WHITE, PAWN_BLACK -> 1;
+            case KNIGHT_WHITE, KNIGHT_BLACK -> 4;
+            case BISHOP_WHITE, BISHOP_BLACK -> 3;
+            case ROOK_WHITE, ROOK_BLACK -> 2;
+            case QUEEN_WHITE, QUEEN_BLACK -> 4;
+            case KING_WHITE, KING_BLACK -> 0;
         };
     }
 

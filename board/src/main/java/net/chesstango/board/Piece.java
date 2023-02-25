@@ -5,39 +5,32 @@ package net.chesstango.board;
  *
  */
 public enum Piece {
-	PAWN_WHITE(Color.WHITE,  1),
-	PAWN_BLACK(Color.BLACK,  1),
+	PAWN_WHITE(Color.WHITE),
+	PAWN_BLACK(Color.BLACK),
 	
-	KNIGHT_WHITE(Color.WHITE, 4),
-	KNIGHT_BLACK(Color.BLACK, 4),
+	KNIGHT_WHITE(Color.WHITE),
+	KNIGHT_BLACK(Color.BLACK),
 	
-	BISHOP_WHITE(Color.WHITE, 3),
-	BISHOP_BLACK(Color.BLACK, 3),
+	BISHOP_WHITE(Color.WHITE),
+	BISHOP_BLACK(Color.BLACK),
 
-	ROOK_WHITE(Color.WHITE, 2),
-	ROOK_BLACK(Color.BLACK, 2),
+	ROOK_WHITE(Color.WHITE),
+	ROOK_BLACK(Color.BLACK),
 	
-	QUEEN_WHITE(Color.WHITE, 4),
-	QUEEN_BLACK(Color.BLACK, 4),
+	QUEEN_WHITE(Color.WHITE),
+	QUEEN_BLACK(Color.BLACK),
 	
-	KING_WHITE(Color.WHITE, 0),
-	KING_BLACK(Color.BLACK, 0);
+	KING_WHITE(Color.WHITE),
+	KING_BLACK(Color.BLACK);
 	
 	private final Color color;
-
-	private final int moveValue;
 	
-	Piece(Color color, int moveValue) {
+	Piece(Color color) {
 		this.color = color;
-		this.moveValue = moveValue;
 	}
 
 	public Color getColor() {
 		return color;
-	}
-
-	public int getMoveValue() {
-		return moveValue;
 	}
 	
 	public static Piece getKing(Color color){
