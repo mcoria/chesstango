@@ -13,7 +13,6 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-////TODO: El modelo de objetos es complejo, es necesario DI para inyectar dependencias
 public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	
 	private final PiecePlacement piecePlacement;

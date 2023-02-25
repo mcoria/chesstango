@@ -4,8 +4,8 @@ import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdQuit;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
-import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamSwitch;
+import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 
@@ -25,7 +25,7 @@ public class ServiceMain {
 
     private final UCIActiveStreamReader pipe;
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public static void main(String[] args) {
         ServiceMain serviceMain = new ServiceMain(new EngineTango().enableAsync(), System.in, System.out);

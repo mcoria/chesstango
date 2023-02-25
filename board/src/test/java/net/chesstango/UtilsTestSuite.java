@@ -19,7 +19,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class,
         SANEncoderTest.class, PGNEncoderTest.class})
-//TODO: Agregar UCIEncoderTest.class,
 public class UtilsTestSuite {
 
 }
