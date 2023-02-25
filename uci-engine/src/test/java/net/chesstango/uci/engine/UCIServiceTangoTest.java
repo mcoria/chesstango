@@ -8,6 +8,7 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +32,13 @@ public class UCIServiceTangoTest {
     @Before
     public void setUp() {
         engine = new EngineTango();
+        engine.open();
     }
 
+    @After
+    public void tearDown(){
+        engine.close();
+    }
 
     @Test
     public void test1_execute_position_startpos_01() {
@@ -91,7 +97,7 @@ public class UCIServiceTangoTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
         // Initial state
-        Assert.assertEquals(Ready.class, engine.currentState.getClass());
+        Assert.assertEquals(WaitCmdUci.class, engine.currentState.getClass());
 
         // uci command
         engine.accept(new CmdUci());

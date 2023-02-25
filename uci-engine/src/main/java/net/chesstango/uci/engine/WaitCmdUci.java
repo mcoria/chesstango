@@ -4,37 +4,37 @@ import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdIsReady;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.requests.CmdUci;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
+import net.chesstango.uci.protocol.responses.RspId;
+import net.chesstango.uci.protocol.responses.RspUciOk;
 
-class WaitCmdGo implements ZondaState {
+public class WaitCmdUci implements ZondaState{
+
     private final EngineTango engineTango;
 
-    WaitCmdGo(EngineTango engineTango) {
+    public WaitCmdUci(EngineTango engineTango) {
         this.engineTango = engineTango;
     }
 
     @Override
     public void do_uci(CmdUci cmdUci) {
+        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Tango"));
+        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
+        engineTango.responseOutputStream.accept(new RspUciOk());
+        engineTango.currentState = new Ready(engineTango);
     }
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
-        engineTango.responseOutputStream.accept(new RspReadyOk());
     }
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        FindingBestMove findingBestMove = new FindingBestMove(engineTango);
-        engineTango.currentState =  findingBestMove;
-        if (engineTango.executor != null) {
-            engineTango.executor.execute(() -> findingBestMove.findBestMove(cmdGo));
-        } else {
-            findingBestMove.findBestMove(cmdGo);
-        }
+
     }
 
     @Override
     public void do_stop() {
+
     }
 
     @Override

@@ -37,18 +37,15 @@ public class EngineTango implements UCIService {
     }
 
     public EngineTango(SearchMove searchMove) {
-        currentState = new Ready(this);
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(CmdUci cmdUci) {
-                responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Tango"));
-                responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
-                responseOutputStream.accept(new RspUciOk());
+                currentState.do_uci(cmdUci);
             }
 
             @Override
             public void do_isReady(CmdIsReady cmdIsReady) {
-                responseOutputStream.accept(new RspReadyOk());
+                currentState.do_isReady(cmdIsReady);
             }
 
             @Override
@@ -97,6 +94,7 @@ public class EngineTango implements UCIService {
 
     @Override
     public void open() {
+        currentState = new WaitCmdUci(this);
     }
 
     @Override

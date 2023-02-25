@@ -2,7 +2,10 @@ package net.chesstango.uci.engine;
 
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
+import net.chesstango.uci.protocol.requests.CmdIsReady;
 import net.chesstango.uci.protocol.requests.CmdPosition;
+import net.chesstango.uci.protocol.requests.CmdUci;
+import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 class Ready implements ZondaState {
 
@@ -10,6 +13,16 @@ class Ready implements ZondaState {
 
     Ready(EngineTango engineTango) {
         this.engineTango = engineTango;
+    }
+
+    @Override
+    public void do_uci(CmdUci cmdUci) {
+
+    }
+
+    @Override
+    public void do_isReady(CmdIsReady cmdIsReady) {
+        engineTango.responseOutputStream.accept(new RspReadyOk());
     }
 
     @Override
