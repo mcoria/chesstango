@@ -29,13 +29,13 @@ public class MinMaxTest {
     private MinMax minMax;
 
     @Before
-    public void setup(){
+    public void setup() {
         minMax = new MinMax();
         minMax.setGameEvaluator(evaluator);
     }
 
     @Test
-    public void testSingleMoveWhitePlays(){
+    public void testSingleMoveWhitePlays() {
         Game rootGame = setupGame(Color.WHITE);
 
         Game childGame = setupGame(Color.BLACK);
@@ -55,7 +55,7 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testSingleMoveBlackPlays(){
+    public void testSingleMoveBlackPlays() {
         Game rootGame = setupGame(Color.BLACK);
 
         Game childGame = setupGame(Color.WHITE);
@@ -75,7 +75,7 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testTwoMovesWhitePlays(){
+    public void testTwoMovesWhitePlays() {
         MinMax minMax = Mockito.spy(this.minMax);
 
         Game rootGame = setupGame(Color.WHITE);
@@ -105,7 +105,7 @@ public class MinMaxTest {
     }
 
     @Test
-    public void testTwoMovesBlackPlays(){
+    public void testTwoMovesBlackPlays() {
         MinMax minMax = Mockito.spy(this.minMax);
 
         Game rootGame = setupGame(Color.BLACK);
@@ -145,9 +145,9 @@ public class MinMaxTest {
         return game;
     }
 
-    private void linkMovesToGames(Game parentGame, Move moves[], Game childGames[]){
+    private void linkMovesToGames(Game parentGame, Move moves[], Game childGames[]) {
         List<Move> moveList = new ArrayList<Move>();
-        if(moves !=null) {
+        if (moves != null) {
             for (int i = 0; i < moves.length; i++) {
                 Move move = moves[i];
                 when(parentGame.executeMove(move)).thenReturn(childGames[i]);

@@ -12,103 +12,102 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class MinMax extends AbstractSmart {
 
-	private static final int DEFAULT_MAX_PLIES = 4;
-	private GameEvaluator evaluator;
+    private static final int DEFAULT_MAX_PLIES = 4;
+    private GameEvaluator evaluator;
 
 
-	@Override
-	public SearchMoveResult searchBestMove(Game game) {
-		return searchBestMove(game, 10);
-	}
+    @Override
+    public SearchMoveResult searchBestMove(Game game) {
+        return searchBestMove(game, 10);
+    }
 
-	// Beyond level 4, the performance is really bad
+    // Beyond level 4, the performance is really bad
 
-	@Override
-	public SearchMoveResult searchBestMove(Game game, int depth) {
-		this.keepProcessing = true;
+    @Override
+    public SearchMoveResult searchBestMove(Game game, int depth) {
+        this.keepProcessing = true;
 
-		final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
-		final List<Move> possibleMoves = new ArrayList<Move>();
+        final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
+        final List<Move> possibleMoves = new ArrayList<Move>();
 
-		int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE: GameEvaluator.INFINITE_NEGATIVE;
+        int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
 
-		for (Move move : game.getPossibleMoves()) {
-			game = game.executeMove(move);
+        for (Move move : game.getPossibleMoves()) {
+            game = game.executeMove(move);
 
-			int currentEvaluation = minMax(game, !minOrMax, depth - 1);
+            int currentEvaluation = minMax(game, !minOrMax, depth - 1);
 
-			if (currentEvaluation == betterEvaluation) {
-				possibleMoves.add(move);
-			} else {
-				if (minOrMax) {
-					if (currentEvaluation < betterEvaluation) {
-						betterEvaluation = currentEvaluation;
-						possibleMoves.clear();
-						possibleMoves.add(move);
-					}
-				} else {
-					if (currentEvaluation > betterEvaluation) {
-						betterEvaluation = currentEvaluation;
-						possibleMoves.clear();
-						possibleMoves.add(move);
-					}
-				}
-			}
+            if (currentEvaluation == betterEvaluation) {
+                possibleMoves.add(move);
+            } else {
+                if (minOrMax) {
+                    if (currentEvaluation < betterEvaluation) {
+                        betterEvaluation = currentEvaluation;
+                        possibleMoves.clear();
+                        possibleMoves.add(move);
+                    }
+                } else {
+                    if (currentEvaluation > betterEvaluation) {
+                        betterEvaluation = currentEvaluation;
+                        possibleMoves.clear();
+                        possibleMoves.add(move);
+                    }
+                }
+            }
 
-			game = game.undoMove();
-		}
+            game = game.undoMove();
+        }
 
-		return new SearchMoveResult(betterEvaluation, selectMove(possibleMoves), null);
-	}
+        return new SearchMoveResult(betterEvaluation, selectMove(possibleMoves), null);
+    }
 
-	@Override
-	public void setGameEvaluator(GameEvaluator evaluator) {
-		this.evaluator = evaluator;
-	}
+    @Override
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        this.evaluator = evaluator;
+    }
 
-	protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
-		int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE: GameEvaluator.INFINITE_NEGATIVE;
-		if (currentPly == 0 || !game.getStatus().isInProgress()) {
-			betterEvaluation = evaluator.evaluate(game);
-		} else {
-			for (Move move : game.getPossibleMoves()) {
-				game = game.executeMove(move);
+    protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
+        int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
+        if (currentPly == 0 || !game.getStatus().isInProgress()) {
+            betterEvaluation = evaluator.evaluate(game);
+        } else {
+            for (Move move : game.getPossibleMoves()) {
+                game = game.executeMove(move);
 
-				int currentEvaluation = minMax(game, !minOrMax, currentPly - 1);
-				if (minOrMax) {
-					if (currentEvaluation < betterEvaluation) {
-						betterEvaluation = currentEvaluation;
-					}
-				} else {
-					if (currentEvaluation > betterEvaluation) {
-						betterEvaluation = currentEvaluation;
-					}
-				}
+                int currentEvaluation = minMax(game, !minOrMax, currentPly - 1);
+                if (minOrMax) {
+                    if (currentEvaluation < betterEvaluation) {
+                        betterEvaluation = currentEvaluation;
+                    }
+                } else {
+                    if (currentEvaluation > betterEvaluation) {
+                        betterEvaluation = currentEvaluation;
+                    }
+                }
 
-				game = game.undoMove();
-			}
-		}
-		return betterEvaluation;
-	}
+                game = game.undoMove();
+            }
+        }
+        return betterEvaluation;
+    }
 
-	protected Move selectMove(Collection<Move> moves) {
-		if(moves.size() == 0){
-			throw new RuntimeException("There is no move to select");
-		}
-		Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
-		moves.forEach(move ->
-				moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
-						.add(move)
-		);
-		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
-		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
+    protected Move selectMove(Collection<Move> moves) {
+        if (moves.size() == 0) {
+            throw new RuntimeException("There is no move to select");
+        }
+        Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
+        moves.forEach(move ->
+                moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
+                        .add(move)
+        );
+        PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
+        PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
 
-		List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
+        List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-		return selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size()));
-	}
+        return selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size()));
+    }
 }

@@ -26,7 +26,7 @@ public class MinMaxPruning01Test {
     }
 
     @Test
-    public void testHorizonteEffectCapture(){
+    public void testHorizonteEffectCapture() {
         Game game = FENDecoder.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
         Move bestMove = minMaxPruning.searchBestMove(game, 1).getBestMove();
@@ -37,7 +37,7 @@ public class MinMaxPruning01Test {
     }
 
     @Test
-    public void testHorizonteEffectPromotion(){
+    public void testHorizonteEffectPromotion() {
         Game game = FENDecoder.loadGame("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1");
 
         Move bestMove = minMaxPruning.searchBestMove(game, 1).getBestMove();

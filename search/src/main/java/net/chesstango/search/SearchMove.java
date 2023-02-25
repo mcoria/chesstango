@@ -5,12 +5,11 @@ import net.chesstango.evaluation.GameEvaluator;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface SearchMove {
     SearchMoveResult searchBestMove(Game game);
 
-	SearchMoveResult searchBestMove(Game game, int depth);
+    SearchMoveResult searchBestMove(Game game, int depth);
 
     void stopSearching();
 

@@ -7,7 +7,6 @@ import net.chesstango.search.smart.IterativeDeeping;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class DefaultSearchMove implements SearchMove {
 

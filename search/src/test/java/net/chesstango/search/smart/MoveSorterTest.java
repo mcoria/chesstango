@@ -31,7 +31,7 @@ public class MoveSorterTest {
     }
 
     @Test
-    public void sortMoveToEmptySquareWhite(){
+    public void sortMoveToEmptySquareWhite() {
         Move move = null;
 
         List<Move> moveList = new ArrayList<>();
@@ -81,7 +81,7 @@ public class MoveSorterTest {
 
 
     @Test
-    public void sortMoveCaptureWhite(){
+    public void sortMoveCaptureWhite() {
         Move move = null;
 
         List<Move> moveList = new ArrayList<>();
@@ -128,7 +128,7 @@ public class MoveSorterTest {
     }
 
     @Test
-    public void sortMoveToEmptySquareBlack(){
+    public void sortMoveToEmptySquareBlack() {
         Move move = null;
 
         List<Move> moveList = new ArrayList<>();
@@ -176,7 +176,7 @@ public class MoveSorterTest {
     }
 
     @Test
-    public void sortMoveCaptureBlack(){
+    public void sortMoveCaptureBlack() {
         Move move = null;
 
         List<Move> moveList = new ArrayList<>();
@@ -224,7 +224,7 @@ public class MoveSorterTest {
     }
 
     @Test
-    public void testQueue(){
+    public void testQueue() {
         Queue<Integer> queue = new PriorityQueue<Integer>(new MyComparator());
 
         queue.add(3);

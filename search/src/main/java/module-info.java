@@ -1,4 +1,4 @@
-module net.chesstango.search{
+module net.chesstango.search {
     exports net.chesstango.search;
     exports net.chesstango.search.smart;
     exports net.chesstango.search.dummy;

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package net.chesstango.search.dummy;
 
@@ -19,37 +19,37 @@ import net.chesstango.search.SearchMoveResult;
  */
 public class Dummy implements SearchMove {
 
-	@Override
-	public SearchMoveResult searchBestMove(Game game) {
-		return searchBestMove(game, 10);
-	}
+    @Override
+    public SearchMoveResult searchBestMove(Game game) {
+        return searchBestMove(game, 10);
+    }
 
-	@Override
-	public SearchMoveResult searchBestMove(Game game, int depth) {
-		Iterable<Move> moves = game.getPossibleMoves();
+    @Override
+    public SearchMoveResult searchBestMove(Game game, int depth) {
+        Iterable<Move> moves = game.getPossibleMoves();
 
-		Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
+        Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
 
-		moves.forEach(move ->
-				moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
-						.add(move)
-		);
+        moves.forEach(move ->
+                moveMap.computeIfAbsent(move.getFrom(), k -> new ArrayList<Move>())
+                        .add(move)
+        );
 
-		PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
-		PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
+        PiecePositioned[] pieces = moveMap.keySet().toArray(new PiecePositioned[moveMap.keySet().size()]);
+        PiecePositioned selectedPiece = pieces[ThreadLocalRandom.current().nextInt(0, pieces.length)];
 
-		List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
+        List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-		return new SearchMoveResult(0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
-	}
+        return new SearchMoveResult(0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
+    }
 
-	@Override
-	public void stopSearching() {
-	}
+    @Override
+    public void stopSearching() {
+    }
 
-	@Override
-	public void setGameEvaluator(GameEvaluator evaluator) {
+    @Override
+    public void setGameEvaluator(GameEvaluator evaluator) {
 
-	}
+    }
 
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class IterativeDeeping extends AbstractSmart {
 
@@ -36,18 +35,18 @@ public class IterativeDeeping extends AbstractSmart {
     public SearchMoveResult searchBestMove(Game game, int depth) {
         keepProcessing = true;
         bestMovesByDepth.clear();
-        for(int i = 1; i <=  depth ; i++){
+        for (int i = 1; i <= depth; i++) {
 
             SearchMoveResult searchResult = imp.searchBestMove(game, i);
 
-            if(keepProcessing){
+            if (keepProcessing) {
                 bestMovesByDepth.add(searchResult);
-                if(GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()){
+                if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
                 }
             } else {
                 SearchMoveResult lastBestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-                if(searchResult.getEvaluation() >= lastBestMove.getEvaluation()){
+                if (searchResult.getEvaluation() >= lastBestMove.getEvaluation()) {
                     bestMovesByDepth.add(lastBestMove);
                 }
                 break;
@@ -59,8 +58,8 @@ public class IterativeDeeping extends AbstractSmart {
 
     @Override
     public void stopSearching() {
-       super.stopSearching();
-       imp.stopSearching();
+        super.stopSearching();
+        imp.stopSearching();
     }
 
     @Override
