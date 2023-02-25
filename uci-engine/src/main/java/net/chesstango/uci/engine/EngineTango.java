@@ -1,18 +1,13 @@
-/**
- *
- */
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
@@ -23,23 +18,26 @@ import net.chesstango.uci.service.UCIService;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  */
 public class EngineTango implements UCIService {
-    private final SearchMove searchMove;
-    private final UCIOutputStreamEngineExecutor engineExecutor;
-    private ZondaState currentState = new Ready();
-    private UCIOutputStream responseOutputStream;
-    private Game game;
-    private ExecutorService executor;
+    protected final SearchMove searchMove;
+    protected final UCIOutputStreamEngineExecutor engineExecutor;
+    protected UCIOutputStream responseOutputStream;
+    protected Game game;
+    protected ExecutorService executor;
+
+    ZondaState currentState;
 
     public EngineTango() {
         this(new DefaultSearchMove());
     }
 
     public EngineTango(SearchMove searchMove) {
+        currentState = new Ready(this);
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(CmdUci cmdUci) {
@@ -63,9 +61,7 @@ public class EngineTango implements UCIService {
 
             @Override
             public void do_position(CmdPosition cmdPosition) {
-                game = CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.loadGame(FENDecoder.INITIAL_FEN) : FENDecoder.loadGame(cmdPosition.getFen());
-                executeMoves(cmdPosition.getMoves());
-                currentState = new WaitCmdGo();
+                currentState.do_position(cmdPosition);
             }
 
             @Override
@@ -105,14 +101,7 @@ public class EngineTango implements UCIService {
 
     @Override
     public void close() {
-        /*
-        try {
-            responseOutputStream.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (asyncEnabled && executor != null) {
+        if (executor != null) {
             try {
                 executor.shutdown();
                 while (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
@@ -122,7 +111,6 @@ public class EngineTango implements UCIService {
                 throw new RuntimeException(e);
             }
         }
-         */
     }
 
     public Game getGame() {
@@ -133,7 +121,7 @@ public class EngineTango implements UCIService {
         this.responseOutputStream = output;
     }
 
-    private void executeMoves(List<String> moves) {
+    void executeMoves(List<String> moves) {
         if (moves != null && !moves.isEmpty()) {
             UCIEncoder uciEncoder = new UCIEncoder();
             for (String moveStr : moves) {
@@ -150,80 +138,6 @@ public class EngineTango implements UCIService {
                     throw new RuntimeException("No move found " + moveStr);
                 }
             }
-        }
-    }
-
-    public ZondaState getCurrentState() {
-        return currentState;
-    }
-
-
-    public interface ZondaState {
-
-        void do_go(CmdGo cmdGo);
-
-        void do_stop();
-    }
-
-
-    public class Ready implements ZondaState {
-        @Override
-        public void do_go(CmdGo cmdGo) {
-        }
-
-        @Override
-        public void do_stop() {
-        }
-    }
-
-
-    public class WaitCmdGo implements ZondaState {
-        @Override
-        public void do_go(CmdGo cmdGo) {
-            FindingBestMove findingBestMove = new FindingBestMove();
-            currentState = findingBestMove;
-            if (executor != null) {
-                executor.execute(() -> findingBestMove.findBestMove(cmdGo));
-            } else {
-                findingBestMove.findBestMove(cmdGo);
-            }
-        }
-
-        @Override
-        public void do_stop() {
-        }
-    }
-
-    public class FindingBestMove implements ZondaState {
-
-        private UCIEncoder uciEncoder = new UCIEncoder();
-
-
-        @Override
-        public void do_go(CmdGo cmdGo) {
-        }
-
-        @Override
-        public void do_stop() {
-            searchMove.stopSearching();
-        }
-
-        public void findBestMove(CmdGo cmdGo) {
-
-            // TODO: for the moment we are cheating
-            Move selectedMove = null;
-
-            if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
-                selectedMove = searchMove.searchBestMove(game).getBestMove();
-            } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-                selectedMove = searchMove.searchBestMove(game, cmdGo.getDepth() + 2).getBestMove();
-            } else {
-                throw new RuntimeException("go subtype not implemented yet");
-            }
-
-            responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
-
-            currentState = new Ready();
         }
     }
 }

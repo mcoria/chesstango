@@ -91,33 +91,34 @@ public class UCIServiceTangoTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(pisOutput));
 
         // Initial state
-        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(Ready.class, engine.currentState.getClass());
 
         // uci command
         engine.accept(new CmdUci());
         Assert.assertEquals("id name Tango", in.readLine());
         Assert.assertEquals("id author Mauricio Coria", in.readLine());
         Assert.assertEquals("uciok", in.readLine());
-        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(Ready.class, engine.currentState.getClass());
 
         // isready command
         engine.accept(new CmdIsReady());
         Assert.assertEquals("readyok", in.readLine());
-        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(Ready.class, engine.currentState.getClass());
 
         // ucinewgame command
         engine.accept(new CmdUciNewGame());
-        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(Ready.class, engine.currentState.getClass());
 
         // isready command
         engine.accept(new CmdIsReady());
         Assert.assertEquals("readyok", in.readLine());
-        Assert.assertEquals(EngineTango.Ready.class, engine.getCurrentState().getClass());
+        Assert.assertEquals(Ready.class, engine.currentState.getClass());
 
         // position command
         engine.accept(new CmdPosition(Arrays.asList("e2e4")));
         Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
-        Assert.assertEquals(EngineTango.WaitCmdGo.class, engine.getCurrentState().getClass());
+        Assert.assertEquals
+                (WaitCmdGo.class, engine.currentState.getClass());
 
         // quit command
         engine.accept(new CmdQuit());
