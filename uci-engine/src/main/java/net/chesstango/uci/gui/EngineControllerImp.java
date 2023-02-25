@@ -188,7 +188,6 @@ public class EngineControllerImp implements EngineController {
 
         @Override
         public void received_id(RspId rspId) {
-
         }
     }
 

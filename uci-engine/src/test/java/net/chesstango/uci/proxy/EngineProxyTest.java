@@ -7,19 +7,17 @@ package net.chesstango.uci.proxy;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
-import net.chesstango.uci.proxy.EngineProxy;
 import org.junit.*;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
  */
-public class UCIServiceProxyTest {
+public class EngineProxyTest {
     private EngineProxy engine;
 
 

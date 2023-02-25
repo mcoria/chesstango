@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  *
  */
-public class UCIServiceTangoTest {
+public class EngineTangoTest {
     private EngineTango engine;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(2);

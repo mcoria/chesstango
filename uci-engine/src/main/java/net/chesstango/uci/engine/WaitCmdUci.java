@@ -34,7 +34,6 @@ public class WaitCmdUci implements ZondaState{
 
     @Override
     public void do_stop() {
-
     }
 
     @Override

@@ -39,6 +39,5 @@ class WaitCmdGo implements ZondaState {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-
     }
 }

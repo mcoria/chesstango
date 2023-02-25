@@ -1,6 +1,5 @@
 package net.chesstango.uci.gui;
 
-import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.service.UCIService;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
@@ -11,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class UCIServiceControllerImpTest {
+public class EngineControllerImpTest {
 
     @Test
     public void test_Zonda(){

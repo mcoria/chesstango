@@ -17,9 +17,8 @@ import java.util.function.Predicate;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class UCIServiceMainTest {
+public class ServiceMainTest {
 
     @Test(timeout = 3000)
     public void test_playZonda() throws IOException, InterruptedException {
@@ -54,10 +53,14 @@ public class UCIServiceMainTest {
 
         // isrpositioneady command
         out.println("position startpos moves e2e4");
-        Thread.sleep(500);
 
-        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(engine.getGame()));
-        Thread.sleep(500);
+        Game game;
+        do {
+            Thread.sleep(200);
+            game = engine.getGame();
+        } while (game == null);
+
+        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(game));
 
         // quit command
         out.println("quit");
@@ -118,9 +121,9 @@ public class UCIServiceMainTest {
         serviceMain.waitTermination();
     }
 
-    private String fenCode(Game board) {
+    private String fenCode(Game game) {
         FENEncoder coder = new FENEncoder();
-        board.getChessPosition().constructBoardRepresentation(coder);
+        game.getChessPosition().constructBoardRepresentation(coder);
         return coder.getChessRepresentation();
     }
 
