@@ -50,12 +50,11 @@ public class UCIServiceProxyTest {
         engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(new PrintStream(posOutput, true)))));
         engine.open();
 
-
         Assert.assertEquals("Spike 1.4 (Build 84) by Volker Boehm & Ralf Schaefer, Book by Timo Klaustermeyer", input.readLine());
 
         // uci command
         engine.accept(new CmdUci());
-
+        Thread.sleep(200);
         lines = readLastLine(input, "uciok"::equals);
         Assert.assertTrue(lines.stream().filter("id name Spike 1.4"::equals).findAny().isPresent());
 
