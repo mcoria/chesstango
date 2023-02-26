@@ -97,6 +97,7 @@ public class Match {
 
     private MathResult createResult() {
         int matchPoints = evaluateByMaterial(game);
+        EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             System.out.println("DRAW (por repeticion)");
@@ -111,10 +112,12 @@ public class Match {
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
                 System.out.println("BLACK WON " + black.getEngineName());
                 matchPoints = GameEvaluator.BLACK_WON;
+                winner = black;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
                 System.out.println("WHITE WON " + white.getEngineName());
                 matchPoints = GameEvaluator.WHITE_WON;
+                winner = white;
 
             }
         } else {
@@ -126,7 +129,7 @@ public class Match {
             printDebug();
         }
 
-        return new MathResult(game, white, black, matchPoints);
+        return new MathResult(game, white, black, winner, matchPoints);
     }
 
     public Match setDebugEnabled(boolean debugEnabled) {

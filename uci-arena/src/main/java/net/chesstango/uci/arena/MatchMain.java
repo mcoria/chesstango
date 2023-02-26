@@ -1,6 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.uci.arena.reports.MatchReport;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
@@ -37,11 +38,7 @@ public class MatchMain {
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-        long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(result -> result.getPoints()).sum();
-        long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(result -> result.getPoints()).sum();
-        long puntosTotal = puntosAsWhite + puntosAsBlack;
-
-        System.out.println("Puntos withe = " + puntosAsWhite + ", puntos black = " + puntosAsBlack + ", total = " + puntosTotal);
+        new MatchReport().printByEngine(engineTango, engineOponente, matchResult);
     }
 
 

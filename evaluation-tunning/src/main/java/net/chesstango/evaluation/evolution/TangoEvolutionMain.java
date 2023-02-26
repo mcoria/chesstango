@@ -9,6 +9,7 @@ import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.MathResult;
+import net.chesstango.uci.arena.reports.MatchReport;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -45,12 +46,9 @@ public class TangoEvolutionMain {
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time elapsed: " + timeElapsed.toMillis() + " ms");
 
-        long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine1).mapToLong(result -> result.getPoints()).sum();
-        long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engine1).mapToLong(result -> result.getPoints()).sum();
-        long puntosTotal = puntosAsWhite + puntosAsBlack;
-
-        System.out.println("Puntos withe = " + puntosAsWhite + ", puntos black = " + puntosAsBlack + ", total = " + puntosTotal);
+        new MatchReport().printByEngine(engine1, engine2, matchResult);
     }
+
 
     private static EngineController createController(Class<? extends GameEvaluator> gameEvaluatorClass) {
         SearchMove search = new DefaultSearchMove();
