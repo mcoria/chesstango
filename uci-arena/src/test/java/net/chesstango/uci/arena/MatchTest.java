@@ -46,7 +46,7 @@ public class MatchTest {
         match.setFen(FENDecoder.INITIAL_FEN);
         match.setChairs(smartEngine, dummyEngine);
 
-        MathResult result = match.compete();
+        GameResult result = match.compete();
 
         // Deberia ganar el engine smartEngine
         Assert.assertEquals(GameEvaluator.WHITE_WON, result.getPoints());
@@ -57,13 +57,13 @@ public class MatchTest {
     public void testPlay() {
         Match match = new Match(smartEngine, dummyEngine, 1);
 
-        List<MathResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
+        List<GameResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
 
         Assert.assertEquals(2, matchResult.size());
 
         // Deberia ganar el engine smartEngine
-        Assert.assertEquals(GameEvaluator.WHITE_WON, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine).mapToLong(MathResult::getPoints).sum());
-        Assert.assertEquals(GameEvaluator.BLACK_WON, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine).mapToLong(MathResult::getPoints).sum());
+        Assert.assertEquals(GameEvaluator.WHITE_WON, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine).mapToLong(GameResult::getPoints).sum());
+        Assert.assertEquals(GameEvaluator.BLACK_WON, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine).mapToLong(GameResult::getPoints).sum());
     }
 
 }

@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.arena.reports.MatchReport;
+import net.chesstango.uci.arena.reports.Reports;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
@@ -14,6 +14,11 @@ import java.util.List;
 
 public class MatchMain {
 
+    private static final List<String> GAMES = Arrays.asList(FENDecoder.INITIAL_FEN,
+            "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
+            "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
+            "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
+
     public static void main(String[] args) {
         EngineController engineTango = new EngineControllerImp(new EngineTango());
         EngineController engineOponente = new EngineControllerImp(new EngineProxy());
@@ -25,12 +30,7 @@ public class MatchMain {
 
         startEngines(engineTango, engineOponente);
 
-        List<MathResult> matchResult = match.play(Arrays.asList(
-                FENDecoder.INITIAL_FEN,
-                "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
-                "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
-                "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5"
-        ));
+        List<GameResult> matchResult = match.play(GAMES);
 
         quitEngines(engineTango, engineOponente);
 
@@ -38,7 +38,7 @@ public class MatchMain {
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-        new MatchReport().printByEngine(engineTango, engineOponente, matchResult);
+        new Reports().printByEngine(engineTango, engineOponente, matchResult);
     }
 
 

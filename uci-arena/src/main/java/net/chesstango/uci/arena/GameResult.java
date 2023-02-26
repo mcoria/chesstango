@@ -7,7 +7,7 @@ import net.chesstango.uci.gui.EngineController;
  * @author Mauricio Coria
  *
  */
-public class MathResult {
+public class GameResult {
     private final Game game;
     private final EngineController engineWhite;
     private final EngineController engineBlack;
@@ -16,7 +16,7 @@ public class MathResult {
 
     private final int points;
 
-    public MathResult(Game game, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
+    public GameResult(Game game, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
         this.game = game;
         this.engineWhite = engineWhite;
         this.engineBlack = engineBlack;

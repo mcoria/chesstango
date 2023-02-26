@@ -39,8 +39,8 @@ public class Match {
         this.depth = depth;
     }
 
-    public List<MathResult> play(List<String> fenList) {
-        List<MathResult> result = new ArrayList<>();
+    public List<GameResult> play(List<String> fenList) {
+        List<GameResult> result = new ArrayList<>();
 
         fenList.stream().forEach(fen -> {
             result.addAll(play(fen));
@@ -49,8 +49,8 @@ public class Match {
         return result;
     }
 
-    public List<MathResult> play(String fen) {
-        List<MathResult> result = new ArrayList<>();
+    public List<GameResult> play(String fen) {
+        List<GameResult> result = new ArrayList<>();
 
         setFen(fen);
 
@@ -65,7 +65,7 @@ public class Match {
         return result;
     }
 
-    protected MathResult compete() {
+    protected GameResult compete() {
         this.game = FENDecoder.loadGame(fen);
         this.game.detectRepetitions(true);
 
@@ -95,7 +95,7 @@ public class Match {
         return createResult();
     }
 
-    private MathResult createResult() {
+    private GameResult createResult() {
         int matchPoints = evaluateByMaterial(game);
         EngineController winner = null;
 
@@ -129,7 +129,7 @@ public class Match {
             printDebug();
         }
 
-        return new MathResult(game, white, black, winner, matchPoints);
+        return new GameResult(game, white, black, winner, matchPoints);
     }
 
     public Match setDebugEnabled(boolean debugEnabled) {

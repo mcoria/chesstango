@@ -12,7 +12,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.arena.Match;
-import net.chesstango.uci.arena.MathResult;
+import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.engine.EngineTango;
 import org.apache.commons.pool2.ObjectPool;
@@ -95,13 +95,13 @@ public class EvaluationMain{
 
             EngineController engineTango = createTango(genotype);
 
-            List<MathResult> matchResult = fitnessEval(engineTango);
+            List<GameResult> matchResult = fitnessEval(engineTango);
 
             quitTango(engineTango);
 
-            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(MathResult::getPoints).sum();
+            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(GameResult::getPoints).sum();
 
-            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(MathResult::getPoints).sum();
+            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(GameResult::getPoints).sum();
 
             gameMemory.put(keyGenes, points);
 
@@ -128,8 +128,8 @@ public class EvaluationMain{
     }
 
 
-    private List<MathResult> fitnessEval(EngineController engineTango) {
-        List<MathResult> matchResult = null;
+    private List<GameResult> fitnessEval(EngineController engineTango) {
+        List<GameResult> matchResult = null;
         try {
 
             EngineController engineProxy = pool.borrowObject();

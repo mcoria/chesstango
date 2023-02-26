@@ -7,9 +7,9 @@ import net.chesstango.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.evaluation.imp.GameEvaluatorImp02;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
-import net.chesstango.uci.arena.Match;
-import net.chesstango.uci.arena.MathResult;
-import net.chesstango.uci.arena.reports.MatchReport;
+import net.chesstango.uci.arena.GameResult;
+import net.chesstango.uci.arena.Tournament;
+import net.chesstango.uci.arena.reports.Reports;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -28,31 +28,31 @@ public class TangoEvolutionMain {
             "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
 
     public static void main(String[] args) {
-        EngineController engine1 = createController(GameEvaluatorBasic.class);
-
+        EngineController engineBasic = createController(GameEvaluatorBasic.class);
+        EngineController engine1 = createController(GameEvaluatorImp01.class);
         EngineController engine2 = createController(GameEvaluatorImp02.class);
+
+        List<EngineController> allEngines = Arrays.asList(engineBasic, engine1, engine2);
 
         Instant start = Instant.now();
 
-        Match match = new Match(engine1, engine2, 1);
+        Tournament tournament = new Tournament(engine2, Arrays.asList(engineBasic, engine1), GAMES);
 
-        startEngines(engine1, engine2);
+        allEngines.forEach(TangoEvolutionMain::startEngine);
 
-        List<MathResult> matchResult = match.play(GAMES);
+        List<GameResult> matchResult = tournament.play(GAMES);
 
-        quitEngines(engine1, engine2);
+        allEngines.forEach(TangoEvolutionMain::quitEngine);
 
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
         System.out.println("Time elapsed: " + timeElapsed.toMillis() + " ms");
 
-        new MatchReport().printByEngine(engine1, engine2, matchResult);
+        new Reports().printByEngine(engine2, matchResult);
     }
-
 
     private static EngineController createController(Class<? extends GameEvaluator> gameEvaluatorClass) {
         SearchMove search = new DefaultSearchMove();
-
         try {
             search.setGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
         } catch (InstantiationException e) {
@@ -70,17 +70,13 @@ public class TangoEvolutionMain {
         return controller;
     }
 
-    public static void startEngines(EngineController engine1, EngineController engine2) {
-        engine1.send_CmdUci();
-        engine1.send_CmdIsReady();
-
-        engine2.send_CmdUci();
-        engine2.send_CmdIsReady();
+    public static void startEngine(EngineController engine) {
+        engine.send_CmdUci();
+        engine.send_CmdIsReady();
     }
 
-    public static void quitEngines(EngineController engine1, EngineController engine2) {
-        engine1.send_CmdQuit();
-        engine2.send_CmdQuit();
+    public static void quitEngine(EngineController engine) {
+        engine.send_CmdQuit();
     }
 
 }
