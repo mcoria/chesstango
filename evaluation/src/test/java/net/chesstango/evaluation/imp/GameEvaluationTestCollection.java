@@ -8,6 +8,10 @@ import org.junit.Test;
 
 /**
  * @author Mauricio Coria
+ *
+ * Esta es la suite de test unitarios a la cual se somete cada analizador estatico.
+ * La comparacion deberia ser entre posiciones que difieren muy poco.
+ * Al final del dia la comparacion entre dos evaluaciones estaticas provee un gradiente.
  */
 public abstract class GameEvaluationTestCollection {
 
@@ -38,7 +42,7 @@ public abstract class GameEvaluationTestCollection {
     }
 
     @Test
-    public void testBlackInMate() {
+    public void testInMateBlack() {
         Game mate = FENDecoder.loadGame("4Q2k/8/7K/8/8/8/8/8 b - - 0 1");       // Black is in Mate
         Game check = FENDecoder.loadGame("2q4k/8/7K/8/3Q4/8/8/8 b - - 0 1");    // Black is in Check
         Game draw = FENDecoder.loadGame("7k/8/7K/8/8/8/8/6Q1 b - - 0 1");       // Draw
@@ -62,7 +66,7 @@ public abstract class GameEvaluationTestCollection {
 
 
     @Test
-    public void testWhiteInMate() {
+    public void testInMateWhite() {
         Game mate = FENDecoder.loadGame("8/8/8/8/8/7k/8/4q2K w - - 0 1");        // White is in Mate
         Game check = FENDecoder.loadGame("7k/8/8/3q4/8/8/8/2Q4K w - - 0 1");     // White is in Check
         Game draw = FENDecoder.loadGame("6q1/8/8/8/8/7k/8/7K w - - 0 1");         // Draw
