@@ -52,14 +52,13 @@ public class Match {
     }
 
     public MathResult compete(String fen) {
-        startNewGame();
-
         Game game = FENDecoder.loadGame(fen);
         game.detectRepetitions(true);
 
         List<String> executedMovesStr = new ArrayList<>();
         EngineController currentTurn = engine1;
 
+        startNewGame();
         while (game.getStatus().isInProgress()) {
             String moveStr = calculateBestMove(currentTurn, fen, executedMovesStr);
 
@@ -113,7 +112,6 @@ public class Match {
             throw new RuntimeException("Inconsistent game status");
         }
 
-
         //printDebug(fen, game);
 
         return result;
@@ -121,11 +119,8 @@ public class Match {
 
 
     protected void startNewGame() {
-        engine1.send_CmdUciNewGame();
-        engine1.send_CmdIsReady();
-
-        engine2.send_CmdUciNewGame();
-        engine2.send_CmdIsReady();
+        engine1.startNewGame();
+        engine2.startNewGame();
     }
 
     private String calculateBestMove(EngineController currentTurn, String fen, List<String> moves) {

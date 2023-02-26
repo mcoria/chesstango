@@ -162,7 +162,7 @@ public class EngineControllerImp implements EngineController {
 
         @Override
         public void received_id(RspId rspId) {
-            if (RspId.RspIdType.NAME.equals(rspId.getIdType())) {
+            if (RspId.RspIdType.NAME.equals(rspId.getIdType()) && engineName == null) {
                 engineName = rspId.getText();
             }
             if (RspId.RspIdType.AUTHOR.equals(rspId.getIdType())) {
@@ -227,5 +227,10 @@ public class EngineControllerImp implements EngineController {
         @Override
         public void received_id(RspId rspId) {
         }
+    }
+
+    public EngineControllerImp overrideEngineName(String name){
+        engineName = name;
+        return this;
     }
 }

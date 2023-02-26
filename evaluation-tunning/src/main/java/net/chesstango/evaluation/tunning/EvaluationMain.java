@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class EvaluationMain{
-    private static int POPULATION_SIZE = 15;
-    private static int GENERATION_LIMIT = 100;
-
-    private static List<String> GAMES = Arrays.asList(FENDecoder.INITIAL_FEN,
+    private static final int MATCH_DEPTH = 1;
+    private static final int POPULATION_SIZE = 15;
+    private static final int GENERATION_LIMIT = 100;
+    private static final List<String> GAMES = Arrays.asList(FENDecoder.INITIAL_FEN,
             "4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20",
             "r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7",
             "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
@@ -134,7 +134,7 @@ public class EvaluationMain{
 
             EngineController engineProxy = pool.borrowObject();
 
-            Match match = new Match(engineProxy, engineTango, 1);
+            Match match = new Match(engineProxy, engineTango, MATCH_DEPTH);
 
             matchResult = match.play(fenList);
 

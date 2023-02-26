@@ -7,7 +7,7 @@ import net.chesstango.uci.protocol.requests.CmdUci;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 
-public class WaitCmdUci implements ZondaState{
+public class WaitCmdUci implements ZondaState {
 
     private final EngineTango engineTango;
 

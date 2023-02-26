@@ -34,6 +34,6 @@ public class DefaultSearchMove implements SearchMove {
 
     @Override
     public void setGameEvaluator(GameEvaluator evaluator) {
-        imp.setGameEvaluator(evaluator);
+        this.imp.setGameEvaluator(evaluator);
     }
 }

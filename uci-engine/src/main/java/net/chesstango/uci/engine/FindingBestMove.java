@@ -39,7 +39,7 @@ class FindingBestMove implements ZondaState {
     }
 
     public void findBestMove(CmdGo cmdGo) {
-		// TODO: for the moment we are cheating
+        // TODO: for the moment we are cheating
         Move selectedMove = null;
 
         if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
@@ -52,6 +52,6 @@ class FindingBestMove implements ZondaState {
 
         engineTango.responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
 
-        engineTango.currentState =  new Ready(engineTango);
+        engineTango.currentState = new Ready(engineTango);
     }
 }

@@ -6,9 +6,9 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface EngineController {
+
     void send_CmdUci();
 
     void send_CmdIsReady();
@@ -22,6 +22,11 @@ public interface EngineController {
     void send_CmdStop();
 
     void send_CmdQuit();
+
+    default void startNewGame() {
+        send_CmdUciNewGame();
+        send_CmdIsReady();
+    }
 
     String getEngineName();
 

@@ -25,7 +25,7 @@ class WaitCmdGo implements ZondaState {
     @Override
     public void do_go(CmdGo cmdGo) {
         FindingBestMove findingBestMove = new FindingBestMove(engineTango);
-        engineTango.currentState =  findingBestMove;
+        engineTango.currentState = findingBestMove;
         if (engineTango.executor != null) {
             engineTango.executor.execute(() -> findingBestMove.findBestMove(cmdGo));
         } else {

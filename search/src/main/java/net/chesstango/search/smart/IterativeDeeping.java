@@ -1,5 +1,6 @@
 package net.chesstango.search.smart;
 
+import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
@@ -11,19 +12,17 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class IterativeDeeping extends AbstractSmart {
-
     private final AbstractSmart imp;
 
     private final List<SearchMoveResult> bestMovesByDepth;
-
 
     public IterativeDeeping() {
         this(new MinMaxPruning());
     }
 
     public IterativeDeeping(AbstractSmart minMax) {
-        this.bestMovesByDepth = new ArrayList<>();
         this.imp = minMax;
+        this.bestMovesByDepth = new ArrayList<>();
     }
 
     @Override
@@ -52,7 +51,6 @@ public class IterativeDeeping extends AbstractSmart {
                 break;
             }
         }
-
         return bestMovesByDepth.get(bestMovesByDepth.size() - 1);
     }
 
