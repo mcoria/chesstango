@@ -21,9 +21,17 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Match {
-    private EngineController engine1;
-    private EngineController engine2;
+    private final EngineController engine1;
+    private final EngineController engine2;
     private final int depth;
+
+    private EngineController white;
+    private EngineController black;
+    private String fen;
+    private Game game;
+
+    private boolean debugEnabled;
+
 
     public Match(EngineController engine1, EngineController engine2, int depth) {
         this.engine1 = engine1;
@@ -44,81 +52,101 @@ public class Match {
     public List<MathResult> play(String fen) {
         List<MathResult> result = new ArrayList<>();
 
-        result.add(compete(fen));
-        switchChairs();
-        result.add(compete(fen));
+        setFen(fen);
+
+        setChairs(engine1, engine2);
+
+        result.add(compete());
+
+        setChairs(engine2, engine1);
+
+        result.add(compete());
 
         return result;
     }
 
-    public MathResult compete(String fen) {
-        Game game = FENDecoder.loadGame(fen);
-        game.detectRepetitions(true);
+    protected MathResult compete() {
+        this.game = FENDecoder.loadGame(fen);
+        this.game.detectRepetitions(true);
 
-        List<String> executedMovesStr = new ArrayList<>();
-        EngineController currentTurn = engine1;
+        final List<String> executedMovesStr = new ArrayList<>();
+
+        EngineController currentTurn;
+
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            currentTurn = white;
+        } else {
+            currentTurn = black;
+        }
 
         startNewGame();
         while (game.getStatus().isInProgress()) {
             String moveStr = calculateBestMove(currentTurn, fen, executedMovesStr);
 
-            Move move = decodeMove(fen, game, moveStr);
+            Move move = decodeMove(fen, game, moveStr, white, black);
 
             game.executeMove(move);
 
             executedMovesStr.add(moveStr);
 
-            currentTurn = (currentTurn == engine1 ? engine2 : engine1);
+            currentTurn = (currentTurn == white ? black : white);
         }
 
-        MathResult result = null;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            EngineController white = currentTurn == engine1 ? engine1 : engine2;
-            EngineController black = white == engine1 ? engine2 : engine1;
-            result = new MathResult(game, white, black);
+        return createResult();
+    }
 
-        } else {
-            EngineController black = currentTurn == engine1 ? engine1 : engine2;
-            EngineController white = black == engine1 ? engine2 : engine1;
-            result = new MathResult(game, white, black);
-        }
-
+    private MathResult createResult() {
         int matchPoints = evaluateByMaterial(game);
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
             System.out.println("DRAW (por repeticion)");
-            result.setPoints(matchPoints);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             System.out.println("DRAW (por fiftyMoveRule)");
-            result.setPoints(matchPoints);
 
         } else if (GameStatus.DRAW.equals(game.getStatus())) {
             System.out.println("DRAW");
-            result.setPoints(matchPoints);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
-            if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.println("MATE WHITE " + result.getEngineWhite().getEngineName());
-                result.setPoints(GameEvaluator.WHITE_LOST);
+            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+                System.out.println("BLACK WON " + black.getEngineName());
+                matchPoints = GameEvaluator.BLACK_WON;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.println("MATE BLACK " + result.getEngineBlack().getEngineName());
-                result.setPoints(GameEvaluator.BLACK_LOST);
+                System.out.println("WHITE WON " + white.getEngineName());
+                matchPoints = GameEvaluator.WHITE_WON;
 
             }
         } else {
-            printDebug(fen, game);
+            printDebug();
             throw new RuntimeException("Inconsistent game status");
         }
 
-        //printDebug(fen, game);
+        if (debugEnabled) {
+            printDebug();
+        }
 
-        return result;
+        return new MathResult(game, white, black, matchPoints);
     }
 
+    public Match setDebugEnabled(boolean debugEnabled) {
+        this.debugEnabled = debugEnabled;
+        return this;
+    }
 
-    protected void startNewGame() {
+    protected void setFen(String fen) {
+        this.fen = fen;
+    }
+
+    protected void setChairs(EngineController engine1, EngineController engine2) {
+        if (engine1 != this.engine1 && engine1 != this.engine2 || engine2 != this.engine1 && engine2 != this.engine2) {
+            throw new RuntimeException("Invalid opponents");
+        }
+        this.white = engine1;
+        this.black = engine2;
+    }
+
+    private void startNewGame() {
         engine1.startNewGame();
         engine2.startNewGame();
     }
@@ -135,7 +163,7 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private Move decodeMove(String fen, Game game, String bestMove) {
+    private Move decodeMove(String fen, Game game, String bestMove, EngineController white, EngineController black) {
         UCIEncoder uciEncoder = new UCIEncoder();
         for (Move move : game.getPossibleMoves()) {
             String encodedMoveStr = uciEncoder.encode(move);
@@ -144,48 +172,41 @@ public class Match {
             }
         }
 
-        printDebug(fen, game);
+        printDebug();
 
         throw new RuntimeException("No move found " + bestMove);
     }
 
-    private void printDebug(String fen, Game game) {
+    private void printDebug() {
         System.out.println(game.toString());
 
         System.out.println();
 
-        printPGN(fen, game);
+        printPGN();
 
         System.out.println();
 
-        printMoveExecution(fen, game);
+        printMoveExecution();
 
         System.out.println("--------------------------------------------------------------------------------");
     }
 
-    private void printPGN(String fen, Game game) {
+    private void printPGN() {
         PGNEncoder encoder = new PGNEncoder();
         PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
 
         pgnHeader.setEvent("Computer chess game");
-        pgnHeader.setWhite(engine1.getEngineName());
-        pgnHeader.setBlack(engine2.getEngineName());
+        pgnHeader.setWhite(white.getEngineName());
+        pgnHeader.setBlack(black.getEngineName());
         pgnHeader.setFen(fen);
 
         System.out.println(encoder.encode(pgnHeader, game));
     }
 
-    private void printMoveExecution(String fen, Game game) {
+    private void printMoveExecution() {
         GameDebugEncoder encoder = new GameDebugEncoder();
 
         System.out.println(encoder.encode(fen, game));
-    }
-
-
-    private void switchChairs() {
-        EngineController tmpController = engine1;
-        engine1 = engine2;
-        engine2 = tmpController;
     }
 
     static public int evaluateByMaterial(Game game) {
@@ -200,7 +221,7 @@ public class Match {
     }
 
     static public int getPieceValue(Piece piece) {
-        return switch (piece){
+        return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;
             case KNIGHT_WHITE -> 3;

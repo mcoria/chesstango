@@ -14,13 +14,14 @@ public class MathResult {
 
     private final EngineController engineBlack;
 
-    private int points;
+    private final int points;
 
 
-    public MathResult(Game game, EngineController engineWhite, EngineController engineBlack) {
+    public MathResult(Game game, EngineController engineWhite, EngineController engineBlack, int points) {
         this.game = game;
         this.engineWhite = engineWhite;
         this.engineBlack = engineBlack;
+        this.points = points;
     }
 
     public int getPoints() {
@@ -35,8 +36,5 @@ public class MathResult {
         return engineBlack;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
 
 }

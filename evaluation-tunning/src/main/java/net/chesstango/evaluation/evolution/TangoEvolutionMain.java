@@ -43,7 +43,7 @@ public class TangoEvolutionMain {
 
         Instant end = Instant.now();
         Duration timeElapsed = Duration.between(start, end);
-        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
+        System.out.println("Time elapsed: " + timeElapsed.toMillis() + " ms");
 
         long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine1).mapToLong(result -> result.getPoints()).sum();
         long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engine1).mapToLong(result -> result.getPoints()).sum();
