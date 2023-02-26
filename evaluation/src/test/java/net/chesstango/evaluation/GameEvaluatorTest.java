@@ -13,12 +13,12 @@ public class GameEvaluatorTest {
     private GameEvaluator evaluator;
 
     @Before
-    public void setup(){
+    public void setup() {
         evaluator = new GameEvaluator() {
 
             @Override
             public int getPieceValue(Game game, Piece piece) {
-                return switch (piece){
+                return switch (piece) {
                     case PAWN_WHITE -> 1;
                     case PAWN_BLACK -> -1;
                     case KNIGHT_WHITE -> 3;

@@ -27,7 +27,7 @@ public class GameEvaluatorImp02 implements GameEvaluator {
     private MoveGenerator pseudoMovesGenerator;
 
     public GameEvaluatorImp02() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT,  FACTOR_ATAQUE_DEFAULT);
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
     public GameEvaluatorImp02(int material, int expansion, int ataque) {
@@ -63,14 +63,14 @@ public class GameEvaluatorImp02 implements GameEvaluator {
 
         Iterator<PiecePositioned> iteratorAllPieces = positionReader.iteratorAllPieces();
 
-        while(iteratorAllPieces.hasNext()){
+        while (iteratorAllPieces.hasNext()) {
             PiecePositioned piecePositioned = iteratorAllPieces.next();
 
             MoveGeneratorResult generationResult = pseudoMovesGenerator.generatePseudoMoves(piecePositioned);
 
             MoveList pseudoMoves = generationResult.getPseudoMoves();
 
-            for (Move move: pseudoMoves) {
+            for (Move move : pseudoMoves) {
                 PiecePositioned fromPosition = move.getFrom();
                 PiecePositioned toPosition = move.getTo();
                 if (toPosition.getPiece() == null) {
@@ -82,11 +82,11 @@ public class GameEvaluatorImp02 implements GameEvaluator {
         }
 
         // From white point of view
-        return  expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack ;
+        return expansion * evaluationByMoveToEmptySquare + ataque * evaluationByAttack;
     }
 
     private void getGameReferences(Game game) {
-        if(game != gameEvaluated){
+        if (game != gameEvaluated) {
             pseudoMovesGenerator = game.getObject(MoveGenerator.class);
             positionReader = game.getChessPosition();
             gameEvaluated = game;
@@ -95,7 +95,7 @@ public class GameEvaluatorImp02 implements GameEvaluator {
 
     @Override
     public int getPieceValue(Game game, Piece piece) {
-        return switch (piece){
+        return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;
             case KNIGHT_WHITE -> 3;

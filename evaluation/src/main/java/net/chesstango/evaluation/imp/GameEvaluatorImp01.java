@@ -42,7 +42,7 @@ public class GameEvaluatorImp01 implements GameEvaluator {
                 // If white is on check then evaluation starts at -1
                 evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? -1 : +1;
             case NO_CHECK:
-                evaluation +=  material * 10 * evaluateByMaterial(game);
+                evaluation += material * 10 * evaluateByMaterial(game);
                 evaluation += evaluateByMoves(game);
         }
         return evaluation;
@@ -74,7 +74,7 @@ public class GameEvaluatorImp01 implements GameEvaluator {
 
     @Override
     public int getPieceValue(Game game, Piece piece) {
-        return switch (piece){
+        return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;
             case KNIGHT_WHITE -> 3;
