@@ -88,11 +88,13 @@ public class ChessPositionBuilder implements ChessRepresentationBuilder<ChessPos
 
 	@Override
 	public ChessRepresentationBuilder<ChessPosition> withHalfMoveClock(int halfMoveClock) {
+		positionState.setHalfMoveClock(halfMoveClock);
 		return null;
 	}
 
 	@Override
 	public ChessRepresentationBuilder<ChessPosition> withFullMoveClock(int fullMoveClock) {
+		positionState.setFullMoveClock(fullMoveClock);
 		return null;
 	}
 

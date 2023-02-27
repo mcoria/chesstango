@@ -113,4 +113,10 @@ public class SquareTest {
 		
 		assertEquals(0, posiciones);
 	}
+
+	@Test
+	public void testMirror() {
+		assertEquals(Square.a8, Square.a1.getMirrorSquare());
+		assertEquals(Square.h1, Square.h8.getMirrorSquare());
+	}
 }
