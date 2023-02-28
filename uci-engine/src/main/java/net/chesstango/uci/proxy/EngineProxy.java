@@ -90,9 +90,13 @@ public class EngineProxy implements UCIService {
     }
 
     private void startProcess() {
+        // Spike 1,4
         ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
         processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike"));
 
+        // SOS Arena
+        //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\SOS-51_Arena.exe");
+        //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\"));
         try {
             synchronized (this) {
                 process = processBuilder.start();

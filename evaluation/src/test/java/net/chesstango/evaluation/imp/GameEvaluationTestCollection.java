@@ -1,10 +1,14 @@
 package net.chesstango.evaluation.imp;
 
+import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
@@ -12,33 +16,62 @@ import org.junit.Test;
  * Esta es la suite de test unitarios a la cual se somete cada analizador estatico.
  * La comparacion deberia ser entre posiciones que difieren muy poco.
  * Al final del dia la comparacion entre dos evaluaciones estaticas provee un gradiente.
+ *
+ * Respecto a cada feature (o termino en la sumatoria).
+ * - El puntaje de cada termino es 0 en la posicion inicial
+ * - El puntaje de cada termino es simetrico con respecto a la posicion, es decir si espejamos la posicion...
+ * ver testEvaluateByMaterial()
+ *
+ * https://www.chessprogramming.org/Evaluation_Philosophy
+ *
+ * Miestras mas tiempo demore evaluando una posicion, menos tiempo hay para buscar, y por lo tanto
+ * menor profundidad puede alcanzar la busqueda.
  */
 public abstract class GameEvaluationTestCollection {
 
     protected abstract GameEvaluator getEvaluator();
 
 
-    @Test
-    public void testEvaluateByMaterial() {
+    protected void testGenericFeature(Function<Game, Integer> evaluationFunction, String fen){
+        // El puntaje de cada termino es 0 en la posicion inicial
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        final int eval = evaluationFunction.apply(game);
+        Assert.assertEquals(0, eval);
 
-        Assert.assertEquals(0, getEvaluator().evaluateByMaterial(game));
+        game = FENDecoder.loadGame(fen);
+        final int eval1 = evaluationFunction.apply(game);
+
+        MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder(new GameBuilder());
+        game.getChessPosition().constructBoardRepresentation(mirrorBuilder);
+        Game mirrorGame = mirrorBuilder.getChessRepresentation();
+        final int eval2 = evaluationFunction.apply(mirrorGame);
+
+        // El puntaje de cada termino es simetrico con respecto a la posicion
+        Assert.assertTrue(eval1 == - eval2);
     }
 
     @Test
-    public void testMaterial() {
+    public void testEvaluateByMaterial() {
+        // El puntaje de cada termino es 0 en la posicion inicial
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        int eval = getEvaluator().evaluateByMaterial(game);
+        final int eval = getEvaluator().evaluateByMaterial(game);
         Assert.assertEquals(0, eval);
 
         game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        eval = getEvaluator().evaluateByMaterial(game);
-        Assert.assertTrue(eval > 0);
-
+        final int evalWhite = getEvaluator().evaluateByMaterial(game);
+        Assert.assertTrue(evalWhite > 0);
 
         game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
-        eval = getEvaluator().evaluateByMaterial(game);
-        Assert.assertTrue(eval < 0);
+        final int evalBlack = getEvaluator().evaluateByMaterial(game);
+        Assert.assertTrue(evalBlack < 0);
+
+        // El puntaje de cada termino es simetrico con respecto a la posicion
+        Assert.assertTrue(evalWhite == - evalBlack);
+    }
+
+    @Test
+    public void testEvaluateByMaterial01() {
+        testGenericFeature(getEvaluator()::evaluateByMaterial, "rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     }
 
     @Test
@@ -107,7 +140,6 @@ public abstract class GameEvaluationTestCollection {
     public void testCloseToPromotionTwoMoves() {
         Game promotionInTwoMoves = FENDecoder.loadGame("7k/8/P7/8/8/8/8/7K w - - 0 1");
         Game promotionInThreeMoves = FENDecoder.loadGame("7k/8/8/P7/8/8/8/7K w - - 0 1");
-
 
         int evalPromotionInTwoMoves = getEvaluator().evaluate(promotionInTwoMoves);
         int evalPromotionInThreeMoves = getEvaluator().evaluate(promotionInThreeMoves);

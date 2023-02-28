@@ -40,6 +40,7 @@ public class GameEvaluatorImp01Test extends GameEvaluationTestCollection {
         Assert.assertTrue(eval2 > eval1);
     }
 
+
     @Test
     public void test_evaluateByMoves_black() {
         Game game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/4P3/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
@@ -52,6 +53,14 @@ public class GameEvaluatorImp01Test extends GameEvaluationTestCollection {
         Assert.assertTrue(eval1 < 0);
         Assert.assertTrue(eval2 < 0);
         Assert.assertTrue(eval2 < eval1);
+    }
+
+    @Test
+    @Ignore //Evidentemente no cumple las condiciones
+    public void test_evaluateByMoves_generic() {
+        testGenericFeature(evaluator::evaluateByMoves, "rnbqkbnr/p1pppppp/1p6/8/8/4P3/PPPP1PPP/RNBQKBNR w KQkq - 0 2");
+        testGenericFeature(evaluator::evaluateByMoves, "rnbqkbnr/pppppppp/8/8/8/4P3/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        testGenericFeature(evaluator::evaluateByMoves, "rnbqkbnr/pppp1ppp/4p3/8/8/4P2P/PPPP1PP1/RNBQKBNR b KQkq - 0 2");
     }
 
     @Test

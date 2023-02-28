@@ -13,12 +13,12 @@ public class MirrorBuilderTest {
 
     @Test
     public void mirrorChessPosition(){
-        MirrorBuilder<ChessPosition> mirror = new MirrorBuilder(new ChessPositionBuilder());
-        mirror.withTurn(Color.WHITE);
-        mirror.withPiece(Square.a1, Piece.ROOK_WHITE);
-        mirror.withPiece(Square.e1, Piece.KING_WHITE);
-        mirror.withPiece(Square.e8, Piece.KING_BLACK);
-        ChessPosition mirrorChessPosition = mirror.getChessRepresentation();
+        MirrorBuilder<ChessPosition> mirrorBuilder = new MirrorBuilder(new ChessPositionBuilder());
+        mirrorBuilder.withTurn(Color.WHITE);
+        mirrorBuilder.withPiece(Square.a1, Piece.ROOK_WHITE);
+        mirrorBuilder.withPiece(Square.e1, Piece.KING_WHITE);
+        mirrorBuilder.withPiece(Square.e8, Piece.KING_BLACK);
+        ChessPosition mirrorChessPosition = mirrorBuilder.getChessRepresentation();
 
         Assert.assertEquals(Color.BLACK, mirrorChessPosition.getCurrentTurn());
         Assert.assertEquals(Piece.ROOK_BLACK, mirrorChessPosition.getPiece(Square.a8));
@@ -30,11 +30,11 @@ public class MirrorBuilderTest {
     public void mirrorChessPosition01(){
         ChessPosition position = FENDecoder.loadChessPosition(FENDecoder.INITIAL_FEN);
 
-        MirrorBuilder<ChessPosition> mirror = new MirrorBuilder(new ChessPositionBuilder());
+        MirrorBuilder<ChessPosition> mirrorBuilder = new MirrorBuilder(new ChessPositionBuilder());
 
-        position.constructBoardRepresentation(mirror);
+        position.constructBoardRepresentation(mirrorBuilder);
 
-        ChessPosition mirrorPosition = mirror.getChessRepresentation();
+        ChessPosition mirrorPosition = mirrorBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
@@ -50,11 +50,11 @@ public class MirrorBuilderTest {
     public void mirrorChessPosition02(){
         ChessPosition position = FENDecoder.loadChessPosition("4rr1k/pppb2bp/2q1n1p1/4p3/8/1BPPBN2/PP2QPP1/2KR3R w - - 8 20");
 
-        MirrorBuilder<ChessPosition> mirror = new MirrorBuilder(new ChessPositionBuilder());
+        MirrorBuilder<ChessPosition> mirrorBuilder = new MirrorBuilder(new ChessPositionBuilder());
 
-        position.constructBoardRepresentation(mirror);
+        position.constructBoardRepresentation(mirrorBuilder);
 
-        ChessPosition mirrorPosition = mirror.getChessRepresentation();
+        ChessPosition mirrorPosition = mirrorBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
@@ -69,11 +69,11 @@ public class MirrorBuilderTest {
     public void mirrorChessPosition03(){
         ChessPosition position = FENDecoder.loadChessPosition("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7");
 
-        MirrorBuilder<ChessPosition> mirror = new MirrorBuilder(new ChessPositionBuilder());
+        MirrorBuilder<ChessPosition> mirrorBuilder = new MirrorBuilder(new ChessPositionBuilder());
 
-        position.constructBoardRepresentation(mirror);
+        position.constructBoardRepresentation(mirrorBuilder);
 
-        ChessPosition mirrorPosition = mirror.getChessRepresentation();
+        ChessPosition mirrorPosition = mirrorBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
@@ -88,11 +88,11 @@ public class MirrorBuilderTest {
     public void mirrorChessPosition04(){
         ChessPosition position = FENDecoder.loadChessPosition("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
 
-        MirrorBuilder<ChessPosition> mirror = new MirrorBuilder(new ChessPositionBuilder());
+        MirrorBuilder<ChessPosition> mirrorBuilder = new MirrorBuilder(new ChessPositionBuilder());
 
-        position.constructBoardRepresentation(mirror);
+        position.constructBoardRepresentation(mirrorBuilder);
 
-        ChessPosition mirrorPosition = mirror.getChessRepresentation();
+        ChessPosition mirrorPosition = mirrorBuilder.getChessRepresentation();
 
         FENEncoder encoder = new FENEncoder();
 
