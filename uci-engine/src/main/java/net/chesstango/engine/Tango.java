@@ -1,10 +1,7 @@
 package net.chesstango.engine;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.uci.protocol.UCIEncoder;
 
 import java.util.ArrayList;
 import java.util.List;

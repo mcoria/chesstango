@@ -1,6 +1,5 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.board.Game;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
@@ -23,7 +22,6 @@ public class EngineTango implements UCIService {
     protected UCIOutputStream responseOutputStream;
     protected ExecutorService executor;
     protected Tango tango;
-
     ZondaState currentState;
 
     public EngineTango() {

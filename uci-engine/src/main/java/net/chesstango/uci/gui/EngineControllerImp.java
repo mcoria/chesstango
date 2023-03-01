@@ -44,7 +44,7 @@ public class EngineControllerImp implements EngineController {
         };
 
         this.UCIService = UCIService;
-        this.UCIService.setResponseOutputStream( new UCIOutputStreamGuiExecutor(messageExecutor) );
+        this.UCIService.setResponseOutputStream(new UCIOutputStreamGuiExecutor(messageExecutor));
     }
 
     @Override
@@ -229,7 +229,7 @@ public class EngineControllerImp implements EngineController {
         }
     }
 
-    public EngineControllerImp overrideEngineName(String name){
+    public EngineControllerImp overrideEngineName(String name) {
         engineName = name;
         return this;
     }

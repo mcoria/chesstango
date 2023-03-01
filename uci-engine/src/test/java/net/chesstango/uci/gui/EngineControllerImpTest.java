@@ -1,11 +1,11 @@
 package net.chesstango.uci.gui;
 
-import net.chesstango.uci.service.UCIService;
-import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
+import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.service.UCIService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import org.junit.Test;
 public class EngineControllerImpTest {
 
     @Test
-    public void test_Zonda(){
+    public void test_Zonda() {
         UCIService UCIService = new EngineTango();
 
         EngineControllerImp client = new EngineControllerImp(UCIService);
@@ -39,7 +39,7 @@ public class EngineControllerImpTest {
     }
 
     @Test
-    public void test_Proxy(){
+    public void test_Proxy() {
         EngineProxy engine = new EngineProxy().setLogging(true);
 
         EngineControllerImp client = new EngineControllerImp(engine);

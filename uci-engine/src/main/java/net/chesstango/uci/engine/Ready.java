@@ -1,16 +1,11 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdIsReady;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.requests.CmdUci;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
-
-import java.util.List;
 
 class Ready implements ZondaState {
 

@@ -22,8 +22,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 import static org.mockito.Mockito.times;
@@ -31,7 +29,6 @@ import static org.mockito.Mockito.verify;
 
 /**
  * @author Mauricio Coria
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class EngineTangoTest {
@@ -53,7 +50,7 @@ public class EngineTangoTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         engine.close();
     }
 
@@ -156,7 +153,7 @@ public class EngineTangoTest {
     }
 
     @Test
-    public void testAndThen(){
+    public void testAndThen() {
         Consumer<String> consumer1 = string -> System.out.println("From consumer1 : " + string);
 
         Consumer<String> consumer2 = consumer1.andThen(string2 -> System.out.println("From consumer2 : " + string2));
