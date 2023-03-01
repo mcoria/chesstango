@@ -1,10 +1,11 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
-import net.chesstango.board.GameStatus;
+import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.containers.MoveContainer;
+import net.chesstango.board.moves.factories.MoveFactoryBlack;
+import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MinMaxPruningBlackTest {
+
+    private MoveFactoryBlack moveFactoryBlack = new MoveFactoryBlack();
 
     @Mock
     private MoveSorter moveSorter;
@@ -150,9 +153,9 @@ public class MinMaxPruningBlackTest {
         Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
         when(quiescence.quiescenceMax(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.BLACK_LOST);
 
-        Move move1 = mock(Move.class);
-        Move move2 = mock(Move.class);
-        Move move3 = mock(Move.class);
+        Move move1 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.d4));
+        Move move2 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.b4));
+        Move move3 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.e5));
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
         SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
@@ -235,11 +238,11 @@ public class MinMaxPruningBlackTest {
             }
         }
 
-        MoveContainerReader mockMoveCollection = mock(MoveContainerReader.class);
-        when(mockMoveCollection.iterator()).thenAnswer(ans -> moveList.iterator());
-        //when(mockMoveCollection.size()).thenReturn( moveList.size() );
-        when(parentGame.getPossibleMoves()).thenReturn(mockMoveCollection);
 
-        when(moveSorter.sortMoves(mockMoveCollection)).thenReturn(new ArrayDeque<>(moveList));
+        MoveContainer moveContainer = new MoveContainer();
+        moveList.forEach(moveContainer::add);
+        when(parentGame.getPossibleMoves()).thenReturn(moveContainer);
+
+        when(moveSorter.sortMoves(moveContainer)).thenReturn(new ArrayDeque<>(moveList));
     }
 }

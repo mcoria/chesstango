@@ -29,6 +29,8 @@ public class Game {
 
         this.chessPosition.init();
         this.analyzer.updateGameState();
+
+        saveFEN();
     }
 
     public Game executeMove(Square from, Square to) {
@@ -122,13 +124,19 @@ public class Game {
         return chessPosition.toString();
     }
 
+    private void saveFEN() {
+        FENEncoder encoder = new FENEncoder();
+
+        chessPosition.constructBoardRepresentation(encoder);
+
+        gameState.setInitialFEN(encoder.getChessRepresentation());
+    }
+
     private void saveFENWithoutClocks() {
         FENEncoder encoder = new FENEncoder();
 
         chessPosition.constructBoardRepresentation(encoder);
 
-        String fenWithoutClocks = encoder.getFENWithoutClocks();
-
-        gameState.setFenWithoutClocks(fenWithoutClocks);
+        gameState.setFenWithoutClocks(encoder.getFENWithoutClocks());
     }
 }

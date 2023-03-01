@@ -4,6 +4,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;
@@ -46,4 +48,24 @@ public class MinMaxPruning01Test {
 
         Assert.assertNotEquals(queenCaptureKnight, bestMove);
     }
+
+    @Test
+    public void testDeterministicMove() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Move bestMove = minMaxPruning.searchBestMove(game, 1).getBestMove();
+
+        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
+        game.getChessPosition().constructBoardRepresentation(mirror);
+        Game gameMirror = mirror.getChessRepresentation();
+
+        Move bestMoveMirror = minMaxPruning.searchBestMove(gameMirror, 1).getBestMove();
+
+
+        Assert.assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());
+        Assert.assertEquals(bestMove.getFrom().getSquare().getMirrorSquare(), bestMoveMirror.getFrom().getSquare());
+
+        Assert.assertEquals(bestMove.getTo().getSquare().getMirrorSquare(), bestMoveMirror.getTo().getSquare());
+
+    }
+
 }

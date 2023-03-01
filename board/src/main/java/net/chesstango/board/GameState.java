@@ -20,6 +20,7 @@ public class GameState {
 
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
+    private String initialFEN;
 
     public GameStatus getStatus() {
         return currentGameState.gameStatus;
@@ -85,6 +86,15 @@ public class GameState {
         }
 
         gameVisitor.visit(currentGameState);
+    }
+
+
+    public void setInitialFEN(String initialFEN) {
+        this.initialFEN = initialFEN;
+    }
+
+    public String getInitialFen() {
+        return initialFEN;
     }
 
     public static class GameStateData {

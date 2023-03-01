@@ -8,22 +8,24 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
+import static net.chesstango.board.representations.fen.FENDecoder.loadGame;
+
 /**
  * @author Mauricio Coria
  */
 public class GameDebugEncoder {
 
-    public String encode(String initialFen, Game game) {
+    public String encode(Game game) {
         StringBuilder sb = new StringBuilder();
-
-        Game theGame = FENDecoder.loadGame(initialFen);
-
-        sb.append("Game game = getDefaultGame();\n");
-        sb.append("game\n");
-
         game.accept(new GameVisitor() {
+            private Game theGame = null;
+
             @Override
             public void visit(GameState gameState) {
+                String initialFEN = gameState.getInitialFen();
+                theGame = FENDecoder.loadGame(initialFEN);
+                sb.append("Game game = getDefaultGame(\"" + initialFEN + "\"\n");
+                sb.append("game\n");
             }
 
             @Override

@@ -10,6 +10,10 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
+ *
+ * TODO: Que pasa si deshabilitamos el filtrado de movimientos validos?
+ * De cualquier forma durante la busqueda encontrariamos que el rey puede ser capturado
+ * dado que la ulltima busqueda Quiescence explara todos los movimientos de captura posible.
  */
 public interface GameEvaluator {
     int INFINITE_POSITIVE = Integer.MAX_VALUE;

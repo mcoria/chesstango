@@ -209,7 +209,7 @@ public class Match {
     private void printMoveExecution() {
         GameDebugEncoder encoder = new GameDebugEncoder();
 
-        System.out.println(encoder.encode(fen, game));
+        System.out.println(encoder.encode(game));
     }
 
     static public int evaluateByMaterial(Game game) {

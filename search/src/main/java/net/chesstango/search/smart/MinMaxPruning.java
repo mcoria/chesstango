@@ -9,6 +9,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -37,13 +39,18 @@ public class MinMaxPruning extends AbstractSmart {
     }
 
     @Override
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        quiescence.setGameEvaluator(evaluator);
+    }
+
+    @Override
     public SearchMoveResult searchBestMove(Game game, final int depth) {
         this.keepProcessing = true;
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
+        final List<Move> possibleMoves = new ArrayList<Move>();
 
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
-        Move bestMove = null;
         boolean search = true;
 
         Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
@@ -52,36 +59,32 @@ public class MinMaxPruning extends AbstractSmart {
 
             game = game.executeMove(move);
 
-            int currentValue = minOrMax ? maximize(game, depth - 1, GameEvaluator.INFINITE_NEGATIVE, bestValue) :
+            int currentValue = minOrMax ?
+                    maximize(game, depth - 1, GameEvaluator.INFINITE_NEGATIVE, bestValue) :
                     minimize(game, depth - 1, bestValue, GameEvaluator.INFINITE_POSITIVE);
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
-                bestMove = move;
+                possibleMoves.clear();
+                possibleMoves.add(move);
                 if (minOrMax && bestValue == GameEvaluator.BLACK_WON ||             //Black wins
                         !minOrMax && bestValue == GameEvaluator.WHITE_WON) {        //White wins
                     search = false;
                 }
 
+            } else if (currentValue == bestValue) {
+                possibleMoves.add(move);
             }
 
             game = game.undoMove();
         }
 
-        if (bestMove == null && (minOrMax && bestValue == GameEvaluator.WHITE_WON || !minOrMax && bestValue == GameEvaluator.BLACK_WON)) {
-            // Seleccionamos el primer movimiento
-            for (Move move : game.getPossibleMoves()) {
-                bestMove = move;
-                break;
-            }
+        if (possibleMoves.size() == 0 &&
+                (minOrMax && bestValue == GameEvaluator.WHITE_WON || !minOrMax && bestValue == GameEvaluator.BLACK_WON)) {
+            game.getPossibleMoves().forEach(possibleMoves::add);
         }
 
-        return new SearchMoveResult(bestValue, bestMove, null);
-    }
-
-    @Override
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        quiescence.setGameEvaluator(evaluator);
+        return new SearchMoveResult(bestValue, selectMove(game.getChessPosition().getCurrentTurn(), possibleMoves), null);
     }
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {
