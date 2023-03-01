@@ -3,12 +3,10 @@ package net.chesstango.search.smart;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Mauricio Coria
@@ -31,7 +29,7 @@ public class MinMax extends AbstractSmart {
         this.keepProcessing = true;
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
-        final List<Move> possibleMoves = new ArrayList<Move>();
+        final List<Move> bestMoves = new ArrayList<Move>();
 
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
 
@@ -41,19 +39,19 @@ public class MinMax extends AbstractSmart {
             int currentEvaluation = minMax(game, !minOrMax, depth - 1);
 
             if (currentEvaluation == betterEvaluation) {
-                possibleMoves.add(move);
+                bestMoves.add(move);
             } else {
                 if (minOrMax) {
                     if (currentEvaluation < betterEvaluation) {
                         betterEvaluation = currentEvaluation;
-                        possibleMoves.clear();
-                        possibleMoves.add(move);
+                        bestMoves.clear();
+                        bestMoves.add(move);
                     }
                 } else {
                     if (currentEvaluation > betterEvaluation) {
                         betterEvaluation = currentEvaluation;
-                        possibleMoves.clear();
-                        possibleMoves.add(move);
+                        bestMoves.clear();
+                        bestMoves.add(move);
                     }
                 }
             }
@@ -61,7 +59,7 @@ public class MinMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(betterEvaluation, selectMove(game.getChessPosition().getCurrentTurn(), possibleMoves), null);
+        return new SearchMoveResult(betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
     }
 
     @Override

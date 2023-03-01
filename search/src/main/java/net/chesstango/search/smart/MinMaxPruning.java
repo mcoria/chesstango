@@ -48,7 +48,7 @@ public class MinMaxPruning extends AbstractSmart {
         this.keepProcessing = true;
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
-        final List<Move> possibleMoves = new ArrayList<Move>();
+        final List<Move> bestMoves = new ArrayList<Move>();
 
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;
@@ -65,26 +65,26 @@ public class MinMaxPruning extends AbstractSmart {
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
-                possibleMoves.clear();
-                possibleMoves.add(move);
+                bestMoves.clear();
+                bestMoves.add(move);
                 if (minOrMax && bestValue == GameEvaluator.BLACK_WON ||             //Black wins
                         !minOrMax && bestValue == GameEvaluator.WHITE_WON) {        //White wins
                     search = false;
                 }
 
             } else if (currentValue == bestValue) {
-                possibleMoves.add(move);
+                bestMoves.add(move);
             }
 
             game = game.undoMove();
         }
 
-        if (possibleMoves.size() == 0 &&
+        if (bestMoves.size() == 0 &&
                 (minOrMax && bestValue == GameEvaluator.WHITE_WON || !minOrMax && bestValue == GameEvaluator.BLACK_WON)) {
-            game.getPossibleMoves().forEach(possibleMoves::add);
+            game.getPossibleMoves().forEach(bestMoves::add);
         }
 
-        return new SearchMoveResult(bestValue, selectMove(game.getChessPosition().getCurrentTurn(), possibleMoves), null);
+        return new SearchMoveResult(bestValue, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
     }
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {

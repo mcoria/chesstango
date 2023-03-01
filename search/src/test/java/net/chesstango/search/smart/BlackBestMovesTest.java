@@ -8,6 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import org.junit.Test;
  */
 public class BlackBestMovesTest {
 
-    protected AbstractSmart bestMoveFinder = null;
+    protected SearchMove bestMoveFinder = null;
 
 
     @Before

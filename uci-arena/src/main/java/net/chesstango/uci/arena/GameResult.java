@@ -11,7 +11,6 @@ public class GameResult {
     private final Game game;
     private final EngineController engineWhite;
     private final EngineController engineBlack;
-
     private final EngineController winner;
 
     private final int points;

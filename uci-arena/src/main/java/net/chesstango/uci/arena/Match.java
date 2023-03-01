@@ -95,12 +95,14 @@ public class Match {
         return createResult();
     }
 
+
+    //TODO: cambiar el metodo para evaluar los puntos, son demasiados los puntos en caso de ganar
     private GameResult createResult() {
         int matchPoints = evaluateByMaterial(game);
         EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
-            System.out.println("DRAW (por repeticion)");
+            System.out.println("DRAW (por fold repetition)");
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
             System.out.println("DRAW (por fiftyMoveRule)");

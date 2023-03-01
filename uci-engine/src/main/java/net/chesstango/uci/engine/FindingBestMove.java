@@ -31,7 +31,7 @@ class FindingBestMove implements ZondaState {
 
     @Override
     public void do_stop() {
-        engineTango.searchMove.stopSearching();
+        engineTango.tango.stopSearching();
     }
 
     @Override
@@ -43,9 +43,9 @@ class FindingBestMove implements ZondaState {
         Move selectedMove = null;
 
         if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
-            selectedMove = engineTango.searchMove.searchBestMove(engineTango.game).getBestMove();
+            selectedMove = engineTango.tango.searchBestMove().getBestMove();
         } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-            selectedMove = engineTango.searchMove.searchBestMove(engineTango.game, cmdGo.getDepth() + 2).getBestMove();
+            selectedMove = engineTango.tango.searchBestMove(cmdGo.getDepth() + 2).getBestMove();
         } else {
             throw new RuntimeException("go subtype not implemented yet");
         }

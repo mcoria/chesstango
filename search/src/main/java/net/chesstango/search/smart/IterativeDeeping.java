@@ -1,8 +1,8 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.evaluation.DefaultGameEvaluator;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
 import java.util.ArrayList;
@@ -11,8 +11,10 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeeping extends AbstractSmart {
-    private final AbstractSmart imp;
+public class IterativeDeeping implements SearchMove {
+    protected boolean keepProcessing;
+
+    private final SearchMove imp;
 
     private final List<SearchMoveResult> bestMovesByDepth;
 
@@ -20,7 +22,7 @@ public class IterativeDeeping extends AbstractSmart {
         this(new MinMaxPruning());
     }
 
-    public IterativeDeeping(AbstractSmart minMax) {
+    public IterativeDeeping(SearchMove minMax) {
         this.imp = minMax;
         this.bestMovesByDepth = new ArrayList<>();
     }
@@ -56,7 +58,7 @@ public class IterativeDeeping extends AbstractSmart {
 
     @Override
     public void stopSearching() {
-        super.stopSearching();
+        keepProcessing = false;
         imp.stopSearching();
     }
 

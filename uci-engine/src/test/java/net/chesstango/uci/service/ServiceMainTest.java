@@ -54,14 +54,6 @@ public class ServiceMainTest {
         // isrpositioneady command
         out.println("position startpos moves e2e4");
 
-        Game game;
-        do {
-            Thread.sleep(200);
-            game = engine.getGame();
-        } while (game == null);
-
-        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", fenCode(game));
-
         // quit command
         out.println("quit");
 

@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.Game;
+import net.chesstango.engine.Tango;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEngine;
@@ -18,11 +19,10 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  */
 public class EngineTango implements UCIService {
-    protected final SearchMove searchMove;
     protected final UCIOutputStreamEngineExecutor engineExecutor;
     protected UCIOutputStream responseOutputStream;
-    protected Game game;
     protected ExecutorService executor;
+    protected Tango tango;
 
     ZondaState currentState;
 
@@ -48,6 +48,7 @@ public class EngineTango implements UCIService {
 
             @Override
             public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+                tango.newGame();
             }
 
             @Override
@@ -72,7 +73,7 @@ public class EngineTango implements UCIService {
             }
         };
 
-        this.searchMove = searchMove;
+        this.tango = createTango(searchMove);
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
     }
 
@@ -106,12 +107,12 @@ public class EngineTango implements UCIService {
         currentState = null;
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     public void setResponseOutputStream(UCIOutputStream output) {
         this.responseOutputStream = output;
+    }
+
+    protected Tango createTango(SearchMove searchMove) {
+        return new Tango(searchMove);
     }
 
 }
