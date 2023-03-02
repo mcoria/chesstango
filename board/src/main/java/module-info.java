@@ -10,4 +10,5 @@ module net.chesstango.board {
     exports net.chesstango.board.iterators;
     exports net.chesstango.board.builders;
     exports net.chesstango.board.factory;
+    exports net.chesstango.board.representations.pgn;
 }

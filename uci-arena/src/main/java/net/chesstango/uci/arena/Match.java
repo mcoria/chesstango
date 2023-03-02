@@ -4,8 +4,9 @@ import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
-import net.chesstango.board.representations.PGNEncoder;
+import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.pgn.PGNHeader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.UCIEncoder;
@@ -198,7 +199,7 @@ public class Match {
 
     private void printPGN() {
         PGNEncoder encoder = new PGNEncoder();
-        PGNEncoder.PGNHeader pgnHeader = new PGNEncoder.PGNHeader();
+        PGNHeader pgnHeader = new PGNHeader();
 
         pgnHeader.setEvent("Computer chess game");
         pgnHeader.setWhite(white.getEngineName());

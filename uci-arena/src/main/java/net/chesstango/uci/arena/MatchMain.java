@@ -28,6 +28,7 @@ public class MatchMain {
         Instant start = Instant.now();
 
         Match match = new Match(controllerTango, controllerOponente, 1);
+        match.setDebugEnabled(true);
 
         startEngines(controllerTango, controllerOponente);
 

@@ -1,4 +1,4 @@
-package net.chesstango.board.representations;
+package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
@@ -17,12 +17,12 @@ public class PGNEncoderTest {
 
     private PGNEncoder encoder;
 
-    private PGNEncoder.PGNHeader header;
+    private PGNHeader header;
 
     @Before
     public void settup(){
         encoder = new PGNEncoder();
-        header = new PGNEncoder.PGNHeader();
+        header = new PGNHeader();
 
         header.setEvent("Computer chess game");
         header.setSite("KANO-COMPUTER");
