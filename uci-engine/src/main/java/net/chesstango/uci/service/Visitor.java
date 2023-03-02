@@ -1,5 +1,6 @@
 package net.chesstango.uci.service;
 
+import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
@@ -13,4 +14,5 @@ public interface Visitor {
     void visit(EngineTango engineTango);
     void visit(EngineProxy engineProxy);
     void visit(Tango tango);
+    void visit(Session session);
 }

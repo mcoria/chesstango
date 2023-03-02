@@ -6,11 +6,13 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
+import net.chesstango.uci.service.ServiceElement;
+import net.chesstango.uci.service.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Session {
+public class Session implements ServiceElement {
     private final SearchMove searchMove;
     private String initialPosition;
     private Game currentGame;
@@ -64,5 +66,10 @@ public class Session {
 
     public List<SearchMoveResult> getMoveResultList() {
         return moveResultList;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

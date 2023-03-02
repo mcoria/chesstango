@@ -40,7 +40,7 @@ public class MatchMain {
 
         new Reports().printByEngine(controllerTango, controllerOponente, matchResult);
 
-        new Reports().printTangoStatics(engineTango);
+        new Reports().printTangoStatics(engineTango.getSessions(), false);
     }
 
     public static void startEngines(EngineController engine1, EngineController engine2) {
