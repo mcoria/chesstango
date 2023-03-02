@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
@@ -10,6 +11,7 @@ import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
 import net.chesstango.uci.service.UCIService;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -113,4 +115,7 @@ public class EngineTango implements UCIService {
         return new Tango(searchMove);
     }
 
+    public List<Session> getSessions() {
+        return tango.getSessions();
+    }
 }

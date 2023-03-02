@@ -20,27 +20,28 @@ public class MatchMain {
             "rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
 
     public static void main(String[] args) {
-        EngineController engineTango = new EngineControllerImp(new EngineTango());
-        EngineController engineOponente = new EngineControllerImp(new EngineProxy());
+        EngineTango engineTango = new EngineTango();
+        EngineController controllerTango = new EngineControllerImp(engineTango);
+        EngineController controllerOponente = new EngineControllerImp(new EngineProxy());
         //EngineControllerImp engineOponente = new EngineControllerImp(new EngineTango(new Dummy()));
 
         Instant start = Instant.now();
 
-        Match match = new Match(engineTango, engineOponente, 1);
+        Match match = new Match(controllerTango, controllerOponente, 1);
 
-        startEngines(engineTango, engineOponente);
+        startEngines(controllerTango, controllerOponente);
 
         List<GameResult> matchResult = match.play(GAMES);
 
-        quitEngines(engineTango, engineOponente);
+        quitEngines(controllerTango, controllerOponente);
 
-        Instant end = Instant.now();
-        Duration timeElapsed = Duration.between(start, end);
+        Duration timeElapsed = Duration.between(start, Instant.now());
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-        new Reports().printByEngine(engineTango, engineOponente, matchResult);
-    }
+        new Reports().printByEngine(controllerTango, controllerOponente, matchResult);
 
+        new Reports().printTangoStatics(engineTango);
+    }
 
     public static void startEngines(EngineController engine1, EngineController engine2) {
         engine1.send_CmdUci();

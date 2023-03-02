@@ -15,7 +15,7 @@ public class Session {
     private String initialPosition;
     private Game currentGame;
 
-    private List<SearchMoveResult> moveResultList = new ArrayList<>();
+    private final List<SearchMoveResult> moveResultList = new ArrayList<>();
 
     public Session(SearchMove searchMove) {
         this.searchMove = searchMove;
@@ -60,5 +60,9 @@ public class Session {
         SearchMoveResult searchBestMove = searchMove.searchBestMove(currentGame, depth);
         moveResultList.add(searchBestMove);
         return searchBestMove;
+    }
+
+    public List<SearchMoveResult> getMoveResultList() {
+        return moveResultList;
     }
 }

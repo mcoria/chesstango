@@ -50,4 +50,7 @@ public class Tango {
         searchMove.stopSearching();
     }
 
+    public List<Session> getSessions() {
+        return sessions;
+    }
 }

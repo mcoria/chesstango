@@ -21,8 +21,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Match {
-    private final EngineController engine1;
-    private final EngineController engine2;
+    private final EngineController controller1;
+    private final EngineController controller2;
     private final int depth;
 
     private EngineController white;
@@ -33,9 +33,9 @@ public class Match {
     private boolean debugEnabled;
 
 
-    public Match(EngineController engine1, EngineController engine2, int depth) {
-        this.engine1 = engine1;
-        this.engine2 = engine2;
+    public Match(EngineController controller1, EngineController controller2, int depth) {
+        this.controller1 = controller1;
+        this.controller2 = controller2;
         this.depth = depth;
     }
 
@@ -54,11 +54,11 @@ public class Match {
 
         setFen(fen);
 
-        setChairs(engine1, engine2);
+        setChairs(controller1, controller2);
 
         result.add(compete());
 
-        setChairs(engine2, engine1);
+        setChairs(controller2, controller1);
 
         result.add(compete());
 
@@ -144,7 +144,7 @@ public class Match {
     }
 
     protected void setChairs(EngineController engine1, EngineController engine2) {
-        if (engine1 != this.engine1 && engine1 != this.engine2 || engine2 != this.engine1 && engine2 != this.engine2) {
+        if (engine1 != this.controller1 && engine1 != this.controller2 || engine2 != this.controller1 && engine2 != this.controller2) {
             throw new RuntimeException("Invalid opponents");
         }
         this.white = engine1;
@@ -152,8 +152,8 @@ public class Match {
     }
 
     private void startNewGame() {
-        engine1.startNewGame();
-        engine2.startNewGame();
+        controller1.startNewGame();
+        controller2.startNewGame();
     }
 
     private String calculateBestMove(EngineController currentTurn, String fen, List<String> moves) {
