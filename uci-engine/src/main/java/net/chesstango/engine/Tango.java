@@ -2,11 +2,13 @@ package net.chesstango.engine;
 
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.uci.service.ServiceElement;
+import net.chesstango.uci.service.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tango {
+public class Tango implements ServiceElement {
 
     protected final SearchMove searchMove;
 
@@ -52,5 +54,10 @@ public class Tango {
 
     public List<Session> getSessions() {
         return sessions;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

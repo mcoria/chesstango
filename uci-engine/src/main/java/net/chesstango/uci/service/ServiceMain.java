@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @author Mauricio Coria
  */
 public class ServiceMain {
-    private final UCIService service;
+    private final Service service;
 
     private final UCIActiveStreamReader pipe;
 
@@ -36,7 +36,7 @@ public class ServiceMain {
         serviceMain.waitTermination();
     }
 
-    public ServiceMain(UCIService service, InputStream in, PrintStream out) {
+    public ServiceMain(Service service, InputStream in, PrintStream out) {
         this.service = service;
         this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
 

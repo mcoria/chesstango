@@ -9,18 +9,19 @@ import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
-import net.chesstango.uci.service.UCIService;
+import net.chesstango.uci.service.Service;
+import net.chesstango.uci.service.Visitor;
 
 /**
  * @author Mauricio Coria
  */
 public class EngineControllerImp implements EngineController {
-    private final UCIService UCIService;
+    private final Service service;
     private EngineClientState currentState;
     private String engineName;
     private String engineAuthor;
 
-    public EngineControllerImp(UCIService UCIService) {
+    public EngineControllerImp(Service service) {
         UCIGui messageExecutor = new UCIGui() {
             @Override
             public void received_uciOk(RspUciOk rspUciOk) {
@@ -43,13 +44,13 @@ public class EngineControllerImp implements EngineController {
             }
         };
 
-        this.UCIService = UCIService;
-        this.UCIService.setResponseOutputStream(new UCIOutputStreamGuiExecutor(messageExecutor));
+        this.service = service;
+        this.service.setResponseOutputStream(new UCIOutputStreamGuiExecutor(messageExecutor));
     }
 
     @Override
     public void send_CmdUci() {
-        UCIService.open();
+        service.open();
         currentState = new WaitRspUciOk();
         currentState.sendRequest(new CmdUci(), true);
     }
@@ -89,7 +90,7 @@ public class EngineControllerImp implements EngineController {
     public void send_CmdQuit() {
         currentState = new NoWaitRsp();
         currentState.sendRequest(new CmdQuit(), false);
-        UCIService.close();
+        service.close();
     }
 
     @Override
@@ -100,6 +101,12 @@ public class EngineControllerImp implements EngineController {
     @Override
     public String getEngineAuthor() {
         return engineAuthor;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+        service.accept(visitor);
     }
 
 
@@ -123,7 +130,7 @@ public class EngineControllerImp implements EngineController {
 
         @Override
         public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
-            UCIService.accept(request);
+            service.accept(request);
             if (waitResponse) {
                 try {
                     if (response == null) {

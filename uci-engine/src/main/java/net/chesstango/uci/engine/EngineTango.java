@@ -9,7 +9,8 @@ import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
-import net.chesstango.uci.service.UCIService;
+import net.chesstango.uci.service.Service;
+import net.chesstango.uci.service.Visitor;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Mauricio Coria
  */
-public class EngineTango implements UCIService {
+public class EngineTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
     protected UCIOutputStream responseOutputStream;
     protected ExecutorService executor;
@@ -80,6 +81,12 @@ public class EngineTango implements UCIService {
     @Override
     public void accept(UCIMessage message) {
         engineExecutor.accept(message);
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+        tango.accept(visitor);
     }
 
     public EngineTango enableAsync() {

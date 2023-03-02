@@ -6,7 +6,8 @@ import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringSupplierLogger;
-import net.chesstango.uci.service.UCIService;
+import net.chesstango.uci.service.Service;
+import net.chesstango.uci.service.Visitor;
 
 import java.io.*;
 import java.util.function.Supplier;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
-public class EngineProxy implements UCIService {
+public class EngineProxy implements Service {
     private Process process;
     private InputStream inputStreamProcess;
     private PrintStream outputStreamProcess;
@@ -142,5 +143,10 @@ public class EngineProxy implements UCIService {
         if (outputStreamProcess == null) {
             throw new RuntimeException("Process has not started yet");
         }
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

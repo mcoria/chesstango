@@ -3,11 +3,12 @@ package net.chesstango.uci.gui;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
+import net.chesstango.uci.service.ServiceElement;
 
 /**
  * @author Mauricio Coria
  */
-public interface EngineController {
+public interface EngineController extends ServiceElement {
 
     void send_CmdUci();
 
