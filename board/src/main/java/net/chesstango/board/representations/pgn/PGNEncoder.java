@@ -32,12 +32,11 @@ public class PGNEncoder {
         sb.append("[Result \"" + encodeGameResult(game) + "\"]\n");
         sb.append("\n");
 
-        AtomicInteger moveCounter = new AtomicInteger();
         game.accept(new GameVisitor() {
+            private int moveCounter = 0;
 
             @Override
             public void visit(GameState gameState) {
-
             }
 
             @Override
@@ -45,26 +44,25 @@ public class PGNEncoder {
                 if (gameStateData.selectedMove != null) {
                     String encodedMove = sanEncoder.encode(gameStateData.selectedMove, gameStateData.legalMoves);
 
-                    int moveCounterValue = moveCounter.get();
-                    if (moveCounterValue > 0) {
+                    if (moveCounter > 0) {
                         sb.append(encodeGameStatusAtMove(gameStateData.gameStatus));
                     }
 
-                    if (moveCounterValue > 0 && moveCounterValue % 10 == 0) {
+                    if (moveCounter > 0 && moveCounter % 10 == 0) {
                         sb.append("\n");
                     }
 
-                    if (moveCounterValue % 2 == 0) {
-                        if (moveCounterValue % 10 == 0) {
-                            sb.append((moveCounterValue / 2 + 1) + ".");
+                    if (moveCounter % 2 == 0) {
+                        if (moveCounter % 10 == 0) {
+                            sb.append((moveCounter / 2 + 1) + ".");
                         } else {
-                            sb.append(" " + (moveCounterValue / 2 + 1) + ".");
+                            sb.append(" " + (moveCounter / 2 + 1) + ".");
                         }
                     }
 
                     sb.append(" " + encodedMove);
 
-                    moveCounter.incrementAndGet();
+                    moveCounter++;
                 }
             }
         });

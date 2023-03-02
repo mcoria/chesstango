@@ -81,9 +81,9 @@ public class Match {
 
         startNewGame();
         while (game.getStatus().isInProgress()) {
-            String moveStr = calculateBestMove(currentTurn, executedMovesStr);
+            String moveStr = retrieveBestMoveFromController(currentTurn, executedMovesStr);
 
-            Move move = decodeMove(moveStr);
+            Move move = decodeMoveStr(moveStr);
 
             game.executeMove(move);
 
@@ -156,7 +156,7 @@ public class Match {
         controller2.startNewGame();
     }
 
-    private String calculateBestMove(EngineController currentTurn, List<String> moves) {
+    private String retrieveBestMoveFromController(EngineController currentTurn, List<String> moves) {
         if (FENDecoder.INITIAL_FEN.equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
@@ -168,7 +168,7 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private Move decodeMove(String bestMove) {
+    private Move decodeMoveStr(String bestMove) {
         UCIEncoder uciEncoder = new UCIEncoder();
         for (Move move : game.getPossibleMoves()) {
             String encodedMoveStr = uciEncoder.encode(move);
