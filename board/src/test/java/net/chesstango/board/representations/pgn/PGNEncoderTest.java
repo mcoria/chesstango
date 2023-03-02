@@ -17,12 +17,12 @@ public class PGNEncoderTest {
 
     private PGNEncoder encoder;
 
-    private PGNHeader header;
+    private PGNGame.PGNHeader header;
 
     @Before
     public void settup(){
         encoder = new PGNEncoder();
-        header = new PGNHeader();
+        header = new PGNGame.PGNHeader();
 
         header.setEvent("Computer chess game");
         header.setSite("KANO-COMPUTER");

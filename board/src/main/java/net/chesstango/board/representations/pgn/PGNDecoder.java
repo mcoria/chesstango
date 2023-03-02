@@ -2,7 +2,6 @@ package net.chesstango.board.representations.pgn;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,7 +23,7 @@ public class PGNDecoder {
     }
 
     public PGNGame decodeGame(BufferedReader bufferReader) throws IOException {
-        PGNHeader header = decodeHeader(bufferReader);
+        PGNGame.PGNHeader header = decodeHeader(bufferReader);
         if(header == null){
             return null;
         }
@@ -32,8 +31,8 @@ public class PGNDecoder {
         return new PGNGame(header, moveList);
     }
 
-    public PGNHeader decodeHeader(BufferedReader bufferReader) throws IOException {
-        PGNHeader result = new PGNHeader();
+    public PGNGame.PGNHeader decodeHeader(BufferedReader bufferReader) throws IOException {
+        PGNGame.PGNHeader result = new PGNGame.PGNHeader();
         String line;
         while ((line = bufferReader.readLine()) != null) {
             if ("".equals(line.trim())) {

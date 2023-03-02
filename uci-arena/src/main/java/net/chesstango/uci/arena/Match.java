@@ -6,7 +6,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.pgn.PGNHeader;
+import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.UCIEncoder;
@@ -25,7 +25,6 @@ public class Match {
     private final EngineController controller1;
     private final EngineController controller2;
     private final int depth;
-
     private EngineController white;
     private EngineController black;
     private String fen;
@@ -82,9 +81,9 @@ public class Match {
 
         startNewGame();
         while (game.getStatus().isInProgress()) {
-            String moveStr = calculateBestMove(currentTurn, fen, executedMovesStr);
+            String moveStr = calculateBestMove(currentTurn, executedMovesStr);
 
-            Move move = decodeMove(fen, game, moveStr, white, black);
+            Move move = decodeMove(moveStr);
 
             game.executeMove(move);
 
@@ -157,7 +156,7 @@ public class Match {
         controller2.startNewGame();
     }
 
-    private String calculateBestMove(EngineController currentTurn, String fen, List<String> moves) {
+    private String calculateBestMove(EngineController currentTurn, List<String> moves) {
         if (FENDecoder.INITIAL_FEN.equals(fen)) {
             currentTurn.send_CmdPosition(new CmdPosition(moves));
         } else {
@@ -169,7 +168,7 @@ public class Match {
         return bestMove.getBestMove();
     }
 
-    private Move decodeMove(String fen, Game game, String bestMove, EngineController white, EngineController black) {
+    private Move decodeMove(String bestMove) {
         UCIEncoder uciEncoder = new UCIEncoder();
         for (Move move : game.getPossibleMoves()) {
             String encodedMoveStr = uciEncoder.encode(move);
@@ -199,7 +198,7 @@ public class Match {
 
     private void printPGN() {
         PGNEncoder encoder = new PGNEncoder();
-        PGNHeader pgnHeader = new PGNHeader();
+        PGNGame.PGNHeader pgnHeader = new PGNGame.PGNHeader();
 
         pgnHeader.setEvent("Computer chess game");
         pgnHeader.setWhite(white.getEngineName());

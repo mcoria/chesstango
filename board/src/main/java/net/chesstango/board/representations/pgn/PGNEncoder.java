@@ -17,15 +17,15 @@ public class PGNEncoder {
 
     private SANEncoder sanEncoder = new SANEncoder();
 
-    public String encode(PGNHeader header, Game game) {
+    public String encode(PGNGame.PGNHeader header, Game game) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("[Event \"" + header.getEvent() + "\"]\n");
         sb.append("[Site \"" + (header.getSite() == null ? getComputerName() : header.getSite()) + "\"]\n");
         sb.append("[Date \"" + (header.getDate() == null ? getToday() : header.getDate()) + "\"]\n");
         sb.append("[Round \"" + (header.getRound() == null ? "?" : header.getRound()) + "\"]\n");
-        sb.append("[White \"" + header.getWhite() + "\"]\n");
-        sb.append("[Black \"" + header.getBlack() + "\"]\n");
+        sb.append("[White \"" + (header.getWhite() == null ? "X" : header.getWhite()) + "\"]\n");
+        sb.append("[Black \"" + (header.getBlack() == null ? "X" : header.getBlack()) + "\"]\n");
         if (header.getFen() != null && !Objects.equals(FENDecoder.INITIAL_FEN, header.getFen())) {
             sb.append("[FEN \"" + header.getFen() + "\"]\n");
         }

@@ -87,7 +87,7 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNHeader header = decoder.decodeHeader(bufferReader);
+        PGNGame.PGNHeader header = decoder.decodeHeader(bufferReader);
 
         Assert.assertEquals("Computer chess game", header.getEvent());
         Assert.assertEquals("KANO-LENOVO", header.getSite());
@@ -120,7 +120,7 @@ public class PGNDecoderTest {
 
         PGNGame game = decoder.decodeGame(bufferReader);
 
-        PGNHeader header = game.getHeader();
+        PGNGame.PGNHeader header = game.getHeader();
         Assert.assertEquals("Balsa - Top 10", header.getEvent());
         Assert.assertEquals("KANO-LENOVO", header.getSite());
         Assert.assertEquals("2023.03.02", header.getDate());
