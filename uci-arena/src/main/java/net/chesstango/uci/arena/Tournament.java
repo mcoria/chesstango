@@ -11,12 +11,10 @@ import java.util.List;
 public class Tournament {
     private final EngineController primaryEngine;
     private final List<EngineController> engineControllerList;
-    private final List<String> fenList;
 
-    public Tournament(EngineController primaryEngine, List<EngineController> engineControllerList, List<String> fenList) {
+    public Tournament(EngineController primaryEngine, List<EngineController> engineControllerList) {
         this.primaryEngine = primaryEngine;
         this.engineControllerList = engineControllerList;
-        this.fenList = fenList;
     }
 
     public List<GameResult> play(List<String> fenList) {

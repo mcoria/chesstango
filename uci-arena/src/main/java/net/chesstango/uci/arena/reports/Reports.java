@@ -13,24 +13,30 @@ import java.util.stream.Collectors;
 public class Reports {
 
     public void printByEngine(EngineController engine1, EngineController engine2, List<GameResult> matchResult) {
+
+        System.out.printf(" __________________________________________________________________________________________________________________\n");
+        System.out.printf("|ENGINE NAME|WHITE WON|WHITE LOST|WHITE DRAW|BLACK WON|BLACK LOST|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|\n");
         printByEngine(engine1, matchResult);
         printByEngine(engine2, matchResult);
+        System.out.printf(" ------------------------------------------------------------------------------------------------------------------\n");
     }
 
     public void printByEngine(EngineController engine, List<GameResult> matchResult) {
-        long puntosAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine).mapToLong(result -> result.getPoints()).sum();
         long wonAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineWhite()).count();
         long lostAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineBlack()).count();
         long drawsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == null).count();
+        double puntosAsWhite = wonAsWhite + 0.5 * drawsAsWhite;
 
-        long puntosAsBlack = (-1) * matchResult.stream().filter(result -> result.getEngineBlack() == engine).mapToLong(result -> result.getPoints()).sum();
         long wonAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineBlack()).count();
         long lostAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineWhite()).count();
         long drawsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == null).count();
+        double puntosAsBlack = wonAsBlack + 0.5 * drawsAsBlack;
 
-        long puntosTotal = puntosAsWhite + puntosAsBlack;
+        long playedGames = matchResult.stream().filter(result -> result.getEngineWhite() == engine || result.getEngineBlack() == engine).count();
 
-        System.out.printf("%s as white = %d (%d won, %d lost, %d draws), as black = %d (%d won, %d lost, %d draws), total = %d\n", engine.getEngineName(), puntosAsWhite, wonAsWhite, lostAsWhite, drawsAsWhite, puntosAsBlack, wonAsBlack, lostAsBlack, drawsAsBlack, puntosTotal);
+        double puntosTotal = puntosAsWhite + puntosAsBlack;
+
+        System.out.printf("|%11s|%9d|%10d|%10d|%9d|%10d|%10d|%12.1f|%12.1f|%6.1f /%3d |\n", engine.getEngineName(), wonAsWhite, lostAsWhite, drawsAsWhite, wonAsBlack, lostAsBlack, drawsAsBlack, puntosAsWhite, puntosAsBlack, puntosTotal, playedGames);
 
         /*
         System.out.println("Won as White:");
