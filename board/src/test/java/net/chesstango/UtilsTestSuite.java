@@ -10,6 +10,7 @@ import net.chesstango.board.representations.ascii.ASCIIEncoderTest;
 import net.chesstango.board.representations.fen.FENDecoderTest;
 import net.chesstango.board.representations.fen.FENEncoderTest;
 import net.chesstango.board.representations.fen.FENIntegrationTest;
+import net.chesstango.board.representations.pgn.PGNGameTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -19,7 +20,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class,
-        SANEncoderTest.class, PGNEncoderTest.class, PGNDecoderTest.class})
+        SANEncoderTest.class, PGNEncoderTest.class, PGNDecoderTest.class, PGNGameTest.class})
 public class UtilsTestSuite {
 
 }

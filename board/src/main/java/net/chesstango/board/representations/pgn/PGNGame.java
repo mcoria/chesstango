@@ -1,10 +1,14 @@
 package net.chesstango.board.representations.pgn;
 
 import net.chesstango.board.*;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.SANEncoder;
+import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PGNGame {
     private String event;
@@ -91,6 +95,31 @@ public class PGNGame {
         this.moveList = moveList;
     }
 
+
+    public Game buildGame(){
+        Game game = FENDecoder.loadGame(this.fen == null ? FENDecoder.INITIAL_FEN : this.fen );
+
+        SANEncoder sanEncoder = new SANEncoder();
+        moveList.forEach( moveStr -> {
+            MoveContainerReader legalMoves = game.getPossibleMoves();
+            Move legalMoveToExecute = null;
+            for (Move legalMove:
+                legalMoves) {
+                String encodedLegalMoveStr = sanEncoder.encode(legalMove, legalMoves);
+                if(Objects.equals(moveStr, encodedLegalMoveStr)){
+                    legalMoveToExecute = legalMove;
+                    break;
+                }
+            }
+            if(legalMoveToExecute != null) {
+                game.executeMove(legalMoveToExecute);
+            } else {
+                throw new RuntimeException(moveStr + " is not in the list of legal moves");
+            }
+        });
+
+        return game;
+    }
 
 
     public static PGNGame createFromGame(Game game){

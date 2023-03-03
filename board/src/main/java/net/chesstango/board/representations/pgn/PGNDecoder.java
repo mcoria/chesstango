@@ -13,7 +13,16 @@ public class PGNDecoder {
 
     private Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
 
-    private Pattern moveListPattern = Pattern.compile("\\d+.\\s?([^.]+)\\s", Pattern.MULTILINE);
+    /**
+     * <SAN move descriptor piece moves>   ::= <Piece symbol>[<from file>|<from rank>|<from square>]['x']<to square>
+     * <SAN move descriptor pawn captures> ::= 			      <from file>[<from rank>]               'x' <to square>[<promoted to>]
+     * <SAN move descriptor pawn push>     ::= 														     <to square>[<promoted to>]
+     */
+    private Pattern movePattern = Pattern.compile("([RNBQK]([a-h]|[1-8]|[a-h][1-8])?x?[a-h][1-8]|" +
+                                                        "[a-h][1-8]?x[a-h][1-8][RNBQ]?|" +
+                                                        "[a-h][1-8][RNBQ]?|" +
+                                                        "O-O-O|O-O)"
+    );
 
     public List<PGNGame> decodeGames(BufferedReader bufferReader) throws IOException {
         List<PGNGame> result = new ArrayList<>();
@@ -42,28 +51,31 @@ public class PGNDecoder {
             }
             Matcher headerMather = headerPattern.matcher(line);
             if (headerMather.find()) {
-                String headerName = headerMather.group(1);
+                String headerName = headerMather.group(1).toUpperCase();
                 String headerText = headerMather.group(2);
                 switch (headerName) {
-                    case "Event":
+                    case "EVENT":
                         result.setEvent(headerText);
                         break;
-                    case "Site":
+                    case "SITE":
                         result.setSite(headerText);
                         break;
-                    case "Date":
+                    case "DATE":
                         result.setDate(headerText);
                         break;
-                    case "Round":
+                    case "ROUND":
                         result.setRound(headerText);
                         break;
-                    case "White":
+                    case "WHITE":
                         result.setWhite(headerText);
                         break;
-                    case "Black":
+                    case "BLACK":
                         result.setBlack(headerText);
                         break;
-                    case "Result":
+                    case "FEN":
+                        result.setFen(headerText);
+                        break;
+                    case "RESULT":
                         result.setResult(headerText);
                         break;
                 }
@@ -83,14 +95,15 @@ public class PGNDecoder {
                 break;
             }
             stringBuilder.append(line.trim());
+            stringBuilder.append(" ");
         }
-        ;
+
         return decodeMovesList(stringBuilder.toString());
     }
 
     public List<String> decodeMovesList(String moveListStr) {
         List<String> result = new ArrayList<>();
-        final Matcher matcher = moveListPattern.matcher(moveListStr);
+        final Matcher matcher = movePattern.matcher(moveListStr);
         while (matcher.find()) {
             String moveStr = matcher.group(1);
             result.add(moveStr);
