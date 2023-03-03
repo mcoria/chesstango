@@ -87,15 +87,15 @@ public class PGNDecoderTest {
 
         BufferedReader bufferReader = new BufferedReader(reader);
 
-        PGNGame.PGNHeader header = decoder.decodeHeader(bufferReader);
+        PGNGame pgnGame = decoder.decodeHeader(bufferReader);
 
-        Assert.assertEquals("Computer chess game", header.getEvent());
-        Assert.assertEquals("KANO-LENOVO", header.getSite());
-        Assert.assertEquals("2023.03.02", header.getDate());
-        Assert.assertEquals("10", header.getRound());
-        Assert.assertEquals("Tango", header.getWhite());
-        Assert.assertEquals("Chacarera", header.getBlack());
-        Assert.assertEquals("1/2-1/2", header.getResult());
+        Assert.assertEquals("Computer chess game", pgnGame.getEvent());
+        Assert.assertEquals("KANO-LENOVO", pgnGame.getSite());
+        Assert.assertEquals("2023.03.02", pgnGame.getDate());
+        Assert.assertEquals("10", pgnGame.getRound());
+        Assert.assertEquals("Tango", pgnGame.getWhite());
+        Assert.assertEquals("Chacarera", pgnGame.getBlack());
+        Assert.assertEquals("1/2-1/2", pgnGame.getResult());
     }
 
     @Test
@@ -120,14 +120,13 @@ public class PGNDecoderTest {
 
         PGNGame game = decoder.decodeGame(bufferReader);
 
-        PGNGame.PGNHeader header = game.getHeader();
-        Assert.assertEquals("Balsa - Top 10", header.getEvent());
-        Assert.assertEquals("KANO-LENOVO", header.getSite());
-        Assert.assertEquals("2023.03.02", header.getDate());
-        Assert.assertEquals("10", header.getRound());
-        Assert.assertEquals("Tango", header.getWhite());
-        Assert.assertEquals("Chacarera", header.getBlack());
-        Assert.assertEquals("1/2-1/2", header.getResult());
+        Assert.assertEquals("Balsa - Top 10", game.getEvent());
+        Assert.assertEquals("KANO-LENOVO", game.getSite());
+        Assert.assertEquals("2023.03.02", game.getDate());
+        Assert.assertEquals("10", game.getRound());
+        Assert.assertEquals("Tango", game.getWhite());
+        Assert.assertEquals("Chacarera", game.getBlack());
+        Assert.assertEquals("1/2-1/2", game.getResult());
 
         List<String> moves = game.getMoveList();
         Assert.assertEquals("e4 c6", moves.get(0));
@@ -147,11 +146,11 @@ public class PGNDecoderTest {
         Assert.assertEquals(10, games.size());
 
         // 1st Game
-        Assert.assertEquals("Balsa - Top 10", games.get(0).getHeader().getEvent());
+        Assert.assertEquals("Balsa - Top 10", games.get(0).getEvent());
         Assert.assertEquals("Be2", games.get(0).getMoveList().get(5));
 
         // 10th Game
-        Assert.assertEquals("13", games.get(9).getHeader().getRound());
+        Assert.assertEquals("13", games.get(9).getRound());
         Assert.assertEquals("Bd2", games.get(9).getMoveList().get(5));
     }
 }

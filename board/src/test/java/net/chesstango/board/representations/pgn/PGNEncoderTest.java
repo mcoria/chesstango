@@ -17,19 +17,9 @@ public class PGNEncoderTest {
 
     private PGNEncoder encoder;
 
-    private PGNGame.PGNHeader header;
-
     @Before
     public void settup(){
         encoder = new PGNEncoder();
-        header = new PGNGame.PGNHeader();
-
-        header.setEvent("Computer chess game");
-        header.setSite("KANO-COMPUTER");
-        header.setDate("2022.06.17");
-        header.setRound("?");
-        header.setWhite("mauricio");
-        header.setBlack("opponent");
     }
 
     @Test
@@ -40,6 +30,9 @@ public class PGNEncoderTest {
                 .executeMove(Square.d7, Square.d5)
                 .executeMove(Square.g1, Square.f3)
                 .executeMove(Square.d5, Square.e4);
+
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        overrideHeaders(pgnGame);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
                         "[Site \"KANO-COMPUTER\"]\n" +
@@ -52,7 +45,7 @@ public class PGNEncoderTest {
                         "1. e4 d5 2. Nf3 dxe4 *";
 
 
-        String encodedGame = encoder.encode(header, game);
+        String encodedGame = encoder.encode(pgnGame);
 
         Assert.assertEquals(expectedResult, encodedGame);
     }
@@ -60,7 +53,7 @@ public class PGNEncoderTest {
 
 
     @Test
-    public void test_checkmate(){
+    public void test_check_mate(){
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         game.executeMove(Square.e2, Square.e4)
@@ -70,6 +63,9 @@ public class PGNEncoderTest {
         .executeMove(Square.d1, Square.f3)
         .executeMove(Square.f8, Square.c5)
         .executeMove(Square.f3, Square.f7);
+
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        overrideHeaders(pgnGame);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
                 "[Site \"KANO-COMPUTER\"]\n" +
@@ -82,7 +78,7 @@ public class PGNEncoderTest {
                 "1. e4 e5 2. Bc4 Nc6 3. Qf3 Bc5 4. Qxf7# 1-0";
 
 
-        String encodedGame = encoder.encode(header, game);
+        String encodedGame = encoder.encode(pgnGame);
 
         Assert.assertEquals(expectedResult, encodedGame);
     }
@@ -90,8 +86,10 @@ public class PGNEncoderTest {
     @Test
     public void test_draw(){
         Game game =  FENDecoder.loadGame("k7/7Q/K7/8/8/8/8/8 w - - 0 1");
-
         game.executeMove(Square.h7, Square.c7);
+
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        overrideHeaders(pgnGame);
 
         String expectedResult = "[Event \"Computer chess game\"]\n" +
                 "[Site \"KANO-COMPUTER\"]\n" +
@@ -104,7 +102,7 @@ public class PGNEncoderTest {
                 "1. Qc7 1/2-1/2";
 
 
-        String encodedGame = encoder.encode(header, game);
+        String encodedGame = encoder.encode(pgnGame);
 
         Assert.assertEquals(expectedResult, encodedGame);
     }
@@ -119,6 +117,9 @@ public class PGNEncoderTest {
         game.executeMove(Square.b8, Square.a8);
         game.executeMove(Square.d6, Square.c7);
 
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        overrideHeaders(pgnGame);
+
         String expectedResult = "[Event \"Computer chess game\"]\n" +
                 "[Site \"KANO-COMPUTER\"]\n" +
                 "[Date \"2022.06.17\"]\n" +
@@ -130,9 +131,18 @@ public class PGNEncoderTest {
                 "1. Qc6+ Kb8 2. Qd6+ Ka8 3. Qc7 1/2-1/2";
 
 
-        String encodedGame = encoder.encode(header, game);
+        String encodedGame = encoder.encode(pgnGame);
 
         Assert.assertEquals(expectedResult, encodedGame);
+    }
+
+    public void overrideHeaders(PGNGame pgnGame){
+        pgnGame.setEvent("Computer chess game");
+        pgnGame.setSite("KANO-COMPUTER");
+        pgnGame.setDate("2022.06.17");
+        pgnGame.setRound("?");
+        pgnGame.setWhite("mauricio");
+        pgnGame.setBlack("opponent");
     }
 
 }

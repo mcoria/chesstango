@@ -1,5 +1,7 @@
 package net.chesstango.board.representations.pgn;
 
+import net.chesstango.board.GameStatus;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,16 +25,16 @@ public class PGNDecoder {
     }
 
     public PGNGame decodeGame(BufferedReader bufferReader) throws IOException {
-        PGNGame.PGNHeader header = decodeHeader(bufferReader);
-        if(header == null){
+        PGNGame pgnGame = decodeHeader(bufferReader);
+        if(pgnGame == null){
             return null;
         }
-        List<String> moveList = decodeMovesList(bufferReader);
-        return new PGNGame(header, moveList);
+        pgnGame.setMoveList(decodeMovesList(bufferReader));
+        return pgnGame;
     }
 
-    public PGNGame.PGNHeader decodeHeader(BufferedReader bufferReader) throws IOException {
-        PGNGame.PGNHeader result = new PGNGame.PGNHeader();
+    public PGNGame decodeHeader(BufferedReader bufferReader) throws IOException {
+        PGNGame result = new PGNGame();
         String line;
         while ((line = bufferReader.readLine()) != null) {
             if ("".equals(line.trim())) {
@@ -95,4 +97,5 @@ public class PGNDecoder {
         }
         return result;
     }
+
 }

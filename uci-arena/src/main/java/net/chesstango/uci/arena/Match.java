@@ -198,14 +198,14 @@ public class Match {
 
     private void printPGN() {
         PGNEncoder encoder = new PGNEncoder();
-        PGNGame.PGNHeader pgnHeader = new PGNGame.PGNHeader();
+        PGNGame pgnGame = PGNGame.createFromGame(game);
 
-        pgnHeader.setEvent("Computer chess game");
-        pgnHeader.setWhite(white.getEngineName());
-        pgnHeader.setBlack(black.getEngineName());
-        pgnHeader.setFen(fen);
+        pgnGame.setEvent("Computer chess game");
+        pgnGame.setWhite(white.getEngineName());
+        pgnGame.setBlack(black.getEngineName());
+        pgnGame.setFen(fen);
 
-        System.out.println(encoder.encode(pgnHeader, game));
+        System.out.println(encoder.encode(pgnGame));
     }
 
     private void printMoveExecution() {
