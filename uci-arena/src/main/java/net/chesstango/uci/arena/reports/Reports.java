@@ -7,6 +7,8 @@ import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Reports {
 
@@ -39,7 +41,14 @@ public class Reports {
 
     private ReportRowModel createRowModelMultipleEngine(List<EngineController> mainControllers, List<GameResult> matchResult) {
         ReportRowModel row = new ReportRowModel();
-        row.engineName = "Grouped";
+
+        String engineName = "UNKNOWN";
+        Set<String> engineNames = mainControllers.stream().map(EngineController::getEngineName).collect(Collectors.toSet());
+        if(engineNames.size() == 1){
+            engineName =  engineNames.stream().findAny().get();
+        }
+        row.engineName = engineName;
+
         row.wonAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == result.getEngineWhite()).count();
         row.drawsAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == null).count();
         row.puntosAsWhite = row.wonAsWhite + 0.5 * row.drawsAsWhite;
@@ -78,13 +87,13 @@ public class Reports {
 
     private void printReport(List<ReportRowModel> reportRows) {
 
-        System.out.printf(" _____________________________________________________________________________________________________________\n");
+        System.out.printf(" ____________________________________________________________________________________________________________\n");
         System.out.printf("|ENGINE NAME         |WHITE WON|BLACK WON|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
         reportRows.forEach(row -> {
-            System.out.printf("|%20s|%9d|%9d|%10d|%10d|%12.1f|%12.1f|%6.1f /%3d | %4.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
+            System.out.printf("|%20s|%8d |%8d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %4.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
         });
 
-        System.out.printf(" -------------------------------------------------------------------------------------------------------------\n");
+        System.out.printf(" ------------------------------------------------------------------------------------------------------------\n");
     }
 
 

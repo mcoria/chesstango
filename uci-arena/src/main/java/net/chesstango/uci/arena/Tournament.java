@@ -5,33 +5,59 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  */
 public class Tournament {
-    private final EngineControllerFactory controllerFactory;
     private final List<EngineController> engineControllerList;
+    private final GenericObjectPool<EngineController> pool;
+
 
     public Tournament(EngineControllerFactory controllerFactory, List<EngineController> engineControllerList) {
-        this.controllerFactory = controllerFactory;
         this.engineControllerList = engineControllerList;
+        this.pool = new GenericObjectPool<>(controllerFactory);
     }
 
     public List<GameResult> play(List<String> fenList) {
-        GenericObjectPool<EngineController> pool = new GenericObjectPool<>(controllerFactory);
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+
         List<GameResult> matchResults = new ArrayList<>();
+
         for (EngineController engineController : engineControllerList) {
-            try {
-                EngineController primaryEngine = pool.borrowObject();
-                Match match = new Match(primaryEngine, engineController, 1);
-                matchResults.addAll(match.play(fenList));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            executor.submit(()->play(fenList, engineController, matchResults));
         }
+
+        executor.shutdown();
+
+        try {
+            while (executor.awaitTermination(1, TimeUnit.SECONDS) == false);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         pool.close();
+
         return matchResults;
+    }
+
+    private List<GameResult> play(List<String> fenList, EngineController engineController, List<GameResult> matchResults) throws Exception {
+        EngineController primaryEngine = pool.borrowObject();
+
+        Match match = new Match(primaryEngine, engineController, 1);
+
+        List<GameResult> thisMatchResults = match.play(fenList);
+
+        synchronized (matchResults){
+            matchResults.addAll(thisMatchResults);
+        }
+
+        pool.returnObject(primaryEngine);
+
+        return thisMatchResults;
     }
 
 }
