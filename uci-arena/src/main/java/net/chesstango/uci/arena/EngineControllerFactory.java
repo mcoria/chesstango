@@ -2,7 +2,6 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
-import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.service.Service;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
@@ -15,12 +14,12 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
-public class EngineControllerProxyFactory extends BasePooledObjectFactory<EngineController> {
+public class EngineControllerFactory extends BasePooledObjectFactory<EngineController> {
     private final Supplier<Service> fnCreateService;
 
     private final List<EngineController> engineControllers = new ArrayList<>();
 
-    public EngineControllerProxyFactory(Supplier<Service> fnCreateService) {
+    public EngineControllerFactory(Supplier<Service> fnCreateService) {
         this.fnCreateService = fnCreateService;
     }
 
@@ -28,13 +27,13 @@ public class EngineControllerProxyFactory extends BasePooledObjectFactory<Engine
     public EngineController create() {
         Service coreEngineProxy = fnCreateService.get();
 
-        EngineController engineProxy = new EngineControllerImp(coreEngineProxy);
+        EngineController controller = new EngineControllerImp(coreEngineProxy);
 
-        engineProxy.startEngine();
+        controller.startEngine();
 
-        engineControllers.add(engineProxy);
+        engineControllers.add(controller);
 
-        return engineProxy;
+        return controller;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.proxy.EngineProxy;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.ArrayList;
@@ -11,10 +10,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Tournament {
-    private final EngineControllerProxyFactory controllerFactory;
+    private final EngineControllerFactory controllerFactory;
     private final List<EngineController> engineControllerList;
 
-    public Tournament(EngineControllerProxyFactory controllerFactory, List<EngineController> engineControllerList) {
+    public Tournament(EngineControllerFactory controllerFactory, List<EngineController> engineControllerList) {
         this.controllerFactory = controllerFactory;
         this.engineControllerList = engineControllerList;
     }

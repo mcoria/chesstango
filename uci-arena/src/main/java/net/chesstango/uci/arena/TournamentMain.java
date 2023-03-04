@@ -11,12 +11,10 @@ import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
-import net.chesstango.uci.service.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class TournamentMain {
     public static void main(String[] args) {
         List<EngineController> opponents = createOpponents();
 
-        EngineControllerProxyFactory factory = new EngineControllerProxyFactory(EngineProxy::new);
+        EngineControllerFactory factory = new EngineControllerFactory(EngineProxy::new);
 
         Tournament tournament = new Tournament(factory, opponents);
 
@@ -41,7 +39,7 @@ public class TournamentMain {
 
         List<EngineController> mainControllers = factory.getEngineControllers();
         
-        new Reports().printByEngineAndGroup(mainControllers, opponents, matchResult);
+        new Reports().printReport(mainControllers, opponents, matchResult);
     }
 
     private static List<EngineController> createOpponents() {

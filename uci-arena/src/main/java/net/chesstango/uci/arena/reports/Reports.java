@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Reports {
 
-    private class ReportModel {
+    private class ReportRowModel {
         public String engineName;
         public long wonAsWhite;
         public long wonAsBlack;
@@ -23,19 +23,41 @@ public class Reports {
         public double winPercentage;
     }
 
-    public void printByEngineAndGroup(List<EngineController> mainControllers, List<EngineController> opponents, List<GameResult> matchResult) {
-
-    }
-
-    public void createModelRow(EngineController engine1, List<EngineController> engines, List<GameResult> matchResult) {
-        List<ReportModel> rows = new ArrayList<>();
-        rows.add(createModelRow(engine1, matchResult));
-        engines.forEach(engine -> rows.add(createModelRow(engine, matchResult)));
+    public void printReport(List<EngineController> mainControllers, List<EngineController> opponents, List<GameResult> matchResult) {
+        List<ReportRowModel> rows = new ArrayList<>();
+        rows.add( createRowModelMultipleEngine(mainControllers, matchResult) );
+        opponents.forEach(engine -> rows.add(createRowModelSingleEngine(engine, matchResult)));
         printReport(rows);
     }
 
-    private ReportModel createModelRow(EngineController engine, List<GameResult> matchResult) {
-        ReportModel row = new ReportModel();
+
+    public void printReport(List<EngineController> engines, List<GameResult> matchResult) {
+        List<ReportRowModel> rows = new ArrayList<>();
+        engines.forEach(engine -> rows.add(createRowModelSingleEngine(engine, matchResult)));
+        printReport(rows);
+    }
+
+    private ReportRowModel createRowModelMultipleEngine(List<EngineController> mainControllers, List<GameResult> matchResult) {
+        ReportRowModel row = new ReportRowModel();
+        row.engineName = "Grouped";
+        row.wonAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == result.getEngineWhite()).count();
+        row.drawsAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == null).count();
+        row.puntosAsWhite = row.wonAsWhite + 0.5 * row.drawsAsWhite;
+
+        row.wonAsBlack = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineBlack()) && result.getWinner() == result.getEngineBlack()).count();
+        row.drawsAsBlack = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineBlack()) && result.getWinner() == null).count();
+        row.puntosAsBlack = row.wonAsBlack + 0.5 * row.drawsAsBlack;
+
+        row.puntosTotal = row.puntosAsWhite + row.puntosAsBlack;
+        row.playedGames = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) || mainControllers.contains(result.getEngineBlack())).count();
+
+        row.winPercentage = (row.puntosTotal / row.playedGames) * 100;
+
+        return row;
+    }
+
+    protected ReportRowModel createRowModelSingleEngine(EngineController engine, List<GameResult> matchResult) {
+        ReportRowModel row = new ReportRowModel();
         row.engineName = engine.getEngineName();
         row.wonAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineWhite()).count();
         row.drawsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == null).count();
@@ -54,7 +76,7 @@ public class Reports {
     }
 
 
-    private void printReport(List<ReportModel> reportRows) {
+    private void printReport(List<ReportRowModel> reportRows) {
 
         System.out.printf(" _____________________________________________________________________________________________________________\n");
         System.out.printf("|ENGINE NAME         |WHITE WON|BLACK WON|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
