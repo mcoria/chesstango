@@ -1,5 +1,10 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.imp.GameEvaluatorBasic;
+import net.chesstango.search.DefaultSearchMove;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.arena.reports.Reports;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -26,14 +31,13 @@ public class MatchMain {
             "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6");
 
     public static void main(String[] args) {
-        EngineTango engineTango = new EngineTango();
-        EngineController controllerTango = new EngineControllerImp(engineTango);
-        EngineController controllerOponente = new EngineControllerImp(new EngineProxy());
-        //EngineControllerImp engineOponente = new EngineControllerImp(new EngineTango(new Dummy()));
+        //EngineController controllerTango = new EngineControllerImp(new EngineTango(new Dummy()).enableAsync());
+        EngineController controllerTango = new EngineControllerImp(new EngineTango());
+        EngineController controllerOponente = new EngineControllerImp(new EngineProxy().setLogging(false));
 
         Instant start = Instant.now();
 
-        Match match = new Match(controllerTango, controllerOponente, 1);
+        Match match = new Match(controllerTango, controllerOponente, 4);
         //match.setDebugEnabled(true);
 
         startEngines(controllerTango, controllerOponente);

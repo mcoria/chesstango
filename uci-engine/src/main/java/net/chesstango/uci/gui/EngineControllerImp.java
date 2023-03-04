@@ -76,8 +76,7 @@ public class EngineControllerImp implements EngineController {
     @Override
     public RspBestMove send_CmdGo(CmdGo cmdGo) {
         currentState = new WaitRspBestMove();
-        currentState.sendRequest(cmdGo, true);
-        return (RspBestMove) currentState.getResponse();
+        return (RspBestMove) currentState.sendRequest(cmdGo, true);
     }
 
     @Override
@@ -119,37 +118,39 @@ public class EngineControllerImp implements EngineController {
 
         void received_id(RspId rspId);
 
-        void sendRequest(UCIRequest request, boolean waitResponse);
-
-        UCIResponse getResponse();
+        UCIResponse sendRequest(UCIRequest request, boolean waitResponse);
     }
 
     private abstract class RspAbstract implements EngineClientState {
-
         private UCIResponse response;
 
         @Override
-        public synchronized void sendRequest(UCIRequest request, boolean waitResponse) {
+        public synchronized UCIResponse sendRequest(UCIRequest request, boolean waitResponse) {
+            this.response = null;
             service.accept(request);
             if (waitResponse) {
                 try {
-                    if (response == null) {
-                        wait();
+                    int waitingCounter = 0;
+                    while (response == null) {
+                        wait(1000);
+                        if (response == null) {
+                            //TODO: aca deberiamos validar si el engine sigue vivo
+                            if (waitingCounter == 10) {
+                                throw new RuntimeException("Perhaps engine has closed its output");
+                            }
+                        }
+                        waitingCounter++;
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
+            return response;
         }
 
         protected synchronized void responseReceived(UCIResponse response) {
             this.response = response;
             notifyAll();
-        }
-
-        @Override
-        public UCIResponse getResponse() {
-            return response;
         }
     }
 

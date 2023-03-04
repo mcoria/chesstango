@@ -24,7 +24,7 @@ public class EngineProxy implements Service {
 
     private UCIActiveStreamReader pipe;
 
-    private Thread processingThread;
+    private Thread readingPipeThread;
     private boolean logging;
 
 
@@ -52,8 +52,8 @@ public class EngineProxy implements Service {
     @Override
     public void open() {
         startProcess();
-        processingThread = new Thread(pipe::read);
-        processingThread.start();
+        readingPipeThread = new Thread(this::readFromPipe);
+        readingPipeThread.start();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EngineProxy implements Service {
         closeProcessIO();
 
         try {
-            processingThread.join();
+            readingPipeThread.join();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -98,6 +98,10 @@ public class EngineProxy implements Service {
         // SOS Arena
         //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\SOS-51_Arena.exe");
         //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\"));
+
+        // MORA
+        //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\MORA_1.1.0.exe");
+        //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\"));
         try {
             synchronized (this) {
                 process = processBuilder.start();
@@ -121,10 +125,16 @@ public class EngineProxy implements Service {
     }
 
     private void stopProcess() {
+        if (logging) {
+            System.out.println("proxy: EngineProxy::stopProcess() invoked");
+        }
         try {
             process.waitFor();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+        if (logging) {
+            System.out.println("proxy: EngineProxy::stopProcess() finished");
         }
     }
 
@@ -144,6 +154,17 @@ public class EngineProxy implements Service {
             throw new RuntimeException("Process has not started yet");
         }
     }
+
+    private void readFromPipe(){
+        if (logging) {
+            System.out.println("proxy: EngineProxy::readFromPipe(): start reading engine output");
+        }
+        pipe.read();
+        if (logging) {
+            System.out.println("proxy: EngineProxy::readFromPipe():end reading engine output");
+        }
+    }
+
 
     @Override
     public void accept(Visitor visitor) {

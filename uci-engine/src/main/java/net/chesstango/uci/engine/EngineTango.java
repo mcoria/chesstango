@@ -22,9 +22,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class EngineTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
+
+    protected final Tango tango;
     protected UCIOutputStream responseOutputStream;
     protected ExecutorService executor;
-    protected Tango tango;
+
     ZondaState currentState;
 
     public EngineTango() {

@@ -45,7 +45,7 @@ class FindingBestMove implements ZondaState {
         if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
             selectedMove = engineTango.tango.searchBestMove().getBestMove();
         } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-            selectedMove = engineTango.tango.searchBestMove(cmdGo.getDepth() + 2).getBestMove();
+            selectedMove = engineTango.tango.searchBestMove(cmdGo.getDepth()).getBestMove();
         } else {
             throw new RuntimeException("go subtype not implemented yet");
         }
