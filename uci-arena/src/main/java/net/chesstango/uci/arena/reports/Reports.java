@@ -7,45 +7,64 @@ import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Reports {
 
-    public void printByEngine(EngineController engine1, EngineController engine2, List<GameResult> matchResult) {
-
-        System.out.printf(" ___________________________________________________________________________________________________\n");
-        System.out.printf("|ENGINE NAME|WHITE WON|BLACK WON|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
-        printByEngine(engine1, matchResult);
-        printByEngine(engine2, matchResult);
-        System.out.printf(" ---------------------------------------------------------------------------------------------------\n");
+    private class ReportModel {
+        public String engineName;
+        public long wonAsWhite;
+        public long wonAsBlack;
+        public long drawsAsWhite;
+        public long drawsAsBlack;
+        public double puntosAsWhite;
+        public double puntosAsBlack;
+        public double puntosTotal;
+        public long playedGames;
+        public double winPercentage;
     }
 
-    public void printByEngine(EngineController engine, List<GameResult> matchResult) {
-        long wonAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineWhite()).count();
-        long drawsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == null).count();
-        double puntosAsWhite = wonAsWhite + 0.5 * drawsAsWhite;
+    public void printByEngineAndGroup(List<EngineController> mainControllers, List<EngineController> opponents, List<GameResult> matchResult) {
 
-        long wonAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineBlack()).count();
-        long drawsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == null).count();
-        double puntosAsBlack = wonAsBlack + 0.5 * drawsAsBlack;
-
-        double puntosTotal = puntosAsWhite + puntosAsBlack;
-        long playedGames = matchResult.stream().filter(result -> result.getEngineWhite() == engine || result.getEngineBlack() == engine).count();
-
-        double winPercentage = (puntosTotal / playedGames) * 100;
-
-
-        System.out.printf("|%11s|%9d|%9d|%10d|%10d|%12.1f|%12.1f|%6.1f /%3d | %4.1f |\n", engine.getEngineName(), wonAsWhite, wonAsBlack, drawsAsWhite, drawsAsBlack, puntosAsWhite, puntosAsBlack, puntosTotal, playedGames, winPercentage);
-
-        /*
-        System.out.println("Won as White:");
-        printTangoStatics(matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineWhite()).map(GameResult::getSessionWhite).filter(Objects::nonNull).collect(Collectors.toList()), true);
-
-        System.out.println("Lost as White:");
-        printTangoStatics(matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineBlack()).map(GameResult::getSessionWhite).filter(Objects::nonNull).collect(Collectors.toList()), true);
-         */
     }
+
+    public void createModelRow(EngineController engine1, List<EngineController> engines, List<GameResult> matchResult) {
+        List<ReportModel> rows = new ArrayList<>();
+        rows.add(createModelRow(engine1, matchResult));
+        engines.forEach(engine -> rows.add(createModelRow(engine, matchResult)));
+        printReport(rows);
+    }
+
+    private ReportModel createModelRow(EngineController engine, List<GameResult> matchResult) {
+        ReportModel row = new ReportModel();
+        row.engineName = engine.getEngineName();
+        row.wonAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineWhite()).count();
+        row.drawsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == null).count();
+        row.puntosAsWhite = row.wonAsWhite + 0.5 * row.drawsAsWhite;
+
+        row.wonAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineBlack()).count();
+        row.drawsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == null).count();
+        row.puntosAsBlack = row.wonAsBlack + 0.5 * row.drawsAsBlack;
+
+        row.puntosTotal = row.puntosAsWhite + row.puntosAsBlack;
+        row.playedGames = matchResult.stream().filter(result -> result.getEngineWhite() == engine || result.getEngineBlack() == engine).count();
+
+        row.winPercentage = (row.puntosTotal / row.playedGames) * 100;
+
+        return row;
+    }
+
+
+    private void printReport(List<ReportModel> reportRows) {
+
+        System.out.printf(" _____________________________________________________________________________________________________________\n");
+        System.out.printf("|ENGINE NAME         |WHITE WON|BLACK WON|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
+        reportRows.forEach(row -> {
+            System.out.printf("|%20s|%9d|%9d|%10d|%10d|%12.1f|%12.1f|%6.1f /%3d | %4.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
+        });
+
+        System.out.printf(" -------------------------------------------------------------------------------------------------------------\n");
+    }
+
 
     public void printTangoStatics(List<Session> sessions, boolean printDetail) {
         class EvaluationStatics {
@@ -81,5 +100,6 @@ public class Reports {
             }
         }
     }
+
 }
 

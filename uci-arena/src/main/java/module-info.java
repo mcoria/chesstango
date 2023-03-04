@@ -4,4 +4,5 @@ module net.chesstango.uci.arena {
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
     requires net.chesstango.search;
+    requires org.apache.commons.pool2;
 }

@@ -24,6 +24,11 @@ public interface EngineController extends ServiceElement {
 
     void send_CmdQuit();
 
+    default void startEngine() {
+        send_CmdUci();
+        send_CmdIsReady();
+    }
+
     default void startNewGame() {
         send_CmdUciNewGame();
         send_CmdIsReady();

@@ -7,15 +7,16 @@ import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
+import net.chesstango.uci.arena.EngineControllerProxyFactory;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.arena.MatchMain;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.proxy.EngineProxy;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
@@ -31,7 +32,6 @@ public class EvaluationMain{
     private static final int MATCH_DEPTH = 1;
     private static final int POPULATION_SIZE = 15;
     private static final int GENERATION_LIMIT = 100;
-
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -46,7 +46,7 @@ public class EvaluationMain{
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
-        pool = new GenericObjectPool<>(new EngineControllerProxyFactory());
+        pool = new GenericObjectPool<>(new EngineControllerProxyFactory(EngineProxy::new));
         EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderImp02());
         main.findGenotype();
         pool.close();

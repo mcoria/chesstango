@@ -1,24 +1,38 @@
-package net.chesstango.evaluation.tunning;
+package net.chesstango.uci.arena;
 
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.service.Service;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Mauricio Coria
  */
 public class EngineControllerProxyFactory extends BasePooledObjectFactory<EngineController> {
+    private final Supplier<Service> fnCreateService;
+
+    private final List<EngineController> engineControllers = new ArrayList<>();
+
+    public EngineControllerProxyFactory(Supplier<Service> fnCreateService) {
+        this.fnCreateService = fnCreateService;
+    }
 
     @Override
     public EngineController create() {
-        EngineProxy coreEngineProxy = new EngineProxy();
-        //coreEngineProxy.setLogging(true);
+        Service coreEngineProxy = fnCreateService.get();
+
         EngineController engineProxy = new EngineControllerImp(coreEngineProxy);
-        engineProxy.send_CmdUci();
-        engineProxy.send_CmdIsReady();
+
+        engineProxy.startEngine();
+
+        engineControllers.add(engineProxy);
 
         return engineProxy;
     }
@@ -33,4 +47,7 @@ public class EngineControllerProxyFactory extends BasePooledObjectFactory<Engine
         pooledController.getObject().send_CmdQuit();
     }
 
+    public List<EngineController> getEngineControllers() {
+        return engineControllers;
+    }
 }
