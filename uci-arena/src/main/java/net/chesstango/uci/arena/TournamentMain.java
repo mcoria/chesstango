@@ -11,6 +11,7 @@ import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.ProxyConfig;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
@@ -18,12 +19,15 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ */
 public class TournamentMain {
 
     public static void main(String[] args) {
         List<EngineController> opponents = createOpponents();
 
-        EngineControllerFactory factory = new EngineControllerFactory(EngineProxy::new);
+        EngineControllerFactory factory = new EngineControllerFactory(()->new EngineProxy(ProxyConfig.loadEngineConfig("MORA")));
 
         Tournament tournament = new Tournament(factory, opponents);
 

@@ -16,6 +16,7 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class EngineProxy implements Service {
+    private final ProxyConfig config;
     private Process process;
     private InputStream inputStreamProcess;
     private PrintStream outputStreamProcess;
@@ -32,8 +33,9 @@ public class EngineProxy implements Service {
      * Para que Spike pueda leer sus settings, el working directory debe ser el del ejecutable.
      * Los settings generales para todos los engines se controlan desde EngineManagement -> UCI en Arena.
      */
-    public EngineProxy() {
-        pipe = new UCIActiveStreamReader();
+    public EngineProxy(ProxyConfig config) {
+        this.pipe = new UCIActiveStreamReader();
+        this.config = config;
     }
 
 
@@ -92,8 +94,8 @@ public class EngineProxy implements Service {
 
     private void startProcess() {
         // Spike 1,4
-        ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
-        processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike"));
+        //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
+        //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike"));
 
         // SOS Arena
         //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\SOS-51_Arena.exe");
@@ -102,6 +104,10 @@ public class EngineProxy implements Service {
         // MORA
         //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\MORA_1.1.0.exe");
         //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\"));
+
+        ProcessBuilder processBuilder = new ProcessBuilder(config.getExe());
+        processBuilder.directory(new File(config.getDirectory()));
+
         try {
             synchronized (this) {
                 process = processBuilder.start();
@@ -155,7 +161,7 @@ public class EngineProxy implements Service {
         }
     }
 
-    private void readFromPipe(){
+    private void readFromPipe() {
         if (logging) {
             System.out.println("proxy: EngineProxy::readFromPipe(): start reading engine output");
         }

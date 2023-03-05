@@ -7,6 +7,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.ProxyConfig;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,14 +61,14 @@ public class ServiceMainTest {
         serviceMain.waitTermination();
     }
 
-    @Test(timeout = 3000)
+    @Test(timeout = 4000)
     public void test_playProxy() throws IOException, InterruptedException {
         List<String> lines = null;
 
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        EngineProxy engine = new EngineProxy();
+        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"));
         engine.setLogging(true);
 
         ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));

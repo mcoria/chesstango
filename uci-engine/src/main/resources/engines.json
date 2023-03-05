@@ -1,0 +1,17 @@
+[
+  {
+    "name": "SPIKE",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike",
+    "exe": "C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe"
+  },
+  {
+    "name": "SOS",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\",
+    "exe": "C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\SOS-51_Arena.exe"
+  },
+  {
+    "name": "MORA",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA",
+    "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\MORA_1.1.0.exe"
+  }
+]

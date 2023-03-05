@@ -11,8 +11,12 @@ import net.chesstango.uci.proxy.EngineProxy;
  */
 public interface Visitor {
     void visit(EngineController engineController);
+
     void visit(EngineTango engineTango);
+
     void visit(EngineProxy engineProxy);
+
     void visit(Tango tango);
+
     void visit(Session session);
 }

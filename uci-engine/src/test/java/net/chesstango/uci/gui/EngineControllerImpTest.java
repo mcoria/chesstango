@@ -5,6 +5,7 @@ import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.ProxyConfig;
 import net.chesstango.uci.service.Service;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class EngineControllerImpTest {
 
     @Test
     public void test_Proxy() {
-        EngineProxy engine = new EngineProxy().setLogging(true);
+        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true);
 
         EngineControllerImp client = new EngineControllerImp(engine);
 

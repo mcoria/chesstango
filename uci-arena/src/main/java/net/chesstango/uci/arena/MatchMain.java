@@ -10,6 +10,7 @@ import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.proxy.ProxyConfig;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -33,7 +34,7 @@ public class MatchMain {
     public static void main(String[] args) {
         //EngineController controllerTango = new EngineControllerImp(new EngineTango(new Dummy()).enableAsync());
         EngineController controllerTango = new EngineControllerImp(new EngineTango());
-        EngineController controllerOponente = new EngineControllerImp(new EngineProxy().setLogging(false));
+        EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
 
         Instant start = Instant.now();
 

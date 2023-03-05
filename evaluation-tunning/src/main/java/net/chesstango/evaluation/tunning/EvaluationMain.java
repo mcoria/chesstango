@@ -17,6 +17,7 @@ import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.ProxyConfig;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
@@ -46,7 +47,7 @@ public class EvaluationMain{
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
-        pool = new GenericObjectPool<>(new EngineControllerFactory(EngineProxy::new));
+        pool = new GenericObjectPool<>(new EngineControllerFactory(()->new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
         EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderImp02());
         main.findGenotype();
         pool.close();

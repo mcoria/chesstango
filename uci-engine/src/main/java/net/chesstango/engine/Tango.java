@@ -59,7 +59,7 @@ public class Tango implements ServiceElement {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
-        if(currentSession != null){
+        if (currentSession != null) {
             currentSession.accept(visitor);
         }
     }

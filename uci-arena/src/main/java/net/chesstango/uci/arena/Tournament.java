@@ -44,8 +44,14 @@ public class Tournament {
         return matchResults;
     }
 
-    private List<GameResult> play(List<String> fenList, EngineController engineController, List<GameResult> matchResults) throws Exception {
-        EngineController primaryEngine = pool.borrowObject();
+    private List<GameResult> play(List<String> fenList, EngineController engineController, List<GameResult> matchResults) {
+        EngineController primaryEngine = null;
+        try {
+            primaryEngine = pool.borrowObject();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
+        }
 
         Match match = new Match(primaryEngine, engineController, 1);
 
