@@ -47,7 +47,7 @@ public class EvaluationMain {
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
-        pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
+        pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
         EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderByMaterialAndMoves());
         main.findGenotype();
         pool.close();

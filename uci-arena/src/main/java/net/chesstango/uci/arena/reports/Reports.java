@@ -16,6 +16,10 @@ public class Reports {
         public String engineName;
         public long wonAsWhite;
         public long wonAsBlack;
+
+        public long lostAsWhite;
+        public long lostAsBlack;
+
         public long drawsAsWhite;
         public long drawsAsBlack;
         public double puntosAsWhite;
@@ -50,10 +54,12 @@ public class Reports {
         row.engineName = engineName;
 
         row.wonAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == result.getEngineWhite()).count();
+        row.lostAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == result.getEngineBlack()).count();
         row.drawsAsWhite = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineWhite()) && result.getWinner() == null).count();
         row.puntosAsWhite = row.wonAsWhite + 0.5 * row.drawsAsWhite;
 
         row.wonAsBlack = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineBlack()) && result.getWinner() == result.getEngineBlack()).count();
+        row.lostAsBlack = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineBlack()) && result.getWinner() == result.getEngineWhite()).count();
         row.drawsAsBlack = matchResult.stream().filter(result -> mainControllers.contains(result.getEngineBlack()) && result.getWinner() == null).count();
         row.puntosAsBlack = row.wonAsBlack + 0.5 * row.drawsAsBlack;
 
@@ -69,10 +75,12 @@ public class Reports {
         ReportRowModel row = new ReportRowModel();
         row.engineName = engine.getEngineName();
         row.wonAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineWhite()).count();
+        row.lostAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == result.getEngineBlack()).count();
         row.drawsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engine && result.getWinner() == null).count();
         row.puntosAsWhite = row.wonAsWhite + 0.5 * row.drawsAsWhite;
 
         row.wonAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineBlack()).count();
+        row.lostAsWhite = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineWhite()).count();
         row.drawsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == null).count();
         row.puntosAsBlack = row.wonAsBlack + 0.5 * row.drawsAsBlack;
 
@@ -87,13 +95,13 @@ public class Reports {
 
     private void printReport(List<ReportRowModel> reportRows) {
 
-        System.out.printf(" ____________________________________________________________________________________________________________\n");
-        System.out.printf("|ENGINE NAME         |WHITE WON|BLACK WON|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
+        System.out.printf(" _________________________________________________________________________________________________________________________________________________\n");
+        System.out.printf("|ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
         reportRows.forEach(row -> {
-            System.out.printf("|%20s|%8d |%8d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %4.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
+            System.out.printf("|%35s|%8d |%8d |%9d |%9d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %4.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.lostAsWhite, row.lostAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
         });
 
-        System.out.printf(" ------------------------------------------------------------------------------------------------------------\n");
+        System.out.printf(" -------------------------------------------------------------------------------------------------------------------------------------------------\n");
     }
 
 

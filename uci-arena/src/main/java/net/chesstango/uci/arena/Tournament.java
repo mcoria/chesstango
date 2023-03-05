@@ -4,6 +4,7 @@ import net.chesstango.uci.gui.EngineController;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,16 +26,16 @@ public class Tournament {
     public List<GameResult> play(List<String> fenList) {
         ExecutorService executor = Executors.newFixedThreadPool(4);
 
-        List<GameResult> matchResults = new ArrayList<>();
+        List<GameResult> matchResults = Collections.synchronizedList(new ArrayList<>());
 
         for (EngineController engineController : engineControllerList) {
-            executor.submit(()->play(fenList, engineController, matchResults));
+            executor.submit(() -> matchResults.addAll(play(fenList, engineController)));
         }
 
         executor.shutdown();
 
         try {
-            while (executor.awaitTermination(1, TimeUnit.SECONDS) == false);
+            while (executor.awaitTermination(1, TimeUnit.SECONDS) == false) ;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +45,7 @@ public class Tournament {
         return matchResults;
     }
 
-    private List<GameResult> play(List<String> fenList, EngineController engineController, List<GameResult> matchResults) {
+    private List<GameResult> play(List<String> fenList, EngineController engineController) {
         EngineController primaryEngine = null;
         try {
             primaryEngine = pool.borrowObject();
@@ -56,10 +57,6 @@ public class Tournament {
         Match match = new Match(primaryEngine, engineController, 1);
 
         List<GameResult> thisMatchResults = match.play(fenList);
-
-        synchronized (matchResults){
-            matchResults.addAll(thisMatchResults);
-        }
 
         pool.returnObject(primaryEngine);
 

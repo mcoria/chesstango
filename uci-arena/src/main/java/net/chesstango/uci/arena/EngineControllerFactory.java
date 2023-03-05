@@ -8,6 +8,7 @@ import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -15,19 +16,18 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class EngineControllerFactory extends BasePooledObjectFactory<EngineController> {
-    private final Supplier<Service> fnCreateService;
+    private final Supplier<EngineController> fnCreateEngineController;
 
-    private final List<EngineController> engineControllers = new ArrayList<>();
+    private final List<EngineController> engineControllers = Collections.synchronizedList(new ArrayList<>()) ;
 
-    public EngineControllerFactory(Supplier<Service> fnCreateService) {
-        this.fnCreateService = fnCreateService;
+    public EngineControllerFactory(Supplier<EngineController> fnCreateEngineController) {
+        this.fnCreateEngineController = fnCreateEngineController;
     }
 
     @Override
     public EngineController create() {
-        Service coreEngineProxy = fnCreateService.get();
 
-        EngineController controller = new EngineControllerImp(coreEngineProxy);
+        EngineController controller = fnCreateEngineController.get();
 
         controller.startEngine();
 

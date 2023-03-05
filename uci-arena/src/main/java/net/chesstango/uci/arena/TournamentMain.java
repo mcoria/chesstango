@@ -1,6 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.evaluation.imp.GameEvaluatorImp02;
@@ -27,7 +28,9 @@ public class TournamentMain {
     public static void main(String[] args) {
         List<EngineController> opponents = createOpponents();
 
-        EngineControllerFactory factory = new EngineControllerFactory(()->new EngineProxy(ProxyConfig.loadEngineConfig("MORA")));
+        //EngineControllerFactory factory = new EngineControllerFactory(()->new EngineProxy(ProxyConfig.loadEngineConfig("MORA")));
+
+        EngineControllerFactory factory = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterialAndMoves.class));
 
         Tournament tournament = new Tournament(factory, opponents);
 
@@ -42,18 +45,26 @@ public class TournamentMain {
         System.out.println("Time elapsed: " + timeElapsed.toMillis() + " ms");
 
         List<EngineController> mainControllers = factory.getEngineControllers();
-        
+
         new Reports().printReport(mainControllers, opponents, matchResult);
     }
 
     private static List<EngineController> createOpponents() {
-        EngineController engineBasic = createTangoController(GameEvaluatorByMaterialAndMoves.class);
+        EngineController engine0 = createTangoController(GameEvaluatorByMaterial.class);
         EngineController engine1 = createTangoController(GameEvaluatorImp01.class);
         EngineController engine2 = createTangoController(GameEvaluatorImp02.class);
-        return Arrays.asList(engineBasic, engine1, engine2);
+        EngineController engine3 = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")));
+        return Arrays.asList(engine0, engine1, engine2, engine3);
     }
 
     private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {
+        EngineTango tango = createEngineTango(gameEvaluatorClass);
+        EngineControllerImp controller = new EngineControllerImp(tango);
+        controller.overrideEngineName(gameEvaluatorClass.getSimpleName());
+        return controller;
+    }
+
+    private static EngineTango createEngineTango(Class<? extends GameEvaluator> gameEvaluatorClass) {
         SearchMove search = new DefaultSearchMove();
         try {
             search.setGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
@@ -66,10 +77,7 @@ public class TournamentMain {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-
-        EngineControllerImp controller = new EngineControllerImp(new EngineTango(search));
-        controller.overrideEngineName(gameEvaluatorClass.getSimpleName());
-        return controller;
+        return new EngineTango(search);
     }
 
     private static void startEngine(EngineController engine) {
