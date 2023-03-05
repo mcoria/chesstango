@@ -22,6 +22,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Match {
+    public static final int WINNER_POINTS = 1000;
     private final EngineController controller1;
     private final EngineController controller2;
     private final int depth;
@@ -29,7 +30,6 @@ public class Match {
     private EngineController black;
     private String fen;
     private Game game;
-
     private boolean debugEnabled;
 
 
@@ -56,16 +56,20 @@ public class Match {
 
         setChairs(controller1, controller2);
 
-        result.add(compete());
+        compete();
+
+        result.add(createResult());
 
         setChairs(controller2, controller1);
 
-        result.add(compete());
+        compete();
+
+        result.add(createResult());
 
         return result;
     }
 
-    protected GameResult compete() {
+    protected void compete() {
         this.game = FENDecoder.loadGame(fen);
         this.game.detectRepetitions(true);
 
@@ -91,47 +95,6 @@ public class Match {
 
             currentTurn = (currentTurn == white ? black : white);
         }
-
-        return createResult();
-    }
-
-
-    //TODO: cambiar el metodo para evaluar los puntos, son demasiados los puntos en caso de ganar
-    private GameResult createResult() {
-        int matchPoints = evaluateByMaterial(game);
-        EngineController winner = null;
-
-        if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
-            System.out.println("DRAW (por fold repetition)");
-
-        } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
-            System.out.println("DRAW (por fiftyMoveRule)");
-
-        } else if (GameStatus.DRAW.equals(game.getStatus())) {
-            System.out.println("DRAW");
-
-        } else if (GameStatus.MATE.equals(game.getStatus())) {
-            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.println("BLACK WON " + black.getEngineName());
-                matchPoints = GameEvaluator.BLACK_WON;
-                winner = black;
-
-            } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.println("WHITE WON " + white.getEngineName());
-                matchPoints = GameEvaluator.WHITE_WON;
-                winner = white;
-
-            }
-        } else {
-            printDebug();
-            throw new RuntimeException("Inconsistent game status");
-        }
-
-        if (debugEnabled) {
-            printDebug();
-        }
-
-        return new GameResult(game, white, black, winner, matchPoints);
     }
 
     public Match setDebugEnabled(boolean debugEnabled) {
@@ -143,12 +106,57 @@ public class Match {
         this.fen = fen;
     }
 
-    protected void setChairs(EngineController engine1, EngineController engine2) {
-        if (engine1 != this.controller1 && engine1 != this.controller2 || engine2 != this.controller1 && engine2 != this.controller2) {
+    protected void setChairs(EngineController white, EngineController black) {
+        if (white != this.controller1 && white != this.controller2 || black != this.controller1 && black != this.controller2) {
             throw new RuntimeException("Invalid opponents");
         }
-        this.white = engine1;
-        this.black = engine2;
+        this.white = white;
+        this.black = black;
+    }
+
+    protected void setGame(Game game) {
+        this.game = game;
+    }
+
+    //TODO: cambiar el metodo para evaluar los puntos, son demasiados los puntos en caso de ganar
+    protected GameResult createResult() {
+        int matchPoints = 0;
+        EngineController winner = null;
+
+        if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
+            System.out.println("DRAW (por fold repetition)");
+            matchPoints = material(game, true);
+
+        } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
+            System.out.println("DRAW (por fiftyMoveRule)");
+            matchPoints = material(game, true);
+
+        } else if (GameStatus.DRAW.equals(game.getStatus())) {
+            System.out.println("DRAW");
+            matchPoints = material(game, true);
+
+        } else if (GameStatus.MATE.equals(game.getStatus())) {
+            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+                System.out.println("BLACK WON " + black.getEngineName());
+                matchPoints = -1 * (WINNER_POINTS + material(game, false));
+                winner = black;
+
+            } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
+                System.out.println("WHITE WON " + white.getEngineName());
+                matchPoints = (WINNER_POINTS + material(game, false));
+                winner = white;
+
+            }
+        } else {
+            printDebug();
+            throw new RuntimeException("Game is still in progress.");
+        }
+
+        if (debugEnabled) {
+            printDebug();
+        }
+
+        return new GameResult(game, white, black, winner, matchPoints);
     }
 
     private void startNewGame() {
@@ -214,13 +222,13 @@ public class Match {
         System.out.println(encoder.encode(game));
     }
 
-    static public int evaluateByMaterial(Game game) {
+    static public int material(Game game, boolean difference) {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
-            evaluation += getPieceValue(piece);
+            evaluation += difference ? getPieceValue(piece) : Math.abs(getPieceValue(piece));
         }
         return evaluation;
     }

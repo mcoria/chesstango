@@ -11,13 +11,13 @@ import net.chesstango.evaluation.imp.GameEvaluatorImp03;
 /**
  * @author Mauricio Coria
  */
-public class GeneticProviderImp03 implements GeneticProvider  {
+public class GeneticProviderImp03 implements GeneticProvider {
     private static int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
     @Override
-    public Factory<Genotype<IntegerGene>>  getGenotypeFactory() {
+    public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
         return Genotype.of(IntegerChromosome.of(geneRange, 2));
     }
 
@@ -25,7 +25,7 @@ public class GeneticProviderImp03 implements GeneticProvider  {
     public String getKeyGenesString(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        return decodedGenotype.getGene1() + "|" + decodedGenotype.getGene2() ;
+        return decodedGenotype.getGene1() + "|" + decodedGenotype.getGene2();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class GeneticProviderImp03 implements GeneticProvider  {
     public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        System.out.println("Evaluacion con gene1=[" + decodedGenotype.getGene1() + "] gene2=[" + decodedGenotype.getGene2()  + "] ; puntos = [" + points + "]");
+        System.out.println("Evaluacion con gene1=[" + decodedGenotype.getGene1() + "] gene2=[" + decodedGenotype.getGene2() + "] ; puntos = [" + points + "]");
     }
 
     @Override
@@ -57,7 +57,7 @@ public class GeneticProviderImp03 implements GeneticProvider  {
         public boolean test(Phenotype<IntegerGene, Long> phenotype) {
             GenoDecoder decodedGenotype = decodeGenotype(phenotype.genotype());
 
-            return (decodedGenotype.getGene1() +  decodedGenotype.getGene2()) % CONSTRAINT_MAX_VALUE == 0 ;
+            return (decodedGenotype.getGene1() + decodedGenotype.getGene2()) % CONSTRAINT_MAX_VALUE == 0;
         }
 
         @Override
@@ -75,8 +75,8 @@ public class GeneticProviderImp03 implements GeneticProvider  {
             int gene2Value = CONSTRAINT_MAX_VALUE - gene1Value;
 
             Phenotype<IntegerGene, Long> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
-                    IntegerGene.of(gene1Value, geneRange ),
-                    IntegerGene.of(gene2Value, geneRange )
+                    IntegerGene.of(gene1Value, geneRange),
+                    IntegerGene.of(gene2Value, geneRange)
             )), generation);
 
             return newPhenotype;
@@ -88,7 +88,7 @@ public class GeneticProviderImp03 implements GeneticProvider  {
         private final int gene1;
         private final int gene2;
 
-        public GenoDecoder(int gene1, int gene2){
+        public GenoDecoder(int gene1, int gene2) {
             this.gene1 = gene1;
             this.gene2 = gene2;
 
@@ -103,7 +103,7 @@ public class GeneticProviderImp03 implements GeneticProvider  {
         }
     }
 
-    protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype){
+    protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype) {
         Chromosome<IntegerGene> chromo1 = genotype.chromosome();
 
         IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);

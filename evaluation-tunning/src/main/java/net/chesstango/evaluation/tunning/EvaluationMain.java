@@ -7,15 +7,15 @@ import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
-import net.chesstango.uci.arena.EngineControllerFactory;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
-import net.chesstango.uci.arena.MatchMain;
-import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.arena.Match;
+import net.chesstango.uci.arena.EngineControllerFactory;
 import net.chesstango.uci.arena.GameResult;
-import net.chesstango.uci.gui.EngineControllerImp;
+import net.chesstango.uci.arena.Match;
+import net.chesstango.uci.arena.MatchMain;
 import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import org.apache.commons.pool2.ObjectPool;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * @author Mauricio Coria
  */
-public class EvaluationMain{
+public class EvaluationMain {
     private static final int MATCH_DEPTH = 1;
     private static final int POPULATION_SIZE = 15;
     private static final int GENERATION_LIMIT = 100;
@@ -47,7 +47,7 @@ public class EvaluationMain{
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
-        pool = new GenericObjectPool<>(new EngineControllerFactory(()->new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
+        pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
         EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderImp02());
         main.findGenotype();
         pool.close();
@@ -62,7 +62,7 @@ public class EvaluationMain{
                 .executor(executor)
                 .build();
 
-        EvolutionStart<IntegerGene, Long>  start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
+        EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         Phenotype<IntegerGene, Long> result = engine
                 .stream(start)
@@ -76,16 +76,16 @@ public class EvaluationMain{
         Set<Map.Entry<String, Long>> entrySet = gameMemory.entrySet();
         List<Map.Entry<String, Long>> entryList = entrySet.stream().collect(Collectors.toList());
         Collections.sort(entryList, Comparator.comparing(Map.Entry::getValue));
-        entryList.stream().forEach( entry -> {
+        entryList.stream().forEach(entry -> {
             System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
         });
 
     }
 
-    public long fitness(Genotype<IntegerGene> genotype){
+    public long fitness(Genotype<IntegerGene> genotype) {
         long points = 0;
 
-        String keyGenes =  geneticProvider.getKeyGenesString(genotype);
+        String keyGenes = geneticProvider.getKeyGenesString(genotype);
 
         Long previousGamePoints = gameMemory.get(keyGenes);
 
@@ -117,7 +117,7 @@ public class EvaluationMain{
 
         search.setGameEvaluator(geneticProvider.createGameEvaluator(genotype));
 
-        EngineController tango = new EngineControllerImp(new EngineTango( search ));
+        EngineController tango = new EngineControllerImp(new EngineTango(search));
 
         tango.send_CmdUci();
         tango.send_CmdIsReady();

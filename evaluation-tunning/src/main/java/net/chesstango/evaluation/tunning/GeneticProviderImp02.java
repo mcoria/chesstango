@@ -23,8 +23,8 @@ public class GeneticProviderImp02 implements GeneticProvider {
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
     @Override
-    public Factory<Genotype<IntegerGene>>  getGenotypeFactory() {
-        return new Factory<Genotype<IntegerGene>>(){
+    public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
+        return new Factory<Genotype<IntegerGene>>() {
             private final Random random = RandomRegistry.random();
 
             @Override
@@ -33,13 +33,13 @@ public class GeneticProviderImp02 implements GeneticProvider {
 
                 int value2 = Math.abs(random.nextInt()) % (CONSTRAINT_MAX_VALUE - value1);
 
-                int value3 = CONSTRAINT_MAX_VALUE - value2 -  value1;
+                int value3 = CONSTRAINT_MAX_VALUE - value2 - value1;
 
                 return Genotype.of(
                         IntegerChromosome.of(
-                                IntegerGene.of(value1, geneRange ),
-                                IntegerGene.of(value2, geneRange ),
-                                IntegerGene.of(value3, geneRange )
+                                IntegerGene.of(value1, geneRange),
+                                IntegerGene.of(value2, geneRange),
+                                IntegerGene.of(value3, geneRange)
                         )
                 );
             }
@@ -96,16 +96,16 @@ public class GeneticProviderImp02 implements GeneticProvider {
 
         ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
 
-        return EvolutionStart.of( population, 1);
+        return EvolutionStart.of(population, 1);
     }
 
     private Phenotype<IntegerGene, Long> createPhenotype(int value1, int value2, int value3) {
         return Phenotype.of(
                 Genotype.of(
                         IntegerChromosome.of(
-                                IntegerGene.of(value1, geneRange ),
-                                IntegerGene.of(value2, geneRange ),
-                                IntegerGene.of(value3, geneRange )
+                                IntegerGene.of(value1, geneRange),
+                                IntegerGene.of(value2, geneRange),
+                                IntegerGene.of(value3, geneRange)
                         )
                 ), 1);
     }
@@ -121,7 +121,7 @@ public class GeneticProviderImp02 implements GeneticProvider {
         public boolean test(Phenotype<IntegerGene, Long> phenotype) {
             GenoDecoder decodedGenotype = decodeGenotype(phenotype.genotype());
 
-            return (decodedGenotype.getGene1() +  decodedGenotype.getGene2() + decodedGenotype.getGene3()) % CONSTRAINT_MAX_VALUE == 0 ;
+            return (decodedGenotype.getGene1() + decodedGenotype.getGene2() + decodedGenotype.getGene3()) % CONSTRAINT_MAX_VALUE == 0;
         }
 
         @Override
@@ -141,9 +141,9 @@ public class GeneticProviderImp02 implements GeneticProvider {
             int gene3Value = CONSTRAINT_MAX_VALUE - gene2Value - gene1Value;
 
             Phenotype<IntegerGene, Long> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
-                    IntegerGene.of(gene1Value, geneRange ),
-                    IntegerGene.of(gene2Value, geneRange ),
-                    IntegerGene.of(gene3Value, geneRange )
+                    IntegerGene.of(gene1Value, geneRange),
+                    IntegerGene.of(gene2Value, geneRange),
+                    IntegerGene.of(gene3Value, geneRange)
             )), generation);
 
             return newPhenotype;
@@ -155,7 +155,7 @@ public class GeneticProviderImp02 implements GeneticProvider {
         private final int gene2;
         private final int gene3;
 
-        public GenoDecoder(int gene1, int gene2, int gene3){
+        public GenoDecoder(int gene1, int gene2, int gene3) {
             this.gene1 = gene1;
             this.gene2 = gene2;
             this.gene3 = gene3;
@@ -174,7 +174,7 @@ public class GeneticProviderImp02 implements GeneticProvider {
         }
     }
 
-    protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype){
+    protected static GenoDecoder decodeGenotype(Genotype<IntegerGene> genotype) {
         Chromosome<IntegerGene> chromo1 = genotype.chromosome();
 
         IntegerChromosome integerChromo = chromo1.as(IntegerChromosome.class);
