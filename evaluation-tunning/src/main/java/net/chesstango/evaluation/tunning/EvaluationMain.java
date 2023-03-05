@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 public class EvaluationMain {
     private static final int MATCH_DEPTH = 1;
     private static final int POPULATION_SIZE = 15;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int GENERATION_LIMIT = 30;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -48,7 +48,7 @@ public class EvaluationMain {
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
         pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
-        EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderImp02());
+        EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderByMaterialAndMoves());
         main.findGenotype();
         pool.close();
         executor.shutdown();
@@ -97,9 +97,11 @@ public class EvaluationMain {
 
             quitTango(engineTango);
 
-            points += matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(GameResult::getPoints).sum();
+            long pointsAsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineTango).mapToLong(GameResult::getPoints).sum();
 
-            points -= matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(GameResult::getPoints).sum();
+            long pointsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineTango).mapToLong(GameResult::getPoints).sum();
+
+            points = pointsAsWhite + (-1) * pointsAsBlack;
 
             gameMemory.put(keyGenes, points);
 
@@ -119,8 +121,7 @@ public class EvaluationMain {
 
         EngineController tango = new EngineControllerImp(new EngineTango(search));
 
-        tango.send_CmdUci();
-        tango.send_CmdIsReady();
+        tango.startEngine();
 
         return tango;
     }

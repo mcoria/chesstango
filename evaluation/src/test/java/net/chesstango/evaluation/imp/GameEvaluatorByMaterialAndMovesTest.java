@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class GameEvaluatorBasicTest extends GameEvaluationTestCollection  {
+public class GameEvaluatorByMaterialAndMovesTest extends GameEvaluationTestCollection  {
     private GameEvaluatorImp01 evaluator;
 
     @Before

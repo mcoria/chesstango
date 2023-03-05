@@ -1,7 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorBasic;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01;
 import net.chesstango.evaluation.imp.GameEvaluatorImp02;
 import net.chesstango.search.DefaultSearchMove;
@@ -47,7 +47,7 @@ public class TournamentMain {
     }
 
     private static List<EngineController> createOpponents() {
-        EngineController engineBasic = createTangoController(GameEvaluatorBasic.class);
+        EngineController engineBasic = createTangoController(GameEvaluatorByMaterialAndMoves.class);
         EngineController engine1 = createTangoController(GameEvaluatorImp01.class);
         EngineController engine2 = createTangoController(GameEvaluatorImp02.class);
         return Arrays.asList(engineBasic, engine1, engine2);

@@ -3,8 +3,7 @@
  */
 package net.chesstango.evaluation;
 
-import net.chesstango.evaluation.GameEvaluatorTest;
-import net.chesstango.evaluation.imp.GameEvaluatorBasicTest;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMovesTest;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01Test;
 import net.chesstango.evaluation.imp.GameEvaluatorImp02Test;
 import net.chesstango.evaluation.imp.GameEvaluatorImp03Test;
@@ -18,7 +17,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         GameEvaluatorTest.class,
-        GameEvaluatorBasicTest.class,
+        GameEvaluatorByMaterialAndMovesTest.class,
         GameEvaluatorImp01Test.class,
         GameEvaluatorImp02Test.class,
         GameEvaluatorImp03Test.class,

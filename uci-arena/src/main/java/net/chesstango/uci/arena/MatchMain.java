@@ -1,10 +1,11 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorBasic;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
+import net.chesstango.evaluation.imp.GameEvaluatorImp01;
+import net.chesstango.evaluation.imp.GameEvaluatorImp02;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.arena.reports.Reports;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -33,12 +34,17 @@ public class MatchMain {
 
     public static void main(String[] args) {
         //EngineController controllerTango = new EngineControllerImp(new EngineTango(new Dummy()).enableAsync());
-        EngineController controllerTango = new EngineControllerImp(new EngineTango());
+        SearchMove search = new DefaultSearchMove();
+        //search.setGameEvaluator(new GameEvaluatorByMaterial());
+        search.setGameEvaluator(new GameEvaluatorByMaterialAndMoves());
+        //search.setGameEvaluator(new GameEvaluatorImp01());
+        //search.setGameEvaluator(new GameEvaluatorImp02());
+        EngineController controllerTango = new EngineControllerImp(new EngineTango(search));
         EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
 
         Instant start = Instant.now();
 
-        Match match = new Match(controllerTango, controllerOponente, 4);
+        Match match = new Match(controllerTango, controllerOponente, 1);
         //match.setDebugEnabled(true);
 
         startEngines(controllerTango, controllerOponente);

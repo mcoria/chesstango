@@ -1,14 +1,14 @@
 package net.chesstango.evaluation.imp;
 
-import net.chesstango.board.Piece;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.Piece;
+import net.chesstango.evaluation.GameEvaluator;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorBasic implements GameEvaluator {
+public class GameEvaluatorByMaterial implements GameEvaluator {
 
 
     @Override
@@ -21,8 +21,7 @@ public class GameEvaluatorBasic implements GameEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation += 100 * evaluateByMaterial(game);
-                evaluation += Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size();
+                evaluation = evaluateByMaterial(game);
         }
         return evaluation;
     }
