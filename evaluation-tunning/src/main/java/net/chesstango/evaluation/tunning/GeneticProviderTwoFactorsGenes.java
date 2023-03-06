@@ -4,17 +4,28 @@ import io.jenetics.*;
 import io.jenetics.engine.Constraint;
 import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
+import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorImp03;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class GeneticProviderImp03 implements GeneticProvider {
+public class GeneticProviderTwoFactorsGenes implements GeneticProvider {
+    private final Class<? extends GameEvaluator> gameEvaluatorClass;
+
     private static int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
+
+    public GeneticProviderTwoFactorsGenes(Class<? extends GameEvaluator> gameEvaluatorClass) {
+        this.gameEvaluatorClass = gameEvaluatorClass;
+    }
 
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
@@ -32,7 +43,17 @@ public class GeneticProviderImp03 implements GeneticProvider {
     public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        return new GameEvaluatorImp03(decodedGenotype.getGene1(), decodedGenotype.getGene2());
+        try {
+            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class).newInstance(decodedGenotype.getGene1(), decodedGenotype.getGene2());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -44,7 +65,30 @@ public class GeneticProviderImp03 implements GeneticProvider {
 
     @Override
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
-        return null;
+        List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
+                createPhenotype(415, 585),
+                createPhenotype(433, 567),
+                createPhenotype(516, 424),
+                createPhenotype(554, 446),
+                createPhenotype(600, 335),
+                createPhenotype(665, 400),
+                createPhenotype(737, 263),
+                createPhenotype(746, 254)
+        );
+
+        ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
+
+        return EvolutionStart.of(population, 1);
+    }
+
+    private Phenotype<IntegerGene, Long> createPhenotype(int value1, int value2) {
+        return Phenotype.of(
+                Genotype.of(
+                        IntegerChromosome.of(
+                                IntegerGene.of(value1, geneRange),
+                                IntegerGene.of(value2, geneRange)
+                        )
+                ), 1);
     }
 
     @Override
@@ -73,6 +117,10 @@ public class GeneticProviderImp03 implements GeneticProvider {
             int gene1Value = array[0] % CONSTRAINT_MAX_VALUE;
 
             int gene2Value = CONSTRAINT_MAX_VALUE - gene1Value;
+
+            if(gene1Value + gene2Value != CONSTRAINT_MAX_VALUE) {
+                throw new RuntimeException("Invalid combination");
+            }
 
             Phenotype<IntegerGene, Long> newPhenotype = Phenotype.of(Genotype.of(IntegerChromosome.of(
                     IntegerGene.of(gene1Value, geneRange),

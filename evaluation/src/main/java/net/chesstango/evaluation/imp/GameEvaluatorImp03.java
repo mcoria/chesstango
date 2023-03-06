@@ -14,8 +14,8 @@ import java.util.Iterator;
  */
 public class GameEvaluatorImp03 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 2110;
-    private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 601;
+    private static final int FACTOR_MATERIAL_DEFAULT = 104;
+    private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 896;
 
     private final int material;
     private final int material_color;
@@ -24,7 +24,7 @@ public class GameEvaluatorImp03 implements GameEvaluator {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_MATERIAL_COLOR_DEFAULT);
     }
 
-    public GameEvaluatorImp03(int material, int material_color) {
+    public GameEvaluatorImp03(Integer material, Integer material_color) {
         this.material = material;
         this.material_color = material_color;
     }

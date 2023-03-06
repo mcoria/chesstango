@@ -7,6 +7,7 @@ import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
+import net.chesstango.evaluation.imp.GameEvaluatorImp03;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.arena.EngineControllerFactory;
@@ -48,7 +49,7 @@ public class EvaluationMain {
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(4);
         pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
-        EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderByMaterialAndMoves());
+        EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderTwoFactorsGenes(GameEvaluatorImp03.class));
         main.findGenotype();
         pool.close();
         executor.shutdown();
