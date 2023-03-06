@@ -165,7 +165,7 @@ public class PGNDecoderTest {
 
     @Test
     public void readGames() throws IOException {
-        InputStream instr = PerftMainTestSuite.class.getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn");
+        InputStream instr = this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn");
 
         InputStreamReader inputStreamReader = new InputStreamReader(instr);
 

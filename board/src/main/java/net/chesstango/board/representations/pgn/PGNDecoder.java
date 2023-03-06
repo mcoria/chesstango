@@ -42,7 +42,7 @@ public class PGNDecoder {
         return pgnGame;
     }
 
-    public PGNGame decodeHeader(BufferedReader bufferReader) throws IOException {
+    protected PGNGame decodeHeader(BufferedReader bufferReader) throws IOException {
         PGNGame result = new PGNGame();
         String line;
         while ((line = bufferReader.readLine()) != null) {
@@ -87,7 +87,7 @@ public class PGNDecoder {
         return result;
     }
 
-    public List<String> decodeMovesList(BufferedReader bufferReader) throws IOException {
+    protected List<String> decodeMovesList(BufferedReader bufferReader) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         while ((line = bufferReader.readLine()) != null) {
@@ -101,7 +101,7 @@ public class PGNDecoder {
         return decodeMovesList(stringBuilder.toString());
     }
 
-    public List<String> decodeMovesList(String moveListStr) {
+    protected List<String> decodeMovesList(String moveListStr) {
         List<String> result = new ArrayList<>();
         final Matcher matcher = movePattern.matcher(moveListStr);
         while (matcher.find()) {

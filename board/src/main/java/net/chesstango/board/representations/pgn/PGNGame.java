@@ -96,6 +96,11 @@ public class PGNGame {
     }
 
 
+    @Override
+    public String toString() {
+        return new PGNEncoder().encode(this);
+    }
+
     public Game buildGame(){
         Game game = FENDecoder.loadGame(this.fen == null ? FENDecoder.INITIAL_FEN : this.fen );
 
@@ -157,7 +162,7 @@ public class PGNGame {
         return pgnGame;
     }
 
-    public static String encodeGameStatusAtMove(GameStatus gameStatus) {
+    private static String encodeGameStatusAtMove(GameStatus gameStatus) {
         switch (gameStatus) {
             case NO_CHECK:
             case DRAW:
@@ -173,7 +178,7 @@ public class PGNGame {
         }
     }
 
-    public static String encodeGameResult(Game game) {
+    private static String encodeGameResult(Game game) {
         switch (game.getStatus()) {
             case NO_CHECK:
             case CHECK:

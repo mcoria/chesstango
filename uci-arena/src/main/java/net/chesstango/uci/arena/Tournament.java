@@ -17,7 +17,6 @@ public class Tournament {
     private final List<EngineController> engineControllerList;
     private final GenericObjectPool<EngineController> pool;
 
-
     public Tournament(EngineControllerFactory controllerFactory, List<EngineController> engineControllerList) {
         this.engineControllerList = engineControllerList;
         this.pool = new GenericObjectPool<>(controllerFactory);
