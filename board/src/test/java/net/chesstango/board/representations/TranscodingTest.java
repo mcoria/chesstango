@@ -9,7 +9,7 @@ import java.util.List;
 public class TranscodingTest {
 
     @Test
-    public void testTranscoding(){
+    public void testTranscoding01(){
         Transcoding transcoding = new Transcoding();
 
         List<String> fenPositions = transcoding.pgnFileToFenPositions(this.getClass().getClassLoader().getResourceAsStream("main/pgn/Balsa_Top10.pgn"));
@@ -29,6 +29,16 @@ public class TranscodingTest {
         for (int i = 0; i < 10; i++) {
             Assert.assertEquals(expectedFenPositions.get(i), fenPositions.get(i));
         }
+
+    }
+
+    @Test
+    public void testTranscoding02(){
+        Transcoding transcoding = new Transcoding();
+
+        List<String> fenPositions = transcoding.pgnFileToFenPositions(this.getClass().getClassLoader().getResourceAsStream("main/pgn/partial.pgn"));
+
+
 
     }
 }

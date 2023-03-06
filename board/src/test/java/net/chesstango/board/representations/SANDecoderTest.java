@@ -64,24 +64,6 @@ public class SANDecoderTest {
         Assert.assertEquals(expectedMove, decodedMove);
     }
 
-
-    @Test
-    @Ignore
-    public void test_pawnMove_promotion(){
-        Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1");
-
-        Move expectedMove = null;
-        Move decodedMove= null;
-
-        expectedMove = game.getMove(Square.c7, Square.c8, Piece.ROOK_WHITE);
-        decodedMove = decoder.decode("c8=R", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
-
-        expectedMove = game.getMove(Square.c7, Square.d8, Piece.QUEEN_WHITE);
-        decodedMove = decoder.decode("cxd8=Q", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
-    }
-
     @Test
     public void test_castling(){
         Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1 ");
@@ -156,6 +138,34 @@ public class SANDecoderTest {
         Move expectedMove = game.getMove(Square.g1, Square.f3);
         Move decodedMove = decoder.decode("Nf3", game.getPossibleMoves());
 
+        Assert.assertEquals(expectedMove, decodedMove);
+    }
+
+    @Test
+    public void test_pawnMove_promotion01(){
+        Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1");
+
+        Move expectedMove = null;
+        Move decodedMove= null;
+
+        expectedMove = game.getMove(Square.c7, Square.c8, Piece.ROOK_WHITE);
+        decodedMove = decoder.decode("c8=R", game.getPossibleMoves());
+        Assert.assertEquals(expectedMove, decodedMove);
+
+        expectedMove = game.getMove(Square.c7, Square.d8, Piece.QUEEN_WHITE);
+        decodedMove = decoder.decode("cxd8=Q", game.getPossibleMoves());
+        Assert.assertEquals(expectedMove, decodedMove);
+    }
+
+    @Test
+    public void test_pawnMove_promotion02(){
+        Game game =  FENDecoder.loadGame("8/PR1nk2p/4p1p1/8/3p3P/5K2/8/8 w - - 9 54 ");
+
+        Move expectedMove = null;
+        Move decodedMove= null;
+
+        expectedMove = game.getMove(Square.a7, Square.a8, Piece.QUEEN_WHITE);
+        decodedMove = decoder.decode("a8Q", game.getPossibleMoves());
         Assert.assertEquals(expectedMove, decodedMove);
     }
 }

@@ -6,6 +6,7 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.SANDecoder;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +113,9 @@ public class PGNGame {
             if(legalMoveToExecute != null) {
                 game.executeMove(legalMoveToExecute);
             } else {
-                throw new RuntimeException(moveStr + " is not in the list of legal moves");
+                FENEncoder encoder = new FENEncoder();
+                game.getChessPosition().constructBoardRepresentation(encoder);
+                throw new RuntimeException(moveStr + " is not in the list of legal moves for " + encoder.getChessRepresentation());
             }
         });
 

@@ -183,5 +183,18 @@ public class PGNDecoderTest {
         Assert.assertEquals("13", games.get(9).getRound());
         Assert.assertEquals("Bd2", games.get(9).getMoveList().get(10));
     }
+
+    @Test
+    public void readGames_partial() throws IOException {
+        InputStream instr = this.getClass().getClassLoader().getResourceAsStream("main/pgn/partial.pgn");
+
+        InputStreamReader inputStreamReader = new InputStreamReader(instr);
+
+        BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+
+        List<PGNGame> games = decoder.decodeGames(bufferReader);
+
+        Assert.assertEquals(1441, games.size());
+    }
 }
 
