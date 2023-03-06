@@ -4,6 +4,7 @@
 package net.chesstango;
 
 import net.chesstango.board.representations.SANDecoderTest;
+import net.chesstango.board.representations.TranscodingTest;
 import net.chesstango.board.representations.pgn.PGNDecoderTest;
 import net.chesstango.board.representations.pgn.PGNEncoderTest;
 import net.chesstango.board.representations.SANEncoderTest;
@@ -21,7 +22,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ ASCIIEncoderTest.class, FENDecoderTest.class, FENEncoderTest.class, FENIntegrationTest.class,
-        SANEncoderTest.class, SANDecoderTest.class, PGNEncoderTest.class, PGNDecoderTest.class, PGNGameTest.class})
+        SANEncoderTest.class, SANDecoderTest.class, PGNEncoderTest.class, PGNDecoderTest.class, PGNGameTest.class, TranscodingTest.class})
 public class UtilsTestSuite {
 
 }

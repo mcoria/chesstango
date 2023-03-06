@@ -3,6 +3,11 @@ package net.chesstango.board.representations;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.moves.imp.CastlingBlackKingMove;
+import net.chesstango.board.moves.imp.CastlingBlackQueenMove;
+import net.chesstango.board.moves.imp.CastlingWhiteKingMove;
+import net.chesstango.board.moves.imp.CastlingWhiteQueenMove;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,9 +24,9 @@ import static net.chesstango.board.Piece.PAWN_WHITE;
  */
 public class SANDecoder {
     private Pattern movePattern = Pattern.compile("(?<piecemove>(?<piece>[RNBQK])(?<piecefrom>[a-h]|[1-8]|[a-h][1-8])?x?(?<pieceto>[a-h][1-8]))|" +
-            "[a-h][1-8]?x[a-h][1-8][RNBQ]?|" +
+            "(?<pawncapture>[a-h][1-8]?x[a-h][1-8][RNBQ]?)|" +
             "(?<pawnpush>(?<pawnto>[a-h][1-8])[RNBQ]?)|" +
-            "O-O-O|O-O"
+            "(?<queencasting>O-O-O)|(?<kingcastling>O-O)"
     );
 
     public Move decode(String moveStr, Iterable<Move> possibleMoves) {
@@ -29,8 +34,45 @@ public class SANDecoder {
         if (matcher.matches()) {
             if (matcher.group("piecemove") != null) {
                 return decodePieceMove(matcher, possibleMoves);
+            } else if (matcher.group("pawncapture") != null) {
+                return decodePawnCapture(matcher, possibleMoves);
             } else if (matcher.group("pawnpush") != null) {
                 return decodePawnPush(matcher, possibleMoves);
+            } else if (matcher.group("queencasting") != null) {
+                return searchQueenCastling(possibleMoves);
+            } else if (matcher.group("kingcastling") != null) {
+                return searchKingCastling(possibleMoves);
+            }
+        }
+        return null;
+    }
+
+    private Move decodePawnCapture(Matcher matcher, Iterable<Move> possibleMoves) {
+        String pawnto = matcher.group("pawnto");
+        for (Move move : possibleMoves) {
+            if (PAWN_WHITE.equals(move.getFrom().getPiece()) || PAWN_BLACK.equals(move.getFrom().getPiece())) {
+                Square toSquare = move.getTo().getSquare();
+                if (pawnto.equals(toSquare.toString())) {
+                    return move;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Move searchKingCastling(Iterable<Move> possibleMoves) {
+        for (Move move : possibleMoves) {
+            if(move instanceof CastlingWhiteKingMove || move instanceof CastlingBlackKingMove){
+                return move;
+            }
+        }
+        return null;
+    }
+
+    private Move searchQueenCastling(Iterable<Move> possibleMoves) {
+        for (Move move : possibleMoves) {
+            if(move instanceof CastlingWhiteQueenMove || move instanceof CastlingBlackQueenMove){
+                return move;
             }
         }
         return null;
@@ -54,7 +96,8 @@ public class SANDecoder {
         String piecefrom = matcher.group("piecefrom");
         String pieceto = matcher.group("pieceto");
         for (Move move : possibleMoves) {
-            if (piece.equals(getPieceCode(move.getFrom().getPiece()))) {
+            Piece thePiece = move.getFrom().getPiece();
+            if (!PAWN_WHITE.equals(thePiece) && !PAWN_BLACK.equals(thePiece) && piece.equals(getPieceCode(move.getFrom().getPiece()))) {
                 Square fromSquare = move.getFrom().getSquare();
                 Square toSquare = move.getTo().getSquare();
                 if (piecefrom == null || piecefrom != null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
