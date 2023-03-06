@@ -68,11 +68,34 @@ public class SANDecoder {
     private Move decodePawnPush(Matcher matcher, Iterable<Move> possibleMoves) {
         String pawnto = matcher.group("pawnto");
         String pawnpushpromotion = matcher.group("pawnpushpromotion");
+
+        if (pawnpushpromotion.equals("")) {
+            switch (pawnto) {
+                case "a1":
+                case "b1":
+                case "c1":
+                case "d1":
+                case "e1":
+                case "f1":
+                case "g1":
+                case "h1":
+                case "a8":
+                case "b8":
+                case "c8":
+                case "d8":
+                case "e8":
+                case "f8":
+                case "g8":
+                case "h8":
+                    pawnpushpromotion = "Q";
+            }
+        }
+
         for (Move move : possibleMoves) {
             if (PAWN_WHITE.equals(move.getFrom().getPiece()) || PAWN_BLACK.equals(move.getFrom().getPiece())) {
                 Square toSquare = move.getTo().getSquare();
                 if (pawnto.equals(toSquare.toString())) {
-                    if (pawnpushpromotion != null && move instanceof MovePromotion) {
+                    if (!pawnpushpromotion.equals("") && move instanceof MovePromotion) {
                         MovePromotion movePromotion = (MovePromotion) move;
                         if (pawnpushpromotion.equals(getPieceCode(movePromotion.getPromotion()))) {
                             return movePromotion;
@@ -96,7 +119,7 @@ public class SANDecoder {
                 Square toSquare = move.getTo().getSquare();
                 if (pawncapturefile.equals(fromSquare.getFileChar())) {
                     if (pawncaptureto.equals(toSquare.toString())) {
-                        if (pawncapturepromotion != null && move instanceof MovePromotion) {
+                        if (!pawncapturepromotion.equals("") && move instanceof MovePromotion) {
                             MovePromotion movePromotion = (MovePromotion) move;
                             if (pawncapturepromotion.equals(getPieceCode(movePromotion.getPromotion()))) {
                                 return movePromotion;
@@ -120,7 +143,7 @@ public class SANDecoder {
             if (!PAWN_WHITE.equals(thePiece) && !PAWN_BLACK.equals(thePiece) && piece.equals(getPieceCode(move.getFrom().getPiece()))) {
                 Square fromSquare = move.getFrom().getSquare();
                 Square toSquare = move.getTo().getSquare();
-                if (piecefrom == null || piecefrom != null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
+                if (piecefrom == null || piecefrom !=null && (piecefrom.equals(fromSquare.getFileChar()) || piecefrom.equals(fromSquare.getRankChar()) || piecefrom.equals(fromSquare.toString()))) {
                     if (pieceto.equals(toSquare.toString())) {
                         return move;
                     }

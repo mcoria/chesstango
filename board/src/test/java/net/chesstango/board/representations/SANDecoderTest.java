@@ -159,13 +159,25 @@ public class SANDecoderTest {
 
     @Test
     public void test_pawnMove_promotion02(){
-        Game game =  FENDecoder.loadGame("8/PR1nk2p/4p1p1/8/3p3P/5K2/8/8 w - - 9 54 ");
+        Game game =  FENDecoder.loadGame("8/PR1nk2p/4p1p1/8/3p3P/5K2/8/8 w - - 9 54");
 
         Move expectedMove = null;
         Move decodedMove= null;
 
         expectedMove = game.getMove(Square.a7, Square.a8, Piece.QUEEN_WHITE);
         decodedMove = decoder.decode("a8Q", game.getPossibleMoves());
+        Assert.assertEquals(expectedMove, decodedMove);
+    }
+
+    @Test
+    public void test_pawnMove_promotion03(){
+        Game game =  FENDecoder.loadGame("2k1r3/1p1b4/p1p5/P1P5/1P1P1p2/3B1K2/6pP/3R4 b - - 0 37");
+
+        Move expectedMove = null;
+        Move decodedMove= null;
+
+        expectedMove = game.getMove(Square.g2, Square.g1, Piece.QUEEN_BLACK);
+        decodedMove = decoder.decode("g1", game.getPossibleMoves());
         Assert.assertEquals(expectedMove, decodedMove);
     }
 }

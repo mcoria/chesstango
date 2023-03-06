@@ -78,4 +78,40 @@ public class PGNGameTest {
         Assert.assertEquals(GameStatus.MATE, game.getStatus());
         Assert.assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
     }
+
+    @Test
+    public void testBuildGame03() throws IOException {
+        String lines = "[Event \"Testspel av Tony Hed\"]\n" +
+                "[Site \"?\"]\n" +
+                "[Date \"1996.01.01\"]\n" +
+                "[Round \"?\"]\n" +
+                "[White \"Hiarcs 3 486/66 MHz\"]\n" +
+                "[Black \"Genius 4 P90\"]\n" +
+                "[Result \"0-1\"]\n" +
+                "\n" +
+                "1. e4 e5 2. Nf3 Nf6 3. d4 Nxe4 4. Bd3 d5 5. Nxe5 Nd7\n" +
+                "6. Nxd7 Bxd7 7. O-O Qh4 8. c4 O-O-O 9. c5 g5 10. Nc3 Bg7\n" +
+                "11. Ne2 Rhe8 12. f3 Nf6 13. Bd2 Ng8 14. Be1 Qh6 15. Qb3 f5\n" +
+                "16. a4 Qe6 17. f4 g4 18. a5 a6 19. Bh4 Ne7 20. Rfe1 Qh6\n" +
+                "21. Bg5 Qg6 22. Kh1 h6 23. Bh4 Bf6 24. Bxf6 Qxf6 25. Rad1 h5\n" +
+                "26. Nc3 h4 27. Nxd5 Nxd5 28. Qxd5 h3 29. Rxe8 Rxe8 30. b4 hxg2\n" +
+                "31. Kg1 c6 32. Qc4 Qh6 33. Qc2 Qxf4 34. Qf2 Qf3 35. Qxf3 gxf3\n" +
+                "36. Kf2 f4 37. Kxf3 g1 38. Rxg1 Re3 39. Kxf4 Rxd3 40. Ke4 Rh3\n" +
+                "41. Rg2 Be6 42. Ke5 Bd5 43. Re2 Kd7 44. Rb2 Rf3 45. Re2 Rb3\n" +
+                "46. Re1 Rxb4 47. h4 Rb2 48. Rg1 Kc8 49. Kd6 Rf2 50. Rg4 Rf3\n" +
+                "51. Ke5 Ra3 52. Kd6 Rxa5 53. h5 Ra2 54. Rf4 b5 55. cxb6 Rh2\n" +
+                "56. Rf5 a5 57. Re5 Kb7 58. Kc5 Rc2 59. Kd6 Kxb6 60. Re8 Kb5\n" +
+                "61. Kc7 Rh2 62. Rh8 a4 63. Rb8 Kc4 64. Ra8 Kb3 65. Rb8 Ka2\n" +
+                "66. h6 a3 67. h7 Rxh7 0-1\n";
+
+        Reader reader = new StringReader(lines);
+
+        BufferedReader bufferReader = new BufferedReader(reader);
+
+        PGNGame pgnGame = new PGNDecoder().decodeGame(bufferReader);
+
+        Game game = pgnGame.buildGame();
+
+        Assert.assertEquals(GameStatus.CHECK, game.getStatus());
+    }
 }
