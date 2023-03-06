@@ -16,11 +16,36 @@ public enum Square {
     private final int file;
     private final int rank;
     private final long bitPosition;
+    private final String fileChar;
+    private final String rankChar;
 
     Square(int file, int rank) {
         this.file = file;
         this.rank = rank;
         this.bitPosition = 1L << toIdx();
+        this.fileChar = switch (file) {
+            case 0 -> "a";
+            case 1 -> "b";
+            case 2 -> "c";
+            case 3 -> "d";
+            case 4 -> "e";
+            case 5 -> "f";
+            case 6 -> "g";
+            case 7 -> "h";
+            default -> throw new IllegalStateException("Unexpected value: " + file);
+        };
+
+        this.rankChar = switch (rank) {
+            case 0 -> "1";
+            case 1 -> "2";
+            case 2 -> "3";
+            case 3 -> "4";
+            case 4 -> "5";
+            case 5 -> "6";
+            case 6 -> "7";
+            case 7 -> "8";
+            default -> throw new IllegalStateException("Unexpected value: " + file);
+        };
     }
 
     public int getRank() {
@@ -29,6 +54,14 @@ public enum Square {
 
     public int getFile() {
         return file;
+    }
+
+    public String getFileChar() {
+        return fileChar;
+    }
+
+    public String getRankChar() {
+        return rankChar;
     }
 
     public long getBitPosition() {

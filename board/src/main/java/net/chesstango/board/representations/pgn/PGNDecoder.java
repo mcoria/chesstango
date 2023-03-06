@@ -18,10 +18,10 @@ public class PGNDecoder {
      * <SAN move descriptor pawn captures> ::= 			      <from file>[<from rank>]               'x' <to square>[<promoted to>]
      * <SAN move descriptor pawn push>     ::= 														     <to square>[<promoted to>]
      */
-    private Pattern movePattern = Pattern.compile("([RNBQK]([a-h]|[1-8]|[a-h][1-8])?x?[a-h][1-8]|" +
+    private Pattern movePattern = Pattern.compile("[RNBQK]([a-h]|[1-8]|[a-h][1-8])?x?[a-h][1-8]|" +
                                                         "[a-h][1-8]?x[a-h][1-8][RNBQ]?|" +
                                                         "[a-h][1-8][RNBQ]?|" +
-                                                        "O-O-O|O-O)"
+                                                        "O-O-O|O-O"
     );
 
     public List<PGNGame> decodeGames(BufferedReader bufferReader) throws IOException {
@@ -105,7 +105,7 @@ public class PGNDecoder {
         List<String> result = new ArrayList<>();
         final Matcher matcher = movePattern.matcher(moveListStr);
         while (matcher.find()) {
-            String moveStr = matcher.group(1);
+            String moveStr = matcher.group(0);
             result.add(moveStr);
         }
         return result;

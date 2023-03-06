@@ -6,6 +6,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -82,7 +83,7 @@ public class SANEncoderTest {
     }
 
     @Test
-    public void test_knight_move1(){
+    public void test_knight_move01(){
         Game game =  FENDecoder.loadGame("r1k4r/ppp4p/2nb1pq1/3p1np1/4p1Q1/4P3/PPPPNPPP/RNB1K2R w KQ - 0 1");
 
         Move move = null;
@@ -94,7 +95,7 @@ public class SANEncoderTest {
     }
 
     @Test
-    public void test_knight_move2(){
+    public void test_knight_move02(){
         Game game =  FENDecoder.loadGame("rk2q3/ppp5/6n1/2b5/4pp2/P1N5/1PPPKPRP/R1B5 b - - 19 47");
 
         Move move = null;
@@ -107,7 +108,7 @@ public class SANEncoderTest {
 
 
     @Test
-    public void test_knight_move3(){
+    public void test_knight_move03(){
         Game game =  FENDecoder.loadGame("rk2q3/ppp5/5p2/2b2np1/4p3/P1N1Pn2/1PPPKPRP/R1B5 b - - 3 34");
 
         Move move = null;
@@ -121,5 +122,19 @@ public class SANEncoderTest {
         encodedMove = encoder.encode(move, game.getPossibleMoves());
         Assert.assertEquals("N5h4", encodedMove);
     }
+
+    @Test
+    @Ignore
+    public void test_knight_move04(){
+        Game game =  FENDecoder.loadGame("rnbqk2r/pp1p1ppp/4pn2/2p5/1bPP4/2N1P3/PP3PPP/R1BQKBNR w KQkq c6 0 5");
+
+        Move move = null;
+        String encodedMove = null;
+
+        move = game.getMove(Square.g1, Square.e2);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("Nge2", encodedMove);
+    }
+
 
 }
