@@ -12,6 +12,33 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
+ *
+ * Positions: Balsa_v500.pgn (Tournamente)
+ * Time elapsed: 152425 ms
+ *  _________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS |WIN % |
+ * |                 GameEvaluatorImp02|     799 |     772 |      418 |      410 |      783 |      818 |     1190.5 |     1181.0 |2371.5 /4000 | 59.3 |
+ * |            GameEvaluatorByMaterial|       0 |       3 |      318 |        0 |      187 |      179 |       93.5 |       92.5 | 186.0 /1000 | 18.6 |
+ * |    GameEvaluatorByMaterialAndMoves|       5 |       1 |      323 |        0 |      191 |      176 |      100.5 |       89.0 | 189.5 /1000 | 19.0 |
+ * |                 GameEvaluatorImp01|      45 |      33 |      155 |        0 |      304 |      312 |      197.0 |      189.0 | 386.0 /1000 | 38.6 |
+ * |                          Spike 1.4|     360 |     381 |        3 |        0 |      136 |      116 |      428.0 |      439.0 | 867.0 /1000 | 86.7 |
+ *  -------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ * Positions: Balsa_v500.pgn  (Match)
+ * Time taken: 140897 ms
+ *  _________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS |WIN % |
+ * |                              Tango|       3 |       4 |      360 |        0 |      116 |      136 |       61.0 |       72.0 | 133.0 /1000 | 13.3 |
+ * |                          Spike 1.4|     360 |     381 |        3 |        0 |      136 |      116 |      428.0 |      439.0 | 867.0 /1000 | 86.7 |
+ *  -------------------------------------------------------------------------------------------------------------------------------------------------
+ *
+ *  Positions: Balsa_v2724.pgn  (Match)
+ *  Time taken: 795103 ms
+ *  _________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS |WIN % |
+ * |                              Tango|      38 |      21 |     1853 |        0 |      926 |      850 |      501.0 |      446.0 | 947.0 /5448 | 17.4 |
+ * |                          Spike 1.4|    1853 |    1760 |       38 |        0 |      850 |      926 |     2278.0 |     2223.0 |4501.0 /5448 | 82.6 |
+ *  -------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorImp02 implements GameEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 422;

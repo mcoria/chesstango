@@ -38,7 +38,7 @@ public class TournamentMain {
 
         Instant start = Instant.now();
 
-        List<GameResult> matchResult = tournament.play(new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn")));
+        List<GameResult> matchResult = tournament.play(new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn")));
 
         Duration timeElapsed = Duration.between(start, Instant.now());
         System.out.println("Time elapsed: " + timeElapsed.toMillis() + " ms");

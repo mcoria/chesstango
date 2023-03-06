@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
 import net.chesstango.evaluation.imp.GameEvaluatorImp01;
@@ -35,10 +36,7 @@ public class MatchMain {
     public static void main(String[] args) {
         //EngineController controllerTango = new EngineControllerImp(new EngineTango(new Dummy()).enableAsync());
         SearchMove search = new DefaultSearchMove();
-        //search.setGameEvaluator(new GameEvaluatorByMaterial());
-        search.setGameEvaluator(new GameEvaluatorByMaterialAndMoves());
-        //search.setGameEvaluator(new GameEvaluatorImp01());
-        //search.setGameEvaluator(new GameEvaluatorImp02());
+        search.setGameEvaluator(new GameEvaluatorImp02());
         EngineController controllerTango = new EngineControllerImp(new EngineTango(search));
         EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
 
@@ -49,7 +47,7 @@ public class MatchMain {
 
         startEngines(controllerTango, controllerOponente);
 
-        List<GameResult> matchResult = match.play(GAMES_BALSA_TOP10);
+        List<GameResult> matchResult = match.play(new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn")));
 
         quitEngines(controllerTango, controllerOponente);
 

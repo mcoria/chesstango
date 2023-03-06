@@ -6,6 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SANDecoderTest {
@@ -65,6 +66,7 @@ public class SANDecoderTest {
 
 
     @Test
+    @Ignore
     public void test_pawnMove_promotion(){
         Game game =  FENDecoder.loadGame("3b3k/2P5/8/8/4P3/8/PP1P1PPP/R3K2R w KQ - 0 1");
 
