@@ -24,7 +24,7 @@ import static net.chesstango.board.Piece.PAWN_WHITE;
  */
 public class SANDecoder {
     private Pattern movePattern = Pattern.compile("(?<piecemove>(?<piece>[RNBQK])(?<piecefrom>[a-h]|[1-8]|[a-h][1-8])?x?(?<pieceto>[a-h][1-8]))|" +
-            "(?<pawncapture>[a-h][1-8]?x[a-h][1-8][RNBQ]?)|" +
+            "(?<pawncapture>(?<pawncapturefile>[a-h])[1-8]?x(?<pawncaptureto>[a-h][1-8])[RNBQ]?)|" +
             "(?<pawnpush>(?<pawnto>[a-h][1-8])[RNBQ]?)|" +
             "(?<queencasting>O-O-O)|(?<kingcastling>O-O)"
     );
@@ -48,12 +48,16 @@ public class SANDecoder {
     }
 
     private Move decodePawnCapture(Matcher matcher, Iterable<Move> possibleMoves) {
-        String pawnto = matcher.group("pawnto");
+        String pawncapturefile = matcher.group("pawncapturefile");
+        String pawncaptureto = matcher.group("pawncaptureto");
         for (Move move : possibleMoves) {
             if (PAWN_WHITE.equals(move.getFrom().getPiece()) || PAWN_BLACK.equals(move.getFrom().getPiece())) {
+                Square fromSquare = move.getFrom().getSquare();
                 Square toSquare = move.getTo().getSquare();
-                if (pawnto.equals(toSquare.toString())) {
-                    return move;
+                if(pawncapturefile.equals(fromSquare.getFileChar())) {
+                    if (pawncaptureto.equals(toSquare.toString())) {
+                        return move;
+                    }
                 }
             }
         }
