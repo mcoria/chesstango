@@ -29,16 +29,6 @@ public class TranscodingTest {
         for (int i = 0; i < 10; i++) {
             Assert.assertEquals(expectedFenPositions.get(i), fenPositions.get(i));
         }
-
     }
 
-    @Test
-    public void testTranscoding02(){
-        Transcoding transcoding = new Transcoding();
-
-        List<String> fenPositions = transcoding.pgnFileToFenPositions(this.getClass().getClassLoader().getResourceAsStream("main/pgn/partial.pgn"));
-
-
-
-    }
 }
