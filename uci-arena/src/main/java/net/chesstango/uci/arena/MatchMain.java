@@ -56,7 +56,6 @@ public class MatchMain {
 
         quitEngines(controllerTango, controllerOponente);
 
-
         new Reports().printEngineControllersReport(Arrays.asList(controllerTango, controllerOponente), matchResult);
     }
 

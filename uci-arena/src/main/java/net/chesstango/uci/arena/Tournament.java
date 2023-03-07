@@ -14,11 +14,12 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class Tournament {
-
+    private final int depth;
     private final List<GenericObjectPool<EngineController>> pools;
 
-    public Tournament(List<EngineControllerFactory> opponentsControllerFactories) {
+    public Tournament(List<EngineControllerFactory> opponentsControllerFactories, int depth) {
         this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
+        this.depth = depth;
     }
 
     public List<GameResult> play(List<String> fenList) {
@@ -26,11 +27,11 @@ public class Tournament {
 
         GenericObjectPool<EngineController> mainPool = pools.get(0);
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
 
         for (GenericObjectPool<EngineController> pool : pools) {
             if(pool != mainPool) {
-                MatchScheduler scheduler = new MatchScheduler(mainPool, pool);
+                MatchScheduler scheduler = new MatchScheduler(mainPool, pool, depth);
 
                 schedulers.add(scheduler);
 

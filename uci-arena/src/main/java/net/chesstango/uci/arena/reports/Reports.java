@@ -96,14 +96,12 @@ public class Reports {
 
 
     private void printReport(List<ReportRowModel> reportRows) {
-
-        System.out.printf(" _________________________________________________________________________________________________________________________________________________\n");
-        System.out.printf("|ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|WIN %% |\n");
+        System.out.printf(" ___________________________________________________________________________________________________________________________________________________\n");
+        System.out.printf("|ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %%|\n");
         reportRows.forEach(row -> {
-            System.out.printf("|%35s|%8d |%8d |%9d |%9d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %4.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.lostAsWhite, row.lostAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
+            System.out.printf("|%35s|%8d |%8d |%9d |%9d |%9d |%9d |%11.1f |%11.1f |%6.1f /%3d | %6.1f |\n", row.engineName, row.wonAsWhite, row.wonAsBlack, row.lostAsWhite, row.lostAsBlack, row.drawsAsWhite, row.drawsAsBlack, row.puntosAsWhite, row.puntosAsBlack, row.puntosTotal, row.playedGames, row.winPercentage);
         });
-
-        System.out.printf(" -------------------------------------------------------------------------------------------------------------------------------------------------\n");
+        System.out.printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------\n");
     }
 
 
