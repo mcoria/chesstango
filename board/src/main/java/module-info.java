@@ -6,6 +6,8 @@ module net.chesstango.board {
     exports net.chesstango.board.movesgenerators.pseudo;
     exports net.chesstango.board.position;
     exports net.chesstango.board.iterators;
+    exports net.chesstango.board.iterators.bysquare;
+    exports net.chesstango.board.iterators.bysquare.bypiece;
     exports net.chesstango.board.builders;
     exports net.chesstango.board.factory;
     exports net.chesstango.board.representations;

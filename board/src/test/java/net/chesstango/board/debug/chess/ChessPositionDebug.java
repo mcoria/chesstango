@@ -61,7 +61,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 	//TODO: esta es una validacion de una propiedad emergente
 	public void validar(MoveGeneratorImp moveGeneratorImp) {
 		for(int i = 0; i < 64; i++){
-			Square square = Square.getSquare(i);
+			Square square = Square.getSquareByIdx(i);
 			MoveGeneratorResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
 			if(cacheMoveGeneratorResult != null) {
 				MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(piecePlacement.getPosicion(square));

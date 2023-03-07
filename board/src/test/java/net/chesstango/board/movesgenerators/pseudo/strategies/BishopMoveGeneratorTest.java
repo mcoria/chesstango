@@ -165,7 +165,7 @@ public class BishopMoveGeneratorTest {
 		Collection<Square> affectedBySquares = new ArrayList<Square>();
 		for(int i = 0; i < 64; i++){
 			if( (affectedBy & (1L << i))  != 0 ) {
-				affectedBySquares.add(Square.getSquare(i));
+				affectedBySquares.add(Square.getSquareByIdx(i));
 			}			
 		}
 		return affectedBySquares;

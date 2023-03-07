@@ -19,7 +19,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
     public ArrayPiecePlacement() {
         for (int i = 0; i < 64; i++) {
-            this.setEmptySquare(Square.getSquare(i));
+            this.setEmptySquare(Square.getSquareByIdx(i));
         }
     }
 

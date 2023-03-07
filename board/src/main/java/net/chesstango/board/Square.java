@@ -72,6 +72,10 @@ public enum Square {
         return rank * 8 + file;
     }
 
+    public Square getMirrorSquare() {
+        return getSquare(file, 7 - rank);
+    }
+
     @Override
     public String toString() {
         return super.toString();
@@ -97,14 +101,10 @@ public enum Square {
         return array[rank * 8 + file];
     }
 
-    public static Square getSquare(int idx) {
+    public static Square getSquareByIdx(int idx) {
         if (idx < 0 || idx > 64) {
             return null;
         }
         return array[idx];
-    }
-
-    public Square getMirrorSquare() {
-        return getSquare(file, 7 - rank);
     }
 }

@@ -30,7 +30,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 		}
 		
 		for(int i = 0; i < 64; i++){
-			if(pseudoMoves[i] != null && dummyBoard.isEmpty(Square.getSquare(i))) {
+			if(pseudoMoves[i] != null && dummyBoard.isEmpty(Square.getSquareByIdx(i))) {
 				throw new RuntimeException("En un casillero de cache con movimeintos se encuentra vacio en el tablero!!!");
 			}
 		}

@@ -2,6 +2,7 @@ package net.chesstango.board;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -118,5 +119,12 @@ public class SquareTest {
 	public void testMirror() {
 		assertEquals(Square.a8, Square.a1.getMirrorSquare());
 		assertEquals(Square.h1, Square.h8.getMirrorSquare());
+	}
+
+	@Test
+	public void testIdx() {
+		for (Square square: Square.values()) {
+			Assert.assertEquals(square, Square.getSquareByIdx(square.toIdx()));
+		}
 	}
 }
