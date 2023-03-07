@@ -1,5 +1,6 @@
 package net.chesstango.evaluation.imp;
 
+import net.chesstango.board.Piece;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.evaluation.GameEvaluator;
@@ -168,4 +169,16 @@ public abstract class GameEvaluationTestCollection {
 
         Assert.assertEquals("Draw", 0, eval);
     }
+
+    @Test
+    public void testSymmetryOfPieceValues() {
+        GameEvaluator evaluator = getEvaluator();
+        Assert.assertTrue(evaluator.getPieceValue(null, Piece.PAWN_WHITE) == -evaluator.getPieceValue(null, Piece.PAWN_BLACK)) ;
+        Assert.assertTrue(evaluator.getPieceValue(null, Piece.ROOK_WHITE) == -evaluator.getPieceValue(null, Piece.ROOK_BLACK)) ;
+        Assert.assertTrue(evaluator.getPieceValue(null, Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(null, Piece.KNIGHT_BLACK)) ;
+        Assert.assertTrue(evaluator.getPieceValue(null, Piece.BISHOP_WHITE) == -evaluator.getPieceValue(null, Piece.BISHOP_BLACK)) ;
+        Assert.assertTrue(evaluator.getPieceValue(null, Piece.QUEEN_WHITE) == -evaluator.getPieceValue(null, Piece.QUEEN_BLACK)) ;
+        Assert.assertTrue(evaluator.getPieceValue(null, Piece.KING_WHITE) == -evaluator.getPieceValue(null, Piece.KING_BLACK)) ;
+    }
+
 }
