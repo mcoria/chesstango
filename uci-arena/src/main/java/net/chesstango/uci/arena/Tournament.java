@@ -14,44 +14,42 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class Tournament {
-    private final GenericObjectPool<EngineController> pool;
 
-    private final List<GenericObjectPool<EngineController>> opponentsPools;
+    private final List<GenericObjectPool<EngineController>> pools;
 
-    public Tournament(EngineControllerFactory mainControllerFactory, List<EngineControllerFactory> opponentsControllerFactories) {
-        this.pool = new GenericObjectPool<>(mainControllerFactory);
-        this.opponentsPools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
+    public Tournament(List<EngineControllerFactory> opponentsControllerFactories) {
+        this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
     }
 
     public List<GameResult> play(List<String> fenList) {
-        ExecutorService executor = Executors.newFixedThreadPool(4);
         List<MatchScheduler> schedulers = new ArrayList<>();
 
-        for (GenericObjectPool<EngineController> opponentsPool : opponentsPools) {
-            MatchScheduler scheduler = new MatchScheduler(executor, pool, opponentsPool);
-            schedulers.add(scheduler);
+        GenericObjectPool<EngineController> mainPool = pools.get(0);
 
-            scheduler.enqueue(fenList);
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+
+        for (GenericObjectPool<EngineController> pool : pools) {
+            if(pool != mainPool) {
+                MatchScheduler scheduler = new MatchScheduler(mainPool, pool);
+
+                schedulers.add(scheduler);
+
+                scheduler.enqueue(executor, fenList);
+            }
         }
-
         executor.shutdown();
-
         try {
             while (executor.awaitTermination(1, TimeUnit.SECONDS) == false) ;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        pool.close();
-        for (GenericObjectPool<EngineController> opponentsPool : opponentsPools) {
-            opponentsPool.close();
+        for (GenericObjectPool<EngineController> pool : pools) {
+            pool.close();
         }
 
         List<GameResult> result = new ArrayList<>();
-
         schedulers.forEach(scheduler -> result.addAll(scheduler.getMatchResults()));
-
-
         return result;
     }
 

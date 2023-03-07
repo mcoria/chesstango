@@ -15,6 +15,9 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ */
 public class MatchMain {
 
     public static final List<String> GAMES_BALSA_TOP10 = Arrays.asList(
@@ -36,27 +39,25 @@ public class MatchMain {
         EngineController controllerTango = new EngineControllerImp(new EngineTango(search));
         EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true));
 
-        Instant start = Instant.now();
 
         Match match = new Match(controllerTango, controllerOponente, 1);
         //match.setDebugEnabled(true);
 
+        //List<String> fenPositions = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
+        List<String> fenPositions = Arrays.asList("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6");
+        //List<String> fenPositions = Arrays.asList("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
+
+
         startEngines(controllerTango, controllerOponente);
 
-        //List<String> fenPositions = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        //List<String> fenPositions = Arrays.asList("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6");
-        List<String> fenPositions = Arrays.asList("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
-
+        Instant start = Instant.now();
         List<GameResult> matchResult = match.play(fenPositions);
+        System.out.println("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
         quitEngines(controllerTango, controllerOponente);
 
-        Duration timeElapsed = Duration.between(start, Instant.now());
-        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
         new Reports().printEngineControllersReport(Arrays.asList(controllerTango, controllerOponente), matchResult);
-
-        //new Reports().printTangoStatics(engineTango.getSessions(), false);
     }
 
     public static void startEngines(EngineController engine1, EngineController engine2) {

@@ -46,6 +46,11 @@ public class EngineControllerFactory extends BasePooledObjectFactory<EngineContr
         pooledController.getObject().send_CmdQuit();
     }
 
+    @Override
+    public void activateObject(PooledObject<EngineController> pooledController) throws Exception {
+        pooledController.getObject().send_CmdIsReady();
+    }
+
     public List<EngineController> getEngineControllers() {
         return engineControllers;
     }

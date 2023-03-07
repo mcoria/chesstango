@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author Mauricio Coria
+ */
 public class Reports {
 
     private class ReportRowModel {

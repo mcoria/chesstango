@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -28,30 +29,22 @@ import java.util.List;
 public class TournamentMain {
 
     public static void main(String[] args) {
-        List<EngineControllerFactory> opponentsControllerFactories = createOpponents();
+        List<EngineControllerFactory> controllerFactories = new ArrayList<>();
+        controllerFactories.add(new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp02.class)));
+        controllerFactories.addAll(createOpponentsControllerFactories());
 
-        EngineControllerFactory factory = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp02.class));
-
-        Tournament tournament = new Tournament(factory, opponentsControllerFactories);
-
+        Tournament tournament = new Tournament(controllerFactories);
         Instant start = Instant.now();
-
-        List<GameResult> matchResult = tournament.play(new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn")));
-
+        List<GameResult> matchResult = tournament.play(new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn")));
         System.out.println("Time elapsed: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
+        allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerFactory::getEngineControllers).collect(Collectors.toList()));
 
-        allControllerFactories.add(factory.getEngineControllers());
-
-        opponentsControllerFactories.forEach(opponentFactory -> {
-            allControllerFactories.add(opponentFactory.getEngineControllers());
-        });
-
-        new Reports().printReport(allControllerFactories,  matchResult);
+        new Reports().printReport(allControllerFactories, matchResult);
     }
 
-    private static List<EngineControllerFactory> createOpponents() {
+    private static List<EngineControllerFactory> createOpponentsControllerFactories() {
         EngineControllerFactory factory1 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterial.class));
         EngineControllerFactory factory2 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterialAndMoves.class));
         EngineControllerFactory factory3 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp01.class));
