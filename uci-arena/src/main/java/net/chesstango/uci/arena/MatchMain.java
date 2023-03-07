@@ -1,10 +1,6 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
-import net.chesstango.evaluation.imp.GameEvaluatorImp01;
-import net.chesstango.evaluation.imp.GameEvaluatorImp02;
+import net.chesstango.evaluation.imp.*;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.arena.reports.Reports;
@@ -36,9 +32,9 @@ public class MatchMain {
     public static void main(String[] args) {
         //EngineController controllerTango = new EngineControllerImp(new EngineTango(new Dummy()).enableAsync());
         SearchMove search = new DefaultSearchMove();
-        search.setGameEvaluator(new GameEvaluatorImp02());
+        search.setGameEvaluator(new GameEvaluatorImp03());
         EngineController controllerTango = new EngineControllerImp(new EngineTango(search));
-        EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
+        EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true));
 
         Instant start = Instant.now();
 
@@ -47,14 +43,18 @@ public class MatchMain {
 
         startEngines(controllerTango, controllerOponente);
 
-        List<GameResult> matchResult = match.play(new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn")));
+        //List<String> fenPositions = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
+        //List<String> fenPositions = Arrays.asList("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6");
+        List<String> fenPositions = Arrays.asList("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
+
+        List<GameResult> matchResult = match.play(fenPositions);
 
         quitEngines(controllerTango, controllerOponente);
 
         Duration timeElapsed = Duration.between(start, Instant.now());
         System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
 
-        new Reports().printReport(Arrays.asList(controllerTango, controllerOponente), matchResult);
+        new Reports().printEngineControllersReport(Arrays.asList(controllerTango, controllerOponente), matchResult);
 
         //new Reports().printTangoStatics(engineTango.getSessions(), false);
     }

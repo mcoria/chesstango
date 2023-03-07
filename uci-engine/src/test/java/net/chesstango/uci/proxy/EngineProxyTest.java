@@ -97,8 +97,8 @@ public class EngineProxyTest {
         return result;
     }
 
-    @Test
-    @Ignore // Bug happens with MORA
+    @Test // MORA crashes
+    @Ignore
     public void test_Crash() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -137,6 +137,55 @@ public class EngineProxyTest {
 
         lines = readLastLine(input, line -> line.startsWith("bestmove"));
         Assert.assertTrue(lines.size() > 0);
+
+        // quit command
+        engine.accept(new CmdQuit());
+        Thread.sleep(200);
+
+        engine.close();
+    }
+
+
+    @Test // Spike crashes
+    @Ignore
+    public void test_SpikeCrash() throws IOException, InterruptedException {
+        List<String> lines = null;
+        PipedOutputStream posOutput = new PipedOutputStream();
+        PipedInputStream pisOutput = new PipedInputStream(posOutput);
+        BufferedReader input = new BufferedReader(new InputStreamReader(pisOutput));
+
+        engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(new PrintStream(posOutput, true)))));
+        engine.open();
+
+        // uci command
+        engine.accept(new CmdUci());
+        Thread.sleep(200);
+        lines = readLastLine(input, "uciok"::equals);
+
+        // isready command
+        engine.accept(new CmdIsReady());
+        Thread.sleep(200);
+        Assert.assertEquals("readyok", input.readLine());
+
+        // ucinewgame command
+        engine.accept(new CmdUciNewGame());
+        Thread.sleep(200);
+
+        String movesStr = "a7a6 b5e2 d7b6 a4a5 b6d7 f3e1 d7b8 c3b1 f6e4 h2h3 b8c6 h3h4 d8h4 g2g3 h4h3 g3g4 d6d5 g4g5 e4g5 f2f3 c6d4 f3f4 e5f4 f1f4 h3g3 g1f1 c8h3 e1g2 h3g2 f1g1";
+        List<String> moveList = Arrays.asList(movesStr.split(" "));
+
+        for(int i = 0; i < 16; i++) {
+            // startpos command
+            engine.accept(new CmdPosition("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6", moveList.subList(0, i * 2) ));
+            Thread.sleep(200);
+
+            // go command
+            engine.accept(new CmdGo().setDepth(1));
+            Thread.sleep(200);
+
+            lines = readLastLine(input, line -> line.startsWith("bestmove"));
+            Assert.assertTrue(lines.size() > 0);
+        }
 
         // quit command
         engine.accept(new CmdQuit());

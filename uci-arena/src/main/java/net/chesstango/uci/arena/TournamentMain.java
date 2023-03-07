@@ -18,6 +18,7 @@ import net.chesstango.uci.proxy.ProxyConfig;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,35 +28,37 @@ import java.util.List;
 public class TournamentMain {
 
     public static void main(String[] args) {
-        List<EngineController> opponents = createOpponents();
-        //EngineControllerFactory factory = new EngineControllerFactory(()->new EngineProxy(ProxyConfig.loadEngineConfig("MORA")));
+        List<EngineControllerFactory> opponentsControllerFactories = createOpponents();
 
         EngineControllerFactory factory = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp02.class));
 
-        Tournament tournament = new Tournament(factory, opponents);
-
-        opponents.forEach(TournamentMain::startEngine);
+        Tournament tournament = new Tournament(factory, opponentsControllerFactories);
 
         Instant start = Instant.now();
 
         List<GameResult> matchResult = tournament.play(new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v500.pgn")));
 
-        Duration timeElapsed = Duration.between(start, Instant.now());
-        System.out.println("Time elapsed: " + timeElapsed.toMillis() + " ms");
+        System.out.println("Time elapsed: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
-        opponents.forEach(TournamentMain::quitEngine);
+        List<List<EngineController>> allControllerFactories = new ArrayList<>();
 
+        allControllerFactories.add(factory.getEngineControllers());
 
-        new Reports().printReport(factory.getEngineControllers(), opponents, matchResult);
+        opponentsControllerFactories.forEach(opponentFactory -> {
+            allControllerFactories.add(opponentFactory.getEngineControllers());
+        });
+
+        new Reports().printReport(allControllerFactories,  matchResult);
     }
 
-    private static List<EngineController> createOpponents() {
-        EngineController engine0 = createTangoController(GameEvaluatorByMaterial.class);
-        EngineController engine1 = createTangoController(GameEvaluatorByMaterialAndMoves.class);
-        EngineController engine2 = createTangoController(GameEvaluatorImp01.class);
+    private static List<EngineControllerFactory> createOpponents() {
+        EngineControllerFactory factory1 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterial.class));
+        EngineControllerFactory factory2 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterialAndMoves.class));
+        EngineControllerFactory factory3 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp01.class));
 
-        EngineController spike = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")));
-        return Arrays.asList(engine0, engine1, engine2, spike);
+        EngineControllerFactory spikeFactory = new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
+
+        return Arrays.asList(factory1, factory2, factory3, spikeFactory);
     }
 
     private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {
@@ -79,14 +82,6 @@ public class TournamentMain {
             throw new RuntimeException(e);
         }
         return new EngineTango(search);
-    }
-
-    private static void startEngine(EngineController engine) {
-        engine.startEngine();
-    }
-
-    private static void quitEngine(EngineController engine) {
-        engine.send_CmdQuit();
     }
 
 }

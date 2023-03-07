@@ -4,16 +4,16 @@ import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.GameDebugEncoder;
-import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -52,19 +52,29 @@ public class Match {
     public List<GameResult> play(String fen) {
         List<GameResult> result = new ArrayList<>();
 
-        setFen(fen);
+        try {
 
-        setChairs(controller1, controller2);
+            setFen(fen);
 
-        compete();
+            setChairs(controller1, controller2);
 
-        result.add(createResult());
+            compete();
 
-        setChairs(controller2, controller1);
+            result.add(createResult());
 
-        compete();
+            setChairs(controller2, controller1);
 
-        result.add(createResult());
+            compete();
+
+            result.add(createResult());
+
+        } catch (RuntimeException e) {
+            System.err.println("Error playing fen:" + fen);
+
+            printPGN(System.err);
+
+            throw e;
+        }
 
         return result;
     }
@@ -148,12 +158,12 @@ public class Match {
 
             }
         } else {
-            printDebug();
+            printDebug(System.err);
             throw new RuntimeException("Game is still in progress.");
         }
 
         if (debugEnabled) {
-            printDebug();
+            printDebug(System.out);
         }
 
         return new GameResult(game, white, black, winner, matchPoints);
@@ -185,26 +195,26 @@ public class Match {
             }
         }
 
-        printDebug();
+        printDebug(System.err);
 
         throw new RuntimeException("No move found " + bestMove);
     }
 
-    private void printDebug() {
-        System.out.println(game.toString());
+    private void printDebug(PrintStream printStream) {
+        printStream.println(game.toString());
 
-        System.out.println();
+        printStream.println();
 
-        printPGN();
+        printPGN(printStream);
 
-        System.out.println();
+        printStream.println();
 
         printMoveExecution();
 
-        System.out.println("--------------------------------------------------------------------------------");
+        printStream.println("--------------------------------------------------------------------------------");
     }
 
-    private void printPGN() {
+    private void printPGN(PrintStream printStream) {
         PGNEncoder encoder = new PGNEncoder();
         PGNGame pgnGame = PGNGame.createFromGame(game);
 
@@ -213,7 +223,7 @@ public class Match {
         pgnGame.setBlack(black.getEngineName());
         pgnGame.setFen(fen);
 
-        System.out.println(encoder.encode(pgnGame));
+        printStream.println(encoder.encode(pgnGame));
     }
 
     private void printMoveExecution() {

@@ -29,15 +29,14 @@ public class Reports {
         public double winPercentage;
     }
 
-    public void printReport(List<EngineController> mainControllers, List<EngineController> opponents, List<GameResult> matchResult) {
+    public void printReport(List<List<EngineController>> controllersListCollection, List<GameResult> matchResult) {
         List<ReportRowModel> rows = new ArrayList<>();
-        rows.add( createRowModelMultipleEngine(mainControllers, matchResult) );
-        opponents.forEach(engine -> rows.add(createRowModelSingleEngine(engine, matchResult)));
+        controllersListCollection.forEach(controllerList -> rows.add(createRowModelMultipleEngine(controllerList, matchResult)));
         printReport(rows);
     }
 
 
-    public void printReport(List<EngineController> engines, List<GameResult> matchResult) {
+    public void printEngineControllersReport(List<EngineController> engines, List<GameResult> matchResult) {
         List<ReportRowModel> rows = new ArrayList<>();
         engines.forEach(engine -> rows.add(createRowModelSingleEngine(engine, matchResult)));
         printReport(rows);

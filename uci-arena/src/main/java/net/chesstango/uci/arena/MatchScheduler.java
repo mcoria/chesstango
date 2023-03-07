@@ -1,0 +1,72 @@
+package net.chesstango.uci.arena;
+
+import net.chesstango.uci.gui.EngineController;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
+public class MatchScheduler {
+    private static final int BATCH_SIZE = 10;
+    private final GenericObjectPool<EngineController> pool1;
+    private final GenericObjectPool<EngineController> pool2;
+    private final List<GameResult> matchResults = Collections.synchronizedList(new ArrayList<>());
+    private final ExecutorService executor;
+
+
+    public MatchScheduler(ExecutorService executor, GenericObjectPool<EngineController> pool1, GenericObjectPool<EngineController> pool2) {
+        this.pool1 = pool1;
+        this.pool2 = pool2;
+        this.executor = executor;
+    }
+
+    public void enqueue(List<String> fenList) {
+        final AtomicInteger counter = new AtomicInteger();
+
+        final Collection<List<String>> batches = fenList.stream()
+                .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / BATCH_SIZE))
+                .values();
+
+        batches.forEach( batch -> {
+            executor.submit(() -> matchResults.addAll(play(batch)));
+        });
+
+    }
+
+    public List<GameResult> getMatchResults(){
+        return matchResults;
+    }
+
+    private List<GameResult> play(List<String> fenList) {
+        EngineController controller1 = null;
+        try {
+            controller1 = pool1.borrowObject();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
+        }
+
+        EngineController controller2 = null;
+        try {
+            controller2 = pool2.borrowObject();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
+        }
+
+        Match match = new Match(controller1, controller2, 1);
+
+        List<GameResult> thisMatchResults = match.play(fenList);
+
+        pool1.returnObject(controller1);
+        pool2.returnObject(controller2);
+
+        return thisMatchResults;
+    }
+
+}
