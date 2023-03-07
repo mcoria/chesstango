@@ -7,13 +7,11 @@ import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
+import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.imp.GameEvaluatorImp03;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
-import net.chesstango.uci.arena.EngineControllerFactory;
-import net.chesstango.uci.arena.GameResult;
-import net.chesstango.uci.arena.Match;
-import net.chesstango.uci.arena.MatchMain;
+import net.chesstango.uci.arena.*;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -33,7 +31,7 @@ import java.util.stream.Collectors;
 public class EvaluationMain {
     private static final int MATCH_DEPTH = 1;
     private static final int POPULATION_SIZE = 15;
-    private static final int GENERATION_LIMIT = 30;
+    private static final int GENERATION_LIMIT = 100;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -47,9 +45,9 @@ public class EvaluationMain {
     }
 
     public static void main(String[] args) {
-        executor = Executors.newFixedThreadPool(4);
+        executor = Executors.newFixedThreadPool(5);
         pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
-        EvaluationMain main = new EvaluationMain(MatchMain.GAMES_BALSA_TOP10, new GeneticProviderTwoFactorsGenes(GameEvaluatorImp03.class));
+        EvaluationMain main = new EvaluationMain(new Transcoding().pgnFileToFenPositions(EvaluationMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn")), new GeneticProviderTwoFactorsGenes(GameEvaluatorImp03.class));
         main.findGenotype();
         pool.close();
         executor.shutdown();

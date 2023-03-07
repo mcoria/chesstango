@@ -12,36 +12,25 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  *
- * Positions: Balsa_v500.pgn
- * Depth: 1
- * Time elapsed: 105736 ms
- *  ___________________________________________________________________________________________________________________________________________________
- * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |                 GameEvaluatorImp03|     275 |     305 |     1058 |     1056 |     1167 |     1139 |      858.5 |      874.5 |1733.0 /5000 |   34.7 |
- * |            GameEvaluatorByMaterial|      45 |      72 |      100 |       77 |      355 |      351 |      222.5 |      247.5 | 470.0 /1000 |   47.0 |
- * |    GameEvaluatorByMaterialAndMoves|       9 |      10 |      175 |      177 |      316 |      313 |      167.0 |      166.5 | 333.5 /1000 |   33.4 |
- * |                 GameEvaluatorImp01|     186 |     174 |       22 |       20 |      292 |      306 |      332.0 |      327.0 | 659.0 /1000 |   65.9 |
- * |                 GameEvaluatorImp02|     318 |     308 |        8 |        1 |      174 |      191 |      405.0 |      403.5 | 808.5 /1000 |   80.9 |
- * |                          Spike 1.4|     498 |     494 |        0 |        0 |        2 |        6 |      499.0 |      497.0 | 996.0 /1000 |   99.6 |
- *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  *
  *  Positions: Balsa_v2724.pgn
  *  Depth: 1
  *  Time elapsed: 1066937 ms
- *  ______________________________________________________________________________________________________________________________________________________
- * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS  |   WIN %|
- * |                 GameEvaluatorImp03|    1816 |    1788 |     5856 |     5920 |     5938 |     5902 |     4785.0 |     4739.0 |9524.0 /27220 |   35.0 |
- * |            GameEvaluatorByMaterial|     391 |     416 |      564 |      561 |     1769 |     1747 |     1275.5 |     1289.5 |2565.0 /5448  |   47.1 |
- * |    GameEvaluatorByMaterialAndMoves|      29 |      36 |     1050 |     1106 |     1645 |     1582 |      851.5 |      827.0 |1678.5 /5448  |   30.8 |
- * |                 GameEvaluatorImp01|     985 |     980 |      150 |      118 |     1589 |     1626 |     1779.5 |     1793.0 |3572.5 /5448  |   65.6 |
- * |                 GameEvaluatorImp02|    1849 |    1753 |       23 |       30 |      852 |      941 |     2275.0 |     2223.5 |4498.5 /5448  |   82.6 |
- * |                          Spike 1.4|    2666 |    2671 |        1 |        1 |       47 |       42 |     2689.5 |     2692.0 |5381.5 /5428  |   99.1 |
- *  ------------------------------------------------------------------------------------------------------------------------------------------------------
+ *  Time elapsed: 355648 ms
+ *  _______________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|  TOTAL POINTS  |   WIN %|
+ * |                 GameEvaluatorImp03|    1910 |    1846 |     5827 |     5982 |     5873 |     5782 |     4846.5 |     4737.0 | 9583.5 / 27220 |   35.2 |
+ * |            GameEvaluatorByMaterial|     422 |     409 |      560 |      596 |     1742 |     1719 |     1293.0 |     1268.5 | 2561.5 / 5448  |   47.0 |
+ * |    GameEvaluatorByMaterialAndMoves|      32 |      45 |     1106 |     1165 |     1586 |     1514 |      825.0 |      802.0 | 1627.0 / 5448  |   29.9 |
+ * |                 GameEvaluatorImp01|     973 |     968 |      161 |      120 |     1590 |     1636 |     1768.0 |     1786.0 | 3554.0 / 5448  |   65.2 |
+ * |                 GameEvaluatorImp02|    1896 |    1747 |       18 |       29 |      810 |      948 |     2301.0 |     2221.0 | 4522.0 / 5448  |   83.0 |
+ * |                          Spike 1.4|    2659 |    2658 |        1 |        0 |       54 |       56 |     2686.0 |     2686.0 | 5372.0 / 5428  |   99.0 |
+ *  -------------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorImp03 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 104;
-    private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 896;
+    private static final int FACTOR_MATERIAL_DEFAULT = 500;
+    private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 500;
 
     private final int material;
     private final int material_color;
