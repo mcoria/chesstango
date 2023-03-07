@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.*;
 import net.chesstango.search.DefaultSearchMove;
@@ -41,8 +42,9 @@ public class TournamentMain {
     }
 
     private static List<String> getFenList(){
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
 
+        /*
         List<String> fenList = Arrays.asList(
                 "r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6", // ESTE TIENE PROBLEMAS
                 "r2qkbnr/pp1n1ppp/2p1p3/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R b KQkq - 3 6",
@@ -55,6 +57,7 @@ public class TournamentMain {
                 "r1b1kb1r/pp1n1pp1/2p1pq1p/3p4/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQkq - 1 8",
                 "r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/2N1PN2/PPQ2PPP/R1B1KB1R w KQkq - 4 7",
                 "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6");
+         */
 
         return fenList;
     }
@@ -64,7 +67,7 @@ public class TournamentMain {
         EngineControllerFactory factory1 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterial.class));
         EngineControllerFactory factory2 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterialAndMoves.class));
         EngineControllerFactory factory3 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp01.class));
-        EngineControllerFactory factory4 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp01.class));
+        EngineControllerFactory factory4 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp02.class));
 
         EngineControllerFactory spikeFactory = new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
 

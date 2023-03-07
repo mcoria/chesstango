@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class Tournament {
+    private final static int THREADS_NUMBER = 5;
     private final int depth;
     private final List<GenericObjectPool<EngineController>> pools;
 
@@ -27,7 +28,7 @@ public class Tournament {
 
         GenericObjectPool<EngineController> mainPool = pools.get(0);
 
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
 
         for (GenericObjectPool<EngineController> pool : pools) {
             if(pool != mainPool) {

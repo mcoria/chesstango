@@ -14,7 +14,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  * Positions: Balsa_v500.pgn (Tournamente)
- *
+ * Depth: 1
  * Time elapsed: 89616 ms
  *  _________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS |WIN % |
@@ -26,6 +26,7 @@ import java.util.Iterator;
  *  -------------------------------------------------------------------------------------------------------------------------------------------------
  *
  * Positions: Balsa_v500.pgn  (Match)
+ * Depth: 1
  * Time taken: 140897 ms
  *  _________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS |WIN % |
@@ -34,6 +35,7 @@ import java.util.Iterator;
  *  -------------------------------------------------------------------------------------------------------------------------------------------------
  *
  *  Positions: Balsa_v2724.pgn  (Match)
+ *  Depth: 1
  *  Time taken: 795103 ms
  *  _________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS |WIN % |

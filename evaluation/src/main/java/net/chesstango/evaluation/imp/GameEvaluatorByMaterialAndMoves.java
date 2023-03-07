@@ -11,7 +11,6 @@ import net.chesstango.board.Game;
 public class GameEvaluatorByMaterialAndMoves implements GameEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 600;
     private static final int FACTOR_MOVE_DEFAULT = 400;
-
     private final int material;
     private final int legalmoves;
 
@@ -57,5 +56,4 @@ public class GameEvaluatorByMaterialAndMoves implements GameEvaluator {
             case KING_BLACK -> -10;
         };
     }
-
 }

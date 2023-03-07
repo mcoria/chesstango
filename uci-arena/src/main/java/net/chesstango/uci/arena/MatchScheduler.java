@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class MatchScheduler {
-    private static final int BATCH_SIZE = 1;
+    private static final int BATCH_SIZE = 10;
     private final int depth;
     private final GenericObjectPool<EngineController> pool1;
     private final GenericObjectPool<EngineController> pool2;

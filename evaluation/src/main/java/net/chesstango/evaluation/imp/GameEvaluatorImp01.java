@@ -11,7 +11,6 @@ import java.util.Set;
  * @author Mauricio Coria
  */
 public class GameEvaluatorImp01 implements GameEvaluator {
-
     private static final int FACTOR_MATERIAL_DEFAULT = 628;
     private static final int FACTOR_EXPANSION_DEFAULT = 288;
     private static final int FACTOR_ATAQUE_DEFAULT = 84;
@@ -89,5 +88,4 @@ public class GameEvaluatorImp01 implements GameEvaluator {
             case KING_BLACK -> -10;
         };
     }
-
 }
