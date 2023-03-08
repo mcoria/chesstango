@@ -106,24 +106,52 @@ public class GameEvaluatorSimplifiedEvaluatorTest extends GameEvaluationTestColl
         Assert.assertEquals(0, BISHOPS_WHITE_VALUES[Square.g7.toIdx()]);
         Assert.assertEquals(-10, BISHOPS_WHITE_VALUES[Square.h7.toIdx()]);
 
-
-        /*
-        for (int rank = 0; rank < 8; rank++) {
-            for (int file = 0; file < 8; file++) {
-                System.out.printf("%d,", -BISHOPS_WHITE_VALUES[Square.getSquare(file, rank).getMirrorSquare().toIdx()]);
-                if (file == 7) {
-                    System.out.println("\t // Rank " + (rank + 1));
-                }
-            }
-        }
-         */
-
         Assert.assertTrue(BISHOPS_WHITE_VALUES.length == 64 );
         Assert.assertTrue(BISHOPS_BLACK_VALUES.length == 64 );
 
         for (Square square : Square.values()) {
             //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, BISHOPS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), BISHOPS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
             Assert.assertEquals(BISHOPS_WHITE_VALUES[square.toIdx()], -BISHOPS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+        }
+    }
+
+    @Test
+    public void testQueenValues() {
+        Assert.assertEquals(-10, QUEENS_WHITE_VALUES[Square.a2.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.b2.toIdx()]);
+        Assert.assertEquals(5, QUEENS_WHITE_VALUES[Square.c2.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.d2.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.e2.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.f2.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.g2.toIdx()]);
+        Assert.assertEquals(-10, QUEENS_WHITE_VALUES[Square.h2.toIdx()]);
+
+        Assert.assertEquals(-10, QUEENS_WHITE_VALUES[Square.a7.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.b7.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.c7.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.d7.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.e7.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.f7.toIdx()]);
+        Assert.assertEquals(0, QUEENS_WHITE_VALUES[Square.g7.toIdx()]);
+        Assert.assertEquals(-10, QUEENS_WHITE_VALUES[Square.h7.toIdx()]);
+
+        /*
+        for (int rank = 0; rank < 8; rank++) {
+            for (int file = 0; file < 8; file++) {
+                System.out.printf("%d,", -QUEENS_WHITE_VALUES[Square.getSquare(file, rank).getMirrorSquare().toIdx()]);
+                if (file == 7) {
+                    System.out.println("\t // Rank " + (rank + 1));
+                }
+            }
+        }*/
+
+
+        Assert.assertTrue(QUEENS_WHITE_VALUES.length == 64 );
+        Assert.assertTrue(QUEENS_BLACK_VALUES.length == 64 );
+
+        for (Square square : Square.values()) {
+            //System.out.printf("Comparing %s(%d) and %s(%d)\n", square, QUEENS_WHITE_VALUES[square.toIdx()], square.getMirrorSquare(), QUEENS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
+            Assert.assertEquals(QUEENS_WHITE_VALUES[square.toIdx()], -QUEENS_BLACK_VALUES[square.getMirrorSquare().toIdx()]);
         }
     }
 

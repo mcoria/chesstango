@@ -14,17 +14,17 @@ import java.util.Iterator;
  * <p>
  * Positions: Balsa_Top50.pgn
  * Depth: 2
- * Time taken: 105825 ms
+ * Time taken: 131940 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       2 |       4 |       14 |       21 |       34 |       25 |       19.0 |       16.5 |  35.5 /100 |   35.5 |
- * |                 GameEvaluatorImp02|      21 |      14 |        4 |        2 |       25 |       34 |       33.5 |       31.0 |  64.5 /100 |   64.5 |
+ * |   GameEvaluatorSimplifiedEvaluator|       4 |       4 |       21 |       19 |       25 |       27 |       16.5 |       17.5 |  34.0 /100 |   34.0 |
+ * |                 GameEvaluatorImp02|      19 |      21 |        4 |        4 |       27 |       25 |       32.5 |       33.5 |  66.0 /100 |   66.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 397;
-    private static final int FACTOR_POSITION_DEFAULT = 603;
+    private static final int FACTOR_MATERIAL_DEFAULT = 500;
+    private static final int FACTOR_POSITION_DEFAULT = 500;
 
     private final int material;
     private final int position;
@@ -70,6 +70,8 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
                 case BISHOP_BLACK -> BISHOPS_BLACK_VALUES;
                 case ROOK_WHITE -> ROOKS_WHITE_VALUES;
                 case ROOK_BLACK -> ROOKS_BLACK_VALUES;
+                case QUEEN_WHITE -> QUEENS_WHITE_VALUES;
+                case QUEEN_BLACK -> QUEENS_BLACK_VALUES;
                 default -> null;
             };
             if (positionValues != null) {
@@ -185,6 +187,28 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 6
             5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 7
             0, 0, 0, -5, -5, 0, 0, 0                // Rank 8
+    };
+
+    protected static final int[] QUEENS_WHITE_VALUES = {
+            -20, -10, -10, -5, -5, -10, -10, -20,   // Rank 1
+            -10, 0, 5, 0, 0, 0, 0, -10,             // Rank 2
+            -10, 5, 5, 5, 5, 5, 0, -10,             // Rank 3
+            0, 0, 5, 5, 5, 5, 0, -5,                // Rank 4
+            -5, 0, 5, 5, 5, 5, 0, -5,               // Rank 5
+            -10, 0, 5, 5, 5, 5, 0, -10,             // Rank 6
+            -10, 0, 0, 0, 0, 0, 0, -10,             // Rank 7
+            -20, -10, -10, -5, -5, -10, -10, -20    // Rank 8
+    };
+
+    protected static final int[] QUEENS_BLACK_VALUES = {
+            20, 10, 10, 5, 5, 10, 10, 20,     // Rank 1
+            10, 0, 0, 0, 0, 0, 0, 10,         // Rank 2
+            10, 0, -5, -5, -5, -5, 0, 10,     // Rank 3
+            5, 0, -5, -5, -5, -5, 0, 5,       // Rank 4
+            0, 0, -5, -5, -5, -5, 0, 5,       // Rank 5
+            10, -5, -5, -5, -5, -5, 0, 10,    // Rank 6
+            10, 0, -5, 0, 0, 0, 0, 10,        // Rank 7
+            20, 10, 10, 5, 5, 10, 10, 20,     // Rank 8
     };
 
 }
