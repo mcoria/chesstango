@@ -5,7 +5,7 @@
     <groupId>net.chesstango</groupId>
     <artifactId>chesstango</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.10-SNAPSHOT</version>
 
     <modules>
         <module>board</module>
