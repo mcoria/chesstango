@@ -18,7 +18,7 @@ import java.util.Iterator;
  * <p>
  *
  * Positions: Balsa_v500.pgn
- * Depth: 2
+ * Depth: 1
  * Time elapsed: 980000 ms
  *  _________________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|     TOTAL POINTS |   WIN %|
@@ -29,6 +29,7 @@ import java.util.Iterator;
  * |                          Spike 1.4|    1451 |    1408 |       48 |       70 |     1225 |     1246 |     2063.5 |     2031.0 |  4094.5 /   5448 |   75.2 |
  *  --------------------------------------------------------------------------------------------------------------------------------------------------------
  *
+ * 
  * Positions: Balsa_Top50.pgn
  * Depth: 2
  * Time taken: 141815 ms
