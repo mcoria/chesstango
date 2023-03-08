@@ -1,7 +1,7 @@
 /**
  *
  */
-package net.chesstango.search.smart;
+package net.chesstango.search.smartminmax;
 
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;

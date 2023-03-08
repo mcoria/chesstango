@@ -3,7 +3,7 @@
  */
 package net.chesstango.search;
 
-import net.chesstango.search.smart.*;
+import net.chesstango.search.smartminmax.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

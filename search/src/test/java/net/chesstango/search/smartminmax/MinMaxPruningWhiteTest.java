@@ -1,8 +1,7 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smartminmax;
 
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;

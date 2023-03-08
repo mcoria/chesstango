@@ -1,14 +1,9 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smartminmax;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 /**

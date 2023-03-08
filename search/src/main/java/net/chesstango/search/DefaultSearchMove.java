@@ -3,7 +3,7 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smartminmax.IterativeDeeping;
 
 /**
  * @author Mauricio Coria

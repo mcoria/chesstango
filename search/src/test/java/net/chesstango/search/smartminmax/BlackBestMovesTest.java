@@ -1,5 +1,5 @@
 
-package net.chesstango.search.smart;
+package net.chesstango.search.smartminmax;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;

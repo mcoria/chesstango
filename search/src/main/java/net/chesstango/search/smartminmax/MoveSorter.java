@@ -1,4 +1,4 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smartminmax;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
