@@ -27,7 +27,7 @@ public class TournamentMain {
 
     public static void main(String[] args) {
         List<EngineControllerFactory> controllerFactories = new ArrayList<>();
-        controllerFactories.add(new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp03.class)));
+        controllerFactories.add(new EngineControllerFactory(() -> createTangoController(GameEvaluatorSEandImp02.class)));
         controllerFactories.addAll(createOpponentsControllerFactories());
 
         Tournament tournament = new Tournament(controllerFactories, 1);
@@ -64,14 +64,15 @@ public class TournamentMain {
 
 
     private static List<EngineControllerFactory> createOpponentsControllerFactories() {
-        EngineControllerFactory factory1 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterial.class));
+        //EngineControllerFactory factory1 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterial.class));
         EngineControllerFactory factory2 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorByMaterialAndMoves.class));
-        EngineControllerFactory factory3 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp01.class));
+        //EngineControllerFactory factory3 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp01.class));
         EngineControllerFactory factory4 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorImp02.class));
+        EngineControllerFactory factory5 = new EngineControllerFactory(() -> createTangoController(GameEvaluatorSimplifiedEvaluator.class));
 
         EngineControllerFactory spikeFactory = new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))));
 
-        return Arrays.asList(factory1, factory2, factory3, factory4, spikeFactory);
+        return Arrays.asList(factory2, factory4, factory5, spikeFactory);
     }
 
     private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {

@@ -13,7 +13,7 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  *
- * Positions: Balsa_v500.pgn (Tournamente)
+ * Positions: Balsa_v500.pgn
  * Depth: 1
  * Time elapsed: 89616 ms
  *  _________________________________________________________________________________________________________________________________________________

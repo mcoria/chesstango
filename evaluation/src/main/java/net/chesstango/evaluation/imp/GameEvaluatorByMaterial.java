@@ -9,7 +9,6 @@ import net.chesstango.evaluation.GameEvaluator;
  * @author Mauricio Coria
  */
 public class GameEvaluatorByMaterial implements GameEvaluator {
-
     @Override
     public int evaluate(final Game game) {
         int evaluation = 0;

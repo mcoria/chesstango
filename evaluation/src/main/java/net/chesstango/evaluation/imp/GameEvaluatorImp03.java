@@ -12,7 +12,6 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  *
- *
  *  Positions: Balsa_v2724.pgn
  *  Depth: 1
  *  Time elapsed: 1066937 ms
