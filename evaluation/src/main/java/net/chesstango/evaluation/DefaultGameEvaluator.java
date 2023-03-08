@@ -4,6 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.evaluation.imp.GameEvaluatorImp02;
 
+/**
+ * @author Mauricio Coria
+ */
 public class DefaultGameEvaluator implements GameEvaluator {
 
     private GameEvaluator imp = new GameEvaluatorImp02();
