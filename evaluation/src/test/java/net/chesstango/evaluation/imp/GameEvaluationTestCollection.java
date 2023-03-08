@@ -1,12 +1,15 @@
 package net.chesstango.evaluation.imp;
 
 import net.chesstango.board.Piece;
+import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorBuilder;
+import net.chesstango.board.position.ChessPosition;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.function.Function;
@@ -179,6 +182,18 @@ public abstract class GameEvaluationTestCollection {
         Assert.assertTrue(evaluator.getPieceValue(null, Piece.BISHOP_WHITE) == -evaluator.getPieceValue(null, Piece.BISHOP_BLACK)) ;
         Assert.assertTrue(evaluator.getPieceValue(null, Piece.QUEEN_WHITE) == -evaluator.getPieceValue(null, Piece.QUEEN_BLACK)) ;
         Assert.assertTrue(evaluator.getPieceValue(null, Piece.KING_WHITE) == -evaluator.getPieceValue(null, Piece.KING_BLACK)) ;
+    }
+
+
+    @Test
+    public void testSymmetryOfGame() {
+        Game game = FENDecoder.loadGame ("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7");
+        MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder(new GameBuilder());
+        game.getChessPosition().constructBoardRepresentation(mirrorBuilder);
+        Game gameMirror = mirrorBuilder.getChessRepresentation();
+
+        Assert.assertTrue(getEvaluator().evaluate(game) == (-1) * getEvaluator().evaluate(gameMirror) );
+
     }
 
 }

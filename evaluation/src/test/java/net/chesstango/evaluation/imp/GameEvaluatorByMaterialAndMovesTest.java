@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+/**
+ * @author Mauricio Coria
+ */
 public class GameEvaluatorByMaterialAndMovesTest extends GameEvaluationTestCollection  {
     private GameEvaluatorImp01 evaluator;
 

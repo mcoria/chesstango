@@ -4,6 +4,9 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 
+/**
+ * @author Mauricio Coria
+ */
 public class MirrorBuilder<T> implements ChessRepresentationBuilder<T> {
 
     private ChessRepresentationBuilder<T> chessPositionBuilder;

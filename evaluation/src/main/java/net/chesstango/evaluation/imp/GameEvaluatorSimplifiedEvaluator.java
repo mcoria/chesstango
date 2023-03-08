@@ -14,11 +14,11 @@ import java.util.Iterator;
  * <p>
  * Positions: Balsa_Top50.pgn
  * Depth: 2
- * Time taken: 101744 ms
+ * Time taken: 106156 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       1 |       0 |       22 |       23 |       27 |       27 |       14.5 |       13.5 |  28.0 /100 |   28.0 |
- * |                 GameEvaluatorImp02|      23 |      22 |        0 |        1 |       27 |       27 |       36.5 |       35.5 |  72.0 /100 |   72.0 |
+ * |   GameEvaluatorSimplifiedEvaluator|       3 |       1 |       18 |       29 |       29 |       20 |       17.5 |       11.0 |  28.5 /100 |   28.5 |
+ * |                 GameEvaluatorImp02|      29 |      18 |        1 |        3 |       20 |       29 |       39.0 |       32.5 |  71.5 /100 |   71.5 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
@@ -49,8 +49,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation = material * evaluateByMaterial(game);
-                evaluation += position * evaluateByPosition(game);
+                evaluation = material * evaluateByMaterial(game) + position * evaluateByPosition(game);
         }
         return evaluation;
     }
@@ -67,6 +66,8 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
                 case PAWN_BLACK -> PAWN_BLACK_VALUES;
                 case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
                 case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
+                case BISHOP_WHITE -> BISHOPS_WHITE_VALUES;
+                case BISHOP_BLACK -> BISHOPS_BLACK_VALUES;
                 default -> null;
             };
             if (positionValues != null) {
@@ -118,7 +119,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
 
 
     protected static final int[] KNIGHT_WHITE_VALUES = {
-            -50, -40, -30, -30, -30, -30, -40, -50,  // Rank 1
+            -50, -40, -30, -30, -30, -30, -40, -50, // Rank 1
             -40, -20, 0, 5, 5, 0, -20, -40,         // Rank 2
             -30, 5, 10, 15, 15, 10, 5, -30,         // Rank 3
             -30, 0, 15, 20, 20, 15, 0, -30,         // Rank 4
@@ -138,4 +139,27 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             40, 20, 0, -5, -5, 0, 20, 40,              // Rank 7
             50, 40, 30, 30, 30, 30, 40, 50             // Rank 8
     };
+
+    protected static final int[] BISHOPS_WHITE_VALUES = {
+            -20, -10, -10, -10, -10, -10, -10, -20,     // Rank 1
+            -10, 5, 0, 0, 0, 0, 5, -10,                 // Rank 2
+            -10, 10, 10, 10, 10, 10, 10, -10,           // Rank 3
+            -10, 0, 10, 10, 10, 10, 0, -10,             // Rank 4
+            -10, 5, 5, 10, 10, 5, 5, -10,               // Rank 5
+            -10, 0, 5, 10, 10, 5, 0, -10,               // Rank 6
+            -10, 0, 0, 0, 0, 0, 0, -10,                 // Rank 7
+            -20, -10, -10, -10, -10, -10, -10, -20      // Rank 8
+    };
+
+    protected static final int[] BISHOPS_BLACK_VALUES = {
+            20, 10, 10, 10, 10, 10, 10, 20,             // Rank 1
+            10, 0, 0, 0, 0, 0, 0, 10,                   // Rank 2
+            10, 0, -5, -10, -10, -5, 0, 10,             // Rank 3
+            10, -5, -5, -10, -10, -5, -5, 10,           // Rank 4
+            10, 0, -10, -10, -10, -10, 0, 10,           // Rank 5
+            10, -10, -10, -10, -10, -10, -10, 10,       // Rank 6
+            10, -5, 0, 0, 0, 0, -5, 10,                 // Rank 7
+            20, 10, 10, 10, 10, 10, 10, 20              // Rank 8
+    };
+
 }

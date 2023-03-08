@@ -8,6 +8,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class GameEvaluatorTest {
 
     private GameEvaluator evaluator;
