@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
  */
 public class EvaluationMain {
     private static final int MATCH_DEPTH = 1;
-    private static final int POPULATION_SIZE = 5;
-    private static final int GENERATION_LIMIT = 10;
+    private static final int POPULATION_SIZE = 10;
+    private static final int GENERATION_LIMIT = 30;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -54,7 +54,7 @@ public class EvaluationMain {
     }
 
     private static List<String> getFenList() {
-        return new Transcoding().pgnFileToFenPositions(EvaluationMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        return new Transcoding().pgnFileToFenPositions(EvaluationMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
     }
 
     private void findGenotype() {
