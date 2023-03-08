@@ -3,12 +3,10 @@ package net.chesstango.search.smartnegamax;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smartminmax.MinMax;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,14 +15,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MinMaxTest {
+public class NegaMaxTest {
 
     @Mock
     private GameEvaluator evaluator;
@@ -100,8 +97,8 @@ public class MinMaxTest {
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, searchResult.getEvaluation());
 
-        verify(minMax).minMax(childGame1, 0);
-        verify(minMax).minMax(childGame2, 0);
+        verify(minMax).negaMax(childGame1, 0);
+        verify(minMax).negaMax(childGame2, 0);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);
@@ -130,8 +127,8 @@ public class MinMaxTest {
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, searchResult.getEvaluation());
 
-        verify(minMax).minMax(childGame1, 0);
-        verify(minMax).minMax(childGame2, 0);
+        verify(minMax).negaMax(childGame1, 0);
+        verify(minMax).negaMax(childGame2, 0);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);

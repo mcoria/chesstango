@@ -40,7 +40,7 @@ public class NegaMax extends AbstractSmart {
         for (Move move : game.getPossibleMoves()) {
             game = game.executeMove(move);
 
-            int currentEvaluation = -minMax(game, depth - 1);
+            int currentEvaluation = -negaMax(game, depth - 1);
 
             if (currentEvaluation == betterEvaluation) {
                 bestMoves.add(move);
@@ -58,7 +58,7 @@ public class NegaMax extends AbstractSmart {
         return new SearchMoveResult(minOrMax ? -betterEvaluation : betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
     }
 
-    protected int minMax(Game game, final int currentPly) {
+    protected int negaMax(Game game, final int currentPly) {
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
@@ -69,7 +69,7 @@ public class NegaMax extends AbstractSmart {
             for (Move move : game.getPossibleMoves()) {
                 game = game.executeMove(move);
 
-                int currentEvaluation = -minMax(game, currentPly - 1);
+                int currentEvaluation = -negaMax(game, currentPly - 1);
                 if (currentEvaluation > betterEvaluation) {
                     betterEvaluation = currentEvaluation;
                 }

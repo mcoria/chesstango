@@ -19,7 +19,7 @@ public class IterativeDeeping implements SearchMove {
     private final List<SearchMoveResult> bestMovesByDepth;
 
     public IterativeDeeping() {
-        this(new MinMaxPruning());
+        this(new NegaMaxPruning());
     }
 
     public IterativeDeeping(SearchMove minMax) {
