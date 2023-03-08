@@ -2,12 +2,33 @@ package net.chesstango.evaluation.imp;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
+
+import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
+
+    private static final int FACTOR_MATERIAL_DEFAULT = 910;
+    private static final int FACTOR_POSITION_DEFAULT = 90;
+
+    private final int material;
+    private final int position;
+
+    public GameEvaluatorSimplifiedEvaluator() {
+        this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT);
+    }
+
+    public GameEvaluatorSimplifiedEvaluator(Integer material, Integer position) {
+        this.material = material;
+        this.position = position;
+    }
+
 
     @Override
     public int evaluate(final Game game) {
@@ -19,7 +40,27 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation = evaluateByMaterial(game);
+                evaluation = material * evaluateByMaterial(game);
+                evaluation += position * evaluateByPosition(game);
+        }
+        return evaluation;
+    }
+
+    protected int evaluateByPosition(Game game) {
+        int evaluation = 0;
+        ChessPositionReader positionReader = game.getChessPosition();
+        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
+            PiecePositioned piecePlacement = it.next();
+            Piece piece = piecePlacement.getPiece();
+            Square square = piecePlacement.getSquare();
+            int[] positionValues = switch (piece){
+                case PAWN_WHITE -> PAWN_WHITE_VALUES;
+                case PAWN_BLACK -> PAWN_BLACK_VALUES;
+                default -> null;
+            };
+            if(positionValues != null) {
+                evaluation += positionValues[square.toIdx()];
+            }
         }
         return evaluation;
     }

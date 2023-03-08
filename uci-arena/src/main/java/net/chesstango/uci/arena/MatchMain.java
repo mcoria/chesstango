@@ -1,6 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.Transcoding;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.*;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
@@ -11,6 +12,7 @@ import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.ProxyConfig;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -34,20 +36,15 @@ public class MatchMain {
             "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6");
 
     public static void main(String[] args) {
-        //EngineController controllerTango = new EngineControllerImp(new EngineTango(new Dummy()).enableAsync());
-        SearchMove search = new DefaultSearchMove();
-        search.setGameEvaluator(new GameEvaluatorImp03());
-        EngineController controllerTango = new EngineControllerImp(new EngineTango(search));
-        EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
+        EngineController controllerTango = createTangoController(GameEvaluatorSimplifiedEvaluator.class);
 
+        //EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
+        EngineController controllerOponente = createTangoController(GameEvaluatorImp02.class);
 
-        Match match = new Match(controllerTango, controllerOponente, 1);
+        Match match = new Match(controllerTango, controllerOponente, 2);
         //match.setDebugEnabled(true);
 
-        List<String> fenPositions = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        //List<String> fenPositions = Arrays.asList("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6");
-        //List<String> fenPositions = Arrays.asList("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
-
+        List<String> fenPositions = getFenList();
 
         startEngines(controllerTango, controllerOponente);
 
@@ -60,6 +57,10 @@ public class MatchMain {
         new Reports().printEngineControllersReport(Arrays.asList(controllerTango, controllerOponente), matchResult);
     }
 
+    private static List<String> getFenList() {
+        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+    }
+
     public static void startEngines(EngineController engine1, EngineController engine2) {
         engine1.startEngine();
         engine2.startEngine();
@@ -68,5 +69,28 @@ public class MatchMain {
     public static void quitEngines(EngineController engine1, EngineController engine2) {
         engine1.send_CmdQuit();
         engine2.send_CmdQuit();
+    }
+
+    private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {
+        EngineTango tango = createEngineTango(gameEvaluatorClass);
+        EngineControllerImp controller = new EngineControllerImp(tango);
+        controller.overrideEngineName(gameEvaluatorClass.getSimpleName());
+        return controller;
+    }
+
+    private static EngineTango createEngineTango(Class<? extends GameEvaluator> gameEvaluatorClass) {
+        SearchMove search = new DefaultSearchMove();
+        try {
+            search.setGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        return new EngineTango(search);
     }
 }

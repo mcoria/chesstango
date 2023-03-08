@@ -9,6 +9,7 @@ import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.imp.GameEvaluatorImp03;
+import net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.arena.*;
@@ -47,10 +48,14 @@ public class EvaluationMain {
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(5);
         pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
-        EvaluationMain main = new EvaluationMain(new Transcoding().pgnFileToFenPositions(EvaluationMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn")), new GeneticProviderTwoFactorsGenes(GameEvaluatorImp03.class));
+        EvaluationMain main = new EvaluationMain(getFenList(), new GeneticProviderTwoFactorsGenes(GameEvaluatorSimplifiedEvaluator.class));
         main.findGenotype();
         pool.close();
         executor.shutdown();
+    }
+
+    private static List<String> getFenList() {
+        return new Transcoding().pgnFileToFenPositions(EvaluationMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
     }
 
     private void findGenotype() {
