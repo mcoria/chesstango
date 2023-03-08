@@ -9,6 +9,7 @@ import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class MateIn2Test {
     @Before
     public void setUp() {
         bestMoveFinder = new MinMaxPruning();
-        bestMoveFinder.setGameEvaluator(new DefaultGameEvaluator());
+        bestMoveFinder.setGameEvaluator(new GameEvaluatorByMaterial());
     }
 
     @Test

@@ -58,7 +58,7 @@ public class NegaMaxPruning extends AbstractSmart {
 
             int currentValue = -negaMax(game, depth - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
 
-            if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
+            if (currentValue > bestValue) {
                 bestValue = currentValue;
                 bestMoves.clear();
                 bestMoves.add(move);
