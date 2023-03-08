@@ -18,19 +18,19 @@ import java.util.Iterator;
  * <p>
  * Positions: Balsa_Top50.pgn
  * Depth: 2
- * Time taken: 119855 ms
+ * Time taken: 142480 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       6 |       5 |       17 |       15 |       27 |       30 |       19.5 |       20.0 |  39.5 /100 |   39.5 |
- * |                 GameEvaluatorImp02|      15 |      17 |        5 |        6 |       30 |       27 |       30.0 |       30.5 |  60.5 /100 |   60.5 |
+ * |            GameEvaluatorSEandImp02|       8 |      11 |       10 |        7 |       32 |       32 |       24.0 |       27.0 |  51.0 /100 |   51.0 |
+ * |                 GameEvaluatorImp02|       7 |      10 |       11 |        8 |       32 |       32 |       23.0 |       26.0 |  49.0 /100 |   49.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorSEandImp02 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 250;
-    private static final int FACTOR_POSITION_DEFAULT = 250;
-    private static final int FACTOR_EXPANSION_DEFAULT = 250;
-    private static final int FACTOR_ATAQUE_DEFAULT = 250;
+    private static final int FACTOR_MATERIAL_DEFAULT = 909;
+    private static final int FACTOR_POSITION_DEFAULT = 88;
+    private static final int FACTOR_EXPANSION_DEFAULT = 0;
+    private static final int FACTOR_ATAQUE_DEFAULT = 3;
 
     private final int material;
     private final int position;

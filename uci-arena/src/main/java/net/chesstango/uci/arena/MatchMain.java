@@ -36,7 +36,7 @@ public class MatchMain {
             "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6");
 
     public static void main(String[] args) {
-        EngineController controllerTango = createTangoController(GameEvaluatorSimplifiedEvaluator.class);
+        EngineController controllerTango = createTangoController(GameEvaluatorSEandImp02.class);
 
         //EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
         EngineController controllerOponente = createTangoController(GameEvaluatorImp02.class);
