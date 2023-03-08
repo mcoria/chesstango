@@ -17,7 +17,7 @@ import java.util.List;
 public class GeneticProvider2FactorsGenes implements GeneticProvider {
     private final Class<? extends GameEvaluator> gameEvaluatorClass;
 
-    private static int CONSTRAINT_MAX_VALUE = 1000;
+    private static final int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
@@ -93,8 +93,8 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
         private final int factor1;
         private final int factor2;
 
-        public GenoDecoder(int factor1) {
-            this.factor1 = factor1;
+        public GenoDecoder(int gene1) {
+            this.factor1 = gene1;
             this.factor2 = CONSTRAINT_MAX_VALUE - factor1;
         }
 
