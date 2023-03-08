@@ -23,8 +23,8 @@ import java.util.Iterator;
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 658;
-    private static final int FACTOR_POSITION_DEFAULT = 342;
+    private static final int FACTOR_MATERIAL_DEFAULT = 650;
+    private static final int FACTOR_POSITION_DEFAULT = 350;
 
     private final int material;
     private final int position;
@@ -66,12 +66,12 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
                 case PAWN_BLACK -> PAWN_BLACK_VALUES;
                 case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
                 case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
-                case BISHOP_WHITE -> BISHOPS_WHITE_VALUES;
-                case BISHOP_BLACK -> BISHOPS_BLACK_VALUES;
-                case ROOK_WHITE -> ROOKS_WHITE_VALUES;
-                case ROOK_BLACK -> ROOKS_BLACK_VALUES;
-                case QUEEN_WHITE -> QUEENS_WHITE_VALUES;
-                case QUEEN_BLACK -> QUEENS_BLACK_VALUES;
+                case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
+                case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
+                case ROOK_WHITE -> ROOK_WHITE_VALUES;
+                case ROOK_BLACK -> ROOK_BLACK_VALUES;
+                case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
+                case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
                 case KING_WHITE -> KING_WHITE_VALUES;
                 case KING_BLACK -> KING_BLACK_VALUES;
             };
@@ -143,7 +143,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             50, 40, 30, 30, 30, 30, 40, 50             // Rank 8
     };
 
-    protected static final int[] BISHOPS_WHITE_VALUES = {
+    protected static final int[] BISHOP_WHITE_VALUES = {
             -20, -10, -10, -10, -10, -10, -10, -20,     // Rank 1
             -10, 5, 0, 0, 0, 0, 5, -10,                 // Rank 2
             -10, 10, 10, 10, 10, 10, 10, -10,           // Rank 3
@@ -154,7 +154,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             -20, -10, -10, -10, -10, -10, -10, -20      // Rank 8
     };
 
-    protected static final int[] BISHOPS_BLACK_VALUES = {
+    protected static final int[] BISHOP_BLACK_VALUES = {
             20, 10, 10, 10, 10, 10, 10, 20,             // Rank 1
             10, 0, 0, 0, 0, 0, 0, 10,                   // Rank 2
             10, 0, -5, -10, -10, -5, 0, 10,             // Rank 3
@@ -166,7 +166,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
     };
 
 
-    protected static final int[] ROOKS_WHITE_VALUES = {
+    protected static final int[] ROOK_WHITE_VALUES = {
             0, 0, 0, 5, 5, 0, 0, 0,              // Rank 1
             -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 2
             -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 3
@@ -177,7 +177,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             0, 0, 0, 0, 0, 0, 0, 0                // Rank 8
     };
 
-    protected static final int[] ROOKS_BLACK_VALUES = {
+    protected static final int[] ROOK_BLACK_VALUES = {
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
             -5, -10, -10, -10, -10, -10, -10, -5,   // Rank 2
             5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 3
@@ -188,7 +188,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             0, 0, 0, -5, -5, 0, 0, 0                // Rank 8
     };
 
-    protected static final int[] QUEENS_WHITE_VALUES = {
+    protected static final int[] QUEEN_WHITE_VALUES = {
             -20, -10, -10, -5, -5, -10, -10, -20,   // Rank 1
             -10, 0, 5, 0, 0, 0, 0, -10,             // Rank 2
             -10, 5, 5, 5, 5, 5, 0, -10,             // Rank 3
@@ -199,7 +199,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             -20, -10, -10, -5, -5, -10, -10, -20    // Rank 8
     };
 
-    protected static final int[] QUEENS_BLACK_VALUES = {
+    protected static final int[] QUEEN_BLACK_VALUES = {
             20, 10, 10, 5, 5, 10, 10, 20,     // Rank 1
             10, 0, 0, 0, 0, 0, 0, 10,         // Rank 2
             10, 0, -5, -5, -5, -5, 0, 10,     // Rank 3
