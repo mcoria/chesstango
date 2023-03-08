@@ -1,4 +1,4 @@
-package net.chesstango.search.smartminmax;
+package net.chesstango.search.smartnegamax;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -8,6 +8,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smartminmax.MinMax;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,12 +29,12 @@ public class MinMaxTest {
     @Mock
     private GameEvaluator evaluator;
 
-    private MinMax minMax;
+    private NegaMax negaMax;
 
     @Before
     public void setup() {
-        minMax = new MinMax();
-        minMax.setGameEvaluator(evaluator);
+        negaMax = new NegaMax();
+        negaMax.setGameEvaluator(evaluator);
     }
 
     @Test
@@ -47,7 +48,7 @@ public class MinMaxTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = negaMax.searchBestMove(rootGame, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -67,7 +68,7 @@ public class MinMaxTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = negaMax.searchBestMove(rootGame, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -78,7 +79,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesWhitePlays() {
-        MinMax minMax = Mockito.spy(this.minMax);
+        NegaMax minMax = Mockito.spy(this.negaMax);
 
         Game rootGame = setupGame(Color.WHITE);
 
@@ -99,8 +100,8 @@ public class MinMaxTest {
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, searchResult.getEvaluation());
 
-        verify(minMax).minMax(childGame1, true, 0);
-        verify(minMax).minMax(childGame2, true, 0);
+        verify(minMax).minMax(childGame1, 0);
+        verify(minMax).minMax(childGame2, 0);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);
@@ -108,7 +109,7 @@ public class MinMaxTest {
 
     @Test
     public void testTwoMovesBlackPlays() {
-        MinMax minMax = Mockito.spy(this.minMax);
+        NegaMax minMax = Mockito.spy(this.negaMax);
 
         Game rootGame = setupGame(Color.BLACK);
 
@@ -129,8 +130,8 @@ public class MinMaxTest {
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, searchResult.getEvaluation());
 
-        verify(minMax).minMax(childGame1, false, 0);
-        verify(minMax).minMax(childGame2, false, 0);
+        verify(minMax).minMax(childGame1, 0);
+        verify(minMax).minMax(childGame2, 0);
 
         verify(evaluator, times(1)).evaluate(childGame1);
         verify(evaluator, times(1)).evaluate(childGame2);
