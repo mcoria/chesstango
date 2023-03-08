@@ -18,19 +18,19 @@ import java.util.Iterator;
  * <p>
  * Positions: Balsa_Top50.pgn
  * Depth: 2
- * Time taken: 142480 ms
+ * Time taken: 141815 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |            GameEvaluatorSEandImp02|       8 |      11 |       10 |        7 |       32 |       32 |       24.0 |       27.0 |  51.0 /100 |   51.0 |
- * |                 GameEvaluatorImp02|       7 |      10 |       11 |        8 |       32 |       32 |       23.0 |       26.0 |  49.0 /100 |   49.0 |
+ * |            GameEvaluatorSEandImp02|      13 |      11 |        6 |        4 |       31 |       35 |       28.5 |       28.5 |  57.0 /100 |   57.0 |
+ * |                 GameEvaluatorImp02|       4 |       6 |       11 |       13 |       35 |       31 |       21.5 |       21.5 |  43.0 /100 |   43.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorSEandImp02 implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 909;
-    private static final int FACTOR_POSITION_DEFAULT = 88;
-    private static final int FACTOR_EXPANSION_DEFAULT = 0;
-    private static final int FACTOR_ATAQUE_DEFAULT = 3;
+    private static final int FACTOR_MATERIAL_DEFAULT = 756;
+    private static final int FACTOR_POSITION_DEFAULT = 204;
+    private static final int FACTOR_EXPANSION_DEFAULT = 27;
+    private static final int FACTOR_ATAQUE_DEFAULT = 13;
 
     private final int material;
     private final int position;
@@ -114,11 +114,29 @@ public class GameEvaluatorSEandImp02 implements GameEvaluator {
             for (Move move : pseudoMoves) {
                 PiecePositioned fromPosition = move.getFrom();
                 PiecePositioned toPosition = move.getTo();
+                Piece piece = fromPosition.getPiece();
+
                 if (toPosition.getPiece() == null) {
-                    evaluationByMoveToEmptySquare += getPieceValue(game, fromPosition.getPiece());
+                    Square toSquare = toPosition.getSquare();
+                    int[] positionValues = switch (piece) {
+                        case PAWN_WHITE -> PAWN_WHITE_VALUES;
+                        case PAWN_BLACK -> PAWN_BLACK_VALUES;
+                        case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
+                        case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
+                        case BISHOP_WHITE -> BISHOP_WHITE_VALUES;
+                        case BISHOP_BLACK -> BISHOP_BLACK_VALUES;
+                        case ROOK_WHITE -> ROOK_WHITE_VALUES;
+                        case ROOK_BLACK -> ROOK_BLACK_VALUES;
+                        case QUEEN_WHITE -> QUEEN_WHITE_VALUES;
+                        case QUEEN_BLACK -> QUEEN_BLACK_VALUES;
+                        case KING_WHITE -> KING_WHITE_VALUES;
+                        case KING_BLACK -> KING_BLACK_VALUES;
+                    };
+                    evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
                 } else {
                     evaluationByAttack -= getPieceValue(game, toPosition.getPiece());
                 }
+
             }
         }
 
