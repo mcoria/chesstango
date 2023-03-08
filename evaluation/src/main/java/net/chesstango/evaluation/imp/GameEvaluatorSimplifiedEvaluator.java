@@ -11,16 +11,15 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
+ * <p>
  * Positions: Balsa_Top50.pgn
- * Depth: 1
- * Time taken: 107636 ms
+ * Depth: 2
+ * Time taken: 101744 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       0 |       0 |       25 |       27 |       25 |       23 |       12.5 |       11.5 |  24.0 /100 |   24.0 |
- * |                 GameEvaluatorImp02|      27 |      25 |        0 |        0 |       23 |       25 |       38.5 |       37.5 |  76.0 /100 |   76.0 |
+ * |   GameEvaluatorSimplifiedEvaluator|       1 |       0 |       22 |       23 |       27 |       27 |       14.5 |       13.5 |  28.0 /100 |   28.0 |
+ * |                 GameEvaluatorImp02|      23 |      22 |        0 |        1 |       27 |       27 |       36.5 |       35.5 |  72.0 /100 |   72.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
- *
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
 
@@ -63,12 +62,14 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             PiecePositioned piecePlacement = it.next();
             Piece piece = piecePlacement.getPiece();
             Square square = piecePlacement.getSquare();
-            int[] positionValues = switch (piece){
+            int[] positionValues = switch (piece) {
                 case PAWN_WHITE -> PAWN_WHITE_VALUES;
                 case PAWN_BLACK -> PAWN_BLACK_VALUES;
+                case KNIGHT_WHITE -> KNIGHT_WHITE_VALUES;
+                case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
                 default -> null;
             };
-            if(positionValues != null) {
+            if (positionValues != null) {
                 evaluation += positionValues[square.toIdx()];
             }
         }
@@ -93,7 +94,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
         };
     }
 
-    protected static int[] PAWN_WHITE_VALUES = {
+    protected static final int[] PAWN_WHITE_VALUES = {
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
             5, 10, 10, -20, -20, 10, 10, 5,         // Rank 2
             5, -5, -10, 0, 0, -10, -5, 5,           // Rank 3
@@ -104,7 +105,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             0, 0, 0, 0, 0, 0, 0, 0                  // Rank 8
     };
 
-    protected static int[] PAWN_BLACK_VALUES = {
+    protected static final int[] PAWN_BLACK_VALUES = {
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
             -50, -50, -50, -50, -50, -50, -50, -50, // Rank 2
             -10, -10, -20, -30, -30, -20, -10, -10, // Rank 3
@@ -115,4 +116,26 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 8
     };
 
+
+    protected static final int[] KNIGHT_WHITE_VALUES = {
+            -50, -40, -30, -30, -30, -30, -40, -50,  // Rank 1
+            -40, -20, 0, 5, 5, 0, -20, -40,         // Rank 2
+            -30, 5, 10, 15, 15, 10, 5, -30,         // Rank 3
+            -30, 0, 15, 20, 20, 15, 0, -30,         // Rank 4
+            -30, 5, 15, 20, 20, 15, 5, -30,         // Rank 5
+            -30, 0, 10, 15, 15, 10, 0, -30,         // Rank 6
+            -40, -20, 0, 0, 0, 0, -20, -40,         // Rank 7
+            -50, -40, -30, -30, -30, -30, -40, -50  // Rank 8
+    };
+
+    protected static final int[] KNIGHT_BLACK_VALUES = {
+            50, 40, 30, 30, 30, 30, 40, 50,            // Rank 1
+            40, 20, 0, 0, 0, 0, 20, 40,                // Rank 2
+            30, 0, -10, -15, -15, -10, 0, 30,          // Rank 3
+            30, -5, -15, -20, -20, -15, -5, 30,        // Rank 4
+            30, 0, -15, -20, -20, -15, 0, 30,          // Rank 5
+            30, -5, -10, -15, -15, -10, -5, 30,        // Rank 6
+            40, 20, 0, -5, -5, 0, 20, 40,              // Rank 7
+            50, 40, 30, 30, 30, 30, 40, 50             // Rank 8
+    };
 }
