@@ -14,11 +14,11 @@ import java.util.Iterator;
  * <p>
  * Positions: Balsa_Top50.pgn
  * Depth: 2
- * Time taken: 106156 ms
+ * Time taken: 101846 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       3 |       1 |       18 |       29 |       29 |       20 |       17.5 |       11.0 |  28.5 /100 |   28.5 |
- * |                 GameEvaluatorImp02|      29 |      18 |        1 |        3 |       20 |       29 |       39.0 |       32.5 |  71.5 /100 |   71.5 |
+ * |   GameEvaluatorSimplifiedEvaluator|       1 |       3 |       21 |       25 |       28 |       22 |       15.0 |       14.0 |  29.0 /100 |   29.0 |
+ * |                 GameEvaluatorImp02|      25 |      21 |        3 |        1 |       22 |       28 |       36.0 |       35.0 |  71.0 /100 |   71.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
@@ -68,6 +68,8 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
                 case KNIGHT_BLACK -> KNIGHT_BLACK_VALUES;
                 case BISHOP_WHITE -> BISHOPS_WHITE_VALUES;
                 case BISHOP_BLACK -> BISHOPS_BLACK_VALUES;
+                case ROOK_WHITE -> ROOKS_WHITE_VALUES;
+                case ROOK_BLACK -> ROOKS_BLACK_VALUES;
                 default -> null;
             };
             if (positionValues != null) {
@@ -160,6 +162,29 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
             10, -10, -10, -10, -10, -10, -10, 10,       // Rank 6
             10, -5, 0, 0, 0, 0, -5, 10,                 // Rank 7
             20, 10, 10, 10, 10, 10, 10, 20              // Rank 8
+    };
+
+
+    protected static final int[] ROOKS_WHITE_VALUES = {
+            0, 0, 0, 5, 5, 0, 0, 0,              // Rank 1
+            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 2
+            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 3
+            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 4
+            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 5
+            -5, 0, 0, 0, 0, 0, 0, -5,             // Rank 6
+            5, 10, 10, 10, 10, 10, 10, 5,         // Rank 7
+            0, 0, 0, 0, 0, 0, 0, 0                // Rank 8
+    };
+
+    protected static final int[] ROOKS_BLACK_VALUES = {
+            0, 0, 0, 0, 0, 0, 0, 0,                 // Rank 1
+            -5, -10, -10, -10, -10, -10, -10, -5,   // Rank 2
+            5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 3
+            5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 4
+            5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 5
+            5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 6
+            5, 0, 0, 0, 0, 0, 0, 5,                 // Rank 7
+            0, 0, 0, -5, -5, 0, 0, 0                // Rank 8
     };
 
 }
