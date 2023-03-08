@@ -8,7 +8,6 @@ import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.imp.GameEvaluatorImp03;
 import net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
@@ -31,8 +30,8 @@ import java.util.stream.Collectors;
  */
 public class EvaluationMain {
     private static final int MATCH_DEPTH = 1;
-    private static final int POPULATION_SIZE = 15;
-    private static final int GENERATION_LIMIT = 100;
+    private static final int POPULATION_SIZE = 5;
+    private static final int GENERATION_LIMIT = 10;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
@@ -48,7 +47,7 @@ public class EvaluationMain {
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(5);
         pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
-        EvaluationMain main = new EvaluationMain(getFenList(), new GeneticProviderTwoFactorsGenes(GameEvaluatorSimplifiedEvaluator.class));
+        EvaluationMain main = new EvaluationMain(getFenList(), new GeneticProvider2FactorsGenes(GameEvaluatorSimplifiedEvaluator.class));
         main.findGenotype();
         pool.close();
         executor.shutdown();
@@ -61,7 +60,7 @@ public class EvaluationMain {
     private void findGenotype() {
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
                 .selector(new EliteSelector<>(5))
-                .constraint(geneticProvider.getPhenotypeConstraint())
+                //.constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
                 .executor(executor)
                 .build();
@@ -69,8 +68,8 @@ public class EvaluationMain {
         EvolutionStart<IntegerGene, Long> start = geneticProvider.getEvolutionStart(POPULATION_SIZE);
 
         Phenotype<IntegerGene, Long> result = engine
-                .stream(start)
-                //.stream()
+                //.stream(start)
+                .stream()
                 .limit(GENERATION_LIMIT)
                 .collect(EvolutionResult.toBestPhenotype());
 

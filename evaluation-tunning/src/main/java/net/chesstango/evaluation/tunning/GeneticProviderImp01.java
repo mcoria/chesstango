@@ -135,7 +135,6 @@ public class GeneticProviderImp01 implements GeneticProvider {
     }
 
 
-    @Override
     public Constraint getPhenotypeConstraint() {
         return phenotypeConstraint;
     }

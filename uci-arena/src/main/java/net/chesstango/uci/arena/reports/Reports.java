@@ -82,7 +82,7 @@ public class Reports {
         row.puntosAsWhite = row.wonAsWhite + 0.5 * row.drawsAsWhite;
 
         row.wonAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineBlack()).count();
-        row.lostAsWhite = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineWhite()).count();
+        row.lostAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == result.getEngineWhite()).count();
         row.drawsAsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engine && result.getWinner() == null).count();
         row.puntosAsBlack = row.wonAsBlack + 0.5 * row.drawsAsBlack;
 

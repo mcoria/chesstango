@@ -7,7 +7,6 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -16,14 +15,14 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class GeneticProviderTwoFactorsGenes implements GeneticProvider {
+public class GeneticProvider3FactorsGenes implements GeneticProvider {
     private final Class<? extends GameEvaluator> gameEvaluatorClass;
 
     private static int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
-    public GeneticProviderTwoFactorsGenes(Class<? extends GameEvaluator> gameEvaluatorClass) {
+    public GeneticProvider3FactorsGenes(Class<? extends GameEvaluator> gameEvaluatorClass) {
         this.gameEvaluatorClass = gameEvaluatorClass;
     }
 
@@ -91,7 +90,7 @@ public class GeneticProviderTwoFactorsGenes implements GeneticProvider {
                 ), 1);
     }
 
-    @Override
+
     public Constraint getPhenotypeConstraint() {
         return phenotypeConstraint;
     }

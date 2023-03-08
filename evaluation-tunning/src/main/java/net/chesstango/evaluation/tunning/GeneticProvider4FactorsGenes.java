@@ -7,18 +7,24 @@ import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterialAndMoves;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class GeneticProviderByMaterialAndMoves implements GeneticProvider {
+public class GeneticProvider4FactorsGenes implements GeneticProvider {
+    private final Class<? extends GameEvaluator> gameEvaluatorClass;
+
     private static int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
+
+    public GeneticProvider4FactorsGenes(Class<? extends GameEvaluator> gameEvaluatorClass) {
+        this.gameEvaluatorClass = gameEvaluatorClass;
+    }
 
     @Override
     public Factory<Genotype<IntegerGene>> getGenotypeFactory() {
@@ -36,7 +42,17 @@ public class GeneticProviderByMaterialAndMoves implements GeneticProvider {
     public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 
-        return new GameEvaluatorByMaterialAndMoves(decodedGenotype.getGene1(), decodedGenotype.getGene2());
+        try {
+            return gameEvaluatorClass.getDeclaredConstructor(Integer.class, Integer.class).newInstance(decodedGenotype.getGene1(), decodedGenotype.getGene2());
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

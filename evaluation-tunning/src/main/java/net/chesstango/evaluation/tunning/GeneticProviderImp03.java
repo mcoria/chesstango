@@ -47,7 +47,6 @@ public class GeneticProviderImp03 implements GeneticProvider {
         return null;
     }
 
-    @Override
     public Constraint getPhenotypeConstraint() {
         return phenotypeConstraint;
     }

@@ -13,8 +13,6 @@ import net.chesstango.evaluation.GameEvaluator;
 public interface GeneticProvider {
     Factory<Genotype<IntegerGene>> getGenotypeFactory();
 
-    Constraint getPhenotypeConstraint();
-
     String getKeyGenesString(Genotype<IntegerGene> genotype);
 
     GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype);
