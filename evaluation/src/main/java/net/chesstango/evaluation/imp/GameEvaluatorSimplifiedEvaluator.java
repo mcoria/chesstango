@@ -14,18 +14,18 @@ import java.util.Iterator;
  *
  * Positions: Balsa_Top50.pgn
  * Depth: 1
- * Time taken: 90929 ms
+ * Time taken: 107636 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       0 |       0 |       38 |        0 |       16 |       12 |        8.0 |        6.0 |  14.0 /100 |   14.0 |
- * |                 GameEvaluatorImp02|      38 |      34 |        0 |        0 |       12 |       16 |       44.0 |       42.0 |  86.0 /100 |   86.0 |
+ * |   GameEvaluatorSimplifiedEvaluator|       0 |       0 |       25 |       27 |       25 |       23 |       12.5 |       11.5 |  24.0 /100 |   24.0 |
+ * |                 GameEvaluatorImp02|      27 |      25 |        0 |        0 |       23 |       25 |       38.5 |       37.5 |  76.0 /100 |   76.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  *
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 404;
-    private static final int FACTOR_POSITION_DEFAULT = 596;
+    private static final int FACTOR_MATERIAL_DEFAULT = 500;
+    private static final int FACTOR_POSITION_DEFAULT = 500;
 
     private final int material;
     private final int position;
@@ -78,18 +78,18 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
     @Override
     public int getPieceValue(Game game, Piece piece) {
         return switch (piece) {
-            case PAWN_WHITE -> 10;
-            case PAWN_BLACK -> -10;
-            case KNIGHT_WHITE -> 32;
-            case KNIGHT_BLACK -> -32;
-            case BISHOP_WHITE -> 33;
-            case BISHOP_BLACK -> -33;
-            case ROOK_WHITE -> 50;
-            case ROOK_BLACK -> -50;
-            case QUEEN_WHITE -> 90;
-            case QUEEN_BLACK -> -90;
-            case KING_WHITE -> 2000;
-            case KING_BLACK -> -2000;
+            case PAWN_WHITE -> 100;
+            case PAWN_BLACK -> -100;
+            case KNIGHT_WHITE -> 320;
+            case KNIGHT_BLACK -> -320;
+            case BISHOP_WHITE -> 330;
+            case BISHOP_BLACK -> -330;
+            case ROOK_WHITE -> 500;
+            case ROOK_BLACK -> -500;
+            case QUEEN_WHITE -> 900;
+            case QUEEN_BLACK -> -900;
+            case KING_WHITE -> 20000;
+            case KING_BLACK -> -20000;
         };
     }
 
