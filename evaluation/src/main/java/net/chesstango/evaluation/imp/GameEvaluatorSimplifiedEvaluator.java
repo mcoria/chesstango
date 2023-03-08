@@ -14,17 +14,17 @@ import java.util.Iterator;
  * <p>
  * Positions: Balsa_Top50.pgn
  * Depth: 2
- * Time taken: 109713 ms
+ * Time taken: 119855 ms
  *  ___________________________________________________________________________________________________________________________________________________
  * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
- * |   GameEvaluatorSimplifiedEvaluator|       2 |       5 |       15 |       18 |       33 |       27 |       18.5 |       18.5 |  37.0 /100 |   37.0 |
- * |                 GameEvaluatorImp02|      18 |      15 |        5 |        2 |       27 |       33 |       31.5 |       31.5 |  63.0 /100 |   63.0 |
+ * |   GameEvaluatorSimplifiedEvaluator|       6 |       5 |       17 |       15 |       27 |       30 |       19.5 |       20.0 |  39.5 /100 |   39.5 |
+ * |                 GameEvaluatorImp02|      15 |      17 |        5 |        6 |       30 |       27 |       30.0 |       30.5 |  60.5 /100 |   60.5 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
 public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
 
-    private static final int FACTOR_MATERIAL_DEFAULT = 500;
-    private static final int FACTOR_POSITION_DEFAULT = 500;
+    private static final int FACTOR_MATERIAL_DEFAULT = 658;
+    private static final int FACTOR_POSITION_DEFAULT = 342;
 
     private final int material;
     private final int position;

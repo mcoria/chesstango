@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class EvaluationMain {
     private static final int MATCH_DEPTH = 1;
     private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 30;
+    private static final int GENERATION_LIMIT = 50;
     private static ExecutorService executor;
     private static ObjectPool<EngineController> pool;
     private final GeneticProvider geneticProvider;
