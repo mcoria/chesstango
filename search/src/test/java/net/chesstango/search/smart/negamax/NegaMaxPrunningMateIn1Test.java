@@ -5,6 +5,9 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn1Test;
 import org.junit.Before;
 
+/**
+ * @author Mauricio Coria
+ */
 public class NegaMaxPrunningMateIn1Test extends MateIn1Test {
 
     private SearchMove searchMove;

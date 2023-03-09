@@ -5,6 +5,9 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn3Test;
 import org.junit.Before;
 
+/**
+ * @author Mauricio Coria
+ */
 public class MinMaxPrunningMateIn3Test extends MateIn3Test {
 
     private SearchMove searchMove;

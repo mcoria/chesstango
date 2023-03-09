@@ -20,6 +20,9 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Mauricio Coria
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MinMaxTest {
 
