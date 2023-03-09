@@ -8,6 +8,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.AbstractSmart;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.minmax;
+package net.chesstango.search.smart;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;

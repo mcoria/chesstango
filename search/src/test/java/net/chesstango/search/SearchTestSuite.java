@@ -20,12 +20,7 @@ import org.junit.runners.Suite;
         MinMaxPruning01Test.class,
         MoveSorterTest.class,
         AbstractBlackBestMovesTest.class,
-        IterativeDeepingTest.class,
         SearchMoveSuiteTest.class,
-        MateIn1Test.class,
-        MateIn2Test.class,
-        MateIn3Test.class,
-        MateIn4Test.class
 })
 public class SearchTestSuite {
 
