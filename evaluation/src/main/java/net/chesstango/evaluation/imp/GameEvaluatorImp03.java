@@ -26,7 +26,7 @@ import java.util.Iterator;
  * |                          Spike 1.4|    2659 |    2658 |        1 |        0 |       54 |       56 |     2686.0 |     2686.0 | 5372.0 / 5428  |   99.0 |
  *  -------------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class GameEvaluatorImp03 implements GameEvaluator {
+public class GameEvaluatorImp03 extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 500;
     private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 500;
@@ -49,7 +49,7 @@ public class GameEvaluatorImp03 implements GameEvaluator {
         switch (game.getStatus()) {
             case MATE:
             case DRAW:
-                evaluation = GameEvaluator.evaluateFinalStatus(game);
+                evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:
                 // If white is on check then evaluation starts at -1

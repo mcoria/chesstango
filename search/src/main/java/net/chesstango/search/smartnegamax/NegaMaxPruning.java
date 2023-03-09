@@ -84,13 +84,7 @@ public class NegaMaxPruning extends AbstractSmart {
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
-
-        final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
-
-        if (!game.getStatus().isInProgress()) {
-            return minOrMax ? -GameEvaluator.evaluateFinalStatus(game) : GameEvaluator.evaluateFinalStatus(game);
-        }
-        if (currentPly == 0) {
+        if (currentPly == 0 || !game.getStatus().isInProgress()) {
             return quiescence.quiescenceMax(game, alpha, beta);
         } else {
             boolean search = true;

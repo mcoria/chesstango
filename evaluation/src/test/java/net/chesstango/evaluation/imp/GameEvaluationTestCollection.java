@@ -33,7 +33,7 @@ import java.util.function.Function;
  */
 public abstract class GameEvaluationTestCollection {
 
-    protected abstract GameEvaluator getEvaluator();
+    protected abstract AbstractEvaluator getEvaluator();
 
 
     protected void testGenericFeature(Function<Game, Integer> evaluationFunction, String fen){
@@ -175,7 +175,7 @@ public abstract class GameEvaluationTestCollection {
 
     @Test
     public void testSymmetryOfPieceValues() {
-        GameEvaluator evaluator = getEvaluator();
+        AbstractEvaluator evaluator = getEvaluator();
         Assert.assertTrue(evaluator.getPieceValue(null, Piece.PAWN_WHITE) == -evaluator.getPieceValue(null, Piece.PAWN_BLACK)) ;
         Assert.assertTrue(evaluator.getPieceValue(null, Piece.ROOK_WHITE) == -evaluator.getPieceValue(null, Piece.ROOK_BLACK)) ;
         Assert.assertTrue(evaluator.getPieceValue(null, Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(null, Piece.KNIGHT_BLACK)) ;
@@ -193,7 +193,34 @@ public abstract class GameEvaluationTestCollection {
         Game gameMirror = mirrorBuilder.getChessRepresentation();
 
         Assert.assertTrue(getEvaluator().evaluate(game) == (-1) * getEvaluator().evaluate(gameMirror) );
+    }
 
+    @Test
+    public void testInfinities() {
+        Assert.assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
+        Assert.assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
+
+        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.WHITE_WON);
+        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.BLACK_LOST);
+
+        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.BLACK_WON);
+        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.WHITE_LOST);
+    }
+
+    @Test
+    public void testMaterial() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        int eval = getEvaluator().evaluateByMaterial(game);
+        Assert.assertEquals(0, eval);
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        eval = getEvaluator().evaluateByMaterial(game);
+        Assert.assertTrue(eval > 0);
+
+
+        game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
+        eval = getEvaluator().evaluateByMaterial(game);
+        Assert.assertTrue(eval < 0);
     }
 
 }

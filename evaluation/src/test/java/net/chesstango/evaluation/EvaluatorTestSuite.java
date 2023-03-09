@@ -13,7 +13,6 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        GameEvaluatorTest.class,
         GameEvaluatorByMaterialAndMovesTest.class,
         GameEvaluatorImp01Test.class,
         GameEvaluatorImp02Test.class,

@@ -24,7 +24,7 @@ public class GameEvaluatorSimplifiedEvaluatorTest extends GameEvaluationTestColl
     }
 
     @Override
-    protected GameEvaluator getEvaluator() {
+    protected AbstractEvaluator getEvaluator() {
         return evaluator;
     }
 

@@ -18,7 +18,7 @@ public class GameEvaluatorImp03Test extends GameEvaluationTestCollection {
     }
 
     @Override
-    protected GameEvaluator getEvaluator() {
+    protected AbstractEvaluator getEvaluator() {
         return evaluator;
     }
 

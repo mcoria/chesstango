@@ -8,7 +8,7 @@ import net.chesstango.board.Game;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorByMaterialAndMoves implements GameEvaluator {
+public class GameEvaluatorByMaterialAndMoves extends AbstractEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 600;
     private static final int FACTOR_MOVE_DEFAULT = 400;
     private final int material;
@@ -29,7 +29,7 @@ public class GameEvaluatorByMaterialAndMoves implements GameEvaluator {
         switch (game.getStatus()) {
             case MATE:
             case DRAW:
-                evaluation = GameEvaluator.evaluateFinalStatus(game);
+                evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:
             case NO_CHECK:

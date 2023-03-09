@@ -1,11 +1,15 @@
 package net.chesstango.search.smartminmax;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.search.SearchMove;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -34,14 +38,35 @@ public abstract class AbstractSmart implements SearchMove {
         // en el caso de ser posiciones iguales las coliciones deberian disminuir si aumentamos la profundidad de busqueda
         // en el caso de ser posiciones distintas estamos en presencia de una mala funcion de evaluacion estatica
 
+        List<Move> movesToSquare = null;
 
-        Comparator<Integer> fromFn = Color.WHITE.equals(currentTurn) ? Integer::max : Integer::min;
-        Comparator<Integer> toFn = Color.WHITE.equals(currentTurn) ? Integer::min : Integer::max;
+        if (Color.WHITE.equals(currentTurn)) {
+            int maxFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).max().getAsInt();
+            int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxFromRank).mapToInt(Square::getFile).min().getAsInt();
 
-        final int fromIdx = moves.stream().mapToInt(move -> move.getFrom().getSquare().toIdx()).reduce(fromFn::compare).getAsInt();
-        final int toIdx = moves.stream().filter(move -> move.getFrom().getSquare().toIdx() == fromIdx).mapToInt(move -> move.getTo().getSquare().toIdx()).reduce(toFn::compare).getAsInt();
+            // Aca seleccionamos todos los movimientos que parten del mismo Square
+            List<Move> movesFromSquare = moves.stream().filter(move -> move.getFrom().getSquare().getRank() == maxFromRank && move.getFrom().getSquare().getFile() == minFromFile).collect(Collectors.toList());
+
+            int maxToRank = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).mapToInt(Square::getRank).max().getAsInt();
+            int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxToRank).mapToInt(Square::getFile).min().getAsInt();
+
+            // Aca seleccionamos todos los movimientos que llegan al mismo Square
+            movesToSquare = moves.stream().filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
+        } else {
+            int minFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
+            int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minFromRank).mapToInt(Square::getFile).min().getAsInt();
+
+            // Aca seleccionamos todos los movimientos que parten del mismo Square
+            List<Move> movesFromSquare = moves.stream().filter(move -> move.getFrom().getSquare().getRank() == minFromRank && move.getFrom().getSquare().getFile() == minFromFile).collect(Collectors.toList());
+
+            int minToRank = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
+            int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minToRank).mapToInt(Square::getFile).min().getAsInt();
+
+            // Aca seleccionamos todos los movimientos que llegan al mismo Square
+            movesToSquare = moves.stream().filter(move -> move.getTo().getSquare().getRank() == minToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
+        }
 
         //TODO: que pasa cuando son promociones ?!?!
-        return moves.stream().filter(move -> move.getFrom().getSquare().toIdx() == fromIdx && move.getTo().getSquare().toIdx() == toIdx).findAny().get();
+        return movesToSquare.size() == 1 ?  movesToSquare.get(0) : movesToSquare.stream().map(move -> (MovePromotion) move).filter(movePromotion -> Piece.QUEEN_BLACK.equals(movePromotion.getPromotion()) || Piece.QUEEN_BLACK.equals(movePromotion.getPromotion())).findAny().get();
     }
 }

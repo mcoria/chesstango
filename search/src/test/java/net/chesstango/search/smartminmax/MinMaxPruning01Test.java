@@ -11,6 +11,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultGameEvaluator;
+import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class MinMaxPruning01Test {
     @Before
     public void setUp() {
         minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setGameEvaluator(new DefaultGameEvaluator());
+        minMaxPruning.setGameEvaluator(new GameEvaluatorByMaterial());
     }
 
     @Test

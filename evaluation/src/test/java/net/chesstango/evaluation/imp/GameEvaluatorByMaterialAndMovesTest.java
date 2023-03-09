@@ -17,7 +17,7 @@ public class GameEvaluatorByMaterialAndMovesTest extends GameEvaluationTestColle
     }
 
     @Override
-    protected GameEvaluator getEvaluator() {
+    protected AbstractEvaluator getEvaluator() {
         return evaluator;
     }
 

@@ -8,14 +8,14 @@ import net.chesstango.evaluation.GameEvaluator;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorByMaterial implements GameEvaluator {
+public class GameEvaluatorByMaterial extends AbstractEvaluator {
     @Override
     public int evaluate(final Game game) {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
             case DRAW:
-                evaluation = GameEvaluator.evaluateFinalStatus(game);
+                evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:
             case NO_CHECK:

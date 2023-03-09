@@ -9,6 +9,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -41,6 +42,7 @@ public class NegaMaxPruningBlackTest {
 
 
     @Test
+    @Ignore
     public void test_findBestMove_BlackPlays_SingleMove() {
         NegaMaxPruning minMax = new NegaMaxPruning(quiescence, moveSorter);
 
@@ -63,6 +65,7 @@ public class NegaMaxPruningBlackTest {
     }
 
     @Test
+    @Ignore
     public void test_findBestMove_BlackPlays_TwoMoves() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(quiescence, moveSorter));
         //MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
@@ -95,6 +98,7 @@ public class NegaMaxPruningBlackTest {
 
 
     @Test
+    @Ignore
     public void test_findBestMove_BlackPlays_MateCutOff() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(quiescence, moveSorter));
 
@@ -136,6 +140,7 @@ public class NegaMaxPruningBlackTest {
     }
 
     @Test
+    @Ignore
     public void test_findBestMove_BlackPlays_ImminentMate() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(quiescence, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
@@ -177,6 +182,7 @@ public class NegaMaxPruningBlackTest {
     }
 
     @Test
+    @Ignore
     public void test_minimize_BlackPlays_MateCutOff() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(quiescence, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);

@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp01 implements GameEvaluator {
+public class GameEvaluatorImp01 extends AbstractEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 628;
     private static final int FACTOR_EXPANSION_DEFAULT = 288;
     private static final int FACTOR_ATAQUE_DEFAULT = 84;
@@ -35,7 +35,7 @@ public class GameEvaluatorImp01 implements GameEvaluator {
         switch (game.getStatus()) {
             case MATE:
             case DRAW:
-                evaluation = GameEvaluator.evaluateFinalStatus(game);
+                evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:
                 // If white is on check then evaluation starts at -1

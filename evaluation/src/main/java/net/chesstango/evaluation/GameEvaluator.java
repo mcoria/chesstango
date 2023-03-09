@@ -23,35 +23,5 @@ public interface GameEvaluator {
     int BLACK_LOST = INFINITE_POSITIVE;
     int WHITE_WON = BLACK_LOST;
 
-    static int evaluateFinalStatus(final Game game) {
-        int evaluation = 0;
-        switch (game.getStatus()) {
-            case MATE:
-                // If white is on mate then evaluation is INFINITE_NEGATIVE
-                evaluation = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? WHITE_LOST : BLACK_LOST;
-                break;
-            case DRAW:
-                evaluation = 0;
-                break;
-            case CHECK:
-            case NO_CHECK:
-                throw new RuntimeException("Game is still in progress");
-        }
-        return evaluation;
-    }
-
-    default int evaluateByMaterial(final Game game) {
-        int evaluation = 0;
-        ChessPositionReader positionReader = game.getChessPosition();
-        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-            PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            evaluation += getPieceValue(game, piece);
-        }
-        return evaluation;
-    }
-
-    int getPieceValue(final Game game, Piece piece);
-
     int evaluate(final Game game);
 }

@@ -21,7 +21,7 @@ import java.util.Iterator;
  * |                 GameEvaluatorImp02|      15 |      17 |        5 |        6 |       30 |       27 |       30.0 |       30.5 |  60.5 /100 |   60.5 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
+public class GameEvaluatorSimplifiedEvaluator extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 650;
     private static final int FACTOR_POSITION_DEFAULT = 350;
@@ -45,7 +45,7 @@ public class GameEvaluatorSimplifiedEvaluator implements GameEvaluator {
         switch (game.getStatus()) {
             case MATE:
             case DRAW:
-                evaluation = GameEvaluator.evaluateFinalStatus(game);
+                evaluation = evaluateFinalStatus(game);
                 break;
             case CHECK:
             case NO_CHECK:
