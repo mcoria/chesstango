@@ -3,9 +3,8 @@
  */
 package net.chesstango.search;
 
-import net.chesstango.search.commontests.*;
-import net.chesstango.search.commontests.BlackBestMovesTest;
-import net.chesstango.search.smartminmax.*;
+import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.minmax.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -20,7 +19,7 @@ import org.junit.runners.Suite;
         MinMaxPruningBlackTest.class,
         MinMaxPruning01Test.class,
         MoveSorterTest.class,
-        BlackBestMovesTest.class,
+        AbstractBlackBestMovesTest.class,
         IterativeDeepingTest.class,
         SearchMoveSuiteTest.class,
         MateIn1Test.class,
