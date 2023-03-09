@@ -3,6 +3,8 @@ package net.chesstango.search.smart.negamax;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
+import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smart.minmax.MinMaxPruning;
 import org.junit.Before;
 
 /**
@@ -14,7 +16,7 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
 
     @Before
     public void setup(){
-        searchMove = new IterativeDeeping();
+        searchMove = new IterativeDeeping(new NegaMaxPruning());
         searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
     }
 

@@ -3,7 +3,8 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.minmax.IterativeDeeping;
+import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smart.minmax.MinMaxPruning;
 
 /**
  * @author Mauricio Coria
@@ -13,7 +14,7 @@ public class DefaultSearchMove implements SearchMove {
     private final SearchMove imp;
 
     public DefaultSearchMove() {
-        this.imp = new IterativeDeeping();
+        this.imp = new IterativeDeeping(new MinMaxPruning());
         this.setGameEvaluator(new DefaultGameEvaluator());
     }
 

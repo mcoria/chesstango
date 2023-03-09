@@ -1,9 +1,10 @@
-package net.chesstango.search.smart.minmax;
+package net.chesstango.search.smart;
 
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.minmax.MinMaxPruning;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,6 @@ public class IterativeDeeping implements SearchMove {
     private final SearchMove imp;
 
     private final List<SearchMoveResult> bestMovesByDepth;
-
-    public IterativeDeeping() {
-        this(new MinMaxPruning());
-    }
 
     public IterativeDeeping(SearchMove minMax) {
         this.imp = minMax;

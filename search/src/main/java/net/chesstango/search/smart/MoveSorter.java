@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.negamax;
+package net.chesstango.search.smart;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;

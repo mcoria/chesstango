@@ -3,6 +3,7 @@ package net.chesstango.search.smart.negamax;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
+import net.chesstango.search.smart.IterativeDeeping;
 import org.junit.Before;
 
 /**
@@ -14,7 +15,7 @@ public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
 
     @Before
     public void setup(){
-        searchMove = new IterativeDeeping();
+        searchMove = new IterativeDeeping(new NegaMaxPruning());
         searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
     }
 

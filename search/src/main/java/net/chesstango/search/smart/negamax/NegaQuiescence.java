@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.MoveSorter;
 
 import java.util.Queue;
 

@@ -1,14 +1,12 @@
-/**
- *
- */
 package net.chesstango.search.smart.minmax;
 
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.MoveSorter;
 
 import java.util.ArrayList;
 import java.util.List;

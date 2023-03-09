@@ -2,7 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.search.smart.AbstractSmartTest;
 import net.chesstango.search.smart.minmax.BlackBestMovesTest;
-import net.chesstango.search.smart.minmax.MoveSorterTest;
+import net.chesstango.search.smart.MoveSorterTest;
 import net.chesstango.search.smart.minmax.Prunning01Test;
 import net.chesstango.search.smart.minmax.WhiteBestMovesTest;
 import net.chesstango.search.smart.minmax.*;
