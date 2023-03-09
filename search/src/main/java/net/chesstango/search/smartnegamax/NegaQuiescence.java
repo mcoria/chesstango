@@ -10,16 +10,16 @@ import java.util.Queue;
 /**
  * @author Mauricio Coria
  */
-public class Quiescence {
+public class NegaQuiescence {
     private final MoveSorter moveSorter;
 
     private GameEvaluator evaluator;
 
-    public Quiescence() {
+    public NegaQuiescence() {
         this(new MoveSorter());
     }
 
-    public Quiescence(MoveSorter moveSorter) {
+    public NegaQuiescence(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
     }
 
@@ -55,6 +55,6 @@ public class Quiescence {
     }
 
     public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
+        this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
     }
 }

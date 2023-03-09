@@ -15,19 +15,19 @@ import java.util.Queue;
  */
 public class NegaMaxPruning extends AbstractSmart {
     private final MoveSorter moveSorter;
-    private final Quiescence quiescence;
+    private final NegaQuiescence negaQuiescence;
 
     public NegaMaxPruning() {
-        this(new Quiescence(new MoveSorter()), new MoveSorter());
+        this(new NegaQuiescence(new MoveSorter()), new MoveSorter());
     }
 
-    public NegaMaxPruning(Quiescence quiescence) {
-        this(quiescence, new MoveSorter());
+    public NegaMaxPruning(NegaQuiescence negaQuiescence) {
+        this(negaQuiescence, new MoveSorter());
     }
 
-    public NegaMaxPruning(Quiescence quiescence, MoveSorter moveSorter) {
+    public NegaMaxPruning(NegaQuiescence negaQuiescence, MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
-        this.quiescence = quiescence;
+        this.negaQuiescence = negaQuiescence;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class NegaMaxPruning extends AbstractSmart {
 
     @Override
     public void setGameEvaluator(GameEvaluator evaluator) {
-        quiescence.setGameEvaluator(evaluator);
+        negaQuiescence.setGameEvaluator(evaluator);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class NegaMaxPruning extends AbstractSmart {
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
-            return quiescence.quiescenceMax(game, alpha, beta);
+            return negaQuiescence.quiescenceMax(game, alpha, beta);
         } else {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;

@@ -19,7 +19,7 @@ public class NegaMax extends AbstractSmart {
 
     @Override
     public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
+        this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
     }
 
     @Override
@@ -59,12 +59,10 @@ public class NegaMax extends AbstractSmart {
     }
 
     protected int negaMax(Game game, final int currentPly) {
-
-        final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
 
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
-            betterEvaluation = minOrMax ? -evaluator.evaluate(game) : evaluator.evaluate(game);
+            betterEvaluation = evaluator.evaluate(game);
         } else {
             for (Move move : game.getPossibleMoves()) {
                 game = game.executeMove(move);
