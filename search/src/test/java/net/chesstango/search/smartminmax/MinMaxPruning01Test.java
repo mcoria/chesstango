@@ -10,7 +10,6 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import org.junit.Assert;
 import org.junit.Before;

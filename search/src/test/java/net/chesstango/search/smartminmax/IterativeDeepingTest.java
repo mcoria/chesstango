@@ -3,8 +3,6 @@ package net.chesstango.search.smartminmax;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.mockito.Mockito.mock;
-
 
 /**
  * @author Mauricio Coria

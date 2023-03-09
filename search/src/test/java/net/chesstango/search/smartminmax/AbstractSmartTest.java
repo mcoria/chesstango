@@ -8,8 +8,6 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Before;
