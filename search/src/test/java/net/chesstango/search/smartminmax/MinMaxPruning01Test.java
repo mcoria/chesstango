@@ -66,7 +66,6 @@ public class MinMaxPruning01Test {
         Assert.assertEquals(bestMove.getFrom().getSquare().getMirrorSquare(), bestMoveMirror.getFrom().getSquare());
 
         Assert.assertEquals(bestMove.getTo().getSquare().getMirrorSquare(), bestMoveMirror.getTo().getSquare());
-
     }
 
 }

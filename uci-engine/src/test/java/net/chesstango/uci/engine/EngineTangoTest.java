@@ -56,8 +56,6 @@ public class EngineTangoTest {
 
     @Test
     public void test1_execute_position_startpos_01() {
-
-
         engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(System.out))));
 
         engine.accept(new CmdUci());

@@ -51,7 +51,7 @@ public abstract class AbstractSmart implements SearchMove {
             int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxToRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que llegan al mismo Square
-            movesToSquare = moves.stream().filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
+            movesToSquare = movesFromSquare.stream().filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
         } else {
             int minFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
             int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minFromRank).mapToInt(Square::getFile).min().getAsInt();
@@ -63,10 +63,10 @@ public abstract class AbstractSmart implements SearchMove {
             int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minToRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que llegan al mismo Square
-            movesToSquare = moves.stream().filter(move -> move.getTo().getSquare().getRank() == minToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
+            movesToSquare = movesFromSquare.stream().filter(move -> move.getTo().getSquare().getRank() == minToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
         }
 
         //TODO: que pasa cuando son promociones ?!?!
-        return movesToSquare.size() == 1 ?  movesToSquare.get(0) : movesToSquare.stream().map(move -> (MovePromotion) move).filter(movePromotion -> Piece.QUEEN_BLACK.equals(movePromotion.getPromotion()) || Piece.QUEEN_BLACK.equals(movePromotion.getPromotion())).findAny().get();
+        return movesToSquare.size() == 1 ?  movesToSquare.get(0) : movesToSquare.stream().map(move -> (MovePromotion) move).filter(movePromotion -> Piece.QUEEN_WHITE.equals(movePromotion.getPromotion()) || Piece.QUEEN_BLACK.equals(movePromotion.getPromotion())).findAny().get();
     }
 }
