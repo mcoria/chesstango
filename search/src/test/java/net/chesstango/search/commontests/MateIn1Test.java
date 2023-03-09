@@ -1,4 +1,4 @@
-package net.chesstango.search;
+package net.chesstango.search.commontests;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
@@ -6,6 +6,8 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Test;
 

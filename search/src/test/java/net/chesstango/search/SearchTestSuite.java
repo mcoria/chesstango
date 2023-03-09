@@ -3,6 +3,8 @@
  */
 package net.chesstango.search;
 
+import net.chesstango.search.commontests.*;
+import net.chesstango.search.commontests.BlackBestMovesTest;
 import net.chesstango.search.smartminmax.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

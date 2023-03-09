@@ -1,8 +1,7 @@
 package net.chesstango.search.smartnegamax;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
-import net.chesstango.search.MateIn1Test;
-import net.chesstango.search.MateIn2Test;
+import net.chesstango.search.commontests.MateIn2Test;
 import net.chesstango.search.SearchMove;
 import org.junit.Before;
 

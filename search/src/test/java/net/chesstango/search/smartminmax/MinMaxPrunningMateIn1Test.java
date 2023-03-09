@@ -1,7 +1,7 @@
 package net.chesstango.search.smartminmax;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
-import net.chesstango.search.MateIn1Test;
+import net.chesstango.search.commontests.MateIn1Test;
 import net.chesstango.search.SearchMove;
 import org.junit.Before;
 
