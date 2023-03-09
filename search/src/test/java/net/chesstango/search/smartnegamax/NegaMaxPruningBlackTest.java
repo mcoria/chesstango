@@ -42,7 +42,6 @@ public class NegaMaxPruningBlackTest {
 
 
     @Test
-    @Ignore
     public void test_findBestMove_BlackPlays_SingleMove() {
         NegaMaxPruning minMax = new NegaMaxPruning(negaQuiescence, moveSorter);
 
@@ -60,12 +59,11 @@ public class NegaMaxPruningBlackTest {
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move, bestMove);
-        Assert.assertEquals(-1, searchResult.getEvaluation());
+        Assert.assertEquals(1, searchResult.getEvaluation());
         verify(negaQuiescence, times(1)).quiescenceMax(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
     }
 
     @Test
-    @Ignore
     public void test_findBestMove_BlackPlays_TwoMoves() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
         //MinMaxPruning minMax = Mockito.spy(new MinMaxPruning(quiescence, moveSorter));
@@ -73,10 +71,10 @@ public class NegaMaxPruningBlackTest {
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(negaQuiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(-1);
+        when(negaQuiescence.quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(negaQuiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, 1)).thenReturn(-2);
+        when(negaQuiescence.quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, 1)).thenReturn(2);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -98,9 +96,9 @@ public class NegaMaxPruningBlackTest {
 
 
     @Test
-    @Ignore
     public void test_findBestMove_BlackPlays_MateCutOff() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
+        //NegaMaxPruning minMax = new NegaMaxPruning(negaQuiescence, moveSorter);
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
@@ -119,7 +117,6 @@ public class NegaMaxPruningBlackTest {
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
         SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
-
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move2, bestMove);
@@ -140,7 +137,6 @@ public class NegaMaxPruningBlackTest {
     }
 
     @Test
-    @Ignore
     public void test_findBestMove_BlackPlays_ImminentMate() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
@@ -162,7 +158,6 @@ public class NegaMaxPruningBlackTest {
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
         SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
-
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertNotNull(bestMove);
@@ -182,7 +177,6 @@ public class NegaMaxPruningBlackTest {
     }
 
     @Test
-    @Ignore
     public void test_minimize_BlackPlays_MateCutOff() {
         NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
@@ -202,7 +196,7 @@ public class NegaMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        int minValue = minMax.negaMax(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        int minValue = - minMax.negaMax(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         Assert.assertEquals(GameEvaluator.BLACK_WON, minValue);
 

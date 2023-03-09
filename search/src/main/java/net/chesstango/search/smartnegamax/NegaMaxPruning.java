@@ -63,8 +63,8 @@ public class NegaMaxPruning extends AbstractSmart {
                 bestMoves.clear();
                 bestMoves.add(move);
 
-                if (minOrMax && bestValue == GameEvaluator.BLACK_WON ||             //Black wins
-                        !minOrMax && bestValue == GameEvaluator.WHITE_WON) {        //White wins
+                // Stop searching if we have found checkmate
+                if (bestValue == GameEvaluator.INFINITE_POSITIVE) {
                     search = false;
                 }
 
@@ -75,8 +75,7 @@ public class NegaMaxPruning extends AbstractSmart {
             game = game.undoMove();
         }
 
-        if (bestMoves.size() == 0 &&
-                (minOrMax && bestValue == GameEvaluator.WHITE_WON || !minOrMax && bestValue == GameEvaluator.BLACK_WON)) {
+        if (bestMoves.size() == 0 && bestValue == GameEvaluator.INFINITE_NEGATIVE) {
             game.getPossibleMoves().forEach(bestMoves::add);
         }
 
