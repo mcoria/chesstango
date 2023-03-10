@@ -1,0 +1,27 @@
+{
+  "fen": "1",
+  "links": [
+    {
+      "move": "1a2",
+      "node": {
+        "fen": "2",
+        "links": [
+          {
+            "move": "2a3",
+            "node": {
+              "fen": "3",
+              "links": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "move": "1a4",
+      "node": {
+        "fen": "4",
+        "links": []
+      }
+    }
+  ]
+}
