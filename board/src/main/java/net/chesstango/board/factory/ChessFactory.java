@@ -1,6 +1,7 @@
 package net.chesstango.board.factory;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.GameImp;
 import net.chesstango.board.GameState;
 import net.chesstango.board.analyzer.CheckAndPinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
@@ -87,7 +88,7 @@ public class ChessFactory {
 	}
 
 	public Game createGame(ChessPosition chessPosition, GameState gameState, PositionAnalyzer analyzer, Map<Class, Object> objectMap) {
-		return new Game(chessPosition, gameState, analyzer, objectMap);
+		return new GameImp(chessPosition, gameState, analyzer, objectMap);
 	}
 
 	public PositionAnalyzer createPositionAnalyzer() {
