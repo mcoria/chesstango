@@ -2,8 +2,11 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,19 +15,27 @@ public class Node {
     @JsonProperty("fen")
     String fen;
 
+    @JsonProperty("evaluation")
+    public int evaluation;
+
+    @JsonProperty("status")
+    public String statusStr;
+
     @JsonManagedReference
     List<NodeLink> links;
+
+    ChessPosition position;
 
     Node parentNode;
 
     public void executeMove(Move move, GameMock gameMock) {
         for (NodeLink link :
                 links) {
-            /*
-            if (GameMockNode.testMoveEquality(link.move, move)) {
+            if (move == link.move) {
                 gameMock.currentMockNode = link.mockNode;
-            }*/
+            }
         }
+
     }
 
     public void undoMove(GameMock gameMock) {
@@ -36,8 +47,7 @@ public class Node {
 
             @Override
             public Iterator<Move> iterator() {
-                //return links.stream().map(GameMockNodeLink::getMove).iterator();
-                return null;
+                return links.stream().map(NodeLink::getMove).iterator();
             }
 
             @Override
@@ -52,18 +62,30 @@ public class Node {
 
             @Override
             public boolean contains(Move move) {
+                throw new UnsupportedOperationException("Method not implemented yet");
                 //return links.stream().map(GameMockNodeLink::getMove).anyMatch(theMoveLink -> GameMockNode.testMoveEquality(theMoveLink, move));
-                return false;
+                //return false;
             }
         };
-    }
-
-    private static boolean testMoveEquality(Move move1, Move move2){
-        return false;
     }
 
     public void accept(NodeVisitor visitor) {
         visitor.visit(this);
         links.forEach(link -> link.accept(visitor));
+    }
+
+    public ChessPositionReader getChessPosition() {
+        return position;
+    }
+
+    public GameStatus getStatus() {
+        if (statusStr != null) {
+            return GameStatus.valueOf(statusStr);
+        }
+        if (links.size() > 0) {
+            return GameStatus.NO_CHECK;
+        }
+
+        throw new RuntimeException("Unknown status at this position");
     }
 }

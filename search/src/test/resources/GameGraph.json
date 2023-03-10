@@ -1,26 +1,36 @@
 {
-  "fen": "1",
+  "fen": "6k1/3r4/1b3p2/8/1Pp5/6p1/2Kq4/8 w - - 1 1",
   "links": [
     {
-      "move": "1a2",
+      "move": "c2b1",
       "node": {
-        "fen": "2",
+        "fen": "6k1/3r4/1b3p2/8/1Pp5/6p1/3q4/1K6 b - - 2 1",
         "links": [
           {
-            "move": "2a3",
+            "move": "g3g2",
             "node": {
-              "fen": "3",
-              "links": []
+              "fen": "6k1/3r4/1b3p2/8/1Pp5/8/3q2p1/1K6 w - - 0 2",
+              "links": [
+                {
+                  "move": "b1a1",
+                  "node": {
+                    "fen": "6k1/3r4/1b3p2/8/1Pp5/8/3q2p1/K7 b - - 1 2",
+                    "links": [
+                      {
+                        "move": "g2g1",
+                        "node": {
+                          "fen": "6k1/3r4/1b3p2/8/1Pp5/8/3q4/K5q1 w - - 0 3",
+                          "evaluation": 1,
+                          "links": []
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
             }
           }
         ]
-      }
-    },
-    {
-      "move": "1a4",
-      "node": {
-        "fen": "4",
-        "links": []
       }
     }
   ]

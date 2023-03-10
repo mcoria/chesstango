@@ -14,4 +14,6 @@ module net.chesstango.board {
     exports net.chesstango.board.representations.fen;
     exports net.chesstango.board.representations.pgn;
     exports net.chesstango.board.representations.ascii;
+    exports net.chesstango.board.movesgenerators.legal;
+    exports net.chesstango.board.position.imp;
 }

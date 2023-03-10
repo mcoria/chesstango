@@ -22,12 +22,12 @@ public class GameMock implements Game {
 
     @Override
     public ChessPositionReader getChessPosition() {
-        return null;
+        return currentMockNode.getChessPosition();
     }
 
     @Override
     public GameStatus getStatus() {
-        return null;
+        return currentMockNode.getStatus();
     }
 
     @Override
@@ -37,23 +37,23 @@ public class GameMock implements Game {
 
     @Override
     public Move getMove(Square from, Square to) {
-        return null;
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
     public Move getMove(Square from, Square to, Piece promotionPiece) {
-        return null;
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
     public Game executeMove(Square from, Square to) {
-        return null;
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
 
     @Override
     public <V extends GameVisitor> V accept(V gameVisitor) {
-        return null;
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class GameMock implements Game {
 
     @Override
     public <T> T getObject(Class<T> theClass) {
-        return null;
+        throw new UnsupportedOperationException("Method not implemented yet");
     }
 
 }
