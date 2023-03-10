@@ -1,6 +1,8 @@
 package net.chesstango.search.smart;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.Square;
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
@@ -19,8 +21,11 @@ public class GameMockTest {
         minMax.setGameEvaluator(new GameMockEvaluator());
 
         SearchMoveResult searchResult = minMax.searchBestMove(game, 4);
+        Move bestMove = searchResult.getBestMove();
 
         Assert.assertNotNull(searchResult);
-        Assert.assertEquals(1, searchResult.getEvaluation());
+        Assert.assertEquals(Square.c2, bestMove.getFrom().getSquare());
+        Assert.assertEquals(Square.b1, bestMove.getTo().getSquare());
+        Assert.assertEquals(-1000, searchResult.getEvaluation());
     }
 }

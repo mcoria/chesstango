@@ -6,7 +6,7 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 
 public class GameMock implements Game {
-    protected Node currentMockNode;
+    Node currentMockNode;
 
     @Override
     public Game executeMove(Move move) {

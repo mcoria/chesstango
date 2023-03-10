@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.chesstango.board.moves.Move;
 
-public class NodeLink {
-
+class NodeLink {
     @JsonBackReference
     Node parent;
 
@@ -18,7 +17,7 @@ public class NodeLink {
     Node mockNode;
 
 
-    public void accept(NodeVisitor visitor) {
+    void accept(NodeVisitor visitor) {
         visitor.visit(this);
         mockNode.accept(visitor);
     }

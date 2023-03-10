@@ -20,7 +20,15 @@
                         "move": "g2g1",
                         "node": {
                           "fen": "6k1/3r4/1b3p2/8/1Pp5/8/3q4/K5q1 w - - 0 3",
-                          "evaluation": 1,
+                          "evaluation": -1000,
+                          "links": []
+                        }
+                      },
+                      {
+                        "move": "f6f5",
+                        "node": {
+                          "fen": "6k1/3r4/1b6/5p2/1Pp5/8/3q2p1/K7 w - - 0 3",
+                          "evaluation": -600,
                           "links": []
                         }
                       }

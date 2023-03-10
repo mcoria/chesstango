@@ -11,15 +11,15 @@ import net.chesstango.board.position.ChessPositionReader;
 import java.util.Iterator;
 import java.util.List;
 
-public class Node {
+class Node {
     @JsonProperty("fen")
     String fen;
 
     @JsonProperty("evaluation")
-    public int evaluation;
+    int evaluation;
 
     @JsonProperty("status")
-    public String statusStr;
+    String statusStr;
 
     @JsonManagedReference
     List<NodeLink> links;
@@ -28,7 +28,7 @@ public class Node {
 
     Node parentNode;
 
-    public void executeMove(Move move, GameMock gameMock) {
+    void executeMove(Move move, GameMock gameMock) {
         for (NodeLink link :
                 links) {
             if (move == link.move) {
@@ -38,11 +38,11 @@ public class Node {
 
     }
 
-    public void undoMove(GameMock gameMock) {
+    void undoMove(GameMock gameMock) {
         gameMock.currentMockNode = parentNode;
     }
 
-    public MoveContainerReader getPossibleMoves() {
+    MoveContainerReader getPossibleMoves() {
         return new MoveContainerReader() {
 
             @Override
@@ -69,16 +69,16 @@ public class Node {
         };
     }
 
-    public void accept(NodeVisitor visitor) {
+    void accept(NodeVisitor visitor) {
         visitor.visit(this);
         links.forEach(link -> link.accept(visitor));
     }
 
-    public ChessPositionReader getChessPosition() {
+    ChessPositionReader getChessPosition() {
         return position;
     }
 
-    public GameStatus getStatus() {
+    GameStatus getStatus() {
         if (statusStr != null) {
             return GameStatus.valueOf(statusStr);
         }
