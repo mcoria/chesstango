@@ -47,10 +47,27 @@ public class IterativeDeeping implements SearchMove {
                 if (searchResult.getEvaluation() >= lastBestMove.getEvaluation()) {
                     bestMovesByDepth.add(lastBestMove);
                 }
-                break;
+                throw new RuntimeException("Unimplemented logic");
             }
         }
-        return bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+
+        SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+
+        int[] visitedNodesCounter = new int[lastSearch.getVisitedNodesCounter().length];
+        for (SearchMoveResult searchMoveResult : bestMovesByDepth) {
+            int[] currentNodeCounterArray = searchMoveResult.getVisitedNodesCounter();
+            int i = 0;
+            for (int currentNodeCounter: currentNodeCounterArray) {
+                visitedNodesCounter[i] += currentNodeCounter;
+                i++;
+            }
+        }
+
+
+        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, lastSearch.getEvaluation(), lastSearch.getEvaluationCollisions(), lastSearch.getBestMove(), null);
+        searchMoveResult.setVisitedNodesCounter(visitedNodesCounter);
+
+        return searchMoveResult;
     }
 
     @Override

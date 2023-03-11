@@ -10,6 +10,9 @@ import net.chesstango.uci.service.Service;
 import net.chesstango.uci.service.Visitor;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -93,19 +96,18 @@ public class EngineProxy implements Service {
     }
 
     private void startProcess() {
-        // Spike 1,4
-        //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike\\Spike1.4.exe");
-        //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\Spike"));
+        List<String> commandAndArguments = new ArrayList<>();
 
-        // SOS Arena
-        //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\SOS-51_Arena.exe");
-        //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\arena_3.5.1\\Engines\\SOS\\"));
+        commandAndArguments.add(config.getExe());
 
-        // MORA
-        //ProcessBuilder processBuilder = new ProcessBuilder("C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\MORA_1.1.0.exe");
-        //processBuilder.directory(new File("C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\"));
+        if (config.getParams() != null) {
+            String[] parameters = config.getParams().split(" ");
+            if(parameters.length > 0){
+                commandAndArguments.addAll( Arrays.stream(parameters).toList() );
+            }
+        }
 
-        ProcessBuilder processBuilder = new ProcessBuilder(config.getExe());
+        ProcessBuilder processBuilder = new ProcessBuilder(commandAndArguments);
         processBuilder.directory(new File(config.getDirectory()));
 
         try {

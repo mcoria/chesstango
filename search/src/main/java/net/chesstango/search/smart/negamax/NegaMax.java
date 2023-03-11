@@ -56,7 +56,7 @@ public class NegaMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(minOrMax ? -betterEvaluation : betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        return new SearchMoveResult(depth, minOrMax ? -betterEvaluation : betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
     }
 
     protected int negaMax(Game game, final int currentPly) {

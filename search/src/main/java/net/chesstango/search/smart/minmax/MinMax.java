@@ -17,6 +17,8 @@ public class MinMax extends AbstractSmart {
     private static final int DEFAULT_MAX_PLIES = 4;
     private GameEvaluator evaluator;
 
+    private int[] visitedNodesCounter;
+
 
     @Override
     public SearchMoveResult searchBestMove(Game game) {
@@ -28,6 +30,7 @@ public class MinMax extends AbstractSmart {
     @Override
     public SearchMoveResult searchBestMove(Game game, int depth) {
         this.keepProcessing = true;
+        this.visitedNodesCounter = new int[depth];
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -60,7 +63,10 @@ public class MinMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        searchMoveResult.setVisitedNodesCounter(visitedNodesCounter);
+
+        return searchMoveResult;
     }
 
     @Override
@@ -69,6 +75,7 @@ public class MinMax extends AbstractSmart {
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
+        visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             betterEvaluation = evaluator.evaluate(game);

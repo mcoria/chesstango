@@ -41,7 +41,7 @@ public class MatchMain {
     public static void main(String[] args) {
         EngineController engineController1 = createTangoController(GameEvaluatorSEandImp02.class);
 
-        //EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
+        //EngineController engineController2 = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("GameEvaluatorImp02")).setLogging(false));
         EngineController engineController2 = createTangoController(GameEvaluatorImp02.class);
 
         List<GameResult> matchResult = new MatchMain().play(engineController1, engineController2);
@@ -69,8 +69,8 @@ public class MatchMain {
 
     private static List<String> getFenList() {
         //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        return GAMES_BALSA_TOP10;
-        //return Arrays.asList("r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/2N1PN2/PPQ2PPP/R1B1KB1R w KQkq - 4 7");
+        //return GAMES_BALSA_TOP10;
+        return Arrays.asList("r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/2N1PN2/PPQ2PPP/R1B1KB1R w KQkq - 4 7");
     }
 
     private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {

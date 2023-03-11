@@ -16,6 +16,32 @@ public class ProxyConfig {
     private String name;
     private String directory;
     private String exe;
+    private String params;
+
+    public static ProxyConfig loadEngineConfig(String engineName) {
+        Optional<ProxyConfig> config = loadFromFile().stream().filter(entry -> entry.getName().equalsIgnoreCase(engineName)).findAny();
+        if (!config.isPresent()) {
+            throw new RuntimeException("Engine " + engineName + " not found in config file.");
+        }
+        return config.get();
+    }
+
+    protected static List<ProxyConfig> loadFromFile() {
+        try {
+            InputStream inputStream = ProxyConfig.class.getClassLoader().getResourceAsStream("engines.json");
+
+            // reading the files with buffered reader
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            return objectMapper.readValue(inputStreamReader, new TypeReference<List<ProxyConfig>>() {
+            });
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public String getName() {
         return name;
@@ -41,28 +67,11 @@ public class ProxyConfig {
         this.exe = exe;
     }
 
-    public static ProxyConfig loadEngineConfig(String engineName) {
-        Optional<ProxyConfig> config = loadFromFile().stream().filter(entry -> entry.getName().equalsIgnoreCase(engineName)).findAny();
-        if (!config.isPresent()) {
-            throw new RuntimeException("Engine " + engineName + " not found in config file.");
-        }
-        return config.get();
+    public String getParams() {
+        return params;
     }
 
-    protected static List<ProxyConfig> loadFromFile() {
-        try {
-            InputStream inputStream = ProxyConfig.class.getClassLoader().getResourceAsStream("engines.json");
-
-            // reading the files with buffered reader
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            return objectMapper.readValue(inputStreamReader, new TypeReference<List<ProxyConfig>>() {
-            });
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void setParams(String params) {
+        this.params = params;
     }
 }

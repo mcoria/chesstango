@@ -19,6 +19,8 @@ public class MinMaxPruning extends AbstractSmart {
     private final MoveSorter moveSorter;
     private final Quiescence quiescence;
 
+    private int[] visitedNodesCounter;
+
     public MinMaxPruning() {
         this(new Quiescence(new MoveSorter()), new MoveSorter());
     }
@@ -45,6 +47,7 @@ public class MinMaxPruning extends AbstractSmart {
     @Override
     public SearchMoveResult searchBestMove(Game game, final int depth) {
         this.keepProcessing = true;
+        this.visitedNodesCounter = new int[depth];
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -83,10 +86,14 @@ public class MinMaxPruning extends AbstractSmart {
             game.getPossibleMoves().forEach(bestMoves::add);
         }
 
-        return new SearchMoveResult(bestValue, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, bestValue, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        searchMoveResult.setVisitedNodesCounter(visitedNodesCounter);
+
+        return searchMoveResult;
     }
 
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {
+        visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             return quiescence.quiescenceMin(game, alpha, beta);
         } else {
@@ -115,6 +122,7 @@ public class MinMaxPruning extends AbstractSmart {
     }
 
     protected int maximize(Game game, final int currentPly, final int alpha, final int beta) {
+        visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             return quiescence.quiescenceMax(game, alpha, beta);
         } else {

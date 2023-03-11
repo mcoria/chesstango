@@ -13,5 +13,11 @@
     "name": "MORA",
     "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA",
     "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\MORA_1.1.0.exe"
+  },
+  {
+    "name": "GameEvaluatorImp02",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\tangoengines\\13-GameEvaluatorImp02",
+    "exe": "C:\\Java\\jdk-17.0.5\\bin\\java",
+    "params": "-jar uci-engine-0.0.10-SNAPSHOT.jar"
   }
 ]
