@@ -8,7 +8,8 @@ import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 
 public class WaitCmdUci implements ZondaState {
-
+    public static final String ENGINE_NAME = "Tango";
+    public static final String ENGINE_AUTHOR = "Mauricio Coria";
     private final EngineTango engineTango;
 
     public WaitCmdUci(EngineTango engineTango) {
@@ -17,8 +18,8 @@ public class WaitCmdUci implements ZondaState {
 
     @Override
     public void do_uci(CmdUci cmdUci) {
-        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, "Tango"));
-        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, "Mauricio Coria"));
+        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
+        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
         engineTango.responseOutputStream.accept(new RspUciOk());
         engineTango.currentState = new Ready(engineTango);
     }

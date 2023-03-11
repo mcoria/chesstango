@@ -6,6 +6,7 @@ import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,23 +16,6 @@ import java.util.stream.Collectors;
  */
 public class Reports {
 
-    private class ReportRowModel {
-        public String engineName;
-        public long wonAsWhite;
-        public long wonAsBlack;
-
-        public long lostAsWhite;
-        public long lostAsBlack;
-
-        public long drawsAsWhite;
-        public long drawsAsBlack;
-        public double puntosAsWhite;
-        public double puntosAsBlack;
-        public double puntosTotal;
-        public long playedGames;
-        public double winPercentage;
-    }
-
     public void printReport(List<List<EngineController>> controllersListCollection, List<GameResult> matchResult) {
         List<ReportRowModel> rows = new ArrayList<>();
         controllersListCollection.forEach(controllerList -> rows.add(createRowModelMultipleEngine(controllerList, matchResult)));
@@ -39,9 +23,9 @@ public class Reports {
     }
 
 
-    public void printEngineControllersReport(List<EngineController> engines, List<GameResult> matchResult) {
+    public void printEngineControllersReport(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         List<ReportRowModel> rows = new ArrayList<>();
-        engines.forEach(engine -> rows.add(createRowModelSingleEngine(engine, matchResult)));
+        enginesOrder.forEach(engine -> rows.add(createRowModelSingleEngine(engine, matchResult)));
         printReport(rows);
     }
 
@@ -104,40 +88,21 @@ public class Reports {
         System.out.printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------\n");
     }
 
+    private class ReportRowModel {
+        public String engineName;
+        public long wonAsWhite;
+        public long wonAsBlack;
 
-    public void printTangoStatics(List<Session> sessions, boolean printDetail) {
-        class EvaluationStatics {
-            String fen;
-            long noCollisionCount;
-            long collisionCount;
-            int sum;
-        }
+        public long lostAsWhite;
+        public long lostAsBlack;
 
-        List<EvaluationStatics> staticsPerSession = new ArrayList<>();
-        sessions.forEach(session -> {
-            EvaluationStatics statics = new EvaluationStatics();
-            statics.fen = session.getInitialPosition();
-            statics.noCollisionCount = session.getMoveResultList().stream().mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value == 0).count();
-            statics.collisionCount = session.getMoveResultList().stream().mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
-            statics.sum = session.getMoveResultList().stream().mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).sum();
-            staticsPerSession.add(statics);
-        });
-
-        long noCollisionCount = staticsPerSession.stream().mapToLong(es -> es.noCollisionCount).sum();
-        long collisionCount = staticsPerSession.stream().mapToLong(es -> es.collisionCount).sum();
-        int sum = staticsPerSession.stream().mapToInt(es -> es.sum).sum();
-
-        System.out.printf("Summary collisions noCollisionCount=%d collisionCount=%d sum=%d \n", noCollisionCount, collisionCount, sum);
-
-        if (printDetail) {
-            for (EvaluationStatics statics : staticsPerSession) {
-                String fen = statics.fen;
-                noCollisionCount = statics.noCollisionCount;
-                collisionCount = statics.collisionCount;
-                sum = statics.sum;
-                System.out.printf("%s collisions noCollisionCount=%d collisionCount=%d sum=%d \n", fen, noCollisionCount, collisionCount, sum);
-            }
-        }
+        public long drawsAsWhite;
+        public long drawsAsBlack;
+        public double puntosAsWhite;
+        public double puntosAsBlack;
+        public double puntosTotal;
+        public long playedGames;
+        public double winPercentage;
     }
 
 }

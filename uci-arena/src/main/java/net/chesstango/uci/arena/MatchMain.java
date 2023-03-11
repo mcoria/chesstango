@@ -6,6 +6,7 @@ import net.chesstango.evaluation.imp.*;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.arena.reports.Reports;
+import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.proxy.EngineProxy;
@@ -34,41 +35,42 @@ public class MatchMain {
             "r1b1kb1r/pp1n1pp1/2p1pq1p/3p4/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQkq - 1 8",
             "r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/2N1PN2/PPQ2PPP/R1B1KB1R w KQkq - 4 7",
             "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6");
+    private static final int DEPTH = 4;
+    private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
-        EngineController controllerTango = createTangoController(GameEvaluatorSEandImp02.class);
+        EngineController engineController1 = createTangoController(GameEvaluatorSEandImp02.class);
 
         //EngineController controllerOponente = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(false));
-        EngineController controllerOponente = createTangoController(GameEvaluatorImp02.class);
+        EngineController engineController2 = createTangoController(GameEvaluatorImp02.class);
 
-        Match match = new Match(controllerTango, controllerOponente, 2);
-        //match.setDebugEnabled(true);
+        List<GameResult> matchResult = new MatchMain().play(engineController1, engineController2);
 
-        List<String> fenPositions = getFenList();
+        // Solo para propositos de ordenar la tabla de salida se especifican los engines
+        new Reports().printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
 
-        startEngines(controllerTango, controllerOponente);
+        new SessionReport().printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+    }
+
+    private List<GameResult> play(EngineController engineController1, EngineController engineController2) {
+        Match match = new Match(engineController1, engineController2, DEPTH);
+        match.setDebugEnabled(MATCH_DEBUG);
+
+        startEngines(engineController1, engineController2);
 
         Instant start = Instant.now();
-        List<GameResult> matchResult = match.play(fenPositions);
+        List<GameResult> matchResult = match.play(getFenList());
         System.out.println("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
-        quitEngines(controllerTango, controllerOponente);
+        quitEngines(engineController1, engineController2);
 
-        new Reports().printEngineControllersReport(Arrays.asList(controllerTango, controllerOponente), matchResult);
+        return matchResult;
     }
 
     private static List<String> getFenList() {
-        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-    }
-
-    public static void startEngines(EngineController engine1, EngineController engine2) {
-        engine1.startEngine();
-        engine2.startEngine();
-    }
-
-    public static void quitEngines(EngineController engine1, EngineController engine2) {
-        engine1.send_CmdQuit();
-        engine2.send_CmdQuit();
+        //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        return GAMES_BALSA_TOP10;
+        //return Arrays.asList("r1bqk2r/pp1n1ppp/2pbpn2/3p4/2PP4/2N1PN2/PPQ2PPP/R1B1KB1R w KQkq - 4 7");
     }
 
     private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {
@@ -92,5 +94,15 @@ public class MatchMain {
             throw new RuntimeException(e);
         }
         return new EngineTango(search);
+    }
+
+    public void startEngines(EngineController engine1, EngineController engine2) {
+        engine1.startEngine();
+        engine2.startEngine();
+    }
+
+    public void quitEngines(EngineController engine1, EngineController engine2) {
+        engine1.send_CmdQuit();
+        engine2.send_CmdQuit();
     }
 }

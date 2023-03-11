@@ -25,6 +25,22 @@ public abstract class AbstractSmart implements SearchMove {
     /**
      * La idea es seleccionar siempre la misma posicion en caso de que exista más de una opcion.
      * La seleccion es simetrica respecto al color.
+     *
+     * Observar la cantidad de veces que existe mas de un movimiento posible que optimimo.
+     *
+     * Positions: Balsa_Top10.pgn  (Match)
+     * Depth: 4
+     * Time taken: 140897 ms
+     *  ___________________________________________________________________________________________________________________________________________________
+     * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
+     * |            GameEvaluatorSEandImp02|       5 |       6 |        1 |        2 |        4 |        2 |        7.0 |        7.0 |  14.0 / 20 |   70.0 |
+     * |                 GameEvaluatorImp02|       2 |       1 |        6 |        5 |        2 |        4 |        3.0 |        3.0 |   6.0 / 20 |   30.0 |
+     *  ---------------------------------------------------------------------------------------------------------------------------------------------------
+     *  __________________________________________________________________________________________
+     * |ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | COLLISIONS |
+     * |            GameEvaluatorSEandImp02|      885 |           757 |          128 |        212 |
+     * |                 GameEvaluatorImp02|      882 |           604 |          278 |        563 |
+     *  ------------------------------------------------------------------------------------------
      */
     protected Move selectMove(Color currentTurn, List<Move> moves) {
         if (moves.size() == 0) {
