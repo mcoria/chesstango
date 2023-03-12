@@ -24,7 +24,7 @@ public class Quiescence {
         this.moveSorter = moveSorter;
     }
 
-    public int quiescenceMin(Game game, final int alpha, final int beta) {
+    public int minimize(Game game, final int alpha, final int beta) {
         boolean search = true;
         int minValue = evaluator.evaluate(game);
 
@@ -39,7 +39,7 @@ public class Quiescence {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
-                int currentValue = quiescenceMax(game, alpha, Math.min(minValue, beta));
+                int currentValue = maximize(game, alpha, Math.min(minValue, beta));
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -54,7 +54,7 @@ public class Quiescence {
         return minValue;
     }
 
-    public int quiescenceMax(Game game, final int alpha, final int beta) {
+    public int maximize(Game game, final int alpha, final int beta) {
         boolean search = true;
 
         int maxValue = evaluator.evaluate(game);
@@ -70,7 +70,7 @@ public class Quiescence {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
-                int currentValue = quiescenceMin(game, Math.max(maxValue, alpha), beta);
+                int currentValue = minimize(game, Math.max(maxValue, alpha), beta);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;

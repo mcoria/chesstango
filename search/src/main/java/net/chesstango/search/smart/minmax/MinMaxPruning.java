@@ -95,7 +95,7 @@ public class MinMaxPruning extends AbstractSmart {
     protected int minimize(Game game, final int currentPly, final int alpha, final int beta) {
         visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
-            return quiescence.quiescenceMin(game, alpha, beta);
+            return quiescence.minimize(game, alpha, beta);
         } else {
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
@@ -124,7 +124,7 @@ public class MinMaxPruning extends AbstractSmart {
     protected int maximize(Game game, final int currentPly, final int alpha, final int beta) {
         visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
-            return quiescence.quiescenceMax(game, alpha, beta);
+            return quiescence.maximize(game, alpha, beta);
         } else {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;

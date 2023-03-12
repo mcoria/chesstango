@@ -47,7 +47,7 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
+        when(quiescence.minimize(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Move move = mock(Move.class);
 
@@ -59,7 +59,7 @@ public class MinMaxPruningWhiteTest {
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, searchResult.getEvaluation());
-        verify(quiescence, times(1)).quiescenceMin(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
     }
 
     @Test
@@ -70,10 +70,10 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
+        when(quiescence.minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(2);
+        when(quiescence.minimize(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(2);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -86,8 +86,8 @@ public class MinMaxPruningWhiteTest {
         Assert.assertEquals(move2, bestMove);
         Assert.assertEquals(2, searchResult.getEvaluation());
 
-        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-        verify(quiescence, times(1)).quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame2, 1, GameEvaluator.INFINITE_POSITIVE);
 
         verify(minMax).minimize(childGame1, 0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2, 0, 1, GameEvaluator.INFINITE_POSITIVE);
@@ -100,10 +100,10 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
+        when(quiescence.minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_WON);
+        when(quiescence.minimize(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_WON);
 
         // childGame3 no llega a evaluarse, dado que existe CuteOff por el mate que se encuentra en childGame2
         Game childGame3 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
@@ -124,8 +124,8 @@ public class MinMaxPruningWhiteTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
-        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-        verify(quiescence, times(1)).quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame2, 1, GameEvaluator.INFINITE_POSITIVE);
 
         verify(minMax).minimize(childGame1, 0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2, 0, 1, GameEvaluator.INFINITE_POSITIVE);
@@ -142,13 +142,13 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.minimize(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
 
         Game childGame3 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.minimize(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_LOST);
 
         Move move1 = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.d5));
         Move move2 = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.b5));
@@ -166,9 +166,9 @@ public class MinMaxPruningWhiteTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, times(1)).executeMove(move3);
 
-        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-        verify(quiescence, times(1)).quiescenceMin(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-        verify(quiescence, times(1)).quiescenceMin(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame2, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame3, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         verify(minMax).minimize(childGame1, 0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2, 0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
@@ -183,10 +183,10 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
+        when(quiescence.minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE)).thenReturn(1);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_WON);
+        when(quiescence.minimize(childGame2, 1, GameEvaluator.INFINITE_POSITIVE)).thenReturn(GameEvaluator.WHITE_WON);
 
         Game childGame3 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
@@ -203,8 +203,8 @@ public class MinMaxPruningWhiteTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
-        verify(quiescence, times(1)).quiescenceMin(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
-        verify(quiescence, times(1)).quiescenceMin(childGame2, 1, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        verify(quiescence, times(1)).minimize(childGame2, 1, GameEvaluator.INFINITE_POSITIVE);
 
         verify(minMax).minimize(childGame1, 0, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(minMax).minimize(childGame2, 0, 1, GameEvaluator.INFINITE_POSITIVE);
