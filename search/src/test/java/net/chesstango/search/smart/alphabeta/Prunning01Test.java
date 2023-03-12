@@ -1,9 +1,9 @@
-package net.chesstango.search.smart.minmax;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.Pruning01Test;
-import net.chesstango.search.smart.negamax.NegaMaxPruning;
+import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import org.junit.Before;
 
 /**

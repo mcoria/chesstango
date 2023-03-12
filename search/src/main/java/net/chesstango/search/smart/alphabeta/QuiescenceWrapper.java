@@ -1,10 +1,11 @@
-package net.chesstango.search.smart.minmax;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.minmax.MinMax;
 
 /**
  * Positions: Balsa_Top50.pgn
@@ -35,7 +36,7 @@ import net.chesstango.search.SearchMoveResult;
  * |            GameEvaluatorSEandImp02|      660 |           642 |           18 |         19 |     19375 |     19375 |        29 |
  *  ------------------------------------------------------------------------------------------------------------------------------
  */
-public class MinMaxWrapper implements SearchMove {
+public class QuiescenceWrapper implements SearchMove {
     private MinMax minMax = new MinMax();
     private Quiescence quiescence = new Quiescence();
 

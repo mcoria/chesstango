@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.minmax;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
@@ -8,6 +8,8 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.Quiescence;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

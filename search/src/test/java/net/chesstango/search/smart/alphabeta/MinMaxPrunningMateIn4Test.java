@@ -1,21 +1,21 @@
-package net.chesstango.search.smart.minmax;
+package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AbstractBlackBestMovesTest;
-import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smart.MateIn4Test;
+import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import org.junit.Before;
 
 /**
  * @author Mauricio Coria
  */
-public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
+public class MinMaxPrunningMateIn4Test extends MateIn4Test {
 
     private SearchMove searchMove;
 
     @Before
     public void setup(){
-        searchMove = new IterativeDeeping(new MinMaxPruning());
+        searchMove = new MinMaxPruning();
         searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
     }
 

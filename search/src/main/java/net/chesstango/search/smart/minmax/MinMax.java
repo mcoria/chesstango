@@ -19,13 +19,13 @@ public class MinMax extends AbstractSmart {
 
     private int[] visitedNodesCounter;
 
+    // Beyond level 4, the performance is really bad
 
     @Override
     public SearchMoveResult searchBestMove(Game game) {
         return searchBestMove(game, 10);
     }
 
-    // Beyond level 4, the performance is really bad
 
     @Override
     public SearchMoveResult searchBestMove(Game game, int depth) {

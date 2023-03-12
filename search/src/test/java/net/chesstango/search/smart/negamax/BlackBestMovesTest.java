@@ -4,7 +4,6 @@ import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
 import net.chesstango.search.smart.IterativeDeeping;
-import net.chesstango.search.smart.minmax.MinMaxPruning;
 import org.junit.Before;
 
 /**
