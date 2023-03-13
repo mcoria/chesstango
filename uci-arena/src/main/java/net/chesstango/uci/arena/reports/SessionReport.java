@@ -43,14 +43,25 @@ public class SessionReport {
         rowModel.searchesWithCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
         rowModel.collisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).sum();
 
-        rowModel.visitedNodeCounters = new long[20];
+        rowModel.visitedNodeCounters = new long[30];
         rowModel.totalVisitedNodes = 0;
+        rowModel.maxLevelVisited = 0;
         sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
+            int maxLevel = 0;
             int[] currentNodeCounters = searchMoveResult.getVisitedNodesCounter();
-            for (int i = 0; i < 20 && i < currentNodeCounters.length ; i++) {
+            for (int i = 0; i < currentNodeCounters.length ; i++) {
                 rowModel.visitedNodeCounters[i] += currentNodeCounters[i];
                 rowModel.totalVisitedNodes += currentNodeCounters[i];
+
+                if(currentNodeCounters[i] > 0){
+                    maxLevel = i + 1;
+                }
             }
+
+            if(rowModel.maxLevelVisited < maxLevel){
+                rowModel.maxLevelVisited = maxLevel;
+            }
+
         });
 
         rowModel.avgNodesPerSearch = (int) (rowModel.totalVisitedNodes / rowModel.searches);
@@ -59,22 +70,16 @@ public class SessionReport {
     }
 
     private void print(List<ReportRowModel> reportRows) {
-        AtomicInteger maxLevelVisited = new AtomicInteger();
-        reportRows.forEach(row -> {
-            int maxLevel = 0;
-
-            while (maxLevel < 20 && row.visitedNodeCounters[maxLevel] > 0) {
-                maxLevel++;
+        AtomicInteger maxLevelVisited =  new AtomicInteger();
+        for (ReportRowModel reportRowModel: reportRows) {
+            if(maxLevelVisited.get() < reportRowModel.maxLevelVisited){
+                maxLevelVisited.set(reportRowModel.maxLevelVisited);
             }
-
-            if (maxLevelVisited.get() < maxLevel - 1) {
-                maxLevelVisited.set(maxLevel - 1);
-            }
-        });
+        }
 
         // Marco superior de la tabla
         System.out.printf(" __________________________________________________________________________________________");
-        IntStream.rangeClosed(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
         System.out.printf("____________"); // Nodes
         System.out.printf("____________"); // NodesPerSearch
         System.out.printf("\n");
@@ -82,7 +87,7 @@ public class SessionReport {
 
         // Nombre de las columnas
         System.out.printf("|ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | COLLISIONS ");
-        IntStream.rangeClosed(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
         System.out.printf("|Total Nodes");
         System.out.printf("|AVG Nodes/S");
         System.out.printf("|\n");
@@ -90,7 +95,7 @@ public class SessionReport {
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s|%9d |%14d |%13d |%11d ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.collisions);
-            IntStream.rangeClosed(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedNodeCounters[depth]));
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedNodeCounters[depth]));
             System.out.printf("| %9d ", row.totalVisitedNodes);
             System.out.printf("| %9d ", row.avgNodesPerSearch);
             System.out.printf("|\n");
@@ -98,7 +103,7 @@ public class SessionReport {
 
         // Marco inferior de la tabla
         System.out.printf(" ------------------------------------------------------------------------------------------");
-        IntStream.rangeClosed(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
         System.out.printf("------------"); // Nodes
         System.out.printf("------------"); // NodesPerSearch
         System.out.printf("\n");
@@ -119,6 +124,7 @@ public class SessionReport {
         long[] visitedNodeCounters;
         long totalVisitedNodes;
 
+        int maxLevelVisited;
         int avgNodesPerSearch;
     }
 }
