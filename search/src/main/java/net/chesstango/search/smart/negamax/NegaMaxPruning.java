@@ -19,6 +19,8 @@ public class NegaMaxPruning extends AbstractSmart {
     private final MoveSorter moveSorter;
     private final NegaQuiescence negaQuiescence;
 
+    private int[] visitedNodesCounter;
+
     public NegaMaxPruning() {
         this(new NegaQuiescence(new MoveSorter()), new MoveSorter());
     }
@@ -38,13 +40,9 @@ public class NegaMaxPruning extends AbstractSmart {
     }
 
     @Override
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        negaQuiescence.setGameEvaluator(evaluator);
-    }
-
-    @Override
     public SearchMoveResult searchBestMove(Game game, final int depth) {
         this.keepProcessing = true;
+        this.visitedNodesCounter = new int[depth];
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -81,10 +79,15 @@ public class NegaMaxPruning extends AbstractSmart {
             game.getPossibleMoves().forEach(bestMoves::add);
         }
 
-        return new SearchMoveResult(depth, minOrMax ? -bestValue : bestValue, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, minOrMax ? -bestValue : bestValue, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+
+        searchMoveResult.setVisitedNodesCounter(this.visitedNodesCounter);
+
+        return searchMoveResult;
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
+        visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             return negaQuiescence.quiescenceMax(game, alpha, beta);
         } else {
@@ -112,4 +115,7 @@ public class NegaMaxPruning extends AbstractSmart {
         }
     }
 
+    public void setVisitedNodesCounter(int[] visitedNodesCounter) {
+        this.visitedNodesCounter = visitedNodesCounter;
+    }
 }

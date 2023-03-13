@@ -1,23 +1,27 @@
 package net.chesstango.search.smart.minmax;
 
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.AbstractSmart;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class MinMax extends AbstractSmart {
+public class MinMax implements SearchMove {
 
     private static final int DEFAULT_MAX_PLIES = 4;
     private GameEvaluator evaluator;
 
     private int[] visitedNodesCounter;
+
+    protected boolean keepProcessing = true;
 
     // Beyond level 4, the performance is really bad
 
@@ -63,13 +67,17 @@ public class MinMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, betterEvaluation, bestMoves.size() - 1, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
         searchMoveResult.setVisitedNodesCounter(visitedNodesCounter);
 
         return searchMoveResult;
     }
 
     @Override
+    public void stopSearching() {
+        keepProcessing = false;
+    }
+
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = evaluator;
     }

@@ -14,8 +14,9 @@ public class NegaMaxMateIn1Test extends MateIn1Test {
 
     @Before
     public void setup(){
-        searchMove = new NegaMax();
-        searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
+        NegaMax negaMax = new NegaMax();
+        negaMax.setGameEvaluator(new GameEvaluatorByMaterial());
+        this.searchMove = negaMax;
     }
 
 

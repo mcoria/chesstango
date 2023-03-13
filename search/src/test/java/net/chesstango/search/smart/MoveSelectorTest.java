@@ -16,7 +16,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbstractSmartTest {
+public class MoveSelectorTest {
 
     private AbstractSmart abstractSmart;
 
@@ -32,11 +32,6 @@ public class AbstractSmartTest {
             @Override
             public SearchMoveResult searchBestMove(Game game, int depth) {
                 return null;
-            }
-
-            @Override
-            public void setGameEvaluator(GameEvaluator evaluator) {
-
             }
         };
     }

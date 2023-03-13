@@ -119,7 +119,7 @@ public class EvaluationMain {
     }
 
     public EngineController createTango(Genotype<IntegerGene> genotype) {
-        SearchMove search = new DefaultSearchMove();
+        DefaultSearchMove search = new DefaultSearchMove();
 
         search.setGameEvaluator(geneticProvider.createGameEvaluator(genotype));
 

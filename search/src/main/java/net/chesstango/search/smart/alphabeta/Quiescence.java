@@ -11,20 +11,14 @@ import java.util.Queue;
 /**
  * @author Mauricio Coria
  */
-public class Quiescence {
-    private final MoveSorter moveSorter;
-
+public class Quiescence implements AlphaBetaSearch {
+    private MoveSorter moveSorter;
     private GameEvaluator evaluator;
 
-    public Quiescence() {
-        this(new MoveSorter());
-    }
+    private boolean keepProcessing = true;
 
-    public Quiescence(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
-    }
-
-    public int minimize(Game game, final int alpha, final int beta) {
+    @Override
+    public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
         boolean search = true;
         int minValue = evaluator.evaluate(game);
 
@@ -39,7 +33,7 @@ public class Quiescence {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
-                int currentValue = maximize(game, alpha, Math.min(minValue, beta));
+                int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta), context);
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -54,7 +48,8 @@ public class Quiescence {
         return minValue;
     }
 
-    public int maximize(Game game, final int alpha, final int beta) {
+    @Override
+    public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context){
         boolean search = true;
 
         int maxValue = evaluator.evaluate(game);
@@ -70,7 +65,7 @@ public class Quiescence {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
-                int currentValue = minimize(game, Math.max(maxValue, alpha), beta);
+                int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta, context);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -87,5 +82,13 @@ public class Quiescence {
 
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = evaluator;
+    }
+
+    public void setMoveSorter(MoveSorter moveSorter) {
+        this.moveSorter = moveSorter;
+    }
+    @Override
+    public void stopSearching() {
+        this.keepProcessing = false;
     }
 }

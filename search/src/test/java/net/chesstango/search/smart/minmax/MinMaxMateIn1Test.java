@@ -14,8 +14,9 @@ public class MinMaxMateIn1Test extends MateIn1Test {
 
     @Before
     public void setup(){
-        searchMove = new MinMax();
+        MinMax searchMove = new MinMax();
         searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
+        this.searchMove = searchMove;
     }
 
 

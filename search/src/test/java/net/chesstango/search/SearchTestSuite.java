@@ -1,11 +1,14 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.AbstractSmartTest;
-import net.chesstango.search.smart.minmax.BlackBestMovesTest;
+import net.chesstango.search.smart.MoveSelectorTest;
 import net.chesstango.search.smart.MoveSorterTest;
-import net.chesstango.search.smart.minmax.Prunning01Test;
-import net.chesstango.search.smart.minmax.WhiteBestMovesTest;
-import net.chesstango.search.smart.minmax.*;
+import net.chesstango.search.smart.alphabeta.BlackBestMovesTest;
+import net.chesstango.search.smart.alphabeta.Prunning01Test;
+import net.chesstango.search.smart.alphabeta.WhiteBestMovesTest;
+import net.chesstango.search.smart.alphabeta.*;
+import net.chesstango.search.smart.minmax.MinMaxMateIn1Test;
+import net.chesstango.search.smart.minmax.MinMaxMateIn2Test;
+import net.chesstango.search.smart.minmax.MinMaxTest;
 import net.chesstango.search.smart.negamax.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -44,7 +47,7 @@ import org.junit.runners.Suite;
         Prunning01Test.class,
         WhiteBestMovesTest.class,
 
-        AbstractSmartTest.class,
+        MoveSelectorTest.class,
 
         SearchMoveSuiteTest.class
 })

@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.minmax.MinMaxPruning;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,6 @@ public class IterativeDeeping implements SearchMove {
             }
         }
 
-
         SearchMoveResult searchMoveResult = new SearchMoveResult(depth, lastSearch.getEvaluation(), lastSearch.getEvaluationCollisions(), lastSearch.getBestMove(), null);
         searchMoveResult.setVisitedNodesCounter(visitedNodesCounter);
 
@@ -75,11 +73,5 @@ public class IterativeDeeping implements SearchMove {
         keepProcessing = false;
         imp.stopSearching();
     }
-
-    @Override
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        imp.setGameEvaluator(evaluator);
-    }
-
 
 }

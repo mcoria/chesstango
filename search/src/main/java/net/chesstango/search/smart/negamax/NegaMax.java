@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 
@@ -16,9 +17,9 @@ import java.util.List;
 public class NegaMax extends AbstractSmart {
 
     private static final int DEFAULT_MAX_PLIES = 4;
+
     private GameEvaluator evaluator;
 
-    @Override
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
     }
@@ -56,7 +57,7 @@ public class NegaMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(depth, minOrMax ? -betterEvaluation : betterEvaluation, bestMoves.size() - 1, selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
+        return new SearchMoveResult(depth, minOrMax ? -betterEvaluation : betterEvaluation, bestMoves.size() - 1, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
     }
 
     protected int negaMax(Game game, final int currentPly) {

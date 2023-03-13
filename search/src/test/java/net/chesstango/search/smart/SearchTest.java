@@ -19,7 +19,7 @@ public class SearchTest {
 
 
     @Test
-    @Ignore
+    @Ignore //TODO: resolver
     public void testSearch(){
         GameEvaluatorMock evaluatorMock =  new GameEvaluatorMock();
         evaluatorMock.setDefaultValue(0);

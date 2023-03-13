@@ -196,6 +196,7 @@ public class NegaMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
+        minMax.setVisitedNodesCounter(new int[2]);
         int minValue = - minMax.negaMax(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         Assert.assertEquals(GameEvaluator.BLACK_WON, minValue);

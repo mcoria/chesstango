@@ -83,7 +83,7 @@ public class TournamentMain {
     }
 
     private static EngineTango createEngineTango(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        SearchMove search = new DefaultSearchMove();
+        DefaultSearchMove search = new DefaultSearchMove();
         try {
             search.setGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
         } catch (InstantiationException e) {

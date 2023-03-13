@@ -1,10 +1,11 @@
 package net.chesstango.search.smart.alphabeta;
 
+import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
 import net.chesstango.search.smart.IterativeDeeping;
-import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.MoveSorter;
 import org.junit.Before;
 
 /**
@@ -16,8 +17,21 @@ public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
 
     @Before
     public void setup(){
-        searchMove = new IterativeDeeping(new MinMaxPruning());
-        searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
+        MoveSorter moveSorter = new MoveSorter();
+
+        Quiescence quiescence = new Quiescence();
+        quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
+        quiescence.setMoveSorter(moveSorter);
+
+        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
+        alphaBetaImp.setQuiescence(quiescence);
+        alphaBetaImp.setMoveSorter(moveSorter);
+
+        MinMaxPruning minMaxPruning = new MinMaxPruning();
+        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
+        minMaxPruning.setMoveSorter(moveSorter);
+
+        this.searchMove = new IterativeDeeping(minMaxPruning);
     }
 
 

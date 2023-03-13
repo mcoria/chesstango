@@ -80,5 +80,4 @@ public interface SearchMove {
 
     void stopSearching();
 
-    void setGameEvaluator(GameEvaluator evaluator);
 }

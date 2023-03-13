@@ -47,9 +47,5 @@ public class Dummy implements SearchMove {
     public void stopSearching() {
     }
 
-    @Override
-    public void setGameEvaluator(GameEvaluator evaluator) {
-
-    }
 
 }
