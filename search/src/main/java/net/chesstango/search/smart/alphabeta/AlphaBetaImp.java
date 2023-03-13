@@ -12,7 +12,7 @@ public class AlphaBetaImp implements AlphaBetaSearch {
 
     private AlphaBetaSearch next;
 
-    private Quiescence quiescence;
+    private AlphaBetaSearch quiescence;
 
     private MoveSorter moveSorter;
 
@@ -83,7 +83,7 @@ public class AlphaBetaImp implements AlphaBetaSearch {
         keepProcessing = false;
     }
 
-    public void setQuiescence(Quiescence quiescence) {
+    public void setQuiescence(AlphaBetaSearch quiescence) {
         this.quiescence = quiescence;
     }
 

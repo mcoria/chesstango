@@ -8,6 +8,7 @@ import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.Quiescence;
+import net.chesstango.search.smart.alphabeta.QuiescenceNull;
 
 import java.util.function.Consumer;
 
@@ -23,8 +24,10 @@ public class DefaultSearchMove implements SearchMove {
     public DefaultSearchMove() {
         MoveSorter moveSorter = new MoveSorter();
 
-        Quiescence quiescence = new Quiescence();
-        quiescence.setMoveSorter(moveSorter);
+        //Quiescence quiescence = new Quiescence();
+        //quiescence.setMoveSorter(moveSorter);
+
+        QuiescenceNull quiescence = new QuiescenceNull();
 
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
