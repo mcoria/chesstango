@@ -17,10 +17,9 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class SessionReports {
-
-
     private boolean printCollisionStatics;
     private boolean printNodesStatics;
+    private boolean printMovesPerLevelStatics;
 
 
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
@@ -112,7 +111,9 @@ public class SessionReports {
             printNodesStaticsAvg(maxLevelVisited, reportRows);
         }
 
-        //printMovesStatics(maxLevelVisited, reportRows);
+        if(printMovesPerLevelStatics) {
+            printMovesPerLevelStatics(maxLevelVisited, reportRows);
+        }
     }
 
     private void printCollisionStatics(List<ReportRowModel> reportRows) {
@@ -194,7 +195,34 @@ public class SessionReports {
         System.out.printf("\n");
     }
 
-    private void printMovesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
+    private void printMovesPerLevelStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
+        System.out.println("\n Max distinct moves per search level");
+
+        // Marco superior de la tabla
+        System.out.printf(" ___________________________________");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        System.out.printf("\n");
+
+
+        // Nombre de las columnas
+        System.out.printf("|ENGINE NAME                        ");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        System.out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            System.out.printf("|%35s", row.engineName);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxMovesPerLevel[depth]));
+            System.out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        System.out.printf(" -----------------------------------");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        System.out.printf("\n");
+    }
+
+    private void printMovesPerLevelStaticsAvg(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
         System.out.println("\n Max distinct moves per search level");
 
         // Marco superior de la tabla
@@ -231,10 +259,17 @@ public class SessionReports {
         return this;
     }
 
+    public SessionReports withMovesPerLevelStatics(){
+        this.printMovesPerLevelStatics = true;
+        return this;
+    }
+
     private class ReportRowModel {
         String engineName;
 
         long searches;
+
+        int maxLevelVisited;
 
         ///////////////////// START COLLISIONS
         long searchesWithoutCollisions;
@@ -261,7 +296,7 @@ public class SessionReports {
 
         int[] maxMovesPerLevel;
 
-        int maxLevelVisited;
+
 
     }
 }
