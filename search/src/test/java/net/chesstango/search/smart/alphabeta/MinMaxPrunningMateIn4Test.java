@@ -24,6 +24,7 @@ public class MinMaxPrunningMateIn4Test extends MateIn4Test {
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);

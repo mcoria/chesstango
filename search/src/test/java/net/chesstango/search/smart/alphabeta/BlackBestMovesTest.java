@@ -25,6 +25,7 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);

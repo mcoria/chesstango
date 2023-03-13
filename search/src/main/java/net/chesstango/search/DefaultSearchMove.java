@@ -29,6 +29,7 @@ public class DefaultSearchMove implements SearchMove {
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);

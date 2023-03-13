@@ -204,6 +204,7 @@ public class MinMaxPruningWhiteTest {
         //AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setNext(alphaBetaImp);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 

@@ -10,6 +10,8 @@ import java.util.Queue;
 public class AlphaBetaImp implements AlphaBetaSearch {
     protected boolean keepProcessing = true;
 
+    private AlphaBetaSearch next;
+
     private Quiescence quiescence;
 
     private MoveSorter moveSorter;
@@ -30,7 +32,7 @@ public class AlphaBetaImp implements AlphaBetaSearch {
 
                 game = game.executeMove(move);
 
-                int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta), context);
+                int currentValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta), context);
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -61,7 +63,7 @@ public class AlphaBetaImp implements AlphaBetaSearch {
 
                 game = game.executeMove(move);
 
-                int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta, context);
+                int currentValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta, context);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -87,5 +89,9 @@ public class AlphaBetaImp implements AlphaBetaSearch {
 
     public void setMoveSorter(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
+    }
+
+    public void setNext(AlphaBetaSearch next) {
+        this.next = next;
     }
 }
