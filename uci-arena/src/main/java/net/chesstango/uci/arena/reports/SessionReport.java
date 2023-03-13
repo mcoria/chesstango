@@ -18,6 +18,11 @@ import java.util.stream.IntStream;
  */
 public class SessionReport {
 
+
+    private boolean printCollisionStatics;
+    private boolean printNodesStatics;
+
+
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
 
         List<ReportRowModel> reportRows = new ArrayList<>();
@@ -42,8 +47,13 @@ public class SessionReport {
 
         rowModel.searches = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).count();
         rowModel.searchesWithoutCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value == 0).count();
+        rowModel.searchesWithoutCollisionsPercentage = (int) ((rowModel.searchesWithoutCollisions * 100) / rowModel.searches);
         rowModel.searchesWithCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
-        rowModel.collisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).sum();
+        rowModel.searchesWithCollisionsPercentage = (int) ((rowModel.searchesWithCollisions * 100) / rowModel.searches);
+        if(rowModel.searchesWithCollisions > 0) {
+            rowModel.avgOptionsPerCollision = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).average().getAsDouble();
+        }
+
 
         rowModel.visitedNodeCounters = new long[30];
         rowModel.maxMovesPerLevel = new int[30];
@@ -89,8 +99,69 @@ public class SessionReport {
         }
 
 
-        printSearchesStatics(maxLevelVisited, reportRows);
-        printMovesStatics(maxLevelVisited, reportRows);
+        if(printCollisionStatics) {
+            printCollisionStatics(reportRows);
+        }
+
+        if(printNodesStatics){
+            printNodesStatics(maxLevelVisited, reportRows);
+        }
+
+        //printMovesStatics(maxLevelVisited, reportRows);
+    }
+
+    private void printCollisionStatics(List<ReportRowModel> reportRows) {
+        // Marco superior de la tabla
+        System.out.printf(" __________________________________________________________________________________________________________________________________");
+        System.out.printf("\n");
+
+
+        // Nombre de las columnas
+        System.out.printf("|ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | wo/COLLISIONS%% | w/COLLISIONS%% | MovesCollision AVG");
+        System.out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            System.out.printf("|%35s|%9d |%14d |%13d |%13d%%  |%13d%% |%18.1f ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.searchesWithoutCollisionsPercentage,  row.searchesWithCollisionsPercentage,  row.avgOptionsPerCollision);
+            System.out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        System.out.printf(" -----------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("\n");
+    }
+
+    private void printNodesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
+        // Marco superior de la tabla
+        System.out.printf(" ______________________________________________");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        System.out.printf("____________"); // Nodes
+        System.out.printf("____________"); // NodesPerSearch
+        System.out.printf("\n");
+
+
+        // Nombre de las columnas
+        System.out.printf("|ENGINE NAME                        | SEARCHES ");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        System.out.printf("|Total Nodes");
+        System.out.printf("|AVG Nodes/S");
+        System.out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedNodeCounters[depth]));
+            System.out.printf("| %9d ", row.totalVisitedNodes);
+            System.out.printf("| %9d ", row.avgNodesPerSearch);
+            System.out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        System.out.printf(" ----------------------------------------------");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        System.out.printf("------------"); // Nodes
+        System.out.printf("------------"); // NodesPerSearch
+        System.out.printf("\n");
     }
 
     private void printMovesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
@@ -120,37 +191,14 @@ public class SessionReport {
         System.out.printf("\n");
     }
 
-    private void printSearchesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
-        // Marco superior de la tabla
-        System.out.printf(" __________________________________________________________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
-        System.out.printf("____________"); // Nodes
-        System.out.printf("____________"); // NodesPerSearch
-        System.out.printf("\n");
+    public SessionReport withCollisionStatics() {
+        this.printCollisionStatics = true;
+        return this;
+    }
 
-
-        // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | COLLISIONS ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
-        System.out.printf("|Total Nodes");
-        System.out.printf("|AVG Nodes/S");
-        System.out.printf("|\n");
-
-        // Cuerpo
-        reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d |%14d |%13d |%11d ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.collisions);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedNodeCounters[depth]));
-            System.out.printf("| %9d ", row.totalVisitedNodes);
-            System.out.printf("| %9d ", row.avgNodesPerSearch);
-            System.out.printf("|\n");
-        });
-
-        // Marco inferior de la tabla
-        System.out.printf(" ------------------------------------------------------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("------------"); // Nodes
-        System.out.printf("------------"); // NodesPerSearch
-        System.out.printf("\n");
+    public SessionReport withNodesStatics(){
+        this.printNodesStatics = true;
+        return this;
     }
 
     private class ReportRowModel {
@@ -158,11 +206,17 @@ public class SessionReport {
 
         long searches;
 
+        ///////////////////// START COLLISIONS
         long searchesWithoutCollisions;
+
+        int searchesWithoutCollisionsPercentage;
 
         long searchesWithCollisions;
 
-        int collisions;
+        int searchesWithCollisionsPercentage;
+
+        double avgOptionsPerCollision;
+        ///////////////////// END COLLISIONS
 
         long[] visitedNodeCounters;
 
