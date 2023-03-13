@@ -20,9 +20,6 @@ public class AlphaBetaImp implements AlphaBetaSearch {
     private MoveSorter moveSorter;
 
     public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
-        visitedNodesCounter[currentPly - 1]++;
-
         if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
             return quiescence.minimize(game, currentPly, alpha, beta, context);
         } else {
@@ -51,9 +48,6 @@ public class AlphaBetaImp implements AlphaBetaSearch {
     }
 
     public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
-        visitedNodesCounter[currentPly - 1]++;
-
         if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
             return quiescence.maximize(game, currentPly, alpha, beta, context);
         } else {

@@ -5,7 +5,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
 import org.junit.Assert;
 import org.junit.Test;

@@ -9,9 +9,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSorter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -30,7 +28,17 @@ public class MinMaxPruning extends AbstractSmart {
     public SearchMoveResult searchBestMove(Game game, final int depth) {
         this.keepProcessing = true;
 
-        SearchContext context = new SearchContext(depth, new int[30]);
+        SearchContext context = new SearchContext(depth);
+
+        int[] visitedNodesCounter = new int[30];
+        List<Set<Move>> distinctMoves = new ArrayList<>(visitedNodesCounter.length);
+        for (int i = 0; i < 30; i++) {
+            distinctMoves.add(new HashSet<>());
+        }
+
+        context.setVisitedNodesCounter(visitedNodesCounter);
+        context.setDistinctMoves(distinctMoves);
+
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();

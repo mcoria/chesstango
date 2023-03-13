@@ -12,22 +12,22 @@ import java.util.Set;
  */
 public class SearchContext {
     private final int maxPly;
-    private final int[] visitedNodesCounter;
+
+    private int[] visitedNodesCounter;
 
     private List<Set<Move>> distinctMoves;
 
-    public SearchContext(int maxPly, int[] visitedNodesCounter) {
+    public SearchContext(int maxPly) {
         this.maxPly = maxPly;
-        this.visitedNodesCounter = visitedNodesCounter;
-
-        this.distinctMoves = new ArrayList<>(visitedNodesCounter.length);
-        for (int i = 0; i < visitedNodesCounter.length; i++) {
-            distinctMoves.add(new HashSet<>());
-        }
     }
 
     public int getMaxPly() {
         return maxPly;
+    }
+
+    public SearchContext setVisitedNodesCounter(int[] visitedNodesCounter) {
+        this.visitedNodesCounter = visitedNodesCounter;
+        return this;
     }
 
     public int[] getVisitedNodesCounter() {
@@ -38,7 +38,8 @@ public class SearchContext {
         return distinctMoves;
     }
 
-    public void setDistinctMoves(List<Set<Move>> distinctMoves) {
+    public SearchContext setDistinctMoves(List<Set<Move>> distinctMoves) {
         this.distinctMoves = distinctMoves;
+        return this;
     }
 }

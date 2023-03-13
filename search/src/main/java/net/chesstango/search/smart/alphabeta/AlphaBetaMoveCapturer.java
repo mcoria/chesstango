@@ -15,6 +15,9 @@ public class AlphaBetaMoveCapturer implements AlphaBetaSearch {
 
     @Override
     public int maximize(Game game, int currentPly, int alpha, int beta, SearchContext context) {
+        int[] visitedNodesCounter = context.getVisitedNodesCounter();
+        visitedNodesCounter[currentPly - 1]++;
+
         trackMove(game, currentPly, context);
 
         return next.maximize(game, currentPly, alpha, beta, context);
@@ -22,6 +25,9 @@ public class AlphaBetaMoveCapturer implements AlphaBetaSearch {
 
     @Override
     public int minimize(Game game, int currentPly, int alpha, int beta, SearchContext context) {
+        int[] visitedNodesCounter = context.getVisitedNodesCounter();
+        visitedNodesCounter[currentPly - 1]++;
+
         trackMove(game, currentPly, context);
 
         return next.minimize(game, currentPly, alpha, beta, context);

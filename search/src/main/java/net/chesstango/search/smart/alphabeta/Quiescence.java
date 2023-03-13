@@ -19,9 +19,6 @@ public class Quiescence implements AlphaBetaSearch {
 
     @Override
     public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
-        visitedNodesCounter[currentPly - 1]++;
-
         boolean search = true;
         int minValue = evaluator.evaluate(game);
 
@@ -53,9 +50,6 @@ public class Quiescence implements AlphaBetaSearch {
 
     @Override
     public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context){
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
-        visitedNodesCounter[currentPly - 1]++;
-
         boolean search = true;
         int maxValue = evaluator.evaluate(game);
 
