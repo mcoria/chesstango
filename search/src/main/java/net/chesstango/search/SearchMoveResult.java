@@ -2,16 +2,19 @@ package net.chesstango.search;
 
 import net.chesstango.board.moves.Move;
 
+import java.util.List;
+import java.util.Set;
+
 public class SearchMoveResult {
     private final int depth;
     private final int evaluation;
     private final Move bestMove;
     private final Move ponderMove;
     private final int evaluationCollisions;
-
     private int[] visitedNodesCounter;
-
     private int[] evaluatedNodes;
+
+    private List<Set<Move>> distinctMoves;
 
     public SearchMoveResult(int depth, int evaluation, int evaluationCollisions, Move bestMove, Move ponderMove) {
         this.depth = depth;
@@ -50,5 +53,13 @@ public class SearchMoveResult {
 
     public void setEvaluatedNodes(int[] evaluatedNodes) {
         this.evaluatedNodes = evaluatedNodes;
+    }
+
+    public List<Set<Move>> getDistinctMoves() {
+        return distinctMoves;
+    }
+
+    public void setDistinctMoves(List<Set<Move>> distinctMoves) {
+        this.distinctMoves = distinctMoves;
     }
 }

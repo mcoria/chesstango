@@ -10,6 +10,9 @@ import net.chesstango.board.moves.MovePromotion;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Mauricio Coria
+ */
 public class MoveSelector {
     /**
      * La idea es seleccionar siempre la misma posicion en caso de que exista más de una opcion.

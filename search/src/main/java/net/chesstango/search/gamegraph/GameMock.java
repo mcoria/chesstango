@@ -57,6 +57,11 @@ public class GameMock implements Game {
     }
 
     @Override
+    public GameState getState() {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
     public void detectRepetitions(boolean flag) {
     }
 

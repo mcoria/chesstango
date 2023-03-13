@@ -7,6 +7,9 @@ import net.chesstango.search.smart.MoveSorter;
 
 import java.util.Queue;
 
+/**
+ * @author Mauricio Coria
+ */
 public class AlphaBetaImp implements AlphaBetaSearch {
     protected boolean keepProcessing = true;
 

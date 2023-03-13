@@ -38,7 +38,7 @@ public class DefaultSearchMove implements SearchMove {
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
         minMaxPruning.setMoveSorter(moveSorter);
 
-        this.imp = new IterativeDeeping(minMaxPruning);
+        this.imp = minMaxPruning;
         this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
 
         this.setGameEvaluator(new DefaultGameEvaluator());
