@@ -1,7 +1,6 @@
 package net.chesstango.board;
 
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
@@ -33,6 +32,7 @@ public class GameImp implements Game {
         saveFEN();
     }
 
+    @Override
     public Game executeMove(Square from, Square to) {
         Move move = getMove(from, to);
         if (move != null) {
@@ -42,6 +42,7 @@ public class GameImp implements Game {
         }
     }
 
+    @Override
     public Game executeMove(Move move) {
         gameState.setSelectedMove(move);
 
@@ -59,6 +60,7 @@ public class GameImp implements Game {
     }
 
 
+    @Override
     public Game undoMove() {
         gameState.pop();
 
@@ -69,6 +71,7 @@ public class GameImp implements Game {
         return this;
     }
 
+    @Override
     public Move getMove(Square from, Square to) {
         for (Move move : getPossibleMoves()) {
             if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
@@ -78,6 +81,7 @@ public class GameImp implements Game {
         return null;
     }
 
+    @Override
     public Move getMove(Square from, Square to, Piece promotionPiece) {
         for (Move move : getPossibleMoves()) {
             if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare()) && (move instanceof MovePromotion)) {
@@ -90,6 +94,7 @@ public class GameImp implements Game {
         return null;
     }
 
+    @Override
     public void detectRepetitions(boolean flag) {
         this.detectRepetitions = flag;
         this.analyzer.detectRepetitions(flag);
@@ -98,18 +103,27 @@ public class GameImp implements Game {
         }
     }
 
+    @Override
     public MoveContainerReader getPossibleMoves() {
         return gameState.getLegalMoves();
     }
 
+    @Override
     public GameStatus getStatus() {
         return gameState.getStatus();
     }
 
+    @Override
+    public GameState getState() {
+        return gameState;
+    }
+
+    @Override
     public ChessPositionReader getChessPosition() {
         return chessPosition;
     }
 
+    @Override
     public <V extends GameVisitor> V accept(V gameVisitor) {
         gameState.accept(gameVisitor);
         return gameVisitor;

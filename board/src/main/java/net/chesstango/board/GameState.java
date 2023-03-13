@@ -20,6 +20,7 @@ public class GameState {
 
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
+    private GameStateData previosGameState = null;
     private String initialFEN;
 
     public GameStatus getStatus() {
@@ -65,6 +66,7 @@ public class GameState {
     public void push() {
         stackGameStates.push(currentGameState);
 
+        previosGameState = currentGameState;
         currentGameState = new GameStateData();
     }
 
@@ -72,6 +74,8 @@ public class GameState {
         GameStateData lastState = stackGameStates.pop();
 
         currentGameState = lastState;
+
+        previosGameState = stackGameStates.size() > 0 ? stackGameStates.getLast() : null;
     }
 
     public void accept(GameVisitor gameVisitor) {
@@ -95,6 +99,10 @@ public class GameState {
 
     public String getInitialFen() {
         return initialFEN;
+    }
+
+    public GameStateData getPreviosGameState() {
+        return previosGameState;
     }
 
     public static class GameStateData {

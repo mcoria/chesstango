@@ -13,6 +13,8 @@ public interface Game {
 
     <V extends GameVisitor> V accept(V gameVisitor);
 
+    GameState getState();
+
     ChessPositionReader getChessPosition();
 
     GameStatus getStatus();
