@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena.reports;
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.arena.GameResult;
@@ -7,6 +8,7 @@ import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -44,6 +46,7 @@ public class SessionReport {
         rowModel.collisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).sum();
 
         rowModel.visitedNodeCounters = new long[30];
+        rowModel.maxMovesPerLevel = new int[30];
         rowModel.totalVisitedNodes = 0;
         rowModel.maxLevelVisited = 0;
         sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
@@ -57,9 +60,17 @@ public class SessionReport {
                     maxLevel = i + 1;
                 }
             }
-
             if(rowModel.maxLevelVisited < maxLevel){
                 rowModel.maxLevelVisited = maxLevel;
+            }
+
+            int level = 0;
+            for (Set<Move> moveCollection:
+                 searchMoveResult.getDistinctMoves()) {
+                if(rowModel.maxMovesPerLevel[level] < moveCollection.size()){
+                    rowModel.maxMovesPerLevel[level] = moveCollection.size();
+                }
+                level++;
             }
 
         });
@@ -77,6 +88,39 @@ public class SessionReport {
             }
         }
 
+
+        printSearchesStatics(maxLevelVisited, reportRows);
+        printMovesStatics(maxLevelVisited, reportRows);
+    }
+
+    private void printMovesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
+        System.out.println("\n Max distinct moves per search level");
+
+        // Marco superior de la tabla
+        System.out.printf(" ___________________________________");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        System.out.printf("\n");
+
+
+        // Nombre de las columnas
+        System.out.printf("|ENGINE NAME                        ");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        System.out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            System.out.printf("|%35s", row.engineName);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxMovesPerLevel[depth]));
+            System.out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        System.out.printf(" -----------------------------------");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        System.out.printf("\n");
+    }
+
+    private void printSearchesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
         // Marco superior de la tabla
         System.out.printf(" __________________________________________________________________________________________");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
@@ -107,7 +151,6 @@ public class SessionReport {
         System.out.printf("------------"); // Nodes
         System.out.printf("------------"); // NodesPerSearch
         System.out.printf("\n");
-
     }
 
     private class ReportRowModel {
@@ -122,6 +165,8 @@ public class SessionReport {
         int collisions;
 
         long[] visitedNodeCounters;
+
+        int[] maxMovesPerLevel;
         long totalVisitedNodes;
 
         int maxLevelVisited;

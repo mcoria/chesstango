@@ -1,12 +1,9 @@
 package net.chesstango.uci.arena.reports;
 
-import net.chesstango.engine.Session;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * @author Mauricio Coria
  */
-public class Reports {
+public class GameReports {
 
     public void printReport(List<List<EngineController>> controllersListCollection, List<GameResult> matchResult) {
         List<ReportRowModel> rows = new ArrayList<>();

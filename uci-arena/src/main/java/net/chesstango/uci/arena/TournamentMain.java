@@ -4,8 +4,7 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.*;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.search.SearchMove;
-import net.chesstango.uci.arena.reports.Reports;
+import net.chesstango.uci.arena.reports.GameReports;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -38,7 +37,7 @@ public class TournamentMain {
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
         allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerFactory::getEngineControllers).collect(Collectors.toList()));
 
-        new Reports().printReport(allControllerFactories, matchResult);
+        new GameReports().printReport(allControllerFactories, matchResult);
     }
 
     private static List<String> getFenList(){
