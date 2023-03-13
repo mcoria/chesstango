@@ -3,12 +3,13 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.Quiescence;
+
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -17,13 +18,12 @@ public class DefaultSearchMove implements SearchMove {
 
     private final SearchMove imp;
 
-    private final Quiescence quiescence;
+    private final Consumer<GameEvaluator> fnSetEvaluator;
 
     public DefaultSearchMove() {
         MoveSorter moveSorter = new MoveSorter();
 
-        this.quiescence = new Quiescence();
-        quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
+        Quiescence quiescence = new Quiescence();
         quiescence.setMoveSorter(moveSorter);
 
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
@@ -35,8 +35,9 @@ public class DefaultSearchMove implements SearchMove {
         minMaxPruning.setMoveSorter(moveSorter);
 
         this.imp = new IterativeDeeping(minMaxPruning);
+        this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
 
-        setGameEvaluator(new DefaultGameEvaluator());
+        this.setGameEvaluator(new DefaultGameEvaluator());
     }
 
     @Override
@@ -55,6 +56,6 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     public void setGameEvaluator(GameEvaluator evaluator) {
-        this.quiescence.setGameEvaluator(evaluator);
+        fnSetEvaluator.accept(evaluator);
     }
 }
