@@ -19,12 +19,7 @@ import java.util.Queue;
 public class NegaMaxPruning extends AbstractSmart {
     private final MoveSorter moveSorter;
     private final NegaQuiescence negaQuiescence;
-
     private int[] visitedNodesCounter;
-
-    public NegaMaxPruning() {
-        this(new NegaQuiescence(new MoveSorter()), new MoveSorter());
-    }
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
         this(negaQuiescence, new MoveSorter());
