@@ -41,14 +41,14 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void increaseVisitedNodesCounter(int currentPly, SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
+        int[] visitedNodesCounter = context.getVisitedNodesCounters();
         visitedNodesCounter[currentPly - 1]++;
     }
 
     protected void trackMove(Game game, int currentPly, SearchContext context){
         Move lastMove = game.getState().getPreviosGameState().selectedMove;
 
-        List<Set<Move>> distinctMoves = context.getDistinctMoves();
+        List<Set<Move>> distinctMoves = context.getDistinctMovesPerLevel();
 
         Set<Move> currentMoveSet = distinctMoves.get(currentPly - 1);
 

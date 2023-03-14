@@ -11,7 +11,7 @@ public class SearchMoveResult {
     private final Move bestMove;
     private final Move ponderMove;
     private int evaluationCollisions;
-    private int[] visitedNodesCounter;
+    private int[] visitedNodesCounters;
     private int[] evaluatedNodes;
     private List<Set<Move>> distinctMoves;
 
@@ -42,12 +42,12 @@ public class SearchMoveResult {
     public Move getPonderMove() {
         return ponderMove;
     }
-    public int[] getVisitedNodesCounter() {
-        return visitedNodesCounter;
+    public int[] getVisitedNodesCounters() {
+        return visitedNodesCounters;
     }
 
-    public SearchMoveResult setVisitedNodesCounter(int[] visitedNodesCounter) {
-        this.visitedNodesCounter = visitedNodesCounter;
+    public SearchMoveResult setVisitedNodesCounters(int[] visitedNodesCounters) {
+        this.visitedNodesCounters = visitedNodesCounters;
         return this;
     }
 

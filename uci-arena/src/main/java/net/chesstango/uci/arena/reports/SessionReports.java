@@ -58,11 +58,11 @@ public class SessionReports {
         rowModel.visitedNodesCountersAvg = new int[30];
         rowModel.visitedNodesTotal = 0;
 
-        rowModel.maxMovesPerLevel = new int[30];
+        rowModel.maxDistinctMovesPerLevel = new int[30];
         rowModel.maxLevelVisited = 0;
         sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
             int maxLevel = 0;
-            int[] currentNodeCounters = searchMoveResult.getVisitedNodesCounter();
+            int[] currentNodeCounters = searchMoveResult.getVisitedNodesCounters();
             for (int i = 0; i < currentNodeCounters.length ; i++) {
                 rowModel.visitedNodesCounters[i] += currentNodeCounters[i];
                 if(currentNodeCounters[i] > 0){
@@ -76,8 +76,8 @@ public class SessionReports {
             int level = 0;
             for (Set<Move> moveCollection:
                  searchMoveResult.getDistinctMoves()) {
-                if(rowModel.maxMovesPerLevel[level] < moveCollection.size()){
-                    rowModel.maxMovesPerLevel[level] = moveCollection.size();
+                if(rowModel.maxDistinctMovesPerLevel[level] < moveCollection.size()){
+                    rowModel.maxDistinctMovesPerLevel[level] = moveCollection.size();
                 }
                 level++;
             }
@@ -212,7 +212,7 @@ public class SessionReports {
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s", row.engineName);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxMovesPerLevel[depth]));
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxDistinctMovesPerLevel[depth]));
             System.out.printf("|\n");
         });
 
@@ -239,7 +239,7 @@ public class SessionReports {
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s", row.engineName);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxMovesPerLevel[depth]));
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxDistinctMovesPerLevel[depth]));
             System.out.printf("|\n");
         });
 
@@ -293,10 +293,7 @@ public class SessionReports {
         int visitedNodesTotalAvg;
         ///////////////////// END VISITED NODES
 
-
-        int[] maxMovesPerLevel;
-
-
-
+        int[] maxDistinctMovesPerLevel;
+        
     }
 }

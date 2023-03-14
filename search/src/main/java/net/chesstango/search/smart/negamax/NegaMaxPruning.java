@@ -84,7 +84,7 @@ public class NegaMaxPruning extends AbstractSmart {
 
 
         return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
-                .setVisitedNodesCounter(this.visitedNodesCounter)
+                .setVisitedNodesCounters(this.visitedNodesCounter)
                 .setEvaluationCollisions(bestMoves.size() - 1);
     }
 

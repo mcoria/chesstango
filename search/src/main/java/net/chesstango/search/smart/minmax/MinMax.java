@@ -4,7 +4,6 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSelector;
@@ -74,7 +73,7 @@ public class MinMax extends AbstractSmart {
 
 
         return new SearchMoveResult(context.getMaxPly(), betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
-                .setVisitedNodesCounter(visitedNodesCounter);
+                .setVisitedNodesCounters(visitedNodesCounter);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {

@@ -11,9 +11,9 @@ import java.util.Set;
 public class SearchContext {
     private final int maxPly;
 
-    private int[] visitedNodesCounter;
+    private int[] visitedNodesCounters;
 
-    private List<Set<Move>> distinctMoves;
+    private List<Set<Move>> distinctMovesPerLevel;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
@@ -23,21 +23,21 @@ public class SearchContext {
         return maxPly;
     }
 
-    public SearchContext setVisitedNodesCounter(int[] visitedNodesCounter) {
-        this.visitedNodesCounter = visitedNodesCounter;
+    public SearchContext setVisitedNodesCounters(int[] visitedNodesCounters) {
+        this.visitedNodesCounters = visitedNodesCounters;
         return this;
     }
 
-    public int[] getVisitedNodesCounter() {
-        return visitedNodesCounter;
+    public int[] getVisitedNodesCounters() {
+        return visitedNodesCounters;
     }
 
-    public List<Set<Move>> getDistinctMoves() {
-        return distinctMoves;
+    public List<Set<Move>> getDistinctMovesPerLevel() {
+        return distinctMovesPerLevel;
     }
 
-    public SearchContext setDistinctMoves(List<Set<Move>> distinctMoves) {
-        this.distinctMoves = distinctMoves;
+    public SearchContext setDistinctMovesPerLevel(List<Set<Move>> distinctMovesPerLevel) {
+        this.distinctMovesPerLevel = distinctMovesPerLevel;
         return this;
     }
 }

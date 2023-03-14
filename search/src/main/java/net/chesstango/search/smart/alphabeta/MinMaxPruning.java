@@ -35,8 +35,8 @@ public class MinMaxPruning extends AbstractSmart {
             distinctMoves.add(new HashSet<>());
         }
 
-        context.setVisitedNodesCounter(visitedNodesCounter);
-        context.setDistinctMoves(distinctMoves);
+        context.setVisitedNodesCounters(visitedNodesCounter);
+        context.setDistinctMovesPerLevel(distinctMoves);
 
         return searchBestMove(game, context);
     }
@@ -83,8 +83,8 @@ public class MinMaxPruning extends AbstractSmart {
 
 
         return new SearchMoveResult(context.getMaxPly(), bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
-                .setVisitedNodesCounter(context.getVisitedNodesCounter())
-                .setDistinctMoves(context.getDistinctMoves());
+                .setVisitedNodesCounters(context.getVisitedNodesCounters())
+                .setDistinctMoves(context.getDistinctMovesPerLevel());
     }
 
     public void setMoveSorter(MoveSorter moveSorter) {
