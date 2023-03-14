@@ -17,7 +17,7 @@
                     "fen": "6k1/3r4/1b3p2/8/1Pp5/8/3q2p1/K7 b - - 1 2",
                     "links": [
                       {
-                        "move": "g2g1",
+                        "move": "g2g1q",
                         "node": {
                           "fen": "6k1/3r4/1b3p2/8/1Pp5/8/3q4/K5q1 w - - 0 3",
                           "evaluation": -1000,

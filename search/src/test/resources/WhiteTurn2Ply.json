@@ -4,13 +4,11 @@
     {
       "move": "d2d4",
       "node": {
-        "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1",
         "status": "NO_CHECK",
         "links": [
           {
             "move": "a7a6",
             "node": {
-              "fen": "rnbqkbnr/1ppppppp/p7/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2",
               "evaluation": 10,
               "status": "NO_CHECK",
               "links": []
@@ -19,7 +17,6 @@
           {
             "move": "b7b6",
             "node": {
-              "fen": "rnbqkbnr/p1pppppp/1p6/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2",
               "evaluation": 5,
               "status": "NO_CHECK",
               "links": []
@@ -28,7 +25,6 @@
           {
             "move": "c7c6",
             "node": {
-              "fen": "rnbqkbnr/pp1ppppp/2p5/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2 ",
               "evaluation": 20,
               "status": "NO_CHECK",
               "links": []
@@ -40,13 +36,11 @@
     {
       "move": "e2e4",
       "node": {
-        "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
         "status": "NO_CHECK",
         "links": [
           {
             "move": "b7b6",
             "node": {
-              "fen": "rnbqkbnr/ppp1pppp/3p4/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
               "evaluation": 30,
               "status": "NO_CHECK",
               "links": []
@@ -55,7 +49,6 @@
           {
             "move": "c7c6",
             "node": {
-              "fen": "rnbqkbnr/pp1ppppp/2p5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
               "evaluation": 4,
               "status": "NO_CHECK",
               "links": []
@@ -64,7 +57,6 @@
           {
             "move": "e7e6",
             "node": {
-              "fen": "rnbqkbnr/pppp1ppp/4p3/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
               "evaluation": 40,
               "status": "NO_CHECK",
               "links": []

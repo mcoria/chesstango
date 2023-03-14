@@ -56,6 +56,11 @@ public class GameMock implements Game {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
+    @Override
+    public Game executeMove(Square from, Square to, Piece promotionPiece) {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
 
     @Override
     public <V extends GameVisitor> V accept(V gameVisitor) {
@@ -79,4 +84,9 @@ public class GameMock implements Game {
     public int getNodesVisited() {
         return nodesVisited;
     }
+
+    public Node getNodeMock(){
+        return currentMockNode;
+    }
+
 }

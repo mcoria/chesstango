@@ -1,10 +1,16 @@
 package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,37 +86,95 @@ public class GameMockLoader {
     }
 
     private static class CreatePositions implements NodeVisitor {
+        private Pattern movePattern = Pattern.compile("[a-h][1-8][a-h][1-8][rnbq]?");
+
         @Override
         public void visit(Node node) {
-            ChessPosition position = FENDecoder.loadChessPosition(node.fen);
-            node.position = position;
-        }
+            if(node.position == null) {
+                ChessPosition position = FENDecoder.loadChessPosition(node.fen);
+                node.position = position;
+            }
 
-        Pattern movePattern = Pattern.compile("(?<from>[a-h][1-8])(?<to>[a-h][1-8])");
+            FENEncoder fenEncoder = new FENEncoder();
+            node.position.constructBoardRepresentation(fenEncoder);
+            String fenFromPosition = fenEncoder.getChessRepresentation();
+
+            if(node.fen == null) {
+                node.fen = fenFromPosition;
+            } else {
+                if(!node.fen.equals(fenFromPosition)){
+                    throw new RuntimeException(String.format("invalid fen at this position: %s", node.fen));
+                }
+            }
+
+        }
 
         @Override
         public void visit(NodeLink nodeLink) {
             Matcher moveMatcher = movePattern.matcher(nodeLink.moveStr);
             if (moveMatcher.matches()) {
-                String fromStr = moveMatcher.group("from");
-                String toStr = moveMatcher.group("to");
+                ChessPositionReader position = nodeLink.parent.position;
 
-                Square from = Square.valueOf(fromStr);
-                Square to = Square.valueOf(toStr);
+                Game game = loadGame(position);
 
-                ChessPosition position = nodeLink.parent.position;
-                PiecePositioned fromPosition = position.getPosicion(from);
-                PiecePositioned toPosition = position.getPosicion(to);
+                Move selectedMove = selectMove(game, nodeLink.moveStr);
 
-                MockMove mockMove = new MockMove();
-                mockMove.from = fromPosition;
-                mockMove.to = toPosition;
+                nodeLink.move = selectedMove;
 
-                nodeLink.move = mockMove;
+                game.executeMove(selectedMove);
+
+                nodeLink.mockNode.position =  game.getChessPosition();
+
             } else {
                 throw new RuntimeException("Invalid move " + nodeLink.moveStr);
             }
         }
+
+        private Move selectMove(Game game, String moveStr) {
+            for (Move move : game.getPossibleMoves()) {
+                String encodedMoveStr = encode(move);
+                if (encodedMoveStr.equals(moveStr)) {
+                    return move;
+                }
+            }
+            throw new RuntimeException(String.format("Move %s not found", moveStr));
+        }
+
+        private Game loadGame(ChessPositionReader position) {
+            GameBuilder gameBuilder = new GameBuilder();
+
+            position.constructBoardRepresentation(gameBuilder);
+
+            return gameBuilder.getChessRepresentation();
+        }
     }
 
+
+    public static String encode(Move move) {
+        String promotionStr = "";
+        if (move instanceof MovePromotion) {
+            MovePromotion movePromotion = (MovePromotion) move;
+            switch (movePromotion.getPromotion()) {
+                case ROOK_WHITE:
+                case ROOK_BLACK:
+                    promotionStr = "r";
+                    break;
+                case KNIGHT_WHITE:
+                case KNIGHT_BLACK:
+                    promotionStr = "n";
+                    break;
+                case BISHOP_WHITE:
+                case BISHOP_BLACK:
+                    promotionStr = "b";
+                    break;
+                case QUEEN_WHITE:
+                case QUEEN_BLACK:
+                    promotionStr = "q";
+                    break;
+                default:
+                    throw new RuntimeException("Invalid promotion " + move);
+            }
+        }
+        return move.getFrom().getSquare().toString() + move.getTo().getSquare().toString() + promotionStr;
+    }
 }

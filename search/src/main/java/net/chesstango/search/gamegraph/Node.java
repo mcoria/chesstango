@@ -27,7 +27,7 @@ class Node {
     @JsonManagedReference
     List<NodeLink> links;
 
-    ChessPosition position;
+    ChessPositionReader position;
 
     Node parentNode;
 

@@ -68,4 +68,41 @@ public class GameMockTest {
         new GameMockLoader().readGameMove(reader);
     }
 
+
+    @Test
+    public void loadGraphWithoutChildFEN(){
+        String lines = "{\n" +
+                "  \"fen\": \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\",\n" +
+                "  \"links\": [\n" +
+                "    {\n" +
+                "      \"move\": \"e2e4\",\n" +
+                "      \"node\": {\n" +
+                "        \"evaluation\": -1,\n" +
+                "        \"status\": \"NO_CHECK\",\n" +
+                "        \"links\": []\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"move\": \"d2d4\",\n" +
+                "      \"node\": {\n" +
+                "        \"evaluation\": 0,\n" +
+                "        \"status\": \"NO_CHECK\",\n" +
+                "        \"links\": []\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+        Reader reader = new StringReader(lines);
+        GameMock gameMock = new GameMockLoader().readGameMove(reader);
+
+        Node nodeMock = gameMock.getNodeMock();
+
+        Node childNode1 = nodeMock.links.get(0).mockNode;
+        Node childNode2 = nodeMock.links.get(1).mockNode;
+
+        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", childNode1.fen);
+        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1", childNode2.fen);
+    }
+
 }

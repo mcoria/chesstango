@@ -2,18 +2,16 @@
   "fen": "rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 1",
   "links": [
     {
-      "move": "d2d4",
+      "move": "d7d5",
       "node": {
-        "fen": "rnbqkbnr/ppp1pppp/8/3p4/8/2N5/PPPPPPPP/R1BQKBNR w KQkq d6 0 2",
         "evaluation": 1,
         "status": "NO_CHECK",
         "links": []
       }
     },
     {
-      "move": "d2d4",
+      "move": "e7e5",
       "node": {
-        "fen": "rnbqkbnr/pppp1ppp/8/4p3/8/2N5/PPPPPPPP/R1BQKBNR w KQkq e6 0 2 ",
         "evaluation": 0,
         "status": "NO_CHECK",
         "links": []
@@ -22,7 +20,6 @@
     {
       "move": "b8c6",
       "node": {
-        "fen": "r1bqkbnr/pppppppp/2n5/8/8/2N5/PPPPPPPP/R1BQKBNR w KQkq - 1 2",
         "evaluation": -1,
         "status": "NO_CHECK",
         "links": []
