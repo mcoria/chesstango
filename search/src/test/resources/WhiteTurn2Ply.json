@@ -4,13 +4,11 @@
     {
       "move": "d2d4",
       "node": {
-        "status": "NO_CHECK",
         "links": [
           {
             "move": "a7a6",
             "node": {
               "evaluation": 10,
-              "status": "NO_CHECK",
               "links": []
             }
           },
@@ -18,7 +16,6 @@
             "move": "b7b6",
             "node": {
               "evaluation": 5,
-              "status": "NO_CHECK",
               "links": []
             }
           },
@@ -26,7 +23,6 @@
             "move": "c7c6",
             "node": {
               "evaluation": 20,
-              "status": "NO_CHECK",
               "links": []
             }
           }
@@ -36,13 +32,11 @@
     {
       "move": "e2e4",
       "node": {
-        "status": "NO_CHECK",
         "links": [
           {
             "move": "b7b6",
             "node": {
               "evaluation": 30,
-              "status": "NO_CHECK",
               "links": []
             }
           },
@@ -50,7 +44,6 @@
             "move": "c7c6",
             "node": {
               "evaluation": 4,
-              "status": "NO_CHECK",
               "links": []
             }
           },
@@ -58,7 +51,6 @@
             "move": "e7e6",
             "node": {
               "evaluation": 40,
-              "status": "NO_CHECK",
               "links": []
             }
           }

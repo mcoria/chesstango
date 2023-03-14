@@ -78,7 +78,6 @@ public class GameMockTest {
                 "      \"move\": \"e2e4\",\n" +
                 "      \"node\": {\n" +
                 "        \"evaluation\": -1,\n" +
-                "        \"status\": \"NO_CHECK\",\n" +
                 "        \"links\": []\n" +
                 "      }\n" +
                 "    },\n" +
@@ -86,7 +85,6 @@ public class GameMockTest {
                 "      \"move\": \"d2d4\",\n" +
                 "      \"node\": {\n" +
                 "        \"evaluation\": 0,\n" +
-                "        \"status\": \"NO_CHECK\",\n" +
                 "        \"links\": []\n" +
                 "      }\n" +
                 "    }\n" +

@@ -5,7 +5,6 @@
       "move": "d7d5",
       "node": {
         "evaluation": 1,
-        "status": "NO_CHECK",
         "links": []
       }
     },
@@ -13,7 +12,6 @@
       "move": "e7e5",
       "node": {
         "evaluation": 0,
-        "status": "NO_CHECK",
         "links": []
       }
     },
@@ -21,7 +19,6 @@
       "move": "b8c6",
       "node": {
         "evaluation": -1,
-        "status": "NO_CHECK",
         "links": []
       }
     }

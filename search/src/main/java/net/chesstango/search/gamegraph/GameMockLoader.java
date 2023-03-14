@@ -2,8 +2,6 @@ package net.chesstango.search.gamegraph;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chesstango.board.Game;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
@@ -124,6 +122,7 @@ public class GameMockLoader {
                 game.executeMove(selectedMove);
 
                 nodeLink.mockNode.position =  game.getChessPosition();
+                nodeLink.mockNode.gameStatus = game.getStatus();
 
             } else {
                 throw new RuntimeException("Invalid move " + nodeLink.moveStr);

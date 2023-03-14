@@ -21,9 +21,6 @@ class Node {
     @JsonProperty("evaluation")
     int evaluation;
 
-    @JsonProperty("status")
-    String statusStr;
-
     @JsonManagedReference
     List<NodeLink> links;
 
@@ -86,14 +83,9 @@ class Node {
         return position;
     }
 
-    GameStatus getStatus() {
-        if (statusStr != null) {
-            return GameStatus.valueOf(statusStr);
-        }
-        if (links.size() > 0) {
-            return GameStatus.NO_CHECK;
-        }
+    GameStatus gameStatus;
 
-        throw new RuntimeException("Unknown status at this position");
+    GameStatus getStatus() {
+        return gameStatus;
     }
 }
