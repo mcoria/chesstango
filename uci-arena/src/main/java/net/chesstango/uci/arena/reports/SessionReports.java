@@ -138,6 +138,8 @@ public class SessionReports {
     }
 
     private void printNodesStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
+        System.out.println("\n Nodes visited per search level");
+
         // Marco superior de la tabla
         System.out.printf(" ______________________________________________");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
@@ -167,6 +169,8 @@ public class SessionReports {
     }
 
     private void printNodesStaticsAvg(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
+        System.out.println("\n Nodes visited per search level AVG");
+
         // Marco superior de la tabla
         System.out.printf(" ______________________________________________");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));

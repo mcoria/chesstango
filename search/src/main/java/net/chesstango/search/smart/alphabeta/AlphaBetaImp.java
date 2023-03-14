@@ -12,7 +12,7 @@ import java.util.Queue;
  * @author Mauricio Coria
  */
 public class AlphaBetaImp implements AlphaBetaFilter {
-    protected boolean keepProcessing = true;
+    protected boolean keepProcessing;
 
     private AlphaBetaFilter next;
 
@@ -21,6 +21,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
     private MoveSorter moveSorter;
 
     public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+        this.keepProcessing = true;
         if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
             return quiescence.minimize(game, currentPly, alpha, beta, context);
         } else {
@@ -49,6 +50,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
     }
 
     public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+        this.keepProcessing = true;
         if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
             return quiescence.maximize(game, currentPly, alpha, beta, context);
         } else {
@@ -78,7 +80,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
 
     @Override
     public void stopSearching() {
-        keepProcessing = false;
+        this.keepProcessing = false;
     }
 
     public void setQuiescence(AlphaBetaFilter quiescence) {

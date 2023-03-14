@@ -16,10 +16,11 @@ public class Quiescence implements AlphaBetaFilter {
     private MoveSorter moveSorter;
     private GameEvaluator evaluator;
 
-    private boolean keepProcessing = true;
+    private boolean keepProcessing;
 
     @Override
     public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+        this.keepProcessing = true;
         boolean search = true;
         int minValue = evaluator.evaluate(game);
 
@@ -28,7 +29,7 @@ public class Quiescence implements AlphaBetaFilter {
         }
 
         for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             search && !sortedMoves.isEmpty(); ) {
+             search && !sortedMoves.isEmpty() && keepProcessing; ) {
             Move move = sortedMoves.poll();
 
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
@@ -51,6 +52,7 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context){
+        this.keepProcessing = true;
         boolean search = true;
         int maxValue = evaluator.evaluate(game);
 
@@ -59,7 +61,7 @@ public class Quiescence implements AlphaBetaFilter {
         }
 
         for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             search && !sortedMoves.isEmpty(); ) {
+             search && !sortedMoves.isEmpty() && keepProcessing; ) {
             Move move = sortedMoves.poll();
 
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
