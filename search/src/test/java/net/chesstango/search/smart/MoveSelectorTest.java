@@ -7,8 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMoveResult;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,22 +16,11 @@ import java.util.List;
 
 public class MoveSelectorTest {
 
-    private AbstractSmart abstractSmart;
+    private MoveSelector moveSelector;
 
     @Before
     public void setup(){
-        abstractSmart = new AbstractSmart(){
-
-            @Override
-            public SearchMoveResult searchBestMove(Game game) {
-                return null;
-            }
-
-            @Override
-            public SearchMoveResult searchBestMove(Game game, int depth) {
-                return null;
-            }
-        };
+        moveSelector = new MoveSelector();
     }
 
     @Test
@@ -46,7 +33,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = abstractSmart.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = moveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.d3, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.b1, selectedMove.getTo().getSquare());
@@ -63,7 +50,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = abstractSmart.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = moveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.b2, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.a1, selectedMove.getTo().getSquare());
@@ -82,7 +69,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = abstractSmart.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = moveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.b7, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.a8, selectedMove.getTo().getSquare());

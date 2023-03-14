@@ -18,7 +18,7 @@ public class MoveSelector {
      * La idea es seleccionar siempre la misma posicion en caso de que exista más de una opcion.
      * La seleccion es simetrica respecto al color.
      *
-     * Observar la cantidad de veces que existe mas de un movimiento posible que optimimo.
+     * Observar la cantidad de veces que existe mas de un movimiento posible optimimo.
      *
      * Positions: Balsa_Top10.pgn  (Match)
      * Depth: 4
