@@ -3,11 +3,14 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.QuiescenceNull;
+import net.chesstango.search.smart.minmax.MinMax;
 
 import java.util.function.Consumer;
 
@@ -18,9 +21,16 @@ public class DefaultSearchMove implements SearchMove {
 
     private final SearchMove imp;
 
-    private final Consumer<GameEvaluator> fnSetEvaluator;
+    private Consumer<GameEvaluator> fnSetEvaluator;
 
     public DefaultSearchMove() {
+        //this.imp = setupMinMaxPruning();
+        this.imp = setupMinMax();
+
+        this.setGameEvaluator(new DefaultGameEvaluator());
+    }
+
+    private SearchMove setupMinMaxPruning(){
         MoveSorter moveSorter = new MoveSorter();
 
         AlphaBetaStatistics alphaBetaStatistics1 = new AlphaBetaStatistics();
@@ -38,11 +48,26 @@ public class DefaultSearchMove implements SearchMove {
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics2);
         minMaxPruning.setMoveSorter(moveSorter);
 
-        this.imp = minMaxPruning;
         this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
 
-        this.setGameEvaluator(new DefaultGameEvaluator());
+        return minMaxPruning;
     }
+
+
+    private SearchMove setupMinMax() {
+
+        MinMax minMax = new MinMax();
+
+        this.fnSetEvaluator = (evaluator) -> minMax.setGameEvaluator(evaluator);
+
+        return minMax;
+    }
+
+    private SearchMove iterateDeepingWrapper(AbstractSmart algorithm){
+        return new IterativeDeeping(algorithm);
+    }
+
+
 
     @Override
     public SearchMoveResult searchBestMove(Game game) {

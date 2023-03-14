@@ -31,7 +31,7 @@ public class SessionReports {
             sessions.addAll(matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(GameResult::getSessionWhite).collect(Collectors.toList()));
             sessions.addAll(matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList()));
 
-            if(sessions.size() > 0) {
+            if (sessions.size() > 0) {
                 reportRows.add(collectStatics(engineController, sessions));
             }
 
@@ -49,7 +49,7 @@ public class SessionReports {
         rowModel.searchesWithoutCollisionsPercentage = (int) ((rowModel.searchesWithoutCollisions * 100) / rowModel.searches);
         rowModel.searchesWithCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
         rowModel.searchesWithCollisionsPercentage = (int) ((rowModel.searchesWithCollisions * 100) / rowModel.searches);
-        if(rowModel.searchesWithCollisions > 0) {
+        if (rowModel.searchesWithCollisions > 0) {
             rowModel.avgOptionsPerCollision = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).average().getAsDouble();
         }
 
@@ -63,23 +63,26 @@ public class SessionReports {
         sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
             int maxLevel = 0;
             int[] currentNodeCounters = searchMoveResult.getVisitedNodesCounters();
-            for (int i = 0; i < currentNodeCounters.length ; i++) {
+            for (int i = 0; i < currentNodeCounters.length; i++) {
                 rowModel.visitedNodesCounters[i] += currentNodeCounters[i];
-                if(currentNodeCounters[i] > 0){
+                if (currentNodeCounters[i] > 0) {
                     maxLevel = i + 1;
                 }
             }
-            if(rowModel.maxLevelVisited < maxLevel){
+            if (rowModel.maxLevelVisited < maxLevel) {
                 rowModel.maxLevelVisited = maxLevel;
             }
 
-            int level = 0;
-            for (Set<Move> moveCollection:
-                 searchMoveResult.getDistinctMovesPerLevel()) {
-                if(rowModel.maxDistinctMovesPerLevel[level] < moveCollection.size()){
-                    rowModel.maxDistinctMovesPerLevel[level] = moveCollection.size();
+
+            if (searchMoveResult.getDistinctMovesPerLevel() != null) {
+                int level = 0;
+                for (Set<Move> moveCollection :
+                        searchMoveResult.getDistinctMovesPerLevel()) {
+                    if (rowModel.maxDistinctMovesPerLevel[level] < moveCollection.size()) {
+                        rowModel.maxDistinctMovesPerLevel[level] = moveCollection.size();
+                    }
+                    level++;
                 }
-                level++;
             }
         });
 
@@ -94,24 +97,24 @@ public class SessionReports {
     }
 
     private void print(List<ReportRowModel> reportRows) {
-        AtomicInteger maxLevelVisited =  new AtomicInteger();
-        for (ReportRowModel reportRowModel: reportRows) {
-            if(maxLevelVisited.get() < reportRowModel.maxLevelVisited){
+        AtomicInteger maxLevelVisited = new AtomicInteger();
+        for (ReportRowModel reportRowModel : reportRows) {
+            if (maxLevelVisited.get() < reportRowModel.maxLevelVisited) {
                 maxLevelVisited.set(reportRowModel.maxLevelVisited);
             }
         }
 
 
-        if(printCollisionStatics) {
+        if (printCollisionStatics) {
             printCollisionStatics(reportRows);
         }
 
-        if(printNodesStatics){
+        if (printNodesStatics) {
             printNodesStatics(maxLevelVisited, reportRows);
             printNodesStaticsAvg(maxLevelVisited, reportRows);
         }
 
-        if(printMovesPerLevelStatics) {
+        if (printMovesPerLevelStatics) {
             printMovesPerLevelStatics(maxLevelVisited, reportRows);
         }
     }
@@ -128,7 +131,7 @@ public class SessionReports {
 
         // Cuerpo
         reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d |%14d |%13d |%13d%%  |%13d%% |%18.1f ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.searchesWithoutCollisionsPercentage,  row.searchesWithCollisionsPercentage,  row.avgOptionsPerCollision);
+            System.out.printf("|%35s|%9d |%14d |%13d |%13d%%  |%13d%% |%18.1f ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.searchesWithoutCollisionsPercentage, row.searchesWithCollisionsPercentage, row.avgOptionsPerCollision);
             System.out.printf("|\n");
         });
 
@@ -231,12 +234,12 @@ public class SessionReports {
         return this;
     }
 
-    public SessionReports withNodesStatics(){
+    public SessionReports withNodesStatics() {
         this.printNodesStatics = true;
         return this;
     }
 
-    public SessionReports withMovesPerLevelStatics(){
+    public SessionReports withMovesPerLevelStatics() {
         this.printMovesPerLevelStatics = true;
         return this;
     }
@@ -271,6 +274,6 @@ public class SessionReports {
         ///////////////////// END VISITED NODES
 
         int[] maxDistinctMovesPerLevel;
-        
+
     }
 }

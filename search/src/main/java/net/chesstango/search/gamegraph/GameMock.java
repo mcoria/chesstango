@@ -6,10 +6,13 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 
 public class GameMock implements Game {
+    private int nodesVisited = 0;
+
     Node currentMockNode;
 
     @Override
     public Game executeMove(Move move) {
+        nodesVisited++;
         currentMockNode.executeMove(move, this);
         return this;
     }
@@ -70,4 +73,7 @@ public class GameMock implements Game {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
+    public int getNodesVisited() {
+        return nodesVisited;
+    }
 }
