@@ -4,8 +4,8 @@
 package net.chesstango.board.movesgenerators.legal.imp;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
-import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 
 /**
  * @author Mauricio Coria

@@ -1,21 +1,21 @@
 package net.chesstango.board.movesgenerators.legal.strategies;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.position.ChessPositionReader;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuando se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos

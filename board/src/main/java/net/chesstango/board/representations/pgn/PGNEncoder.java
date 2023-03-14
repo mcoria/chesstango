@@ -1,14 +1,11 @@
 package net.chesstango.board.representations.pgn;
 
-import net.chesstango.board.*;
-import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mauricio Coria

@@ -4,14 +4,14 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.ascii.ASCIIEncoder;
 import net.chesstango.board.builders.ChessRepresentationBuilder;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.representations.ascii.ASCIIEncoder;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.Iterator;
 

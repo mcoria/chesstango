@@ -1,12 +1,12 @@
 package net.chesstango.board.movesgenerators.pseudo.strategies;
 
-import java.util.Iterator;
-
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+
+import java.util.Iterator;
 
 /**
  * @author Mauricio Coria

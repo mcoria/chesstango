@@ -8,8 +8,6 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
-import static net.chesstango.board.representations.fen.FENDecoder.loadGame;
-
 /**
  * @author Mauricio Coria
  */

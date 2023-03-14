@@ -1,16 +1,16 @@
 package net.chesstango.board.position.imp;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Iterator;
-
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.ascii.ASCIIEncoder;
-import net.chesstango.board.iterators.byposition.BitIterator;
 import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.byposition.BitIterator;
 import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.representations.ascii.ASCIIEncoder;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Iterator;
 
 /**
  * @author Mauricio Coria

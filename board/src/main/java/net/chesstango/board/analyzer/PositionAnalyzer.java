@@ -1,12 +1,11 @@
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
-import net.chesstango.board.GameVisitor;
 import net.chesstango.board.GameStatus;
+import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.imp.PositionState;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

@@ -1,9 +1,9 @@
 package net.chesstango.board.moves.imp;
 
-import java.util.function.Consumer;
-
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.imp.PositionState;
+
+import java.util.function.Consumer;
 
 
 /**

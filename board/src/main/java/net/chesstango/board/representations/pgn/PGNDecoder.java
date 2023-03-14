@@ -1,7 +1,5 @@
 package net.chesstango.board.representations.pgn;
 
-import net.chesstango.board.GameStatus;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;

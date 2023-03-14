@@ -1,7 +1,5 @@
 package net.chesstango.board.moves;
 
-import net.chesstango.board.moves.Move;
-
 /**
  * @author Mauricio Coria
  *

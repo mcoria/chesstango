@@ -1,13 +1,13 @@
 package net.chesstango.board.representations.ascii;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * @author Mauricio Coria

@@ -1,8 +1,8 @@
 package net.chesstango.board.iterators;
 
-import java.util.Objects;
-
 import net.chesstango.board.Square;
+
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria

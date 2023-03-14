@@ -1,11 +1,11 @@
 package net.chesstango.board.perft;
 
+import net.chesstango.board.Square;
+import net.chesstango.board.moves.Move;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
 
 /**
  * @author Mauricio Coria

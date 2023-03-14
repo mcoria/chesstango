@@ -9,9 +9,9 @@ import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPawn;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
+import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

@@ -1,12 +1,12 @@
 package net.chesstango.board.position.imp;
 
+import net.chesstango.board.Square;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-
-import net.chesstango.board.Square;
-import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 
 /**
  * @author Mauricio Coria

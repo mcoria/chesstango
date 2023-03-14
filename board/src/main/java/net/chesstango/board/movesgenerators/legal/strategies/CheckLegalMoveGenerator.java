@@ -1,15 +1,15 @@
 package net.chesstango.board.movesgenerators.legal.strategies;
 
-import java.util.Collection;
-
 import net.chesstango.board.Square;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveContainer;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.position.ChessPositionReader;
+
+import java.util.Collection;
 
 /**
  * @author Mauricio Coria
