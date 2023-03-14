@@ -11,12 +11,12 @@ import java.util.Queue;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaImp implements AlphaBetaSearch {
+public class AlphaBetaImp implements AlphaBetaFilter {
     protected boolean keepProcessing = true;
 
-    private AlphaBetaSearch next;
+    private AlphaBetaFilter next;
 
-    private AlphaBetaSearch quiescence;
+    private AlphaBetaFilter quiescence;
 
     private MoveSorter moveSorter;
 
@@ -81,7 +81,7 @@ public class AlphaBetaImp implements AlphaBetaSearch {
         keepProcessing = false;
     }
 
-    public void setQuiescence(AlphaBetaSearch quiescence) {
+    public void setQuiescence(AlphaBetaFilter quiescence) {
         this.quiescence = quiescence;
     }
 
@@ -89,7 +89,7 @@ public class AlphaBetaImp implements AlphaBetaSearch {
         this.moveSorter = moveSorter;
     }
 
-    public void setNext(AlphaBetaSearch next) {
+    public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }
 }

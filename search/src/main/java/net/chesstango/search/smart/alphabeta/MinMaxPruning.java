@@ -18,7 +18,7 @@ import java.util.*;
 public class MinMaxPruning extends AbstractSmart {
     private MoveSorter moveSorter;
 
-    private AlphaBetaSearch alphaBetaSearch;
+    private AlphaBetaFilter alphaBetaFilter;
 
     @Override
     public SearchMoveResult searchBestMove(Game game) {
@@ -57,8 +57,8 @@ public class MinMaxPruning extends AbstractSmart {
             game = game.executeMove(move);
 
             int currentValue = minOrMax ?
-                    alphaBetaSearch.maximize(game, 1, GameEvaluator.INFINITE_NEGATIVE, bestValue, context) :
-                    alphaBetaSearch.minimize(game, 1, bestValue, GameEvaluator.INFINITE_POSITIVE, context);
+                    alphaBetaFilter.maximize(game, 1, GameEvaluator.INFINITE_NEGATIVE, bestValue, context) :
+                    alphaBetaFilter.minimize(game, 1, bestValue, GameEvaluator.INFINITE_POSITIVE, context);
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
@@ -91,8 +91,8 @@ public class MinMaxPruning extends AbstractSmart {
         this.moveSorter = moveSorter;
     }
 
-    public void setAlphaBetaSearch(AlphaBetaSearch alphaBetaSearch) {
-        this.alphaBetaSearch = alphaBetaSearch;
+    public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
+        this.alphaBetaFilter = alphaBetaFilter;
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Queue;
 /**
  * @author Mauricio Coria
  */
-public class Quiescence implements AlphaBetaSearch {
+public class Quiescence implements AlphaBetaFilter {
     private MoveSorter moveSorter;
     private GameEvaluator evaluator;
 

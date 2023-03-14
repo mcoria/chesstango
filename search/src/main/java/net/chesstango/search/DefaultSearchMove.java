@@ -5,7 +5,7 @@ import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.AlphaBetaMoveCapturer;
+import net.chesstango.search.smart.alphabeta.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.QuiescenceNull;
 
@@ -23,19 +23,19 @@ public class DefaultSearchMove implements SearchMove {
     public DefaultSearchMove() {
         MoveSorter moveSorter = new MoveSorter();
 
-        AlphaBetaMoveCapturer alphaBetaMoveCapturer1 = new AlphaBetaMoveCapturer();
+        AlphaBetaStatistics alphaBetaStatistics1 = new AlphaBetaStatistics();
         QuiescenceNull quiescence = new QuiescenceNull();
-        alphaBetaMoveCapturer1.setNext(quiescence);
+        alphaBetaStatistics1.setNext(quiescence);
 
-        AlphaBetaMoveCapturer alphaBetaMoveCapturer2 = new AlphaBetaMoveCapturer();
+        AlphaBetaStatistics alphaBetaStatistics2 = new AlphaBetaStatistics();
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(alphaBetaMoveCapturer1);
+        alphaBetaImp.setQuiescence(alphaBetaStatistics1);
         alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaMoveCapturer2);
-        alphaBetaMoveCapturer2.setNext(alphaBetaImp);
+        alphaBetaImp.setNext(alphaBetaStatistics2);
+        alphaBetaStatistics2.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaMoveCapturer2);
+        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics2);
         minMaxPruning.setMoveSorter(moveSorter);
 
         this.imp = minMaxPruning;

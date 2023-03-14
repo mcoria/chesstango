@@ -7,7 +7,7 @@ import net.chesstango.search.smart.SearchContext;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceNull implements AlphaBetaSearch {
+public class QuiescenceNull implements AlphaBetaFilter {
 
     private GameEvaluator evaluator;
 

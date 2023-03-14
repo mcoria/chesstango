@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Set;
 
-public class AlphaBetaMoveCapturerTest {
+public class AlphaBetaStatisticsTest {
     @Test
     public void testCapturer(){
         MoveSorter moveSorter = new MoveSorter();
@@ -20,17 +20,17 @@ public class AlphaBetaMoveCapturerTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
 
-        AlphaBetaMoveCapturer alphaBetaMoveCapturer = new AlphaBetaMoveCapturer();
+        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaMoveCapturer);
+        alphaBetaImp.setNext(alphaBetaStatistics);
 
-        alphaBetaMoveCapturer.setNext(alphaBetaImp);
+        alphaBetaStatistics.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaMoveCapturer);
+        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
         minMaxPruning.setMoveSorter(moveSorter);
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);

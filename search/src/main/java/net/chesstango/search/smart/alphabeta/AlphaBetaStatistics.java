@@ -10,13 +10,12 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaMoveCapturer implements AlphaBetaSearch {
-    private AlphaBetaSearch next;
+public class AlphaBetaStatistics implements AlphaBetaFilter {
+    private AlphaBetaFilter next;
 
     @Override
-    public int maximize(Game game, int currentPly, int alpha, int beta, SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
-        visitedNodesCounter[currentPly - 1]++;
+    public int maximize(final Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+        increaseVisitedNodesCounter(currentPly, context);
 
         trackMove(game, currentPly, context);
 
@@ -24,15 +23,27 @@ public class AlphaBetaMoveCapturer implements AlphaBetaSearch {
     }
 
     @Override
-    public int minimize(Game game, int currentPly, int alpha, int beta, SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounter();
-        visitedNodesCounter[currentPly - 1]++;
+    public int minimize(final Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+        increaseVisitedNodesCounter(currentPly, context);
 
         trackMove(game, currentPly, context);
 
         return next.minimize(game, currentPly, alpha, beta, context);
     }
 
+    @Override
+    public void stopSearching() {
+        next.stopSearching();
+    }
+
+    public void setNext(AlphaBetaFilter next) {
+        this.next = next;
+    }
+
+    protected void increaseVisitedNodesCounter(int currentPly, SearchContext context) {
+        int[] visitedNodesCounter = context.getVisitedNodesCounter();
+        visitedNodesCounter[currentPly - 1]++;
+    }
 
     protected void trackMove(Game game, int currentPly, SearchContext context){
         Move lastMove = game.getState().getPreviosGameState().selectedMove;
@@ -42,13 +53,5 @@ public class AlphaBetaMoveCapturer implements AlphaBetaSearch {
         Set<Move> currentMoveSet = distinctMoves.get(currentPly - 1);
 
         currentMoveSet.add(lastMove);
-    }
-
-    @Override
-    public void stopSearching() {
-    }
-
-    public void setNext(AlphaBetaSearch next) {
-        this.next = next;
     }
 }
