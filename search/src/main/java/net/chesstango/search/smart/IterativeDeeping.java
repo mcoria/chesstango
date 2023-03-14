@@ -40,7 +40,6 @@ public class IterativeDeeping implements SearchMove {
         }
 
         for (int i = 1; i <= depth; i++) {
-
             SearchContext context = new SearchContext(i)
                     .setVisitedNodesCounters(visitedNodesCounters)
                     .setDistinctMovesPerLevel(distinctMovesPerLevel);
@@ -63,11 +62,10 @@ public class IterativeDeeping implements SearchMove {
 
         SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
 
-
         return new SearchMoveResult(depth, lastSearch.getEvaluation(), lastSearch.getBestMove(), null)
                 .setVisitedNodesCounters(visitedNodesCounters)
-                .setEvaluationCollisions(lastSearch.getEvaluationCollisions())
-                .setDistinctMovesPerLevel(distinctMovesPerLevel);
+                .setDistinctMovesPerLevel(distinctMovesPerLevel)
+                .setEvaluationCollisions(lastSearch.getEvaluationCollisions());
     }
 
     @Override
