@@ -42,7 +42,7 @@ public class Dummy implements SearchMove {
 
         List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-        return new SearchMoveResult(1, 0, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
+        return new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
     }
 
     @Override

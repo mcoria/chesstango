@@ -2,7 +2,6 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -28,7 +27,6 @@ public class MatchTest {
         dummyEngine = new EngineControllerImp(new EngineTango(new Dummy())).overrideEngineName("Dummy");
 
         smartEngine.startEngine();
-
         dummyEngine.startEngine();
     }
 
@@ -57,15 +55,16 @@ public class MatchTest {
 
     @Test
     public void testPlay() {
-        Match match = new Match(smartEngine, dummyEngine, 1);
+        Match match = new Match(smartEngine, dummyEngine, 2);
+        //match.setDebugEnabled(true);
 
         List<GameResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
 
         Assert.assertEquals(2, matchResult.size());
 
         // Deberia ganar el engine smartEngine
-        Assert.assertEquals(1, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine && result.getWinner() == smartEngine).mapToLong(GameResult::getPoints).count());
-        Assert.assertEquals(1, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine && result.getWinner() == smartEngine).mapToLong(GameResult::getPoints).count());
+        Assert.assertEquals(1, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine && result.getWinner() == smartEngine).count());
+        Assert.assertEquals(1, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine && result.getWinner() == smartEngine).count());
     }
 
     @Test

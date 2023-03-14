@@ -10,18 +10,16 @@ public class SearchMoveResult {
     private final int evaluation;
     private final Move bestMove;
     private final Move ponderMove;
-    private final int evaluationCollisions;
+    private int evaluationCollisions;
     private int[] visitedNodesCounter;
     private int[] evaluatedNodes;
-
     private List<Set<Move>> distinctMoves;
 
-    public SearchMoveResult(int depth, int evaluation, int evaluationCollisions, Move bestMove, Move ponderMove) {
+    public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;
         this.evaluation = evaluation;
         this.bestMove = bestMove;
         this.ponderMove = ponderMove;
-        this.evaluationCollisions = evaluationCollisions;
     }
 
     public int getEvaluation() {
@@ -31,6 +29,11 @@ public class SearchMoveResult {
     public int getEvaluationCollisions() {
         return evaluationCollisions;
     }
+    public SearchMoveResult setEvaluationCollisions(int evaluationCollisions) {
+        this.evaluationCollisions = evaluationCollisions;
+        return this;
+    }
+
 
     public Move getBestMove() {
         return bestMove;
@@ -43,23 +46,26 @@ public class SearchMoveResult {
         return visitedNodesCounter;
     }
 
-    public void setVisitedNodesCounter(int[] visitedNodesCounter) {
+    public SearchMoveResult setVisitedNodesCounter(int[] visitedNodesCounter) {
         this.visitedNodesCounter = visitedNodesCounter;
+        return this;
     }
 
     public int[] getEvaluatedNodes() {
         return evaluatedNodes;
     }
 
-    public void setEvaluatedNodes(int[] evaluatedNodes) {
+    public SearchMoveResult setEvaluatedNodes(int[] evaluatedNodes) {
         this.evaluatedNodes = evaluatedNodes;
+        return this;
     }
 
     public List<Set<Move>> getDistinctMoves() {
         return distinctMoves;
     }
 
-    public void setDistinctMoves(List<Set<Move>> distinctMoves) {
+    public SearchMoveResult setDistinctMoves(List<Set<Move>> distinctMoves) {
         this.distinctMoves = distinctMoves;
+        return this;
     }
 }

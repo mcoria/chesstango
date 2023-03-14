@@ -67,10 +67,9 @@ public class MinMax implements SearchMove {
             game = game.undoMove();
         }
 
-        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, betterEvaluation, bestMoves.size() - 1, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
-        searchMoveResult.setVisitedNodesCounter(visitedNodesCounter);
 
-        return searchMoveResult;
+        return new SearchMoveResult(depth, betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+                    .setVisitedNodesCounter(visitedNodesCounter);
     }
 
     @Override

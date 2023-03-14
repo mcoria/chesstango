@@ -80,11 +80,10 @@ public class NegaMaxPruning extends AbstractSmart {
             game.getPossibleMoves().forEach(bestMoves::add);
         }
 
-        SearchMoveResult searchMoveResult = new SearchMoveResult(depth, minOrMax ? -bestValue : bestValue, bestMoves.size() - 1, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null);
 
-        searchMoveResult.setVisitedNodesCounter(this.visitedNodesCounter);
-
-        return searchMoveResult;
+        return new SearchMoveResult(depth, minOrMax ? -bestValue : bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+                .setVisitedNodesCounter(this.visitedNodesCounter)
+                .setEvaluationCollisions(bestMoves.size() - 1);
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
