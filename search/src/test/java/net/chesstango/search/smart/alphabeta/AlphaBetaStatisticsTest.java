@@ -37,7 +37,7 @@ public class AlphaBetaStatisticsTest {
 
         SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, 2);
 
-        List<Set<Move>> distinctMoves = searchResult.getDistinctMoves();
+        List<Set<Move>> distinctMoves = searchResult.getDistinctMovesPerLevel();
 
         Assert.assertEquals(20, distinctMoves.get(0).size());
         Assert.assertEquals(20, distinctMoves.get(1).size());

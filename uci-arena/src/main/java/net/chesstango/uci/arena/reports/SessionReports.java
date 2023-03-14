@@ -75,7 +75,7 @@ public class SessionReports {
 
             int level = 0;
             for (Set<Move> moveCollection:
-                 searchMoveResult.getDistinctMoves()) {
+                 searchMoveResult.getDistinctMovesPerLevel()) {
                 if(rowModel.maxDistinctMovesPerLevel[level] < moveCollection.size()){
                     rowModel.maxDistinctMovesPerLevel[level] = moveCollection.size();
                 }

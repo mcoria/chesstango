@@ -13,7 +13,7 @@ public class SearchMoveResult {
     private int evaluationCollisions;
     private int[] visitedNodesCounters;
     private int[] evaluatedNodes;
-    private List<Set<Move>> distinctMoves;
+    private List<Set<Move>> distinctMovesPerLevel;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;
@@ -60,12 +60,12 @@ public class SearchMoveResult {
         return this;
     }
 
-    public List<Set<Move>> getDistinctMoves() {
-        return distinctMoves;
+    public List<Set<Move>> getDistinctMovesPerLevel() {
+        return distinctMovesPerLevel;
     }
 
-    public SearchMoveResult setDistinctMoves(List<Set<Move>> distinctMoves) {
-        this.distinctMoves = distinctMoves;
+    public SearchMoveResult setDistinctMovesPerLevel(List<Set<Move>> distinctMovesPerLevel) {
+        this.distinctMovesPerLevel = distinctMovesPerLevel;
         return this;
     }
 }
