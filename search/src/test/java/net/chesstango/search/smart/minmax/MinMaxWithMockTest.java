@@ -27,8 +27,8 @@ public class MinMaxWithMockTest {
     }
 
     @Test
-    public void testSingleMoveWhitePlays() {
-        GameMock game = GameMockLoader.loadFromFile("SingleMove.json");
+    public void WhiteTurn1Ply() {
+        GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
         SearchMoveResult searchResult = minMax.searchBestMove(game, 1);
         Move bestMove = searchResult.getBestMove();
@@ -42,7 +42,18 @@ public class MinMaxWithMockTest {
     }
 
     @Test
-    public void testSingleMoveBlackPlays() {
+    public void BlackTurn1Ply() {
+        GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
+
+        SearchMoveResult searchResult = minMax.searchBestMove(game, 1);
+        Move bestMove = searchResult.getBestMove();
+
+        Assert.assertNotNull(searchResult);
+        Assert.assertEquals(Square.b8, bestMove.getFrom().getSquare());
+        Assert.assertEquals(Square.c6, bestMove.getTo().getSquare());
+        Assert.assertEquals(-1, searchResult.getEvaluation());
+        Assert.assertEquals(3, game.getNodesVisited());
+        Assert.assertEquals(3, evaluator.getNodesEvaluated());
     }
 
     @Test
