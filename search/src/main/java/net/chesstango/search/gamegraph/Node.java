@@ -29,13 +29,18 @@ class Node {
     Node parentNode;
 
     void executeMove(Move move, GameMock gameMock) {
+        NodeLink selectedLink = null;
         for (NodeLink link :
                 links) {
             if (move == link.move) {
-                gameMock.currentMockNode = link.mockNode;
+                selectedLink = link;
             }
         }
 
+        if(selectedLink == null){
+            throw new RuntimeException("Move doesn't exist in link + " + move);
+        }
+        gameMock.currentMockNode = selectedLink.mockNode;
     }
 
     void undoMove(GameMock gameMock) {

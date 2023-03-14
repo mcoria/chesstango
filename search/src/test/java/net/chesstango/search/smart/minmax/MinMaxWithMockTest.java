@@ -27,7 +27,7 @@ public class MinMaxWithMockTest {
     }
 
     @Test
-    public void WhiteTurn1Ply() {
+    public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
         SearchMoveResult searchResult = minMax.searchBestMove(game, 1);
@@ -37,12 +37,12 @@ public class MinMaxWithMockTest {
         Assert.assertEquals(Square.b1, bestMove.getFrom().getSquare());
         Assert.assertEquals(Square.c3, bestMove.getTo().getSquare());
         Assert.assertEquals(1, searchResult.getEvaluation());
-        Assert.assertEquals(3, game.getNodesVisited());
         Assert.assertEquals(3, evaluator.getNodesEvaluated());
+        Assert.assertEquals(3, game.getNodesVisited());
     }
 
     @Test
-    public void BlackTurn1Ply() {
+    public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
         SearchMoveResult searchResult = minMax.searchBestMove(game, 1);
@@ -52,12 +52,23 @@ public class MinMaxWithMockTest {
         Assert.assertEquals(Square.b8, bestMove.getFrom().getSquare());
         Assert.assertEquals(Square.c6, bestMove.getTo().getSquare());
         Assert.assertEquals(-1, searchResult.getEvaluation());
-        Assert.assertEquals(3, game.getNodesVisited());
         Assert.assertEquals(3, evaluator.getNodesEvaluated());
+        Assert.assertEquals(3, game.getNodesVisited());
     }
 
     @Test
-    public void testTwoMovesWhitePlays() {
+    public void whiteTurn2Ply() {
+        GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
+
+        SearchMoveResult searchResult = minMax.searchBestMove(game, 2);
+        Move bestMove = searchResult.getBestMove();
+
+        Assert.assertNotNull(searchResult);
+        Assert.assertEquals(Square.d2, bestMove.getFrom().getSquare());
+        Assert.assertEquals(Square.d4, bestMove.getTo().getSquare());
+        Assert. assertEquals(5, searchResult.getEvaluation());
+        Assert.assertEquals(6, evaluator.getNodesEvaluated());
+        Assert.assertEquals(8, game.getNodesVisited());
     }
 
     @Test
