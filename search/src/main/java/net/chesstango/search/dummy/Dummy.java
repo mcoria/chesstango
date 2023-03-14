@@ -3,15 +3,17 @@
  */
 package net.chesstango.search.dummy;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.SearchMove;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Mauricio Coria

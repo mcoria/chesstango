@@ -18,8 +18,8 @@ public class IterativeDeeping implements SearchMove {
 
     private final List<SearchMoveResult> bestMovesByDepth;
 
-    public IterativeDeeping(SearchMove minMax) {
-        this.imp = minMax;
+    public IterativeDeeping(SearchMove imp) {
+        this.imp = imp;
         this.bestMovesByDepth = new ArrayList<>();
     }
 

@@ -3,9 +3,11 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
-import net.chesstango.search.smart.alphabeta.*;
+import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
+import net.chesstango.search.smart.alphabeta.AlphaBetaMoveCapturer;
+import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.QuiescenceNull;
 
 import java.util.function.Consumer;
 
