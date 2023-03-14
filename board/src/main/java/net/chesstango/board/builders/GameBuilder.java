@@ -91,13 +91,13 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	@Override
 	public ChessRepresentationBuilder<Game> withHalfMoveClock(int halfMoveClock) {
 		positionState.setHalfMoveClock(halfMoveClock);
-		return null;
+		return this;
 	}
 
 	@Override
 	public ChessRepresentationBuilder<Game> withFullMoveClock(int fullMoveClock) {
 		positionState.setFullMoveClock(fullMoveClock);
-		return null;
+		return this;
 	}
 
 }

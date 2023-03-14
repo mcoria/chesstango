@@ -535,8 +535,8 @@ public class GameTest {
 		game.executeMove(Square.h3, Square.g2);
 		
 		game.executeMove(Square.b1, Square.c1);
-		
-		game.executeMove(Square.g2, Square.h1);
+
+		game.executeMove(Square.g2, Square.h1, Piece.QUEEN_BLACK);
 		
 		ChessPositionReader reader = game.getChessPosition();
 		

@@ -38,7 +38,17 @@ public class GameImp implements Game {
         if (move != null) {
             return executeMove(move);
         } else {
-            throw new RuntimeException("Invalid move: " + from.toString() + " " + to.toString());
+            throw new RuntimeException(String.format("Invalid move: %s%s", from, to));
+        }
+    }
+
+    @Override
+    public Game executeMove(Square from, Square to, Piece promotionPiece) {
+        Move move = getMove(from, to, promotionPiece);
+        if (move != null) {
+            return executeMove(move);
+        } else {
+            throw new RuntimeException(String.format("Invalid move: %s%s %s", from, to, promotionPiece));
         }
     }
 
@@ -75,6 +85,9 @@ public class GameImp implements Game {
     public Move getMove(Square from, Square to) {
         for (Move move : getPossibleMoves()) {
             if (from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())) {
+                if(move instanceof MovePromotion){
+                    return null;
+                }
                 return move;
             }
         }

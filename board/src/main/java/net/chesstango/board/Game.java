@@ -27,7 +27,11 @@ public interface Game {
     Move getMove(Square from, Square to, Piece promotionPiece);
 
     Game executeMove(Square from, Square to);
+
+    Game executeMove(Square from, Square to, Piece promotionPiece);
     //*******
 
     <T> T getObject(Class<T> theClass);
+
+
 }
