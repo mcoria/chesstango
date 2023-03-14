@@ -5,6 +5,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 
+/**
+ * @author Mauricio Coria
+ */
 public class GameMock implements Game {
     private int nodesVisited = 0;
 

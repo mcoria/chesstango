@@ -11,6 +11,9 @@ import net.chesstango.board.position.ChessPositionReader;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ */
 class Node {
     @JsonProperty("fen")
     String fen;

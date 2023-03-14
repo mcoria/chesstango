@@ -10,6 +10,9 @@ import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
 
+/**
+ * @author Mauricio Coria
+ */
 public class MockMove implements Move {
     PiecePositioned from;
     PiecePositioned to;
