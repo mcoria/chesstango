@@ -12,15 +12,12 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class IterativeDeeping implements SearchMove {
-    protected boolean keepProcessing;
+    private boolean keepProcessing;
+    private final AbstractSmart searchMove;
 
-    private final SearchMove imp;
 
-    private final List<SearchMoveResult> bestMovesByDepth;
-
-    public IterativeDeeping(SearchMove imp) {
-        this.imp = imp;
-        this.bestMovesByDepth = new ArrayList<>();
+    public IterativeDeeping(AbstractSmart searchMove) {
+        this.searchMove = searchMove;
     }
 
     @Override
@@ -31,10 +28,11 @@ public class IterativeDeeping implements SearchMove {
     @Override
     public SearchMoveResult searchBestMove(Game game, int depth) {
         keepProcessing = true;
-        bestMovesByDepth.clear();
+        List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
+
         for (int i = 1; i <= depth; i++) {
 
-            SearchMoveResult searchResult = imp.searchBestMove(game, i);
+            SearchMoveResult searchResult = searchMove.searchBestMove(game, i);
 
             if (keepProcessing) {
                 bestMovesByDepth.add(searchResult);
@@ -71,7 +69,7 @@ public class IterativeDeeping implements SearchMove {
     @Override
     public void stopSearching() {
         keepProcessing = false;
-        imp.stopSearching();
+        searchMove.stopSearching();
     }
 
 }

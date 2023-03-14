@@ -8,6 +8,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.SearchContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

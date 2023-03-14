@@ -8,6 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.SearchContext;
 
 import java.util.*;
 
@@ -26,8 +27,6 @@ public class MinMaxPruning extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, final int depth) {
-        this.keepProcessing = true;
-
         SearchContext context = new SearchContext(depth);
 
         int[] visitedNodesCounter = new int[30];
@@ -39,7 +38,12 @@ public class MinMaxPruning extends AbstractSmart {
         context.setVisitedNodesCounter(visitedNodesCounter);
         context.setDistinctMoves(distinctMoves);
 
+        return searchBestMove(game, context);
+    }
 
+    @Override
+    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
+        this.keepProcessing = true;
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
 
@@ -78,7 +82,7 @@ public class MinMaxPruning extends AbstractSmart {
         }
 
 
-        return new SearchMoveResult(depth, bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        return new SearchMoveResult(context.getMaxPly(), bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
                 .setVisitedNodesCounter(context.getVisitedNodesCounter())
                 .setDistinctMoves(context.getDistinctMoves());
     }

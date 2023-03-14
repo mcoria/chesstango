@@ -8,6 +8,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,14 @@ public class MinMax extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, int depth) {
+        SearchContext context = new SearchContext(depth);
+        return searchBestMove(game, context);
+    }
+
+    @Override
+    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
-        this.visitedNodesCounter = new int[depth];
+        this.visitedNodesCounter = new int[context.getMaxPly()];
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -42,7 +49,7 @@ public class MinMax extends AbstractSmart {
         for (Move move : game.getPossibleMoves()) {
             game = game.executeMove(move);
 
-            int currentEvaluation = minMax(game, !minOrMax, depth - 1);
+            int currentEvaluation = minMax(game, !minOrMax, context.getMaxPly() - 1);
 
             if (currentEvaluation == betterEvaluation) {
                 bestMoves.add(move);
@@ -66,8 +73,8 @@ public class MinMax extends AbstractSmart {
         }
 
 
-        return new SearchMoveResult(depth, betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
-                    .setVisitedNodesCounter(visitedNodesCounter);
+        return new SearchMoveResult(context.getMaxPly(), betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+                .setVisitedNodesCounter(visitedNodesCounter);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {

@@ -7,6 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +32,16 @@ public class NegaMax extends AbstractSmart {
 
     // Beyond level 4, the performance is really bad
 
+
+
     @Override
     public SearchMoveResult searchBestMove(Game game, int depth) {
+        SearchContext context = new SearchContext(depth);
+        return searchBestMove(game, context);
+    }
+
+    @Override
+    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
         final List<Move> bestMoves = new ArrayList<Move>();
 
@@ -42,7 +51,7 @@ public class NegaMax extends AbstractSmart {
         for (Move move : game.getPossibleMoves()) {
             game = game.executeMove(move);
 
-            int currentEvaluation = -negaMax(game, depth - 1);
+            int currentEvaluation = -negaMax(game, context.getMaxPly() - 1);
 
             if (currentEvaluation == betterEvaluation) {
                 bestMoves.add(move);
@@ -57,7 +66,7 @@ public class NegaMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(depth, minOrMax ? -betterEvaluation : betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
                 .setEvaluationCollisions(bestMoves.size() - 1);
     }
 

@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.smart.SearchContext;
 
 import java.util.List;
 import java.util.Set;

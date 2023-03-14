@@ -8,6 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,14 @@ public class NegaMaxPruning extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, final int depth) {
+        SearchContext context = new SearchContext(depth);
+        return searchBestMove(game, context);
+    }
+
+    @Override
+    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
-        this.visitedNodesCounter = new int[depth];
+        this.visitedNodesCounter = new int[context.getMaxPly()];
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -52,7 +59,7 @@ public class NegaMaxPruning extends AbstractSmart {
 
             game = game.executeMove(move);
 
-            int currentValue = -negaMax(game, depth - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
+            int currentValue = -negaMax(game, context.getMaxPly() - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
 
             if (currentValue > bestValue) {
                 bestValue = currentValue;
@@ -76,7 +83,7 @@ public class NegaMaxPruning extends AbstractSmart {
         }
 
 
-        return new SearchMoveResult(depth, minOrMax ? -bestValue : bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
                 .setVisitedNodesCounter(this.visitedNodesCounter)
                 .setEvaluationCollisions(bestMoves.size() - 1);
     }
@@ -113,4 +120,5 @@ public class NegaMaxPruning extends AbstractSmart {
     public void setVisitedNodesCounter(int[] visitedNodesCounter) {
         this.visitedNodesCounter = visitedNodesCounter;
     }
+
 }
