@@ -14,7 +14,7 @@ public class GameMockTest {
 
     @Test
     public void search(){
-        GameMock game = GameMockLoader.loadFromFile();
+        GameMock game = GameMockLoader.loadFromFile("GameGraph.json");
         GameMockEvaluator evaluator = new GameMockEvaluator();
 
         MinMax minMax = new MinMax();

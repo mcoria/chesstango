@@ -1,9 +1,5 @@
 package net.chesstango.evaluation.imp;
 
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.board.Game;
-import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,7 +7,7 @@ import org.junit.Test;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp02Test extends GameEvaluationTestCollection {
+public class GameEvaluatorImp02Test extends GameEvaluatorTestCollection {
 
     private GameEvaluatorImp02 evaluator;
 

@@ -9,19 +9,19 @@ import net.chesstango.evaluation.GameEvaluator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameEvaluatorMock implements GameEvaluator {
-
+/**
+ * @author Mauricio Coria
+ */
+public class GameEvaluatorByFEN implements GameEvaluator {
     private int defaultValue;
-
     private Map<String, Integer> evaluations = new HashMap<>();
 
     @Override
     public int evaluate(final Game game) {
-        return game.getStatus().isFinalStatus() ? evaluateFinalStatus(game) : getEvaluation(game);
+        return game.getStatus().isFinalStatus() ? evaluateFinalStatus(game) : evaluateNonFinalStatus(game);
     }
 
-
-    protected int getEvaluation(final Game game) {
+    protected int evaluateNonFinalStatus(final Game game) {
         FENEncoder fenEncoder = new FENEncoder();
 
         game.getChessPosition().constructBoardRepresentation(fenEncoder);
@@ -33,23 +33,7 @@ public class GameEvaluatorMock implements GameEvaluator {
         return evaluation == null ? defaultValue : evaluation.intValue();
     }
 
-    public void setDefaultValue(int defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    public void addEvaluation(String fen, int evaluation) {
-        evaluations.put(fen, evaluation);
-    }
-
-    public static GameEvaluatorMock loadEvaluations(){
-        GameEvaluatorMock mock = new GameEvaluatorMock();
-        mock.setDefaultValue(0);
-        mock.addEvaluation(FENDecoder.INITIAL_FEN, 0);
-
-        return mock;
-    }
-
-    private int evaluateFinalStatus(final Game game) {
+    protected int evaluateFinalStatus(final Game game) {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
@@ -64,5 +48,23 @@ public class GameEvaluatorMock implements GameEvaluator {
                 throw new RuntimeException("Game is still in progress");
         }
         return evaluation;
+    }
+
+    public GameEvaluatorByFEN setDefaultValue(int defaultValue) {
+        this.defaultValue = defaultValue;
+        return this;
+    }
+
+    public GameEvaluatorByFEN addEvaluation(String fen, int evaluation) {
+        evaluations.put(fen, evaluation);
+        return this;
+    }
+
+    public static GameEvaluatorByFEN loadEvaluations(){
+        GameEvaluatorByFEN mock = new GameEvaluatorByFEN();
+        mock.setDefaultValue(0);
+        mock.addEvaluation(FENDecoder.INITIAL_FEN, 0);
+
+        return mock;
     }
 }

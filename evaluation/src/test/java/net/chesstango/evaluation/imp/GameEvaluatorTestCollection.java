@@ -1,15 +1,12 @@
 package net.chesstango.evaluation.imp;
 
 import net.chesstango.board.Piece;
-import net.chesstango.board.builders.ChessPositionBuilder;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorBuilder;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.function.Function;
@@ -31,7 +28,7 @@ import java.util.function.Function;
  * Miestras mas tiempo demore evaluando una posicion, menos tiempo hay para buscar, y por lo tanto
  * menor profundidad puede alcanzar la busqueda.
  */
-public abstract class GameEvaluationTestCollection {
+public abstract class GameEvaluatorTestCollection {
 
     protected abstract AbstractEvaluator getEvaluator();
 

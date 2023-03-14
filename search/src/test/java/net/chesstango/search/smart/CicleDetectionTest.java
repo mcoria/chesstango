@@ -3,7 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
-import net.chesstango.evaluation.imp.GameEvaluatorMock;
+import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.Assert;
@@ -59,7 +59,7 @@ public class CicleDetectionTest {
     public void detectCicle(){
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
-        GameEvaluatorMock evaluatorMock =  new GameEvaluatorMock();
+        GameEvaluatorByFEN evaluatorMock =  new GameEvaluatorByFEN();
         evaluatorMock.setDefaultValue(0);
         //evaluatorMock.addEvaluation(); // Configurar las posiciones objetivo
 

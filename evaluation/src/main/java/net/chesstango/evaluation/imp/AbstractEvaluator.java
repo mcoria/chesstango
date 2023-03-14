@@ -9,6 +9,9 @@ import net.chesstango.evaluation.GameEvaluator;
 
 import java.util.Iterator;
 
+/**
+ * @author Mauricio Coria
+ */
 public abstract class AbstractEvaluator implements GameEvaluator {
     protected int evaluateFinalStatus(final Game game) {
         int evaluation = 0;

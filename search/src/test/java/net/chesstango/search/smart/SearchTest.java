@@ -4,8 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
-import net.chesstango.evaluation.imp.GameEvaluatorMock;
+import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.Assert;
@@ -21,7 +20,7 @@ public class SearchTest {
     @Test
     @Ignore //TODO: resolver
     public void testSearch(){
-        GameEvaluatorMock evaluatorMock =  new GameEvaluatorMock();
+        GameEvaluatorByFEN evaluatorMock =  new GameEvaluatorByFEN();
         evaluatorMock.setDefaultValue(0);
         evaluatorMock.addEvaluation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", 1);
 

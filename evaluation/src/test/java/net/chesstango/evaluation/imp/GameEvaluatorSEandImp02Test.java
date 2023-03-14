@@ -3,7 +3,6 @@ package net.chesstango.evaluation.imp;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -11,7 +10,7 @@ import org.junit.Test;
 
 import static net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator.*;
 
-public class GameEvaluatorSEandImp02Test extends GameEvaluationTestCollection {
+public class GameEvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
 
     private GameEvaluatorSEandImp02 evaluator;
 

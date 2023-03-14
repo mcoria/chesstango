@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
 
 public class GameMockLoader {
 
-    public static GameMock loadFromFile() {
+    public static GameMock loadFromFile(String fileName) {
         try {
-            InputStream inputStream = GameMock.class.getClassLoader().getResourceAsStream("GameGraph.json");
+            InputStream inputStream = GameMock.class.getClassLoader().getResourceAsStream(fileName);
 
             // reading the files with buffered reader
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -37,7 +37,7 @@ public class GameMockLoader {
     }
 
     public static void main(String[] args) {
-        GameMock mockNode = loadFromFile();
+        GameMock mockNode = loadFromFile("SingleMove.json");
 
         System.out.println(mockNode);
     }

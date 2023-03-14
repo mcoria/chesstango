@@ -1,6 +1,5 @@
 package net.chesstango.evaluation.imp;
 
-import net.chesstango.evaluation.GameEvaluator;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -8,7 +7,7 @@ import org.junit.Test;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp03Test extends GameEvaluationTestCollection {
+public class GameEvaluatorImp03Test extends GameEvaluatorTestCollection {
 
     private GameEvaluatorImp03 evaluator;
 
