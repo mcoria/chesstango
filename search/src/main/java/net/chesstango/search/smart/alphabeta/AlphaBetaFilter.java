@@ -8,7 +8,7 @@ import net.chesstango.search.smart.SearchContext;
  */
 public interface AlphaBetaFilter {
 
-    void init(final SearchContext context);
+    void init(Game game, final SearchContext context);
 
     int maximize(final Game game, final int currentPly, final int alpha, final int beta);
 

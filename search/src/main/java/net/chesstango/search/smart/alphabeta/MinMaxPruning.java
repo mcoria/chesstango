@@ -25,7 +25,7 @@ public class MinMaxPruning extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
-        notifyInit(context);
+        notifyInit(game, context);
         this.keepProcessing = true;
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -68,7 +68,8 @@ public class MinMaxPruning extends AbstractSmart {
         return new SearchMoveResult(context.getMaxPly(), bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
                 .setVisitedNodesCounters(context.getVisitedNodesCounters())
                 .setDistinctMovesPerLevel(context.getDistinctMovesPerLevel())
-                .setEvaluationCollisions(bestMoves.size() - 1);
+                .setEvaluationCollisions(bestMoves.size() - 1)
+                .setExpectedNodesCounters(context.getExpectedNodesCounters());
     }
 
     public void setMoveSorter(MoveSorter moveSorter) {
@@ -82,8 +83,8 @@ public class MinMaxPruning extends AbstractSmart {
     public void setFilters(List<AlphaBetaFilter> filters) {
         this.filters = filters;
     }
-    private void notifyInit(SearchContext context) {
-        filters.stream().forEach(filter -> filter.init(context));
+    private void notifyInit(Game game, SearchContext context) {
+        filters.stream().forEach(filter -> filter.init(game, context));
     }
 
     @Override

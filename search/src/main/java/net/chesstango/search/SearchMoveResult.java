@@ -12,6 +12,7 @@ public class SearchMoveResult {
     private final Move ponderMove;
     private int evaluationCollisions;
     private int[] visitedNodesCounters;
+    private int[] expectedNodesCounters;
     private int[] evaluatedNodes;
     private List<Set<Move>> distinctMovesPerLevel;
 
@@ -29,6 +30,7 @@ public class SearchMoveResult {
     public int getEvaluationCollisions() {
         return evaluationCollisions;
     }
+
     public SearchMoveResult setEvaluationCollisions(int evaluationCollisions) {
         this.evaluationCollisions = evaluationCollisions;
         return this;
@@ -42,6 +44,7 @@ public class SearchMoveResult {
     public Move getPonderMove() {
         return ponderMove;
     }
+
     public int[] getVisitedNodesCounters() {
         return visitedNodesCounters;
     }
@@ -66,6 +69,15 @@ public class SearchMoveResult {
 
     public SearchMoveResult setDistinctMovesPerLevel(List<Set<Move>> distinctMovesPerLevel) {
         this.distinctMovesPerLevel = distinctMovesPerLevel;
+        return this;
+    }
+
+    public int[] getExpectedNodesCounters() {
+        return expectedNodesCounters;
+    }
+
+    public SearchMoveResult setExpectedNodesCounters(int[] expectedNodesCounters) {
+        this.expectedNodesCounters = expectedNodesCounters;
         return this;
     }
 }

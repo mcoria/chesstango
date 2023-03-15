@@ -14,16 +14,19 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     private int[] visitedNodesCounter;
+    private int[] expectedNodesCounters;
 
     private List<Set<Move>> distinctMoves;
 
     @Override
-    public void init(SearchContext context) {
+    public void init(Game game, SearchContext context) {
         this.visitedNodesCounter = context.getVisitedNodesCounters();
+        this.expectedNodesCounters = context.getExpectedNodesCounters();
         this.distinctMoves = context.getDistinctMovesPerLevel();
-        if (visitedNodesCounter == null || distinctMoves == null) {
+        if (visitedNodesCounter == null || distinctMoves == null || expectedNodesCounters == null) {
             throw new RuntimeException("Context not initiated");
         }
+        expectedNodesCounters[0] = game.getPossibleMoves().size();
     }
 
     @Override
@@ -31,6 +34,8 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         increaseVisitedNodesCounter(currentPly);
 
         trackMove(game, currentPly);
+
+        trackExpectedNodesCounters(game, currentPly);
 
         return next.maximize(game, currentPly, alpha, beta);
     }
@@ -40,6 +45,8 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         increaseVisitedNodesCounter(currentPly);
 
         trackMove(game, currentPly);
+
+        trackExpectedNodesCounters(game, currentPly);
 
         return next.minimize(game, currentPly, alpha, beta);
     }
@@ -63,5 +70,9 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         Set<Move> currentMoveSet = distinctMoves.get(currentPly - 1);
 
         currentMoveSet.add(lastMove);
+    }
+
+    private void trackExpectedNodesCounters(Game game, int currentPly) {
+        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
     }
 }

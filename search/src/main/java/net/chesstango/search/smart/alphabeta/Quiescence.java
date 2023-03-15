@@ -21,7 +21,7 @@ public class Quiescence implements AlphaBetaFilter {
     private SearchContext context;
 
     @Override
-    public void init(SearchContext context) {
+    public void init(Game game, SearchContext context) {
         this.context = context;
     }
     @Override

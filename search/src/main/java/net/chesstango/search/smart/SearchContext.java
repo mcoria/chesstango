@@ -13,6 +13,8 @@ public class SearchContext {
 
     private int[] visitedNodesCounters;
 
+    private int[] expectedNodesCounters;
+
     private List<Set<Move>> distinctMovesPerLevel;
 
     public SearchContext(int maxPly) {
@@ -30,6 +32,15 @@ public class SearchContext {
 
     public int[] getVisitedNodesCounters() {
         return visitedNodesCounters;
+    }
+
+    public int[] getExpectedNodesCounters() {
+        return expectedNodesCounters;
+    }
+
+    public SearchContext setExpectedNodesCounters(int[] expectedNodesCounters) {
+        this.expectedNodesCounters = expectedNodesCounters;
+        return this;
     }
 
     public List<Set<Move>> getDistinctMovesPerLevel() {
