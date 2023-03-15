@@ -21,18 +21,28 @@ public class SessionReports {
     private boolean printNodesVisitedStatics;
     private boolean printMovesPerLevelStatics;
     private boolean printCutoffStatics;
+    private boolean breakByColor;
 
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
 
         List<ReportRowModel> reportRows = new ArrayList<>();
 
         enginesOrder.forEach(engineController -> {
-            List<Session> sessions = new ArrayList<>();
-            sessions.addAll(matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(GameResult::getSessionWhite).collect(Collectors.toList()));
-            sessions.addAll(matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList()));
+            List<Session> sessionsWhite = matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(GameResult::getSessionWhite).collect(Collectors.toList());
+            List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList());
 
-            if (sessions.size() > 0) {
-                reportRows.add(collectStatics(engineController, sessions));
+            if (breakByColor) {
+                if (sessionsWhite.size() > 0 && sessionsBlack.size() > 0) {
+                    reportRows.add(collectStatics(String.format("%s white", engineController.getEngineName()), sessionsWhite));
+                    reportRows.add(collectStatics(String.format("%s black", engineController.getEngineName()), sessionsBlack));
+                }
+            } else {
+                List<Session> sessions = new ArrayList<>();
+                sessions.addAll(sessionsWhite);
+                sessions.addAll(sessionsBlack);
+                if (sessions.size() > 0) {
+                    reportRows.add(collectStatics(engineController.getEngineName(), sessions));
+                }
             }
 
         });
@@ -40,9 +50,9 @@ public class SessionReports {
         print(reportRows);
     }
 
-    private ReportRowModel collectStatics(EngineController engineController, List<Session> sessions) {
+    private ReportRowModel collectStatics(String engineName, List<Session> sessions) {
         ReportRowModel rowModel = new ReportRowModel();
-        rowModel.engineName = engineController.getEngineName();
+        rowModel.engineName = engineName;
 
         rowModel.searches = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).count();
         rowModel.searchesWithoutCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value == 0).count();
@@ -67,7 +77,7 @@ public class SessionReports {
             int[] currentExpectedNodeCounters = searchMoveResult.getExpectedNodesCounters();
             for (int i = 0; i < currentNodeCounters.length; i++) {
                 rowModel.visitedNodesCounters[i] += currentNodeCounters[i];
-                expectedNodesCounters[i] +=  currentExpectedNodeCounters[i];
+                expectedNodesCounters[i] += currentExpectedNodeCounters[i];
                 if (currentNodeCounters[i] > 0) {
                     maxLevel = i + 1;
                 }
@@ -92,7 +102,7 @@ public class SessionReports {
         for (int i = 0; i < 30; i++) {
             rowModel.visitedNodesTotal += rowModel.visitedNodesCounters[i];
             rowModel.visitedNodesCountersAvg[i] = (int) (rowModel.visitedNodesCounters[i] / rowModel.searches);
-            if(expectedNodesCounters[i] > 0 ) {
+            if (expectedNodesCounters[i] > 0) {
                 rowModel.cuttoffPercentages[i] = (int) (100 - (100 * rowModel.visitedNodesCounters[i] / expectedNodesCounters[i]));
             }
         }
@@ -283,8 +293,13 @@ public class SessionReports {
         return this;
     }
 
-    public SessionReports withPrintCutoffStatics(){
+    public SessionReports withPrintCutoffStatics() {
         this.printCutoffStatics = true;
+        return this;
+    }
+
+    public SessionReports breakByColor() {
+        this.breakByColor = true;
         return this;
     }
 

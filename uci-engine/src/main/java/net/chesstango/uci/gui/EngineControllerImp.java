@@ -20,6 +20,7 @@ public class EngineControllerImp implements EngineController {
     private EngineClientState currentState;
     private String engineName;
     private String engineAuthor;
+    private CmdGo cmdGo;
 
     public EngineControllerImp(Service service) {
         UCIGui messageExecutor = new UCIGui() {
@@ -76,7 +77,7 @@ public class EngineControllerImp implements EngineController {
     @Override
     public RspBestMove send_CmdGo(CmdGo cmdGo) {
         currentState = new WaitRspBestMove();
-        return (RspBestMove) currentState.sendRequest(cmdGo, true);
+        return (RspBestMove) currentState.sendRequest(this.cmdGo == null ? cmdGo : this.cmdGo, true);
     }
 
     @Override
@@ -240,6 +241,11 @@ public class EngineControllerImp implements EngineController {
 
     public EngineControllerImp overrideEngineName(String name) {
         engineName = name;
+        return this;
+    }
+
+    public EngineController overrideCmdGo(CmdGo cmdGo) {
+        this.cmdGo = cmdGo;
         return this;
     }
 }
