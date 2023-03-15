@@ -15,9 +15,8 @@ import java.util.Set;
  * @author Mauricio Coria
  */
 public class IterativeDeeping implements SearchMove {
-    private boolean keepProcessing;
     private final AbstractSmart searchMove;
-
+    private boolean keepProcessing;
 
     public IterativeDeeping(AbstractSmart searchMove) {
         this.searchMove = searchMove;

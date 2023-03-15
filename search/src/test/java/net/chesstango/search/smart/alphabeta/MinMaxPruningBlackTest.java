@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,23 +52,24 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
         minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
         Game childGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(1);
+        when(quiescence.maximize(eq(childGame), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
 
         Move move = mock(Move.class);
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move, bestMove);
         Assert.assertEquals(1, searchResult.getEvaluation());
-        verify(quiescence, times(1)).maximize(eq(childGame), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
+        verify(quiescence, times(1)).maximize(eq(childGame), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
     }
 
     @Test
@@ -79,31 +81,32 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
         minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(1);
+        when(quiescence.maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class))).thenReturn(2);
+        when(quiescence.maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1))).thenReturn(2);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move1, bestMove);
         Assert.assertEquals(1, searchResult.getEvaluation());
 
-        verify(quiescence, times(1)).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(quiescence, times(1)).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class));
+        verify(quiescence, times(1)).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(quiescence, times(1)).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1));
 
-        verify(alphaBetaImp).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(alphaBetaImp).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class));
+        verify(alphaBetaImp).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBetaImp).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1));
     }
 
     @Test
@@ -115,14 +118,15 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
         minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(1);
+        when(quiescence.maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class))).thenReturn(GameEvaluator.BLACK_WON);
+        when(quiescence.maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1))).thenReturn(GameEvaluator.BLACK_WON);
 
         // childGame3 no llega a evaluarse, dado que existe CuteOff por el mate que se encuentra en childGame2
         Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -132,7 +136,7 @@ public class MinMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -143,11 +147,11 @@ public class MinMaxPruningBlackTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
-        verify(quiescence, times(1)).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(quiescence, times(1)).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class));
+        verify(quiescence, times(1)).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(quiescence, times(1)).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1));
 
-        verify(alphaBetaImp).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(alphaBetaImp).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class));
+        verify(alphaBetaImp).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBetaImp).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1));
 
         verifyNoInteractions(move3);
         verifyNoInteractions(childGame3);
@@ -162,24 +166,25 @@ public class MinMaxPruningBlackTest {
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
         minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(GameEvaluator.BLACK_LOST);
+        when(quiescence.maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.BLACK_LOST);
 
         Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(GameEvaluator.BLACK_LOST);
+        when(quiescence.maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.BLACK_LOST);
 
         Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame3), eq(1),eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(GameEvaluator.BLACK_LOST);
+        when(quiescence.maximize(eq(childGame3), eq(1),eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.BLACK_LOST);
 
         Move move1 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.d4));
         Move move2 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.b4));
         Move move3 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.e5));
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -190,13 +195,13 @@ public class MinMaxPruningBlackTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, times(1)).executeMove(move3);
 
-        verify(quiescence, times(1)).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(quiescence, times(1)).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(quiescence, times(1)).maximize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
+        verify(quiescence, times(1)).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(quiescence, times(1)).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(quiescence, times(1)).maximize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
 
-        verify(alphaBetaImp).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(alphaBetaImp).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(alphaBetaImp).maximize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
+        verify(alphaBetaImp).maximize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBetaImp).maximize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBetaImp).maximize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
     }
 
     @Test
@@ -210,10 +215,10 @@ public class MinMaxPruningBlackTest {
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class))).thenReturn(1);
+        when(quiescence.maximize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
 
         Game childGame2 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
-        when(quiescence.maximize(eq(childGame2), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class))).thenReturn(GameEvaluator.BLACK_WON);
+        when(quiescence.maximize(eq(childGame2), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1))).thenReturn(GameEvaluator.BLACK_WON);
 
         Game childGame3 = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -222,7 +227,8 @@ public class MinMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        int minValue = alphaBetaImp.minimize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE, new SearchContext(2));
+        alphaBetaImp.init(new SearchContext(2));
+        int minValue = alphaBetaImp.minimize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         Assert.assertEquals(GameEvaluator.BLACK_WON, minValue);
 
@@ -230,11 +236,11 @@ public class MinMaxPruningBlackTest {
         verify(rootGame, times(1)).executeMove(move2);
         verify(rootGame, never()).executeMove(move3);
 
-        verify(quiescence, times(1)).maximize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(quiescence, times(1)).maximize(eq(childGame2), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class));
+        verify(quiescence, times(1)).maximize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(quiescence, times(1)).maximize(eq(childGame2), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1));
 
-        verify(alphaBetaImp).maximize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE), any(SearchContext.class));
-        verify(alphaBetaImp).maximize(eq(childGame2), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1), any(SearchContext.class));
+        verify(alphaBetaImp).maximize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBetaImp).maximize(eq(childGame2), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(1));
 
         verifyNoInteractions(move3);
         verifyNoInteractions(childGame3);

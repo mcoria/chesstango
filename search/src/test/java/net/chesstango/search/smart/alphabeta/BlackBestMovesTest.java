@@ -7,6 +7,8 @@ import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
 import org.junit.Before;
 
+import java.util.Arrays;
+
 /**
  * @author Mauricio Coria
  */
@@ -30,6 +32,7 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
         minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
         this.searchMove = new IterativeDeeping(minMaxPruning);
     }
@@ -39,4 +42,6 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
     public SearchMove getBestMoveFinder() {
         return searchMove;
     }
+
+
 }

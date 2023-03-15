@@ -6,6 +6,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
+import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class GameMockTest {
 
         minMax.setGameEvaluator(evaluator);
 
-        SearchMoveResult searchResult = minMax.searchBestMove(game, 4);
+        SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(4));
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertNotNull(searchResult);

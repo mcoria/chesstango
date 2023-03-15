@@ -29,7 +29,7 @@ public class SearchTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMax.searchBestMove(game, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
         Assert.assertEquals(Square.e2, bestMove.getFrom().getSquare());
         Assert.assertEquals(Square.e4, bestMove.getTo().getSquare());
@@ -38,7 +38,7 @@ public class SearchTest {
         /**
          * Si bien cualquier movimiento posible es optimo, no pasamos por el maximo de forma temprana
          */
-        searchResult = minMax.searchBestMove(game, 3);
+        searchResult = minMax.searchBestMove(game, new SearchContext(3));
         bestMove = searchResult.getBestMove();
         Assert.assertEquals(Square.e2, bestMove.getFrom().getSquare());
         Assert.assertEquals(Square.e4, bestMove.getTo().getSquare());

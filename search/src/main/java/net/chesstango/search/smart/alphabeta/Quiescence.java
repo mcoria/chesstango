@@ -18,8 +18,14 @@ public class Quiescence implements AlphaBetaFilter {
 
     private boolean keepProcessing;
 
+    private SearchContext context;
+
     @Override
-    public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+    public void init(SearchContext context) {
+        this.context = context;
+    }
+    @Override
+    public int minimize(Game game, final int currentPly, final int alpha, final int beta) {
         this.keepProcessing = true;
         boolean search = true;
         int minValue = evaluator.evaluate(game);
@@ -35,7 +41,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
-                int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta), context);
+                int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -51,7 +57,7 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     @Override
-    public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context){
+    public int maximize(Game game, final int currentPly, final int alpha, final int beta){
         this.keepProcessing = true;
         boolean search = true;
         int maxValue = evaluator.evaluate(game);
@@ -67,7 +73,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game = game.executeMove(move);
 
-                int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta, context);
+                int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;

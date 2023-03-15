@@ -32,17 +32,6 @@ public class NegaMaxPruning extends AbstractSmart {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, 10);
-    }
-
-    @Override
-    public SearchMoveResult searchBestMove(Game game, final int depth) {
-        SearchContext context = new SearchContext(depth);
-        return searchBestMove(game, context);
-    }
-
-    @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];

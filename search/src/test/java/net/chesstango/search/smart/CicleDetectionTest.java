@@ -63,7 +63,7 @@ public class CicleDetectionTest {
         evaluatorMock.setDefaultValue(0);
         //evaluatorMock.addEvaluation(); // Configurar las posiciones objetivo
 
-        SearchMoveResult searchResult = minMax.searchBestMove(game, 20);
+        SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(20));
 
         Assert.assertNotNull(searchResult);
     }

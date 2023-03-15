@@ -8,6 +8,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.SearchContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class NegaMaxPruningBlackTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -80,7 +81,7 @@ public class NegaMaxPruningBlackTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -116,7 +117,7 @@ public class NegaMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertEquals(move2, bestMove);
@@ -157,7 +158,7 @@ public class NegaMaxPruningBlackTest {
         Move move3 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.e5));
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
 
         Assert.assertNotNull(bestMove);

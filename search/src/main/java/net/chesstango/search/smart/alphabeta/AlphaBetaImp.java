@@ -20,10 +20,18 @@ public class AlphaBetaImp implements AlphaBetaFilter {
 
     private MoveSorter moveSorter;
 
-    public int minimize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
+    private SearchContext context;
+
+    @Override
+    public void init(SearchContext context) {
+        this.context = context;
         this.keepProcessing = true;
+    }
+
+    @Override
+    public int minimize(Game game, final int currentPly, final int alpha, final int beta) {
         if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
-            return quiescence.minimize(game, currentPly, alpha, beta, context);
+            return quiescence.minimize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
@@ -34,7 +42,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
 
                 game = game.executeMove(move);
 
-                int currentValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta), context);
+                int currentValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -49,10 +57,10 @@ public class AlphaBetaImp implements AlphaBetaFilter {
         }
     }
 
-    public int maximize(Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
-        this.keepProcessing = true;
+    @Override
+    public int maximize(Game game, final int currentPly, final int alpha, final int beta) {
         if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
-            return quiescence.maximize(game, currentPly, alpha, beta, context);
+            return quiescence.maximize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
@@ -63,7 +71,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
 
                 game = game.executeMove(move);
 
-                int currentValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta, context);
+                int currentValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;

@@ -7,10 +7,9 @@ import net.chesstango.search.SearchMoveResult;
 /**
  * @author Mauricio Coria
  */
-public abstract class AbstractSmart implements SearchMove {
+public abstract class AbstractSmart {
     protected boolean keepProcessing = true;
 
-    @Override
     public void stopSearching() {
         keepProcessing = false;
     }

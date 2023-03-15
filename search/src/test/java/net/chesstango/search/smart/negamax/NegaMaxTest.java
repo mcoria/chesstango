@@ -7,6 +7,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchContext;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +49,7 @@ public class NegaMaxTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = negaMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = negaMax.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -68,7 +69,7 @@ public class NegaMaxTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = negaMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = negaMax.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -93,7 +94,7 @@ public class NegaMaxTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -123,7 +124,7 @@ public class NegaMaxTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, 1);
+        SearchMoveResult searchResult = minMax.searchBestMove(rootGame, new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 

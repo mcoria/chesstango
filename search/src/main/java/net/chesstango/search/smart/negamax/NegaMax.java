@@ -26,21 +26,6 @@ public class NegaMax extends AbstractSmart {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, DEFAULT_MAX_PLIES);
-    }
-
-    // Beyond level 4, the performance is really bad
-
-
-
-    @Override
-    public SearchMoveResult searchBestMove(Game game, int depth) {
-        SearchContext context = new SearchContext(depth);
-        return searchBestMove(game, context);
-    }
-
-    @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
         final List<Move> bestMoves = new ArrayList<Move>();

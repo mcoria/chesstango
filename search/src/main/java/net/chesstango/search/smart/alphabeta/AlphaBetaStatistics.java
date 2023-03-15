@@ -13,22 +13,35 @@ import java.util.Set;
 public class AlphaBetaStatistics implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
+    private int[] visitedNodesCounter;
+
+    private List<Set<Move>> distinctMoves;
+
     @Override
-    public int maximize(final Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
-        increaseVisitedNodesCounter(currentPly, context);
-
-        trackMove(game, currentPly, context);
-
-        return next.maximize(game, currentPly, alpha, beta, context);
+    public void init(SearchContext context) {
+        this.visitedNodesCounter = context.getVisitedNodesCounters();
+        this.distinctMoves = context.getDistinctMovesPerLevel();
+        if (visitedNodesCounter == null || distinctMoves == null) {
+            throw new RuntimeException("Context not initiated");
+        }
     }
 
     @Override
-    public int minimize(final Game game, final int currentPly, final int alpha, final int beta, final SearchContext context) {
-        increaseVisitedNodesCounter(currentPly, context);
+    public int maximize(final Game game, final int currentPly, final int alpha, final int beta) {
+        increaseVisitedNodesCounter(currentPly);
 
-        trackMove(game, currentPly, context);
+        trackMove(game, currentPly);
 
-        return next.minimize(game, currentPly, alpha, beta, context);
+        return next.maximize(game, currentPly, alpha, beta);
+    }
+
+    @Override
+    public int minimize(final Game game, final int currentPly, final int alpha, final int beta) {
+        increaseVisitedNodesCounter(currentPly);
+
+        trackMove(game, currentPly);
+
+        return next.minimize(game, currentPly, alpha, beta);
     }
 
     @Override
@@ -40,15 +53,12 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void increaseVisitedNodesCounter(int currentPly, SearchContext context) {
-        int[] visitedNodesCounter = context.getVisitedNodesCounters();
+    protected void increaseVisitedNodesCounter(int currentPly) {
         visitedNodesCounter[currentPly - 1]++;
     }
 
-    protected void trackMove(Game game, int currentPly, SearchContext context){
+    protected void trackMove(Game game, int currentPly) {
         Move lastMove = game.getState().getPreviosGameState().selectedMove;
-
-        List<Set<Move>> distinctMoves = context.getDistinctMovesPerLevel();
 
         Set<Move> currentMoveSet = distinctMoves.get(currentPly - 1);
 

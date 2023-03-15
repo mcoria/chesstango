@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.AlgoWrapper;
 import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
@@ -12,6 +13,7 @@ import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.QuiescenceNull;
 import net.chesstango.search.smart.minmax.MinMax;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
@@ -24,13 +26,13 @@ public class DefaultSearchMove implements SearchMove {
     private Consumer<GameEvaluator> fnSetEvaluator;
 
     public DefaultSearchMove() {
-        //this.imp = setupMinMaxPruning();
-        this.imp = setupMinMax();
+        this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
+        //this.imp = simpleAbstractSmartWrapper(setupMinMax());
 
         this.setGameEvaluator(new DefaultGameEvaluator());
     }
 
-    private SearchMove setupMinMaxPruning(){
+    private AbstractSmart setupMinMaxPruning() {
         MoveSorter moveSorter = new MoveSorter();
 
         AlphaBetaStatistics alphaBetaStatistics1 = new AlphaBetaStatistics();
@@ -47,6 +49,7 @@ public class DefaultSearchMove implements SearchMove {
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics2);
         minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics1, alphaBetaStatistics2, quiescence));
 
         this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
 
@@ -54,7 +57,7 @@ public class DefaultSearchMove implements SearchMove {
     }
 
 
-    private SearchMove setupMinMax() {
+    private AbstractSmart setupMinMax() {
 
         MinMax minMax = new MinMax();
 
@@ -63,11 +66,14 @@ public class DefaultSearchMove implements SearchMove {
         return minMax;
     }
 
-    private SearchMove iterateDeepingWrapper(AbstractSmart algorithm){
+    private SearchMove iterateDeepingWrapper(AbstractSmart algorithm) {
         return new IterativeDeeping(algorithm);
     }
 
 
+    private SearchMove simpleAbstractSmartWrapper(AbstractSmart algorithm) {
+        return new AlgoWrapper(algorithm);
+    }
 
     @Override
     public SearchMoveResult searchBestMove(Game game) {

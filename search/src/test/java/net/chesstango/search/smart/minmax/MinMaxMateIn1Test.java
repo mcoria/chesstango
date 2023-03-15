@@ -2,6 +2,7 @@ package net.chesstango.search.smart.minmax;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.smart.AlgoWrapper;
 import net.chesstango.search.smart.MateIn1Test;
 import org.junit.Before;
 
@@ -16,7 +17,7 @@ public class MinMaxMateIn1Test extends MateIn1Test {
     public void setup(){
         MinMax searchMove = new MinMax();
         searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
-        this.searchMove = searchMove;
+        this.searchMove = new AlgoWrapper(searchMove);
     }
 
 

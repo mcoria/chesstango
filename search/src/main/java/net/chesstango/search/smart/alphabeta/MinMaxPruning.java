@@ -20,28 +20,12 @@ public class MinMaxPruning extends AbstractSmart {
 
     private AlphaBetaFilter alphaBetaFilter;
 
-    @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, 10);
-    }
+    private List<AlphaBetaFilter> filters;
 
-    @Override
-    public SearchMoveResult searchBestMove(Game game, final int depth) {
-        int[] visitedNodesCounter = new int[30];
-        List<Set<Move>> distinctMoves = new ArrayList<>(visitedNodesCounter.length);
-        for (int i = 0; i < 30; i++) {
-            distinctMoves.add(new HashSet<>());
-        }
-
-        SearchContext context = new SearchContext(depth)
-                                    .setVisitedNodesCounters(visitedNodesCounter)
-                                    .setDistinctMovesPerLevel(distinctMoves);
-
-        return searchBestMove(game, context);
-    }
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
+        notifyInit(context);
         this.keepProcessing = true;
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -56,8 +40,8 @@ public class MinMaxPruning extends AbstractSmart {
             game = game.executeMove(move);
 
             int currentValue = minOrMax ?
-                    alphaBetaFilter.maximize(game, 1, GameEvaluator.INFINITE_NEGATIVE, bestValue, context) :
-                    alphaBetaFilter.minimize(game, 1, bestValue, GameEvaluator.INFINITE_POSITIVE, context);
+                    alphaBetaFilter.maximize(game, 1, GameEvaluator.INFINITE_NEGATIVE, bestValue) :
+                    alphaBetaFilter.minimize(game, 1, bestValue, GameEvaluator.INFINITE_POSITIVE);
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
@@ -95,4 +79,16 @@ public class MinMaxPruning extends AbstractSmart {
         this.alphaBetaFilter = alphaBetaFilter;
     }
 
+    public void setFilters(List<AlphaBetaFilter> filters) {
+        this.filters = filters;
+    }
+    private void notifyInit(SearchContext context) {
+        filters.stream().forEach(filter -> filter.init(context));
+    }
+
+    @Override
+    public void stopSearching() {
+        keepProcessing = false;
+        filters.stream().forEach(AlphaBetaFilter::stopSearching);
+    }
 }

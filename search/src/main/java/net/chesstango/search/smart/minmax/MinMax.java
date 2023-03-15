@@ -25,17 +25,6 @@ public class MinMax extends AbstractSmart {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, DEFAULT_MAX_PLIES);
-    }
-
-    @Override
-    public SearchMoveResult searchBestMove(Game game, int depth) {
-        SearchContext context = new SearchContext(depth);
-        return searchBestMove(game, context);
-    }
-
-    @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];
