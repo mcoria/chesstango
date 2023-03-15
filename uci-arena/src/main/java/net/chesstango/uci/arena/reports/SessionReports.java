@@ -58,7 +58,7 @@ public class SessionReports {
         rowModel.visitedNodesCounters = new long[30];
         rowModel.visitedNodesCountersAvg = new int[30];
         rowModel.visitedNodesTotal = 0;
-        rowModel.cuttoffCounters = new double[30];
+        rowModel.cuttoffPercentages = new int[30];
         rowModel.maxDistinctMovesPerLevel = new int[30];
         rowModel.maxLevelVisited = 0;
         sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
@@ -93,7 +93,7 @@ public class SessionReports {
             rowModel.visitedNodesTotal += rowModel.visitedNodesCounters[i];
             rowModel.visitedNodesCountersAvg[i] = (int) (rowModel.visitedNodesCounters[i] / rowModel.searches);
             if(expectedNodesCounters[i] > 0 ) {
-                rowModel.cuttoffCounters[i] = 1d - (double) rowModel.visitedNodesCounters[i] / expectedNodesCounters[i];
+                rowModel.cuttoffPercentages[i] = (int) (100 - (100 * rowModel.visitedNodesCounters[i] / expectedNodesCounters[i]));
             }
         }
 
@@ -120,28 +120,29 @@ public class SessionReports {
             printNodesVisitedStaticsAvg(maxLevelVisited, reportRows);
         }
 
+        if (printMovesPerLevelStatics) {
+            printMovesPerLevelStatics(maxLevelVisited, reportRows);
+        }
+
         if (printCutoffStatics) {
             printCutoffStatics(maxLevelVisited, reportRows);
         }
 
-        if (printMovesPerLevelStatics) {
-            printMovesPerLevelStatics(maxLevelVisited, reportRows);
-        }
     }
 
     private void printCollisionStatics(List<ReportRowModel> reportRows) {
         // Marco superior de la tabla
-        System.out.printf(" __________________________________________________________________________________________________________________________________");
+        System.out.printf(" ___________________________________________________________________________________________________________________________________");
         System.out.printf("\n");
 
 
         // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | wo/COLLISIONS%% | w/COLLISIONS%% | MovesCollision AVG");
+        System.out.printf("|ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | wo/COLLISIONS%% | w/COLLISIONS%% | MovesCollision AVG ");
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d |%14d |%13d |%13d%%  |%13d%% |%18.1f ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.searchesWithoutCollisionsPercentage, row.searchesWithCollisionsPercentage, row.avgOptionsPerCollision);
+            System.out.printf("|%35s|%9d |%14d |%13d |%12d %%  |%12d %% |%19.1f ", row.engineName, row.searches, row.searchesWithoutCollisions, row.searchesWithCollisions, row.searchesWithoutCollisionsPercentage, row.searchesWithCollisionsPercentage, row.avgOptionsPerCollision);
             System.out.printf("|\n");
         });
 
@@ -155,29 +156,29 @@ public class SessionReports {
 
         // Marco superior de la tabla
         System.out.printf(" ______________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
-        System.out.printf("____________"); // Nodes
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
+        System.out.printf("______________"); // Nodes
         System.out.printf("\n");
 
 
         // Nombre de las columnas
         System.out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
-        System.out.printf("|Total Nodes");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
+        System.out.printf("| Total Nodes ");
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedNodesCounters[depth]));
-            System.out.printf("| %9d ", row.visitedNodesTotal);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.visitedNodesCounters[depth]));
+            System.out.printf("| %11d ", row.visitedNodesTotal);
             System.out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         System.out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("------------"); // Nodes
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
+        System.out.printf("--------------"); // Total Nodes
         System.out.printf("\n");
     }
 
@@ -186,28 +187,28 @@ public class SessionReports {
 
         // Marco superior de la tabla
         System.out.printf(" ______________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
         System.out.printf("____________"); // NodesPerSearch
         System.out.printf("\n");
 
 
         // Nombre de las columnas
         System.out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
         System.out.printf("|AVG Nodes/S");
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedNodesCountersAvg[depth]));
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.visitedNodesCountersAvg[depth]));
             System.out.printf("| %9d ", row.visitedNodesTotalAvg);
             System.out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         System.out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
         System.out.printf("------------"); // NodesPerSearch
         System.out.printf("\n");
     }
@@ -217,53 +218,53 @@ public class SessionReports {
 
         // Marco superior de la tabla
         System.out.printf(" ___________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
         System.out.printf("\n");
 
 
         // Nombre de las columnas
         System.out.printf("|ENGINE NAME                        ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s", row.engineName);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.maxDistinctMovesPerLevel[depth]));
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.maxDistinctMovesPerLevel[depth]));
             System.out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         System.out.printf(" -----------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
         System.out.printf("\n");
     }
 
 
     private void printCutoffStatics(AtomicInteger maxLevelVisited, List<ReportRowModel> reportRows) {
-        System.out.println("\n Cutoff per search level");
+        System.out.println("\n Cutoff per search level (higher is better)");
 
         // Marco superior de la tabla
-        System.out.printf(" ______________________________________________");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("____________"));
+        System.out.printf(" ___________________________________");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
         System.out.printf("\n");
 
 
         // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES ");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d  ", depth + 1));
+        System.out.printf("|ENGINE NAME                        ");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
-            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %9.2f ", row.cuttoffCounters[depth]));
+            System.out.printf("|%35s", row.engineName, row.searches);
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %6d %% ", row.cuttoffPercentages[depth]));
             System.out.printf("|\n");
         });
 
         // Marco inferior de la tabla
-        System.out.printf(" ----------------------------------------------");
-        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("------------"));
+        System.out.printf(" -----------------------------------");
+        IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
         System.out.printf("\n");
     }
 
@@ -311,7 +312,7 @@ public class SessionReports {
 
         int[] visitedNodesCountersAvg;
 
-        double[] cuttoffCounters;
+        int[] cuttoffPercentages;
 
         long visitedNodesTotal;
 
