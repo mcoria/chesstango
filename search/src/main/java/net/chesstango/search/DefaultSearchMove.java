@@ -35,21 +35,19 @@ public class DefaultSearchMove implements SearchMove {
     private AbstractSmart setupMinMaxPruning() {
         MoveSorter moveSorter = new MoveSorter();
 
-        AlphaBetaStatistics alphaBetaStatistics1 = new AlphaBetaStatistics();
         QuiescenceNull quiescence = new QuiescenceNull();
-        alphaBetaStatistics1.setNext(quiescence);
 
-        AlphaBetaStatistics alphaBetaStatistics2 = new AlphaBetaStatistics();
+        AlphaBetaStatistics alphaBetaStatistics1 = new AlphaBetaStatistics();
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(alphaBetaStatistics1);
+        alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaStatistics2);
-        alphaBetaStatistics2.setNext(alphaBetaImp);
+        alphaBetaImp.setNext(alphaBetaStatistics1);
+        alphaBetaStatistics1.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics2);
+        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics1);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics1, alphaBetaStatistics2, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics1, quiescence));
 
         this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
 
