@@ -31,12 +31,14 @@ public class Match {
     private String fen;
     private Game game;
     private boolean debugEnabled;
+    private boolean switchChairs;
 
 
     public Match(EngineController controller1, EngineController controller2, int depth) {
         this.controller1 = controller1;
         this.controller2 = controller2;
         this.depth = depth;
+        this.switchChairs = true;
     }
 
     public List<GameResult> play(List<String> fenList) {
@@ -62,11 +64,13 @@ public class Match {
 
             result.add(createResult());
 
-            setChairs(controller2, controller1);
+            if (switchChairs) {
+                setChairs(controller2, controller1);
 
-            compete();
+                compete();
 
-            result.add(createResult());
+                result.add(createResult());
+            }
 
         } catch (RuntimeException e) {
             System.err.println("Error playing fen:" + fen);
@@ -109,6 +113,11 @@ public class Match {
 
     public Match setDebugEnabled(boolean debugEnabled) {
         this.debugEnabled = debugEnabled;
+        return this;
+    }
+
+    public Match switchChairs(boolean switchChairs) {
+        this.switchChairs = switchChairs;
         return this;
     }
 

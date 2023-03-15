@@ -32,8 +32,10 @@ public class SessionReports {
             List<Session> sessionsBlack = matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(GameResult::getSessionBlack).collect(Collectors.toList());
 
             if (breakByColor) {
-                if (sessionsWhite.size() > 0 && sessionsBlack.size() > 0) {
+                if (sessionsWhite.size() > 0) {
                     reportRows.add(collectStatics(String.format("%s white", engineController.getEngineName()), sessionsWhite));
+                }
+                if (sessionsBlack.size() > 0) {
                     reportRows.add(collectStatics(String.format("%s black", engineController.getEngineName()), sessionsBlack));
                 }
             } else {
@@ -198,28 +200,28 @@ public class SessionReports {
         // Marco superior de la tabla
         System.out.printf(" ______________________________________________");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
-        System.out.printf("____________"); // NodesPerSearch
+        System.out.printf("______________"); // AVG Nodes/S
         System.out.printf("\n");
 
 
         // Nombre de las columnas
         System.out.printf("|ENGINE NAME                        | SEARCHES ");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
-        System.out.printf("|AVG Nodes/S");
+        System.out.printf("| AVG Nodes/S ");
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s|%9d ", row.engineName, row.searches);
             IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.visitedNodesCountersAvg[depth]));
-            System.out.printf("| %9d ", row.visitedNodesTotalAvg);
+            System.out.printf("| %11d ", row.visitedNodesTotalAvg);
             System.out.printf("|\n");
         });
 
         // Marco inferior de la tabla
         System.out.printf(" ----------------------------------------------");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
-        System.out.printf("------------"); // NodesPerSearch
+        System.out.printf("--------------"); // AVG Nodes/S
         System.out.printf("\n");
     }
 
