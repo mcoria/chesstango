@@ -27,6 +27,7 @@ public class AlgoWrapper implements SearchMove {
     public SearchMoveResult searchBestMove(Game game, int depth) {
 
         int[] visitedNodesCounters = new int[30];
+        int[] expectedNodesCounters = new int[30];
         List<Set<Move>> distinctMovesPerLevel = new ArrayList<>(visitedNodesCounters.length);
         for (int i = 0; i < 30; i++) {
             distinctMovesPerLevel.add(new HashSet<>());
@@ -34,7 +35,8 @@ public class AlgoWrapper implements SearchMove {
 
         SearchContext context = new SearchContext(depth)
                 .setVisitedNodesCounters(visitedNodesCounters)
-                .setDistinctMovesPerLevel(distinctMovesPerLevel);
+                .setDistinctMovesPerLevel(distinctMovesPerLevel)
+                .setExpectedNodesCounters(expectedNodesCounters);
 
         return searchMove.searchBestMove(game, context);
     }

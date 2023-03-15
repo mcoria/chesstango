@@ -33,6 +33,7 @@ public class IterativeDeeping implements SearchMove {
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
+        int[] expectedNodesCounters = new int[30];
         List<Set<Move>> distinctMovesPerLevel = new ArrayList<>(visitedNodesCounters.length);
         for (int i = 0; i < 30; i++) {
             distinctMovesPerLevel.add(new HashSet<>());
@@ -41,7 +42,8 @@ public class IterativeDeeping implements SearchMove {
         for (int i = 1; i <= depth; i++) {
             SearchContext context = new SearchContext(i)
                     .setVisitedNodesCounters(visitedNodesCounters)
-                    .setDistinctMovesPerLevel(distinctMovesPerLevel);
+                    .setDistinctMovesPerLevel(distinctMovesPerLevel)
+                    .setExpectedNodesCounters(expectedNodesCounters);
 
             SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
 
