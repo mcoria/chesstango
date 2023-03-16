@@ -85,21 +85,19 @@ public class GameReports {
         System.out.printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------\n");
     }
 
-    private class ReportRowModel {
-        public String engineName;
-        public long wonAsWhite;
-        public long wonAsBlack;
-
-        public long lostAsWhite;
-        public long lostAsBlack;
-
-        public long drawsAsWhite;
-        public long drawsAsBlack;
-        public double puntosAsWhite;
-        public double puntosAsBlack;
-        public double puntosTotal;
-        public long playedGames;
-        public double winPercentage;
+    private static class ReportRowModel {
+        String engineName;
+        long wonAsWhite;
+        long wonAsBlack;
+        long lostAsWhite;
+        long lostAsBlack;
+        long drawsAsWhite;
+        long drawsAsBlack;
+        double puntosAsWhite;
+        double puntosAsBlack;
+        double puntosTotal;
+        long playedGames;
+        double winPercentage;
     }
 
 }

@@ -304,38 +304,27 @@ public class SessionReports {
         return this;
     }
 
-    private class ReportRowModel {
+    private static class ReportRowModel {
         String engineName;
-
         long searches;
-
         int maxLevelVisited;
 
         ///////////////////// START COLLISIONS
         long searchesWithoutCollisions;
-
         int searchesWithoutCollisionsPercentage;
-
         long searchesWithCollisions;
-
         int searchesWithCollisionsPercentage;
-
         double avgOptionsPerCollision;
         ///////////////////// END COLLISIONS
 
         ///////////////////// START VISITED NODES
         long[] visitedNodesCounters;
-
         int[] visitedNodesCountersAvg;
-
         int[] cuttoffPercentages;
-
         long visitedNodesTotal;
-
         int visitedNodesTotalAvg;
         ///////////////////// END VISITED NODES
 
         int[] maxDistinctMovesPerLevel;
-
     }
 }
