@@ -29,7 +29,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain {
-    private static final int DEPTH = 1;
+    private static final int DEPTH = 5;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -79,12 +79,17 @@ public class MatchMain {
 
     private void save(GameResult gameResult) {
         PGNGame pgnGame = PGNGame.createFromGame(gameResult.getGame());
+        pgnGame.setEvent("Computer vs Computer - Match");
+        pgnGame.setWhite(gameResult.getEngineWhite().getEngineName());
+        pgnGame.setBlack(gameResult.getEngineBlack().getEngineName());
+
         PGNEncoder encoder = new PGNEncoder();
         String encodedGame = encoder.encode(pgnGame);
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));
             writer.append(encodedGame);
+            writer.append("\n\n");
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -15,7 +15,7 @@ public class PGNEncoder {
     public String encode(PGNGame game) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[Event \"" + game.getEvent() + "\"]\n");
+        sb.append("[Event \"" + (game.getEvent() == null ? "?" : game.getEvent()) + "\"]\n");
         sb.append("[Site \"" + (game.getSite() == null ? getComputerName() : game.getSite()) + "\"]\n");
         sb.append("[Date \"" + (game.getDate() == null ? getToday() : game.getDate()) + "\"]\n");
         sb.append("[Round \"" + (game.getRound() == null ? "?" : game.getRound()) + "\"]\n");
