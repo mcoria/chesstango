@@ -7,7 +7,7 @@ import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringSupplierLogger;
 import net.chesstango.uci.service.Service;
-import net.chesstango.uci.service.Visitor;
+import net.chesstango.uci.service.ServiceVisitor;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -175,7 +175,7 @@ public class EngineProxy implements Service {
 
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public void accept(ServiceVisitor serviceVisitor) {
+        serviceVisitor.visit(this);
     }
 }

@@ -1,12 +1,13 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.proxy.EngineProxy;
-import net.chesstango.uci.service.Visitor;
+import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.function.Consumer;
 
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  *
  */
 public class GameResult {
-    private final Game game;
+    private final PGNGame pgnGame;
     private final EngineController engineWhite;
     private final EngineController engineBlack;
     private final EngineController winner;
@@ -23,8 +24,8 @@ public class GameResult {
     private Session sessionWhite;
     private Session sessionBlack;
 
-    public GameResult(Game game, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
-        this.game = game;
+    public GameResult(PGNGame pgnGame, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
+        this.pgnGame = pgnGame;
         this.engineWhite = engineWhite;
         this.engineBlack = engineBlack;
         this.winner = winner;
@@ -36,7 +37,7 @@ public class GameResult {
 
 
     private void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
-        controller.accept(new Visitor() {
+        controller.accept(new ServiceVisitor() {
             @Override
             public void visit(EngineController engineController) {
                 if(controller != engineController){
@@ -88,8 +89,8 @@ public class GameResult {
         this.sessionBlack = sessionBlack;
     }
 
-    public Game getGame() {
-        return game;
+    public PGNGame getPgnGame() {
+        return pgnGame;
     }
 
     public Session getSessionWhite() {

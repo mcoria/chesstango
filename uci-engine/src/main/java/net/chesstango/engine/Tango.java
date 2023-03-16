@@ -3,11 +3,14 @@ package net.chesstango.engine;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.service.ServiceElement;
-import net.chesstango.uci.service.Visitor;
+import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ */
 public class Tango implements ServiceElement {
 
     protected final SearchMove searchMove;
@@ -29,11 +32,11 @@ public class Tango implements ServiceElement {
         if (currentSession == null) {
             newGame();
         }
-        if (currentSession.getInitialPosition() == null) {
-            currentSession.setInitialPosition(fen);
-        } else if (!currentSession.getInitialPosition().equals(fen)) {
+        if (currentSession.getInitialFENPosition() == null) {
+            currentSession.setInitialFENPosition(fen);
+        } else if (!currentSession.getInitialFENPosition().equals(fen)) {
             newGame();
-            currentSession.setInitialPosition(fen);
+            currentSession.setInitialFENPosition(fen);
         }
 
         currentSession.executeMoves(moves);
@@ -57,10 +60,10 @@ public class Tango implements ServiceElement {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
+    public void accept(ServiceVisitor serviceVisitor) {
+        serviceVisitor.visit(this);
         if (currentSession != null) {
-            currentSession.accept(visitor);
+            currentSession.accept(serviceVisitor);
         }
     }
 }

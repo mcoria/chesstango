@@ -1,5 +1,6 @@
 package net.chesstango.board.representations.pgn;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.text.SimpleDateFormat;
@@ -67,6 +68,12 @@ public class PGNEncoder {
             return env.get("HOSTNAME");
         else
             return "Unknown Computer";
+    }
+
+    public static String encodeGame(Game game){
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        PGNEncoder encoder = new PGNEncoder();
+        return encoder.encode(pgnGame);
     }
 
 }

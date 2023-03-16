@@ -9,7 +9,7 @@ import net.chesstango.uci.proxy.EngineProxy;
 /**
  * @author Mauricio Coria
  */
-public interface Visitor {
+public interface ServiceVisitor {
     void visit(EngineController engineController);
 
     void visit(EngineTango engineTango);

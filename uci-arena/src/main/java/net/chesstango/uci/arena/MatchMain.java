@@ -1,14 +1,12 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.uci.arena.reports.SessionReports;
+import net.chesstango.uci.arena.reports.CutoffReports;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -29,7 +27,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain {
-    private static final int DEPTH = 5;
+    private static final int DEPTH = 2;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -45,6 +43,7 @@ public class MatchMain {
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
         //new GameReports().printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
+        /*
         new SessionReports()
                  //.withCollisionStatics()
                  .withNodesVisitedStatics()
@@ -52,12 +51,16 @@ public class MatchMain {
                  .withPrintCutoffStatics()
                  .breakByColor()
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+         */
+
+        new CutoffReports()
+                .printTangoStatics(Arrays.asList(engineController1), matchResult);
     }
 
     private static List<String> getFenList() {
-        //return Arrays.asList(FENDecoder.INITIAL_FEN);
+        return Arrays.asList(FENDecoder.INITIAL_FEN);
         //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
     }
 
     private List<GameResult> play(EngineController engineController1, EngineController engineController2) {
@@ -78,13 +81,8 @@ public class MatchMain {
     }
 
     private void save(GameResult gameResult) {
-        PGNGame pgnGame = PGNGame.createFromGame(gameResult.getGame());
-        pgnGame.setEvent("Computer vs Computer - Match");
-        pgnGame.setWhite(gameResult.getEngineWhite().getEngineName());
-        pgnGame.setBlack(gameResult.getEngineBlack().getEngineName());
-
         PGNEncoder encoder = new PGNEncoder();
-        String encodedGame = encoder.encode(pgnGame);
+        String encodedGame = encoder.encode(gameResult.getPgnGame());
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));

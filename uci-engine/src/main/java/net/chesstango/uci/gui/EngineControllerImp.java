@@ -10,7 +10,7 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
 import net.chesstango.uci.service.Service;
-import net.chesstango.uci.service.Visitor;
+import net.chesstango.uci.service.ServiceVisitor;
 
 /**
  * @author Mauricio Coria
@@ -104,9 +104,9 @@ public class EngineControllerImp implements EngineController {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-        service.accept(visitor);
+    public void accept(ServiceVisitor serviceVisitor) {
+        serviceVisitor.visit(this);
+        service.accept(serviceVisitor);
     }
 
 

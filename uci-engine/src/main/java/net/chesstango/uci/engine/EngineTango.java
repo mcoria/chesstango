@@ -10,7 +10,7 @@ import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
 import net.chesstango.uci.service.Service;
-import net.chesstango.uci.service.Visitor;
+import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -86,9 +86,9 @@ public class EngineTango implements Service {
     }
 
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-        tango.accept(visitor);
+    public void accept(ServiceVisitor serviceVisitor) {
+        serviceVisitor.visit(this);
+        tango.accept(serviceVisitor);
     }
 
     public EngineTango enableAsync() {

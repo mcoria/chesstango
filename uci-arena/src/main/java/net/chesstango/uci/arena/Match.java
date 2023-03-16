@@ -190,7 +190,12 @@ public class Match {
             printDebug(System.out);
         }
 
-        return new GameResult(game, white, black, winner, matchPoints);
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+        pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
+        pgnGame.setWhite(white.getEngineName());
+        pgnGame.setBlack(black.getEngineName());
+
+        return new GameResult(pgnGame, white, black, winner, matchPoints);
     }
 
     private void startNewGame() {

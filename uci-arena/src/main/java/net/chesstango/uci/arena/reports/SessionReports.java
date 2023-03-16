@@ -46,7 +46,6 @@ public class SessionReports {
                     reportRows.add(collectStatics(engineController.getEngineName(), sessions));
                 }
             }
-
         });
 
         print(reportRows);
