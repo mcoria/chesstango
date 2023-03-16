@@ -66,6 +66,7 @@ public class IterativeDeeping implements SearchMove {
         return new SearchMoveResult(depth, lastSearch.getEvaluation(), lastSearch.getBestMove(), null)
                 .setVisitedNodesCounters(visitedNodesCounters)
                 .setDistinctMovesPerLevel(distinctMovesPerLevel)
+                .setExpectedNodesCounters(expectedNodesCounters)
                 .setEvaluationCollisions(lastSearch.getEvaluationCollisions());
     }
 

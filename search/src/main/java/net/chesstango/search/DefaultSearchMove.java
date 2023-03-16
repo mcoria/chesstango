@@ -26,8 +26,8 @@ public class DefaultSearchMove implements SearchMove {
     private Consumer<GameEvaluator> fnSetEvaluator;
 
     public DefaultSearchMove() {
-        this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
-        //this.imp = simpleAbstractSmartWrapper(setupMinMax());
+        //this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
+        this.imp = iterateDeepingWrapper(setupMinMaxPruning());
 
         this.setGameEvaluator(new DefaultGameEvaluator());
     }
