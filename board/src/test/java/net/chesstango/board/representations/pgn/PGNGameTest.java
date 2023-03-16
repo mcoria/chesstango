@@ -3,6 +3,8 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
+import net.chesstango.board.Square;
+import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,6 +45,7 @@ public class PGNGameTest {
 
         Assert.assertEquals(GameStatus.MATE, game.getStatus());
         Assert.assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+        Assert.assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getState().getInitialFen());
     }
 
     @Test
@@ -113,5 +116,15 @@ public class PGNGameTest {
         Game game = pgnGame.buildGame();
 
         Assert.assertEquals(GameStatus.CHECK, game.getStatus());
+    }
+
+    @Test
+    public void testCreateFromGame01() throws IOException {
+        Game game = FENDecoder.loadGame("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5");
+        game.executeMove(Square.a7, Square.a6);
+
+        PGNGame pgnGame = PGNGame.createFromGame(game);
+
+        Assert.assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
     }
 }

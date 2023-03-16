@@ -11,6 +11,9 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ */
 public class PGNGame {
     private String event;
     private String site;
@@ -136,6 +139,7 @@ public class PGNGame {
 
             @Override
             public void visit(GameState gameState) {
+                pgnGame.setFen(gameState.getInitialFen());
             }
 
             @Override

@@ -17,6 +17,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -32,6 +33,7 @@ public class Match {
     private Game game;
     private boolean debugEnabled;
     private boolean switchChairs;
+    private Consumer<GameResult> gameResultConsumer;
 
 
     public Match(EngineController controller1, EngineController controller2, int depth) {
@@ -52,6 +54,7 @@ public class Match {
     }
 
     public List<GameResult> play(String fen) {
+        GameResult gameResult = null;
         List<GameResult> result = new ArrayList<>();
 
         try {
@@ -62,14 +65,26 @@ public class Match {
 
             compete();
 
-            result.add(createResult());
+            gameResult = createResult();
+
+            result.add(gameResult);
+
+            if(gameResultConsumer != null ) {
+                gameResultConsumer.accept(gameResult);
+            }
 
             if (switchChairs) {
                 setChairs(controller2, controller1);
 
                 compete();
 
-                result.add(createResult());
+                gameResult = createResult();
+
+                result.add(gameResult);
+
+                if(gameResultConsumer != null ) {
+                    gameResultConsumer.accept(gameResult);
+                }
             }
 
         } catch (RuntimeException e) {
@@ -267,5 +282,10 @@ public class Match {
             case KING_WHITE -> 10;
             case KING_BLACK -> -10;
         };
+    }
+
+    public Match perCompletedGame(Consumer<GameResult> gameResultConsumer) {
+        this.gameResultConsumer = gameResultConsumer;
+        return this;
     }
 }

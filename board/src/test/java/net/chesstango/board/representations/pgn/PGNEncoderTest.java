@@ -97,6 +97,7 @@ public class PGNEncoderTest {
                 "[Round \"?\"]\n" +
                 "[White \"mauricio\"]\n" +
                 "[Black \"opponent\"]\n" +
+                "[FEN \"k7/7Q/K7/8/8/8/8/8 w - - 0 1\"]\n" +
                 "[Result \"1/2-1/2\"]\n" +
                 "\n" +
                 "1. Qc7 1/2-1/2";
@@ -126,6 +127,7 @@ public class PGNEncoderTest {
                 "[Round \"?\"]\n" +
                 "[White \"mauricio\"]\n" +
                 "[Black \"opponent\"]\n" +
+                "[FEN \"k7/8/K7/2Q5/8/8/8/8 w - - 1 1\"]\n" +
                 "[Result \"1/2-1/2\"]\n" +
                 "\n" +
                 "1. Qc6+ Kb8 2. Qd6+ Ka8 3. Qc7 1/2-1/2";

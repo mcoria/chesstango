@@ -12,6 +12,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Mauricio Coria
+ */
 public class Transcoding {
 
     public List<String> pgnFileToFenPositions(InputStream inputStream){

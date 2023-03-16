@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author Mauricio Coria
+ */
 public class PGNDecoder {
 
     private Pattern headerPattern = Pattern.compile("\\[(\\w*) \"(.*)\"\\]");
