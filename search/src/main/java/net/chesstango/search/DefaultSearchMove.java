@@ -7,10 +7,7 @@ import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.AlgoWrapper;
 import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.AlphaBetaStatistics;
-import net.chesstango.search.smart.alphabeta.MinMaxPruning;
-import net.chesstango.search.smart.alphabeta.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.minmax.MinMax;
 
 import java.util.Arrays;
@@ -26,28 +23,36 @@ public class DefaultSearchMove implements SearchMove {
     private Consumer<GameEvaluator> fnSetEvaluator;
 
     public DefaultSearchMove() {
-        //this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
-        this.imp = iterateDeepingWrapper(setupMinMaxPruning());
+        this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
+        //this.imp = iterateDeepingWrapper(setupMinMaxPruning());
 
         this.setGameEvaluator(new DefaultGameEvaluator());
     }
 
     private AbstractSmart setupMinMaxPruning() {
+
+        // FILTERS START
         MoveSorter moveSorter = new MoveSorter();
 
         QuiescenceNull quiescence = new QuiescenceNull();
 
-        AlphaBetaStatistics alphaBetaStatistics1 = new AlphaBetaStatistics();
         AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         alphaBetaImp.setQuiescence(quiescence);
         alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaStatistics1);
-        alphaBetaStatistics1.setNext(alphaBetaImp);
+
+        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
+
+        //DetectCycle detectCycle = new DetectCycle();
+        // FILTERS END
+
+        alphaBetaImp.setNext(alphaBetaStatistics);
+        //detectCycle.setNext(alphaBetaImp);
+        alphaBetaStatistics.setNext(alphaBetaImp);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics1);
+        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics1, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics, quiescence));
 
         this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
 
