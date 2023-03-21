@@ -63,12 +63,8 @@ public class ZobristHash {
         zobristHash ^= keys[780];
     }
 
-    public void updateByCastling(boolean castlingWhiteKingAllowed, boolean castlingWhiteQueenAllowed, boolean castlingBlackKingAllowed, boolean castlingBlackQueenAllowed){
-        zobristHash ^=
-                (castlingWhiteKingAllowed ? keys[768] : 0) ^
-                        (castlingWhiteQueenAllowed ? keys[769] : 0) ^
-                        (castlingBlackKingAllowed ? keys[770] : 0) ^
-                        (castlingBlackQueenAllowed ? keys[771] : 0);
+    public void xorCastleWhiteKing() {
+        zobristHash ^= keys[768];
     }
 
     private long getHash(PiecePositioned piecePositioned) {

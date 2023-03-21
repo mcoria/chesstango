@@ -90,4 +90,27 @@ public class ZobristHashTest {
         Assert.assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").longValue(), zobristHash.getZobristHash());
     }
 
+
+    @Test
+    public void testCastleWhiteKing(){
+        ChessPosition position = FENDecoder.loadChessPosition("8/8/8/8/8/8/8/4K2R w K - 0 1");
+
+        ZobristHash zobristHash = new ZobristHash();
+        zobristHash.init(position);
+
+        // White move King
+        zobristHash.xorPosition(position.getPosicion(Square.e1));
+        zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.g1, Piece.KING_WHITE));
+
+        // White move Rook
+        zobristHash.xorPosition(position.getPosicion(Square.h1));
+        zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f1, Piece.ROOK_WHITE));
+
+        zobristHash.xorCastleWhiteKing();
+
+        zobristHash.xorTurn();
+
+        Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
+    }
+
 }
