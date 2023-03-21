@@ -19,10 +19,11 @@ public class SimpleTwoSquaresPawnMove extends SimplePawnMove {
 		super(from, to, cardinal);
 		this.enPassantSquare = enPassantSquare;
 	}
-	
+
+
 	@Override
-	public void executeMove(PositionState positionState) {
-		super.executeMove(positionState);
+	protected void updatePositionStateBeforeRollTurn(PositionState positionState) {
+		super.updatePositionStateBeforeRollTurn(positionState);
 		positionState.setEnPassantSquare(enPassantSquare);
 	}
 	

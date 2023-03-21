@@ -14,8 +14,8 @@ public abstract class AbstractPawnMove extends AbstractMove {
     }
 
     @Override
-    public void executeMove(PositionState positionState) {
-        super.executeMove(positionState);
+    protected void updatePositionStateBeforeRollTurn(PositionState positionState) {
         positionState.resetHalfMoveClock();
+        positionState.setEnPassantSquare(null);
     }
 }

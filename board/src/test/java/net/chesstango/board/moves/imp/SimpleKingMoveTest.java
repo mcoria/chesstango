@@ -5,7 +5,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -40,7 +45,9 @@ public class SimpleKingMoveTest {
 	private KingCacheBoardDebug kingCacheBoard;
 	
 	private ColorBoardDebug colorBoard;
-	
+
+	private ZobristHash zobristHash;
+
 	@Mock
 	private ChessPosition chessPosition;
 	
@@ -69,6 +76,35 @@ public class SimpleKingMoveTest {
 		positionState.setCastlingWhiteQueenAllowed(true);
 		positionState.setHalfMoveClock(2);
 		positionState.setFullMoveClock(5);
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
+	}
+
+	@Test
+	@Ignore
+	public void testZobristHash() {
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
+
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/4K3/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+	}
+
+	@Test
+	@Ignore
+	public void testZobristHashUndo() {
+		long initialHash = zobristHash.getZobristHash();
+
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
+
+		oldPositionState = positionState.getCurrentState();
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(zobristHash, oldPositionState, positionState);
+
+		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
 	}
 	
 	
@@ -90,18 +126,22 @@ public class SimpleKingMoveTest {
 	}	
 	
 	@Test
-	public void testBoardState() {
+	public void testPositionState() {
 		moveExecutor.executeMove(positionState);
 
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
 		assertEquals(3, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
+		assertEquals(false, positionState.isCastlingWhiteKingAllowed());
+		assertEquals(false, positionState.isCastlingWhiteQueenAllowed());
 
 		moveExecutor.undoMove(positionState);
 
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		assertEquals(2, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
+		assertEquals(true, positionState.isCastlingWhiteKingAllowed());
+		assertEquals(true, positionState.isCastlingWhiteQueenAllowed());
 	}		
 
 	@Test

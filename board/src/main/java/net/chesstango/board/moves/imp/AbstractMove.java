@@ -53,13 +53,17 @@ public abstract class AbstractMove implements Move {
 
 	//TODO: implementar un decorator antes de crear el movimiento
 	@Override
-	public void executeMove(PositionState positionState) {
+	public final void executeMove(PositionState positionState) {
 		positionState.pushState();
 		positionState.incrementFullMoveClock();
+
+		updatePositionStateBeforeRollTurn(positionState);
+
 		positionState.rollTurn();
-		positionState.setEnPassantSquare(null); 			// Por defecto en null y solo escribimos en SaltoDoblePawnMove		
 	}
-	
+
+	protected abstract void updatePositionStateBeforeRollTurn(PositionState positionState);
+
 	@Override
 	public void undoMove(PositionState positionState) {
 		positionState.popState();		

@@ -34,12 +34,6 @@ public class CapturePawnEnPassant extends AbstractPawnMove {
 	}
 
 	@Override
-	public void executeMove(PositionState positionState) {
-		super.executeMove(positionState);
-		positionState.resetHalfMoveClock();
-	}
-
-	@Override
 	public void executeMove(ColorBoard colorBoard) {
 		colorBoard.removePositions(capture);
 		

@@ -21,7 +21,7 @@ public class CapturePawnPromotion extends CapturePawnMove implements MovePromoti
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
 		board.setEmptyPosicion(from);								//Dejamos el origen
-		board.setPieza(to.getSquare(), this.promotion) ;				//Promocion
+		board.setPieza(to.getSquare(), this.promotion) ;			//Promocion
 	}
 	
 	@Override

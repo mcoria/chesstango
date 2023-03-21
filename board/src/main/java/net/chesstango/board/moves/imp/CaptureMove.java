@@ -21,8 +21,8 @@ public class CaptureMove extends AbstractNotPawnMove {
     }
 
     @Override
-    public void executeMove(PositionState positionState) {
-        super.executeMove(positionState);
+    protected void updatePositionStateBeforeRollTurn(PositionState positionState) {
+        super.updatePositionStateBeforeRollTurn(positionState);
         positionState.resetHalfMoveClock();
     }
 
