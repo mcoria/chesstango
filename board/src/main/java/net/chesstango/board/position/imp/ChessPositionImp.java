@@ -10,6 +10,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
@@ -43,9 +44,11 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.executeMove(this.moveCache);
 
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+
 		move.executeMove(this.positionState);
 
-		move.executeMove(this.zobristHash);
+		move.executeMove(this.zobristHash, oldPositionState, this.positionState);
 
 	}
 
@@ -64,6 +67,8 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public void undoMove(Move move) {
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+
 		move.undoMove(this.positionState);
 
 		move.undoMove(this.moveCache);
@@ -72,7 +77,7 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.undoMove(this.piecePlacement);
 
-		move.undoMove(this.zobristHash);
+		move.undoMove(this.zobristHash, oldPositionState, this.positionState);
 		
 	}
 	

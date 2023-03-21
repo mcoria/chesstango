@@ -2,6 +2,7 @@ package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -40,9 +41,9 @@ public class CaptureMove extends AbstractNotPawnMove {
     }
 
     @Override
-    public void executeMove(ZobristHash hash) {
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         hash.xorPosition(to);
-        super.executeMove(hash);
+        super.executeMove(hash, oldPositionState, newPositionState);
     }
 
     @Override

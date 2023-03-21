@@ -5,6 +5,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPositionWriter;
 import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -53,8 +54,8 @@ public interface Move extends Comparable<Move> {
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
 
-	void executeMove(ZobristHash hash);
-	void undoMove(ZobristHash hash);
+	void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
+	void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
 
 
 	Cardinal getMoveDirection();

@@ -6,9 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
-import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ZobristHash;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,7 +37,7 @@ public class CastlingWhiteKingMoveTest {
 	
 	private PiecePlacement piecePlacement;
 	
-	private PositionStateDebug boardState;	
+	private PositionStateDebug positionState;
 	
 	private CastlingWhiteKingMove moveExecutor;
 	
@@ -57,13 +56,13 @@ public class CastlingWhiteKingMoveTest {
 	@Before
 	public void setUp() throws Exception {
 		moveExecutor = new CastlingWhiteKingMove();
-		
-		boardState = new PositionStateDebug();		
-		boardState.setCurrentTurn(Color.WHITE);
-		boardState.setCastlingWhiteQueenAllowed(false);
-		boardState.setCastlingWhiteKingAllowed(true);
-		boardState.setHalfMoveClock(3);
-		boardState.setFullMoveClock(10);
+
+		positionState = new PositionStateDebug();
+		positionState.setCurrentTurn(Color.WHITE);
+		positionState.setCastlingWhiteQueenAllowed(false);
+		positionState.setCastlingWhiteKingAllowed(true);
+		positionState.setHalfMoveClock(3);
+		positionState.setFullMoveClock(10);
 		
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
@@ -76,13 +75,15 @@ public class CastlingWhiteKingMoveTest {
 		colorBoard.init(piecePlacement);
 
 		zobristHash = new ZobristHash();
-		zobristHash.init(piecePlacement, boardState);
+		zobristHash.init(piecePlacement, positionState);
 	}
 
 
 	@Test
 	public void testZobristHash(){
-		moveExecutor.executeMove(zobristHash);
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
 		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
 	}
@@ -91,9 +92,13 @@ public class CastlingWhiteKingMoveTest {
 	public void testZobristHashUndo() {
 		long initialHash = zobristHash.getZobristHash();
 
-		moveExecutor.executeMove(zobristHash);
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
-		moveExecutor.undoMove(zobristHash);
+		oldPositionState = positionState.getCurrentState();
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(zobristHash, oldPositionState, positionState);
 
 		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
 	}
@@ -121,28 +126,28 @@ public class CastlingWhiteKingMoveTest {
 	@Test
 	public void testBoardState() {
 		// execute		
-		moveExecutor.executeMove(boardState);		
+		moveExecutor.executeMove(positionState);
 
 		// asserts execute
-		assertNull(boardState.getEnPassantSquare());
-		assertEquals(Color.BLACK, boardState.getCurrentTurn());
-		assertFalse(boardState.isCastlingWhiteQueenAllowed());
-		assertFalse(boardState.isCastlingWhiteKingAllowed());
-		assertEquals(4, boardState.getHalfMoveClock());
-		assertEquals(10, boardState.getFullMoveClock());
-		boardState.validar();
+		assertNull(positionState.getEnPassantSquare());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertFalse(positionState.isCastlingWhiteQueenAllowed());
+		assertFalse(positionState.isCastlingWhiteKingAllowed());
+		assertEquals(4, positionState.getHalfMoveClock());
+		assertEquals(10, positionState.getFullMoveClock());
+		positionState.validar();
 		
 		// undos
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(positionState);
 		
 		// asserts undos		
-		assertNull(boardState.getEnPassantSquare());
-		assertEquals(Color.WHITE, boardState.getCurrentTurn());
-		assertFalse(boardState.isCastlingWhiteQueenAllowed());
-		assertTrue(boardState.isCastlingWhiteKingAllowed());
-		assertEquals(3, boardState.getHalfMoveClock());
-		assertEquals(10, boardState.getFullMoveClock());
-		boardState.validar();
+		assertNull(positionState.getEnPassantSquare());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertFalse(positionState.isCastlingWhiteQueenAllowed());
+		assertTrue(positionState.isCastlingWhiteKingAllowed());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(10, positionState.getFullMoveClock());
+		positionState.validar();
 		
 	}
 	
@@ -215,25 +220,25 @@ public class CastlingWhiteKingMoveTest {
 	public void testIntegrated() {
 		// execute
 		moveExecutor.executeMove(piecePlacement);
-		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 		moveExecutor.executeMove(kingCacheBoard);
 
 		// asserts execute
 		colorBoard.validar(piecePlacement);
-		boardState.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
 		
 		// undos
 		moveExecutor.undoMove(piecePlacement);
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 		moveExecutor.undoMove(kingCacheBoard);
 
 		
 		// asserts undos
 		colorBoard.validar(piecePlacement);
-		boardState.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
 	}
 }

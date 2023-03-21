@@ -2,6 +2,7 @@ package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
+import net.chesstango.board.position.PositionStateReader;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -10,8 +11,8 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PositionState {
-    private static class PositionStateData {
+public class PositionState implements PositionStateReader {
+    private static class PositionStateData implements PositionStateReader {
         private Color currentTurn;
         private Square enPassantSquare;
         private boolean castlingWhiteQueenAllowed;
@@ -21,11 +22,52 @@ public class PositionState {
         private int halfMoveClock;
         private int fullMoveClock;
 
+        @Override
+        public Square getEnPassantSquare() {
+            return enPassantSquare;
+        }
+
+        @Override
+        public boolean isCastlingWhiteQueenAllowed() {
+            return castlingWhiteQueenAllowed;
+        }
+
+        @Override
+        public boolean isCastlingWhiteKingAllowed() {
+            return castlingWhiteKingAllowed;
+        }
+
+        @Override
+        public boolean isCastlingBlackQueenAllowed() {
+            return castlingBlackQueenAllowed;
+        }
+
+        @Override
+        public boolean isCastlingBlackKingAllowed() {
+            return castlingBlackKingAllowed;
+        }
+
+        @Override
+        public Color getCurrentTurn() {
+            return currentTurn;
+        }
+
+        @Override
+        public int getHalfMoveClock() {
+            return halfMoveClock;
+        }
+
+        @Override
+        public int getFullMoveClock() {
+            return fullMoveClock;
+        }
     }
 
     private final Deque<PositionStateData> stackPositionStates = new ArrayDeque<PositionStateData>();
     private PositionStateData currentPositionState = new PositionStateData();
 
+
+    @Override
     public Square getEnPassantSquare() {
         return currentPositionState.enPassantSquare;
     }
@@ -34,6 +76,7 @@ public class PositionState {
         currentPositionState.enPassantSquare = enPassantSquare;
     }
 
+    @Override
     public boolean isCastlingWhiteQueenAllowed() {
         return currentPositionState.castlingWhiteQueenAllowed;
     }
@@ -42,6 +85,7 @@ public class PositionState {
         currentPositionState.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
     }
 
+    @Override
     public boolean isCastlingWhiteKingAllowed() {
         return currentPositionState.castlingWhiteKingAllowed;
     }
@@ -50,6 +94,7 @@ public class PositionState {
         currentPositionState.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
     }
 
+    @Override
     public boolean isCastlingBlackQueenAllowed() {
         return currentPositionState.castlingBlackQueenAllowed;
     }
@@ -58,6 +103,7 @@ public class PositionState {
         currentPositionState.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
     }
 
+    @Override
     public boolean isCastlingBlackKingAllowed() {
         return currentPositionState.castlingBlackKingAllowed;
     }
@@ -66,6 +112,7 @@ public class PositionState {
         currentPositionState.castlingBlackKingAllowed = castlingBlackKingAllowed;
     }
 
+    @Override
     public Color getCurrentTurn() {
         return currentPositionState.currentTurn;
     }
@@ -79,6 +126,7 @@ public class PositionState {
     }
 
 
+    @Override
     public int getHalfMoveClock() {
         return currentPositionState.halfMoveClock;
     }
@@ -96,6 +144,7 @@ public class PositionState {
     }
 
 
+    @Override
     public int getFullMoveClock() {
         return currentPositionState.fullMoveClock;
     }
@@ -110,6 +159,9 @@ public class PositionState {
         }
     }
 
+    public PositionStateReader getCurrentState(){
+        return currentPositionState;
+    }
 
     public void pushState() {
         PositionStateData node = new PositionStateData();

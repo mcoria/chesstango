@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
@@ -74,7 +75,9 @@ public class CaptureMoveTest {
 
 	@Test
 	public void testZobristHash() {
-		moveExecutor.executeMove(zobristHash);
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
 		Assert.assertEquals(PolyglotEncoder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
 	}
@@ -83,9 +86,13 @@ public class CaptureMoveTest {
 	public void testZobristHashUndo() {
 		long initialHash = zobristHash.getZobristHash();
 
-		moveExecutor.executeMove(zobristHash);
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
-		moveExecutor.undoMove(zobristHash);
+		oldPositionState = positionState.getCurrentState();
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(zobristHash, oldPositionState, positionState);
 
 		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
 	}

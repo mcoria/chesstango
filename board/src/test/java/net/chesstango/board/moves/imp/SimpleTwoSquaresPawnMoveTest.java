@@ -33,7 +33,7 @@ public class SimpleTwoSquaresPawnMoveTest {
 
 	private PiecePlacement piecePlacement;
 	
-	private PositionStateDebug boardState;
+	private PositionStateDebug positionState;
 	
 	private ColorBoardDebug colorBoard;
 	
@@ -47,10 +47,10 @@ public class SimpleTwoSquaresPawnMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		boardState = new PositionStateDebug();
-		boardState.setCurrentTurn(Color.WHITE);
-		boardState.setHalfMoveClock(2);
-		boardState.setFullMoveClock(5);
+		positionState = new PositionStateDebug();
+		positionState.setCurrentTurn(Color.WHITE);
+		positionState.setHalfMoveClock(2);
+		positionState.setFullMoveClock(5);
 		
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
@@ -84,22 +84,22 @@ public class SimpleTwoSquaresPawnMoveTest {
 	@Test
 	public void testMoveState() {
 		// execute
-		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(positionState);
 		
 		// asserts execute
-		assertEquals(Square.e3, boardState.getEnPassantSquare());
-		assertEquals(Color.BLACK, boardState.getCurrentTurn());
-		assertEquals(0, boardState.getHalfMoveClock());
-		assertEquals(5, boardState.getFullMoveClock());
+		assertEquals(Square.e3, positionState.getEnPassantSquare());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertEquals(0, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(positionState);
 
 		// asserts undos
-		assertNull(boardState.getEnPassantSquare());		
-		assertEquals(Color.WHITE, boardState.getCurrentTurn());
-		assertEquals(2, boardState.getHalfMoveClock());
-		assertEquals(5, boardState.getFullMoveClock());
+		assertNull(positionState.getEnPassantSquare());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(2, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
 	}
 	
 	@Test
@@ -156,21 +156,21 @@ public class SimpleTwoSquaresPawnMoveTest {
 	public void testIntegrated() {
 		// execute
 		moveExecutor.executeMove(piecePlacement);
-		moveExecutor.executeMove(boardState);
+		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
 		colorBoard.validar(piecePlacement);
-		boardState.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 		
 		// undos
 		moveExecutor.undoMove(piecePlacement);
-		moveExecutor.undoMove(boardState);
+		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 
 		
 		// asserts undos
 		colorBoard.validar(piecePlacement);
-		boardState.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 	}	
 }
