@@ -71,6 +71,14 @@ public class ZobristHash {
         zobristHash ^= keys[769];
     }
 
+    public void xorCastleBlackKing() {
+        zobristHash ^= keys[770];
+    }
+
+    public void xorCastleBlackQueen() {
+        zobristHash ^= keys[771];
+    }
+
     private long getHash(PiecePositioned piecePositioned) {
         return keys[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
     }
@@ -296,5 +304,4 @@ public class ZobristHash {
             case KING_WHITE -> 11;
         };
     }
-
 }
