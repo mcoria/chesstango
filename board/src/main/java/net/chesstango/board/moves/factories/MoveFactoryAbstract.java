@@ -15,12 +15,12 @@ import net.chesstango.board.moves.imp.*;
 public abstract class MoveFactoryAbstract implements MoveFactory {
     @Override
     public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return addLostCastlingByKingMoveWrapper(new SimpleKingMove(origen, destino));
+        return new SimpleKingMove(origen, destino);
     }
 
     @Override
     public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return addOpponentLostCastlingRookCapturedByKingWrapper(addLostCastlingByKingMoveWrapper(new CaptureKingMove(origen, destino)));
+        return addOpponentLostCastlingRookCapturedByKingWrapper(new CaptureKingMove(origen, destino));
     }
 
     @Override
@@ -68,8 +68,6 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
                                        Cardinal cardinal, PiecePositioned capture) {
         return new CapturePawnEnPassant(origen, destino, capture);
     }
-
-    protected abstract MoveKing addLostCastlingByKingMoveWrapper(MoveKing simpleKingMove);
 
     protected abstract Move addLostCastlingByRookMoveWrapper(Move rookMove);
 

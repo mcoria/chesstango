@@ -35,18 +35,6 @@ public class MoveFactoryWhite extends MoveFactoryAbstract {
     }
 
     @Override
-    protected MoveKing addLostCastlingByKingMoveWrapper(MoveKing kingMove) {
-        MoveKing result = kingMove;
-        if (Square.e1.equals(kingMove.getFrom().getSquare())) {
-            result = new MoveDecoratorKingState(kingMove, state -> {
-                state.setCastlingWhiteQueenAllowed(false);
-                state.setCastlingWhiteKingAllowed(false);
-            });
-        }
-        return result;
-    }
-
-    @Override
     protected Move addLostCastlingByRookMoveWrapper(Move rookMove) {
         Move result = rookMove;
         if (Square.a1.equals(rookMove.getFrom().getSquare())) {
