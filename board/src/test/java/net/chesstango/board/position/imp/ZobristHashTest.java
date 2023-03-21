@@ -49,7 +49,7 @@ public class ZobristHashTest {
 
         zobristHash.xorPosition(position.getPosicion(Square.f2));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f3, Piece.PAWN_WHITE));
-        zobristHash.updateByTurn();
+        zobristHash.xorTurn();
 
         Assert.assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -64,12 +64,12 @@ public class ZobristHashTest {
         // White Move
         zobristHash.xorPosition(position.getPosicion(Square.f2));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f3, Piece.PAWN_WHITE));
-        zobristHash.updateByTurn();
+        zobristHash.xorTurn();
 
         // Black Move
         zobristHash.xorPosition(position.getPosicion(Square.d7));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.d6, Piece.PAWN_BLACK));
-        zobristHash.updateByTurn();
+        zobristHash.xorTurn();
 
         Assert.assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/3p4/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2").longValue(), zobristHash.getZobristHash());
     }
@@ -85,7 +85,7 @@ public class ZobristHashTest {
         zobristHash.xorPosition(position.getPosicion(Square.e4));
         zobristHash.xorPosition(position.getPosicion(Square.d5));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.d5, Piece.PAWN_WHITE));
-        zobristHash.updateByTurn();
+        zobristHash.xorTurn();
 
         Assert.assertEquals(PolyglotEncoder.getKey("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2").longValue(), zobristHash.getZobristHash());
     }

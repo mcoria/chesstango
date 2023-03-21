@@ -27,7 +27,8 @@ public class ChessPositionImp implements ChessPosition {
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
-	protected PositionState positionState = null;	
+	protected PositionState positionState = null;
+	protected ZobristHash zobristHash = null;
 
 	@Override
 	public void acceptForExecute(Move move) {
@@ -42,8 +43,10 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.executeMove(this.moveCache);
 
-		move.executeMove(this.positionState);	
-		
+		move.executeMove(this.positionState);
+
+		move.executeMove(this.zobristHash);
+
 	}
 
 	@Override
@@ -68,6 +71,8 @@ public class ChessPositionImp implements ChessPosition {
 		move.undoMove(this.colorBoard);
 
 		move.undoMove(this.piecePlacement);
+
+		move.undoMove(this.zobristHash);
 		
 	}
 	
@@ -129,6 +134,10 @@ public class ChessPositionImp implements ChessPosition {
 		this.positionState = positionState;
 	}
 
+	public void setZobristHash(ZobristHash zobristHash) {
+		this.zobristHash = zobristHash;
+	}
+
 
 	@Override
 	public Color getCurrentTurn() {
@@ -176,6 +185,7 @@ public class ChessPositionImp implements ChessPosition {
 	public void init() {
 		colorBoard.init(piecePlacement);
 		kingCacheBoard.init(piecePlacement);
+		zobristHash.init(piecePlacement, positionState);
 	}
 
 	@Override

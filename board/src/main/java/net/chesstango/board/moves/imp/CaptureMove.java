@@ -4,6 +4,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
@@ -36,6 +37,12 @@ public class CaptureMove extends AbstractNotPawnMove {
         colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
 
         colorBoard.addPositions(to);
+    }
+
+    @Override
+    public void executeMove(ZobristHash hash) {
+        hash.xorPosition(to);
+        super.executeMove(hash);
     }
 
     @Override

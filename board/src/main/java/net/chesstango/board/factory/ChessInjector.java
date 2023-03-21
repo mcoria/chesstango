@@ -38,6 +38,8 @@ public class ChessInjector {
 
     private KingCacheBoard kingCacheBoard = null;
 
+    private ZobristHash zobristHash  = null;
+
     private ChessPosition chessPosition = null;
 
     private MoveGenerator moveGenerator = null;
@@ -88,6 +90,8 @@ public class ChessInjector {
 
             chessPositionImp.setMoveCache(getMoveCacheBoard());
 
+            chessPositionImp.setZobristHash(getZobristHash());
+
             chessPosition = chessPositionImp;
         }
         return chessPosition;
@@ -126,6 +130,13 @@ public class ChessInjector {
             moveCache = chessFactory.createMoveCacheBoard();
         }
         return moveCache;
+    }
+
+    protected ZobristHash getZobristHash() {
+        if (zobristHash == null) {
+            zobristHash = chessFactory.createZobristHash();
+        }
+        return zobristHash;
     }
 
     public Game getGame() {

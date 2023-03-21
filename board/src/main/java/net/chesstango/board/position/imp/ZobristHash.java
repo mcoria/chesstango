@@ -1,8 +1,11 @@
 package net.chesstango.board.position.imp;
 
+import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 
 /**
@@ -22,11 +25,41 @@ public class ZobristHash {
         zobristHash = encoder.getChessRepresentation();
     }
 
+    public void init(PiecePlacement piecePlacement, PositionState positionState) {
+        long piece = 0;
+        for (Square square : Square.values()) {
+            if (! piecePlacement.isEmpty(square)) {
+                int kind_of_piece = getKindOfPiece(piecePlacement.getPiece(square));
+
+                piece = piece ^ keys[64 * kind_of_piece + 8 * square.getRank() + square.getFile()];
+            }
+        }
+
+        long turn = Color.WHITE.equals(positionState.getCurrentTurn()) ? keys[780] : 0;
+
+        long castle =
+                (positionState.isCastlingWhiteKingAllowed() ? keys[768] : 0) ^
+                        (positionState.isCastlingWhiteQueenAllowed() ? keys[769] : 0) ^
+                        (positionState.isCastlingBlackKingAllowed() ? keys[770] : 0) ^
+                        (positionState.isCastlingBlackQueenAllowed()  ? keys[771] : 0);
+
+
+        long enpassant = 0;
+        /*
+        if (enPassantSquare != null){
+            enpassant = calculateEnPassantSquare();
+        }*/
+
+
+        zobristHash = piece ^ castle ^ enpassant ^ turn;
+    }
+
+
     public void xorPosition(PiecePositioned posicion) {
         zobristHash ^= getHash(posicion);
     }
 
-    public void updateByTurn(){
+    public void xorTurn(){
         zobristHash ^= keys[780];
     }
 
@@ -263,5 +296,4 @@ public class ZobristHash {
             case KING_WHITE -> 11;
         };
     }
-
 }

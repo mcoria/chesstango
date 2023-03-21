@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +41,8 @@ public class SimpleMoveTest {
 	private SimpleMove moveExecutor;
 	
 	private ColorBoard colorBoard;
+
+	private ZobristHash zobristHash;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -57,6 +62,9 @@ public class SimpleMoveTest {
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
@@ -133,7 +141,24 @@ public class SimpleMoveTest {
 		// asserts undos
 		verify(chessPosition).undoMove(moveExecutor);
 	}
-	
+
+	@Test
+	public void testZobristHash() {
+		moveExecutor.executeMove(zobristHash);
+
+		Assert.assertEquals(PolyglotEncoder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+	}
+
+	@Test
+	public void testZobristHashUndo() {
+		long initialHash = zobristHash.getZobristHash();
+
+		moveExecutor.executeMove(zobristHash);
+
+		moveExecutor.undoMove(zobristHash);
+
+		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
+	}
 	
 	@Test
 	public void testFilter() {

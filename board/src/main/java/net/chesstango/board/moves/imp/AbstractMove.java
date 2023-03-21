@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
@@ -74,7 +75,20 @@ public abstract class AbstractMove implements Move {
 		moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), false);
 		moveCache.popCleared();
 	}
-	
+
+
+	@Override
+	public void executeMove(ZobristHash hash) {
+		hash.xorPosition(from);
+		hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+		hash.xorTurn();
+	}
+
+	@Override
+	public void undoMove(ZobristHash hash) {
+		executeMove(hash);
+	}
+
 	@Override
 	public int hashCode() {
 		return from.getSquare().hashCode();

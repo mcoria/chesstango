@@ -12,6 +12,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class ChessPositionImpTest {
 
     private ChessPositionImp chessPosition;

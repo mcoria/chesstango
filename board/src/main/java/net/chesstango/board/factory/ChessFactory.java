@@ -104,4 +104,7 @@ public class ChessFactory {
 		return new CheckAndPinnedAnalyzer(positionReader);
 	}
 
+    public ZobristHash createZobristHash() {
+		return new ZobristHash();
+    }
 }
