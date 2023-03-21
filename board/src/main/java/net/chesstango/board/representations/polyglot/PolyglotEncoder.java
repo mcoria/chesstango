@@ -10,7 +10,7 @@ import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
  *
  */
 public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
-    
+
     @Override
     public Long getChessRepresentation() {
 
