@@ -1,14 +1,13 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.position.PiecePlacementWriter;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.*;
 
 /**
  * @author Mauricio Coria
@@ -96,7 +95,25 @@ public abstract class AbstractCastlingMove implements MoveCastling  {
 		moveCache.clearPseudoMoves(kingMove.getFrom().getSquare(), kingMove.getTo().getSquare(), rookMove.getFrom().getSquare(), rookMove.getTo().getSquare(), false);
 		moveCache.popCleared();
 	}
-	
+
+	@Override
+	public void executeMove(ZobristHash hash) {
+		// White move King
+		hash.xorPosition(kingMove.getFrom());
+		hash.xorPosition(PiecePositioned.getPiecePositioned(kingMove.getTo().getSquare(), kingMove.getFrom().getPiece()));
+
+		// White move Rook
+		hash.xorPosition(rookMove.getFrom());
+		hash.xorPosition(PiecePositioned.getPiecePositioned(rookMove.getTo().getSquare(), rookMove.getFrom().getPiece()));
+
+		hash.xorTurn();
+	}
+
+	@Override
+	public void undoMove(ZobristHash hash) {
+		executeMove(hash);
+	}
+
 	@Override
 	public int hashCode() {
 		return kingMove.hashCode();

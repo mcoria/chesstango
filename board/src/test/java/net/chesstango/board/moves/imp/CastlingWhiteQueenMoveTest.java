@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import net.chesstango.board.position.imp.*;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +22,6 @@ import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 
 
 /**
@@ -42,6 +41,8 @@ public class CastlingWhiteQueenMoveTest {
 	
 	private CastlingWhiteQueenMove moveExecutor;
 
+	private ZobristHash zobristHash;
+
 	@Mock
 	private ChessPosition chessPosition;
 	
@@ -55,7 +56,7 @@ public class CastlingWhiteQueenMoveTest {
 		positionState = new PositionState();		
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingWhiteQueenAllowed(true);
-		positionState.setCastlingWhiteKingAllowed(true);
+		positionState.setCastlingWhiteKingAllowed(false);
 		positionState.setHalfMoveClock(3);
 		positionState.setFullMoveClock(10);
 		
@@ -66,6 +67,27 @@ public class CastlingWhiteQueenMoveTest {
 		kingCacheBoard = new KingCacheBoard();
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
+	}
+
+	@Test
+	public void testZobristHash(){
+		moveExecutor.executeMove(zobristHash);
+
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/2KR4 b - - 0 1").longValue(), zobristHash.getZobristHash());
+	}
+
+	@Test
+	public void testZobristHashUndo() {
+		long initialHash = zobristHash.getZobristHash();
+
+		moveExecutor.executeMove(zobristHash);
+
+		moveExecutor.undoMove(zobristHash);
+
+		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
 	}
 	
 	@Test
@@ -103,7 +125,7 @@ public class CastlingWhiteQueenMoveTest {
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.WHITE, positionState.getCurrentTurn());
 		assertTrue(positionState.isCastlingWhiteQueenAllowed());
-		assertTrue(positionState.isCastlingWhiteKingAllowed());
+		assertFalse(positionState.isCastlingWhiteKingAllowed());
 		assertEquals(3, positionState.getHalfMoveClock());
 		assertEquals(10, positionState.getFullMoveClock());
 		

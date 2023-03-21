@@ -5,6 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
@@ -31,7 +32,12 @@ public class CastlingWhiteQueenMove extends AbstractCastlingMove {
 		positionState.setCastlingWhiteKingAllowed(false);
 		positionState.setCastlingWhiteQueenAllowed(false);
 	}
-	
+
+	@Override
+	public void executeMove(ZobristHash hash) {
+		super.executeMove(hash);
+		hash.xorCastleWhiteQueen();
+	}
 	@Override
 	public boolean equals(Object obj) {
         return obj instanceof CastlingWhiteQueenMove;

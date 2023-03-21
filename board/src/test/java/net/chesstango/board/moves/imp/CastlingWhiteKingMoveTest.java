@@ -6,6 +6,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +45,8 @@ public class CastlingWhiteKingMoveTest {
 	private KingCacheBoardDebug kingCacheBoard;
 	
 	private ColorBoardDebug colorBoard;
+
+	private ZobristHash zobristHash;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -67,8 +74,31 @@ public class CastlingWhiteKingMoveTest {
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, boardState);
 	}
-	
+
+
+	@Test
+	public void testZobristHash(){
+		moveExecutor.executeMove(zobristHash);
+
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
+	}
+
+	@Test
+	public void testZobristHashUndo() {
+		long initialHash = zobristHash.getZobristHash();
+
+		moveExecutor.executeMove(zobristHash);
+
+		moveExecutor.undoMove(zobristHash);
+
+		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
+	}
+
+
 	@Test
 	public void testPosicionPiezaBoard() {
 		moveExecutor.executeMove(piecePlacement);
@@ -180,7 +210,7 @@ public class CastlingWhiteKingMoveTest {
 		verify(filter).filterKingMove(moveExecutor);
 		*/
 	}
-	
+
 	@Test
 	public void testIntegrated() {
 		// execute
@@ -205,5 +235,5 @@ public class CastlingWhiteKingMoveTest {
 		colorBoard.validar(piecePlacement);
 		boardState.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
-	}	
+	}
 }
