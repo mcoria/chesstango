@@ -16,7 +16,7 @@ public class PolyglotFileReaderTest {
         Map<Long, List<PolyglotFileReader.MoveBookEntry>> book = reader.read();
 
         //Long polyglotKey = getKey(FENDecoder.INITIAL_FEN);
-        Long polyglotKey = getKey("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+        Long polyglotKey = PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
 
         List<PolyglotFileReader.MoveBookEntry> posibleMoves = book.get(polyglotKey);
 
@@ -27,10 +27,5 @@ public class PolyglotFileReaderTest {
         }
     }
 
-    private Long getKey(String fen) {
-        ChessPosition initialPosition = FENDecoder.loadChessPosition(fen);
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
-        return polyglotEncoder.getChessRepresentation();
-    }
+
 }

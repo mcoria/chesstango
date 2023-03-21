@@ -1,84 +1,47 @@
-package net.chesstango.board.representations.polyglot;
+package net.chesstango.board.position.imp;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.Square;
-import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
+public class ZobristHash {
 
-    @Override
-    public Long getChessRepresentation() {
-        long piece = 0;
-        for (Square square : Square.values()) {
-            if (board[square.getRank()][square.getFile()] != null) {
-                int kind_of_piece = getKindOfPiece(board[square.getRank()][square.getFile()]);
+    private long zobristHash;
 
-                piece = piece ^ keys[64 * kind_of_piece + 8 * square.getRank() + square.getFile()];
-            }
-        }
+    public long getZobristHash() {
+        return zobristHash;
+    }
 
-        long turn = Color.WHITE.equals(this.turn) ? keys[780] : 0;
+    public void init(ChessPosition piecePlacement) {
+        PolyglotEncoder encoder = new PolyglotEncoder();
+        piecePlacement.constructBoardRepresentation(encoder);
+        zobristHash = encoder.getChessRepresentation();
+    }
 
-        long castle =
+    public void xorPosition(PiecePositioned posicion) {
+        zobristHash ^= getHash(posicion);
+    }
+
+    public void updateByTurn(){
+        zobristHash ^= keys[780];
+    }
+
+    public void updateByCastling(boolean castlingWhiteKingAllowed, boolean castlingWhiteQueenAllowed, boolean castlingBlackKingAllowed, boolean castlingBlackQueenAllowed){
+        zobristHash ^=
                 (castlingWhiteKingAllowed ? keys[768] : 0) ^
                         (castlingWhiteQueenAllowed ? keys[769] : 0) ^
                         (castlingBlackKingAllowed ? keys[770] : 0) ^
                         (castlingBlackQueenAllowed ? keys[771] : 0);
-
-        long enpassant = 0;
-        if (enPassantSquare != null){
-            enpassant = calculateEnPassantSquare();
-        }
-
-
-        return  piece ^ castle ^ enpassant ^ turn;
     }
 
-    private long calculateEnPassantSquare() {
-        long result = 0;
-        if(Color.WHITE.equals(this.turn)){
-            if(enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
-            || enPassantSquare.getFile() + 1 < 8 &&  board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE ){
-                result = keys[772 + enPassantSquare.getFile()];
-            }
-        } else {
-            if(enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
-                    || enPassantSquare.getFile() + 1 < 8 &&  board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK ){
-                result = keys[772 + enPassantSquare.getFile()];
-            }
-        }
-        return result;
+    private long getHash(PiecePositioned piecePositioned) {
+        return keys[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
     }
 
-
-    private int getKindOfPiece(Piece piece){
-        return switch (piece) {
-            case PAWN_BLACK -> 0;
-            case PAWN_WHITE -> 1;
-
-            case KNIGHT_BLACK -> 2;
-            case KNIGHT_WHITE -> 3;
-
-            case BISHOP_BLACK -> 4;
-            case BISHOP_WHITE -> 5;
-
-            case ROOK_BLACK -> 6;
-            case ROOK_WHITE -> 7;
-
-            case QUEEN_BLACK -> 8;
-            case QUEEN_WHITE -> 9;
-
-            case KING_BLACK -> 10;
-            case KING_WHITE -> 11;
-        };
-    }
 
     private final long[] keys = {
             0x9D39247E33776D41L, 0x2AF7398005AAA5C7L, 0x44DB015024623547L, 0x9C15F73E62A76AE2L,
@@ -279,11 +242,26 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
             0xF8D626AAAF278509L
     };
 
+    private int getKindOfPiece(Piece piece){
+        return switch (piece) {
+            case PAWN_BLACK -> 0;
+            case PAWN_WHITE -> 1;
 
-    public static Long getKey(String fen) {
-        ChessPosition position = FENDecoder.loadChessPosition(fen);
-        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
-        position.constructBoardRepresentation(polyglotEncoder);
-        return polyglotEncoder.getChessRepresentation();
+            case KNIGHT_BLACK -> 2;
+            case KNIGHT_WHITE -> 3;
+
+            case BISHOP_BLACK -> 4;
+            case BISHOP_WHITE -> 5;
+
+            case ROOK_BLACK -> 6;
+            case ROOK_WHITE -> 7;
+
+            case QUEEN_BLACK -> 8;
+            case QUEEN_WHITE -> 9;
+
+            case KING_BLACK -> 10;
+            case KING_WHITE -> 11;
+        };
     }
+
 }

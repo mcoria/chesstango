@@ -8,6 +8,7 @@ import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 
 //TODO: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a bysquare vacios
@@ -51,6 +52,10 @@ public interface Move extends Comparable<Move> {
 
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
+
+	void executeMove(ZobristHash hash);
+	void undoMove(ZobristHash hash);
+
 
 	Cardinal getMoveDirection();
 }
