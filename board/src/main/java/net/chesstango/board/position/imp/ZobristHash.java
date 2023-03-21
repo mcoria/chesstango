@@ -26,22 +26,32 @@ public class ZobristHash {
     }
 
     public void init(PiecePlacement piecePlacement, PositionState positionState) {
-        long piece = 0;
-        for (Square square : Square.values()) {
-            if (! piecePlacement.isEmpty(square)) {
-                int kind_of_piece = getKindOfPiece(piecePlacement.getPiece(square));
-
-                piece = piece ^ keys[64 * kind_of_piece + 8 * square.getRank() + square.getFile()];
+        for( PiecePositioned piecePositioned: piecePlacement){
+            if(piecePositioned.getPiece() != null){
+                xorPosition(piecePositioned);
             }
         }
 
-        long turn = Color.WHITE.equals(positionState.getCurrentTurn()) ? keys[780] : 0;
+        if(Color.WHITE.equals(positionState.getCurrentTurn())) {
+            xorTurn();
+        }
 
-        long castle =
-                (positionState.isCastlingWhiteKingAllowed() ? keys[768] : 0) ^
-                        (positionState.isCastlingWhiteQueenAllowed() ? keys[769] : 0) ^
-                        (positionState.isCastlingBlackKingAllowed() ? keys[770] : 0) ^
-                        (positionState.isCastlingBlackQueenAllowed()  ? keys[771] : 0);
+
+        if(positionState.isCastlingWhiteKingAllowed()){
+            xorCastleWhiteKing();
+        }
+
+        if(positionState.isCastlingWhiteQueenAllowed()){
+            xorCastleWhiteQueen();
+        }
+
+        if(positionState.isCastlingBlackKingAllowed()){
+            xorCastleBlackKing();
+        }
+
+        if(positionState.isCastlingBlackQueenAllowed()){
+            xorCastleBlackQueen();
+        }
 
 
         long enpassant = 0;
@@ -49,14 +59,11 @@ public class ZobristHash {
         if (enPassantSquare != null){
             enpassant = calculateEnPassantSquare();
         }*/
-
-
-        zobristHash = piece ^ castle ^ enpassant ^ turn;
     }
 
 
-    public void xorPosition(PiecePositioned posicion) {
-        zobristHash ^= getHash(posicion);
+    public void xorPosition(PiecePositioned piecePositioned) {
+        zobristHash ^= keys[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
     }
 
     public void xorTurn(){
@@ -77,10 +84,6 @@ public class ZobristHash {
 
     public void xorCastleBlackQueen() {
         zobristHash ^= keys[771];
-    }
-
-    private long getHash(PiecePositioned piecePositioned) {
-        return keys[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
     }
 
 
