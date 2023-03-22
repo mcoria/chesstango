@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
@@ -38,7 +38,7 @@ public class AbstractCardinalMoveGeneratorSurTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moveGenerator = new AbstractCardinalMoveGenerator(Color.WHITE, new Cardinal[] {Cardinal.Sur}){
 
 			@Override

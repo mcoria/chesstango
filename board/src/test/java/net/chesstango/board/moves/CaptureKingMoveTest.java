@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
@@ -52,7 +52,7 @@ public class CaptureKingMoveTest {
 	public void setUp() throws Exception {
 		positionState = new PositionState();
 		kingCacheBoard = new KingCacheBoard();
-		moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moveExecutor = null;
 		piecePlacement = null;
 	}

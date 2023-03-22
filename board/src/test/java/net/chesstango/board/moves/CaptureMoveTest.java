@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
@@ -68,7 +68,7 @@ public class CaptureMoveTest {
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK);
 
-		moveExecutor = MoveFactories.getDefaultMoveFactoryWhite().createCaptureMove(origen, destino);
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureMove(origen, destino);
 	}
 
 	@Test

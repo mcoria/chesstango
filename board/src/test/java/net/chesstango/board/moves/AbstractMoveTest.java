@@ -3,7 +3,7 @@ package net.chesstango.board.moves;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class AbstractMoveTest {
 
 	@Before
 	public void setup(){
-		moveFactory = MoveFactories.getDefaultMoveFactoryWhite();
+		moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 	}
 	
 	@Test

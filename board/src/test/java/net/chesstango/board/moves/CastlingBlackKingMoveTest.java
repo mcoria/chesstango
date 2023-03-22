@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
@@ -49,7 +49,7 @@ public class CastlingBlackKingMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = MoveFactories.getDefaultMoveFactoryBlack().createCastlingKingMove();
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingKingMove();
 		
 		positionState = new PositionState();		
 		positionState.setCurrentTurn(Color.BLACK);

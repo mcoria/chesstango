@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.*;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MoveContainer;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class NagaMaxPruningWhiteTest {
 
-    private MoveFactory moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
+    private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
     @Mock
     private MoveSorter moveSorter;

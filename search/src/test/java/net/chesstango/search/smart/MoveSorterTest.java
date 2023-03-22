@@ -3,12 +3,10 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +20,9 @@ public class MoveSorterTest {
 
     private MoveSorter moveSorterTest;
 
-    private MoveFactory moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
+    private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
-    private MoveFactory moveFactoryBlack = MoveFactories.getDefaultMoveFactoryBlack();
+    private MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 
     @Before
     public void setUp() {

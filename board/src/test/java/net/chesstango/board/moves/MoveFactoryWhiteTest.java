@@ -4,8 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.MoveFactories;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.position.imp.PositionState;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ public class MoveFactoryWhiteTest {
 
     @Before
     public void setUp() throws Exception {
-        moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
+        moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
         positionState = new PositionState();
         moveExecutor = null;
     }

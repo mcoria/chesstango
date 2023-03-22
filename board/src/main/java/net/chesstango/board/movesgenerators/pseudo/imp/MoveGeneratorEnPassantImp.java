@@ -7,7 +7,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
@@ -45,7 +45,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 
 
     private class EnPassantMoveGeneratorBlack {
-        private final MoveFactory moveFactoryImp = MoveFactories.getDefaultMoveFactoryBlack();
+        private final MoveFactory moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 
         public MovePair generatePseudoMoves(Square pawnPasanteSquare) {
             MovePair moveContainer = new MovePair();
@@ -77,7 +77,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
     }
 
     private class EnPassantMoveGeneratorWhite {
-        private final MoveFactory moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
+        private final MoveFactory moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
         public MovePair generatePseudoMoves(Square pawnPasanteSquare) {
             MovePair moveContainer = new MovePair();

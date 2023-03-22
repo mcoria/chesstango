@@ -10,7 +10,6 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
  *
  */
 
-//TODO: implement bridge pattern.
 public interface MoveCastling extends MoveKing {
 
 	default boolean filter(MoveFilter filter){

@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
@@ -34,7 +34,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Before
     public void setUp() throws Exception {
-        moveFactoryImp = MoveFactories.getDefaultMoveFactoryBlack();
+        moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
         moves = new ArrayList<Move>();
 
         moveGenerator = new PawnBlackMoveGenerator();

@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
@@ -62,7 +62,7 @@ public class CapturePawnEnPassantTest {
 		PiecePositioned pawnBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
 		PiecePositioned pawnPasanteSquare = PiecePositioned.getPiecePositioned(Square.a6, null);
 		
-		moveExecutor = MoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant (pawnWhite, pawnPasanteSquare, Cardinal.NorteOeste, pawnBlack);
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant (pawnWhite, pawnPasanteSquare, Cardinal.NorteOeste, pawnBlack);
 
 	}
 	

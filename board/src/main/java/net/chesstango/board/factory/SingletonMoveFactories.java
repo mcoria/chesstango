@@ -1,14 +1,14 @@
 package net.chesstango.board.factory;
 
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.bridge.MoveFactoryBlack;
-import net.chesstango.board.moves.bridge.MoveFactoryWhite;
+import net.chesstango.board.moves.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.imp.MoveFactoryWhite;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveFactories {
+public class SingletonMoveFactories {
     private static MoveFactory factoryWhite;
 
     private static MoveFactory factoryBlack;

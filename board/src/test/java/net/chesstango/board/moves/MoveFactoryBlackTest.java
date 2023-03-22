@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
@@ -33,7 +33,7 @@ public class MoveFactoryBlackTest {
 
     @Before
     public void setUp() throws Exception {
-        moveFactoryImp = MoveFactories.getDefaultMoveFactoryBlack();
+        moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
         positionState = new PositionState();
         piecePlacement = new ArrayPiecePlacement();
         zobristHash = new ZobristHash();

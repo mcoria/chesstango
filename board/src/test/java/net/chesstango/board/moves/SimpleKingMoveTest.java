@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.KingCacheBoardDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
@@ -65,7 +65,7 @@ public class SimpleKingMoveTest {
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e1);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e2);
 
-		moveExecutor = MoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(origen, destino);
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(origen, destino);
 		
 		positionState = new PositionState();
 		positionState.setCurrentTurn(Color.WHITE);

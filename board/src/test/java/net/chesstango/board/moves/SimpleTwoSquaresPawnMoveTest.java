@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
@@ -57,7 +57,7 @@ public class SimpleTwoSquaresPawnMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
-		moveExecutor = MoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
 	}
 	
 	

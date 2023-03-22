@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MoveFactory;
 import org.junit.Test;
@@ -470,7 +470,7 @@ public class GameTest {
 	
 	@Test
 	public void testUndoCaptureRook() {
-		MoveFactory moveFactory = MoveFactories.getDefaultMoveFactoryBlack();
+		MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 
 		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
 		
@@ -548,7 +548,7 @@ public class GameTest {
 
 	@Test
 	public void testCacheEnEstadoInvalido01() {
-		MoveFactory moveFactory = MoveFactories.getDefaultMoveFactoryWhite();
+		MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
 		Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
 		

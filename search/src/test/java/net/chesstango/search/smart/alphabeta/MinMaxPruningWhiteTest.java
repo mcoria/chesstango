@@ -1,11 +1,10 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.*;
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MoveContainer;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -32,7 +31,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class MinMaxPruningWhiteTest {
 
-    private MoveFactory moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
+    private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
     @Mock
     private MoveSorter moveSorter;

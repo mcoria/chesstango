@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
@@ -40,7 +40,7 @@ public class MoveGeneratorEnPassantImpTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moves = new ArrayList<Move>();
 		state = new PositionState();
 		

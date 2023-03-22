@@ -2,7 +2,7 @@ package net.chesstango.board.position.imp;
 
 import static org.junit.Assert.assertNotNull;
 
-import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.MoveFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class MoveCacheBoardTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		cache = new MoveCacheBoard();
 	}
 	
