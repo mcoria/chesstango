@@ -35,11 +35,11 @@ public class AbstractMoveTest {
 	
 	@Test
 	public void testCompare01() {
-		PiecePositioned a2 = PiecePositioned.getPiecePositioned(Square.a2, null);
+		PiecePositioned a2 = PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE);
 		PiecePositioned a3 = PiecePositioned.getPiecePositioned(Square.a3, null);
-		PiecePositioned a4 = PiecePositioned.getPiecePositioned(Square.a4, null);
-		PiecePositioned b1 = PiecePositioned.getPiecePositioned(Square.b1, null);
-		PiecePositioned b2 = PiecePositioned.getPiecePositioned(Square.b2, null);
+		PiecePositioned a4 = PiecePositioned.getPiecePositioned(Square.a4, Piece.ROOK_WHITE);
+		PiecePositioned b1 = PiecePositioned.getPiecePositioned(Square.b1, Piece.QUEEN_WHITE);
+		PiecePositioned b2 = PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_WHITE);
 		PiecePositioned b3 = PiecePositioned.getPiecePositioned(Square.b3, null);
 		
 		

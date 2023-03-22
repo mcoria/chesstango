@@ -59,4 +59,41 @@ public interface Move extends Comparable<Move> {
 
 
 	Cardinal getMoveDirection();
+
+
+	@Override
+	default int compareTo(Move theOther) {
+		//Comparamos from
+		if(getFrom().getSquare().getRank() > theOther.getFrom().getSquare().getRank()){
+			return 1;
+		} else if (getFrom().getSquare().getRank() < theOther.getFrom().getSquare().getRank()){
+			return -1;
+		}
+
+
+		if(getFrom().getSquare().getFile() <  theOther.getFrom().getSquare().getFile()){
+			return 1;
+		} else if(getFrom().getSquare().getFile() >  theOther.getFrom().getSquare().getFile()){
+			return -1;
+		}
+
+		//---------------
+		//Son iguales asi que comparamos to
+		if(getTo().getSquare().getRank() < theOther.getTo().getSquare().getRank()){
+			return 1;
+		} else if (getTo().getSquare().getRank() > theOther.getTo().getSquare().getRank()){
+			return -1;
+		}
+
+
+		if(getTo().getSquare().getFile() <  theOther.getTo().getSquare().getFile()){
+			return -1;
+		} else if(getTo().getSquare().getFile() >  theOther.getTo().getSquare().getFile()){
+			return 1;
+		}
+
+		//--------------- Desde y hasta coinciden, que hacemos ?
+
+		return 0;
+	}
 }

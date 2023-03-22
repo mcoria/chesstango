@@ -113,8 +113,17 @@ public class MoveImp implements Move {
     }
 
     @Override
-    public int compareTo(Move o) {
-        return 0;
+    public boolean equals(Object obj) {
+        if(obj instanceof Move){
+            Move theOther = (Move) obj;
+            return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
 
     private Cardinal calculateMoveDirection() {

@@ -99,7 +99,7 @@ abstract class AbstractMove implements Move {
 	public int hashCode() {
 		return from.getSquare().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Move){
@@ -107,42 +107,6 @@ abstract class AbstractMove implements Move {
 			return from.equals(theOther.getFrom()) &&  to.equals(theOther.getTo());
 		}
 		return false;
-	}
-
-	@Override
-	public int compareTo(Move theOther) {
-		//Comparamos from
-		if(this.from.getSquare().getRank() > theOther.getFrom().getSquare().getRank()){
-			return 1;
-		} else if (this.from.getSquare().getRank() < theOther.getFrom().getSquare().getRank()){
-			return -1;
-		}
-		
-
-		if(this.from.getSquare().getFile() <  theOther.getFrom().getSquare().getFile()){
-			return 1;
-		} else if(this.from.getSquare().getFile() >  theOther.getFrom().getSquare().getFile()){
-			return -1;
-		}
-		
-		//---------------
-		//Son iguales asi que comparamos to
-		if(this.to.getSquare().getRank() < theOther.getTo().getSquare().getRank()){
-			return 1;
-		} else if (this.to.getSquare().getRank() > theOther.getTo().getSquare().getRank()){
-			return -1;
-		}
-		
-
-		if(this.to.getSquare().getFile() <  theOther.getTo().getSquare().getFile()){
-			return -1;
-		} else if(this.to.getSquare().getFile() >  theOther.getTo().getSquare().getFile()){
-			return 1;
-		}
-		
-		//--------------- Desde y hasta coinciden, que hacemos ?
-		
-		return 0;
 	}
 
 	@Override
