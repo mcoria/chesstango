@@ -44,16 +44,6 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     }
 
     @Override
-    public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
-    }
-
-    @Override
-    public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return null;
-    }
-
-    @Override
     public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
         return null;
     }

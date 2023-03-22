@@ -32,6 +32,10 @@ public enum Piece {
         return color;
     }
 
+    public boolean isPawn(){
+        return PAWN_WHITE.equals(this) || PAWN_BLACK.equals(this);
+    }
+
     public static Piece getKing(Color color) {
         switch (color) {
             case WHITE:
