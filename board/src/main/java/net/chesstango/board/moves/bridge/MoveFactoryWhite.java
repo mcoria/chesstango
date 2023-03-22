@@ -32,7 +32,6 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     @Override
     public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         MovePromotionImp moveImp = new MovePromotionImp(origen, destino, Cardinal.Norte, piece);
-        addPawnPromotion(origen, destino, moveImp, piece);
         return moveImp;
     }
 
@@ -43,21 +42,6 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
 
     @Override
     public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal, PiecePositioned capture) {
-        return null;
-    }
-
-    @Override
-    public MovePromotion createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return null;
-    }
-
-    @Override
-    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
-    }
-
-    @Override
-    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         return null;
     }
 

@@ -14,6 +14,7 @@ import net.chesstango.board.moves.MovePromotion;
  *
  */
 public class MoveFactoryBlack extends MoveFactoryAbstract{
+
     @Override
     public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
         MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Sur);
@@ -29,32 +30,18 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     }
 
     @Override
+    public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+        MovePromotionImp moveImp = new MovePromotionImp(origen, destino, Cardinal.Sur, piece);
+        return moveImp;
+    }
+
+    @Override
     public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         return null;
     }
 
     @Override
     public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal, PiecePositioned capture) {
-        return null;
-    }
-
-    @Override
-    public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return null;
-    }
-
-    @Override
-    public MovePromotion createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return null;
-    }
-
-    @Override
-    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
-    }
-
-    @Override
-    public Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         return null;
     }
 

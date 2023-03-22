@@ -25,6 +25,9 @@ public class MoveImp implements Move {
     private MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement;
     private MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement;
 
+    private MoveExecutor<ColorBoard> fnDoColorBoard;
+    private MoveExecutor<ColorBoard> fnUndoColorBoard;
+
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         this.from = from;
         this.to = to;
@@ -76,12 +79,12 @@ public class MoveImp implements Move {
 
     @Override
     public void executeMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
+        fnDoColorBoard.apply(from, to, colorBoard);
     }
 
     @Override
     public void undoMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
+        fnUndoColorBoard.apply(from, to, colorBoard);
     }
 
     @Override
@@ -135,6 +138,14 @@ public class MoveImp implements Move {
 
     public void setFnUndoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement) {
         this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
+    }
+
+    public void setFnDoColorBoard(MoveExecutor<ColorBoard> fnDoColorBoard) {
+        this.fnDoColorBoard = fnDoColorBoard;
+    }
+
+    public void setFnUndoColorBoard(MoveExecutor<ColorBoard> fnUndoColorBoard) {
+        this.fnUndoColorBoard = fnUndoColorBoard;
     }
 
     private Cardinal calculateMoveDirection() {
