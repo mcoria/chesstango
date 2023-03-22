@@ -24,7 +24,7 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         return moveImp;
     }
 
-    private void addSimpleMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
+    protected void addSimpleMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
         if(origen.getPiece().isPawn()) {
             moveImp.setFnUpdatePositionStateBeforeRollTurn(positionState -> {
                 positionState.resetHalfMoveClock();

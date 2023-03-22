@@ -15,7 +15,9 @@ import net.chesstango.board.moves.MoveKing;
 public class MoveFactoryBlack extends MoveFactoryAbstract{
     @Override
     public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
+        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Sur);
+        addSimpleMoveExecutors(origen, destino, moveImp);
+        return moveImp;
     }
 
     @Override

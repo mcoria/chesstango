@@ -67,7 +67,7 @@ public class SimplePawnMoveTest {
 
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e3);
-		moveExecutor =  MoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(origen, destino);
+		moveExecutor =  MoveFactories.getDefaultMoveFactoryWhite().createSimplePawnMove(origen, destino);
 	}
 
 	@Test

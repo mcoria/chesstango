@@ -13,13 +13,17 @@ import net.chesstango.board.moves.MoveKing;
  *
  */
 public class MoveFactoryWhite extends  MoveFactoryAbstract{
+
     @Override
     public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
+        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Norte);
+        addSimpleMoveExecutors(origen, destino, moveImp);
+        return moveImp;
     }
 
     @Override
     public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
+        //return new SimpleTwoSquaresPawnMove(origen, destino, enPassantSquare, Cardinal.Norte);
         return null;
     }
 
