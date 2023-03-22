@@ -18,8 +18,8 @@ public interface MoveFactory {
 	Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare);
 	Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal, PiecePositioned capture);
-	Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
-	Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	MovePromotion createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
 
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);

@@ -29,7 +29,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract  {
     }
 
     @Override
-    public Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         return new SimplePawnPromotion(origen, destino, Cardinal.Sur, piece);
     }
 
