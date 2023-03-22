@@ -10,7 +10,7 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-public class SimpleKingMove extends SimpleMove implements MoveKing {
+class SimpleKingMove extends SimpleMove implements MoveKing {
 
     public SimpleKingMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

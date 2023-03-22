@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactoryBlack;
-import net.chesstango.board.moves.factories.MoveFactoryWhite;
+import net.chesstango.board.moves.imp.MoveFactoryBlack;
+import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.position.ChessPositionReader;
 
 

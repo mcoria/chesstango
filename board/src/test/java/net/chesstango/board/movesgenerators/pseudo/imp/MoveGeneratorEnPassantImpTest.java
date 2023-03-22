@@ -15,7 +15,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactoryWhite;
+import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.representations.fen.FENDecoder;

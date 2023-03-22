@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  *
  */
-public class MoveDecoratorPromotionState extends MoveDecoratorState<MovePromotion> implements MovePromotion {
+class MoveDecoratorPromotionState extends MoveDecoratorState<MovePromotion> implements MovePromotion {
 
 	public MoveDecoratorPromotionState(MovePromotion move, Consumer<PositionState> decoratorState) {
 		super(move, decoratorState);

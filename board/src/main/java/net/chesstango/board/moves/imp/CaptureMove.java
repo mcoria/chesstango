@@ -10,7 +10,7 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-public class CaptureMove extends AbstractNotPawnMove {
+class CaptureMove extends AbstractNotPawnMove {
 
     public CaptureMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

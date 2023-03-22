@@ -12,7 +12,7 @@ import net.chesstango.board.position.imp.*;
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractCastlingMove implements MoveCastling  {
+abstract class AbstractCastlingMove implements MoveCastling  {
 	protected final SimpleKingMove kingMove;
 	protected final SimpleMove rookMove;	
 	

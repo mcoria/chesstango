@@ -19,7 +19,7 @@ import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.factories.MoveFactoryWhite;
+import net.chesstango.board.moves.imp.MoveFactoryWhite;
 
 
 /**

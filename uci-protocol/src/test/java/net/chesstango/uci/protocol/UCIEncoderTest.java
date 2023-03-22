@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.moves.factories.MoveFactoryWhite;
+import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
 import org.junit.Before;

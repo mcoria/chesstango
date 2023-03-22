@@ -12,7 +12,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-public class CapturePawnEnPassant extends AbstractPawnMove {
+class CapturePawnEnPassant extends AbstractPawnMove {
 
 	private final PiecePositioned capture;
 			

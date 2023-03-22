@@ -1,6 +1,5 @@
 package net.chesstango.board.moves.imp;
 
-import net.chesstango.board.moves.factories.MoveFactoryBlack;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;

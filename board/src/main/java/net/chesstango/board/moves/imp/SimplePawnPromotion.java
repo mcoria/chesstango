@@ -12,7 +12,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-public class SimplePawnPromotion extends SimplePawnMove implements MovePromotion {
+class SimplePawnPromotion extends SimplePawnMove implements MovePromotion {
 
 	protected final Piece promotion;
 

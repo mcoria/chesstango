@@ -11,7 +11,7 @@ import net.chesstango.board.position.imp.PositionState;
  * @author Mauricio Coria
  *
  */
-public class SimpleTwoSquaresPawnMove extends SimplePawnMove {
+class SimpleTwoSquaresPawnMove extends SimplePawnMove {
 	
 	private final Square enPassantSquare;
 

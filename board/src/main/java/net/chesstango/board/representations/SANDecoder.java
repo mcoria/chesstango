@@ -3,11 +3,8 @@ package net.chesstango.board.representations;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.moves.imp.CastlingBlackKingMove;
-import net.chesstango.board.moves.imp.CastlingBlackQueenMove;
-import net.chesstango.board.moves.imp.CastlingWhiteKingMove;
-import net.chesstango.board.moves.imp.CastlingWhiteQueenMove;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,7 +46,7 @@ public class SANDecoder {
 
     private Move searchKingCastling(Iterable<Move> possibleMoves) {
         for (Move move : possibleMoves) {
-            if (move instanceof CastlingWhiteKingMove || move instanceof CastlingBlackKingMove) {
+            if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 6) {
                 return move;
             }
         }
@@ -58,7 +55,7 @@ public class SANDecoder {
 
     private Move searchQueenCastling(Iterable<Move> possibleMoves) {
         for (Move move : possibleMoves) {
-            if (move instanceof CastlingWhiteQueenMove || move instanceof CastlingBlackQueenMove) {
+            if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 2) {
                 return move;
             }
         }

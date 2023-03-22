@@ -12,7 +12,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  * @author Mauricio Coria
  *
  */
-public class CastlingWhiteKingMove extends AbstractCastlingMove {
+class CastlingWhiteKingMove extends AbstractCastlingMove {
 
 	public static final PiecePositioned FROM = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
 	public static final PiecePositioned TO = PiecePositioned.getPiecePositioned(Square.g1, null);

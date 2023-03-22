@@ -14,7 +14,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  * @author Mauricio Coria
  *
  */
-public abstract class MoveDecorator<T extends Move> implements Move {
+abstract class MoveDecorator<T extends Move> implements Move {
 	
 	protected final T move;
 	

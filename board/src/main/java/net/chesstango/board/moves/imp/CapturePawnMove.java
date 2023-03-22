@@ -8,7 +8,7 @@ import net.chesstango.board.position.imp.PositionState;
 /**
  * @author Mauricio Coria
  */
-public class CapturePawnMove extends AbstractPawnMove {
+class CapturePawnMove extends AbstractPawnMove {
 
     public CapturePawnMove(PiecePositioned from, PiecePositioned to) {
         super(from, to);

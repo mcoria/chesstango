@@ -1,6 +1,5 @@
 package net.chesstango.board.moves.imp;
 
-import net.chesstango.board.moves.factories.MoveFactoryWhite;
 import org.junit.Before;
 import org.junit.Test;
 

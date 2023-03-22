@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.factories;
+package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.moves.imp.*;
 
 
 /**

@@ -4,7 +4,11 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.imp.PositionState;
 
-public abstract class AbstractNotPawnMove extends AbstractMove {
+/**
+ * @author Mauricio Coria
+ *
+ */
+abstract class AbstractNotPawnMove extends AbstractMove {
     public AbstractNotPawnMove(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         super(from, to, direction);
     }

@@ -13,7 +13,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractMove implements Move {
+abstract class AbstractMove implements Move {
 	protected final PiecePositioned from;
 	protected final PiecePositioned to;
 	protected final Cardinal direction;

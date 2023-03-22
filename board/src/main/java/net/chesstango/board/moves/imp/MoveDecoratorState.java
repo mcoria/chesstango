@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  *
  */
-public class MoveDecoratorState<T extends Move> extends MoveDecorator<T> {
+class MoveDecoratorState<T extends Move> extends MoveDecorator<T> {
 	
 	protected Consumer<PositionState> decoratorState;
 
