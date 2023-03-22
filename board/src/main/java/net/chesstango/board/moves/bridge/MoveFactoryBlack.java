@@ -8,6 +8,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -56,16 +57,6 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     }
 
     @Override
-    public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
-    }
-
-    @Override
-    public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return null;
-    }
-
-    @Override
     public MoveCastling createCastlingQueenMove() {
         return null;
     }
@@ -73,5 +64,15 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     @Override
     public MoveCastling createCastlingKingMove() {
         return null;
+    }
+
+    @Override
+    protected void fnKingUpdatePositionStateBeforeRollTurn(PositionState positionState) {
+        this.algoPositionState.kingBlackUpdatePositionStateBeforeRollTurn(positionState);
+    }
+
+    @Override
+    protected void fnKingCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
+        this.algoPositionState.kingBlackCaptureUpdatePositionStateBeforeRollTurn(positionState);
     }
 }

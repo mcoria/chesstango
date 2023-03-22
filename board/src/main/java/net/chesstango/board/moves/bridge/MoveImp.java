@@ -65,7 +65,6 @@ public class MoveImp implements Move {
     @Override
     public void executeMove(PositionState positionState) {
         positionState.pushState();
-        positionState.incrementFullMoveClock();
 
         if(fnUpdatePositionStateBeforeRollTurn != null) {
             fnUpdatePositionStateBeforeRollTurn.accept(positionState);

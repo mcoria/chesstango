@@ -36,6 +36,10 @@ public enum Piece {
         return PAWN_WHITE.equals(this) || PAWN_BLACK.equals(this);
     }
 
+    public boolean isKing() {
+        return KING_WHITE.equals(this) || KING_BLACK.equals(this);
+    }
+
     public static Piece getKing(Color color) {
         switch (color) {
             case WHITE:
@@ -118,5 +122,4 @@ public enum Piece {
             case KING_BLACK -> KING_WHITE;
         };
     }
-
 }

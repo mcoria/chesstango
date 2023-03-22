@@ -62,8 +62,8 @@ public class SimpleKingMoveTest {
 		kingCacheBoard = new KingCacheBoardDebug();
 		kingCacheBoard.init(piecePlacement);
 
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, null);
+		PiecePositioned origen = piecePlacement.getPosicion(Square.e1);
+		PiecePositioned destino = piecePlacement.getPosicion(Square.e2);
 
 		moveExecutor = MoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(origen, destino);
 		

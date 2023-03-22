@@ -11,8 +11,6 @@ import net.chesstango.board.position.imp.KingCacheBoard;
  * @author Mauricio Coria
  *
  */
-
-//TODO: implement bridge pattern.
 public interface MoveKing extends Move {
 
 	default void executeMove(ChessPositionWriter chessPosition){
