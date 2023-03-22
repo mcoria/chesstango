@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.MoveFactory;
 import org.junit.Test;
 
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -470,6 +471,8 @@ public class GameTest {
 	
 	@Test
 	public void testUndoCaptureRook() {
+		MoveFactory moveFactory = new MoveFactoryBlack();
+
 		Game game =  getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
 		
 		//Estado inicial
@@ -479,7 +482,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getPossibleMoves().size()); 
 		//CastlingBlackKingMove es uno de los movimientos posibles
-		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMove(Square.e8, Square.g8));
+		assertEquals(moveFactory.createCastlingKingMove(), game.getMove(Square.e8, Square.g8));
 		
 		//Undo movimiento 1 y volvemos al estado inicial
 		game.undoMove();
@@ -501,7 +504,7 @@ public class GameTest {
 		game.executeMove(Square.d4, Square.c3);
 		assertEquals(15, game.getPossibleMoves().size()); 
 		//CastlingBlackKingMove es uno de los movimientos posibles
-		assertEquals(MoveFactoryBlack.castlingKingMove, game.getMove(Square.e8, Square.g8));
+		assertEquals(moveFactory.createCastlingKingMove(), game.getMove(Square.e8, Square.g8));
 	}
 	
 	
@@ -546,10 +549,12 @@ public class GameTest {
 
 	@Test
 	public void testCacheEnEstadoInvalido01() {
+		MoveFactory moveFactory = new  MoveFactoryWhite();
+
 		Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
 		
 		//Antes de mover blanca podemos ver que tenemos enroque 
-		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
+		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
 
 		// Mueve torre blanca 
 		game.executeMove(Square.a1, Square.d1);
@@ -561,7 +566,7 @@ public class GameTest {
 		// Blanca pierde el enroque de rey
 		// Rey establece los movimientos en cache (sin enroque de Torre Rey)
 		// Los movimientos que establece en cache no dependen de lo que hay en h1 (puesto que no hay torre blanca)
-		assertFalse("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));		
+		assertFalse("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
 
 		// Aca comienza el bolonqui
 		game.undoMove();
@@ -572,7 +577,7 @@ public class GameTest {
 		// Y cuando se pregunta por movimientos de rey en cache
 		
 		//Blanca deberia tener enroque de rey nuevamente
-		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(MoveFactoryWhite.castlingKingMove));
+		assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
 		
 		assertFalse(game.getChessPosition().isCastlingWhiteQueenAllowed());
 

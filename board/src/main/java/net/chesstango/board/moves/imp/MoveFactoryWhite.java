@@ -15,8 +15,8 @@ import net.chesstango.board.moves.MovePromotion;
  */
 public class MoveFactoryWhite extends MoveFactoryAbstract {
 
-    public static final MoveCastling castlingKingMove = new CastlingWhiteKingMove();
-    public static final MoveCastling castlingQueenMove = new CastlingWhiteQueenMove();
+    private static final MoveCastling castlingKingMove = new CastlingWhiteKingMove();
+    private static final MoveCastling castlingQueenMove = new CastlingWhiteQueenMove();
 
     @Override
     public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
