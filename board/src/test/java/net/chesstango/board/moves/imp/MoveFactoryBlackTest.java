@@ -35,7 +35,7 @@ public class MoveFactoryBlackTest {
 
     @Before
     public void setUp() throws Exception {
-        moveFactoryImp = MoveFactories.getDefaultMoveFactoryBlack();
+        moveFactoryImp = new MoveFactoryBlack();
         positionState = new PositionState();
         piecePlacement = new ArrayPiecePlacement();
         zobristHash = new ZobristHash();
