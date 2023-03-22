@@ -174,7 +174,9 @@ public class PositionState implements PositionStateReader {
         node.halfMoveClock = currentPositionState.halfMoveClock;
         node.fullMoveClock = currentPositionState.fullMoveClock;
 
-        stackPositionStates.push(node);
+        stackPositionStates.push(currentPositionState);
+
+        currentPositionState = node;
     }
 
     public void popState() {

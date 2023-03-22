@@ -82,17 +82,15 @@ public class SimpleKingMoveTest {
 	}
 
 	@Test
-	@Ignore
 	public void testZobristHash() {
 		PositionStateReader oldPositionState = positionState.getCurrentState();
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
-		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/4K3/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/4K3/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
 	}
 
 	@Test
-	@Ignore
 	public void testZobristHashUndo() {
 		long initialHash = zobristHash.getZobristHash();
 
