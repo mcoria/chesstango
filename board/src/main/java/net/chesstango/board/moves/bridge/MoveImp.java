@@ -18,12 +18,12 @@ import java.util.function.Consumer;
  *
  */
 public class MoveImp implements Move {
-
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
-
     private Consumer<PositionState> fnUpdatePositionStateBeforeRollTurn;
+    private MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement;
+    private MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement;
 
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         this.from = from;
@@ -49,13 +49,12 @@ public class MoveImp implements Move {
 
     @Override
     public void executeMove(PiecePlacementWriter board) {
-        board.move(from, to);
+        fnDoMovePiecePlacement.apply(from, to, board);
     }
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
-        board.setPosicion(to);							//Reestablecemos destino
-        board.setPosicion(from);						//Volvemos a origen
+        fnUndoMovePiecePlacement.apply(from, to, board);
     }
 
     @Override
@@ -135,5 +134,13 @@ public class MoveImp implements Move {
 
     public void setFnUpdatePositionStateBeforeRollTurn(Consumer<PositionState> fnUpdatePositionStateBeforeRollTurn) {
         this.fnUpdatePositionStateBeforeRollTurn = fnUpdatePositionStateBeforeRollTurn;
+    }
+
+    public void setFnDoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement) {
+        this.fnDoMovePiecePlacement = fnDoMovePiecePlacement;
+    }
+
+    public void setFnUndoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement) {
+        this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
     }
 }

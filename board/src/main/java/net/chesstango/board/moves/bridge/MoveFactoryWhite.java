@@ -7,6 +7,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.moves.MovePromotion;
 
 /**
  * @author Mauricio Coria
@@ -29,6 +30,13 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     }
 
     @Override
+    public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Norte);
+        addPawnPromotion(origen, destino, moveImp, piece);
+        return null;
+    }
+
+    @Override
     public Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         return null;
     }
@@ -39,12 +47,7 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     }
 
     @Override
-    public Move createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        return null;
-    }
-
-    @Override
-    public Move createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         return null;
     }
 

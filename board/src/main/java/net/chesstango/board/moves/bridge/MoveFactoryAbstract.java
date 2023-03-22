@@ -1,10 +1,12 @@
 package net.chesstango.board.moves.bridge;
 
+import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.position.PiecePlacementWriter;
 
 /**
  * @author Mauricio Coria
@@ -35,6 +37,9 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
                 positionState.incrementHalfMoveClock();
             });
         }
+
+        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
     }
 
     protected void addSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Square enPassantSquare) {
@@ -42,5 +47,30 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
             positionState.resetHalfMoveClock();
             positionState.setEnPassantSquare(enPassantSquare);
         });
+
+        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
     }
+
+    protected void addPawnPromotion(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Piece piece) {
+        moveImp.setFnUpdatePositionStateBeforeRollTurn(positionState -> {
+            positionState.resetHalfMoveClock();
+        });
+
+        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::fnDoMovePromotion);
+        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
+    }
+
+    private static void fnDoMovePromotion(PiecePositioned piecePositioned, PiecePositioned piecePositioned1, PiecePlacementWriter piecePlacementWriter) {
+    }
+
+    private static void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, PiecePlacementWriter piecePlacementWriter) {
+        piecePlacementWriter.move(from, to);
+    }
+
+    private static void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, PiecePlacementWriter piecePlacementWriter) {
+        piecePlacementWriter.setPosicion(from);
+        piecePlacementWriter.setPosicion(to);
+    }
+
 }
