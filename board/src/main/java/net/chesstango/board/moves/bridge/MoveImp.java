@@ -28,6 +28,8 @@ public class MoveImp implements Move {
     private MoveExecutor<ColorBoard> fnDoColorBoard;
     private MoveExecutor<ColorBoard> fnUndoColorBoard;
 
+    private ZobritExecutor fnDoZobrit;
+
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         this.from = from;
         this.to = to;
@@ -99,9 +101,7 @@ public class MoveImp implements Move {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        hash.xorPosition(from);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
-        hash.xorTurn();
+        fnDoZobrit.apply(from, to, hash, oldPositionState, newPositionState);
     }
 
     @Override
@@ -146,6 +146,10 @@ public class MoveImp implements Move {
 
     public void setFnUndoColorBoard(MoveExecutor<ColorBoard> fnUndoColorBoard) {
         this.fnUndoColorBoard = fnUndoColorBoard;
+    }
+
+    public void setFnDoZobrit(ZobritExecutor fnDoZobrit) {
+        this.fnDoZobrit = fnDoZobrit;
     }
 
     private Cardinal calculateMoveDirection() {

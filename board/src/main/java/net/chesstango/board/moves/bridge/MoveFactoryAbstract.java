@@ -8,7 +8,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
@@ -65,6 +67,14 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
 
         moveImp.setFnDoColorBoard(MoveFactoryAbstract::defaultFnDoColorBoard);
         moveImp.setFnUndoColorBoard(MoveFactoryAbstract::defaultFnUndoColorBoard);
+
+        moveImp.setFnDoZobrit(MoveFactoryAbstract::defaultFnDoZobrit);
+    }
+
+    private static void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
+        hash.xorPosition(from);
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+        hash.xorTurn();
     }
 
     protected void addSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Square enPassantSquare) {
@@ -78,6 +88,8 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
 
         moveImp.setFnDoColorBoard(MoveFactoryAbstract::defaultFnDoColorBoard);
         moveImp.setFnUndoColorBoard(MoveFactoryAbstract::defaultFnUndoColorBoard);
+
+        moveImp.setFnDoZobrit(MoveFactoryAbstract::defaultFnDoZobrit);
     }
 
     protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
@@ -96,6 +108,15 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
 
         moveImp.setFnDoColorBoard(MoveFactoryAbstract::captureFnDoColorBoard);
         moveImp.setFnUndoColorBoard(MoveFactoryAbstract::captureFnUndoColorBoard);
+
+        moveImp.setFnDoZobrit(MoveFactoryAbstract::captureFnDoZobrit);
+    }
+
+    private static void captureFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
+        hash.xorPosition(from);
+        hash.xorPosition(to);
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+        hash.xorTurn();
     }
 
     protected static void captureFnDoColorBoard(PiecePositioned from, PiecePositioned to, ColorBoard colorBoard) {
