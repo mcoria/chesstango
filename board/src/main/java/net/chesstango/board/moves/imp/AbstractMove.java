@@ -1,5 +1,6 @@
 package net.chesstango.board.moves.imp;
 
+import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
@@ -27,7 +28,7 @@ abstract class AbstractMove implements Move {
 	public AbstractMove(PiecePositioned from, PiecePositioned to) {
 		this.from = from;
 		this.to = to;
-		this.direction = calculateMoveDirection();
+		this.direction =  calculateMoveDirection();
 	}	
 
 	@Override
@@ -156,7 +157,10 @@ abstract class AbstractMove implements Move {
 	}
 
 	private Cardinal calculateMoveDirection() {
-		return Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
+		Piece piece = getFrom().getPiece();
+		return Piece.KNIGHT_WHITE.equals(piece) ||
+				Piece.KNIGHT_BLACK.equals(piece)
+				? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
 	}
 
 }
