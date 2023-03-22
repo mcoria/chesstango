@@ -1,7 +1,12 @@
 package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.moves.factories.MoveFactoryBlack;
+import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ZobristHash;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.chesstango.board.Color;
@@ -12,7 +17,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.imp.PositionState;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -25,10 +29,16 @@ public class MoveFactoryBlackTest {
 
     private PositionState positionState;
 
+    private PiecePlacement piecePlacement;
+
+    private ZobristHash zobristHash;
+
     @Before
     public void setUp() throws Exception {
         moveFactoryImp = new MoveFactoryBlack();
         positionState = new PositionState();
+        piecePlacement = new ArrayPiecePlacement();
+        zobristHash = new ZobristHash();
         moveExecutor = null;
     }
 
@@ -238,5 +248,47 @@ public class MoveFactoryBlackTest {
         assertFalse(positionState.isCastlingBlackQueenAllowed());
         assertEquals(0, positionState.getHalfMoveClock());
         assertEquals(6, positionState.getFullMoveClock());
+    }
+
+
+    @Test
+    @Ignore
+    public void testCapturaTorreByBishop() {
+        positionState.setCurrentTurn(Color.BLACK);
+        positionState.setCastlingWhiteKingAllowed(true);
+        positionState.setCastlingWhiteQueenAllowed(false);
+        positionState.setCastlingBlackKingAllowed(false);
+        positionState.setCastlingBlackQueenAllowed(false);
+        positionState.setHalfMoveClock(2);
+        positionState.setFullMoveClock(5);
+
+        piecePlacement.setPieza(Square.e1, Piece.KNIGHT_WHITE);
+        piecePlacement.setPieza(Square.g2, Piece.BISHOP_BLACK);
+        piecePlacement.setPieza(Square.h1, Piece.ROOK_WHITE);
+
+        zobristHash.init(piecePlacement, positionState);
+
+        PiecePositioned origen = piecePlacement.getPosicion(Square.g2);
+        PiecePositioned destino = piecePlacement.getPosicion(Square.h1);
+
+        moveExecutor = moveFactoryImp.createCaptureMove(origen, destino);
+
+        moveExecutor.executeMove(piecePlacement);
+        PositionStateReader ollPositionState = positionState.getCurrentState();
+        moveExecutor.executeMove(positionState);
+        moveExecutor.executeMove(zobristHash, ollPositionState, positionState);
+
+        assertEquals(Color.WHITE, positionState.getCurrentTurn());
+        assertFalse(positionState.isCastlingWhiteKingAllowed());
+        assertFalse(positionState.isCastlingWhiteQueenAllowed());
+        assertFalse(positionState.isCastlingBlackKingAllowed());
+        assertFalse(positionState.isCastlingBlackQueenAllowed());
+        assertEquals(0, positionState.getHalfMoveClock());
+        assertEquals(6, positionState.getFullMoveClock());
+
+        ZobristHash newZobristHash = new ZobristHash();
+        newZobristHash.init(piecePlacement, positionState);
+
+        assertEquals(newZobristHash.getZobristHash(), zobristHash.getZobristHash());
     }
 }
