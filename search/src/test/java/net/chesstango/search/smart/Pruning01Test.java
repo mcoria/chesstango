@@ -6,9 +6,10 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.builders.MirrorBuilder;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
+import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMove;
 import org.junit.Assert;
@@ -19,7 +20,7 @@ import org.junit.Test;
  */
 public abstract class Pruning01Test {
 
-    private MoveFactoryWhite moveFactoryWhite = new MoveFactoryWhite();
+    private MoveFactory moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
 
     public abstract SearchMove getBestMoveFinder();
 

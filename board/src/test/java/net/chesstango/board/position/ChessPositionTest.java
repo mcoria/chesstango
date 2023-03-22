@@ -7,8 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 import net.chesstango.board.*;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.MoveFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +21,6 @@ import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 
 
 /**
@@ -28,7 +29,7 @@ import net.chesstango.board.moves.imp.MoveFactoryWhite;
  */
 public class ChessPositionTest {
 	
-	private MoveFactoryWhite moveFactoryWhite;
+	private MoveFactory moveFactoryWhite;
 	
 	private ChessFactory factory;
 	
@@ -42,7 +43,7 @@ public class ChessPositionTest {
 	
 	@Before
 	public void setUp() throws Exception {		
-		moveFactoryWhite = new MoveFactoryWhite();
+		moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
 		
 		factory = new ChessFactoryDebug();
 		

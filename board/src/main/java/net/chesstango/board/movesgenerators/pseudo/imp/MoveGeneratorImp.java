@@ -3,10 +3,9 @@ package net.chesstango.board.movesgenerators.pseudo.imp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
-import net.chesstango.board.moves.imp.MoveFactoryBlack;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
@@ -70,8 +69,8 @@ public class MoveGeneratorImp implements MoveGenerator {
 		
 		ppmg = new MoveGeneratorEnPassantImp();
 		
-		moveFactoryWhite = new MoveFactoryWhite();
-		moveFactoryBlack = new MoveFactoryBlack();
+		moveFactoryWhite = MoveFactories.getDefaultMoveFactoryWhite();
+		moveFactoryBlack = MoveFactories.getDefaultMoveFactoryBlack();
 	}
 	
 

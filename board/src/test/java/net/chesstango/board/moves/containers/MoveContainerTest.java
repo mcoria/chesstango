@@ -3,9 +3,9 @@ package net.chesstango.board.moves.containers;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ public class MoveContainerTest {
     @Before
     public void setUp() throws Exception {
         moveContainerImp = new MoveContainer();
-        factory = new MoveFactoryWhite();
+        factory = MoveFactories.getDefaultMoveFactoryWhite();
     }
 
     @Test

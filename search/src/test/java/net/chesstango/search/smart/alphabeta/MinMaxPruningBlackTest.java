@@ -1,7 +1,9 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.*;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.moves.imp.MoveFactoryBlack;
 import net.chesstango.board.position.ChessPositionReader;
@@ -30,7 +32,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class MinMaxPruningBlackTest {
 
-    private MoveFactoryBlack moveFactoryBlack = new MoveFactoryBlack();
+    private MoveFactory moveFactoryBlack = MoveFactories.getDefaultMoveFactoryBlack();
 
     @Mock
     private MoveSorter moveSorter;

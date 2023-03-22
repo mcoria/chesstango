@@ -2,13 +2,14 @@ package net.chesstango.board.position.imp;
 
 import static org.junit.Assert.assertNotNull;
 
+import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.moves.MoveFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 
 
@@ -20,11 +21,11 @@ public class MoveCacheBoardTest {
 
 	private MoveCacheBoard cache;
 	
-	private MoveFactoryWhite moveFactoryImp;
+	private MoveFactory moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactoryImp = new MoveFactoryWhite();
+		moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
 		cache = new MoveCacheBoard();
 	}
 	

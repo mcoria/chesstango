@@ -1,9 +1,10 @@
 package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.*;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MoveContainer;
-import net.chesstango.board.moves.imp.MoveFactoryBlack;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -29,7 +30,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class NegaMaxPruningBlackTest {
 
-    private MoveFactoryBlack moveFactoryBlack = new MoveFactoryBlack();
+    private MoveFactory moveFactoryBlack = MoveFactories.getDefaultMoveFactoryBlack();
 
     @Mock
     private MoveSorter moveSorter;

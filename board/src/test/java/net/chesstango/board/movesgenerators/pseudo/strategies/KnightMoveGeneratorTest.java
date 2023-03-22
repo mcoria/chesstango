@@ -1,11 +1,5 @@
 package net.chesstango.board.movesgenerators.pseudo.strategies;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -16,13 +10,18 @@ import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Mauricio Coria
