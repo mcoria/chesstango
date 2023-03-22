@@ -53,8 +53,8 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	}
 
 	@Override
-	public void executeMove(ColorBoard coloBoard) {
-		move.executeMove(coloBoard);
+	public void executeMove(ColorBoard colorBoard) {
+		move.executeMove(colorBoard);
 	}
 
 	@Override

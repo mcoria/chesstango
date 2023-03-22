@@ -3,7 +3,6 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.PositionState;
 
 
 /**

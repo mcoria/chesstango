@@ -16,44 +16,72 @@ import net.chesstango.board.position.imp.ZobristHash;
  *
  */
 public class MovePromotionImp implements MovePromotion {
+
+    protected final PiecePositioned from;
+    protected final PiecePositioned to;
+    protected final Piece promotion;
+    protected final Cardinal direction;
+
+    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
+        this.from = from;
+        this.to = to;
+        this.direction = direction;
+        this.promotion = promotion;
+    }
+
+    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Piece promotion) {
+        this.from = from;
+        this.to = to;
+        this.promotion = promotion;
+        this.direction =  calculateMoveDirection();
+    }
+
     @Override
     public PiecePositioned getFrom() {
-        return null;
+        return from;
     }
 
     @Override
     public PiecePositioned getTo() {
-        return null;
+        return to;
     }
+
 
     @Override
     public void executeMove(PiecePlacementWriter board) {
-
+        board.setEmptyPosicion(from);
+        board.setPieza(to.getSquare(), this.promotion);
     }
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
-
+        board.setPosicion(from);
+        board.setPosicion(to);
     }
 
     @Override
     public void executeMove(PositionState positionState) {
+        positionState.pushState();
+        positionState.incrementFullMoveClock();
 
+        positionState.resetHalfMoveClock();
+
+        positionState.rollTurn();
     }
 
     @Override
     public void undoMove(PositionState positionState) {
-
+        positionState.popState();
     }
 
     @Override
-    public void executeMove(ColorBoard coloBoard) {
-
+    public void executeMove(ColorBoard colorBoard) {
+        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
     }
 
     @Override
     public void undoMove(ColorBoard colorBoard) {
-
+        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
     }
 
     @Override
@@ -84,5 +112,12 @@ public class MovePromotionImp implements MovePromotion {
     @Override
     public Piece getPromotion() {
         return null;
+    }
+
+    private Cardinal calculateMoveDirection() {
+        Piece piece = getFrom().getPiece();
+        return Piece.KNIGHT_WHITE.equals(piece) ||
+                Piece.KNIGHT_BLACK.equals(piece)
+                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
     }
 }

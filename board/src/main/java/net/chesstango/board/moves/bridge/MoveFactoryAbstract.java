@@ -52,13 +52,7 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
     }
 
-    protected void addPawnPromotion(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Piece piece) {
-        moveImp.setFnUpdatePositionStateBeforeRollTurn(positionState -> {
-            positionState.resetHalfMoveClock();
-        });
-
-        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::fnDoMovePromotion);
-        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
+    protected void addPawnPromotion(PiecePositioned origen, PiecePositioned destino, MovePromotionImp moveImp, Piece piece) {
     }
 
     private static void fnDoMovePromotion(PiecePositioned piecePositioned, PiecePositioned piecePositioned1, PiecePlacementWriter piecePlacementWriter) {

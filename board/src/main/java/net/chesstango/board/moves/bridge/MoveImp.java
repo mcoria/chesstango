@@ -125,13 +125,6 @@ public class MoveImp implements Move {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
 
-    private Cardinal calculateMoveDirection() {
-        Piece piece = getFrom().getPiece();
-        return Piece.KNIGHT_WHITE.equals(piece) ||
-                Piece.KNIGHT_BLACK.equals(piece)
-                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
-    }
-
     public void setFnUpdatePositionStateBeforeRollTurn(Consumer<PositionState> fnUpdatePositionStateBeforeRollTurn) {
         this.fnUpdatePositionStateBeforeRollTurn = fnUpdatePositionStateBeforeRollTurn;
     }
@@ -142,5 +135,12 @@ public class MoveImp implements Move {
 
     public void setFnUndoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement) {
         this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
+    }
+
+    private Cardinal calculateMoveDirection() {
+        Piece piece = getFrom().getPiece();
+        return Piece.KNIGHT_WHITE.equals(piece) ||
+                Piece.KNIGHT_BLACK.equals(piece)
+                ? null : Cardinal.calculateSquaresDirection(getFrom().getSquare(), getTo().getSquare());
     }
 }

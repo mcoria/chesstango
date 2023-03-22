@@ -31,9 +31,9 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
 
     @Override
     public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Norte);
+        MovePromotionImp moveImp = new MovePromotionImp(origen, destino, Cardinal.Norte, piece);
         addPawnPromotion(origen, destino, moveImp, piece);
-        return null;
+        return moveImp;
     }
 
     @Override
