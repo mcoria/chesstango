@@ -13,7 +13,9 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
+import net.chesstango.board.factory.MoveFactories;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.imp.MoveFactoryWhite;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.PiecePlacement;
@@ -30,11 +32,11 @@ public class BishopMoveGeneratorTest {
 	
 	private BishopMoveGenerator moveGenerator = null;
 
-	private MoveFactoryWhite moveFactoryImp;
+	private MoveFactory moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactoryImp = new MoveFactoryWhite();
+		moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
 		
 		moveGenerator = new BishopMoveGenerator(Color.WHITE);
 		moveGenerator.setMoveFactory(moveFactoryImp);

@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
+import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -42,11 +44,11 @@ public class KingWhiteMoveGeneratorTest {
 	
 	protected KingCacheBoard kingCacheBoard;
 
-	private MoveFactoryWhite moveFactoryImp;
+	private MoveFactory moveFactoryImp;
 	
 	@Before
 	public void setUp() throws Exception {
-		moveFactoryImp = new MoveFactoryWhite();
+		moveFactoryImp = MoveFactories.getDefaultMoveFactoryWhite();
 		state = new PositionState();
 		
 		moveGenerator = new KingWhiteMoveGenerator();
