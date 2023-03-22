@@ -8,7 +8,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
@@ -93,7 +95,11 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
         moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
 
-        moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
+        if(origen.getPiece().isKing()) {
+            moveImp.setFnDoZobrit(this::fnDoZobritKing);
+        } else {
+            moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
+        }
     }
 
     protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
@@ -112,10 +118,6 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         moveImp.setFnDoZobrit(alogZobrit::captureFnDoZobrit);
     }
 
-    protected abstract void fnKingUpdatePositionStateBeforeRollTurn(PositionState positionState);
-
-    protected abstract void fnKingCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState);
-
     protected void addSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Square enPassantSquare) {
         moveImp.setFnUpdatePositionStateBeforeRollTurn(positionState -> algoPositionState.twoSquaresPawnMove(positionState, enPassantSquare));
 
@@ -127,5 +129,11 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
 
         moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
     }
+
+    protected abstract void fnKingUpdatePositionStateBeforeRollTurn(PositionState positionState);
+
+    protected abstract void fnKingCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState);
+
+    protected abstract void fnDoZobritKing(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
 
 }

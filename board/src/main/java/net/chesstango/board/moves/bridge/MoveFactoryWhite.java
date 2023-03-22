@@ -8,7 +8,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
@@ -74,5 +76,10 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     @Override
     protected void fnKingCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
         this.algoPositionState.kingWhiteCaptureUpdatePositionStateBeforeRollTurn(positionState);
+    }
+
+    @Override
+    protected void fnDoZobritKing(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+        this.alogZobrit.fnDoZobritKingWhite(from, to, hash, oldPositionState, newPositionState);
     }
 }
