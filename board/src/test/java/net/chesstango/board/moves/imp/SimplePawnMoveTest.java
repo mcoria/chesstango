@@ -1,11 +1,19 @@
 package net.chesstango.board.moves.imp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.verify;
-
+import net.chesstango.board.Color;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
+import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.factory.MoveFactories;
+import net.chesstango.board.moves.Move;
+import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
@@ -15,17 +23,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.PositionState;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -33,13 +32,13 @@ import net.chesstango.board.position.imp.PositionState;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SimpleMoveTest {
+public class SimplePawnMoveTest {
 
 	private PiecePlacement piecePlacement;
 	
 	private PositionState positionState;
 	
-	private SimpleMove moveExecutor;
+	private Move moveExecutor;
 	
 	private ColorBoard colorBoard;
 
@@ -59,17 +58,17 @@ public class SimpleMoveTest {
 		positionState.setFullMoveClock(5);
 		
 		piecePlacement = new ArrayPiecePlacement();
-		piecePlacement.setPieza(Square.e5, Piece.ROOK_WHITE);
+		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
-
-		PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
-		PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
-		moveExecutor =  new SimpleMove(origen, destino);
+		
+		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
+		PiecePositioned destino = piecePlacement.getPosicion(Square.e3);
+		moveExecutor = new SimplePawnMove(origen, destino);
 	}
 
 	@Test
@@ -78,7 +77,7 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
-		Assert.assertEquals(PolyglotEncoder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/4P3/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
 	}
 
 	@Test
@@ -102,15 +101,15 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute		
-		assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.e7));
-		assertTrue(piecePlacement.isEmpty(Square.e5));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e3));
+		assertTrue(piecePlacement.isEmpty(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
-		assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.e5));
-		assertTrue(piecePlacement.isEmpty(Square.e7));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
+		assertTrue(piecePlacement.isEmpty(Square.e3));
 	}
 		
 	@Test
@@ -121,7 +120,7 @@ public class SimpleMoveTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(0, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
@@ -139,15 +138,15 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
-		assertTrue(colorBoard.isEmpty(Square.e5));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e3));
+		assertTrue(colorBoard.isEmpty(Square.e2));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
-		assertTrue(colorBoard.isEmpty(Square.e7));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
+		assertTrue(colorBoard.isEmpty(Square.e3));
 	}	
 	
 	@Test
