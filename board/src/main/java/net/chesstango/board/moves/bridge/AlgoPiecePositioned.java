@@ -3,6 +3,9 @@ package net.chesstango.board.moves.bridge;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.PiecePlacementWriter;
 
+/**
+ * @author Mauricio Coria
+ */
 public class AlgoPiecePositioned {
     protected void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, PiecePlacementWriter piecePlacementWriter) {
         piecePlacementWriter.move(from, to);

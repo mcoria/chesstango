@@ -3,6 +3,9 @@ package net.chesstango.board.moves.bridge;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.imp.ColorBoard;
 
+/**
+ * @author Mauricio Coria
+ */
 public class AlgoColorBoard {
     public void captureFnDoColorBoard(PiecePositioned from, PiecePositioned to, ColorBoard colorBoard) {
         colorBoard.removePositions(to);

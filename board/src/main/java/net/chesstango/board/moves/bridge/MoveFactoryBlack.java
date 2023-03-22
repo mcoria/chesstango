@@ -6,7 +6,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
@@ -35,6 +34,8 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     @Override
     public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         MovePromotionImp moveImp = new MovePromotionImp(origen, destino, Cardinal.Sur, piece);
+        moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
+        moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
         return moveImp;
     }
 

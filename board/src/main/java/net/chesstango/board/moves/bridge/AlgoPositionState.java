@@ -3,6 +3,9 @@ package net.chesstango.board.moves.bridge;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.imp.PositionState;
 
+/**
+ * @author Mauricio Coria
+ */
 public class AlgoPositionState {
 
     public void kingWhiteUpdatePositionStateBeforeRollTurn(PositionState positionState) {

@@ -4,6 +4,9 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ZobristHash;
 
+/**
+ * @author Mauricio Coria
+ */
 public class AlogZobrit {
 
     public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
