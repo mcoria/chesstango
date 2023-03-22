@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SimpleMoveTest {
+public class SimplePawnMoveTest {
 
 	private PiecePlacement piecePlacement;
 	
@@ -57,7 +57,7 @@ public class SimpleMoveTest {
 		positionState.setFullMoveClock(5);
 		
 		piecePlacement = new ArrayPiecePlacement();
-		piecePlacement.setPieza(Square.e5, Piece.ROOK_WHITE);
+		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
@@ -65,8 +65,8 @@ public class SimpleMoveTest {
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
 
-		PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
-		PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
+		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
+		PiecePositioned destino = piecePlacement.getPosicion(Square.e3);
 		moveExecutor =  MoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(origen, destino);
 	}
 
@@ -76,7 +76,7 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
-		Assert.assertEquals(PolyglotEncoder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/4P3/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
 	}
 
 	@Test
@@ -100,15 +100,15 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(piecePlacement);
 		
 		// asserts execute		
-		assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.e7));
-		assertTrue(piecePlacement.isEmpty(Square.e5));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e3));
+		assertTrue(piecePlacement.isEmpty(Square.e2));
 		
 		// undos		
 		moveExecutor.undoMove(piecePlacement);
 		
 		// asserts undos		
-		assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.e5));
-		assertTrue(piecePlacement.isEmpty(Square.e7));
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
+		assertTrue(piecePlacement.isEmpty(Square.e3));
 	}
 		
 	@Test
@@ -119,7 +119,7 @@ public class SimpleMoveTest {
 		// asserts execute
 		assertNull(positionState.getEnPassantSquare());
 		assertEquals(Color.BLACK, positionState.getCurrentTurn());
-		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(0, positionState.getHalfMoveClock());
 		assertEquals(5, positionState.getFullMoveClock());
 		
 		// undos
@@ -137,15 +137,15 @@ public class SimpleMoveTest {
 		moveExecutor.executeMove(colorBoard);
 
 		// asserts execute
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
-		assertTrue(colorBoard.isEmpty(Square.e5));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e3));
+		assertTrue(colorBoard.isEmpty(Square.e2));
 
 		// undos
 		moveExecutor.undoMove(colorBoard);
 		
 		// asserts undos
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
-		assertTrue(colorBoard.isEmpty(Square.e7));
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
+		assertTrue(colorBoard.isEmpty(Square.e3));
 	}	
 	
 	@Test
