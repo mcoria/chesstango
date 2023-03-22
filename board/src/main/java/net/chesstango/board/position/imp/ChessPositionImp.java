@@ -222,6 +222,11 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public long getHash() {
+		return zobristHash.getZobristHash();
+	}
+
+	@Override
 	public Color getColor(Square square) {
 		return colorBoard.getColor(square);
 	}

@@ -1,6 +1,7 @@
 package net.chesstango.board.representations.fen;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 
@@ -160,6 +161,12 @@ public class FENEncoder extends AbstractChessRepresentationBuilder<String> {
 			throw new RuntimeException("Falta pieza");
 		}
 		return result;
+	}
+
+	public static String encodeGame(Game game){
+		FENEncoder encoder = new FENEncoder();
+		game.getChessPosition().constructBoardRepresentation(encoder);
+		return encoder.getChessRepresentation();
 	}
 
 }

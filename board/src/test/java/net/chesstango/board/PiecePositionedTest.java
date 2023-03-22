@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class PiecePositionedTest {
 
     @Test

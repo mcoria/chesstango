@@ -1,10 +1,12 @@
 package net.chesstango.board.representations.polyglot;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 /**
@@ -281,7 +283,14 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
 
 
     public static Long getKey(String fen) {
-        ChessPosition position = FENDecoder.loadChessPosition(fen);
+        ChessPositionReader position = FENDecoder.loadChessPosition(fen);
+        PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
+        position.constructBoardRepresentation(polyglotEncoder);
+        return polyglotEncoder.getChessRepresentation();
+    }
+
+    public static Long getKey(Game game) {
+        ChessPositionReader position = game.getChessPosition();
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
         position.constructBoardRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();

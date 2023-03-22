@@ -42,6 +42,9 @@ public interface ChessPositionReader extends PiecePlacementReader {
 	SquareIterator iteratorSquareWithoutKing(Color color);
 
 	Iterator<PiecePositioned> iteratorAllPieces();
-	
+
+	long getHash();
+
 	void constructBoardRepresentation(ChessRepresentationBuilder<?> builder);
+
 }
