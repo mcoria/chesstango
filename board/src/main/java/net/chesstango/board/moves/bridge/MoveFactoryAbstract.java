@@ -7,16 +7,17 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.position.PiecePlacementWriter;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
  *
  */
 public abstract class MoveFactoryAbstract  implements MoveFactory {
+    protected AlgoPiecePositioned algoPiecePositioned = new AlgoPiecePositioned();
+
+    protected AlgoColorBoard algoColorBoard = new AlgoColorBoard();
+
+    protected AlogZobrit alogZobrit = new AlogZobrit();
 
     public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino) {
         MoveImp moveImp = new MoveImp(origen, destino);
@@ -62,19 +63,13 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
             });
         }
 
-        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::defaultFnDoMovePiecePlacement);
-        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
+        moveImp.setFnDoMovePiecePlacement(algoPiecePositioned::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoMovePiecePlacement(algoPiecePositioned::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(MoveFactoryAbstract::defaultFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(MoveFactoryAbstract::defaultFnUndoColorBoard);
+        moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
+        moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
 
-        moveImp.setFnDoZobrit(MoveFactoryAbstract::defaultFnDoZobrit);
-    }
-
-    private static void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
-        hash.xorPosition(from);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
-        hash.xorTurn();
+        moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
     }
 
     protected void addSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Square enPassantSquare) {
@@ -83,13 +78,13 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
             positionState.setEnPassantSquare(enPassantSquare);
         });
 
-        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::defaultFnDoMovePiecePlacement);
-        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
+        moveImp.setFnDoMovePiecePlacement(algoPiecePositioned::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoMovePiecePlacement(algoPiecePositioned::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(MoveFactoryAbstract::defaultFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(MoveFactoryAbstract::defaultFnUndoColorBoard);
+        moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
+        moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
 
-        moveImp.setFnDoZobrit(MoveFactoryAbstract::defaultFnDoZobrit);
+        moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
     }
 
     protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
@@ -103,49 +98,14 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
             });
         }
 
-        moveImp.setFnDoMovePiecePlacement(MoveFactoryAbstract::defaultFnDoMovePiecePlacement);
-        moveImp.setFnUndoMovePiecePlacement(MoveFactoryAbstract::defaultFnUndoMovePiecePlacement);
+        moveImp.setFnDoMovePiecePlacement(algoPiecePositioned::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoMovePiecePlacement(algoPiecePositioned::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(MoveFactoryAbstract::captureFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(MoveFactoryAbstract::captureFnUndoColorBoard);
+        moveImp.setFnDoColorBoard(algoColorBoard::captureFnDoColorBoard);
+        moveImp.setFnUndoColorBoard(algoColorBoard::captureFnUndoColorBoard);
 
-        moveImp.setFnDoZobrit(MoveFactoryAbstract::captureFnDoZobrit);
+        moveImp.setFnDoZobrit(alogZobrit::captureFnDoZobrit);
     }
 
-    private static void captureFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
-        hash.xorPosition(from);
-        hash.xorPosition(to);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
-        hash.xorTurn();
-    }
-
-    protected static void captureFnDoColorBoard(PiecePositioned from, PiecePositioned to, ColorBoard colorBoard) {
-        colorBoard.removePositions(to);
-
-        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
-    }
-
-    protected static void captureFnUndoColorBoard(PiecePositioned from, PiecePositioned to, ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
-
-        colorBoard.addPositions(to);
-    }
-
-    protected static void defaultFnDoColorBoard(PiecePositioned from, PiecePositioned to, ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
-    }
-
-    protected static void defaultFnUndoColorBoard(PiecePositioned from, PiecePositioned to, ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
-    }
-
-    protected static void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, PiecePlacementWriter piecePlacementWriter) {
-        piecePlacementWriter.move(from, to);
-    }
-
-    protected static void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, PiecePlacementWriter piecePlacementWriter) {
-        piecePlacementWriter.setPosicion(from);
-        piecePlacementWriter.setPosicion(to);
-    }
 
 }
