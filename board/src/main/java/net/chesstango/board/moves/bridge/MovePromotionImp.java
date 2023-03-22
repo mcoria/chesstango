@@ -22,6 +22,9 @@ public class MovePromotionImp implements MovePromotion {
     protected final Piece promotion;
     protected final Cardinal direction;
 
+    private MoveExecutor<ColorBoard> fnDoColorBoard;
+    private MoveExecutor<ColorBoard> fnUndoColorBoard;
+
     public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
         this.from = from;
         this.to = to;
@@ -76,13 +79,14 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public void executeMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
+        fnDoColorBoard.apply(from, to, colorBoard);
     }
 
     @Override
     public void undoMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
+        fnUndoColorBoard.apply(from, to, colorBoard);
     }
+
 
     @Override
     public void executeMove(MoveCacheBoard moveCache) {
@@ -111,7 +115,15 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public Piece getPromotion() {
-        return null;
+        return promotion;
+    }
+
+    public void setFnDoColorBoard(MoveExecutor<ColorBoard> fnDoColorBoard) {
+        this.fnDoColorBoard = fnDoColorBoard;
+    }
+
+    public void setFnUndoColorBoard(MoveExecutor<ColorBoard> fnUndoColorBoard) {
+        this.fnUndoColorBoard = fnUndoColorBoard;
     }
 
     private Cardinal calculateMoveDirection() {
