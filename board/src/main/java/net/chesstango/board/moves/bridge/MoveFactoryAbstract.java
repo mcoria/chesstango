@@ -1,6 +1,7 @@
 package net.chesstango.board.moves.bridge;
 
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
@@ -34,5 +35,12 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
                 positionState.incrementHalfMoveClock();
             });
         }
+    }
+
+    protected void addSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Square enPassantSquare) {
+        moveImp.setFnUpdatePositionStateBeforeRollTurn(positionState -> {
+            positionState.resetHalfMoveClock();
+            positionState.setEnPassantSquare(enPassantSquare);
+        });
     }
 }

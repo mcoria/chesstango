@@ -22,7 +22,9 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
 
     @Override
     public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
-        return null;
+        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Sur);
+        addSimpleTwoSquaresPawnMove(origen, destino, moveImp, enPassantSquare);
+        return moveImp;
     }
 
     @Override
