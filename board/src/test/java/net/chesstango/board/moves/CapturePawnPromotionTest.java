@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
@@ -31,11 +32,11 @@ public class CapturePawnPromotionTest {
 
 	private PiecePlacement piecePlacement;
 	
-	private PositionState positionState;
+	private PositionStateDebug positionState;
 	
 	private Move moveExecutor;
 	
-	private ColorBoard colorBoard;
+	private ColorBoardDebug colorBoard;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -45,8 +46,9 @@ public class CapturePawnPromotionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		positionState = new PositionState();
+		positionState = new PositionStateDebug();
 		positionState.setCurrentTurn(Color.WHITE);
+		positionState.setEnPassantSquare(null);
 		positionState.setHalfMoveClock(3);
 		positionState.setFullMoveClock(5);
 		
@@ -142,5 +144,49 @@ public class CapturePawnPromotionTest {
 
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
+	}
+
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piecePlacement);
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(colorBoard);
+
+		// asserts execute
+		assertEquals(Piece.QUEEN_WHITE, piecePlacement.getPiece(Square.f8));
+		assertTrue(piecePlacement.isEmpty(Square.e7));
+
+		assertNull(positionState.getEnPassantSquare());
+		assertEquals(Color.BLACK, positionState.getCurrentTurn());
+		assertEquals(0, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
+
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.f8));
+		assertTrue(colorBoard.isEmpty(Square.e7));
+
+		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+
+		// undos
+		moveExecutor.undoMove(piecePlacement);
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(colorBoard);
+
+
+		// asserts undos
+		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e7));
+		assertEquals(Piece.KNIGHT_BLACK, piecePlacement.getPiece(Square.f8));
+
+		assertNull(positionState.getEnPassantSquare());
+		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+		assertEquals(3, positionState.getHalfMoveClock());
+		assertEquals(5, positionState.getFullMoveClock());
+
+		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
+		assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
+
+		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 	}
 }
