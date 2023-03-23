@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
@@ -31,7 +32,7 @@ public class CapturePawnEnPassantTest {
 
 	private PiecePlacement piecePlacement;
 	
-	private PositionState positionState;
+	private PositionStateDebug positionState;
 	
 	private Move moveExecutor;
 	
@@ -45,7 +46,7 @@ public class CapturePawnEnPassantTest {
 
 	@Before
 	public void setUp() throws Exception {
-		positionState = new PositionState();
+		positionState = new PositionStateDebug();
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setEnPassantSquare(Square.a6);
 		positionState.setHalfMoveClock(2);
@@ -172,7 +173,9 @@ public class CapturePawnEnPassantTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.a6));
 		assertTrue(colorBoard.isEmpty(Square.a5));
 		assertTrue(colorBoard.isEmpty(Square.b5));		
+
 		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 		
 		// undos
 		moveExecutor.undoMove(piecePlacement);
@@ -191,6 +194,8 @@ public class CapturePawnEnPassantTest {
 		assertTrue(colorBoard.isEmpty(Square.a6));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.a5));
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.b5));
+
 		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
 	}	
 }
