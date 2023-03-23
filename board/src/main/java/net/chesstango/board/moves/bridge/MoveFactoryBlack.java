@@ -17,6 +17,9 @@ import net.chesstango.board.position.imp.ZobristHash;
  */
 public class MoveFactoryBlack extends MoveFactoryAbstract{
 
+    private static final MoveCastling castlingKingMove = new CastlingBlackKingMove();
+    private static final MoveCastling castlingQueenMove = new CastlingBlackQueenMove();
+
     @Override
     public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
         MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Sur);
@@ -61,12 +64,12 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
 
     @Override
     public MoveCastling createCastlingQueenMove() {
-        return null;
+        return castlingQueenMove;
     }
 
     @Override
     public MoveCastling createCastlingKingMove() {
-        return null;
+        return castlingKingMove;
     }
 
     @Override
