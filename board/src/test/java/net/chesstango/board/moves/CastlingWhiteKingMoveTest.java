@@ -67,7 +67,7 @@ public class CastlingWhiteKingMoveTest {
 		
 		kingCacheBoard = new KingCacheBoardDebug();
 		kingCacheBoard.init(piecePlacement);
-		
+
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 

@@ -65,6 +65,8 @@ public class CastlingWhiteQueenMoveTest {
 		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 		
 		kingCacheBoard = new KingCacheBoardDebug();
+		kingCacheBoard.init(piecePlacement);
+
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 
