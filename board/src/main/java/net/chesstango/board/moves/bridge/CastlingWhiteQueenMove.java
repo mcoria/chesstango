@@ -35,11 +35,6 @@ public class CastlingWhiteQueenMove extends AbstractCastlingMove{
     }
 
     @Override
-    public Move getRookMove() {
-        return null;
-    }
-
-    @Override
     protected void xorCastling(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         if(oldPositionState.isCastlingWhiteKingAllowed() == true){
             hash.xorCastleWhiteKing();
@@ -48,4 +43,13 @@ public class CastlingWhiteQueenMove extends AbstractCastlingMove{
         hash.xorCastleWhiteQueen();
     }
 
+    @Override
+    public PiecePositioned getRookFrom() {
+        return ROOK_FROM;
+    }
+
+    @Override
+    public PiecePositioned getRookTo() {
+        return ROOK_TO;
+    }
 }

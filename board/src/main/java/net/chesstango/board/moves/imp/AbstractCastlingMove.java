@@ -31,10 +31,7 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 		return kingMove.getTo();
 	}
 	
-	@Override
-	public Move getRookMove(){
-		return rookMove;
-	}
+
 	
 	@Override
 	public void executeMove(PiecePlacementWriter board) {

@@ -20,8 +20,7 @@ public class SANEncoder {
     public String encode(Move move, Iterable<Move> possibleMoves) {
         if(move instanceof MoveCastling){
             MoveCastling moveCastling = (MoveCastling) move;
-            Move rookMove = moveCastling.getRookMove();
-            Square rookFromSquare = rookMove.getFrom().getSquare();
+            Square rookFromSquare = moveCastling.getRookFrom().getSquare();
             if(rookFromSquare.getFile() == 0){
                 return "O-O-O";
             } else {

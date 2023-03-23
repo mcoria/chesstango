@@ -44,4 +44,13 @@ class CastlingWhiteQueenMove extends AbstractCastlingMove {
         return obj instanceof CastlingWhiteQueenMove;
     }
 
+	@Override
+	public PiecePositioned getRookFrom() {
+		return ROOK_FROM;
+	}
+
+	@Override
+	public PiecePositioned getRookTo() {
+		return ROOK_TO;
+	}
 }

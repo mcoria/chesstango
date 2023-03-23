@@ -1,5 +1,6 @@
 package net.chesstango.board.moves;
 
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 
 /**
@@ -13,5 +14,6 @@ public interface MoveCastling extends MoveKing {
 		return filter.filterMove(this);
 	}
 
-	Move getRookMove();
+	PiecePositioned getRookFrom();
+	PiecePositioned getRookTo();
 }

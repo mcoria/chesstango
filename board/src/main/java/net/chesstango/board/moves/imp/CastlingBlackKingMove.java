@@ -43,4 +43,14 @@ class CastlingBlackKingMove extends AbstractCastlingMove {
 	public boolean equals(Object obj) {
         return obj instanceof CastlingBlackKingMove;
     }
+
+	@Override
+	public PiecePositioned getRookFrom() {
+		return ROOK_FROM;
+	}
+
+	@Override
+	public PiecePositioned getRookTo() {
+		return ROOK_TO;
+	}
 }
