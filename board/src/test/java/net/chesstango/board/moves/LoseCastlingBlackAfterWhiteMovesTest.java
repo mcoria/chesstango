@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 /**
  * @author Mauricio Coria
  */
-public class PositionStateChangesWhiteMoveTest {
+public class LoseCastlingBlackAfterWhiteMovesTest {
     private MoveFactory moveFactoryImp;
 
     private Move moveExecutor;
@@ -29,61 +29,9 @@ public class PositionStateChangesWhiteMoveTest {
         moveExecutor = null;
     }
 
-    @Test
-    public void testSimpleKingMovePierdeEnroque() {
-        positionState.setCurrentTurn(Color.WHITE);
-        positionState.setCastlingWhiteKingAllowed(true);
-        positionState.setCastlingWhiteQueenAllowed(true);
-        positionState.setCastlingBlackKingAllowed(true);
-        positionState.setCastlingBlackQueenAllowed(true);
-        positionState.setHalfMoveClock(2);
-        positionState.setFullMoveClock(5);
-
-
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, null);
-
-        moveExecutor = moveFactoryImp.createSimpleKingMove(origen, destino);
-
-        moveExecutor.executeMove(positionState);
-
-        assertEquals(Color.BLACK, positionState.getCurrentTurn());
-        assertFalse(positionState.isCastlingWhiteKingAllowed());
-        assertFalse(positionState.isCastlingWhiteQueenAllowed());
-        assertTrue(positionState.isCastlingBlackKingAllowed());
-        assertTrue(positionState.isCastlingBlackQueenAllowed());
-        assertEquals(3, positionState.getHalfMoveClock());
-        assertEquals(5, positionState.getFullMoveClock());
-    }
 
     @Test
-    public void testCapturaKingMovePierdeEnroque() {
-        positionState.setCurrentTurn(Color.WHITE);
-        positionState.setCastlingWhiteKingAllowed(true);
-        positionState.setCastlingWhiteQueenAllowed(true);
-        positionState.setCastlingBlackKingAllowed(true);
-        positionState.setCastlingBlackQueenAllowed(true);
-        positionState.setHalfMoveClock(2);
-        positionState.setFullMoveClock(5);
-
-        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
-        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
-
-        moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
-
-        moveExecutor.executeMove(positionState);
-
-        assertEquals(Color.BLACK, positionState.getCurrentTurn());
-        assertFalse(positionState.isCastlingWhiteKingAllowed());
-        assertFalse(positionState.isCastlingWhiteQueenAllowed());
-        assertTrue(positionState.isCastlingBlackKingAllowed());
-        assertTrue(positionState.isCastlingBlackQueenAllowed());
-        assertEquals(0, positionState.getHalfMoveClock());
-        assertEquals(5, positionState.getFullMoveClock());
-    }
-
-    @Test
-    public void testCapturaTorreByKingPierdeEnroqueOponente1() {
+    public void testCapturaTorreByKing1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -109,7 +57,7 @@ public class PositionStateChangesWhiteMoveTest {
     }
 
     @Test
-    public void testCapturaTorreByKingPierdeEnroqueOponente2() {
+    public void testCapturaTorreByKing() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -135,7 +83,7 @@ public class PositionStateChangesWhiteMoveTest {
     }
 
     @Test
-    public void testCapturaTorreByQueenPierdeEnroqueOponente1() {
+    public void testCapturaTorreByQueen1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -161,7 +109,7 @@ public class PositionStateChangesWhiteMoveTest {
     }
 
     @Test
-    public void testCapturaTorreByQueenPierdeEnroqueOponente2() {
+    public void testCapturaTorreByQueen2() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -187,7 +135,7 @@ public class PositionStateChangesWhiteMoveTest {
     }
 
     @Test
-    public void testCapturaTorreByPawnPierdeEnroqueOponente1() {
+    public void testCapturaTorreByPawn1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -213,7 +161,7 @@ public class PositionStateChangesWhiteMoveTest {
     }
 
     @Test
-    public void testCapturaTorreByPawnPierdeEnroqueOponente2() {
+    public void testCapturaTorreByPawn2() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
