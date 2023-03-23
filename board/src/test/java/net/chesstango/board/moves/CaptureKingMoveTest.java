@@ -71,7 +71,11 @@ public class CaptureKingMoveTest {
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(origen, destino);
 	}
-	
+
+	@Test
+	public void testEquals() {
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+	}
 	
 	@Test
 	public void testPosicionPiezaBoard() {

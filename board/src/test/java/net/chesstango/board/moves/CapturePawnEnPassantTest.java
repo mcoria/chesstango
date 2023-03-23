@@ -66,7 +66,11 @@ public class CapturePawnEnPassantTest {
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant (pawnWhite, pawnPasanteSquare, Cardinal.NorteOeste, pawnBlack);
 
 	}
-	
+	@Test
+	public void testEquals() {
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+	}
+
 	@Test
 	public void testPosicionPiezaBoard() {		
 		// execute

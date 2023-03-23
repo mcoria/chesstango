@@ -40,7 +40,8 @@ public class ChessPositionTest {
 	private ChessPosition chessPosition;
 
 	private GameState gameState;
-	
+	private Game game;
+
 	@Before
 	public void setUp() throws Exception {		
 		moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
@@ -256,7 +257,7 @@ public class ChessPositionTest {
 		FENDecoder parser = new FENDecoder(builder);
 		parser.parseFEN(string);
 		
-		builder.getChessRepresentation();
+		game = builder.getChessRepresentation();
 		
 		chessPosition =  injector.getChessPosition();
 

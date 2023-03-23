@@ -149,6 +149,15 @@ public class MovePromotionImp implements MovePromotion {
         this.fnUndoColorBoard = fnUndoColorBoard;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof MovePromotionImp){
+            MovePromotionImp theOther = (MovePromotionImp) obj;
+            return from.equals(theOther.from) &&  to.equals(theOther.to) && promotion.equals(theOther.promotion);
+        }
+        return false;
+    }
+
     private Cardinal calculateMoveDirection() {
         Piece piece = getFrom().getPiece();
         return Piece.KNIGHT_WHITE.equals(piece) ||

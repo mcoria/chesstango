@@ -16,6 +16,7 @@ import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,13 +61,18 @@ public class SimplePawnPromotionTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e8, null);
+		PiecePositioned origen = piecePlacement.getPosicion(Square.e7);
+		PiecePositioned destino = piecePlacement.getPosicion(Square.e8);
 
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(origen, destino, Piece.QUEEN_WHITE);
+	}
+
+	@Test
+	public void testEquals() {
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
 	}
 	
 	

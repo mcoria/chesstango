@@ -121,7 +121,7 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(3, moves.size());
 
         assertTrue(moves.contains(createSimplePawnMove(origen, Square.e3, Cardinal.Norte)));
-        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e4, Square.a3)));
+        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e4, Square.e3)));
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.d3, Piece.PAWN_BLACK, Cardinal.NorteEste)));
     }
 
@@ -145,7 +145,7 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(3, moves.size());
 
         assertTrue(moves.contains(createSimplePawnMove(origen, Square.e3, Cardinal.Norte)));
-        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e4, Square.a3)));
+        assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e4, Square.e3)));
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.f3, Piece.PAWN_BLACK, Cardinal.NorteOeste)));
     }
 
