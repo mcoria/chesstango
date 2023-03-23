@@ -5,12 +5,15 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ZobristHash;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,13 +31,13 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleTwoSquaresPawnMoveTest {
 
-	private PiecePlacement piecePlacement;
-	
-	private PositionStateDebug positionState;
-	
-	private ColorBoardDebug colorBoard;
-	
 	private Move moveExecutor;
+	private PiecePlacement piecePlacement;
+
+	private PositionStateDebug positionState;
+	private ColorBoardDebug colorBoard;
+	private MoveCacheBoardDebug moveCacheBoard;
+	private ZobristHash zobristHash;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -57,6 +60,10 @@ public class SimpleTwoSquaresPawnMoveTest {
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
 		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
+
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
+
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
 	}
 	
@@ -141,26 +148,30 @@ public class SimpleTwoSquaresPawnMoveTest {
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
 	}
-	
+
 	@Test
 	public void testIntegrated() {
 		// execute
 		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(moveCacheBoard);
 
 		// asserts execute
 		colorBoard.validar(piecePlacement);
 		positionState.validar(piecePlacement);
-		
+		moveCacheBoard.validar(piecePlacement);
+
 		// undos
 		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(moveCacheBoard);
 
-		
+
 		// asserts undos
 		colorBoard.validar(piecePlacement);
 		positionState.validar(piecePlacement);
-	}	
+		moveCacheBoard.validar(piecePlacement);
+	}
 }

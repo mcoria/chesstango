@@ -66,7 +66,6 @@ public class SimplePawnPromotionTest {
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
 
-
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(origen, destino, Piece.QUEEN_WHITE);
 	}
 	
