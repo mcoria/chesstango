@@ -109,7 +109,7 @@ public class MovePawnTwoSquares implements Move {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Move){
+        if(obj instanceof MovePawnTwoSquares){
             MovePawnTwoSquares theOther = (MovePawnTwoSquares) obj;
             return from.equals(theOther.from) &&  to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
         }
