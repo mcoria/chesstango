@@ -60,6 +60,13 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         return moveImp;
     }
 
+    @Override
+    public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal, PiecePositioned capture) {
+        MoveCaptureEnPassant moveImp = new MoveCaptureEnPassant(origen, destino, cardinal, capture);
+
+        return moveImp;
+    }
+
 
     @Override
     public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
@@ -138,4 +145,5 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
 
     protected abstract void fnDoZobritKing(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
 
+    protected abstract void fnPawnCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState);
 }

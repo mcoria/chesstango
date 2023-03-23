@@ -48,11 +48,6 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     }
 
     @Override
-    public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal, PiecePositioned capture) {
-        return null;
-    }
-
-    @Override
     public Move createSimpleRookMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
         return null;
     }
@@ -85,5 +80,10 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     @Override
     protected void fnDoZobritKing(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         this.alogZobrit.fnDoZobritKingBlack(from, to, hash, oldPositionState, newPositionState);
+    }
+
+    @Override
+    protected void fnPawnCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
+        this.algoPositionState.pawnBlackCaptureUpdatePositionStateBeforeRollTurn(positionState);
     }
 }

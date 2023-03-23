@@ -35,8 +35,18 @@ public class AlgoPositionState {
         positionState.setCastlingBlackQueenAllowed(false);
     }
 
+    public void pawnWhiteCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
+        positionState.resetHalfMoveClock();
+        positionState.setEnPassantSquare(null);
+    }
+
     public void twoSquaresPawnMove(PositionState positionState, Square enPassantSquare) {
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(enPassantSquare);
+    }
+
+    public void pawnBlackCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
+        positionState.resetHalfMoveClock();
+        positionState.setEnPassantSquare(null);
     }
 }
