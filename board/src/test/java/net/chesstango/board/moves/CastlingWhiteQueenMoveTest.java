@@ -4,6 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.KingCacheBoardDebug;
+import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
@@ -31,11 +33,11 @@ public class CastlingWhiteQueenMoveTest {
 	
 	private PiecePlacement piecePlacement;
 	
-	private PositionState positionState;
+	private PositionStateDebug positionState;
 	
-	private KingCacheBoard kingCacheBoard;
+	private KingCacheBoardDebug kingCacheBoard;
 	
-	private ColorBoard colorBoard;	
+	private ColorBoardDebug colorBoard;
 	
 	private MoveKing moveExecutor;
 
@@ -51,7 +53,7 @@ public class CastlingWhiteQueenMoveTest {
 	public void setUp() throws Exception {
 		moveExecutor = moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingQueenMove();
 		
-		positionState = new PositionState();		
+		positionState = new PositionStateDebug();
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setCastlingWhiteQueenAllowed(true);
 		positionState.setCastlingWhiteKingAllowed(false);
@@ -62,7 +64,7 @@ public class CastlingWhiteQueenMoveTest {
 		piecePlacement.setPieza(Square.a1, Piece.ROOK_WHITE);
 		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 		
-		kingCacheBoard = new KingCacheBoard();
+		kingCacheBoard = new KingCacheBoardDebug();
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 
@@ -196,6 +198,32 @@ public class CastlingWhiteQueenMoveTest {
 		// asserts execute
 		verify(filter).filterKingMove(moveExecutor);
 		*/
-	}	
+	}
+
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piecePlacement);
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(kingCacheBoard);
+
+		// asserts execute
+		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+		kingCacheBoard.validar(piecePlacement);
+
+		// undos
+		moveExecutor.undoMove(piecePlacement);
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(kingCacheBoard);
+
+
+		// asserts undos
+		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+		kingCacheBoard.validar(piecePlacement);
+	}
 
 }

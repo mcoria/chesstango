@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.moves;
 
 import net.chesstango.board.Piece;
