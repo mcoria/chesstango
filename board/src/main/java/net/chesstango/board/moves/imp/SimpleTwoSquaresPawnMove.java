@@ -41,6 +41,10 @@ class SimpleTwoSquaresPawnMove extends SimplePawnMove {
 	
 	@Override
 	public boolean equals(Object obj) {
-        return super.equals(obj) && obj instanceof SimpleTwoSquaresPawnMove;
+		if (obj instanceof SimpleTwoSquaresPawnMove) {
+			SimpleTwoSquaresPawnMove other = (SimpleTwoSquaresPawnMove) obj;
+			return enPassantSquare.equals(other.enPassantSquare);
+		}
+		return false;
     }
 }

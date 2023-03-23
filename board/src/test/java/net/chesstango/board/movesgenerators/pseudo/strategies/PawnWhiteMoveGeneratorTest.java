@@ -58,7 +58,7 @@ public class PawnWhiteMoveGeneratorTest {
 
         assertEquals(1, moves.size());
 
-        assertTrue(moves.contains(createSimplePawnMove(origen, Square.a4, Cardinal.Norte)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.a4)));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class PawnWhiteMoveGeneratorTest {
 
         assertEquals(2, moves.size());
 
-        assertTrue(moves.contains(createSimplePawnMove(origen, Square.a3, Cardinal.Norte)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.a3)));
         assertTrue(moves.contains(createSaltoDobleMove(origen, Square.a4, Square.a3)));
     }
 
@@ -120,7 +120,7 @@ public class PawnWhiteMoveGeneratorTest {
 
         assertEquals(3, moves.size());
 
-        assertTrue(moves.contains(createSimplePawnMove(origen, Square.e3, Cardinal.Norte)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.e3)));
         assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e4, Square.e3)));
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.d3, Piece.PAWN_BLACK, Cardinal.NorteEste)));
     }
@@ -144,7 +144,7 @@ public class PawnWhiteMoveGeneratorTest {
 
         assertEquals(3, moves.size());
 
-        assertTrue(moves.contains(createSimplePawnMove(origen, Square.e3, Cardinal.Norte)));
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.e3)));
         assertTrue(moves.contains(createSaltoDobleMove(origen, Square.e4, Square.e3)));
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.f3, Piece.PAWN_BLACK, Cardinal.NorteOeste)));
     }
@@ -198,7 +198,7 @@ public class PawnWhiteMoveGeneratorTest {
         assertEquals(4, moves.size());
     }
 
-    private Move createSimplePawnMove(PiecePositioned origen, Square destinoSquare, Cardinal cardinal) {
+    private Move createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
         return moveFactoryImp.createSimplePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 

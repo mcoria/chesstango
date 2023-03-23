@@ -101,7 +101,7 @@ public class PawnBlackMoveGeneratorTest {
         assertEquals(3, moves.size());
 
         assertTrue(moves.contains(createSimplePawnMove(origen, Square.e6)));
-        assertTrue(moves.contains(createSimpleTwoSquaresPawnMove(origen, Square.e5, Square.a6)));
+        assertTrue(moves.contains(createSimpleTwoSquaresPawnMove(origen, Square.e5, Square.e6)));
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.d6, Piece.PAWN_WHITE, Cardinal.SurOeste)));
     }
 
