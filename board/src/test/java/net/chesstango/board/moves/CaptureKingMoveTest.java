@@ -74,7 +74,7 @@ public class CaptureKingMoveTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(piecePlacement.getPosicion(Square.e1), piecePlacement.getPosicion(Square.e2)), moveExecutor);
 	}
 	
 	@Test
