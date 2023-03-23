@@ -65,15 +65,15 @@ public class CaptureMoveTest {
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK);
+		PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
+		PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureMove(origen, destino);
 	}
 
 	@Test
 	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureMove(piecePlacement.getPosicion(Square.e5), piecePlacement.getPosicion(Square.e7)), moveExecutor);
 	}
 
 	@Test

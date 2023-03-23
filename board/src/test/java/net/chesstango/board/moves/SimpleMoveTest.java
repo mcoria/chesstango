@@ -75,7 +75,7 @@ public class SimpleMoveTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(piecePlacement.getPosicion(Square.e5), piecePlacement.getPosicion(Square.e7)), moveExecutor);
 	}
 
 	@Test
