@@ -6,8 +6,11 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.KingCacheBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
+import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
@@ -34,15 +37,12 @@ import static org.mockito.Mockito.verify;
 public class SimpleKingMoveTest {
 
 	private MoveKing moveExecutor;
-	
 	private PiecePlacement piecePlacement;
-	
-	private PositionState positionState;
 
-	private KingCacheBoardDebug kingCacheBoard;
-	
+	private PositionStateDebug positionState;
 	private ColorBoardDebug colorBoard;
-
+	private KingCacheBoardDebug kingCacheBoard;
+	private MoveCacheBoardDebug moveCacheBoard;
 	private ZobristHash zobristHash;
 
 	@Mock
@@ -53,6 +53,13 @@ public class SimpleKingMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
+		positionState = new PositionStateDebug();
+		positionState.setCurrentTurn(Color.WHITE);
+		positionState.setCastlingWhiteKingAllowed(true);
+		positionState.setCastlingWhiteQueenAllowed(true);
+		positionState.setHalfMoveClock(2);
+		positionState.setFullMoveClock(5);
+
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
 		
@@ -65,14 +72,10 @@ public class SimpleKingMoveTest {
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e1);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e2);
 
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorResult(origen));
+
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(origen, destino);
-		
-		positionState = new PositionState();
-		positionState.setCurrentTurn(Color.WHITE);
-		positionState.setCastlingWhiteKingAllowed(true);
-		positionState.setCastlingWhiteQueenAllowed(true);
-		positionState.setHalfMoveClock(2);
-		positionState.setFullMoveClock(5);
 
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
@@ -201,6 +204,7 @@ public class SimpleKingMoveTest {
 		moveExecutor.executeMove(kingCacheBoard);
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(moveCacheBoard);
 
 		// asserts execute
 		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
@@ -215,12 +219,14 @@ public class SimpleKingMoveTest {
 
 		colorBoard.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 		
 		// undos
 		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(kingCacheBoard);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(moveCacheBoard);
 
 		
 		// asserts undos
@@ -236,5 +242,6 @@ public class SimpleKingMoveTest {
 		
 		colorBoard.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 	}
 }
