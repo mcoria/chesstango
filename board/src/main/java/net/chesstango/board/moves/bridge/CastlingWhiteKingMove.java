@@ -8,6 +8,9 @@ import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 
+/**
+ * @author Mauricio Coria
+ */
 public class CastlingWhiteKingMove extends AbstractCastlingMove{
 
     private static final PiecePositioned FROM = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
@@ -32,14 +35,17 @@ public class CastlingWhiteKingMove extends AbstractCastlingMove{
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-
-    }
-
-    @Override
     public Move getRookMove() {
         return null;
     }
 
 
+    @Override
+    protected void xorCastling(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+        if(oldPositionState.isCastlingWhiteQueenAllowed() == true){
+            hash.xorCastleWhiteQueen();
+        }
+
+        hash.xorCastleWhiteKing();
+    }
 }

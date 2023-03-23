@@ -82,6 +82,19 @@ public abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+        hash.xorPosition(kingFrom);
+        hash.xorPosition(PiecePositioned.getPiecePositioned(kingTo.getSquare(), kingFrom.getPiece()));
+
+        hash.xorPosition(rookFrom);
+        hash.xorPosition(PiecePositioned.getPiecePositioned(rookTo.getSquare(), rookFrom.getPiece()));
+
+        xorCastling(hash, oldPositionState, newPositionState);
+
+        hash.xorTurn();
+    }
+
+    @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         executeMove(hash, oldPositionState, newPositionState);
     }
@@ -95,4 +108,6 @@ public abstract class AbstractCastlingMove implements MoveCastling {
     public Cardinal getMoveDirection() {
         return null;
     }
+
+    protected abstract void xorCastling(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState);
 }
