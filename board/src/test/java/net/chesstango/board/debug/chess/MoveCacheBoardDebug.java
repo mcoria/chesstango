@@ -22,18 +22,19 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 
 	public void validar(PiecePlacement dummyBoard) {
 		validarAffectedByAndAffects();
-		
-		for (PiecePositioned piecePositioned : dummyBoard) {
-			if(piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().toIdx()] != null){
-				throw new RuntimeException("En un casillero vacio de tablero existe movimeintos de cache!!!");
-			}
-		}
-		
+
 		for(int i = 0; i < 64; i++){
 			if(pseudoMoves[i] != null && dummyBoard.isEmpty(Square.getSquareByIdx(i))) {
-				throw new RuntimeException("En un casillero de cache con movimeintos se encuentra vacio en el tablero!!!");
+				throw new RuntimeException(String.format("Un casillero de cache contiene movimientos (%s) pero no existe pieza en tablero!!!", Square.getSquareByIdx(i)));
 			}
 		}
+
+		for (PiecePositioned piecePositioned : dummyBoard) {
+			if(piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().toIdx()] != null){
+				throw new RuntimeException(String.format("Para un casillero de tablero sin pieza (%s) existe movimientos en cache!!!", piecePositioned.getSquare()) );
+			}
+		}
+
 	}
 
 	private void validarAffectedByAndAffects() {

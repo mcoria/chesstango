@@ -84,7 +84,7 @@ public class MoveImp implements Move {
 
     @Override
     public void executeMove(MoveCacheBoard moveCache) {
-
+        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), true);
     }
 
     @Override

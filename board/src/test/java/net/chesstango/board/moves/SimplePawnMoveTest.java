@@ -5,14 +5,15 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
+import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
@@ -33,14 +34,12 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class SimplePawnMoveTest {
 
+	private Move moveExecutor;
 	private PiecePlacement piecePlacement;
 	
-	private PositionState positionState;
-	
-	private Move moveExecutor;
-	
-	private ColorBoard colorBoard;
-
+	private PositionStateDebug positionState;
+	private ColorBoardDebug colorBoard;
+	private MoveCacheBoardDebug moveCacheBoard;
 	private ZobristHash zobristHash;
 	
 	@Mock
@@ -51,7 +50,7 @@ public class SimplePawnMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		positionState = new PositionState();
+		positionState = new PositionStateDebug();
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setHalfMoveClock(2);
 		positionState.setFullMoveClock(5);
@@ -67,6 +66,10 @@ public class SimplePawnMoveTest {
 
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e3);
+
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
+
 		moveExecutor =  SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnMove(origen, destino);
 	}
 
@@ -146,7 +149,19 @@ public class SimplePawnMoveTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e3));
-	}	
+	}
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+	}
+
 	
 	@Test
 	public void testBoard() {
@@ -171,5 +186,31 @@ public class SimplePawnMoveTest {
 
 		// asserts execute
 		verify(filter).filterMove(moveExecutor);
-	}	
+	}
+
+	@Test
+	public void testIntegrated() {
+		// execute
+		moveExecutor.executeMove(piecePlacement);
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(moveCacheBoard);
+
+		// asserts execute
+		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
+
+		// undos
+		moveExecutor.undoMove(piecePlacement);
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(moveCacheBoard);
+
+
+		// asserts undos
+		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
+	}
 }
