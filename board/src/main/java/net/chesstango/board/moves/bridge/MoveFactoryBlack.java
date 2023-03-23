@@ -30,8 +30,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
 
     @Override
     public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
-        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Sur);
-        addSimpleTwoSquaresPawnMove(origen, destino, moveImp, enPassantSquare);
+        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(origen, destino, Cardinal.Sur, enPassantSquare);
         return moveImp;
     }
 

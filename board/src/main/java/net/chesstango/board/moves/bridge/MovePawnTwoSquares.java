@@ -3,6 +3,7 @@ package net.chesstango.board.moves.bridge;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.PiecePlacementWriter;
@@ -15,18 +16,18 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-public class MoveCaptureEnPassant implements Move {
+public class MovePawnTwoSquares implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
-    protected final PiecePositioned capture;
+    protected final Square enPassantSquare;
     protected final Cardinal direction;
 
     private ZobritExecutor fnDoZobrit;
 
-    public MoveCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
+    public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
         this.from = from;
         this.to = to;
-        this.capture = capture;
+        this.enPassantSquare = enPassantSquare;
         this.direction = direction;
     }
 
@@ -43,22 +44,19 @@ public class MoveCaptureEnPassant implements Move {
     @Override
     public void executeMove(PiecePlacementWriter board) {
         board.move(from, to);
-        board.setEmptyPosicion(capture);
     }
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
         board.setPosicion(from);
         board.setPosicion(to);
-        board.setPosicion(capture);
     }
 
     @Override
     public void executeMove(PositionState positionState) {
         positionState.pushState();
 
-        positionState.setEnPassantSquare(null);
-
+        positionState.setEnPassantSquare(enPassantSquare);
 
         positionState.resetHalfMoveClock();
 
@@ -77,15 +75,11 @@ public class MoveCaptureEnPassant implements Move {
     @Override
     public void executeMove(ColorBoard colorBoard) {
         colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
-
-        colorBoard.removePositions(capture);
     }
 
     @Override
     public void undoMove(ColorBoard colorBoard) {
         colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
-
-        colorBoard.addPositions(capture);
     }
 
     @Override
@@ -116,8 +110,8 @@ public class MoveCaptureEnPassant implements Move {
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Move){
-            Move theOther = (Move) obj;
-            return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
+            MovePawnTwoSquares theOther = (MovePawnTwoSquares) obj;
+            return from.equals(theOther.from) &&  to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
         }
         return false;
     }

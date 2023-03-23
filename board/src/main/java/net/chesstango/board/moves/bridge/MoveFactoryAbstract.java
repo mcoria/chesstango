@@ -147,17 +147,4 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
     }
 
-
-    protected void addSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp, Square enPassantSquare) {
-        moveImp.setFnDoPositionState(positionState -> algoPositionState.twoSquaresPawnMove(positionState, enPassantSquare));
-
-        moveImp.setFnDoMovePiecePlacement(algoPiecePositioned::defaultFnDoMovePiecePlacement);
-        moveImp.setFnUndoMovePiecePlacement(algoPiecePositioned::defaultFnUndoMovePiecePlacement);
-
-        moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
-
-        moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
-    }
-
 }
