@@ -51,7 +51,7 @@ public class CastlingWhiteQueenMoveTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		moveExecutor = moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingQueenMove();
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingQueenMove();
 		
 		positionState = new PositionStateDebug();
 		positionState.setCurrentTurn(Color.WHITE);
@@ -76,7 +76,7 @@ public class CastlingWhiteQueenMoveTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingQueenMove(), moveExecutor);
 	}
 
 	@Test
