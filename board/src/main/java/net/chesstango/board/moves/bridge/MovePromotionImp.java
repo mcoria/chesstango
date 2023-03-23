@@ -1,5 +1,6 @@
 package net.chesstango.board.moves.bridge;
 
+import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
@@ -65,9 +66,32 @@ public class MovePromotionImp implements MovePromotion {
     @Override
     public void executeMove(PositionState positionState) {
         positionState.pushState();
-        positionState.incrementFullMoveClock();
-
         positionState.resetHalfMoveClock();
+        positionState.setEnPassantSquare(null);
+
+        // Captura
+        if(to != null) {
+            if (CastlingWhiteKingMove.ROOK_FROM.equals(to)) {
+                positionState.setCastlingWhiteKingAllowed(false);
+            }
+
+            if (CastlingWhiteQueenMove.ROOK_FROM.equals(to)) {
+                positionState.setCastlingWhiteQueenAllowed(false);
+            }
+
+            if (CastlingBlackKingMove.ROOK_FROM.equals(to)) {
+                positionState.setCastlingBlackKingAllowed(false);
+            }
+
+            if (CastlingBlackQueenMove.ROOK_FROM.equals(to)) {
+                positionState.setCastlingBlackQueenAllowed(false);
+            }
+        }
+
+        if(Color.BLACK.equals(positionState.getCurrentTurn())){
+            positionState.incrementFullMoveClock();
+        }
+
         positionState.rollTurn();
     }
 
