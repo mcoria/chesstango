@@ -1,52 +1,19 @@
 package net.chesstango.board.moves.bridge;
 
-import net.chesstango.board.Square;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria
  */
-public class AlgoPositionState {
+public interface AlgoPositionState {
+    void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionState positionState);
 
-    public void kingWhiteUpdatePositionStateBeforeRollTurn(PositionState positionState) {
-        positionState.incrementHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.setCastlingWhiteKingAllowed(false);
-        positionState.setCastlingWhiteQueenAllowed(false);
-    }
-    public void kingBlackUpdatePositionStateBeforeRollTurn(PositionState positionState) {
-        positionState.incrementHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.setCastlingBlackKingAllowed(false);
-        positionState.setCastlingBlackQueenAllowed(false);
-    }
+    void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionState positionState);
 
-    public void kingWhiteCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.setCastlingWhiteKingAllowed(false);
-        positionState.setCastlingWhiteQueenAllowed(false);
-    }
+    void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionState positionState);
 
-    public void kingBlackCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.setCastlingBlackKingAllowed(false);
-        positionState.setCastlingBlackQueenAllowed(false);
-    }
+    void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, PositionState positionState);
 
-    public void pawnWhiteCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-    }
-
-    public void twoSquaresPawnMove(PositionState positionState, Square enPassantSquare) {
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(enPassantSquare);
-    }
-
-    public void pawnBlackCaptureUpdatePositionStateBeforeRollTurn(PositionState positionState) {
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-    }
+    void doCaptureNotKingPositionState(PiecePositioned from, PiecePositioned to, PositionState positionState);
 }

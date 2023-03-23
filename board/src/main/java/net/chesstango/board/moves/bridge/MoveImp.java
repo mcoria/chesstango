@@ -21,7 +21,7 @@ public class MoveImp implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
-    private Consumer<PositionState> fnUpdatePositionStateBeforeRollTurn;
+    private MoveExecutor<PositionState> fnDoPositionState;
     private MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement;
     private MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement;
 
@@ -64,13 +64,7 @@ public class MoveImp implements Move {
 
     @Override
     public void executeMove(PositionState positionState) {
-        positionState.pushState();
-
-        if(fnUpdatePositionStateBeforeRollTurn != null) {
-            fnUpdatePositionStateBeforeRollTurn.accept(positionState);
-        }
-
-        positionState.rollTurn();
+        fnDoPositionState.apply(from, to, positionState);
     }
 
     @Override
@@ -127,8 +121,8 @@ public class MoveImp implements Move {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
 
-    public void setFnUpdatePositionStateBeforeRollTurn(Consumer<PositionState> fnUpdatePositionStateBeforeRollTurn) {
-        this.fnUpdatePositionStateBeforeRollTurn = fnUpdatePositionStateBeforeRollTurn;
+    public void setFnDoPositionState(MoveExecutor<PositionState> fnDoPositionState) {
+        this.fnDoPositionState = fnDoPositionState;
     }
 
     public void setFnDoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement) {

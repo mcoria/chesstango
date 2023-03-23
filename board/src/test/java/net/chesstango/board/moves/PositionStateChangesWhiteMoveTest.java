@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 /**
  * @author Mauricio Coria
  */
-public class MoveFactoryWhiteTest {
+public class PositionStateChangesWhiteMoveTest {
     private MoveFactory moveFactoryImp;
 
     private Move moveExecutor;
@@ -83,7 +83,7 @@ public class MoveFactoryWhiteTest {
     }
 
     @Test
-    public void testCapturaTorreByKingMovePierdeEnroque1() {
+    public void testCapturaTorreByKingPierdeEnroqueOponente1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -109,7 +109,7 @@ public class MoveFactoryWhiteTest {
     }
 
     @Test
-    public void testCapturaTorreByKingMovePierdeEnroque2() {
+    public void testCapturaTorreByKingPierdeEnroqueOponente2() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -135,7 +135,7 @@ public class MoveFactoryWhiteTest {
     }
 
     @Test
-    public void testCapturaTorreByKingMovePierdeEnroque3() {
+    public void testCapturaTorreByQueenPierdeEnroqueOponente1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -161,7 +161,7 @@ public class MoveFactoryWhiteTest {
     }
 
     @Test
-    public void testCapturaTorreByKingMovePierdeEnroque4() {
+    public void testCapturaTorreByQueenPierdeEnroqueOponente2() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -187,7 +187,7 @@ public class MoveFactoryWhiteTest {
     }
 
     @Test
-    public void testCapturaTorreByKingMovePierdeEnroque5() {
+    public void testCapturaTorreByPawnPierdeEnroqueOponente1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -213,7 +213,7 @@ public class MoveFactoryWhiteTest {
     }
 
     @Test
-    public void testCapturaTorreByKingMovePierdeEnroque6() {
+    public void testCapturaTorreByPawnPierdeEnroqueOponente2() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);

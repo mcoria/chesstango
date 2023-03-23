@@ -9,20 +9,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  */
 public class AlogZobrit {
 
-    public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
-        hash.xorPosition(from);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
-        hash.xorTurn();
-    }
-
-    public void captureFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader positionStateReader, PositionStateReader positionStateReader1) {
-        hash.xorPosition(from);
-        hash.xorPosition(to);
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
-        hash.xorTurn();
-    }
-
-    public void fnDoZobritKingWhite(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+    public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         hash.xorPosition(from);
 
         if(to.getPiece() != null) {
@@ -39,17 +26,6 @@ public class AlogZobrit {
             hash.xorCastleWhiteQueen();
         }
 
-        hash.xorTurn();
-    }
-
-    public void fnDoZobritKingBlack(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        hash.xorPosition(from);
-
-        if(to.getPiece() != null) {
-            hash.xorPosition(to);
-        }
-
-        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
             hash.xorCastleWhiteKing();
@@ -61,4 +37,6 @@ public class AlogZobrit {
 
         hash.xorTurn();
     }
+
+
 }

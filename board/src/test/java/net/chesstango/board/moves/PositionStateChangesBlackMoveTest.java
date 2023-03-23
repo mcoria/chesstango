@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 /**
  * @author Mauricio Coria
  */
-public class MoveFactoryBlackTest {
+public class PositionStateChangesBlackMoveTest {
     private MoveFactory moveFactoryImp;
 
     private Move moveExecutor;
@@ -76,8 +76,8 @@ public class MoveFactoryBlackTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK);
+		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
+		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_WHITE);
 
 		moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
