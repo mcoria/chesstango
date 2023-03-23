@@ -67,7 +67,8 @@ public class CapturePawnPromotionTest {
 
 	@Test
 	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.f8), Piece.QUEEN_WHITE), moveExecutor);
+		assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.f8), Piece.ROOK_WHITE), moveExecutor);
 	}
 
 	@Test

@@ -59,16 +59,16 @@ public class CapturePawnEnPassantTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 		
-		PiecePositioned pawnWhite = PiecePositioned.getPiecePositioned(Square.b5, Piece.PAWN_WHITE);
-		PiecePositioned pawnBlack = PiecePositioned.getPiecePositioned(Square.a5, Piece.PAWN_BLACK);
-		PiecePositioned pawnPasanteSquare = PiecePositioned.getPiecePositioned(Square.a6, null);
+		PiecePositioned pawnWhite = piecePlacement.getPosicion(Square.b5);
+		PiecePositioned pawnBlack = piecePlacement.getPosicion(Square.a5);
+		PiecePositioned pawnPasanteSquare = piecePlacement.getPosicion(Square.a6);
 		
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant (pawnWhite, pawnPasanteSquare, Cardinal.NorteOeste, pawnBlack);
 
 	}
 	@Test
 	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant(piecePlacement.getPosicion(Square.b5), piecePlacement.getPosicion(Square.a6), Cardinal.NorteOeste, piecePlacement.getPosicion(Square.a5)), moveExecutor);
 	}
 
 	@Test
