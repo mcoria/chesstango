@@ -135,7 +135,7 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
     }
 
     @Test
-    public void testCapturaTorreByPawn1() {
+    public void testCapturaTorreByPawnPromotion1() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
@@ -161,7 +161,7 @@ public class LoseCastlingBlackAfterWhiteMovesTest {
     }
 
     @Test
-    public void testCapturaTorreByPawn2() {
+    public void testCapturaTorreByPawnPromotion2() {
         positionState.setCurrentTurn(Color.WHITE);
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);

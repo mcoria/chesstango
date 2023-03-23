@@ -68,7 +68,6 @@ public class MovePromotionImp implements MovePromotion {
         positionState.incrementFullMoveClock();
 
         positionState.resetHalfMoveClock();
-
         positionState.rollTurn();
     }
 

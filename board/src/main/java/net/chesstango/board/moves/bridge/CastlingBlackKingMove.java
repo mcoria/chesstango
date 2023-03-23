@@ -13,15 +13,15 @@ import net.chesstango.board.position.imp.ZobristHash;
  */
 public class CastlingBlackKingMove extends AbstractCastlingMove{
 
-    private static final PiecePositioned FROM = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
-    private static final PiecePositioned TO = PiecePositioned.getPiecePositioned(Square.g8, null);
+    protected static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
+    protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.g8, null);
 
-    private static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
-    private static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.f8, null);
+    protected static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+    protected static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.f8, null);
 
 
     public CastlingBlackKingMove() {
-        super(FROM, TO, ROOK_FROM, ROOK_TO);
+        super(KING_FROM, KING_TO, ROOK_FROM, ROOK_TO);
     }
 
     @Override
