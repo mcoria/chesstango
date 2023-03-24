@@ -23,7 +23,7 @@ public class Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Test extends AbstractPerftTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		pert = new PerftBrute();
+		pert = createPerft();
 		board =  getGame("4k2r/6K1/8/8/8/8/8/8 w k - 0 1");
 	}
 

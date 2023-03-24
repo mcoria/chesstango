@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.board.perft.imp.PerftWithMap;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.perft.imp.PerftBrute;
 
 
 /**
@@ -28,7 +27,9 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	
 	@Before
 	public void setUp() throws Exception {
-		pert = new PerftBrute();
+		//pert = new PerftBrute();
+		//pert = new PerftWithMap<String>(PerftWithMap::getStringGameId);
+		pert = createPerft();
 		game =  this.getGame(FENDecoder.INITIAL_FEN);
 	}
 
@@ -213,7 +214,6 @@ public class InitialPositionTest extends AbstractPerftTest  {
 
 
 	@Test //394segs 279segs 217segs 196segs
-	@Ignore
 	public void test_divide7() {
 		PerftResult result = pert.start(game, 7);
 		

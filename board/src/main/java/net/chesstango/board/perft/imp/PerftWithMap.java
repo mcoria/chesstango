@@ -8,29 +8,34 @@ import net.chesstango.board.perft.PerftResult;
 import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PerftWithMap implements Perft  {
+public class PerftWithMap<T> implements Perft  {
 	
 	private static final int[] capacities = new int[]{1, 20, 400, 7602, 101240, 1240671, 1240671, 1240671};
+
+	private final Function<Game, T> fnGetGameId;
 	
 	private int maxLevel;
 	
-	private final FENEncoder coder = new FENEncoder();
-	
-	private List<Map<String, Long>> nodeListMap;
+	private List<Map<T, Long>> nodeListMap;
 	private int[] repetedNodes;
+
+	public PerftWithMap(Function<Game, T> fnGetGameId) {
+		this.fnGetGameId = fnGetGameId;
+	}
 
 	public PerftResult start(Game board, int maxLevel) {
 		this.maxLevel = maxLevel;
-		this.nodeListMap = new  ArrayList<Map<String, Long>>(maxLevel + 1);
+		this.nodeListMap = new  ArrayList<Map<T, Long>>(maxLevel + 1);
 		this.repetedNodes = new int[maxLevel + 1];
 		
 		for(int i = 0; i < maxLevel + 1; i++){
-			Map<String, Long> nodeMap = new HashMap<String, Long>(capacities[i]);
+			Map<T, Long> nodeMap = new HashMap<T, Long>(capacities[i]);
 			nodeListMap.add(nodeMap);
 		}
 		
@@ -87,14 +92,14 @@ public class PerftWithMap implements Perft  {
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		if (level < this.maxLevel) {
-			Map<String, Long> nodeMap = nodeListMap.get(level);
+			Map<T, Long> nodeMap = nodeListMap.get(level);
 			
 			for (Move move : movimientosPosible) {
 				Long nodeCount = null;
 						
 				game.executeMove(move);
 
-				String id = getGameId(game);
+				T id = fnGetGameId.apply(game);
 
 				nodeCount = nodeMap.get(id);
 
@@ -145,11 +150,16 @@ public class PerftWithMap implements Perft  {
 		//System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);
 		//System.out.println("NoCheckLegalMoveGenerator "  + NoCheckLegalMoveGenerator.count);
 	}
-	
+
+
+	private static final FENEncoder coder = new FENEncoder();
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
-	private String getGameId(Game board) {
-		board.getChessPosition().constructBoardRepresentation(coder);
-		return coder.getChessRepresentation();
+	public static String getStringGameId(Game game) {
+		game.getChessPosition().constructBoardRepresentation(coder);
+		return coder.getFENWithoutClocks();
 	}
 
+	public static Long getZobristGameId(Game game) {
+		return game.getChessPosition().getHash();
+	}
 }
