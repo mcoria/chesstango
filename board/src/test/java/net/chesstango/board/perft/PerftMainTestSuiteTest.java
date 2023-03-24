@@ -65,7 +65,7 @@ public class PerftMainTestSuiteTest {
 	}
 
 	
-	@Test
+	@Test // 25segs
 	public void run_1() {
 		assertTrue(suite.run("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1 ;D1 26 ;D2 568 ;D3 13744 ;D4 314346 ;D5 7594526 ;D6 179862938"));
 	}
