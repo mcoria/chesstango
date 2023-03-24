@@ -24,23 +24,26 @@ public class MoveGeneratorResult {
 		this.from = from;
 	}
 
-	public void addPseudoMove(Move move) {
+	public MoveGeneratorResult addPseudoMove(Move move) {
 		pseudoMoves.add(move);
+		return this;
 	}
 
 	public MoveList getPseudoMoves(){
 		return pseudoMoves;
 	}
 
-	public void addAffectedByPositions(Square key) {
+	public MoveGeneratorResult addAffectedByPositions(Square key) {
 		affectedByContainer |= key.getBitPosition();
+		return this;
 	}
 	public long getAffectedByPositions() {
 		return affectedByContainer;
 	}
 
-	public void addCapturedPositions(Square key) {
+	public MoveGeneratorResult addCapturedPositions(Square key) {
 		capturedPositions |= key.getBitPosition();
+		return this;
 	}
 	public long getCapturedPositions() {
 		return capturedPositions;

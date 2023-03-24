@@ -5,7 +5,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.AbstractChessRepresentationBuilder;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 
@@ -22,17 +21,17 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
             if (board[square.getRank()][square.getFile()] != null) {
                 int kind_of_piece = getKindOfPiece(board[square.getRank()][square.getFile()]);
 
-                piece = piece ^ keys[64 * kind_of_piece + 8 * square.getRank() + square.getFile()];
+                piece = piece ^ KEYS[64 * kind_of_piece + 8 * square.getRank() + square.getFile()];
             }
         }
 
-        long turn = Color.WHITE.equals(this.turn) ? keys[780] : 0;
+        long turn = Color.WHITE.equals(this.turn) ? KEYS[780] : 0;
 
         long castle =
-                (castlingWhiteKingAllowed ? keys[768] : 0) ^
-                        (castlingWhiteQueenAllowed ? keys[769] : 0) ^
-                        (castlingBlackKingAllowed ? keys[770] : 0) ^
-                        (castlingBlackQueenAllowed ? keys[771] : 0);
+                (castlingWhiteKingAllowed ? KEYS[768] : 0) ^
+                        (castlingWhiteQueenAllowed ? KEYS[769] : 0) ^
+                        (castlingBlackKingAllowed ? KEYS[770] : 0) ^
+                        (castlingBlackQueenAllowed ? KEYS[771] : 0);
 
         long enpassant = 0;
         if (enPassantSquare != null){
@@ -48,12 +47,12 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
         if(Color.WHITE.equals(this.turn)){
             if(enPassantSquare.getFile() - 1 >= 0 && board[4][enPassantSquare.getFile() - 1] == Piece.PAWN_WHITE
             || enPassantSquare.getFile() + 1 < 8 &&  board[4][enPassantSquare.getFile() + 1] == Piece.PAWN_WHITE ){
-                result = keys[772 + enPassantSquare.getFile()];
+                result = KEYS[772 + enPassantSquare.getFile()];
             }
         } else {
             if(enPassantSquare.getFile() - 1 >= 0 && board[3][enPassantSquare.getFile() - 1] == Piece.PAWN_BLACK
                     || enPassantSquare.getFile() + 1 < 8 &&  board[3][enPassantSquare.getFile() + 1] == Piece.PAWN_BLACK ){
-                result = keys[772 + enPassantSquare.getFile()];
+                result = KEYS[772 + enPassantSquare.getFile()];
             }
         }
         return result;
@@ -82,7 +81,7 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
         };
     }
 
-    private final long[] keys = {
+    private final static long[] KEYS = {
             0x9D39247E33776D41L, 0x2AF7398005AAA5C7L, 0x44DB015024623547L, 0x9C15F73E62A76AE2L,
             0x75834465489C0C89L, 0x3290AC3A203001BFL, 0x0FBBAD1F61042279L, 0xE83A908FF2FB60CAL,
             0x0D7E765D58755C10L, 0x1A083822CEAFE02DL, 0x9605D5F0E25EC3B0L, 0xD021FF5CD13A2ED5L,

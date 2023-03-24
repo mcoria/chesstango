@@ -49,6 +49,10 @@ public class SimpleTwoSquaresPawnMoveTest {
 	@Mock
 	private MoveFilter filter;	
 
+
+
+
+
 	@Before
 	public void setUp() throws Exception {
 		positionState = new PositionStateDebug();
@@ -58,15 +62,18 @@ public class SimpleTwoSquaresPawnMoveTest {
 		
 		piecePlacement = new ArrayPiecePlacement();
 		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
+		piecePlacement.setPieza(Square.f4, Piece.PAWN_BLACK);
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 		
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
+		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
+		PiecePositioned destino = piecePlacement.getPosicion(Square.e4);
+		PiecePositioned peonNegro = piecePlacement.getPosicion(Square.f4);
 
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
+		moveCacheBoard.setPseudoMoves(Square.f4, new MoveGeneratorResult(peonNegro).addAffectedByPositions(Square.e3));
 
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
@@ -90,7 +97,7 @@ public class SimpleTwoSquaresPawnMoveTest {
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
 
-		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/4P3/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/4Pp2/8/8/8 b - e3 0 1").longValue(), zobristHash.getZobristHash());
 	}
 
 	@Test
@@ -168,10 +175,12 @@ public class SimpleTwoSquaresPawnMoveTest {
 		moveExecutor.executeMove(moveCacheBoard);
 
 		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
 
 		moveExecutor.undoMove(moveCacheBoard);
 
 		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
 	}
 
 	@Test
