@@ -134,6 +134,8 @@ public class MovePromotionImp implements MovePromotion {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
 
+        hash.xorOldEnPassantSquare();
+
         hash.xorTurn();
     }
 

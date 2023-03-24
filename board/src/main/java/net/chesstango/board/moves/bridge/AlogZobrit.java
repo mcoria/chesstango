@@ -35,6 +35,8 @@ public class AlogZobrit {
             hash.xorCastleWhiteQueen();
         }
 
+        hash.xorOldEnPassantSquare();
+
         hash.xorTurn();
     }
 

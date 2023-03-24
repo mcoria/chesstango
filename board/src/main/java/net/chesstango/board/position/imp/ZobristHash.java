@@ -15,6 +15,8 @@ public class ZobristHash {
 
     private long zobristHash;
 
+    private long zobristOldEnPassantSquare;
+
     public long getZobristHash() {
         return zobristHash;
     }
@@ -88,6 +90,12 @@ public class ZobristHash {
 
     public void xorEnPassantSquare(Square enPassantSquare) {
         zobristHash ^= KEYS[772 + enPassantSquare.getFile()];
+        zobristOldEnPassantSquare = KEYS[772 + enPassantSquare.getFile()];
+    }
+
+    public void xorOldEnPassantSquare() {
+        zobristHash ^= zobristOldEnPassantSquare;
+        zobristOldEnPassantSquare = 0;
     }
 
     private final static long[] KEYS = {

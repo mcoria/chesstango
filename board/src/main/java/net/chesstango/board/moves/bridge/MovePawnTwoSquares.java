@@ -99,11 +99,15 @@ public class MovePawnTwoSquares implements Move {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
-        Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
-        Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
-        if(leftSquare !=null &&  from.getPiece().getOpposite().equals(board.getPiece(leftSquare)) ||
-                rightSquare !=null &&  from.getPiece().getOpposite().equals(board.getPiece(rightSquare))) {
-            hash.xorEnPassantSquare(enPassantSquare);
+        hash.xorOldEnPassantSquare();
+
+        if(enPassantSquare.equals(newPositionState.getEnPassantSquare())) { // Para en caso de UNDO
+            Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
+            Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
+            if (leftSquare != null && from.getPiece().getOpposite().equals(board.getPiece(leftSquare)) ||
+                    rightSquare != null && from.getPiece().getOpposite().equals(board.getPiece(rightSquare))) {
+                hash.xorEnPassantSquare(enPassantSquare);
+            }
         }
 
         hash.xorTurn();

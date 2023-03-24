@@ -108,6 +108,8 @@ public class MoveCaptureEnPassant implements Move {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
+        hash.xorOldEnPassantSquare();
+
         hash.xorTurn();
     }
 

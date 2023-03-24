@@ -96,6 +96,8 @@ public abstract class AbstractCastlingMove implements MoveCastling {
 
         xorCastling(hash, oldPositionState, newPositionState);
 
+        hash.xorOldEnPassantSquare();
+
         hash.xorTurn();
     }
 

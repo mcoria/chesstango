@@ -103,6 +103,8 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 		hash.xorPosition(rookMove.getFrom());
 		hash.xorPosition(PiecePositioned.getPiecePositioned(rookMove.getTo().getSquare(), rookMove.getFrom().getPiece()));
 
+		hash.xorOldEnPassantSquare();
+
 		hash.xorTurn();
 	}
 
