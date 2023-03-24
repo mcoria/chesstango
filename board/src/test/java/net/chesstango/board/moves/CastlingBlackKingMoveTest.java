@@ -5,10 +5,12 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.KingCacheBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
@@ -36,11 +38,13 @@ public class CastlingBlackKingMoveTest {
 	
 	private PositionStateDebug positionState;
 	
-	private MoveKing moveExecutor;
+	private MoveCastling moveExecutor;
 	
 	private KingCacheBoardDebug kingCacheBoard;
 	
 	private ColorBoardDebug colorBoard;
+
+	private MoveCacheBoardDebug moveCacheBoard;
 
 	private ZobristHash zobristHash;
 	
@@ -70,6 +74,12 @@ public class CastlingBlackKingMoveTest {
 
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
+
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(moveExecutor.getFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getFrom()));
+		moveCacheBoard.setPseudoMoves(moveExecutor.getTo().getSquare(), new MoveGeneratorResult(moveExecutor.getTo()));
+		moveCacheBoard.setPseudoMoves(moveExecutor.getRookFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getRookFrom()));
+		moveCacheBoard.setPseudoMoves(moveExecutor.getRookTo().getSquare(), new MoveGeneratorResult(moveExecutor.getRookTo()));
 
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
@@ -202,7 +212,27 @@ public class CastlingBlackKingMoveTest {
 		// asserts undos
 		verify(chessPosition).undoMove(moveExecutor);
 	}
-	
+
+	@Test
+	public void testCacheBoard() {
+		// execute
+		moveExecutor.executeMove(moveCacheBoard);
+
+		// asserts execute
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
+
+		// undos
+		moveExecutor.undoMove(moveCacheBoard);
+
+		// asserts undos
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
+	}
 	
 	@Test
 	//TODO: Add test body
@@ -223,22 +253,26 @@ public class CastlingBlackKingMoveTest {
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
 		moveExecutor.executeMove(kingCacheBoard);
+		moveExecutor.executeMove(moveCacheBoard);
 
 		// asserts execute
 		colorBoard.validar(piecePlacement);
 		positionState.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 
 		// undos
 		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
 		moveExecutor.undoMove(kingCacheBoard);
+		moveExecutor.undoMove(moveCacheBoard);
 
 
 		// asserts undos
 		colorBoard.validar(piecePlacement);
 		positionState.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 	}
 }
