@@ -289,7 +289,10 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
     }
 
     public static Long getKey(Game game) {
-        ChessPositionReader position = game.getChessPosition();
+        return getKey(game.getChessPosition());
+    }
+
+    public static Long getKey(ChessPositionReader position) {
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
         position.constructBoardRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();

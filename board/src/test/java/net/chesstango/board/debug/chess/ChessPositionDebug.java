@@ -7,6 +7,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.position.imp.ZobristHash;
 
 
 /**
@@ -26,6 +27,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
 		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);
+		((ZobristHashDebug)zobristHash).validar(this);
 	}
 
 	@Override
@@ -35,6 +37,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
 		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);
+		((ZobristHashDebug)zobristHash).validar(this);
 		validar(getMoveGeneratorImp());
 	}
 	

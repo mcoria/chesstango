@@ -1,15 +1,6 @@
 package net.chesstango.board.debug.builder;
 
-import net.chesstango.board.debug.chess.CheckMoveFilterDebug;
-import net.chesstango.board.debug.chess.ChessPositionDebug;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.debug.chess.DefaultLegalMoveGeneratorDebug;
-import net.chesstango.board.debug.chess.KingCacheBoardDebug;
-import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
-import net.chesstango.board.debug.chess.MoveGenaratorWithCacheDebug;
-import net.chesstango.board.debug.chess.NoCheckLegalMoveGeneratorDebug;
-import net.chesstango.board.debug.chess.NoCheckMoveFilterDebug;
-import net.chesstango.board.debug.chess.PositionStateDebug;
+import net.chesstango.board.debug.chess.*;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
@@ -18,11 +9,7 @@ import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGener
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PiecePlacement;
-import net.chesstango.board.position.imp.ChessPositionImp;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.*;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
@@ -82,5 +69,10 @@ public class ChessFactoryDebug extends ChessFactory {
 	@Override
 	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
 		return new MoveGenaratorWithCacheDebug(moveGenerator, moveCacheBoard);
-	}	
+	}
+
+	@Override
+	public ZobristHash createZobristHash() {
+		return new ZobristHashDebug();
+	}
 }
