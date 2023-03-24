@@ -6,16 +6,15 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.KingCacheBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,14 +33,13 @@ import static org.mockito.Mockito.verify;
 public class CaptureKingMoveTest {
 
 	private MoveKing moveExecutor;
-	
 	private PiecePlacement piecePlacement;
-	
-	private PositionStateDebug positionState;
 
-	private KingCacheBoardDebug kingCacheBoard;
-	
+	private PositionStateDebug positionState;
 	private ColorBoardDebug colorBoard;
+	private KingCacheBoardDebug kingCacheBoard;
+	private MoveCacheBoardDebug moveCacheBoard;
+	private ZobristHash zobristHash;
 
 	
 	@Mock
@@ -69,6 +67,10 @@ public class CaptureKingMoveTest {
 
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e1);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e2);
+
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorResult(origen));
+		moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(destino));
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(origen, destino);
 	}
@@ -142,7 +144,20 @@ public class CaptureKingMoveTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.e2));
 	}
-	
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+	}
+
 	@Test
 	public void testBoard() {
 		// execute
@@ -170,12 +185,13 @@ public class CaptureKingMoveTest {
 	}	
 	
 	@Test
-	public void testExecuteUndo() {
+	public void testIntegrated() {
 		// execute
 		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(kingCacheBoard);
 		moveExecutor.executeMove(positionState);
 		moveExecutor.executeMove(colorBoard);
+		moveExecutor.executeMove(moveCacheBoard);
 
 		// asserts execute
 		assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
@@ -188,11 +204,18 @@ public class CaptureKingMoveTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e1));
 
+
+		colorBoard.validar(piecePlacement);
+		kingCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
+
 		// undos
 		moveExecutor.undoMove(piecePlacement);
 		moveExecutor.undoMove(kingCacheBoard);
 		moveExecutor.undoMove(positionState);
 		moveExecutor.undoMove(colorBoard);
+		moveExecutor.undoMove(moveCacheBoard);
 
 		
 		// asserts undos
@@ -205,32 +228,10 @@ public class CaptureKingMoveTest {
 		
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.e2));
-	}
 
-
-	@Test
-	public void testIntegrated() {
-		// execute
-		moveExecutor.executeMove(piecePlacement);
-		moveExecutor.executeMove(positionState);
-		moveExecutor.executeMove(colorBoard);
-		moveExecutor.executeMove(kingCacheBoard);
-
-		// asserts execute
 		colorBoard.validar(piecePlacement);
-		positionState.validar(piecePlacement);
 		kingCacheBoard.validar(piecePlacement);
-
-		// undos
-		moveExecutor.undoMove(piecePlacement);
-		moveExecutor.undoMove(positionState);
-		moveExecutor.undoMove(colorBoard);
-		moveExecutor.undoMove(kingCacheBoard);
-
-
-		// asserts undos
-		colorBoard.validar(piecePlacement);
-		positionState.validar(piecePlacement);
-		kingCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 	}
 }

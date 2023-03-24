@@ -181,7 +181,18 @@ public class SimpleKingMoveTest {
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
 		assertTrue(colorBoard.isEmpty(Square.e2));
 	}
-	
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e1));
+	}
+
 	@Test
 	public void testBoard() {
 		// execute

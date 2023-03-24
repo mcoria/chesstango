@@ -161,8 +161,19 @@ public class SimpleMoveTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
 		assertTrue(colorBoard.isEmpty(Square.e7));
-	}	
-	
+	}
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e5));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e5));
+	}
+
 	@Test
 	public void testBoard() {
 		// execute

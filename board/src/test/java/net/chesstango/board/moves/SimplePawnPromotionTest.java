@@ -134,7 +134,18 @@ public class SimplePawnPromotionTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
 		assertTrue(colorBoard.isEmpty(Square.e8));
-	}	
+	}
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
+	}
 	
 	@Test
 	public void testBoard() {

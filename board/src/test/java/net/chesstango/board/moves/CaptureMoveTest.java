@@ -5,9 +5,12 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
+import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.PositionStateReader;
@@ -33,14 +36,12 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CaptureMoveTest {
 
-	private PiecePlacement piecePlacement;
-	
-	private PositionState positionState;
-	
 	private Move moveExecutor;
-	
-	private ColorBoardDebug colorBoard;
+	private PiecePlacement piecePlacement;
 
+	private PositionStateDebug positionState;
+	private ColorBoardDebug colorBoard;
+	private MoveCacheBoardDebug moveCacheBoard;
 	private ZobristHash zobristHash;
 	
 	@Mock
@@ -51,7 +52,7 @@ public class CaptureMoveTest {
 
 	@Before
 	public void setUp() throws Exception {
-		positionState = new PositionState();
+		positionState = new PositionStateDebug();
 		positionState.setCurrentTurn(Color.WHITE);
 		positionState.setHalfMoveClock(3);
 		positionState.setFullMoveClock(5);
@@ -68,6 +69,10 @@ public class CaptureMoveTest {
 		
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
+
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(Square.e5, new MoveGeneratorResult(origen));
+		moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(destino));
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureMove(origen, destino);
 	}
@@ -158,7 +163,20 @@ public class CaptureMoveTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e5));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.e7));
-	}	
+	}
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e5));
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e5));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
+	}
 	
 	@Test
 	public void testBoard() {
@@ -192,8 +210,11 @@ public class CaptureMoveTest {
 		moveExecutor.executeMove(piecePlacement);
 		moveExecutor.executeMove(colorBoard);
 		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(moveCacheBoard);
 		
 		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 		
 		// undos
 		moveExecutor.undoMove(piecePlacement);
@@ -201,6 +222,8 @@ public class CaptureMoveTest {
 		moveExecutor.undoMove(positionState);		
 		
 		colorBoard.validar(piecePlacement);
+		positionState.validar(piecePlacement);
+		moveCacheBoard.validar(piecePlacement);
 	}
 	
 }

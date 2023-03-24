@@ -131,8 +131,19 @@ public class SimpleTwoSquaresPawnMoveTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
 		assertTrue(colorBoard.isEmpty(Square.e4));
-	}	
-	
+	}
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+	}
+
 	@Test
 	public void testBoard() {
 		// execute
@@ -148,8 +159,7 @@ public class SimpleTwoSquaresPawnMoveTest {
 		// asserts undos
 		verify(chessPosition).undoMove(moveExecutor);
 	}
-	
-	
+
 	@Test
 	public void testFilter() {
 		// execute

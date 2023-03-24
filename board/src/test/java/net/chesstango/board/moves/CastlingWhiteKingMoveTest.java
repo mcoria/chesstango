@@ -234,9 +234,9 @@ public class CastlingWhiteKingMoveTest {
 		moveExecutor.undoMove(moveCacheBoard);
 
 		// asserts undos
-		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
 		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
-		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
 		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
 	}
 	

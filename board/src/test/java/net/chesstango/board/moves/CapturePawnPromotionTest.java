@@ -5,10 +5,12 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
+import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
@@ -31,13 +33,12 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CapturePawnPromotionTest {
 
-	private PiecePlacement piecePlacement;
-	
-	private PositionStateDebug positionState;
-	
 	private Move moveExecutor;
-	
+	private PiecePlacement piecePlacement;
+
+	private PositionStateDebug positionState;
 	private ColorBoardDebug colorBoard;
+	private MoveCacheBoardDebug moveCacheBoard;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -62,7 +63,11 @@ public class CapturePawnPromotionTest {
 		
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e7);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.f8);
-		
+
+		moveCacheBoard = new MoveCacheBoardDebug();
+		moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
+		moveCacheBoard.setPseudoMoves(Square.f8, new MoveGeneratorResult(destino));
+
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(origen, destino, Piece.QUEEN_WHITE);
 	}
 
@@ -129,8 +134,21 @@ public class CapturePawnPromotionTest {
 		// asserts undos
 		assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
 		assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
-	}	
-	
+	}
+
+	@Test
+	public void testMoveCacheBoard(){
+		moveExecutor.executeMove(moveCacheBoard);
+
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
+		assertNull(moveCacheBoard.getPseudoMovesResult(Square.f8));
+
+		moveExecutor.undoMove(moveCacheBoard);
+
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e7));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.f8));
+	}
+
 	@Test
 	public void testBoard() {
 		// execute

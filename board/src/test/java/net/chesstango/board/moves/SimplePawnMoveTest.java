@@ -170,7 +170,7 @@ public class SimplePawnMoveTest {
 
 		moveExecutor.undoMove(moveCacheBoard);
 
-		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
 	}
 
 	
