@@ -125,12 +125,20 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+        hash.xorPosition(from);
 
+        if(to.getPiece() != null) {
+            hash.xorPosition(to);
+        }
+
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
+
+        hash.xorTurn();
     }
 
     @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-
+        executeMove(hash, oldPositionState, newPositionState);
     }
 
     @Override
