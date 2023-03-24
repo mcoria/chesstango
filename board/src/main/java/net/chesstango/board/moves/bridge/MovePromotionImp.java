@@ -113,12 +113,14 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public void executeMove(MoveCacheBoard moveCache) {
+        moveCache.pushCleared();
         moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), true);
     }
 
     @Override
     public void undoMove(MoveCacheBoard moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), true);
+        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), false);
+        moveCache.popCleared();
     }
 
     @Override
