@@ -10,6 +10,8 @@ import net.chesstango.board.position.imp.ZobristHash;
 public class AlogZobrit {
 
     public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+        hash.pushState();
+
         hash.xorPosition(from);
 
         if(to.getPiece() != null) {

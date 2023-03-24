@@ -8,10 +8,17 @@ import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @author Mauricio Coria
  */
 public class ZobristHash {
+
+    private final Deque<ZobristHash.ZobristHashData> stackZobristHistory = new ArrayDeque<ZobristHash.ZobristHashData>();
+
+    private ZobristHash.ZobristHashData currentZobristNode = null;
 
     private long zobristHash;
 
@@ -25,6 +32,10 @@ public class ZobristHash {
         PolyglotEncoder encoder = new PolyglotEncoder();
         piecePlacement.constructBoardRepresentation(encoder);
         zobristHash = encoder.getChessRepresentation();
+
+        if(piecePlacement.getEnPassantSquare() != null) {
+            throw new RuntimeException("CORREGIR zobristOldEnPassantSquare");
+        }
     }
 
     public void init(PiecePlacement piecePlacement, PositionState positionState) {
@@ -55,12 +66,9 @@ public class ZobristHash {
             xorCastleBlackQueen();
         }
 
-
-        long enpassant = 0;
-        /*
-        if (enPassantSquare != null){
-            enpassant = calculateEnPassantSquare();
-        }*/
+        if(calculateEnPassantSquare(piecePlacement, positionState)) {
+            xorEnPassantSquare(positionState.getEnPassantSquare());
+        }
     }
 
 
@@ -96,6 +104,19 @@ public class ZobristHash {
     public void xorOldEnPassantSquare() {
         zobristHash ^= zobristOldEnPassantSquare;
         zobristOldEnPassantSquare = 0;
+    }
+
+    public void pushState() {
+        ZobristHashData node = new ZobristHashData(zobristHash, zobristOldEnPassantSquare);
+
+        stackZobristHistory.push(node);
+    }
+
+    public void popState() {
+        ZobristHashData lastState = stackZobristHistory.pop();
+
+        zobristHash = lastState.zobristHash;
+        zobristOldEnPassantSquare = lastState.zobristOldEnPassantSquare;
     }
 
     private final static long[] KEYS = {
@@ -317,5 +338,25 @@ public class ZobristHash {
             case KING_BLACK -> 10;
             case KING_WHITE -> 11;
         };
+    }
+
+    private record ZobristHashData(long zobristHash, long zobristOldEnPassantSquare) {}
+
+    private boolean calculateEnPassantSquare(PiecePlacement piecePlacement, PositionState positionState) {
+        Square enPassantSquare = positionState.getEnPassantSquare();
+        if(positionState.getEnPassantSquare() != null){
+            if (Color.WHITE.equals(positionState.getCurrentTurn())) {
+                if (enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 4)) == Piece.PAWN_WHITE
+                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 4)) == Piece.PAWN_WHITE) {
+                    return true;
+                }
+            } else {
+                if (enPassantSquare.getFile() - 1 >= 0 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() - 1, 3)) == Piece.PAWN_BLACK
+                        || enPassantSquare.getFile() + 1 < 8 && piecePlacement.getPiece(Square.getSquare(enPassantSquare.getFile() + 1, 3)) == Piece.PAWN_BLACK) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

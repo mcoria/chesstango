@@ -126,6 +126,8 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+        hash.pushState();
+
         hash.xorPosition(from);
 
         if(to.getPiece() != null) {
@@ -141,7 +143,7 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        executeMove(hash, oldPositionState, newPositionState, board);
+        hash.popState();
     }
 
     @Override

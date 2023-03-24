@@ -100,7 +100,7 @@ public class MoveImp implements Move {
 
     @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        executeMove(hash, oldPositionState, newPositionState, board);
+        hash.popState();
     }
 
     @Override

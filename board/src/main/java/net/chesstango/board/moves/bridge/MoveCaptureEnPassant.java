@@ -102,6 +102,8 @@ public class MoveCaptureEnPassant implements Move {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+        hash.pushState();
+
         hash.xorPosition(from);
 
         hash.xorPosition(capture);
@@ -115,7 +117,7 @@ public class MoveCaptureEnPassant implements Move {
 
     @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        executeMove(hash, oldPositionState, newPositionState, board);
+        hash.popState();
     }
 
     @Override

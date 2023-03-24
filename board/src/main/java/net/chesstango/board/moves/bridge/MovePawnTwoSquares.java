@@ -95,13 +95,15 @@ public class MovePawnTwoSquares implements Move {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+        hash.pushState();
+
         hash.xorPosition(from);
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         hash.xorOldEnPassantSquare();
 
-        if(enPassantSquare.equals(newPositionState.getEnPassantSquare())) { // Para en caso de UNDO
+        if(enPassantSquare.equals(newPositionState.getEnPassantSquare())) {
             Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
             Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
             if (leftSquare != null && from.getPiece().getOpposite().equals(board.getPiece(leftSquare)) ||
@@ -115,7 +117,7 @@ public class MovePawnTwoSquares implements Move {
 
     @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        executeMove(hash, oldPositionState, newPositionState, board);
+        hash.popState();
     }
 
     @Override
