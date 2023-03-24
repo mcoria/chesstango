@@ -3,6 +3,7 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.position.PiecePlacementReader;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -33,8 +34,8 @@ class CaptureKingMove extends CaptureMove implements MoveKing {
         }
     }
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        super.executeMove(hash, oldPositionState, newPositionState);
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+        super.executeMove(hash, oldPositionState, newPositionState, board);
         if (oldPositionState.isCastlingWhiteKingAllowed() != newPositionState.isCastlingWhiteKingAllowed()) {
             hash.xorCastleWhiteKing();
         }

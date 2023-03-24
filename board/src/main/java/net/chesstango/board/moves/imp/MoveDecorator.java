@@ -3,6 +3,7 @@ package net.chesstango.board.moves.imp;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.PiecePlacementReader;
 import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
@@ -73,13 +74,13 @@ abstract class MoveDecorator<T extends Move> implements Move {
 	}
 
 	@Override
-	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-		move.executeMove(hash, oldPositionState, newPositionState);
+	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+		move.executeMove(hash, oldPositionState, newPositionState, board);
 	}
 
 	@Override
-	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-		executeMove(hash, oldPositionState, newPositionState);
+	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+		executeMove(hash, oldPositionState, newPositionState, board);
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.position.PiecePlacementReader;
 import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
@@ -93,17 +94,24 @@ public class MovePawnTwoSquares implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
         hash.xorPosition(from);
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+
+        Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
+        Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
+        if(leftSquare !=null &&  from.getPiece().getOpposite().equals(board.getPiece(leftSquare)) ||
+                rightSquare !=null &&  from.getPiece().getOpposite().equals(board.getPiece(rightSquare))) {
+            hash.xorEnPassantSquare(enPassantSquare);
+        }
 
         hash.xorTurn();
     }
 
     @Override
-    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        executeMove(hash, oldPositionState, newPositionState);
+    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+        executeMove(hash, oldPositionState, newPositionState, board);
     }
 
     @Override

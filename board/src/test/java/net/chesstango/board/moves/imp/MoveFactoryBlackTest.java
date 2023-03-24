@@ -44,10 +44,10 @@ public class MoveFactoryBlackTest {
     @Test
     public void testSimpleKingMovePierdeEnroque() {
         positionState.setCurrentTurn(Color.BLACK);
-		positionState.setCastlingWhiteKingAllowed(true);
-		positionState.setCastlingWhiteQueenAllowed(true);
-		positionState.setCastlingBlackKingAllowed(true);
-		positionState.setCastlingBlackQueenAllowed(true);
+        positionState.setCastlingWhiteKingAllowed(true);
+        positionState.setCastlingWhiteQueenAllowed(true);
+        positionState.setCastlingBlackKingAllowed(true);
+        positionState.setCastlingBlackQueenAllowed(true);
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
@@ -60,38 +60,38 @@ public class MoveFactoryBlackTest {
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
-		assertTrue(positionState.isCastlingWhiteQueenAllowed());
-		assertFalse(positionState.isCastlingBlackKingAllowed());
-		assertFalse(positionState.isCastlingBlackQueenAllowed());
+        assertTrue(positionState.isCastlingWhiteQueenAllowed());
+        assertFalse(positionState.isCastlingBlackKingAllowed());
+        assertFalse(positionState.isCastlingBlackQueenAllowed());
         assertEquals(3, positionState.getHalfMoveClock());
         assertEquals(6, positionState.getFullMoveClock());
     }
 
-	@Test
-	public void testCapturaKingMovePierdeEnroque() {
-		positionState.setCurrentTurn(Color.BLACK);
-		positionState.setCastlingWhiteKingAllowed(true);
-		positionState.setCastlingWhiteQueenAllowed(true);
-		positionState.setCastlingBlackKingAllowed(true);
-		positionState.setCastlingBlackQueenAllowed(true);
+    @Test
+    public void testCapturaKingMovePierdeEnroque() {
+        positionState.setCurrentTurn(Color.BLACK);
+        positionState.setCastlingWhiteKingAllowed(true);
+        positionState.setCastlingWhiteQueenAllowed(true);
+        positionState.setCastlingBlackKingAllowed(true);
+        positionState.setCastlingBlackQueenAllowed(true);
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK);
+        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_WHITE);
+        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK);
 
-		moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
+        moveExecutor = moveFactoryImp.createCaptureKingMove(origen, destino);
 
-		moveExecutor.executeMove(positionState);
+        moveExecutor.executeMove(positionState);
 
-		assertEquals(Color.WHITE, positionState.getCurrentTurn());
+        assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertTrue(positionState.isCastlingWhiteKingAllowed());
         assertTrue(positionState.isCastlingWhiteQueenAllowed());
         assertFalse(positionState.isCastlingBlackKingAllowed());
         assertFalse(positionState.isCastlingBlackQueenAllowed());
         assertEquals(0, positionState.getHalfMoveClock());
         assertEquals(6, positionState.getFullMoveClock());
-	}
+    }
 
     @Test
     public void testCapturaTorreByKingMovePierdeEnroque1() {
@@ -275,7 +275,7 @@ public class MoveFactoryBlackTest {
         moveExecutor.executeMove(piecePlacement);
         PositionStateReader ollPositionState = positionState.getCurrentState();
         moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, ollPositionState, positionState);
+        moveExecutor.executeMove(zobristHash, ollPositionState, positionState, null);
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
         assertFalse(positionState.isCastlingWhiteKingAllowed());

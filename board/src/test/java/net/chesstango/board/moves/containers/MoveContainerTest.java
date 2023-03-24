@@ -12,7 +12,6 @@ import org.junit.Test;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class MoveContainerTest {
 
@@ -27,7 +26,7 @@ public class MoveContainerTest {
     }
 
     @Test
-    public void test1(){
+    public void test1() {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
@@ -35,8 +34,8 @@ public class MoveContainerTest {
         moveContainerImp.add(move);
 
         Move foundMove = null;
-        for(Move theMove: moveContainerImp){
-            if(theMove.equals(move)){
+        for (Move theMove : moveContainerImp) {
+            if (theMove.equals(move)) {
                 foundMove = move;
             }
         }
@@ -45,7 +44,7 @@ public class MoveContainerTest {
     }
 
     @Test
-    public void test2(){
+    public void test2() {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
 
@@ -57,8 +56,8 @@ public class MoveContainerTest {
         moveContainerImp.add(moveList);
 
         Move foundMove1 = null;
-        for(Move move: moveContainerImp){
-            if(move1.equals(move)){
+        for (Move move : moveContainerImp) {
+            if (move1.equals(move)) {
                 foundMove1 = move;
             }
         }
@@ -67,7 +66,7 @@ public class MoveContainerTest {
     }
 
     @Test
-    public void test3(){
+    public void test3() {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
         PiecePositioned destino1 = PiecePositioned.getPiecePositioned(Square.e7, null);
         Move move1 = factory.createSimpleMove(origen, destino1);
@@ -82,12 +81,12 @@ public class MoveContainerTest {
         moveContainerImp.add(moveList2);
 
         Move foundMove1 = null;
-        Move foundMove2= null;
-        for(Move move: moveContainerImp){
-            if(move1.equals(move)){
+        Move foundMove2 = null;
+        for (Move move : moveContainerImp) {
+            if (move1.equals(move)) {
                 foundMove1 = move;
             }
-            if(move2.equals(move)){
+            if (move2.equals(move)) {
                 foundMove2 = move;
             }
         }
@@ -98,7 +97,7 @@ public class MoveContainerTest {
     }
 
     @Test
-    public void test4(){
+    public void test4() {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
 
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
@@ -120,15 +119,15 @@ public class MoveContainerTest {
 
         Move foundMove = null;
         Move foundMove1 = null;
-        Move foundMove2= null;
-        for(Move themove: moveContainerImp){
-            if(move.equals(themove)){
+        Move foundMove2 = null;
+        for (Move themove : moveContainerImp) {
+            if (move.equals(themove)) {
                 foundMove = themove;
             }
-            if(move1.equals(themove)){
+            if (move1.equals(themove)) {
                 foundMove1 = themove;
             }
-            if(move2.equals(themove)){
+            if (move2.equals(themove)) {
                 foundMove2 = themove;
             }
         }

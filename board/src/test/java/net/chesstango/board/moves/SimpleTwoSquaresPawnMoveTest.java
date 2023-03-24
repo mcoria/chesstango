@@ -30,207 +30,206 @@ import static org.mockito.Mockito.verify;
 
 /**
  * @author Mauricio Coria
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleTwoSquaresPawnMoveTest {
 
-	private Move moveExecutor;
-	private PiecePlacement piecePlacement;
+    private Move moveExecutor;
+    private PiecePlacement piecePlacement;
 
-	private PositionStateDebug positionState;
-	private ColorBoardDebug colorBoard;
-	private MoveCacheBoardDebug moveCacheBoard;
-	private ZobristHash zobristHash;
-	
-	@Mock
-	private ChessPosition chessPosition;
-	
-	@Mock
-	private MoveFilter filter;	
+    private PositionStateDebug positionState;
+    private ColorBoardDebug colorBoard;
+    private MoveCacheBoardDebug moveCacheBoard;
+    private ZobristHash zobristHash;
 
+    @Mock
+    private ChessPosition chessPosition;
 
+    @Mock
+    private MoveFilter filter;
 
 
+    @Before
+    public void setUp() throws Exception {
+        positionState = new PositionStateDebug();
+        positionState.setCurrentTurn(Color.WHITE);
+        positionState.setHalfMoveClock(2);
+        positionState.setFullMoveClock(5);
 
-	@Before
-	public void setUp() throws Exception {
-		positionState = new PositionStateDebug();
-		positionState.setCurrentTurn(Color.WHITE);
-		positionState.setHalfMoveClock(2);
-		positionState.setFullMoveClock(5);
-		
-		piecePlacement = new ArrayPiecePlacement();
-		piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
-		piecePlacement.setPieza(Square.f4, Piece.PAWN_BLACK);
-		
-		colorBoard = new ColorBoardDebug();
-		colorBoard.init(piecePlacement);
-		
-		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
-		PiecePositioned destino = piecePlacement.getPosicion(Square.e4);
-		PiecePositioned peonNegro = piecePlacement.getPosicion(Square.f4);
+        piecePlacement = new ArrayPiecePlacement();
+        piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
+        piecePlacement.setPieza(Square.f4, Piece.PAWN_BLACK);
 
-		moveCacheBoard = new MoveCacheBoardDebug();
-		moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
-		moveCacheBoard.setPseudoMoves(Square.f4, new MoveGeneratorResult(peonNegro).addAffectedByPositions(Square.e3));
+        colorBoard = new ColorBoardDebug();
+        colorBoard.init(piecePlacement);
 
-		zobristHash = new ZobristHash();
-		zobristHash.init(piecePlacement, positionState);
+        PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
+        PiecePositioned destino = piecePlacement.getPosicion(Square.e4);
+        PiecePositioned peonNegro = piecePlacement.getPosicion(Square.f4);
 
-		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
-	}
+        moveCacheBoard = new MoveCacheBoardDebug();
+        moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
+        moveCacheBoard.setPseudoMoves(Square.f4, new MoveGeneratorResult(peonNegro).addAffectedByPositions(Square.e3));
 
-	@Test
-	public void testEquals() {
-		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(piecePlacement.getPosicion(Square.e2), piecePlacement.getPosicion(Square.e4), Square.e3), moveExecutor);
-	}
+        zobristHash = new ZobristHash();
+        zobristHash.init(piecePlacement, positionState);
 
-	@Test
-	public void testGetDirection() {
-		assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().getSquare(), moveExecutor.getTo().getSquare()), moveExecutor.getMoveDirection());
-	}
+        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);
+    }
 
-	@Test
-	public void testZobristHash() {
-		PositionStateReader oldPositionState = positionState.getCurrentState();
-		moveExecutor.executeMove(positionState);
-		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
+    @Test
+    public void testEquals() {
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(piecePlacement.getPosicion(Square.e2), piecePlacement.getPosicion(Square.e4), Square.e3), moveExecutor);
+    }
 
-		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/4Pp2/8/8/8 b - e3 0 1").longValue(), zobristHash.getZobristHash());
-	}
+    @Test
+    public void testGetDirection() {
+        assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().getSquare(), moveExecutor.getTo().getSquare()), moveExecutor.getMoveDirection());
+    }
 
-	@Test
-	public void testZobristHashUndo() {
-		long initialHash = zobristHash.getZobristHash();
+    @Test
+    public void testZobristHash() {
+        moveExecutor.executeMove(piecePlacement);
+        PositionStateReader oldPositionState = positionState.getCurrentState();
+        moveExecutor.executeMove(positionState);
+        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, piecePlacement);
 
-		PositionStateReader oldPositionState = positionState.getCurrentState();
-		moveExecutor.executeMove(positionState);
-		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
+        Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/4Pp2/8/8/8 b - e3 0 1").longValue(), zobristHash.getZobristHash());
+    }
 
-		oldPositionState = positionState.getCurrentState();
-		moveExecutor.undoMove(positionState);
-		moveExecutor.undoMove(zobristHash, oldPositionState, positionState);
+    @Test
+    public void testZobristHashUndo() {
+        long initialHash = zobristHash.getZobristHash();
 
-		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
-	}
+        moveExecutor.executeMove(piecePlacement);
+        PositionStateReader oldPositionState = positionState.getCurrentState();
+        moveExecutor.executeMove(positionState);
+        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, piecePlacement);
 
-	@Test
-	public void testPosicionPiezaBoard() {
-		// execute
-		moveExecutor.executeMove(piecePlacement);
-		
-		// asserts execute		
-		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e4));
-		assertTrue(piecePlacement.isEmpty(Square.e2));
-		
-		// undos		
-		moveExecutor.undoMove(piecePlacement);
-		
-		// asserts undos		
-		assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
-		assertTrue(piecePlacement.isEmpty(Square.e4));
-	}
-		
-	@Test
-	public void testMoveState() {
-		// execute
-		moveExecutor.executeMove(positionState);
-		
-		// asserts execute
-		assertEquals(Square.e3, positionState.getEnPassantSquare());
-		assertEquals(Color.BLACK, positionState.getCurrentTurn());
-		assertEquals(0, positionState.getHalfMoveClock());
-		assertEquals(5, positionState.getFullMoveClock());
-		
-		// undos
-		moveExecutor.undoMove(positionState);
+        moveExecutor.undoMove(piecePlacement);
+        oldPositionState = positionState.getCurrentState();
+        moveExecutor.undoMove(positionState);
+        moveExecutor.undoMove(zobristHash, oldPositionState, positionState, piecePlacement);
 
-		// asserts undos
-		assertNull(positionState.getEnPassantSquare());
-		assertEquals(Color.WHITE, positionState.getCurrentTurn());
-		assertEquals(2, positionState.getHalfMoveClock());
-		assertEquals(5, positionState.getFullMoveClock());
-	}
-	
-	@Test
-	public void testColorBoard() {
-		// execute
-		moveExecutor.executeMove(colorBoard);
+        Assert.assertEquals(initialHash, zobristHash.getZobristHash());
+    }
 
-		// asserts execute
-		assertTrue(colorBoard.isEmpty(Square.e2));		
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e4));
+    @Test
+    public void testPosicionPiezaBoard() {
+        // execute
+        moveExecutor.executeMove(piecePlacement);
 
-		// undos
-		moveExecutor.undoMove(colorBoard);
-		
-		// asserts undos
-		assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
-		assertTrue(colorBoard.isEmpty(Square.e4));
-	}
+        // asserts execute
+        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e4));
+        assertTrue(piecePlacement.isEmpty(Square.e2));
 
-	@Test
-	public void testMoveCacheBoard(){
-		moveExecutor.executeMove(moveCacheBoard);
+        // undos
+        moveExecutor.undoMove(piecePlacement);
 
-		assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
-		assertNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
+        // asserts undos
+        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
+        assertTrue(piecePlacement.isEmpty(Square.e4));
+    }
 
-		moveExecutor.undoMove(moveCacheBoard);
+    @Test
+    public void testMoveState() {
+        // execute
+        moveExecutor.executeMove(positionState);
 
-		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
-		assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
-	}
+        // asserts execute
+        assertEquals(Square.e3, positionState.getEnPassantSquare());
+        assertEquals(Color.BLACK, positionState.getCurrentTurn());
+        assertEquals(0, positionState.getHalfMoveClock());
+        assertEquals(5, positionState.getFullMoveClock());
 
-	@Test
-	public void testBoard() {
-		// execute
-		moveExecutor.executeMove(chessPosition);
+        // undos
+        moveExecutor.undoMove(positionState);
 
-		// asserts execute
-		verify(chessPosition).executeMove(moveExecutor);
+        // asserts undos
+        assertNull(positionState.getEnPassantSquare());
+        assertEquals(Color.WHITE, positionState.getCurrentTurn());
+        assertEquals(2, positionState.getHalfMoveClock());
+        assertEquals(5, positionState.getFullMoveClock());
+    }
 
-		// undos
-		moveExecutor.undoMove(chessPosition);
+    @Test
+    public void testColorBoard() {
+        // execute
+        moveExecutor.executeMove(colorBoard);
 
-		
-		// asserts undos
-		verify(chessPosition).undoMove(moveExecutor);
-	}
+        // asserts execute
+        assertTrue(colorBoard.isEmpty(Square.e2));
+        assertEquals(Color.WHITE, colorBoard.getColor(Square.e4));
 
-	@Test
-	public void testFilter() {
-		// execute
-		moveExecutor.filter(filter);
+        // undos
+        moveExecutor.undoMove(colorBoard);
 
-		// asserts execute
-		verify(filter).filterMove(moveExecutor);
-	}
+        // asserts undos
+        assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
+        assertTrue(colorBoard.isEmpty(Square.e4));
+    }
 
-	@Test
-	public void testIntegrated() {
-		// execute
-		moveExecutor.executeMove(piecePlacement);
-		moveExecutor.executeMove(positionState);
-		moveExecutor.executeMove(colorBoard);
-		moveExecutor.executeMove(moveCacheBoard);
+    @Test
+    public void testMoveCacheBoard() {
+        moveExecutor.executeMove(moveCacheBoard);
 
-		// asserts execute
-		colorBoard.validar(piecePlacement);
-		positionState.validar(piecePlacement);
-		moveCacheBoard.validar(piecePlacement);
+        assertNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+        assertNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
 
-		// undos
-		moveExecutor.undoMove(piecePlacement);
-		moveExecutor.undoMove(positionState);
-		moveExecutor.undoMove(colorBoard);
-		moveExecutor.undoMove(moveCacheBoard);
+        moveExecutor.undoMove(moveCacheBoard);
+
+        assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.e2));
+        assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.f4));
+    }
+
+    @Test
+    public void testBoard() {
+        // execute
+        moveExecutor.executeMove(chessPosition);
+
+        // asserts execute
+        verify(chessPosition).executeMove(moveExecutor);
+
+        // undos
+        moveExecutor.undoMove(chessPosition);
 
 
-		// asserts undos
-		colorBoard.validar(piecePlacement);
-		positionState.validar(piecePlacement);
-		moveCacheBoard.validar(piecePlacement);
-	}
+        // asserts undos
+        verify(chessPosition).undoMove(moveExecutor);
+    }
+
+    @Test
+    public void testFilter() {
+        // execute
+        moveExecutor.filter(filter);
+
+        // asserts execute
+        verify(filter).filterMove(moveExecutor);
+    }
+
+    @Test
+    public void testIntegrated() {
+        // execute
+        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(positionState);
+        moveExecutor.executeMove(colorBoard);
+        moveExecutor.executeMove(moveCacheBoard);
+
+        // asserts execute
+        colorBoard.validar(piecePlacement);
+        positionState.validar(piecePlacement);
+        moveCacheBoard.validar(piecePlacement);
+
+        // undos
+        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(positionState);
+        moveExecutor.undoMove(colorBoard);
+        moveExecutor.undoMove(moveCacheBoard);
+
+
+        // asserts undos
+        colorBoard.validar(piecePlacement);
+        positionState.validar(piecePlacement);
+        moveCacheBoard.validar(piecePlacement);
+    }
 }

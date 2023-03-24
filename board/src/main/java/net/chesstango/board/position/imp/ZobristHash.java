@@ -63,31 +63,34 @@ public class ZobristHash {
 
 
     public void xorPosition(PiecePositioned piecePositioned) {
-        zobristHash ^= keys[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
+        zobristHash ^= KEYS[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
     }
 
     public void xorTurn(){
-        zobristHash ^= keys[780];
+        zobristHash ^= KEYS[780];
     }
 
     public void xorCastleWhiteKing() {
-        zobristHash ^= keys[768];
+        zobristHash ^= KEYS[768];
     }
 
     public void xorCastleWhiteQueen() {
-        zobristHash ^= keys[769];
+        zobristHash ^= KEYS[769];
     }
 
     public void xorCastleBlackKing() {
-        zobristHash ^= keys[770];
+        zobristHash ^= KEYS[770];
     }
 
     public void xorCastleBlackQueen() {
-        zobristHash ^= keys[771];
+        zobristHash ^= KEYS[771];
     }
 
+    public void xorEnPassantSquare(Square enPassantSquare) {
+        zobristHash ^= KEYS[772 + enPassantSquare.getFile()];
+    }
 
-    private final long[] keys = {
+    private final static long[] KEYS = {
             0x9D39247E33776D41L, 0x2AF7398005AAA5C7L, 0x44DB015024623547L, 0x9C15F73E62A76AE2L,
             0x75834465489C0C89L, 0x3290AC3A203001BFL, 0x0FBBAD1F61042279L, 0xE83A908FF2FB60CAL,
             0x0D7E765D58755C10L, 0x1A083822CEAFE02DL, 0x9605D5F0E25EC3B0L, 0xD021FF5CD13A2ED5L,

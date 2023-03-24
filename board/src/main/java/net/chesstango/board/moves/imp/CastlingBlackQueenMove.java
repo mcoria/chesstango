@@ -4,6 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.position.PiecePlacementReader;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -36,8 +37,8 @@ class CastlingBlackQueenMove extends AbstractCastlingMove {
 	}
 
 	@Override
-	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-		super.executeMove(hash, oldPositionState, newPositionState);
+	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+		super.executeMove(hash, oldPositionState, newPositionState, board);
 		hash.xorCastleBlackQueen();
 	}
 	@Override

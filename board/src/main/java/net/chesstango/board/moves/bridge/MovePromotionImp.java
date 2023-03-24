@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.position.PiecePlacementReader;
 import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
@@ -124,7 +125,7 @@ public class MovePromotionImp implements MovePromotion {
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
         hash.xorPosition(from);
 
         if(to.getPiece() != null) {
@@ -137,8 +138,8 @@ public class MovePromotionImp implements MovePromotion {
     }
 
     @Override
-    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        executeMove(hash, oldPositionState, newPositionState);
+    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+        executeMove(hash, oldPositionState, newPositionState, board);
     }
 
     @Override

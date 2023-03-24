@@ -4,6 +4,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
+import net.chesstango.board.position.PiecePlacementReader;
 import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.*;
@@ -93,7 +94,7 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 	}
 
 	@Override
-	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
 		// White move King
 		hash.xorPosition(kingMove.getFrom());
 		hash.xorPosition(PiecePositioned.getPiecePositioned(kingMove.getTo().getSquare(), kingMove.getFrom().getPiece()));
@@ -106,8 +107,8 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 	}
 
 	@Override
-	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-		executeMove(hash, oldPositionState, newPositionState);
+	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+		executeMove(hash, oldPositionState, newPositionState, board);
 	}
 
 	@Override
