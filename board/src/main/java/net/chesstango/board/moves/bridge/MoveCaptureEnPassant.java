@@ -21,7 +21,6 @@ public class MoveCaptureEnPassant implements Move {
     protected final PiecePositioned capture;
     protected final Cardinal direction;
 
-    private ZobritExecutor fnDoZobrit;
 
     public MoveCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
         this.from = from;
@@ -102,7 +101,13 @@ public class MoveCaptureEnPassant implements Move {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        fnDoZobrit.apply(from, to, hash, oldPositionState, newPositionState);
+        hash.xorPosition(from);
+
+        hash.xorPosition(capture);
+
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+
+        hash.xorTurn();
     }
 
     @Override
@@ -129,10 +134,6 @@ public class MoveCaptureEnPassant implements Move {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
 
-
-    public void setFnDoZobrit(ZobritExecutor fnDoZobrit) {
-        this.fnDoZobrit = fnDoZobrit;
-    }
 
     private Cardinal calculateMoveDirection() {
         Piece piece = getFrom().getPiece();

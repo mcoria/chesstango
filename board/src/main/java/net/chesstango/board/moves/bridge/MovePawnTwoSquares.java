@@ -22,8 +22,6 @@ public class MovePawnTwoSquares implements Move {
     protected final Square enPassantSquare;
     protected final Cardinal direction;
 
-    private ZobritExecutor fnDoZobrit;
-
     public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
         this.from = from;
         this.to = to;
@@ -125,11 +123,6 @@ public class MovePawnTwoSquares implements Move {
     @Override
     public String toString() {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
-    }
-
-
-    public void setFnDoZobrit(ZobritExecutor fnDoZobrit) {
-        this.fnDoZobrit = fnDoZobrit;
     }
 
     private Cardinal calculateMoveDirection() {
