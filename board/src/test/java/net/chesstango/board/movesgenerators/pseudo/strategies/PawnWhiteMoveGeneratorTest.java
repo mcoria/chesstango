@@ -125,6 +125,28 @@ public class PawnWhiteMoveGeneratorTest {
         assertTrue(moves.contains(createCapturePawnMove(origen, Square.d3, Piece.PAWN_BLACK, Cardinal.NorteEste)));
     }
 
+    @Test
+    public void testAtaqueIzquierda01() {
+        PiecePlacement tablero = getTablero("rnb1kbnr/pp1ppppp/8/q7/1Pp5/3P4/P1PKPPPP/RNBQ1BNR");
+
+        moveGenerator.setPiecePlacement(tablero);
+
+        Square from = Square.b4;
+        assertEquals(Piece.PAWN_WHITE, tablero.getPiece(from));
+        assertEquals(Piece.QUEEN_BLACK, tablero.getPiece(Square.a5));
+
+        PiecePositioned origen = PiecePositioned.getPiecePositioned(from, Piece.QUEEN_BLACK);
+
+        MoveGeneratorResult generatorResult = moveGenerator.generatePseudoMoves(origen);
+
+        moves = generatorResult.getPseudoMoves();
+
+        assertEquals(2, moves.size());
+
+        assertTrue(moves.contains(createSimplePawnMove(origen, Square.b5)));
+        assertTrue(moves.contains(createCapturePawnMove(origen, Square.a5, Piece.QUEEN_BLACK, Cardinal.NorteOeste)));
+    }
+
 
     @Test
     public void testAtaqueDerecha() {

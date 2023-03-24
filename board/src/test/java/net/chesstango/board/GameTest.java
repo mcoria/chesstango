@@ -643,7 +643,15 @@ public class GameTest {
 		legalMoves = game.getPossibleMoves();
 		assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
 	}
-	
+
+	@Test
+	public void testPawnPinned() {
+		Game game = getGame("rnbqkbnr/pp1ppppp/8/8/1Pp5/3P4/P1PKPPPP/RNBQ1BNR b kq b3 0 3");
+		game.executeMove(Square.d8, Square.a5);
+
+		MoveContainerReader legalMoves = game.getPossibleMoves();
+		assertTrue(contieneMove(legalMoves, Square.b4, Square.a5));
+	}
 	
 	protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
 		for (Move move : movimientos) {

@@ -4,6 +4,8 @@ module net.chesstango.board {
     exports net.chesstango.board.moves.containers;
     exports net.chesstango.board.moves.imp;
     exports net.chesstango.board.movesgenerators.pseudo;
+    exports net.chesstango.board.movesgenerators.legal.strategies;
+    exports net.chesstango.board.movesgenerators.legal.squarecapturers;
     exports net.chesstango.board.position;
     exports net.chesstango.board.iterators;
     exports net.chesstango.board.iterators.bysquare;
@@ -16,4 +18,5 @@ module net.chesstango.board {
     exports net.chesstango.board.representations.ascii;
     exports net.chesstango.board.movesgenerators.legal;
     exports net.chesstango.board.position.imp;
+    exports net.chesstango.board.perft;
 }

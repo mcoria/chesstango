@@ -35,7 +35,7 @@ public class ChessFactoryDebug extends ChessFactory {
 
 	@Override
 	public ChessPositionImp createChessPosition() {
-		return  new ChessPositionDebug();
+		return new ChessPositionDebug();
 	}	
 	
 	@Override
