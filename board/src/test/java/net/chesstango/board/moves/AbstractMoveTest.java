@@ -33,15 +33,6 @@ public class AbstractMoveTest {
 		assertEquals(moveFactory.createSimpleMove(origen, destino), moveFactory.createSimpleMove(origen, destino));
 	}
 	
-	@Test
-	@Ignore
-	public void testToString01() {
-		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e5, Piece.ROOK_WHITE);
-		PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e7, null);
-		Move move = moveFactory.createSimpleMove(origen, destino);
-		assertEquals("e5=ROOK_WHITE e7=null - SimpleMove", move.toString());
-	}	
-	
 	
 	@Test
 	public void testCompare01() {

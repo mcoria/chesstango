@@ -14,7 +14,10 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.*;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -87,7 +90,30 @@ public class CaptureKingMoveTest {
 	public void testGetDirection() {
 		assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().getSquare(), moveExecutor.getTo().getSquare()), moveExecutor.getMoveDirection());
 	}
-	
+
+	@Test
+	public void testZobristHash() {
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
+
+		Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/4K3/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
+	}
+
+	@Test
+	public void testZobristHashUndo() {
+		long initialHash = zobristHash.getZobristHash();
+
+		PositionStateReader oldPositionState = positionState.getCurrentState();
+		moveExecutor.executeMove(positionState);
+		moveExecutor.executeMove(zobristHash, oldPositionState, positionState);
+
+		oldPositionState = positionState.getCurrentState();
+		moveExecutor.undoMove(positionState);
+		moveExecutor.undoMove(zobristHash, oldPositionState, positionState);
+
+		Assert.assertEquals(initialHash, zobristHash.getZobristHash());
+	}
 	@Test
 	public void testPosicionPiezaBoard() {
 		// execute
