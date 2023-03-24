@@ -596,7 +596,7 @@ public class GameTest {
     }
 
     @Test
-    public void testKinkWhitePierdeCastling() {
+    public void testKingWhitePierdeCastling() {
         Game game = getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
 
         game.executeMove(Square.a1, Square.b1);
@@ -718,6 +718,36 @@ public class GameTest {
         // Ahora no podemos capturar el pawn pasante !!!
         legalMoves = game.getPossibleMoves();
         assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+    }
+
+    @Test
+    public void testJuegoEnPassant02() {
+        MoveContainerReader legalMoves = null;
+
+        Game game = getGame("rnbqkbnr/pppppppp/8/1P6/3P4/8/P1P1PPPP/RNBQKBNR b KQkq - 0 2");
+
+        // Estado inicial
+        legalMoves = game.getPossibleMoves();
+
+        assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
+
+        // Mueve el pawn pasante
+        game.executeMove(Square.c7, Square.c5);
+
+        // Podemos capturarlo
+        legalMoves = game.getPossibleMoves();
+        assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+
+        // Capturamos peon pasante
+        game.executeMove(Square.b5, Square.c6);
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+
+
+        // Undo
+        game.undoMove();
+        assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
     }
 

@@ -136,6 +136,23 @@ public class MovePromotionImp implements MovePromotion {
 
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), promotion));
 
+        if(oldPositionState.isCastlingWhiteKingAllowed() != newPositionState.isCastlingWhiteKingAllowed()){
+            hash.xorCastleWhiteKing();
+        }
+
+        if(oldPositionState.isCastlingWhiteQueenAllowed() != newPositionState.isCastlingWhiteQueenAllowed()){
+            hash.xorCastleWhiteQueen();
+        }
+
+
+        if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
+            hash.xorCastleWhiteKing();
+        }
+
+        if(oldPositionState.isCastlingBlackQueenAllowed() != newPositionState.isCastlingBlackQueenAllowed()){
+            hash.xorCastleWhiteQueen();
+        }
+
         hash.xorOldEnPassantSquare();
 
         hash.xorTurn();
