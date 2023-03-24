@@ -44,11 +44,11 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.executeMove(this.moveCache);
 
-		//PositionStateReader oldPositionState = positionState.getCurrentState();
+		PositionStateReader oldPositionState = positionState.getCurrentState();
 
 		move.executeMove(this.positionState);
 
-		//move.executeMove(this.zobristHash, oldPositionState, this.positionState);
+		move.executeMove(this.zobristHash, oldPositionState, this.positionState);
 
 	}
 
@@ -77,7 +77,7 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.undoMove(this.piecePlacement);
 
-		//move.undoMove(this.zobristHash, oldPositionState, this.positionState);
+		move.undoMove(this.zobristHash, oldPositionState, this.positionState);
 		
 	}
 	
