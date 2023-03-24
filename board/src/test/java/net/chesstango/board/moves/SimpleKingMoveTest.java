@@ -76,10 +76,10 @@ public class SimpleKingMoveTest {
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorResult(origen));
 
-		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(origen, destino);
-
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
+
+		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(origen, destino);
 	}
 
 	@Test

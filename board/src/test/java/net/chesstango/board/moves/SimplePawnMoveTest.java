@@ -62,14 +62,14 @@ public class SimplePawnMoveTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 
-		zobristHash = new ZobristHash();
-		zobristHash.init(piecePlacement, positionState);
-
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e3);
 
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
 
 		moveExecutor =  SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnMove(origen, destino);
 	}

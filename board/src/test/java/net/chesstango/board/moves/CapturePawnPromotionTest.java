@@ -16,6 +16,7 @@ import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.ZobristHash;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +40,7 @@ public class CapturePawnPromotionTest {
 	private PositionStateDebug positionState;
 	private ColorBoardDebug colorBoard;
 	private MoveCacheBoardDebug moveCacheBoard;
+	private ZobristHash zobristHash;
 	
 	@Mock
 	private ChessPosition chessPosition;
@@ -67,6 +69,9 @@ public class CapturePawnPromotionTest {
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
 		moveCacheBoard.setPseudoMoves(Square.f8, new MoveGeneratorResult(destino));
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(origen, destino, Piece.QUEEN_WHITE);
 	}

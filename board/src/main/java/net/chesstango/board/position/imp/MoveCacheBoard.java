@@ -11,6 +11,8 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  *
+ * TODO: LOS TESTS DE MOVIMIENTOS DEBERIAN PROBAR LOS AFFECTS
+ *
  */
 public class MoveCacheBoard {
 	
@@ -44,20 +46,20 @@ public class MoveCacheBoard {
 
 	public void clearPseudoMoves(Square key1, Square key2, boolean trackCleared) {
 		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
-				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0), trackCleared);
+				                  | affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0), trackCleared);
 	}
 
 	public void clearPseudoMoves(Square key1, Square key2, Square key3, boolean trackCleared) {
 		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
-				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
-				| affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0), trackCleared);
+				                 | affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
+				                 | affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0), trackCleared);
 	}
 
 	public void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4, boolean trackCleared) {
 		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
-				| affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
-				| affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0)
-				| affects[key4.toIdx()] | (pseudoMoves[key4.toIdx()] != null ? key4.getBitPosition() : 0), trackCleared);
+				                 | affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
+				                 | affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0)
+				                 | affects[key4.toIdx()] | (pseudoMoves[key4.toIdx()] != null ? key4.getBitPosition() : 0), trackCleared);
 	}	
 	
 	private void clearPseudoMoves(long clearSquares, boolean trackCleared) {

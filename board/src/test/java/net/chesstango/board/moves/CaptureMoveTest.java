@@ -63,9 +63,6 @@ public class CaptureMoveTest {
 
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
-
-		zobristHash = new ZobristHash();
-		zobristHash.init(piecePlacement, positionState);
 		
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
@@ -73,6 +70,9 @@ public class CaptureMoveTest {
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e5, new MoveGeneratorResult(origen));
 		moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(destino));
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
 
 		moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureMove(origen, destino);
 	}

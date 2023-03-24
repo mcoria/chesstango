@@ -63,14 +63,14 @@ public class SimpleMoveTest {
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(piecePlacement);
 
-		zobristHash = new ZobristHash();
-		zobristHash.init(piecePlacement, positionState);
-
 		PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
 		PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
 
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(Square.e5, new MoveGeneratorResult(origen));
+
+		zobristHash = new ZobristHash();
+		zobristHash.init(piecePlacement, positionState);
 
 		moveExecutor =  SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(origen, destino);
 	}

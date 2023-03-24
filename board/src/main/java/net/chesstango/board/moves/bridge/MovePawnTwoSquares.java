@@ -96,7 +96,11 @@ public class MovePawnTwoSquares implements Move {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        fnDoZobrit.apply(from, to, hash, oldPositionState, newPositionState);
+        hash.xorPosition(from);
+
+        hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
+
+        hash.xorTurn();
     }
 
     @Override
