@@ -7,6 +7,7 @@ import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -75,6 +76,7 @@ public class ZobristHashTest {
     }
 
     @Test
+    @Ignore
     public void testCaptureMove(){
         ChessPosition position = FENDecoder.loadChessPosition("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2 ");
 

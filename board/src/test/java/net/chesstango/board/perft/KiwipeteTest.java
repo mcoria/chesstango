@@ -226,7 +226,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 	
 	@Test //8segs
 	public void test_divide4() {
-		PerftResult result= pert.start(board, 4);	
+		PerftResult result= pert.start(board, 4);
 		
 		assertEquals(86975, result.getChildNode(Square.e1, Square.g1 ));
 		assertEquals(79803, result.getChildNode(Square.e1, Square.c1 ));

@@ -9,6 +9,7 @@ import java.util.concurrent.*;
 import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
+import net.chesstango.board.perft.imp.PerftWithMap;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.perft.imp.PerftBrute;
 
@@ -208,7 +209,7 @@ public class PerftMainTestSuite {
 			out.println(Thread.currentThread().getName() + ">> " + "Testing FEN: " + this.fen);
 			for (int i = 0; i < expectedPerftResults.length; i++) {
 
-				PerftBrute main = new PerftBrute();
+				Perft main = createPerft();
 
 				PerftResult result = main.start(getGame(), this.startLevel + i);
 
@@ -268,5 +269,9 @@ public class PerftMainTestSuite {
 
 	public boolean isResult() {
 		return result;
+	}
+
+	protected Perft createPerft(){
+		return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
 	}
 }
