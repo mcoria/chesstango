@@ -80,12 +80,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		analysis.getPinnedPositionCardinals().forEach( pinnedPositionCardinal -> {
 			getPseudoMoves(pinnedPositionCardinal.getKey())
 					.stream()
-					.filter(pseudoMove -> {
-						return NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(),  pseudoMove.getMoveDirection() );
-					} )
+					.filter(pseudoMove -> NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(),  pseudoMove.getMoveDirection()))
 					.forEach(move -> moves.add(move));
 		});
-
 		return moves;
 	}
 

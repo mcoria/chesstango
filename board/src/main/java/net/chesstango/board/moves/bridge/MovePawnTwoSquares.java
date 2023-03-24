@@ -104,7 +104,7 @@ public class MovePawnTwoSquares implements Move {
 
     @Override
     public Cardinal getMoveDirection() {
-        return null;
+        return direction;
     }
 
     @Override

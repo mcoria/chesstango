@@ -72,6 +72,10 @@ public class CapturePawnEnPassantTest {
 	}
 
 	@Test
+	public void testGetDirection() {
+		assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().getSquare(), moveExecutor.getTo().getSquare()), moveExecutor.getMoveDirection());
+	}
+	@Test
 	public void testPosicionPiezaBoard() {		
 		// execute
 		moveExecutor.executeMove(piecePlacement);

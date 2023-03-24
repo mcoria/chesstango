@@ -8,6 +8,7 @@ import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
@@ -75,7 +76,11 @@ public class SimplePawnPromotionTest {
 		assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
 		assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.e8), Piece.ROOK_WHITE), moveExecutor);
 	}
-	
+
+	@Test
+	public void testGetDirection() {
+		assertEquals(Cardinal.calculateSquaresDirection(moveExecutor.getFrom().getSquare(), moveExecutor.getTo().getSquare()), moveExecutor.getMoveDirection());
+	}
 	
 	@Test
 	public void testPosicionPiezaBoard() {

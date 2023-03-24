@@ -110,14 +110,14 @@ public class MoveCaptureEnPassant implements Move {
 
     @Override
     public Cardinal getMoveDirection() {
-        return null;
+        return direction;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Move){
-            Move theOther = (Move) obj;
-            return getFrom().equals(theOther.getFrom()) &&  getTo().equals(theOther.getTo());
+        if(obj instanceof MoveCaptureEnPassant){
+            MoveCaptureEnPassant theOther = (MoveCaptureEnPassant) obj;
+            return from.equals(theOther.from) &&  to.equals(to);
         }
         return false;
     }

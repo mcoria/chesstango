@@ -133,7 +133,7 @@ public class MovePromotionImp implements MovePromotion {
 
     @Override
     public Cardinal getMoveDirection() {
-        return null;
+        return direction;
     }
 
     @Override

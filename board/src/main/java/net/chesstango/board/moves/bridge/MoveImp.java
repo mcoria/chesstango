@@ -104,7 +104,7 @@ public class MoveImp implements Move {
 
     @Override
     public Cardinal getMoveDirection() {
-        return null;
+        return direction;
     }
 
     @Override
