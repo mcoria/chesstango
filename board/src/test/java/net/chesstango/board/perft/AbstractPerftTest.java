@@ -21,8 +21,8 @@ import static org.junit.Assert.assertEquals;
 public abstract class AbstractPerftTest {
 
 	protected Game getGame(String string) {		
-		GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
-		//GameBuilder builder = new GameBuilder();
+		//GameBuilder builder = new GameBuilder(new ChessFactoryDebug());
+		GameBuilder builder = new GameBuilder();
 
 		FENDecoder parser = new FENDecoder(builder);
 		

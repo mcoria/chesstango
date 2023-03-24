@@ -418,7 +418,6 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		game.executeMove(Square.e1, Square.d2);
 		game.executeMove(Square.c5, Square.c4);
 		game.executeMove(Square.b2, Square.b4);
-		System.out.println(FENEncoder.encodeGame(game));
 		game.executeMove(Square.d8, Square.a5);
 
 

@@ -78,7 +78,7 @@ public class ChessFactory {
 		return new PositionState();
 	}
 
-	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGeneratorImp moveGenerator, MoveCacheBoard moveCacheBoard) {
+	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
 		return new MoveGeneratorWithCacheProxy(moveGenerator, moveCacheBoard);
 	}
 

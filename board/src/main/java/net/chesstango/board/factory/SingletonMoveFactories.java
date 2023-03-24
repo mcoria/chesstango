@@ -1,8 +1,6 @@
 package net.chesstango.board.factory;
 
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.bridge.MoveFactoryBlack;
-import net.chesstango.board.moves.bridge.MoveFactoryWhite;
 
 /**
  * @author Mauricio Coria
@@ -16,14 +14,16 @@ public class SingletonMoveFactories {
 
     public static MoveFactory getDefaultMoveFactoryWhite(){
         if(factoryWhite == null) {
-            factoryWhite =  new MoveFactoryWhite();
+            //factoryWhite =  new net.chesstango.board.moves.imp.MoveFactoryWhite();
+            factoryWhite =  new net.chesstango.board.moves.bridge.MoveFactoryWhite();
         }
         return factoryWhite;
     }
 
     public static MoveFactory getDefaultMoveFactoryBlack(){
         if(factoryBlack == null) {
-            factoryBlack =  new MoveFactoryBlack();
+            //factoryBlack =  new net.chesstango.board.moves.imp.MoveFactoryBlack();
+            factoryBlack =  new net.chesstango.board.moves.bridge.MoveFactoryBlack();
         }
         return factoryBlack;
     }
