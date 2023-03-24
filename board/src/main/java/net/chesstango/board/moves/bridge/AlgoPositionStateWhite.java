@@ -22,6 +22,15 @@ public class AlgoPositionStateWhite implements AlgoPositionState {
         positionState.pushState();
         positionState.incrementHalfMoveClock();
         positionState.setEnPassantSquare(null);
+
+        if(CastlingWhiteKingMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingWhiteKingAllowed(false);
+        }
+
+        if(CastlingWhiteQueenMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingWhiteQueenAllowed(false);
+        }
+
         positionState.rollTurn();
     }
 
@@ -40,6 +49,14 @@ public class AlgoPositionStateWhite implements AlgoPositionState {
         positionState.pushState();
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
+
+        if(CastlingWhiteKingMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingWhiteKingAllowed(false);
+        }
+
+        if(CastlingWhiteQueenMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingWhiteQueenAllowed(false);
+        }
 
         if(CastlingBlackKingMove.ROOK_FROM.equals(to)){
             positionState.setCastlingBlackKingAllowed(false);

@@ -5,6 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.imp.PositionState;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,6 @@ public class LoseCastlingWhiteAfterWhiteMovesTest {
         positionState.setCastlingBlackQueenAllowed(true);
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
-
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, null);
@@ -82,4 +82,59 @@ public class LoseCastlingWhiteAfterWhiteMovesTest {
         assertEquals(0, positionState.getHalfMoveClock());
         assertEquals(5, positionState.getFullMoveClock());
     }
+
+    @Test
+    public void testSimpleRookMovePierdeEnroque() {
+        positionState.setCurrentTurn(Color.WHITE);
+        positionState.setCastlingWhiteKingAllowed(true);
+        positionState.setCastlingWhiteQueenAllowed(true);
+        positionState.setCastlingBlackKingAllowed(true);
+        positionState.setCastlingBlackQueenAllowed(true);
+        positionState.setHalfMoveClock(2);
+        positionState.setFullMoveClock(5);
+
+
+        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
+        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a2, null);
+
+        moveExecutor = moveFactoryImp.createSimpleRookMove(origen, destino, Cardinal.Norte);
+
+        moveExecutor.executeMove(positionState);
+
+        assertEquals(Color.BLACK, positionState.getCurrentTurn());
+        assertTrue(positionState.isCastlingWhiteKingAllowed());
+        assertFalse(positionState.isCastlingWhiteQueenAllowed());
+        assertTrue(positionState.isCastlingBlackKingAllowed());
+        assertTrue(positionState.isCastlingBlackQueenAllowed());
+        assertEquals(3, positionState.getHalfMoveClock());
+        assertEquals(5, positionState.getFullMoveClock());
+    }
+
+    @Test
+    public void testCaptureRookMovePierdeEnroque() {
+        positionState.setCurrentTurn(Color.WHITE);
+        positionState.setCastlingWhiteKingAllowed(true);
+        positionState.setCastlingWhiteQueenAllowed(true);
+        positionState.setCastlingBlackKingAllowed(true);
+        positionState.setCastlingBlackQueenAllowed(true);
+        positionState.setHalfMoveClock(2);
+        positionState.setFullMoveClock(5);
+
+
+        PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
+        PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_BLACK);
+
+        moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Norte);
+
+        moveExecutor.executeMove(positionState);
+
+        assertEquals(Color.BLACK, positionState.getCurrentTurn());
+        assertTrue(positionState.isCastlingWhiteKingAllowed());
+        assertFalse(positionState.isCastlingWhiteQueenAllowed());
+        assertTrue(positionState.isCastlingBlackKingAllowed());
+        assertTrue(positionState.isCastlingBlackQueenAllowed());
+        assertEquals(0, positionState.getHalfMoveClock());
+        assertEquals(5, positionState.getFullMoveClock());
+    }
+
 }

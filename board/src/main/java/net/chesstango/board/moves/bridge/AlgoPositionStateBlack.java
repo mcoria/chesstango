@@ -23,6 +23,15 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
         positionState.pushState();
         positionState.incrementHalfMoveClock();
         positionState.setEnPassantSquare(null);
+
+        if(CastlingBlackKingMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingBlackKingAllowed(false);
+        }
+
+        if(CastlingBlackQueenMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingBlackQueenAllowed(false);
+        }
+
         positionState.incrementFullMoveClock();
         positionState.rollTurn();
     }
@@ -43,6 +52,14 @@ public class AlgoPositionStateBlack implements AlgoPositionState {
         positionState.pushState();
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
+
+        if(CastlingBlackKingMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingBlackKingAllowed(false);
+        }
+
+        if(CastlingBlackQueenMove.ROOK_FROM.equals(from)){
+            positionState.setCastlingBlackQueenAllowed(false);
+        }
 
         if(CastlingWhiteKingMove.ROOK_FROM.equals(to)){
             positionState.setCastlingWhiteKingAllowed(false);
