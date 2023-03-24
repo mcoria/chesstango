@@ -13,6 +13,7 @@ import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -528,6 +529,36 @@ public class GameTest {
         assertEquals(48, game.getPossibleMoves().size());
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
 
+    }
+
+    @Test
+    public void testCaptureRook() {
+        MoveFactory moveFactory = SingletonMoveFactories.getDefaultMoveFactoryBlack();
+        Game game = getGame("4k2r/8/8/8/3B4/8/8/4K3 w k - 0 1");
+
+        //Estado inicial
+        assertEquals(18, game.getPossibleMoves().size());
+        assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+
+        //Capturamos la torre negra
+        game.executeMove(Square.d4, Square.h8);
+        assertEquals(5, game.getPossibleMoves().size());
+        //Ya no tenemos castling
+        assertNull(game.getMove(Square.e8, Square.h8));
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+
+        //Undo captura de torre negra ---- Volvemos al estado inicial
+        game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de king del cache
+        assertEquals(18, game.getPossibleMoves().size());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+
+        //Movimiento 1 - lo repetimos
+        game.executeMove(Square.d4, Square.c3);
+        assertEquals(15, game.getPossibleMoves().size());
+        //CastlingBlackKingMove es uno de los movimientos posibles
+        assertEquals(moveFactory.createCastlingKingMove(), game.getMove(Square.e8, Square.g8));
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
     }
 
     @Test

@@ -30,11 +30,11 @@ public class AlogZobrit {
 
 
         if(oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()){
-            hash.xorCastleWhiteKing();
+            hash.xorCastleBlackKing();
         }
 
         if(oldPositionState.isCastlingBlackQueenAllowed() != newPositionState.isCastlingBlackQueenAllowed()){
-            hash.xorCastleWhiteQueen();
+            hash.xorCastleBlackQueen();
         }
 
         hash.xorOldEnPassantSquare();

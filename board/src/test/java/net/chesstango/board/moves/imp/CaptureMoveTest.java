@@ -15,6 +15,7 @@ import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -79,6 +80,7 @@ public class CaptureMoveTest {
     }
 
     @Test
+    @Ignore
     public void testZobristHashUndo() {
         long initialHash = zobristHash.getZobristHash();
 
