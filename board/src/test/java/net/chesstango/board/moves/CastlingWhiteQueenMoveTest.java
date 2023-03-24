@@ -77,9 +77,7 @@ public class CastlingWhiteQueenMoveTest {
 
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(moveExecutor.getFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getFrom()));
-		moveCacheBoard.setPseudoMoves(moveExecutor.getTo().getSquare(), new MoveGeneratorResult(moveExecutor.getTo()));
 		moveCacheBoard.setPseudoMoves(moveExecutor.getRookFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getRookFrom()));
-		moveCacheBoard.setPseudoMoves(moveExecutor.getRookTo().getSquare(), new MoveGeneratorResult(moveExecutor.getRookTo()));
 
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
@@ -226,9 +224,9 @@ public class CastlingWhiteQueenMoveTest {
 
 		// asserts undos
 		assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getFrom().getSquare()));
-		assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getTo().getSquare()));
 		assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookFrom().getSquare()));
-		assertNotNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
+		assertNull(moveCacheBoard.getPseudoMovesResult(moveExecutor.getRookTo().getSquare()));
 	}
 	
 	

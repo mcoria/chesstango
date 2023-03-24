@@ -77,9 +77,7 @@ public class CastlingWhiteKingMoveTest {
 
 		moveCacheBoard = new MoveCacheBoardDebug();
 		moveCacheBoard.setPseudoMoves(moveExecutor.getFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getFrom()));
-		moveCacheBoard.setPseudoMoves(moveExecutor.getTo().getSquare(), new MoveGeneratorResult(moveExecutor.getTo()));
 		moveCacheBoard.setPseudoMoves(moveExecutor.getRookFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getRookFrom()));
-		moveCacheBoard.setPseudoMoves(moveExecutor.getRookTo().getSquare(), new MoveGeneratorResult(moveExecutor.getRookTo()));
 
 		zobristHash = new ZobristHash();
 		zobristHash.init(piecePlacement, positionState);
