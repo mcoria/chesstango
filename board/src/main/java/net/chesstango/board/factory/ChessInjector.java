@@ -186,6 +186,7 @@ public class ChessInjector {
     public MoveGenerator getPseudoMoveGenerator() {
         if (moveGenerator == null) {
             moveGenerator = chessFactory.createMoveGeneratorWithCacheProxy(getMoveGeneratorImp(), getMoveCacheBoard());
+            //moveGenerator = getMoveGeneratorImp();
             objectMap.put(MoveGenerator.class, moveGenerator);
         }
         return moveGenerator;
@@ -205,9 +206,9 @@ public class ChessInjector {
         return noCheckLegalMoveGenerator;
     }
 
-    protected MoveGeneratorImp getMoveGeneratorImp() {
+    protected MoveGenerator getMoveGeneratorImp() {
         if (moveGeneratorImp == null) {
-            moveGeneratorImp = new MoveGeneratorImp();
+            moveGeneratorImp = chessFactory.createMoveGenerator();
             moveGeneratorImp.setPiecePlacement(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
             moveGeneratorImp.setColorBoard(getColorBoard());
