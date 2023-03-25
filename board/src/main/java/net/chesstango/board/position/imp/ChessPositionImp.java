@@ -53,8 +53,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public void executeMove(MoveKing move) {
-		executeMove((Move)move);
+	public void executeMoveKing(MoveKing move) {
+		executeMove(move);
 		
 		move.executeMove(this.kingCacheBoard);
 		
@@ -83,8 +83,8 @@ public class ChessPositionImp implements ChessPosition {
 	
 
 	@Override
-	public void undoMove(MoveKing move) {
-		undoMove((Move)move);
+	public void undoMoveKing(MoveKing move) {
+		undoMove(move);
 
 		move.undoMove(this.kingCacheBoard);
 	}	

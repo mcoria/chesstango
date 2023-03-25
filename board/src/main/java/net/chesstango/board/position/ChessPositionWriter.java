@@ -14,10 +14,10 @@ public interface ChessPositionWriter {
 	
 	void executeMove(Move move);
 	
-	void executeMove(MoveKing move);
+	void executeMoveKing(MoveKing move);
 	
 	void undoMove(Move move);
 
-	void undoMove(MoveKing move);
+	void undoMoveKing(MoveKing move);
 
 }

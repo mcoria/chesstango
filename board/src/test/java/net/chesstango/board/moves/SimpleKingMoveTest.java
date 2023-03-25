@@ -198,14 +198,14 @@ public class SimpleKingMoveTest {
         moveExecutor.executeMove(chessPosition);
 
         // asserts execute
-        verify(chessPosition).executeMove(moveExecutor);
+        verify(chessPosition).executeMoveKing(moveExecutor);
 
         // undos
         moveExecutor.undoMove(chessPosition);
 
 
         // asserts undos
-        verify(chessPosition).undoMove(moveExecutor);
+        verify(chessPosition).undoMoveKing(moveExecutor);
     }
 
 

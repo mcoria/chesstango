@@ -11,11 +11,11 @@ import net.chesstango.board.position.imp.KingCacheBoard;
 public interface MoveKing extends Move {
 
 	default void executeMove(ChessPositionWriter chessPosition){
-		chessPosition.executeMove(this);
+		chessPosition.executeMoveKing(this);
 	}
 
 	default void undoMove(ChessPositionWriter chessPosition){
-		chessPosition.undoMove(this);
+		chessPosition.undoMoveKing(this);
 	}
 
 	default boolean filter(MoveFilter filter){
