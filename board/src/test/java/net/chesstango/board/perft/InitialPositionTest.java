@@ -148,7 +148,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	} 	
 	
 	@Test //126segs 104segs 87segs 83segs 80segs 77segs 76segs 70segs 67segs 60segs 58segs 53segs 
-		  // 50segs  46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs 10segs  
+		  // 50segs  46segs 44segs 42segs 37segs 32segs 24segs 20segs 17segs 13segs 10segs
 	      //  8segs   7segs  1segs
 	public void test_divide5() {
 		PerftResult result = perft.start(game, 5);
@@ -203,15 +203,15 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(4856835, result.getChildNode(Square.b1, Square.a3 ));
 		assertEquals(4877234, result.getChildNode(Square.g1, Square.h3 ));
 		assertEquals(5723523, result.getChildNode(Square.g1, Square.f3 ));
-
 		
 		assertEquals(20, result.getMovesCount());
 		assertEquals(119060324, result.getTotalNodes());
 	}
 
 
-	@Test //394segs 279segs 217segs 196segs
-	@Ignore
+	//PerftBrute (movimientos herencia): 394segs 279segs 217segs 196segs
+	//PerftBrute (movimientos bridge):   204segs
+	@Test
 	public void test_divide7() {
 		PerftResult result = perft.start(game, 7);
 		
@@ -240,10 +240,8 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(3195901860L, result.getTotalNodes());
 	}
 
-	//TODO: Falta detallar movimientos
 	@Test
 	public void test_d2d3() {
-		
 		game.executeMove(Square.d2, Square.d3);
 		
 		PerftResult result = perft.start(game, 4);
@@ -252,7 +250,6 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(328511, result.getTotalNodes());
 	}
 
-	//TODO: Falta detallar movimientos
 	@Test
 	public void test_d2d3_a7a5_b1a3_a5a4_c2c3() {
 		game.executeMove(Square.d2, Square.d3);
@@ -270,7 +267,6 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	
 	@Test
 	public void test_d2d3_a7a6_c1h6_a8a7_h6h5() {
-
 		game.executeMove(Square.d2, Square.d3);
 		game.executeMove(Square.a7, Square.a6);
 		game.executeMove(Square.c1, Square.h6);
