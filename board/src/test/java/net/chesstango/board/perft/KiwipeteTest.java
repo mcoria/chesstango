@@ -808,8 +808,11 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(46, result.getMovesCount());
 		assertEquals(46, result.getTotalNodes());
 	}
-	
-	@Test //18segs 14segs 12segs 11segs
+
+	//PerftBrute           (movimientos herencia): 18segs 14segs 12segs 11segs
+	//PerftWithMap (Zobrist + movimientos bridge):  7segs
+	//PerftWithMapIterateDeeping: 		            6segs
+	@Test
 	public void test_divide5() {
 		PerftResult result= pert.start(board, 5);
 		

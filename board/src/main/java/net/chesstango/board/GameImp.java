@@ -25,10 +25,7 @@ public class GameImp implements Game {
         this.gameState = gameState;
         this.analyzer = analyzer;
         this.objectMap = objectMap;
-
         this.chessPosition.init();
-        this.analyzer.updateGameState();
-
         saveFEN();
     }
 
@@ -63,8 +60,9 @@ public class GameImp implements Game {
         if (detectRepetitions) {
             saveFENWithoutClocks();
         }
-
-        analyzer.updateGameState();
+        // NO LLAMAR a updateGameState
+        // Si la posicion se encuentra en cache no es necesario calcular los movimientos posibles
+        // this.analyzer.updateGameState();
 
         return this;
     }
@@ -118,16 +116,19 @@ public class GameImp implements Game {
 
     @Override
     public MoveContainerReader getPossibleMoves() {
-        return gameState.getLegalMoves();
+        return getState().getLegalMoves();
     }
 
     @Override
     public GameStatus getStatus() {
-        return gameState.getStatus();
+        return getState().getStatus();
     }
 
     @Override
     public GameState getState() {
+        if(gameState.getStatus() == null){
+            this.analyzer.updateGameState();
+        }
         return gameState;
     }
 
