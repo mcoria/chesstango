@@ -12,118 +12,132 @@ public class PerftWithMapIterateDeepingTest {
 
     @Test
     public void initialPosition(){
-        PerftWithMapIterateDeeping<Long> peft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
-        peft.depth = 6;
+        PerftWithMapIterateDeeping<Long> perft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
+        perft.depth = 6;
         long result;
 
         Long initialGameId = PerftWithMapIterateDeeping.getZobristGameId(FENDecoder.loadGame(FENDecoder.INITIAL_FEN));
+        Long initialGameIdCounts[] = perft.transpositionTable.computeIfAbsent(initialGameId, k -> new Long[perft.depth]);
+
         Long b1a3 = PerftWithMapIterateDeeping.getZobristGameId(FENDecoder.loadGame(FENDecoder.INITIAL_FEN).executeMove(Square.b1, Square.a3));
 
-
-        peft.maxLevel = 1;
-        result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+        perft.maxLevel = 1;
+        result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(20, result);
-        assertEquals(20, peft.transpositionTable.get(initialGameId)[0].longValue());
+        assertEquals(20, initialGameIdCounts[0].longValue());
 
-
-        peft.maxLevel = 2;
-        result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+        perft.maxLevel = 2;
+        result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(400, result);
 
         // main branch
-        assertEquals(20, peft.transpositionTable.get(initialGameId)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(initialGameId)[1].longValue());
+        assertEquals(20, initialGameIdCounts[0].longValue());
+        assertEquals(400, initialGameIdCounts[1].longValue());
 
         // b1a3 branch
-        assertEquals(20, peft.transpositionTable.get(b1a3)[0].longValue());
+        assertEquals(20, perft.transpositionTable.get(b1a3)[0].longValue());
 
 
-        peft.maxLevel = 3;
-        result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+        perft.maxLevel = 3;
+        result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(8902, result);
 
         // main branch
-        assertEquals(20, peft.transpositionTable.get(initialGameId)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(initialGameId)[1].longValue());
-        assertEquals(8902, peft.transpositionTable.get(initialGameId)[2].longValue());
+        assertEquals(20, initialGameIdCounts[0].longValue());
+        assertEquals(400, initialGameIdCounts[1].longValue());
+        assertEquals(8902, initialGameIdCounts[2].longValue());
 
         // b1a3 branch
-        assertEquals(20, peft.transpositionTable.get(b1a3)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(b1a3)[1].longValue());
-        assertNull(peft.transpositionTable.get(b1a3)[2]);
+        assertEquals(20, perft.transpositionTable.get(b1a3)[0].longValue());
+        assertEquals(400, perft.transpositionTable.get(b1a3)[1].longValue());
+        assertNull(perft.transpositionTable.get(b1a3)[2]);
 
-        peft.maxLevel = 4;
-        result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+        perft.maxLevel = 4;
+        result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(197281, result);
 
         // main branch
-        assertEquals(20, peft.transpositionTable.get(initialGameId)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(initialGameId)[1].longValue());
-        assertEquals(8902, peft.transpositionTable.get(initialGameId)[2].longValue());
-        assertEquals(197281, peft.transpositionTable.get(initialGameId)[3].longValue());
+        assertEquals(20, initialGameIdCounts[0].longValue());
+        assertEquals(400, initialGameIdCounts[1].longValue());
+        assertEquals(8902, initialGameIdCounts[2].longValue());
+        assertEquals(197281, initialGameIdCounts[3].longValue());
 
         // b1a3 branch
-        assertEquals(20, peft.transpositionTable.get(b1a3)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(b1a3)[1].longValue());
-        assertEquals(8885, peft.transpositionTable.get(b1a3)[2].longValue());
-        assertNull(peft.transpositionTable.get(b1a3)[3]);
+        assertEquals(20, perft.transpositionTable.get(b1a3)[0].longValue());
+        assertEquals(400, perft.transpositionTable.get(b1a3)[1].longValue());
+        assertEquals(8885, perft.transpositionTable.get(b1a3)[2].longValue());
+        assertNull(perft.transpositionTable.get(b1a3)[3]);
 
-        peft.maxLevel = 5;
-        result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+        perft.maxLevel = 5;
+        result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(4865609, result);
 
         // main branch
-        assertEquals(20, peft.transpositionTable.get(initialGameId)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(initialGameId)[1].longValue());
-        assertEquals(8902, peft.transpositionTable.get(initialGameId)[2].longValue());
-        assertEquals(197281, peft.transpositionTable.get(initialGameId)[3].longValue());
-        assertEquals(4865609, peft.transpositionTable.get(initialGameId)[4].longValue());
+        assertEquals(20, initialGameIdCounts[0].longValue());
+        assertEquals(400, initialGameIdCounts[1].longValue());
+        assertEquals(8902, initialGameIdCounts[2].longValue());
+        assertEquals(197281, initialGameIdCounts[3].longValue());
+        assertEquals(4865609, initialGameIdCounts[4].longValue());
 
         // b1a3 branch
-        assertEquals(20, peft.transpositionTable.get(b1a3)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(b1a3)[1].longValue());
-        assertEquals(8885, peft.transpositionTable.get(b1a3)[2].longValue());
-        assertEquals(198572, peft.transpositionTable.get(b1a3)[3].longValue());
-        assertNull(peft.transpositionTable.get(b1a3)[4]);
+        assertEquals(20, perft.transpositionTable.get(b1a3)[0].longValue());
+        assertEquals(400, perft.transpositionTable.get(b1a3)[1].longValue());
+        assertEquals(8885, perft.transpositionTable.get(b1a3)[2].longValue());
+        assertEquals(198572, perft.transpositionTable.get(b1a3)[3].longValue());
+        assertNull(perft.transpositionTable.get(b1a3)[4]);
 
-        peft.maxLevel = 6;
-        result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+        perft.maxLevel = 6;
+        result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(119060324, result);
 
         // main branch
-        assertEquals(20, peft.transpositionTable.get(initialGameId)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(initialGameId)[1].longValue());
-        assertEquals(8902, peft.transpositionTable.get(initialGameId)[2].longValue());
-        assertEquals(197281, peft.transpositionTable.get(initialGameId)[3].longValue());
-        assertEquals(4865609, peft.transpositionTable.get(initialGameId)[4].longValue());
-        assertEquals(119060324, peft.transpositionTable.get(initialGameId)[5].longValue());
+        assertEquals(20, initialGameIdCounts[0].longValue());
+        assertEquals(400, initialGameIdCounts[1].longValue());
+        assertEquals(8902, initialGameIdCounts[2].longValue());
+        assertEquals(197281, initialGameIdCounts[3].longValue());
+        assertEquals(4865609, initialGameIdCounts[4].longValue());
+        assertEquals(119060324, initialGameIdCounts[5].longValue());
 
         // b1a3 branch
-        assertEquals(20, peft.transpositionTable.get(b1a3)[0].longValue());
-        assertEquals(400, peft.transpositionTable.get(b1a3)[1].longValue());
-        assertEquals(8885, peft.transpositionTable.get(b1a3)[2].longValue());
-        assertEquals(198572, peft.transpositionTable.get(b1a3)[3].longValue());
-        assertEquals(4856835, peft.transpositionTable.get(b1a3)[4].longValue());
-        assertNull(peft.transpositionTable.get(b1a3)[5]);
+        assertEquals(20, perft.transpositionTable.get(b1a3)[0].longValue());
+        assertEquals(400, perft.transpositionTable.get(b1a3)[1].longValue());
+        assertEquals(8885, perft.transpositionTable.get(b1a3)[2].longValue());
+        assertEquals(198572, perft.transpositionTable.get(b1a3)[3].longValue());
+        assertEquals(4856835, perft.transpositionTable.get(b1a3)[4].longValue());
+        assertNull(perft.transpositionTable.get(b1a3)[5]);
     }
 
-    @Test // 53segs
-    public void initialPosition_level7() {
+
+    @Test
+    public void initialPosition_level4_iterative() {
         PerftWithMapIterateDeeping<Long> peft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
-        peft.depth = 7;
-        peft.maxLevel = 7;
-        long result = peft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1);
+
+        PerftResult result = peft.start(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 4);
+        assertEquals(20, result.getMovesCount());
+        assertEquals(197281, result.getTotalNodes());
+    }
+
+    @Test // 56segs
+    public void initialPosition_level7() {
+        PerftWithMapIterateDeeping<Long> perft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
+        perft.depth = 7;
+        perft.maxLevel = 7;
+
+        Long initialGameId = PerftWithMapIterateDeeping.getZobristGameId(FENDecoder.loadGame(FENDecoder.INITIAL_FEN));
+        Long initialGameIdCounts[] = perft.transpositionTable.computeIfAbsent(initialGameId, k -> new Long[perft.depth]);
+
+        long result = perft.visitChild(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 1, initialGameIdCounts);
         assertEquals(3195901860L, result);
     }
 
 
-    @Test // 53segs
+    @Test // 60segs
     public void initialPosition_level7_iterative() {
         PerftWithMapIterateDeeping<Long> peft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
 
-        PerftResult result = peft.start(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 5);
+        PerftResult result = peft.start(FENDecoder.loadGame(FENDecoder.INITIAL_FEN), 7);
         assertEquals(20, result.getMovesCount());
-        assertEquals(119060324, result.getTotalNodes());
+        assertEquals(3195901860L, result.getTotalNodes());
     }
 }
 

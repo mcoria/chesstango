@@ -52,7 +52,12 @@ public class PerftWithMapIterateDeeping<T> implements Perft  {
 
 			if (maxLevel > 1) {
 				game.executeMove(move);
-				nodeCount = visitChild(game, 2);
+
+				T childId = fnGetGameId.apply(game);
+				Long childNodeCounts[] = transpositionTable.computeIfAbsent(childId, k -> new Long[depth]);
+
+				nodeCount = visitChild(game, 2, childNodeCounts);
+
 				game.undoMove();
 			} else {
 				nodeCount = 1;
@@ -70,13 +75,10 @@ public class PerftWithMapIterateDeeping<T> implements Perft  {
 		return perftResult;
 	}
 
-	protected long visitChild(Game game, int level) {
+	protected long visitChild(Game game, int level, Long[] nodeCounts) {
 		long totalNodes = 0;
 
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
-
-		T id = fnGetGameId.apply(game);
-		Long nodeCounts[] = transpositionTable.computeIfAbsent(id, k -> new Long[depth]);
 
 		if (level < this.maxLevel) {
 			for (Move move : movimientosPosible) {
@@ -88,7 +90,7 @@ public class PerftWithMapIterateDeeping<T> implements Perft  {
 				Long childNodeCounts[] = transpositionTable.computeIfAbsent(idChild, k -> new Long[depth]);
 
 				if (childNodeCounts[maxLevel - level - 1] == null) {
-					visitChild(game, level + 1);
+					visitChild(game, level + 1, childNodeCounts);
 				}
 
 				totalNodes += childNodeCounts[maxLevel - level - 1];
