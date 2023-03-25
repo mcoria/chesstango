@@ -23,7 +23,7 @@ public class PerftWithMap<T> implements Perft  {
 	private int maxLevel;
 	
 	private List<Map<T, Long>> nodeListMap;
-	private int[] repetedNodes;
+	private int[] repeatedNodes;
 
 	public PerftWithMap(Function<Game, T> fnGetGameId) {
 		this.fnGetGameId = fnGetGameId;
@@ -32,7 +32,7 @@ public class PerftWithMap<T> implements Perft  {
 	public PerftResult start(Game board, int maxLevel) {
 		this.maxLevel = maxLevel;
 		this.nodeListMap = new  ArrayList<Map<T, Long>>(maxLevel + 1);
-		this.repetedNodes = new int[maxLevel + 1];
+		this.repeatedNodes = new int[maxLevel + 1];
 		
 		for(int i = 0; i < maxLevel + 1; i++){
 			Map<T, Long> nodeMap = new HashMap<T, Long>(capacities[i]);
@@ -45,75 +45,44 @@ public class PerftWithMap<T> implements Perft  {
 	
 	private PerftResult visitLevel1(Game game) {
 		PerftResult perftResult = new PerftResult();
-
 		long totalNodes = 0;
 
-
 		Iterable<Move> movimientosPosible = game.getPossibleMoves();
-		
-		
-		if (maxLevel == 1) {
-			for (Move move : movimientosPosible) {
-				int nodeCount = 1;
 
-				perftResult.add(move, 1);
+		for (Move move : movimientosPosible) {
+			long nodeCount = 0;
 
-				totalNodes += nodeCount;
-			}
-		} else {
-			for (Move move : movimientosPosible) {
-				long nodeCount = 0;
-
+			if (maxLevel > 1) {
 				game.executeMove(move);
-
-				if (maxLevel > 1) {
-					nodeCount = visitChilds(game, 2);
-				} else {
-					nodeCount = 1;
-				}
-
-				perftResult.add(move, nodeCount);
-
-				totalNodes += nodeCount;
-
+				nodeCount = visitChild(game, 2);
 				game.undoMove();
+			} else {
+				nodeCount = 1;
 			}
+
+			perftResult.add(move, nodeCount);
+
+			totalNodes += nodeCount;
+
 		}
-		
+
 		perftResult.setTotalNodes(totalNodes);
 
-		
 		return perftResult;
-	}	
+	}
 
-	private long visitChilds(Game game, int level) {
+	private long visitChild(Game game, int level) {
 		long totalNodes = 0;
 
 		MoveContainerReader movimientosPosible = game.getPossibleMoves();
 
 		if (level < this.maxLevel) {
-			Map<T, Long> nodeMap = nodeListMap.get(level);
-			
+
 			for (Move move : movimientosPosible) {
-				Long nodeCount = null;
-						
+
 				game.executeMove(move);
 
-				T id = fnGetGameId.apply(game);
-
-				nodeCount = nodeMap.get(id);
-
-				if (nodeCount == null) {
-
-					nodeCount = visitChilds(game, level + 1);
-					
-					nodeMap.put(id, nodeCount);
-
-				} else {
-					repetedNodes[level]++;
-				}
-
-				totalNodes += nodeCount;
+				totalNodes += searchNode(game, level);
 
 				game.undoMove();
 			}
@@ -123,10 +92,28 @@ public class PerftWithMap<T> implements Perft  {
 
 		return totalNodes;
 	}
-	
-	
-	
-	
+
+	private Long searchNode(Game game, int level) {
+		Map<T, Long> nodeMap = nodeListMap.get(level);
+
+		T id = fnGetGameId.apply(game);
+
+		Long nodeCount = nodeMap.get(id);
+
+		if (nodeCount == null) {
+
+			nodeCount = visitChild(game, level + 1);
+
+			nodeMap.put(id, nodeCount);
+
+		} else {
+			repeatedNodes[level]++;
+		}
+
+		return nodeCount;
+	}
+
+
 	public void printResult(PerftResult result) {
 		System.out.println("Total Moves: " + result.getMovesCount());
 		System.out.println("Total Nodes: " + result.getTotalNodes());
@@ -143,8 +130,8 @@ public class PerftWithMap<T> implements Perft  {
 			}
 		}
 		
-		for (int i = 0; i < repetedNodes.length; i++) {
-			System.out.println("Level " + i + " nodes=" + nodeListMap.get(i).size() + " repeated=" + repetedNodes[i]);
+		for (int i = 0; i < repeatedNodes.length; i++) {
+			System.out.println("Level " + i + " nodes=" + nodeListMap.get(i).size() + " repeated=" + repeatedNodes[i]);
 		}
 		
 		//System.out.println("DefaultLegalMoveGenerator "  + DefaultLegalMoveGenerator.count);

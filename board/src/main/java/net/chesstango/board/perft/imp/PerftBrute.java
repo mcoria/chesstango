@@ -32,7 +32,7 @@ public class PerftBrute implements Perft {
 
             if (maxLevel > 1) {
                 game.executeMove(move);
-                nodeCount = visitChildren(game, 2);
+                nodeCount = visitChild(game, 2);
                 game.undoMove();
             } else {
                 nodeCount = 1;
@@ -47,10 +47,9 @@ public class PerftBrute implements Perft {
         perftResult.setTotalNodes(totalNodes);
 
         return perftResult;
-
     }
 
-    private long visitChildren(Game game, int level) {
+    private long visitChild(Game game, int level) {
         long totalNodes = 0;
 
         MoveContainerReader movimientosPosible = game.getPossibleMoves();
@@ -61,7 +60,7 @@ public class PerftBrute implements Perft {
 
                 game.executeMove(move);
 
-                totalNodes += visitChildren(game, level + 1);
+                totalNodes += visitChild(game, level + 1);
 
                 game.undoMove();
             }

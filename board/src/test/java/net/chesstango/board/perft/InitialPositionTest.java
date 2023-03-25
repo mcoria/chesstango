@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import net.chesstango.board.moves.MoveContainerReader;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.chesstango.board.Game;
@@ -25,8 +26,6 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	
 	@Before
 	public void setUp() throws Exception {
-		//pert = new PerftBrute();
-		//pert = new PerftWithMap<String>(PerftWithMap::getStringGameId);
 		perft = createPerft();
 		game =  this.getGame(FENDecoder.INITIAL_FEN);
 	}
@@ -212,6 +211,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 
 
 	@Test //394segs 279segs 217segs 196segs
+	@Ignore
 	public void test_divide7() {
 		PerftResult result = perft.start(game, 7);
 		

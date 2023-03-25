@@ -8,7 +8,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.perft.imp.PerftBrute;
 import net.chesstango.board.perft.imp.PerftWithMap;
+import net.chesstango.board.perft.imp.PerftWithMapIterateDeeping;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.util.Map;
@@ -32,6 +34,13 @@ public abstract class AbstractPerftTest {
 		return builder.getChessRepresentation();
 	}
 
+	protected Perft createPerft(){
+		return new PerftBrute();
+		//return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
+		//return new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
+	}
+
+
 	protected void printForUnitTest(PerftResult result) {
 
 		Map<Move, Long> childs = result.getChilds();
@@ -42,9 +51,5 @@ public abstract class AbstractPerftTest {
 
 		System.out.printf("assertEquals(%d, result.getMovesCount());\n", childs.size());
 		System.out.printf("assertEquals(%d, result.getTotalNodes());\n", result.getTotalNodes());
-	}
-
-	protected Perft createPerft(){
-		return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
 	}
 }
