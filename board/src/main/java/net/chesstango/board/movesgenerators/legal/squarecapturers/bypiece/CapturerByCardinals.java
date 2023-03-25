@@ -12,6 +12,10 @@ import net.chesstango.board.position.PiecePlacementReader;
 
 import java.util.Iterator;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class CapturerByCardinals implements SquareCapturerByPiece{
 
     private final PiecePlacementReader piecePlacementReader;

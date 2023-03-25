@@ -211,7 +211,7 @@ public class CaptureKingMoveTest {
         moveExecutor.filter(filter);
 
         // asserts execute
-        verify(filter).filterMove(moveExecutor);
+        verify(filter).filterMoveKing(moveExecutor);
     }
 
     @Test

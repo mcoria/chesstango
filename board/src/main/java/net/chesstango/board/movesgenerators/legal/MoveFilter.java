@@ -15,9 +15,9 @@ public interface MoveFilter {
 	boolean filterMove(Move move);
 	
 	
-	boolean filterMove(MoveKing move) ;
+	boolean filterMoveKing(MoveKing move) ;
 
 
-	boolean filterMove(MoveCastling moveCastling);	
+	boolean filterMoveCastling(MoveCastling moveCastling);
 
 }

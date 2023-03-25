@@ -11,6 +11,10 @@ import net.chesstango.board.position.PiecePlacementReader;
 import java.util.Iterator;
 import java.util.function.Function;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class CapturerByPawn implements SquareCapturerByPiece{
 
     private final PiecePlacementReader piecePlacementReader;

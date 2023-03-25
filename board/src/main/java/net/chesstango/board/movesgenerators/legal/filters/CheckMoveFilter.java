@@ -58,12 +58,12 @@ public class CheckMoveFilter implements MoveFilter {
 	}	
 	
 	@Override
-	public boolean filterMove(MoveKing move) {
+	public boolean filterMoveKing(MoveKing move) {
 		boolean result = false;
 		
 		move.executeMove(this.kingCacheBoard);
 
-		result = filterMove((Move)move);
+		result = filterMove(move);
 
 		move.undoMove(this.kingCacheBoard);
 		
@@ -71,7 +71,7 @@ public class CheckMoveFilter implements MoveFilter {
 	}
 
 	@Override
-	public boolean filterMove(MoveCastling moveCastling) {
+	public boolean filterMoveCastling(MoveCastling moveCastling) {
 		return false;
 	}		
 

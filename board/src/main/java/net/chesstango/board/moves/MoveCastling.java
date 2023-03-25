@@ -11,7 +11,7 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 public interface MoveCastling extends MoveKing {
 
 	default boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
+		return filter.filterMoveCastling(this);
 	}
 
 	PiecePositioned getRookFrom();

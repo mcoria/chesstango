@@ -19,7 +19,7 @@ public interface MoveKing extends Move {
 	}
 
 	default boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
+		return filter.filterMoveKing(this);
 	}
 
 	default void executeMove(KingCacheBoard kingCacheBoard) {
