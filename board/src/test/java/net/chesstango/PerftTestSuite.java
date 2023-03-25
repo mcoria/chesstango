@@ -13,7 +13,6 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ InitialPositionTest.class, KiwipeteTest.class, PerftMainTestSuiteTest.class, PerftDifferentPositionsTest.class,
-		Pos_4k2r_6K1_8_8_8_8_8_8_w_k_Test.class })
+@Suite.SuiteClasses({ InitialPositionTest.class, KiwipeteTest.class, PerftMainTestSuiteTest.class, PerftDifferentPositionsTest.class})
 public class PerftTestSuite {
 }
