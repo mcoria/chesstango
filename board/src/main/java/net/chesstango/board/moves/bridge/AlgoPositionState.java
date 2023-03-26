@@ -6,7 +6,7 @@ import net.chesstango.board.position.imp.PositionState;
 /**
  * @author Mauricio Coria
  */
-public interface AlgoPositionState {
+interface AlgoPositionState {
     void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionState positionState);
 
     void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionState positionState);

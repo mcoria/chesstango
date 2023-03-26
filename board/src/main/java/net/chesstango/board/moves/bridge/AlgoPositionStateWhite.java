@@ -7,7 +7,7 @@ import net.chesstango.board.position.imp.PositionState;
 /**
  * @author Mauricio Coria
  */
-public class AlgoPositionStateWhite implements AlgoPositionState {
+class AlgoPositionStateWhite implements AlgoPositionState {
 
     @Override
     public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionState positionState) {

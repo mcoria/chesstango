@@ -17,8 +17,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  * @author Mauricio Coria
  *
  */
-public class MovePromotionImp implements MovePromotion {
-
+class MovePromotionImp implements MovePromotion {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Piece promotion;

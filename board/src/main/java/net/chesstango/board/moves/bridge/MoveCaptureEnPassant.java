@@ -16,7 +16,7 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-public class MoveCaptureEnPassant implements Move {
+class MoveCaptureEnPassant implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final PiecePositioned capture;

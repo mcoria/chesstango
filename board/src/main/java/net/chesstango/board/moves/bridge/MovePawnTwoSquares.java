@@ -17,7 +17,7 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-public class MovePawnTwoSquares implements Move {
+class MovePawnTwoSquares implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Square enPassantSquare;

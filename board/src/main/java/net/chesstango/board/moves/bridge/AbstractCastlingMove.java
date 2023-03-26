@@ -15,7 +15,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  * @author Mauricio Coria
  *
  */
-public abstract class AbstractCastlingMove implements MoveCastling {
+abstract class AbstractCastlingMove implements MoveCastling {
 
     protected final PiecePositioned kingFrom;   // King
     protected final PiecePositioned kingTo;     // King
