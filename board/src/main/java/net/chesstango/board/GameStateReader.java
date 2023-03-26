@@ -18,5 +18,5 @@ public interface GameStateReader {
 
     String getFenWithoutClocks();
 
-    GameStateReader getPreviosGameState();
+    GameStateReader getPreviosState();
 }

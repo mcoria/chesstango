@@ -19,12 +19,12 @@ public class GameStateTest {
         Move move = game.getMove(Square.e2, Square.e4);
         game.executeMove(move);
 
-        assertNotNull(game.getState().getPreviosGameState());
-        assertEquals(move, game.getState().getPreviosGameState().getSelectedMove());
+        assertNotNull(game.getState().getPreviosState());
+        assertEquals(move, game.getState().getPreviosState().getSelectedMove());
 
         game.undoMove();
 
-        assertNull(game.getState().getPreviosGameState());
+        assertNull(game.getState().getPreviosState());
     }
 
     @Test
@@ -34,21 +34,21 @@ public class GameStateTest {
 
         Move move1 = game.getMove(Square.e2, Square.e4);
         game.executeMove(move1);
-        assertNotNull(game.getState().getPreviosGameState());
-        assertEquals(move1, game.getState().getPreviosGameState().getSelectedMove());
+        assertNotNull(game.getState().getPreviosState());
+        assertEquals(move1, game.getState().getPreviosState().getSelectedMove());
 
         Move move2 = game.getMove(Square.e7, Square.e6);
         game.executeMove(move2);
-        assertNotNull(game.getState().getPreviosGameState());
-        assertEquals(move2, game.getState().getPreviosGameState().getSelectedMove());
+        assertNotNull(game.getState().getPreviosState());
+        assertEquals(move2, game.getState().getPreviosState().getSelectedMove());
 
         game.undoMove();
-        assertNotNull(game.getState().getPreviosGameState());
-        assertEquals(move1, game.getState().getPreviosGameState().getSelectedMove());
+        assertNotNull(game.getState().getPreviosState());
+        assertEquals(move1, game.getState().getPreviosState().getSelectedMove());
 
 
         game.undoMove();
-        assertNull(game.getState().getPreviosGameState());
+        assertNull(game.getState().getPreviosState());
     }
 
 }
