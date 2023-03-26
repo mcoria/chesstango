@@ -132,26 +132,23 @@ public class PGNGame {
 
         List<String> moveList = new ArrayList<>();
 
+        pgnGame.setFen(game.getInitialFen());
+
         game.accept(new GameVisitor() {
             private SANEncoder sanEncoder = new SANEncoder();
 
             private String moveStrTmp = "";
 
             @Override
-            public void visit(GameState gameState) {
-                pgnGame.setFen(gameState.getInitialFen());
-            }
-
-            @Override
-            public void visit(GameState.GameStateData gameStateData) {
+            public void visit(GameStateReader gameState) {
                 if (!"".equals(moveStrTmp)) {
-                    moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameStateData.getStatus());
+                    moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameState.getStatus());
                     moveList.add(moveStrTmp);
                     moveStrTmp = "";
                 }
 
-                if (gameStateData.getSelectedMove() != null) {
-                    moveStrTmp = sanEncoder.encode(gameStateData.getSelectedMove() , gameStateData.getLegalMoves());
+                if (gameState.getSelectedMove() != null) {
+                    moveStrTmp = sanEncoder.encode(gameState.getSelectedMove() , gameState.getLegalMoves());
                 }
             }
         });

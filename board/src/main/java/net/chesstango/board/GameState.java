@@ -110,7 +110,7 @@ public class GameState implements GameStateReader {
         return previosGameState;
     }
 
-    public static class GameStateData implements GameStateReader {
+    static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
         protected MoveContainerReader legalMoves;
         protected Move selectedMove;

@@ -1,6 +1,7 @@
 package net.chesstango.board.analyzer;
 
 import net.chesstango.board.GameState;
+import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -54,12 +55,8 @@ public class PositionAnalyzer {
 
                 gameState.accept(new GameVisitor() {
                     @Override
-                    public void visit(GameState gameState) {
-                    }
-
-                    @Override
-                    public void visit(GameState.GameStateData gameStateData) {
-                        if (currentFen.equals(gameStateData.getFenWithoutClocks())) {
+                    public void visit(GameStateReader gameState) {
+                        if (currentFen.equals(gameState.getFenWithoutClocks())) {
                             repetitionCounter.incrementAndGet();
                         }
                     }
