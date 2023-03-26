@@ -53,14 +53,14 @@ class MovePromotionImp implements MovePromotion {
 
     @Override
     public void executeMove(PiecePlacementWriter board) {
-        board.setEmptyPosicion(from);
+        board.setEmptyPosition(from);
         board.setPieza(to.getSquare(), this.promotion);
     }
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
-        board.setPosicion(from);
-        board.setPosicion(to);
+        board.setPosition(from);
+        board.setPosition(to);
     }
 
     @Override

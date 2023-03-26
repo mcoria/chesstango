@@ -12,7 +12,7 @@ class AlgoPiecePositioned {
     }
 
     protected void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, PiecePlacementWriter piecePlacementWriter) {
-        piecePlacementWriter.setPosicion(from);
-        piecePlacementWriter.setPosicion(to);
+        piecePlacementWriter.setPosition(from);
+        piecePlacementWriter.setPosition(to);
     }
 }

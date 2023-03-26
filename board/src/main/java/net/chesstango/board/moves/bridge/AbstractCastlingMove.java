@@ -50,11 +50,11 @@ abstract class AbstractCastlingMove implements MoveCastling {
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
-        board.setPosicion(kingFrom);
-        board.setPosicion(kingTo);
+        board.setPosition(kingFrom);
+        board.setPosition(kingTo);
 
-        board.setPosicion(rookFrom);
-        board.setPosicion(rookTo);
+        board.setPosition(rookFrom);
+        board.setPosition(rookTo);
     }
 
     @Override

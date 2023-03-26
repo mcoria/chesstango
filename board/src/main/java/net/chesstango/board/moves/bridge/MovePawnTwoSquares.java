@@ -47,8 +47,8 @@ class MovePawnTwoSquares implements Move {
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
-        board.setPosicion(from);
-        board.setPosicion(to);
+        board.setPosition(from);
+        board.setPosition(to);
     }
 
     @Override

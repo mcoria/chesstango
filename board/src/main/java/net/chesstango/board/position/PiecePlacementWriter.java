@@ -10,11 +10,11 @@ import net.chesstango.board.Square;
  */
 public interface PiecePlacementWriter {
 
-	void setPosicion(PiecePositioned entry);
+	void setPosition(PiecePositioned entry);
 
 	void setPieza(Square square, Piece piece);
 
-	void setEmptyPosicion(PiecePositioned captura);
+	void setEmptyPosition(PiecePositioned captura);
 
 	void setEmptySquare(Square square);
 

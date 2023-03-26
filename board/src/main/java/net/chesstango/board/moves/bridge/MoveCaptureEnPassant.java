@@ -43,14 +43,14 @@ class MoveCaptureEnPassant implements Move {
     @Override
     public void executeMove(PiecePlacementWriter board) {
         board.move(from, to);
-        board.setEmptyPosicion(capture);
+        board.setEmptyPosition(capture);
     }
 
     @Override
     public void undoMove(PiecePlacementWriter board) {
-        board.setPosicion(from);
-        board.setPosicion(to);
-        board.setPosicion(capture);
+        board.setPosition(from);
+        board.setPosition(to);
+        board.setPosition(capture);
     }
 
     @Override

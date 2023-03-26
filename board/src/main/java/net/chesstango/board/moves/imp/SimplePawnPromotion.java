@@ -5,7 +5,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.PiecePlacementWriter;
-import net.chesstango.board.position.imp.PositionState;
 
 
 /**
@@ -28,7 +27,7 @@ class SimplePawnPromotion extends SimplePawnMove implements MovePromotion {
 
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
-		board.setEmptyPosicion(from); // Dejamos el origen
+		board.setEmptyPosition(from); // Dejamos el origen
 		board.setPieza(to.getSquare(), this.promotion); // Promocion
 	}
 

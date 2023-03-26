@@ -42,7 +42,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
     }
 
     @Override
-    public void setPosicion(PiecePositioned entry) {
+    public void setPosition(PiecePositioned entry) {
         Square square = entry.getSquare();
         tablero[square.toIdx()] = entry;
     }
@@ -66,7 +66,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
     }
 
     @Override
-    public void setEmptyPosicion(PiecePositioned captura) {
+    public void setEmptyPosition(PiecePositioned captura) {
         setEmptySquare(captura.getSquare());
     }
 

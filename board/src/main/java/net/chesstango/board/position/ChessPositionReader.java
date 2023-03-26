@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.position;
 
 import net.chesstango.board.Color;

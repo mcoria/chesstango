@@ -23,13 +23,13 @@ class CapturePawnEnPassant extends AbstractPawnMove {
 	@Override
 	public void executeMove(PiecePlacementWriter board) {
 		super.executeMove(board);
-		board.setEmptyPosicion(capture);		//Capturamos pawn
+		board.setEmptyPosition(capture);		//Capturamos pawn
 	}
 
 	@Override
 	public void undoMove(PiecePlacementWriter board) {
 		super.undoMove(board);
-		board.setPosicion(capture);				//Devolvemos pawn
+		board.setPosition(capture);				//Devolvemos pawn
 	}
 
 	@Override

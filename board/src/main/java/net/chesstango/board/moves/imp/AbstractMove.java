@@ -49,8 +49,8 @@ abstract class AbstractMove implements Move {
 	
 	@Override
 	public void undoMove(PiecePlacementWriter board) {
-		board.setPosicion(to);							//Reestablecemos destino
-		board.setPosicion(from);						//Volvemos a origen
+		board.setPosition(to);							//Reestablecemos destino
+		board.setPosition(from);						//Volvemos a origen
 	}	
 
 	//TODO: implementar un decorator antes de crear el movimiento
