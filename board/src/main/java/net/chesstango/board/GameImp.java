@@ -30,6 +30,11 @@ public class GameImp implements Game {
     }
 
     @Override
+    public String getInitialFen() {
+        return gameState.getInitialFen();
+    }
+
+    @Override
     public Game executeMove(Square from, Square to) {
         Move move = getMove(from, to);
         if (move != null) {
@@ -130,6 +135,11 @@ public class GameImp implements Game {
             this.analyzer.updateGameState();
         }
         return gameState;
+    }
+
+    @Override
+    public GameStateReader getPreviosGameState() {
+        return gameState.getPreviosGameState();
     }
 
     @Override

@@ -145,13 +145,13 @@ public class PGNGame {
             @Override
             public void visit(GameState.GameStateData gameStateData) {
                 if (!"".equals(moveStrTmp)) {
-                    moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameStateData.gameStatus);
+                    moveStrTmp = moveStrTmp + encodeGameStatusAtMove(gameStateData.getStatus());
                     moveList.add(moveStrTmp);
                     moveStrTmp = "";
                 }
 
-                if (gameStateData.selectedMove != null) {
-                    moveStrTmp = sanEncoder.encode(gameStateData.selectedMove, gameStateData.legalMoves);
+                if (gameStateData.getSelectedMove() != null) {
+                    moveStrTmp = sanEncoder.encode(gameStateData.getSelectedMove() , gameStateData.getLegalMoves());
                 }
             }
         });

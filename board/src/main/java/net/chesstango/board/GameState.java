@@ -16,13 +16,14 @@ import java.util.Iterator;
  *
  * Almacena tanto el estado actual como estados anteriores.
  */
-public class GameState {
+public class GameState implements GameStateReader {
 
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
     private GameStateData previosGameState = null;
     private String initialFEN;
 
+    @Override
     public GameStatus getStatus() {
         return currentGameState.gameStatus;
     }
@@ -31,6 +32,7 @@ public class GameState {
         currentGameState.gameStatus = gameStatus;
     }
 
+    @Override
     public MoveContainerReader getLegalMoves() {
         return currentGameState.legalMoves;
     }
@@ -39,6 +41,7 @@ public class GameState {
         currentGameState.legalMoves = legalMoves;
     }
 
+    @Override
     public Move getSelectedMove() {
         return currentGameState.selectedMove;
     }
@@ -47,6 +50,7 @@ public class GameState {
         currentGameState.selectedMove = selectedMove;
     }
 
+    @Override
     public AnalyzerResult getAnalyzerResult() {
         return currentGameState.analyzerResult;
     }
@@ -59,6 +63,7 @@ public class GameState {
         currentGameState.fenWithoutClocks = fenWithoutClocks;
     }
 
+    @Override
     public String getFenWithoutClocks() {
         return currentGameState.fenWithoutClocks;
     }
@@ -105,11 +110,36 @@ public class GameState {
         return previosGameState;
     }
 
-    public static class GameStateData {
-        public AnalyzerResult analyzerResult;
-        public MoveContainerReader legalMoves;
-        public Move selectedMove;
-        public GameStatus gameStatus;
-        public String fenWithoutClocks;
+    public static class GameStateData implements GameStateReader {
+        protected AnalyzerResult analyzerResult;
+        protected MoveContainerReader legalMoves;
+        protected Move selectedMove;
+        protected GameStatus gameStatus;
+        protected String fenWithoutClocks;
+
+        @Override
+        public GameStatus getStatus() {
+            return gameStatus;
+        }
+
+        @Override
+        public MoveContainerReader getLegalMoves() {
+            return legalMoves;
+        }
+
+        @Override
+        public Move getSelectedMove() {
+            return selectedMove;
+        }
+
+        @Override
+        public AnalyzerResult getAnalyzerResult() {
+            return analyzerResult;
+        }
+
+        @Override
+        public String getFenWithoutClocks() {
+            return fenWithoutClocks;
+        }
     }
 }

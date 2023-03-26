@@ -4,7 +4,13 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.position.ChessPositionReader;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public interface Game {
+    String getInitialFen();
+
     void detectRepetitions(boolean flag);
 
     Game executeMove(Move move);
@@ -13,7 +19,9 @@ public interface Game {
 
     <V extends GameVisitor> V accept(V gameVisitor);
 
-    GameState getState();
+    GameStateReader getState();
+
+    GameStateReader getPreviosGameState();
 
     ChessPositionReader getChessPosition();
 
@@ -32,6 +40,5 @@ public interface Game {
     //*******
 
     <T> T getObject(Class<T> theClass);
-
 
 }

@@ -68,7 +68,17 @@ public class GameMock implements Game {
     }
 
     @Override
-    public GameState getState() {
+    public GameStateReader getState() {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
+    public GameStateReader getPreviosGameState() {
+        throw new UnsupportedOperationException("Method not implemented yet");
+    }
+
+    @Override
+    public String getInitialFen() {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 

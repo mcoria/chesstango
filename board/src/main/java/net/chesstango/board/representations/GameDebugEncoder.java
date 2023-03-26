@@ -28,7 +28,7 @@ public class GameDebugEncoder {
 
             @Override
             public void visit(GameState.GameStateData gameStateData) {
-                Move move = gameStateData.selectedMove;
+                Move move = gameStateData.getSelectedMove();
 
                 if (move != null) {
                     sb.append(".executeMove(Square." + move.getFrom().getSquare().toString() + ", Square." + move.getTo().getSquare().toString() + ")");

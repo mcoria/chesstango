@@ -59,7 +59,7 @@ public class PositionAnalyzer {
 
                     @Override
                     public void visit(GameState.GameStateData gameStateData) {
-                        if (currentFen.equals(gameStateData.fenWithoutClocks)) {
+                        if (currentFen.equals(gameStateData.getFenWithoutClocks())) {
                             repetitionCounter.incrementAndGet();
                         }
                     }

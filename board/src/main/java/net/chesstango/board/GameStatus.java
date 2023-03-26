@@ -1,5 +1,8 @@
 package net.chesstango.board;
 
+/**
+ * @author Mauricio Coria
+ */
 public enum GameStatus {
     NO_CHECK(true),
     CHECK(true),

@@ -15,41 +15,40 @@ public class GameStateTest {
     @Test
     public void testGetPreviosGameState01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        GameState gameState = game.getState();
 
         Move move = game.getMove(Square.e2, Square.e4);
         game.executeMove(move);
 
-        assertNotNull(gameState.getPreviosGameState());
-        assertEquals(move, gameState.getPreviosGameState().selectedMove);
+        assertNotNull(game.getPreviosGameState());
+        assertEquals(move, game.getPreviosGameState().getSelectedMove());
 
         game.undoMove();
 
-        assertNull(gameState.getPreviosGameState());
+        assertNull(game.getPreviosGameState());
     }
 
     @Test
     public void testGetPreviosGameState02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        GameState gameState = game.getState();
+        GameStateReader gameState = game.getState();
 
         Move move1 = game.getMove(Square.e2, Square.e4);
         game.executeMove(move1);
-        assertNotNull(gameState.getPreviosGameState());
-        assertEquals(move1, gameState.getPreviosGameState().selectedMove);
+        assertNotNull(game.getPreviosGameState());
+        assertEquals(move1, game.getPreviosGameState().getSelectedMove());
 
         Move move2 = game.getMove(Square.e7, Square.e6);
         game.executeMove(move2);
-        assertNotNull(gameState.getPreviosGameState());
-        assertEquals(move2, gameState.getPreviosGameState().selectedMove);
+        assertNotNull(game.getPreviosGameState());
+        assertEquals(move2, game.getPreviosGameState().getSelectedMove());
 
         game.undoMove();
-        assertNotNull(gameState.getPreviosGameState());
-        assertEquals(move1, gameState.getPreviosGameState().selectedMove);
+        assertNotNull(game.getPreviosGameState());
+        assertEquals(move1, game.getPreviosGameState().getSelectedMove());
 
 
         game.undoMove();
-        assertNull(gameState.getPreviosGameState());
+        assertNull(game.getPreviosGameState());
     }
 
 }

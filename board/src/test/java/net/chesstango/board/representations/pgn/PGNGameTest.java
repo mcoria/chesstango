@@ -45,7 +45,7 @@ public class PGNGameTest {
 
         Assert.assertEquals(GameStatus.MATE, game.getStatus());
         Assert.assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-        Assert.assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getState().getInitialFen());
+        Assert.assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getInitialFen());
     }
 
     @Test
