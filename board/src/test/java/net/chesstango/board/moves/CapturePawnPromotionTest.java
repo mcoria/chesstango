@@ -63,8 +63,8 @@ public class CapturePawnPromotionTest {
         colorBoard = new ColorBoardDebug();
         colorBoard.init(piecePlacement);
 
-        PiecePositioned origen = piecePlacement.getPosicion(Square.e7);
-        PiecePositioned destino = piecePlacement.getPosicion(Square.f8);
+        PiecePositioned origen = piecePlacement.getPosition(Square.e7);
+        PiecePositioned destino = piecePlacement.getPosition(Square.f8);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
@@ -78,8 +78,8 @@ public class CapturePawnPromotionTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.f8), Piece.QUEEN_WHITE), moveExecutor);
-        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(piecePlacement.getPosicion(Square.e7), piecePlacement.getPosicion(Square.f8), Piece.ROOK_WHITE), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.f8), Piece.QUEEN_WHITE), moveExecutor);
+        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePawnPromotion(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.f8), Piece.ROOK_WHITE), moveExecutor);
     }
 
     @Test

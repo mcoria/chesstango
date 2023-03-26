@@ -32,7 +32,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
 
     @Override
-    public PiecePositioned getPosicion(Square square) {
+    public PiecePositioned getPosition(Square square) {
         return tablero[square.toIdx()];
     }
 
@@ -88,7 +88,7 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
 
             @Override
             public PiecePositioned next() {
-                return getPosicion(squareIterator.next());
+                return getPosition(squareIterator.next());
             }
 
         };

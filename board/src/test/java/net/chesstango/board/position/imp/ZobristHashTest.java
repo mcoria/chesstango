@@ -23,7 +23,7 @@ public class ZobristHashTest {
         ZobristHash zobristHash = new ZobristHash();
         zobristHash.init(position);
 
-        zobristHash.xorPosition(position.getPosicion(Square.f2));
+        zobristHash.xorPosition(position.getPosition(Square.f2));
 
         Assert.assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/8/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
     }
@@ -35,7 +35,7 @@ public class ZobristHashTest {
         ZobristHash zobristHash = new ZobristHash();
         zobristHash.init(position);
 
-        zobristHash.xorPosition(position.getPosicion(Square.f2));
+        zobristHash.xorPosition(position.getPosition(Square.f2));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f3, Piece.PAWN_WHITE));
 
         Assert.assertEquals(PolyglotEncoder.getKey("rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 1").longValue(), zobristHash.getZobristHash());
@@ -48,7 +48,7 @@ public class ZobristHashTest {
         ZobristHash zobristHash = new ZobristHash();
         zobristHash.init(position);
 
-        zobristHash.xorPosition(position.getPosicion(Square.f2));
+        zobristHash.xorPosition(position.getPosition(Square.f2));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f3, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
@@ -63,12 +63,12 @@ public class ZobristHashTest {
         zobristHash.init(position);
 
         // White Move
-        zobristHash.xorPosition(position.getPosicion(Square.f2));
+        zobristHash.xorPosition(position.getPosition(Square.f2));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f3, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
         // Black Move
-        zobristHash.xorPosition(position.getPosicion(Square.d7));
+        zobristHash.xorPosition(position.getPosition(Square.d7));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.d6, Piece.PAWN_BLACK));
         zobristHash.xorTurn();
 
@@ -84,8 +84,8 @@ public class ZobristHashTest {
         zobristHash.init(position);
 
         // White Move capture
-        zobristHash.xorPosition(position.getPosicion(Square.e4));
-        zobristHash.xorPosition(position.getPosicion(Square.d5));
+        zobristHash.xorPosition(position.getPosition(Square.e4));
+        zobristHash.xorPosition(position.getPosition(Square.d5));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.d5, Piece.PAWN_WHITE));
         zobristHash.xorTurn();
 
@@ -101,11 +101,11 @@ public class ZobristHashTest {
         zobristHash.init(position);
 
         // White move King
-        zobristHash.xorPosition(position.getPosicion(Square.e1));
+        zobristHash.xorPosition(position.getPosition(Square.e1));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.g1, Piece.KING_WHITE));
 
         // White move Rook
-        zobristHash.xorPosition(position.getPosicion(Square.h1));
+        zobristHash.xorPosition(position.getPosition(Square.h1));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f1, Piece.ROOK_WHITE));
 
         zobristHash.xorCastleWhiteKing();
@@ -123,11 +123,11 @@ public class ZobristHashTest {
         zobristHash.init(position);
 
         // White move King
-        zobristHash.xorPosition(position.getPosicion(Square.e1));
+        zobristHash.xorPosition(position.getPosition(Square.e1));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.c1, Piece.KING_WHITE));
 
         // White move Rook
-        zobristHash.xorPosition(position.getPosicion(Square.a1));
+        zobristHash.xorPosition(position.getPosition(Square.a1));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.d1, Piece.ROOK_WHITE));
 
         zobristHash.xorCastleWhiteQueen();
@@ -145,11 +145,11 @@ public class ZobristHashTest {
         zobristHash.init(position);
 
         // White move King
-        zobristHash.xorPosition(position.getPosicion(Square.e8));
+        zobristHash.xorPosition(position.getPosition(Square.e8));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.g8, Piece.KING_BLACK));
 
         // White move Rook
-        zobristHash.xorPosition(position.getPosicion(Square.h8));
+        zobristHash.xorPosition(position.getPosition(Square.h8));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.f8, Piece.ROOK_BLACK));
 
         zobristHash.xorCastleBlackKing();
@@ -167,11 +167,11 @@ public class ZobristHashTest {
         zobristHash.init(position);
 
         // White move King
-        zobristHash.xorPosition(position.getPosicion(Square.e8));
+        zobristHash.xorPosition(position.getPosition(Square.e8));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.c8, Piece.KING_BLACK));
 
         // White move Rook
-        zobristHash.xorPosition(position.getPosicion(Square.a8));
+        zobristHash.xorPosition(position.getPosition(Square.a8));
         zobristHash.xorPosition(PiecePositioned.getPiecePositioned(Square.d8, Piece.ROOK_BLACK));
 
         zobristHash.xorCastleBlackQueen();

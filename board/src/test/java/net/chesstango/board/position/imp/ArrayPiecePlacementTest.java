@@ -34,12 +34,12 @@ public class ArrayPiecePlacementTest {
 		
 		
 		// Al position should be not NULL (including emtpy squares)
-		assertNotNull(tablero.getPosicion(Square.a1));
-		assertNotNull(tablero.getPosicion(Square.b7));
-		assertNotNull(tablero.getPosicion(Square.b8));
-		assertNotNull(tablero.getPosicion(Square.e1));
-		assertNotNull(tablero.getPosicion(Square.e8));
-		assertNotNull(tablero.getPosicion(Square.e3));
+		assertNotNull(tablero.getPosition(Square.a1));
+		assertNotNull(tablero.getPosition(Square.b7));
+		assertNotNull(tablero.getPosition(Square.b8));
+		assertNotNull(tablero.getPosition(Square.e1));
+		assertNotNull(tablero.getPosition(Square.e8));
+		assertNotNull(tablero.getPosition(Square.e3));
 		
 		
 		

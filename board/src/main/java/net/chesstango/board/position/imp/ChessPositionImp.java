@@ -32,6 +32,13 @@ public class ChessPositionImp implements ChessPosition {
 	protected ZobristHash zobristHash = null;
 
 	@Override
+	public void init() {
+		colorBoard.init(piecePlacement);
+		kingCacheBoard.init(piecePlacement);
+		zobristHash.init(piecePlacement, positionState);
+	}
+
+	@Override
 	public void acceptForExecute(Move move) {
 		move.executeMove(this);
 	}
@@ -104,19 +111,6 @@ public class ChessPositionImp implements ChessPosition {
 			builder.withPiece(pieza.getSquare(), pieza.getPiece());
 		}
 	}
-	
-	
-	@Override
-	//TODO: estaria bueno que en vez de estar concatenado sea todo mas compacto, el lado del tablero el codigo FEN
-	public String toString() {
-		FENEncoder fenEncoder = new FENEncoder();
-		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
-		
-		constructBoardRepresentation(fenEncoder);
-		constructBoardRepresentation(asciiEncoder);
-		
-	    return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
-	}
 
 	@Override
 	public Color getCurrentTurn() {
@@ -161,15 +155,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public void init() {
-		colorBoard.init(piecePlacement);
-		kingCacheBoard.init(piecePlacement);
-		zobristHash.init(piecePlacement, positionState);
-	}
-
-	@Override
-	public PiecePositioned getPosicion(Square square) {
-		return piecePlacement.getPosicion(square);
+	public PiecePositioned getPosition(Square square) {
+		return piecePlacement.getPosition(square);
 	}
 
 
@@ -240,6 +227,17 @@ public class ChessPositionImp implements ChessPosition {
 		return piecePlacement.getElement(idx);
 	}
 
+	@Override
+	//TODO: estaria bueno que en vez de estar concatenado sea todo mas compacto, el lado del tablero el codigo FEN
+	public String toString() {
+		FENEncoder fenEncoder = new FENEncoder();
+		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
+
+		constructBoardRepresentation(fenEncoder);
+		constructBoardRepresentation(asciiEncoder);
+
+		return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
+	}
 
 	public void setPiecePlacement(PiecePlacement dummyBoard) {
 		this.piecePlacement = dummyBoard;
@@ -252,7 +250,6 @@ public class ChessPositionImp implements ChessPosition {
 	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
 		this.kingCacheBoard = kingCacheBoard;
 	}
-
 
 	public void setMoveCache(MoveCacheBoard moveCache) {
 		this.moveCache = moveCache;

@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
-import net.chesstango.board.position.imp.ZobristHash;
 
 
 /**
@@ -67,7 +66,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 			Square square = Square.getSquareByIdx(i);
 			MoveGeneratorResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
 			if(cacheMoveGeneratorResult != null) {
-				MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(piecePlacement.getPosicion(square));
+				MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(piecePlacement.getPosition(square));
 				compararMoveGeneratorResult(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
 			}
 		}

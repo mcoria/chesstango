@@ -64,8 +64,8 @@ public class SimplePawnMoveTest {
         zobristHash = new ZobristHash();
         zobristHash.init(piecePlacement, positionState);
 
-        PiecePositioned origen = piecePlacement.getPosicion(Square.e2);
-        PiecePositioned destino = piecePlacement.getPosicion(Square.e3);
+        PiecePositioned origen = piecePlacement.getPosition(Square.e2);
+        PiecePositioned destino = piecePlacement.getPosition(Square.e3);
         moveExecutor = new SimplePawnMove(origen, destino);
     }
 

@@ -16,7 +16,7 @@ import java.util.Iterator;
  */
 public interface PiecePlacementReader extends Iterable<PiecePositioned>, GetElementByIndex<PiecePositioned> {
 
-	PiecePositioned getPosicion(Square square);
+	PiecePositioned getPosition(Square square);
 
 	Piece getPiece(Square square);
 

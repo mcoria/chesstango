@@ -267,8 +267,8 @@ public class MoveFactoryBlackTest {
 
         zobristHash.init(piecePlacement, positionState);
 
-        PiecePositioned origen = piecePlacement.getPosicion(Square.g2);
-        PiecePositioned destino = piecePlacement.getPosicion(Square.h1);
+        PiecePositioned origen = piecePlacement.getPosition(Square.g2);
+        PiecePositioned destino = piecePlacement.getPosition(Square.h1);
 
         moveExecutor = moveFactoryImp.createCaptureMove(origen, destino);
 

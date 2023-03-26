@@ -61,8 +61,8 @@ public class SimpleMoveTest {
         colorBoard = new ColorBoardDebug();
         colorBoard.init(piecePlacement);
 
-        PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
-        PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
+        PiecePositioned origen = piecePlacement.getPosition(Square.e5);
+        PiecePositioned destino = piecePlacement.getPosition(Square.e7);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e5, new MoveGeneratorResult(origen));
@@ -75,7 +75,7 @@ public class SimpleMoveTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(piecePlacement.getPosicion(Square.e5), piecePlacement.getPosicion(Square.e7)), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(piecePlacement.getPosition(Square.e5), piecePlacement.getPosition(Square.e7)), moveExecutor);
     }
 
     @Test

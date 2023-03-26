@@ -39,7 +39,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 	}
 
 	protected Collection<Move> getPseudoMoves(Square origenSquare) {
-		return getPseudoMoves(positionReader.getPosicion(origenSquare));
+		return getPseudoMoves(positionReader.getPosition(origenSquare));
 	}
 
 	//TODO: este metodo no tien buena performance
@@ -52,7 +52,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 			Square origenSquare = iterator.next();
 
-			MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosicion(origenSquare));	
+			MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosition(origenSquare));
 			
 			posicionesCapturadas |= generatorResult.getCapturedPositions();
 

@@ -68,8 +68,8 @@ public class SimpleKingMoveTest {
         kingCacheBoard = new KingCacheBoardDebug();
         kingCacheBoard.init(piecePlacement);
 
-        PiecePositioned origen = piecePlacement.getPosicion(Square.e1);
-        PiecePositioned destino = piecePlacement.getPosicion(Square.e2);
+        PiecePositioned origen = piecePlacement.getPosition(Square.e1);
+        PiecePositioned destino = piecePlacement.getPosition(Square.e2);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorResult(origen));
@@ -82,7 +82,7 @@ public class SimpleKingMoveTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(piecePlacement.getPosicion(Square.e1), piecePlacement.getPosicion(Square.e2)), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleKingMove(piecePlacement.getPosition(Square.e1), piecePlacement.getPosition(Square.e2)), moveExecutor);
     }
 
     @Test

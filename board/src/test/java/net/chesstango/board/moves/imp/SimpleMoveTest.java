@@ -63,8 +63,8 @@ public class SimpleMoveTest {
         zobristHash = new ZobristHash();
         zobristHash.init(piecePlacement, positionState);
 
-        PiecePositioned origen = piecePlacement.getPosicion(Square.e5);
-        PiecePositioned destino = piecePlacement.getPosicion(Square.e7);
+        PiecePositioned origen = piecePlacement.getPosition(Square.e5);
+        PiecePositioned destino = piecePlacement.getPosition(Square.e7);
         moveExecutor = new SimpleMove(origen, destino);
     }
 
