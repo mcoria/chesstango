@@ -183,7 +183,7 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public long getHash() {
+	public long getPositionHash() {
 		return zobristHash.getZobristHash();
 	}
 

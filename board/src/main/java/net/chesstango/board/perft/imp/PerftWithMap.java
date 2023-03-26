@@ -147,6 +147,6 @@ public class PerftWithMap<T> implements Perft  {
 	}
 
 	public static Long getZobristGameId(Game game) {
-		return game.getChessPosition().getHash();
+		return game.getChessPosition().getPositionHash();
 	}
 }

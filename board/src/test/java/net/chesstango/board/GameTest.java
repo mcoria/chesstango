@@ -8,7 +8,6 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Test;
 
@@ -56,7 +55,7 @@ public class GameTest {
         assertTrue(game.getPossibleMoves().isEmpty());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(4, game.getChessPosition().getFullMoveClock());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -78,7 +77,7 @@ public class GameTest {
         assertTrue(game.getPossibleMoves().isEmpty());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(4, game.getChessPosition().getFullMoveClock());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.undoMove()
                 .undoMove()
@@ -91,7 +90,7 @@ public class GameTest {
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(1, game.getChessPosition().getFullMoveClock());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -100,44 +99,44 @@ public class GameTest {
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.e4);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e7, Square.e5);
         assertEquals(29, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f1, Square.c4);
         assertEquals(29, game.getPossibleMoves().size());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.b8, Square.c6);
         assertEquals(33, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d1, Square.f3);
         assertEquals(31, game.getPossibleMoves().size());
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.g8, Square.h6);
         assertEquals(42, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
 
         game.executeMove(Square.f3, Square.f7);
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
         assertEquals(GameStatus.CHECK, game.getStatus());
         assertEquals(1, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -155,7 +154,7 @@ public class GameTest {
         assertEquals(0, game.getPossibleMoves().size());
         assertEquals(1, game.getChessPosition().getHalfMoveClock());
         assertEquals(1, game.getChessPosition().getFullMoveClock());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -173,7 +172,7 @@ public class GameTest {
         assertEquals(37, game.getPossibleMoves().size());
         assertEquals(50, game.getChessPosition().getHalfMoveClock());
         assertEquals(26, game.getChessPosition().getFullMoveClock());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
 
@@ -217,7 +216,7 @@ public class GameTest {
         assertEquals(7, game.getChessPosition().getFullMoveClock());
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(GameStatus.DRAW_BY_FOLD_REPETITION, game.getStatus());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -234,14 +233,14 @@ public class GameTest {
         assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(1, game.getChessPosition().getFullMoveClock());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.undoMove();
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(1, game.getChessPosition().getFullMoveClock());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -253,7 +252,7 @@ public class GameTest {
         assertEquals(22, game.getPossibleMoves().size());
         assertEquals(0, game.getChessPosition().getHalfMoveClock());
         assertEquals(3, game.getChessPosition().getFullMoveClock()); // Movio Negras
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -265,7 +264,7 @@ public class GameTest {
         assertEquals(Square.c6, game.getChessPosition().getEnPassantSquare());
         assertNotNull(game.getMove(Square.b5, Square.c6));
         assertEquals(22, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
 
@@ -280,7 +279,7 @@ public class GameTest {
 
         assertEquals(43, game.getPossibleMoves().size());
 
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -292,242 +291,242 @@ public class GameTest {
         game.executeMove(Square.e1, Square.g1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e1, Square.c1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e1, Square.f1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e1, Square.d1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d5, Square.d6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d5, Square.e6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.a2, Square.a3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.a2, Square.a4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.b2, Square.b3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.g2, Square.g3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.g2, Square.g4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.g2, Square.h3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.d3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.f7);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.c4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.g6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.g4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.c6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e5, Square.d7);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.c3, Square.b1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.c3, Square.a4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.c3, Square.d1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.c3, Square.b5);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.g3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.h3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.e3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.d3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.g4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.h5);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.f4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.f5);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.f3, Square.f6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d2, Square.c1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d2, Square.e3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d2, Square.f4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d2, Square.g5);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.d2, Square.h6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.d1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.f1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.d3);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.c4);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.b5);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.e2, Square.a6);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.a1, Square.b1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.a1, Square.c1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.a1, Square.d1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.h1, Square.g1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         game.executeMove(Square.h1, Square.f1);
         game.undoMove();
         assertEquals(48, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
     }
 
@@ -539,26 +538,26 @@ public class GameTest {
         //Estado inicial
         assertEquals(18, game.getPossibleMoves().size());
         assertTrue(game.getChessPosition().isCastlingBlackKingAllowed());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Capturamos la torre negra
         game.executeMove(Square.d4, Square.h8);
         assertEquals(5, game.getPossibleMoves().size());
         //Ya no tenemos castling
         assertNull(game.getMove(Square.e8, Square.h8));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Undo captura de torre negra ---- Volvemos al estado inicial
         game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de king del cache
         assertEquals(18, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Movimiento 1 - lo repetimos
         game.executeMove(Square.d4, Square.c3);
         assertEquals(15, game.getPossibleMoves().size());
         //CastlingBlackKingMove es uno de los movimientos posibles
         assertEquals(moveFactory.createCastlingKingMove(), game.getMove(Square.e8, Square.g8));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -574,33 +573,33 @@ public class GameTest {
         assertEquals(15, game.getPossibleMoves().size());
         //CastlingBlackKingMove es uno de los movimientos posibles
         assertEquals(moveFactory.createCastlingKingMove(), game.getMove(Square.e8, Square.g8));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Undo movimiento 1 y volvemos al estado inicial
         game.undoMove();
 
         //Estado inicial
         assertEquals(18, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Capturamos la torre negra
         game.executeMove(Square.d4, Square.h8);
         assertEquals(5, game.getPossibleMoves().size());
         //Ya no tenemos castling
         assertNull(game.getMove(Square.e8, Square.h8));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Undo captura de torre negra ---- Volvemos al estado inicial
         game.undoMove();  // Aca esta el problema, el UNDO no borra los movimientos de king del cache
         assertEquals(18, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         //Movimiento 1 - lo repetimos
         game.executeMove(Square.d4, Square.c3);
         assertEquals(15, game.getPossibleMoves().size());
         //CastlingBlackKingMove es uno de los movimientos posibles
         assertEquals(moveFactory.createCastlingKingMove(), game.getMove(Square.e8, Square.g8));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
 
@@ -623,7 +622,7 @@ public class GameTest {
 
         //Estado inicial
         assertEquals(26, game.getPossibleMoves().size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -642,7 +641,7 @@ public class GameTest {
 
         assertFalse(reader.isCastlingWhiteKingAllowed());
 
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
 
@@ -666,7 +665,7 @@ public class GameTest {
         // Los movimientos que establece en cache no dependen de lo que hay en h1 (puesto que no hay torre blanca)
         assertFalse("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
 
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         // Aca comienza el bolonqui
         game.undoMove();
@@ -681,7 +680,7 @@ public class GameTest {
 
         assertFalse(game.getChessPosition().isCastlingWhiteQueenAllowed());
 
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
     }
 
@@ -706,7 +705,7 @@ public class GameTest {
         legalMoves = game.getPossibleMoves();
         assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
         assertEquals(22, legalMoves.size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         // Volvemos atras
         game.undoMove();
@@ -715,7 +714,7 @@ public class GameTest {
         legalMoves = game.getPossibleMoves();
         assertEquals(19, legalMoves.size());
         assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -729,7 +728,7 @@ public class GameTest {
 
         assertEquals(19, legalMoves.size());
         assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         // Mueve el pawn pasante
         game.executeMove(Square.c7, Square.c5);
@@ -738,7 +737,7 @@ public class GameTest {
         legalMoves = game.getPossibleMoves();
         assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
         assertEquals(22, legalMoves.size());
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         // Pero NO lo capturamos
         game.executeMove(Square.h2, Square.h3);
@@ -749,7 +748,7 @@ public class GameTest {
         // Ahora no podemos capturar el pawn pasante !!!
         legalMoves = game.getPossibleMoves();
         assertFalse(contieneMove(legalMoves, Square.b5, Square.c6));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
     @Test
@@ -769,17 +768,17 @@ public class GameTest {
         // Podemos capturarlo
         legalMoves = game.getPossibleMoves();
         assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
         // Capturamos peon pasante
         game.executeMove(Square.b5, Square.c6);
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
 
         // Undo
         game.undoMove();
         assertTrue(contieneMove(legalMoves, Square.b5, Square.c6));
-        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+        assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
     }
 
 	@Test
@@ -789,7 +788,7 @@ public class GameTest {
 
 		MoveContainerReader legalMoves = game.getPossibleMoves();
 		assertTrue(contieneMove(legalMoves, Square.b4, Square.a5));
-		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getHash());
+		assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 	}
 
     protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {

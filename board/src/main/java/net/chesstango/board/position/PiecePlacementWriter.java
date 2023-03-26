@@ -14,7 +14,7 @@ public interface PiecePlacementWriter {
 
 	void setPieza(Square square, Piece piece);
 
-	void setEmptyPosition(PiecePositioned captura);
+	void setEmptyPosition(PiecePositioned piecePositioned);
 
 	void setEmptySquare(Square square);
 

@@ -26,7 +26,7 @@ public interface ChessPositionReader extends PiecePlacementReader, PositionState
 
 	Iterator<PiecePositioned> iteratorAllPieces();
 
-	long getHash();
+	long getPositionHash();
 
 	void constructBoardRepresentation(ChessRepresentationBuilder<?> builder);
 

@@ -66,8 +66,8 @@ public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
     }
 
     @Override
-    public void setEmptyPosition(PiecePositioned captura) {
-        setEmptySquare(captura.getSquare());
+    public void setEmptyPosition(PiecePositioned piecePositioned) {
+        setEmptySquare(piecePositioned.getSquare());
     }
 
 

@@ -17,10 +17,7 @@ import java.util.Deque;
  * @author Mauricio Coria
  */
 public class ZobristHash {
-
     private final Deque<ZobristHash.ZobristHashData> stackZobristHistory = new ArrayDeque<ZobristHash.ZobristHashData>();
-
-    private ZobristHash.ZobristHashData currentZobristNode = null;
 
     private long zobristHash;
 
@@ -31,13 +28,7 @@ public class ZobristHash {
     }
 
     public void init(ChessPositionReader piecePlacement) {
-        PolyglotEncoder encoder = new PolyglotEncoder();
-        piecePlacement.constructBoardRepresentation(encoder);
-        zobristHash = encoder.getChessRepresentation();
-
-        if(piecePlacement.getEnPassantSquare() != null) {
-            throw new RuntimeException("CORREGIR zobristOldEnPassantSquare");
-        }
+        init(piecePlacement, piecePlacement);
     }
 
     public void init(PiecePlacementReader piecePlacement, PositionStateReader positionState) {
@@ -50,7 +41,6 @@ public class ZobristHash {
         if(Color.WHITE.equals(positionState.getCurrentTurn())) {
             xorTurn();
         }
-
 
         if(positionState.isCastlingWhiteKingAllowed()){
             xorCastleWhiteKing();
