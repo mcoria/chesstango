@@ -5,6 +5,9 @@ import net.chesstango.board.moves.Move;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Mauricio Coria
+ */
 public class SearchMoveResult {
     private final int depth;
     private final int evaluation;
@@ -15,6 +18,8 @@ public class SearchMoveResult {
     private int[] expectedNodesCounters;
     private int[] evaluatedNodes;
     private List<Set<Move>> distinctMovesPerLevel;
+
+    private List<Move> bestMoveOptions;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;
@@ -78,6 +83,15 @@ public class SearchMoveResult {
 
     public SearchMoveResult setExpectedNodesCounters(int[] expectedNodesCounters) {
         this.expectedNodesCounters = expectedNodesCounters;
+        return this;
+    }
+
+    public List<Move> getBestMoveOptions() {
+        return bestMoveOptions;
+    }
+
+    public SearchMoveResult setBestMoveOptions(List<Move> bestMoveOptions) {
+        this.bestMoveOptions = bestMoveOptions;
         return this;
     }
 }

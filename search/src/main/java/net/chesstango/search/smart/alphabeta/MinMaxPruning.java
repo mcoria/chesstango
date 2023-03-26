@@ -69,7 +69,8 @@ public class MinMaxPruning extends AbstractSmart {
                 .setVisitedNodesCounters(context.getVisitedNodesCounters())
                 .setDistinctMovesPerLevel(context.getDistinctMovesPerLevel())
                 .setEvaluationCollisions(bestMoves.size() - 1)
-                .setExpectedNodesCounters(context.getExpectedNodesCounters());
+                .setExpectedNodesCounters(context.getExpectedNodesCounters())
+                .setBestMoveOptions(bestMoves);
     }
 
     public void setMoveSorter(MoveSorter moveSorter) {

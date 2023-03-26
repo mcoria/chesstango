@@ -63,7 +63,8 @@ public class MinMax extends AbstractSmart {
 
         return new SearchMoveResult(context.getMaxPly(), betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
                 .setVisitedNodesCounters(visitedNodesCounter)
-                .setEvaluationCollisions(bestMoves.size() - 1);
+                .setEvaluationCollisions(bestMoves.size() - 1)
+                .setBestMoveOptions(bestMoves);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
