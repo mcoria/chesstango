@@ -116,7 +116,12 @@ public class Match {
         while (game.getStatus().isInProgress()) {
             String moveStr = retrieveBestMoveFromController(currentTurn, executedMovesStr);
 
-            Move move = decodeMoveStr(moveStr);
+            Move move = UCIEncoder.selectMove(game.getPossibleMoves(), moveStr);
+
+            if(move == null){
+                printDebug(System.err);
+                throw new RuntimeException(String.format("No move found %s", moveStr));
+            }
 
             game.executeMove(move);
 
@@ -213,20 +218,6 @@ public class Match {
         RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(depth));
 
         return bestMove.getBestMove();
-    }
-
-    private Move decodeMoveStr(String bestMove) {
-        UCIEncoder uciEncoder = new UCIEncoder();
-        for (Move move : game.getPossibleMoves()) {
-            String encodedMoveStr = uciEncoder.encode(move);
-            if (encodedMoveStr.equals(bestMove)) {
-                return move;
-            }
-        }
-
-        printDebug(System.err);
-
-        throw new RuntimeException("No move found " + bestMove);
     }
 
     private void printDebug(PrintStream printStream) {

@@ -19,5 +19,10 @@
     "directory": "C:\\Java\\projects\\chess\\chess-utils\\tangoengines\\13-GameEvaluatorImp02",
     "exe": "C:\\Java\\jdk-17.0.5\\bin\\java",
     "params": "-jar uci-engine-0.0.10-SNAPSHOT.jar"
+  },
+  {
+    "name": "MinimalChess",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MinimalChess.0.5.Windows\\MinimalChess 0.5 Windows",
+    "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MinimalChess.0.5.Windows\\MinimalChess 0.5 Windows\\MinimalChessEngine.exe"
   }
 ]

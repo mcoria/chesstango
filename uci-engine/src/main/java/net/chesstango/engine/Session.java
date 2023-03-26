@@ -38,18 +38,11 @@ public class Session implements ServiceElement {
         if (moves != null && !moves.isEmpty()) {
             UCIEncoder uciEncoder = new UCIEncoder();
             for (String moveStr : moves) {
-                boolean findMove = false;
-                for (Move move : game.getPossibleMoves()) {
-                    String encodedMoveStr = uciEncoder.encode(move);
-                    if (encodedMoveStr.equals(moveStr)) {
-                        game.executeMove(move);
-                        findMove = true;
-                        break;
-                    }
+                Move move = uciEncoder.selectMove(game.getPossibleMoves(), moveStr);
+                if(move == null){
+                    throw new RuntimeException(String.format("No move found %s", moveStr));
                 }
-                if (!findMove) {
-                    throw new RuntimeException("No move found " + moveStr);
-                }
+                game.executeMove(move);
             }
         }
     }
