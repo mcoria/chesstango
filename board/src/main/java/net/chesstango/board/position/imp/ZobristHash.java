@@ -4,8 +4,10 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 
 import java.util.ArrayDeque;
@@ -28,7 +30,7 @@ public class ZobristHash {
         return zobristHash;
     }
 
-    public void init(ChessPosition piecePlacement) {
+    public void init(ChessPositionReader piecePlacement) {
         PolyglotEncoder encoder = new PolyglotEncoder();
         piecePlacement.constructBoardRepresentation(encoder);
         zobristHash = encoder.getChessRepresentation();
@@ -38,7 +40,7 @@ public class ZobristHash {
         }
     }
 
-    public void init(PiecePlacement piecePlacement, PositionState positionState) {
+    public void init(PiecePlacementReader piecePlacement, PositionStateReader positionState) {
         for( PiecePositioned piecePositioned: piecePlacement){
             if(piecePositioned.getPiece() != null){
                 xorPosition(piecePositioned);
@@ -342,7 +344,7 @@ public class ZobristHash {
 
     private record ZobristHashData(long zobristHash, long zobristOldEnPassantSquare) {}
 
-    private boolean calculateEnPassantSquare(PiecePlacement piecePlacement, PositionState positionState) {
+    private boolean calculateEnPassantSquare(PiecePlacementReader piecePlacement, PositionStateReader positionState) {
         Square enPassantSquare = positionState.getEnPassantSquare();
         if(positionState.getEnPassantSquare() != null){
             if (Color.WHITE.equals(positionState.getCurrentTurn())) {

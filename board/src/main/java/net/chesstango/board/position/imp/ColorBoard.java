@@ -7,6 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PiecePlacementReader;
 
 import java.io.ByteArrayOutputStream;

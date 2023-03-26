@@ -15,25 +15,11 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  */
-public interface ChessPositionReader extends PiecePlacementReader {
-
-	Color getCurrentTurn();
+public interface ChessPositionReader extends PiecePlacementReader, PositionStateReader {
 
 	Color getColor(Square square);
 
-	boolean isCastlingWhiteQueenAllowed();
-	boolean isCastlingWhiteKingAllowed();
-
-	boolean isCastlingBlackQueenAllowed();
-	boolean isCastlingBlackKingAllowed();
-
-	int getHalfMoveClock();
-
-	int getFullMoveClock();
-
 	Square getKingSquare(Color color);
-
-	Square getEnPassantSquare();
 
 	long getPositions(Color color);
 

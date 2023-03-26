@@ -118,32 +118,6 @@ public class ChessPositionImp implements ChessPosition {
 	    return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
 	}
 
-	public void setPiecePlacement(PiecePlacement dummyBoard) {
-		this.piecePlacement = dummyBoard;
-	}
-
-	public void setColorBoard(ColorBoard colorBoard) {
-		this.colorBoard = colorBoard;
-	}
-
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
-	}
-
-
-	public void setMoveCache(MoveCacheBoard moveCache) {
-		this.moveCache = moveCache;
-	}
-
-	public void setBoardState(PositionState positionState) {
-		this.positionState = positionState;
-	}
-
-	public void setZobristHash(ZobristHash zobristHash) {
-		this.zobristHash = zobristHash;
-	}
-
-
 	@Override
 	public Color getCurrentTurn() {
 		return this.positionState.getCurrentTurn();
@@ -265,4 +239,31 @@ public class ChessPositionImp implements ChessPosition {
 	public PiecePositioned getElement(int idx) {
 		return piecePlacement.getElement(idx);
 	}
+
+
+	public void setPiecePlacement(PiecePlacement dummyBoard) {
+		this.piecePlacement = dummyBoard;
+	}
+
+	public void setColorBoard(ColorBoard colorBoard) {
+		this.colorBoard = colorBoard;
+	}
+
+	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+		this.kingCacheBoard = kingCacheBoard;
+	}
+
+
+	public void setMoveCache(MoveCacheBoard moveCache) {
+		this.moveCache = moveCache;
+	}
+
+	public void setBoardState(PositionState positionState) {
+		this.positionState = positionState;
+	}
+
+	public void setZobristHash(ZobristHash zobristHash) {
+		this.zobristHash = zobristHash;
+	}
+
 }
