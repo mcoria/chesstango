@@ -138,11 +138,6 @@ public class GameImp implements Game {
     }
 
     @Override
-    public GameStateReader getPreviosGameState() {
-        return gameState.getPreviosGameState();
-    }
-
-    @Override
     public ChessPositionReader getChessPosition() {
         return chessPosition;
     }

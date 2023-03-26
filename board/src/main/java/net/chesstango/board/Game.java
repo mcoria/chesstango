@@ -21,8 +21,6 @@ public interface Game {
 
     GameStateReader getState();
 
-    GameStateReader getPreviosGameState();
-
     ChessPositionReader getChessPosition();
 
     GameStatus getStatus();

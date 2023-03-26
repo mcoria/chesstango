@@ -20,7 +20,6 @@ public class GameState implements GameStateReader {
 
     private final Deque<GameStateData> stackGameStates = new ArrayDeque<GameStateData>();
     private GameStateData currentGameState = new GameStateData();
-    private GameStateData previosGameState = null;
     private String initialFEN;
 
     @Override
@@ -68,19 +67,31 @@ public class GameState implements GameStateReader {
         return currentGameState.fenWithoutClocks;
     }
 
+    @Override
+    public GameStateReader getPreviosGameState() {
+        return currentGameState.previosGameState;
+    }
+
+    public void setInitialFEN(String initialFEN) {
+        this.initialFEN = initialFEN;
+    }
+
+    public String getInitialFen() {
+        return initialFEN;
+    }
+
     public void push() {
         stackGameStates.push(currentGameState);
 
-        previosGameState = currentGameState;
+        GameStateData previosGameState = currentGameState;
         currentGameState = new GameStateData();
+        currentGameState.previosGameState = previosGameState;
     }
 
     public void pop() {
         GameStateData lastState = stackGameStates.pop();
 
         currentGameState = lastState;
-
-        previosGameState = stackGameStates.size() > 0 ? stackGameStates.getLast() : null;
     }
 
     public void accept(GameVisitor gameVisitor) {
@@ -97,25 +108,13 @@ public class GameState implements GameStateReader {
         gameVisitor.visit(currentGameState);
     }
 
-
-    public void setInitialFEN(String initialFEN) {
-        this.initialFEN = initialFEN;
-    }
-
-    public String getInitialFen() {
-        return initialFEN;
-    }
-
-    public GameStateData getPreviosGameState() {
-        return previosGameState;
-    }
-
-    static class GameStateData implements GameStateReader {
+    private static class GameStateData implements GameStateReader {
         protected AnalyzerResult analyzerResult;
         protected MoveContainerReader legalMoves;
         protected Move selectedMove;
         protected GameStatus gameStatus;
         protected String fenWithoutClocks;
+        protected GameStateData previosGameState = null;
 
         @Override
         public GameStatus getStatus() {
@@ -140,6 +139,11 @@ public class GameState implements GameStateReader {
         @Override
         public String getFenWithoutClocks() {
             return fenWithoutClocks;
+        }
+
+        @Override
+        public GameStateData getPreviosGameState() {
+            return previosGameState;
         }
     }
 }

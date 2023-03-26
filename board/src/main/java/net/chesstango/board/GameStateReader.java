@@ -17,4 +17,6 @@ public interface GameStateReader {
     AnalyzerResult getAnalyzerResult();
 
     String getFenWithoutClocks();
+
+    GameStateReader getPreviosGameState();
 }

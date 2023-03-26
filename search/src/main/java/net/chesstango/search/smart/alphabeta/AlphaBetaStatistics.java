@@ -65,7 +65,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void trackMove(Game game, int currentPly) {
-        Move lastMove = game.getPreviosGameState().getSelectedMove();
+        Move lastMove = game.getState().getPreviosGameState().getSelectedMove();
 
         Set<Move> currentMoveSet = distinctMoves.get(currentPly - 1);
 
