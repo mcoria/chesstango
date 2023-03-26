@@ -60,16 +60,16 @@ import net.chesstango.search.smart.SearchContext;
 public class DetectCycle implements AlphaBetaFilter{
     private AlphaBetaFilter next;
 
-    private String[] whitePositions = new String[60];
+    private long[] whitePositions = new long[60];
 
-    private String[] blackPositions = new String[60];
+    private long[] blackPositions = new long[60];
 
     @Override
     public void init(Game game, SearchContext context) {
         if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())){
-            whitePositions[0] = getFENWithoutClocks(game);
+            whitePositions[0] = game.getChessPosition().getPositionHash();
         } else {
-            blackPositions[0] = getFENWithoutClocks(game);
+            blackPositions[0] = game.getChessPosition().getPositionHash();
         }
     }
 
@@ -97,24 +97,16 @@ public class DetectCycle implements AlphaBetaFilter{
         this.next = next;
     }
 
-    private boolean repeated(Game game, int currentPly, String[] positions) {
-        String fenWithoutClocks = getFENWithoutClocks(game);
+    private boolean repeated(Game game, int currentPly, long[] positions) {
+        long positionHash = game.getChessPosition().getPositionHash();
         for (int i = currentPly - 2; i >= 0; i -=2) {
-            if(fenWithoutClocks.equals(positions[i])){
+            if(positionHash == positions[i]){
                 return true;
             }
         }
 
-        positions[currentPly] = fenWithoutClocks;
+        positions[currentPly] = positionHash;
         return false;
-    }
-
-    private String getFENWithoutClocks(Game game) {
-        FENEncoder encoder = new FENEncoder();
-
-        game.getChessPosition().constructBoardRepresentation(encoder);
-
-        return encoder.getFENWithoutClocks();
     }
 
 }

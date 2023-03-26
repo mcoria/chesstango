@@ -107,7 +107,7 @@ public class DetectCycleTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(20)));
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(23)));
 
         Assert.assertNotNull(searchResult);
         Assert.assertEquals(4, searchResult.getEvaluation());
@@ -124,7 +124,7 @@ public class DetectCycleTest {
 
         System.out.printf("Total visited Nodes = %d\n", visitedNodesTotal);
 
-        Assert.assertEquals(331544, visitedNodesTotal);
+        Assert.assertEquals(2103538, visitedNodesTotal);
 
     }
 
