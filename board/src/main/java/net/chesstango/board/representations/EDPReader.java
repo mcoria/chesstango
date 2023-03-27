@@ -3,6 +3,7 @@ package net.chesstango.board.representations;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -35,8 +36,12 @@ public class EDPReader {
             // outputting each line of the file.
             while ((line = rr.readLine()) != null) {
                 if (!line.startsWith("#")) {
-                    EDPEntry entry = readEdpLine(line);
-                    edpEntries.add(entry);
+                    try {
+                        EDPEntry entry = readEdpLine(line);
+                        edpEntries.add(entry);
+                    }catch (RuntimeException e){
+                        e.printStackTrace(System.err);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -58,13 +63,25 @@ public class EDPReader {
         return edpEntry;
     }
 
-    private Pattern edpMovePattern = Pattern.compile("[RNBQK]?(?<from>[a-h][1-8])[-x](?<to>[a-h][1-8])(?<promotion>[RNBQK]?)\\+?");
+    private Pattern edpMovePattern = Pattern.compile("([RNBQK]?(?<from>[a-h][1-8])[-x](?<to>[a-h][1-8])(?<promotion>[RNBQK]?)|(?<queencaslting>O-O-O)|(?<kingcastling>O-O))\\+?");
     private Move decodeMove(String bestMove, MoveContainerReader possibleMoves) {
         Matcher matcher = edpMovePattern.matcher(bestMove);
         if(matcher.matches()) {
+            boolean kingCastling = false;
+            boolean queenCastling = false;
+
             String fromStr = matcher.group("from");
             String toStr = matcher.group("to");
             String promotionStr = matcher.group("promotion");
+            String queencasltingStr = matcher.group("queencaslting");
+            String kingcastlingStr = matcher.group("kingcastling");
+
+            if("O-O-O".equals(queencasltingStr)){
+                queenCastling = true;
+            } else if ("O-O".equals(kingcastlingStr)) {
+                kingCastling = true;
+            }
+
             for (Move move: possibleMoves) {
                 if(move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr)){
                     if(move instanceof MovePromotion){
@@ -73,6 +90,14 @@ public class EDPReader {
                             return move;
                         }
                     } else {
+                        return move;
+                    }
+                } else if (queenCastling) {
+                    if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 2) {
+                        return move;
+                    }
+                } else if (kingCastling) {
+                    if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 6) {
                         return move;
                     }
                 }
