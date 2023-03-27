@@ -3,6 +3,7 @@ package net.chesstango.board.representations;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MovePromotion;
@@ -20,33 +21,40 @@ public class SANEncoder {
     public String encode(Move move, Iterable<Move> possibleMoves) {
         if(move instanceof MoveCastling){
             MoveCastling moveCastling = (MoveCastling) move;
-            Square rookFromSquare = moveCastling.getRookFrom().getSquare();
-            if(rookFromSquare.getFile() == 0){
-                return "O-O-O";
-            } else {
-                return "O-O";
-            }
-        } else {
-            return encodeNotCastlingMove(move, possibleMoves);
+            return encodeMoveCastling(moveCastling);
+        } else if(move.getFrom().getPiece().isPawn()){
+            return encodePawnMove(move, possibleMoves);
         }
+        return encodePieceMove(move, possibleMoves);
     }
 
-    public String encodeNotCastlingMove(Move move, Iterable<Move>  possibleMoves) {
+    public String encodePieceMove(Move move, Iterable<Move>  possibleMoves) {
         StringBuilder sb = new StringBuilder();
-
-
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
         Piece piece = from.getPiece();
         boolean capture = to.getPiece() == null ? false : true;
 
-        if(Piece.PAWN_WHITE.equals(piece) || Piece.PAWN_BLACK.equals(piece)){
-            if(capture){
-                sb.append(getFile(from));
-            }
-        } else {
-            sb.append(getPieceCode(piece));
-            sb.append(solveAmbiguityFrom(move, possibleMoves));
+        sb.append(getPieceCode(piece));
+        sb.append(solvePieceAmbiguityFrom(move, possibleMoves));
+
+        if(capture){
+            sb.append("x");
+        }
+
+        sb.append(to.getSquare());
+
+        return sb.toString();
+    }
+
+    private String encodePawnMove(Move move, Iterable<Move> possibleMoves) {
+        StringBuilder sb = new StringBuilder();
+        PiecePositioned from = move.getFrom();
+        PiecePositioned to = move.getTo();
+        boolean capture = Cardinal.Sur.equals(move.getMoveDirection()) || Cardinal.Norte.equals(move.getMoveDirection()) ? false : true;
+
+        if(capture) {
+            sb.append(from.getSquare().getFileChar());
         }
 
         if(capture){
@@ -63,7 +71,17 @@ public class SANEncoder {
         return sb.toString();
     }
 
-    private String solveAmbiguityFrom(Move move, Iterable<Move>  possibleMoves) {
+    private String encodeMoveCastling(MoveCastling moveCastling) {
+        Square rookFromSquare = moveCastling.getRookFrom().getSquare();
+        if(rookFromSquare.getFile() == 0){
+            return "O-O-O";
+        } else {
+            return "O-O";
+        }
+    }
+
+
+    private String solvePieceAmbiguityFrom(Move move, Iterable<Move>  possibleMoves) {
         PiecePositioned from = move.getFrom();
         PiecePositioned to = move.getTo();
         Piece piece = from.getPiece();
@@ -89,37 +107,15 @@ public class SANEncoder {
 
         if(solveAmb){
             if(fileAmb == false){
-                return Character.toString(getFile(from));
+                return from.getSquare().getFileChar();
             } else if(rankAmb == false){
-                return Integer.toString (from.getSquare().getRank() + 1);
+                return from.getSquare().getRankChar();
             } else{
                 return from.getSquare().toString();
             }
         }
 
         return "";
-    }
-
-    private char getFile(PiecePositioned position) {
-        switch (position.getSquare().getFile()){
-            case 0:
-                return 'a';
-            case 1:
-                return 'b';
-            case 2:
-                return 'c';
-            case 3:
-                return 'd';
-            case 4:
-                return 'e';
-            case 5:
-                return 'f';
-            case 6:
-                return 'g';
-            case 7:
-                return 'h';
-        }
-        throw new RuntimeException("Imposible");
     }
 
 

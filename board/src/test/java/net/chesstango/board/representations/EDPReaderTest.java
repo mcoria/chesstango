@@ -127,6 +127,7 @@ public class EDPReaderTest {
     }
 
     @Test
+    @Ignore
     public void testReadMateAll(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
 
@@ -135,6 +136,7 @@ public class EDPReaderTest {
 
 
     @Test
+    @Ignore
     public void testReadWAC(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac.epd");
 

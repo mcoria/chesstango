@@ -30,7 +30,7 @@ public class SANEncoderTest {
     }
 
     @Test
-    public void test_pawnMove_capture(){
+    public void test_pawnMove_capture01(){
         Game game =  FENDecoder.loadGame("rnbqkbnr/ppp1p1pp/8/3p1p2/2P1P3/8/PP1P1PPP/RNBQKBNR w KQkq f6 0 3");
 
         Move move = null;
@@ -47,6 +47,22 @@ public class SANEncoderTest {
         move = game.getMove(Square.e4, Square.d5);
         encodedMove = encoder.encode(move, game.getPossibleMoves());
         Assert.assertEquals("exd5", encodedMove);
+    }
+
+    @Test
+    public void test_pawnMove_capture_enpassant(){
+        Game game =  FENDecoder.loadGame("rnbqkbnr/1ppp1pp1/7p/p2PpP2/8/8/PPP1P1PP/RNBQKBNR w KQkq e6 0 5");
+
+        Move move = null;
+        String encodedMove = null;
+
+        move = game.getMove(Square.d5, Square.e6);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("dxe6", encodedMove);
+
+        move = game.getMove(Square.f5, Square.e6);
+        encodedMove = encoder.encode(move, game.getPossibleMoves());
+        Assert.assertEquals("fxe6", encodedMove);
     }
 
 
