@@ -29,8 +29,8 @@ public class FENDecoder {
 		String activeColor= fields[1];
 		String castingsAllowed = fields[2];
 		String enPassantSquare = fields[3];
-		String halfMoveClock = fields[4];
-		String fullMoveClock = fields[5];
+		String halfMoveClock = fields.length < 5 ? "0" : fields[4];
+		String fullMoveClock = fields.length < 5 ? "1" : fields[5];
 		
 		parsePiecePlacement(piecePlacement);
 		
