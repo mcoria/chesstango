@@ -3,6 +3,7 @@
  */
 package net.chesstango.search;
 
+import net.chesstango.board.representations.EDPReader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,6 @@ public class SearchMoveSuiteTest {
     public void test01() {
         Assert.assertTrue(finderSuite.run(edpReader.readEdpLine("n1QBq1k1/5p1p/5KP1/p7/8/8/8/8 w - - 0 1 bm d8c7")));
     }
-
 
     @Test
     public void test02() {

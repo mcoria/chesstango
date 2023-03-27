@@ -23,7 +23,7 @@ public class SANDecoder {
     private Pattern movePattern = Pattern.compile("(?<piecemove>(?<piece>[RNBQK])(?<piecefrom>[a-h]|[1-8]|[a-h][1-8])?x?(?<pieceto>[a-h][1-8]))|" +
             "(?<pawncapture>(?<pawncapturefile>[a-h])[1-8]?x(?<pawncaptureto>[a-h][1-8])=?(?<pawncapturepromotion>[RNBQ]?))|" +
             "(?<pawnpush>(?<pawnto>[a-h][1-8])=?(?<pawnpushpromotion>[RNBQ]?))|" +
-            "(?<queencasting>O-O-O)|(?<kingcastling>O-O)"
+            "(?<queencaslting>O-O-O)|(?<kingcastling>O-O)"
     );
 
     public Move decode(String moveStr, Iterable<Move> possibleMoves) {
@@ -35,7 +35,7 @@ public class SANDecoder {
                 return decodePawnPush(matcher, possibleMoves);
             } else if (matcher.group("pawncapture") != null) {
                 return decodePawnCapture(matcher, possibleMoves);
-            } else if (matcher.group("queencasting") != null) {
+            } else if (matcher.group("queencaslting") != null) {
                 return searchQueenCastling(possibleMoves);
             } else if (matcher.group("kingcastling") != null) {
                 return searchKingCastling(possibleMoves);

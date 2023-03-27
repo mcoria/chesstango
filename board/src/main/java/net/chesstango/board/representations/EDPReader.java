@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 
@@ -19,7 +18,7 @@ import java.util.regex.Pattern;
  */
 public class EDPReader {
 
-    public List<EDPEntry> readEdpFile(String filename){
+    public List<EDPEntry> readEdpFile(String filename) {
         List<EDPEntry> edpEntries = new ArrayList<>();
         try {
             System.out.println("Reading suite " + filename);
@@ -39,7 +38,7 @@ public class EDPReader {
                     try {
                         EDPEntry entry = readEdpLine(line);
                         edpEntries.add(entry);
-                    }catch (RuntimeException e){
+                    } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
                     }
                 }
@@ -52,70 +51,30 @@ public class EDPReader {
 
     public EDPEntry readEdpLine(String line) {
         EDPEntry edpEntry = parseLine(line);
-        edpEntry.game =  FENDecoder.loadGame(edpEntry.fen);
-        Move move = decodeMove(edpEntry.bestMove, edpEntry.game.getPossibleMoves());
-        if(move != null){
-            edpEntry.expectedMove = move;
-        } else {
-            throw new RuntimeException(String.format("Unable to decode %s", edpEntry.bestMove));
-        }
+        edpEntry.game = FENDecoder.loadGame(edpEntry.fen);
 
+        String[] bestMoves = edpEntry.bestMoves.split(" ");
+
+        for (int i = 0; i < bestMoves.length; i++) {
+            Move move = decodeMove(bestMoves[i], edpEntry.game.getPossibleMoves());
+            if (move != null) {
+                edpEntry.expectedMove.add(move);
+            } else {
+                throw new RuntimeException(String.format("Unable to decode %s", bestMoves[i]));
+            }
+        }
         return edpEntry;
     }
 
-    private Pattern edpMovePattern = Pattern.compile("([RNBQK]?(?<from>[a-h][1-8])[-x](?<to>[a-h][1-8])(?<promotion>[RNBQK]?)|(?<queencaslting>O-O-O)|(?<kingcastling>O-O))\\+?");
-    private Move decodeMove(String bestMove, MoveContainerReader possibleMoves) {
-        Matcher matcher = edpMovePattern.matcher(bestMove);
-        if(matcher.matches()) {
-            boolean kingCastling = false;
-            boolean queenCastling = false;
-
-            String fromStr = matcher.group("from");
-            String toStr = matcher.group("to");
-            String promotionStr = matcher.group("promotion");
-            String queencasltingStr = matcher.group("queencaslting");
-            String kingcastlingStr = matcher.group("kingcastling");
-
-            if("O-O-O".equals(queencasltingStr)){
-                queenCastling = true;
-            } else if ("O-O".equals(kingcastlingStr)) {
-                kingCastling = true;
-            }
-
-            for (Move move: possibleMoves) {
-                if(move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr)){
-                    if(move instanceof MovePromotion){
-                        MovePromotion promotionMove = (MovePromotion) move;
-                        if(getPieceCode(promotionMove.getPromotion()).equals(promotionStr)){
-                            return move;
-                        }
-                    } else {
-                        return move;
-                    }
-                } else if (queenCastling) {
-                    if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 2) {
-                        return move;
-                    }
-                } else if (kingCastling) {
-                    if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 6) {
-                        return move;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-
-    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*) bm (?<bestmove>[^;]*);.*");
+    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*) bm (?<bestmoves>[^;]*);.*");
     protected EDPEntry parseLine(String line) {
         EDPEntry edpParsed = new EDPEntry();
 
         Matcher matcher = edpLinePattern.matcher(line);
-
-        if(matcher.matches()){
+        if (matcher.matches()) {
             edpParsed.fen = matcher.group("fen");
-            edpParsed.bestMove = matcher.group("bestmove");
+            edpParsed.bestMoves = matcher.group("bestmoves");
+            edpParsed.expectedMove =  new ArrayList<>();
         }
 
         return edpParsed;
@@ -123,9 +82,97 @@ public class EDPReader {
 
     public static class EDPEntry {
         public String fen;
-        public String bestMove;
+        public String bestMoves;
         public Game game;
-        public Move expectedMove;
+        public List<Move> expectedMove;
+    }
+
+
+    /**
+     * DECODE MOVE
+     */
+    private Pattern edpMovePattern = Pattern.compile("(" +
+            "(?<piecemove>(?<piece>[RNBQK]?)((?<from>[a-h][1-8])|(?<fromfile>[a-h]))?[-x]?(?<to>[a-h][1-8]))|" +
+            "(?<promotion>(?<promotionfrom>[a-h][1-8])[-x](?<promotionto>[a-h][1-8])(?<promotionpiece>[RNBQK]))|" +
+            "(?<queencaslting>O-O-O)|" +
+            "(?<kingcastling>O-O)" +
+            ")\\+?");
+
+    public Move decodeMove(String moveStr, Iterable<Move> possibleMoves) {
+        final Matcher matcher = edpMovePattern.matcher(moveStr);
+        if (matcher.matches()) {
+            if (matcher.group("piecemove") != null) {
+                return decodePieceMove(matcher, possibleMoves);
+            } else if (matcher.group("queencaslting") != null) {
+                return searchQueenCastling(possibleMoves);
+            } else if (matcher.group("kingcastling") != null) {
+                return searchKingCastling(possibleMoves);
+            } else if (matcher.group("promotion") != null) {
+                return decodePromotion(matcher, possibleMoves);
+            }
+        }
+        return null;
+    }
+    protected Move decodePieceMove(Matcher matcher, Iterable<Move> possibleMoves) {
+        String pieceStr = matcher.group("piece");
+        String fromStr = matcher.group("from");
+        String fromFileStr  = matcher.group("fromfile");
+        String toStr = matcher.group("to");
+        for (Move move : possibleMoves) {
+            if (pieceStr != null) {
+                if (!move.getFrom().getPiece().isPawn() && !getPieceCode(move.getFrom().getPiece()).equals(pieceStr)) {
+                    continue;
+                }
+            }
+            if (fromStr != null) {
+                if (!move.getFrom().getSquare().toString().equals(fromStr)) {
+                    continue;
+                }
+            }
+            if (fromFileStr != null) {
+                if (!move.getFrom().getSquare().getFileChar().equals(fromFileStr)) {
+                    continue;
+                }
+            }
+            if (move.getTo().getSquare().toString().equals(toStr)) {
+                return move;
+            }
+
+        }
+        return null;
+    }
+
+    protected Move decodePromotion(Matcher matcher, Iterable<Move> possibleMoves) {
+        String promotionpieceStr = matcher.group("promotionpiece");
+        String fromStr = matcher.group("promotionfrom");
+        String toStr = matcher.group("promotionto");
+        for (Move move : possibleMoves) {
+            if(move instanceof MovePromotion) {
+                MovePromotion movePromotion = (MovePromotion) move;
+                if (move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr) && getPieceCode(movePromotion.getPromotion()).equals(promotionpieceStr)) {
+                    return move;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Move searchKingCastling(Iterable<Move> possibleMoves) {
+        for (Move move : possibleMoves) {
+            if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 6) {
+                return move;
+            }
+        }
+        return null;
+    }
+
+    private Move searchQueenCastling(Iterable<Move> possibleMoves) {
+        for (Move move : possibleMoves) {
+            if (move instanceof MoveCastling && move.getTo().getSquare().getFile() == 2) {
+                return move;
+            }
+        }
+        return null;
     }
 
     private String getPieceCode(Piece piece) {
