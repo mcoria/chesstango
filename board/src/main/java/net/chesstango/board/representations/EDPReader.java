@@ -53,12 +53,12 @@ public class EDPReader {
         EDPEntry edpEntry = parseLine(line);
         edpEntry.game = FENDecoder.loadGame(edpEntry.fen);
 
-        String[] bestMoves = edpEntry.bestMoves.split(" ");
+        String[] bestMoves = edpEntry.bestMovesString.split(" ");
 
         for (int i = 0; i < bestMoves.length; i++) {
             Move move = decodeMove(bestMoves[i], edpEntry.game.getPossibleMoves());
             if (move != null) {
-                edpEntry.expectedMove.add(move);
+                edpEntry.bestMoves.add(move);
             } else {
                 throw new RuntimeException(String.format("Unable to decode %s", bestMoves[i]));
             }
@@ -67,14 +67,15 @@ public class EDPReader {
     }
 
     private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*) bm (?<bestmoves>[^;]*);.*");
+
     protected EDPEntry parseLine(String line) {
         EDPEntry edpParsed = new EDPEntry();
 
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
             edpParsed.fen = matcher.group("fen");
-            edpParsed.bestMoves = matcher.group("bestmoves");
-            edpParsed.expectedMove =  new ArrayList<>();
+            edpParsed.bestMovesString = matcher.group("bestmoves");
+            edpParsed.bestMoves = new ArrayList<>();
         }
 
         return edpParsed;
@@ -82,9 +83,10 @@ public class EDPReader {
 
     public static class EDPEntry {
         public String fen;
-        public String bestMoves;
+        public String bestMovesString;
+
         public Game game;
-        public List<Move> expectedMove;
+        public List<Move> bestMoves;
     }
 
 
@@ -113,14 +115,18 @@ public class EDPReader {
         }
         return null;
     }
+
     protected Move decodePieceMove(Matcher matcher, Iterable<Move> possibleMoves) {
         String pieceStr = matcher.group("piece");
         String fromStr = matcher.group("from");
-        String fromFileStr  = matcher.group("fromfile");
+        String fromFileStr = matcher.group("fromfile");
         String toStr = matcher.group("to");
         for (Move move : possibleMoves) {
-            if (pieceStr != null) {
-                if (!move.getFrom().getPiece().isPawn() && !getPieceCode(move.getFrom().getPiece()).equals(pieceStr)) {
+            if (pieceStr != null && pieceStr.length() == 1) {
+                if (move.getFrom().getPiece().isPawn()) {
+                    continue;
+                }
+                if (!getPieceCode(move.getFrom().getPiece()).equals(pieceStr)) {
                     continue;
                 }
             }
@@ -147,7 +153,7 @@ public class EDPReader {
         String fromStr = matcher.group("promotionfrom");
         String toStr = matcher.group("promotionto");
         for (Move move : possibleMoves) {
-            if(move instanceof MovePromotion) {
+            if (move instanceof MovePromotion) {
                 MovePromotion movePromotion = (MovePromotion) move;
                 if (move.getFrom().getSquare().toString().equals(fromStr) && move.getTo().getSquare().toString().equals(toStr) && getPieceCode(movePromotion.getPromotion()).equals(promotionpieceStr)) {
                     return move;

@@ -17,7 +17,8 @@ public class BestMoveFinderSuite {
     private static final int DEFAULT_MAX_DEPTH = 7;
 
     public static void main(String[] args) {
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac.epd");
     }
 
     private static void execute(String filename) {
@@ -61,13 +62,15 @@ public class BestMoveFinderSuite {
 
         Move bestMove = searchResult.getBestMove();
 
-        boolean result = bestMove.equals(edpEntry.expectedMove);
+        boolean result = edpEntry.bestMoves.contains(bestMove);
 
         if(result){
             System.out.printf("Success %s\n", edpEntry.fen);
         } else {
             SANEncoder sanEncoder = new SANEncoder();
-            System.out.printf("Fail '%s', expected %s, best moves found %s \n", edpEntry.fen, edpEntry.bestMoves, searchResult.getBestMoveOptions().stream().map(move -> sanEncoder.encode(move, edpEntry.game.getPossibleMoves())).collect(Collectors.toList()));
+            System.out.printf("Fail '%s', expected %s, best moves found %s \n", edpEntry.fen,
+                    edpEntry.bestMovesString,
+                    searchResult.getBestMoveOptions().stream().map(move -> sanEncoder.encode(move, edpEntry.game.getPossibleMoves())).collect(Collectors.toList()));
         }
 
 
