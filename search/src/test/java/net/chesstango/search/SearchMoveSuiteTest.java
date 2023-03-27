@@ -33,4 +33,10 @@ public class SearchMoveSuiteTest {
         Assert.assertTrue(finderSuite.run(edpEntry));
     }
 
+    @Test
+    public void test03() {
+        BestMoveFinderSuite finderSuite = new BestMoveFinderSuite(1);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - bm e6; id \"WAC.072\";");
+        Assert.assertTrue(finderSuite.run(edpEntry));
+    }
 }

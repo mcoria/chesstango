@@ -129,6 +129,10 @@ public class EDPReader {
                 if (!getPieceCode(move.getFrom().getPiece()).equals(pieceStr)) {
                     continue;
                 }
+            } else {
+                if (!move.getFrom().getPiece().isPawn()) {
+                    continue;
+                }
             }
             if (fromStr != null) {
                 if (!move.getFrom().getSquare().toString().equals(fromStr)) {

@@ -116,7 +116,17 @@ public class EDPReaderTest {
     }
 
     @Test
-    @Ignore
+    public void testReadEDP10(){
+        EDPReader.EDPEntry entry = edpReader.readEdpLine("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - bm e6; id \"WAC.072\";");
+
+        assertEquals("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - -", entry.fen);
+        assertEquals("e6", entry.bestMovesString);
+        assertNotNull(entry.game);
+        assertEquals(1, entry.bestMoves.size());
+        assertEquals(Piece.PAWN_WHITE, entry.bestMoves.get(0).getFrom().getPiece());
+    }
+
+    @Test
     public void testReadMateAll(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
 
@@ -125,7 +135,6 @@ public class EDPReaderTest {
 
 
     @Test
-    @Ignore
     public void testReadWAC(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac.epd");
 
