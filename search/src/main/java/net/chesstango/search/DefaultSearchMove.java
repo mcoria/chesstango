@@ -23,13 +23,41 @@ public class DefaultSearchMove implements SearchMove {
     private Consumer<GameEvaluator> fnSetEvaluator;
 
     public DefaultSearchMove() {
-        this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
-        //this.imp = iterateDeepingWrapper(setupMinMaxPruning());
+        //this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
+        this.imp = iterateDeepingWrapper(setupMinMaxPruning());
 
         this.setGameEvaluator(new DefaultGameEvaluator());
     }
 
     private AbstractSmart setupMinMaxPruning() {
+
+        // FILTERS START
+        MoveSorter moveSorter = new MoveSorter();
+
+        Quiescence quiescence = new Quiescence();
+        quiescence.setMoveSorter(moveSorter);
+
+        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
+        alphaBetaImp.setQuiescence(quiescence);
+        alphaBetaImp.setMoveSorter(moveSorter);
+
+        DetectCycle detectCycle = new DetectCycle();
+        // FILTERS END
+
+        alphaBetaImp.setNext(detectCycle);
+        detectCycle.setNext(alphaBetaImp);
+
+        MinMaxPruning minMaxPruning = new MinMaxPruning();
+        minMaxPruning.setAlphaBetaSearch(detectCycle);
+        minMaxPruning.setMoveSorter(moveSorter);
+        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
+
+        this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
+
+        return minMaxPruning;
+    }
+
+    private AbstractSmart setupMinMaxPruningWithStatics() {
 
         // FILTERS START
         MoveSorter moveSorter = new MoveSorter();

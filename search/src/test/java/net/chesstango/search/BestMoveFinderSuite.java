@@ -5,7 +5,9 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
+import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +15,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
  */
 public class BestMoveFinderSuite {
+
+    private final int depth;
 
     public static void main(String[] args) {
         execute("main/ferdy_perft_double_checks.epd");
@@ -29,7 +34,7 @@ public class BestMoveFinderSuite {
 
             List<String> failedSuites = new ArrayList<String>();
 
-            BestMoveFinderSuite suite = new BestMoveFinderSuite();
+            BestMoveFinderSuite suite = new BestMoveFinderSuite(1);
 
             InputStream instr = suite.getClass().getClassLoader().getResourceAsStream(filename);
 
@@ -67,12 +72,13 @@ public class BestMoveFinderSuite {
 
     private final ChessFactory chessFactory;
 
-    public BestMoveFinderSuite() {
-        this(new ChessFactory());
+    public BestMoveFinderSuite(int depth) {
+        this(new ChessFactory(), depth);
     }
 
-    public BestMoveFinderSuite(ChessFactory chessFactory) {
+    public BestMoveFinderSuite(ChessFactory chessFactory, int depth) {
         this.chessFactory = chessFactory;
+        this.depth = depth;
     }
 
     protected boolean run(String epd) {
@@ -82,7 +88,13 @@ public class BestMoveFinderSuite {
 
         Game game = getGame(edpParsed.fen);
 
-        Move bestMove = moveFinder.searchBestMove(game, 1).getBestMove();
+        SearchMoveResult searchResult = moveFinder.searchBestMove(game, depth);
+
+        SANEncoder sanEncoder = new SANEncoder();
+
+        System.out.printf("Best moves %s \n", searchResult.getBestMoveOptions().stream().map(move -> sanEncoder.encode(move, game.getPossibleMoves())).collect(Collectors.toList()));
+
+        Move bestMove = searchResult.getBestMove();
 
         return encodeMove(bestMove).equals(edpParsed.bestMove);
     }
