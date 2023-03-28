@@ -171,19 +171,6 @@ public class CastlingWhiteKingMoveTest {
         verify(chessPosition).undoMoveKing(moveExecutor);
     }
 
-
-    @Test
-    //TODO: Add test body
-    public void testFilter() {
-		/*
-		// execute
-		moveExecutor.filter(filter);
-
-		// asserts execute
-		verify(filter).filterKingMove(moveExecutor);
-		*/
-    }
-
     @Test
     public void testIntegrated() {
         // execute

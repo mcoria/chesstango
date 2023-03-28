@@ -24,8 +24,6 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;	
 
-
-
 	@Override
 	// TODO: validadciones del metodo getBoardStatus(): 
 	//      								a) no modifica el tablero

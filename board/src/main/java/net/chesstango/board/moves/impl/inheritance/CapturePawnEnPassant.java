@@ -5,8 +5,6 @@ import net.chesstango.board.position.PiecePlacementWriter;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 
-//TODO: lo podemos modelar como dos movimientos, similar al castling. El 1er move una captura; luego un move simple
-
 /**
  * @author Mauricio Coria
  *
