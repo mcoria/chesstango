@@ -6,10 +6,10 @@ import net.chesstango.board.moves.CaptureKingMoveTest;
 import net.chesstango.board.moves.CaptureMoveTest;
 import net.chesstango.board.moves.CapturePawnEnPassantTest;
 import net.chesstango.board.moves.CapturePawnPromotionTest;
-import net.chesstango.board.moves.CastlingBlackKingMoveTest;
-import net.chesstango.board.moves.CastlingBlackQueenMoveTest;
-import net.chesstango.board.moves.CastlingWhiteKingMoveTest;
-import net.chesstango.board.moves.CastlingWhiteQueenMoveTest;
+import net.chesstango.board.moves.CastlingBlackKingTest;
+import net.chesstango.board.moves.CastlingBlackQueenTest;
+import net.chesstango.board.moves.CastlingWhiteKingTest;
+import net.chesstango.board.moves.CastlingWhiteQueenTest;
 import net.chesstango.board.moves.SimpleKingMoveTest;
 import net.chesstango.board.moves.SimpleMoveTest;
 import net.chesstango.board.moves.SimplePawnMoveTest;
@@ -29,10 +29,10 @@ import org.junit.runners.Suite;
         CaptureMoveTest.class,
         CapturePawnEnPassantTest.class,
         CapturePawnPromotionTest.class,
-        CastlingBlackKingMoveTest.class,
-        CastlingBlackQueenMoveTest.class,
-        CastlingWhiteKingMoveTest.class,
-        CastlingWhiteQueenMoveTest.class,
+        CastlingBlackKingTest.class,
+        CastlingBlackQueenTest.class,
+        CastlingWhiteKingTest.class,
+        CastlingWhiteQueenTest.class,
         LoseCastlingBlackAfterBlackMovesTest.class,
         LoseCastlingBlackAfterWhiteMovesTest.class,
         LoseCastlingWhiteAfterBlackMovesTest.class,

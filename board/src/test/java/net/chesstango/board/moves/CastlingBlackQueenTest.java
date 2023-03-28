@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
  * @author Mauricio Coria
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CastlingWhiteKingMoveTest {
+public class CastlingBlackQueenTest {
 
     private PiecePlacement piecePlacement;
 
@@ -55,18 +55,18 @@ public class CastlingWhiteKingMoveTest {
 
     @Before
     public void setUp() throws Exception {
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingKingMove();
+        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingQueenMove();
 
         positionState = new PositionStateDebug();
-        positionState.setCurrentTurn(Color.WHITE);
-        positionState.setCastlingWhiteQueenAllowed(false);
-        positionState.setCastlingWhiteKingAllowed(true);
+        positionState.setCurrentTurn(Color.BLACK);
+        positionState.setCastlingBlackQueenAllowed(true);
+        positionState.setCastlingBlackKingAllowed(false);
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(10);
 
         piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
-        piecePlacement.setPieza(Square.h1, Piece.ROOK_WHITE);
+        piecePlacement.setPieza(Square.a8, Piece.ROOK_BLACK);
+        piecePlacement.setPieza(Square.e8, Piece.KING_BLACK);
 
         kingCacheBoard = new KingCacheBoardDebug();
         kingCacheBoard.init(piecePlacement);
@@ -84,7 +84,7 @@ public class CastlingWhiteKingMoveTest {
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingKingMove(), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryBlack().createCastlingQueenMove(), moveExecutor);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class CastlingWhiteKingMoveTest {
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
 
-        Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        Assert.assertEquals(PolyglotEncoder.getKey("2kr4/8/8/8/8/8/8/8 w - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -116,51 +116,44 @@ public class CastlingWhiteKingMoveTest {
         Assert.assertEquals(initialHash, zobristHash.getZobristHash());
     }
 
-
     @Test
     public void testPosicionPiezaBoard() {
         moveExecutor.executeMove(piecePlacement);
 
-        assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.g1));
-        assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.f1));
+        assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.c8));
+        assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.d8));
 
-        assertTrue(piecePlacement.isEmpty(Square.e1));
-        assertTrue(piecePlacement.isEmpty(Square.h1));
+        assertTrue(piecePlacement.isEmpty(Square.a8));
+        assertTrue(piecePlacement.isEmpty(Square.e8));
 
         moveExecutor.undoMove(piecePlacement);
 
-        assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
-        assertEquals(Piece.ROOK_WHITE, piecePlacement.getPiece(Square.h1));
+        assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.e8));
+        assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.a8));
 
-        assertTrue(piecePlacement.isEmpty(Square.g1));
-        assertTrue(piecePlacement.isEmpty(Square.f1));
+        assertTrue(piecePlacement.isEmpty(Square.c8));
+        assertTrue(piecePlacement.isEmpty(Square.d8));
     }
 
     @Test
     public void testBoardState() {
-        // execute
         moveExecutor.executeMove(positionState);
 
-        // asserts execute
-        assertNull(positionState.getEnPassantSquare());
-        assertEquals(Color.BLACK, positionState.getCurrentTurn());
-        assertFalse(positionState.isCastlingWhiteQueenAllowed());
-        assertFalse(positionState.isCastlingWhiteKingAllowed());
-        assertEquals(4, positionState.getHalfMoveClock());
-        assertEquals(10, positionState.getFullMoveClock());
-        positionState.validar();
-
-        // undos
-        moveExecutor.undoMove(positionState);
-
-        // asserts undos
         assertNull(positionState.getEnPassantSquare());
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
-        assertFalse(positionState.isCastlingWhiteQueenAllowed());
-        assertTrue(positionState.isCastlingWhiteKingAllowed());
+        assertFalse(positionState.isCastlingBlackQueenAllowed());
+        assertFalse(positionState.isCastlingBlackKingAllowed());
+        assertEquals(4, positionState.getHalfMoveClock());
+        assertEquals(11, positionState.getFullMoveClock());
+
+        moveExecutor.undoMove(positionState);
+
+        assertNull(positionState.getEnPassantSquare());
+        assertEquals(Color.BLACK, positionState.getCurrentTurn());
+        assertTrue(positionState.isCastlingBlackQueenAllowed());
+        assertFalse(positionState.isCastlingBlackKingAllowed());
         assertEquals(3, positionState.getHalfMoveClock());
         assertEquals(10, positionState.getFullMoveClock());
-        positionState.validar();
 
     }
 
@@ -170,35 +163,33 @@ public class CastlingWhiteKingMoveTest {
         moveExecutor.executeMove(colorBoard);
 
         // asserts execute
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.g1));
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.f1));
+        assertEquals(Color.BLACK, colorBoard.getColor(Square.c8));
+        assertEquals(Color.BLACK, colorBoard.getColor(Square.d8));
 
-        assertTrue(colorBoard.isEmpty(Square.e1));
-        assertTrue(colorBoard.isEmpty(Square.h8));
-
+        assertTrue(colorBoard.isEmpty(Square.a8));
+        assertTrue(colorBoard.isEmpty(Square.e8));
 
         // undos
         moveExecutor.undoMove(colorBoard);
 
         // asserts undos
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
-        assertEquals(Color.WHITE, colorBoard.getColor(Square.h1));
+        assertEquals(Color.BLACK, colorBoard.getColor(Square.e8));
+        assertEquals(Color.BLACK, colorBoard.getColor(Square.a8));
 
-        assertTrue(colorBoard.isEmpty(Square.g1));
-        assertTrue(colorBoard.isEmpty(Square.f1));
+        assertTrue(colorBoard.isEmpty(Square.c8));
+        assertTrue(colorBoard.isEmpty(Square.d8));
     }
 
     @Test
     public void testKingCacheBoard() {
         moveExecutor.executeMove(kingCacheBoard);
 
-        assertEquals(Square.g1, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.c8, kingCacheBoard.getSquareKingBlackCache());
 
         moveExecutor.undoMove(kingCacheBoard);
 
-        assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.e8, kingCacheBoard.getSquareKingBlackCache());
     }
-
 
     @Test
     public void testBoard() {

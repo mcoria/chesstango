@@ -16,14 +16,14 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-class MoveCaptureEnPassant implements Move {
+class MovePawnCaptureEnPassant implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final PiecePositioned capture;
     protected final Cardinal direction;
 
 
-    public MoveCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
+    public MovePawnCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
         this.from = from;
         this.to = to;
         this.capture = capture;
@@ -127,8 +127,8 @@ class MoveCaptureEnPassant implements Move {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MoveCaptureEnPassant){
-            MoveCaptureEnPassant theOther = (MoveCaptureEnPassant) obj;
+        if(obj instanceof MovePawnCaptureEnPassant){
+            MovePawnCaptureEnPassant theOther = (MovePawnCaptureEnPassant) obj;
             return from.equals(theOther.from) &&  to.equals(to);
         }
         return false;

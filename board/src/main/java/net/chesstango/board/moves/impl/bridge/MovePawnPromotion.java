@@ -17,7 +17,7 @@ import net.chesstango.board.position.imp.ZobristHash;
  * @author Mauricio Coria
  *
  */
-class MovePromotionImp implements MovePromotion {
+class MovePawnPromotion implements MovePromotion {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Piece promotion;
@@ -26,14 +26,14 @@ class MovePromotionImp implements MovePromotion {
     private MoveExecutor<ColorBoard> fnDoColorBoard;
     private MoveExecutor<ColorBoard> fnUndoColorBoard;
 
-    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
+    public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
         this.from = from;
         this.to = to;
         this.direction = direction;
         this.promotion = promotion;
     }
 
-    public MovePromotionImp(PiecePositioned from, PiecePositioned to, Piece promotion) {
+    public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Piece promotion) {
         this.from = from;
         this.to = to;
         this.promotion = promotion;
@@ -71,19 +71,19 @@ class MovePromotionImp implements MovePromotion {
 
         // Captura
         if(to != null) {
-            if (CastlingWhiteKingMove.ROOK_FROM.equals(to)) {
+            if (MoveCastlingWhiteKing.ROOK_FROM.equals(to)) {
                 positionState.setCastlingWhiteKingAllowed(false);
             }
 
-            if (CastlingWhiteQueenMove.ROOK_FROM.equals(to)) {
+            if (MoveCastlingWhiteQueen.ROOK_FROM.equals(to)) {
                 positionState.setCastlingWhiteQueenAllowed(false);
             }
 
-            if (CastlingBlackKingMove.ROOK_FROM.equals(to)) {
+            if (MoveCastlingBlackKing.ROOK_FROM.equals(to)) {
                 positionState.setCastlingBlackKingAllowed(false);
             }
 
-            if (CastlingBlackQueenMove.ROOK_FROM.equals(to)) {
+            if (MoveCastlingBlackQueen.ROOK_FROM.equals(to)) {
                 positionState.setCastlingBlackQueenAllowed(false);
             }
         }
@@ -182,8 +182,8 @@ class MovePromotionImp implements MovePromotion {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MovePromotionImp){
-            MovePromotionImp theOther = (MovePromotionImp) obj;
+        if(obj instanceof MovePawnPromotion){
+            MovePawnPromotion theOther = (MovePawnPromotion) obj;
             return from.equals(theOther.from) &&  to.equals(theOther.to) && promotion.equals(theOther.promotion);
         }
         return false;

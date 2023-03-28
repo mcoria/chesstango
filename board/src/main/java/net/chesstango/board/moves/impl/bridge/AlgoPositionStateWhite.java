@@ -22,11 +22,11 @@ class AlgoPositionStateWhite implements AlgoPositionState {
         positionState.incrementHalfMoveClock();
         positionState.setEnPassantSquare(null);
 
-        if(CastlingWhiteKingMove.ROOK_FROM.equals(from)){
+        if(MoveCastlingWhiteKing.ROOK_FROM.equals(from)){
             positionState.setCastlingWhiteKingAllowed(false);
         }
 
-        if(CastlingWhiteQueenMove.ROOK_FROM.equals(from)){
+        if(MoveCastlingWhiteQueen.ROOK_FROM.equals(from)){
             positionState.setCastlingWhiteQueenAllowed(false);
         }
 
@@ -49,19 +49,19 @@ class AlgoPositionStateWhite implements AlgoPositionState {
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
 
-        if(CastlingWhiteKingMove.ROOK_FROM.equals(from)){
+        if(MoveCastlingWhiteKing.ROOK_FROM.equals(from)){
             positionState.setCastlingWhiteKingAllowed(false);
         }
 
-        if(CastlingWhiteQueenMove.ROOK_FROM.equals(from)){
+        if(MoveCastlingWhiteQueen.ROOK_FROM.equals(from)){
             positionState.setCastlingWhiteQueenAllowed(false);
         }
 
-        if(CastlingBlackKingMove.ROOK_FROM.equals(to)){
+        if(MoveCastlingBlackKing.ROOK_FROM.equals(to)){
             positionState.setCastlingBlackKingAllowed(false);
         }
 
-        if(CastlingBlackQueenMove.ROOK_FROM.equals(to)){
+        if(MoveCastlingBlackQueen.ROOK_FROM.equals(to)){
             positionState.setCastlingBlackQueenAllowed(false);
         }
 
@@ -77,11 +77,11 @@ class AlgoPositionStateWhite implements AlgoPositionState {
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
 
-        if(CastlingBlackKingMove.ROOK_FROM.equals(to)){
+        if(MoveCastlingBlackKing.ROOK_FROM.equals(to)){
             positionState.setCastlingBlackKingAllowed(false);
         }
 
-        if(CastlingBlackQueenMove.ROOK_FROM.equals(to)){
+        if(MoveCastlingBlackQueen.ROOK_FROM.equals(to)){
             positionState.setCastlingBlackQueenAllowed(false);
         }
 

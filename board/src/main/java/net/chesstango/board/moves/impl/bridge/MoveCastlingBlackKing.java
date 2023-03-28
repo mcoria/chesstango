@@ -10,36 +10,37 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-class CastlingWhiteKingMove extends AbstractCastlingMove{
+class MoveCastlingBlackKing extends AbstractCastlingMove{
 
-    protected static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
-    protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.g1, null);
+    protected static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e8, Piece.KING_BLACK);
+    protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.g8, null);
 
-    protected static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
-    protected static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.f1, null);
+    protected static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
+    protected static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.f8, null);
 
 
-    public CastlingWhiteKingMove() {
+    public MoveCastlingBlackKing() {
         super(KING_FROM, KING_TO, ROOK_FROM, ROOK_TO);
     }
 
     @Override
     public void executeMove(PositionState positionState) {
         positionState.pushState();
-        positionState.setCastlingWhiteKingAllowed(false);
-        positionState.setCastlingWhiteQueenAllowed(false);
+        positionState.setCastlingBlackKingAllowed(false);
+        positionState.setCastlingBlackQueenAllowed(false);
         positionState.setEnPassantSquare(null);
         positionState.incrementHalfMoveClock();
+        positionState.incrementFullMoveClock();
         positionState.rollTurn();
     }
 
     @Override
     protected void xorCastling(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        if(oldPositionState.isCastlingWhiteQueenAllowed() == true){
-            hash.xorCastleWhiteQueen();
+        if(oldPositionState.isCastlingBlackQueenAllowed() == true){
+            hash.xorCastleBlackQueen();
         }
 
-        hash.xorCastleWhiteKing();
+        hash.xorCastleBlackKing();
     }
 
     @Override

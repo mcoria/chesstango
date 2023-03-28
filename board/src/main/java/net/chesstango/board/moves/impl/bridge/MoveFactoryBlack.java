@@ -14,8 +14,8 @@ import net.chesstango.board.moves.MovePromotion;
  */
 public class MoveFactoryBlack extends MoveFactoryAbstract{
 
-    private static final MoveCastling castlingKingMove = new CastlingBlackKingMove();
-    private static final MoveCastling castlingQueenMove = new CastlingBlackQueenMove();
+    private static final MoveCastling castlingKingMove = new MoveCastlingBlackKing();
+    private static final MoveCastling castlingQueenMove = new MoveCastlingBlackQueen();
 
     public MoveFactoryBlack() {
         super(new AlgoPositionStateBlack());
@@ -36,7 +36,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
 
     @Override
     public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        MovePromotionImp moveImp = new MovePromotionImp(origen, destino, Cardinal.Sur, piece);
+        MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, Cardinal.Sur, piece);
         moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
         moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
         return moveImp;
