@@ -1,9 +1,8 @@
-package net.chesstango.board.moves.bridge;
+package net.chesstango.board.moves.impl.bridge;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -11,16 +10,16 @@ import net.chesstango.board.position.imp.ZobristHash;
 /**
  * @author Mauricio Coria
  */
-class CastlingWhiteQueenMove extends AbstractCastlingMove{
+class CastlingWhiteKingMove extends AbstractCastlingMove{
 
     protected static final PiecePositioned KING_FROM = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
-    protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.c1, null);
+    protected static final PiecePositioned KING_TO = PiecePositioned.getPiecePositioned(Square.g1, null);
 
-    protected static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
-    protected static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.d1, null);
+    protected static final PiecePositioned ROOK_FROM = PiecePositioned.getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
+    protected static final PiecePositioned ROOK_TO = PiecePositioned.getPiecePositioned(Square.f1, null);
 
 
-    public CastlingWhiteQueenMove() {
+    public CastlingWhiteKingMove() {
         super(KING_FROM, KING_TO, ROOK_FROM, ROOK_TO);
     }
 
@@ -36,11 +35,11 @@ class CastlingWhiteQueenMove extends AbstractCastlingMove{
 
     @Override
     protected void xorCastling(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
-        if(oldPositionState.isCastlingWhiteKingAllowed() == true){
-            hash.xorCastleWhiteKing();
+        if(oldPositionState.isCastlingWhiteQueenAllowed() == true){
+            hash.xorCastleWhiteQueen();
         }
 
-        hash.xorCastleWhiteQueen();
+        hash.xorCastleWhiteKing();
     }
 
     @Override
