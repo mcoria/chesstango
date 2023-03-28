@@ -70,30 +70,6 @@ public class CaptureMoveTest {
         moveExecutor = new CaptureMove(origen, destino);
     }
 
-    @Test
-    public void testZobristHash() {
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
-
-        Assert.assertEquals(PolyglotEncoder.getKey("8/4R3/8/8/8/8/8/8 b - - 0 1").longValue(), zobristHash.getZobristHash());
-    }
-
-    @Test
-    @Ignore
-    public void testZobristHashUndo() {
-        long initialHash = zobristHash.getZobristHash();
-
-        PositionStateReader oldPositionState = positionState.getCurrentState();
-        moveExecutor.executeMove(positionState);
-        moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
-
-        oldPositionState = positionState.getCurrentState();
-        moveExecutor.undoMove(positionState);
-        moveExecutor.undoMove(zobristHash, oldPositionState, positionState, null);
-
-        Assert.assertEquals(initialHash, zobristHash.getZobristHash());
-    }
 
     @Test
     public void testPosicionPiezaBoard() {

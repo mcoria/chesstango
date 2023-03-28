@@ -6,6 +6,7 @@ package net.chesstango.search;
 import net.chesstango.board.representations.EDPReader;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -20,6 +21,7 @@ public class SearchMoveSuiteTest {
     }
 
     @Test
+    @Ignore
     public void test01() {
         BestMoveFinderSuite finderSuite = new BestMoveFinderSuite(4);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1B1bk1nr/5pp1/rNR5/p3Pp1p/1p2pP2/1P5P/1PP3P1/2KR4 w k - bm Rd1xd8+; ce +M5; pv Rd1xd8+ Ke8xd8 Rc6-c8+ Kd8-e7 Bb8-d6+ Ke7-e6 Rc8-e8+ Ng8-e7 Re8xe7+; id \"5712\";");

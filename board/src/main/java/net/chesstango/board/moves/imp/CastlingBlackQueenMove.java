@@ -38,8 +38,7 @@ class CastlingBlackQueenMove extends AbstractCastlingMove {
 
 	@Override
 	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		super.executeMove(hash, oldPositionState, newPositionState, board);
-		hash.xorCastleBlackQueen();
+		throw new UnsupportedOperationException("Not implemented");
 	}
 	@Override
 	public boolean equals(Object obj) {

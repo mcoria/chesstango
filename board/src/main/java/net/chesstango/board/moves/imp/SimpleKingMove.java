@@ -30,25 +30,12 @@ class SimpleKingMove extends SimpleMove implements MoveKing {
     }
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        super.executeMove(hash, oldPositionState, newPositionState, board);
-        if (oldPositionState.isCastlingWhiteKingAllowed() != newPositionState.isCastlingWhiteKingAllowed()) {
-            hash.xorCastleWhiteKing();
-        }
-        if (oldPositionState.isCastlingWhiteQueenAllowed() != newPositionState.isCastlingWhiteQueenAllowed()) {
-            hash.xorCastleWhiteQueen();
-        }
-
-        if (oldPositionState.isCastlingBlackKingAllowed() != newPositionState.isCastlingBlackKingAllowed()) {
-            hash.xorCastleBlackKing();
-        }
-        if (oldPositionState.isCastlingBlackQueenAllowed() != newPositionState.isCastlingBlackQueenAllowed()) {
-            hash.xorCastleBlackQueen();
-        }
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
     public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        executeMove(hash, oldPositionState, newPositionState, board);
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override

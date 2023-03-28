@@ -86,15 +86,12 @@ abstract class AbstractMove implements Move {
 
 	@Override
 	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		hash.pushState();
-		hash.xorPosition(from);
-		hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
-		hash.xorTurn();
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		hash.popState();
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override

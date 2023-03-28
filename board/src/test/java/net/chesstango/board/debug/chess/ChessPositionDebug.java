@@ -20,8 +20,8 @@ public class ChessPositionDebug extends ChessPositionImp {
 
 
 	@Override
-	public void acceptForExecute(Move move) {
-		super.acceptForExecute(move);
+	public void acceptForDo(Move move) {
+		super.acceptForDo(move);
 		((PositionStateDebug)positionState).validar(this.piecePlacement);
 		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
 		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);

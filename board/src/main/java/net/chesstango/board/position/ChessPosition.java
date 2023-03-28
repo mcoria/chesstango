@@ -9,7 +9,7 @@ import net.chesstango.board.moves.Move;
 public interface ChessPosition extends ChessPositionReader, ChessPositionWriter {
 	void init();
 
-	void acceptForExecute(Move move);
+	void acceptForDo(Move move);
 
 	void acceptForUndo(Move move);
 }

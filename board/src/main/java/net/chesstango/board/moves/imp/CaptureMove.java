@@ -43,8 +43,7 @@ class CaptureMove extends AbstractNotPawnMove {
 
     @Override
     public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-        hash.xorPosition(to);
-        super.executeMove(hash, oldPositionState, newPositionState, board);
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override

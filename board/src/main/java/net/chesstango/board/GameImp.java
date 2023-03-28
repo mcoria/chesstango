@@ -60,7 +60,7 @@ public class GameImp implements Game {
 
         gameState.push();
 
-        chessPosition.acceptForExecute(move);
+        chessPosition.acceptForDo(move);
 
         if (detectRepetitions) {
             saveFENWithoutClocks();

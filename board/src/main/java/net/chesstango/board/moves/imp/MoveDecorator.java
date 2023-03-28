@@ -75,12 +75,12 @@ abstract class MoveDecorator<T extends Move> implements Move {
 
 	@Override
 	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		move.executeMove(hash, oldPositionState, newPositionState, board);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		executeMove(hash, oldPositionState, newPositionState, board);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 	
 	@Override

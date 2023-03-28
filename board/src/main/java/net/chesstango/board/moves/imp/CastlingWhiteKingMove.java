@@ -37,12 +37,7 @@ class CastlingWhiteKingMove extends AbstractCastlingMove {
 
 	@Override
 	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		super.executeMove(hash, oldPositionState, newPositionState, board);
-		hash.xorCastleWhiteKing();
-	}
-	
-	public String getType() {
-		return "CastlingWhiteKingMove";
+		throw new UnsupportedOperationException("Not implemented");
 	}
 	
 	@Override

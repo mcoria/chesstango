@@ -95,22 +95,12 @@ abstract class AbstractCastlingMove implements MoveCastling  {
 
 	@Override
 	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		// White move King
-		hash.xorPosition(kingMove.getFrom());
-		hash.xorPosition(PiecePositioned.getPiecePositioned(kingMove.getTo().getSquare(), kingMove.getFrom().getPiece()));
-
-		// White move Rook
-		hash.xorPosition(rookMove.getFrom());
-		hash.xorPosition(PiecePositioned.getPiecePositioned(rookMove.getTo().getSquare(), rookMove.getFrom().getPiece()));
-
-		hash.xorOldEnPassantSquare();
-
-		hash.xorTurn();
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
 	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
-		executeMove(hash, oldPositionState, newPositionState, board);
+		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
