@@ -2,10 +2,8 @@ package net.chesstango.board.movesgenerators.pseudo.strategies;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.Move;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +16,6 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 	public PawnBlackMoveGenerator() {
 		super(Color.BLACK);
 	}
-
 
 	@Override
 	protected Square getSquareSimplePawnMove(Square square) {
@@ -46,22 +43,12 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 	}
 
 	@Override
-	protected Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createSimpleOneSquarePawnMove(origen, destino);
+	protected Cardinal getLeftDirection() {
+		return Cardinal.SurOeste;
 	}
 
 	@Override
-	protected Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
-		return this.moveFactory.createSimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero);
-	}
-
-	@Override
-	protected Move createCapturePawnMoveLeft(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCapturePawnMove(origen, destino, Cardinal.SurOeste);
-	}
-
-	@Override
-	protected Move createCapturePawnMoveRight(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createCapturePawnMove(origen, destino, Cardinal.SurEste);
+	protected Cardinal getRightDirection() {
+		return Cardinal.SurEste;
 	}
 }

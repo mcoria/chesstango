@@ -102,7 +102,7 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal) {
         MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, piece);
         moveImp.setFnDoColorBoard(algoColorBoard::captureFnDoColorBoard);
         moveImp.setFnUndoColorBoard(algoColorBoard::captureFnUndoColorBoard);

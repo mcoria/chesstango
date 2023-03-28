@@ -32,5 +32,5 @@ public interface MoveFactory {
 	MoveCastling createCastlingKingMove();
 
 	MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece);
-	MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal);
 }

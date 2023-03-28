@@ -48,7 +48,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal) {
         return addOpponentLostCastlingRookCapturedByPromotion(new CapturePawnPromotion(origen, destino, piece));
     }
 

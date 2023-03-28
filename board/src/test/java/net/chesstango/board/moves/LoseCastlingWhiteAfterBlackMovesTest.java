@@ -147,7 +147,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g2, Piece.PAWN_BLACK);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
 
-        moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK);
+        moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK, Cardinal.SurEste);
 
         moveExecutor.executeMove(positionState);
 
@@ -173,7 +173,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_BLACK);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
 
-        moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK);
+        moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK, Cardinal.SurOeste);
 
         moveExecutor.executeMove(positionState);
 
@@ -201,7 +201,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
 
-        moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Norte);
+        moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
         moveExecutor.executeMove(positionState);
 
@@ -229,7 +229,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
 
-        moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Norte);
+        moveExecutor = moveFactoryImp.createCaptureRookMove(origen, destino, Cardinal.Sur);
 
         moveExecutor.executeMove(positionState);
 

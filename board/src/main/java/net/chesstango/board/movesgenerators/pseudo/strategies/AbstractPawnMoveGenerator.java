@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 
@@ -23,14 +24,9 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 
 	protected abstract Piece[] getPromotionPieces();
 
-	protected abstract Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino);
+	protected abstract Cardinal getLeftDirection();
 
-	protected abstract Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero);
-
-
-	protected abstract Move createCapturePawnMoveLeft(PiecePositioned origen, PiecePositioned destino);
-
-	protected abstract Move createCapturePawnMoveRight(PiecePositioned origen, PiecePositioned destino);
+	protected abstract Cardinal getRightDirection();
 	
 	public AbstractPawnMoveGenerator(Color color) {
 		super(color);
@@ -45,7 +41,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		Square saltoSimpleCasillero = getSquareSimplePawnMove(casillero);
 		Square saltoDobleCasillero = getSquareSimpleTwoSquaresPawnMove(casillero);
 		
-		Square casilleroAtaqueIzquirda = getSquareAttackLeft(casillero);
+		Square casilleroAtaqueIzquierda = getSquareAttackLeft(casillero);
 		Square casilleroAtaqueDerecha = getSquareAttackRight(casillero);
 		
 			
@@ -78,18 +74,18 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			}
 		}
 
-		if (casilleroAtaqueIzquirda != null) {			
-			destino = this.piecePlacement.getPosition(casilleroAtaqueIzquirda);
-			result.addAffectedByPositions(casilleroAtaqueIzquirda);
-			result.addCapturedPositions(casilleroAtaqueIzquirda);
+		if (casilleroAtaqueIzquierda != null) {
+			destino = this.piecePlacement.getPosition(casilleroAtaqueIzquierda);
+			result.addAffectedByPositions(casilleroAtaqueIzquierda);
+			result.addCapturedPositions(casilleroAtaqueIzquierda);
 			Piece piece = destino.getPiece();
 			// El casillero es ocupado por una pieza contraria?
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura = this.createCapturePawnMoveLeft(from, destino);
+				Move moveCaptura = this.createCapturePawnMove(from, destino, getLeftDirection());
 				// En caso de promocion
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
-					addCapturaPromocion(result, destino);
+					addCapturaPromocion(result, destino, getLeftDirection());
 				} else {
 					result.addPseudoMove(moveCaptura);
 				}
@@ -104,11 +100,11 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			Piece piece = destino.getPiece();
 			// El casillero es ocupado por una pieza contraria?			
 			if (piece != null && color.oppositeColor().equals(piece.getColor())) {
-				Move moveCaptura =  this.createCapturePawnMoveRight(from, destino);
+				Move moveCaptura =  this.createCapturePawnMove(from, destino, getRightDirection());
 
 				toRank = saltoSimpleCasillero.getRank();
 				if (toRank == 0 || toRank == 7) { // Es una promocion
-					addCapturaPromocion(result, destino);
+					addCapturaPromocion(result, destino, getRightDirection());
 				} else {
 					result.addPseudoMove(moveCaptura);
 				}
@@ -118,6 +114,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		return result;
 	}
 
+
 	private void addSaltoSimplePromocion(MoveGeneratorResult result, PiecePositioned destino) {
 		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPromotionPieces();
@@ -125,14 +122,24 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 			result.addPseudoMove(this.moveFactory.createSimplePromotionPawnMove(from, destino, promociones[i]));
 		}
 	}
-	
-	private void addCapturaPromocion(MoveGeneratorResult result, PiecePositioned destino) {
+
+	private void addCapturaPromocion(MoveGeneratorResult result, PiecePositioned destino, Cardinal direction) {
 		PiecePositioned from = result.getFrom();
 		Piece[] promociones = getPromotionPieces();
 		for (int i = 0; i < promociones.length; i++) {
-			result.addPseudoMove(this.moveFactory.createCapturePromotionPawnMove(from, destino, promociones[i]));
+			result.addPseudoMove(this.moveFactory.createCapturePromotionPawnMove(from, destino, promociones[i], direction));
 		}
 	}
 
+	private Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal direction){
+		return this.moveFactory.createCapturePawnMove(origen, destino, direction);
+	}
 
+	protected Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+		return this.moveFactory.createSimpleOneSquarePawnMove(origen, destino);
+	}
+
+	protected Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square saltoSimpleCasillero) {
+		return this.moveFactory.createSimpleTwoSquaresPawnMove(origen, destino, saltoSimpleCasillero);
+	}
 }

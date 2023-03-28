@@ -33,12 +33,13 @@ class MoveImp implements Move {
         this.from = from;
         this.to = to;
         this.direction = direction;
+        assert(direction == null || direction.equals(Cardinal.calculateSquaresDirection(from.getSquare(), to.getSquare())));
     }
 
     public MoveImp(PiecePositioned from, PiecePositioned to) {
         this.from = from;
         this.to = to;
-        this.direction =  calculateMoveDirection();
+        this.direction = calculateMoveDirection();
     }
 
     @Override

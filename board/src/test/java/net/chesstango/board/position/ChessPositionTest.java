@@ -30,6 +30,8 @@ import net.chesstango.board.moves.Move;
 public class ChessPositionTest {
 	
 	private MoveFactory moveFactoryWhite;
+
+	private MoveFactory moveFactoryBlack;
 	
 	private ChessFactory factory;
 	
@@ -45,6 +47,8 @@ public class ChessPositionTest {
 	@Before
 	public void setUp() throws Exception {		
 		moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
+
+		moveFactoryBlack  = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 		
 		factory = new ChessFactoryDebug();
 		
@@ -163,13 +167,13 @@ public class ChessPositionTest {
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 
-		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
 				Piece.ROOK_BLACK)));
-		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
 				Piece.KNIGHT_BLACK)));
-		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
 				Piece.BISHOP_BLACK)));
-		assertTrue(moves.contains(createCapturePawnPromocion(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
+		assertTrue(moves.contains(createCapturePawnPromocionBlack(Square.g2, Piece.PAWN_BLACK, Square.f1, Piece.ROOK_WHITE,
 				Piece.QUEEN_BLACK)));
 
 		assertEquals(46, moves.size());
@@ -231,10 +235,10 @@ public class ChessPositionTest {
 		return moveFactoryWhite.createSimpleTwoSquaresPawnMove(PiecePositioned.getPiecePositioned(origen, piece), PiecePositioned.getPiecePositioned(destinoSquare, null),  squarePasante);
 	}
 
-	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,
+	private Move createCapturePawnPromocionBlack(Square origenSquare, Piece origenPieza, Square destinoSquare,
 			Piece destinoPieza, Piece promocion) {
-		return moveFactoryWhite.createCapturePromotionPawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
-				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
+		return moveFactoryBlack.createCapturePromotionPawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
+				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, Cardinal.NorteEste);
 	}
 	
 	private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
