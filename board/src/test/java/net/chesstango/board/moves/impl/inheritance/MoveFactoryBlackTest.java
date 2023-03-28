@@ -6,7 +6,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.moves.impl.inheritance.MoveFactoryBlack;
 import net.chesstango.board.position.PiecePlacement;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.PositionState;
@@ -209,7 +208,7 @@ public class MoveFactoryBlackTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g2, Piece.PAWN_BLACK);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
 
-        moveExecutor = moveFactoryImp.createCapturePawnPromotion(origen, destino, Piece.ROOK_BLACK);
+        moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK);
 
         moveExecutor.executeMove(positionState);
 
@@ -235,7 +234,7 @@ public class MoveFactoryBlackTest {
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.b2, Piece.PAWN_BLACK);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.a1, Piece.ROOK_WHITE);
 
-        moveExecutor = moveFactoryImp.createCapturePawnPromotion(origen, destino, Piece.ROOK_BLACK);
+        moveExecutor = moveFactoryImp.createCapturePromotionPawnMove(origen, destino, Piece.ROOK_BLACK);
 
         moveExecutor.executeMove(positionState);
 

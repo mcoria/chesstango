@@ -70,13 +70,13 @@ public class SimplePawnPromotionTest {
         zobristHash = new ZobristHash();
         zobristHash.init(piecePlacement, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(origen, destino, Piece.QUEEN_WHITE);
+        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
-        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePawnPromotion(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.e8), Piece.ROOK_WHITE), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.e8), Piece.ROOK_WHITE), moveExecutor);
     }
 
     @Test

@@ -224,7 +224,7 @@ public class ChessPositionTest {
 
 
 	private Move createSimplePawnMove(Square origenSquare, Piece origenPieza, Square destinoSquare) {
-		return moveFactoryWhite.createSimplePawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
+		return moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza), PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 
 	private Move createSaltoDobleMove(Square origen, Piece piece, Square destinoSquare, Square squarePasante) {
@@ -233,14 +233,14 @@ public class ChessPositionTest {
 
 	private Move createCapturePawnPromocion(Square origenSquare, Piece origenPieza, Square destinoSquare,
 			Piece destinoPieza, Piece promocion) {
-		return moveFactoryWhite.createCapturePawnPromotion(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
+		return moveFactoryWhite.createCapturePromotionPawnMove(PiecePositioned.getPiecePositioned(origenSquare, origenPieza),
 				PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
 	}
 	
 	private Move createCaptureEnPassantMoveBlack(Square origen, Square destinoSquare) {
-		return moveFactoryWhite.createCaptureEnPassant(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
-				PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.calculateSquaresDirection(origen, destinoSquare), PiecePositioned.getPiecePositioned(
-						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE));
+		return moveFactoryWhite.createCaptureEnPassantPawnMove(PiecePositioned.getPiecePositioned(origen, Piece.PAWN_BLACK),
+				PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(
+						Square.getSquare(destinoSquare.getFile(), destinoSquare.getRank() + 1), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen, destinoSquare));
 	}
 	
 	private Move createSimpleKingMoveWhite(Square origen, Square destino) {

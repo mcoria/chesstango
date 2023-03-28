@@ -145,13 +145,13 @@ public class MoveGeneratorEnPassantImpTest {
 	}
 
 	private Move createCaptureBlackEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null),
-				Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
-				Piece.PAWN_BLACK));
+		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null),
+				PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 4),
+				Piece.PAWN_BLACK), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}
 	
 	private Move createCaptureWhiteEnPassantMove(PiecePositioned origen, Square destinoSquare) {
-		return moveFactoryImp.createCaptureEnPassant(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE));
+		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}	
 	
 	private PiecePlacement getTablero(String string) {		

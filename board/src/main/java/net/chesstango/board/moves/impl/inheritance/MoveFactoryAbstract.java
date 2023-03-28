@@ -48,7 +48,7 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public MovePromotion createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         return addOpponentLostCastlingRookCapturedByPromotion(new CapturePawnPromotion(origen, destino, piece));
     }
 
@@ -63,9 +63,9 @@ public abstract class MoveFactoryAbstract implements MoveFactory {
     }
 
     @Override
-    public Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino,
-                                       Cardinal cardinal, PiecePositioned capture) {
-        return new CapturePawnEnPassant(origen, destino, capture);
+    public Move createCaptureEnPassantPawnMove(PiecePositioned origen, PiecePositioned destino,
+                                               PiecePositioned enPassantPawn, Cardinal cardinal) {
+        return new CapturePawnEnPassant(origen, destino, enPassantPawn);
     }
 
     protected abstract Move addLostCastlingByRookMoveWrapper(Move rookMove);

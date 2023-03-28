@@ -51,7 +51,7 @@ public class UCIEncoderTest {
 
     @Test
     public void testEncodePromotion02(){
-        Move promotionToKnight = moveFactoryWhite.createSimplePawnPromotion(PiecePositioned.getPiecePositioned(Square.g7, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.g8), Piece.KNIGHT_WHITE);
+        Move promotionToKnight = moveFactoryWhite.createSimplePromotionPawnMove(PiecePositioned.getPiecePositioned(Square.g7, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.g8), Piece.KNIGHT_WHITE);
 
         String encodedMoveStr = encoder.encode(promotionToKnight);
 

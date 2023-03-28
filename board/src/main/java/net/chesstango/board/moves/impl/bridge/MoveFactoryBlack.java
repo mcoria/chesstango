@@ -22,7 +22,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     }
 
     @Override
-    public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+    public Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino) {
         MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Sur);
         addSimpleMoveExecutors(origen, destino, moveImp);
         return moveImp;
@@ -35,7 +35,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract{
     }
 
     @Override
-    public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         MovePromotionImp moveImp = new MovePromotionImp(origen, destino, Cardinal.Sur, piece);
         moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
         moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);

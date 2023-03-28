@@ -57,7 +57,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
                 origen = piecePlacement.getPosition(casilleroPawnIzquirda);
                 captura = piecePlacement.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
                 if (Piece.PAWN_BLACK.equals(origen.getPiece())) {
-                    Move move = moveFactoryImp.createCaptureEnPassant(origen, piecePlacement.getPosition(pawnPasanteSquare), Cardinal.SurOeste, captura);
+                    Move move = moveFactoryImp.createCaptureEnPassantPawnMove(origen, piecePlacement.getPosition(pawnPasanteSquare), captura, Cardinal.SurOeste);
                     moveContainer.setFirst(move);
                 }
             }
@@ -67,7 +67,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
                 origen = piecePlacement.getPosition(casilleroPawnDerecha);
                 captura = piecePlacement.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() + 1));
                 if (Piece.PAWN_BLACK.equals(origen.getPiece())) {
-                    Move move = moveFactoryImp.createCaptureEnPassant(origen, piecePlacement.getPosition(pawnPasanteSquare), Cardinal.SurEste, captura);
+                    Move move = moveFactoryImp.createCaptureEnPassantPawnMove(origen, piecePlacement.getPosition(pawnPasanteSquare), captura, Cardinal.SurEste);
                     moveContainer.setSecond(move);
                 }
             }
@@ -89,7 +89,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
                 origen = piecePlacement.getPosition(casilleroPawnIzquirda);
                 captura = piecePlacement.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
                 if (Piece.PAWN_WHITE.equals(origen.getPiece())) {
-                    Move move = this.moveFactoryImp.createCaptureEnPassant(origen, piecePlacement.getPosition(pawnPasanteSquare), Cardinal.NorteOeste, captura);
+                    Move move = this.moveFactoryImp.createCaptureEnPassantPawnMove(origen, piecePlacement.getPosition(pawnPasanteSquare), captura, Cardinal.NorteOeste);
                     moveContainer.setFirst(move);
                 }
             }
@@ -99,7 +99,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
                 origen = piecePlacement.getPosition(casilleroPawnDerecha);
                 captura = piecePlacement.getPosition(Square.getSquare(pawnPasanteSquare.getFile(), pawnPasanteSquare.getRank() - 1));
                 if (Piece.PAWN_WHITE.equals(origen.getPiece())) {
-                    Move move = moveFactoryImp.createCaptureEnPassant(origen, piecePlacement.getPosition(pawnPasanteSquare), Cardinal.NorteEste, captura);
+                    Move move = moveFactoryImp.createCaptureEnPassantPawnMove(origen, piecePlacement.getPosition(pawnPasanteSquare), captura, Cardinal.NorteEste);
                     moveContainer.setSecond(move);
                 }
             }

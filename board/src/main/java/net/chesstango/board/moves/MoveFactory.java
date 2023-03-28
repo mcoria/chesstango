@@ -11,12 +11,10 @@ import net.chesstango.board.iterators.Cardinal;
  */
 public interface MoveFactory {
 
-	Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino);
+	Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino);
 	Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare);
 	Move createCapturePawnMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
-	Move createCaptureEnPassant(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal, PiecePositioned capture);
-	MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
-	MovePromotion createCapturePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	Move createCaptureEnPassantPawnMove(PiecePositioned origen, PiecePositioned destino, PiecePositioned enPassantPawn, Cardinal cardinal);
 
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino);
 	Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
@@ -33,4 +31,6 @@ public interface MoveFactory {
 	MoveCastling createCastlingQueenMove();
 	MoveCastling createCastlingKingMove();
 
+	MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece);
+	MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece);
 }

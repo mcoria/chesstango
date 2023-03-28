@@ -221,7 +221,7 @@ public class PawnWhiteMoveGeneratorTest {
     }
 
     private Move createSimplePawnMove(PiecePositioned origen, Square destinoSquare) {
-        return moveFactoryImp.createSimplePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
+        return moveFactoryImp.createSimpleOneSquarePawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
     }
 
     private Move createSaltoDobleMove(PiecePositioned origen, Square destinoSquare, Square squarePasante) {
@@ -233,11 +233,11 @@ public class PawnWhiteMoveGeneratorTest {
     }
 
     private Move createSimplePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece promocion) {
-        return moveFactoryImp.createSimplePawnPromotion(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), promocion);
+        return moveFactoryImp.createSimplePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), promocion);
     }
 
     private Move createCapturePawnPromocion(PiecePositioned origen, Square destinoSquare, Piece destinoPieza, Piece promocion) {
-        return moveFactoryImp.createCapturePawnPromotion(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
+        return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion);
     }
 
     private PiecePlacement getTablero(String string) {

@@ -78,12 +78,12 @@ public class CapturePawnEnPassantTest {
         zobristHash = new ZobristHash();
         zobristHash.init(piecePlacement, positionState);
 
-        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant(pawnWhite, pawnPasanteSquare, Cardinal.NorteOeste, pawnBlack);
+        moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(pawnWhite, pawnPasanteSquare, pawnBlack, Cardinal.NorteOeste);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassant(piecePlacement.getPosition(Square.b5), piecePlacement.getPosition(Square.a6), Cardinal.NorteOeste, piecePlacement.getPosition(Square.a5)), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(piecePlacement.getPosition(Square.b5), piecePlacement.getPosition(Square.a6), piecePlacement.getPosition(Square.a5), Cardinal.NorteOeste), moveExecutor);
     }
 
     @Test

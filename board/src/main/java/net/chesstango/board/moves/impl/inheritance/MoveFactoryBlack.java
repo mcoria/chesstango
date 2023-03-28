@@ -19,7 +19,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract  {
     private static final MoveCastling castlingQueenMove = new CastlingBlackQueenMove();
 
     @Override
-    public Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
+    public Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino) {
         return new SimplePawnMove(origen, destino, Cardinal.Sur);
     }
 
@@ -29,7 +29,7 @@ public class MoveFactoryBlack extends MoveFactoryAbstract  {
     }
 
     @Override
-    public MovePromotion createSimplePawnPromotion(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+    public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         return new SimplePawnPromotion(origen, destino, Cardinal.Sur, piece);
     }
 

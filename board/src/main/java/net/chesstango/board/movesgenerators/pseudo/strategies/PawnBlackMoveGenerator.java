@@ -47,7 +47,7 @@ public class PawnBlackMoveGenerator extends AbstractPawnMoveGenerator {
 
 	@Override
 	protected Move createSimplePawnMove(PiecePositioned origen, PiecePositioned destino) {
-		return this.moveFactory.createSimplePawnMove(origen, destino);
+		return this.moveFactory.createSimpleOneSquarePawnMove(origen, destino);
 	}
 
 	@Override

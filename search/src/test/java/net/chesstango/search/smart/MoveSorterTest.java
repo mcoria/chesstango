@@ -35,7 +35,7 @@ public class MoveSorterTest {
 
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(moveFactoryWhite.createSimplePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
+        moveList.add(moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE),
                 PiecePositioned.getPosition(Square.e3)));
 
         moveList.add(moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.QUEEN_WHITE),
@@ -132,7 +132,7 @@ public class MoveSorterTest {
 
         List<Move> moveList = new ArrayList<>();
 
-        moveList.add(moveFactoryBlack.createSimplePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
+        moveList.add(moveFactoryBlack.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
                 PiecePositioned.getPosition(Square.e6)));
 
         moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
