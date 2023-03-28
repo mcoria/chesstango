@@ -1,6 +1,6 @@
 package net.chesstango;
 
-import net.chesstango.board.moves.imp.*;
+import net.chesstango.board.moves.impl.inheritance.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
