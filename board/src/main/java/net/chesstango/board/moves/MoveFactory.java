@@ -8,6 +8,8 @@ import net.chesstango.board.iterators.Cardinal;
 /**
  * @author Mauricio Coria
  *
+ * TODO: todos los movimientos deberian tener Cardinal o no
+ * TODO: tener movimientos para cada pieza
  */
 public interface MoveFactory {
 
