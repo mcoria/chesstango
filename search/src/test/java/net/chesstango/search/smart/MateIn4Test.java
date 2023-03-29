@@ -65,4 +65,19 @@ public abstract class MateIn4Test {
         Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 
+    @Test
+    public void test8() {
+        Game game = FENDecoder.loadGame("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+
+        SearchMoveResult searchResult = getBestMoveFinder().searchBestMove(game, 7);
+
+        Move smartMove = searchResult.getBestMove();
+
+        Assert.assertEquals(Piece.KNIGHT_BLACK, smartMove.getFrom().getPiece());
+        Assert.assertEquals(Square.f4, smartMove.getFrom().getSquare());
+        Assert.assertEquals(Square.h3, smartMove.getTo().getSquare());
+
+        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+    }
+
 }

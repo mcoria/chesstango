@@ -37,7 +37,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             int minValue = GameEvaluator.INFINITE_POSITIVE;
 
             for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-                 search && keepProcessing && !sortedMoves.isEmpty(); ) {
+                 !sortedMoves.isEmpty() && search && keepProcessing; ) {
                 Move move = sortedMoves.poll();
 
                 game = game.executeMove(move);
@@ -66,7 +66,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
             for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-                 search && keepProcessing && !sortedMoves.isEmpty(); ) {
+                 !sortedMoves.isEmpty() && search && keepProcessing; ) {
                 Move move = sortedMoves.poll();
 
                 game = game.executeMove(move);
@@ -91,12 +91,12 @@ public class AlphaBetaImp implements AlphaBetaFilter {
         this.keepProcessing = false;
     }
 
-    public void setQuiescence(AlphaBetaFilter quiescence) {
-        this.quiescence = quiescence;
-    }
-
     public void setMoveSorter(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
+    }
+
+    public void setQuiescence(AlphaBetaFilter quiescence) {
+        this.quiescence = quiescence;
     }
 
     public void setNext(AlphaBetaFilter next) {

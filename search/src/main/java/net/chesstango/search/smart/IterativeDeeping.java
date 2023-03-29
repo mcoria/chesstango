@@ -63,7 +63,7 @@ public class IterativeDeeping implements SearchMove {
 
         SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
 
-        Move bestMove = selectBestMove(currentTurn, depth, bestMovesByDepth);
+        Move bestMove = selectBestMove(currentTurn, bestMovesByDepth);
 
         return new SearchMoveResult(depth, lastSearch.getEvaluation(), bestMove, null)
                 .setVisitedNodesCounters(visitedNodesCounters)
@@ -73,15 +73,18 @@ public class IterativeDeeping implements SearchMove {
                 .setBestMoveOptions(lastSearch.getBestMoveOptions());
     }
 
-    protected Move selectBestMove(Color currentTurn, int depth, List<SearchMoveResult> bestMovesByDepth) {
+    protected Move selectBestMove(Color currentTurn, List<SearchMoveResult> bestMovesByDepth) {
         List<Move> lastSearchMoveOptions = bestMovesByDepth.get(bestMovesByDepth.size() - 1).getBestMoveOptions();
         if(lastSearchMoveOptions.size() == 1) {
             return lastSearchMoveOptions.get(0);
         }
 
+        // En caso que encontremos jaque mate antes de la profundidad de busqueda establecida
+        int maxDepth = bestMovesByDepth.size();
+
         Map<Move, Integer> moveByFrequency = new HashMap<>();
-        lastSearchMoveOptions.stream().forEach(move -> moveByFrequency.put(move, depth));
-        for (int i = 0; i < depth; i++) {
+        lastSearchMoveOptions.stream().forEach(move -> moveByFrequency.put(move, maxDepth));
+        for (int i = 0; i < bestMovesByDepth.size(); i++) {
             Integer currentDepth = i + 1; // Depth provides extra points
             List<Move> byDepthOptions = bestMovesByDepth.get(i).getBestMoveOptions();
             byDepthOptions.stream().filter( lastSearchMoveOptions::contains ).forEach( move -> moveByFrequency.compute(move, (k, v) -> v + currentDepth ));

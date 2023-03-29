@@ -49,7 +49,7 @@ import org.junit.runners.Suite;
 
         MoveSelectorTest.class,
 
-        SearchMoveSuiteTest.class
+        BestMoveFinderSuiteTest.class
 })
 public class SearchTestSuite {
 

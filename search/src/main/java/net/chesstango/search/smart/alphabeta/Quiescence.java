@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
@@ -13,32 +14,34 @@ import java.util.Queue;
  * @author Mauricio Coria
  */
 public class Quiescence implements AlphaBetaFilter {
-    private MoveSorter moveSorter;
-    private GameEvaluator evaluator;
-
     private boolean keepProcessing;
+
+    private MoveSorter moveSorter;
+
+    private GameEvaluator evaluator;
 
     private SearchContext context;
 
     @Override
     public void init(Game game, SearchContext context) {
         this.context = context;
+        this.keepProcessing = true;
     }
+
     @Override
     public int minimize(Game game, final int currentPly, final int alpha, final int beta) {
-        this.keepProcessing = true;
-        boolean search = true;
         int minValue = evaluator.evaluate(game);
 
         if (alpha >= minValue) {
             return minValue;
         }
+        boolean search = true;
 
         for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             search && !sortedMoves.isEmpty() && keepProcessing; ) {
+             !sortedMoves.isEmpty() && search && keepProcessing; ) {
             Move move = sortedMoves.poll();
 
-            if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
+            if (isNotQuiete(move)) {
                 game = game.executeMove(move);
 
                 int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
@@ -57,20 +60,19 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     @Override
-    public int maximize(Game game, final int currentPly, final int alpha, final int beta){
-        this.keepProcessing = true;
-        boolean search = true;
+    public int maximize(Game game, final int currentPly, final int alpha, final int beta) {
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
             return maxValue;
         }
+        boolean search = true;
 
         for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             search && !sortedMoves.isEmpty() && keepProcessing; ) {
+             !sortedMoves.isEmpty() && search && keepProcessing; ) {
             Move move = sortedMoves.poll();
 
-            if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
+            if (isNotQuiete(move)) {
                 game = game.executeMove(move);
 
                 int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
@@ -88,16 +90,22 @@ public class Quiescence implements AlphaBetaFilter {
         return maxValue;
     }
 
+    protected boolean isNotQuiete(Move move) {
+        return move.getTo().getPiece() == null ||
+                move.getFrom().getPiece().isPawn() && !(Cardinal.Sur.equals(move.getMoveDirection()) || Cardinal.Norte.equals(move.getMoveDirection()) ) ||
+                move instanceof MovePromotion;
+    }
+
     @Override
     public void stopSearching() {
         this.keepProcessing = false;
     }
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        this.evaluator = evaluator;
-    }
-
     public void setMoveSorter(MoveSorter moveSorter) {
         this.moveSorter = moveSorter;
+    }
+
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        this.evaluator = evaluator;
     }
 }

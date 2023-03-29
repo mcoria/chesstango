@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * @author Mauricio Coria
  */
-public class SearchMoveSuiteTest {
+public class BestMoveFinderSuiteTest {
     private EDPReader edpReader;
 
     @Before
@@ -41,4 +41,12 @@ public class SearchMoveSuiteTest {
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - bm e6; id \"WAC.072\";");
         Assert.assertTrue(finderSuite.run(edpEntry));
     }
+
+    @Test
+    public void test04() {
+        BestMoveFinderSuite finderSuite = new BestMoveFinderSuite(7);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - bm Nf4-h3+; ce -M4; pv Nf4-h3+ Bg2xh3 Qd3-g3+ Rc2-g2 Qg3-e1+ Kg1-h2 Rh8xh3+; id \"4778\";");
+        Assert.assertTrue(finderSuite.run(edpEntry));
+    }
+
 }
