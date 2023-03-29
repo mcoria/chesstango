@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
@@ -7,6 +8,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.reports.CutoffReports;
+import net.chesstango.uci.arena.reports.GameReports;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -27,7 +29,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain {
-    private static final int DEPTH = 7;
+    private static final int DEPTH = 3;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -42,7 +44,10 @@ public class MatchMain {
         List<GameResult> matchResult = new MatchMain().play(engineController1, engineController2);
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
-        //new GameReports().printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
+
+        new GameReports()
+                .printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
+
         /*
         new SessionReports()
                  //.withCollisionStatics()
@@ -51,22 +56,25 @@ public class MatchMain {
                  .withPrintCutoffStatics()
                  .breakByColor()
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
-         */
+
 
         new CutoffReports()
                 .printTangoStatics(Arrays.asList(engineController1), matchResult);
+
+         */
     }
 
     private static List<String> getFenList() {
-        return Arrays.asList(FENDecoder.INITIAL_FEN);
+        //return Arrays.asList(FENDecoder.INITIAL_FEN);
+        //return Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
     }
 
     private List<GameResult> play(EngineController engineController1, EngineController engineController2) {
         Match match = new Match(engineController1, engineController2, DEPTH)
                     .setDebugEnabled(MATCH_DEBUG)
-                    .switchChairs(false)
+                    .switchChairs(true)
                     .perCompletedGame(this::save);
 
         startEngines(engineController1, engineController2);

@@ -91,9 +91,9 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     protected boolean isNotQuiete(Move move) {
-        return move.getTo().getPiece() == null ||
-                move.getFrom().getPiece().isPawn() && !(Cardinal.Sur.equals(move.getMoveDirection()) || Cardinal.Norte.equals(move.getMoveDirection()) ) ||
-                move instanceof MovePromotion;
+        return move.getTo().getPiece() != null ||  // Captura
+                move.getFrom().getPiece().isPawn() && !(Cardinal.Sur.equals(move.getMoveDirection()) || Cardinal.Norte.equals(move.getMoveDirection()) ) || // Captura de peon
+                move instanceof MovePromotion;     // Promocion
     }
 
     @Override
