@@ -4,10 +4,9 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.moves.impl.inheritance.CastlingBlackKingMove;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CastlingBlackKingMoveTest {
 
-    private PiecePlacement piecePlacement;
+    private Board board;
 
     private PositionState positionState;
 
@@ -54,35 +53,35 @@ public class CastlingBlackKingMoveTest {
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(10);
 
-        piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.e8, Piece.KING_BLACK);
-        piecePlacement.setPieza(Square.h8, Piece.ROOK_BLACK);
+        board = new ArrayPiecePlacement();
+        board.setPieza(Square.e8, Piece.KING_BLACK);
+        board.setPieza(Square.h8, Piece.ROOK_BLACK);
 
         kingCacheBoard = new KingCacheBoard();
         colorBoard = new ColorBoardDebug();
-        colorBoard.init(piecePlacement);
+        colorBoard.init(board);
 
         zobristHash = new ZobristHash();
-        zobristHash.init(piecePlacement, positionState);
+        zobristHash.init(board, positionState);
     }
 
     @Test
     public void testPosicionPiezaBoard() {
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
 
-        assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.g8));
-        assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.f8));
+        assertEquals(Piece.KING_BLACK, board.getPiece(Square.g8));
+        assertEquals(Piece.ROOK_BLACK, board.getPiece(Square.f8));
 
-        assertTrue(piecePlacement.isEmpty(Square.e8));
-        assertTrue(piecePlacement.isEmpty(Square.h8));
+        assertTrue(board.isEmpty(Square.e8));
+        assertTrue(board.isEmpty(Square.h8));
 
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
 
-        assertEquals(Piece.KING_BLACK, piecePlacement.getPiece(Square.e8));
-        assertEquals(Piece.ROOK_BLACK, piecePlacement.getPiece(Square.h8));
+        assertEquals(Piece.KING_BLACK, board.getPiece(Square.e8));
+        assertEquals(Piece.ROOK_BLACK, board.getPiece(Square.h8));
 
-        assertTrue(piecePlacement.isEmpty(Square.g8));
-        assertTrue(piecePlacement.isEmpty(Square.f8));
+        assertTrue(board.isEmpty(Square.g8));
+        assertTrue(board.isEmpty(Square.f8));
     }
 
     @Test

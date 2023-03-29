@@ -9,7 +9,7 @@ import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -22,14 +22,14 @@ import net.chesstango.board.position.imp.PositionState;
  */
 public class CheckMoveFilter implements MoveFilter {
 	
-	protected final PiecePlacement dummyBoard;
+	protected final Board dummyBoard;
 	protected final KingCacheBoard kingCacheBoard;
 	protected final ColorBoard colorBoard;	
 	protected final PositionState positionState;
 
 	protected final FullScanSquareCapturer fullScanSquareCapturer;
 	
-	public CheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
+	public CheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;

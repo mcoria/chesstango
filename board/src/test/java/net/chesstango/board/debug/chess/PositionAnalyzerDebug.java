@@ -5,7 +5,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
@@ -18,7 +18,7 @@ import net.chesstango.board.position.imp.PositionState;
  */
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
-	protected PiecePlacementReader piecePlacementReader = null;
+	protected BoardReader boardReader = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
@@ -33,7 +33,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			PiecePlacementReader boardInicial =  ((ArrayPiecePlacement)this.piecePlacementReader).clone();
+			BoardReader boardInicial =  ((ArrayPiecePlacement)this.boardReader).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
 			
@@ -53,9 +53,9 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 				reportError = true;
 			}
 
-			if (!this.piecePlacementReader.equals(boardInicial)) {
+			if (!this.boardReader.equals(boardInicial)) {
 				System.out.println("El board fu� modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.piecePlacementReader.toString());
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.boardReader.toString());
 				reportError = true;				
 			}
 
@@ -69,8 +69,8 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		}
 	}
 	
-	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
-		this.piecePlacementReader = dummyBoard;
+	public void setPiecePlacement(BoardReader dummyBoard) {
+		this.boardReader = dummyBoard;
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {

@@ -18,8 +18,8 @@ import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.PiecePlacement;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.Board;
+import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.imp.*;
 
 import java.util.Map;
@@ -60,17 +60,17 @@ public class ChessFactory {
 		return new MoveCacheBoard();
 	}
 
-	public CheckMoveFilter createCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
                                                  PositionState positionState) {
 		return new CheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
                                                      PositionState positionState) {
 		return new NoCheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}	
 
-	public PiecePlacement createPiecePlacement() {
+	public Board createPiecePlacement() {
 		return new ArrayPiecePlacement();
 	}
 
@@ -94,8 +94,8 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public FullScanSquareCapturer createCapturer(PiecePlacementReader piecePlacementReader) {
-		return new FullScanSquareCapturer(piecePlacementReader);
+	public FullScanSquareCapturer createCapturer(BoardReader boardReader) {
+		return new FullScanSquareCapturer(boardReader);
 	}
 
 

@@ -10,7 +10,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testSaltoSimple() {
-        PiecePlacement tablero = getTablero("8/8/8/8/8/P7/8/8");
+        Board tablero = getTablero("8/8/8/8/8/P7/8/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -63,7 +63,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testSaltoDoble() {
-        PiecePlacement tablero = getTablero("8/8/8/8/8/8/P7/8");
+        Board tablero = getTablero("8/8/8/8/8/8/P7/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -84,7 +84,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testSaltoDoble01() {
-        PiecePlacement tablero = getTablero("8/8/8/8/8/N7/P7/8");
+        Board tablero = getTablero("8/8/8/8/8/N7/P7/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -104,7 +104,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testAtaqueIzquierda() {
-        PiecePlacement tablero = getTablero("8/8/8/8/8/3p4/4P3/8");
+        Board tablero = getTablero("8/8/8/8/8/3p4/4P3/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -127,7 +127,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testAtaqueIzquierda01() {
-        PiecePlacement tablero = getTablero("rnb1kbnr/pp1ppppp/8/q7/1Pp5/3P4/P1PKPPPP/RNBQ1BNR");
+        Board tablero = getTablero("rnb1kbnr/pp1ppppp/8/q7/1Pp5/3P4/P1PKPPPP/RNBQ1BNR");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -150,7 +150,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testAtaqueDerecha() {
-        PiecePlacement tablero = getTablero("8/8/8/8/8/5p2/4P3/8");
+        Board tablero = getTablero("8/8/8/8/8/5p2/4P3/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -173,7 +173,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testPawnSimplePawnPromocion() {
-        PiecePlacement tablero = getTablero("8/3P4/8/8/8/8/8/8");
+        Board tablero = getTablero("8/3P4/8/8/8/8/8/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -197,7 +197,7 @@ public class PawnWhiteMoveGeneratorTest {
 
     @Test
     public void testPawnCapturaPawnPromocion() {
-        PiecePlacement tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
+        Board tablero = getTablero("2rr4/3P4/8/8/8/8/8/8");
         moveGenerator.setPiecePlacement(tablero);
 
         Square from = Square.d7;
@@ -240,7 +240,7 @@ public class PawnWhiteMoveGeneratorTest {
         return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, direction);
     }
 
-    private PiecePlacement getTablero(String string) {
+    private Board getTablero(String string) {
         PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 
         FENDecoder parser = new FENDecoder(builder);

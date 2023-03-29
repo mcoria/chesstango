@@ -17,7 +17,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Before;
@@ -54,7 +54,7 @@ public class MoveGeneratorEnPassantImpTest {
 	
 	@Test
 	public void testPawnWhitePasanteIzquierda() {
-		PiecePlacement tablero = getTablero("8/8/8/3pP3/8/8/8/8");
+		Board tablero = getTablero("8/8/8/3pP3/8/8/8/8");
 		
 		state.setEnPassantSquare(Square.d6);
 		state.setCurrentTurn(Color.WHITE);
@@ -79,7 +79,7 @@ public class MoveGeneratorEnPassantImpTest {
 	
 	@Test
 	public void testPawnWhitePasanteDerecha() {
-		PiecePlacement tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
+		Board tablero =  getTablero("8/8/8/3Pp3/8/8/8/8");
 		
 		state.setEnPassantSquare(Square.e6);
 		state.setCurrentTurn(Color.WHITE);
@@ -102,7 +102,7 @@ public class MoveGeneratorEnPassantImpTest {
 
 	@Test
 	public void testPawnBlackPasanteDerecha() {
-		PiecePlacement tablero = getTablero("8/8/8/8/3pP3/8/8/8");
+		Board tablero = getTablero("8/8/8/8/3pP3/8/8/8");
 		
 		state.setEnPassantSquare(Square.e3);
 		state.setCurrentTurn(Color.BLACK);
@@ -124,7 +124,7 @@ public class MoveGeneratorEnPassantImpTest {
 
 	@Test
 	public void testPawnBlackPasanteIzquierda() {
-		PiecePlacement tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
+		Board tablero = getTablero("8/8/8/8/3Pp3/8/8/8");
 		
 		state.setEnPassantSquare(Square.d3);
 		state.setCurrentTurn(Color.BLACK);
@@ -154,7 +154,7 @@ public class MoveGeneratorEnPassantImpTest {
 		return moveFactoryImp.createCaptureEnPassantPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null), PiecePositioned.getPiecePositioned(Square.getSquare(destinoSquare.getFile(), 3), Piece.PAWN_WHITE), Cardinal.calculateSquaresDirection(origen.getSquare(), destinoSquare));
 	}	
 	
-	private PiecePlacement getTablero(String string) {		
+	private Board getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);

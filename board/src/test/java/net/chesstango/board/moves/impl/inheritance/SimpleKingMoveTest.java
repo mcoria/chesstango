@@ -6,10 +6,9 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.KingCacheBoardDebug;
-import net.chesstango.board.moves.impl.inheritance.SimpleKingMove;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -31,7 +30,7 @@ public class SimpleKingMoveTest {
 
     private SimpleKingMove moveExecutor;
 
-    private PiecePlacement piecePlacement;
+    private Board board;
 
     private PositionState positionState;
 
@@ -49,14 +48,14 @@ public class SimpleKingMoveTest {
 
     @Before
     public void setUp() throws Exception {
-        piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.e1, Piece.KING_WHITE);
+        board = new ArrayPiecePlacement();
+        board.setPieza(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoardDebug();
-        colorBoard.init(piecePlacement);
+        colorBoard.init(board);
 
         kingCacheBoard = new KingCacheBoardDebug();
-        kingCacheBoard.init(piecePlacement);
+        kingCacheBoard.init(board);
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, null);
@@ -71,25 +70,25 @@ public class SimpleKingMoveTest {
         positionState.setFullMoveClock(5);
 
         zobristHash = new ZobristHash();
-        zobristHash.init(piecePlacement, positionState);
+        zobristHash.init(board, positionState);
     }
 
 
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
 
         // asserts execute
-        assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
-        assertNull(piecePlacement.getPiece(Square.e1));
+        assertEquals(Piece.KING_WHITE, board.getPiece(Square.e2));
+        assertNull(board.getPiece(Square.e1));
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
 
         // asserts undos
-        assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
-        assertTrue(piecePlacement.isEmpty(Square.e2));
+        assertEquals(Piece.KING_WHITE, board.getPiece(Square.e1));
+        assertTrue(board.isEmpty(Square.e2));
     }
 
     @Test
@@ -169,14 +168,14 @@ public class SimpleKingMoveTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
         moveExecutor.executeMove(kingCacheBoard);
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(colorBoard);
 
         // asserts execute
-        assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e2));
-        assertNull(piecePlacement.getPiece(Square.e1));
+        assertEquals(Piece.KING_WHITE, board.getPiece(Square.e2));
+        assertNull(board.getPiece(Square.e1));
 
         assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
 
@@ -185,19 +184,19 @@ public class SimpleKingMoveTest {
         assertEquals(Color.WHITE, colorBoard.getColor(Square.e2));
         assertTrue(colorBoard.isEmpty(Square.e1));
 
-        colorBoard.validar(piecePlacement);
-        kingCacheBoard.validar(piecePlacement);
+        colorBoard.validar(board);
+        kingCacheBoard.validar(board);
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
         moveExecutor.undoMove(kingCacheBoard);
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(colorBoard);
 
 
         // asserts undos
-        assertEquals(Piece.KING_WHITE, piecePlacement.getPiece(Square.e1));
-        assertTrue(piecePlacement.isEmpty(Square.e2));
+        assertEquals(Piece.KING_WHITE, board.getPiece(Square.e1));
+        assertTrue(board.isEmpty(Square.e2));
 
         assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
 
@@ -206,7 +205,7 @@ public class SimpleKingMoveTest {
         assertEquals(Color.WHITE, colorBoard.getColor(Square.e1));
         assertTrue(colorBoard.isEmpty(Square.e2));
 
-        colorBoard.validar(piecePlacement);
-        kingCacheBoard.validar(piecePlacement);
+        colorBoard.validar(board);
+        kingCacheBoard.validar(board);
     }
 }

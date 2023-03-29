@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.byposition.BitIterator;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 
 import java.io.ByteArrayOutputStream;
@@ -15,7 +15,7 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class ArrayPiecePlacement implements PiecePlacement, Cloneable {
+public class ArrayPiecePlacement implements Board, Cloneable {
 
     public ArrayPiecePlacement() {
         for (int i = 0; i < 64; i++) {

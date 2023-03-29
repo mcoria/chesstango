@@ -12,7 +12,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -34,7 +34,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class CapturePawnEnPassantTest {
 
-    private PiecePlacement piecePlacement;
+    private Board board;
 
     private PositionStateDebug positionState;
 
@@ -60,30 +60,30 @@ public class CapturePawnEnPassantTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.b5, Piece.PAWN_WHITE);
-        piecePlacement.setPieza(Square.a5, Piece.PAWN_BLACK);
+        board = new ArrayPiecePlacement();
+        board.setPieza(Square.b5, Piece.PAWN_WHITE);
+        board.setPieza(Square.a5, Piece.PAWN_BLACK);
 
         colorBoard = new ColorBoardDebug();
-        colorBoard.init(piecePlacement);
+        colorBoard.init(board);
 
-        PiecePositioned pawnWhite = piecePlacement.getPosition(Square.b5);
-        PiecePositioned pawnBlack = piecePlacement.getPosition(Square.a5);
-        PiecePositioned pawnPasanteSquare = piecePlacement.getPosition(Square.a6);
+        PiecePositioned pawnWhite = board.getPosition(Square.b5);
+        PiecePositioned pawnBlack = board.getPosition(Square.a5);
+        PiecePositioned pawnPasanteSquare = board.getPosition(Square.a6);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.b5, new MoveGeneratorResult(pawnWhite));
         moveCacheBoard.setPseudoMoves(Square.a5, new MoveGeneratorResult(pawnBlack));
 
         zobristHash = new ZobristHash();
-        zobristHash.init(piecePlacement, positionState);
+        zobristHash.init(board, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(pawnWhite, pawnPasanteSquare, pawnBlack, Cardinal.NorteOeste);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(piecePlacement.getPosition(Square.b5), piecePlacement.getPosition(Square.a6), piecePlacement.getPosition(Square.a5), Cardinal.NorteOeste), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureEnPassantPawnMove(board.getPosition(Square.b5), board.getPosition(Square.a6), board.getPosition(Square.a5), Cardinal.NorteOeste), moveExecutor);
     }
 
     @Test
@@ -118,20 +118,20 @@ public class CapturePawnEnPassantTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
 
         // asserts execute
-        assertTrue(piecePlacement.isEmpty(Square.a5));
-        assertTrue(piecePlacement.isEmpty(Square.b5));
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.a6));
+        assertTrue(board.isEmpty(Square.a5));
+        assertTrue(board.isEmpty(Square.b5));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.a6));
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
 
         // asserts undos
-        assertTrue(piecePlacement.isEmpty(Square.a6));
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.b5));
-        assertEquals(Piece.PAWN_BLACK, piecePlacement.getPiece(Square.a5));
+        assertTrue(board.isEmpty(Square.a6));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.b5));
+        assertEquals(Piece.PAWN_BLACK, board.getPiece(Square.a5));
 
     }
 
@@ -224,15 +224,15 @@ public class CapturePawnEnPassantTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(colorBoard);
         moveExecutor.executeMove(moveCacheBoard);
 
         // asserts execute
-        assertTrue(piecePlacement.isEmpty(Square.a5));
-        assertTrue(piecePlacement.isEmpty(Square.b5));
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.a6));
+        assertTrue(board.isEmpty(Square.a5));
+        assertTrue(board.isEmpty(Square.b5));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.a6));
 
         assertNull(positionState.getEnPassantSquare());
         assertEquals(Color.BLACK, positionState.getCurrentTurn());
@@ -243,21 +243,21 @@ public class CapturePawnEnPassantTest {
 
         assertNull(moveCacheBoard.getPseudoMovesResult(Square.a5));
 
-        colorBoard.validar(piecePlacement);
-        positionState.validar(piecePlacement);
-        moveCacheBoard.validar(piecePlacement);
+        colorBoard.validar(board);
+        positionState.validar(board);
+        moveCacheBoard.validar(board);
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(colorBoard);
         moveExecutor.undoMove(moveCacheBoard);
 
 
         // asserts undos
-        assertTrue(piecePlacement.isEmpty(Square.a6));
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.b5));
-        assertEquals(Piece.PAWN_BLACK, piecePlacement.getPiece(Square.a5));
+        assertTrue(board.isEmpty(Square.a6));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.b5));
+        assertEquals(Piece.PAWN_BLACK, board.getPiece(Square.a5));
 
         assertEquals(Square.a6, positionState.getEnPassantSquare());
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
@@ -269,8 +269,8 @@ public class CapturePawnEnPassantTest {
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.a5));
         assertNotNull(moveCacheBoard.getPseudoMovesResult(Square.b5));
 
-        colorBoard.validar(piecePlacement);
-        positionState.validar(piecePlacement);
-        moveCacheBoard.validar(piecePlacement);
+        colorBoard.validar(board);
+        positionState.validar(board);
+        moveCacheBoard.validar(board);
     }
 }

@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 
 
 /**
@@ -12,67 +12,67 @@ import net.chesstango.board.position.PiecePlacement;
  *
  */
 
-public class PiecePlacementBuilder implements ChessRepresentationBuilder<PiecePlacement> {
+public class PiecePlacementBuilder implements ChessRepresentationBuilder<Board> {
 	
-	private final PiecePlacement piecePlacement;
+	private final Board board;
 	
 	public PiecePlacementBuilder() {
 		this(new ChessFactory());
 	}
 	
 	public PiecePlacementBuilder(ChessFactory chessFactory) {
-		this.piecePlacement = chessFactory.createPiecePlacement();
+		this.board = chessFactory.createPiecePlacement();
 	}	
 	
 	@Override
-	public PiecePlacement getChessRepresentation() {
-		return piecePlacement;
+	public Board getChessRepresentation() {
+		return board;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withTurn(Color turn) {
+	public ChessRepresentationBuilder<Board> withTurn(Color turn) {
 		return this;
 	}
 
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withEnPassantSquare(Square enPassantSquare) {
+	public ChessRepresentationBuilder<Board> withEnPassantSquare(Square enPassantSquare) {
 		return this;
 	}
 
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
+	public ChessRepresentationBuilder<Board> withCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
+	public ChessRepresentationBuilder<Board> withCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
+	public ChessRepresentationBuilder<Board> withCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
+	public ChessRepresentationBuilder<Board> withCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withHalfMoveClock(int halfMoveClock) {
+	public ChessRepresentationBuilder<Board> withHalfMoveClock(int halfMoveClock) {
 		return this;
 	}
 
 	@Override
-	public ChessRepresentationBuilder<PiecePlacement> withFullMoveClock(int fullMoveClock) {
+	public ChessRepresentationBuilder<Board> withFullMoveClock(int fullMoveClock) {
 		return this;
 	}
 
-	public ChessRepresentationBuilder<PiecePlacement> withPiece(Square square, Piece piece) {
-		piecePlacement.setPieza(square, piece);
+	public ChessRepresentationBuilder<Board> withPiece(Square square, Piece piece) {
+		board.setPieza(square, piece);
 		return this;
 	}
 

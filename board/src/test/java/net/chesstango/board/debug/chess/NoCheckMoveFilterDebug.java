@@ -3,7 +3,7 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
@@ -16,8 +16,8 @@ import net.chesstango.board.position.imp.PositionState;
  */
 public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 	
-	public NoCheckMoveFilterDebug(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			PositionState positionState) {
+	public NoCheckMoveFilterDebug(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+                                  PositionState positionState) {
 		super(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 

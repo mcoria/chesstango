@@ -2,7 +2,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 
 
@@ -20,7 +20,7 @@ public class MoveCacheBoardDebug extends MoveCacheBoard {
 		super();
 	}
 
-	public void validar(PiecePlacement dummyBoard) {
+	public void validar(Board dummyBoard) {
 		validarAffectedByAndAffects();
 
 		for(int i = 0; i < 64; i++){

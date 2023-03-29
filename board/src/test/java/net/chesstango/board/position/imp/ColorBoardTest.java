@@ -11,7 +11,7 @@ import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 
 
 /**
@@ -27,7 +27,7 @@ public class ColorBoardTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		PiecePlacement tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		Board tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -41,7 +41,7 @@ public class ColorBoardTest {
 	}
 	
 	
-	private PiecePlacement getTablero(String string) {		
+	private Board getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 
 		FENDecoder parser = new FENDecoder(builder);

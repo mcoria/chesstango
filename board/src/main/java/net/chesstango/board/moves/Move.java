@@ -4,8 +4,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPositionWriter;
-import net.chesstango.board.position.PiecePlacementReader;
-import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
@@ -35,8 +35,8 @@ public interface Move extends Comparable<Move> {
 		return filter.filterMove(this);
 	}
 
-	void executeMove(PiecePlacementWriter board);
-	void undoMove(PiecePlacementWriter board);
+	void executeMove(BoardWriter board);
+	void undoMove(BoardWriter board);
 
 	void executeMove(PositionState positionState);
 	void undoMove(PositionState positionState);
@@ -46,8 +46,8 @@ public interface Move extends Comparable<Move> {
 
 	void executeMove(MoveCacheBoard moveCache);
 	void undoMove(MoveCacheBoard moveCache);
-	void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board);
-	void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board);
+	void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+	void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
 
 	Cardinal getMoveDirection();
 

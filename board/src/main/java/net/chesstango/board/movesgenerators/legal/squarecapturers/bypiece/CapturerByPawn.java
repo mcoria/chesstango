@@ -6,7 +6,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.byposition.bypiece.PawnBlackBitIterator;
 import net.chesstango.board.iterators.byposition.bypiece.PawnWhiteBitIterator;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 import java.util.Iterator;
 import java.util.function.Function;
@@ -17,13 +17,13 @@ import java.util.function.Function;
  */
 public class CapturerByPawn implements SquareCapturerByPiece{
 
-    private final PiecePlacementReader piecePlacementReader;
+    private final BoardReader boardReader;
     private final Color color;
     private final Piece pawn;
     private final Function<Square, Iterator<PiecePositioned>> createPawnJumpsIterator;
 
-    public CapturerByPawn(PiecePlacementReader piecePlacementReader, Color color) {
-        this.piecePlacementReader = piecePlacementReader;
+    public CapturerByPawn(BoardReader boardReader, Color color) {
+        this.boardReader = boardReader;
         this.color = color;
         this.pawn = Piece.getPawn(color);
         this.createPawnJumpsIterator = Color.WHITE.equals(color) ? this::createPawnWhiteIterator : this::createPawnBlackIterator;
@@ -42,10 +42,10 @@ public class CapturerByPawn implements SquareCapturerByPiece{
     }
 
     private Iterator<PiecePositioned> createPawnWhiteIterator(Square square) {
-        return new PawnWhiteBitIterator<PiecePositioned>(piecePlacementReader, square);
+        return new PawnWhiteBitIterator<PiecePositioned>(boardReader, square);
     }
 
     private Iterator<PiecePositioned> createPawnBlackIterator(Square square) {
-        return new PawnBlackBitIterator<PiecePositioned>(piecePlacementReader, square);
+        return new PawnBlackBitIterator<PiecePositioned>(boardReader, square);
     }
 }

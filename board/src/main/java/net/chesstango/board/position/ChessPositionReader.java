@@ -12,7 +12,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  */
-public interface ChessPositionReader extends PiecePlacementReader, PositionStateReader {
+public interface ChessPositionReader extends BoardReader, PositionStateReader {
 
 	Color getColor(Square square);
 

@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 /**
  * @author Mauricio Coria
@@ -16,7 +16,7 @@ public class KingCacheBoard {
 	
 	protected Square squareKingBlackCache = null;
 	
-	public void init(PiecePlacementReader board){
+	public void init(BoardReader board){
 		this.squareKingWhiteCache = getKingSquareRecorrer(Color.WHITE, board);
 		this.squareKingBlackCache = getKingSquareRecorrer(Color.BLACK, board);			
 	}	
@@ -43,7 +43,7 @@ public class KingCacheBoard {
 		return squareKingBlackCache;
 	}
 	
-	private Square getKingSquareRecorrer(Color color, PiecePlacementReader board) {
+	private Square getKingSquareRecorrer(Color color, BoardReader board) {
 		Square kingSquare = null;
 		Piece king = Piece.getKing(color);
 		for (PiecePositioned entry : board) {

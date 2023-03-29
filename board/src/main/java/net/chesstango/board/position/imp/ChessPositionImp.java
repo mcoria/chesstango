@@ -9,7 +9,7 @@ import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
 import net.chesstango.board.representations.fen.FENEncoder;
@@ -24,7 +24,7 @@ import java.util.Iterator;
 public class ChessPositionImp implements ChessPosition {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
-	protected PiecePlacement piecePlacement = null;
+	protected Board board = null;
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
@@ -33,9 +33,9 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public void init() {
-		colorBoard.init(piecePlacement);
-		kingCacheBoard.init(piecePlacement);
-		zobristHash.init(piecePlacement, positionState);
+		colorBoard.init(board);
+		kingCacheBoard.init(board);
+		zobristHash.init(board, positionState);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public void executeMove(Move move) {
-		move.executeMove(this.piecePlacement);
+		move.executeMove(this.board);
 
 		move.executeMove(this.colorBoard);
 
@@ -55,7 +55,7 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.executeMove(this.positionState);
 
-		move.executeMove(this.zobristHash, oldPositionState, this.positionState, this.piecePlacement);
+		move.executeMove(this.zobristHash, oldPositionState, this.positionState, this.board);
 
 	}
 
@@ -82,9 +82,9 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.undoMove(this.colorBoard);
 
-		move.undoMove(this.piecePlacement);
+		move.undoMove(this.board);
 
-		move.undoMove(this.zobristHash, oldPositionState, this.positionState, this.piecePlacement);
+		move.undoMove(this.zobristHash, oldPositionState, this.positionState, this.board);
 		
 	}
 
@@ -106,7 +106,7 @@ public class ChessPositionImp implements ChessPosition {
 				.withHalfMoveClock(positionState.getHalfMoveClock())
 				.withFullMoveClock(positionState.getFullMoveClock());
 		
-		for(PiecePositioned pieza: piecePlacement){
+		for(PiecePositioned pieza: board){
 			builder.withPiece(pieza.getSquare(), pieza.getPiece());
 		}
 	}
@@ -153,7 +153,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public PiecePositioned getPosition(Square square) {
-		return piecePlacement.getPosition(square);
+		return board.getPosition(square);
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
-		return piecePlacement.iterator(colorBoard.getPosiciones(Color.WHITE) | colorBoard.getPosiciones(Color.BLACK));
+		return board.iterator(colorBoard.getPosiciones(Color.WHITE) | colorBoard.getPosiciones(Color.BLACK));
 	}
 
 	@Override
@@ -188,12 +188,12 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Piece getPiece(Square square) {
-		return piecePlacement.getPiece(square);
+		return board.getPiece(square);
 	}
 
 	@Override
 	public boolean isEmpty(Square square) {
-		return piecePlacement.isEmpty(square);
+		return board.isEmpty(square);
 	}
 
 	@Override
@@ -203,22 +203,22 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Iterator<PiecePositioned> iterator(SquareIterator squareIterator) {
-		return piecePlacement.iterator(squareIterator);
+		return board.iterator(squareIterator);
 	}
 
 	@Override
 	public Iterator<PiecePositioned> iterator(long positions) {
-		return piecePlacement.iterator(positions);
+		return board.iterator(positions);
 	}
 
 	@Override
 	public Iterator<PiecePositioned> iterator() {
-		return piecePlacement.iterator();
+		return board.iterator();
 	}
 
 	@Override
 	public PiecePositioned getElement(int idx) {
-		return piecePlacement.getElement(idx);
+		return board.getElement(idx);
 	}
 
 	@Override
@@ -232,8 +232,8 @@ public class ChessPositionImp implements ChessPosition {
 		return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
 	}
 
-	public void setPiecePlacement(PiecePlacement piecePlacement) {
-		this.piecePlacement = piecePlacement;
+	public void setPiecePlacement(Board board) {
+		this.board = board;
 	}
 
 	public void setColorBoard(ColorBoard colorBoard) {

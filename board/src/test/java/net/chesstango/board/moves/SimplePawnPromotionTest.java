@@ -12,7 +12,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.verify;
 public class SimplePawnPromotionTest {
 
     private Move moveExecutor;
-    private PiecePlacement piecePlacement;
+    private Board board;
 
     private PositionStateDebug positionState;
     private ColorBoardDebug colorBoard;
@@ -55,28 +55,28 @@ public class SimplePawnPromotionTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.e7, Piece.PAWN_WHITE);
+        board = new ArrayPiecePlacement();
+        board.setPieza(Square.e7, Piece.PAWN_WHITE);
 
         colorBoard = new ColorBoardDebug();
-        colorBoard.init(piecePlacement);
+        colorBoard.init(board);
 
-        PiecePositioned origen = piecePlacement.getPosition(Square.e7);
-        PiecePositioned destino = piecePlacement.getPosition(Square.e8);
+        PiecePositioned origen = board.getPosition(Square.e7);
+        PiecePositioned destino = board.getPosition(Square.e8);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
 
         zobristHash = new ZobristHash();
-        zobristHash.init(piecePlacement, positionState);
+        zobristHash.init(board, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
-        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(piecePlacement.getPosition(Square.e7), piecePlacement.getPosition(Square.e8), Piece.ROOK_WHITE), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(board.getPosition(Square.e7), board.getPosition(Square.e8), Piece.QUEEN_WHITE), moveExecutor);
+        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimplePromotionPawnMove(board.getPosition(Square.e7), board.getPosition(Square.e8), Piece.ROOK_WHITE), moveExecutor);
     }
 
     @Test
@@ -111,18 +111,18 @@ public class SimplePawnPromotionTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
 
         // asserts execute
-        assertEquals(Piece.QUEEN_WHITE, piecePlacement.getPiece(Square.e8));
-        assertTrue(piecePlacement.isEmpty(Square.e7));
+        assertEquals(Piece.QUEEN_WHITE, board.getPiece(Square.e8));
+        assertTrue(board.isEmpty(Square.e7));
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
 
         // asserts undos
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e7));
-        assertTrue(piecePlacement.isEmpty(Square.e8));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.e7));
+        assertTrue(board.isEmpty(Square.e8));
     }
 
     @Test
@@ -202,26 +202,26 @@ public class SimplePawnPromotionTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(colorBoard);
         moveExecutor.executeMove(moveCacheBoard);
 
         // asserts execute
-        colorBoard.validar(piecePlacement);
-        positionState.validar(piecePlacement);
-        moveCacheBoard.validar(piecePlacement);
+        colorBoard.validar(board);
+        positionState.validar(board);
+        moveCacheBoard.validar(board);
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(colorBoard);
         moveExecutor.undoMove(moveCacheBoard);
 
 
         // asserts undos
-        colorBoard.validar(piecePlacement);
-        positionState.validar(piecePlacement);
-        moveCacheBoard.validar(piecePlacement);
+        colorBoard.validar(board);
+        positionState.validar(board);
+        moveCacheBoard.validar(board);
     }
 }

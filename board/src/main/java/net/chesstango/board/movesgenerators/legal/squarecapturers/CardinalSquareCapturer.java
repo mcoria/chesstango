@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByCardinals;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 
 /**
@@ -17,15 +17,15 @@ import net.chesstango.board.position.PiecePlacementReader;
  */
 public class CardinalSquareCapturer implements SquareCapturer {
 	
-	private final PiecePlacementReader piecePlacementReader;
+	private final BoardReader boardReader;
 	private final SquareCapturerByPiece whiteCardinalCapturer;
 	private final SquareCapturerByPiece blackCardinalCapturer;
 
 	
-	public CardinalSquareCapturer(PiecePlacementReader piecePlacementReader) {
-		this.piecePlacementReader = piecePlacementReader;
-		this.whiteCardinalCapturer = new CapturerByCardinals(piecePlacementReader, Color.WHITE);
-		this.blackCardinalCapturer = new CapturerByCardinals(piecePlacementReader, Color.BLACK);
+	public CardinalSquareCapturer(BoardReader boardReader) {
+		this.boardReader = boardReader;
+		this.whiteCardinalCapturer = new CapturerByCardinals(boardReader, Color.WHITE);
+		this.blackCardinalCapturer = new CapturerByCardinals(boardReader, Color.BLACK);
 	}	
 
 	@Override

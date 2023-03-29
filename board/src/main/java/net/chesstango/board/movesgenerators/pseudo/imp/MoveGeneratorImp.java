@@ -10,7 +10,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.strategies.*;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -37,7 +37,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private final KingBlackMoveGenerator rnmg;
 	private final MoveGeneratorEnPassantImp ppmg;
 	
-	private PiecePlacementReader piecePlacement;
+	private BoardReader piecePlacement;
 	private ColorBoard colorBoard;
 	private PositionState positionState;	
 	private KingCacheBoard kingCacheBoard;
@@ -97,7 +97,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		}
 	}	
 
-	public void setPiecePlacement(PiecePlacementReader dummyBoard) {
+	public void setPiecePlacement(BoardReader dummyBoard) {
 		this.piecePlacement = dummyBoard;
 		setupMoveGenerators();
 	}

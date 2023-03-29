@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 
 
@@ -45,7 +45,7 @@ public class ColorBoardDebug extends ColorBoard {
 		}
 	}
 	
-	public void validar(PiecePlacement board) {
+	public void validar(Board board) {
 		validar();
 		
 		for (PiecePositioned piecePositioned : board) {

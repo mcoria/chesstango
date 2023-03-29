@@ -10,7 +10,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testSaltoSimple() {
-        PiecePlacement tablero = getTablero("8/8/p7/8/8/8/8/8");
+        Board tablero = getTablero("8/8/p7/8/8/8/8/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -63,7 +63,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testSaltoDoble() {
-        PiecePlacement tablero = getTablero("8/p7/8/8/8/8/8/8");
+        Board tablero = getTablero("8/p7/8/8/8/8/8/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -84,7 +84,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testAtaqueIzquierda() {
-        PiecePlacement tablero = getTablero("8/4p3/3P4/8/8/8/8/8");
+        Board tablero = getTablero("8/4p3/3P4/8/8/8/8/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -107,7 +107,7 @@ public class PawnBlackMoveGeneratorTest {
 
     @Test
     public void testAtaqueDerecha() {
-        PiecePlacement tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
+        Board tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
 
         moveGenerator.setPiecePlacement(tablero);
 
@@ -148,7 +148,7 @@ public class PawnBlackMoveGeneratorTest {
         return moveFactoryImp.createCapturePromotionPawnMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza), promocion, Cardinal.NorteEste);
     }
 
-    private PiecePlacement getTablero(String string) {
+    private Board getTablero(String string) {
         PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 
         FENDecoder parser = new FENDecoder(builder);

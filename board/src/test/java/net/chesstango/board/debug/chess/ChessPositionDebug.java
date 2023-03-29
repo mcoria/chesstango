@@ -22,20 +22,20 @@ public class ChessPositionDebug extends ChessPositionImp {
 	@Override
 	public void acceptForDo(Move move) {
 		super.acceptForDo(move);
-		((PositionStateDebug)positionState).validar(this.piecePlacement);
-		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
-		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);
+		((PositionStateDebug)positionState).validar(this.board);
+		((ColorBoardDebug)colorBoard).validar(this.board);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.board);
+		((MoveCacheBoardDebug)moveCache).validar(this.board);
 		((ZobristHashDebug)zobristHash).validar(this);
 	}
 
 	@Override
 	public void acceptForUndo(Move move) {
 		super.acceptForUndo(move);
-		((PositionStateDebug)positionState).validar(this.piecePlacement);
-		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
-		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);
+		((PositionStateDebug)positionState).validar(this.board);
+		((ColorBoardDebug)colorBoard).validar(this.board);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.board);
+		((MoveCacheBoardDebug)moveCache).validar(this.board);
 		((ZobristHashDebug)zobristHash).validar(this);
 		validar(getMoveGeneratorImp());
 	}
@@ -43,16 +43,16 @@ public class ChessPositionDebug extends ChessPositionImp {
 	@Override
 	public void init() {
 		super.init();
-		((PositionStateDebug)positionState).validar(this.piecePlacement);
-		((ColorBoardDebug)colorBoard).validar(this.piecePlacement);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.piecePlacement);
-		((MoveCacheBoardDebug)moveCache).validar(this.piecePlacement);			
+		((PositionStateDebug)positionState).validar(this.board);
+		((ColorBoardDebug)colorBoard).validar(this.board);
+		((KingCacheBoardDebug)kingCacheBoard).validar(this.board);
+		((MoveCacheBoardDebug)moveCache).validar(this.board);
 	}
 	
 	protected MoveGeneratorImp getMoveGeneratorImp() {
 		if (moveGeneratorImp == null) {
 			moveGeneratorImp = new MoveGeneratorImp();			
-			moveGeneratorImp.setPiecePlacement(this.piecePlacement);
+			moveGeneratorImp.setPiecePlacement(this.board);
 			moveGeneratorImp.setBoardState(this.positionState);
 			moveGeneratorImp.setColorBoard(this.colorBoard);
 		}
@@ -66,7 +66,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 			Square square = Square.getSquareByIdx(i);
 			MoveGeneratorResult cacheMoveGeneratorResult = moveCache.getPseudoMovesResult(square);
 			if(cacheMoveGeneratorResult != null) {
-				MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(piecePlacement.getPosition(square));
+				MoveGeneratorResult expectedMoveGeneratorResults = moveGeneratorImp.generatePseudoMoves(board.getPosition(square));
 				compararMoveGeneratorResult(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
 			}
 		}

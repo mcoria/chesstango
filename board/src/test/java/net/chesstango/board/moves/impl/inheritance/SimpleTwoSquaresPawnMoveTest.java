@@ -7,10 +7,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.impl.inheritance.SimpleTwoSquaresPawnMove;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +27,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleTwoSquaresPawnMoveTest {
 
-    private PiecePlacement piecePlacement;
+    private Board board;
 
     private PositionStateDebug positionState;
 
@@ -49,11 +48,11 @@ public class SimpleTwoSquaresPawnMoveTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
+        board = new ArrayPiecePlacement();
+        board.setPieza(Square.e2, Piece.PAWN_WHITE);
 
         colorBoard = new ColorBoardDebug();
-        colorBoard.init(piecePlacement);
+        colorBoard.init(board);
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.PAWN_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
@@ -64,18 +63,18 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
 
         // asserts execute
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e4));
-        assertTrue(piecePlacement.isEmpty(Square.e2));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.e4));
+        assertTrue(board.isEmpty(Square.e2));
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
 
         // asserts undos
-        assertEquals(Piece.PAWN_WHITE, piecePlacement.getPiece(Square.e2));
-        assertTrue(piecePlacement.isEmpty(Square.e4));
+        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.e2));
+        assertTrue(board.isEmpty(Square.e4));
     }
 
     @Test
@@ -118,8 +117,8 @@ public class SimpleTwoSquaresPawnMoveTest {
 
     @Test
     public void testBoard() {
-        piecePlacement = new ArrayPiecePlacement();
-        piecePlacement.setPieza(Square.e2, Piece.PAWN_WHITE);
+        board = new ArrayPiecePlacement();
+        board.setPieza(Square.e2, Piece.PAWN_WHITE);
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);
@@ -152,22 +151,22 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(piecePlacement);
+        moveExecutor.executeMove(board);
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(colorBoard);
 
         // asserts execute
-        colorBoard.validar(piecePlacement);
-        positionState.validar(piecePlacement);
+        colorBoard.validar(board);
+        positionState.validar(board);
 
         // undos
-        moveExecutor.undoMove(piecePlacement);
+        moveExecutor.undoMove(board);
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(colorBoard);
 
 
         // asserts undos
-        colorBoard.validar(piecePlacement);
-        positionState.validar(piecePlacement);
+        colorBoard.validar(board);
+        positionState.validar(board);
     }
 }

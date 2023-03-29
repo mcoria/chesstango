@@ -6,7 +6,7 @@ import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -20,7 +20,7 @@ public class FullScanSquareCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnWhite() {
-		PiecePlacement dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
+		Board dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		
 		FullScanSquareCapturer fullScanSquareCapturer = new FullScanSquareCapturer(dummyBoard);
 		
@@ -31,7 +31,7 @@ public class FullScanSquareCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByPawnBlack() {
-		PiecePlacement dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
+		Board dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
 		
 		FullScanSquareCapturer fullScanSquareCapturer = new FullScanSquareCapturer(dummyBoard);
 		
@@ -43,7 +43,7 @@ public class FullScanSquareCapturerTest {
 	
 	@Test
 	public void testPositionCapturedByKnight() {
-		PiecePlacement dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
+		Board dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
 		
 		FullScanSquareCapturer fullScanSquareCapturer = new FullScanSquareCapturer(dummyBoard);
 		
@@ -60,7 +60,7 @@ public class FullScanSquareCapturerTest {
 		assertTrue( fullScanSquareCapturer.positionCaptured(Color.WHITE, Square.e3) );
 	}	
 	
-	private PiecePlacement getTablero(String string) {
+	private Board getTablero(String string) {
 		ChessFactory chessFactory = new ChessFactoryDebug();
 		
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(chessFactory);

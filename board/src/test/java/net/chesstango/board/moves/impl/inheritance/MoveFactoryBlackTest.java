@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ArrayPiecePlacement;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -27,7 +27,7 @@ public class MoveFactoryBlackTest {
 
     private PositionState positionState;
 
-    private PiecePlacement piecePlacement;
+    private Board board;
 
     private ZobristHash zobristHash;
 
@@ -35,7 +35,7 @@ public class MoveFactoryBlackTest {
     public void setUp() throws Exception {
         moveFactoryImp = new MoveFactoryBlack();
         positionState = new PositionState();
-        piecePlacement = new ArrayPiecePlacement();
+        board = new ArrayPiecePlacement();
         zobristHash = new ZobristHash();
         moveExecutor = null;
     }

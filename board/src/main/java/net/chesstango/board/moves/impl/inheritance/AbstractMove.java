@@ -4,8 +4,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.PiecePlacementReader;
-import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -43,12 +43,12 @@ abstract class AbstractMove implements Move {
 	}
 	
 	@Override
-	public void executeMove(PiecePlacementWriter board) {
+	public void executeMove(BoardWriter board) {
 		board.move(from, to);
 	}
 	
 	@Override
-	public void undoMove(PiecePlacementWriter board) {
+	public void undoMove(BoardWriter board) {
 		board.setPosition(to);							//Reestablecemos destino
 		board.setPosition(from);						//Volvemos a origen
 	}
@@ -84,12 +84,12 @@ abstract class AbstractMove implements Move {
 
 
 	@Override
-	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+	public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 
 	@Override
-	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+	public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
 		throw new UnsupportedOperationException("Not implemented");
 	}
 

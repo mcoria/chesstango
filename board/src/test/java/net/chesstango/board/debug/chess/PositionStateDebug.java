@@ -3,7 +3,7 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.PositionState;
 
 
@@ -29,7 +29,7 @@ public class PositionStateDebug extends PositionState{
 		
 	}
 	
-	public void validar(PiecePlacement board) {
+	public void validar(Board board) {
 		validar();
 
 		if (this.isCastlingWhiteQueenAllowed()) {

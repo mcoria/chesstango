@@ -7,8 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
-import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -90,7 +89,7 @@ public class ColorBoard {
 	
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
-	public void init(PiecePlacementReader board) {
+	public void init(BoardReader board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getPiece();
 			if (piece != null) {

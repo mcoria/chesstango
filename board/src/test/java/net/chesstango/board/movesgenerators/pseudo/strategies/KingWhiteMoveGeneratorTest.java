@@ -11,7 +11,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -61,7 +61,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test01() {
-		PiecePlacement tablero =  getTablero("8/8/8/4K3/8/8/8/8");
+		Board tablero =  getTablero("8/8/8/4K3/8/8/8/8");
 		
 		Square from = Square.e5;
 		assertEquals(Piece.KING_WHITE, tablero.getPiece(from));
@@ -86,7 +86,7 @@ public class KingWhiteMoveGeneratorTest {
 
 	@Test
 	public void test02() {
-		PiecePlacement tablero = getTablero("8/8/4P3/4K3/4p3/8/8/8");
+		Board tablero = getTablero("8/8/4P3/4K3/4p3/8/8/8");
 		
 		Square from = Square.e5;
 		assertEquals(Piece.KING_WHITE, tablero.getPiece(from));
@@ -113,7 +113,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test03() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/R3K3");
+		Board tablero = getTablero("8/8/8/8/8/8/8/R3K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
@@ -139,7 +139,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen01() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/R3K3");
+		Board tablero = getTablero("8/8/8/8/8/8/8/R3K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
@@ -155,7 +155,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test04() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
+		Board tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 
@@ -180,7 +180,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen02() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
+		Board tablero = getTablero("8/8/8/8/8/5b2/8/R3K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 
@@ -197,7 +197,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test05() {
-		PiecePlacement tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
+		Board tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 
@@ -223,7 +223,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen03() {
-		PiecePlacement tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
+		Board tablero = getTablero("8/8/8/8/5b2/8/8/R3K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
@@ -241,7 +241,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test06() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
+		Board tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
@@ -267,7 +267,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteQueen04() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
+		Board tablero = getTablero("8/8/8/8/8/8/8/RN2K3");
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
@@ -285,7 +285,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test07() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/4K2R");
+		Board tablero = getTablero("8/8/8/8/8/8/8/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -309,7 +309,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing01() {
-		PiecePlacement tablero = getTablero("8/8/8/8/8/8/8/4K2R");
+		Board tablero = getTablero("8/8/8/8/8/8/8/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -326,7 +326,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test08() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
+		Board tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -351,7 +351,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing02() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
+		Board tablero =  getTablero("8/8/8/8/8/3b4/8/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -369,7 +369,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test09() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
+		Board tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -394,7 +394,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing03() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
+		Board tablero =  getTablero("8/8/8/8/3b4/8/8/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -412,7 +412,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void test10() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
+		Board tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -437,7 +437,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteKing04() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
+		Board tablero =  getTablero("8/8/8/8/8/8/6p1/4K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		
@@ -454,7 +454,7 @@ public class KingWhiteMoveGeneratorTest {
 
 	@Test
 	public void test11() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
+		Board tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		state.setCastlingWhiteQueenAllowed(true);
@@ -481,7 +481,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingWhiteJaque() {
-		PiecePlacement tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
+		Board tablero =  getTablero("8/8/8/8/4r3/8/8/R3K2R");
 		
 		state.setCastlingWhiteKingAllowed(true);
 		state.setCastlingWhiteQueenAllowed(true);
@@ -507,14 +507,14 @@ public class KingWhiteMoveGeneratorTest {
 		return moveFactoryImp.createCaptureKingMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}
 	
-	private PiecePlacement getTablero(String string) {		
+	private Board getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		
-		PiecePlacement tablero = builder.getChessRepresentation();
+		Board tablero = builder.getChessRepresentation();
 		
 		colorBoard.init(tablero);
 		kingCacheBoard.init(tablero);

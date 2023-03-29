@@ -3,7 +3,7 @@ package net.chesstango.board.movesgenerators.legal.squarecapturers;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.*;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 
 /**
@@ -22,12 +22,12 @@ import net.chesstango.board.position.PiecePlacementReader;
 //		 - deberiamos tener un capturer especifico para Castling
 public class FullScanSquareCapturer implements SquareCapturer {
 	
-	private final PiecePlacementReader piecePlacementReader;
+	private final BoardReader boardReader;
 	private final CapturerAgregate capturerWhite;
 	private final CapturerAgregate capturerBlack;
 	
-	public FullScanSquareCapturer(PiecePlacementReader piecePlacementReader) {
-		this.piecePlacementReader = piecePlacementReader;
+	public FullScanSquareCapturer(BoardReader boardReader) {
+		this.boardReader = boardReader;
 		this.capturerWhite = new CapturerAgregate(Color.WHITE);
 		this.capturerBlack = new CapturerAgregate(Color.BLACK);
 	}
@@ -49,10 +49,10 @@ public class FullScanSquareCapturer implements SquareCapturer {
 		private final SquareCapturerByPiece cardinalCapturer;
 
 		public CapturerAgregate(Color color) {
-			this.cardinalCapturer = new CapturerByCardinals(piecePlacementReader, color);
-			this.knightCapturer = new CapturerByKnight(piecePlacementReader, color);
-			this.pawnCapturer = new CapturerByPawn(piecePlacementReader, color);
-			this.kingCapturer = new CapturerByKing(piecePlacementReader, color);
+			this.cardinalCapturer = new CapturerByCardinals(boardReader, color);
+			this.knightCapturer = new CapturerByKnight(boardReader, color);
+			this.pawnCapturer = new CapturerByPawn(boardReader, color);
+			this.kingCapturer = new CapturerByKing(boardReader, color);
 		}
 
 		public boolean positionCaptured(Square square) {

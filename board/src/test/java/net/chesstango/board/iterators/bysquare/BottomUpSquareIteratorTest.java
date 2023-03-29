@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.Square;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class BottomUpSquareIteratorTest {
 	public void testBottomUpSquareIterator() {
 		parser.parsePiecePlacement("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-		PiecePlacement tablero =  builder.getChessRepresentation();
+		Board tablero =  builder.getChessRepresentation();
 
 		Iterator<PiecePositioned> iterator = tablero.iterator(new BottomUpSquareIterator());
 

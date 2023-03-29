@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.impl.inheritance;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 
@@ -19,13 +19,13 @@ class CapturePawnEnPassant extends AbstractPawnMove {
 	}
 	
 	@Override
-	public void executeMove(PiecePlacementWriter board) {
+	public void executeMove(BoardWriter board) {
 		super.executeMove(board);
 		board.setEmptyPosition(capture);		//Capturamos pawn
 	}
 
 	@Override
-	public void undoMove(PiecePlacementWriter board) {
+	public void undoMove(BoardWriter board) {
 		super.undoMove(board);
 		board.setPosition(capture);				//Devolvemos pawn
 	}

@@ -8,10 +8,9 @@ import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.*;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 
 
 /**
@@ -52,12 +51,12 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckMoveFilter createCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
+	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		return new CheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(PiecePlacement dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-			PositionState positionState) {
+	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+                                                     PositionState positionState) {
 		return new NoCheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}		
 	

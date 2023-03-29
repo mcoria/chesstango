@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.byposition.bypiece.KingBitIterator;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 import java.util.Iterator;
 
@@ -15,19 +15,19 @@ import java.util.Iterator;
  */
 public class CapturerByKing implements SquareCapturerByPiece{
 
-    private final PiecePlacementReader piecePlacementReader;
+    private final BoardReader boardReader;
     private final Color color;
     private final Piece king;
 
-    public CapturerByKing(PiecePlacementReader piecePlacementReader, Color color) {
-        this.piecePlacementReader = piecePlacementReader;
+    public CapturerByKing(BoardReader boardReader, Color color) {
+        this.boardReader = boardReader;
         this.color = color;
         this.king = Piece.getKing(color);
     }
 
     @Override
     public boolean positionCaptured(Square square) {
-        Iterator<PiecePositioned> iterator = new KingBitIterator<PiecePositioned>(piecePlacementReader, square);
+        Iterator<PiecePositioned> iterator = new KingBitIterator<PiecePositioned>(boardReader, square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
             if (king.equals(destino.getPiece())) {

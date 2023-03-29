@@ -5,8 +5,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.PiecePlacementReader;
-import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
@@ -41,13 +41,13 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void executeMove(PiecePlacementWriter board) {
+    public void executeMove(BoardWriter board) {
         board.move(from, to);
         board.setEmptyPosition(capture);
     }
 
     @Override
-    public void undoMove(PiecePlacementWriter board) {
+    public void undoMove(BoardWriter board) {
         board.setPosition(from);
         board.setPosition(to);
         board.setPosition(capture);
@@ -101,7 +101,7 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -116,7 +116,7 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
         hash.popState();
     }
 

@@ -8,7 +8,7 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface PiecePlacementWriter {
+public interface BoardWriter {
 
 	void setPosition(PiecePositioned entry);
 

@@ -8,7 +8,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 
 import java.util.Iterator;
 
@@ -18,14 +18,14 @@ import java.util.Iterator;
  */
 public class CapturerByCardinals implements SquareCapturerByPiece{
 
-    private final PiecePlacementReader piecePlacementReader;
+    private final BoardReader boardReader;
     private final Color color;
     private final Piece rook;
     private final Piece bishop;
     private final Piece queen;
 
-    public CapturerByCardinals(PiecePlacementReader piecePlacementReader, Color color) {
-        this.piecePlacementReader = piecePlacementReader;
+    public CapturerByCardinals(BoardReader boardReader, Color color) {
+        this.boardReader = boardReader;
         this.color = color;
         this.rook = Piece.getRook(color);
         this.bishop = Piece.getBishop(color);
@@ -48,7 +48,7 @@ public class CapturerByCardinals implements SquareCapturerByPiece{
     }
 
     private boolean positionCapturedByCardinalPieza(Square square, Cardinal cardinal, Piece capturer) {
-        Iterator<PiecePositioned> iterator = piecePlacementReader.iterator(new CardinalSquareIterator(square, cardinal));
+        Iterator<PiecePositioned> iterator = boardReader.iterator(new CardinalSquareIterator(square, cardinal));
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
             Piece piece = destino.getPiece();

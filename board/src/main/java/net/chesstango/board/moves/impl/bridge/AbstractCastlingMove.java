@@ -3,8 +3,8 @@ package net.chesstango.board.moves.impl.bridge;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCastling;
-import net.chesstango.board.position.PiecePlacementReader;
-import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
@@ -42,14 +42,14 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(PiecePlacementWriter board) {
+    public void executeMove(BoardWriter board) {
         board.move(kingFrom, kingTo);
         board.move(rookFrom, rookTo);
     }
 
 
     @Override
-    public void undoMove(PiecePlacementWriter board) {
+    public void undoMove(BoardWriter board) {
         board.setPosition(kingFrom);
         board.setPosition(kingTo);
 
@@ -87,7 +87,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
         hash.pushState();
 
         hash.xorPosition(kingFrom);
@@ -104,7 +104,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
         hash.popState();
     }
 

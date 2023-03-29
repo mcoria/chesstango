@@ -4,8 +4,8 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.PiecePlacementReader;
-import net.chesstango.board.position.PiecePlacementWriter;
+import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
@@ -21,8 +21,8 @@ class MoveImp implements Move {
     protected final PiecePositioned to;
     protected final Cardinal direction;
     private MoveExecutor<PositionState> fnDoPositionState;
-    private MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement;
-    private MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement;
+    private MoveExecutor<BoardWriter> fnDoMovePiecePlacement;
+    private MoveExecutor<BoardWriter> fnUndoMovePiecePlacement;
 
     private MoveExecutor<ColorBoard> fnDoColorBoard;
     private MoveExecutor<ColorBoard> fnUndoColorBoard;
@@ -53,12 +53,12 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(PiecePlacementWriter board) {
+    public void executeMove(BoardWriter board) {
         fnDoMovePiecePlacement.apply(from, to, board);
     }
 
     @Override
-    public void undoMove(PiecePlacementWriter board) {
+    public void undoMove(BoardWriter board) {
         fnUndoMovePiecePlacement.apply(from, to, board);
     }
 
@@ -95,12 +95,12 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
         fnDoZobrit.apply(from, to, hash, oldPositionState, newPositionState);
     }
 
     @Override
-    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, PiecePlacementReader board) {
+    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
         hash.popState();
     }
 
@@ -127,11 +127,11 @@ class MoveImp implements Move {
         this.fnDoPositionState = fnDoPositionState;
     }
 
-    public void setFnDoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnDoMovePiecePlacement) {
+    public void setFnDoMovePiecePlacement(MoveExecutor<BoardWriter> fnDoMovePiecePlacement) {
         this.fnDoMovePiecePlacement = fnDoMovePiecePlacement;
     }
 
-    public void setFnUndoMovePiecePlacement(MoveExecutor<PiecePlacementWriter> fnUndoMovePiecePlacement) {
+    public void setFnUndoMovePiecePlacement(MoveExecutor<BoardWriter> fnUndoMovePiecePlacement) {
         this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
     }
 

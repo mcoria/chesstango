@@ -14,7 +14,7 @@ import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquare
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PiecePlacement;
+import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.*;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class ChessInjector {
 
     private final ChessFactory chessFactory;
 
-    private PiecePlacement piecePlacement = null;
+    private Board board = null;
 
     private PositionState positionState = null;
 
@@ -97,11 +97,11 @@ public class ChessInjector {
         return chessPosition;
     }
 
-    public PiecePlacement getPiecePlacement() {
-        if (piecePlacement == null) {
-            piecePlacement = chessFactory.createPiecePlacement();
+    public Board getPiecePlacement() {
+        if (board == null) {
+            board = chessFactory.createPiecePlacement();
         }
-        return piecePlacement;
+        return board;
     }
 
     public PositionState getPositionState() {

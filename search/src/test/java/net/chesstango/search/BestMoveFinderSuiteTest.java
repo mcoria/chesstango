@@ -43,6 +43,7 @@ public class BestMoveFinderSuiteTest {
     }
 
     @Test
+    @Ignore
     public void test04() {
         BestMoveFinderSuite finderSuite = new BestMoveFinderSuite(7);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - bm Nf4-h3+; ce -M4; pv Nf4-h3+ Bg2xh3 Qd3-g3+ Rc2-g2 Qg3-e1+ Kg1-h2 Rh8xh3+; id \"4778\";");

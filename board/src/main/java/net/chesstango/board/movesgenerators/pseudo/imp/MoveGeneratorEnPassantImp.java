@@ -13,7 +13,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorEnPassant;
-import net.chesstango.board.position.PiecePlacementReader;
+import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.imp.PositionState;
 
 /**
@@ -27,7 +27,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
 
     private PositionState positionState;
 
-    private PiecePlacementReader piecePlacement;
+    private BoardReader piecePlacement;
 
 
     @Override
@@ -114,7 +114,7 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
     }
 
 
-    public void setPiecePlacement(PiecePlacementReader piecePlacement) {
+    public void setPiecePlacement(BoardReader piecePlacement) {
         this.piecePlacement = piecePlacement;
     }
 
