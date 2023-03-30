@@ -181,22 +181,22 @@ public class MoveSorterTest {
         List<Move> moveList = new ArrayList<>();
 
         moveList.add(moveFactoryBlack.createCapturePawnMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.PAWN_BLACK),
-                PiecePositioned.getPiecePositioned(Square.f3, Piece.QUEEN_WHITE), Cardinal.NorteEste));
+                PiecePositioned.getPiecePositioned(Square.f6, Piece.QUEEN_WHITE), Cardinal.SurEste));
 
         moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.QUEEN_BLACK),
-                PiecePositioned.getPosition(Square.e3)));
+                PiecePositioned.getPosition(Square.e6)));
 
         moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KING_BLACK),
-                PiecePositioned.getPosition(Square.e3)));
+                PiecePositioned.getPosition(Square.e5)));
 
         moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.KNIGHT_BLACK),
-                PiecePositioned.getPosition(Square.e3)));
+                PiecePositioned.getPosition(Square.e6)));
 
         moveList.add(moveFactoryBlack.createSimpleMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.ROOK_BLACK),
-                PiecePositioned.getPosition(Square.e3)));
+                PiecePositioned.getPosition(Square.e6)));
 
         moveList.add(moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e7, Piece.BISHOP_BLACK),
-                PiecePositioned.getPiecePositioned(Square.e3, Piece.PAWN_WHITE)));
+                PiecePositioned.getPiecePositioned(Square.e6, Piece.PAWN_WHITE)));
 
 
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);

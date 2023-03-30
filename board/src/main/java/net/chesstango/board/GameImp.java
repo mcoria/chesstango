@@ -160,7 +160,7 @@ public class GameImp implements Game {
     private void saveFEN() {
         FENEncoder encoder = new FENEncoder();
 
-        chessPosition.constructBoardRepresentation(encoder);
+        chessPosition.constructChessPositionRepresentation(encoder);
 
         gameState.setInitialFEN(encoder.getChessRepresentation());
     }
@@ -168,7 +168,7 @@ public class GameImp implements Game {
     private void saveFENWithoutClocks() {
         FENEncoder encoder = new FENEncoder();
 
-        chessPosition.constructBoardRepresentation(encoder);
+        chessPosition.constructChessPositionRepresentation(encoder);
 
         gameState.setFenWithoutClocks(encoder.getFENWithoutClocks());
     }

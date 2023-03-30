@@ -116,7 +116,7 @@ public class ServiceMainTest {
 
     private String fenCode(Game game) {
         FENEncoder coder = new FENEncoder();
-        game.getChessPosition().constructBoardRepresentation(coder);
+        game.getChessPosition().constructChessPositionRepresentation(coder);
         return coder.getChessRepresentation();
     }
 

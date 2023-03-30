@@ -136,7 +136,7 @@ public class PerftWithMapIterateDeeping<T> implements Perft  {
 	private static final FENEncoder coder = new FENEncoder();
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	public static String getStringGameId(Game game) {
-		game.getChessPosition().constructBoardRepresentation(coder);
+		game.getChessPosition().constructChessPositionRepresentation(coder);
 		return coder.getFENWithoutClocks();
 	}
 

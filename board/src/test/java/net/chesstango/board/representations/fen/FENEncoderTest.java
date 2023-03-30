@@ -253,7 +253,7 @@ public class FENEncoderTest {
 	public void test_encode_without_clocks(){
 		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-		game.getChessPosition().constructBoardRepresentation(coder);
+		game.getChessPosition().constructChessPositionRepresentation(coder);
 
 		String fenWithoutClocks = coder.getFENWithoutClocks();
 
@@ -265,7 +265,7 @@ public class FENEncoderTest {
 	public void test_encode_with_clocks1(){
 		Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-		game.getChessPosition().constructBoardRepresentation(coder);
+		game.getChessPosition().constructChessPositionRepresentation(coder);
 
 		String fen = coder.getChessRepresentation();
 
@@ -278,7 +278,7 @@ public class FENEncoderTest {
 
 		game.executeMove(Square.g1, Square.f3);
 
-		game.getChessPosition().constructBoardRepresentation(coder);
+		game.getChessPosition().constructChessPositionRepresentation(coder);
 
 		String fen = coder.getChessRepresentation();
 
@@ -293,7 +293,7 @@ public class FENEncoderTest {
 		game.executeMove(Square.g1, Square.f3)
 			.executeMove(Square.g8, Square.f6);
 
-		game.getChessPosition().constructBoardRepresentation(coder);
+		game.getChessPosition().constructChessPositionRepresentation(coder);
 
 		String fen = coder.getChessRepresentation();
 

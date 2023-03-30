@@ -165,7 +165,7 @@ public class EngineTangoTest {
 
     private String fenCode(Game board) {
         FENEncoder coder = new FENEncoder();
-        board.getChessPosition().constructBoardRepresentation(coder);
+        board.getChessPosition().constructChessPositionRepresentation(coder);
         return coder.getChessRepresentation();
     }
 }

@@ -94,7 +94,7 @@ public class GameMockLoader {
             }
 
             FENEncoder fenEncoder = new FENEncoder();
-            node.position.constructBoardRepresentation(fenEncoder);
+            node.position.constructChessPositionRepresentation(fenEncoder);
             String fenFromPosition = fenEncoder.getChessRepresentation();
 
             if(node.fen == null) {
@@ -142,7 +142,7 @@ public class GameMockLoader {
         private Game loadGame(ChessPositionReader position) {
             GameBuilder gameBuilder = new GameBuilder();
 
-            position.constructBoardRepresentation(gameBuilder);
+            position.constructChessPositionRepresentation(gameBuilder);
 
             return gameBuilder.getChessRepresentation();
         }

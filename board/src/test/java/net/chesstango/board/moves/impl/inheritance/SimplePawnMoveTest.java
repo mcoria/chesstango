@@ -9,7 +9,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
@@ -52,7 +52,7 @@ public class SimplePawnMoveTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e2, Piece.PAWN_WHITE);
 
         colorBoard = new ColorBoardDebug();

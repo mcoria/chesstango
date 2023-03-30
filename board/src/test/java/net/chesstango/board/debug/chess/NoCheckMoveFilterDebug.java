@@ -4,7 +4,7 @@ import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -26,7 +26,7 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 		try {
 			boolean reportError = false;
 
-			ArrayPiecePlacement boardInicial = ((ArrayPiecePlacement) super.dummyBoard).clone();
+			ArrayBoard boardInicial = ((ArrayBoard) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 			

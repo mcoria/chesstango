@@ -143,7 +143,7 @@ public class PerftWithMap<T> implements Perft  {
 
 	//TODO: este metodo se esta morfando una parte significativa de la ejecucion
 	public static String getStringGameId(Game game) {
-		game.getChessPosition().constructBoardRepresentation(coder);
+		game.getChessPosition().constructChessPositionRepresentation(coder);
 		return coder.getFENWithoutClocks();
 	}
 

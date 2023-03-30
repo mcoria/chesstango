@@ -6,7 +6,7 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
@@ -33,7 +33,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			BoardReader boardInicial =  ((ArrayPiecePlacement)this.boardReader).clone();
+			BoardReader boardInicial =  ((ArrayBoard)this.boardReader).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
 			

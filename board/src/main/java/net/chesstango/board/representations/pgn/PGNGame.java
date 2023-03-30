@@ -116,7 +116,7 @@ public class PGNGame {
                 game.executeMove(legalMoveToExecute);
             } else {
                 FENEncoder encoder = new FENEncoder();
-                game.getChessPosition().constructBoardRepresentation(encoder);
+                game.getChessPosition().constructChessPositionRepresentation(encoder);
                 throw new RuntimeException(moveStr + " is not in the list of legal moves for " + encoder.getChessRepresentation());
             }
         });

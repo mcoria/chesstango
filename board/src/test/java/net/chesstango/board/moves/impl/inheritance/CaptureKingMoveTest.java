@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
@@ -54,7 +54,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testPosicionPiezaBoard() {
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e1, Piece.KING_WHITE);
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
@@ -121,7 +121,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testColorBoard() {
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoard();
@@ -185,7 +185,7 @@ public class CaptureKingMoveTest {
 
     @Test
     public void testExecuteUndo() {
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoard();

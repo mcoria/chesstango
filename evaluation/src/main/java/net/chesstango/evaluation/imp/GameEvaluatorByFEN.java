@@ -24,7 +24,7 @@ public class GameEvaluatorByFEN implements GameEvaluator {
     protected int evaluateNonFinalStatus(final Game game) {
         FENEncoder fenEncoder = new FENEncoder();
 
-        game.getChessPosition().constructBoardRepresentation(fenEncoder);
+        game.getChessPosition().constructChessPositionRepresentation(fenEncoder);
 
         String fen = fenEncoder.getChessRepresentation();
 

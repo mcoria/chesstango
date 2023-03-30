@@ -53,7 +53,7 @@ public class CastlingWhiteQueenMoveTest {
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(10);
 
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.a1, Piece.ROOK_WHITE);
         board.setPieza(Square.e1, Piece.KING_WHITE);
 

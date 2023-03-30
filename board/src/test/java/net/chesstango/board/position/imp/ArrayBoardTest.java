@@ -20,11 +20,11 @@ import net.chesstango.board.iterators.byposition.BitIterator;
  * @author Mauricio Coria
  *
  */
-public class ArrayPiecePlacementTest {
+public class ArrayBoardTest {
 
 	@Test
 	public void test() {
-		ArrayPiecePlacement tablero = new ArrayPiecePlacement();
+		ArrayBoard tablero = new ArrayBoard();
 		
 		tablero.setPieza(Square.a1, Piece.ROOK_WHITE);
 		tablero.setPieza(Square.b7, Piece.PAWN_BLACK);
@@ -70,7 +70,7 @@ public class ArrayPiecePlacementTest {
 	
 	@Test
 	public void testToString() {
-		ArrayPiecePlacement tablero = new ArrayPiecePlacement();
+		ArrayBoard tablero = new ArrayBoard();
 		
 		assertTrue(tablero.toString().length() > 0);
 

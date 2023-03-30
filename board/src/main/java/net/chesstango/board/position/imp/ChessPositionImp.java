@@ -96,7 +96,7 @@ public class ChessPositionImp implements ChessPosition {
 	}	
 	
 	@Override
-	public void constructBoardRepresentation(ChessRepresentationBuilder<?> builder){
+	public void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder){
 		builder.withTurn(positionState.getCurrentTurn())
 				.withCastlingWhiteQueenAllowed(positionState.isCastlingWhiteQueenAllowed())
 				.withCastlingWhiteKingAllowed(positionState.isCastlingWhiteKingAllowed())
@@ -226,8 +226,8 @@ public class ChessPositionImp implements ChessPosition {
 		FENEncoder fenEncoder = new FENEncoder();
 		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
 
-		constructBoardRepresentation(fenEncoder);
-		constructBoardRepresentation(asciiEncoder);
+		constructChessPositionRepresentation(fenEncoder);
+		constructChessPositionRepresentation(asciiEncoder);
 
 		return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
 	}

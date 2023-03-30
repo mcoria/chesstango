@@ -45,7 +45,7 @@ public class Transcoding {
         List<String> fenPositions = new ArrayList<>();
         games.forEach( game -> {
             FENEncoder fenEncoder = new FENEncoder();
-            game.getChessPosition().constructBoardRepresentation(fenEncoder);
+            game.getChessPosition().constructChessPositionRepresentation(fenEncoder);
             String fenString = fenEncoder.getChessRepresentation();
             fenPositions.add(fenString);
         });

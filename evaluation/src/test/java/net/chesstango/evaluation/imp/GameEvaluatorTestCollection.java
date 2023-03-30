@@ -43,7 +43,7 @@ public abstract class GameEvaluatorTestCollection {
         final int eval1 = evaluationFunction.apply(game);
 
         MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructBoardRepresentation(mirrorBuilder);
+        game.getChessPosition().constructChessPositionRepresentation(mirrorBuilder);
         Game mirrorGame = mirrorBuilder.getChessRepresentation();
         final int eval2 = evaluationFunction.apply(mirrorGame);
 
@@ -186,7 +186,7 @@ public abstract class GameEvaluatorTestCollection {
     public void testSymmetryOfGame() {
         Game game = FENDecoder.loadGame ("r1bqkb1r/pp3ppp/2nppn2/1N6/2P1P3/2N5/PP3PPP/R1BQKB1R b KQkq - 2 7");
         MirrorBuilder<Game> mirrorBuilder = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructBoardRepresentation(mirrorBuilder);
+        game.getChessPosition().constructChessPositionRepresentation(mirrorBuilder);
         Game gameMirror = mirrorBuilder.getChessRepresentation();
 
         Assert.assertTrue(getEvaluator().evaluate(game) == (-1) * getEvaluator().evaluate(gameMirror) );

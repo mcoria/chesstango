@@ -284,7 +284,7 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
     public static Long getKey(String fen) {
         ChessPositionReader position = FENDecoder.loadChessPosition(fen);
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
-        position.constructBoardRepresentation(polyglotEncoder);
+        position.constructChessPositionRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();
     }
 
@@ -294,7 +294,7 @@ public class PolyglotEncoder extends AbstractChessRepresentationBuilder<Long> {
 
     public static Long getKey(ChessPositionReader position) {
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
-        position.constructBoardRepresentation(polyglotEncoder);
+        position.constructChessPositionRepresentation(polyglotEncoder);
         return polyglotEncoder.getChessRepresentation();
     }
 }

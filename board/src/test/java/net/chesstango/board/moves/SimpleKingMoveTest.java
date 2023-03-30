@@ -15,7 +15,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
@@ -59,7 +59,7 @@ public class SimpleKingMoveTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoardDebug();

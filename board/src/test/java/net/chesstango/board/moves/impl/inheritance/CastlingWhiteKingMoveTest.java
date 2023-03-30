@@ -9,7 +9,7 @@ import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +56,7 @@ public class CastlingWhiteKingMoveTest {
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(10);
 
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e1, Piece.KING_WHITE);
         board.setPieza(Square.h1, Piece.ROOK_WHITE);
 

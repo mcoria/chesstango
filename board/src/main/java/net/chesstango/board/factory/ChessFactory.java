@@ -71,7 +71,7 @@ public class ChessFactory {
 	}	
 
 	public Board createPiecePlacement() {
-		return new ArrayPiecePlacement();
+		return new ArrayBoard();
 	}
 
 	public PositionState createPositionState() {

@@ -15,9 +15,9 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class ArrayPiecePlacement implements Board, Cloneable {
+public class ArrayBoard implements Board, Cloneable {
 
-    public ArrayPiecePlacement() {
+    public ArrayBoard() {
         for (int i = 0; i < 64; i++) {
             this.setEmptySquare(Square.getSquareByIdx(i));
         }
@@ -120,8 +120,8 @@ public class ArrayPiecePlacement implements Board, Cloneable {
 
 
     @Override
-    public ArrayPiecePlacement clone() throws CloneNotSupportedException {
-        ArrayPiecePlacement clone = new ArrayPiecePlacement();
+    public ArrayBoard clone() throws CloneNotSupportedException {
+        ArrayBoard clone = new ArrayBoard();
         for (int i = 0; i < 64; i++) {
             clone.tablero[i] = this.tablero[i];
         }
@@ -130,8 +130,8 @@ public class ArrayPiecePlacement implements Board, Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ArrayPiecePlacement) {
-            ArrayPiecePlacement theInstance = (ArrayPiecePlacement) obj;
+        if (obj instanceof ArrayBoard) {
+            ArrayBoard theInstance = (ArrayBoard) obj;
             for (int i = 0; i < 64; i++) {
                 if (!this.tablero[i].equals(theInstance.tablero[i])) {
                     return false;

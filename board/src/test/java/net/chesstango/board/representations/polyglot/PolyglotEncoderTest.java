@@ -16,7 +16,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -37,7 +37,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -59,7 +59,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -80,7 +80,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -100,7 +100,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -121,7 +121,7 @@ public class PolyglotEncoderTest {
 
          PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-         initialPosition.constructBoardRepresentation(polyglotEncoder);
+         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
          Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -141,7 +141,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -162,7 +162,7 @@ public class PolyglotEncoderTest {
 
         PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-        initialPosition.constructBoardRepresentation(polyglotEncoder);
+        initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
         Long polyglotKey = polyglotEncoder.getChessRepresentation();
 
@@ -183,7 +183,7 @@ public class PolyglotEncoderTest {
 
          PolyglotEncoder polyglotEncoder = new PolyglotEncoder();
 
-         initialPosition.constructBoardRepresentation(polyglotEncoder);
+         initialPosition.constructChessPositionRepresentation(polyglotEncoder);
 
          Long polyglotKey = polyglotEncoder.getChessRepresentation();
 

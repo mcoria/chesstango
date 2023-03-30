@@ -28,7 +28,7 @@ public class ChessPositionImpTest {
 
     @Test
     public void test_iterator() {
-        ArrayPiecePlacement tablero = new ArrayPiecePlacement();
+        ArrayBoard tablero = new ArrayBoard();
 
         tablero.setPieza(Square.a1, Piece.ROOK_WHITE);
         tablero.setPieza(Square.b7, Piece.PAWN_BLACK);

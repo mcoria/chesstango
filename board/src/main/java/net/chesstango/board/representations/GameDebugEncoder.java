@@ -33,7 +33,7 @@ public class GameDebugEncoder {
                     theGame.executeMove(move);
                     FENEncoder fenEncoder = new FENEncoder();
                     ChessPositionReader theGamePositionReader = theGame.getChessPosition();
-                    theGamePositionReader.constructBoardRepresentation(fenEncoder);
+                    theGamePositionReader.constructChessPositionRepresentation(fenEncoder);
 
                     sb.append(" // " + fenEncoder.getChessRepresentation() + "\n");
                 }

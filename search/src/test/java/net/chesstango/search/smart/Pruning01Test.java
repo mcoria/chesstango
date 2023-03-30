@@ -52,7 +52,7 @@ public abstract class Pruning01Test {
         Move bestMove = getBestMoveFinder().searchBestMove(game, 1).getBestMove();
 
         MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructBoardRepresentation(mirror);
+        game.getChessPosition().constructChessPositionRepresentation(mirror);
         Game gameMirror = mirror.getChessRepresentation();
 
         Move bestMoveMirror = getBestMoveFinder().searchBestMove(gameMirror, 1).getBestMove();

@@ -14,7 +14,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ArrayPiecePlacement;
+import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.Assert;
@@ -56,7 +56,7 @@ public class CapturePawnPromotionTest {
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(5);
 
-        board = new ArrayPiecePlacement();
+        board = new ArrayBoard();
         board.setPieza(Square.e7, Piece.PAWN_WHITE);
         board.setPieza(Square.f8, Piece.KNIGHT_BLACK);
 

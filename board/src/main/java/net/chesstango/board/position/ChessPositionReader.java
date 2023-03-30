@@ -28,6 +28,6 @@ public interface ChessPositionReader extends BoardReader, PositionStateReader {
 
 	long getPositionHash();
 
-	void constructBoardRepresentation(ChessRepresentationBuilder<?> builder);
+	void constructChessPositionRepresentation(ChessRepresentationBuilder<?> builder);
 
 }
