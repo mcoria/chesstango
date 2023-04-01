@@ -23,7 +23,6 @@ public class PGNGame {
     private String black;
     private String fen;
     private String result;
-
     private List<String> moveList;
 
 
@@ -99,7 +98,6 @@ public class PGNGame {
         this.moveList = moveList;
     }
 
-
     @Override
     public String toString() {
         return new PGNEncoder().encode(this);
@@ -127,13 +125,10 @@ public class PGNGame {
 
     public static PGNGame createFromGame(Game game){
         PGNGame pgnGame = new PGNGame();
-
         pgnGame.setResult(encodeGameResult(game));
-
-        List<String> moveList = new ArrayList<>();
-
         pgnGame.setFen(game.getInitialFen());
 
+        List<String> moveList = new ArrayList<>();
         game.accept(new GameVisitor() {
             private SANEncoder sanEncoder = new SANEncoder();
 
@@ -152,7 +147,6 @@ public class PGNGame {
                 }
             }
         });
-
         pgnGame.setMoveList(moveList);
 
         return pgnGame;

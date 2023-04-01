@@ -89,15 +89,15 @@ public class GameResult {
         this.sessionBlack = sessionBlack;
     }
 
-    public PGNGame getPgnGame() {
-        return pgnGame;
-    }
-
     public Session getSessionWhite() {
         return sessionWhite;
     }
 
     public Session getSessionBlack() {
         return sessionBlack;
+    }
+
+    public PGNGame getPgnGame() {
+        return pgnGame;
     }
 }

@@ -1,13 +1,12 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
-import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.uci.arena.reports.CutoffReports;
+import net.chesstango.uci.arena.mbeans.Arena;
+import net.chesstango.uci.arena.mbeans.MatchListenerImp;
 import net.chesstango.uci.arena.reports.GameReports;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
@@ -29,7 +28,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain {
-    private static final int DEPTH = 3;
+    private static final int DEPTH = 6;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -72,10 +71,16 @@ public class MatchMain {
     }
 
     private List<GameResult> play(EngineController engineController1, EngineController engineController2) {
+        Arena arenaMBean = new Arena();
+
+
         Match match = new Match(engineController1, engineController2, DEPTH)
                     .setDebugEnabled(MATCH_DEBUG)
                     .switchChairs(true)
-                    .perCompletedGame(this::save);
+                    .perCompletedGame(this::save)
+                    .setMatchListener(new MatchListenerImp(arenaMBean));
+
+        arenaMBean.registerMBean();
 
         startEngines(engineController1, engineController2);
 

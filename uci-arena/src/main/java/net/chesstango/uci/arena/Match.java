@@ -34,6 +34,7 @@ public class Match {
     private boolean debugEnabled;
     private boolean switchChairs;
     private Consumer<GameResult> gameResultConsumer;
+    private MatchListener matchListener;
 
 
     public Match(EngineController controller1, EngineController controller2, int depth) {
@@ -112,6 +113,10 @@ public class Match {
             currentTurn = black;
         }
 
+        if(matchListener != null) {
+            matchListener.notifyNewGame(game, white, black);
+        }
+
         startNewGame();
         while (game.getStatus().isInProgress()) {
             String moveStr = retrieveBestMoveFromController(currentTurn, executedMovesStr);
@@ -125,9 +130,17 @@ public class Match {
 
             game.executeMove(move);
 
+            if(matchListener != null) {
+                matchListener.notifyExecutedMove(game, move);
+            }
+
             executedMovesStr.add(moveStr);
 
             currentTurn = (currentTurn == white ? black : white);
+        }
+
+        if(matchListener != null) {
+            matchListener.notifyFinishedGame(game);
         }
     }
 
@@ -282,6 +295,11 @@ public class Match {
 
     public Match perCompletedGame(Consumer<GameResult> gameResultConsumer) {
         this.gameResultConsumer = gameResultConsumer;
+        return this;
+    }
+
+    public Match setMatchListener(MatchListener matchListener) {
+        this.matchListener = matchListener;
         return this;
     }
 }
