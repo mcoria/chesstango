@@ -50,8 +50,6 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
         Notification notification =
                 new MoveNotification(this,
                         sequenceNumber.getAndIncrement(),
-                        System.currentTimeMillis(),
-                        "Move",
                         move,
                         gameDescriptionCurrent);
 

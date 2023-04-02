@@ -17,10 +17,11 @@ public class MoveNotification extends Notification {
     private final GameDescriptionCurrent gameDescriptionCurrent;
 
 
-    public MoveNotification(Object source, long sequenceNumber, long timeStamp, String msg,
-                            String move, GameDescriptionCurrent gameDescriptionCurrent) {
-
-        super(MoveNotification.ATTRIBUTE_CHANGE, source, sequenceNumber, timeStamp, msg);
+    public MoveNotification(Object source,
+                            long sequenceNumber,
+                            String move,
+                            GameDescriptionCurrent gameDescriptionCurrent) {
+        super(MoveNotification.ATTRIBUTE_CHANGE, source, sequenceNumber);
         this.move = move;
         this.gameDescriptionCurrent = gameDescriptionCurrent;
     }
