@@ -11,11 +11,17 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
 
     private AtomicLong sequenceNumber = new AtomicLong();
 
-    protected GameDescription gameDescription;
+    protected GameDescriptionInitial gameDescriptionInitial;
+    protected GameDescriptionCurrent gameDescriptionCurrent;
 
     @Override
-    public GameDescription getGameDescription() {
-        return gameDescription;
+    public GameDescriptionInitial getGameDescriptionInitial() {
+        return gameDescriptionInitial;
+    }
+
+    @Override
+    public GameDescriptionCurrent getGameDescriptionCurrent() {
+        return gameDescriptionCurrent;
     }
 
     public void registerMBean() {
@@ -49,10 +55,10 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
                         sequenceNumber.getAndIncrement(),
                         System.currentTimeMillis(),
                         "Move",
-                        move);
+                        move,
+                        gameDescriptionCurrent);
 
         sendNotification(notification);
     }
-
 }
 

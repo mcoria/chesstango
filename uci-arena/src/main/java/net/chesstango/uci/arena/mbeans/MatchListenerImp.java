@@ -32,20 +32,16 @@ public class MatchListenerImp implements MatchListener {
 
         this.black = black.getEngineName();
 
-        String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(game.getInitialFen(), this.white, this.black);
 
-        GameDescription gameDescription = new GameDescription(game.getInitialFen(), game.getInitialFen(), this.white, this.black, turn,  new String[]{});
+        ArenaJMXClient.printInitialStatus(gameDescriptionInitial);
 
-        ArenaJMXClient.printInitialStatus(gameDescription);
-
-        arena.gameDescription = gameDescription;
+        arena.gameDescriptionInitial = gameDescriptionInitial;
     }
 
 
     @Override
     public void notifyExecutedMove(Game game, Move move) {
-
-
         List<String> theMoves = new ArrayList<>();
         game.accept(new GameVisitor() {
             @Override
@@ -61,13 +57,11 @@ public class MatchListenerImp implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        String currentFEN = FENEncoder.encodeGame(game);
+        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(FENEncoder.encodeGame(game), turn, arrayMoveStr);
 
-        GameDescription gameDescription = new GameDescription(game.getInitialFen(), currentFEN, this.white, this.black, turn, arrayMoveStr);
+        ArenaJMXClient.printCurrentStatus(gameDescriptionCurrent);
 
-        ArenaJMXClient.printCurrentStatus(gameDescription);
-
-        arena.gameDescription = gameDescription;
+        arena.gameDescriptionCurrent = gameDescriptionCurrent;
 
         arena.notifyMove(String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare()));
     }

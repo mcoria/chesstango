@@ -12,18 +12,25 @@ public class MoveNotification extends Notification {
 
     public static final String ATTRIBUTE_CHANGE = "net.chesstango.move";
 
-    private String move;
+    private final String move;
+
+    private final GameDescriptionCurrent gameDescriptionCurrent;
 
 
     public MoveNotification(Object source, long sequenceNumber, long timeStamp, String msg,
-                            String move) {
+                            String move, GameDescriptionCurrent gameDescriptionCurrent) {
 
         super(MoveNotification.ATTRIBUTE_CHANGE, source, sequenceNumber, timeStamp, msg);
         this.move = move;
+        this.gameDescriptionCurrent = gameDescriptionCurrent;
     }
 
 
     public String getMove() {
         return move;
+    }
+
+    public GameDescriptionCurrent getGameDescriptionCurrent(){
+        return gameDescriptionCurrent;
     }
 }

@@ -1,10 +1,6 @@
 package net.chesstango.uci.arena.mbeans;
 
-import javax.management.JMX;
-import javax.management.MBeanServerConnection;
-import javax.management.Notification;
-import javax.management.NotificationListener;
-import javax.management.ObjectName;
+import javax.management.*;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
@@ -20,13 +16,14 @@ public class ArenaJMXClient {
         JMXServiceURL url =
                 new JMXServiceURL("service:jmx:rmi:///jndi/rmi://:19999/jmxrmi");
 
+        new ArenaJMXClient().connect(url);
+
+    }
+
+    public void connect(JMXServiceURL url) throws Exception  {
         JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
 
         MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-
-        // ----------------------
-        // Manage the Hello MBean
-        // ----------------------
 
         ObjectName mbeanName = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
 
@@ -34,7 +31,7 @@ public class ArenaJMXClient {
 
         mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
 
-        printInitialStatus(arenaProxy.getGameDescription());
+        printInitialStatus(arenaProxy.getGameDescriptionInitial());
 
         Thread.sleep(Long.MAX_VALUE);
 
@@ -52,28 +49,26 @@ public class ArenaJMXClient {
                     System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
                     System.out.println("Selected move: " + moveNotification.getMove());
 
-                    ArenaMBean arenaProxy = (ArenaMBean) handback;
-                    GameDescription gameDescription = arenaProxy.getGameDescription();
-
-                    printCurrentStatus(gameDescription);
+                    GameDescriptionCurrent gameDescriptionInitial = moveNotification.getGameDescriptionCurrent();
+                    printCurrentStatus(gameDescriptionInitial);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
         }
 
     }
 
-    public static void printInitialStatus(GameDescription gameDescription) {
-        System.out.println(String.format("White = %s vs Black = %s", gameDescription.getWhite(), gameDescription.getBlack()));
-        System.out.println(String.format("Initial FEN = %s", gameDescription.getInitialFEN()));
+    public static void printInitialStatus(GameDescriptionInitial gameDescriptionInitial) {
+        System.out.println(String.format("White = %s vs Black = %s", gameDescriptionInitial.getWhite(), gameDescriptionInitial.getBlack()));
+        System.out.println(String.format("Initial FEN = %s", gameDescriptionInitial.getInitialFEN()));
         System.out.println(String.format("---------------------------------------------------------------------------"));
     }
 
-    public static void printCurrentStatus(GameDescription gameDescription) {
-        System.out.println(String.format("Current FEN = %s", gameDescription.getCurrentFEN()));
-        System.out.println(String.format("Moves = %s", Arrays.toString(gameDescription.getMoves())));
-        System.out.println(String.format("Turn = %s", gameDescription.getTurn()));
+    public static void printCurrentStatus(GameDescriptionCurrent gameDescriptionCurrent) {
+        System.out.println(String.format("Current FEN = %s", gameDescriptionCurrent.getCurrentFEN()));
+        System.out.println(String.format("Moves = %s", Arrays.toString(gameDescriptionCurrent.getMoves())));
+        System.out.println(String.format("Turn = %s", gameDescriptionCurrent.getTurn()));
         System.out.println(String.format("---------------------------------------------------------------------------"));
     }
 }
