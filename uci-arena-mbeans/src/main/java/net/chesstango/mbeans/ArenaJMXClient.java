@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.mbeans;
+package net.chesstango.mbeans;
 
 import javax.management.*;
 import javax.management.remote.JMXConnector;
@@ -10,9 +10,7 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class ArenaJMXClient {
-
-
-    private int currentGame;
+    private String currentGame;
 
     public static void main(String[] args) throws Exception {
         JMXServiceURL url =
@@ -33,7 +31,8 @@ public class ArenaJMXClient {
 
         mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
 
-        currentGame = 0;
+        currentGame = arenaProxy.getCurrentGameId();
+
         printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGame));
 
         Thread.sleep(Long.MAX_VALUE);
@@ -51,7 +50,7 @@ public class ArenaJMXClient {
                     MoveNotification moveNotification = (MoveNotification) notification;
                     GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
 
-                    if(gameDescriptionCurrent.getGameId() != currentGame){
+                    if(!gameDescriptionCurrent.getGameId().equals(currentGame)){
                         System.out.println("--------------------------- NEW GAME ---------------------------");
 
                         ArenaMBean arenaProxy = (ArenaMBean) handback;

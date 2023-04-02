@@ -6,11 +6,16 @@ import net.chesstango.board.GameStateReader;
 import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENEncoder;
+import net.chesstango.mbeans.Arena;
+import net.chesstango.mbeans.ArenaJMXClient;
+import net.chesstango.mbeans.GameDescriptionCurrent;
+import net.chesstango.mbeans.GameDescriptionInitial;
 import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Mauricio Coria
@@ -19,7 +24,7 @@ public class MatchListenerImp implements MatchListener {
 
     private final Arena arena;
 
-    private int currentGameId;
+    private String currentGameId;
 
     public MatchListenerImp(Arena arena) {
         this.arena = arena;
@@ -32,13 +37,15 @@ public class MatchListenerImp implements MatchListener {
 
         String blackName = black.getEngineName();
 
-        currentGameId = arena.sequenceId.getAndIncrement();
+        UUID uuid = UUID.randomUUID();
+
+        currentGameId = uuid.toString();
 
         GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFen(), whiteName, blackName);
 
         ArenaJMXClient.printInitialStatus(gameDescriptionInitial);
 
-        arena.initialMap.put(currentGameId, gameDescriptionInitial);
+        arena.putNewGame(currentGameId, gameDescriptionInitial);
     }
 
 
@@ -63,7 +70,7 @@ public class MatchListenerImp implements MatchListener {
 
         ArenaJMXClient.printCurrentStatus(gameDescriptionCurrent);
 
-        arena.currentMap.put(currentGameId, gameDescriptionCurrent);
+        arena.updateDescriptionCurrent(currentGameId, gameDescriptionCurrent);
 
         arena.notifyMove(String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare()), gameDescriptionCurrent);
     }

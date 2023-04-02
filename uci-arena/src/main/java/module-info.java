@@ -9,4 +9,5 @@ module net.chesstango.uci.arena {
     requires net.chesstango.search;
     requires org.apache.commons.pool2;
     requires java.management;
+    requires net.chesstango.mbeans;
 }

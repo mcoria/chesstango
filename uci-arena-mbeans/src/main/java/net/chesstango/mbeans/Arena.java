@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.mbeans;
+package net.chesstango.mbeans;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
@@ -13,33 +13,25 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Arena extends NotificationBroadcasterSupport implements ArenaMBean {
     private AtomicLong sequenceNumber = new AtomicLong();
 
-    protected AtomicInteger sequenceId = new AtomicInteger();
+    private String currentGameId;
 
-    protected Map<Integer, GameDescriptionInitial> initialMap = new HashMap<>();
+    private Map<String, GameDescriptionInitial> initialMap = new HashMap<>();
 
-    protected Map<Integer, GameDescriptionCurrent> currentMap = new HashMap<>();
+    private Map<String, GameDescriptionCurrent> currentMap = new HashMap<>();
 
     @Override
-    public GameDescriptionInitial getGameDescriptionInitial(int id) {
+    public String getCurrentGameId() {
+        return currentGameId;
+    }
+
+    @Override
+    public GameDescriptionInitial getGameDescriptionInitial(String id) {
         return initialMap.get(id);
     }
 
     @Override
-    public GameDescriptionCurrent getGameDescriptionCurrent(int id) {
+    public GameDescriptionCurrent getGameDescriptionCurrent(String id) {
         return currentMap.get(id);
-    }
-
-    public void registerMBean() {
-        try {
-            MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-
-            ObjectName name = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
-
-            mbs.registerMBean(this, name);
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            throw new RuntimeException(e);
-        }
     }
 
 
@@ -64,6 +56,29 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
                         gameDescriptionCurrent);
 
         sendNotification(notification);
+    }
+
+    public void putNewGame(String gameId, GameDescriptionInitial gameDescriptionInitial) {
+        initialMap.put(gameId, gameDescriptionInitial);
+    }
+
+    public void updateDescriptionCurrent(String gameId, GameDescriptionCurrent gameDescriptionCurrent) {
+        currentGameId = gameId;
+        currentMap.put(gameId, gameDescriptionCurrent);
+    }
+
+
+    public void registerMBean() {
+        try {
+            MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+
+            ObjectName name = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
+
+            mbs.registerMBean(this, name);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
+        }
     }
 }
 

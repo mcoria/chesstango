@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.mbeans;
+package net.chesstango.mbeans;
 
 
 import javax.management.Notification;
