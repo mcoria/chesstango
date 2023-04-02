@@ -28,7 +28,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain {
-    private static final int DEPTH = 6;
+    private static final int DEPTH = 5;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {

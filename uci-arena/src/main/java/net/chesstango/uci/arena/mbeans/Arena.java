@@ -1,54 +1,28 @@
 package net.chesstango.uci.arena.mbeans;
 
-import javax.management.MBeanServer;
-import javax.management.NotificationBroadcasterSupport;
-import javax.management.ObjectName;
+import javax.management.*;
 import java.lang.management.ManagementFactory;
-import java.security.SecureRandom;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Mauricio Coria
  */
 public class Arena extends NotificationBroadcasterSupport implements ArenaMBean {
 
-    private long sequenceNumber = 1;
-    protected String fen;
-    protected String white;
-    protected String black;
-    protected String turn;
-    protected String[] moveList;
+    private AtomicLong sequenceNumber = new AtomicLong();
 
+    protected GameDescription gameDescription;
 
     @Override
-    public String getFEN() {
-        return fen;
-    }
-
-    @Override
-    public String getWhite() {
-        return white;
-    }
-
-    @Override
-    public String getBlack() {
-        return black;
-    }
-
-    @Override
-    public String getTurn() {
-        return turn;
-    }
-
-    @Override
-    public String[] getMoveList() {
-        return moveList;
+    public GameDescription getGameDescription() {
+        return gameDescription;
     }
 
     public void registerMBean() {
         try {
             MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
-            ObjectName name = new ObjectName("net.chesstango.uci.arena:type=Arena");
+            ObjectName name = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
 
             mbs.registerMBean(this, name);
         } catch (Exception e) {
@@ -57,16 +31,28 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
         }
     }
 
-    /*
+
     @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
-        String[] types = new String[]{AttributeChangeNotification.ATTRIBUTE_CHANGE};
-        String name = AttributeChangeNotification.class.getName();
-        String description = "An attribute of this MBean has changed";
+        String[] types = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
+        String name = MoveNotification.class.getName();
+        String description = "A move has been selected";
         MBeanNotificationInfo info = new MBeanNotificationInfo(types, name, description);
+
         return new MBeanNotificationInfo[]{info};
     }
 
- */
+
+    public void notifyMove(String move) {
+        Notification notification =
+                new MoveNotification(this,
+                        sequenceNumber.getAndIncrement(),
+                        System.currentTimeMillis(),
+                        "Move",
+                        move);
+
+        sendNotification(notification);
+    }
+
 }
 

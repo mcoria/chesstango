@@ -130,13 +130,13 @@ public class Match {
 
             game.executeMove(move);
 
-            if(matchListener != null) {
-                matchListener.notifyExecutedMove(game, move);
-            }
-
             executedMovesStr.add(moveStr);
 
             currentTurn = (currentTurn == white ? black : white);
+
+            if(matchListener != null) {
+                matchListener.notifyExecutedMove(game, move);
+            }
         }
 
         if(matchListener != null) {
