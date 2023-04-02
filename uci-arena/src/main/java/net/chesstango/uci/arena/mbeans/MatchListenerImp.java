@@ -19,24 +19,26 @@ public class MatchListenerImp implements MatchListener {
 
     private final Arena arena;
 
+    private int currentGameId;
+
     public MatchListenerImp(Arena arena) {
         this.arena = arena;
     }
 
-    private String white;
-    private String black;
 
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
-        this.white = white.getEngineName();
+        String whiteName = white.getEngineName();
 
-        this.black = black.getEngineName();
+        String blackName = black.getEngineName();
 
-        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(game.getInitialFen(), this.white, this.black);
+        currentGameId = arena.sequenceId.getAndIncrement();
+
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFen(), whiteName, blackName);
 
         ArenaJMXClient.printInitialStatus(gameDescriptionInitial);
 
-        arena.gameDescriptionInitial = gameDescriptionInitial;
+        arena.initialMap.put(currentGameId, gameDescriptionInitial);
     }
 
 
@@ -57,31 +59,13 @@ public class MatchListenerImp implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(FENEncoder.encodeGame(game), turn, arrayMoveStr);
+        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(currentGameId, FENEncoder.encodeGame(game), turn, arrayMoveStr);
 
         ArenaJMXClient.printCurrentStatus(gameDescriptionCurrent);
 
-        arena.gameDescriptionCurrent = gameDescriptionCurrent;
+        arena.currentMap.put(currentGameId, gameDescriptionCurrent);
 
-        arena.notifyMove(String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare()));
-    }
-
-    @Override
-    public void notifyFinishedGame(Game game) {
-
-            /*
-            PGNGame pgnGame = PGNGame.createFromGame(game);
-            pgnGame.setEvent(String.format("%s vs %s - Match", white.getEngineName(), black.getEngineName()));
-            pgnGame.setWhite(white.getEngineName());
-            pgnGame.setBlack(black.getEngineName());
-
-
-            synchronized (this) {
-                GameDescription gameDescription = gameGameDescriptionMap.get(game);
-                activeGames.remove(gameDescription);
-                inactiveGames.add(gameDescription);
-            }
-             */
+        arena.notifyMove(String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare()), gameDescriptionCurrent);
     }
 
 }

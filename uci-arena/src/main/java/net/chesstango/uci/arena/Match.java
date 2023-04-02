@@ -138,10 +138,6 @@ public class Match {
                 matchListener.notifyExecutedMove(game, move);
             }
         }
-
-        if(matchListener != null) {
-            matchListener.notifyFinishedGame(game);
-        }
     }
 
     public Match setDebugEnabled(boolean debugEnabled) {

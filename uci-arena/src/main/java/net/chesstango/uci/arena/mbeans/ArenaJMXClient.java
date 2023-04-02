@@ -12,6 +12,8 @@ import java.util.Arrays;
 public class ArenaJMXClient {
 
 
+    private int currentGame;
+
     public static void main(String[] args) throws Exception {
         JMXServiceURL url =
                 new JMXServiceURL("service:jmx:rmi:///jndi/rmi://:19999/jmxrmi");
@@ -31,14 +33,15 @@ public class ArenaJMXClient {
 
         mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
 
-        printInitialStatus(arenaProxy.getGameDescriptionInitial());
+        currentGame = 0;
+        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGame));
 
         Thread.sleep(Long.MAX_VALUE);
 
         jmxc.close();
     }
 
-    public static class ClientListener implements NotificationListener {
+    public class ClientListener implements NotificationListener {
 
         @Override
         public void handleNotification(Notification notification,
@@ -46,11 +49,23 @@ public class ArenaJMXClient {
             try {
                 if (notification instanceof MoveNotification) {
                     MoveNotification moveNotification = (MoveNotification) notification;
+                    GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
+
+                    if(gameDescriptionCurrent.getGameId() != currentGame){
+                        System.out.println("--------------------------- NEW GAME ---------------------------");
+
+                        ArenaMBean arenaProxy = (ArenaMBean) handback;
+
+                        currentGame = gameDescriptionCurrent.getGameId();
+
+                        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGame));
+                    }
+
                     System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
+
                     System.out.println("Selected move: " + moveNotification.getMove());
 
-                    GameDescriptionCurrent gameDescriptionInitial = moveNotification.getGameDescriptionCurrent();
-                    printCurrentStatus(gameDescriptionInitial);
+                    printCurrentStatus(gameDescriptionCurrent);
                 }
             } catch (Exception e) {
                 e.printStackTrace(System.err);

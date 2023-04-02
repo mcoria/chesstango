@@ -4,8 +4,9 @@ package net.chesstango.uci.arena.mbeans;
  * @author Mauricio Coria
  */
 public interface ArenaMBean {
-    GameDescriptionInitial getGameDescriptionInitial();
 
-    GameDescriptionCurrent getGameDescriptionCurrent();
+    GameDescriptionInitial getGameDescriptionInitial(int id);
+
+    GameDescriptionCurrent getGameDescriptionCurrent(int id);
 }
 

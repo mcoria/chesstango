@@ -2,26 +2,31 @@ package net.chesstango.uci.arena.mbeans;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Mauricio Coria
  */
 public class Arena extends NotificationBroadcasterSupport implements ArenaMBean {
-
     private AtomicLong sequenceNumber = new AtomicLong();
 
-    protected GameDescriptionInitial gameDescriptionInitial;
-    protected GameDescriptionCurrent gameDescriptionCurrent;
+    protected AtomicInteger sequenceId = new AtomicInteger();
+
+    protected Map<Integer, GameDescriptionInitial> initialMap = new HashMap<>();
+
+    protected Map<Integer, GameDescriptionCurrent> currentMap = new HashMap<>();
 
     @Override
-    public GameDescriptionInitial getGameDescriptionInitial() {
-        return gameDescriptionInitial;
+    public GameDescriptionInitial getGameDescriptionInitial(int id) {
+        return initialMap.get(id);
     }
 
     @Override
-    public GameDescriptionCurrent getGameDescriptionCurrent() {
-        return gameDescriptionCurrent;
+    public GameDescriptionCurrent getGameDescriptionCurrent(int id) {
+        return currentMap.get(id);
     }
 
     public void registerMBean() {
@@ -49,7 +54,7 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     }
 
 
-    public void notifyMove(String move) {
+    public void notifyMove(String move, GameDescriptionCurrent gameDescriptionCurrent) {
         Notification notification =
                 new MoveNotification(this,
                         sequenceNumber.getAndIncrement(),
