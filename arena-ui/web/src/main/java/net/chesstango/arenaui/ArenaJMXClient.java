@@ -5,17 +5,28 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import net.chesstango.mbeans.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Mauricio Coria
  */
+@Component
 public class ArenaJMXClient {
     private String currentGameId;
 
     private JMXConnector jmxc;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     public static void main(String[] args) throws Exception {
         JMXServiceURL url =
@@ -24,7 +35,7 @@ public class ArenaJMXClient {
 
         ArenaJMXClient client = new ArenaJMXClient();
 
-        client.connect("service:jmx:rmi:///jndi/rmi://:19999/jmxrmi");
+        client.connect();
 
         Thread.sleep(Long.MAX_VALUE);
 
@@ -32,9 +43,12 @@ public class ArenaJMXClient {
 
     }
 
-    public void connect(String serviceUrl) throws Exception  {
+    @PostConstruct
+    public void connect() throws Exception  {
+        System.out.println("Connecting to JMX server");
+
         JMXServiceURL url =
-                new JMXServiceURL(serviceUrl);
+                new JMXServiceURL("service:jmx:rmi:///jndi/rmi://:19999/jmxrmi");
 
         jmxc = JMXConnectorFactory.connect(url, null);
 
@@ -51,7 +65,9 @@ public class ArenaJMXClient {
         printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
     }
 
+    @PreDestroy
     private void close() throws IOException {
+        System.out.println("Disconnecting from JMX server");
         jmxc.close();
     }
 
@@ -80,6 +96,11 @@ public class ArenaJMXClient {
                     System.out.println("Selected move: " + moveNotification.getMove());
 
                     printCurrentStatus(gameDescriptionCurrent);
+
+                    final String time = new SimpleDateFormat("HH:mm").format(new Date());
+                    OutputMessage message = new OutputMessage("SERVER", "HOLA FROM SERVER", time);
+                    simpMessagingTemplate.convertAndSend("/topic/pushmessages", message);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace(System.err);

@@ -2,8 +2,8 @@ package net.chesstango.arenaui;
 
 public class Message {
 
-    private String from;
-    private String text;
+    protected String from;
+    protected String text;
 
     public String getText() {
         return text;
