@@ -21,27 +21,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ArenaJMXClient {
-    private String currentGameId;
-
     private JMXConnector jmxc;
+    private ArenaMBean arenaProxy;
+    private String currentGameId;
+    private GameDescriptionInitial gameDescriptionInitial;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-
-    public static void main(String[] args) throws Exception {
-        JMXServiceURL url =
-                new JMXServiceURL("service:jmx:rmi:///jndi/rmi://:19999/jmxrmi");
-
-
-        ArenaJMXClient client = new ArenaJMXClient();
-
-        client.connect();
-
-        Thread.sleep(Long.MAX_VALUE);
-
-        client.close();
-
-    }
 
     @PostConstruct
     public void connect() throws Exception  {
@@ -56,19 +42,29 @@ public class ArenaJMXClient {
 
         ObjectName mbeanName = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
 
-        ArenaMBean arenaProxy = JMX.newMBeanProxy(mbsc, mbeanName, ArenaMBean.class, true);
-
-        mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
+        arenaProxy = JMX.newMBeanProxy(mbsc, mbeanName, ArenaMBean.class, true);
 
         currentGameId = arenaProxy.getCurrentGameId();
 
-        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
+        gameDescriptionInitial = arenaProxy.getGameDescriptionInitial(currentGameId);
+
+        //printInitialStatus(gameDescriptionInitial);
+
+        mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
     }
 
     @PreDestroy
     private void close() throws IOException {
         System.out.println("Disconnecting from JMX server");
         jmxc.close();
+    }
+
+
+    public GameDescriptionInitial getGameDescription(String gameId){
+        if(gameId == null){
+            return gameDescriptionInitial;
+        }
+        return arenaProxy.getGameDescriptionInitial(currentGameId);
     }
 
     public class ClientListener implements NotificationListener {
@@ -88,20 +84,18 @@ public class ArenaJMXClient {
 
                         currentGameId = gameDescriptionCurrent.getGameId();
 
-                        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
+                        //printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
                     }
 
                     System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
 
                     System.out.println("Selected move: " + moveNotification.getMove());
 
-                    printCurrentStatus(gameDescriptionCurrent);
+                    //printCurrentStatus(gameDescriptionCurrent);
 
-                    final String time = new SimpleDateFormat("HH:mm").format(new Date());
-                    OutputMessage message = new OutputMessage("SERVER", "HOLA FROM SERVER", time);
-                    simpMessagingTemplate.convertAndSend("/topic/pushmessages", message);
-
+                    simpMessagingTemplate.convertAndSend("/topic/move_messages", moveNotification);
                 }
+
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
