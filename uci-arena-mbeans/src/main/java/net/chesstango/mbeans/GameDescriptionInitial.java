@@ -17,22 +17,15 @@ public class GameDescriptionInitial implements Serializable {
         this.white = white;
         this.black = black;
     }
-
     public String getGameId() {
         return gameId;
     }
-
     public String getInitialFEN() {
         return initialFEN;
     }
-
-
-
     public String getWhite() {
         return white;
     }
-
-
     public String getBlack() {
         return black;
     }

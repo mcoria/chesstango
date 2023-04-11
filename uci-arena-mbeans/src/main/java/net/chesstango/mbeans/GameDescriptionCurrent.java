@@ -10,11 +10,13 @@ public class GameDescriptionCurrent implements Serializable {
     private final String currentFEN;
     private final String turn;
     private final String[] moveList;
+    private final String lastMove;
 
-    public GameDescriptionCurrent(String gameId, String currentFEN, String turn, String[] moveList) {
+    public GameDescriptionCurrent(String gameId, String currentFEN, String turn, String lastMove, String[] moveList) {
         this.gameId = gameId;
         this.currentFEN = currentFEN;
         this.turn = turn;
+        this.lastMove = lastMove;
         this.moveList = moveList;
     }
 
@@ -28,6 +30,10 @@ public class GameDescriptionCurrent implements Serializable {
 
     public String getTurn() {
         return turn;
+    }
+
+    public String getLastMove() {
+        return lastMove;
     }
 
     public String[] getMoves() {

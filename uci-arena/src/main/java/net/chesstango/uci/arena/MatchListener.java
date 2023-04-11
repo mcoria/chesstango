@@ -10,6 +10,6 @@ import net.chesstango.uci.gui.EngineController;
 public interface MatchListener {
     void notifyNewGame(Game game, EngineController white, EngineController black);
 
-    void notifyExecutedMove(Game game, Move move);
+    void notifyMove(Game game, Move move);
 
 }

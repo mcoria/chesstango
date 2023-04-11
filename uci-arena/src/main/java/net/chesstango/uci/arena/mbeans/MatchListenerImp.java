@@ -2,8 +2,6 @@ package net.chesstango.uci.arena.mbeans;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.GameStateReader;
-import net.chesstango.board.GameVisitor;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
@@ -46,15 +44,12 @@ public class MatchListenerImp implements MatchListener {
 
 
     @Override
-    public void notifyExecutedMove(Game game, Move move) {
+    public void notifyMove(Game game, Move move) {
         List<String> theMoves = new ArrayList<>();
-        game.accept(new GameVisitor() {
-            @Override
-            public void visit(GameStateReader gameState) {
-                Move move = gameState.getSelectedMove();
-                if (move != null) {
-                    theMoves.add(encodeMove(move));
-                }
+        game.accept(gameState -> {
+            Move move1 = gameState.getSelectedMove();
+            if (move1 != null) {
+                theMoves.add(encodeMove(move1));
             }
         });
 
@@ -62,11 +57,11 @@ public class MatchListenerImp implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(arena.getCurrentGameId(), FENEncoder.encodeGame(game), turn, arrayMoveStr);
+        String lastMove = encodeMove(move);
 
-        arena.updateDescriptionCurrent(gameDescriptionCurrent, encodeMove(move));
+        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(arena.getCurrentGameId(), FENEncoder.encodeGame(game), turn, lastMove, arrayMoveStr);
 
-        System.out.println(String.format("Selected move: %s", encodeMove(move)));
+        arena.newMove(gameDescriptionCurrent);
 
         ArenaJMXClient.printCurrentStatus(gameDescriptionCurrent);
     }

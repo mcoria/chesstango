@@ -37,29 +37,29 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
 
     @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
-        String[] moveTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
-        String moveClassName = MoveNotification.class.getName();
-        String moveDescription = "A move has been selected";
-        MBeanNotificationInfo moveInfo = new MBeanNotificationInfo(moveTypes, moveClassName, moveDescription);
-
         String[] gameTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
         String gameName = GameNotification.class.getName();
         String gameDescription = "A move has been selected";
         MBeanNotificationInfo gameInfo = new MBeanNotificationInfo(gameTypes, gameName, gameDescription);
 
-        return new MBeanNotificationInfo[]{moveInfo, gameInfo};
+        String[] moveTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
+        String moveClassName = MoveNotification.class.getName();
+        String moveDescription = "A move has been selected";
+        MBeanNotificationInfo moveInfo = new MBeanNotificationInfo(moveTypes, moveClassName, moveDescription);
+
+        return new MBeanNotificationInfo[]{gameInfo, moveInfo};
     }
 
 
     public void newGame(GameDescriptionInitial gameDescriptionInitial) {
         currentGameId = gameDescriptionInitial.getGameId();
         initialMap.put(currentGameId, gameDescriptionInitial);
-        notifyGame(gameDescriptionInitial);
+        notifyNewGame(gameDescriptionInitial);
     }
 
-    public void updateDescriptionCurrent(GameDescriptionCurrent gameDescriptionCurrent, String moveStr) {
+    public void newMove(GameDescriptionCurrent gameDescriptionCurrent) {
         currentMap.put(gameDescriptionCurrent.getGameId(), gameDescriptionCurrent);
-        notifyMove(moveStr, gameDescriptionCurrent);
+        notifyMove(gameDescriptionCurrent);
     }
 
 
@@ -77,17 +77,7 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     }
 
 
-    protected void notifyMove(String move, GameDescriptionCurrent gameDescriptionCurrent) {
-        Notification notification =
-                new MoveNotification(this,
-                        sequenceNumber.getAndIncrement(),
-                        move,
-                        gameDescriptionCurrent);
-
-        sendNotification(notification);
-    }
-
-    private void notifyGame(GameDescriptionInitial gameDescriptionInitial) {
+    protected void notifyNewGame(GameDescriptionInitial gameDescriptionInitial) {
         Notification notification =
                 new GameNotification(this,
                         sequenceNumber.getAndIncrement(),
@@ -95,5 +85,16 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
 
         sendNotification(notification);
     }
+
+    protected void notifyMove(GameDescriptionCurrent gameDescriptionCurrent) {
+        Notification notification =
+                new MoveNotification(this,
+                        sequenceNumber.getAndIncrement(),
+                        gameDescriptionCurrent.getLastMove(),
+                        gameDescriptionCurrent);
+
+        sendNotification(notification);
+    }
+
 }
 
