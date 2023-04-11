@@ -2,9 +2,9 @@ package net.chesstango.mbeans;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -13,11 +13,11 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Arena extends NotificationBroadcasterSupport implements ArenaMBean {
     private AtomicLong sequenceNumber = new AtomicLong();
 
-    private String currentGameId;
+    private volatile String currentGameId;
 
-    private Map<String, GameDescriptionInitial> initialMap = new HashMap<>();
+    private Map<String, GameDescriptionInitial> initialMap = Collections.synchronizedMap(new HashMap<>());
 
-    private Map<String, GameDescriptionCurrent> currentMap = new HashMap<>();
+    private Map<String, GameDescriptionCurrent> currentMap = Collections.synchronizedMap(new HashMap<>());
 
     @Override
     public String getCurrentGameId() {
@@ -25,44 +25,41 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     }
 
     @Override
-    public GameDescriptionInitial getGameDescriptionInitial(String id) {
-        return initialMap.get(id);
+    public GameDescriptionInitial getGameDescriptionInitial(String gameId) {
+        return initialMap.get(gameId);
     }
 
     @Override
-    public GameDescriptionCurrent getGameDescriptionCurrent(String id) {
-        return currentMap.get(id);
+    public GameDescriptionCurrent getGameDescriptionCurrent(String gameId) {
+        return currentMap.get(gameId);
     }
 
 
     @Override
     public MBeanNotificationInfo[] getNotificationInfo() {
-        String[] types = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
-        String name = MoveNotification.class.getName();
-        String description = "A move has been selected";
-        MBeanNotificationInfo info = new MBeanNotificationInfo(types, name, description);
+        String[] moveTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
+        String moveClassName = MoveNotification.class.getName();
+        String moveDescription = "A move has been selected";
+        MBeanNotificationInfo moveInfo = new MBeanNotificationInfo(moveTypes, moveClassName, moveDescription);
 
-        return new MBeanNotificationInfo[]{info};
+        String[] gameTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
+        String gameName = GameNotification.class.getName();
+        String gameDescription = "A move has been selected";
+        MBeanNotificationInfo gameInfo = new MBeanNotificationInfo(gameTypes, gameName, gameDescription);
+
+        return new MBeanNotificationInfo[]{moveInfo, gameInfo};
     }
 
 
-    public void notifyMove(String move, GameDescriptionCurrent gameDescriptionCurrent) {
-        Notification notification =
-                new MoveNotification(this,
-                        sequenceNumber.getAndIncrement(),
-                        move,
-                        gameDescriptionCurrent);
-
-        sendNotification(notification);
+    public void newGame(GameDescriptionInitial gameDescriptionInitial) {
+        currentGameId = gameDescriptionInitial.getGameId();
+        initialMap.put(currentGameId, gameDescriptionInitial);
+        notifyGame(gameDescriptionInitial);
     }
 
-    public void putNewGame(String gameId, GameDescriptionInitial gameDescriptionInitial) {
-        initialMap.put(gameId, gameDescriptionInitial);
-    }
-
-    public void updateDescriptionCurrent(String gameId, GameDescriptionCurrent gameDescriptionCurrent) {
-        currentGameId = gameId;
-        currentMap.put(gameId, gameDescriptionCurrent);
+    public void updateDescriptionCurrent(GameDescriptionCurrent gameDescriptionCurrent, String moveStr) {
+        currentMap.put(gameDescriptionCurrent.getGameId(), gameDescriptionCurrent);
+        notifyMove(moveStr, gameDescriptionCurrent);
     }
 
 
@@ -77,6 +74,26 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
             e.printStackTrace(System.err);
             throw new RuntimeException(e);
         }
+    }
+
+
+    protected void notifyMove(String move, GameDescriptionCurrent gameDescriptionCurrent) {
+        Notification notification =
+                new MoveNotification(this,
+                        sequenceNumber.getAndIncrement(),
+                        move,
+                        gameDescriptionCurrent);
+
+        sendNotification(notification);
+    }
+
+    private void notifyGame(GameDescriptionInitial gameDescriptionInitial) {
+        Notification notification =
+                new GameNotification(this,
+                        sequenceNumber.getAndIncrement(),
+                        gameDescriptionInitial);
+
+        sendNotification(notification);
     }
 }
 

@@ -8,8 +8,8 @@ import javax.management.MXBean;
 public interface ArenaMBean {
     String getCurrentGameId();
 
-    GameDescriptionInitial getGameDescriptionInitial(String id);
+    GameDescriptionInitial getGameDescriptionInitial(String gameId);
 
-    GameDescriptionCurrent getGameDescriptionCurrent(String id);
+    GameDescriptionCurrent getGameDescriptionCurrent(String gameId);
 }
 

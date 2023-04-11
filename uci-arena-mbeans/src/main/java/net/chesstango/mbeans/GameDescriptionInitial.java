@@ -11,8 +11,6 @@ public class GameDescriptionInitial implements Serializable {
     protected final String white;
     protected final String black;
 
-
-
     public GameDescriptionInitial(String gameId, String initialFEN, String white, String black) {
         this.gameId = gameId;
         this.initialFEN = initialFEN;

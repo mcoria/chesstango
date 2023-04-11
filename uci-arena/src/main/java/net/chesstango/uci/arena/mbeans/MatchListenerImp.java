@@ -24,8 +24,6 @@ public class MatchListenerImp implements MatchListener {
 
     private final Arena arena;
 
-    private String currentGameId;
-
     public MatchListenerImp(Arena arena) {
         this.arena = arena;
     }
@@ -39,13 +37,11 @@ public class MatchListenerImp implements MatchListener {
 
         UUID uuid = UUID.randomUUID();
 
-        currentGameId = uuid.toString();
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(uuid.toString(), game.getInitialFen(), whiteName, blackName);
 
-        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFen(), whiteName, blackName);
+        arena.newGame(gameDescriptionInitial);
 
         ArenaJMXClient.printInitialStatus(gameDescriptionInitial);
-
-        arena.putNewGame(currentGameId, gameDescriptionInitial);
     }
 
 
@@ -57,7 +53,7 @@ public class MatchListenerImp implements MatchListener {
             public void visit(GameStateReader gameState) {
                 Move move = gameState.getSelectedMove();
                 if (move != null) {
-                    theMoves.add(String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare()));
+                    theMoves.add(encodeMove(move));
                 }
             }
         });
@@ -66,13 +62,17 @@ public class MatchListenerImp implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(currentGameId, FENEncoder.encodeGame(game), turn, arrayMoveStr);
+        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(arena.getCurrentGameId(), FENEncoder.encodeGame(game), turn, arrayMoveStr);
+
+        arena.updateDescriptionCurrent(gameDescriptionCurrent, encodeMove(move));
+
+        System.out.println(String.format("Selected move: %s", encodeMove(move)));
 
         ArenaJMXClient.printCurrentStatus(gameDescriptionCurrent);
+    }
 
-        arena.updateDescriptionCurrent(currentGameId, gameDescriptionCurrent);
-
-        arena.notifyMove(String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare()), gameDescriptionCurrent);
+    protected String encodeMove(Move move){
+        return String.format("%s-%s", move.getFrom().getSquare(), move.getTo().getSquare());
     }
 
 }

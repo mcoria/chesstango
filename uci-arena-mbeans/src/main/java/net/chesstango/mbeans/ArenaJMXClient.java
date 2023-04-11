@@ -10,7 +10,6 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class ArenaJMXClient {
-    private String currentGame;
 
     public static void main(String[] args) throws Exception {
         JMXServiceURL url =
@@ -31,9 +30,12 @@ public class ArenaJMXClient {
 
         mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
 
-        currentGame = arenaProxy.getCurrentGameId();
+        String currentGameId = arenaProxy.getCurrentGameId();
 
-        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGame));
+        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
+
+        printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGameId));
+
 
         Thread.sleep(Long.MAX_VALUE);
 
@@ -46,23 +48,30 @@ public class ArenaJMXClient {
         public void handleNotification(Notification notification,
                                        Object handback) {
             try {
+                if (notification instanceof GameNotification) {
+                    System.out.println("--------------------------- NEW GAME --------------------------------------");
+
+                    GameNotification gameNotification = (GameNotification) notification;
+
+                    GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
+
+                    System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
+
+                    System.out.println("Game ID: " + gameNotification.getUserData());
+
+                    //currentGame = (String) gameNotification.getUserData();
+
+                    printInitialStatus(gameDescriptionInitial);
+                }
+
                 if (notification instanceof MoveNotification) {
                     MoveNotification moveNotification = (MoveNotification) notification;
+
                     GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
-
-                    if(!gameDescriptionCurrent.getGameId().equals(currentGame)){
-                        System.out.println("--------------------------- NEW GAME ---------------------------");
-
-                        ArenaMBean arenaProxy = (ArenaMBean) handback;
-
-                        currentGame = gameDescriptionCurrent.getGameId();
-
-                        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGame));
-                    }
 
                     System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
 
-                    System.out.println("Selected move: " + moveNotification.getMove());
+                    System.out.println("Selected move: " + moveNotification.getUserData());
 
                     printCurrentStatus(gameDescriptionCurrent);
                 }
