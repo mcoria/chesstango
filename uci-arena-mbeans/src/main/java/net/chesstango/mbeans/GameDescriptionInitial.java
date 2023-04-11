@@ -10,12 +10,14 @@ public class GameDescriptionInitial implements Serializable {
     protected final String initialFEN;
     protected final String white;
     protected final String black;
+    private final String turn;
 
-    public GameDescriptionInitial(String gameId, String initialFEN, String white, String black) {
+    public GameDescriptionInitial(String gameId, String initialFEN, String white, String black, String turn) {
         this.gameId = gameId;
         this.initialFEN = initialFEN;
         this.white = white;
         this.black = black;
+        this.turn = turn;
     }
     public String getGameId() {
         return gameId;
@@ -29,4 +31,9 @@ public class GameDescriptionInitial implements Serializable {
     public String getBlack() {
         return black;
     }
+
+    public String getTurn() {
+        return turn;
+    }
+
 }

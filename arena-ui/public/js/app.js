@@ -44,22 +44,38 @@ function loadCurrentGame(response) {
     var gameDescriptionCurrent = response.gameDescriptionCurrent;
 
     currentGameId = gameDescriptionInitial.gameId;
+    $("#blackName").text(gameDescriptionInitial.black);
+    $("#whiteName").text(gameDescriptionInitial.white);
 
     if(gameDescriptionCurrent == null){
         movesCounter = 0;
         board = Chessboard('myBoard', gameDescriptionInitial.initialFEN);
+        showTurn(gameDescriptionInitial.turn);
     } else {
         movesCounter = gameDescriptionCurrent.moves.length;
         board = Chessboard('myBoard', gameDescriptionCurrent.currentFEN);
+        showTurn(gameDescriptionCurrent.turn);
     }
 }
 
+function showTurn(turn){
+    if(turn == 'white'){
+        $("#blackTurn").text('');
+        $("#whiteTurn").text('X');
+    } else {
+        $("#blackTurn").text('X');
+        $("#whiteTurn").text('');
+    }
+}
 
 function showNewGame(gameNotification) {
     console.log('Loading new game');
     var gameDescriptionInitial = gameNotification.gameDescriptionInitial;
 
     currentGameId = gameDescriptionInitial.gameId;
+    $("#blackName").text(gameDescriptionInitial.black);
+    $("#whiteName").text(gameDescriptionInitial.white);
+
     movesCounter = 0;
     board = Chessboard('myBoard', gameDescriptionInitial.initialFEN);
 }
@@ -71,6 +87,7 @@ function showMove(moveNotification) {
         if(movesCounter + 1 == gameDescriptionCurrent.moves.length) {
             board.move(moveNotification.userData);
             movesCounter = movesCounter + 1;
+            showTurn(gameDescriptionCurrent.turn);
         } else {
             refresh();
         }

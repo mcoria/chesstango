@@ -29,13 +29,15 @@ public class MatchListenerImp implements MatchListener {
 
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
+        UUID uuid = UUID.randomUUID();
+
         String whiteName = white.getEngineName();
 
         String blackName = black.getEngineName();
 
-        UUID uuid = UUID.randomUUID();
+        String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(uuid.toString(), game.getInitialFen(), whiteName, blackName);
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(uuid.toString(), game.getInitialFen(), whiteName, blackName, turn);
 
         arena.newGame(gameDescriptionInitial);
 
