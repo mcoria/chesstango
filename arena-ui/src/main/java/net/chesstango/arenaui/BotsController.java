@@ -1,29 +1,47 @@
 package net.chesstango.arenaui;
 
+import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+/**
+ * @author Mauricio Coria
+ */
 @Controller
 public class BotsController {
-
     @Autowired
     private ArenaJMXClient arenaJMXClient;
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/game_retrieve")
-    @SendTo("/topic/game_messages")
-    public GameDescriptionInitial retrieveGame(final GetGameById payload) {
-        System.out.println(String.format("retrieveGame: %s", payload.getGameId()));
-        return arenaJMXClient.getGameDescription(payload.getGameId());
+    @MessageMapping("/retrieve_game")
+    @SendTo("/topic/current_game")
+    public JsonResponse retrieveGame() {
+        String currentGameId = arenaJMXClient.getCurrentGameId();
+
+        return new JsonResponse(arenaJMXClient.getGameDescriptionInitial(currentGameId), arenaJMXClient.getGameDescriptionCurrent(currentGameId));
+    }
+
+    public static class JsonResponse{
+
+        private final GameDescriptionInitial gameDescriptionInitial;
+
+        private final GameDescriptionCurrent gameDescriptionCurrent;
+
+        public JsonResponse(GameDescriptionInitial gameDescriptionInitial, GameDescriptionCurrent gameDescriptionCurrent) {
+            this.gameDescriptionInitial = gameDescriptionInitial;
+            this.gameDescriptionCurrent = gameDescriptionCurrent;
+        }
+
+        public GameDescriptionInitial getGameDescriptionInitial() {
+            return gameDescriptionInitial;
+        }
+
+        public GameDescriptionCurrent getGameDescriptionCurrent() {
+            return gameDescriptionCurrent;
+        }
     }
 
 }

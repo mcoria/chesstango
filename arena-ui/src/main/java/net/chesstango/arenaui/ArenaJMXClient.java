@@ -1,14 +1,5 @@
 package net.chesstango.arenaui;
 
-import javax.management.*;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import net.chesstango.mbeans.*;
@@ -16,21 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.management.*;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.io.IOException;
+import java.util.Arrays;
+
 /**
  * @author Mauricio Coria
  */
 @Component
-public class ArenaJMXClient {
+public class ArenaJMXClient implements NotificationListener, ArenaMBean {
     private JMXConnector jmxc;
     private ArenaMBean arenaProxy;
-    private String currentGameId;
-    private GameDescriptionInitial gameDescriptionInitial;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @PostConstruct
-    public void connect() throws Exception  {
+    public void connect() throws Exception {
         System.out.println("Connecting to JMX server");
 
         JMXServiceURL url =
@@ -44,13 +40,7 @@ public class ArenaJMXClient {
 
         arenaProxy = JMX.newMBeanProxy(mbsc, mbeanName, ArenaMBean.class, true);
 
-        currentGameId = arenaProxy.getCurrentGameId();
-
-        gameDescriptionInitial = arenaProxy.getGameDescriptionInitial(currentGameId);
-
-        //printInitialStatus(gameDescriptionInitial);
-
-        mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
+        mbsc.addNotificationListener(mbeanName, this, null, arenaProxy);
     }
 
     @PreDestroy
@@ -59,48 +49,58 @@ public class ArenaJMXClient {
         jmxc.close();
     }
 
-
-    public GameDescriptionInitial getGameDescription(String gameId){
-        if(gameId == null){
-            return gameDescriptionInitial;
-        }
-        return arenaProxy.getGameDescriptionInitial(currentGameId);
+    @Override
+    public String getCurrentGameId() {
+        return arenaProxy.getCurrentGameId();
     }
 
-    public class ClientListener implements NotificationListener {
+    public GameDescriptionInitial getGameDescriptionInitial(String gameId) {
+        return arenaProxy.getGameDescriptionInitial(gameId);
+    }
 
-        @Override
-        public void handleNotification(Notification notification,
-                                       Object handback) {
-            try {
-                if (notification instanceof MoveNotification) {
-                    MoveNotification moveNotification = (MoveNotification) notification;
-                    GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
+    @Override
+    public GameDescriptionCurrent getGameDescriptionCurrent(String gameId) {
+        return arenaProxy.getGameDescriptionCurrent(gameId);
+    }
 
-                    if(!gameDescriptionCurrent.getGameId().equals(currentGameId)){
-                        System.out.println("--------------------------- NEW GAME ---------------------------");
 
-                        ArenaMBean arenaProxy = (ArenaMBean) handback;
+    @Override
+    public void handleNotification(Notification notification,
+                                   Object handback) {
 
-                        currentGameId = gameDescriptionCurrent.getGameId();
+        try {
+            if (notification instanceof GameNotification) {
+                System.out.println("--------------------------- NEW GAME --------------------------------------");
 
-                        //printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
-                    }
+                GameNotification gameNotification = (GameNotification) notification;
 
-                    System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
+                GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
 
-                    System.out.println("Selected move: " + moveNotification.getMove());
+                System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
 
-                    //printCurrentStatus(gameDescriptionCurrent);
+                System.out.println("Game ID: " + gameNotification.getUserData());
 
-                    simpMessagingTemplate.convertAndSend("/topic/move_messages", moveNotification);
-                }
+                printInitialStatus(gameDescriptionInitial);
 
-            } catch (Exception e) {
-                e.printStackTrace(System.err);
+                notifyNewGame(gameNotification);
             }
-        }
 
+            if (notification instanceof MoveNotification) {
+                MoveNotification moveNotification = (MoveNotification) notification;
+                GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
+
+                System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
+
+                System.out.println("Selected move: " + moveNotification.getUserData());
+
+                printCurrentStatus(gameDescriptionCurrent);
+
+                notifyMove(moveNotification);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void printInitialStatus(GameDescriptionInitial gameDescriptionInitial) {
@@ -114,5 +114,13 @@ public class ArenaJMXClient {
         System.out.println(String.format("Moves = %s", Arrays.toString(gameDescriptionCurrent.getMoves())));
         System.out.println(String.format("Turn = %s", gameDescriptionCurrent.getTurn()));
         System.out.println(String.format("---------------------------------------------------------------------------"));
+    }
+
+    protected void notifyNewGame(GameNotification gameNotification) {
+        simpMessagingTemplate.convertAndSend("/topic/game_messages", gameNotification);
+    }
+
+    protected void notifyMove(MoveNotification moveNotification) {
+        simpMessagingTemplate.convertAndSend("/topic/move_messages", moveNotification);
     }
 }

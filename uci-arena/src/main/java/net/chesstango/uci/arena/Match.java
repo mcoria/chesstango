@@ -135,7 +135,14 @@ public class Match {
             currentTurn = (currentTurn == white ? black : white);
 
             if(matchListener != null) {
-                matchListener.notifyExecutedMove(game, move);
+                matchListener.notifyMove(game, move);
+            }
+
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
