@@ -22,7 +22,7 @@ function connect() {
             loadCurrentGame(JSON.parse(message.body));
         });
 
-        stompClient.send("/app/retrieve_game", {}, {});
+        refresh();
     });
 }
 
@@ -32,6 +32,10 @@ function disconnect() {
     }
     setConnected(false);
     console.log("Disconnected");
+}
+
+function refresh() {
+    stompClient.send("/app/retrieve_game", {}, {});
 }
 
 function loadCurrentGame(response) {
@@ -68,14 +72,15 @@ function showMove(moveNotification) {
             board.move(moveNotification.userData);
             movesCounter = movesCounter + 1;
         } else {
-            stompClient.send("/app/retrieve_game", {}, {});
+            refresh();
         }
     } else {
-        stompClient.send("/app/retrieve_game", {}, {});
+        refresh();
     }
 }
 
 function setConnected(connected) {
     document.getElementById('connect').disabled = connected;
     document.getElementById('disconnect').disabled = !connected;
+    document.getElementById('refresh').disabled = !connected;
 }
