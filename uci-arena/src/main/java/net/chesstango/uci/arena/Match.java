@@ -42,6 +42,11 @@ public class Match {
         this.switchChairs = true;
     }
 
+    public Match setMatchListener(MatchListener matchListener) {
+        this.matchListener = matchListener;
+        return this;
+    }
+
     public List<GameResult> play(List<String> fenList) {
         List<GameResult> result = new ArrayList<>();
 
@@ -75,15 +80,16 @@ public class Match {
         return result;
     }
 
-
     protected GameResult play(EngineController white, EngineController black) {
         setChairs(white, black);
+
+        startNewGame();
 
         compete();
 
         GameResult gameResult = createResult();
 
-        if(matchListener != null ) {
+        if (matchListener != null) {
             matchListener.notifyEndGame(gameResult);
         }
 
@@ -105,17 +111,17 @@ public class Match {
             currentTurn = black;
         }
 
-        if(matchListener != null) {
+        if (matchListener != null) {
             matchListener.notifyNewGame(game, white, black);
         }
 
-        startNewGame();
         while (game.getStatus().isInProgress()) {
+
             String moveStr = retrieveBestMoveFromController(currentTurn, executedMovesStr);
 
             Move move = UCIEncoder.selectMove(game.getPossibleMoves(), moveStr);
 
-            if(move == null){
+            if (move == null) {
                 printDebug(System.err);
                 throw new RuntimeException(String.format("No move found %s", moveStr));
             }
@@ -126,18 +132,9 @@ public class Match {
 
             currentTurn = (currentTurn == white ? black : white);
 
-            if(matchListener != null) {
+            if (matchListener != null) {
                 matchListener.notifyMove(game, move);
             }
-
-            /*
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-             */
-
         }
     }
 
@@ -288,11 +285,5 @@ public class Match {
             case KING_WHITE -> 10;
             case KING_BLACK -> -10;
         };
-    }
-
-
-    public Match setMatchListener(MatchListener matchListener) {
-        this.matchListener = matchListener;
-        return this;
     }
 }

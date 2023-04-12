@@ -30,7 +30,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 6;
+    private static final int DEPTH = 3;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -152,12 +152,10 @@ public class MatchMain implements MatchListener {
 
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
-
     }
 
     @Override
     public void notifyMove(Game game, Move move) {
-
     }
 
     @Override
