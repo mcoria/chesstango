@@ -5,9 +5,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.mbeans.Arena;
-import net.chesstango.mbeans.ArenaJMXClient;
 import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
+import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.gui.EngineController;
 
@@ -40,8 +40,6 @@ public class MatchListenerImp implements MatchListener {
         GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(uuid.toString(), game.getInitialFen(), whiteName, blackName, turn);
 
         arena.newGame(gameDescriptionInitial);
-
-        ArenaJMXClient.printInitialStatus(gameDescriptionInitial);
     }
 
 
@@ -64,11 +62,15 @@ public class MatchListenerImp implements MatchListener {
         GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(arena.getCurrentGameId(), FENEncoder.encodeGame(game), turn, lastMove, arrayMoveStr);
 
         arena.newMove(gameDescriptionCurrent);
-
-        ArenaJMXClient.printCurrentStatus(gameDescriptionCurrent);
     }
 
-    protected String encodeMove(Move move){
+    @Override
+    public void notifyEndGame(GameResult gameResult) {
+
+    }
+
+    // TODO: obviously some moves are not encoded properly
+    protected String encodeMove(Move move) {
         return String.format("%s-%s", move.getFrom().getSquare(), move.getTo().getSquare());
     }
 

@@ -1,5 +1,7 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.evaluation.GameEvaluator;
@@ -27,8 +29,8 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MatchMain {
-    private static final int DEPTH = 5;
+public class MatchMain implements MatchListener {
+    private static final int DEPTH = 6;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -40,10 +42,9 @@ public class MatchMain {
                 .setLogging(false))
                 .overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
-        List<GameResult> matchResult = new MatchMain().play(engineController1, engineController2);
+        List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
-
         new GameReports()
                 .printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
 
@@ -63,24 +64,33 @@ public class MatchMain {
          */
     }
 
+    private final Arena arenaMBean;
+    private final EngineController engineController1;
+    private final EngineController engineController2;
+
+    public MatchMain(EngineController engineController1, EngineController engineController2) {
+        this.arenaMBean = new Arena();
+        this.engineController1 = engineController1;
+        this.engineController2 = engineController2;
+    }
+
     private static List<String> getFenList() {
         //return Arrays.asList(FENDecoder.INITIAL_FEN);
         //return Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
     }
 
-    private List<GameResult> play(EngineController engineController1, EngineController engineController2) {
-        Arena arenaMBean = new Arena();
-
+    private List<GameResult> play() {
+        arenaMBean.registerMBean();
 
         Match match = new Match(engineController1, engineController2, DEPTH)
-                    .setDebugEnabled(MATCH_DEBUG)
-                    .switchChairs(true)
-                    .perCompletedGame(this::save)
-                    .setMatchListener(new MatchListenerImp(arenaMBean));
-
-        arenaMBean.registerMBean();
+                .setDebugEnabled(MATCH_DEBUG)
+                .switchChairs(true)
+                .setMatchListener(new MatchBroadcaster()
+                        .addListener(new MatchListenerImp(arenaMBean))
+                        .addListener(this)
+                );
 
         startEngines(engineController1, engineController2);
 
@@ -93,7 +103,17 @@ public class MatchMain {
         return matchResult;
     }
 
-    private void save(GameResult gameResult) {
+    public void startEngines(EngineController engine1, EngineController engine2) {
+        engine1.startEngine();
+        engine2.startEngine();
+    }
+
+    public void quitEngines(EngineController engine1, EngineController engine2) {
+        engine1.send_CmdQuit();
+        engine2.send_CmdQuit();
+    }
+
+    private static void save(GameResult gameResult) {
         PGNEncoder encoder = new PGNEncoder();
         String encodedGame = encoder.encode(gameResult.getPgnGame());
 
@@ -130,13 +150,18 @@ public class MatchMain {
         return new EngineTango(search);
     }
 
-    public void startEngines(EngineController engine1, EngineController engine2) {
-        engine1.startEngine();
-        engine2.startEngine();
+    @Override
+    public void notifyNewGame(Game game, EngineController white, EngineController black) {
+
     }
 
-    public void quitEngines(EngineController engine1, EngineController engine2) {
-        engine1.send_CmdQuit();
-        engine2.send_CmdQuit();
+    @Override
+    public void notifyMove(Game game, Move move) {
+
+    }
+
+    @Override
+    public void notifyEndGame(GameResult gameResult) {
+        save(gameResult);
     }
 }

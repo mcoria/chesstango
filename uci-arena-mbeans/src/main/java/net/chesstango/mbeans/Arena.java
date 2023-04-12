@@ -39,7 +39,7 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     public MBeanNotificationInfo[] getNotificationInfo() {
         String[] gameTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};
         String gameName = GameNotification.class.getName();
-        String gameDescription = "A move has been selected";
+        String gameDescription = "A new game has started";
         MBeanNotificationInfo gameInfo = new MBeanNotificationInfo(gameTypes, gameName, gameDescription);
 
         String[] moveTypes = new String[]{MoveNotification.ATTRIBUTE_CHANGE};

@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class ArenaJMXClient {
+public class ArenaJMXClient implements NotificationListener {
 
     public static void main(String[] args) throws Exception {
         JMXServiceURL url =
@@ -19,7 +19,7 @@ public class ArenaJMXClient {
 
     }
 
-    public void connect(JMXServiceURL url) throws Exception  {
+    public void connect(JMXServiceURL url) throws Exception {
         JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
 
         MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
@@ -28,7 +28,7 @@ public class ArenaJMXClient {
 
         ArenaMBean arenaProxy = JMX.newMBeanProxy(mbsc, mbeanName, ArenaMBean.class, true);
 
-        mbsc.addNotificationListener(mbeanName, new ClientListener(), null, arenaProxy);
+        mbsc.addNotificationListener(mbeanName, this, null, arenaProxy);
 
         String currentGameId = arenaProxy.getCurrentGameId();
 
@@ -36,50 +36,46 @@ public class ArenaJMXClient {
 
         printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGameId));
 
-
         Thread.sleep(Long.MAX_VALUE);
 
         jmxc.close();
     }
 
-    public class ClientListener implements NotificationListener {
 
-        @Override
-        public void handleNotification(Notification notification,
-                                       Object handback) {
-            try {
-                if (notification instanceof GameNotification) {
-                    System.out.println("--------------------------- NEW GAME --------------------------------------");
+    @Override
+    public void handleNotification(Notification notification,
+                                   Object handback) {
+        try {
+            if (notification instanceof GameNotification) {
+                System.out.println("--------------------------- NEW GAME --------------------------------------");
 
-                    GameNotification gameNotification = (GameNotification) notification;
+                GameNotification gameNotification = (GameNotification) notification;
 
-                    GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
+                GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
 
-                    System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
+                System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
 
-                    System.out.println("Game ID: " + gameNotification.getUserData());
+                System.out.println("Game ID: " + gameNotification.getUserData());
 
-                    //currentGame = (String) gameNotification.getUserData();
+                //currentGame = (String) gameNotification.getUserData();
 
-                    printInitialStatus(gameDescriptionInitial);
-                }
-
-                if (notification instanceof MoveNotification) {
-                    MoveNotification moveNotification = (MoveNotification) notification;
-
-                    GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
-
-                    System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
-
-                    System.out.println("Selected move: " + moveNotification.getUserData());
-
-                    printCurrentStatus(gameDescriptionCurrent);
-                }
-            } catch (Exception e) {
-                e.printStackTrace(System.err);
+                printInitialStatus(gameDescriptionInitial);
             }
-        }
 
+            if (notification instanceof MoveNotification) {
+                MoveNotification moveNotification = (MoveNotification) notification;
+
+                GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
+
+                System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
+
+                System.out.println("Selected move: " + moveNotification.getUserData());
+
+                printCurrentStatus(gameDescriptionCurrent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     public static void printInitialStatus(GameDescriptionInitial gameDescriptionInitial) {

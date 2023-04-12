@@ -33,7 +33,6 @@ public class Match {
     private Game game;
     private boolean debugEnabled;
     private boolean switchChairs;
-    private Consumer<GameResult> gameResultConsumer;
     private MatchListener matchListener;
 
 
@@ -70,8 +69,8 @@ public class Match {
 
             result.add(gameResult);
 
-            if(gameResultConsumer != null ) {
-                gameResultConsumer.accept(gameResult);
+            if(matchListener != null ) {
+                matchListener.notifyEndGame(gameResult);
             }
 
             if (switchChairs) {
@@ -83,8 +82,8 @@ public class Match {
 
                 result.add(gameResult);
 
-                if(gameResultConsumer != null ) {
-                    gameResultConsumer.accept(gameResult);
+                if(matchListener != null ) {
+                    matchListener.notifyEndGame(gameResult);
                 }
             }
 
@@ -138,12 +137,14 @@ public class Match {
                 matchListener.notifyMove(game, move);
             }
 
-
+            /*
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+             */
+
         }
     }
 
@@ -296,10 +297,6 @@ public class Match {
         };
     }
 
-    public Match perCompletedGame(Consumer<GameResult> gameResultConsumer) {
-        this.gameResultConsumer = gameResultConsumer;
-        return this;
-    }
 
     public Match setMatchListener(MatchListener matchListener) {
         this.matchListener = matchListener;
