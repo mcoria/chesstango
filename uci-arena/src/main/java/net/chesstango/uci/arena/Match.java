@@ -17,7 +17,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -54,37 +53,15 @@ public class Match {
     }
 
     public List<GameResult> play(String fen) {
-        GameResult gameResult = null;
         List<GameResult> result = new ArrayList<>();
 
         try {
-
             setFen(fen);
 
-            setChairs(controller1, controller2);
-
-            compete();
-
-            gameResult = createResult();
-
-            result.add(gameResult);
-
-            if(matchListener != null ) {
-                matchListener.notifyEndGame(gameResult);
-            }
+            result.add(play(controller1, controller2));
 
             if (switchChairs) {
-                setChairs(controller2, controller1);
-
-                compete();
-
-                gameResult = createResult();
-
-                result.add(gameResult);
-
-                if(matchListener != null ) {
-                    matchListener.notifyEndGame(gameResult);
-                }
+                result.add(play(controller2, controller1));
             }
 
         } catch (RuntimeException e) {
@@ -97,6 +74,22 @@ public class Match {
 
         return result;
     }
+
+
+    protected GameResult play(EngineController white, EngineController black) {
+        setChairs(white, black);
+
+        compete();
+
+        GameResult gameResult = createResult();
+
+        if(matchListener != null ) {
+            matchListener.notifyEndGame(gameResult);
+        }
+
+        return gameResult;
+    }
+
 
     protected void compete() {
         this.game = FENDecoder.loadGame(fen);
