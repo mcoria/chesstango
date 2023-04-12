@@ -9,13 +9,13 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class ArenaJMXClient implements NotificationListener {
+public class ArenaMBeanClient implements NotificationListener {
 
     public static void main(String[] args) throws Exception {
         JMXServiceURL url =
                 new JMXServiceURL("service:jmx:rmi:///jndi/rmi://:19999/jmxrmi");
 
-        new ArenaJMXClient().connect(url);
+        new ArenaMBeanClient().connect(url);
 
     }
 

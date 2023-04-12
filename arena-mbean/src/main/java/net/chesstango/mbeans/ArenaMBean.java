@@ -1,7 +1,5 @@
 package net.chesstango.mbeans;
 
-import javax.management.MXBean;
-
 /**
  * @author Mauricio Coria
  */

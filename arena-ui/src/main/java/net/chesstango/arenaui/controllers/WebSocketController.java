@@ -1,5 +1,6 @@
-package net.chesstango.arenaui;
+package net.chesstango.arenaui.controllers;
 
+import net.chesstango.arenaui.services.ArenaMBeanClient;
 import net.chesstango.mbeans.GameDescriptionCurrent;
 import net.chesstango.mbeans.GameDescriptionInitial;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,15 @@ import org.springframework.stereotype.Controller;
 public class WebSocketController {
 
     @Autowired
-    private ArenaJMXClient arenaJMXClient;
+    private ArenaMBeanClient arenaMBeanClient;
 
 
     @MessageMapping("/retrieve_game")
     @SendTo("/topic/current_game")
     public JsonResponse retrieveGame() {
-        String currentGameId = arenaJMXClient.getCurrentGameId();
+        String currentGameId = arenaMBeanClient.getCurrentGameId();
 
-        return new JsonResponse(arenaJMXClient.getGameDescriptionInitial(currentGameId), arenaJMXClient.getGameDescriptionCurrent(currentGameId));
+        return new JsonResponse(arenaMBeanClient.getGameDescriptionInitial(currentGameId), arenaMBeanClient.getGameDescriptionCurrent(currentGameId));
     }
 
     public static class JsonResponse{
@@ -45,8 +46,8 @@ public class WebSocketController {
         }
     }
 
-    public void setArenaJMXClient(ArenaJMXClient arenaJMXClient) {
-        this.arenaJMXClient = arenaJMXClient;
+    public void setArenaJMXClient(ArenaMBeanClient arenaMBeanClient) {
+        this.arenaMBeanClient = arenaMBeanClient;
     }
 
 }

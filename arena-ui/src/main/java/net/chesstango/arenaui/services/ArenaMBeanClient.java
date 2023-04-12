@@ -1,4 +1,4 @@
-package net.chesstango.arenaui;
+package net.chesstango.arenaui.services;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -6,6 +6,7 @@ import net.chesstango.mbeans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.management.*;
 import javax.management.remote.JMXConnector;
@@ -17,8 +18,8 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-@Component
-public class ArenaJMXClient implements NotificationListener, ArenaMBean {
+@Service
+public class ArenaMBeanClient implements NotificationListener {
     private JMXConnector jmxc;
     private ArenaMBean arenaProxy;
 
@@ -49,7 +50,6 @@ public class ArenaJMXClient implements NotificationListener, ArenaMBean {
         jmxc.close();
     }
 
-    @Override
     public String getCurrentGameId() {
         return arenaProxy.getCurrentGameId();
     }
@@ -58,7 +58,7 @@ public class ArenaJMXClient implements NotificationListener, ArenaMBean {
         return arenaProxy.getGameDescriptionInitial(gameId);
     }
 
-    @Override
+
     public GameDescriptionCurrent getGameDescriptionCurrent(String gameId) {
         return arenaProxy.getGameDescriptionCurrent(gameId);
     }
@@ -70,30 +70,17 @@ public class ArenaJMXClient implements NotificationListener, ArenaMBean {
 
         try {
             if (notification instanceof GameNotification) {
-                System.out.println("--------------------------- NEW GAME --------------------------------------");
-
                 GameNotification gameNotification = (GameNotification) notification;
 
-                GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
-
-                System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
-
-                System.out.println("Game ID: " + gameNotification.getUserData());
-
-                printInitialStatus(gameDescriptionInitial);
+                //printInitialStatus(gameDescriptionInitial);
 
                 notifyNewGame(gameNotification);
             }
 
             if (notification instanceof MoveNotification) {
                 MoveNotification moveNotification = (MoveNotification) notification;
-                GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
 
-                System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
-
-                System.out.println("Selected move: " + moveNotification.getUserData());
-
-                printCurrentStatus(gameDescriptionCurrent);
+                //printCurrentStatus(gameDescriptionCurrent);
 
                 notifyMove(moveNotification);
             }
@@ -103,13 +90,19 @@ public class ArenaJMXClient implements NotificationListener, ArenaMBean {
         }
     }
 
-    public static void printInitialStatus(GameDescriptionInitial gameDescriptionInitial) {
+    public static void printInitialStatus(GameNotification gameNotification) {
+        GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
+        System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
+        System.out.println("Game ID: " + gameNotification.getUserData());
         System.out.println(String.format("White = %s vs Black = %s", gameDescriptionInitial.getWhite(), gameDescriptionInitial.getBlack()));
         System.out.println(String.format("Initial FEN = %s", gameDescriptionInitial.getInitialFEN()));
         System.out.println(String.format("---------------------------------------------------------------------------"));
     }
 
-    public static void printCurrentStatus(GameDescriptionCurrent gameDescriptionCurrent) {
+    public static void printCurrentStatus(MoveNotification moveNotification) {
+        GameDescriptionCurrent gameDescriptionCurrent = moveNotification.getGameDescriptionCurrent();
+        System.out.println("SequenceNumber: " + moveNotification.getSequenceNumber());
+        System.out.println("Selected move: " + moveNotification.getUserData());
         System.out.println(String.format("Current FEN = %s", gameDescriptionCurrent.getCurrentFEN()));
         System.out.println(String.format("Moves = %s", Arrays.toString(gameDescriptionCurrent.getMoves())));
         System.out.println(String.format("Turn = %s", gameDescriptionCurrent.getTurn()));
