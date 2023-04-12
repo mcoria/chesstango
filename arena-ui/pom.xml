@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.chesstango</groupId>
-			<artifactId>uci-arena-mbeans</artifactId>
+			<artifactId>arena-mbean</artifactId>
 			<version>0.0.10-SNAPSHOT</version>
 		</dependency>
 		<dependency>

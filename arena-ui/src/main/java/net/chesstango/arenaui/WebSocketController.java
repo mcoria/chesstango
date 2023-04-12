@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
  * @author Mauricio Coria
  */
 @Controller
-public class BotsController {
+public class WebSocketController {
+
     @Autowired
     private ArenaJMXClient arenaJMXClient;
 
@@ -42,6 +43,10 @@ public class BotsController {
         public GameDescriptionCurrent getGameDescriptionCurrent() {
             return gameDescriptionCurrent;
         }
+    }
+
+    public void setArenaJMXClient(ArenaJMXClient arenaJMXClient) {
+        this.arenaJMXClient = arenaJMXClient;
     }
 
 }

@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>uci-arena-mbeans</artifactId>
+            <artifactId>arena-mbean</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

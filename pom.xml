@@ -13,7 +13,7 @@
         <module>search</module>
         <module>uci-protocol</module>
 		<module>uci-engine</module>
-        <module>uci-arena-mbeans</module>
+        <module>arena-mbean</module>
         <module>uci-arena</module>
         <module>evaluation-tunning</module>
     </modules>
@@ -70,7 +70,7 @@
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
-                <artifactId>uci-arena-mbeans</artifactId>
+                <artifactId>arena-mbean</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

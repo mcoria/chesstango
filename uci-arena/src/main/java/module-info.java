@@ -1,6 +1,6 @@
 module net.chesstango.uci.arena {
     exports net.chesstango.uci.arena;
-    exports net.chesstango.uci.arena.mbeans;
+    exports net.chesstango.uci.arena.listeners;
 
     requires net.chesstango.uci;
     requires net.chesstango.uci.engine;

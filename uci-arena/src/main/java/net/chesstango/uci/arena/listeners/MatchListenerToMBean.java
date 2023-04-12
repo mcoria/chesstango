@@ -1,4 +1,4 @@
-package net.chesstango.uci.arena.mbeans;
+package net.chesstango.uci.arena.listeners;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -18,11 +18,11 @@ import java.util.UUID;
 /**
  * @author Mauricio Coria
  */
-public class MatchListenerImp implements MatchListener {
+public class MatchListenerToMBean implements MatchListener {
 
     private final Arena arena;
 
-    public MatchListenerImp(Arena arena) {
+    public MatchListenerToMBean(Arena arena) {
         this.arena = arena;
     }
 

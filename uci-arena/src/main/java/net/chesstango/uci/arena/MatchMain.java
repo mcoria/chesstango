@@ -8,7 +8,8 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.uci.arena.mbeans.MatchListenerImp;
+import net.chesstango.uci.arena.listeners.MatchBroadcaster;
+import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.GameReports;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
@@ -30,7 +31,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 3;
+    private static final int DEPTH = 5;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -88,7 +89,7 @@ public class MatchMain implements MatchListener {
                 .setDebugEnabled(MATCH_DEBUG)
                 .switchChairs(true)
                 .setMatchListener(new MatchBroadcaster()
-                        .addListener(new MatchListenerImp(arenaMBean))
+                        .addListener(new MatchListenerToMBean(arenaMBean))
                         .addListener(this)
                 );
 
