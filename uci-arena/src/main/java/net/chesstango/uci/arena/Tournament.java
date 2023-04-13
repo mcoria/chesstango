@@ -17,22 +17,23 @@ public class Tournament {
     private final static int THREADS_NUMBER = 5;
     private final int depth;
     private final List<GenericObjectPool<EngineController>> pools;
+    private final MatchListener matchListener;
 
-    public Tournament(List<EngineControllerFactory> opponentsControllerFactories, int depth) {
+    public Tournament(List<EngineControllerFactory> opponentsControllerFactories, int depth, MatchListener matchListener) {
         this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
         this.depth = depth;
+        this.matchListener = matchListener;
     }
 
-    public List<GameResult> play(List<String> fenList) {
+    public void play(List<String> fenList) {
         List<MatchScheduler> matchSchedulerList = new ArrayList<>();
 
         GenericObjectPool<EngineController> mainPool = pools.get(0);
 
         ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
-
         for (GenericObjectPool<EngineController> pool : pools) {
             if(pool != mainPool) {
-                MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, depth);
+                MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, depth, matchListener);
 
                 matchScheduler.enqueue(executor, fenList);
 
@@ -50,8 +51,6 @@ public class Tournament {
         for (GenericObjectPool<EngineController> pool : pools) {
             pool.close();
         }
-
-        return  matchSchedulerList.stream().flatMap(matchScheduler -> matchScheduler.getMatchResults().stream()).collect(Collectors.toList());
     }
 
 }

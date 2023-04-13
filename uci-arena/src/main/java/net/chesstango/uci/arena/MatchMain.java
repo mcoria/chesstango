@@ -17,7 +17,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -83,8 +85,8 @@ public class MatchMain implements MatchListener {
                 .setDebugEnabled(MATCH_DEBUG)
                 .switchChairs(true)
                 .setMatchListener(new MatchBroadcaster()
-                        .addListener(new MatchListenerToMBean(arenaMBean))
-                        .addListener(this)
+                                    .addListener(new MatchListenerToMBean(arenaMBean))
+                                    .addListener(this)
                 );
 
         startEngines(engineController1, engineController2);

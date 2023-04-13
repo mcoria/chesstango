@@ -1,5 +1,7 @@
 package net.chesstango.uci.arena;
 
+import net.chesstango.board.Game;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.*;
@@ -16,6 +18,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +30,25 @@ public class TournamentMain {
     private static final int DEPTH = 2;
 
     public static void main(String[] args) {
-        List<EngineControllerFactory> controllerFactories = new ArrayList<>();
-        controllerFactories.add(new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorSEandImp02.class)));
-        controllerFactories.addAll(createOpponentsControllerFactories());
+        List<EngineControllerFactory> controllerFactories = createControllerFactories();
 
-        Tournament tournament = new Tournament(controllerFactories, DEPTH);
+        List<GameResult> matchResult = Collections.synchronizedList( new ArrayList<>() );
+        MatchListener matchListener = new MatchListener() {
+            @Override
+            public void notifyNewGame(Game game, EngineController white, EngineController black) {}
+
+            @Override
+            public void notifyMove(Game game, Move move) {}
+
+            @Override
+            public void notifyEndGame(GameResult gameResult) {
+                matchResult.add(gameResult);
+            }
+        };
+
+        Tournament tournament = new Tournament(controllerFactories, DEPTH, matchListener);
         Instant start = Instant.now();
-        List<GameResult> matchResult = tournament.play(getFenList());
+        tournament.play(getFenList());
         System.out.println("Time elapsed: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
@@ -49,7 +64,8 @@ public class TournamentMain {
     }
 
 
-    private static List<EngineControllerFactory> createOpponentsControllerFactories() {
+    private static List<EngineControllerFactory> createControllerFactories() {
+        EngineControllerFactory mainFactory = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorSEandImp02.class));
         EngineControllerFactory factory1 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorByMaterial.class));
         EngineControllerFactory factory2 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorByMaterialAndMoves.class));
         EngineControllerFactory factory3 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorImp01.class));
@@ -58,7 +74,7 @@ public class TournamentMain {
 
         EngineControllerFactory spikeFactory = new EngineControllerFactory(() -> EngineControllerFactory.createProxyController("Spike", null) );
 
-        return Arrays.asList(factory1, factory2, factory4, factory3, factory5, spikeFactory);
+        return Arrays.asList(mainFactory, factory1, factory2, factory4, factory3, factory5, spikeFactory);
     }
 
 }
