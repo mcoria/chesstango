@@ -17,9 +17,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -110,7 +108,7 @@ public class MatchMain implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(GameResult gameResult) {
+    public void notifyEndGame(Game game, GameResult gameResult) {
         saveGameResult(gameResult);
     }
 

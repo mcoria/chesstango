@@ -12,5 +12,5 @@ public interface MatchListener {
 
     void notifyMove(Game game, Move move);
 
-    void notifyEndGame(GameResult gameResult);
+    void notifyEndGame(Game game, GameResult gameResult);
 }

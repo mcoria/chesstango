@@ -7,6 +7,7 @@ import net.chesstango.uci.arena.MatchListener;
 import net.chesstango.uci.gui.EngineController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class MatchBroadcaster implements MatchListener {
 
-    private List<MatchListener> matchListenerList = new ArrayList<>();
+    private List<MatchListener> matchListenerList = Collections.synchronizedList(new ArrayList<>());
 
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
@@ -27,8 +28,8 @@ public class MatchBroadcaster implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(GameResult gameResult) {
-        matchListenerList.forEach(listener -> listener.notifyEndGame(gameResult));
+    public void notifyEndGame(Game game, GameResult gameResult) {
+        matchListenerList.forEach(listener -> listener.notifyEndGame(game, gameResult));
     }
 
     public MatchBroadcaster addListener(MatchListener listener){

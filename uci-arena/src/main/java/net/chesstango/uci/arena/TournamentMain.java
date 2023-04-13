@@ -80,7 +80,7 @@ public class TournamentMain implements MatchListener {
     }
 
     @Override
-    public void notifyEndGame(GameResult gameResult) {
+    public void notifyEndGame(Game game, GameResult gameResult) {
         matchResult.add(gameResult);
     }
 }

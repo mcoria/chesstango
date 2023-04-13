@@ -90,7 +90,7 @@ public class Match {
         GameResult gameResult = createResult();
 
         if (matchListener != null) {
-            matchListener.notifyEndGame(gameResult);
+            matchListener.notifyEndGame(game, gameResult);
         }
 
         return gameResult;

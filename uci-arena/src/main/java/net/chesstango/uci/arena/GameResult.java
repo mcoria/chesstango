@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class GameResult {
     private final PGNGame pgnGame;
@@ -35,35 +34,6 @@ public class GameResult {
         discoverEngineController(engineBlack, this::setSessionBlack);
     }
 
-
-    private void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
-        controller.accept(new ServiceVisitor() {
-            @Override
-            public void visit(EngineController engineController) {
-                if(controller != engineController){
-                    throw new RuntimeException("visiting unknown controller");
-                }
-            }
-
-            @Override
-            public void visit(EngineTango engineTango) {
-            }
-
-            @Override
-            public void visit(EngineProxy engineProxy) {
-            }
-
-            @Override
-            public void visit(Tango tango) {
-            }
-
-            @Override
-            public void visit(Session session) {
-                sessionSetter.accept(session);
-            }
-        });
-
-    }
 
     public int getPoints() {
         return points;
@@ -99,5 +69,33 @@ public class GameResult {
 
     public PGNGame getPgnGame() {
         return pgnGame;
+    }
+
+    private void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
+        controller.accept(new ServiceVisitor() {
+            @Override
+            public void visit(EngineController engineController) {
+                if (controller != engineController) {
+                    throw new RuntimeException("visiting unknown controller");
+                }
+            }
+
+            @Override
+            public void visit(EngineTango engineTango) {
+            }
+
+            @Override
+            public void visit(EngineProxy engineProxy) {
+            }
+
+            @Override
+            public void visit(Tango tango) {
+            }
+
+            @Override
+            public void visit(Session session) {
+                sessionSetter.accept(session);
+            }
+        });
     }
 }
