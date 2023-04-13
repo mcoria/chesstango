@@ -5,12 +5,16 @@ import java.lang.management.ManagementFactory;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Mauricio Coria
  */
 public class Arena extends NotificationBroadcasterSupport implements ArenaMBean {
+
+    private static AtomicInteger arenaObjectCounter = new AtomicInteger();
+
     private AtomicLong sequenceNumber = new AtomicLong();
 
     private volatile String currentGameId;
@@ -18,6 +22,8 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     private Map<String, GameDescriptionInitial> initialMap = Collections.synchronizedMap(new HashMap<>());
 
     private Map<String, GameDescriptionCurrent> currentMap = Collections.synchronizedMap(new HashMap<>());
+
+    private Arena(){};
 
     @Override
     public String getCurrentGameId() {
@@ -63,13 +69,17 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     }
 
 
-    public void registerMBean() {
+    public static Arena createAndRegisterMBean() {
         try {
+            Arena arena = new Arena();
+
             MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
 
-            ObjectName name = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
+            ObjectName name = new ObjectName(String.format("net.chesstango.uci.arena:type=Arena,name=game%d", arenaObjectCounter.getAndIncrement()));
 
-            mbs.registerMBean(this, name);
+            mbs.registerMBean(arena, name);
+
+            return arena;
         } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new RuntimeException(e);

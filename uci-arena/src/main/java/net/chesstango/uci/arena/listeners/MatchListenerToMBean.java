@@ -66,7 +66,10 @@ public class MatchListenerToMBean implements MatchListener {
 
     @Override
     public void notifyEndGame(Game game, GameResult gameResult) {
+    }
 
+    public Arena getArena() {
+        return arena;
     }
 
     // TODO: obviously some moves are not encoded properly

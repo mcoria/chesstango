@@ -63,7 +63,7 @@ public class MatchMain implements MatchListener {
     private final EngineController engineController2;
 
     public MatchMain(EngineController engineController1, EngineController engineController2) {
-        this.arenaMBean = new Arena();
+        this.arenaMBean = Arena.createAndRegisterMBean();
         this.engineController1 = engineController1;
         this.engineController2 = engineController2;
     }
@@ -77,8 +77,6 @@ public class MatchMain implements MatchListener {
     }
 
     private List<GameResult> play() {
-        arenaMBean.registerMBean();
-
         MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
         matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
         matchBroadcaster.addListener(this);
