@@ -4,24 +4,17 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.pgn.PGNEncoder;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.GameReports;
-import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.proxy.EngineProxy;
-import net.chesstango.uci.proxy.ProxyConfig;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -31,17 +24,17 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 5;
+    private static final int DEPTH = 2;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
-        EngineController engineController1 = createTangoController(GameEvaluatorSEandImp02.class);
+        EngineController engineController1 = EngineControllerFactory
+                                            .createTangoController(GameEvaluatorSEandImp02.class);
 
-        //EngineController engineController2 = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("GameEvaluatorImp02")).setLogging(false)).overrideEngineName("GameEvaluatorImp02");
-        //EngineController engineController2 = createTangoController(GameEvaluatorImp02.class);
-        EngineController engineController2 = new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))
-                .setLogging(false))
-                .overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
+        EngineController engineController2 = EngineControllerFactory
+                                            .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false))
+                                            .overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
+
 
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
@@ -76,10 +69,11 @@ public class MatchMain implements MatchListener {
     }
 
     private static List<String> getFenList() {
-        //return Arrays.asList(FENDecoder.INITIAL_FEN);
-        //return Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        //return new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
+        //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        return fenList;
     }
 
     private List<GameResult> play() {
@@ -114,7 +108,7 @@ public class MatchMain implements MatchListener {
         engine2.send_CmdQuit();
     }
 
-    private static void save(GameResult gameResult) {
+    private static void saveGameResult(GameResult gameResult) {
         PGNEncoder encoder = new PGNEncoder();
         String encodedGame = encoder.encode(gameResult.getPgnGame());
 
@@ -128,29 +122,6 @@ public class MatchMain implements MatchListener {
         }
     }
 
-    private static EngineController createTangoController(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        EngineTango tango = createEngineTango(gameEvaluatorClass);
-        EngineControllerImp controller = new EngineControllerImp(tango);
-        controller.overrideEngineName(gameEvaluatorClass.getSimpleName());
-        return controller;
-    }
-
-    private static EngineTango createEngineTango(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        DefaultSearchMove search = new DefaultSearchMove();
-        try {
-            search.setGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        return new EngineTango(search);
-    }
-
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
     }
@@ -161,6 +132,6 @@ public class MatchMain implements MatchListener {
 
     @Override
     public void notifyEndGame(GameResult gameResult) {
-        save(gameResult);
+        saveGameResult(gameResult);
     }
 }

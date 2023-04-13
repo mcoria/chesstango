@@ -30,7 +30,8 @@ public class MatchScheduler {
     public void enqueue(ExecutorService executor, List<String> fenList) {
         final AtomicInteger counter = new AtomicInteger();
 
-        final Collection<List<String>> batches = fenList.stream()
+        final Collection<List<String>> batches = fenList
+                .stream()
                 .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / BATCH_SIZE))
                 .values();
 

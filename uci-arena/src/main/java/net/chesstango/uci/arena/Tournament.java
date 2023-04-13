@@ -24,7 +24,7 @@ public class Tournament {
     }
 
     public List<GameResult> play(List<String> fenList) {
-        List<MatchScheduler> schedulers = new ArrayList<>();
+        List<MatchScheduler> matchSchedulerList = new ArrayList<>();
 
         GenericObjectPool<EngineController> mainPool = pools.get(0);
 
@@ -32,14 +32,15 @@ public class Tournament {
 
         for (GenericObjectPool<EngineController> pool : pools) {
             if(pool != mainPool) {
-                MatchScheduler scheduler = new MatchScheduler(mainPool, pool, depth);
+                MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, depth);
 
-                schedulers.add(scheduler);
+                matchScheduler.enqueue(executor, fenList);
 
-                scheduler.enqueue(executor, fenList);
+                matchSchedulerList.add(matchScheduler);
             }
         }
         executor.shutdown();
+
         try {
             while (executor.awaitTermination(1, TimeUnit.SECONDS) == false) ;
         } catch (InterruptedException e) {
@@ -50,9 +51,7 @@ public class Tournament {
             pool.close();
         }
 
-        List<GameResult> result = new ArrayList<>();
-        schedulers.forEach(scheduler -> result.addAll(scheduler.getMatchResults()));
-        return result;
+        return  matchSchedulerList.stream().flatMap(matchScheduler -> matchScheduler.getMatchResults().stream()).collect(Collectors.toList());
     }
 
 }
