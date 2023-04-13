@@ -19,7 +19,10 @@ public class MatchScheduler {
     private final GenericObjectPool<EngineController> pool2;
     private final MatchListener matchListener;
 
-    public MatchScheduler(GenericObjectPool<EngineController> pool1, GenericObjectPool<EngineController> pool2, int depth, MatchListener matchListener) {
+    public MatchScheduler(GenericObjectPool<EngineController> pool1,
+                          GenericObjectPool<EngineController> pool2,
+                          int depth,
+                          MatchListener matchListener) {
         this.pool1 = pool1;
         this.pool2 = pool2;
         this.depth = depth;

@@ -26,8 +26,6 @@ public class Tournament {
     }
 
     public void play(List<String> fenList) {
-        List<MatchScheduler> matchSchedulerList = new ArrayList<>();
-
         GenericObjectPool<EngineController> mainPool = pools.get(0);
 
         ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
@@ -36,8 +34,6 @@ public class Tournament {
                 MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, depth, matchListener);
 
                 matchScheduler.enqueue(executor, fenList);
-
-                matchSchedulerList.add(matchScheduler);
             }
         }
         executor.shutdown();

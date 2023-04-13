@@ -3,17 +3,10 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.*;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.reports.GameReports;
-import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.gui.EngineControllerImp;
-import net.chesstango.uci.proxy.EngineProxy;
-import net.chesstango.uci.proxy.ProxyConfig;
 
-import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -25,31 +18,14 @@ import java.util.stream.Collectors;
 /**
  * @author Mauricio Coria
  */
-public class TournamentMain {
+public class TournamentMain implements MatchListener {
 
-    private static final int DEPTH = 2;
+    private static final int DEPTH = 1;
 
     public static void main(String[] args) {
         List<EngineControllerFactory> controllerFactories = createControllerFactories();
 
-        List<GameResult> matchResult = Collections.synchronizedList( new ArrayList<>() );
-        MatchListener matchListener = new MatchListener() {
-            @Override
-            public void notifyNewGame(Game game, EngineController white, EngineController black) {}
-
-            @Override
-            public void notifyMove(Game game, Move move) {}
-
-            @Override
-            public void notifyEndGame(GameResult gameResult) {
-                matchResult.add(gameResult);
-            }
-        };
-
-        Tournament tournament = new Tournament(controllerFactories, DEPTH, matchListener);
-        Instant start = Instant.now();
-        tournament.play(getFenList());
-        System.out.println("Time elapsed: " + Duration.between(start, Instant.now()).toMillis() + " ms");
+        List<GameResult> matchResult = new TournamentMain(controllerFactories).play(getFenList());
 
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
         allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerFactory::getCreatedEngineControllers).collect(Collectors.toList()));
@@ -77,4 +53,34 @@ public class TournamentMain {
         return Arrays.asList(mainFactory, factory1, factory2, factory4, factory3, factory5, spikeFactory);
     }
 
+    private final List<EngineControllerFactory> controllerFactories;
+    private final List<GameResult> matchResult;
+
+    public TournamentMain(List<EngineControllerFactory> controllerFactories){
+        this.controllerFactories = controllerFactories;
+        this.matchResult = Collections.synchronizedList( new ArrayList<>() );
+    }
+
+    public List<GameResult> play(List<String> fenList){
+        Tournament tournament = new Tournament(controllerFactories, DEPTH, this);
+
+        Instant start = Instant.now();
+        tournament.play(fenList);
+        System.out.println("Time elapsed: " + Duration.between(start, Instant.now()).toMillis() + " ms");
+
+        return matchResult;
+    }
+
+    @Override
+    public void notifyNewGame(Game game, EngineController white, EngineController black) {
+    }
+
+    @Override
+    public void notifyMove(Game game, Move move) {
+    }
+
+    @Override
+    public void notifyEndGame(GameResult gameResult) {
+        matchResult.add(gameResult);
+    }
 }

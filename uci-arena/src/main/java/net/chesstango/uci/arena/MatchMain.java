@@ -26,7 +26,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 2;
+    private static final int DEPTH = 1;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -81,33 +81,47 @@ public class MatchMain implements MatchListener {
     private List<GameResult> play() {
         arenaMBean.registerMBean();
 
-        Match match = new Match(engineController1, engineController2, DEPTH)
-                .setDebugEnabled(MATCH_DEBUG)
-                .switchChairs(true)
-                .setMatchListener(new MatchBroadcaster()
-                                    .addListener(new MatchListenerToMBean(arenaMBean))
-                                    .addListener(this)
-                );
+        MatchBroadcaster matchBroadcaster = new MatchBroadcaster();
+        matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
+        matchBroadcaster.addListener(this);
 
-        startEngines(engineController1, engineController2);
+        Match match = new Match(engineController1, engineController2, DEPTH)
+                            .setDebugEnabled(MATCH_DEBUG)
+                            .switchChairs(true)
+                            .setMatchListener(matchBroadcaster);
+
+        startEngines();
 
         Instant start = Instant.now();
         List<GameResult> matchResult = match.play(getFenList());
         System.out.println("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
-        quitEngines(engineController1, engineController2);
+        quitEngines();
 
         return matchResult;
     }
 
-    public void startEngines(EngineController engine1, EngineController engine2) {
-        engine1.startEngine();
-        engine2.startEngine();
+    @Override
+    public void notifyNewGame(Game game, EngineController white, EngineController black) {
     }
 
-    public void quitEngines(EngineController engine1, EngineController engine2) {
-        engine1.send_CmdQuit();
-        engine2.send_CmdQuit();
+    @Override
+    public void notifyMove(Game game, Move move) {
+    }
+
+    @Override
+    public void notifyEndGame(GameResult gameResult) {
+        saveGameResult(gameResult);
+    }
+
+    private void startEngines() {
+        engineController1.startEngine();
+        engineController2.startEngine();
+    }
+
+    private void quitEngines() {
+        engineController1.send_CmdQuit();
+        engineController2.send_CmdQuit();
     }
 
     private static void saveGameResult(GameResult gameResult) {
@@ -122,18 +136,5 @@ public class MatchMain implements MatchListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void notifyNewGame(Game game, EngineController white, EngineController black) {
-    }
-
-    @Override
-    public void notifyMove(Game game, Move move) {
-    }
-
-    @Override
-    public void notifyEndGame(GameResult gameResult) {
-        saveGameResult(gameResult);
     }
 }
