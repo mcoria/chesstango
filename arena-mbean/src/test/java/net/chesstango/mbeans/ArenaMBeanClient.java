@@ -96,11 +96,11 @@ public class ArenaMBeanClient implements NotificationListener {
 
         arenaProxy = JMX.newMBeanProxy(mbsc, currentMBeanName, ArenaMBean.class, true);
 
-        String currentGameId = arenaProxy.getCurrentGameId();
+        GameDescriptionInitial currentGame = arenaProxy.getCurrentGame();
 
-        printInitialStatus(arenaProxy.getGameDescriptionInitial(currentGameId));
+        printInitialStatus(currentGame);
 
-        printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGameId));
+        printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGame.getGameId()));
 
         mbsc.addNotificationListener(currentMBeanName, this, null, null);
     }

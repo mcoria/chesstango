@@ -27,9 +27,9 @@ public class WebSocketController {
         if(request.containsKey("game")) {
             arenaMBeanClient.selectProxy( (String) request.get("game"));
 
-            String currentGameId = arenaMBeanClient.getCurrentGameId();
+            GameDescriptionInitial currentGame = arenaMBeanClient.getCurrentGame();
 
-            response = new JsonResponse(arenaMBeanClient.getGameDescriptionInitial(currentGameId), arenaMBeanClient.getGameDescriptionCurrent(currentGameId));
+            response = new JsonResponse(currentGame, arenaMBeanClient.getGameDescriptionCurrent(currentGame.getGameId()));
         }
 
         return response;
@@ -46,9 +46,9 @@ public class WebSocketController {
     @MessageMapping("/retrieve_game")
     @SendTo("/topic/current_game")
     public JsonResponse retrieveGame() {
-        String currentGameId = arenaMBeanClient.getCurrentGameId();
+        GameDescriptionInitial currentGame = arenaMBeanClient.getCurrentGame();
 
-        return new JsonResponse(arenaMBeanClient.getGameDescriptionInitial(currentGameId), arenaMBeanClient.getGameDescriptionCurrent(currentGameId));
+        return new JsonResponse(currentGame, arenaMBeanClient.getGameDescriptionCurrent(currentGame.getGameId()));
     }
 
     public static class JsonResponse{

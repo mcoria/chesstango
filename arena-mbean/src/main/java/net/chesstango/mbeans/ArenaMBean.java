@@ -4,7 +4,7 @@ package net.chesstango.mbeans;
  * @author Mauricio Coria
  */
 public interface ArenaMBean {
-    String getCurrentGameId();
+    GameDescriptionInitial getCurrentGame();
 
     GameDescriptionInitial getGameDescriptionInitial(String gameId);
 

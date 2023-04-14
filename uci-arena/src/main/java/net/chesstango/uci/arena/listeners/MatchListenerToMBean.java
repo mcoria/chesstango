@@ -22,6 +22,8 @@ public class MatchListenerToMBean implements MatchListener {
 
     private final Arena arena;
 
+    private volatile String currentGameId;
+
     public MatchListenerToMBean(Arena arena) {
         this.arena = arena;
     }
@@ -29,7 +31,7 @@ public class MatchListenerToMBean implements MatchListener {
 
     @Override
     public void notifyNewGame(Game game, EngineController white, EngineController black) {
-        UUID uuid = UUID.randomUUID();
+        currentGameId = UUID.randomUUID().toString();
 
         String whiteName = white.getEngineName();
 
@@ -37,7 +39,7 @@ public class MatchListenerToMBean implements MatchListener {
 
         String turn = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? "white" : "black";
 
-        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(uuid.toString(), game.getInitialFen(), whiteName, blackName, turn);
+        GameDescriptionInitial gameDescriptionInitial = new GameDescriptionInitial(currentGameId, game.getInitialFen(), whiteName, blackName, turn);
 
         arena.newGame(gameDescriptionInitial);
     }
@@ -59,7 +61,7 @@ public class MatchListenerToMBean implements MatchListener {
 
         String lastMove = encodeMove(move);
 
-        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(arena.getCurrentGameId(), FENEncoder.encodeGame(game), turn, lastMove, arrayMoveStr);
+        GameDescriptionCurrent gameDescriptionCurrent = new GameDescriptionCurrent(currentGameId, FENEncoder.encodeGame(game), turn, lastMove, arrayMoveStr);
 
         arena.newMove(gameDescriptionCurrent);
     }

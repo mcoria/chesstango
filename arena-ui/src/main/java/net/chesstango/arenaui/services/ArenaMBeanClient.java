@@ -78,8 +78,8 @@ public class ArenaMBeanClient implements NotificationListener {
         }
     }
 
-    public String getCurrentGameId() {
-        return arenaProxy.getCurrentGameId();
+    public GameDescriptionInitial getCurrentGame() {
+        return arenaProxy.getCurrentGame();
     }
 
     public GameDescriptionInitial getGameDescriptionInitial(String gameId) {

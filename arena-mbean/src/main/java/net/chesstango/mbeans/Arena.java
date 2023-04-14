@@ -17,7 +17,7 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
 
     private AtomicLong sequenceNumber = new AtomicLong();
 
-    private volatile String currentGameId;
+    private volatile GameDescriptionInitial currentGame;
 
     private Map<String, GameDescriptionInitial> initialMap = Collections.synchronizedMap(new HashMap<>());
 
@@ -26,8 +26,8 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     private Arena(){};
 
     @Override
-    public String getCurrentGameId() {
-        return currentGameId;
+    public GameDescriptionInitial getCurrentGame() {
+        return currentGame;
     }
 
     @Override
@@ -58,12 +58,17 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
 
 
     public void newGame(GameDescriptionInitial gameDescriptionInitial) {
-        currentGameId = gameDescriptionInitial.getGameId();
-        initialMap.put(currentGameId, gameDescriptionInitial);
+        currentGame = gameDescriptionInitial;
+        initialMap.put(currentGame.getGameId(), gameDescriptionInitial);
         notifyNewGame(gameDescriptionInitial);
     }
 
     public void newMove(GameDescriptionCurrent gameDescriptionCurrent) {
+        /*
+        if(! currentGameId.equals(gameDescriptionCurrent.getGameId()) ){
+            throw new RuntimeException("! currentGameId.equals(gameDescriptionCurrent.getGameId()) ");
+        }*/
+
         currentMap.put(gameDescriptionCurrent.getGameId(), gameDescriptionCurrent);
         notifyMove(gameDescriptionCurrent);
     }
