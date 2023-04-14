@@ -7,10 +7,7 @@ import javax.management.remote.JMXServiceURL;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -77,13 +74,12 @@ public class ArenaMBeanClient implements NotificationListener {
             {
                 matchedMBeans.add(mbeanName);
             }
-        } catch (MalformedObjectNameException badObjectNameEx) {
-            System.err.println(
-                    "The ObjectName " + objectNameStr + " is not valid:\n"
-                            + badObjectNameEx.getMessage() );
+
+            Collections.sort(matchedMBeans, Comparator.comparing(ObjectName::getCanonicalName));
+
         } catch (Exception e) {
-            System.err.println("IOException encountered while attempting to query MBeans:\n"
-                    + e.getMessage() );
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
         }
         return matchedMBeans;
     }
