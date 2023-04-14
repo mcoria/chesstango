@@ -29,16 +29,22 @@ public class Tournament {
         GenericObjectPool<EngineController> mainPool = pools.get(0);
 
         ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
+
+        List<Runnable> tasks = new ArrayList<>();
+
         for (GenericObjectPool<EngineController> pool : pools) {
             if(pool != mainPool) {
                 MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, depth, matchListener);
 
-                matchScheduler.enqueue(executor, fenList);
+                tasks.addAll(matchScheduler.createTasks(fenList));
             }
         }
-        executor.shutdown();
 
         try {
+            tasks.forEach(task -> executor.submit(task));
+
+            executor.shutdown();
+
             while (executor.awaitTermination(1, TimeUnit.SECONDS) == false) ;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

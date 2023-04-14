@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class MatchScheduler {
-    private static final int BATCH_SIZE = 10;
     private final int depth;
     private final GenericObjectPool<EngineController> pool1;
     private final GenericObjectPool<EngineController> pool2;
@@ -29,19 +28,12 @@ public class MatchScheduler {
         this.matchListener = matchListener;
     }
 
-    public void enqueue(ExecutorService executor, List<String> fenList) {
-        final AtomicInteger counter = new AtomicInteger();
-
-        final Collection<List<String>> batches = fenList
-                .stream()
-                .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / BATCH_SIZE))
-                .values();
-
-        batches.forEach(batch -> executor.submit( () -> play(batch) ));
+    public List<Runnable> createTasks(List<String> fenList) {
+        return fenList.stream().map( fen -> (Runnable) () -> play(fen)).collect(Collectors.toList());
     }
 
 
-    private void play(List<String> fenList) {
+    private void play(String fen) {
         EngineController controller1 = null;
         EngineController controller2 = null;
 
@@ -52,7 +44,7 @@ public class MatchScheduler {
             Match match = new Match(controller1, controller2, depth);
             match.setMatchListener(matchListener);
 
-            match.play(fenList);
+            match.play(fen);
 
             pool1.returnObject(controller1);
             pool2.returnObject(controller2);

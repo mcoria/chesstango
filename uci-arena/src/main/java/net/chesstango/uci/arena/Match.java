@@ -170,25 +170,25 @@ public class Match {
         EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
-            System.out.println("DRAW (por fold repetition)");
+            System.out.printf("[%s] DRAW (por fold repetition)\n", Thread.currentThread().getName());
             matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
-            System.out.println("DRAW (por fiftyMoveRule)");
+            System.out.printf("[%s] DRAW (por fiftyMoveRule)\n", Thread.currentThread().getName());
             matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW.equals(game.getStatus())) {
-            System.out.println("DRAW");
+            System.out.printf("[%s] DRAW\n", Thread.currentThread().getName());
             matchPoints = material(game, true);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.println("BLACK WON " + black.getEngineName());
+                System.out.printf("[%s] BLACK WON %s\n", Thread.currentThread().getName(), black.getEngineName());
                 matchPoints = -1 * (WINNER_POINTS + material(game, false));
                 winner = black;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.println("WHITE WON " + white.getEngineName());
+                System.out.printf("[%s] WHITE WON %s\n", Thread.currentThread().getName(), white.getEngineName());
                 matchPoints = (WINNER_POINTS + material(game, false));
                 winner = white;
 

@@ -2,9 +2,7 @@ package net.chesstango.mbeans;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -22,6 +20,8 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     private Map<String, GameDescriptionInitial> initialMap = Collections.synchronizedMap(new HashMap<>());
 
     private Map<String, GameDescriptionCurrent> currentMap = Collections.synchronizedMap(new HashMap<>());
+
+    private List<GameDescriptionInitial> gameList = Collections.synchronizedList( new ArrayList<>() );
 
     private Arena(){};
 
@@ -58,6 +58,7 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
 
 
     public void newGame(GameDescriptionInitial gameDescriptionInitial) {
+        gameList.add(gameDescriptionInitial);
         currentGame = gameDescriptionInitial;
         initialMap.put(currentGame.getGameId(), gameDescriptionInitial);
         notifyNewGame(gameDescriptionInitial);
