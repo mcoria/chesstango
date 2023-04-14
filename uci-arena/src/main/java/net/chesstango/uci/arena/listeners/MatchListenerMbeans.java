@@ -15,7 +15,6 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mauricio Coria

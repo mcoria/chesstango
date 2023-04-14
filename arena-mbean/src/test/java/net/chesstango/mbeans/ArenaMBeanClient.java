@@ -4,7 +4,13 @@ import javax.management.*;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -19,16 +25,80 @@ public class ArenaMBeanClient implements NotificationListener {
 
     }
 
+    private MBeanServerConnection mbsc;
+
+    private List<ObjectName> mbeanNameList;
+
+    private ObjectName currentMBeanName;
+
+    private ArenaMBean arenaProxy;
+
+
     public void connect(JMXServiceURL url) throws Exception {
+
         JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
 
-        MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+        mbsc = jmxc.getMBeanServerConnection();
 
-        ObjectName mbeanName = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
+        mbeanNameList = searchArenaMBeans("net.chesstango.uci.arena:type=Arena,name=*");
 
-        ArenaMBean arenaProxy = JMX.newMBeanProxy(mbsc, mbeanName, ArenaMBean.class, true);
+        printBeanList();
 
-        mbsc.addNotificationListener(mbeanName, this, null, arenaProxy);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        boolean quit = false;
+        do {
+            String inputStr = reader.readLine();
+
+            if ("q".equals(inputStr)) {
+                quit = true;
+            } else if( isNumber(inputStr) ) {
+                selectMBean(Integer.valueOf(inputStr).intValue());
+            } else {
+                stopOutput();
+                printBeanList();
+            }
+        } while (!quit);
+
+        stopOutput();
+
+        jmxc.close();
+    }
+
+
+    private List<ObjectName> searchArenaMBeans(final String objectNameStr)
+    {
+        final List<ObjectName> matchedMBeans = new ArrayList<>();
+        try {
+            ObjectName objectName = new ObjectName(objectNameStr);
+
+            final Set<ObjectName> matchingMBeans = mbsc.queryNames(objectName, null);
+
+            for ( final ObjectName mbeanName : matchingMBeans )
+            {
+                matchedMBeans.add(mbeanName);
+            }
+        } catch (MalformedObjectNameException badObjectNameEx) {
+            System.err.println(
+                    "The ObjectName " + objectNameStr + " is not valid:\n"
+                            + badObjectNameEx.getMessage() );
+        } catch (Exception e) {
+            System.err.println("IOException encountered while attempting to query MBeans:\n"
+                    + e.getMessage() );
+        }
+        return matchedMBeans;
+    }
+
+    private void printBeanList() {
+        int i = 1;
+        for (ObjectName mbeanName: mbeanNameList) {
+            System.out.printf("%d - %s\n", i++, mbeanName.getCanonicalName());
+        }
+    }
+
+    private void selectMBean(int idx) throws InstanceNotFoundException, IOException {
+        currentMBeanName = mbeanNameList.get(idx - 1);
+
+        arenaProxy = JMX.newMBeanProxy(mbsc, currentMBeanName, ArenaMBean.class, true);
 
         String currentGameId = arenaProxy.getCurrentGameId();
 
@@ -36,9 +106,27 @@ public class ArenaMBeanClient implements NotificationListener {
 
         printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGameId));
 
-        Thread.sleep(Long.MAX_VALUE);
+        mbsc.addNotificationListener(currentMBeanName, this, null, null);
+    }
 
-        jmxc.close();
+
+    private void stopOutput() throws InstanceNotFoundException, ListenerNotFoundException, IOException {
+        if(arenaProxy != null){
+            System.out.println("Removing notification from " + currentMBeanName.toString());
+            mbsc.removeNotificationListener(currentMBeanName, this, null, null);
+
+            arenaProxy = null;
+            currentMBeanName = null;
+        }
+    }
+
+    private boolean isNumber(String str){
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 
 
