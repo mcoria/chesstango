@@ -22,7 +22,11 @@ function connect() {
             loadCurrentGame(JSON.parse(message.body));
         });
 
-        refresh();
+        stompClient.subscribe('/topic/list_games', function(message) {
+            listGames(JSON.parse(message.body));
+        });
+
+        stompClient.send("/app/retrieve_games", {}, {});
     });
 }
 
@@ -32,6 +36,19 @@ function disconnect() {
     }
     setConnected(false);
     console.log("Disconnected");
+}
+
+function listGames(gameList) {
+    $.each(gameList, function (index, value) {
+        $('#gameDropdown').append($('<option/>', {
+            value: value,
+            text : value
+        }));
+    });
+}
+
+function selectGame(selectedGame){
+    stompClient.send("/app/select_game", {}, JSON.stringify({'game': selectedGame}));
 }
 
 function refresh() {

@@ -5,7 +5,6 @@ import jakarta.annotation.PreDestroy;
 import net.chesstango.mbeans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.management.*;
@@ -13,7 +12,8 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauricio Coria
@@ -21,7 +21,15 @@ import java.util.Arrays;
 @Service
 public class ArenaMBeanClient implements NotificationListener {
     private JMXConnector jmxc;
+
+    private MBeanServerConnection mbsc;
+
+    private List<ObjectName> mbeanNameList;
+
+    private ObjectName currentMBeanName;
+
     private ArenaMBean arenaProxy;
+
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -35,19 +43,39 @@ public class ArenaMBeanClient implements NotificationListener {
 
         jmxc = JMXConnectorFactory.connect(url, null);
 
-        MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+        mbsc = jmxc.getMBeanServerConnection();
 
-        ObjectName mbeanName = new ObjectName("net.chesstango.uci.arena:type=Arena,name=game1");
-
-        arenaProxy = JMX.newMBeanProxy(mbsc, mbeanName, ArenaMBean.class, true);
-
-        mbsc.addNotificationListener(mbeanName, this, null, arenaProxy);
+        mbeanNameList = searchArenaMBeans("net.chesstango.uci.arena:type=Arena,name=*");
     }
 
     @PreDestroy
     private void close() throws IOException {
         System.out.println("Disconnecting from JMX server");
         jmxc.close();
+    }
+
+
+    public List<String> getMBeanNames(){
+        return mbeanNameList.stream().map(ObjectName::getCanonicalName).collect(Collectors.toList());
+    }
+
+    public void selectProxy(String beanName){
+        unselectProxy();
+
+        Optional<ObjectName> mbeanSelectedOpt = mbeanNameList.stream().filter(mbean -> mbean.getCanonicalName().equals(beanName)).findFirst();
+        if(mbeanSelectedOpt.isPresent()) {
+
+            currentMBeanName = mbeanSelectedOpt.get();
+
+            arenaProxy = JMX.newMBeanProxy(mbsc, currentMBeanName, ArenaMBean.class, true);
+
+            try {
+                mbsc.addNotificationListener(currentMBeanName, this, null, null);
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public String getCurrentGameId() {
@@ -115,5 +143,43 @@ public class ArenaMBeanClient implements NotificationListener {
 
     protected void notifyMove(MoveNotification moveNotification) {
         simpMessagingTemplate.convertAndSend("/topic/move_messages", moveNotification);
+    }
+
+    private List<ObjectName> searchArenaMBeans(final String objectNameStr)
+    {
+        final List<ObjectName> matchedMBeans = new ArrayList<>();
+        try {
+            ObjectName objectName = new ObjectName(objectNameStr);
+
+            final Set<ObjectName> matchingMBeans = mbsc.queryNames(objectName, null);
+
+            for ( final ObjectName mbeanName : matchingMBeans )
+            {
+                matchedMBeans.add(mbeanName);
+            }
+
+            Collections.sort(matchedMBeans, Comparator.comparing(ObjectName::getCanonicalName));
+
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e);
+        }
+        return matchedMBeans;
+    }
+
+    private void unselectProxy() {
+        if(arenaProxy != null){
+            System.out.println("Removing notification from " + currentMBeanName.toString());
+
+            try {
+                mbsc.removeNotificationListener(currentMBeanName, this, null, null);
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                throw new RuntimeException(e);
+            }
+
+            arenaProxy = null;
+            currentMBeanName = null;
+        }
     }
 }

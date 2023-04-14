@@ -30,13 +30,16 @@
 <div style="width: 600px">
     <label id="blackTurn" style="display: inline-block; text-align: right; width: 580px;">-</label>
 </div>
-<div id="myBoard" style="width: 600px"></div>
+<div id="myBoard" style="width: 600px; float:left;"></div>
+<div id="gameListDiv" style="width: 400px; float:left">
+    <select id="gameDropdown" onchange= "selectGame(this.value);">
+        <option value="">--Please choose an option--</option>
+    </select>
+</div>
 <div style="width: 600px">
     <label id="whiteTurn" style="display: inline-block; text-align: right; width: 580px;">-</label>
 </div>
 <label id="whiteName">WHITE</label>
-
-
 <script src="js/app.js"></script>
 </body>
 </html>
