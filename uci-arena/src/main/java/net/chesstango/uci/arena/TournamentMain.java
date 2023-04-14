@@ -37,8 +37,8 @@ public class TournamentMain implements MatchListener {
     }
 
     private static List<String> getFenList(){
-        //List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<String> fenList = new Transcoding().pgnFileToFenPositions(TournamentMain.class.getClassLoader().getResourceAsStream("Balsa_v2724.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         return fenList;
     }
 
@@ -89,5 +89,6 @@ public class TournamentMain implements MatchListener {
     @Override
     public void notifyEndGame(Game game, GameResult gameResult) {
         matchResult.add(gameResult);
+        gameResult.save();
     }
 }

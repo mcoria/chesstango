@@ -1,6 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
@@ -9,6 +10,9 @@ import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.service.ServiceVisitor;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 /**
@@ -97,5 +101,19 @@ public class GameResult {
                 sessionSetter.accept(session);
             }
         });
+    }
+
+    public void save() {
+        PGNEncoder encoder = new PGNEncoder();
+        String encodedGame = encoder.encode(pgnGame);
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));
+            writer.append(encodedGame);
+            writer.append("\n\n");
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
