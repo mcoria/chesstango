@@ -8,7 +8,7 @@ import net.chesstango.search.SearchMoveResult;
  * @author Mauricio Coria
  */
 public abstract class AbstractSmart {
-    protected boolean keepProcessing = true;
+    protected volatile boolean keepProcessing = true;
 
     public void stopSearching() {
         keepProcessing = false;

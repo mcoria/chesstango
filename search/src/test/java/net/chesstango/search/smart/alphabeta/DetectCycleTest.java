@@ -131,9 +131,9 @@ public class DetectCycleTest {
     private SearchContext setupContext(SearchContext searchContext) {
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
-        List<Set<Move>> distinctMovesPerLevel = new ArrayList<>(visitedNodesCounters.length);
+        Set<Move>[] distinctMovesPerLevel = new Set[30];
         for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel.add(new HashSet<>());
+            distinctMovesPerLevel[i] = new HashSet<>();
         }
         return searchContext.setVisitedNodesCounters(visitedNodesCounters)
                 .setDistinctMovesPerLevel(distinctMovesPerLevel)

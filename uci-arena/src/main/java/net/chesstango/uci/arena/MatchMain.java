@@ -8,7 +8,9 @@ import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
+import net.chesstango.uci.arena.reports.CutoffReports;
 import net.chesstango.uci.arena.reports.GameReports;
+import net.chesstango.uci.arena.reports.SessionReports;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
 
@@ -24,7 +26,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 4;
+    private static final int DEPTH = 6;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -42,7 +44,7 @@ public class MatchMain implements MatchListener {
         new GameReports()
                 .printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
 
-        /*
+
         new SessionReports()
                  //.withCollisionStatics()
                  .withNodesVisitedStatics()
@@ -55,7 +57,6 @@ public class MatchMain implements MatchListener {
         new CutoffReports()
                 .printTangoStatics(Arrays.asList(engineController1), matchResult);
 
-         */
     }
 
     private final Arena arenaMBean;
@@ -70,9 +71,9 @@ public class MatchMain implements MatchListener {
 
     private static List<String> getFenList() {
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
-        //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+        List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         return fenList;
     }
 

@@ -16,7 +16,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
 
-    private List<Set<Move>> distinctMoves;
+    private Set<Move>[] distinctMoves;
 
     @Override
     public void init(Game game, SearchContext context) {
@@ -67,7 +67,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     protected void trackMove(Game game, int currentPly) {
         Move lastMove = game.getState().getPreviosState().getSelectedMove();
 
-        Set<Move> currentMoveSet = distinctMoves.get(currentPly - 1);
+        Set<Move> currentMoveSet = distinctMoves[currentPly - 1];
 
         currentMoveSet.add(lastMove);
     }

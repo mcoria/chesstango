@@ -17,7 +17,7 @@ public class SearchMoveResult {
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
     private int[] evaluatedNodes;
-    private List<Set<Move>> distinctMovesPerLevel;
+    private Set<Move>[] distinctMovesPerLevel;
 
     private List<Move> bestMoveOptions;
 
@@ -68,11 +68,11 @@ public class SearchMoveResult {
         return this;
     }
 
-    public List<Set<Move>> getDistinctMovesPerLevel() {
+    public Set<Move>[] getDistinctMovesPerLevel() {
         return distinctMovesPerLevel;
     }
 
-    public SearchMoveResult setDistinctMovesPerLevel(List<Set<Move>> distinctMovesPerLevel) {
+    public SearchMoveResult setDistinctMovesPerLevel(Set<Move>[] distinctMovesPerLevel) {
         this.distinctMovesPerLevel = distinctMovesPerLevel;
         return this;
     }

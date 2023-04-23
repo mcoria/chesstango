@@ -49,10 +49,10 @@ public class AlphaBetaStatisticsTest {
 
         SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(2)));
 
-        List<Set<Move>> distinctMoves = searchResult.getDistinctMovesPerLevel();
+        Set<Move>[] distinctMoves = searchResult.getDistinctMovesPerLevel();
 
-        Assert.assertEquals(20, distinctMoves.get(0).size());
-        Assert.assertEquals(20, distinctMoves.get(1).size());
+        Assert.assertEquals(20, distinctMoves[0].size());
+        Assert.assertEquals(20, distinctMoves[1].size());
     }
 
     @Test
@@ -91,10 +91,11 @@ public class AlphaBetaStatisticsTest {
     private SearchContext setupContext(SearchContext searchContext) {
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
-        List<Set<Move>> distinctMovesPerLevel = new ArrayList<>(visitedNodesCounters.length);
+        Set<Move>[] distinctMovesPerLevel = new Set[30];
         for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel.add(new HashSet<>());
+            distinctMovesPerLevel[i] = new HashSet<>();
         }
+
         return searchContext.setVisitedNodesCounters(visitedNodesCounters)
                             .setDistinctMovesPerLevel(distinctMovesPerLevel)
                             .setExpectedNodesCounters(expectedNodesCounters);

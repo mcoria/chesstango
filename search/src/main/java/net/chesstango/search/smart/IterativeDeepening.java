@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeeping implements SearchMove {
+public class IterativeDeepening implements SearchMove {
     private final AbstractSmart searchMove;
-    private boolean keepProcessing;
+    private volatile boolean keepProcessing;
 
-    public IterativeDeeping(AbstractSmart searchMove) {
+    public IterativeDeepening(AbstractSmart searchMove) {
         this.searchMove = searchMove;
     }
 
@@ -34,9 +34,9 @@ public class IterativeDeeping implements SearchMove {
 
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
-        List<Set<Move>> distinctMovesPerLevel = new ArrayList<>(visitedNodesCounters.length);
+        Set<Move>[] distinctMovesPerLevel = new Set[30];
         for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel.add(new HashSet<>());
+            distinctMovesPerLevel[i] = new HashSet<>();
         }
 
         for (int i = 1; i <= depth; i++) {
@@ -53,10 +53,11 @@ public class IterativeDeeping implements SearchMove {
                     break;
                 }
             } else {
+                /*
                 SearchMoveResult lastBestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
                 if (searchResult.getEvaluation() >= lastBestMove.getEvaluation()) {
                     bestMovesByDepth.add(lastBestMove);
-                }
+                }*/
                 throw new RuntimeException("Unimplemented logic");
             }
         }
@@ -75,6 +76,7 @@ public class IterativeDeeping implements SearchMove {
 
     protected Move selectBestMove(Color currentTurn, List<SearchMoveResult> bestMovesByDepth) {
         List<Move> lastSearchMoveOptions = bestMovesByDepth.get(bestMovesByDepth.size() - 1).getBestMoveOptions();
+
         if(lastSearchMoveOptions.size() == 1) {
             return lastSearchMoveOptions.get(0);
         }

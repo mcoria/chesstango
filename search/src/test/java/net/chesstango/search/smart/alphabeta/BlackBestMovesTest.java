@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
-import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
 import org.junit.Before;
 
@@ -34,7 +34,7 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
         minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
-        this.searchMove = new IterativeDeeping(minMaxPruning);
+        this.searchMove = new IterativeDeepening(minMaxPruning);
     }
 
 

@@ -1,14 +1,10 @@
 package net.chesstango.search.smart.negamax;
 
-import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
-import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
-import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.MinMaxPruning;
-import net.chesstango.search.smart.alphabeta.Quiescence;
 import org.junit.Before;
 
 /**
@@ -27,7 +23,7 @@ public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
 
         NegaMaxPruning negaMaxPruning = new NegaMaxPruning(negaQuiescence);
 
-        this.searchMove = new IterativeDeeping(negaMaxPruning);
+        this.searchMove = new IterativeDeepening(negaMaxPruning);
     }
 
 

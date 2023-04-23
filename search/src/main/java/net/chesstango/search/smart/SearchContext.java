@@ -10,13 +10,9 @@ import java.util.Set;
  */
 public class SearchContext {
     private final int maxPly;
-
     private int[] visitedNodesCounters;
-
     private int[] expectedNodesCounters;
-
-    private List<Set<Move>> distinctMovesPerLevel;
-
+    private Set<Move>[] distinctMovesPerLevel;
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
     }
@@ -43,11 +39,11 @@ public class SearchContext {
         return this;
     }
 
-    public List<Set<Move>> getDistinctMovesPerLevel() {
+    public Set<Move>[] getDistinctMovesPerLevel() {
         return distinctMovesPerLevel;
     }
 
-    public SearchContext setDistinctMovesPerLevel(List<Set<Move>> distinctMovesPerLevel) {
+    public SearchContext setDistinctMovesPerLevel(Set<Move>[] distinctMovesPerLevel) {
         this.distinctMovesPerLevel = distinctMovesPerLevel;
         return this;
     }

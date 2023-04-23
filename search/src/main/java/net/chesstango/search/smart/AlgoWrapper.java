@@ -10,9 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Mauricio Coria
+ */
 public class AlgoWrapper implements SearchMove {
     private final AbstractSmart searchMove;
-
 
     public AlgoWrapper(AbstractSmart searchMove) {
         this.searchMove = searchMove;
@@ -28,9 +30,9 @@ public class AlgoWrapper implements SearchMove {
 
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
-        List<Set<Move>> distinctMovesPerLevel = new ArrayList<>(visitedNodesCounters.length);
+        Set<Move>[] distinctMovesPerLevel = new Set[30];
         for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel.add(new HashSet<>());
+            distinctMovesPerLevel[i] = new HashSet<>();
         }
 
         SearchContext context = new SearchContext(depth)

@@ -5,7 +5,7 @@ import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.AlgoWrapper;
-import net.chesstango.search.smart.IterativeDeeping;
+import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.minmax.MinMax;
@@ -98,7 +98,7 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     private SearchMove iterateDeepingWrapper(AbstractSmart algorithm) {
-        return new IterativeDeeping(algorithm);
+        return new IterativeDeepening(algorithm);
     }
 
 

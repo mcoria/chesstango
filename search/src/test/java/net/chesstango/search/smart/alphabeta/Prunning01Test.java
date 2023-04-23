@@ -1,10 +1,8 @@
 package net.chesstango.search.smart.alphabeta;
 
-import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AlgoWrapper;
-import net.chesstango.search.smart.IterativeDeeping;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.Pruning01Test;
 import org.junit.Before;

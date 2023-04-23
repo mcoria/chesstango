@@ -9,15 +9,14 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * @author Mauricio Coria
  */
-public class IterativeDeepingTest {
+public class IterativeDeepeningTest {
 
-    private IterativeDeeping iterativeDeeping;
+    private IterativeDeepening iterativeDeepening;
 
     private MinMax smart;
 
@@ -25,7 +24,7 @@ public class IterativeDeepingTest {
     public void setup(){
         smart = new MinMax();
 
-        iterativeDeeping = new IterativeDeeping(smart);
+        iterativeDeepening = new IterativeDeepening(smart);
     }
 
     @Test
@@ -38,7 +37,7 @@ public class IterativeDeepingTest {
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = iterativeDeeping.searchBestMove(game, 1);
+        SearchMoveResult searchResult = iterativeDeepening.searchBestMove(game, 1);
         Move bestMove = searchResult.getBestMove();
         Assert.assertEquals(Square.e2, bestMove.getFrom().getSquare());
         Assert.assertEquals(Square.e4, bestMove.getTo().getSquare());
@@ -50,7 +49,7 @@ public class IterativeDeepingTest {
          * Repetimos la busqueda en depth = 3, acá la evaluacion de todos los movimientos es la misma.
          * Lo que queremos es priorizar aquellos movimientos que tempranamente se encontraron en profundidades anteriores.
          */
-        searchResult = iterativeDeeping.searchBestMove(game, 3);
+        searchResult = iterativeDeepening.searchBestMove(game, 3);
         bestMove = searchResult.getBestMove();
         Assert.assertEquals(Square.e2, bestMove.getFrom().getSquare());
         Assert.assertEquals(Square.e4, bestMove.getTo().getSquare());
