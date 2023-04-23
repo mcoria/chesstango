@@ -24,7 +24,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 1;
+    private static final int DEPTH = 4;
     private static final boolean MATCH_DEBUG = false;
 
     public static void main(String[] args) {
@@ -107,7 +107,7 @@ public class MatchMain implements MatchListener {
 
     @Override
     public void notifyEndGame(Game game, GameResult gameResult) {
-        saveGameResult(gameResult);
+        gameResult.save();
     }
 
     private void startEngines() {
@@ -118,19 +118,5 @@ public class MatchMain implements MatchListener {
     private void quitEngines() {
         engineController1.send_CmdQuit();
         engineController2.send_CmdQuit();
-    }
-
-    private static void saveGameResult(GameResult gameResult) {
-        PGNEncoder encoder = new PGNEncoder();
-        String encodedGame = encoder.encode(gameResult.getPgnGame());
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));
-            writer.append(encodedGame);
-            writer.append("\n\n");
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
