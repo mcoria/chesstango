@@ -29,8 +29,9 @@ public class NegaMax extends AbstractSmart {
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
         final List<Move> bestMoves = new ArrayList<Move>();
+        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
 
-        final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
+        final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
 
         for (Move move : game.getPossibleMoves()) {
@@ -51,7 +52,7 @@ public class NegaMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
                 .setEvaluationCollisions(bestMoves.size() - 1);
     }
 

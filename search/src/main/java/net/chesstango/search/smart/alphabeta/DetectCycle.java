@@ -104,7 +104,6 @@ public class DetectCycle implements AlphaBetaFilter{
                 return true;
             }
         }
-
         positions[currentPly] = positionHash;
         return false;
     }

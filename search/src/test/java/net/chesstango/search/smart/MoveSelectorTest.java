@@ -14,14 +14,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author Mauricio Coria
+ */
 public class MoveSelectorTest {
-
-    private MoveSelector moveSelector;
-
-    @Before
-    public void setup(){
-        moveSelector = new MoveSelector();
-    }
 
     @Test
     public void selectMoveTest01(){
@@ -33,7 +30,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = moveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.d3, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.b1, selectedMove.getTo().getSquare());
@@ -50,7 +47,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = moveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.b2, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.a1, selectedMove.getTo().getSquare());
@@ -69,7 +66,7 @@ public class MoveSelectorTest {
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = moveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.b7, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.a8, selectedMove.getTo().getSquare());

@@ -25,9 +25,10 @@ public class MinMaxPruning extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
-        notifyInit(game, context);
         this.keepProcessing = true;
-        final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
+        initFilters(game, context);
+        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
+        final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
 
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
@@ -64,8 +65,9 @@ public class MinMaxPruning extends AbstractSmart {
             game.getPossibleMoves().forEach(bestMoves::add);
         }
 
+        Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
-        return new SearchMoveResult(context.getMaxPly(), bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        return new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null)
                 .setVisitedNodesCounters(context.getVisitedNodesCounters())
                 .setDistinctMovesPerLevel(context.getDistinctMovesPerLevel())
                 .setEvaluationCollisions(bestMoves.size() - 1)
@@ -84,13 +86,14 @@ public class MinMaxPruning extends AbstractSmart {
     public void setFilters(List<AlphaBetaFilter> filters) {
         this.filters = filters;
     }
-    private void notifyInit(Game game, SearchContext context) {
-        filters.stream().forEach(filter -> filter.init(game, context));
-    }
 
     @Override
     public void stopSearching() {
         keepProcessing = false;
         filters.stream().forEach(AlphaBetaFilter::stopSearching);
+    }
+
+    private void initFilters(Game game, SearchContext context) {
+        filters.stream().forEach(filter -> filter.init(game, context));
     }
 }

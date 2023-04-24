@@ -34,17 +34,21 @@ public class MoveSelector {
      * |                 GameEvaluatorImp02|      882 |           604 |          278 |        563 |
      *  ------------------------------------------------------------------------------------------
      */
-    public Move selectMove(Color currentTurn, List<Move> moves) {
+    private MoveSelector(){};
+
+    public static Move selectMove(Color currentTurn, List<Move> moves) {
         if (moves.size() == 0) {
             throw new RuntimeException("There is no move to select");
         } else if (moves.size() == 1) {
             return moves.get(0);
         }
 
-        //TODO: esta situacion indica que dos movimientos distintos obtuvieron la misma evaluacion.
-        // a ciencia cierta no sabemos si se deben a que se alcanza la misma posicion o son posicione distintas
-        // en el caso de ser posiciones iguales las coliciones deberian disminuir si aumentamos la profundidad de busqueda
-        // en el caso de ser posiciones distintas estamos en presencia de una mala funcion de evaluacion estatica
+        /*
+        TODO: esta situacion indica que dos movimientos distintos obtuvieron la misma evaluacion.
+            a ciencia cierta no sabemos si se deben a que se alcanza la misma posicion o son posicione distintas
+            en el caso de ser posiciones iguales las coliciones deberian disminuir si aumentamos la profundidad de busqueda
+            en el caso de ser posiciones distintas estamos en presencia de una mala funcion de evaluacion estatica
+         */
 
         List<Move> movesToSquare = null;
 
@@ -59,7 +63,9 @@ public class MoveSelector {
             int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxToRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que llegan al mismo Square
-            movesToSquare = movesFromSquare.stream().filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
+            movesToSquare = movesFromSquare.stream()
+                    .filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile)
+                    .collect(Collectors.toList());
         } else {
             int minFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
             int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minFromRank).mapToInt(Square::getFile).min().getAsInt();
@@ -71,10 +77,18 @@ public class MoveSelector {
             int minToFile = movesFromSquare.stream().map(Move::getTo).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minToRank).mapToInt(Square::getFile).min().getAsInt();
 
             // Aca seleccionamos todos los movimientos que llegan al mismo Square
-            movesToSquare = movesFromSquare.stream().filter(move -> move.getTo().getSquare().getRank() == minToRank && move.getTo().getSquare().getFile() == minToFile).collect(Collectors.toList());
+            movesToSquare = movesFromSquare.stream()
+                    .filter(move -> move.getTo().getSquare().getRank() == minToRank && move.getTo().getSquare().getFile() == minToFile)
+                    .collect(Collectors.toList());
         }
 
         //TODO: que pasa cuando son promociones ?!?!
-        return movesToSquare.size() == 1 ?  movesToSquare.get(0) : movesToSquare.stream().map(move -> (MovePromotion) move).filter(movePromotion -> Piece.QUEEN_WHITE.equals(movePromotion.getPromotion()) || Piece.QUEEN_BLACK.equals(movePromotion.getPromotion())).findAny().get();
+        return movesToSquare.size() == 1 ?
+                movesToSquare.get(0) :
+                movesToSquare.stream()
+                        .map(move -> (MovePromotion) move)
+                        .filter(movePromotion -> Piece.QUEEN_WHITE.equals(movePromotion.getPromotion()) || Piece.QUEEN_BLACK.equals(movePromotion.getPromotion()))
+                        .findAny()
+                        .get();
     }
 }

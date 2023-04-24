@@ -96,7 +96,7 @@ public class IterativeDeepening implements SearchMove {
         
         List<Move> filteredOptions = moveByFrequency.entrySet().stream().filter(entry -> entry.getValue().equals(maxFrequency)).map(Map.Entry::getKey).collect(Collectors.toList());
 
-        return new MoveSelector().selectMove(currentTurn, filteredOptions);
+        return MoveSelector.selectMove(currentTurn, filteredOptions);
     }
 
     @Override

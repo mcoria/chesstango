@@ -29,7 +29,8 @@ public class MinMax extends AbstractSmart {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];
 
-        final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
+        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
+        final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
 
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
@@ -61,7 +62,7 @@ public class MinMax extends AbstractSmart {
         }
 
 
-        return new SearchMoveResult(context.getMaxPly(), betterEvaluation, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        return new SearchMoveResult(context.getMaxPly(), betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
                 .setVisitedNodesCounters(visitedNodesCounter)
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);

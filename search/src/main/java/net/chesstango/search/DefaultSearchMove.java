@@ -24,7 +24,7 @@ public class DefaultSearchMove implements SearchMove {
 
     public DefaultSearchMove() {
         //this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
-        this.imp = iterateDeepingWrapper(setupMinMaxPruning());
+        this.imp = iterateDeepeningWrapper(setupMinMaxPruning());
 
         this.setGameEvaluator(new DefaultGameEvaluator());
     }
@@ -97,7 +97,7 @@ public class DefaultSearchMove implements SearchMove {
         return minMax;
     }
 
-    private SearchMove iterateDeepingWrapper(AbstractSmart algorithm) {
+    private SearchMove iterateDeepeningWrapper(AbstractSmart algorithm) {
         return new IterativeDeepening(algorithm);
     }
 

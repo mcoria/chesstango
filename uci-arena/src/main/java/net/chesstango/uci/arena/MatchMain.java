@@ -26,9 +26,17 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 6;
+    private static final int DEPTH = 2;
     private static final boolean MATCH_DEBUG = false;
 
+    /**
+     * -Dcom.sun.management.jmxremote
+     * -Dcom.sun.management.jmxremote.port=19999
+     * -Dcom.sun.management.jmxremote.local.only=false
+     * -Dcom.sun.management.jmxremote.authenticate=false
+     * -Dcom.sun.management.jmxremote.ssl=false
+     *
+     */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
                                             .createTangoController(GameEvaluatorSEandImp02.class);
@@ -41,8 +49,10 @@ public class MatchMain implements MatchListener {
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
+
         new GameReports()
                 .printEngineControllersReport(Arrays.asList(engineController1, engineController2), matchResult);
+
 
 
         new SessionReports()
@@ -56,6 +66,7 @@ public class MatchMain implements MatchListener {
 
         new CutoffReports()
                 .printTangoStatics(Arrays.asList(engineController1), matchResult);
+
 
     }
 
@@ -84,7 +95,7 @@ public class MatchMain implements MatchListener {
 
         Match match = new Match(engineController1, engineController2, DEPTH)
                             .setDebugEnabled(MATCH_DEBUG)
-                            .switchChairs(true)
+                            .switchChairs(false)
                             .setMatchListener(matchBroadcaster);
 
         startEngines();

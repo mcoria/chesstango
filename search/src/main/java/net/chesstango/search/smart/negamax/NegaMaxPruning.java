@@ -38,6 +38,7 @@ public class NegaMaxPruning extends AbstractSmart {
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
+        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
 
         int bestValue = GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;
@@ -72,7 +73,9 @@ public class NegaMaxPruning extends AbstractSmart {
         }
 
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, new MoveSelector().selectMove(game.getChessPosition().getCurrentTurn(), bestMoves), null)
+        Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
+
+        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, bestMove, null)
                 .setVisitedNodesCounters(this.visitedNodesCounter)
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);

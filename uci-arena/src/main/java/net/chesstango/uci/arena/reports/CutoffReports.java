@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * @author Mauricio Coria
+ */
 public class CutoffReports {
 
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
-
         List<ReportModel> reportRows = new ArrayList<>();
 
         enginesOrder.forEach(engineController -> {
@@ -27,7 +29,7 @@ public class CutoffReports {
     }
 
     private void print(ReportModel report) {
-        System.out.printf("%s\n", report.pgnGame);
+        //System.out.printf("%s\n", report.pgnGame);
 
         System.out.println("\n Cutoff per search level (higher is better)");
 
