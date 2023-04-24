@@ -28,6 +28,10 @@ public class SearchMoveResult {
         this.ponderMove = ponderMove;
     }
 
+    public int getDepth() {
+        return depth;
+    }
+
     public int getEvaluation() {
         return evaluation;
     }
@@ -59,15 +63,6 @@ public class SearchMoveResult {
         return this;
     }
 
-    public int[] getEvaluatedNodes() {
-        return evaluatedNodes;
-    }
-
-    public SearchMoveResult setEvaluatedNodes(int[] evaluatedNodes) {
-        this.evaluatedNodes = evaluatedNodes;
-        return this;
-    }
-
     public Set<Move>[] getDistinctMovesPerLevel() {
         return distinctMovesPerLevel;
     }
@@ -92,6 +87,15 @@ public class SearchMoveResult {
 
     public SearchMoveResult setBestMoveOptions(List<Move> bestMoveOptions) {
         this.bestMoveOptions = bestMoveOptions;
+        return this;
+    }
+
+    public int[] getEvaluatedNodes() {
+        return evaluatedNodes;
+    }
+
+    public SearchMoveResult setEvaluatedNodes(int[] evaluatedNodes) {
+        this.evaluatedNodes = evaluatedNodes;
         return this;
     }
 }

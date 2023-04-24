@@ -11,29 +11,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Selecciona un movimiento dentro de un conjunto de opciones. La seleccion es simetrica respecto al color.
+ *
+ * Observar la cantidad de veces que existe mas de un movimiento posible optimimo.
+ * Esta situacion indica que dos movimientos distintos obtuvieron la misma evaluacion.
+ * a ciencia cierta no sabemos si se deben a que se alcanza la misma posicion o son posicione distintas
+ * en el caso de ser posiciones iguales las coliciones deberian disminuir si aumentamos la profundidad de busqueda
+ * en el caso de ser posiciones distintas estamos en presencia de una mala funcion de evaluacion estatica
+ *
+ * Positions: Balsa_Top10.pgn  (Match)
+ * Depth: 4
+ * Time taken: 140897 ms
+ *  ___________________________________________________________________________________________________________________________________________________
+ * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
+ * |            GameEvaluatorSEandImp02|       5 |       6 |        1 |        2 |        4 |        2 |        7.0 |        7.0 |  14.0 / 20 |   70.0 |
+ * |                 GameEvaluatorImp02|       2 |       1 |        6 |        5 |        2 |        4 |        3.0 |        3.0 |   6.0 / 20 |   30.0 |
+ *  ---------------------------------------------------------------------------------------------------------------------------------------------------
+ *  __________________________________________________________________________________________
+ * |ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | COLLISIONS |
+ * |            GameEvaluatorSEandImp02|      885 |           757 |          128 |        212 |
+ * |                 GameEvaluatorImp02|      882 |           604 |          278 |        563 |
+ *  ------------------------------------------------------------------------------------------
+ *
  * @author Mauricio Coria
  */
 public class MoveSelector {
-    /**
-     * La idea es seleccionar siempre la misma posicion en caso de que exista más de una opcion.
-     * La seleccion es simetrica respecto al color.
-     *
-     * Observar la cantidad de veces que existe mas de un movimiento posible optimimo.
-     *
-     * Positions: Balsa_Top10.pgn  (Match)
-     * Depth: 4
-     * Time taken: 140897 ms
-     *  ___________________________________________________________________________________________________________________________________________________
-     * |ENGINE NAME                        |WHITE WON|BLACK WON|WHITE LOST|BLACK LOST|WHITE DRAW|BLACK DRAW|WHITE POINTS|BLACK POINTS|TOTAL POINTS|   WIN %|
-     * |            GameEvaluatorSEandImp02|       5 |       6 |        1 |        2 |        4 |        2 |        7.0 |        7.0 |  14.0 / 20 |   70.0 |
-     * |                 GameEvaluatorImp02|       2 |       1 |        6 |        5 |        2 |        4 |        3.0 |        3.0 |   6.0 / 20 |   30.0 |
-     *  ---------------------------------------------------------------------------------------------------------------------------------------------------
-     *  __________________________________________________________________________________________
-     * |ENGINE NAME                        | SEARCHES | wo/COLLISIONS | w/COLLISIONS | COLLISIONS |
-     * |            GameEvaluatorSEandImp02|      885 |           757 |          128 |        212 |
-     * |                 GameEvaluatorImp02|      882 |           604 |          278 |        563 |
-     *  ------------------------------------------------------------------------------------------
-     */
     private MoveSelector(){};
 
     public static Move selectMove(Color currentTurn, List<Move> moves) {
@@ -44,15 +46,13 @@ public class MoveSelector {
         }
 
         /*
-        TODO: esta situacion indica que dos movimientos distintos obtuvieron la misma evaluacion.
-            a ciencia cierta no sabemos si se deben a que se alcanza la misma posicion o son posicione distintas
-            en el caso de ser posiciones iguales las coliciones deberian disminuir si aumentamos la profundidad de busqueda
-            en el caso de ser posiciones distintas estamos en presencia de una mala funcion de evaluacion estatica
+        TODO:
          */
 
         List<Move> movesToSquare = null;
 
         if (Color.WHITE.equals(currentTurn)) {
+            // Casillero de origen
             int maxFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).max().getAsInt();
             int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == maxFromRank).mapToInt(Square::getFile).min().getAsInt();
 
@@ -67,6 +67,7 @@ public class MoveSelector {
                     .filter(move -> move.getTo().getSquare().getRank() == maxToRank && move.getTo().getSquare().getFile() == minToFile)
                     .collect(Collectors.toList());
         } else {
+            // Casillero de origen
             int minFromRank = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).mapToInt(Square::getRank).min().getAsInt();
             int minFromFile = moves.stream().map(Move::getFrom).map(PiecePositioned::getSquare).filter(square -> square.getRank() == minFromRank).mapToInt(Square::getFile).min().getAsInt();
 
@@ -82,7 +83,7 @@ public class MoveSelector {
                     .collect(Collectors.toList());
         }
 
-        //TODO: que pasa cuando son promociones ?!?!
+        // Resolvemos promocion priorizando promicion a QUEEN
         return movesToSquare.size() == 1 ?
                 movesToSquare.get(0) :
                 movesToSquare.stream()

@@ -2,7 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AlgoWrapper;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.MoveSorter;
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class NegaMaxPrunningMateIn2Test extends MateIn2Test {
 
         NegaMaxPruning negaMaxPruning = new NegaMaxPruning(negaQuiescence);
 
-        this.searchMove = new AlgoWrapper(negaMaxPruning);
+        this.searchMove = new NoIterativeDeepening(negaMaxPruning);
     }
 
 

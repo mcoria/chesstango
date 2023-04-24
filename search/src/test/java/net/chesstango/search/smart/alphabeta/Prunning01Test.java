@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AlgoWrapper;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.Pruning01Test;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class Prunning01Test extends Pruning01Test {
         minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
-        this.searchMove = new AlgoWrapper(minMaxPruning);
+        this.searchMove = new NoIterativeDeepening(minMaxPruning);
     }
 
 

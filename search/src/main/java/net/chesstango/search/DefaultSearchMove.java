@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.AbstractSmart;
-import net.chesstango.search.smart.AlgoWrapper;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.alphabeta.*;
@@ -103,7 +103,7 @@ public class DefaultSearchMove implements SearchMove {
 
 
     private SearchMove simpleAbstractSmartWrapper(AbstractSmart algorithm) {
-        return new AlgoWrapper(algorithm);
+        return new NoIterativeDeepening(algorithm);
     }
 
     @Override

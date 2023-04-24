@@ -3,6 +3,8 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
+import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
@@ -36,6 +38,26 @@ public class MoveSelectorTest {
         Assert.assertEquals(Square.b1, selectedMove.getTo().getSquare());
     }
 
+    @Test
+    public void selectMoveTest01_mirror(){
+        Game game = FENDecoder.loadGame("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14");
+
+        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
+        game.getChessPosition().constructChessPositionRepresentation(mirror);
+        Game gameMirror = mirror.getChessRepresentation();
+
+        MoveContainerReader possibleMovesMoves = gameMirror.getPossibleMoves();
+
+        List<Move> moves = new ArrayList<>();
+
+        possibleMovesMoves.forEach(moves::add);
+
+        Move selectedMove = MoveSelector.selectMove(gameMirror.getChessPosition().getCurrentTurn(), moves);
+
+        Assert.assertEquals(Square.d6, selectedMove.getFrom().getSquare());
+        Assert.assertEquals(Square.b8, selectedMove.getTo().getSquare());
+    }
+
 
     @Test
     public void selectMoveTest02(){
@@ -57,16 +79,20 @@ public class MoveSelectorTest {
     }
 
     @Test
-    public void selectMoveTest04(){
-        Game game = FENDecoder.loadGame("rn2k3/1P4P1/8/8/8/8/8/4K3 w q - 0 1");
+    public void selectMoveTest02_mirror(){
+        Game game = FENDecoder.loadGame("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1");
 
-        MoveContainerReader possibleMovesMoves = game.getPossibleMoves();
+        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
+        game.getChessPosition().constructChessPositionRepresentation(mirror);
+        Game gameMirror = mirror.getChessRepresentation();
+
+        MoveContainerReader possibleMovesMoves = gameMirror.getPossibleMoves();
 
         List<Move> moves = new ArrayList<>();
 
         possibleMovesMoves.forEach(moves::add);
 
-        Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
+        Move selectedMove = MoveSelector.selectMove(gameMirror.getChessPosition().getCurrentTurn(), moves);
 
         Assert.assertEquals(Square.b7, selectedMove.getFrom().getSquare());
         Assert.assertEquals(Square.a8, selectedMove.getTo().getSquare());
@@ -74,4 +100,5 @@ public class MoveSelectorTest {
         Assert.assertEquals(Piece.QUEEN_WHITE, ((MovePromotion)selectedMove).getPromotion() );
 
     }
+
 }

@@ -5,18 +5,16 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * @author Mauricio Coria
  */
-public class AlgoWrapper implements SearchMove {
+public class NoIterativeDeepening implements SearchMove {
     private final AbstractSmart searchMove;
 
-    public AlgoWrapper(AbstractSmart searchMove) {
+    public NoIterativeDeepening(AbstractSmart searchMove) {
         this.searchMove = searchMove;
     }
 

@@ -2,7 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.AlgoWrapper;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.MateIn1Test;
 import net.chesstango.search.smart.MoveSorter;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class MinMaxPrunningMateIn1Test extends MateIn1Test {
         minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
 
-        this.searchMove = new AlgoWrapper(minMaxPruning);
+        this.searchMove = new NoIterativeDeepening(minMaxPruning);
     }
 
 
