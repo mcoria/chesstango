@@ -32,17 +32,17 @@ public class AlphaBetaStatisticsTest {
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaStatistics);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setNext(alphaBetaStatistics);
 
-        alphaBetaStatistics.setNext(alphaBetaImp);
+        alphaBetaStatistics.setNext(alphaBeta);
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence));
     }
 
     @Test

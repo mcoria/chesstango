@@ -39,23 +39,23 @@ public class DetectCycleTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
         DetectCycle detectCycle = new DetectCycle();
         // FILTERS END
 
-        alphaBetaImp.setNext(alphaBetaStatistics);
-        detectCycle.setNext(alphaBetaImp);
+        alphaBeta.setNext(alphaBetaStatistics);
+        detectCycle.setNext(alphaBeta);
         alphaBetaStatistics.setNext(detectCycle);
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics, quiescence, detectCycle));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, detectCycle));
     }
 
 

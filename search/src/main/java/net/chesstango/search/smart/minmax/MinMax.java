@@ -16,7 +16,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MinMax extends AbstractSmart {
-    // Beyond level 4, the performance is really bad
+    // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
     private int[] visitedNodesCounter;
     private GameEvaluator evaluator;

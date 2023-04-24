@@ -46,14 +46,14 @@ public class MinMaxPruningWhiteTest {
 
     @Test
     public void test_findBestMove_WhitePlays_SingleMove() {
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -75,14 +75,14 @@ public class MinMaxPruningWhiteTest {
 
     @Test
     public void test_findBestMove_WhitePlays_TwoMoves() {
-        AlphaBetaImp alphaBetaImp = Mockito.spy(new AlphaBetaImp());
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
+        AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -106,20 +106,20 @@ public class MinMaxPruningWhiteTest {
         verify(quiescence, times(1)).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
         verify(quiescence, times(1)).minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
 
-        verify(alphaBetaImp).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
-        verify(alphaBetaImp).minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
     }
 
     @Test
     public void test_findBestMove_WhitePlays_MateCutOff() {
-        AlphaBetaImp alphaBetaImp = Mockito.spy(new AlphaBetaImp());
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
+        AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -151,8 +151,8 @@ public class MinMaxPruningWhiteTest {
         verify(quiescence, times(1)).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
         verify(quiescence, times(1)).minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
 
-        verify(alphaBetaImp).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
-        verify(alphaBetaImp).minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
 
         verifyNoInteractions(move3);
         verifyNoInteractions(childGame3);
@@ -160,14 +160,14 @@ public class MinMaxPruningWhiteTest {
 
     @Test
     public void test_findBestMove_WhitePlays_ImminentMate() {
-        AlphaBetaImp alphaBetaImp = Mockito.spy(new AlphaBetaImp());
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
+        AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -200,18 +200,18 @@ public class MinMaxPruningWhiteTest {
         verify(quiescence, times(1)).minimize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
         verify(quiescence, times(1)).minimize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
 
-        verify(alphaBetaImp).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
-        verify(alphaBetaImp).minimize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
-        verify(alphaBetaImp).minimize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
     }
 
     @Test
     public void test_maximize_WhitePlays_MateCutOff() {
-        AlphaBetaImp alphaBetaImp = Mockito.spy(new AlphaBetaImp());
+        AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
         //AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaImp);
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setNext(alphaBeta);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -228,8 +228,8 @@ public class MinMaxPruningWhiteTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        alphaBetaImp.init(rootGame, new SearchContext(2));
-        int maxValue = alphaBetaImp.maximize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        alphaBeta.init(rootGame, new SearchContext(2));
+        int maxValue = alphaBeta.maximize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         Assert.assertEquals(GameEvaluator.WHITE_WON, maxValue);
 
@@ -240,8 +240,8 @@ public class MinMaxPruningWhiteTest {
         verify(quiescence, times(1)).minimize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
         verify(quiescence, times(1)).minimize(eq(childGame2), eq(2), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
 
-        verify(alphaBetaImp).minimize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
-        verify(alphaBetaImp).minimize(eq(childGame2), eq(2), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE));
+        verify(alphaBeta).minimize(eq(childGame2), eq(2), eq(1), eq(GameEvaluator.INFINITE_POSITIVE));
 
         verifyNoInteractions(move3);
         verifyNoInteractions(childGame3);

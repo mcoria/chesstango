@@ -17,94 +17,20 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  */
 public class DefaultSearchMove implements SearchMove {
-
     private final SearchMove imp;
 
-    private Consumer<GameEvaluator> fnSetEvaluator;
+    private final GameEvaluator gameEvaluator;
 
     public DefaultSearchMove() {
-        //this.imp = simpleAbstractSmartWrapper(setupMinMaxPruning());
-        this.imp = iterateDeepeningWrapper(setupMinMaxPruning());
-
-        this.setGameEvaluator(new DefaultGameEvaluator());
+        this(new DefaultGameEvaluator());
     }
 
-    private AbstractSmart setupMinMaxPruning() {
-
-        // FILTERS START
-        MoveSorter moveSorter = new MoveSorter();
-
-        Quiescence quiescence = new Quiescence();
-        quiescence.setMoveSorter(moveSorter);
-
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-
-        DetectCycle detectCycle = new DetectCycle();
-        // FILTERS END
-
-        alphaBetaImp.setNext(detectCycle);
-        detectCycle.setNext(alphaBetaImp);
-
-        MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(detectCycle);
-        minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
-
-        this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
-
-        return minMaxPruning;
+    public DefaultSearchMove(final GameEvaluator gameEvaluator) {
+        this.gameEvaluator = gameEvaluator;
+        //this.imp = withoutIterateDeepening(setupMinMaxPruning());
+        this.imp = withIterateDeepening(setupMinMaxPruning());
     }
 
-    private AbstractSmart setupMinMaxPruningWithStatics() {
-
-        // FILTERS START
-        MoveSorter moveSorter = new MoveSorter();
-
-        QuiescenceNull quiescence = new QuiescenceNull();
-
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-
-        AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
-
-        //DetectCycle detectCycle = new DetectCycle();
-        // FILTERS END
-
-        alphaBetaImp.setNext(alphaBetaStatistics);
-        //detectCycle.setNext(alphaBetaImp);
-        alphaBetaStatistics.setNext(alphaBetaImp);
-
-        MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, alphaBetaStatistics, quiescence));
-
-        this.fnSetEvaluator = (evaluator) -> quiescence.setGameEvaluator(evaluator);
-
-        return minMaxPruning;
-    }
-
-
-    private AbstractSmart setupMinMax() {
-
-        MinMax minMax = new MinMax();
-
-        this.fnSetEvaluator = (evaluator) -> minMax.setGameEvaluator(evaluator);
-
-        return minMax;
-    }
-
-    private SearchMove iterateDeepeningWrapper(AbstractSmart algorithm) {
-        return new IterativeDeepening(algorithm);
-    }
-
-
-    private SearchMove simpleAbstractSmartWrapper(AbstractSmart algorithm) {
-        return new NoIterativeDeepening(algorithm);
-    }
 
     @Override
     public SearchMoveResult searchBestMove(Game game) {
@@ -121,7 +47,30 @@ public class DefaultSearchMove implements SearchMove {
         imp.stopSearching();
     }
 
-    public void setGameEvaluator(GameEvaluator evaluator) {
-        fnSetEvaluator.accept(evaluator);
+    protected AbstractSmart setupMinMaxPruning() {
+        return new MinMaxPruningBuilder()
+                .withGameEvaluator(gameEvaluator)
+                .withStatics()
+                .withQuiescence()
+                .build();
+    }
+
+
+    protected AbstractSmart setupMinMax() {
+
+        MinMax minMax = new MinMax();
+
+        minMax.setGameEvaluator(gameEvaluator);
+
+        return minMax;
+    }
+
+    protected SearchMove withIterateDeepening(AbstractSmart algorithm) {
+        return new IterativeDeepening(algorithm);
+    }
+
+
+    protected SearchMove withoutIterateDeepening(AbstractSmart algorithm) {
+        return new NoIterativeDeepening(algorithm);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Queue;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBetaImp implements AlphaBetaFilter {
+public class AlphaBeta implements AlphaBetaFilter {
     protected boolean keepProcessing;
 
     private AlphaBetaFilter next;

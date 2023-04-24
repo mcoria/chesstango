@@ -24,15 +24,15 @@ public class MinMaxPrunningMateIn4Test extends MateIn4Test {
         quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
         quiescence.setMoveSorter(moveSorter);
 
-        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
-        alphaBetaImp.setQuiescence(quiescence);
-        alphaBetaImp.setMoveSorter(moveSorter);
-        alphaBetaImp.setNext(alphaBetaImp);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setQuiescence(quiescence);
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setNext(alphaBeta);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaImp);
+        minMaxPruning.setAlphaBetaSearch(alphaBeta);
         minMaxPruning.setMoveSorter(moveSorter);
-        minMaxPruning.setFilters(Arrays.asList(alphaBetaImp, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
     }

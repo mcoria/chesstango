@@ -77,9 +77,9 @@ public class EngineControllerFactory extends BasePooledObjectFactory<EngineContr
     }
 
     private static EngineTango createEngineTango(Class<? extends GameEvaluator> gameEvaluatorClass) {
-        DefaultSearchMove search = new DefaultSearchMove();
         try {
-            search.setGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
+            DefaultSearchMove search = new DefaultSearchMove(gameEvaluatorClass.getDeclaredConstructor().newInstance());
+            return new EngineTango(search);
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
@@ -89,6 +89,5 @@ public class EngineControllerFactory extends BasePooledObjectFactory<EngineContr
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        return new EngineTango(search);
     }
 }
