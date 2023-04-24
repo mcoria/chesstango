@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.Iterator;

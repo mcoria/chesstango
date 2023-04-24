@@ -18,7 +18,6 @@ public class SearchMoveResult {
     private int[] expectedNodesCounters;
     private int[] evaluatedNodes;
     private Set<Move>[] distinctMovesPerLevel;
-
     private List<Move> bestMoveOptions;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {

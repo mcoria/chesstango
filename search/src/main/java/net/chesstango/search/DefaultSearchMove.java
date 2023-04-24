@@ -4,9 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.AbstractSmart;
-import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.minmax.MinMax;
 

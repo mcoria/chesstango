@@ -2,9 +2,9 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import org.junit.Before;
 
 import java.util.Arrays;

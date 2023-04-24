@@ -10,7 +10,9 @@ import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Mauricio Coria

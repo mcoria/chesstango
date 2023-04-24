@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import net.chesstango.board.moves.Move;
 
-import java.util.List;
 import java.util.Set;
 
 /**

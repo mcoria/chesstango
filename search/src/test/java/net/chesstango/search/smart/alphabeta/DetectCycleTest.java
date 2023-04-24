@@ -10,14 +10,14 @@ import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.alphabeta.AlphaBetaImp;
-import net.chesstango.search.smart.alphabeta.MinMaxPruning;
-import net.chesstango.search.smart.alphabeta.QuiescenceNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
@@ -91,7 +91,7 @@ public class DetectCycleTest {
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
-    public void detectCicle(){
+    public void detectCycle(){
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
         evaluator.addCondition(theGame -> {
@@ -114,18 +114,33 @@ public class DetectCycleTest {
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
-        long visitedNodesTotal = 0;
-        for (int i = 0; i < 30; i++) {
-            visitedNodesTotal += visitedNodesCounters[i];
-            if(visitedNodesCounters[i] > 0) {
-                System.out.printf("Visited Nodes Level %2d = %10d\n", i + 1, visitedNodesCounters[i]);
-            }
-        }
+        long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        System.out.printf("Total visited Nodes = %d\n", visitedNodesTotal);
+        Assert.assertEquals(3, visitedNodesCounters[0]);
+        Assert.assertEquals(5, visitedNodesCounters[1]);
+        Assert.assertEquals(15, visitedNodesCounters[2]);
+        Assert.assertEquals(25, visitedNodesCounters[3]);
+        Assert.assertEquals(58, visitedNodesCounters[4]);
+        Assert.assertEquals(97, visitedNodesCounters[5]);
+        Assert.assertEquals(196, visitedNodesCounters[6]);
+        Assert.assertEquals(259, visitedNodesCounters[7]);
+        Assert.assertEquals(552, visitedNodesCounters[8]);
+        Assert.assertEquals(693, visitedNodesCounters[9]);
+        Assert.assertEquals(1460, visitedNodesCounters[10]);
+        Assert.assertEquals(1953, visitedNodesCounters[11]);
+        Assert.assertEquals(4284, visitedNodesCounters[12]);
+        Assert.assertEquals(5689, visitedNodesCounters[13]);
+        Assert.assertEquals(11667, visitedNodesCounters[14]);
+        Assert.assertEquals(16946, visitedNodesCounters[15]);
+        Assert.assertEquals(34383, visitedNodesCounters[16]);
+        Assert.assertEquals(47793, visitedNodesCounters[17]);
+        Assert.assertEquals(96740, visitedNodesCounters[18]);
+        Assert.assertEquals(157064, visitedNodesCounters[19]);
+        Assert.assertEquals(314483, visitedNodesCounters[20]);
+        Assert.assertEquals(468133, visitedNodesCounters[21]);
+        Assert.assertEquals(941040, visitedNodesCounters[22]);
 
         Assert.assertEquals(2103538, visitedNodesTotal);
-
     }
 
     private SearchContext setupContext(SearchContext searchContext) {

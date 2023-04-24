@@ -10,7 +10,6 @@ import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;

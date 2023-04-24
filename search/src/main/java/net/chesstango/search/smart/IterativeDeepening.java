@@ -9,6 +9,7 @@ import net.chesstango.search.SearchMoveResult;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
@@ -35,9 +36,8 @@ public class IterativeDeepening implements SearchMove {
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
-        for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel[i] = new HashSet<>();
-        }
+        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
+
 
         for (int i = 1; i <= depth; i++) {
             SearchContext context = new SearchContext(i)

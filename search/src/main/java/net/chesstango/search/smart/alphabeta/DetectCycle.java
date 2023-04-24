@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.search.smart.SearchContext;
 
 
@@ -99,7 +98,7 @@ public class DetectCycle implements AlphaBetaFilter{
 
     private boolean repeated(Game game, int currentPly, long[] positions) {
         long positionHash = game.getChessPosition().getPositionHash();
-        for (int i = currentPly - 2; i >= 0; i -=2) {
+        for (int i = currentPly - 4; i >= 0; i -=2) {
             if(positionHash == positions[i]){
                 return true;
             }

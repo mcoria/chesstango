@@ -7,6 +7,7 @@ import net.chesstango.search.SearchMoveResult;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
@@ -29,9 +30,7 @@ public class NoIterativeDeepening implements SearchMove {
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
-        for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel[i] = new HashSet<>();
-        }
+        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
 
         SearchContext context = new SearchContext(depth)
                 .setVisitedNodesCounters(visitedNodesCounters)
