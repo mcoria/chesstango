@@ -27,8 +27,8 @@ public class DefaultSearchMove implements SearchMove {
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
-        //this.imp = withoutIterateDeepening(setupMinMaxPruning());
-        this.imp = withIterateDeepening(setupMinMaxPruning());
+        this.imp = withoutIterateDeepening(setupMinMaxPruning());
+        //this.imp = withIterateDeepening(setupMinMaxPruning());
     }
 
 
@@ -51,7 +51,7 @@ public class DefaultSearchMove implements SearchMove {
         return new MinMaxPruningBuilder()
                 .withGameEvaluator(gameEvaluator)
                 .withStatics()
-                .withQuiescence()
+                //.withQuiescence()
                 .build();
     }
 

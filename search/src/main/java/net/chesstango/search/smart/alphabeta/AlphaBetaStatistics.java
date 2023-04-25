@@ -23,7 +23,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         if (visitedNodesCounter == null || distinctMoves == null || expectedNodesCounters == null) {
             throw new RuntimeException("Context not initiated");
         }
-        expectedNodesCounters[0] = game.getPossibleMoves().size();
+        expectedNodesCounters[0] += game.getPossibleMoves().size();
     }
 
     @Override

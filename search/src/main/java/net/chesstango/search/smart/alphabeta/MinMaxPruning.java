@@ -28,10 +28,12 @@ public class MinMaxPruning extends AbstractSmart {
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
-        initFilters(game, context);
+
         final Color currentTurn =  game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
+
+        initFilters(game, context);
 
         int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;

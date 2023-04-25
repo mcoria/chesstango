@@ -69,9 +69,10 @@ public class SessionReports {
         rowModel.visitedNodesCounters = new long[30];
         rowModel.visitedNodesCountersAvg = new int[30];
         rowModel.visitedNodesTotal = 0;
-        rowModel.cuttoffPercentages = new int[30];
+        rowModel.cutoffPercentages = new int[30];
         rowModel.maxDistinctMovesPerLevel = new int[30];
         rowModel.maxLevelVisited = 0;
+
         sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
             int maxLevel = 0;
             int[] currentNodeCounters = searchMoveResult.getVisitedNodesCounters();
@@ -104,7 +105,7 @@ public class SessionReports {
             rowModel.visitedNodesTotal += rowModel.visitedNodesCounters[i];
             rowModel.visitedNodesCountersAvg[i] = (int) (rowModel.visitedNodesCounters[i] / rowModel.searches);
             if (expectedNodesCounters[i] > 0) {
-                rowModel.cuttoffPercentages[i] = (int) (100 - (100 * rowModel.visitedNodesCounters[i] / expectedNodesCounters[i]));
+                rowModel.cutoffPercentages[i] = (int) (100 - (100 * rowModel.visitedNodesCounters[i] / expectedNodesCounters[i]));
             }
         }
 
@@ -269,7 +270,7 @@ public class SessionReports {
         // Cuerpo
         reportRows.forEach(row -> {
             System.out.printf("|%35s", row.engineName, row.searches);
-            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %6d %% ", row.cuttoffPercentages[depth]));
+            IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %6d %% ", row.cutoffPercentages[depth]));
             System.out.printf("|\n");
         });
 
@@ -320,7 +321,7 @@ public class SessionReports {
         ///////////////////// START VISITED NODES
         long[] visitedNodesCounters;
         int[] visitedNodesCountersAvg;
-        int[] cuttoffPercentages;
+        int[] cutoffPercentages;
         long visitedNodesTotal;
         int visitedNodesTotalAvg;
         ///////////////////// END VISITED NODES
