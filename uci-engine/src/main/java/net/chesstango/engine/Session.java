@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Session implements ServiceElement {
     private final SearchMove searchMove;
-    private final List<SearchMoveResult> moveResultList = new ArrayList<>();
+    private final List<SearchMoveResult> searches = new ArrayList<>();
     private String initialFENPosition;
     private Game game;
 
@@ -49,23 +49,24 @@ public class Session implements ServiceElement {
 
     public SearchMoveResult searchBestMove() {
         SearchMoveResult searchBestMove = searchMove.searchBestMove(game);
-        moveResultList.add(searchBestMove);
+        searches.add(searchBestMove);
         return searchBestMove;
     }
 
     public SearchMoveResult searchBestMove(int depth) {
         SearchMoveResult searchBestMove = searchMove.searchBestMove(game, depth);
-        moveResultList.add(searchBestMove);
+        searches.add(searchBestMove);
         return searchBestMove;
     }
 
-    public List<SearchMoveResult> getMoveResultList() {
-        return moveResultList;
+    /**
+     * Revuelve el resultado de las busquedas efectuadas durante el juego.
+     * @return
+     */
+    public List<SearchMoveResult> getSearches() {
+        return searches;
     }
 
-    public Game getGame() {
-        return game;
-    }
 
     @Override
     public void accept(ServiceVisitor serviceVisitor) {

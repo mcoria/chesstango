@@ -55,13 +55,13 @@ public class SessionReports {
         ReportRowModel rowModel = new ReportRowModel();
         rowModel.engineName = engineName;
 
-        rowModel.searches = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).count();
-        rowModel.searchesWithoutCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value == 0).count();
+        rowModel.searches = sessions.stream().map(Session::getSearches).flatMap(List::stream).count();
+        rowModel.searchesWithoutCollisions = sessions.stream().map(Session::getSearches).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value == 0).count();
         rowModel.searchesWithoutCollisionsPercentage = (int) ((rowModel.searchesWithoutCollisions * 100) / rowModel.searches);
-        rowModel.searchesWithCollisions = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
+        rowModel.searchesWithCollisions = sessions.stream().map(Session::getSearches).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).count();
         rowModel.searchesWithCollisionsPercentage = (int) ((rowModel.searchesWithCollisions * 100) / rowModel.searches);
         if (rowModel.searchesWithCollisions > 0) {
-            rowModel.avgOptionsPerCollision = sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).average().getAsDouble();
+            rowModel.avgOptionsPerCollision = sessions.stream().map(Session::getSearches).flatMap(List::stream).mapToInt(SearchMoveResult::getEvaluationCollisions).filter(value -> value > 0).average().getAsDouble();
         }
 
 
@@ -73,7 +73,7 @@ public class SessionReports {
         rowModel.maxDistinctMovesPerLevel = new int[30];
         rowModel.maxLevelVisited = 0;
 
-        sessions.stream().map(Session::getMoveResultList).flatMap(List::stream).forEach(searchMoveResult -> {
+        sessions.stream().map(Session::getSearches).flatMap(List::stream).forEach(searchMoveResult -> {
             int maxLevel = 0;
             int[] currentNodeCounters = searchMoveResult.getVisitedNodesCounters();
             int[] currentExpectedNodeCounters = searchMoveResult.getExpectedNodesCounters();
@@ -295,7 +295,7 @@ public class SessionReports {
         return this;
     }
 
-    public SessionReports withPrintCutoffStatics() {
+    public SessionReports withCutoffStatics() {
         this.printCutoffStatics = true;
         return this;
     }

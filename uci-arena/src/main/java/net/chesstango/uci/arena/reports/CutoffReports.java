@@ -29,7 +29,7 @@ public class CutoffReports {
     }
 
     private void print(ReportModel report) {
-        //System.out.printf("%s\n", report.pgnGame);
+        System.out.printf("%s\n", report.pgnGame);
 
         System.out.println("\n Cutoff per search level (higher is better)");
 
@@ -46,7 +46,7 @@ public class CutoffReports {
         // Cuerpo
         for (ReportRowMoveDetail moveDetail: report.moveDetails) {
             System.out.printf("| %6s ", moveDetail.move);
-            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d %% ", moveDetail.cuttoffPercentages[depth]));
+            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d %% ", moveDetail.cutoffPercentages[depth]));
             System.out.printf("|\n");
         }
 
@@ -63,34 +63,32 @@ public class CutoffReports {
         reportRowModel.pgnGame = new PGNEncoder().encode(result.getPgnGame());
         reportRowModel.moveDetails = new ArrayList<>();
 
-        session.getMoveResultList().forEach(searchMoveResult -> {
+        session.getSearches().forEach(searchMoveResult -> {
             Move bestMove = searchMoveResult.getBestMove();
 
             ReportRowMoveDetail moveDetail = new ReportRowMoveDetail();
             moveDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
 
-
             int[] expectedNodesCounters = searchMoveResult.getExpectedNodesCounters();
             int[] visitedNodesCounters = searchMoveResult.getVisitedNodesCounters();
-            int[] cuttoffPercentages = new int[30];
+            int[] cutoffPercentages = new int[30];
 
             for (int i = 0; i < 30; i++) {
+                if ( expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
+                    throw new RuntimeException("expectedNodesCounters[i] <= 0");
+                }
                 if (expectedNodesCounters[i] > 0) {
-                    cuttoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
+                    cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
 
                     if(reportRowModel.maxSearchLevel < i) {
                         reportRowModel.maxSearchLevel = i;
                     }
                 }
-
-                if (expectedNodesCounters[i] == 0 && visitedNodesCounters[i] > 0) {
-                    throw new RuntimeException("expectedNodesCounters[i]  == 0");
-                }
             }
 
             moveDetail.expectedNodesCounters = expectedNodesCounters;
             moveDetail.visitedNodesCounters = visitedNodesCounters;
-            moveDetail.cuttoffPercentages = cuttoffPercentages;
+            moveDetail.cutoffPercentages = cutoffPercentages;
 
             reportRowModel.moveDetails.add(moveDetail);
         });
@@ -111,7 +109,7 @@ public class CutoffReports {
         String move;
         int[] expectedNodesCounters;
         int[] visitedNodesCounters;
-        int[] cuttoffPercentages;
+        int[] cutoffPercentages;
 
     }
 }

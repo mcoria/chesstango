@@ -2,8 +2,7 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.Transcoding;
-import net.chesstango.board.representations.pgn.PGNEncoder;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
@@ -14,9 +13,6 @@ import net.chesstango.uci.arena.reports.SessionReports;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -56,12 +52,14 @@ public class MatchMain implements MatchListener {
 
 
         new SessionReports()
-                 .withCollisionStatics()
+                 //.withCollisionStatics()
                  .withNodesVisitedStatics()
                  .withMovesPerLevelStatics()
-                 .withPrintCutoffStatics()
-                 .breakByColor()
-                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+                 .withCutoffStatics()
+                 //.breakByColor()
+                 .printTangoStatics(Arrays.asList(engineController1), matchResult);
+
+
 
 
         new CutoffReports()
@@ -83,8 +81,9 @@ public class MatchMain implements MatchListener {
     private static List<String> getFenList() {
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+        List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         return fenList;
     }
 
@@ -95,7 +94,7 @@ public class MatchMain implements MatchListener {
 
         Match match = new Match(engineController1, engineController2, DEPTH)
                             .setDebugEnabled(MATCH_DEBUG)
-                            .switchChairs(false)
+                            //.switchChairs(false)
                             .setMatchListener(matchBroadcaster);
 
         startEngines();
