@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * Este reporte resume el resultado de un conjunto de partidos
+ *
  * @author Mauricio Coria
  */
 public class SummaryReport {

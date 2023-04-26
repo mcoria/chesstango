@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * Este reporte resume las sessiones de engine Tango
+ *
  * @author Mauricio Coria
  */
-public class SessionReports {
+public class SessionReport {
     private boolean printCollisionStatics;
     private boolean printNodesVisitedStatics;
     private boolean printMovesPerLevelStatics;
@@ -280,27 +282,27 @@ public class SessionReports {
         System.out.printf("\n");
     }
 
-    public SessionReports withCollisionStatics() {
+    public SessionReport withCollisionStatics() {
         this.printCollisionStatics = true;
         return this;
     }
 
-    public SessionReports withNodesVisitedStatics() {
+    public SessionReport withNodesVisitedStatics() {
         this.printNodesVisitedStatics = true;
         return this;
     }
 
-    public SessionReports withMovesPerLevelStatics() {
+    public SessionReport withMovesPerLevelStatics() {
         this.printMovesPerLevelStatics = true;
         return this;
     }
 
-    public SessionReports withCutoffStatics() {
+    public SessionReport withCutoffStatics() {
         this.printCutoffStatics = true;
         return this;
     }
 
-    public SessionReports breakByColor() {
+    public SessionReport breakByColor() {
         this.breakByColor = true;
         return this;
     }

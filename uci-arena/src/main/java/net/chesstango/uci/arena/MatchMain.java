@@ -7,9 +7,9 @@ import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.SearchesCutoffReport;
+import net.chesstango.uci.arena.reports.SearchesReport;
 import net.chesstango.uci.arena.reports.SummaryReport;
-import net.chesstango.uci.arena.reports.SessionReports;
+import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
 
@@ -46,26 +46,27 @@ public class MatchMain implements MatchListener {
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
 
+        /*
         new SummaryReport()
                 .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);
 
 
-        /*
 
-        new SessionReports()
+
+        new SessionReport()
                  //.withCollisionStatics()
                  .withNodesVisitedStatics()
                  .withMovesPerLevelStatics()
                  .withCutoffStatics()
-                 //.breakByColor()
+                 .breakByColor()
                  .printTangoStatics(Arrays.asList(engineController1), matchResult);
 
-
-
-
-        new SearchesCutoffReport()
-                .printTangoStatics(Arrays.asList(engineController1), matchResult);
         */
+
+
+        new SearchesReport()
+                .printTangoStatics(Arrays.asList(engineController1), matchResult);
+
 
     }
 

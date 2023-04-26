@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- *
+ * Por cada juego de Tango muestra estadísticas de cada búsqueda.
  *
  * @author Mauricio Coria
  */
-public class SearchesCutoffReport {
+public class SearchesReport {
 
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         List<ReportModel> reportRows = new ArrayList<>();
@@ -72,10 +72,11 @@ public class SearchesCutoffReport {
     }
 
     private void print(ReportModel report) {
-        System.out.printf("%s\n", report.engineName);
-        System.out.printf("%s\n", report.pgnGame);
+        System.out.println("----------------------------------------------------------------------------");
+        System.out.printf("%s\n\n", report.pgnGame);
 
-        System.out.println("\n Cutoff per search level (higher is better)");
+        System.out.printf("Cutoff per search level (higher is better)\n");
+        System.out.printf("Moves played by engine: %s\n", report.engineName);
 
         // Marco superior de la tabla
         System.out.printf(" ________");
@@ -98,7 +99,6 @@ public class SearchesCutoffReport {
         System.out.printf(" --------");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("-----------"));
         System.out.printf("\n");
-
     }
 
     private static class ReportModel {
