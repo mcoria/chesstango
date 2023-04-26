@@ -6,8 +6,7 @@ import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.imp.*;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
-import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.GameReports;
+import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.gui.EngineController;
 
 import java.time.Duration;
@@ -33,7 +32,7 @@ public class TournamentMain implements MatchListener {
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
         allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerFactory::getCreatedEngineControllers).collect(Collectors.toList()));
 
-        new GameReports().printReport(allControllerFactories, matchResult);
+        new SummaryReport().printReportMultipleEngineInstances(allControllerFactories, matchResult);
     }
 
     private static List<String> getFenList(){
