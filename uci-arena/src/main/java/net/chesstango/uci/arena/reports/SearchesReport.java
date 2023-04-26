@@ -17,6 +17,9 @@ import java.util.stream.IntStream;
  */
 public class SearchesReport {
 
+    private boolean printCutoffStatics;
+    private boolean printNodesVisitedStatics;
+
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
         List<ReportModel> reportRows = new ArrayList<>();
 
@@ -27,7 +30,15 @@ public class SearchesReport {
 
         });
 
-        reportRows.forEach(this::print);
+        reportRows.forEach(reportModel -> {
+            printPgnGame(reportModel);
+            if(printNodesVisitedStatics) {
+                printVisitedNodes(reportModel);
+            }
+            if(printCutoffStatics) {
+                printCutoff(reportModel);
+            }
+        });
     }
 
     private ReportModel collectStatics(String engineName, GameResult result, Session session) {
@@ -48,13 +59,13 @@ public class SearchesReport {
             int[] cutoffPercentages = new int[30];
 
             for (int i = 0; i < 30; i++) {
-                if ( expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
+                if (expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
                     throw new RuntimeException("expectedNodesCounters[i] <= 0");
                 }
                 if (expectedNodesCounters[i] > 0) {
                     cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
 
-                    if(reportRowModel.maxSearchLevel < i) {
+                    if (reportRowModel.maxSearchLevel < i) {
                         reportRowModel.maxSearchLevel = i;
                     }
                 }
@@ -71,12 +82,40 @@ public class SearchesReport {
         return reportRowModel;
     }
 
-    private void print(ReportModel report) {
+    private void printPgnGame(ReportModel reportModel) {
         System.out.println("----------------------------------------------------------------------------");
-        System.out.printf("%s\n\n", report.pgnGame);
+        System.out.printf("%s\n\n", reportModel.pgnGame);
+        System.out.printf("Moves played by engine: %s\n\n", reportModel.engineName);
+    }
 
+    private void printVisitedNodes(ReportModel report) {
+        System.out.printf("Visited Nodes\n");
+
+        // Marco superior de la tabla
+        System.out.printf(" ________");
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("__________________"));
+        System.out.printf("\n");
+
+        // Nombre de las columnas
+        System.out.printf("| Move   ");
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("|    Level %2d     ", depth + 1));
+        System.out.printf("|\n");
+
+        // Cuerpo
+        for (ReportRowMoveDetail moveDetail : report.moveDetails) {
+            System.out.printf("| %6s ", moveDetail.move);
+            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d / %6d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
+            System.out.printf("|\n");
+        }
+
+        // Marco inferior de la tabla
+        System.out.printf(" --------");
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("------------------"));
+        System.out.printf("\n\n");
+    }
+
+    private void printCutoff(ReportModel report) {
         System.out.printf("Cutoff per search level (higher is better)\n");
-        System.out.printf("Moves played by engine: %s\n", report.engineName);
 
         // Marco superior de la tabla
         System.out.printf(" ________");
@@ -89,7 +128,7 @@ public class SearchesReport {
         System.out.printf("|\n");
 
         // Cuerpo
-        for (ReportRowMoveDetail moveDetail: report.moveDetails) {
+        for (ReportRowMoveDetail moveDetail : report.moveDetails) {
             System.out.printf("| %6s ", moveDetail.move);
             IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d %% ", moveDetail.cutoffPercentages[depth]));
             System.out.printf("|\n");
@@ -99,6 +138,16 @@ public class SearchesReport {
         System.out.printf(" --------");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("-----------"));
         System.out.printf("\n");
+    }
+
+    public SearchesReport withCutoffStatics() {
+        this.printCutoffStatics = true;
+        return this;
+    }
+
+    public SearchesReport withNodesVisitedStatics() {
+        this.printNodesVisitedStatics = true;
+        return this;
     }
 
     private static class ReportModel {

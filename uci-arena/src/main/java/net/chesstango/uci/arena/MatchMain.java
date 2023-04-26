@@ -65,6 +65,8 @@ public class MatchMain implements MatchListener {
 
 
         new SearchesReport()
+                .withCutoffStatics()
+                .withNodesVisitedStatics()
                 .printTangoStatics(Arrays.asList(engineController1), matchResult);
 
 
@@ -81,9 +83,9 @@ public class MatchMain implements MatchListener {
     }
 
     private static List<String> getFenList() {
-        //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
+        List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
+        //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         return fenList;
