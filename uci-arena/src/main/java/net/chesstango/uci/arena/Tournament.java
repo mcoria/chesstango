@@ -19,7 +19,7 @@ public class Tournament {
     private final List<GenericObjectPool<EngineController>> pools;
     private final MatchListener matchListener;
 
-    public Tournament(List<EngineControllerFactory> opponentsControllerFactories, int depth, MatchListener matchListener) {
+    public Tournament(List<EngineControllerPoolFactory> opponentsControllerFactories, int depth, MatchListener matchListener) {
         this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
         this.depth = depth;
         this.matchListener = matchListener;

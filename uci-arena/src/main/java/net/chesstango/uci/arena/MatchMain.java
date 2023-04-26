@@ -5,12 +5,14 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
+import net.chesstango.search.builders.MinMaxBuilder;
+import net.chesstango.search.builders.MinMaxPruningBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.SearchesReport;
-import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.gui.EngineControllerFactory;
 import net.chesstango.uci.protocol.requests.CmdGo;
 
 import java.time.Duration;
@@ -35,11 +37,20 @@ public class MatchMain implements MatchListener {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                                            .createTangoController(GameEvaluatorSEandImp02.class);
+                //.createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class);
+                .createTangoControllerWithDefaultEvaluator(MinMaxPruningBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder.withStatics() )
+                .overrideEngineName("MinMaxPruning");
 
+        EngineController engineController2 = EngineControllerFactory
+                //.createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class);
+                .createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
+                .overrideEngineName("MinMax");
+
+        /*
         EngineController engineController2 = EngineControllerFactory
                                             .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false))
                                             .overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
+         */
 
 
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
@@ -50,7 +61,7 @@ public class MatchMain implements MatchListener {
         new SummaryReport()
                 .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);
 
-
+        */
 
 
         new SessionReport()
@@ -59,16 +70,16 @@ public class MatchMain implements MatchListener {
                  .withMovesPerLevelStatics()
                  .withCutoffStatics()
                  .breakByColor()
-                 .printTangoStatics(Arrays.asList(engineController1), matchResult);
-
-        */
+                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
 
+
+        /*
         new SearchesReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
-                .printTangoStatics(Arrays.asList(engineController1), matchResult);
-
+                .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+        */
 
     }
 

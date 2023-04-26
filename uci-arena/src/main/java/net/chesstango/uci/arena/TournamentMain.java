@@ -8,6 +8,7 @@ import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.gui.EngineControllerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -25,12 +26,12 @@ public class TournamentMain implements MatchListener {
     private static final int DEPTH = 5;
 
     public static void main(String[] args) {
-        List<EngineControllerFactory> controllerFactories = createControllerFactories();
+        List<EngineControllerPoolFactory> controllerFactories = createControllerFactories();
 
         List<GameResult> matchResult = new TournamentMain(controllerFactories).play(getFenList());
 
         List<List<EngineController>> allControllerFactories = new ArrayList<>();
-        allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerFactory::getCreatedEngineControllers).collect(Collectors.toList()));
+        allControllerFactories.addAll(controllerFactories.stream().map(EngineControllerPoolFactory::getEngineControllerInstances).collect(Collectors.toList()));
 
         new SummaryReport().printReportMultipleEngineInstances(allControllerFactories, matchResult);
     }
@@ -42,23 +43,23 @@ public class TournamentMain implements MatchListener {
     }
 
 
-    private static List<EngineControllerFactory> createControllerFactories() {
-        EngineControllerFactory mainFactory = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorSEandImp02.class));
-        EngineControllerFactory factory1 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorByMaterial.class));
-        EngineControllerFactory factory2 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorByMaterialAndMoves.class));
-        EngineControllerFactory factory3 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorImp01.class));
-        EngineControllerFactory factory4 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorImp02.class));
-        EngineControllerFactory factory5 = new EngineControllerFactory(() -> EngineControllerFactory.createTangoController(GameEvaluatorSimplifiedEvaluator.class));
+    private static List<EngineControllerPoolFactory> createControllerFactories() {
+        EngineControllerPoolFactory mainFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class));
+        EngineControllerPoolFactory factory1 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(GameEvaluatorByMaterial.class));
+        EngineControllerPoolFactory factory2 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(GameEvaluatorByMaterialAndMoves.class));
+        EngineControllerPoolFactory factory3 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(GameEvaluatorImp01.class));
+        EngineControllerPoolFactory factory4 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(GameEvaluatorImp02.class));
+        EngineControllerPoolFactory factory5 = new EngineControllerPoolFactory(() -> EngineControllerFactory.createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class));
 
-        EngineControllerFactory spikeFactory = new EngineControllerFactory(() -> EngineControllerFactory.createProxyController("Spike", null) );
+        EngineControllerPoolFactory spikeFactory = new EngineControllerPoolFactory(() -> EngineControllerFactory.createProxyController("Spike", null) );
 
         return Arrays.asList(mainFactory, factory1, factory2, factory4, factory3, factory5, spikeFactory);
     }
 
-    private final List<EngineControllerFactory> controllerFactories;
+    private final List<EngineControllerPoolFactory> controllerFactories;
     private final List<GameResult> matchResult;
 
-    public TournamentMain(List<EngineControllerFactory> controllerFactories){
+    public TournamentMain(List<EngineControllerPoolFactory> controllerFactories){
         this.controllerFactories = controllerFactories;
         this.matchResult = Collections.synchronizedList( new ArrayList<>() );
     }

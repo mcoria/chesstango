@@ -9,9 +9,7 @@ import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
-import net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator;
 import net.chesstango.search.DefaultSearchMove;
-import net.chesstango.search.SearchMove;
 import net.chesstango.uci.arena.*;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
@@ -47,7 +45,7 @@ public class EvaluationMain {
 
     public static void main(String[] args) {
         executor = Executors.newFixedThreadPool(5);
-        pool = new GenericObjectPool<>(new EngineControllerFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
+        pool = new GenericObjectPool<>(new EngineControllerPoolFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
         EvaluationMain main = new EvaluationMain(getFenList(), new GeneticProvider4FactorsGenes(GameEvaluatorSEandImp02.class));
         main.findGenotype();
         pool.close();
@@ -119,9 +117,7 @@ public class EvaluationMain {
     }
 
     public EngineController createTango(Genotype<IntegerGene> genotype) {
-        DefaultSearchMove search = new DefaultSearchMove();
-
-        search.setGameEvaluator(geneticProvider.createGameEvaluator(genotype));
+        DefaultSearchMove search = new DefaultSearchMove(geneticProvider.createGameEvaluator(genotype));
 
         EngineController tango = new EngineControllerImp(new EngineTango(search));
 

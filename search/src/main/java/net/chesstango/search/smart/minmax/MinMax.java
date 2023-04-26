@@ -18,7 +18,10 @@ import java.util.List;
 public class MinMax extends AbstractSmart {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
+
+    private int maxPly;
     private int[] visitedNodesCounter;
+    private int[] expectedNodesCounters;
     private GameEvaluator evaluator;
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = evaluator;
@@ -27,7 +30,9 @@ public class MinMax extends AbstractSmart {
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
-        this.visitedNodesCounter = new int[context.getMaxPly()];
+        this.maxPly = context.getMaxPly();
+        this.visitedNodesCounter = context.getVisitedNodesCounters();
+        this.expectedNodesCounters = context.getExpectedNodesCounters();
 
         final Color currentTurn =  game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
@@ -35,6 +40,7 @@ public class MinMax extends AbstractSmart {
 
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
 
+        expectedNodesCounters[0] += game.getPossibleMoves().size();
         for (Move move : game.getPossibleMoves()) {
             game = game.executeMove(move);
 
@@ -64,12 +70,15 @@ public class MinMax extends AbstractSmart {
 
         return new SearchMoveResult(context.getMaxPly(), betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
                 .setVisitedNodesCounters(visitedNodesCounter)
+                .setExpectedNodesCounters(expectedNodesCounters)
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
-        visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
+        visitedNodesCounter[maxPly - currentPly - 1]++;
+        expectedNodesCounters[maxPly - currentPly] +=  game.getPossibleMoves().size();
+
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {
             betterEvaluation = evaluator.evaluate(game);
