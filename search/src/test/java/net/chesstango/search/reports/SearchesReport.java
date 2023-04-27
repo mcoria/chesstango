@@ -34,6 +34,10 @@ public class SearchesReport {
 
         reportRowModel.moveDetails = new ArrayList<>();
 
+        reportRowModel.expectedNodesCounters = new long[30];
+        reportRowModel.visitedNodesCounters = new long[30];
+        reportRowModel.cutoffPercentages = new int[30];
+
         searchMoveResults.forEach(searchMoveResult -> {
             Move bestMove = searchMoveResult.getBestMove();
 
@@ -51,11 +55,10 @@ public class SearchesReport {
                 }
                 if (expectedNodesCounters[i] > 0) {
                     cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
-
-                    if (reportRowModel.maxSearchLevel < i) {
-                        reportRowModel.maxSearchLevel = i;
-                    }
                 }
+
+                reportRowModel.expectedNodesCounters[i] += expectedNodesCounters[i];
+                reportRowModel.visitedNodesCounters[i] += visitedNodesCounters[i];
             }
 
             moveDetail.expectedNodesCounters = expectedNodesCounters;
@@ -64,6 +67,23 @@ public class SearchesReport {
 
             reportRowModel.moveDetails.add(moveDetail);
         });
+
+        for (int i = 0; i < 30; i++) {
+            long[] expectedNodesCounters = reportRowModel.expectedNodesCounters;
+            long[] visitedNodesCounters = reportRowModel.visitedNodesCounters;
+            int[] cutoffPercentages = reportRowModel.cutoffPercentages;
+
+            if (expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
+                throw new RuntimeException("expectedNodesCounters[i] <= 0");
+            }
+            if (expectedNodesCounters[i] > 0) {
+                cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
+
+                if (reportRowModel.maxSearchLevel < i) {
+                    reportRowModel.maxSearchLevel = i;
+                }
+            }
+        }
 
 
         return reportRowModel;
@@ -89,6 +109,15 @@ public class SearchesReport {
             IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d / %6d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
             System.out.printf("|\n");
         }
+
+        // Totales
+        System.out.printf("|--------");
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("------------------"));
+        System.out.printf("|\n");
+        System.out.printf("| SUM    ");
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d / %6d ", report.visitedNodesCounters[depth], report.expectedNodesCounters[depth]));
+        System.out.printf("|\n");
+
 
         // Marco inferior de la tabla
         System.out.printf(" --------");
@@ -134,6 +163,12 @@ public class SearchesReport {
 
     private static class ReportModel {
         int maxSearchLevel;
+
+        long[] expectedNodesCounters;
+
+        long [] visitedNodesCounters;
+
+        int [] cutoffPercentages;
 
         List<ReportRowMoveDetail> moveDetails;
     }
