@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango;
 
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorEnPassantImpTest;

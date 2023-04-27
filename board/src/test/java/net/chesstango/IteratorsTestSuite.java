@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango;
 
 import net.chesstango.board.iterators.bysquare.*;
