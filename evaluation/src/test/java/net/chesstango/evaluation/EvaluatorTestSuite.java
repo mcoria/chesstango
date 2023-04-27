@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package net.chesstango.evaluation;
 
 import net.chesstango.evaluation.imp.*;

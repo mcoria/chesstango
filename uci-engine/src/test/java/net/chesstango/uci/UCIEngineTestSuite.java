@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package net.chesstango.uci;
 
 import net.chesstango.uci.engine.EngineTangoTest;

@@ -4,37 +4,56 @@ import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EDPReader;
 import net.chesstango.board.representations.SANEncoder;
+import net.chesstango.search.reports.SearchesReport;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ *
+ * Esta clase esta destinada a resolver test-positions
+ *
+ * https://www.chessprogramming.org/Test-Positions
+ *
  * @author Mauricio Coria
  */
-public class BestMoveFinderSuite {
+public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 8;
+    private static final int DEFAULT_MAX_DEPTH = 3;
 
     public static void main(String[] args) {
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\Bratko-Kopec.epd");
     }
 
     private static void execute(String filename) {
-        List<String> failedSuites = new ArrayList<String>();
-        BestMoveFinderSuite suite = new BestMoveFinderSuite(DEFAULT_MAX_DEPTH);
-
         EDPReader reader = new EDPReader();
         List<EDPReader.EDPEntry> edpEntries = reader.readEdpFile(filename);
+        BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
+        suite.run(filename, edpEntries);
+    }
+
+    private final int depth;
+    private final List<SearchMoveResult> searchMoveResults;
+
+    public BestMoveSearchSuite(int depth) {
+        this.depth = depth;
+        this.searchMoveResults = new ArrayList<>();
+    }
+
+    protected void run(String suiteName, List<EDPReader.EDPEntry> edpEntries) {
+        List<String> failedSuites = new ArrayList<String>();
+
 
         for (EDPReader.EDPEntry edpEntry: edpEntries) {
-            if (suite.run(edpEntry) == false) {
+            if (run(edpEntry) == false) {
                 failedSuites.add(edpEntry.fen);
             }
         }
 
-        System.out.println("Suite summary " + filename);
+        System.out.println("Suite summary " + suiteName);
         if (failedSuites.isEmpty()) {
             System.out.println("\t all tests exceute sucessfully");
         } else {
@@ -42,17 +61,13 @@ public class BestMoveFinderSuite {
                 System.out.println("\t test failed: " + suiteStr);
             }
         }
-        System.out.println("=================");
-    }
 
-    private final ChessFactory chessFactory;
-    private final int depth;
-    public BestMoveFinderSuite(int depth) {
-        this(new ChessFactory(), depth);
-    }
-    public BestMoveFinderSuite(ChessFactory chessFactory, int depth) {
-        this.chessFactory = chessFactory;
-        this.depth = depth;
+        new SearchesReport()
+                .withCutoffStatics()
+                .withNodesVisitedStatics()
+                .printSearchesStatics(searchMoveResults);
+
+        System.out.println("=================");
     }
 
     protected boolean run(EDPReader.EDPEntry edpEntry) {
@@ -73,7 +88,7 @@ public class BestMoveFinderSuite {
                     searchResult.getBestMoveOptions().stream().map(move -> sanEncoder.encode(move, edpEntry.game.getPossibleMoves())).collect(Collectors.toList()));
         }
 
-
+        searchMoveResults.add(searchResult);
 
         return result;
     }

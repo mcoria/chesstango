@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package net.chesstango.search.dummy;
 
 import net.chesstango.board.Game;

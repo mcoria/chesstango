@@ -1,17 +1,15 @@
-package net.chesstango.uci.arena.reports;
+package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.pgn.PGNEncoder;
-import net.chesstango.engine.Session;
-import net.chesstango.uci.arena.GameResult;
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.search.SearchMoveResult;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * Por cada juego de Tango muestra estadísticas de cada búsqueda.
  *
  * @author Mauricio Coria
  */
@@ -20,39 +18,27 @@ public class SearchesReport {
     private boolean printCutoffStatics;
     private boolean printNodesVisitedStatics;
 
-    public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
-        List<ReportModel> reportRows = new ArrayList<>();
+    public void printSearchesStatics(List<SearchMoveResult> searchMoveResults) {
+        ReportModel reportModel = collectStatics(searchMoveResults);
 
-        enginesOrder.forEach(engineController -> {
-            matchResult.stream().filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null).map(result -> collectStatics(engineController.getEngineName(), result, result.getSessionWhite())).forEach(reportRows::add);
-
-            matchResult.stream().filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null).map(result -> collectStatics(engineController.getEngineName(), result, result.getSessionBlack())).forEach(reportRows::add);
-
-        });
-
-        reportRows.forEach(reportModel -> {
-            printPgnGame(reportModel);
-            if(printNodesVisitedStatics) {
-                printVisitedNodes(reportModel);
-            }
-            if(printCutoffStatics) {
-                printCutoff(reportModel);
-            }
-        });
+        if(printNodesVisitedStatics) {
+            printVisitedNodes(reportModel);
+        }
+        if(printCutoffStatics) {
+            printCutoff(reportModel);
+        }
     }
 
-    private ReportModel collectStatics(String engineName, GameResult result, Session session) {
+    private ReportModel collectStatics(List<SearchMoveResult> searchMoveResults) {
         ReportModel reportRowModel = new ReportModel();
 
-        reportRowModel.engineName = engineName;
-        reportRowModel.pgnGame = new PGNEncoder().encode(result.getPgnGame());
         reportRowModel.moveDetails = new ArrayList<>();
 
-        session.getSearches().forEach(searchMoveResult -> {
+        searchMoveResults.forEach(searchMoveResult -> {
             Move bestMove = searchMoveResult.getBestMove();
 
             ReportRowMoveDetail moveDetail = new ReportRowMoveDetail();
-
+            
             moveDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
 
             int[] expectedNodesCounters = searchMoveResult.getExpectedNodesCounters();
@@ -83,11 +69,6 @@ public class SearchesReport {
         return reportRowModel;
     }
 
-    private void printPgnGame(ReportModel reportModel) {
-        System.out.println("----------------------------------------------------------------------------");
-        System.out.printf("%s\n\n", reportModel.pgnGame);
-        System.out.printf("Moves played by engine: %s\n\n", reportModel.engineName);
-    }
 
     private void printVisitedNodes(ReportModel report) {
         System.out.printf("Visited Nodes\n");
@@ -152,9 +133,6 @@ public class SearchesReport {
     }
 
     private static class ReportModel {
-        public String engineName;
-        String pgnGame;
-
         int maxSearchLevel;
 
         List<ReportRowMoveDetail> moveDetails;
@@ -165,6 +143,5 @@ public class SearchesReport {
         int[] expectedNodesCounters;
         int[] visitedNodesCounters;
         int[] cutoffPercentages;
-
     }
 }

@@ -1,6 +1,3 @@
-/**
- *
- */
 package net.chesstango.board.factory;
 
 import net.chesstango.board.Game;

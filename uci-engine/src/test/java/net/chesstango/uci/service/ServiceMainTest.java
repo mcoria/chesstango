@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package net.chesstango.uci.service;
 
 import net.chesstango.board.Game;

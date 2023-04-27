@@ -1,6 +1,3 @@
-/**
- *
- */
 package net.chesstango.board;
 
 import net.chesstango.board.analyzer.AnalyzerResult;

@@ -1,6 +1,4 @@
-/**
- *
- */
+
 package net.chesstango.uci.protocol;
 
 import net.chesstango.uci.protocol.requests.*;
