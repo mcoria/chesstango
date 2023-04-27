@@ -4,11 +4,11 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -18,7 +18,7 @@ public class AbstractMoveTest {
 
     private MoveFactory moveFactory;
 
-    @Before
+    @BeforeEach
     public void setup() {
         moveFactory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
     }

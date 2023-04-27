@@ -7,9 +7,9 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.minmax.MinMax;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 
 /**
  * @author Mauricio Coria
@@ -20,7 +20,7 @@ public class IterativeDeepeningTest {
 
     private MinMax smart;
 
-    @Before
+    @BeforeEach
     public void setup(){
         smart = new MinMax();
 
@@ -39,11 +39,11 @@ public class IterativeDeepeningTest {
 
         SearchMoveResult searchResult = iterativeDeepening.searchBestMove(game, 1);
         Move bestMove = searchResult.getBestMove();
-        Assert.assertEquals(Square.e2, bestMove.getFrom().getSquare());
-        Assert.assertEquals(Square.e4, bestMove.getTo().getSquare());
+        assertEquals(Square.e2, bestMove.getFrom().getSquare());
+        assertEquals(Square.e4, bestMove.getTo().getSquare());
 
         // En depth 1 el movimiento e2e4 es evaluado en 1
-        Assert.assertEquals(1, searchResult.getEvaluation());
+        assertEquals(1, searchResult.getEvaluation());
 
         /**
          * Repetimos la busqueda en depth = 3, acá la evaluacion de todos los movimientos es la misma.
@@ -51,10 +51,10 @@ public class IterativeDeepeningTest {
          */
         searchResult = iterativeDeepening.searchBestMove(game, 3);
         bestMove = searchResult.getBestMove();
-        Assert.assertEquals(Square.e2, bestMove.getFrom().getSquare());
-        Assert.assertEquals(Square.e4, bestMove.getTo().getSquare());
+        assertEquals(Square.e2, bestMove.getFrom().getSquare());
+        assertEquals(Square.e4, bestMove.getTo().getSquare());
 
         // En depth > 1, tanto e2e4 como cualquier otro movimiento es valuado en 0
-        Assert.assertEquals(0, searchResult.getEvaluation());
+        assertEquals(0, searchResult.getEvaluation());
     }
 }

@@ -1,8 +1,8 @@
 package net.chesstango.board.debug.chess;
 
-import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;

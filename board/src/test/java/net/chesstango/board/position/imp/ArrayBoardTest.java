@@ -1,19 +1,18 @@
 package net.chesstango.board.position.imp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
+import net.chesstango.board.iterators.byposition.BitIterator;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.Square;
-import net.chesstango.board.iterators.byposition.BitIterator;
+
 
 
 /**

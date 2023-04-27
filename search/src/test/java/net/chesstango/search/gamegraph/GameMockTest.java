@@ -5,8 +5,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.minmax.MinMax;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -28,12 +28,12 @@ public class GameMockTest {
         SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(4));
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertNotNull(searchResult);
-        Assert.assertEquals(Square.c2, bestMove.getFrom().getSquare());
-        Assert.assertEquals(Square.b1, bestMove.getTo().getSquare());
-        Assert.assertEquals(-1000, searchResult.getEvaluation());
-        Assert.assertEquals(5, game.getNodesVisited());
-        Assert.assertEquals(2, evaluator.getNodesEvaluated());
+        assertNotNull(searchResult);
+        assertEquals(Square.c2, bestMove.getFrom().getSquare());
+        assertEquals(Square.b1, bestMove.getTo().getSquare());
+        assertEquals(-1000, searchResult.getEvaluation());
+        assertEquals(5, game.getNodesVisited());
+        assertEquals(2, evaluator.getNodesEvaluated());
     }
 
     @Test(expected = RuntimeException.class)
@@ -97,8 +97,8 @@ public class GameMockTest {
         Node childNode1 = nodeMock.links.get(0).mockNode;
         Node childNode2 = nodeMock.links.get(1).mockNode;
 
-        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", childNode1.fen);
-        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1", childNode2.fen);
+        assertEquals("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", childNode1.fen);
+        assertEquals("rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1", childNode2.fen);
     }
 
 }

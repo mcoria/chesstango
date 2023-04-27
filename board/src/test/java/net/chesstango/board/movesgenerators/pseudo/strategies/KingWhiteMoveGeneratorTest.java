@@ -16,12 +16,14 @@ import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+
 
 /**
  * @author Mauricio Coria
@@ -43,7 +45,7 @@ public class KingWhiteMoveGeneratorTest {
 
 	private MoveFactory moveFactoryImp;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		state = new PositionState();

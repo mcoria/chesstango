@@ -10,8 +10,8 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 /**
  * @author Mauricio Coria
@@ -28,11 +28,11 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.d3, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.c4, smartMove.getTo().getSquare());
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.d3, smartMove.getFrom().getSquare());
+        assertEquals(Square.c4, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test
@@ -43,11 +43,11 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.b1, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.f5, smartMove.getTo().getSquare());
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.b1, smartMove.getFrom().getSquare());
+        assertEquals(Square.f5, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test
@@ -58,11 +58,11 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.d5, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.f6, smartMove.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.d5, smartMove.getFrom().getSquare());
+        assertEquals(Square.f6, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     //Robert Thacker vs. Bobby Fischer
@@ -74,14 +74,14 @@ public abstract class MateIn2Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.PAWN_BLACK, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.d2, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.e1, smartMove.getTo().getSquare());
+        assertEquals(Piece.PAWN_BLACK, smartMove.getFrom().getPiece());
+        assertEquals(Square.d2, smartMove.getFrom().getSquare());
+        assertEquals(Square.e1, smartMove.getTo().getSquare());
 
-        Assert.assertTrue(smartMove instanceof MovePromotion);
-        Assert.assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion) smartMove).getPromotion());
+        assertTrue(smartMove instanceof MovePromotion);
+        assertEquals(Piece.KNIGHT_BLACK, ((MovePromotion) smartMove).getPromotion());
 
-        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 
 }

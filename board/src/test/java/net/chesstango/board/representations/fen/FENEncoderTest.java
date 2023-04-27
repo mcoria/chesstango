@@ -1,13 +1,13 @@
 package net.chesstango.board.representations.fen;
 
-import static org.junit.Assert.assertEquals;
-
-import net.chesstango.board.Game;
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
@@ -18,7 +18,7 @@ public class FENEncoderTest {
 	private FENEncoder coder ;
 	private StringBuilder stringBuilder;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		coder = new FENEncoder();
 		stringBuilder = new StringBuilder();

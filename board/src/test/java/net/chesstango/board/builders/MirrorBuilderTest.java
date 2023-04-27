@@ -6,8 +6,9 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MirrorBuilderTest {
 
@@ -20,10 +21,10 @@ public class MirrorBuilderTest {
         mirrorBuilder.withPiece(Square.e8, Piece.KING_BLACK);
         ChessPosition mirrorChessPosition = mirrorBuilder.getChessRepresentation();
 
-        Assert.assertEquals(Color.BLACK, mirrorChessPosition.getCurrentTurn());
-        Assert.assertEquals(Piece.ROOK_BLACK, mirrorChessPosition.getPiece(Square.a8));
-        Assert.assertEquals(Piece.KING_BLACK, mirrorChessPosition.getPiece(Square.e8));
-        Assert.assertEquals(Piece.KING_WHITE, mirrorChessPosition.getPiece(Square.e1));
+        assertEquals(Color.BLACK, mirrorChessPosition.getCurrentTurn());
+        assertEquals(Piece.ROOK_BLACK, mirrorChessPosition.getPiece(Square.a8));
+        assertEquals(Piece.KING_BLACK, mirrorChessPosition.getPiece(Square.e8));
+        assertEquals(Piece.KING_WHITE, mirrorChessPosition.getPiece(Square.e1));
     }
 
     @Test
@@ -42,7 +43,7 @@ public class MirrorBuilderTest {
 
         String mirrorPositionEncoded = encoder.getChessRepresentation();
 
-        Assert.assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1", mirrorPositionEncoded);
+        assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 1", mirrorPositionEncoded);
     }
 
 
@@ -62,7 +63,7 @@ public class MirrorBuilderTest {
 
         String mirrorPositionEncoded = encoder.getChessRepresentation();
 
-        Assert.assertEquals("2kr3r/pp2qpp1/1bppbn2/8/4P3/2Q1N1P1/PPPB2BP/4RR1K b - - 8 20", mirrorPositionEncoded);
+        assertEquals("2kr3r/pp2qpp1/1bppbn2/8/4P3/2Q1N1P1/PPPB2BP/4RR1K b - - 8 20", mirrorPositionEncoded);
     }
 
     @Test
@@ -81,7 +82,7 @@ public class MirrorBuilderTest {
 
         String mirrorPositionEncoded = encoder.getChessRepresentation();
 
-        Assert.assertEquals("r1bqkb1r/pp3ppp/2n5/2p1p3/1n6/2NPPN2/PP3PPP/R1BQKB1R w KQkq - 2 7", mirrorPositionEncoded);
+        assertEquals("r1bqkb1r/pp3ppp/2n5/2p1p3/1n6/2NPPN2/PP3PPP/R1BQKB1R w KQkq - 2 7", mirrorPositionEncoded);
     }
 
     @Test
@@ -100,6 +101,6 @@ public class MirrorBuilderTest {
 
         String mirrorPositionEncoded = encoder.getChessRepresentation();
 
-        Assert.assertEquals("rnbqkbnr/ppp2p2/8/3p2pp/3PpB2/2P4P/PP2PPP1/RN1QKBNR w KQkq g6 0 5", mirrorPositionEncoded);
+        assertEquals("rnbqkbnr/ppp2p2/8/3p2pp/3PpB2/2P4P/PP2PPP1/RN1QKBNR w KQkq g6 0 5", mirrorPositionEncoded);
     }
 }

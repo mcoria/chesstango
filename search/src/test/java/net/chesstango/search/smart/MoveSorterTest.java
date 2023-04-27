@@ -7,9 +7,9 @@ import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 
 import java.util.*;
 
@@ -24,7 +24,7 @@ public class MoveSorterTest {
 
     private MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         moveSorterTest = new MoveSorter();
     }
@@ -58,24 +58,24 @@ public class MoveSorterTest {
 
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
 
-        Assert.assertTrue(movesSorted.isEmpty());
+        assertTrue(movesSorted.isEmpty());
     }
 
 
@@ -106,24 +106,24 @@ public class MoveSorterTest {
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
+        assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
 
-        Assert.assertTrue(movesSorted.isEmpty());
+        assertTrue(movesSorted.isEmpty());
     }
 
     @Test
@@ -154,24 +154,24 @@ public class MoveSorterTest {
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
-        Assert.assertTrue(movesSorted.isEmpty());
+        assertTrue(movesSorted.isEmpty());
     }
 
     @Test
@@ -202,24 +202,24 @@ public class MoveSorterTest {
         Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
 
         move = movesSorted.poll();
-        Assert.assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
+        assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
-        Assert.assertTrue(movesSorted.isEmpty());
+        assertTrue(movesSorted.isEmpty());
     }
 
     @Test
@@ -231,10 +231,10 @@ public class MoveSorterTest {
         queue.add(7);
         queue.add(5);
 
-        Assert.assertEquals(7, queue.poll().intValue());
-        Assert.assertEquals(5, queue.poll().intValue());
-        Assert.assertEquals(3, queue.poll().intValue());
-        Assert.assertEquals(1, queue.poll().intValue());
+        assertEquals(7, queue.poll().intValue());
+        assertEquals(5, queue.poll().intValue());
+        assertEquals(3, queue.poll().intValue());
+        assertEquals(1, queue.poll().intValue());
     }
 
     public static class MyComparator implements Comparator<Integer> {

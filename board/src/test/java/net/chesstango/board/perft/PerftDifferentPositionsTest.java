@@ -1,14 +1,11 @@
-/**
- * 
- */
 package net.chesstango.board.perft;
 
-import static org.junit.Assert.assertEquals;
-
 import net.chesstango.board.Game;
-import net.chesstango.board.perft.imp.PerftBrute;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * @author Mauricio Coria
@@ -20,7 +17,7 @@ public class PerftDifferentPositionsTest extends AbstractPerftTest {
 
 	private Game board;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		perft = createPerft();
 	}

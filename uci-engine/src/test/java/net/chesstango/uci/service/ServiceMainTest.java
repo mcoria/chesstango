@@ -8,9 +8,9 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
-import org.junit.Assert;
+
 import org.junit.Ignore;
-import org.junit.Test;
+
 
 import java.io.*;
 import java.util.ArrayList;
@@ -38,20 +38,20 @@ public class ServiceMainTest {
 
         // uci command
         out.println("uci");
-        Assert.assertEquals("id name Tango", in.readLine());
-        Assert.assertEquals("id author Mauricio Coria", in.readLine());
-        Assert.assertEquals("uciok", in.readLine());
+        assertEquals("id name Tango", in.readLine());
+        assertEquals("id author Mauricio Coria", in.readLine());
+        assertEquals("uciok", in.readLine());
 
         // isready command
         out.println("isready");
-        Assert.assertEquals("readyok", in.readLine());
+        assertEquals("readyok", in.readLine());
 
         // ucinewgame command
         out.println("ucinewgame");
 
         // isready command
         out.println("isready");
-        Assert.assertEquals("readyok", in.readLine());
+        assertEquals("readyok", in.readLine());
 
         // isrpositioneady command
         out.println("position startpos moves e2e4");
@@ -63,7 +63,7 @@ public class ServiceMainTest {
     }
 
     @Test(timeout = 4000)
-    @Ignore
+    @Disabled
     public void test_playProxy() throws IOException, InterruptedException {
         List<String> lines = null;
 
@@ -83,12 +83,12 @@ public class ServiceMainTest {
         out.println("uci");
         Thread.sleep(200);
         lines = readLastLine(in, "uciok"::equals);
-        Assert.assertTrue(lines.stream().filter("id name Spike 1.4"::equals).findAny().isPresent());
+        assertTrue(lines.stream().filter("id name Spike 1.4"::equals).findAny().isPresent());
 
         // isready command
         out.println("isready");
         Thread.sleep(200);
-        Assert.assertEquals("readyok", in.readLine());
+        assertEquals("readyok", in.readLine());
 
         // ucinewgame command
         out.println("ucinewgame");
@@ -107,7 +107,7 @@ public class ServiceMainTest {
         Thread.sleep(200);
 
         lines = readLastLine(in, line -> line.startsWith("bestmove"));
-        Assert.assertTrue(lines.size() > 0);
+        assertTrue(lines.size() > 0);
 
         // quit command
         out.println("quit");

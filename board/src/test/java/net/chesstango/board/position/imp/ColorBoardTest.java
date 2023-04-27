@@ -1,17 +1,16 @@
 package net.chesstango.board.position.imp;
 
-import static org.junit.Assert.assertEquals;
-
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import org.junit.Test;
-
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.builders.PiecePlacementBuilder;
+import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**

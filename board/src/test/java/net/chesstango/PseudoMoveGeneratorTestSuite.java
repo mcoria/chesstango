@@ -5,16 +5,15 @@ package net.chesstango;
 
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorEnPassantImpTest;
 import net.chesstango.board.movesgenerators.pseudo.strategies.*;
-import net.chesstango.board.movesgenerators.pseudo.strategies.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * @author Mauricio Coria
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ AbstractCardinalMoveGeneratorEsteTest.class, AbstractCardinalMoveGeneratorNorteEsteTest.class,
+@Suite
+@SelectClasses({ AbstractCardinalMoveGeneratorEsteTest.class, AbstractCardinalMoveGeneratorNorteEsteTest.class,
 		AbstractCardinalMoveGeneratorNorteOesteTest.class, AbstractCardinalMoveGeneratorNorteTest.class,
 		AbstractCardinalMoveGeneratorOesteTest.class, AbstractCardinalMoveGeneratorSurEsteTest.class,
 		AbstractCardinalMoveGeneratorSurOesteTest.class, AbstractCardinalMoveGeneratorSurTest.class,

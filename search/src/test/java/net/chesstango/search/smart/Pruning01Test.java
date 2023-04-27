@@ -12,8 +12,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMove;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 /**
  * @author Mauricio Coria
@@ -32,7 +32,7 @@ public abstract class Pruning01Test {
 
         Move rookCapturePawn = moveFactoryWhite.createCaptureRookMove(PiecePositioned.getPiecePositioned(Square.d2, Piece.ROOK_WHITE), PiecePositioned.getPiecePositioned(Square.d5, Piece.PAWN_BLACK), Cardinal.Norte);
 
-        Assert.assertNotEquals(rookCapturePawn, bestMove);
+        assertNotEquals(rookCapturePawn, bestMove);
     }
 
     @Test
@@ -43,7 +43,7 @@ public abstract class Pruning01Test {
 
         Move queenCaptureKnight = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.d4, Piece.QUEEN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), Cardinal.SurOeste);
 
-        Assert.assertNotEquals(queenCaptureKnight, bestMove);
+        assertNotEquals(queenCaptureKnight, bestMove);
     }
 
     @Test
@@ -58,10 +58,10 @@ public abstract class Pruning01Test {
         Move bestMoveMirror = getBestMoveFinder().searchBestMove(gameMirror, 1).getBestMove();
 
 
-        Assert.assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());
-        Assert.assertEquals(bestMove.getFrom().getSquare().getMirrorSquare(), bestMoveMirror.getFrom().getSquare());
+        assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());
+        assertEquals(bestMove.getFrom().getSquare().getMirrorSquare(), bestMoveMirror.getFrom().getSquare());
 
-        Assert.assertEquals(bestMove.getTo().getSquare().getMirrorSquare(), bestMoveMirror.getTo().getSquare());
+        assertEquals(bestMove.getTo().getSquare().getMirrorSquare(), bestMoveMirror.getTo().getSquare());
     }
 
 }

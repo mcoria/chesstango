@@ -9,8 +9,8 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 /**
  * @author Mauricio Coria
@@ -27,11 +27,11 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.c5, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.a6, smartMove.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.c5, smartMove.getFrom().getSquare());
+        assertEquals(Square.a6, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test //Johannes Zukertort vs. William Norwood Potter
@@ -42,11 +42,11 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.c3, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.e5, smartMove.getTo().getSquare());
+        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.c3, smartMove.getFrom().getSquare());
+        assertEquals(Square.e5, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test //Ossip Bernstein vs. Alexander Kotov
@@ -57,11 +57,11 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.PAWN_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.f4, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.f5, smartMove.getTo().getSquare());
+        assertEquals(Piece.PAWN_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.f4, smartMove.getFrom().getSquare());
+        assertEquals(Square.f5, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test //Paul Vaitonis vs. Reuben Fine
@@ -72,11 +72,11 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.e5, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.e1, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
+        assertEquals(Square.e5, smartMove.getFrom().getSquare());
+        assertEquals(Square.e1, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 
     @Test //Géza Maróczy vs. Heinrich Wolf
@@ -87,11 +87,11 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.e6, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.e7, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.e6, smartMove.getFrom().getSquare());
+        assertEquals(Square.e7, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test //William Evans vs. Alexander MacDonnell
@@ -102,11 +102,11 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.c4, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.b5, smartMove.getTo().getSquare());
+        assertEquals(Piece.BISHOP_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.c4, smartMove.getFrom().getSquare());
+        assertEquals(Square.b5, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test //Max Walter vs. Emanuel Lasker
@@ -117,10 +117,10 @@ public abstract class MateIn3Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.e6, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.g6, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_BLACK, smartMove.getFrom().getPiece());
+        assertEquals(Square.e6, smartMove.getFrom().getSquare());
+        assertEquals(Square.g6, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 }

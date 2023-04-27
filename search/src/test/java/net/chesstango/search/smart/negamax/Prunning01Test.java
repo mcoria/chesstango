@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.Pruning01Test;
-import org.junit.Before;
+
 
 /**
  * @author Mauricio Coria
@@ -14,7 +14,7 @@ public class Prunning01Test extends Pruning01Test {
 
     private SearchMove searchMove;
 
-    @Before
+    @BeforeEach
     public void setup(){
         MoveSorter moveSorter = new MoveSorter();
 

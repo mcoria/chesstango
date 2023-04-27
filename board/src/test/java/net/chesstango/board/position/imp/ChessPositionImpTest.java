@@ -3,15 +3,14 @@ package net.chesstango.board.position.imp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -21,7 +20,7 @@ public class ChessPositionImpTest {
 
     private ChessPositionImp chessPosition;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         chessPosition = new ChessPositionImp();
     }

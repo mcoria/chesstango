@@ -7,10 +7,10 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.position.imp.PositionState;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -23,7 +23,7 @@ public class LoseCastlingWhiteAfterBlackMovesTest {
 
     private PositionState positionState;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
         positionState = new PositionState();

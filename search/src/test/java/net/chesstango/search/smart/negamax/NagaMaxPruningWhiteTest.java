@@ -10,9 +10,9 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -38,7 +38,7 @@ public class NagaMaxPruningWhiteTest {
     @Mock
     private NegaQuiescence negaQuiescence;
 
-    @Before
+    @BeforeEach
     public void setUp() {
     }
 
@@ -59,8 +59,8 @@ public class NagaMaxPruningWhiteTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move, bestMove);
-        Assert.assertEquals(1, searchResult.getEvaluation());
+        assertEquals(move, bestMove);
+        assertEquals(1, searchResult.getEvaluation());
         verify(negaQuiescence, times(1)).quiescenceMax(childGame, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
     }
 
@@ -85,8 +85,8 @@ public class NagaMaxPruningWhiteTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move2, bestMove);
-        Assert.assertEquals(2, searchResult.getEvaluation());
+        assertEquals(move2, bestMove);
+        assertEquals(2, searchResult.getEvaluation());
 
         verify(negaQuiescence, times(1)).quiescenceMax(childGame1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
         verify(negaQuiescence, times(1)).quiescenceMax(childGame2, GameEvaluator.INFINITE_NEGATIVE, -1);
@@ -120,8 +120,8 @@ public class NagaMaxPruningWhiteTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move2, bestMove);
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(move2, bestMove);
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
 
         verify(rootGame, times(1)).executeMove(move1);
         verify(rootGame, times(1)).executeMove(move2);
@@ -162,8 +162,8 @@ public class NagaMaxPruningWhiteTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertNotNull(bestMove);
-        Assert.assertEquals(GameEvaluator.WHITE_LOST, searchResult.getEvaluation());
+        assertNotNull(bestMove);
+        assertEquals(GameEvaluator.WHITE_LOST, searchResult.getEvaluation());
 
         verify(rootGame, times(1)).executeMove(move1);
         verify(rootGame, times(1)).executeMove(move2);
@@ -201,7 +201,7 @@ public class NagaMaxPruningWhiteTest {
         minMax.setVisitedNodesCounter(new int[2]);
         int maxValue = minMax.negaMax(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, maxValue);
+        assertEquals(GameEvaluator.WHITE_WON, maxValue);
 
         verify(rootGame, times(1)).executeMove(move1);
         verify(rootGame, times(1)).executeMove(move2);

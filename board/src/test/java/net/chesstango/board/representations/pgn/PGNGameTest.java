@@ -5,13 +5,14 @@ import net.chesstango.board.Game;
 import net.chesstango.board.GameStatus;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PGNGameTest {
 
@@ -43,9 +44,9 @@ public class PGNGameTest {
 
         Game game = pgnGame.buildGame();
 
-        Assert.assertEquals(GameStatus.MATE, game.getStatus());
-        Assert.assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
-        Assert.assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getInitialFen());
+        assertEquals(GameStatus.MATE, game.getStatus());
+        assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", game.getInitialFen());
     }
 
     @Test
@@ -78,8 +79,8 @@ public class PGNGameTest {
 
         Game game = pgnGame.buildGame();
 
-        Assert.assertEquals(GameStatus.MATE, game.getStatus());
-        Assert.assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
+        assertEquals(GameStatus.MATE, game.getStatus());
+        assertEquals(Color.BLACK, game.getChessPosition().getCurrentTurn());
     }
 
     @Test
@@ -115,7 +116,7 @@ public class PGNGameTest {
 
         Game game = pgnGame.buildGame();
 
-        Assert.assertEquals(GameStatus.CHECK, game.getStatus());
+        assertEquals(GameStatus.CHECK, game.getStatus());
     }
 
     @Test
@@ -125,6 +126,6 @@ public class PGNGameTest {
 
         PGNGame pgnGame = PGNGame.createFromGame(game);
 
-        Assert.assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
+        assertEquals("rn1qkbnr/pp2ppp1/2p4p/3pPb2/3P2PP/8/PPP2P2/RNBQKBNR b KQkq g3 0 5", pgnGame.getFen());
     }
 }

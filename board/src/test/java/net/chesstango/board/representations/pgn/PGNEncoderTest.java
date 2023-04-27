@@ -3,11 +3,12 @@ package net.chesstango.board.representations.pgn;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
 
 /**
  * @author Mauricio Coria
@@ -17,7 +18,7 @@ public class PGNEncoderTest {
 
     private PGNEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void settup(){
         encoder = new PGNEncoder();
     }
@@ -47,7 +48,7 @@ public class PGNEncoderTest {
 
         String encodedGame = encoder.encode(pgnGame);
 
-        Assert.assertEquals(expectedResult, encodedGame);
+        assertEquals(expectedResult, encodedGame);
     }
 
 
@@ -80,7 +81,7 @@ public class PGNEncoderTest {
 
         String encodedGame = encoder.encode(pgnGame);
 
-        Assert.assertEquals(expectedResult, encodedGame);
+        assertEquals(expectedResult, encodedGame);
     }
 
     @Test
@@ -105,7 +106,7 @@ public class PGNEncoderTest {
 
         String encodedGame = encoder.encode(pgnGame);
 
-        Assert.assertEquals(expectedResult, encodedGame);
+        assertEquals(expectedResult, encodedGame);
     }
 
     @Test
@@ -135,7 +136,7 @@ public class PGNEncoderTest {
 
         String encodedGame = encoder.encode(pgnGame);
 
-        Assert.assertEquals(expectedResult, encodedGame);
+        assertEquals(expectedResult, encodedGame);
     }
 
     public void overrideHeaders(PGNGame pgnGame){

@@ -4,7 +4,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria

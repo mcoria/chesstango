@@ -1,9 +1,8 @@
 package net.chesstango.board;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -124,7 +123,7 @@ public class SquareTest {
 	@Test
 	public void testIdx() {
 		for (Square square: Square.values()) {
-			Assert.assertEquals(square, Square.getSquareByIdx(square.toIdx()));
+			assertEquals(square, Square.getSquareByIdx(square.toIdx()));
 		}
 	}
 }

@@ -1,15 +1,14 @@
 package net.chesstango.board.perft;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
-import net.chesstango.board.perft.imp.PerftBrute;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 
 //Kiwipete
@@ -23,7 +22,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 	
 	private Game board;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		pert = createPerft();
 		board =  getGame("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1");
@@ -871,7 +870,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 	}
 	
 	@Test //842segs 772segs 701segs 673segs 554segs 522segs 506segs 490segs
-	@Ignore
+	@Disabled
 	public void test_divide6() {
 		PerftResult result= pert.start(board, 6);
 		

@@ -9,10 +9,9 @@ import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -651,7 +650,7 @@ public class GameTest {
         Game game = getGame("4k3/8/8/8/4b3/8/8/R3K2R w KQ - 0 1");
 
         //Antes de mover blanca podemos ver que tenemos enroque
-        assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
+        assertTrue(game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()), "castlingKingMove not present");
 
         // Mueve torre blanca
         game.executeMove(Square.a1, Square.d1);
@@ -663,7 +662,7 @@ public class GameTest {
         // Blanca pierde el enroque de rey
         // Rey establece los movimientos en cache (sin enroque de Torre Rey)
         // Los movimientos que establece en cache no dependen de lo que hay en h1 (puesto que no hay torre blanca)
-        assertFalse("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
+        assertFalse(game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()), "castlingKingMove not present");
 
         assertEquals(PolyglotEncoder.getKey(game).longValue(), game.getChessPosition().getPositionHash());
 
@@ -676,7 +675,7 @@ public class GameTest {
         // Y cuando se pregunta por movimientos de rey en cache
 
         //Blanca deberia tener enroque de rey nuevamente
-        assertTrue("castlingKingMove not present", game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()));
+        assertTrue(game.getPossibleMoves().contains(moveFactory.createCastlingKingMove()), "castlingKingMove not present");
 
         assertFalse(game.getChessPosition().isCastlingWhiteQueenAllowed());
 

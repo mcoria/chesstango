@@ -7,9 +7,9 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import net.chesstango.uci.service.Service;
-import org.junit.Assert;
+
 import org.junit.Ignore;
-import org.junit.Test;
+
 
 
 /**
@@ -18,7 +18,7 @@ import org.junit.Test;
 public class EngineControllerImpProxyTest {
 
     @Test
-    @Ignore
+    @Disabled
     public void test_Proxy() {
         EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true);
 
@@ -26,8 +26,8 @@ public class EngineControllerImpProxyTest {
 
         client.send_CmdUci();
 
-        //Assert.assertEquals("Ralf Schäfer und Volker Böhm", client.getEngineAuthor());
-        Assert.assertEquals("Spike 1.4", client.getEngineName());
+        //assertEquals("Ralf Schäfer und Volker Böhm", client.getEngineAuthor());
+        assertEquals("Spike 1.4", client.getEngineName());
 
         client.send_CmdIsReady();
 
@@ -39,7 +39,7 @@ public class EngineControllerImpProxyTest {
                 .setGoType(CmdGo.GoType.DEPTH)
                 .setDepth(1));
 
-        Assert.assertNotNull(bestmove);
+        assertNotNull(bestmove);
 
         client.send_CmdQuit();
     }

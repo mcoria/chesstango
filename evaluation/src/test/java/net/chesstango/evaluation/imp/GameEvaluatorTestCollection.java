@@ -6,8 +6,8 @@ import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 import java.util.function.Function;
 
@@ -37,7 +37,7 @@ public abstract class GameEvaluatorTestCollection {
         // El puntaje de cada termino es 0 en la posicion inicial
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
         final int eval = evaluationFunction.apply(game);
-        Assert.assertEquals(0, eval);
+        assertEquals(0, eval);
 
         game = FENDecoder.loadGame(fen);
         final int eval1 = evaluationFunction.apply(game);
@@ -48,7 +48,7 @@ public abstract class GameEvaluatorTestCollection {
         final int eval2 = evaluationFunction.apply(mirrorGame);
 
         // El puntaje de cada termino es simetrico con respecto a la posicion
-        Assert.assertTrue(eval1 == - eval2);
+        assertTrue(eval1 == - eval2);
     }
 
     @Test
@@ -56,18 +56,18 @@ public abstract class GameEvaluatorTestCollection {
         // El puntaje de cada termino es 0 en la posicion inicial
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
         final int eval = getEvaluator().evaluateByMaterial(game);
-        Assert.assertEquals(0, eval);
+        assertEquals(0, eval);
 
         game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         final int evalWhite = getEvaluator().evaluateByMaterial(game);
-        Assert.assertTrue(evalWhite > 0);
+        assertTrue(evalWhite > 0);
 
         game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
         final int evalBlack = getEvaluator().evaluateByMaterial(game);
-        Assert.assertTrue(evalBlack < 0);
+        assertTrue(evalBlack < 0);
 
         // El puntaje de cada termino es simetrico con respecto a la posicion
-        Assert.assertTrue(evalWhite == - evalBlack);
+        assertTrue(evalWhite == - evalBlack);
     }
 
     @Test
@@ -87,15 +87,15 @@ public abstract class GameEvaluatorTestCollection {
 
         // White's interest is to maximize
         // Black's interest is to minimize
-        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, mateEval);
+        assertEquals(GameEvaluator.INFINITE_POSITIVE, mateEval);
 
-        Assert.assertEquals(GameEvaluator.BLACK_LOST, mateEval);
+        assertEquals(GameEvaluator.BLACK_LOST, mateEval);
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, mateEval);
+        assertEquals(GameEvaluator.WHITE_WON, mateEval);
 
-        Assert.assertTrue(mateEval > checkEval);
+        assertTrue(mateEval > checkEval);
 
-        Assert.assertTrue(mateEval > drawEval);
+        assertTrue(mateEval > drawEval);
     }
 
 
@@ -112,15 +112,15 @@ public abstract class GameEvaluatorTestCollection {
         // White's interest is to maximize
         // Black's interest is to minimize
 
-        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, mateEval);
+        assertEquals(GameEvaluator.INFINITE_NEGATIVE, mateEval);
 
-        Assert.assertEquals(GameEvaluator.BLACK_WON, mateEval);
+        assertEquals(GameEvaluator.BLACK_WON, mateEval);
 
-        Assert.assertEquals(GameEvaluator.WHITE_LOST, mateEval);
+        assertEquals(GameEvaluator.WHITE_LOST, mateEval);
 
-        Assert.assertTrue(mateEval < checkEval);
+        assertTrue(mateEval < checkEval);
 
-        Assert.assertTrue(mateEval < drawEval);
+        assertTrue(mateEval < drawEval);
     }
 
 
@@ -133,7 +133,7 @@ public abstract class GameEvaluatorTestCollection {
         int evalPromotionInOneMoves = getEvaluator().evaluate(promotionInOneMoves);
         int evalPromotionInTwoMoves = getEvaluator().evaluate(promotionInTwoMoves);
 
-        Assert.assertTrue("Promotion in 1 move is better than promotion in 2 moves", evalPromotionInOneMoves > evalPromotionInTwoMoves);
+        assertTrue("Promotion in 1 move is better than promotion in 2 moves", evalPromotionInOneMoves > evalPromotionInTwoMoves);
     }
 
 
@@ -145,7 +145,7 @@ public abstract class GameEvaluatorTestCollection {
         int evalPromotionInTwoMoves = getEvaluator().evaluate(promotionInTwoMoves);
         int evalPromotionInThreeMoves = getEvaluator().evaluate(promotionInThreeMoves);
 
-        Assert.assertTrue("Promotion in 2 move is better than promotion 3 moves", evalPromotionInTwoMoves > evalPromotionInThreeMoves);
+        assertTrue("Promotion in 2 move is better than promotion 3 moves", evalPromotionInTwoMoves > evalPromotionInThreeMoves);
     }
 
     @Test
@@ -154,11 +154,11 @@ public abstract class GameEvaluatorTestCollection {
 
         int eval = getEvaluator().evaluate(game);
 
-        Assert.assertTrue("White has not won yet", eval != GameEvaluator.WHITE_WON);
-        Assert.assertTrue("White has not lost yet", eval != GameEvaluator.WHITE_LOST);
-        Assert.assertTrue("Black has not won yet", eval != GameEvaluator.BLACK_WON);
-        Assert.assertTrue("Black has not lost yet", eval != GameEvaluator.BLACK_LOST);
-        Assert.assertTrue("White has a better position than Black", eval > 0);
+        assertTrue("White has not won yet", eval != GameEvaluator.WHITE_WON);
+        assertTrue("White has not lost yet", eval != GameEvaluator.WHITE_LOST);
+        assertTrue("Black has not won yet", eval != GameEvaluator.BLACK_WON);
+        assertTrue("Black has not lost yet", eval != GameEvaluator.BLACK_LOST);
+        assertTrue("White has a better position than Black", eval > 0);
     }
 
     @Test
@@ -167,18 +167,18 @@ public abstract class GameEvaluatorTestCollection {
 
         int eval = getEvaluator().evaluate(game);
 
-        Assert.assertEquals("Draw", 0, eval);
+        assertEquals("Draw", 0, eval);
     }
 
     @Test
     public void testSymmetryOfPieceValues() {
         AbstractEvaluator evaluator = getEvaluator();
-        Assert.assertTrue(evaluator.getPieceValue(null, Piece.PAWN_WHITE) == -evaluator.getPieceValue(null, Piece.PAWN_BLACK)) ;
-        Assert.assertTrue(evaluator.getPieceValue(null, Piece.ROOK_WHITE) == -evaluator.getPieceValue(null, Piece.ROOK_BLACK)) ;
-        Assert.assertTrue(evaluator.getPieceValue(null, Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(null, Piece.KNIGHT_BLACK)) ;
-        Assert.assertTrue(evaluator.getPieceValue(null, Piece.BISHOP_WHITE) == -evaluator.getPieceValue(null, Piece.BISHOP_BLACK)) ;
-        Assert.assertTrue(evaluator.getPieceValue(null, Piece.QUEEN_WHITE) == -evaluator.getPieceValue(null, Piece.QUEEN_BLACK)) ;
-        Assert.assertTrue(evaluator.getPieceValue(null, Piece.KING_WHITE) == -evaluator.getPieceValue(null, Piece.KING_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(null, Piece.PAWN_WHITE) == -evaluator.getPieceValue(null, Piece.PAWN_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(null, Piece.ROOK_WHITE) == -evaluator.getPieceValue(null, Piece.ROOK_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(null, Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(null, Piece.KNIGHT_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(null, Piece.BISHOP_WHITE) == -evaluator.getPieceValue(null, Piece.BISHOP_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(null, Piece.QUEEN_WHITE) == -evaluator.getPieceValue(null, Piece.QUEEN_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(null, Piece.KING_WHITE) == -evaluator.getPieceValue(null, Piece.KING_BLACK)) ;
     }
 
 
@@ -189,35 +189,35 @@ public abstract class GameEvaluatorTestCollection {
         game.getChessPosition().constructChessPositionRepresentation(mirrorBuilder);
         Game gameMirror = mirrorBuilder.getChessRepresentation();
 
-        Assert.assertTrue(getEvaluator().evaluate(game) == (-1) * getEvaluator().evaluate(gameMirror) );
+        assertTrue(getEvaluator().evaluate(game) == (-1) * getEvaluator().evaluate(gameMirror) );
     }
 
     @Test
     public void testInfinities() {
-        Assert.assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
-        Assert.assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
+        assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
+        assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
 
-        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.WHITE_WON);
-        Assert.assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.BLACK_LOST);
+        assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.WHITE_WON);
+        assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.BLACK_LOST);
 
-        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.BLACK_WON);
-        Assert.assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.WHITE_LOST);
+        assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.BLACK_WON);
+        assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.WHITE_LOST);
     }
 
     @Test
     public void testMaterial() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
         int eval = getEvaluator().evaluateByMaterial(game);
-        Assert.assertEquals(0, eval);
+        assertEquals(0, eval);
 
         game = FENDecoder.loadGame("rnbqkbnr/pppp1ppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         eval = getEvaluator().evaluateByMaterial(game);
-        Assert.assertTrue(eval > 0);
+        assertTrue(eval > 0);
 
 
         game = FENDecoder.loadGame("rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1");
         eval = getEvaluator().evaluateByMaterial(game);
-        Assert.assertTrue(eval < 0);
+        assertTrue(eval < 0);
     }
 
 }

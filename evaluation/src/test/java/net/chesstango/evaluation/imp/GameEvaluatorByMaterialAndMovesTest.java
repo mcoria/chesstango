@@ -1,8 +1,8 @@
 package net.chesstango.evaluation.imp;
 
-import org.junit.Before;
+
 import org.junit.Ignore;
-import org.junit.Test;
+
 
 /**
  * @author Mauricio Coria
@@ -10,7 +10,7 @@ import org.junit.Test;
 public class GameEvaluatorByMaterialAndMovesTest extends GameEvaluatorTestCollection {
     private GameEvaluatorImp01 evaluator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         evaluator = new GameEvaluatorImp01();
     }

@@ -3,8 +3,8 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.Color;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.SquareIterator;
+import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 

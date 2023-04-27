@@ -7,10 +7,10 @@ package net.chesstango.uci.proxy;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
-import org.junit.Assert;
-import org.junit.Before;
+
+
 import org.junit.Ignore;
-import org.junit.Test;
+
 
 import java.io.*;
 import java.util.ArrayList;
@@ -25,14 +25,14 @@ public class EngineProxyTest {
     private EngineProxy engine;
 
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"));
         this.engine.setLogging(true);
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void test_OpenAndClose() throws IOException, InterruptedException {
         PipedOutputStream posOutput = new PipedOutputStream();
         PipedInputStream pisOutput = new PipedInputStream(posOutput);
@@ -44,7 +44,7 @@ public class EngineProxyTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void test_HappyPath() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -54,18 +54,18 @@ public class EngineProxyTest {
         engine.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(new PrintStream(posOutput, true)))));
         engine.open();
 
-        Assert.assertEquals("Spike 1.4 (Build 84) by Volker Boehm & Ralf Schaefer, Book by Timo Klaustermeyer", input.readLine());
+        assertEquals("Spike 1.4 (Build 84) by Volker Boehm & Ralf Schaefer, Book by Timo Klaustermeyer", input.readLine());
 
         // uci command
         engine.accept(new CmdUci());
         Thread.sleep(200);
         lines = readLastLine(input, "uciok"::equals);
-        Assert.assertTrue(lines.stream().filter("id name Spike 1.4"::equals).findAny().isPresent());
+        assertTrue(lines.stream().filter("id name Spike 1.4"::equals).findAny().isPresent());
 
         // isready command
         engine.accept(new CmdIsReady());
         Thread.sleep(200);
-        Assert.assertEquals("readyok", input.readLine());
+        assertEquals("readyok", input.readLine());
 
         // ucinewgame command
         engine.accept(new CmdUciNewGame());
@@ -80,7 +80,7 @@ public class EngineProxyTest {
         Thread.sleep(200);
 
         lines = readLastLine(input, line -> line.startsWith("bestmove"));
-        Assert.assertTrue(lines.size() > 0);
+        assertTrue(lines.size() > 0);
 
         // quit command
         engine.accept(new CmdQuit());
@@ -100,7 +100,7 @@ public class EngineProxyTest {
     }
 
     @Test // MORA crashes
-    @Ignore
+    @Disabled
     public void test_Crash() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -119,7 +119,7 @@ public class EngineProxyTest {
         // isready command
         engine.accept(new CmdIsReady());
         Thread.sleep(200);
-        Assert.assertEquals("readyok", input.readLine());
+        assertEquals("readyok", input.readLine());
 
         // ucinewgame command
         engine.accept(new CmdUciNewGame());
@@ -138,7 +138,7 @@ public class EngineProxyTest {
         Thread.sleep(200);
 
         lines = readLastLine(input, line -> line.startsWith("bestmove"));
-        Assert.assertTrue(lines.size() > 0);
+        assertTrue(lines.size() > 0);
 
         // quit command
         engine.accept(new CmdQuit());
@@ -149,7 +149,7 @@ public class EngineProxyTest {
 
 
     @Test // Spike crashes
-    @Ignore
+    @Disabled
     public void test_SpikeCrash() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -167,7 +167,7 @@ public class EngineProxyTest {
         // isready command
         engine.accept(new CmdIsReady());
         Thread.sleep(200);
-        Assert.assertEquals("readyok", input.readLine());
+        assertEquals("readyok", input.readLine());
 
         // ucinewgame command
         engine.accept(new CmdUciNewGame());
@@ -186,7 +186,7 @@ public class EngineProxyTest {
             Thread.sleep(200);
 
             lines = readLastLine(input, line -> line.startsWith("bestmove"));
-            Assert.assertTrue(lines.size() > 0);
+            assertTrue(lines.size() > 0);
         }
 
         // quit command

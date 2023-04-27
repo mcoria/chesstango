@@ -10,27 +10,26 @@ import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 
 /**
  * @author Mauricio Coria
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CastlingWhiteKingTest {
 
     private Board board;
@@ -53,7 +52,7 @@ public class CastlingWhiteKingTest {
     @Mock
     private MoveFilter filter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCastlingKingMove();
 
@@ -98,7 +97,7 @@ public class CastlingWhiteKingTest {
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(zobristHash, oldPositionState, positionState, null);
 
-        Assert.assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
+        assertEquals(PolyglotEncoder.getKey("8/8/8/8/8/8/8/5RK1 b - - 0 1").longValue(), zobristHash.getZobristHash());
     }
 
     @Test
@@ -113,7 +112,7 @@ public class CastlingWhiteKingTest {
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(zobristHash, oldPositionState, positionState, null);
 
-        Assert.assertEquals(initialHash, zobristHash.getZobristHash());
+        assertEquals(initialHash, zobristHash.getZobristHash());
     }
 
 

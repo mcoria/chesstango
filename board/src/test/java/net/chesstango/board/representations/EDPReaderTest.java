@@ -1,15 +1,14 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Piece;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  */
@@ -17,7 +16,7 @@ public class EDPReaderTest {
 
     private EDPReader edpReader;
 
-    @Before
+    @BeforeEach
     public void setup(){
         edpReader = new EDPReader();
     }
@@ -127,7 +126,7 @@ public class EDPReaderTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testReadMateAll(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
 
@@ -136,7 +135,7 @@ public class EDPReaderTest {
 
 
     @Test
-    @Ignore
+    @Disabled
     public void testReadWAC(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac.epd");
 
@@ -144,7 +143,7 @@ public class EDPReaderTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void testReadWAC2018(){
         List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
 

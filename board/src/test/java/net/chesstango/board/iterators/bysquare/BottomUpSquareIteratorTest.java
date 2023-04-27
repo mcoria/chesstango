@@ -2,18 +2,17 @@ package net.chesstango.board.iterators.bysquare;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.Square;
-import org.junit.Before;
-import org.junit.Test;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -26,7 +25,7 @@ public class BottomUpSquareIteratorTest {
 
 	private PiecePlacementBuilder builder = null;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		parser = new FENDecoder(builder);

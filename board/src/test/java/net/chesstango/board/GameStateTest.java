@@ -2,9 +2,9 @@ package net.chesstango.board;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria

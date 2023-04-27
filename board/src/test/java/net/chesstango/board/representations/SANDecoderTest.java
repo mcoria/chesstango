@@ -5,9 +5,9 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SANDecoderTest {
 
@@ -20,7 +20,7 @@ public class SANDecoderTest {
         Move expectedMove = game.getMove(Square.c1, Square.d2);
         Move decodedMove = decoder.decode("Bd2", game.getPossibleMoves());
 
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class SANDecoderTest {
         Move expectedMove = game.getMove(Square.a2, Square.a3);
         Move decodedMove = decoder.decode("a3", game.getPossibleMoves());
 
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class SANDecoderTest {
         Move expectedMove = game.getMove(Square.e2, Square.e3);
         Move decodedMove = decoder.decode("e3", game.getPossibleMoves());
 
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -53,15 +53,15 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.e4, Square.f5);
         decodedMove = decoder.decode("exf5", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
 
         expectedMove = game.getMove(Square.c4, Square.d5);
         decodedMove = decoder.decode("cxd5", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
 
         expectedMove = game.getMove(Square.e4, Square.d5);
         decodedMove = decoder.decode("exd5", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -73,11 +73,11 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.e1, Square.c1);
         decodedMove = decoder.decode("O-O-O", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
 
         expectedMove = game.getMove(Square.e1, Square.g1);
         decodedMove = decoder.decode("O-O", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.b1, Square.c3);
         decodedMove = decoder.decode("Nbc3", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.g6, Square.h4);
         decodedMove = decoder.decode("Nh4", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
 
@@ -114,11 +114,11 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.f3, Square.h4);
         decodedMove = decoder.decode("N3h4", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
 
         expectedMove = game.getMove(Square.f5, Square.h4);
         decodedMove = decoder.decode("N5h4", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class SANDecoderTest {
         Move expectedMove = game.getMove(Square.g1, Square.e2);
         Move decodedMove = decoder.decode("Nge2", game.getPossibleMoves());
 
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class SANDecoderTest {
         Move expectedMove = game.getMove(Square.g1, Square.f3);
         Move decodedMove = decoder.decode("Nf3", game.getPossibleMoves());
 
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -150,11 +150,11 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.c7, Square.c8, Piece.ROOK_WHITE);
         decodedMove = decoder.decode("c8=R", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
 
         expectedMove = game.getMove(Square.c7, Square.d8, Piece.QUEEN_WHITE);
         decodedMove = decoder.decode("cxd8=Q", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -166,7 +166,7 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.a7, Square.a8, Piece.QUEEN_WHITE);
         decodedMove = decoder.decode("a8Q", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 
     @Test
@@ -178,6 +178,6 @@ public class SANDecoderTest {
 
         expectedMove = game.getMove(Square.g2, Square.g1, Piece.QUEEN_BLACK);
         decodedMove = decoder.decode("g1", game.getPossibleMoves());
-        Assert.assertEquals(expectedMove, decodedMove);
+        assertEquals(expectedMove, decodedMove);
     }
 }

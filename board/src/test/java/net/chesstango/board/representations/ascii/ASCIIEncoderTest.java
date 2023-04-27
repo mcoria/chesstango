@@ -1,13 +1,15 @@
 package net.chesstango.board.representations.ascii;
 
-import static org.junit.Assert.assertEquals;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
 
 
 /**
@@ -19,7 +21,7 @@ public class ASCIIEncoderTest {
 	private ASCIIEncoder builder;
 	private FENDecoder parser;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 	    builder = new ASCIIEncoder();
 	    parser = new FENDecoder(builder);  

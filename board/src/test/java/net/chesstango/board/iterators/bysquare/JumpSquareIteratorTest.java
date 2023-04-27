@@ -4,9 +4,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingJumpSquareIterator;
 import net.chesstango.board.iterators.bysquare.bypiece.KnightJumpSquareIterator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 
 /**
  * @author Mauricio Coria

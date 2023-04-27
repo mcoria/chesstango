@@ -1,7 +1,7 @@
 package net.chesstango.board.representations.polyglot;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class PolyglotFileReaderTest {
 
     @Test
-    @Ignore
+    @Disabled
     public void testRead(){
         PolyglotFileReader reader = new PolyglotFileReader();
 

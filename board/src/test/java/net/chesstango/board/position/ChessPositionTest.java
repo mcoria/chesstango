@@ -1,26 +1,22 @@
 package net.chesstango.board.position;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import net.chesstango.board.*;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.factory.SingletonMoveFactories;
-import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.moves.MoveContainerReader;
-import net.chesstango.board.moves.MoveFactory;
-import org.junit.Before;
-import org.junit.Test;
-
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -44,7 +40,7 @@ public class ChessPositionTest {
 	private GameState gameState;
 	private Game game;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {		
 		moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 

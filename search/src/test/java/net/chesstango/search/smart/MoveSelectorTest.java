@@ -9,8 +9,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,8 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
-        Assert.assertEquals(Square.d3, selectedMove.getFrom().getSquare());
-        Assert.assertEquals(Square.b1, selectedMove.getTo().getSquare());
+        assertEquals(Square.d3, selectedMove.getFrom().getSquare());
+        assertEquals(Square.b1, selectedMove.getTo().getSquare());
     }
 
     @Test
@@ -53,8 +53,8 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(gameMirror.getChessPosition().getCurrentTurn(), moves);
 
-        Assert.assertEquals(Square.d6, selectedMove.getFrom().getSquare());
-        Assert.assertEquals(Square.b8, selectedMove.getTo().getSquare());
+        assertEquals(Square.d6, selectedMove.getFrom().getSquare());
+        assertEquals(Square.b8, selectedMove.getTo().getSquare());
     }
 
 
@@ -70,10 +70,10 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(game.getChessPosition().getCurrentTurn(), moves);
 
-        Assert.assertEquals(Square.b2, selectedMove.getFrom().getSquare());
-        Assert.assertEquals(Square.a1, selectedMove.getTo().getSquare());
-        Assert.assertTrue(selectedMove instanceof MovePromotion);
-        Assert.assertEquals(Piece.QUEEN_BLACK, ((MovePromotion)selectedMove).getPromotion() );
+        assertEquals(Square.b2, selectedMove.getFrom().getSquare());
+        assertEquals(Square.a1, selectedMove.getTo().getSquare());
+        assertTrue(selectedMove instanceof MovePromotion);
+        assertEquals(Piece.QUEEN_BLACK, ((MovePromotion)selectedMove).getPromotion() );
 
     }
 
@@ -93,10 +93,10 @@ public class MoveSelectorTest {
 
         Move selectedMove = MoveSelector.selectMove(gameMirror.getChessPosition().getCurrentTurn(), moves);
 
-        Assert.assertEquals(Square.b7, selectedMove.getFrom().getSquare());
-        Assert.assertEquals(Square.a8, selectedMove.getTo().getSquare());
-        Assert.assertTrue(selectedMove instanceof MovePromotion);
-        Assert.assertEquals(Piece.QUEEN_WHITE, ((MovePromotion)selectedMove).getPromotion() );
+        assertEquals(Square.b7, selectedMove.getFrom().getSquare());
+        assertEquals(Square.a8, selectedMove.getTo().getSquare());
+        assertTrue(selectedMove instanceof MovePromotion);
+        assertEquals(Piece.QUEEN_WHITE, ((MovePromotion)selectedMove).getPromotion() );
 
     }
 

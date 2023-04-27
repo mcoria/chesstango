@@ -4,18 +4,12 @@
 package net.chesstango.board.perft;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.perft.imp.PerftBrute;
-import net.chesstango.board.perft.imp.PerftWithMap;
 import net.chesstango.board.perft.imp.PerftWithMapIterateDeeping;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Mauricio Coria

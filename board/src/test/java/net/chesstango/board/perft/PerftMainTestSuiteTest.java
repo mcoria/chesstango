@@ -1,10 +1,14 @@
 package net.chesstango.board.perft;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+
 
 //TODO: Agrupar en una sola clase los tests de https://www.chessprogramming.org/Perft_Results
 //TODO: este set de test no esta en el archivo original, estaria bueno agregar una excepcion cuando falla alguno de los TESTs
@@ -17,7 +21,7 @@ public class PerftMainTestSuiteTest {
 	
 	private PerftMainTestSuite suite;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		//suite = new PerftSuite(new ChessFactoryDebug());
 		suite = new PerftMainTestSuite();

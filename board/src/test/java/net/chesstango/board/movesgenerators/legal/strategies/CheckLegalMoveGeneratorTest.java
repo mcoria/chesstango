@@ -1,17 +1,17 @@
 package net.chesstango.board.movesgenerators.legal.strategies;
 
-import static org.junit.Assert.assertTrue;
-
-import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.GameState;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.builders.ChessPositionBuilder;
+import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**

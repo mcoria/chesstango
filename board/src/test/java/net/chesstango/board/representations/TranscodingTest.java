@@ -1,10 +1,11 @@
 package net.chesstango.board.representations;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TranscodingTest {
 
@@ -27,7 +28,7 @@ public class TranscodingTest {
                 "rn1qk2r/p1pp1ppp/bp2pn2/8/1bPP4/1P3NP1/P2BPP1P/RN1QKB1R b KQkq - 2 6");
 
         for (int i = 0; i < 10; i++) {
-            Assert.assertEquals(expectedFenPositions.get(i), fenPositions.get(i));
+            assertEquals(expectedFenPositions.get(i), fenPositions.get(i));
         }
     }
 

@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import org.junit.Before;
+
 
 /**
  * @author Mauricio Coria
@@ -14,7 +14,7 @@ public class NegaMaxPrunningMateIn3Test extends MateIn3Test {
 
     private SearchMove searchMove;
 
-    @Before
+    @BeforeEach
     public void setup(){
         MoveSorter moveSorter = new MoveSorter();
 

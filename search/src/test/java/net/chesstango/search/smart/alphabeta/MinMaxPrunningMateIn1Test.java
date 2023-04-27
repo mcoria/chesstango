@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn1Test;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import org.junit.Before;
+
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public class MinMaxPrunningMateIn1Test extends MateIn1Test {
 
     private SearchMove searchMove;
 
-    @Before
+    @BeforeEach
     public void setup(){
         MoveSorter moveSorter = new MoveSorter();
 

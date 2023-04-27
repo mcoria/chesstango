@@ -2,8 +2,8 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
+import net.chesstango.board.position.ChessPositionReader;
 
 
 /**

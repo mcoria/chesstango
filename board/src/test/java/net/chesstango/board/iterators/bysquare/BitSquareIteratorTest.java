@@ -1,14 +1,14 @@
 package net.chesstango.board.iterators.bysquare;
 
-import static org.junit.Assert.*;
+import net.chesstango.board.Square;
+import net.chesstango.board.iterators.SquareIterator;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import net.chesstango.board.Square;
-import net.chesstango.board.iterators.SquareIterator;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**

@@ -1,18 +1,15 @@
 package net.chesstango.board.position.imp;
 
-import static org.junit.Assert.assertNotNull;
-
-import net.chesstango.board.factory.SingletonMoveFactories;
-import net.chesstango.board.moves.MoveFactory;
-import org.junit.Before;
-import org.junit.Test;
-
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  *
@@ -23,7 +20,7 @@ public class MoveCacheBoardTest {
 	
 	private MoveFactory moveFactoryImp;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		cache = new MoveCacheBoard();

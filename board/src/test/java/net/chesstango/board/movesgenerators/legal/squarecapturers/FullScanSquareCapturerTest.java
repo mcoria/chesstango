@@ -5,12 +5,12 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.position.Board;
-import org.junit.Test;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria

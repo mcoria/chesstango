@@ -11,10 +11,10 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -31,7 +31,7 @@ public class MoveFactoryBlackTest {
 
     private ZobristHash zobristHash;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moveFactoryImp = new MoveFactoryBlack();
         positionState = new PositionState();

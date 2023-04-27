@@ -3,10 +3,11 @@ package net.chesstango.board.perft.imp;
 import net.chesstango.board.Square;
 import net.chesstango.board.perft.PerftResult;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PerftWithMapIterateDeepingTest {
 
@@ -108,6 +109,7 @@ public class PerftWithMapIterateDeepingTest {
     }
 
     @Test // 39segs !!!!!
+    @Disabled
     public void initialPosition_level7() {
         PerftWithMapIterateDeeping<Long> perft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
         perft.depth = 7;
@@ -122,6 +124,7 @@ public class PerftWithMapIterateDeepingTest {
 
 
     @Test // 43segs !!!!!
+    @Disabled
     public void initialPosition_level7_iterative() {
         PerftWithMapIterateDeeping<Long> peft = new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
 

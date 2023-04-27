@@ -2,8 +2,9 @@ package net.chesstango.board.representations.polyglot;
 
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
@@ -22,7 +23,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x463b96181691fc9cL, polyglotKey.longValue());
+        assertEquals(0x463b96181691fc9cL, polyglotKey.longValue());
     }
 
     /**
@@ -43,7 +44,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x823c9b50fd114196L, polyglotKey.longValue());
+        assertEquals(0x823c9b50fd114196L, polyglotKey.longValue());
     }
 
 
@@ -65,7 +66,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x0756b94461c50fb0L, polyglotKey.longValue());
+        assertEquals(0x0756b94461c50fb0L, polyglotKey.longValue());
     }
 
     /**
@@ -86,7 +87,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x662fafb965db29d4L, polyglotKey.longValue());
+        assertEquals(0x662fafb965db29d4L, polyglotKey.longValue());
     }
 
     /**
@@ -106,7 +107,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x22a48b5a8e47ff78L, polyglotKey.longValue());
+        assertEquals(0x22a48b5a8e47ff78L, polyglotKey.longValue());
     }
 
      /**
@@ -127,7 +128,7 @@ public class PolyglotEncoderTest {
 
          System.out.printf("%016X", polyglotKey);
 
-         Assert.assertEquals(0x652a607ca3f242c1L, polyglotKey.longValue());
+         assertEquals(0x652a607ca3f242c1L, polyglotKey.longValue());
      }
 
     /**
@@ -147,7 +148,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x00fdd303c946bdd9L, polyglotKey.longValue());
+        assertEquals(0x00fdd303c946bdd9L, polyglotKey.longValue());
     }
 
 
@@ -168,7 +169,7 @@ public class PolyglotEncoderTest {
 
         System.out.printf("%016X", polyglotKey);
 
-        Assert.assertEquals(0x3c8123ea7b067637L, polyglotKey.longValue());
+        assertEquals(0x3c8123ea7b067637L, polyglotKey.longValue());
     }
 
 
@@ -189,6 +190,6 @@ public class PolyglotEncoderTest {
 
          System.out.printf("%016X", polyglotKey);
 
-         Assert.assertEquals(0x5c3f9b829b279560L, polyglotKey.longValue());
+         assertEquals(0x5c3f9b829b279560L, polyglotKey.longValue());
      }
 }

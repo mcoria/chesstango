@@ -6,11 +6,7 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.*;
 
 /**
  * @author Mauricio Coria

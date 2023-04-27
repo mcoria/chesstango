@@ -16,15 +16,16 @@ import net.chesstango.board.position.imp.ArrayBoardTest;
 import net.chesstango.board.position.imp.ChessPositionImpTest;
 import net.chesstango.board.position.imp.ColorBoardTest;
 import net.chesstango.board.position.imp.MoveCacheBoardTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 
 /**
  * @author Mauricio Coria
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ PieceTest.class, SquareTest.class, PiecePositionedTest.class, GameTest.class, FullScanSquareCapturerTest.class,
+@Suite
+@SelectClasses({ PieceTest.class, SquareTest.class, PiecePositionedTest.class, GameTest.class, FullScanSquareCapturerTest.class,
 		ChessPositionTest.class, MoveCacheBoardTest.class, ColorBoardTest.class, ArrayBoardTest.class,
 		ChessPositionImpTest.class, CheckLegalMoveGeneratorTest.class, NoCheckLegalMoveGeneratorTest.class, MoveContainerTest.class })
 public class BasicTestSuite {

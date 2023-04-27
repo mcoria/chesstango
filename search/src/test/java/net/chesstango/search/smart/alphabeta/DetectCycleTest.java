@@ -10,9 +10,9 @@ import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -28,7 +28,7 @@ public class DetectCycleTest {
 
     private GameEvaluatorByCondition evaluator;
 
-    @Before
+    @BeforeEach
     public void setup() {
         evaluator =  new GameEvaluatorByCondition();
         evaluator.setDefaultValue(0);
@@ -109,38 +109,38 @@ public class DetectCycleTest {
 
         SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(23));
 
-        Assert.assertNotNull(searchResult);
-        Assert.assertEquals(4, searchResult.getEvaluation());
+        assertNotNull(searchResult);
+        assertEquals(4, searchResult.getEvaluation());
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        Assert.assertEquals(3, visitedNodesCounters[0]);
-        Assert.assertEquals(5, visitedNodesCounters[1]);
-        Assert.assertEquals(15, visitedNodesCounters[2]);
-        Assert.assertEquals(25, visitedNodesCounters[3]);
-        Assert.assertEquals(58, visitedNodesCounters[4]);
-        Assert.assertEquals(97, visitedNodesCounters[5]);
-        Assert.assertEquals(196, visitedNodesCounters[6]);
-        Assert.assertEquals(259, visitedNodesCounters[7]);
-        Assert.assertEquals(552, visitedNodesCounters[8]);
-        Assert.assertEquals(693, visitedNodesCounters[9]);
-        Assert.assertEquals(1460, visitedNodesCounters[10]);
-        Assert.assertEquals(1953, visitedNodesCounters[11]);
-        Assert.assertEquals(4284, visitedNodesCounters[12]);
-        Assert.assertEquals(5689, visitedNodesCounters[13]);
-        Assert.assertEquals(11667, visitedNodesCounters[14]);
-        Assert.assertEquals(16946, visitedNodesCounters[15]);
-        Assert.assertEquals(34383, visitedNodesCounters[16]);
-        Assert.assertEquals(47793, visitedNodesCounters[17]);
-        Assert.assertEquals(96740, visitedNodesCounters[18]);
-        Assert.assertEquals(157064, visitedNodesCounters[19]);
-        Assert.assertEquals(314483, visitedNodesCounters[20]);
-        Assert.assertEquals(468133, visitedNodesCounters[21]);
-        Assert.assertEquals(941040, visitedNodesCounters[22]);
+        assertEquals(3, visitedNodesCounters[0]);
+        assertEquals(5, visitedNodesCounters[1]);
+        assertEquals(15, visitedNodesCounters[2]);
+        assertEquals(25, visitedNodesCounters[3]);
+        assertEquals(58, visitedNodesCounters[4]);
+        assertEquals(97, visitedNodesCounters[5]);
+        assertEquals(196, visitedNodesCounters[6]);
+        assertEquals(259, visitedNodesCounters[7]);
+        assertEquals(552, visitedNodesCounters[8]);
+        assertEquals(693, visitedNodesCounters[9]);
+        assertEquals(1460, visitedNodesCounters[10]);
+        assertEquals(1953, visitedNodesCounters[11]);
+        assertEquals(4284, visitedNodesCounters[12]);
+        assertEquals(5689, visitedNodesCounters[13]);
+        assertEquals(11667, visitedNodesCounters[14]);
+        assertEquals(16946, visitedNodesCounters[15]);
+        assertEquals(34383, visitedNodesCounters[16]);
+        assertEquals(47793, visitedNodesCounters[17]);
+        assertEquals(96740, visitedNodesCounters[18]);
+        assertEquals(157064, visitedNodesCounters[19]);
+        assertEquals(314483, visitedNodesCounters[20]);
+        assertEquals(468133, visitedNodesCounters[21]);
+        assertEquals(941040, visitedNodesCounters[22]);
 
-        Assert.assertEquals(2103538, visitedNodesTotal);
+        assertEquals(2103538, visitedNodesTotal);
     }
 
 }

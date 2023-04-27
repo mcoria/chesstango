@@ -14,14 +14,15 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * @author Mauricio Coria
@@ -35,7 +36,7 @@ public class KnightMoveGeneratorTest {
 
 	private MoveFactory moveFactoryImp;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moveGenerator = new KnightMoveGenerator(Color.WHITE);

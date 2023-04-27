@@ -8,9 +8,9 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -32,7 +32,7 @@ public class NegaMaxTest {
 
     private NegaMax negaMax;
 
-    @Before
+    @BeforeEach
     public void setup() {
         negaMax = new NegaMax();
         negaMax.setGameEvaluator(evaluator);
@@ -53,8 +53,8 @@ public class NegaMaxTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move, bestMove);
-        Assert.assertEquals(1, searchResult.getEvaluation());
+        assertEquals(move, bestMove);
+        assertEquals(1, searchResult.getEvaluation());
         verify(evaluator, times(1)).evaluate(childGame);
     }
 
@@ -73,8 +73,8 @@ public class NegaMaxTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move, bestMove);
-        Assert.assertEquals(1, searchResult.getEvaluation());
+        assertEquals(move, bestMove);
+        assertEquals(1, searchResult.getEvaluation());
         verify(evaluator, times(1)).evaluate(childGame);
     }
 
@@ -98,8 +98,8 @@ public class NegaMaxTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move2, bestMove);
-        Assert.assertEquals(2, searchResult.getEvaluation());
+        assertEquals(move2, bestMove);
+        assertEquals(2, searchResult.getEvaluation());
 
         verify(minMax).negaMax(childGame1, 0);
         verify(minMax).negaMax(childGame2, 0);
@@ -128,8 +128,8 @@ public class NegaMaxTest {
 
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertEquals(move1, bestMove);
-        Assert.assertEquals(1, searchResult.getEvaluation());
+        assertEquals(move1, bestMove);
+        assertEquals(1, searchResult.getEvaluation());
 
         verify(minMax).negaMax(childGame1, 0);
         verify(minMax).negaMax(childGame2, 0);

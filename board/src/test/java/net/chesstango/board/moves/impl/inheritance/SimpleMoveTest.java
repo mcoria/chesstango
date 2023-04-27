@@ -6,26 +6,26 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 
 /**
  * @author Mauricio Coria
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SimpleMoveTest {
 
     private Board board;
@@ -44,7 +44,7 @@ public class SimpleMoveTest {
     @Mock
     private MoveFilter filter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         positionState = new PositionState();
         positionState.setCurrentTurn(Color.WHITE);

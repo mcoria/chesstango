@@ -7,10 +7,10 @@ import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.SearchContext;
-import org.junit.Assert;
-import org.junit.Before;
+
+
 import org.junit.Ignore;
-import org.junit.Test;
+
 
 /**
  * @author Mauricio Coria
@@ -21,7 +21,7 @@ public class MinMaxTest {
 
     private MinMax minMax;
 
-    @Before
+    @BeforeEach
     public void setup() {
         minMax = new MinMax();
         evaluator = new GameMockEvaluator();
@@ -35,12 +35,12 @@ public class MinMaxTest {
         SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertNotNull(searchResult);
-        Assert.assertEquals(Square.b1, bestMove.getFrom().getSquare());
-        Assert.assertEquals(Square.c3, bestMove.getTo().getSquare());
-        Assert.assertEquals(1, searchResult.getEvaluation());
-        Assert.assertEquals(3, evaluator.getNodesEvaluated());
-        Assert.assertEquals(3, game.getNodesVisited());
+        assertNotNull(searchResult);
+        assertEquals(Square.b1, bestMove.getFrom().getSquare());
+        assertEquals(Square.c3, bestMove.getTo().getSquare());
+        assertEquals(1, searchResult.getEvaluation());
+        assertEquals(3, evaluator.getNodesEvaluated());
+        assertEquals(3, game.getNodesVisited());
     }
 
     @Test
@@ -50,12 +50,12 @@ public class MinMaxTest {
         SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertNotNull(searchResult);
-        Assert.assertEquals(Square.b8, bestMove.getFrom().getSquare());
-        Assert.assertEquals(Square.c6, bestMove.getTo().getSquare());
-        Assert.assertEquals(-1, searchResult.getEvaluation());
-        Assert.assertEquals(3, evaluator.getNodesEvaluated());
-        Assert.assertEquals(3, game.getNodesVisited());
+        assertNotNull(searchResult);
+        assertEquals(Square.b8, bestMove.getFrom().getSquare());
+        assertEquals(Square.c6, bestMove.getTo().getSquare());
+        assertEquals(-1, searchResult.getEvaluation());
+        assertEquals(3, evaluator.getNodesEvaluated());
+        assertEquals(3, game.getNodesVisited());
     }
 
     @Test
@@ -65,16 +65,16 @@ public class MinMaxTest {
         SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(2));
         Move bestMove = searchResult.getBestMove();
 
-        Assert.assertNotNull(searchResult);
-        Assert.assertEquals(Square.d2, bestMove.getFrom().getSquare());
-        Assert.assertEquals(Square.d4, bestMove.getTo().getSquare());
-        Assert.assertEquals(5, searchResult.getEvaluation());
-        Assert.assertEquals(6, evaluator.getNodesEvaluated());
-        Assert.assertEquals(8, game.getNodesVisited());
+        assertNotNull(searchResult);
+        assertEquals(Square.d2, bestMove.getFrom().getSquare());
+        assertEquals(Square.d4, bestMove.getTo().getSquare());
+        assertEquals(5, searchResult.getEvaluation());
+        assertEquals(6, evaluator.getNodesEvaluated());
+        assertEquals(8, game.getNodesVisited());
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void blackTurn2Ply() {
         throw new RuntimeException("Implement");
     }

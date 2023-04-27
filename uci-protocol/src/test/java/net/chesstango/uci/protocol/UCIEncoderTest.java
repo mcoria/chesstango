@@ -9,19 +9,19 @@ import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.moves.impl.inheritance.MoveFactoryWhite;
 import net.chesstango.board.representations.fen.FENDecoder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+
+
+import static org.junit.assertNotNull;
+
 
 public class UCIEncoderTest {
     private UCIEncoder encoder;
 
     private MoveFactory moveFactoryWhite;
 
-    @Before
+    @BeforeEach
     public void setup(){
         encoder = new UCIEncoder();
         moveFactoryWhite = new MoveFactoryWhite();
@@ -46,7 +46,7 @@ public class UCIEncoderTest {
 
         MovePromotion movePromotion = (MovePromotion) theMove;
 
-        Assert.assertEquals(Piece.QUEEN_BLACK, movePromotion.getPromotion());
+        assertEquals(Piece.QUEEN_BLACK, movePromotion.getPromotion());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class UCIEncoderTest {
 
         String encodedMoveStr = encoder.encode(promotionToKnight);
 
-        Assert.assertEquals("g7g8n", encodedMoveStr);
+        assertEquals("g7g8n", encodedMoveStr);
     }
 
 }

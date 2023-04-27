@@ -1,17 +1,15 @@
 package net.chesstango.board.perft;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import net.chesstango.board.moves.MoveContainerReader;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
+import net.chesstango.board.representations.fen.FENDecoder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 /**
@@ -24,7 +22,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 
 	private Game game;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		perft = createPerft();
 		game =  this.getGame(FENDecoder.INITIAL_FEN);
@@ -465,7 +463,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(1, result.getChildNode(Square.b2, Square.b4));
 		assertEquals(1, result.getChildNode(Square.d2, Square.e3));
 		assertEquals(1, result.getChildNode(Square.c2, Square.c3));
-		assertFalse("d2e1 is not valid", result.moveExists(Square.d2, Square.e1));
+		assertFalse(result.moveExists(Square.d2, Square.e1), "d2e1 is not valid");
 		
 		assertEquals(4, result.getMovesCount());
 		assertEquals(4, result.getTotalNodes());

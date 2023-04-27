@@ -1,17 +1,16 @@
 package net.chesstango.board.perft;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.*;
-
 import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.perft.imp.PerftWithMap;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.board.perft.imp.PerftBrute;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * @author Mauricio Coria

@@ -7,9 +7,9 @@ import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,7 +23,7 @@ public class AlphaBetaStatisticsTest {
 
     private MinMaxPruning minMaxPruning;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MoveSorter moveSorter = new MoveSorter();
 
@@ -53,8 +53,8 @@ public class AlphaBetaStatisticsTest {
 
         Set<Move>[] distinctMoves = searchResult.getDistinctMovesPerLevel();
 
-        Assert.assertEquals(20, distinctMoves[0].size());
-        Assert.assertEquals(20, distinctMoves[1].size());
+        assertEquals(20, distinctMoves[0].size());
+        assertEquals(20, distinctMoves[1].size());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class AlphaBetaStatisticsTest {
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
-        Assert.assertEquals(20, visitedNodesCounters[0]);
-        Assert.assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
+        assertEquals(20, visitedNodesCounters[0]);
+        assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
     }
 
     @Test
@@ -77,8 +77,8 @@ public class AlphaBetaStatisticsTest {
 
         int[] visitedNodesCounters = searchResult.getExpectedNodesCounters();
 
-        Assert.assertEquals(20, visitedNodesCounters[0]);
-        Assert.assertEquals(400, visitedNodesCounters[1]);
+        assertEquals(20, visitedNodesCounters[0]);
+        assertEquals(400, visitedNodesCounters[1]);
     }
 
     @Test
@@ -87,6 +87,6 @@ public class AlphaBetaStatisticsTest {
 
         SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(2));
 
-        Assert.assertEquals(19, searchResult.getEvaluationCollisions());
+        assertEquals(19, searchResult.getEvaluationCollisions());
     }
 }

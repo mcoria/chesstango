@@ -6,9 +6,9 @@ import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineControllerImp;
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+
+
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class MatchTest {
     private EngineControllerImp dummyEngine;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         smartEngine = new EngineControllerImp(new EngineTango()).overrideEngineName("Smart");
         dummyEngine = new EngineControllerImp(new EngineTango(new Dummy())).overrideEngineName("Dummy");
@@ -48,9 +48,9 @@ public class MatchTest {
         GameResult result = match.createResult();
 
         // Deberia ganar el engine smartEngine
-        Assert.assertTrue(result.getPoints() > Match.WINNER_POINTS);
-        Assert.assertEquals(smartEngine, result.getEngineWhite());
-        Assert.assertEquals(smartEngine, result.getWinner());
+        assertTrue(result.getPoints() > Match.WINNER_POINTS);
+        assertEquals(smartEngine, result.getEngineWhite());
+        assertEquals(smartEngine, result.getWinner());
     }
 
     @Test
@@ -60,11 +60,11 @@ public class MatchTest {
 
         List<GameResult> matchResult = match.play(FENDecoder.INITIAL_FEN);
 
-        Assert.assertEquals(2, matchResult.size());
+        assertEquals(2, matchResult.size());
 
         // Deberia ganar el engine smartEngine
-        Assert.assertEquals(1, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine && result.getWinner() == smartEngine).count());
-        Assert.assertEquals(1, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine && result.getWinner() == smartEngine).count());
+        assertEquals(1, matchResult.stream().filter(result -> result.getEngineWhite() == smartEngine && result.getWinner() == smartEngine).count());
+        assertEquals(1, matchResult.stream().filter(result -> result.getEngineBlack() == smartEngine && result.getWinner() == smartEngine).count());
     }
 
     @Test
@@ -77,10 +77,10 @@ public class MatchTest {
 
         GameResult result = match.createResult();
 
-        Assert.assertEquals(smartEngine, result.getEngineWhite());
-        Assert.assertEquals(dummyEngine, result.getEngineBlack());
-        Assert.assertEquals(smartEngine, result.getWinner());
-        Assert.assertEquals(Match.WINNER_POINTS +
+        assertEquals(smartEngine, result.getEngineWhite());
+        assertEquals(dummyEngine, result.getEngineBlack());
+        assertEquals(smartEngine, result.getWinner());
+        assertEquals(Match.WINNER_POINTS +
                 6 * Match.getPieceValue(Piece.PAWN_WHITE) +
                 2 * Math.abs(Match.getPieceValue(Piece.PAWN_BLACK)) +
                 1 * Match.getPieceValue(Piece.QUEEN_WHITE) +
@@ -100,10 +100,10 @@ public class MatchTest {
 
         GameResult result = match.createResult();
 
-        Assert.assertEquals(smartEngine, result.getEngineWhite());
-        Assert.assertEquals(dummyEngine, result.getEngineBlack());
-        Assert.assertEquals(dummyEngine, result.getWinner());
-        Assert.assertEquals( -1 * (Match.WINNER_POINTS +
+        assertEquals(smartEngine, result.getEngineWhite());
+        assertEquals(dummyEngine, result.getEngineBlack());
+        assertEquals(dummyEngine, result.getWinner());
+        assertEquals( -1 * (Match.WINNER_POINTS +
                 6 * Match.getPieceValue(Piece.PAWN_WHITE) +
                 2 * Math.abs(Match.getPieceValue(Piece.PAWN_BLACK)) +
                 1 * Match.getPieceValue(Piece.QUEEN_WHITE) +
@@ -124,10 +124,10 @@ public class MatchTest {
 
         GameResult result = match.createResult();
 
-        Assert.assertEquals(smartEngine, result.getEngineWhite());
-        Assert.assertEquals(dummyEngine, result.getEngineBlack());
-        Assert.assertNull(result.getWinner());
-        Assert.assertEquals(
+        assertEquals(smartEngine, result.getEngineWhite());
+        assertEquals(dummyEngine, result.getEngineBlack());
+        assertNull(result.getWinner());
+        assertEquals(
                 6 * Match.getPieceValue(Piece.PAWN_WHITE) +
                         2 * Match.getPieceValue(Piece.PAWN_BLACK) +
                         1 * Match.getPieceValue(Piece.QUEEN_WHITE) +
@@ -147,10 +147,10 @@ public class MatchTest {
 
         GameResult result = match.createResult();
 
-        Assert.assertEquals(smartEngine, result.getEngineWhite());
-        Assert.assertEquals(dummyEngine, result.getEngineBlack());
-        Assert.assertNull(result.getWinner());
-        Assert.assertEquals(
+        assertEquals(smartEngine, result.getEngineWhite());
+        assertEquals(dummyEngine, result.getEngineBlack());
+        assertNull(result.getWinner());
+        assertEquals(
                 6 * Match.getPieceValue(Piece.PAWN_BLACK) +
                         2 * Match.getPieceValue(Piece.PAWN_WHITE) +
                         1 * Match.getPieceValue(Piece.QUEEN_BLACK) +
@@ -162,11 +162,11 @@ public class MatchTest {
 
     @Test
     public void testPieceValues() {
-        Assert.assertTrue(Match.getPieceValue(Piece.PAWN_WHITE) - Match.getPieceValue(Piece.PAWN_BLACK) == 2 * Match.getPieceValue(Piece.PAWN_WHITE));
-        Assert.assertTrue(Match.getPieceValue(Piece.ROOK_WHITE) - Match.getPieceValue(Piece.ROOK_BLACK) == 2 * Match.getPieceValue(Piece.ROOK_WHITE));
-        Assert.assertTrue(Match.getPieceValue(Piece.KNIGHT_WHITE) - Match.getPieceValue(Piece.KNIGHT_BLACK) == 2 * Match.getPieceValue(Piece.KNIGHT_WHITE));
-        Assert.assertTrue(Match.getPieceValue(Piece.BISHOP_WHITE) - Match.getPieceValue(Piece.BISHOP_BLACK) == 2 * Match.getPieceValue(Piece.BISHOP_WHITE));
-        Assert.assertTrue(Match.getPieceValue(Piece.QUEEN_WHITE) - Match.getPieceValue(Piece.QUEEN_BLACK) == 2 * Match.getPieceValue(Piece.QUEEN_WHITE));
-        Assert.assertTrue(Match.getPieceValue(Piece.KING_WHITE) - Match.getPieceValue(Piece.KING_BLACK) == 2 * Match.getPieceValue(Piece.KING_WHITE));
+        assertTrue(Match.getPieceValue(Piece.PAWN_WHITE) - Match.getPieceValue(Piece.PAWN_BLACK) == 2 * Match.getPieceValue(Piece.PAWN_WHITE));
+        assertTrue(Match.getPieceValue(Piece.ROOK_WHITE) - Match.getPieceValue(Piece.ROOK_BLACK) == 2 * Match.getPieceValue(Piece.ROOK_WHITE));
+        assertTrue(Match.getPieceValue(Piece.KNIGHT_WHITE) - Match.getPieceValue(Piece.KNIGHT_BLACK) == 2 * Match.getPieceValue(Piece.KNIGHT_WHITE));
+        assertTrue(Match.getPieceValue(Piece.BISHOP_WHITE) - Match.getPieceValue(Piece.BISHOP_BLACK) == 2 * Match.getPieceValue(Piece.BISHOP_WHITE));
+        assertTrue(Match.getPieceValue(Piece.QUEEN_WHITE) - Match.getPieceValue(Piece.QUEEN_BLACK) == 2 * Match.getPieceValue(Piece.QUEEN_WHITE));
+        assertTrue(Match.getPieceValue(Piece.KING_WHITE) - Match.getPieceValue(Piece.KING_BLACK) == 2 * Match.getPieceValue(Piece.KING_WHITE));
     }
 }

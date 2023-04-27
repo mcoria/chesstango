@@ -3,14 +3,14 @@
  */
 package net.chesstango.board.perft.imp;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.perft.Perft;
 import net.chesstango.board.perft.PerftResult;
+import net.chesstango.board.representations.fen.FENDecoder;
+
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * @author Mauricio Coria

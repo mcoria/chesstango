@@ -7,8 +7,8 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import net.chesstango.uci.service.Service;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 
 /**
@@ -24,8 +24,8 @@ public class EngineControllerImpZondaTest {
 
         client.send_CmdUci();
 
-        Assert.assertEquals("Mauricio Coria", client.getEngineAuthor());
-        Assert.assertEquals("Tango", client.getEngineName());
+        assertEquals("Mauricio Coria", client.getEngineAuthor());
+        assertEquals("Tango", client.getEngineName());
 
         client.send_CmdIsReady();
 
@@ -37,7 +37,7 @@ public class EngineControllerImpZondaTest {
                 .setGoType(CmdGo.GoType.DEPTH)
                 .setDepth(1));
 
-        Assert.assertNotNull(bestmove);
+        assertNotNull(bestmove);
 
         client.send_CmdQuit();
     }

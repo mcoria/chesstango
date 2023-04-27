@@ -5,7 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
-import org.junit.Before;
+
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
 
     private SearchMove searchMove;
 
-    @Before
+    @BeforeEach
     public void setup(){
         MoveSorter moveSorter = new MoveSorter();
 

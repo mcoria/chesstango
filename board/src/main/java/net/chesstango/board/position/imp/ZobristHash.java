@@ -4,8 +4,8 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PositionStateReader;
 
 import java.util.ArrayDeque;

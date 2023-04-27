@@ -16,10 +16,10 @@ import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGen
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.imp.*;
 
 import java.util.Map;

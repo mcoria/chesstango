@@ -9,8 +9,8 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import org.junit.Assert;
-import org.junit.Test;
+
+
 
 /**
  * @author Mauricio Coria
@@ -27,11 +27,11 @@ public abstract class MateIn4Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.g4, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.g7, smartMove.getTo().getSquare());
+        assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.g4, smartMove.getFrom().getSquare());
+        assertEquals(Square.g7, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
 
@@ -43,11 +43,11 @@ public abstract class MateIn4Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.h8, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.d8, smartMove.getTo().getSquare());
+        assertEquals(Piece.ROOK_WHITE, smartMove.getFrom().getPiece());
+        assertEquals(Square.h8, smartMove.getFrom().getSquare());
+        assertEquals(Square.d8, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.WHITE_WON, searchResult.getEvaluation());
     }
 
     @Test //Alexander Meek vs. Paul Morphy
@@ -58,11 +58,11 @@ public abstract class MateIn4Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.BISHOP_BLACK, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.h3, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.g2, smartMove.getTo().getSquare());
+        assertEquals(Piece.BISHOP_BLACK, smartMove.getFrom().getPiece());
+        assertEquals(Square.h3, smartMove.getFrom().getSquare());
+        assertEquals(Square.g2, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 
     @Test
@@ -73,11 +73,11 @@ public abstract class MateIn4Test {
 
         Move smartMove = searchResult.getBestMove();
 
-        Assert.assertEquals(Piece.KNIGHT_BLACK, smartMove.getFrom().getPiece());
-        Assert.assertEquals(Square.f4, smartMove.getFrom().getSquare());
-        Assert.assertEquals(Square.h3, smartMove.getTo().getSquare());
+        assertEquals(Piece.KNIGHT_BLACK, smartMove.getFrom().getPiece());
+        assertEquals(Square.f4, smartMove.getFrom().getSquare());
+        assertEquals(Square.h3, smartMove.getTo().getSquare());
 
-        Assert.assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
+        assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 
 }

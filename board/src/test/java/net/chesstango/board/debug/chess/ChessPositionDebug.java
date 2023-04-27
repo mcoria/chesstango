@@ -1,12 +1,12 @@
 package net.chesstango.board.debug.chess;
 
-import java.util.Collection;
-
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
+import net.chesstango.board.position.imp.ChessPositionImp;
+
+import java.util.Collection;
 
 
 /**

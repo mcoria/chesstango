@@ -6,9 +6,10 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
@@ -19,7 +20,7 @@ public class MoveContainerTest {
 
     private MoveFactory factory;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         moveContainerImp = new MoveContainer();
         factory = SingletonMoveFactories.getDefaultMoveFactoryWhite();
@@ -39,8 +40,8 @@ public class MoveContainerTest {
                 foundMove = move;
             }
         }
-        Assert.assertEquals(move, foundMove);
-        Assert.assertEquals(1, moveContainerImp.size());
+        assertEquals(move, foundMove);
+        assertEquals(1, moveContainerImp.size());
     }
 
     @Test
@@ -61,8 +62,8 @@ public class MoveContainerTest {
                 foundMove1 = move;
             }
         }
-        Assert.assertEquals(move1, foundMove1);
-        Assert.assertEquals(1, moveContainerImp.size());
+        assertEquals(move1, foundMove1);
+        assertEquals(1, moveContainerImp.size());
     }
 
     @Test
@@ -91,9 +92,9 @@ public class MoveContainerTest {
             }
         }
 
-        Assert.assertEquals(move1, foundMove1);
-        Assert.assertEquals(move2, foundMove2);
-        Assert.assertEquals(2, moveContainerImp.size());
+        assertEquals(move1, foundMove1);
+        assertEquals(move2, foundMove2);
+        assertEquals(2, moveContainerImp.size());
     }
 
     @Test
@@ -132,9 +133,9 @@ public class MoveContainerTest {
             }
         }
 
-        Assert.assertEquals(move, foundMove);
-        Assert.assertEquals(move1, foundMove1);
-        Assert.assertEquals(move2, foundMove2);
-        Assert.assertEquals(3, moveContainerImp.size());
+        assertEquals(move, foundMove);
+        assertEquals(move1, foundMove1);
+        assertEquals(move2, foundMove2);
+        assertEquals(3, moveContainerImp.size());
     }
 }
