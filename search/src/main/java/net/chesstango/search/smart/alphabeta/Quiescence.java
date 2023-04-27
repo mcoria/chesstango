@@ -15,6 +15,8 @@ import java.util.Queue;
  */
 public class Quiescence implements AlphaBetaFilter {
     private boolean keepProcessing;
+
+    private AlphaBetaFilter next;
     private MoveSorter moveSorter;
     private GameEvaluator evaluator;
 
@@ -39,7 +41,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (isNotQuiet(move)) {
                 game = game.executeMove(move);
 
-                int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
+                int currentValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -70,7 +72,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (isNotQuiet(move)) {
                 game = game.executeMove(move);
 
-                int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
+                int currentValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -94,6 +96,10 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public void stopSearching() {
         this.keepProcessing = false;
+    }
+
+    public void setNext(AlphaBetaFilter next) {
+        this.next = next;
     }
 
     public void setMoveSorter(MoveSorter moveSorter) {

@@ -95,33 +95,33 @@ public class SearchesReport {
 
         // Marco superior de la tabla
         System.out.printf(" ________");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("__________________"));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("____________________"));
         System.out.printf("\n");
 
         // Nombre de las columnas
         System.out.printf("| Move   ");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("|    Level %2d     ", depth + 1));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("|     Level %2d      ", depth + 1));
         System.out.printf("|\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
             System.out.printf("| %6s ", moveDetail.move);
-            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d / %6d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
+            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %7d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
             System.out.printf("|\n");
         }
 
         // Totales
         System.out.printf("|--------");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("------------------"));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("--------------------"));
         System.out.printf("|\n");
         System.out.printf("| SUM    ");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %6d / %6d ", report.visitedNodesCounters[depth], report.expectedNodesCounters[depth]));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %7d ", report.visitedNodesCounters[depth], report.expectedNodesCounters[depth]));
         System.out.printf("|\n");
 
 
         // Marco inferior de la tabla
         System.out.printf(" --------");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("------------------"));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("--------------------"));
         System.out.printf("\n\n");
     }
 

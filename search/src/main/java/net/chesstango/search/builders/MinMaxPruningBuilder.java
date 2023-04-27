@@ -26,6 +26,9 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     private GameEvaluator gameEvaluator = new DefaultGameEvaluator();
 
     private AlphaBetaStatistics alphaBetaStatistics = null;
+
+    private QuiescenceStatics quiescenceStatics = null;
+
     private DetectCycle detectCycle = null;
 
     private TranspositionTable transpositionTable = null;
@@ -55,6 +58,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     public MinMaxPruningBuilder withStatics() {
         alphaBetaStatistics = new AlphaBetaStatistics();
+        quiescenceStatics = new QuiescenceStatics();
         return this;
     }
 
@@ -74,15 +78,28 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         filters.add(alphaBeta);
         filters.add(quiescence);
 
-        alphaBeta.setQuiescence(quiescence);
+
         alphaBeta.setMoveSorter(moveSorter);
 
         if (quiescence instanceof Quiescence) {
             ((Quiescence) quiescence).setMoveSorter(moveSorter);
             ((Quiescence) quiescence).setGameEvaluator(gameEvaluator);
+            ((Quiescence) quiescence).setNext(quiescenceStatics != null ? quiescenceStatics : quiescence);
         } else if (quiescence instanceof QuiescenceNull) {
             ((QuiescenceNull) quiescence).setGameEvaluator(gameEvaluator);
         }
+
+        if(quiescenceStatics != null) {
+            filters.add(quiescenceStatics);
+
+            quiescenceStatics.setNext(quiescence);
+
+            alphaBeta.setQuiescence(quiescenceStatics);
+
+        } else {
+            alphaBeta.setQuiescence(quiescence);
+        }
+
 
         if (alphaBetaStatistics != null) {
             if (detectCycle != null) {
