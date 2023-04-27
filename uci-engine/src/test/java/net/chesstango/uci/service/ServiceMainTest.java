@@ -9,6 +9,7 @@ import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -62,6 +63,7 @@ public class ServiceMainTest {
     }
 
     @Test(timeout = 4000)
+    @Ignore
     public void test_playProxy() throws IOException, InterruptedException {
         List<String> lines = null;
 

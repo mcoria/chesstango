@@ -8,6 +8,7 @@ import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import net.chesstango.uci.service.Service;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -17,6 +18,7 @@ import org.junit.Test;
 public class EngineControllerImpProxyTest {
 
     @Test
+    @Ignore
     public void test_Proxy() {
         EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true);
 

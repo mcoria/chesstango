@@ -69,17 +69,16 @@ public class MatchMain implements MatchListener {
                  .withNodesVisitedStatics()
                  .withMovesPerLevelStatics()
                  .withCutoffStatics()
-                 .breakByColor()
+                 //.breakByColor()
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
 
 
-        /*
+
         new SearchesReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
-        */
 
     }
 
