@@ -1,7 +1,15 @@
 package net.chesstango.evaluation.imp;
 
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -24,13 +32,13 @@ public class GameEvaluatorImp03Test extends GameEvaluatorTestCollection {
 
     @Test
     @Override
-    @Ignore //El evaluator no es lo suficientemente bueno como para resolver esta situation
+    @Disabled //El evaluator no es lo suficientemente bueno como para resolver esta situation
     public void testCloseToPromotionOneMove() {
     }
 
     @Test
     @Override
-    @Ignore //El evaluator no es lo suficientemente bueno como para resolver esta situation
+    @Disabled //El evaluator no es lo suficientemente bueno como para resolver esta situation
     public void testCloseToPromotionTwoMoves() {
     }
 }

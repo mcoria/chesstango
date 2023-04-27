@@ -4,15 +4,16 @@
 package net.chesstango.evaluation;
 
 import net.chesstango.evaluation.imp.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 
 /**
  * @author Mauricio Coria
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
         GameEvaluatorByMaterialAndMovesTest.class,
         GameEvaluatorImp01Test.class,
         GameEvaluatorImp02Test.class,

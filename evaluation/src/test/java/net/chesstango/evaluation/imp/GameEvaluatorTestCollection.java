@@ -11,6 +11,16 @@ import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.util.function.Function;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+
 /**
  * @author Mauricio Coria
  *
@@ -133,7 +143,7 @@ public abstract class GameEvaluatorTestCollection {
         int evalPromotionInOneMoves = getEvaluator().evaluate(promotionInOneMoves);
         int evalPromotionInTwoMoves = getEvaluator().evaluate(promotionInTwoMoves);
 
-        assertTrue("Promotion in 1 move is better than promotion in 2 moves", evalPromotionInOneMoves > evalPromotionInTwoMoves);
+        assertTrue(evalPromotionInOneMoves > evalPromotionInTwoMoves, "Promotion in 1 move is better than promotion in 2 moves");
     }
 
 
@@ -145,7 +155,7 @@ public abstract class GameEvaluatorTestCollection {
         int evalPromotionInTwoMoves = getEvaluator().evaluate(promotionInTwoMoves);
         int evalPromotionInThreeMoves = getEvaluator().evaluate(promotionInThreeMoves);
 
-        assertTrue("Promotion in 2 move is better than promotion 3 moves", evalPromotionInTwoMoves > evalPromotionInThreeMoves);
+        assertTrue(evalPromotionInTwoMoves > evalPromotionInThreeMoves, "Promotion in 2 move is better than promotion 3 moves");
     }
 
     @Test
@@ -154,11 +164,11 @@ public abstract class GameEvaluatorTestCollection {
 
         int eval = getEvaluator().evaluate(game);
 
-        assertTrue("White has not won yet", eval != GameEvaluator.WHITE_WON);
-        assertTrue("White has not lost yet", eval != GameEvaluator.WHITE_LOST);
-        assertTrue("Black has not won yet", eval != GameEvaluator.BLACK_WON);
-        assertTrue("Black has not lost yet", eval != GameEvaluator.BLACK_LOST);
-        assertTrue("White has a better position than Black", eval > 0);
+        assertTrue(eval != GameEvaluator.WHITE_WON, "White has not won yet");
+        assertTrue(eval != GameEvaluator.WHITE_LOST, "White has not lost yet");
+        assertTrue(eval != GameEvaluator.BLACK_WON, "Black has not won yet");
+        assertTrue(eval != GameEvaluator.BLACK_LOST, "Black has not lost yet");
+        assertTrue(eval > 0, "White has a better position than Black");
     }
 
     @Test
@@ -167,7 +177,7 @@ public abstract class GameEvaluatorTestCollection {
 
         int eval = getEvaluator().evaluate(game);
 
-        assertEquals("Draw", 0, eval);
+        assertEquals(0, eval);
     }
 
     @Test
@@ -194,8 +204,8 @@ public abstract class GameEvaluatorTestCollection {
 
     @Test
     public void testInfinities() {
-        assertEquals("+infinite is equals to  (-1) * -infinite ", GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE);
-        assertEquals("-infinite is equals to  (-1) * +infinite ", GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE);
+        assertEquals(GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE, "+infinite is equals to  (-1) * -infinite ");
+        assertEquals(GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE, "-infinite is equals to  (-1) * +infinite ");
 
         assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.WHITE_WON);
         assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.BLACK_LOST);
