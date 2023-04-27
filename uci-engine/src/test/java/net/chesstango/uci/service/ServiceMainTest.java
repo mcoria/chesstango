@@ -8,21 +8,26 @@ import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
-
-import org.junit.Ignore;
-
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Mauricio Coria
  */
 public class ServiceMainTest {
 
-    @Test(timeout = 3000)
+    @Test
+    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
     public void test_playZonda() throws IOException, InterruptedException {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
@@ -62,7 +67,7 @@ public class ServiceMainTest {
         serviceMain.waitTermination();
     }
 
-    @Test(timeout = 4000)
+    @Test
     @Disabled
     public void test_playProxy() throws IOException, InterruptedException {
         List<String> lines = null;

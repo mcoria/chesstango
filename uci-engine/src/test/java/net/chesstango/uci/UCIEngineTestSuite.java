@@ -8,15 +8,15 @@ import net.chesstango.uci.gui.EngineControllerImpZondaTest;
 import net.chesstango.uci.proxy.EngineProxyTest;
 import net.chesstango.uci.proxy.ProxyConfigTest;
 import net.chesstango.uci.service.ServiceMainTest;
-
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * @author Mauricio Coria
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ServiceMainTest.class, EngineTangoTest.class, EngineProxyTest.class,
+@Suite
+@SelectClasses({ServiceMainTest.class, EngineTangoTest.class, EngineProxyTest.class,
         EngineControllerImpZondaTest.class, ProxyConfigTest.class})
 public class UCIEngineTestSuite {
 
