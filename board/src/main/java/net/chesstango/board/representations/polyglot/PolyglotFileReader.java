@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class PolyglotFileReader {
 
     public Map<Long, List<MoveBookEntry>> read(){

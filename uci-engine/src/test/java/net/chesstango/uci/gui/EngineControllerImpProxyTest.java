@@ -11,33 +11,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 
-public class EngineControllerImpTest {
-
-    @Test
-    public void test_Zonda() {
-        Service service = new EngineTango();
-
-        EngineControllerImp client = new EngineControllerImp(service);
-
-        client.send_CmdUci();
-
-        Assert.assertEquals("Mauricio Coria", client.getEngineAuthor());
-        Assert.assertEquals("Tango", client.getEngineName());
-
-        client.send_CmdIsReady();
-
-        client.send_CmdUciNewGame();
-
-        client.send_CmdPosition(new CmdPosition());
-
-        RspBestMove bestmove = client.send_CmdGo(new CmdGo()
-                .setGoType(CmdGo.GoType.DEPTH)
-                .setDepth(1));
-
-        Assert.assertNotNull(bestmove);
-
-        client.send_CmdQuit();
-    }
+/**
+ * @author Mauricio Coria
+ */
+public class EngineControllerImpProxyTest {
 
     @Test
     public void test_Proxy() {

@@ -1,12 +1,13 @@
 package net.chesstango.board.representations.polyglot;
 
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Mauricio Coria
+ */
 public class PolyglotFileReaderTest {
 
     @Test
