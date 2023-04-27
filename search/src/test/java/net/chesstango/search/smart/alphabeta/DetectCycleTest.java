@@ -107,7 +107,7 @@ public class DetectCycleTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(23)));
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(23));
 
         Assert.assertNotNull(searchResult);
         Assert.assertEquals(4, searchResult.getEvaluation());
@@ -143,15 +143,4 @@ public class DetectCycleTest {
         Assert.assertEquals(2103538, visitedNodesTotal);
     }
 
-    private SearchContext setupContext(SearchContext searchContext) {
-        int[] visitedNodesCounters = new int[30];
-        int[] expectedNodesCounters = new int[30];
-        Set<Move>[] distinctMovesPerLevel = new Set[30];
-        for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel[i] = new HashSet<>();
-        }
-        return searchContext.setVisitedNodesCounters(visitedNodesCounters)
-                .setDistinctMovesPerLevel(distinctMovesPerLevel)
-                .setExpectedNodesCounters(expectedNodesCounters);
-    }
 }

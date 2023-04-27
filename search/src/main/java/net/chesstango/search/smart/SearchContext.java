@@ -2,27 +2,36 @@ package net.chesstango.search.smart;
 
 import net.chesstango.board.moves.Move;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchContext {
     private final int maxPly;
-    private int[] visitedNodesCounters;
-    private int[] expectedNodesCounters;
-    private Set<Move>[] distinctMovesPerLevel;
+    private final int[] visitedNodesCounters;
+    private final int[] expectedNodesCounters;
+    private final Set<Move>[] distinctMovesPerLevel;
+
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
+        this.visitedNodesCounters = new int[30];
+        this.expectedNodesCounters = new int[30];
+        this.distinctMovesPerLevel = new Set[30];
+        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
+    }
+
+    public SearchContext(int maxPly, int[] visitedNodesCounters, int[] expectedNodesCounters, Set<Move>[] distinctMovesPerLevel) {
+        this.maxPly = maxPly;
+        this.visitedNodesCounters = visitedNodesCounters;
+        this.expectedNodesCounters = expectedNodesCounters;
+        this.distinctMovesPerLevel = distinctMovesPerLevel;
     }
 
     public int getMaxPly() {
         return maxPly;
-    }
-
-    public SearchContext setVisitedNodesCounters(int[] visitedNodesCounters) {
-        this.visitedNodesCounters = visitedNodesCounters;
-        return this;
     }
 
     public int[] getVisitedNodesCounters() {
@@ -33,17 +42,9 @@ public class SearchContext {
         return expectedNodesCounters;
     }
 
-    public SearchContext setExpectedNodesCounters(int[] expectedNodesCounters) {
-        this.expectedNodesCounters = expectedNodesCounters;
-        return this;
-    }
 
     public Set<Move>[] getDistinctMovesPerLevel() {
         return distinctMovesPerLevel;
     }
 
-    public SearchContext setDistinctMovesPerLevel(Set<Move>[] distinctMovesPerLevel) {
-        this.distinctMovesPerLevel = distinctMovesPerLevel;
-        return this;
-    }
 }

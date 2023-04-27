@@ -49,7 +49,7 @@ public class AlphaBetaStatisticsTest {
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(2)));
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(2));
 
         Set<Move>[] distinctMoves = searchResult.getDistinctMovesPerLevel();
 
@@ -61,7 +61,7 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(2)));
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(2));
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
@@ -73,7 +73,7 @@ public class AlphaBetaStatisticsTest {
     public void testExpectedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(2)));
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(2));
 
         int[] visitedNodesCounters = searchResult.getExpectedNodesCounters();
 
@@ -85,21 +85,8 @@ public class AlphaBetaStatisticsTest {
     public void testEvaluationCollisions() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, setupContext(new SearchContext(2)));
+        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(2));
 
         Assert.assertEquals(19, searchResult.getEvaluationCollisions());
-    }
-
-    private SearchContext setupContext(SearchContext searchContext) {
-        int[] visitedNodesCounters = new int[30];
-        int[] expectedNodesCounters = new int[30];
-        Set<Move>[] distinctMovesPerLevel = new Set[30];
-        for (int i = 0; i < 30; i++) {
-            distinctMovesPerLevel[i] = new HashSet<>();
-        }
-
-        return searchContext.setVisitedNodesCounters(visitedNodesCounters)
-                            .setDistinctMovesPerLevel(distinctMovesPerLevel)
-                            .setExpectedNodesCounters(expectedNodesCounters);
     }
 }
