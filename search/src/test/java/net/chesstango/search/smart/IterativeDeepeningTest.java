@@ -7,9 +7,10 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.minmax.MinMax;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria

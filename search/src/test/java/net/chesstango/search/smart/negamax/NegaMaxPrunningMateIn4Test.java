@@ -5,8 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn4Test;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
-
-
+import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */

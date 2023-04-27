@@ -4,9 +4,11 @@
 package net.chesstango.search;
 
 import net.chesstango.board.representations.EDPReader;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-
-import org.junit.Ignore;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**

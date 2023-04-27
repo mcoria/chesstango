@@ -8,7 +8,7 @@ import net.chesstango.uci.gui.EngineControllerImpZondaTest;
 import net.chesstango.uci.proxy.EngineProxyTest;
 import net.chesstango.uci.proxy.ProxyConfigTest;
 import net.chesstango.uci.service.ServiceMainTest;
-import org.junit.runner.RunWith;
+
 import org.junit.runners.Suite;
 
 /**

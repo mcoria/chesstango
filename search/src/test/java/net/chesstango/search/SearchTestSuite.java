@@ -10,15 +10,15 @@ import net.chesstango.search.smart.minmax.MinMaxMateIn1Test;
 import net.chesstango.search.smart.minmax.MinMaxMateIn2Test;
 import net.chesstango.search.smart.minmax.MinMaxTest;
 import net.chesstango.search.smart.negamax.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * @author Mauricio Coria
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
         BlackBestMovesTest.class,
         MinMaxMateIn1Test.class,
         MinMaxMateIn2Test.class,

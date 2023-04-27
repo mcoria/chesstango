@@ -5,11 +5,12 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.minmax.MinMax;
-
-
+import org.junit.jupiter.api.Test;
 
 import java.io.Reader;
 import java.io.StringReader;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -36,34 +37,36 @@ public class GameMockTest {
         assertEquals(2, evaluator.getNodesEvaluated());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void repeatedMoves(){
-        String lines = "{\n" +
-                "  \"fen\": \"rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 1\",\n" +
-                "  \"links\": [\n" +
-                "    {\n" +
-                "      \"move\": \"d2d4\",\n" +
-                "      \"node\": {\n" +
-                "        \"fen\": \"rnbqkbnr/ppp1pppp/8/3p4/8/2N5/PPPPPPPP/R1BQKBNR w KQkq d6 0 2\",\n" +
-                "        \"evaluation\": 1,\n" +
-                "        \"status\": \"NO_CHECK\",\n" +
-                "        \"links\": []\n" +
-                "      }\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"move\": \"d2d4\",\n" +
-                "      \"node\": {\n" +
-                "        \"fen\": \"rnbqkbnr/pppp1ppp/8/4p3/8/2N5/PPPPPPPP/R1BQKBNR w KQkq e6 0 2 \",\n" +
-                "        \"evaluation\": 0,\n" +
-                "        \"status\": \"NO_CHECK\",\n" +
-                "        \"links\": []\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        assertThrows(RuntimeException.class, ()-> {
+            String lines = "{\n" +
+                    "  \"fen\": \"rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 1\",\n" +
+                    "  \"links\": [\n" +
+                    "    {\n" +
+                    "      \"move\": \"d2d4\",\n" +
+                    "      \"node\": {\n" +
+                    "        \"fen\": \"rnbqkbnr/ppp1pppp/8/3p4/8/2N5/PPPPPPPP/R1BQKBNR w KQkq d6 0 2\",\n" +
+                    "        \"evaluation\": 1,\n" +
+                    "        \"status\": \"NO_CHECK\",\n" +
+                    "        \"links\": []\n" +
+                    "      }\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "      \"move\": \"d2d4\",\n" +
+                    "      \"node\": {\n" +
+                    "        \"fen\": \"rnbqkbnr/pppp1ppp/8/4p3/8/2N5/PPPPPPPP/R1BQKBNR w KQkq e6 0 2 \",\n" +
+                    "        \"evaluation\": 0,\n" +
+                    "        \"status\": \"NO_CHECK\",\n" +
+                    "        \"links\": []\n" +
+                    "      }\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
 
-        Reader reader = new StringReader(lines);
-        new GameMockLoader().readGameMove(reader);
+            Reader reader = new StringReader(lines);
+            new GameMockLoader().readGameMove(reader);
+        });
     }
 
 

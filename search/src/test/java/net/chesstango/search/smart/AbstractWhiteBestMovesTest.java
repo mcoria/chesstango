@@ -9,8 +9,9 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import org.junit.jupiter.api.Test;
 
-
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Mauricio Coria
@@ -30,12 +31,12 @@ public abstract class AbstractWhiteBestMovesTest {
 
         assertEquals(Piece.QUEEN_WHITE, smartMove.getFrom().getPiece());
         assertEquals(Square.d3, smartMove.getFrom().getSquare());
-        assertNotEquals("Queen captured by pawn", Square.a6, smartMove.getTo().getSquare());
-        assertNotEquals("Queen captured by pawn", Square.c4, smartMove.getTo().getSquare());
-        assertNotEquals("Queen captured by pawn", Square.c3, smartMove.getTo().getSquare());
-        assertNotEquals("Queen captured by pawn", Square.e3, smartMove.getTo().getSquare());
-        assertNotEquals("Queen captured by bishop", Square.f5, smartMove.getTo().getSquare());
-        assertNotEquals("Queen captured by pawn", Square.g6, smartMove.getTo().getSquare());
+        assertNotEquals(Square.a6, smartMove.getTo().getSquare(), "Queen captured by pawn");
+        assertNotEquals(Square.c4, smartMove.getTo().getSquare(), "Queen captured by pawn");
+        assertNotEquals(Square.c3, smartMove.getTo().getSquare(), "Queen captured by pawn");
+        assertNotEquals(Square.e3, smartMove.getTo().getSquare(), "Queen captured by pawn");
+        assertNotEquals(Square.f5, smartMove.getTo().getSquare(), "Queen captured by bishop");
+        assertNotEquals(Square.g6, smartMove.getTo().getSquare(), "Queen captured by pawn");
     }
 
     @Test
@@ -49,7 +50,7 @@ public abstract class AbstractWhiteBestMovesTest {
 
         assertEquals(Piece.KING_WHITE, smartMove.getFrom().getPiece());
         assertEquals(Square.c2, smartMove.getFrom().getSquare());
-        assertEquals("There is no other option for black King", Square.b1, smartMove.getTo().getSquare());
+        assertEquals(Square.b1, smartMove.getTo().getSquare(), "There is no other option for black King");
 
         assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
@@ -66,7 +67,7 @@ public abstract class AbstractWhiteBestMovesTest {
 
         assertEquals(Piece.KING_WHITE, smartMove.getFrom().getPiece());
         assertEquals(Square.c2, smartMove.getFrom().getSquare());
-        assertEquals("There is no other option for black King", Square.b1, smartMove.getTo().getSquare());
+        assertEquals(Square.b1, smartMove.getTo().getSquare(), "There is no other option for black King");
 
         assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }

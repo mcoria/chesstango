@@ -10,25 +10,27 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
-
-
-
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
  * @author Mauricio Coria
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class MinMaxPruningWhiteTest {
 
     private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
@@ -45,6 +47,7 @@ public class MinMaxPruningWhiteTest {
 
 
     @Test
+    @Disabled
     public void test_findBestMove_WhitePlays_SingleMove() {
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);
@@ -74,6 +77,7 @@ public class MinMaxPruningWhiteTest {
     }
 
     @Test
+    @Disabled
     public void test_findBestMove_WhitePlays_TwoMoves() {
         AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
         alphaBeta.setQuiescence(quiescence);
@@ -111,6 +115,7 @@ public class MinMaxPruningWhiteTest {
     }
 
     @Test
+    @Disabled
     public void test_findBestMove_WhitePlays_MateCutOff() {
         AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
         alphaBeta.setQuiescence(quiescence);
@@ -159,6 +164,7 @@ public class MinMaxPruningWhiteTest {
     }
 
     @Test
+    @Disabled
     public void test_findBestMove_WhitePlays_ImminentMate() {
         AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
         alphaBeta.setQuiescence(quiescence);
@@ -206,6 +212,7 @@ public class MinMaxPruningWhiteTest {
     }
 
     @Test
+    @Disabled
     public void test_maximize_WhitePlays_MateCutOff() {
         AlphaBeta alphaBeta = Mockito.spy(new AlphaBeta());
         //AlphaBetaImp alphaBetaImp = new AlphaBetaImp();

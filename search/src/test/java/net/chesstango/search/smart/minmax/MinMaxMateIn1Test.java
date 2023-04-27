@@ -4,7 +4,7 @@ import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn1Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
-
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * @author Mauricio Coria

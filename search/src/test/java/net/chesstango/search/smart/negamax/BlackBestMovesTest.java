@@ -5,8 +5,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
-
-
+import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */

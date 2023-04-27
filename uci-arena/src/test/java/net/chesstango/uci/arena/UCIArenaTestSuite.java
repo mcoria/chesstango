@@ -4,7 +4,7 @@
 package net.chesstango.uci.arena;
 
 
-import org.junit.runner.RunWith;
+
 import org.junit.runners.Suite;
 
 /**
