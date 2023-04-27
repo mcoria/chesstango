@@ -15,16 +15,11 @@ import java.util.Queue;
  */
 public class Quiescence implements AlphaBetaFilter {
     private boolean keepProcessing;
-
     private MoveSorter moveSorter;
-
     private GameEvaluator evaluator;
-
-    private SearchContext context;
 
     @Override
     public void init(Game game, SearchContext context) {
-        this.context = context;
         this.keepProcessing = true;
     }
 
@@ -41,7 +36,7 @@ public class Quiescence implements AlphaBetaFilter {
              !sortedMoves.isEmpty() && search && keepProcessing; ) {
             Move move = sortedMoves.poll();
 
-            if (isNotQuiete(move)) {
+            if (isNotQuiet(move)) {
                 game = game.executeMove(move);
 
                 int currentValue = maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
@@ -72,7 +67,7 @@ public class Quiescence implements AlphaBetaFilter {
              !sortedMoves.isEmpty() && search && keepProcessing; ) {
             Move move = sortedMoves.poll();
 
-            if (isNotQuiete(move)) {
+            if (isNotQuiet(move)) {
                 game = game.executeMove(move);
 
                 int currentValue = minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
@@ -90,7 +85,7 @@ public class Quiescence implements AlphaBetaFilter {
         return maxValue;
     }
 
-    protected boolean isNotQuiete(Move move) {
+    protected boolean isNotQuiet(Move move) {
         return move.getTo().getPiece() != null ||  // Captura
                 move.getFrom().getPiece().isPawn() && !(Cardinal.Sur.equals(move.getMoveDirection()) || Cardinal.Norte.equals(move.getMoveDirection()) ) || // Captura de peon
                 move instanceof MovePromotion;     // Promocion

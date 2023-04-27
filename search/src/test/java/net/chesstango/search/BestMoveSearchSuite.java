@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 3;
+    private static final int DEFAULT_MAX_DEPTH = 6;
 
     public static void main(String[] args) {
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
@@ -35,8 +35,8 @@ public class BestMoveSearchSuite {
         suite.run(filename, edpEntries);
     }
 
-    private final int depth;
-    private final List<SearchMoveResult> searchMoveResults;
+    protected final int depth;
+    protected final List<SearchMoveResult> searchMoveResults;
 
     public BestMoveSearchSuite(int depth) {
         this.depth = depth;
@@ -63,7 +63,7 @@ public class BestMoveSearchSuite {
         }
 
         new SearchesReport()
-                .withCutoffStatics()
+                //.withCutoffStatics()
                 .withNodesVisitedStatics()
                 .printSearchesStatics(searchMoveResults);
 

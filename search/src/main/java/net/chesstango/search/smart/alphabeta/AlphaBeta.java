@@ -20,17 +20,17 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     private MoveSorter moveSorter;
 
-    private SearchContext context;
+    private int maxPly;
 
     @Override
     public void init(Game game, SearchContext context) {
-        this.context = context;
+        this.maxPly = context.getMaxPly();
         this.keepProcessing = true;
     }
 
     @Override
     public int minimize(Game game, final int currentPly, final int alpha, final int beta) {
-        if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
+        if (currentPly == maxPly || !game.getStatus().isInProgress()) {
             return quiescence.minimize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
@@ -59,7 +59,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     @Override
     public int maximize(Game game, final int currentPly, final int alpha, final int beta) {
-        if (currentPly == context.getMaxPly() || !game.getStatus().isInProgress()) {
+        if (currentPly == maxPly || !game.getStatus().isInProgress()) {
             return quiescence.maximize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;

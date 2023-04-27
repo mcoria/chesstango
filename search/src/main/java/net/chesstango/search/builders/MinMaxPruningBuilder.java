@@ -28,6 +28,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     private AlphaBetaStatistics alphaBetaStatistics = null;
     private DetectCycle detectCycle = null;
 
+    private TranspositionTable transpositionTable = null;
+
     private boolean withIterativeDeepening;
 
     public MinMaxPruningBuilder withIterativeDeepening(){
@@ -56,9 +58,13 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         return this;
     }
 
+    public MinMaxPruningBuilder withTranspositionTable(){
+        transpositionTable =  new TranspositionTable();
+        return this;
+    }
 
     /**
-     * Statics -> DetectCycle -> AlphaBeta
+     * Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
      *
      * @return
      */
@@ -79,13 +85,28 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         }
 
         if (alphaBetaStatistics != null) {
-            alphaBetaStatistics.setNext(detectCycle == null ? alphaBeta : detectCycle);
+            if (detectCycle != null) {
+                alphaBetaStatistics.setNext(detectCycle);
+            } else if (transpositionTable != null) {
+                alphaBetaStatistics.setNext(transpositionTable);
+            } else {
+                alphaBetaStatistics.setNext(alphaBeta);
+            }
             filters.add(alphaBetaStatistics);
         }
 
         if (detectCycle != null) {
-            detectCycle.setNext(alphaBeta);
+            if (transpositionTable != null) {
+                detectCycle.setNext(transpositionTable);
+            } else {
+                detectCycle.setNext(alphaBeta);
+            }
             filters.add(detectCycle);
+        }
+
+        if (transpositionTable != null){
+            transpositionTable.setNext(alphaBeta);
+            filters.add(transpositionTable);
         }
 
         AlphaBetaFilter head;
@@ -94,6 +115,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             head = alphaBetaStatistics;
         } else if (detectCycle != null) {
             head = detectCycle;
+        } else if (transpositionTable != null) {
+            head = transpositionTable;
         } else {
             head = alphaBeta;
         }
