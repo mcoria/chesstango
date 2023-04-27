@@ -1,12 +1,6 @@
 package net.chesstango.evaluation;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.ChessPositionReader;
-
-import java.util.Iterator;
 
 /**
  * @author Mauricio Coria

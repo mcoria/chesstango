@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.evaluation.GameEvaluator;
 
 import java.util.Iterator;
 

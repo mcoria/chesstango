@@ -3,7 +3,6 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.MinMaxBuilder;
 import net.chesstango.search.builders.MinMaxPruningBuilder;
@@ -13,7 +12,6 @@ import net.chesstango.uci.arena.reports.SearchesReport;
 import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerFactory;
-import net.chesstango.uci.protocol.requests.CmdGo;
 
 import java.time.Duration;
 import java.time.Instant;

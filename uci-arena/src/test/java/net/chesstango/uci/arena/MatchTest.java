@@ -5,13 +5,13 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineControllerImp;
-import org.junit.After;
-
-
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Mauricio Coria
  */
@@ -30,7 +30,7 @@ public class MatchTest {
         dummyEngine.startEngine();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         smartEngine.send_CmdQuit();
         dummyEngine.send_CmdQuit();

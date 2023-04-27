@@ -1,18 +1,16 @@
-/**
- * 
- */
 package net.chesstango.uci.arena;
 
 
 
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * @author Mauricio Coria
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ MatchTest.class })
+@Suite
+@SelectClasses({ MatchTest.class })
 public class UCIArenaTestSuite {
 
 }

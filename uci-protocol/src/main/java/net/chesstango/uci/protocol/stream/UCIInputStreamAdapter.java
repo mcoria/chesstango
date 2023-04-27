@@ -3,7 +3,6 @@ package net.chesstango.uci.protocol.stream;
 import net.chesstango.uci.protocol.UCIDecoder;
 import net.chesstango.uci.protocol.UCIMessage;
 
-import java.io.IOException;
 import java.util.function.Supplier;
 
 /**

@@ -1,6 +1,5 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Session;

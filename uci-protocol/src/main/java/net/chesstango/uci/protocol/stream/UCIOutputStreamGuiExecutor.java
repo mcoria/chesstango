@@ -1,8 +1,8 @@
 package net.chesstango.uci.protocol.stream;
 
-import net.chesstango.uci.protocol.*;
-
-import java.io.IOException;
+import net.chesstango.uci.protocol.UCIGui;
+import net.chesstango.uci.protocol.UCIMessage;
+import net.chesstango.uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria

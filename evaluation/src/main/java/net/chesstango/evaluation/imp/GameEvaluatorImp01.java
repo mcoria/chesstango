@@ -1,7 +1,6 @@
 package net.chesstango.evaluation.imp;
 
 import net.chesstango.board.*;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.board.moves.Move;
 
 import java.util.HashSet;

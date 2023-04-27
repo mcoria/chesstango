@@ -2,7 +2,6 @@ package net.chesstango.evaluation.tunning;
 
 import io.jenetics.Genotype;
 import io.jenetics.IntegerGene;
-import io.jenetics.engine.Constraint;
 import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import net.chesstango.evaluation.GameEvaluator;

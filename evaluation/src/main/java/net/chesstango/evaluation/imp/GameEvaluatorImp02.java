@@ -1,7 +1,9 @@
 package net.chesstango.evaluation.imp;
 
-import net.chesstango.board.*;
-import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
+import net.chesstango.board.Piece;
+import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.containers.MoveList;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;

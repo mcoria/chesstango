@@ -4,9 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.builders.MinMaxPruningBuilder;
-import net.chesstango.search.smart.AbstractSmart;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.NoIterativeDeepening;
 
 /**
  * @author Mauricio Coria

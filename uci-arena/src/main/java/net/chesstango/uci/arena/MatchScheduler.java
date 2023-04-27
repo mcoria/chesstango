@@ -3,10 +3,7 @@ package net.chesstango.uci.arena;
 import net.chesstango.uci.gui.EngineController;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**

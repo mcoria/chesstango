@@ -2,7 +2,6 @@ package net.chesstango.uci.engine.builders;
 
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.SearchBuilder;
 import net.chesstango.uci.engine.EngineTango;
