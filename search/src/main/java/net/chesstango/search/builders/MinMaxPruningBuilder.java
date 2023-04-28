@@ -33,15 +33,17 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private TranspositionTable transpositionTable = null;
 
+    private QTranspositionTable qTranspositionTable = null;
+
     private boolean withIterativeDeepening;
 
-    public MinMaxPruningBuilder withIterativeDeepening(){
+    public MinMaxPruningBuilder withIterativeDeepening() {
         this.withIterativeDeepening = true;
         return this;
     }
 
     @Override
-    public MinMaxPruningBuilder withGameEvaluator(GameEvaluator gameEvaluator){
+    public MinMaxPruningBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
         return this;
     }
@@ -62,13 +64,16 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         return this;
     }
 
-    public MinMaxPruningBuilder withTranspositionTable(){
-        transpositionTable =  new TranspositionTable();
+    public MinMaxPruningBuilder withTranspositionTable() {
+        transpositionTable = new TranspositionTable();
+        qTranspositionTable = new QTranspositionTable();
         return this;
     }
 
     /**
      * Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
+     * <p>
+     * QuiescenceStatics -> TranspositionTable -> Quiescence
      *
      * @return
      */
@@ -84,24 +89,42 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         if (quiescence instanceof Quiescence) {
             ((Quiescence) quiescence).setMoveSorter(moveSorter);
             ((Quiescence) quiescence).setGameEvaluator(gameEvaluator);
-            ((Quiescence) quiescence).setNext(quiescenceStatics != null ? quiescenceStatics : quiescence);
         } else if (quiescence instanceof QuiescenceNull) {
             ((QuiescenceNull) quiescence).setGameEvaluator(gameEvaluator);
         }
 
-        if(quiescenceStatics != null) {
+        // =============  quiescence setup =====================
+        AlphaBetaFilter headQuiescence = null;
+        if (quiescenceStatics != null) {
             filters.add(quiescenceStatics);
-
-            quiescenceStatics.setNext(quiescence);
-
-            alphaBeta.setQuiescence(quiescenceStatics);
-
-        } else {
-            alphaBeta.setQuiescence(quiescence);
+            if (qTranspositionTable != null) {
+                quiescenceStatics.setNext(qTranspositionTable);
+            } else {
+                quiescenceStatics.setNext(alphaBeta);
+            }
+            headQuiescence = quiescenceStatics;
         }
 
+        if (qTranspositionTable != null) {
+            filters.add(qTranspositionTable);
+            qTranspositionTable.setNext(quiescence);
+            if (headQuiescence == null) {
+                headQuiescence = qTranspositionTable;
+            }
+        }
 
+        if (headQuiescence == null) {
+            headQuiescence = quiescence;
+        }
+
+        if (quiescence instanceof Quiescence) {
+            ((Quiescence) quiescence).setNext(headQuiescence);
+        }
+
+        // =============  alphaBeta setup =====================
+        AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
+            filters.add(alphaBetaStatistics);
             if (detectCycle != null) {
                 alphaBetaStatistics.setNext(detectCycle);
             } else if (transpositionTable != null) {
@@ -109,43 +132,44 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             } else {
                 alphaBetaStatistics.setNext(alphaBeta);
             }
-            filters.add(alphaBetaStatistics);
+            head = alphaBetaStatistics;
         }
 
         if (detectCycle != null) {
+            filters.add(detectCycle);
             if (transpositionTable != null) {
                 detectCycle.setNext(transpositionTable);
             } else {
                 detectCycle.setNext(alphaBeta);
             }
-            filters.add(detectCycle);
+            if (head == null) {
+                head = detectCycle;
+            }
         }
 
-        if (transpositionTable != null){
-            transpositionTable.setNext(alphaBeta);
+        if (transpositionTable != null) {
             filters.add(transpositionTable);
+            transpositionTable.setNext(alphaBeta);
+            if (head == null) {
+                head = transpositionTable;
+            }
         }
 
-        AlphaBetaFilter head;
-
-        if (alphaBetaStatistics != null) {
-            head = alphaBetaStatistics;
-        } else if (detectCycle != null) {
-            head = detectCycle;
-        } else if (transpositionTable != null) {
-            head = transpositionTable;
-        } else {
+        if (head == null) {
             head = alphaBeta;
         }
 
         alphaBeta.setNext(head);
+        alphaBeta.setQuiescence(headQuiescence);
+
+        // ============= =====================
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);
         minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(filters);
 
-        return withIterativeDeepening ? new IterativeDeepening(minMaxPruning): new NoIterativeDeepening(minMaxPruning);
+        return withIterativeDeepening ? new IterativeDeepening(minMaxPruning) : new NoIterativeDeepening(minMaxPruning);
     }
 
 
