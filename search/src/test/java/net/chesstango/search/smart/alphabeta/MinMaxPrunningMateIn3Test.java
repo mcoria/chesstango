@@ -23,10 +23,8 @@ public class MinMaxPrunningMateIn3Test extends MateIn3Test {
 
         GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
 
-        Quiescence quiescence = new Quiescence();
+        QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);
-        quiescence.setMoveSorter(moveSorter);
-        quiescence.setNext(quiescence);
 
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);

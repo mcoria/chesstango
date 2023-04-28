@@ -23,10 +23,8 @@ public class MinMaxPrunningMateIn1Test extends MateIn1Test {
 
         GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
 
-        Quiescence quiescence = new Quiescence();
+        QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);
-        quiescence.setMoveSorter(moveSorter);
-        quiescence.setNext(quiescence);
 
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);
@@ -47,4 +45,7 @@ public class MinMaxPrunningMateIn1Test extends MateIn1Test {
     public SearchMove getBestMoveFinder() {
         return searchMove;
     }
+
+
+
 }
