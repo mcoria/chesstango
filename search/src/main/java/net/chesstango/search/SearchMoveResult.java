@@ -15,6 +15,7 @@ public class SearchMoveResult {
     private final Move ponderMove;
     private int evaluationCollisions;
     private int[] visitedNodesCounters;
+    private int[] visitedNodesQuiescenceCounter;
     private int[] expectedNodesCounters;
     private int[] evaluatedNodes;
     private Set<Move>[] distinctMovesPerLevel;
@@ -43,7 +44,6 @@ public class SearchMoveResult {
         this.evaluationCollisions = evaluationCollisions;
         return this;
     }
-
 
     public Move getBestMove() {
         return bestMove;
@@ -95,6 +95,15 @@ public class SearchMoveResult {
 
     public SearchMoveResult setEvaluatedNodes(int[] evaluatedNodes) {
         this.evaluatedNodes = evaluatedNodes;
+        return this;
+    }
+
+    public int[] getVisitedNodesQuiescenceCounter() {
+        return visitedNodesQuiescenceCounter;
+    }
+
+    public SearchMoveResult setVisitedNodesQuiescenceCounter(int[] visitedNodesQuiescenceCounter) {
+        this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
         return this;
     }
 }

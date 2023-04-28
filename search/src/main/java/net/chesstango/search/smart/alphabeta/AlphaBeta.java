@@ -14,6 +14,8 @@ import java.util.Queue;
 public class AlphaBeta implements AlphaBetaFilter {
     protected boolean keepProcessing;
 
+    private GameEvaluator evaluator;
+
     private AlphaBetaFilter next;
 
     private AlphaBetaFilter quiescence;
@@ -30,7 +32,10 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     @Override
     public int minimize(Game game, final int currentPly, final int alpha, final int beta) {
-        if (currentPly == maxPly || !game.getStatus().isInProgress()) {
+        if(!game.getStatus().isInProgress()){
+            return evaluator.evaluate(game);
+        }
+        if (currentPly == maxPly) {
             return quiescence.minimize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
@@ -59,7 +64,10 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     @Override
     public int maximize(Game game, final int currentPly, final int alpha, final int beta) {
-        if (currentPly == maxPly || !game.getStatus().isInProgress()) {
+        if(!game.getStatus().isInProgress()){
+            return evaluator.evaluate(game);
+        }
+        if (currentPly == maxPly) {
             return quiescence.maximize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
@@ -97,6 +105,10 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     public void setQuiescence(AlphaBetaFilter quiescence) {
         this.quiescence = quiescence;
+    }
+
+    public void setGameEvaluator(GameEvaluator evaluator) {
+        this.evaluator = evaluator;
     }
 
     public void setNext(AlphaBetaFilter next) {

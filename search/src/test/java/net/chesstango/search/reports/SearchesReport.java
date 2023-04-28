@@ -30,63 +30,71 @@ public class SearchesReport {
     }
 
     private ReportModel collectStatics(List<SearchMoveResult> searchMoveResults) {
-        ReportModel reportRowModel = new ReportModel();
+        ReportModel reportModel = new ReportModel();
 
-        reportRowModel.moveDetails = new ArrayList<>();
+        reportModel.moveDetails = new ArrayList<>();
 
-        reportRowModel.expectedNodesCounters = new long[30];
-        reportRowModel.visitedNodesCounters = new long[30];
-        reportRowModel.cutoffPercentages = new int[30];
+        reportModel.expectedNodesCounters = new long[30];
+        reportModel.visitedNodesCounters = new long[30];
+        reportModel.cutoffPercentages = new int[30];
+        reportModel.visitedNodesQuiescenceCounter = new long[30];
 
         searchMoveResults.forEach(searchMoveResult -> {
             Move bestMove = searchMoveResult.getBestMove();
 
-            ReportRowMoveDetail moveDetail = new ReportRowMoveDetail();
+            ReportRowMoveDetail reportModelDetail = new ReportRowMoveDetail();
             
-            moveDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
+            reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
 
             int[] expectedNodesCounters = searchMoveResult.getExpectedNodesCounters();
             int[] visitedNodesCounters = searchMoveResult.getVisitedNodesCounters();
+            int[] visitedNodesQuiescenceCounter = searchMoveResult.getVisitedNodesQuiescenceCounter();
             int[] cutoffPercentages = new int[30];
 
             for (int i = 0; i < 30; i++) {
+
                 if (expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
                     throw new RuntimeException("expectedNodesCounters[i] <= 0");
                 }
+
                 if (expectedNodesCounters[i] > 0) {
                     cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
                 }
 
-                reportRowModel.expectedNodesCounters[i] += expectedNodesCounters[i];
-                reportRowModel.visitedNodesCounters[i] += visitedNodesCounters[i];
+                reportModel.expectedNodesCounters[i] += expectedNodesCounters[i];
+                reportModel.visitedNodesCounters[i] += visitedNodesCounters[i];
+                reportModel.visitedNodesQuiescenceCounter[i] += visitedNodesQuiescenceCounter[i];
             }
 
-            moveDetail.expectedNodesCounters = expectedNodesCounters;
-            moveDetail.visitedNodesCounters = visitedNodesCounters;
-            moveDetail.cutoffPercentages = cutoffPercentages;
+            reportModelDetail.expectedNodesCounters = expectedNodesCounters;
+            reportModelDetail.visitedNodesCounters = visitedNodesCounters;
+            reportModelDetail.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
+            reportModelDetail.cutoffPercentages = cutoffPercentages;
 
-            reportRowModel.moveDetails.add(moveDetail);
+            reportModel.moveDetails.add(reportModelDetail);
         });
 
         for (int i = 0; i < 30; i++) {
-            long[] expectedNodesCounters = reportRowModel.expectedNodesCounters;
-            long[] visitedNodesCounters = reportRowModel.visitedNodesCounters;
-            int[] cutoffPercentages = reportRowModel.cutoffPercentages;
+            long[] expectedNodesCounters = reportModel.expectedNodesCounters;
+            long[] visitedNodesCounters = reportModel.visitedNodesCounters;
+            int[] cutoffPercentages = reportModel.cutoffPercentages;
+            long[] visitedNodesQuiescenceCounter = reportModel.visitedNodesQuiescenceCounter;
 
             if (expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
                 throw new RuntimeException("expectedNodesCounters[i] <= 0");
             }
             if (expectedNodesCounters[i] > 0) {
                 cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
+                reportModel.maxSearchLevel = i;
+            }
 
-                if (reportRowModel.maxSearchLevel < i) {
-                    reportRowModel.maxSearchLevel = i;
-                }
+            if (visitedNodesQuiescenceCounter[i] > 0) {
+                reportModel.maxSearchLevelQuiescence = i;
             }
         }
 
 
-        return reportRowModel;
+        return reportModel;
     }
 
 
@@ -96,32 +104,38 @@ public class SearchesReport {
         // Marco superior de la tabla
         System.out.printf(" ________");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("____________________"));
+        IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("____________"));
         System.out.printf("\n");
 
         // Nombre de las columnas
         System.out.printf("| Move   ");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("|     Level %2d      ", depth + 1));
+        IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("| QLevel %2d ", depth + 1));
         System.out.printf("|\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
             System.out.printf("| %6s ", moveDetail.move);
             IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %7d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
+            IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("|   %7d ", moveDetail.visitedNodesQuiescenceCounter[depth]));
             System.out.printf("|\n");
         }
 
         // Totales
         System.out.printf("|--------");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("--------------------"));
+        IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("------------"));
         System.out.printf("|\n");
         System.out.printf("| SUM    ");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %7d ", report.visitedNodesCounters[depth], report.expectedNodesCounters[depth]));
+        IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("|   %7d ", report.visitedNodesQuiescenceCounter[depth]));
         System.out.printf("|\n");
 
 
         // Marco inferior de la tabla
         System.out.printf(" --------");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("--------------------"));
+        IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("------------"));
         System.out.printf("\n\n");
     }
 
@@ -163,12 +177,14 @@ public class SearchesReport {
 
     private static class ReportModel {
         int maxSearchLevel;
-
         long[] expectedNodesCounters;
-
         long [] visitedNodesCounters;
-
         int [] cutoffPercentages;
+
+
+        int maxSearchLevelQuiescence;
+        long[] visitedNodesQuiescenceCounter;
+
 
         List<ReportRowMoveDetail> moveDetails;
     }
@@ -178,5 +194,7 @@ public class SearchesReport {
         int[] expectedNodesCounters;
         int[] visitedNodesCounters;
         int[] cutoffPercentages;
+
+        int[] visitedNodesQuiescenceCounter;
     }
 }

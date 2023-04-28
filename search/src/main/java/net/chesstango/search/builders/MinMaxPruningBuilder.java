@@ -78,8 +78,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         filters.add(alphaBeta);
         filters.add(quiescence);
 
-
         alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setGameEvaluator(gameEvaluator);
 
         if (quiescence instanceof Quiescence) {
             ((Quiescence) quiescence).setMoveSorter(moveSorter);
