@@ -85,14 +85,19 @@ public class SearchesReport {
             }
             if (expectedNodesCounters[i] > 0) {
                 cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
-                reportModel.maxSearchLevel = i;
+                reportModel.maxSearchLevel = i; //En el nivel más bajo no exploramos ningun nodo
             }
 
             if (visitedNodesQuiescenceCounter[i] > 0) {
-                reportModel.maxSearchLevelQuiescence = i;
+                reportModel.maxSearchLevelQuiescence = i + 1;
             }
+
+            reportModel.visitedNodesTotal += visitedNodesCounters[i];
+            reportModel.expectedNodesTotal += expectedNodesCounters[i];
+            reportModel.visitedNodesQuiescenceTotal += visitedNodesQuiescenceCounter[i];
         }
 
+        reportModel.visitedNodesSummaryTotal = reportModel.visitedNodesTotal + reportModel.visitedNodesQuiescenceTotal;
 
         return reportModel;
     }
@@ -103,39 +108,44 @@ public class SearchesReport {
 
         // Marco superior de la tabla
         System.out.printf(" ________");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("____________________"));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("_____________________"));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("____________"));
         System.out.printf("\n");
 
         // Nombre de las columnas
         System.out.printf("| Move   ");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("|     Level %2d      ", depth + 1));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("|     Level %2d       ", depth + 1));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("| QLevel %2d ", depth + 1));
         System.out.printf("|\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
             System.out.printf("| %6s ", moveDetail.move);
-            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %7d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
+            IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %8d ", moveDetail.visitedNodesCounters[depth], moveDetail.expectedNodesCounters[depth]));
             IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("|   %7d ", moveDetail.visitedNodesQuiescenceCounter[depth]));
             System.out.printf("|\n");
         }
 
         // Totales
         System.out.printf("|--------");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("--------------------"));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("---------------------"));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("------------"));
         System.out.printf("|\n");
         System.out.printf("| SUM    ");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %7d ", report.visitedNodesCounters[depth], report.expectedNodesCounters[depth]));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("| %7d / %8d ", report.visitedNodesCounters[depth], report.expectedNodesCounters[depth]));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("|   %7d ", report.visitedNodesQuiescenceCounter[depth]));
         System.out.printf("|\n");
 
 
         // Marco inferior de la tabla
         System.out.printf(" --------");
-        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("--------------------"));
+        IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("---------------------"));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("------------"));
+        System.out.printf("\n\n");
+
+        System.out.printf("Visited  Regular Nodes: %8d\n", report.visitedNodesTotal);
+        System.out.printf("Visited         QNodes: %8d\n", report.visitedNodesQuiescenceTotal);
+        System.out.printf("Visited  Total   Nodes: %8d\n", report.visitedNodesSummaryTotal);
         System.out.printf("\n\n");
     }
 
@@ -181,10 +191,14 @@ public class SearchesReport {
         long [] visitedNodesCounters;
         int [] cutoffPercentages;
 
-
         int maxSearchLevelQuiescence;
         long[] visitedNodesQuiescenceCounter;
 
+        long expectedNodesTotal;
+        long visitedNodesTotal;
+        long visitedNodesQuiescenceTotal;
+
+        long visitedNodesSummaryTotal;
 
         List<ReportRowMoveDetail> moveDetails;
     }

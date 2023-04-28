@@ -100,7 +100,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             if (qTranspositionTable != null) {
                 quiescenceStatics.setNext(qTranspositionTable);
             } else {
-                quiescenceStatics.setNext(alphaBeta);
+                quiescenceStatics.setNext(quiescence);
             }
             headQuiescence = quiescenceStatics;
         }
@@ -160,7 +160,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         }
 
         alphaBeta.setNext(head);
-        alphaBeta.setQuiescence(headQuiescence);
+        alphaBeta.setQuiescence(quiescence);
 
         // ============= =====================
 
