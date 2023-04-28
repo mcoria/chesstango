@@ -89,7 +89,6 @@ public abstract class GameEvaluatorTestCollection {
 
         // White's interest is to maximize
         // Black's interest is to minimize
-        assertEquals(GameEvaluator.INFINITE_POSITIVE, mateEval);
 
         assertEquals(GameEvaluator.BLACK_LOST, mateEval);
 
@@ -113,8 +112,6 @@ public abstract class GameEvaluatorTestCollection {
 
         // White's interest is to maximize
         // Black's interest is to minimize
-
-        assertEquals(GameEvaluator.INFINITE_NEGATIVE, mateEval);
 
         assertEquals(GameEvaluator.BLACK_WON, mateEval);
 
@@ -199,11 +196,8 @@ public abstract class GameEvaluatorTestCollection {
         assertEquals(GameEvaluator.INFINITE_POSITIVE, (-1) * GameEvaluator.INFINITE_NEGATIVE, "+infinite is equals to  (-1) * -infinite ");
         assertEquals(GameEvaluator.INFINITE_NEGATIVE, (-1) * GameEvaluator.INFINITE_POSITIVE, "-infinite is equals to  (-1) * +infinite ");
 
-        assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.WHITE_WON);
-        assertEquals(GameEvaluator.INFINITE_POSITIVE, GameEvaluator.BLACK_LOST);
-
-        assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.BLACK_WON);
-        assertEquals(GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.WHITE_LOST);
+        assertEquals(GameEvaluator.BLACK_LOST, GameEvaluator.WHITE_WON);
+        assertEquals(GameEvaluator.BLACK_WON, GameEvaluator.WHITE_LOST);
     }
 
     @Test

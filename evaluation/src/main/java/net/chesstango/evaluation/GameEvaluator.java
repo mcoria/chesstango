@@ -12,10 +12,13 @@ import net.chesstango.board.Game;
 public interface GameEvaluator {
     int INFINITE_POSITIVE = Integer.MAX_VALUE;
     int INFINITE_NEGATIVE = -INFINITE_POSITIVE;
-    int WHITE_LOST = INFINITE_NEGATIVE;
-    int BLACK_WON = WHITE_LOST;
-    int BLACK_LOST = INFINITE_POSITIVE;
-    int WHITE_WON = BLACK_LOST;
+
+    int WHITE_WON = INFINITE_POSITIVE - 1;
+    int BLACK_WON = INFINITE_NEGATIVE + 1;
+
+    int WHITE_LOST = BLACK_WON;
+    int BLACK_LOST = WHITE_WON;
+
 
     int evaluate(final Game game);
 }

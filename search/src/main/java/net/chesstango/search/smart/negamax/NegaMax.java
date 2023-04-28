@@ -52,7 +52,9 @@ public class NegaMax extends AbstractSmart {
             game = game.undoMove();
         }
 
-        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
+        Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
+
+        return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null)
                 .setEvaluationCollisions(bestMoves.size() - 1);
     }
 
