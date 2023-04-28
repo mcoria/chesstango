@@ -5,7 +5,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -32,8 +34,10 @@ public class NoIterativeDeepening implements SearchMove {
         int[] visitedNodesQuiescenceCounter = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
+        Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
+        Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
 
-        SearchContext context = new SearchContext(depth, visitedNodesCounters, expectedNodesCounters, visitedNodesQuiescenceCounter, distinctMovesPerLevel);
+        SearchContext context = new SearchContext(depth, visitedNodesCounters, expectedNodesCounters, visitedNodesQuiescenceCounter, distinctMovesPerLevel, maxMap, minMap);
 
         return searchMove.searchBestMove(game, context);
     }

@@ -2,7 +2,9 @@ package net.chesstango.search.smart;
 
 import net.chesstango.board.moves.Move;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -14,7 +16,12 @@ public class SearchContext {
     private final int[] visitedNodesCounters;
     private final int[] expectedNodesCounters;
     private final int[] visitedNodesQuiescenceCounter;
+
     private final Set<Move>[] distinctMovesPerLevel;
+
+    private Map<Long, TableEntry> maxMap;
+
+    private Map<Long, TableEntry> minMap;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
@@ -22,15 +29,26 @@ public class SearchContext {
         this.visitedNodesQuiescenceCounter = new int[30];
         this.expectedNodesCounters = new int[30];
         this.distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
+        IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>() );
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
     }
 
-    public SearchContext(int maxPly, int[] visitedNodesCounters, int[] expectedNodesCounters, int[] visitedNodesQuiescenceCounter, Set<Move>[] distinctMovesPerLevel) {
+    public SearchContext(int maxPly,
+                         int[] visitedNodesCounters,
+                         int[] expectedNodesCounters,
+                         int[] visitedNodesQuiescenceCounter,
+                         Set<Move>[] distinctMovesPerLevel,
+                         Map<Long, TableEntry> maxMap,
+                         Map<Long, TableEntry> minMap
+    ) {
         this.maxPly = maxPly;
         this.visitedNodesCounters = visitedNodesCounters;
         this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
         this.expectedNodesCounters = expectedNodesCounters;
         this.distinctMovesPerLevel = distinctMovesPerLevel;
+        this.maxMap = maxMap;
+        this.minMap = minMap;
     }
 
     public int getMaxPly() {
@@ -51,6 +69,20 @@ public class SearchContext {
 
     public Set<Move>[] getDistinctMovesPerLevel() {
         return distinctMovesPerLevel;
+    }
+
+    public Map<Long, TableEntry> getMaxMap() {
+        return maxMap;
+    }
+
+    public Map<Long, TableEntry> getMinMap() {
+        return minMap;
+    }
+
+    public static class TableEntry {
+        public int evaluation;
+        public int searchDepth;
+        public Move bestMove;
     }
 
 }

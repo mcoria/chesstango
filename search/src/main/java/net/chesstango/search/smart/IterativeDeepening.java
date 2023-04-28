@@ -38,10 +38,11 @@ public class IterativeDeepening implements SearchMove {
         int[] visitedNodesQuiescenceCounter = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
-
+        Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
+        Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
 
         for (int i = 1; i <= depth; i++) {
-            SearchContext context = new SearchContext(i, visitedNodesCounters, expectedNodesCounters, visitedNodesQuiescenceCounter, distinctMovesPerLevel);
+            SearchContext context = new SearchContext(i, visitedNodesCounters, expectedNodesCounters, visitedNodesQuiescenceCounter, distinctMovesPerLevel, maxMap, minMap);
 
             SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
 

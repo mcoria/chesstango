@@ -72,8 +72,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     /**
      * Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
-     * <p>
-     * QuiescenceStatics -> TranspositionTable -> Quiescence
+     *
+     * QuiescenceStatics -> QTranspositionTable -> Quiescence
      *
      * @return
      */
