@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn2Test;
@@ -20,14 +21,18 @@ public class MinMaxPrunningMateIn2Test extends MateIn2Test {
     public void setup(){
         MoveSorter moveSorter = new MoveSorter();
 
+        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+
         Quiescence quiescence = new Quiescence();
-        quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
+        quiescence.setGameEvaluator(gameEvaluator);
         quiescence.setMoveSorter(moveSorter);
+        quiescence.setNext(quiescence);
 
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setNext(alphaBeta);
+        alphaBeta.setGameEvaluator(gameEvaluator);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);

@@ -41,6 +41,7 @@ public class DetectCycleTest {
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setGameEvaluator(evaluator);
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 

@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
@@ -18,15 +19,19 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
 
     @BeforeEach
     public void setup(){
+        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+
         MoveSorter moveSorter = new MoveSorter();
 
         Quiescence quiescence = new Quiescence();
-        quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
+        quiescence.setGameEvaluator(gameEvaluator);
         quiescence.setMoveSorter(moveSorter);
+        quiescence.setNext(quiescence);
 
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setGameEvaluator(gameEvaluator);
         alphaBeta.setNext(alphaBeta);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();

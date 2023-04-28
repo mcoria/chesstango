@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
@@ -27,8 +28,10 @@ public class AlphaBetaStatisticsTest {
     public void setup() {
         MoveSorter moveSorter = new MoveSorter();
 
+        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+
         QuiescenceNull quiescence = new QuiescenceNull();
-        quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
+        quiescence.setGameEvaluator(gameEvaluator);
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
@@ -36,6 +39,7 @@ public class AlphaBetaStatisticsTest {
         alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setNext(alphaBetaStatistics);
+        alphaBeta.setGameEvaluator(gameEvaluator);
 
         alphaBetaStatistics.setNext(alphaBeta);
 
