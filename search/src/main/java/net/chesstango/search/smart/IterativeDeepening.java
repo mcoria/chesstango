@@ -63,8 +63,7 @@ public class IterativeDeepening implements SearchMove {
 
         SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
 
-        Move bestMove = lastSearch.getBestMoveOptions().size() == 1 ?
-                lastSearch.getBestMoveOptions().get(0) : selectBestMove(currentTurn, bestMovesByDepth);
+        Move bestMove = lastSearch.getBestMove();
 
         return new SearchMoveResult(depth, lastSearch.getEvaluation(), bestMove, null)
                 .setVisitedNodesCounters(visitedNodesCounters)

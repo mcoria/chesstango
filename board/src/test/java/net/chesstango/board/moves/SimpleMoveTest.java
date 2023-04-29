@@ -80,19 +80,6 @@ public class SimpleMoveTest {
     }
 
     @Test
-    public void testLongToInt() {
-        long a = 0b00000000_00000000_00000000_00000001_00000000_00000000_00000000_00000000L;
-        int castedA = (int) a;
-
-        assertEquals(0, castedA);
-
-        long b = 0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
-        int castedB = (int) b;
-
-        assertEquals(0, castedB);
-    }
-
-    @Test
     public void testEquals() {
         assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(board.getPosition(Square.e5), board.getPosition(Square.e7)), moveExecutor);
     }

@@ -6,13 +6,11 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
-import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * @author Mauricio Coria
@@ -29,44 +27,30 @@ public class MinMaxPruning extends AbstractSmart {
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         this.keepProcessing = true;
 
-        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
-        final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final List<Move> bestMoves = new ArrayList<Move>();
 
         initFilters(game, context);
 
-        int bestValue = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
-        boolean search = true;
 
-        Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-        while (!sortedMoves.isEmpty() && search && keepProcessing) {
-            Move move = sortedMoves.poll();
+        long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
+                alphaBetaFilter.maximize(game, 0, GameEvaluator.BLACK_WON, GameEvaluator.WHITE_WON) :
+                alphaBetaFilter.minimize(game, 0, GameEvaluator.BLACK_WON, GameEvaluator.WHITE_WON);
 
-            game = game.executeMove(move);
+        int bestValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+        short bestMoveEncoded = (short) (bestMoveAndValue >> 32);
 
-            long bestMoveAndValue = minOrMax ?
-                    alphaBetaFilter.maximize(game, 1, GameEvaluator.BLACK_WON, bestValue) :
-                    alphaBetaFilter.minimize(game, 1, bestValue, GameEvaluator.WHITE_WON);
-
-            int currentValue = (int) bestMoveAndValue;
-
-            if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
-                bestValue = currentValue;
-                bestMoves.clear();
-                bestMoves.add(move);
-                if (minOrMax && bestValue == GameEvaluator.BLACK_WON ||             //Black wins
-                        !minOrMax && bestValue == GameEvaluator.WHITE_WON) {        //White wins
-                    search = false;
-                }
-
-            } else if (currentValue == bestValue) {
-                bestMoves.add(move);
+        Move bestMove = null;
+        for (Move move : game.getPossibleMoves()) {
+            if (move.binaryEncoding() == bestMoveEncoded) {
+                bestMove = move;
             }
-
-            game = game.undoMove();
         }
 
-        Move bestMove = bestMoves.get(0);
+        if (bestMove == null) {
+            throw new RuntimeException("BestMove not found");
+        }
+
 
         return new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null)
                 .setVisitedNodesCounters(context.getVisitedNodesCounters())

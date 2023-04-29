@@ -39,7 +39,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             return quiescence.minimize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
-            short bestMove = 0;
+            Move bestMove = null;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
 
             for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
@@ -50,11 +50,11 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
 
-                int currentValue = (int) bestMoveAndValue;
+                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
-                    bestMove = move.binaryEncoding();
+                    bestMove = move;
                     if (alpha >= minValue) {
                         search = false;
                     }
@@ -63,8 +63,7 @@ public class AlphaBeta implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            //return ((long) bestMove << 32) | ((long) minValue);
-            return minValue;
+            return encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
         }
     }
 
@@ -77,7 +76,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             return quiescence.maximize(game, currentPly, alpha, beta);
         } else {
             boolean search = true;
-            short bestMove = 0;
+            Move bestMove = null;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
             for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
@@ -88,11 +87,11 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
 
-                int currentValue = (int) bestMoveAndValue;
+                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
-                    bestMove = move.binaryEncoding();
+                    bestMove = move;
                     if (maxValue >= beta) {
                         search = false;
                     }
@@ -101,8 +100,7 @@ public class AlphaBeta implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            //return ((long) bestMove << 32) | ((long) maxValue);
-            return maxValue;
+            return encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
         }
     }
 
@@ -125,5 +123,13 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
+    }
+
+    private static long encodedMoveAndValue(short move, int value){
+        long encodedMoveLng = ((long) move) << 32;
+
+        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
+
+        return encodedValueLng | encodedMoveLng;
     }
 }

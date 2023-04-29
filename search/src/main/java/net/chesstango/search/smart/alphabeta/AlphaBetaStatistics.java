@@ -51,11 +51,13 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final Game game, final int currentPly){
-        increaseVisitedNodesCounter(currentPly);
+        if(currentPly > 0) {
+            increaseVisitedNodesCounter(currentPly);
 
-        updateDistinctMoves(game, currentPly);
+            updateDistinctMoves(game, currentPly);
 
-        increaseExpectedNodesCounter(game, currentPly);
+            increaseExpectedNodesCounter(game, currentPly);
+        }
     }
 
     protected void increaseVisitedNodesCounter(int currentPly) {
