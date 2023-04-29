@@ -26,8 +26,9 @@ public class BestMoveSearchSuiteTest {
     @AfterEach
     public void tearDown(){
         new SearchesReport()
-                //.withCutoffStatics()
                 .withNodesVisitedStatics()
+                .withCutoffStatics()
+                .withPrincipalVariation()
                 .printSearchesStatics(finderSuite.searchMoveResults);
     }
 
@@ -62,8 +63,16 @@ public class BestMoveSearchSuiteTest {
 
     @Test
     public void test05() {
-        finderSuite = new BestMoveSearchSuite(6);
+        finderSuite = new BestMoveSearchSuite(2);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("r1b2rk1/2q1b1pp/p2ppn2/1p6/3QP3/1BN1B3/PPP3PP/R4RK1 w - - bm Nd5 a4; id \"BK.05\";");
+        assertTrue(finderSuite.run(edpEntry));
+    }
+
+
+    @Test
+    public void test06() {
+        finderSuite = new BestMoveSearchSuite(3);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1R1nk2r/4q1p1/5pP1/3QpP1p/P6P/5P2/5BK1/2r5 w k - bm Rb8xd8+; ce +M2; pv Rb8xd8+ Qe7xd8 Qd5-f7+; id \"079\";");
         assertTrue(finderSuite.run(edpEntry));
     }
 

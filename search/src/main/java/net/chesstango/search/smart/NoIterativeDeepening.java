@@ -39,7 +39,11 @@ public class NoIterativeDeepening implements SearchMove {
 
         SearchContext context = new SearchContext(depth, visitedNodesCounters, expectedNodesCounters, visitedNodesQuiescenceCounter, distinctMovesPerLevel, maxMap, minMap);
 
-        return searchMove.searchBestMove(game, context);
+        SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
+
+        searchResult.calculatePrincipalVariation(game, maxMap, minMap);
+
+        return searchResult;
     }
 
     @Override

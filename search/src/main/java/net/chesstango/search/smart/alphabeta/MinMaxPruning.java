@@ -43,9 +43,9 @@ public class MinMaxPruning extends AbstractSmart {
         for (Move move : game.getPossibleMoves()) {
             if (move.binaryEncoding() == bestMoveEncoded) {
                 bestMove = move;
+                break;
             }
         }
-
         if (bestMove == null) {
             throw new RuntimeException("BestMove not found");
         }

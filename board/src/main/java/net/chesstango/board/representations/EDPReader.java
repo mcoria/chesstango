@@ -84,9 +84,9 @@ public class EDPReader {
     public static class EDPEntry {
         public String fen;
         public String bestMovesString;
+        public List<Move> bestMoves;
 
         public Game game;
-        public List<Move> bestMoves;
     }
 
 

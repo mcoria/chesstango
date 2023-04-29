@@ -83,12 +83,9 @@ public class BestMoveSearchSuite {
             System.out.printf("Success %s\n", edpEntry.fen);
         } else {
             SANEncoder sanEncoder = new SANEncoder();
-            System.out.printf("Fail '%s', expected %s, best moves found %s \n", edpEntry.fen,
+            System.out.printf("Fail '%s', expected %s, best move found %s \n", edpEntry.fen,
                     edpEntry.bestMovesString,
-                    searchResult.getBestMoveOptions()
-                            .stream()
-                            .map(move -> sanEncoder.encode(move, edpEntry.game.getPossibleMoves()))
-                            .collect(Collectors.toList()));
+                    sanEncoder.encode(bestMove, edpEntry.game.getPossibleMoves()));
         }
 
         searchMoveResults.add(searchResult);

@@ -18,6 +18,8 @@ public class SearchesReport {
     private boolean printCutoffStatics;
     private boolean printNodesVisitedStatics;
 
+    private boolean printPrincipalVariation;
+
     public void printSearchesStatics(List<SearchMoveResult> searchMoveResults) {
         ReportModel reportModel = collectStatics(searchMoveResults);
 
@@ -27,7 +29,12 @@ public class SearchesReport {
         if(printCutoffStatics) {
             printCutoff(reportModel);
         }
+
+        if(printPrincipalVariation){
+            printPrincipalVariation(reportModel);
+        }
     }
+
 
     private ReportModel collectStatics(List<SearchMoveResult> searchMoveResults) {
         ReportModel reportModel = new ReportModel();
@@ -40,9 +47,9 @@ public class SearchesReport {
         reportModel.visitedNodesQuiescenceCounter = new long[30];
 
         searchMoveResults.forEach(searchMoveResult -> {
-            Move bestMove = searchMoveResult.getBestMove();
-
             ReportRowMoveDetail reportModelDetail = new ReportRowMoveDetail();
+
+            Move bestMove = searchMoveResult.getBestMove();
             
             reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
 
@@ -70,6 +77,14 @@ public class SearchesReport {
             reportModelDetail.visitedNodesCounters = visitedNodesCounters;
             reportModelDetail.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
             reportModelDetail.cutoffPercentages = cutoffPercentages;
+
+
+            StringBuilder sb = new StringBuilder();
+            for (String moveStr: searchMoveResult.getPrincipalVariation()) {
+                sb.append( String.format("%s ", moveStr) );
+            }
+
+            reportModelDetail.principalVariation = sb.toString();
 
             reportModel.moveDetails.add(reportModelDetail);
         });
@@ -172,7 +187,22 @@ public class SearchesReport {
         // Marco inferior de la tabla
         System.out.printf(" --------");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("-----------"));
-        System.out.printf("\n");
+        System.out.printf("\n\n");
+    }
+
+    private void printPrincipalVariation(ReportModel report) {
+        System.out.printf("Principal Variations\n");
+
+
+
+        // Nombre de las columnas
+        System.out.printf("Move\n");
+
+        // Cuerpo
+        for (ReportRowMoveDetail moveDetail : report.moveDetails) {
+            System.out.printf("%6s:", moveDetail.move);
+            System.out.printf(" %s\n", moveDetail.principalVariation);
+        }
     }
 
     public SearchesReport withCutoffStatics() {
@@ -182,6 +212,11 @@ public class SearchesReport {
 
     public SearchesReport withNodesVisitedStatics() {
         this.printNodesVisitedStatics = true;
+        return this;
+    }
+
+    public SearchesReport withPrincipalVariation() {
+        this.printPrincipalVariation = true;
         return this;
     }
 
@@ -208,7 +243,8 @@ public class SearchesReport {
         int[] expectedNodesCounters;
         int[] visitedNodesCounters;
         int[] cutoffPercentages;
-
         int[] visitedNodesQuiescenceCounter;
+
+        String principalVariation;
     }
 }

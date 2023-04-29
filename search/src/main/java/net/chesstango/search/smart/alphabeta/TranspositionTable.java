@@ -23,8 +23,6 @@ public class TranspositionTable implements AlphaBetaFilter {
 
     private Map<Long, TableEntry> minMap;
 
-    private final Deque<TableEntry> stackTableEntry = new ArrayDeque<>();
-
     private  int maxPly;
     private Game game;
 
@@ -34,27 +32,10 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
-
-        long hash = game.getChessPosition().getPositionHash();
-
-        TableEntry entry = new TableEntry();
-
-        entry.searchDepth = maxPly;
-        if(Color.WHITE.equals( game.getChessPosition().getCurrentTurn() )) {
-            entry.evaluation = GameEvaluator.INFINITE_NEGATIVE;
-            maxMap.put(hash, entry);
-        } else {
-            entry.evaluation = GameEvaluator.INFINITE_POSITIVE;
-            minMap.put(hash, entry);
-        }
-
-        this.stackTableEntry.push(entry);
     }
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-        TableEntry parentElement = stackTableEntry.peekFirst();
-
         long hash = game.getChessPosition().getPositionHash();
 
         SearchContext.TableEntry entry = maxMap.get(hash);
@@ -64,28 +45,15 @@ public class TranspositionTable implements AlphaBetaFilter {
         if (entry == null || entry != null && searchDepth > entry.searchDepth ) {
             entry = new TableEntry();
             entry.searchDepth = searchDepth;
-            entry.evaluation = GameEvaluator.INFINITE_NEGATIVE;
-
-            stackTableEntry.push(entry);
-            entry.evaluation = (int) next.maximize(currentPly, alpha, beta);
-            stackTableEntry.pop();
+            entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
             maxMap.put(hash, entry);
         }
-
-        if(parentElement.evaluation > entry.evaluation){
-            Move move = game.getState().getPreviosState().getSelectedMove();
-            parentElement.evaluation = entry.evaluation;
-            parentElement.bestMove = move;
-        }
-
-        return entry.evaluation;
+        return entry.bestMoveAndValue;
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-        TableEntry parentElement = stackTableEntry.peekFirst();
-
         long hash = game.getChessPosition().getPositionHash();
 
         TableEntry entry = minMap.get(hash);
@@ -95,22 +63,11 @@ public class TranspositionTable implements AlphaBetaFilter {
         if (entry == null || entry != null && searchDepth > entry.searchDepth ) {
             entry = new TableEntry();
             entry.searchDepth = searchDepth;
-            entry.evaluation = GameEvaluator.INFINITE_POSITIVE;
-
-            stackTableEntry.push(entry);
-            entry.evaluation = (int) next.minimize(currentPly, alpha, beta);
-            stackTableEntry.pop();
+            entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
             minMap.put(hash, entry);
         }
-
-        if(parentElement.evaluation < entry.evaluation){
-            Move move = game.getState().getPreviosState().getSelectedMove();
-            parentElement.evaluation = entry.evaluation;
-            parentElement.bestMove = move;
-        }
-
-        return entry.evaluation;
+        return entry.bestMoveAndValue;
     }
 
     @Override

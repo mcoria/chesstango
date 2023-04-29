@@ -80,9 +80,9 @@ public class SearchContext {
     }
 
     public static class TableEntry {
-        public int evaluation;
         public int searchDepth;
-        public Move bestMove;
+
+        public long bestMoveAndValue;
     }
 
 }

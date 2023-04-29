@@ -1,8 +1,14 @@
 package net.chesstango.search;
 
+import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.SANEncoder;
+import net.chesstango.search.smart.SearchContext;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,6 +26,7 @@ public class SearchMoveResult {
     private int[] evaluatedNodes;
     private Set<Move>[] distinctMovesPerLevel;
     private List<Move> bestMoveOptions;
+    private List<String> principalVariation;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;
@@ -105,5 +112,56 @@ public class SearchMoveResult {
     public SearchMoveResult setVisitedNodesQuiescenceCounter(int[] visitedNodesQuiescenceCounter) {
         this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
         return this;
+    }
+
+    public List<String> getPrincipalVariation() {
+        return principalVariation;
+    }
+
+    public void calculatePrincipalVariation(Game game, Map<Long, SearchContext.TableEntry> maxMap, Map<Long, SearchContext.TableEntry> minMap) {
+        List<String> principalVariation = new ArrayList<>();
+
+        Move move = bestMove;
+
+        SANEncoder sanEncoder = new SANEncoder();
+        do {
+
+            principalVariation.add(sanEncoder.encode(move, game.getPossibleMoves()));
+
+            game.executeMove(move);
+
+            move = null;
+
+            long hash = game.getChessPosition().getPositionHash();
+
+            SearchContext.TableEntry entry = null;
+            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+                entry = maxMap.get(hash);
+            } else {
+                entry = minMap.get(hash);
+            }
+
+            if (entry != null) {
+                short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
+                for (Move posibleMove : game.getPossibleMoves()) {
+                    if (posibleMove.binaryEncoding() == bestMoveEncoded) {
+                        move = posibleMove;
+                        break;
+                    }
+                }
+                if (bestMove == null) {
+                    throw new RuntimeException("BestMove not found");
+                }
+            }
+
+        } while (move != null);
+
+        final int pvMoveCounter = principalVariation.size();
+
+        for (int i = 0; i < pvMoveCounter; i++) {
+            game.undoMove();
+        }
+
+        this.principalVariation = principalVariation;
     }
 }
