@@ -189,6 +189,19 @@ class MovePawnPromotion implements MovePromotion {
         return false;
     }
 
+    @Override
+    public short binaryEncoding() {
+        short fromToEncoded =  MovePromotion.super.binaryEncoding();
+        short pieceEncoded = switch (promotion) {
+            case KNIGHT_BLACK, KNIGHT_WHITE -> 1;
+            case BISHOP_BLACK, BISHOP_WHITE -> 2;
+            case ROOK_BLACK, ROOK_WHITE -> 3;
+            case QUEEN_BLACK, QUEEN_WHITE -> 4;
+            default -> throw new RuntimeException("Invalid promotion");
+        };
+        return (short) (pieceEncoded << 12 | fromToEncoded);
+    }
+
     private Cardinal calculateMoveDirection() {
         Piece piece = getFrom().getPiece();
         return Piece.KNIGHT_WHITE.equals(piece) ||

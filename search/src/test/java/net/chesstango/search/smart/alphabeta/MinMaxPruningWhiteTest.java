@@ -61,7 +61,7 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
+        when(quiescence.minimize(eq(childGame), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1L);
 
         Move move = mock(Move.class);
 
@@ -91,10 +91,10 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
+        when(quiescence.minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1L);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(2);
+        when(quiescence.minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(2L);
 
         Move move1 = mock(Move.class);
         Move move2 = mock(Move.class);
@@ -129,10 +129,10 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
+        when(quiescence.minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1L);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.WHITE_WON);
+        when(quiescence.minimize(eq(childGame2), eq(1), eq(1), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn((long)GameEvaluator.WHITE_WON);
 
         // childGame3 no llega a evaluarse, dado que existe CuteOff por el mate que se encuentra en childGame2
         Game childGame3 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
@@ -178,13 +178,13 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.minimize(eq(childGame1), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn((long)GameEvaluator.WHITE_LOST);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.minimize(eq(childGame2), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn((long)GameEvaluator.WHITE_LOST);
 
         Game childGame3 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.WHITE_LOST);
+        when(quiescence.minimize(eq(childGame3), eq(1), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn((long)GameEvaluator.WHITE_LOST);
 
         Move move1 = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.d5));
         Move move2 = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.b5));
@@ -223,10 +223,10 @@ public class MinMaxPruningWhiteTest {
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
         Game childGame1 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1);
+        when(quiescence.minimize(eq(childGame1), eq(2), eq(GameEvaluator.INFINITE_NEGATIVE), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(1L);
 
         Game childGame2 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
-        when(quiescence.minimize(eq(childGame2), eq(2), eq(1), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn(GameEvaluator.WHITE_WON);
+        when(quiescence.minimize(eq(childGame2), eq(2), eq(1), eq(GameEvaluator.INFINITE_POSITIVE))).thenReturn((long)GameEvaluator.WHITE_WON);
 
         Game childGame3 = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
@@ -236,7 +236,7 @@ public class MinMaxPruningWhiteTest {
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
         alphaBeta.init(rootGame, new SearchContext(2));
-        int maxValue = alphaBeta.maximize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
+        long maxValue = alphaBeta.maximize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         assertEquals(GameEvaluator.WHITE_WON, maxValue);
 

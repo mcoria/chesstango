@@ -25,14 +25,14 @@ public class QTranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public int maximize(Game game, int currentPly, int alpha, int beta) {
+    public long maximize(Game game, int currentPly, int alpha, int beta) {
 
         long hash = game.getChessPosition().getPositionHash();
 
         Integer evaluation = maxMap.get(hash);
 
         if (evaluation == null) {
-            evaluation = next.maximize(game, currentPly, alpha, beta);
+            evaluation = (int) next.maximize(game, currentPly, alpha, beta);
             maxMap.put(hash, evaluation);
         }
 
@@ -40,14 +40,14 @@ public class QTranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public int minimize(Game game, int currentPly, int alpha, int beta) {
+    public long minimize(Game game, int currentPly, int alpha, int beta) {
 
         long hash = game.getChessPosition().getPositionHash();
 
         Integer evaluation = minMap.get(hash);
 
         if (evaluation == null ) {
-            evaluation = next.minimize(game, currentPly, alpha, beta);
+            evaluation = (int) next.minimize(game, currentPly, alpha, beta);
             minMap.put(hash, evaluation);
         }
 

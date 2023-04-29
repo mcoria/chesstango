@@ -27,14 +27,14 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     @Override
-    public int maximize(final Game game, final int currentPly, final int alpha, final int beta) {
+    public long maximize(final Game game, final int currentPly, final int alpha, final int beta) {
         updateCounters(game, currentPly);
 
         return next.maximize(game, currentPly, alpha, beta);
     }
 
     @Override
-    public int minimize(final Game game, final int currentPly, final int alpha, final int beta) {
+    public long minimize(final Game game, final int currentPly, final int alpha, final int beta) {
         updateCounters(game, currentPly);
 
         return next.minimize(game, currentPly, alpha, beta);

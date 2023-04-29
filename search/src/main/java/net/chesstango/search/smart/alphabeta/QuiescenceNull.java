@@ -16,12 +16,12 @@ public class QuiescenceNull implements AlphaBetaFilter {
     public void init(Game game, SearchContext context) {
     }
     @Override
-    public int minimize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long minimize(Game game, final int currentPly, final int alpha, final int beta) {
         return evaluator.evaluate(game);
     }
 
     @Override
-    public int maximize(Game game, final int currentPly, final int alpha, final int beta){
+    public long maximize(Game game, final int currentPly, final int alpha, final int beta){
         return evaluator.evaluate(game);
     }
 

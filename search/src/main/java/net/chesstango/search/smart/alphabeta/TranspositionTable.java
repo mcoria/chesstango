@@ -50,7 +50,7 @@ public class TranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public int maximize(Game game, int currentPly, int alpha, int beta) {
+    public long maximize(Game game, int currentPly, int alpha, int beta) {
         TableEntry parentElement = stackTableEntry.peekFirst();
 
         long hash = game.getChessPosition().getPositionHash();
@@ -65,7 +65,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             entry.evaluation = GameEvaluator.INFINITE_NEGATIVE;
 
             stackTableEntry.push(entry);
-            entry.evaluation = next.maximize(game, currentPly, alpha, beta);
+            entry.evaluation = (int) next.maximize(game, currentPly, alpha, beta);
             stackTableEntry.pop();
 
             maxMap.put(hash, entry);
@@ -81,7 +81,7 @@ public class TranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public int minimize(Game game, int currentPly, int alpha, int beta) {
+    public long minimize(Game game, int currentPly, int alpha, int beta) {
         TableEntry parentElement = stackTableEntry.peekFirst();
 
         long hash = game.getChessPosition().getPositionHash();
@@ -96,7 +96,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             entry.evaluation = GameEvaluator.INFINITE_POSITIVE;
 
             stackTableEntry.push(entry);
-            entry.evaluation = next.minimize(game, currentPly, alpha, beta);
+            entry.evaluation = (int) next.minimize(game, currentPly, alpha, beta);
             stackTableEntry.pop();
 
             minMap.put(hash, entry);

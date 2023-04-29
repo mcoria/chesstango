@@ -44,9 +44,11 @@ public class MinMaxPruning extends AbstractSmart {
 
             game = game.executeMove(move);
 
-            int currentValue = minOrMax ?
-                    alphaBetaFilter.maximize(game, 1, GameEvaluator.INFINITE_NEGATIVE, bestValue) :
-                    alphaBetaFilter.minimize(game, 1, bestValue, GameEvaluator.INFINITE_POSITIVE);
+            long bestMoveAndValue = minOrMax ?
+                    alphaBetaFilter.maximize(game, 1, GameEvaluator.BLACK_WON, bestValue) :
+                    alphaBetaFilter.minimize(game, 1, bestValue, GameEvaluator.WHITE_WON);
+
+            int currentValue = (int) bestMoveAndValue;
 
             if (minOrMax && currentValue < bestValue || !minOrMax && currentValue > bestValue) {
                 bestValue = currentValue;
@@ -64,12 +66,7 @@ public class MinMaxPruning extends AbstractSmart {
             game = game.undoMove();
         }
 
-        if (bestMoves.size() == 0 &&
-                (minOrMax && bestValue == GameEvaluator.WHITE_WON || !minOrMax && bestValue == GameEvaluator.BLACK_WON)) {
-            game.getPossibleMoves().forEach(bestMoves::add);
-        }
-
-        Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
+        Move bestMove = bestMoves.get(0);
 
         return new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null)
                 .setVisitedNodesCounters(context.getVisitedNodesCounters())

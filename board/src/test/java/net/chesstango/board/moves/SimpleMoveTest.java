@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 
@@ -70,6 +71,25 @@ public class SimpleMoveTest {
         zobristHash.init(board, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(origen, destino);
+    }
+
+    @Test
+    public void testBinaryEncoding() {
+        short expected = (short)  (Square.e5.getRank() << 9  | Square.e5.getFile()  << 6| Square.e7.getRank() << 3  | Square.e7.getFile());
+        assertEquals(expected, moveExecutor.binaryEncoding());
+    }
+
+    @Test
+    public void testLongToInt() {
+        long a = 0b00000000_00000000_00000000_00000001_00000000_00000000_00000000_00000000L;
+        int castedA = (int) a;
+
+        assertEquals(0, castedA);
+
+        long b = 0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000L;
+        int castedB = (int) b;
+
+        assertEquals(0, castedB);
     }
 
     @Test

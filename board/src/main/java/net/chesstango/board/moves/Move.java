@@ -1,6 +1,7 @@
 package net.chesstango.board.moves;
 
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.BoardReader;
@@ -19,71 +20,111 @@ import net.chesstango.board.position.imp.ZobristHash;
 
 /**
  * @author Mauricio Coria
- *
  */
 public interface Move extends Comparable<Move> {
-	PiecePositioned getFrom();
-	PiecePositioned getTo();
+    PiecePositioned getFrom();
 
-	default void executeMove(ChessPositionWriter chessPosition){
-		chessPosition.executeMove(this);
-	}
-	default void undoMove(ChessPositionWriter chessPosition){
-		chessPosition.undoMove(this);
-	}
-	default boolean filter(MoveFilter filter){
-		return filter.filterMove(this);
-	}
+    PiecePositioned getTo();
 
-	void executeMove(BoardWriter board);
-	void undoMove(BoardWriter board);
+    default void executeMove(ChessPositionWriter chessPosition) {
+        chessPosition.executeMove(this);
+    }
 
-	void executeMove(PositionState positionState);
-	void undoMove(PositionState positionState);
+    default void undoMove(ChessPositionWriter chessPosition) {
+        chessPosition.undoMove(this);
+    }
 
-	void executeMove(ColorBoard colorBoard);
-	void undoMove(ColorBoard colorBoard);
+    default boolean filter(MoveFilter filter) {
+        return filter.filterMove(this);
+    }
 
-	void executeMove(MoveCacheBoard moveCache);
-	void undoMove(MoveCacheBoard moveCache);
-	void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
-	void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void executeMove(BoardWriter board);
 
-	Cardinal getMoveDirection();
+    void undoMove(BoardWriter board);
 
-	@Override
-	default int compareTo(Move theOther) {
-		//Comparamos from
-		if(getFrom().getSquare().getRank() > theOther.getFrom().getSquare().getRank()){
-			return 1;
-		} else if (getFrom().getSquare().getRank() < theOther.getFrom().getSquare().getRank()){
-			return -1;
-		}
+    void executeMove(PositionState positionState);
+
+    void undoMove(PositionState positionState);
+
+    void executeMove(ColorBoard colorBoard);
+
+    void undoMove(ColorBoard colorBoard);
+
+    void executeMove(MoveCacheBoard moveCache);
+
+    void undoMove(MoveCacheBoard moveCache);
+
+    void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+
+    void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+
+    /**
+     * "move" is a bit field with the following meaning (bit 0 is the least significant bit)
+     * bits                meaning
+     * ===================================
+     * 0,1,2               to file
+     * 3,4,5               to row
+     * 6,7,8               from file
+     * 9,10,11             from row
+     * 12,13,14            promotion piece
+     * <p>
+     * "promotion piece" is encoded as follows
+     * none       0
+     * knight     1
+     * bishop     2
+     * rook       3
+     * queen      4
+     *
+     * @return
+     */
+    default short binaryEncoding() {
+        Square fromSquare = getFrom().getSquare();
+        Square toSquare = getTo().getSquare();
+
+        int toFile = toSquare.getFile();
+        int toRow = toSquare.getRank() << 3;
+
+        int fromFile = fromSquare.getFile() << 6;
+        int fromRow = fromSquare.getRank() << 9;
+
+        return (short) (fromRow | fromFile | toRow | toFile);
+    }
+
+    Cardinal getMoveDirection();
+
+    @Override
+    default int compareTo(Move theOther) {
+        //Comparamos from
+        if (getFrom().getSquare().getRank() > theOther.getFrom().getSquare().getRank()) {
+            return 1;
+        } else if (getFrom().getSquare().getRank() < theOther.getFrom().getSquare().getRank()) {
+            return -1;
+        }
 
 
-		if(getFrom().getSquare().getFile() <  theOther.getFrom().getSquare().getFile()){
-			return 1;
-		} else if(getFrom().getSquare().getFile() >  theOther.getFrom().getSquare().getFile()){
-			return -1;
-		}
+        if (getFrom().getSquare().getFile() < theOther.getFrom().getSquare().getFile()) {
+            return 1;
+        } else if (getFrom().getSquare().getFile() > theOther.getFrom().getSquare().getFile()) {
+            return -1;
+        }
 
-		//---------------
-		//Son iguales asi que comparamos to
-		if(getTo().getSquare().getRank() < theOther.getTo().getSquare().getRank()){
-			return 1;
-		} else if (getTo().getSquare().getRank() > theOther.getTo().getSquare().getRank()){
-			return -1;
-		}
+        //---------------
+        //Son iguales asi que comparamos to
+        if (getTo().getSquare().getRank() < theOther.getTo().getSquare().getRank()) {
+            return 1;
+        } else if (getTo().getSquare().getRank() > theOther.getTo().getSquare().getRank()) {
+            return -1;
+        }
 
 
-		if(getTo().getSquare().getFile() <  theOther.getTo().getSquare().getFile()){
-			return -1;
-		} else if(getTo().getSquare().getFile() >  theOther.getTo().getSquare().getFile()){
-			return 1;
-		}
+        if (getTo().getSquare().getFile() < theOther.getTo().getSquare().getFile()) {
+            return -1;
+        } else if (getTo().getSquare().getFile() > theOther.getTo().getSquare().getFile()) {
+            return 1;
+        }
 
-		//--------------- Desde y hasta coinciden, que hacemos ?
+        //--------------- Desde y hasta coinciden, que hacemos ?
 
-		return 0;
-	}
+        return 0;
+    }
 }

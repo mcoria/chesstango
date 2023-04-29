@@ -10,9 +10,9 @@ public interface AlphaBetaFilter {
 
     void init(Game game, final SearchContext context);
 
-    int maximize(final Game game, final int currentPly, final int alpha, final int beta);
+    long maximize(final Game game, final int currentPly, final int alpha, final int beta);
 
-    int minimize(final Game game, final int currentPly, final int alpha, final int beta);
+    long minimize(final Game game, final int currentPly, final int alpha, final int beta);
 
     void stopSearching();
 }
