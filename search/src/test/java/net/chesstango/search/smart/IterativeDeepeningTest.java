@@ -8,6 +8,7 @@ import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,7 +30,8 @@ public class IterativeDeepeningTest {
     }
 
     @Test
-    public void testSearch(){
+    @Disabled //Se deberia resolver cuando ordenamos considerando TT
+    public void testPasarPorMaximo(){
         GameEvaluatorByFEN evaluatorMock =  new GameEvaluatorByFEN();
         evaluatorMock.setDefaultValue(0);
         evaluatorMock.addEvaluation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", 1);

@@ -32,10 +32,10 @@ public class Quiescence implements AlphaBetaFilter {
         int minValue = evaluator.evaluate(game);
 
         if (alpha >= minValue) {
-            return minValue;
+            return encodedMoveAndValue((short) 0, minValue);
         }
 
-        short bestMove = 0;
+        Move bestMove = null;
         boolean search = true;
         for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
              !sortedMoves.isEmpty() && search && keepProcessing; ) {
@@ -46,11 +46,11 @@ public class Quiescence implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
 
-                int currentValue = (int) bestMoveAndValue;
+                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
-                    bestMove = move.binaryEncoding();
+                    bestMove = move;
                     if (alpha >= minValue) {
                         search = false;
                     }
@@ -59,7 +59,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return ((long) bestMove << 32) | ((long) minValue);
+        return encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
     }
 
     @Override
@@ -67,10 +67,10 @@ public class Quiescence implements AlphaBetaFilter {
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
-            return maxValue;
+            return encodedMoveAndValue((short) 0, maxValue);
         }
 
-        short bestMove = 0;
+        Move bestMove = null;
         boolean search = true;
         for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
              !sortedMoves.isEmpty() && search && keepProcessing; ) {
@@ -81,10 +81,11 @@ public class Quiescence implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
 
-                int currentValue = (int) bestMoveAndValue;
+                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
+                    bestMove = move;
                     if (maxValue >= beta) {
                         search = false;
                     }
@@ -93,7 +94,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return ((long) bestMove << 32) | ((long) maxValue);
+        return encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), maxValue);
     }
 
     protected boolean isNotQuiet(Move move) {
@@ -117,5 +118,13 @@ public class Quiescence implements AlphaBetaFilter {
 
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = evaluator;
+    }
+
+    private static long encodedMoveAndValue(short move, int value){
+        long encodedMoveLng = ((long) move) << 32;
+
+        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
+
+        return encodedValueLng | encodedMoveLng;
     }
 }

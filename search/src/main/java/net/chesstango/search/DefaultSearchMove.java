@@ -19,10 +19,10 @@ public class DefaultSearchMove implements SearchMove {
         this.imp = new MinMaxPruningBuilder()
                 .withGameEvaluator(gameEvaluator)
                 .withStatics()
-                //.withDetectCycle()
+                .withDetectCycle()
                 .withTranspositionTable()
                 //.withIterativeDeepening()
-                //.withQuiescence()
+                .withQuiescence()
                 .build();
     }
 
