@@ -19,14 +19,16 @@ public class Quiescence implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private MoveSorter moveSorter;
     private GameEvaluator evaluator;
+    private Game game;
 
     @Override
     public void init(Game game, SearchContext context) {
+        this.game = game;
         this.keepProcessing = true;
     }
 
     @Override
-    public long minimize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long minimize(final int currentPly, final int alpha, final int beta) {
         int minValue = evaluator.evaluate(game);
 
         if (alpha >= minValue) {
@@ -42,7 +44,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (isNotQuiet(move)) {
                 game = game.executeMove(move);
 
-                long bestMoveAndValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
+                long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
 
                 int currentValue = (int) bestMoveAndValue;
 
@@ -61,7 +63,7 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long maximize(final int currentPly, final int alpha, final int beta) {
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
@@ -77,7 +79,7 @@ public class Quiescence implements AlphaBetaFilter {
             if (isNotQuiet(move)) {
                 game = game.executeMove(move);
 
-                long bestMoveAndValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
+                long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
 
                 int currentValue = (int) bestMoveAndValue;
 

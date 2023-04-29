@@ -7,7 +7,7 @@ import net.chesstango.search.smart.SearchContext;
 
 /**
  * @author Mauricio Coria
- *
+ * <p>
  * No se que pasa que no esta ganando con INITIAL_FEN y DEPTH 7
  * ---------------------------------------
  * WITHOUT CICLE DETECTION / 5segs 340ms
@@ -32,7 +32,7 @@ import net.chesstango.search.smart.SearchContext;
  * Visited Nodes Level 19 =     531725
  * Visited Nodes Level 20 =    1024921
  * Total visited Nodes =       1988494
- *
+ * <p>
  * WITH CICLE DETECTION / 676ms
  * Visited Nodes Level  1 =          3
  * Visited Nodes Level  2 =          5
@@ -56,16 +56,18 @@ import net.chesstango.search.smart.SearchContext;
  * Visited Nodes Level 20 =     128598
  * Total visited Nodes    =     331544
  */
-public class DetectCycle implements AlphaBetaFilter{
+public class DetectCycle implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     private long[] whitePositions = new long[60];
 
     private long[] blackPositions = new long[60];
+    private Game game;
 
     @Override
     public void init(Game game, SearchContext context) {
-        if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())){
+        this.game = game;
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             whitePositions[0] = game.getChessPosition().getPositionHash();
         } else {
             blackPositions[0] = game.getChessPosition().getPositionHash();
@@ -73,19 +75,19 @@ public class DetectCycle implements AlphaBetaFilter{
     }
 
     @Override
-    public long maximize(Game game, int currentPly, int alpha, int beta) {
-        if(repeated(game, currentPly, whitePositions)) {
+    public long maximize(int currentPly, int alpha, int beta) {
+        if (repeated(currentPly, whitePositions)) {
             return beta;
         }
-        return next.maximize(game, currentPly, alpha, beta);
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
-    public long minimize(Game game, int currentPly, int alpha, int beta) {
-        if(repeated(game, currentPly, blackPositions)) {
+    public long minimize(int currentPly, int alpha, int beta) {
+        if (repeated(currentPly, blackPositions)) {
             return alpha;
         }
-        return next.minimize(game, currentPly, alpha, beta);
+        return next.minimize(currentPly, alpha, beta);
     }
 
     @Override
@@ -96,10 +98,10 @@ public class DetectCycle implements AlphaBetaFilter{
         this.next = next;
     }
 
-    private boolean repeated(Game game, int currentPly, long[] positions) {
+    private boolean repeated(int currentPly, long[] positions) {
         long positionHash = game.getChessPosition().getPositionHash();
-        for (int i = currentPly - 4; i >= 0; i -=2) {
-            if(positionHash == positions[i]){
+        for (int i = currentPly - 4; i >= 0; i -= 2) {
+            if (positionHash == positions[i]) {
                 return true;
             }
         }

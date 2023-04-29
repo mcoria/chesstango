@@ -12,6 +12,7 @@ public class QuiescenceStatics implements AlphaBetaFilter {
     private int[] visitedNodesQuiescenceCounter;
 
     private int maxPly;
+
     @Override
     public void init(Game game, SearchContext context) {
         this.maxPly = context.getMaxPly();
@@ -19,15 +20,15 @@ public class QuiescenceStatics implements AlphaBetaFilter {
     }
 
     @Override
-    public long minimize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long minimize(final int currentPly, final int alpha, final int beta) {
         visitedNodesQuiescenceCounter[currentPly - 1 - maxPly]++;
-        return next.minimize(game, currentPly, alpha, beta);
+        return next.minimize(currentPly, alpha, beta);
     }
 
     @Override
-    public long maximize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long maximize(final int currentPly, final int alpha, final int beta) {
         visitedNodesQuiescenceCounter[currentPly - 1 - maxPly]++;
-        return next.maximize(game, currentPly, alpha, beta);
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override

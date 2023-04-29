@@ -32,10 +32,9 @@ public class MinMaxPruning extends AbstractSmart {
 
         initFilters(game, context);
 
-
         long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                alphaBetaFilter.maximize(game, 0, GameEvaluator.BLACK_WON, GameEvaluator.WHITE_WON) :
-                alphaBetaFilter.minimize(game, 0, GameEvaluator.BLACK_WON, GameEvaluator.WHITE_WON);
+                alphaBetaFilter.maximize( 0, GameEvaluator.BLACK_WON, GameEvaluator.WHITE_WON) :
+                alphaBetaFilter.minimize( 0, GameEvaluator.BLACK_WON, GameEvaluator.WHITE_WON);
 
         int bestValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
         short bestMoveEncoded = (short) (bestMoveAndValue >> 32);

@@ -23,20 +23,22 @@ public class AlphaBeta implements AlphaBetaFilter {
     private MoveSorter moveSorter;
 
     private int maxPly;
+    private Game game;
 
     @Override
     public void init(Game game, SearchContext context) {
+        this.game = game;
         this.maxPly = context.getMaxPly();
         this.keepProcessing = true;
     }
 
     @Override
-    public long minimize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long minimize(final int currentPly, final int alpha, final int beta) {
         if (!game.getStatus().isInProgress()) {
             return evaluator.evaluate(game);
         }
         if (currentPly == maxPly) {
-            return quiescence.minimize(game, currentPly, alpha, beta);
+            return quiescence.minimize(currentPly, alpha, beta);
         } else {
             boolean search = true;
             Move bestMove = null;
@@ -48,7 +50,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.executeMove(move);
 
-                long bestMoveAndValue = next.maximize(game, currentPly + 1, alpha, Math.min(minValue, beta));
+                long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
 
                 int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
@@ -68,12 +70,12 @@ public class AlphaBeta implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(Game game, final int currentPly, final int alpha, final int beta) {
+    public long maximize(final int currentPly, final int alpha, final int beta) {
         if (!game.getStatus().isInProgress()) {
             return evaluator.evaluate(game);
         }
         if (currentPly == maxPly) {
-            return quiescence.maximize(game, currentPly, alpha, beta);
+            return quiescence.maximize(currentPly, alpha, beta);
         } else {
             boolean search = true;
             Move bestMove = null;
@@ -85,7 +87,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.executeMove(move);
 
-                long bestMoveAndValue = next.minimize(game, currentPly + 1, Math.max(maxValue, alpha), beta);
+                long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
 
                 int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 

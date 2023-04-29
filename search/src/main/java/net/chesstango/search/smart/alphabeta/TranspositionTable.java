@@ -26,12 +26,14 @@ public class TranspositionTable implements AlphaBetaFilter {
     private final Deque<TableEntry> stackTableEntry = new ArrayDeque<>();
 
     private  int maxPly;
+    private Game game;
 
     @Override
     public void init(Game game, SearchContext context) {
-        maxPly = context.getMaxPly();
-        maxMap = context.getMaxMap();
-        minMap = context.getMinMap();
+        this.game = game;
+        this.maxPly = context.getMaxPly();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
 
         long hash = game.getChessPosition().getPositionHash();
 
@@ -46,11 +48,11 @@ public class TranspositionTable implements AlphaBetaFilter {
             minMap.put(hash, entry);
         }
 
-        stackTableEntry.push(entry);
+        this.stackTableEntry.push(entry);
     }
 
     @Override
-    public long maximize(Game game, int currentPly, int alpha, int beta) {
+    public long maximize(int currentPly, int alpha, int beta) {
         TableEntry parentElement = stackTableEntry.peekFirst();
 
         long hash = game.getChessPosition().getPositionHash();
@@ -65,7 +67,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             entry.evaluation = GameEvaluator.INFINITE_NEGATIVE;
 
             stackTableEntry.push(entry);
-            entry.evaluation = (int) next.maximize(game, currentPly, alpha, beta);
+            entry.evaluation = (int) next.maximize(currentPly, alpha, beta);
             stackTableEntry.pop();
 
             maxMap.put(hash, entry);
@@ -81,7 +83,7 @@ public class TranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public long minimize(Game game, int currentPly, int alpha, int beta) {
+    public long minimize(int currentPly, int alpha, int beta) {
         TableEntry parentElement = stackTableEntry.peekFirst();
 
         long hash = game.getChessPosition().getPositionHash();
@@ -96,7 +98,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             entry.evaluation = GameEvaluator.INFINITE_POSITIVE;
 
             stackTableEntry.push(entry);
-            entry.evaluation = (int) next.minimize(game, currentPly, alpha, beta);
+            entry.evaluation = (int) next.minimize(currentPly, alpha, beta);
             stackTableEntry.pop();
 
             minMap.put(hash, entry);

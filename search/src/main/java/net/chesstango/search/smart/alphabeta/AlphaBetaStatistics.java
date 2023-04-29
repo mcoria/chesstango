@@ -14,9 +14,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
     private Set<Move>[] distinctMoves;
+    private Game game;
 
     @Override
     public void init(Game game, SearchContext context) {
+        this.game = game;
         this.visitedNodesCounter = context.getVisitedNodesCounters();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
         this.distinctMoves = context.getDistinctMovesPerLevel();
@@ -27,17 +29,17 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(final Game game, final int currentPly, final int alpha, final int beta) {
-        updateCounters(game, currentPly);
+    public long maximize(final int currentPly, final int alpha, final int beta) {
+        updateCounters(currentPly);
 
-        return next.maximize(game, currentPly, alpha, beta);
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
-    public long minimize(final Game game, final int currentPly, final int alpha, final int beta) {
-        updateCounters(game, currentPly);
+    public long minimize(final int currentPly, final int alpha, final int beta) {
+        updateCounters(currentPly);
 
-        return next.minimize(game, currentPly, alpha, beta);
+        return next.minimize(currentPly, alpha, beta);
     }
 
 
@@ -50,13 +52,13 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateCounters(final Game game, final int currentPly){
+    protected void updateCounters(final int currentPly){
         if(currentPly > 0) {
             increaseVisitedNodesCounter(currentPly);
 
-            updateDistinctMoves(game, currentPly);
+            updateDistinctMoves(currentPly);
 
-            increaseExpectedNodesCounter(game, currentPly);
+            increaseExpectedNodesCounter(currentPly);
         }
     }
 
@@ -64,11 +66,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         visitedNodesCounter[currentPly - 1]++;
     }
 
-    protected void increaseExpectedNodesCounter(Game game, int currentPly) {
+    protected void increaseExpectedNodesCounter(int currentPly) {
         expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
     }
 
-    protected void updateDistinctMoves(Game game, int currentPly) {
+    protected void updateDistinctMoves(int currentPly) {
         Move lastMove = game.getState().getPreviosState().getSelectedMove();
 
         Set<Move> currentMoveSet = distinctMoves[currentPly - 1];
