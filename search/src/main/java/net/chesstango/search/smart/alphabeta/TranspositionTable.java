@@ -38,12 +38,16 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             SearchContext.TableEntry entry = maxMap.get(hash);
 
-            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
+            if (entry == null) {
                 entry = new TableEntry();
-                entry.searchDepth = searchDepth;
+
                 entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+                entry.searchDepth = searchDepth;
 
                 maxMap.put(hash, entry);
+            } else if (searchDepth > entry.searchDepth) { // Reutilizamos el objeto
+                entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+                entry.searchDepth = searchDepth;
             }
 
             return entry.bestMoveAndValue;
@@ -62,12 +66,16 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             TableEntry entry = minMap.get(hash);
 
-            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
+            if (entry == null) {
                 entry = new TableEntry();
-                entry.searchDepth = searchDepth;
+
                 entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+                entry.searchDepth = searchDepth;
 
                 minMap.put(hash, entry);
+            } else if (searchDepth > entry.searchDepth) { // Reutilizamos el objeto
+                entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+                entry.searchDepth = searchDepth;
             }
 
             return entry.bestMoveAndValue;
