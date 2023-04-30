@@ -71,7 +71,7 @@ public class BestMoveSearchSuiteTest {
     @Test
     @Disabled
     public void test_BK06() {
-        finderSuite = new BestMoveSearchSuite(8);
+        finderSuite = new BestMoveSearchSuite(3);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - bm g6; id \"BK.06\";");
         assertTrue(finderSuite.run(edpEntry));
     }

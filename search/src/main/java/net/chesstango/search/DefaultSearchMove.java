@@ -21,7 +21,7 @@ public class DefaultSearchMove implements SearchMove {
                 .withStatics()
                 .withDetectCycle()
                 .withTranspositionTable()
-                //.withIterativeDeepening()
+                .withIterativeDeepening()
                 .withQuiescence()
                 .build();
     }

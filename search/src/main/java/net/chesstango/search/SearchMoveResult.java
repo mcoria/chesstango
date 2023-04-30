@@ -118,7 +118,7 @@ public class SearchMoveResult {
         return principalVariation;
     }
 
-    public void calculatePrincipalVariation(Game game, int depth,
+    public SearchMoveResult calculatePrincipalVariation(Game game, int depth,
                                             Map<Long, SearchContext.TableEntry> maxMap,
                                             Map<Long, SearchContext.TableEntry> minMap,
                                             Map<Long, Long> qMaxMap,
@@ -146,6 +146,8 @@ public class SearchMoveResult {
         }
 
         this.principalVariation = principalVariation;
+
+        return this;
     }
 
     private Move readMoveFromTT(Game game, Map<Long, SearchContext.TableEntry> maxMap, Map<Long, SearchContext.TableEntry> minMap) {
