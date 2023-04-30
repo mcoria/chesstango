@@ -70,6 +70,7 @@ public class EDPReader {
 
     protected EDPEntry parseLine(String line) {
         EDPEntry edpParsed = new EDPEntry();
+        edpParsed.text = line;
 
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
@@ -82,6 +83,8 @@ public class EDPReader {
     }
 
     public static class EDPEntry {
+        public String text;
+
         public String fen;
         public String bestMovesString;
         public List<Move> bestMoves;
