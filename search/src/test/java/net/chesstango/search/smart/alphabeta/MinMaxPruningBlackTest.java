@@ -280,7 +280,7 @@ public class MinMaxPruningBlackTest {
         moveList.forEach(moveContainer::add);
         when(parentGame.getPossibleMoves()).thenReturn(moveContainer);
 
-        when(moveSorter.sortMoves(moveContainer)).thenReturn(new ArrayDeque<>(moveList));
+        when(moveSorter.sortMoves(moveContainer)).thenReturn(moveList);
     }
 
 }

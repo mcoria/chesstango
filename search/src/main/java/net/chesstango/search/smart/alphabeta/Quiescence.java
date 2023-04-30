@@ -8,6 +8,8 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -37,9 +39,11 @@ public class Quiescence implements AlphaBetaFilter {
 
         Move bestMove = null;
         boolean search = true;
-        for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             !sortedMoves.isEmpty() && search && keepProcessing; ) {
-            Move move = sortedMoves.poll();
+
+        List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+        Iterator<Move> moveIterator = sortedMoves.iterator();
+        while (moveIterator.hasNext() && search && keepProcessing) {
+            Move move = moveIterator.next();
 
             if (isNotQuiet(move)) {
                 game = game.executeMove(move);
@@ -72,9 +76,11 @@ public class Quiescence implements AlphaBetaFilter {
 
         Move bestMove = null;
         boolean search = true;
-        for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-             !sortedMoves.isEmpty() && search && keepProcessing; ) {
-            Move move = sortedMoves.poll();
+
+        List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+        Iterator<Move> moveIterator = sortedMoves.iterator();
+        while (moveIterator.hasNext() && search && keepProcessing) {
+            Move move = moveIterator.next();
 
             if (isNotQuiet(move)) {
                 game = game.executeMove(move);

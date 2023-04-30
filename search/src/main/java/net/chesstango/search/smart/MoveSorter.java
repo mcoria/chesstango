@@ -3,9 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -101,13 +99,18 @@ import java.util.Queue;
  *  -------------------------------------------------------------------------------------
  */
 public class MoveSorter {
-    public Queue<Move> sortMoves(Iterable<Move> possibleMoves) {
 
-        Queue<Move> queue = new PriorityQueue<Move>(new MoveComparator());
+    private static final MoveComparator moveComparator = new MoveComparator();
 
-        possibleMoves.forEach(queue::add);
+    public List<Move> sortMoves(Iterable<Move> possibleMoves) {
 
-        return queue;
+        List<Move> moveList = new LinkedList<>();
+
+        possibleMoves.forEach(moveList::add);
+
+        Collections.sort(moveList, moveComparator);
+
+        return moveList;
     }
 
     private static class MoveComparator implements Comparator<Move> {

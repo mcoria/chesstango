@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Mauricio Coria
  */
@@ -55,28 +55,28 @@ public class MoveSorterTest {
                 PiecePositioned.getPosition(Square.e3)));
 
 
-        Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
 
-        assertTrue(movesSorted.isEmpty());
+        assertFalse(movesSortedIt.hasNext());
     }
 
 
@@ -104,27 +104,28 @@ public class MoveSorterTest {
         moveList.add(moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPiecePositioned(Square.e3, Piece.PAWN_BLACK)));
 
-        Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.BISHOP_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.QUEEN_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.ROOK_WHITE, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KING_WHITE, move.getFrom().getPiece());
 
-        assertTrue(movesSorted.isEmpty());
+        assertFalse(movesSortedIt.hasNext());
     }
 
     @Test
@@ -152,27 +153,28 @@ public class MoveSorterTest {
                 PiecePositioned.getPosition(Square.e6)));
 
 
-        Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
-        assertTrue(movesSorted.isEmpty());
+        assertFalse(movesSortedIt.hasNext());
     }
 
     @Test
@@ -200,51 +202,28 @@ public class MoveSorterTest {
                 PiecePositioned.getPiecePositioned(Square.e6, Piece.PAWN_WHITE)));
 
 
-        Queue<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        Iterator<Move> movesSortedIt = movesSorted.iterator();
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.PAWN_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.BISHOP_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.QUEEN_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KNIGHT_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.ROOK_BLACK, move.getFrom().getPiece());
 
-        move = movesSorted.poll();
+        move = movesSortedIt.next();
         assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
-        assertTrue(movesSorted.isEmpty());
-    }
-
-    @Test
-    public void testQueue() {
-        Queue<Integer> queue = new PriorityQueue<Integer>(new MyComparator());
-
-        queue.add(3);
-        queue.add(1);
-        queue.add(7);
-        queue.add(5);
-
-        assertEquals(7, queue.poll().intValue());
-        assertEquals(5, queue.poll().intValue());
-        assertEquals(3, queue.poll().intValue());
-        assertEquals(1, queue.poll().intValue());
-    }
-
-    public static class MyComparator implements Comparator<Integer> {
-
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            int result = o1 - o2;
-            return -result;
-        }
+        assertFalse(movesSortedIt.hasNext());
     }
 
 }

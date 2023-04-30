@@ -11,6 +11,7 @@ import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
@@ -43,9 +44,10 @@ public class NegaMaxPruning extends AbstractSmart {
         int bestValue = GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;
 
-        Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-        while (!sortedMoves.isEmpty() && search && keepProcessing) {
-            Move move = sortedMoves.poll();
+        List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+        Iterator<Move> moveIterator = sortedMoves.iterator();
+        while (moveIterator.hasNext() && search && keepProcessing) {
+            Move move = moveIterator.next();
 
             game = game.executeMove(move);
 
@@ -85,9 +87,10 @@ public class NegaMaxPruning extends AbstractSmart {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-            for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-                 search && keepProcessing && !sortedMoves.isEmpty(); ) {
-                Move move = sortedMoves.poll();
+            List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+            Iterator<Move> moveIterator = sortedMoves.iterator();
+            while (moveIterator.hasNext() && search && keepProcessing) {
+                Move move = moveIterator.next();
 
                 game = game.executeMove(move);
 

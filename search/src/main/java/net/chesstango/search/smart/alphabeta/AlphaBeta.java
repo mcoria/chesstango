@@ -6,6 +6,8 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -44,9 +46,10 @@ public class AlphaBeta implements AlphaBetaFilter {
             boolean search = true;
             int minValue = GameEvaluator.INFINITE_POSITIVE;
 
-            for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-                 !sortedMoves.isEmpty() && search && keepProcessing; ) {
-                Move move = sortedMoves.poll();
+            List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+            Iterator<Move> moveIterator = sortedMoves.iterator();
+            while (moveIterator.hasNext() && search && keepProcessing) {
+                Move move = moveIterator.next();
 
                 game = game.executeMove(move);
 
@@ -80,9 +83,10 @@ public class AlphaBeta implements AlphaBetaFilter {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-            for (Queue<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
-                 !sortedMoves.isEmpty() && search && keepProcessing; ) {
-                Move move = sortedMoves.poll();
+            List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+            Iterator<Move> moveIterator = sortedMoves.iterator();
+            while (moveIterator.hasNext() && search && keepProcessing) {
+                Move move = moveIterator.next();
 
                 game = game.executeMove(move);
 

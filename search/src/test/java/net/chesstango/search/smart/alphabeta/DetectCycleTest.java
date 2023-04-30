@@ -123,24 +123,25 @@ public class DetectCycleTest {
         assertEquals(58, visitedNodesCounters[4]);
         assertEquals(97, visitedNodesCounters[5]);
         assertEquals(196, visitedNodesCounters[6]);
-        assertEquals(259, visitedNodesCounters[7]);
-        assertEquals(552, visitedNodesCounters[8]);
-        assertEquals(693, visitedNodesCounters[9]);
-        assertEquals(1460, visitedNodesCounters[10]);
-        assertEquals(1953, visitedNodesCounters[11]);
-        assertEquals(4284, visitedNodesCounters[12]);
-        assertEquals(5689, visitedNodesCounters[13]);
-        assertEquals(11667, visitedNodesCounters[14]);
-        assertEquals(16946, visitedNodesCounters[15]);
-        assertEquals(34383, visitedNodesCounters[16]);
-        assertEquals(47793, visitedNodesCounters[17]);
-        assertEquals(96740, visitedNodesCounters[18]);
-        assertEquals(157064, visitedNodesCounters[19]);
-        assertEquals(314483, visitedNodesCounters[20]);
-        assertEquals(468133, visitedNodesCounters[21]);
-        assertEquals(941040, visitedNodesCounters[22]);
+        assertEquals(268, visitedNodesCounters[7]);
+        assertEquals(561, visitedNodesCounters[8]);
+        assertEquals(714, visitedNodesCounters[9]);
+        assertEquals(1511, visitedNodesCounters[10]);
+        assertEquals(2009, visitedNodesCounters[11]);
+        assertEquals(3966, visitedNodesCounters[12]);
+        assertEquals(4577, visitedNodesCounters[13]);
+        assertEquals(9587, visitedNodesCounters[14]);
+        assertEquals(10887, visitedNodesCounters[15]);
+        assertEquals(21522, visitedNodesCounters[16]);
+        assertEquals(23531, visitedNodesCounters[17]);
+        assertEquals(45789, visitedNodesCounters[18]);
+        assertEquals(45769, visitedNodesCounters[19]);
+        assertEquals(88661, visitedNodesCounters[20]);
+        assertEquals(96905, visitedNodesCounters[21]);
+        assertEquals(200949, visitedNodesCounters[22]);
+        assertEquals(0, visitedNodesCounters[23]);
 
-        assertEquals(2103538, visitedNodesTotal);
+        assertEquals(557605, visitedNodesTotal);
     }
 
 }
