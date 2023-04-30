@@ -13,47 +13,46 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 
-    private Map<Long, Integer> maxMap;
-
-    private Map<Long, Integer> minMap;
+    private Map<Long, Long> qMaxMap;
+    private Map<Long, Long> qMinMap;
     private Game game;
 
 
     @Override
     public void init(Game game, SearchContext context) {
         this.game = game;
-        this.maxMap = new HashMap<>();
-        this.minMap = new HashMap<>();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
     public long maximize(int currentPly, int alpha, int beta) {
-
         long hash = game.getChessPosition().getPositionHash();
 
-        Integer evaluation = maxMap.get(hash);
+        Long bestMoveAndValue = qMaxMap.get(hash);
 
-        if (evaluation == null) {
-            evaluation = (int) next.maximize(currentPly, alpha, beta);
-            maxMap.put(hash, evaluation);
+        if (bestMoveAndValue == null) {
+
+            bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+            qMaxMap.put(hash, bestMoveAndValue);
         }
-
-        return evaluation;
+        return bestMoveAndValue;
     }
 
     @Override
     public long minimize(int currentPly, int alpha, int beta) {
-
         long hash = game.getChessPosition().getPositionHash();
 
-        Integer evaluation = minMap.get(hash);
+        Long bestMoveAndValue = qMinMap.get(hash);
 
-        if (evaluation == null ) {
-            evaluation = (int) next.minimize(currentPly, alpha, beta);
-            minMap.put(hash, evaluation);
+        if (bestMoveAndValue == null) {
+
+            bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+            qMinMap.put(hash, bestMoveAndValue);
         }
-
-        return evaluation;
+        return bestMoveAndValue;
     }
 
     @Override

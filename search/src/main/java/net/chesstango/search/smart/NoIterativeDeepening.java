@@ -36,12 +36,22 @@ public class NoIterativeDeepening implements SearchMove {
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
         Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
+        Map<Long, Long> qMaxMap = new HashMap<>();
+        Map<Long, Long> qMinMap = new HashMap<>();
 
-        SearchContext context = new SearchContext(depth, visitedNodesCounters, expectedNodesCounters, visitedNodesQuiescenceCounter, distinctMovesPerLevel, maxMap, minMap);
+        SearchContext context = new SearchContext(depth,
+                visitedNodesCounters,
+                expectedNodesCounters,
+                visitedNodesQuiescenceCounter,
+                distinctMovesPerLevel,
+                maxMap,
+                minMap,
+                qMaxMap,
+                qMinMap);
 
         SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
 
-        searchResult.calculatePrincipalVariation(game, maxMap, minMap);
+        searchResult.calculatePrincipalVariation(game, depth, maxMap, minMap, qMaxMap, qMinMap);
 
         return searchResult;
     }

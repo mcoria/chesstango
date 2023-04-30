@@ -118,7 +118,12 @@ public class SearchMoveResult {
         return principalVariation;
     }
 
-    public void calculatePrincipalVariation(Game game, Map<Long, SearchContext.TableEntry> maxMap, Map<Long, SearchContext.TableEntry> minMap) {
+    public void calculatePrincipalVariation(Game game, int depth,
+                                            Map<Long, SearchContext.TableEntry> maxMap,
+                                            Map<Long, SearchContext.TableEntry> minMap,
+                                            Map<Long, Long> qMaxMap,
+                                            Map<Long, Long> qMinMap) {
+
         List<String> principalVariation = new ArrayList<>();
 
         Move move = bestMove;
@@ -130,29 +135,7 @@ public class SearchMoveResult {
 
             game.executeMove(move);
 
-            move = null;
-
-            long hash = game.getChessPosition().getPositionHash();
-
-            SearchContext.TableEntry entry = null;
-            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                entry = maxMap.get(hash);
-            } else {
-                entry = minMap.get(hash);
-            }
-
-            if (entry != null) {
-                short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
-                for (Move posibleMove : game.getPossibleMoves()) {
-                    if (posibleMove.binaryEncoding() == bestMoveEncoded) {
-                        move = posibleMove;
-                        break;
-                    }
-                }
-                if (bestMove == null) {
-                    throw new RuntimeException("BestMove not found");
-                }
-            }
+            move =   principalVariation.size() < depth ? readMoveFromTT(game, maxMap, minMap): readMoveFromQTT(game, qMaxMap, qMinMap);
 
         } while (move != null);
 
@@ -163,5 +146,65 @@ public class SearchMoveResult {
         }
 
         this.principalVariation = principalVariation;
+    }
+
+    private Move readMoveFromTT(Game game, Map<Long, SearchContext.TableEntry> maxMap, Map<Long, SearchContext.TableEntry> minMap) {
+        Move result = null;
+
+        long hash = game.getChessPosition().getPositionHash();
+
+        SearchContext.TableEntry entry = null;
+
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            entry = maxMap.get(hash);
+        } else {
+            entry = minMap.get(hash);
+        }
+
+        if (entry != null) {
+            short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
+            for (Move posibleMove : game.getPossibleMoves()) {
+                if (posibleMove.binaryEncoding() == bestMoveEncoded) {
+                    result = posibleMove;
+                    break;
+                }
+            }
+            if (result == null) {
+                throw new RuntimeException("BestMove not found");
+            }
+        }
+
+        return result;
+    }
+
+    private Move readMoveFromQTT(Game game, Map<Long, Long> qMaxMap, Map<Long, Long> qMinMap) {
+        Move result = null;
+
+        long hash = game.getChessPosition().getPositionHash();
+
+        Long bestMoveAndValue = null;
+
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            bestMoveAndValue = qMaxMap.get(hash);
+        } else {
+            bestMoveAndValue = qMinMap.get(hash);
+        }
+
+        if (bestMoveAndValue != null) {
+            short bestMoveEncoded = (short) (bestMoveAndValue >> 32);
+            if(bestMoveEncoded != 0) {
+                for (Move posibleMove : game.getPossibleMoves()) {
+                    if (posibleMove.binaryEncoding() == bestMoveEncoded) {
+                        result = posibleMove;
+                        break;
+                    }
+                }
+                if (result == null) {
+                    throw new RuntimeException("BestMove not found");
+                }
+            }
+        }
+
+        return result;
     }
 }

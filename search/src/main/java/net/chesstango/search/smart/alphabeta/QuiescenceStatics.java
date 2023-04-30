@@ -21,13 +21,13 @@ public class QuiescenceStatics implements AlphaBetaFilter {
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        visitedNodesQuiescenceCounter[currentPly - 1 - maxPly]++;
+        visitedNodesQuiescenceCounter[currentPly - maxPly]++;
         return next.minimize(currentPly, alpha, beta);
     }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        visitedNodesQuiescenceCounter[currentPly - 1 - maxPly]++;
+        visitedNodesQuiescenceCounter[currentPly - maxPly]++;
         return next.maximize(currentPly, alpha, beta);
     }
 

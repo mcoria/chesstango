@@ -1,13 +1,8 @@
 package net.chesstango.search.smart.alphabeta;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchContext;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Map;
 
 import static net.chesstango.search.smart.SearchContext.TableEntry;
@@ -35,39 +30,51 @@ public class TranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
-        long hash = game.getChessPosition().getPositionHash();
-
-        SearchContext.TableEntry entry = maxMap.get(hash);
-
+    public long maximize(final int currentPly, final int alpha, final int beta) {
         int searchDepth = maxPly - currentPly;
 
-        if (entry == null || entry != null && searchDepth > entry.searchDepth ) {
-            entry = new TableEntry();
-            entry.searchDepth = searchDepth;
-            entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+        if(searchDepth > 0) {
+            long hash = game.getChessPosition().getPositionHash();
 
-            maxMap.put(hash, entry);
+            SearchContext.TableEntry entry = maxMap.get(hash);
+
+            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
+                entry = new TableEntry();
+                entry.searchDepth = searchDepth;
+                entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+                maxMap.put(hash, entry);
+            }
+
+            return entry.bestMoveAndValue;
         }
-        return entry.bestMoveAndValue;
+
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
-        long hash = game.getChessPosition().getPositionHash();
-
-        TableEntry entry = minMap.get(hash);
+    public long minimize(final int currentPly, final int alpha, final int beta) {
 
         int searchDepth = maxPly - currentPly;
 
-        if (entry == null || entry != null && searchDepth > entry.searchDepth ) {
-            entry = new TableEntry();
-            entry.searchDepth = searchDepth;
-            entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+        if(searchDepth > 0) {
+            long hash = game.getChessPosition().getPositionHash();
 
-            minMap.put(hash, entry);
+            TableEntry entry = minMap.get(hash);
+
+            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
+                entry = new TableEntry();
+                entry.searchDepth = searchDepth;
+                entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+                minMap.put(hash, entry);
+            }
+
+            return entry.bestMoveAndValue;
+
         }
-        return entry.bestMoveAndValue;
+
+        return next.minimize(currentPly, alpha, beta);
     }
 
     @Override

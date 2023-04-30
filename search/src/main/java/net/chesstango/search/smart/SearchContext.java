@@ -19,9 +19,13 @@ public class SearchContext {
 
     private final Set<Move>[] distinctMovesPerLevel;
 
-    private Map<Long, TableEntry> maxMap;
+    private final Map<Long, TableEntry> maxMap;
 
-    private Map<Long, TableEntry> minMap;
+    private final Map<Long, TableEntry> minMap;
+
+    private final Map<Long, Long> qMaxMap;
+
+    private final Map<Long, Long> qMinMap;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
@@ -32,6 +36,8 @@ public class SearchContext {
         IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>() );
         this.maxMap = new HashMap<>();
         this.minMap = new HashMap<>();
+        this.qMaxMap = new HashMap<>();
+        this.qMinMap = new HashMap<>();
     }
 
     public SearchContext(int maxPly,
@@ -40,7 +46,9 @@ public class SearchContext {
                          int[] visitedNodesQuiescenceCounter,
                          Set<Move>[] distinctMovesPerLevel,
                          Map<Long, TableEntry> maxMap,
-                         Map<Long, TableEntry> minMap
+                         Map<Long, TableEntry> minMap,
+                         Map<Long, Long> qMaxMap,
+                         Map<Long, Long> qMinMap
     ) {
         this.maxPly = maxPly;
         this.visitedNodesCounters = visitedNodesCounters;
@@ -49,6 +57,8 @@ public class SearchContext {
         this.distinctMovesPerLevel = distinctMovesPerLevel;
         this.maxMap = maxMap;
         this.minMap = minMap;
+        this.qMaxMap = qMaxMap;
+        this.qMinMap = qMinMap;
     }
 
     public int getMaxPly() {
@@ -77,6 +87,14 @@ public class SearchContext {
 
     public Map<Long, TableEntry> getMinMap() {
         return minMap;
+    }
+
+    public Map<Long, Long> getQMaxMap() {
+        return qMaxMap;
+    }
+
+    public Map<Long, Long> getQMinMap() {
+        return qMinMap;
     }
 
     public static class TableEntry {

@@ -121,6 +121,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             ((Quiescence) quiescence).setNext(headQuiescence);
         }
 
+        alphaBeta.setQuiescence(headQuiescence);
         // =============  alphaBeta setup =====================
         AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
@@ -160,8 +161,6 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         }
 
         alphaBeta.setNext(head);
-        alphaBeta.setQuiescence(quiescence);
-
         // ============= =====================
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
