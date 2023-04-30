@@ -82,4 +82,11 @@ public class BestMoveSearchSuiteTest {
         assertTrue(finderSuite.run(edpEntry));
     }
 
+    @Test
+    public void test08() {
+        finderSuite = new BestMoveSearchSuite(6);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - bm Qd1+; id \"BK.01\";");
+        assertTrue(finderSuite.run(edpEntry));
+    }
+
 }

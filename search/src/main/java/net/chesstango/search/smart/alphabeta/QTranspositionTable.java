@@ -26,33 +26,39 @@ public class QTranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
-        long hash = game.getChessPosition().getPositionHash();
+    public long maximize(final int currentPly, final int alpha, final int beta) {
+        if(game.getStatus().isInProgress()) {
+            long hash = game.getChessPosition().getPositionHash();
 
-        Long bestMoveAndValue = qMaxMap.get(hash);
+            Long bestMoveAndValue = qMaxMap.get(hash);
 
-        if (bestMoveAndValue == null) {
+            if (bestMoveAndValue == null) {
 
-            bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
-            qMaxMap.put(hash, bestMoveAndValue);
+                qMaxMap.put(hash, bestMoveAndValue);
+            }
+            return bestMoveAndValue;
         }
-        return bestMoveAndValue;
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
-        long hash = game.getChessPosition().getPositionHash();
+    public long minimize(final int currentPly, final int alpha, final int beta) {
+        if(game.getStatus().isInProgress()) {
+            long hash = game.getChessPosition().getPositionHash();
 
-        Long bestMoveAndValue = qMinMap.get(hash);
+            Long bestMoveAndValue = qMinMap.get(hash);
 
-        if (bestMoveAndValue == null) {
+            if (bestMoveAndValue == null) {
 
-            bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
-            qMinMap.put(hash, bestMoveAndValue);
+                qMinMap.put(hash, bestMoveAndValue);
+            }
+            return bestMoveAndValue;
         }
-        return bestMoveAndValue;
+        return next.minimize(currentPly, alpha, beta);
     }
 
     @Override

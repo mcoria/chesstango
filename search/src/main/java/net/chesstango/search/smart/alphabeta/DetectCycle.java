@@ -75,7 +75,7 @@ public class DetectCycle implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(int currentPly, int alpha, int beta) {
+    public long maximize(final int currentPly, final int alpha, final int beta) {
         if (repeated(currentPly, whitePositions)) {
             return beta;
         }
@@ -83,7 +83,7 @@ public class DetectCycle implements AlphaBetaFilter {
     }
 
     @Override
-    public long minimize(int currentPly, int alpha, int beta) {
+    public long minimize(final int currentPly, final int alpha, final int beta) {
         if (repeated(currentPly, blackPositions)) {
             return alpha;
         }

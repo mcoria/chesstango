@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 2;
+    private static final int DEFAULT_MAX_DEPTH = 6;
 
     public static void main(String[] args) {
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
