@@ -28,9 +28,8 @@ public class IterativeDeepening implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, int depth) {
+    public SearchMoveResult searchBestMove(final Game game, final int depth) {
         keepProcessing = true;
-        Color currentTurn = game.getChessPosition().getCurrentTurn();
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
@@ -43,8 +42,10 @@ public class IterativeDeepening implements SearchMove {
         Map<Long, Long> qMaxMap = new HashMap<>();
         Map<Long, Long> qMinMap = new HashMap<>();
 
+        int exploringDepth = 0;
         for (int i = 1; i <= depth; i++) {
-            SearchContext context = new SearchContext(i,
+            exploringDepth = i;
+            SearchContext context = new SearchContext(exploringDepth,
                     visitedNodesCounters,
                     expectedNodesCounters,
                     visitedNodesQuiescenceCounter,
@@ -75,14 +76,14 @@ public class IterativeDeepening implements SearchMove {
 
         Move bestMove = lastSearch.getBestMove();
 
-        return new SearchMoveResult(depth, lastSearch.getEvaluation(), bestMove, null)
+        return new SearchMoveResult(exploringDepth, lastSearch.getEvaluation(), bestMove, null)
                 .setVisitedNodesCounters(visitedNodesCounters)
                 .setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter)
                 .setDistinctMovesPerLevel(distinctMovesPerLevel)
                 .setExpectedNodesCounters(expectedNodesCounters)
                 .setEvaluationCollisions(lastSearch.getEvaluationCollisions())
                 .setBestMoveOptions(lastSearch.getBestMoveOptions())
-                .calculatePrincipalVariation(game, depth, maxMap, minMap, qMaxMap, qMinMap);
+                .calculatePrincipalVariation(game, exploringDepth, maxMap, minMap, qMaxMap, qMinMap);
     }
 
     /**

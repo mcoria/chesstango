@@ -20,12 +20,13 @@ import java.util.stream.Collectors;
  */
 public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 6;
+    private static final int DEFAULT_MAX_DEPTH = 8;
 
     public static void main(String[] args) {
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\40H-EPD-databases\\mate-all.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\mate-all.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\Bratko-Kopec.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\Bratko-Kopec.epd");
     }
 
     private static void execute(String filename) {

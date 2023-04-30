@@ -2,6 +2,7 @@ package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.pgn.PGNEncoder;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 
 
@@ -86,6 +87,8 @@ public class SearchesReport {
 
             reportModelDetail.principalVariation = sb.toString();
 
+            reportModelDetail.points = searchMoveResult.getEvaluation();
+
             reportModel.moveDetails.add(reportModelDetail);
         });
 
@@ -98,6 +101,7 @@ public class SearchesReport {
             if (expectedNodesCounters[i] <= 0 && visitedNodesCounters[i] > 0) {
                 throw new RuntimeException("expectedNodesCounters[i] <= 0");
             }
+
             if (expectedNodesCounters[i] > 0) {
                 cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
                 reportModel.maxSearchLevel = i; //En el nivel más bajo no exploramos ningun nodo
@@ -156,7 +160,7 @@ public class SearchesReport {
         System.out.printf(" --------");
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("---------------------"));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("\n\n");
+        System.out.printf("\n");
 
         System.out.printf("Visited  Regular Nodes: %8d\n", report.visitedNodesTotal);
         System.out.printf("Visited         QNodes: %8d\n", report.visitedNodesQuiescenceTotal);
@@ -194,14 +198,17 @@ public class SearchesReport {
         System.out.printf("Principal Variations\n");
 
 
-
         // Nombre de las columnas
         System.out.printf("Move\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
             System.out.printf("%6s:", moveDetail.move);
-            System.out.printf(" %s\n", moveDetail.principalVariation);
+            System.out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points);
+            if(moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON){
+                System.out.printf(" MATE");
+            }
+            System.out.printf("\n");
         }
     }
 
@@ -244,7 +251,8 @@ public class SearchesReport {
         int[] visitedNodesCounters;
         int[] cutoffPercentages;
         int[] visitedNodesQuiescenceCounter;
-
         String principalVariation;
+
+        int points;
     }
 }
