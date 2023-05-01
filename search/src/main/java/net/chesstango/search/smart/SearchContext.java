@@ -101,6 +101,8 @@ public class SearchContext {
         public int searchDepth;
 
         public long bestMoveAndValue;
+        public int alpha;
+        public int beta;
     }
 
 }

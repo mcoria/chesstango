@@ -34,8 +34,8 @@ public class BestMoveSearchSuiteTest {
         Duration timeElapsed = Duration.between(start, Instant.now());
         System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
         new SearchesReport()
-                .withNodesVisitedStatics()
-                .withCutoffStatics()
+                //.withNodesVisitedStatics()
+                //.withCutoffStatics()
                 .withPrincipalVariation()
                 .printSearchesStatics(finderSuite.searchMoveResults);
     }

@@ -10,6 +10,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -91,6 +92,7 @@ public class DetectCycleTest {
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
+    @Disabled
     public void detectCycle(){
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 

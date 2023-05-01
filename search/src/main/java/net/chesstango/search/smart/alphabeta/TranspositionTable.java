@@ -38,16 +38,22 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             SearchContext.TableEntry entry = maxMap.get(hash);
 
-            if (entry == null) {
-                entry = new TableEntry();
+            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
+                long bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
-                entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-                entry.searchDepth = searchDepth;
+                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
-                maxMap.put(hash, entry);
-            } else if (searchDepth > entry.searchDepth) { // Reutilizamos el objeto
-                entry.bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-                entry.searchDepth = searchDepth;
+                if(currentValue >  alpha && currentValue < beta) {
+                    entry = new TableEntry();
+                    entry.bestMoveAndValue = bestMoveAndValue;
+                    entry.searchDepth = searchDepth;
+                    entry.alpha = alpha;
+                    entry.beta = beta;
+
+                    minMap.put(hash, entry);
+                }
+
+                return bestMoveAndValue;
             }
 
             return entry.bestMoveAndValue;
@@ -66,16 +72,22 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             TableEntry entry = minMap.get(hash);
 
-            if (entry == null) {
-                entry = new TableEntry();
+            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
+                long bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
-                entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-                entry.searchDepth = searchDepth;
+                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
 
-                minMap.put(hash, entry);
-            } else if (searchDepth > entry.searchDepth) { // Reutilizamos el objeto
-                entry.bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-                entry.searchDepth = searchDepth;
+                if(currentValue >  alpha && currentValue < beta) {
+                    entry = new TableEntry();
+                    entry.bestMoveAndValue = bestMoveAndValue;
+                    entry.searchDepth = searchDepth;
+                    entry.alpha = alpha;
+                    entry.beta = beta;
+
+                    minMap.put(hash, entry);
+                }
+
+                return bestMoveAndValue;
             }
 
             return entry.bestMoveAndValue;

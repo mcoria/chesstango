@@ -79,7 +79,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
 		constructChessPositionRepresentation(asciiEncoder);
 
-		return super.toString() + asciiEncoder.getChessRepresentation();
+		return super.toString() + "\n" + asciiEncoder.getChessRepresentation();
 	}
 
 
