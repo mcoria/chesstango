@@ -36,7 +36,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
 
-                qMaxMap.put(hash, bestMoveAndValue);
+                if(bestMoveAndValue > alpha && bestMoveAndValue < beta) {
+                    qMaxMap.put(hash, bestMoveAndValue);
+                }
             }
             return bestMoveAndValue;
         }
@@ -54,7 +56,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
 
-                qMinMap.put(hash, bestMoveAndValue);
+                if(bestMoveAndValue > alpha && bestMoveAndValue < beta) {
+                    qMinMap.put(hash, bestMoveAndValue);
+                }
             }
             return bestMoveAndValue;
         }
