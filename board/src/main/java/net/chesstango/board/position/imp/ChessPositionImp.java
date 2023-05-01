@@ -224,12 +224,10 @@ public class ChessPositionImp implements ChessPosition {
 	@Override
 	public String toString() {
 		FENEncoder fenEncoder = new FENEncoder();
-		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
 
 		constructChessPositionRepresentation(fenEncoder);
-		constructChessPositionRepresentation(asciiEncoder);
 
-		return asciiEncoder.getChessRepresentation() + fenEncoder.getChessRepresentation();
+		return fenEncoder.getChessRepresentation();
 	}
 
 	public void setPiecePlacement(Board board) {

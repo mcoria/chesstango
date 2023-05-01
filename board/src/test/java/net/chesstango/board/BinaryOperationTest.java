@@ -1,4 +1,4 @@
-package net.chesstango.board.moves;
+package net.chesstango.board;
 
 import org.junit.jupiter.api.Test;
 

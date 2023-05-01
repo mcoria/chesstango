@@ -4,7 +4,7 @@ import net.chesstango.board.GameTest;
 import net.chesstango.board.PiecePositionedTest;
 import net.chesstango.board.PieceTest;
 import net.chesstango.board.SquareTest;
-import net.chesstango.board.moves.BinaryOperationTest;
+import net.chesstango.board.BinaryOperationTest;
 import net.chesstango.board.moves.containers.MoveContainerTest;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturerTest;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGeneratorTest;

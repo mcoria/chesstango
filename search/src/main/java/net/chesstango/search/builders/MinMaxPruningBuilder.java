@@ -66,6 +66,10 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     public MinMaxPruningBuilder withTranspositionTable() {
         transpositionTable = new TranspositionTable();
+        return this;
+    }
+
+    public MinMaxPruningBuilder withQTranspositionTable() {
         qTranspositionTable = new QTranspositionTable();
         return this;
     }

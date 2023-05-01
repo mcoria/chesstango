@@ -5,6 +5,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.imp.ChessPositionImp;
+import net.chesstango.board.representations.ascii.ASCIIEncoder;
+import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.Collection;
 
@@ -70,6 +72,14 @@ public class ChessPositionDebug extends ChessPositionImp {
 				compararMoveGeneratorResult(expectedMoveGeneratorResults, cacheMoveGeneratorResult);
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		ASCIIEncoder asciiEncoder = new ASCIIEncoder();
+		constructChessPositionRepresentation(asciiEncoder);
+
+		return super.toString() + asciiEncoder.getChessRepresentation();
 	}
 
 

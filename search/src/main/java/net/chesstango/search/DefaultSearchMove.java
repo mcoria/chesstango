@@ -20,9 +20,10 @@ public class DefaultSearchMove implements SearchMove {
                 .withGameEvaluator(gameEvaluator)
                 .withStatics()
                 //.withDetectCycle()
-                //.withTranspositionTable()
-                .withIterativeDeepening()
-                .withQuiescence()
+                .withTranspositionTable()
+                //.withQTranspositionTable()
+                //.withIterativeDeepening()
+                //.withQuiescence()
                 .build();
     }
 
