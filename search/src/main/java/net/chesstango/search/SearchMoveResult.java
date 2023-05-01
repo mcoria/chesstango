@@ -135,7 +135,7 @@ public class SearchMoveResult {
 
             game.executeMove(move);
 
-            move =   principalVariation.size() < depth ? readMoveFromTT(game, maxMap, minMap): readMoveFromQTT(game, qMaxMap, qMinMap);
+            move = principalVariation.size() < depth ? readMoveFromTT(game, maxMap, minMap): readMoveFromQTT(game, qMaxMap, qMinMap);
 
         } while (move != null);
 

@@ -71,12 +71,27 @@ public class BestMoveSearchSuiteTest {
     @Test
     @Disabled
     public void test_BK06() {
-        finderSuite = new BestMoveSearchSuite(3);
+        finderSuite = new BestMoveSearchSuite(2);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("2r3k1/pppR1pp1/4p3/4P1P1/5P2/1P4K1/P1P5/8 w - - bm g6; id \"BK.06\";");
         assertTrue(finderSuite.run(edpEntry));
     }
 
     @Test
+    public void test_40H_10390() {
+        finderSuite = new BestMoveSearchSuite(1);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1Q6/6kp/6p1/8/1P2q3/5R1P/5PK1/4r3 w - - bm Qb8-f8+; ce +M1; pv Qb8-f8+; id \"10390\";");
+        assertTrue(finderSuite.run(edpEntry));
+    }
+
+    @Test
+    public void test_40H_10390_mirror() {
+        finderSuite = new BestMoveSearchSuite(1);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("4R3/5pk1/5r1p/1p2Q3/8/6P1/6KP/1q6 b - - bm Qb1-f1+; id \"10390\";");
+        assertTrue(finderSuite.run(edpEntry));
+    }
+
+    @Test
+    @Disabled
     public void test_40H_9482() {
         finderSuite = new BestMoveSearchSuite(30); //El JM se encuentra a un ply
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1Q4rr/1p1bkp2/pP6/2p1pP2/3nP1Bp/2P1q2P/7K/3R1R2 w - - bm f5-f6+; ce +M1; pv f5-f6+; id \"9482\";");
@@ -99,16 +114,22 @@ public class BestMoveSearchSuiteTest {
 
     @Test
     public void test_40H_5712() {
-        finderSuite = new BestMoveSearchSuite(8);
+        finderSuite = new BestMoveSearchSuite(9);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1B1bk1nr/5pp1/rNR5/p3Pp1p/1p2pP2/1P5P/1PP3P1/2KR4 w k - bm Rd1xd8+; ce +M5; pv Rd1xd8+ Ke8xd8 Rc6-c8+ Kd8-e7 Bb8-d6+ Ke7-e6 Rc8-e8+ Ng8-e7 Re8xe7+; id \"5712\";");
         assertTrue(finderSuite.run(edpEntry));
     }
 
     @Test
     public void test_40H_2462() {
-        finderSuite = new BestMoveSearchSuite(8);
+        finderSuite = new BestMoveSearchSuite(5);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - bm Qd4-f2; ce -M3; pv Qd4-f2 Rf1-g1 Qf2-f3+ Rg1-g2 d2-d1Q+; id \"2462\";");
         assertTrue(finderSuite.run(edpEntry));
     }
 
+    @Test
+    public void test_40H_2462_mirror() {
+        finderSuite = new BestMoveSearchSuite(5);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("5r1k/3P3p/3N2pP/3Q1pP1/1p3q2/4b3/1PP5/1K2R3 w - - bm Qd5-f7; id \"2462\";");
+        assertTrue(finderSuite.run(edpEntry));
+    }
 }

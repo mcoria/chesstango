@@ -198,6 +198,15 @@ public abstract class GameEvaluatorTestCollection {
 
         assertEquals(GameEvaluator.BLACK_LOST, GameEvaluator.WHITE_WON);
         assertEquals(GameEvaluator.BLACK_WON, GameEvaluator.WHITE_LOST);
+
+        assertEquals(GameEvaluator.WHITE_WON, GameEvaluator.BLACK_LOST);
+        assertEquals(GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_WON);
+
+        assertEquals(GameEvaluator.WHITE_WON, (-1) * GameEvaluator.WHITE_LOST);
+        assertEquals(GameEvaluator.BLACK_WON, (-1) * GameEvaluator.BLACK_LOST);
+
+        assertEquals(GameEvaluator.WHITE_LOST, (-1) * GameEvaluator.WHITE_WON);
+        assertEquals(GameEvaluator.BLACK_LOST, (-1) * GameEvaluator.BLACK_WON);
     }
 
     @Test
