@@ -75,9 +75,15 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     }
 
     /**
-     * Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
+     * MinMaxPruning -> Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
+     *                     ^                                                |
+     *                     |                                                |
+     *                     -------------------------------------------------
+     *
      *
      * QuiescenceStatics -> QTranspositionTable -> Quiescence
+     *
+     *
      *
      * @return
      */
@@ -90,42 +96,45 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setGameEvaluator(gameEvaluator);
 
-        if (quiescence instanceof Quiescence) {
-            ((Quiescence) quiescence).setMoveSorter(moveSorter);
-            ((Quiescence) quiescence).setGameEvaluator(gameEvaluator);
-        } else if (quiescence instanceof QuiescenceNull) {
-            ((QuiescenceNull) quiescence).setGameEvaluator(gameEvaluator);
-        }
-
         // =============  quiescence setup =====================
         AlphaBetaFilter headQuiescence = null;
-        if (quiescenceStatics != null) {
-            filters.add(quiescenceStatics);
+        if (quiescence instanceof Quiescence) {
+            Quiescence realQuiescence = (Quiescence) quiescence;
+            realQuiescence.setMoveSorter(moveSorter);
+            realQuiescence.setGameEvaluator(gameEvaluator);
+
+            if (quiescenceStatics != null) {
+                filters.add(quiescenceStatics);
+                if (qTranspositionTable != null) {
+                    quiescenceStatics.setNext(qTranspositionTable);
+                } else {
+                    quiescenceStatics.setNext(quiescence);
+                }
+                headQuiescence = quiescenceStatics;
+            }
+
             if (qTranspositionTable != null) {
-                quiescenceStatics.setNext(qTranspositionTable);
-            } else {
-                quiescenceStatics.setNext(quiescence);
+                filters.add(qTranspositionTable);
+                qTranspositionTable.setNext(quiescence);
+                if (headQuiescence == null) {
+                    headQuiescence = qTranspositionTable;
+                }
             }
-            headQuiescence = quiescenceStatics;
-        }
 
-        if (qTranspositionTable != null) {
-            filters.add(qTranspositionTable);
-            qTranspositionTable.setNext(quiescence);
             if (headQuiescence == null) {
-                headQuiescence = qTranspositionTable;
+                headQuiescence = quiescence;
             }
-        }
 
-        if (headQuiescence == null) {
+            realQuiescence.setNext(headQuiescence);
+
+        } else if (quiescence instanceof QuiescenceNull) {
+            ((QuiescenceNull) quiescence).setGameEvaluator(gameEvaluator);
             headQuiescence = quiescence;
         }
 
-        if (quiescence instanceof Quiescence) {
-            ((Quiescence) quiescence).setNext(headQuiescence);
-        }
-
         alphaBeta.setQuiescence(headQuiescence);
+        // ===================================
+
         // =============  alphaBeta setup =====================
         AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
@@ -165,7 +174,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         }
 
         alphaBeta.setNext(head);
-        // ============= =====================
+        // ===================================
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);
