@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.smart.SearchContext;
 
 
@@ -56,6 +57,7 @@ import net.chesstango.search.smart.SearchContext;
  * Visited Nodes Level 20 =     128598
  * Total visited Nodes    =     331544
  */
+//TODO: no esta funcionando adecuadamente este filtro
 public class DetectCycle implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
@@ -67,17 +69,12 @@ public class DetectCycle implements AlphaBetaFilter {
     @Override
     public void init(Game game, SearchContext context) {
         this.game = game;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            whitePositions[0] = game.getChessPosition().getPositionHash();
-        } else {
-            blackPositions[0] = game.getChessPosition().getPositionHash();
-        }
     }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if (repeated(currentPly, whitePositions)) {
-            return beta;
+            return GameEvaluator.INFINITE_POSITIVE;
         }
         return next.maximize(currentPly, alpha, beta);
     }
@@ -85,7 +82,7 @@ public class DetectCycle implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if (repeated(currentPly, blackPositions)) {
-            return alpha;
+            return GameEvaluator.INFINITE_NEGATIVE;
         }
         return next.minimize(currentPly, alpha, beta);
     }

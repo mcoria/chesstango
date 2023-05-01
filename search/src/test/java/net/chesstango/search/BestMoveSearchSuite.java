@@ -24,7 +24,8 @@ public class BestMoveSearchSuite {
 
     public static void main(String[] args) {
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\mate-all.epd");
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed-2023-04-30.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed-2023-04-30.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed-2023-05-01.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\Bratko-Kopec.epd");
     }
