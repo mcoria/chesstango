@@ -83,6 +83,7 @@ public class IterativeDeepening implements SearchMove {
                 .setExpectedNodesCounters(expectedNodesCounters)
                 .setEvaluationCollisions(lastSearch.getEvaluationCollisions())
                 .setBestMoveOptions(lastSearch.getBestMoveOptions())
+                .setEvaluatedGamesCounter(lastSearch.getEvaluatedGamesCounter())
                 .calculatePrincipalVariation(game, exploringDepth, maxMap, minMap, qMaxMap, qMinMap);
     }
 

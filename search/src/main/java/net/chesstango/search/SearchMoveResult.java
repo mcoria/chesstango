@@ -117,6 +117,15 @@ public class SearchMoveResult {
         return this;
     }
 
+    public long getEvaluatedGamesCounter() {
+        return evaluatedGamesCounter;
+    }
+
+    public SearchMoveResult setEvaluatedGamesCounter(long evaluatedGamesCounter) {
+        this.evaluatedGamesCounter = evaluatedGamesCounter;
+        return this;
+    }
+
     public List<String> getPrincipalVariation() {
         return principalVariation;
     }
@@ -211,13 +220,5 @@ public class SearchMoveResult {
         }
 
         return result;
-    }
-
-    public long getEvaluatedGamesCounter() {
-        return evaluatedGamesCounter;
-    }
-
-    public void setEvaluatedGamesCounter(long evaluatedGamesCounter) {
-        this.evaluatedGamesCounter = evaluatedGamesCounter;
     }
 }
