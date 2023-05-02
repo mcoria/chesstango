@@ -24,7 +24,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private AlphaBetaFilter quiescence = new QuiescenceNull();
 
-    private GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new DefaultGameEvaluator());
+    private GameEvaluator gameEvaluator = new DefaultGameEvaluator();
 
     private AlphaBetaStatistics alphaBetaStatistics = null;
 
@@ -37,6 +37,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     private QTranspositionTable qTranspositionTable = null;
 
     private boolean withIterativeDeepening;
+    private boolean withStatics;
 
     public MinMaxPruningBuilder withIterativeDeepening() {
         this.withIterativeDeepening = true;
@@ -45,7 +46,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     @Override
     public MinMaxPruningBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
+        this.gameEvaluator = gameEvaluator;
         return this;
     }
 
@@ -60,8 +61,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     }
 
     public MinMaxPruningBuilder withStatics() {
-        alphaBetaStatistics = new AlphaBetaStatistics();
-        quiescenceStatics = new QuiescenceStatics();
+        this.withStatics = true;
         return this;
     }
 
@@ -90,10 +90,18 @@ public class MinMaxPruningBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
+        if(withStatics){
+            alphaBetaStatistics = new AlphaBetaStatistics();
+            quiescenceStatics = new QuiescenceStatics();
+            gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
+        }
+
         List<FilterActions> filters = new ArrayList<>();
         filters.add(alphaBeta);
         filters.add(quiescence);
-        filters.add(gameEvaluator);
+        if(gameEvaluator instanceof GameEvaluatorCounter) {
+            filters.add((GameEvaluatorCounter)gameEvaluator);
+        }
 
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setGameEvaluator(gameEvaluator);
