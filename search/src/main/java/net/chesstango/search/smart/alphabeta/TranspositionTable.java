@@ -61,31 +61,54 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             SearchContext.TableEntry entry = maximize ? maxMap.get(hash) : minMap.get(hash);
 
-            if (entry == null || entry != null && searchDepth > entry.searchDepth) {
-                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+            if (entry == null) {
+                entry = searchAndUpdate(new TableEntry(), currentPly, alpha, beta, maximize);
 
-                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+                if(maximize) {
+                    maxMap.put(hash, entry);
+                } else {
+                    minMap.put(hash, entry);
+                }
+            } else {
+                if(searchDepth > entry.searchDepth){
+                    entry = searchAndUpdate(entry, currentPly, alpha, beta, maximize);
 
-                if(currentValue >  alpha && currentValue < beta) {
-                    entry = new TableEntry();
-                    entry.bestMoveAndValue = bestMoveAndValue;
-                    entry.searchDepth = searchDepth;
-                    entry.alpha = alpha;
-                    entry.beta = beta;
-
-                    if(maximize) {
-                        maxMap.put(hash, entry);
+                } else {
+                    // Es un valor exacto
+                    if (entry.exact) {
+                        entry = entry;
                     } else {
-                        minMap.put(hash, entry);
+                        if(maximize){
+                            if(entry.value >= beta){
+                                entry = entry;
+                            } else {
+                                entry = searchAndUpdate(entry, currentPly, alpha, beta, true);
+                            }
+                        } else {
+                            if(entry.value <= alpha){
+                                entry = entry;
+                            } else {
+                                entry = searchAndUpdate(entry, currentPly, alpha, beta, false);
+                            }
+                        }
                     }
                 }
-
-                return bestMoveAndValue;
             }
 
             return entry.bestMoveAndValue;
         }
 
         return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+    }
+
+    private TableEntry searchAndUpdate(TableEntry entry, int currentPly, int alpha, int beta, boolean maximize) {
+        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+        entry.bestMoveAndValue = bestMoveAndValue;
+        entry.searchDepth = maxPly - currentPly;
+        entry.alpha = alpha;
+        entry.beta = beta;
+        entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+        entry.exact =  entry.value > alpha && entry.value < beta;
+        return entry;
     }
 }

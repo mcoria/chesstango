@@ -103,6 +103,8 @@ public class SearchContext {
         public long bestMoveAndValue;
         public int alpha;
         public int beta;
+        public int value;
+        public boolean exact;
     }
 
 }
