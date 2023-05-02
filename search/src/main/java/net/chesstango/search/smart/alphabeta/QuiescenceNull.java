@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 
 /**
@@ -16,6 +17,10 @@ public class QuiescenceNull implements AlphaBetaFilter {
     @Override
     public void init(Game game, SearchContext context) {
         this.game = game;
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
     }
 
     @Override

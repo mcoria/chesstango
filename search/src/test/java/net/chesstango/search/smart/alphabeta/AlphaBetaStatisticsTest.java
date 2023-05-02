@@ -46,7 +46,6 @@ public class AlphaBetaStatisticsTest {
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence));
     }
 

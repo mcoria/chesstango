@@ -6,13 +6,10 @@ import net.chesstango.search.smart.SearchContext;
 /**
  * @author Mauricio Coria
  */
-public interface AlphaBetaFilter {
-
-    void init(Game game, final SearchContext context);
+public interface AlphaBetaFilter extends FilterActions{
 
     long maximize(final int currentPly, final int alpha, final int beta);
 
     long minimize(final int currentPly, final int alpha, final int beta);
 
-    void stopSearching();
 }

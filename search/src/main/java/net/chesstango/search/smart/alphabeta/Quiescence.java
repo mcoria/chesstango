@@ -5,6 +5,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
@@ -27,6 +28,11 @@ public class Quiescence implements AlphaBetaFilter {
     public void init(Game game, SearchContext context) {
         this.game = game;
         this.keepProcessing = true;
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+
     }
 
     @Override

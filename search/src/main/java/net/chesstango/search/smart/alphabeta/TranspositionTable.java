@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
@@ -27,6 +28,11 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+
     }
 
     @Override

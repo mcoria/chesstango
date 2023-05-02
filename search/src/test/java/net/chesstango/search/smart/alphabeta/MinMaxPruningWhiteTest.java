@@ -55,7 +55,6 @@ public class MinMaxPruningWhiteTest {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -85,7 +84,6 @@ public class MinMaxPruningWhiteTest {
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -123,7 +121,6 @@ public class MinMaxPruningWhiteTest {
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -172,7 +169,6 @@ public class MinMaxPruningWhiteTest {
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);

@@ -16,12 +16,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MinMaxPruning extends AbstractSmart {
-    private MoveSorter moveSorter;
 
     private AlphaBetaFilter alphaBetaFilter;
 
-    private List<AlphaBetaFilter> filters;
-
+    private List<FilterActions> filters;
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
@@ -50,35 +48,37 @@ public class MinMaxPruning extends AbstractSmart {
             throw new RuntimeException("BestMove not found");
         }
 
+        SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null)
+                        .setVisitedNodesCounters(context.getVisitedNodesCounters())
+                        .setVisitedNodesQuiescenceCounter(context.getVisitedNodesQuiescenceCounter())
+                        .setDistinctMovesPerLevel(context.getDistinctMovesPerLevel())
+                        .setEvaluationCollisions(bestMoves.size() - 1)
+                        .setExpectedNodesCounters(context.getExpectedNodesCounters())
+                        .setBestMoveOptions(bestMoves);
 
-        return new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null)
-                .setVisitedNodesCounters(context.getVisitedNodesCounters())
-                .setVisitedNodesQuiescenceCounter(context.getVisitedNodesQuiescenceCounter())
-                .setDistinctMovesPerLevel(context.getDistinctMovesPerLevel())
-                .setEvaluationCollisions(bestMoves.size() - 1)
-                .setExpectedNodesCounters(context.getExpectedNodesCounters())
-                .setBestMoveOptions(bestMoves);
-    }
+        closeFilters(searchResult);
 
-    public void setMoveSorter(MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
+        return searchResult;
     }
 
     public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
         this.alphaBetaFilter = alphaBetaFilter;
     }
 
-    public void setFilters(List<AlphaBetaFilter> filters) {
+    public void setFilters(List<FilterActions> filters) {
         this.filters = filters;
     }
 
     @Override
     public void stopSearching() {
         keepProcessing = false;
-        filters.stream().forEach(AlphaBetaFilter::stopSearching);
+        filters.stream().forEach(FilterActions::stopSearching);
     }
 
     private void initFilters(Game game, SearchContext context) {
         filters.stream().forEach(filter -> filter.init(game, context));
+    }
+    private void closeFilters(SearchMoveResult searchResult) {
+        filters.stream().forEach(filter -> filter.close(searchResult));
     }
 }

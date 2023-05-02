@@ -28,6 +28,9 @@ public class SearchMoveResult {
     private List<Move> bestMoveOptions;
     private List<String> principalVariation;
 
+    private long evaluatedGamesCounter;
+
+
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;
         this.evaluation = evaluation;
@@ -208,5 +211,13 @@ public class SearchMoveResult {
         }
 
         return result;
+    }
+
+    public long getEvaluatedGamesCounter() {
+        return evaluatedGamesCounter;
+    }
+
+    public void setEvaluatedGamesCounter(long evaluatedGamesCounter) {
+        this.evaluatedGamesCounter = evaluatedGamesCounter;
     }
 }

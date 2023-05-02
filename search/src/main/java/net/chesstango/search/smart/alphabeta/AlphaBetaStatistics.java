@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.Set;
@@ -25,7 +26,13 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         if (visitedNodesCounter == null || distinctMoves == null || expectedNodesCounters == null) {
             throw new RuntimeException("Context not initiated");
         }
-        expectedNodesCounters[0] += game.getPossibleMoves().size();
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+        result.setVisitedNodesCounters(visitedNodesCounter);
+        result.setExpectedNodesCounters(expectedNodesCounters);
+        result.setDistinctMovesPerLevel(distinctMoves);
     }
 
     @Override
@@ -53,22 +60,17 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly){
-        if(currentPly > 0) {
-            increaseVisitedNodesCounter(currentPly);
+        if(currentPly == 0) {
+            expectedNodesCounters[0] += game.getPossibleMoves().size();
+        } else if(currentPly > 0) {
+            visitedNodesCounter[currentPly - 1]++;
 
-            updateDistinctMoves(currentPly);
+            expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
 
-            increaseExpectedNodesCounter(currentPly);
+            //updateDistinctMoves(currentPly);
         }
     }
 
-    protected void increaseVisitedNodesCounter(int currentPly) {
-        visitedNodesCounter[currentPly - 1]++;
-    }
-
-    protected void increaseExpectedNodesCounter(int currentPly) {
-        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
-    }
 
     protected void updateDistinctMoves(int currentPly) {
         Move lastMove = game.getState().getPreviosState().getSelectedMove();

@@ -34,7 +34,6 @@ public class MinMaxPrunningMateIn3Test extends MateIn3Test {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);

@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.HashMap;
@@ -23,6 +24,11 @@ public class QTranspositionTable implements AlphaBetaFilter {
         this.game = game;
         this.qMaxMap = context.getQMaxMap();
         this.qMinMap = context.getQMinMap();
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+
     }
 
     @Override

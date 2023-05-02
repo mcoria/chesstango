@@ -4,6 +4,7 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.smart.alphabeta.GameEvaluatorCounter;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -23,7 +24,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private AlphaBetaFilter quiescence = new QuiescenceNull();
 
-    private GameEvaluator gameEvaluator = new DefaultGameEvaluator();
+    private GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new DefaultGameEvaluator());
 
     private AlphaBetaStatistics alphaBetaStatistics = null;
 
@@ -44,7 +45,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     @Override
     public MinMaxPruningBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
-        this.gameEvaluator = gameEvaluator;
+        this.gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
         return this;
     }
 
@@ -89,9 +90,10 @@ public class MinMaxPruningBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
-        List<AlphaBetaFilter> filters = new ArrayList<>();
+        List<FilterActions> filters = new ArrayList<>();
         filters.add(alphaBeta);
         filters.add(quiescence);
+        filters.add(gameEvaluator);
 
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setGameEvaluator(gameEvaluator);
@@ -178,7 +180,6 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);
-        minMaxPruning.setMoveSorter(moveSorter);
         minMaxPruning.setFilters(filters);
 
         return withIterativeDeepening ? new IterativeDeepening(minMaxPruning) : new NoIterativeDeepening(minMaxPruning);

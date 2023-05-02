@@ -3,6 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 
@@ -32,6 +33,11 @@ public class AlphaBeta implements AlphaBetaFilter {
         this.game = game;
         this.maxPly = context.getMaxPly();
         this.keepProcessing = true;
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+
     }
 
     @Override
