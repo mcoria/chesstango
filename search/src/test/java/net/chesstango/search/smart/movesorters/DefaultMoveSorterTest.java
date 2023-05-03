@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Mauricio Coria
  */
-public class MoveSorterTest {
+public class DefaultMoveSorterTest {
 
     private DefaultMoveSorter moveSorter;
 
