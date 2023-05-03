@@ -23,9 +23,9 @@ public class SearchContext {
 
     private final Map<Long, TableEntry> minMap;
 
-    private final Map<Long, Long> qMaxMap;
+    private final Map<Long, TableEntry> qMaxMap;
 
-    private final Map<Long, Long> qMinMap;
+    private final Map<Long, TableEntry> qMinMap;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
@@ -47,8 +47,8 @@ public class SearchContext {
                          Set<Move>[] distinctMovesPerLevel,
                          Map<Long, TableEntry> maxMap,
                          Map<Long, TableEntry> minMap,
-                         Map<Long, Long> qMaxMap,
-                         Map<Long, Long> qMinMap
+                         Map<Long, TableEntry> qMaxMap,
+                         Map<Long, TableEntry> qMinMap
     ) {
         this.maxPly = maxPly;
         this.visitedNodesCounters = visitedNodesCounters;
@@ -89,11 +89,11 @@ public class SearchContext {
         return minMap;
     }
 
-    public Map<Long, Long> getQMaxMap() {
+    public Map<Long, TableEntry> getQMaxMap() {
         return qMaxMap;
     }
 
-    public Map<Long, Long> getQMinMap() {
+    public Map<Long, TableEntry> getQMinMap() {
         return qMinMap;
     }
 

@@ -16,11 +16,10 @@ public class TranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
 
     private Map<Long, TableEntry> maxMap;
-
     private Map<Long, TableEntry> minMap;
 
-    private  int maxPly;
     private Game game;
+    private  int maxPly;
 
     @Override
     public void init(Game game, SearchContext context) {

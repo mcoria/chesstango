@@ -1,6 +1,5 @@
 package net.chesstango.search;
 
-import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EDPReader;
 import net.chesstango.board.representations.SANEncoder;
@@ -8,7 +7,6 @@ import net.chesstango.search.reports.SearchesReport;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -24,7 +22,7 @@ public class BestMoveSearchSuite {
 
     public static void main(String[] args) {
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\mate-all.epd");
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed-2023-04-30.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed-2023-05-01.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\Bratko-Kopec.epd");
@@ -47,7 +45,6 @@ public class BestMoveSearchSuite {
 
     protected void run(String suiteName, List<EDPReader.EDPEntry> edpEntries) {
         List<String> failedSuites = new ArrayList<String>();
-
 
         for (EDPReader.EDPEntry edpEntry: edpEntries) {
             if (run(edpEntry) == false) {

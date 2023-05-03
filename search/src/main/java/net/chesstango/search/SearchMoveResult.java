@@ -4,12 +4,13 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.SANEncoder;
-import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static net.chesstango.search.smart.SearchContext.TableEntry;
 
 /**
  * @author Mauricio Coria
@@ -131,10 +132,10 @@ public class SearchMoveResult {
     }
 
     public SearchMoveResult calculatePrincipalVariation(Game game, int depth,
-                                            Map<Long, SearchContext.TableEntry> maxMap,
-                                            Map<Long, SearchContext.TableEntry> minMap,
-                                            Map<Long, Long> qMaxMap,
-                                            Map<Long, Long> qMinMap) {
+                                            Map<Long, TableEntry> maxMap,
+                                            Map<Long, TableEntry> minMap,
+                                            Map<Long, TableEntry> qMaxMap,
+                                            Map<Long, TableEntry> qMinMap) {
 
         List<String> principalVariation = new ArrayList<>();
 
@@ -162,12 +163,12 @@ public class SearchMoveResult {
         return this;
     }
 
-    private Move readMoveFromTT(Game game, Map<Long, SearchContext.TableEntry> maxMap, Map<Long, SearchContext.TableEntry> minMap) {
+    private Move readMoveFromTT(Game game, Map<Long, TableEntry> maxMap, Map<Long, TableEntry> minMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getPositionHash();
 
-        SearchContext.TableEntry entry = null;
+        TableEntry entry = null;
 
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             entry = maxMap.get(hash);
@@ -191,21 +192,21 @@ public class SearchMoveResult {
         return result;
     }
 
-    private Move readMoveFromQTT(Game game, Map<Long, Long> qMaxMap, Map<Long, Long> qMinMap) {
+    private Move readMoveFromQTT(Game game, Map<Long, TableEntry> qMaxMap, Map<Long, TableEntry> qMinMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getPositionHash();
 
-        Long bestMoveAndValue = null;
+        TableEntry entry = null;
 
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            bestMoveAndValue = qMaxMap.get(hash);
+            entry = qMaxMap.get(hash);
         } else {
-            bestMoveAndValue = qMinMap.get(hash);
+            entry = qMinMap.get(hash);
         }
 
-        if (bestMoveAndValue != null) {
-            short bestMoveEncoded = (short) (bestMoveAndValue >> 32);
+        if (entry != null) {
+            short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
             if(bestMoveEncoded != 0) {
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {

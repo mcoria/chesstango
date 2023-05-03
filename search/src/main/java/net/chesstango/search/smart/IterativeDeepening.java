@@ -39,8 +39,8 @@ public class IterativeDeepening implements SearchMove {
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
         Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
-        Map<Long, Long> qMaxMap = new HashMap<>();
-        Map<Long, Long> qMinMap = new HashMap<>();
+        Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
+        Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
         int exploringDepth = 0;
         for (int i = 1; i <= depth; i++) {
