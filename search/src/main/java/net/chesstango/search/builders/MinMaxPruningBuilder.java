@@ -9,6 +9,7 @@ import net.chesstango.search.smart.alphabeta.GameEvaluatorCounter;
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.movesorters.TranspositionMoveSorter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private final AlphaBeta alphaBeta = new AlphaBeta();
 
-    private final MoveSorter moveSorter = new DefaultMoveSorter();
+    private MoveSorter moveSorter = new DefaultMoveSorter();
 
     private AlphaBetaFilter quiescence = new QuiescenceNull();
 
@@ -72,6 +73,11 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     public MinMaxPruningBuilder withQTranspositionTable() {
         qTranspositionTable = new QTranspositionTable();
+        return this;
+    }
+
+    public MinMaxPruningBuilder withTranspositionMoveSorter() {
+        moveSorter = new TranspositionMoveSorter();
         return this;
     }
 

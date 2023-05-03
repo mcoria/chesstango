@@ -35,7 +35,7 @@ public class TranspositionMoveSorterTest {
 
         short bestMoveEncoded = 0;
         for (Move move: game.getPossibleMoves()) {
-            if(Square.h2.equals(move.getFrom().getSquare()) && Square.h3.equals(move.getTo().getSquare())){
+            if(Square.c2.equals(move.getFrom().getSquare()) && Square.c3.equals(move.getTo().getSquare())){
                 bestMoveEncoded = move.binaryEncoding();
                 break;
             }
@@ -50,8 +50,8 @@ public class TranspositionMoveSorterTest {
 
         move = movesSortedIt.next();
         assertEquals(Piece.PAWN_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.h2, move.getFrom().getSquare());
-        assertEquals(Square.h3, move.getTo().getSquare());
+        assertEquals(Square.c2, move.getFrom().getSquare());
+        assertEquals(Square.c3, move.getTo().getSquare());
     }
 
 

@@ -65,7 +65,7 @@ public class TranspositionMoveSorter implements MoveSorter {
                 }
             }
 
-            Collections.sort(unsortedMoveList, moveComparator);
+            Collections.sort(unsortedMoveList, moveComparator.reversed());
 
             sortedMoveList.add(bestMove);
             sortedMoveList.addAll(unsortedMoveList);
@@ -73,7 +73,7 @@ public class TranspositionMoveSorter implements MoveSorter {
         } else {
             game.getPossibleMoves().forEach(sortedMoveList::add);
 
-            Collections.sort(sortedMoveList, moveComparator);
+            Collections.sort(sortedMoveList, moveComparator.reversed());
         }
 
         return sortedMoveList;
