@@ -4,8 +4,8 @@ package net.chesstango.board;
  * @author Mauricio Coria
  */
 public class PiecePositioned {
-    private final Square key;
-    private final Piece value;
+    private final Square square;
+    private final Piece piece;
 
     public static final PiecePositioned ROOK_BLACK_QUEEN = PiecePositionedCache.getInstance().getPiecePositioned(Square.a8, Piece.ROOK_BLACK);
     public static final PiecePositioned ROOK_BLACK_KING = PiecePositionedCache.getInstance().getPiecePositioned(Square.h8, Piece.ROOK_BLACK);
@@ -15,13 +15,13 @@ public class PiecePositioned {
     public static final PiecePositioned ROOK_WHITE_KING = PiecePositionedCache.getInstance().getPiecePositioned(Square.h1, Piece.ROOK_WHITE);
     public static final PiecePositioned KING_WHITE = PiecePositionedCache.getInstance().getPiecePositioned(Square.e1, Piece.KING_WHITE);
 
-    private PiecePositioned(Square key, Piece value) {
-        this.key = key;
-        this.value = value;
+    private PiecePositioned(Square square, Piece piece) {
+        this.square = square;
+        this.piece = piece;
     }
 
-    public static PiecePositioned getPiecePositioned(Square key, Piece value) {
-        return PiecePositionedCache.getInstance().getPiecePositioned(key, value);
+    public static PiecePositioned getPiecePositioned(Square square, Piece piece) {
+        return PiecePositionedCache.getInstance().getPiecePositioned(square, piece);
     }
 
     public static PiecePositioned getPosition(Square square) {
@@ -30,17 +30,24 @@ public class PiecePositioned {
 
 
     public Square getSquare() {
-        return key;
+        return square;
     }
 
 
     public Piece getPiece() {
-        return value;
+        return piece;
     }
 
     @Override
     public String toString() {
-        return String.format("%s=%s", key, value);
+        return String.format("%s=%s", square, piece);
+    }
+
+    public PiecePositioned getMirrorPosition() {
+        if(piece == null){
+            return getPosition(square.getMirrorSquare());
+        }
+        return getPiecePositioned(square.getMirrorSquare(), piece.getOpposite());
     }
 
     private static class PiecePositionedCache {

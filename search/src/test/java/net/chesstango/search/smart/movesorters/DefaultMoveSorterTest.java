@@ -4,12 +4,16 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +21,7 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
@@ -234,7 +239,7 @@ public class DefaultMoveSorterTest {
     public void testInitial(){
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        initMoveSorter(game);
+        initMoveSorter(moveSorter, game);
 
         Move move;
         List<Move> movesSorted = moveSorter.getSortedMoves();
@@ -242,11 +247,55 @@ public class DefaultMoveSorterTest {
 
         move = movesSortedIt.next();
         assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
-        assertEquals(Square.b1, move.getFrom().getSquare());
-        assertEquals(Square.a3, move.getTo().getSquare());
+        assertEquals(Square.g1, move.getFrom().getSquare());
+        assertEquals(Square.h3, move.getTo().getSquare());
     }
 
-    private void initMoveSorter(Game game) {
+    @Test
+    public void testGamesMirror(){
+        testMirror(FENDecoder.loadGame(FENDecoder.INITIAL_FEN));
+        testMirror(FENDecoder.loadGame("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14"));
+        testMirror(FENDecoder.loadGame("2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1"));
+        testMirror(FENDecoder.loadGame("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - 0 1"));
+    }
+
+
+    public void testMirror(Game game){
+        DefaultMoveSorter moveSorter = new DefaultMoveSorter();
+
+        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
+        game.getChessPosition().constructChessPositionRepresentation(mirror);
+        Game gameMirror = mirror.getChessRepresentation();
+        DefaultMoveSorter moveSorterMirror = new DefaultMoveSorter();
+
+        initMoveSorter(moveSorter, game);
+        initMoveSorter(moveSorterMirror, gameMirror);
+
+        List<Move> movesSorted = moveSorter.getSortedMoves();
+        List<Move> movesSortedMirror = moveSorterMirror.getSortedMoves();
+
+        final int moveCounter = movesSorted.size();
+
+        assertEquals(moveCounter, movesSortedMirror.size());
+        for (int i = 0; i < moveCounter; i++) {
+            Move move = movesSorted.get(i);
+            Move moveMirror = movesSortedMirror.get(i);
+
+            assertEquals(move.getFrom().getPiece(), moveMirror.getFrom().getPiece().getOpposite());
+            assertEquals(move.getFrom().getSquare(), moveMirror.getFrom().getSquare().getMirrorSquare());
+            assertEquals(move.getTo().getSquare(), moveMirror.getTo().getSquare().getMirrorSquare());
+
+            if(move instanceof MovePromotion){
+                MovePromotion movePromotion = (MovePromotion) move;
+                MovePromotion movePromotionMirror = (MovePromotion) moveMirror;
+                assertEquals(movePromotion.getPromotion(), movePromotionMirror.getPromotion().getOpposite());
+            }
+
+            //System.out.println("OK " + i);
+        }
+    }
+
+    private void initMoveSorter(MoveSorter moveSorter, Game game) {
         SearchContext context = new SearchContext(1);
 
         moveSorter.init(game, context);

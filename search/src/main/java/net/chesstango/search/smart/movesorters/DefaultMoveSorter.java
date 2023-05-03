@@ -118,7 +118,7 @@ public class DefaultMoveSorter implements FilterActions, MoveSorter {
 
         possibleMoves.forEach(moveList::add);
 
-        Collections.sort(moveList, moveComparator);
+        Collections.sort(moveList, moveComparator.reversed());
 
         return moveList;
     }
@@ -136,34 +136,6 @@ public class DefaultMoveSorter implements FilterActions, MoveSorter {
     @Override
     public void stopSearching() {
 
-    }
-
-    static public int getPieceValue(Piece piece) {
-        return switch (piece) {
-            case PAWN_WHITE -> 1;
-            case PAWN_BLACK -> -1;
-            case KNIGHT_WHITE -> 3;
-            case KNIGHT_BLACK -> -3;
-            case BISHOP_WHITE -> 3;
-            case BISHOP_BLACK -> -3;
-            case ROOK_WHITE -> 5;
-            case ROOK_BLACK -> -5;
-            case QUEEN_WHITE -> 9;
-            case QUEEN_BLACK -> -9;
-            case KING_WHITE -> 10;
-            case KING_BLACK -> -10;
-        };
-    }
-
-    static public int getMoveValue(Piece piece) {
-        return switch (piece) {
-            case PAWN_WHITE, PAWN_BLACK -> 1;
-            case KNIGHT_WHITE, KNIGHT_BLACK -> 4;
-            case BISHOP_WHITE, BISHOP_BLACK -> 3;
-            case ROOK_WHITE, ROOK_BLACK -> 2;
-            case QUEEN_WHITE, QUEEN_BLACK -> 4;
-            case KING_WHITE, KING_BLACK -> 0;
-        };
     }
 
 }
