@@ -7,7 +7,8 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -34,7 +35,7 @@ public class DetectCycleTest {
         evaluator.setDefaultValue(0);
 
         // FILTERS START
-        MoveSorter moveSorter = new MoveSorter();
+        MoveSorter moveSorter = new DefaultMoveSorter();
 
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);

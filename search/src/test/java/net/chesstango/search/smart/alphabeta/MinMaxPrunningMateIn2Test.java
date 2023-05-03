@@ -3,8 +3,9 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.MateIn2Test;
-import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -19,7 +20,7 @@ public class MinMaxPrunningMateIn2Test extends MateIn2Test {
 
     @BeforeEach
     public void setup(){
-        MoveSorter moveSorter = new MoveSorter();
+        MoveSorter moveSorter = new DefaultMoveSorter();
 
         GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
 
@@ -34,7 +35,7 @@ public class MinMaxPrunningMateIn2Test extends MateIn2Test {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence, moveSorter));
 
         this.searchMove = new NoIterativeDeepening(minMaxPruning);
     }

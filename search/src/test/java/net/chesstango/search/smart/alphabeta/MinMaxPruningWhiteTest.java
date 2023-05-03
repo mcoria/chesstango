@@ -8,7 +8,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -276,7 +275,7 @@ public class MinMaxPruningWhiteTest {
         moveList.forEach(moveContainer::add);
         when(parentGame.getPossibleMoves()).thenReturn(moveContainer);
 
-        when(moveSorter.sortMoves(moveContainer)).thenReturn(moveList);
+        when(moveSorter.getSortedMoves()).thenReturn(moveList);
     }
 
 }

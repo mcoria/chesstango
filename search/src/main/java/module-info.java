@@ -13,4 +13,5 @@ module net.chesstango.search {
     requires com.fasterxml.jackson.databind;
 
     opens net.chesstango.search.gamegraph;
+    exports net.chesstango.search.smart.movesorters;
 }

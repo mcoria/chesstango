@@ -4,11 +4,11 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.GameEvaluatorCounter;
-import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.MoveSorter;
-import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.*;
+import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private final AlphaBeta alphaBeta = new AlphaBeta();
 
-    private final MoveSorter moveSorter = new MoveSorter();
+    private final MoveSorter moveSorter = new DefaultMoveSorter();
 
     private AlphaBetaFilter quiescence = new QuiescenceNull();
 
@@ -99,6 +99,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         List<FilterActions> filters = new ArrayList<>();
         filters.add(alphaBeta);
         filters.add(quiescence);
+        filters.add(moveSorter);
         if(gameEvaluator instanceof GameEvaluatorCounter) {
             filters.add((GameEvaluatorCounter)gameEvaluator);
         }

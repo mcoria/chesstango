@@ -1,4 +1,4 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smart.movesorters;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MoveSorterTest {
 
-    private MoveSorter moveSorterTest;
+    private DefaultMoveSorter moveSorter;
 
     private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 
@@ -27,7 +27,7 @@ public class MoveSorterTest {
 
     @BeforeEach
     public void setUp() {
-        moveSorterTest = new MoveSorter();
+        moveSorter = new DefaultMoveSorter();
     }
 
     @Test
@@ -55,7 +55,7 @@ public class MoveSorterTest {
                 PiecePositioned.getPosition(Square.e3)));
 
 
-        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
@@ -104,7 +104,7 @@ public class MoveSorterTest {
         moveList.add(moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.e2, Piece.BISHOP_WHITE),
                 PiecePositioned.getPiecePositioned(Square.e3, Piece.PAWN_BLACK)));
 
-        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
@@ -153,7 +153,7 @@ public class MoveSorterTest {
                 PiecePositioned.getPosition(Square.e6)));
 
 
-        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();
@@ -202,7 +202,7 @@ public class MoveSorterTest {
                 PiecePositioned.getPiecePositioned(Square.e6, Piece.PAWN_WHITE)));
 
 
-        List<Move> movesSorted = moveSorterTest.sortMoves(moveList);
+        List<Move> movesSorted = moveSorter.getSortedMoves(moveList);
         Iterator<Move> movesSortedIt = movesSorted.iterator();
 
         move = movesSortedIt.next();

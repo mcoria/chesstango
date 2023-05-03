@@ -1,7 +1,11 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smart.movesorters;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.FilterActions;
+import net.chesstango.search.smart.SearchContext;
 
 import java.util.*;
 
@@ -98,11 +102,17 @@ import java.util.*;
  * |   d6e7 |     68 % |     58 % |     83 % |     75 % |     75 % |     82 % |     80 % |
  *  -------------------------------------------------------------------------------------
  */
-public class MoveSorter {
+public class DefaultMoveSorter implements FilterActions, MoveSorter {
 
     private static final MoveComparator moveComparator = new MoveComparator();
+    private Game game;
 
-    public List<Move> sortMoves(Iterable<Move> possibleMoves) {
+    @Override
+    public List<Move> getSortedMoves() {
+        return getSortedMoves(game.getPossibleMoves());
+    }
+
+    protected List<Move> getSortedMoves(Iterable<Move> possibleMoves) {
 
         List<Move> moveList = new LinkedList<>();
 
@@ -111,6 +121,21 @@ public class MoveSorter {
         Collections.sort(moveList, moveComparator);
 
         return moveList;
+    }
+
+    @Override
+    public void init(Game game, SearchContext context) {
+        this.game = game;
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+
+    }
+
+    @Override
+    public void stopSearching() {
+
     }
 
     private static class MoveComparator implements Comparator<Move> {

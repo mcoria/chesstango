@@ -8,7 +8,7 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,7 +45,8 @@ public class NagaMaxPruningWhiteTest {
     @Test
     @Disabled
     public void test_findBestMove_WhitePlays_SingleMove() {
-        NegaMaxPruning minMax = new NegaMaxPruning(negaQuiescence, moveSorter);
+        NegaMaxPruning minMax = new NegaMaxPruning(negaQuiescence);
+        minMax.setMoveSorter(moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
 
@@ -69,7 +69,7 @@ public class NagaMaxPruningWhiteTest {
     @Test
     @Disabled
     public void test_findBestMove_WhitePlays_TwoMoves() {
-        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
+        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence));
         //NegaMaxPruning minMax = new NegaMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -101,7 +101,7 @@ public class NagaMaxPruningWhiteTest {
     @Test
     @Disabled
     public void test_findBestMove_WhitePlays_MateCutOff() {
-        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
+        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence));
         //NegaMaxPruning minMax = new NegaMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -144,7 +144,7 @@ public class NagaMaxPruningWhiteTest {
     @Test
     @Disabled
     public void test_findBestMove_WhitePlays_ImminentMate() {
-        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
+        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -186,7 +186,7 @@ public class NagaMaxPruningWhiteTest {
     @Test
     @Disabled
     public void test_maximize_WhitePlays_MateCutOff() {
-        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence, moveSorter));
+        NegaMaxPruning minMax = Mockito.spy(new NegaMaxPruning(negaQuiescence));
         //MinMaxPruning minMax = new MinMaxPruning(quiescence, moveSorter);
 
         Game rootGame = setupGame(Color.WHITE, GameStatus.NO_CHECK);
@@ -249,6 +249,6 @@ public class NagaMaxPruningWhiteTest {
         moveList.forEach(moveContainer::add);
         when(parentGame.getPossibleMoves()).thenReturn(moveContainer);
 
-        when(moveSorter.sortMoves(moveContainer)).thenReturn(moveList);
+        when(moveSorter.getSortedMoves()).thenReturn(moveList);
     }
 }

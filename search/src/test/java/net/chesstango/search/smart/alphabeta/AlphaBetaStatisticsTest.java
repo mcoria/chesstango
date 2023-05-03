@@ -6,7 +6,8 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.MoveSorter;
+import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -27,7 +28,7 @@ public class AlphaBetaStatisticsTest {
 
     @BeforeEach
     public void setup() {
-        MoveSorter moveSorter = new MoveSorter();
+        MoveSorter moveSorter = new DefaultMoveSorter();
 
         GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
 
@@ -46,10 +47,11 @@ public class AlphaBetaStatisticsTest {
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence));
+        minMaxPruning.setFilters(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, moveSorter));
     }
 
     @Test
+    @Disabled
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 

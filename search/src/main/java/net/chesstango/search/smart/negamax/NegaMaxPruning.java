@@ -5,30 +5,23 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.AbstractSmart;
-import net.chesstango.search.smart.MoveSelector;
-import net.chesstango.search.smart.MoveSorter;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.*;
+import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * @author Mauricio Coria
  */
 public class NegaMaxPruning extends AbstractSmart {
-    private final MoveSorter moveSorter;
+    private MoveSorter moveSorter;
     private final NegaQuiescence negaQuiescence;
     private int[] visitedNodesCounter;
 
     public NegaMaxPruning(NegaQuiescence negaQuiescence) {
-        this(negaQuiescence, new MoveSorter());
-    }
-
-    public NegaMaxPruning(NegaQuiescence negaQuiescence, MoveSorter moveSorter) {
-        this.moveSorter = moveSorter;
         this.negaQuiescence = negaQuiescence;
     }
 
@@ -37,6 +30,8 @@ public class NegaMaxPruning extends AbstractSmart {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];
 
+        this.moveSorter.init(game, context);
+
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn =  game.getChessPosition().getCurrentTurn();
@@ -44,7 +39,7 @@ public class NegaMaxPruning extends AbstractSmart {
         int bestValue = GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;
 
-        List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+        List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
         while (moveIterator.hasNext() && search && keepProcessing) {
             Move move = moveIterator.next();
@@ -87,7 +82,7 @@ public class NegaMaxPruning extends AbstractSmart {
             boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
-            List<Move> sortedMoves = moveSorter.sortMoves(game.getPossibleMoves());
+            List<Move> sortedMoves = moveSorter.getSortedMoves();
             Iterator<Move> moveIterator = sortedMoves.iterator();
             while (moveIterator.hasNext() && search && keepProcessing) {
                 Move move = moveIterator.next();
@@ -113,4 +108,7 @@ public class NegaMaxPruning extends AbstractSmart {
         this.visitedNodesCounter = visitedNodesCounter;
     }
 
+    public void setMoveSorter(MoveSorter moveSorter) {
+        this.moveSorter = moveSorter;
+    }
 }
