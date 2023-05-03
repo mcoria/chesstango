@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.movesorters;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
@@ -7,10 +8,13 @@ import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
+import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -224,6 +228,28 @@ public class DefaultMoveSorterTest {
         assertEquals(Piece.KING_BLACK, move.getFrom().getPiece());
 
         assertFalse(movesSortedIt.hasNext());
+    }
+
+    @Test
+    public void testInitial(){
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        initMoveSorter(game);
+
+        Move move;
+        List<Move> movesSorted = moveSorter.getSortedMoves();
+        Iterator<Move> movesSortedIt = movesSorted.iterator();
+
+        move = movesSortedIt.next();
+        assertEquals(Piece.KNIGHT_WHITE, move.getFrom().getPiece());
+        assertEquals(Square.b1, move.getFrom().getSquare());
+        assertEquals(Square.a3, move.getTo().getSquare());
+    }
+
+    private void initMoveSorter(Game game) {
+        SearchContext context = new SearchContext(1);
+
+        moveSorter.init(game, context);
     }
 
 }

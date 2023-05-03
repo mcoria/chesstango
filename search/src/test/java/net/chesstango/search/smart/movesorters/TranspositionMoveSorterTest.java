@@ -19,10 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class TranspositionMoveSorterTest {
 
-    private Game game;
     private Map<Long, SearchContext.TableEntry> maxMap;
     private Map<Long, SearchContext.TableEntry> minMap;
-
     private TranspositionMoveSorter moveSorter;
     @BeforeEach
     public void setup(){
@@ -33,7 +31,7 @@ public class TranspositionMoveSorterTest {
 
     @Test
     public void testInitial(){
-        game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         short bestMoveEncoded = 0;
         for (Move move: game.getPossibleMoves()) {
@@ -44,7 +42,7 @@ public class TranspositionMoveSorterTest {
         }
         maxMap.put(game.getChessPosition().getPositionHash(), createTableEntry(bestMoveEncoded));
 
-        initMoveSorter();
+        initMoveSorter(game);
 
         Move move;
         List<Move> movesSorted = moveSorter.getSortedMoves();
@@ -57,7 +55,7 @@ public class TranspositionMoveSorterTest {
     }
 
 
-    private void initMoveSorter() {
+    private void initMoveSorter(Game game) {
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
         int[] visitedNodesQuiescenceCounter = new int[30];
