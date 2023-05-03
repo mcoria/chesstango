@@ -18,14 +18,32 @@ import java.util.List;
  */
 public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 8;
+    private static final int DEFAULT_MAX_DEPTH = 7;
 
     public static void main(String[] args) {
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\mate-all.epd");
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\40H-EPD-databases\\failed-2023-05-01.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\wac-2018.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\STS\\Bratko-Kopec.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all.epd");
+        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd");
+
+
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Bratko-Kopec\\Bratko-Kopec.epd");
+
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\wac\\wac-2018.epd");
+
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS1.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS2.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS3.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS4.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS5.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS6.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS7.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS8.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS9.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS10.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS11.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS12.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS13.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS14.epd");
+        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS15.epd");
     }
 
     private static void execute(String filename) {
@@ -33,6 +51,7 @@ public class BestMoveSearchSuite {
         List<EDPReader.EDPEntry> edpEntries = reader.readEdpFile(filename);
         BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
         suite.run(filename, edpEntries);
+        System.gc();
     }
 
     protected final int depth;
@@ -54,12 +73,13 @@ public class BestMoveSearchSuite {
 
         System.out.println("Suite summary " + suiteName);
         if (failedSuites.isEmpty()) {
-            System.out.println("\t all tests exceute sucessfully");
+            System.out.println("\t all tests executed successfully");
         } else {
             for (String suiteStr : failedSuites) {
                 System.out.println("\t test failed: " + suiteStr);
             }
         }
+        System.out.printf("Success rate: %d%% \n", (100 * (edpEntries.size() - failedSuites.size())) /  edpEntries.size());
 
         new SearchesReport()
                 //.withCutoffStatics()

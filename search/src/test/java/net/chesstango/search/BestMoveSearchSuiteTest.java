@@ -77,6 +77,14 @@ public class BestMoveSearchSuiteTest {
     }
 
     @Test
+    @Disabled
+    public void test_BK23() {
+        finderSuite = new BestMoveSearchSuite(4);
+        EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("r1bqk2r/pp2bppp/2p5/3pP3/P2Q1P2/2N1B3/1PP3PP/R4RK1 b kq - bm f6; id \"BK.23\";");
+        assertTrue(finderSuite.run(edpEntry));
+    }
+
+    @Test
     public void test_40H_10390() {
         finderSuite = new BestMoveSearchSuite(1);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("1Q6/6kp/6p1/8/1P2q3/5R1P/5PK1/4r3 w - - bm Qb8-f8+; ce +M1; pv Qb8-f8+; id \"10390\";");

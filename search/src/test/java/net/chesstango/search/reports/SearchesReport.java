@@ -24,6 +24,8 @@ public class SearchesReport {
     public void printSearchesStatics(List<SearchMoveResult> searchMoveResults) {
         ReportModel reportModel = collectStatics(searchMoveResults);
 
+        printSummary(reportModel);
+
         if(printNodesVisitedStatics) {
             printVisitedNodes(reportModel);
         }
@@ -61,12 +63,12 @@ public class SearchesReport {
                     throw new RuntimeException("expectedNodesCounters[i] <= 0");
                 }
 
-                if (expectedNodesCounters[i] > 0 && reportModel.maxSearchLevel < i) {
+                if (expectedNodesCounters[i] > 0 && visitedNodesCounters[i] > 0) {
                     cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
-                    reportModel.maxSearchLevel = i; //En el nivel más bajo no exploramos ningun nodo
+                    reportModel.maxSearchLevel = i + 1; //En el nivel más bajo no exploramos ningun nodo
                 }
 
-                if (visitedNodesQuiescenceCounter[i] > 0 && reportModel.maxSearchLevelQuiescence < i) {
+                if (visitedNodesQuiescenceCounter[i] > 0) {
                     reportModel.maxSearchLevelQuiescence = i + 1;
                 }
 
@@ -116,6 +118,15 @@ public class SearchesReport {
         return reportModel;
     }
 
+    private void printSummary(ReportModel reportModel) {
+        System.out.printf("Visited  Regular Nodes: %8d\n", reportModel.visitedNodesTotal);
+        System.out.printf("Visited         QNodes: %8d\n", reportModel.visitedNodesQuiescenceTotal);
+        System.out.printf("Visited  Total   Nodes: %8d\n", reportModel.visitedNodesSummaryTotal);
+        System.out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedGamesCounterTotal);
+        System.out.printf("Max              Depth: %8d\n", reportModel.maxSearchLevel);
+        System.out.printf("Max             QDepth: %8d\n", reportModel.maxSearchLevelQuiescence);
+        System.out.printf("\n");
+    }
 
     private void printVisitedNodes(ReportModel report) {
         System.out.printf("Visited Nodes\n");
@@ -161,11 +172,6 @@ public class SearchesReport {
         IntStream.range(0, report.maxSearchLevel).forEach(depth -> System.out.printf("---------------------"));
         IntStream.range(0, report.maxSearchLevelQuiescence).forEach(depth -> System.out.printf("------------"));
         System.out.printf("-------------");
-        System.out.printf("\n");
-
-        System.out.printf("Visited  Regular Nodes: %8d\n", report.visitedNodesTotal);
-        System.out.printf("Visited         QNodes: %8d\n", report.visitedNodesQuiescenceTotal);
-        System.out.printf("Visited  Total   Nodes: %8d\n", report.visitedNodesSummaryTotal);
         System.out.printf("\n\n");
     }
 
