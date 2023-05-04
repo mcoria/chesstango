@@ -1,4 +1,4 @@
-package net.chesstango.evaluation.tunning;
+package net.chesstango.evaluation.tuning.geneticproviders;
 
 import io.jenetics.*;
 import io.jenetics.engine.Constraint;
