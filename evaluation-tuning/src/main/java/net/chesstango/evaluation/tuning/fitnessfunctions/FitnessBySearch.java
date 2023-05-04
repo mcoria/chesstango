@@ -20,7 +20,7 @@ import java.util.function.Function;
  */
 public class FitnessBySearch implements FitnessFunction {
 
-    private static final int MATCH_DEPTH = 3;
+    private static final int MATCH_DEPTH = 4;
 
     private final Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn;
 

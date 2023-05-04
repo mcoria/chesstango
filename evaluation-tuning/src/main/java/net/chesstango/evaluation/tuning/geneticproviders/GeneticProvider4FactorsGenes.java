@@ -64,7 +64,19 @@ public class GeneticProvider4FactorsGenes implements GeneticProvider {
     @Override
     public EvolutionStart<IntegerGene, Long> getEvolutionStart(int populationSize) {
         List<Phenotype<IntegerGene, Long>> phenoList = Arrays.asList(
-                //createPhenotype(415, 585),
+                /*
+                key = [83|826|70|21]; value=[-1149]
+                key = [272|658|31|39]; value=[-1147]
+                key = [290|639|31|40]; value=[-1143]
+                key = [185|734|65|16]; value=[-1135]
+                key = [185|779|23|13]; value=[-1134]
+                key = [161|701|110|28]; value=[-1133]
+                key = [185|734|36|45]; value=[-1123]
+                key = [213|688|56|43]; value=[-1106]
+                key = [185|734|31|50]; value=[-1100]
+                key = [185|734|45|36]; value=[-1093]
+                createPhenotype(415, 585),
+                 */
         );
 
         ISeq<Phenotype<IntegerGene, Long>> population = ISeq.of(phenoList);
