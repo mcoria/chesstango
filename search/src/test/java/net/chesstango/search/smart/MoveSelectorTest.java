@@ -42,9 +42,7 @@ public class MoveSelectorTest {
     public void selectMoveTest01_mirror(){
         Game game = FENDecoder.loadGame("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14");
 
-        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructChessPositionRepresentation(mirror);
-        Game gameMirror = mirror.getChessRepresentation();
+        Game gameMirror = game.mirror();
 
         MoveContainerReader possibleMovesMoves = gameMirror.getPossibleMoves();
 
@@ -82,9 +80,7 @@ public class MoveSelectorTest {
     public void selectMoveTest02_mirror(){
         Game game = FENDecoder.loadGame("4k3/8/8/8/8/8/1p4p1/RN2K3 b Q - 0 1");
 
-        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructChessPositionRepresentation(mirror);
-        Game gameMirror = mirror.getChessRepresentation();
+        Game gameMirror = game.mirror();
 
         MoveContainerReader possibleMovesMoves = gameMirror.getPossibleMoves();
 

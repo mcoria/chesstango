@@ -53,9 +53,7 @@ public abstract class Pruning01Test {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
         Move bestMove = getBestMoveFinder().searchBestMove(game, 1).getBestMove();
 
-        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructChessPositionRepresentation(mirror);
-        Game gameMirror = mirror.getChessRepresentation();
+        Game gameMirror = game.mirror();
 
         Move bestMoveMirror = getBestMoveFinder().searchBestMove(gameMirror, 1).getBestMove();
 

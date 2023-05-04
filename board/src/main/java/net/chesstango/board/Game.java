@@ -39,4 +39,5 @@ public interface Game {
 
     <T> T getObject(Class<T> theClass);
 
+    Game mirror();
 }

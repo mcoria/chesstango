@@ -133,10 +133,10 @@ public class SearchMoveResult {
     }
 
     public SearchMoveResult calculatePrincipalVariation(Game game, int depth,
-                                            Map<Long, TableEntry> maxMap,
-                                            Map<Long, TableEntry> minMap,
-                                            Map<Long, TableEntry> qMaxMap,
-                                            Map<Long, TableEntry> qMinMap) {
+                                                        Map<Long, TableEntry> maxMap,
+                                                        Map<Long, TableEntry> minMap,
+                                                        Map<Long, TableEntry> qMaxMap,
+                                                        Map<Long, TableEntry> qMinMap) {
 
         List<String> principalVariation = new ArrayList<>();
 
@@ -149,7 +149,7 @@ public class SearchMoveResult {
 
             game.executeMove(move);
 
-            move = principalVariation.size() < depth ? readMoveFromTT(game, maxMap, minMap): readMoveFromQTT(game, qMaxMap, qMinMap);
+            move = principalVariation.size() < depth ? readMoveFromTT(game, maxMap, minMap) : readMoveFromQTT(game, qMaxMap, qMinMap);
 
         } while (move != null);
 
@@ -197,7 +197,7 @@ public class SearchMoveResult {
 
         if (entry != null) {
             short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
-            if(bestMoveEncoded != 0) {
+            if (bestMoveEncoded != 0) {
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                         result = posibleMove;
@@ -215,6 +215,8 @@ public class SearchMoveResult {
 
     public SearchMoveResult storeMoveEvaluations(Game game, Map<Long, TableEntry> maxMap, Map<Long, TableEntry> minMap) {
         List<MoveEvaluation> moveEvaluationList = new ArrayList<>();
+
+        boolean bestMovePresent = false;
         for (Move move : game.getPossibleMoves()) {
             game.executeMove(move);
 
@@ -222,28 +224,46 @@ public class SearchMoveResult {
 
             TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-            if(entry != null) {
+            if (entry != null) {
                 MoveEvaluation moveEvaluation = new MoveEvaluation();
                 moveEvaluation.move = move;
                 moveEvaluation.evaluation = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & entry.bestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 
+            if(move.equals(bestMove)){
+                bestMovePresent = true;
+            }
+
             game.undoMove();
         }
 
-        if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            Collections.sort(moveEvaluationList, Comparator.reverseOrder());
-        } else {
-            Collections.sort(moveEvaluationList);
+        if(!bestMovePresent){
+            throw new RuntimeException("Best move is not present in game");
         }
 
-        this.moveEvaluationList =  moveEvaluationList;
+        if (moveEvaluationList.isEmpty()) {
+            MoveEvaluation moveEvaluation = new MoveEvaluation();
+            moveEvaluation.move = this.bestMove;
+            moveEvaluation.evaluation = this.evaluation;
+        } else {
+            OptionalInt bestEvaluation = null;
+            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+                bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).max();
+            } else {
+                bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
+            }
+            if ( !bestEvaluation.isPresent() || bestEvaluation.getAsInt() != evaluation) {
+                throw new RuntimeException("El mejor valor no coincide");
+            }
+        }
+
+        this.moveEvaluationList = moveEvaluationList;
 
         return this;
     }
 
-    public static class MoveEvaluation implements Comparable<MoveEvaluation>{
+    public static class MoveEvaluation implements Comparable<MoveEvaluation> {
         public Move move;
         public int evaluation;
 

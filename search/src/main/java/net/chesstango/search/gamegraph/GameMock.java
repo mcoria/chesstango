@@ -86,6 +86,11 @@ public class GameMock implements Game {
         throw new UnsupportedOperationException("Method not implemented yet");
     }
 
+    @Override
+    public Game mirror() {
+        return null;
+    }
+
     public int getNodesVisited() {
         return nodesVisited;
     }

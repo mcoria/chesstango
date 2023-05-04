@@ -260,12 +260,11 @@ public class DefaultMoveSorterTest {
     }
 
 
-    public void testMirror(Game game){
+    private void testMirror(Game game){
         DefaultMoveSorter moveSorter = new DefaultMoveSorter();
 
-        MirrorBuilder<Game> mirror = new MirrorBuilder(new GameBuilder());
-        game.getChessPosition().constructChessPositionRepresentation(mirror);
-        Game gameMirror = mirror.getChessRepresentation();
+        Game gameMirror = game.mirror();
+
         DefaultMoveSorter moveSorterMirror = new DefaultMoveSorter();
 
         initMoveSorter(moveSorter, game);
