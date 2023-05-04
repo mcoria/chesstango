@@ -2,7 +2,7 @@ package net.chesstango.evaluation.tuning.fitnessfunctions;
 
 import io.jenetics.Genotype;
 import io.jenetics.IntegerGene;
-import net.chesstango.board.Game;
+import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EDPReader;
 import net.chesstango.evaluation.GameEvaluator;
@@ -10,7 +10,7 @@ import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -27,6 +27,7 @@ public class FitnessBySearch implements FitnessFunction {
     public FitnessBySearch(Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn) {
         this.gameEvaluatorSupplierFn = gameEvaluatorSupplierFn;
     }
+
     @Override
     public long fitness(Genotype<IntegerGene> genotype) {
         return run(gameEvaluatorSupplierFn.apply(genotype));
@@ -48,7 +49,7 @@ public class FitnessBySearch implements FitnessFunction {
     protected long run(GameEvaluator gameEvaluator) {
         long points = 0;
 
-        for (EDPReader.EDPEntry edpEntry: edpEntries) {
+        for (EDPReader.EDPEntry edpEntry : edpEntries) {
             points += run(edpEntry, gameEvaluator);
         }
 
@@ -63,10 +64,21 @@ public class FitnessBySearch implements FitnessFunction {
         return getPoints(edpEntry.bestMoves.get(0), searchResult.getMoveEvaluationList());
     }
 
-    protected long getPoints(Move bestMove, List<SearchMoveResult.MoveEvaluation> evaluationList) {
+    protected long getPoints(Move bestMove, Collection<SearchMoveResult.MoveEvaluation> evaluationCollection) {
+        Color turn = bestMove.getFrom().getPiece().getColor();
+
+        List<SearchMoveResult.MoveEvaluation> sortedEvaluationList = new LinkedList<>();
+        sortedEvaluationList.addAll(evaluationCollection);
+
+        if (Color.WHITE.equals(turn)) {
+            Collections.sort(sortedEvaluationList, Comparator.reverseOrder());
+        } else {
+            Collections.sort(sortedEvaluationList);
+        }
+
         int i = 0;
-        for (SearchMoveResult.MoveEvaluation moveEvaluation: evaluationList) {
-            if(moveEvaluation.move.equals(bestMove)){
+        for (SearchMoveResult.MoveEvaluation moveEvaluation : sortedEvaluationList) {
+            if (moveEvaluation.move.equals(bestMove)) {
                 break;
             }
             i--;

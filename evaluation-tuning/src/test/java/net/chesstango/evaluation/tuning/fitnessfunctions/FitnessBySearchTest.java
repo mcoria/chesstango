@@ -130,6 +130,105 @@ public class FitnessBySearchTest {
         assertEquals(-19L, points);
     }
 
+    /**
+     * Actual best move = Best move found
+     */
+    @Test
+    public void test_black01() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
+
+        Move bestMoveFound = game.getMove(Square.c7, Square.c6);
+        Move actualBestMove = bestMoveFound;
+
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            game.executeMove(move);
+
+            if (move.equals(bestMoveFound)) {
+                saveEntry(game, move, -100);
+            } else {
+                saveEntry(game, move, i);
+            }
+
+            game.undoMove();
+            i++;
+        }
+
+        SearchMoveResult searchResult = new SearchMoveResult(1, -100, bestMoveFound, null);
+        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+
+        long points = fitnessFn.getPoints(actualBestMove, searchResult.getMoveEvaluationList());
+
+        assertEquals(0, points);
+    }
+
+    /**
+     * Actual best move is the second-best move found
+     */
+    @Test
+    public void test_black02() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
+
+        Move bestMoveFound = game.getMove(Square.c7, Square.c6);
+        Move actualBestMove = game.getMove(Square.f7, Square.f5);
+
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            game.executeMove(move);
+
+            if (move.equals(bestMoveFound)) {
+                saveEntry(game, move, -100);
+            } else if (move.equals(actualBestMove)) {
+                saveEntry(game, move, -90);
+            } else {
+                saveEntry(game, move, i);
+            }
+
+            game.undoMove();
+            i++;
+        }
+
+        SearchMoveResult searchResult = new SearchMoveResult(1, -100, bestMoveFound, null);
+        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+
+        long points = fitnessFn.getPoints(actualBestMove, searchResult.getMoveEvaluationList());
+
+        assertEquals(-1L, points);
+    }
+
+    /**
+     * Actual best move was not searched
+     */
+    @Test
+    public void test_black03() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN).mirror();
+
+        Move bestMoveFound = game.getMove(Square.c7, Square.c6);
+        Move actualBestMove = game.getMove(Square.f7, Square.f5);
+
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            game.executeMove(move);
+
+            if (move.equals(bestMoveFound)) {
+                saveEntry(game, move, -100);
+            } else if (move.equals(actualBestMove)) {
+                //saveEntry(game, move, 90);
+            } else {
+                saveEntry(game, move, i);
+            }
+
+            game.undoMove();
+            i++;
+        }
+
+        SearchMoveResult searchResult = new SearchMoveResult(1, -100, bestMoveFound, null);
+        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+
+        long points = fitnessFn.getPoints(actualBestMove, searchResult.getMoveEvaluationList());
+
+        assertEquals(-19L, points);
+    }
 
     private SearchContext.TableEntry saveEntry(Game game, Move move, int value) {
         SearchContext.TableEntry entry = new SearchContext.TableEntry();

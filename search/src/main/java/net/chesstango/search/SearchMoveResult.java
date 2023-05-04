@@ -128,7 +128,7 @@ public class SearchMoveResult {
         return principalVariation;
     }
 
-    public List<MoveEvaluation> getMoveEvaluationList() {
+    public Collection<MoveEvaluation> getMoveEvaluationList() {
         return moveEvaluationList;
     }
 
