@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>evaluation-tunning</artifactId>
+    <artifactId>evaluation-tuning</artifactId>
     <packaging>jar</packaging>
 
     <properties>

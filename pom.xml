@@ -16,7 +16,7 @@
         <module>arena-mbean</module>
         <module>uci-arena</module>
         <module>arena-ui</module>
-        <module>evaluation-tunning</module>
+        <module>evaluation-tuning</module>
     </modules>
 
     <properties>
