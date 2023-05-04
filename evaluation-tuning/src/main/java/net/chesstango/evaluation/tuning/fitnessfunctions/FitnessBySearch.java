@@ -66,10 +66,10 @@ public class FitnessBySearch implements FitnessFunction {
 
         SearchMoveResult searchResult = moveFinder.searchBestMove(game, MATCH_DEPTH);
 
-        return getPoints(edpEntry.bestMoves.get(0), searchResult.getMoveEvaluationList());
+        return getPoints(game.getPossibleMoves().size(), edpEntry.bestMoves.get(0), searchResult.getMoveEvaluationList());
     }
 
-    protected long getPoints(Move bestMove, Collection<SearchMoveResult.MoveEvaluation> evaluationCollection) {
+    protected long getPoints(int possibleMoves, Move bestMove, Collection<SearchMoveResult.MoveEvaluation> evaluationCollection) {
         Color turn = bestMove.getFrom().getPiece().getColor();
 
         List<SearchMoveResult.MoveEvaluation> sortedEvaluationList = new LinkedList<>();
@@ -88,6 +88,8 @@ public class FitnessBySearch implements FitnessFunction {
             }
             i--;
         }
-        return i;
+
+        // Premiamos cuando encontramos el mejor movimiento y castigamos cuando no.
+        return i == 0 ? possibleMoves : i;
     }
 }
