@@ -246,6 +246,7 @@ public class SearchMoveResult {
             MoveEvaluation moveEvaluation = new MoveEvaluation();
             moveEvaluation.move = this.bestMove;
             moveEvaluation.evaluation = this.evaluation;
+            moveEvaluationList.add(moveEvaluation);
         } else {
             OptionalInt bestEvaluation = null;
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
@@ -269,7 +270,7 @@ public class SearchMoveResult {
 
         @Override
         public int compareTo(MoveEvaluation other) {
-            return evaluation - other.evaluation;
+            return Integer.compare(evaluation, other.evaluation);
         }
     }
 

@@ -3,8 +3,10 @@ package net.chesstango.evaluation.tuning.fitnessfunctions;
 import io.jenetics.Genotype;
 import io.jenetics.IntegerGene;
 import net.chesstango.board.Color;
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EDPReader;
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
@@ -18,7 +20,7 @@ import java.util.function.Function;
  */
 public class FitnessBySearch implements FitnessFunction {
 
-    private static final int MATCH_DEPTH = 1;
+    private static final int MATCH_DEPTH = 3;
 
     private final Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn;
 
@@ -35,7 +37,8 @@ public class FitnessBySearch implements FitnessFunction {
 
     @Override
     public void start() {
-        String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd";
+        //String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd";
+        String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\wac\\wac-2018.epd";
 
         EDPReader reader = new EDPReader();
 
@@ -59,7 +62,9 @@ public class FitnessBySearch implements FitnessFunction {
     protected long run(EDPReader.EDPEntry edpEntry, GameEvaluator gameEvaluator) {
         SearchMove moveFinder = new DefaultSearchMove(gameEvaluator);
 
-        SearchMoveResult searchResult = moveFinder.searchBestMove(edpEntry.game, MATCH_DEPTH);
+        Game game = FENDecoder.loadGame(edpEntry.fen);
+
+        SearchMoveResult searchResult = moveFinder.searchBestMove(game, MATCH_DEPTH);
 
         return getPoints(edpEntry.bestMoves.get(0), searchResult.getMoveEvaluationList());
     }
