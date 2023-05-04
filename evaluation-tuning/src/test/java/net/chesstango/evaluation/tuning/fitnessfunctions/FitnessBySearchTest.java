@@ -30,14 +30,47 @@ public class FitnessBySearchTest {
         minMap = new HashMap<>();
     }
 
+    /**
+     * Actual best move = Best move found
+     */
     @Test
-    public void test01() {
+    public void test_white01() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+
+        Move bestMoveFound = game.getMove(Square.c2, Square.c3);
+        Move actualBestMove = bestMoveFound;
+
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            game.executeMove(move);
+
+            if (move.equals(bestMoveFound)) {
+                saveEntry(game, move, 100);
+            } else {
+                saveEntry(game, move, i);
+            }
+
+            game.undoMove();
+            i++;
+        }
+
+        SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
+        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+
+        long points = fitnessFn.getPoints(actualBestMove, searchResult.getMoveEvaluationList());
+
+        assertEquals(0, points);
+    }
+
+    /**
+     * Actual best move is the second-best move found
+     */
+    @Test
+    public void test_white02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         Move bestMoveFound = game.getMove(Square.c2, Square.c3);
         Move actualBestMove = game.getMove(Square.f2, Square.f4);
-
-        SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
 
         int i = 1;
         for (Move move : game.getPossibleMoves()) {
@@ -55,6 +88,7 @@ public class FitnessBySearchTest {
             i++;
         }
 
+        SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
         searchResult.storeMoveEvaluations(game, maxMap, minMap);
 
         long points = fitnessFn.getPoints(actualBestMove, searchResult.getMoveEvaluationList());
@@ -62,8 +96,42 @@ public class FitnessBySearchTest {
         assertEquals(-1L, points);
     }
 
+    /**
+     * Actual best move was not searched
+     */
+    @Test
+    public void test_white03() {
+        Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-    private void saveEntry(Game game, Move move, int value) {
+        Move bestMoveFound = game.getMove(Square.c2, Square.c3);
+        Move actualBestMove = game.getMove(Square.f2, Square.f4);
+
+        int i = 1;
+        for (Move move : game.getPossibleMoves()) {
+            game.executeMove(move);
+
+            if (move.equals(bestMoveFound)) {
+                saveEntry(game, move, 100);
+            } else if (move.equals(actualBestMove)) {
+                //saveEntry(game, move, 90);
+            } else {
+                saveEntry(game, move, i);
+            }
+
+            game.undoMove();
+            i++;
+        }
+
+        SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
+        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+
+        long points = fitnessFn.getPoints(actualBestMove, searchResult.getMoveEvaluationList());
+
+        assertEquals(-19L, points);
+    }
+
+
+    private SearchContext.TableEntry saveEntry(Game game, Move move, int value) {
         SearchContext.TableEntry entry = new SearchContext.TableEntry();
 
         entry.bestMoveAndValue = encodedMoveAndValue(move.binaryEncoding(), value);
@@ -76,6 +144,8 @@ public class FitnessBySearchTest {
         } else {
             minMap.put(hash, entry);
         }
+
+        return entry;
     }
 
     private static long encodedMoveAndValue(short move, int value) {
