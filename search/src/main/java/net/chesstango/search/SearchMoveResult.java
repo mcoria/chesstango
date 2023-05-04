@@ -5,10 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.SANEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static net.chesstango.search.smart.SearchContext.TableEntry;
 
@@ -28,8 +25,8 @@ public class SearchMoveResult {
     private Set<Move>[] distinctMovesPerLevel;
     private List<Move> bestMoveOptions;
     private List<String> principalVariation;
-
     private long evaluatedGamesCounter;
+    private List<MoveEvaluation> moveEvaluationList;
 
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
@@ -131,6 +128,10 @@ public class SearchMoveResult {
         return principalVariation;
     }
 
+    public List<MoveEvaluation> getMoveEvaluationList() {
+        return moveEvaluationList;
+    }
+
     public SearchMoveResult calculatePrincipalVariation(Game game, int depth,
                                             Map<Long, TableEntry> maxMap,
                                             Map<Long, TableEntry> minMap,
@@ -168,13 +169,8 @@ public class SearchMoveResult {
 
         long hash = game.getChessPosition().getPositionHash();
 
-        TableEntry entry = null;
+        TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = maxMap.get(hash);
-        } else {
-            entry = minMap.get(hash);
-        }
 
         if (entry != null) {
             short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
@@ -197,13 +193,7 @@ public class SearchMoveResult {
 
         long hash = game.getChessPosition().getPositionHash();
 
-        TableEntry entry = null;
-
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = qMaxMap.get(hash);
-        } else {
-            entry = qMinMap.get(hash);
-        }
+        TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
 
         if (entry != null) {
             short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
@@ -222,4 +212,45 @@ public class SearchMoveResult {
 
         return result;
     }
+
+    public SearchMoveResult storeMoveEvaluations(Game game, Map<Long, TableEntry> maxMap, Map<Long, TableEntry> minMap) {
+        List<MoveEvaluation> moveEvaluationList = new ArrayList<>();
+        for (Move move : game.getPossibleMoves()) {
+            game.executeMove(move);
+
+            long hash = game.getChessPosition().getPositionHash();
+
+            TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+
+            if(entry != null) {
+                MoveEvaluation moveEvaluation = new MoveEvaluation();
+                moveEvaluation.move = move;
+                moveEvaluation.evaluation = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & entry.bestMoveAndValue);
+                moveEvaluationList.add(moveEvaluation);
+            }
+
+            game.undoMove();
+        }
+
+        if(Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            Collections.sort(moveEvaluationList, Comparator.reverseOrder());
+        } else {
+            Collections.sort(moveEvaluationList);
+        }
+
+        this.moveEvaluationList =  moveEvaluationList;
+
+        return this;
+    }
+
+    public static class MoveEvaluation implements Comparable<MoveEvaluation>{
+        public Move move;
+        public int evaluation;
+
+        @Override
+        public int compareTo(MoveEvaluation other) {
+            return evaluation - other.evaluation;
+        }
+    }
+
 }
