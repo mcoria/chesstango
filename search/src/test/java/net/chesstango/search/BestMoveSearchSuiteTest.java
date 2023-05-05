@@ -42,7 +42,7 @@ public class BestMoveSearchSuiteTest {
 
     @Test
     public void test_WAC003() {
-        finderSuite = new BestMoveSearchSuite(4);
+        finderSuite = new BestMoveSearchSuite(6);
         EDPReader.EDPEntry edpEntry = edpReader.readEdpLine("5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - bm Rg3; id \"WAC.003\";");
         assertTrue(finderSuite.run(edpEntry));
     }

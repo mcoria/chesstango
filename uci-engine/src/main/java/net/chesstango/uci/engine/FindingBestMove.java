@@ -8,6 +8,9 @@ import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.requests.CmdUci;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
+/**
+ * @author Mauricio Coria
+ */
 class FindingBestMove implements ZondaState {
     private final EngineTango engineTango;
     private UCIEncoder uciEncoder = new UCIEncoder();

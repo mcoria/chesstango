@@ -7,6 +7,9 @@ import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.requests.CmdUci;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 
+/**
+ * @author Mauricio Coria
+ */
 class Ready implements ZondaState {
 
     private final EngineTango engineTango;

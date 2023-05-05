@@ -5,6 +5,9 @@ import net.chesstango.uci.protocol.requests.CmdIsReady;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.requests.CmdUci;
 
+/**
+ * @author Mauricio Coria
+ */
 interface ZondaState {
 
     void do_uci(CmdUci cmdUci);
