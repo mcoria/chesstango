@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 
@@ -39,7 +40,7 @@ public class Quiescence implements AlphaBetaFilter {
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
-            return encodedMoveAndValue((short) 0, maxValue);
+            return BinaryUtils.encodedMoveAndValue((short) 0, maxValue);
         }
 
         Move bestMove = null;
@@ -55,7 +56,7 @@ public class Quiescence implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
 
-                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+                int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -68,7 +69,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), maxValue);
+        return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), maxValue);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class Quiescence implements AlphaBetaFilter {
         int minValue = evaluator.evaluate(game);
 
         if (minValue <= alpha) {
-            return encodedMoveAndValue((short) 0, minValue);
+            return BinaryUtils.encodedMoveAndValue((short) 0, minValue);
         }
 
         Move bestMove = null;
@@ -92,7 +93,7 @@ public class Quiescence implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
 
-                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+                int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -105,7 +106,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
+        return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
     }
 
     protected boolean isNotQuiet(Move move) {
@@ -131,11 +132,4 @@ public class Quiescence implements AlphaBetaFilter {
         this.evaluator = evaluator;
     }
 
-    private static long encodedMoveAndValue(short move, int value) {
-        long encodedMoveLng = ((long) move) << 32;
-
-        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
-
-        return encodedValueLng | encodedMoveLng;
-    }
 }

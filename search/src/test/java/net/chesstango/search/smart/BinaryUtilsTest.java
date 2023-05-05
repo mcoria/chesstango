@@ -1,4 +1,4 @@
-package net.chesstango.board;
+package net.chesstango.search.smart;
 
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class BinaryOperationTest {
+public class BinaryUtilsTest {
 
     @Test
     public void shift() {

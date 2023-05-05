@@ -4,8 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if (!game.getStatus().isInProgress()) {
-            return encodedMoveAndValue((short) 0, evaluator.evaluate(game));
+            return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.maximize(currentPly, alpha, beta);
@@ -60,7 +61,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
 
-                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+                int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
@@ -72,14 +73,14 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.undoMove();
             }
-            return encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
+            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
         }
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if (!game.getStatus().isInProgress()) {
-            return encodedMoveAndValue((short) 0, evaluator.evaluate(game));
+            return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.minimize(currentPly, alpha, beta);
@@ -97,7 +98,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
 
-                int currentValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+                int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
 
                 if (currentValue < minValue) {
                     minValue = currentValue;
@@ -109,7 +110,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.undoMove();
             }
-            return encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
+            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
         }
     }
 
@@ -134,11 +135,4 @@ public class AlphaBeta implements AlphaBetaFilter {
         this.next = next;
     }
 
-    private static long encodedMoveAndValue(short move, int value){
-        long encodedMoveLng = ((long) move) << 32;
-
-        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
-
-        return encodedValueLng | encodedMoveLng;
-    }
 }

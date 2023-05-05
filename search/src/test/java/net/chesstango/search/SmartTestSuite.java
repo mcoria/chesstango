@@ -16,7 +16,8 @@ import org.junit.platform.suite.api.Suite;
         DefaultMoveSorterTest.class,
         TranspositionMoveSorterTest.class,
         MoveSelectorTest.class,
-        MoveComparatorTest.class
+        MoveComparatorTest.class,
+        BinaryUtilsTest.class
 })
 public class SmartTestSuite {
 
