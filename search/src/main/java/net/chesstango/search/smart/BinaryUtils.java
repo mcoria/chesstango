@@ -16,5 +16,8 @@ public class BinaryUtils {
         return (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & encodedMoveAndValue);
     }
 
+    public static short decodeMove(long encodedMoveAndValue){
+        return  (short) (encodedMoveAndValue >> 32);
+    }
 
 }

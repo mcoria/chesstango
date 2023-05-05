@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.SANEncoder;
+import net.chesstango.search.smart.BinaryUtils;
 
 import java.util.*;
 
@@ -173,7 +174,7 @@ public class SearchMoveResult {
 
 
         if (entry != null) {
-            short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
+            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue );
             for (Move posibleMove : game.getPossibleMoves()) {
                 if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                     result = posibleMove;
@@ -196,7 +197,7 @@ public class SearchMoveResult {
         TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = (short) (entry.bestMoveAndValue >> 32);
+            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
             if (bestMoveEncoded != 0) {
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {
