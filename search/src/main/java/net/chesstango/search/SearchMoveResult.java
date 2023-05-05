@@ -174,7 +174,7 @@ public class SearchMoveResult {
 
 
         if (entry != null) {
-            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue );
+            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
             for (Move posibleMove : game.getPossibleMoves()) {
                 if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                     result = posibleMove;
@@ -228,18 +228,18 @@ public class SearchMoveResult {
             if (entry != null) {
                 MoveEvaluation moveEvaluation = new MoveEvaluation();
                 moveEvaluation.move = move;
-                moveEvaluation.evaluation = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & entry.bestMoveAndValue);
+                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 
-            if(move.equals(bestMove)){
+            if (move.equals(bestMove)) {
                 bestMovePresent = true;
             }
 
             game.undoMove();
         }
 
-        if(!bestMovePresent){
+        if (!bestMovePresent) {
             throw new RuntimeException("Best move is not present in game");
         }
 
@@ -255,7 +255,7 @@ public class SearchMoveResult {
             } else {
                 bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
             }
-            if ( !bestEvaluation.isPresent() || bestEvaluation.getAsInt() != evaluation) {
+            if (!bestEvaluation.isPresent() || bestEvaluation.getAsInt() != evaluation) {
                 throw new RuntimeException("El mejor valor no coincide");
             }
         }

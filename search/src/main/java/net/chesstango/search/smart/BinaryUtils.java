@@ -4,7 +4,7 @@ package net.chesstango.search.smart;
  * @author Mauricio Coria
  */
 public class BinaryUtils {
-    public static long encodedMoveAndValue(short move, int value){
+    public static long encodedMoveAndValue(short move, int value) {
         long encodedMoveLng = ((long) move) << 32;
 
         long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
@@ -12,12 +12,12 @@ public class BinaryUtils {
         return encodedValueLng | encodedMoveLng;
     }
 
-    public static int decodeValue(long encodedMoveAndValue){
+    public static int decodeValue(long encodedMoveAndValue) {
         return (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & encodedMoveAndValue);
     }
 
-    public static short decodeMove(long encodedMoveAndValue){
-        return  (short) (encodedMoveAndValue >> 32);
+    public static short decodeMove(long encodedMoveAndValue) {
+        return (short) (encodedMoveAndValue >> 32);
     }
 
 }

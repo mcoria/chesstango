@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
@@ -106,7 +107,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         entry.searchDepth = maxPly - currentPly;
         entry.alpha = alpha;
         entry.beta = beta;
-        entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+        entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
         entry.exact =  entry.value > alpha && entry.value < beta;
         return entry;
     }

@@ -6,6 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -233,8 +234,8 @@ public class FitnessBySearchTest {
     private SearchContext.TableEntry saveEntry(Game game, Move move, int value) {
         SearchContext.TableEntry entry = new SearchContext.TableEntry();
 
-        entry.bestMoveAndValue = encodedMoveAndValue(move.binaryEncoding(), value);
-        entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & entry.bestMoveAndValue);
+        entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
+        entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
 
         long hash = game.getChessPosition().getPositionHash();
 
@@ -247,11 +248,4 @@ public class FitnessBySearchTest {
         return entry;
     }
 
-    private static long encodedMoveAndValue(short move, int value) {
-        long encodedMoveLng = ((long) move) << 32;
-
-        long encodedValueLng = 0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & value;
-
-        return encodedValueLng | encodedMoveLng;
-    }
 }

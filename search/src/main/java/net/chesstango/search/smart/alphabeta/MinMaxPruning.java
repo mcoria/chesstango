@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.FilterActions;
 import net.chesstango.search.smart.SearchContext;
 
@@ -34,8 +35,8 @@ public class MinMaxPruning extends AbstractSmart {
                 alphaBetaFilter.maximize( 0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
                 alphaBetaFilter.minimize( 0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
 
-        int bestValue = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
-        short bestMoveEncoded = (short) (bestMoveAndValue >> 32);
+        int bestValue = BinaryUtils.decodeValue(bestMoveAndValue);
+        short bestMoveEncoded = BinaryUtils.decodeMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {
