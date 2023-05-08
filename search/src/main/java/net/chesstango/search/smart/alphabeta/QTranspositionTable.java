@@ -13,9 +13,7 @@ import static net.chesstango.search.smart.SearchContext.TableEntry;
  * @author Mauricio Coria
  */
 public class QTranspositionTable implements AlphaBetaFilter {
-
     private AlphaBetaFilter next;
-
     private Map<Long, TableEntry> qMaxMap;
     private Map<Long, TableEntry> qMinMap;
     private Game game;

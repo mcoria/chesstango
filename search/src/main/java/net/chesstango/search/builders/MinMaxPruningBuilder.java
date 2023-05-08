@@ -9,6 +9,7 @@ import net.chesstango.search.smart.alphabeta.GameEvaluatorCounter;
 import net.chesstango.search.smart.alphabeta.*;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.movesorters.QTranspositionMoveSorter;
 import net.chesstango.search.smart.movesorters.TranspositionMoveSorter;
 
 import java.util.ArrayList;
@@ -19,26 +20,40 @@ import java.util.List;
  */
 public class MinMaxPruningBuilder implements SearchBuilder {
 
-    private final AlphaBeta alphaBeta = new AlphaBeta();
+    private final AlphaBeta alphaBeta;
 
-    private MoveSorter moveSorter = new DefaultMoveSorter();
+    private MoveSorter moveSorter;
 
-    private AlphaBetaFilter quiescence = new QuiescenceNull();
+    private MoveSorter qMoveSorter;
 
-    private GameEvaluator gameEvaluator = new DefaultGameEvaluator();
+    private AlphaBetaFilter quiescence;
 
-    private AlphaBetaStatistics alphaBetaStatistics = null;
+    private GameEvaluator gameEvaluator;
 
-    private QuiescenceStatics quiescenceStatics = null;
+    private AlphaBetaStatistics alphaBetaStatistics;
 
-    private DetectCycle detectCycle = null;
+    private QuiescenceStatics quiescenceStatics;
 
-    private TranspositionTable transpositionTable = null;
+    private DetectCycle detectCycle;
 
-    private QTranspositionTable qTranspositionTable = null;
+    private TranspositionTable transpositionTable;
+
+    private QTranspositionTable qTranspositionTable;
 
     private boolean withIterativeDeepening;
     private boolean withStatics;
+
+    public MinMaxPruningBuilder(){
+        alphaBeta = new AlphaBeta();
+
+        quiescence = new QuiescenceNull();
+
+        gameEvaluator = new DefaultGameEvaluator();
+
+        moveSorter = new DefaultMoveSorter();
+
+        qMoveSorter = new DefaultMoveSorter();
+    }
 
     public MinMaxPruningBuilder withIterativeDeepening() {
         this.withIterativeDeepening = true;
@@ -81,6 +96,11 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         return this;
     }
 
+    public MinMaxPruningBuilder withQTranspositionMoveSorter() {
+        qMoveSorter = new QTranspositionMoveSorter();
+        return this;
+    }
+
     /**
      * MinMaxPruning -> Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
      *                     ^                                                |
@@ -106,6 +126,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         filters.add(alphaBeta);
         filters.add(quiescence);
         filters.add(moveSorter);
+        filters.add(qMoveSorter);
+
         if(gameEvaluator instanceof GameEvaluatorCounter) {
             filters.add((GameEvaluatorCounter)gameEvaluator);
         }
@@ -117,7 +139,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         AlphaBetaFilter headQuiescence = null;
         if (quiescence instanceof Quiescence) {
             Quiescence realQuiescence = (Quiescence) quiescence;
-            realQuiescence.setMoveSorter(moveSorter);
+            realQuiescence.setMoveSorter(qMoveSorter);
             realQuiescence.setGameEvaluator(gameEvaluator);
 
             if (quiescenceStatics != null) {
