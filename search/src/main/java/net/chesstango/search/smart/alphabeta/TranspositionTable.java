@@ -20,7 +20,7 @@ public class TranspositionTable implements AlphaBetaFilter {
     private Map<Long, TableEntry> minMap;
 
     private Game game;
-    private  int maxPly;
+    private int maxPly;
 
     @Override
     public void init(Game game, SearchContext context) {
@@ -56,59 +56,65 @@ public class TranspositionTable implements AlphaBetaFilter {
     private long process(int currentPly, int alpha, int beta, boolean maximize) {
         int searchDepth = maxPly - currentPly;
 
-        if(searchDepth > 0 && game.getStatus().isInProgress()) {
+        if (searchDepth > 0 && game.getStatus().isInProgress()) {
             long hash = game.getChessPosition().getPositionHash();
 
             SearchContext.TableEntry entry = maximize ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry == null) {
-                entry = searchAndUpdate(new TableEntry(), currentPly, alpha, beta, maximize);
+                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                if(maximize) {
+                entry = updateEntry(new TableEntry(), currentPly, alpha, beta, bestMoveAndValue);
+
+                if (maximize) {
                     maxMap.put(hash, entry);
                 } else {
                     minMap.put(hash, entry);
                 }
             } else {
-                if(searchDepth > entry.searchDepth){
-                    entry = searchAndUpdate(entry, currentPly, alpha, beta, maximize);
+                if (searchDepth > entry.searchDepth) {
+                    long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                    entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
 
                 } else {
                     // Es un valor exacto
                     if (entry.exact) {
                         entry = entry;
                     } else {
-                        if(maximize){
-                            if(entry.value >= beta){
+                        if (maximize) {
+                            if (entry.value >= beta) {
                                 entry = entry;
                             } else {
-                                entry = searchAndUpdate(entry, currentPly, alpha, beta, true);
+                                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                                entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
                             }
                         } else {
-                            if(entry.value <= alpha){
+                            if (entry.value <= alpha) {
                                 entry = entry;
                             } else {
-                                entry = searchAndUpdate(entry, currentPly, alpha, beta, false);
+                                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                                entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
                             }
                         }
                     }
                 }
             }
-
             return entry.bestMoveAndValue;
         }
 
         return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
     }
 
-    private TableEntry searchAndUpdate(TableEntry entry, int currentPly, int alpha, int beta, boolean maximize) {
-        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+    private TableEntry updateEntry(TableEntry entry, int currentPly, int alpha, int beta, long bestMoveAndValue) {
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.searchDepth = maxPly - currentPly;
         entry.alpha = alpha;
         entry.beta = beta;
         entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.exact =  entry.value > alpha && entry.value < beta;
+        entry.exact = entry.value > alpha && entry.value < beta;
         return entry;
     }
 }

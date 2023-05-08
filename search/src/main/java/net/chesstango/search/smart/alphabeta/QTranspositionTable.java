@@ -51,15 +51,17 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
 
     private long process(int currentPly, int alpha, int beta, boolean maximize) {
-        if(game.getStatus().isInProgress()) {
+        if (game.getStatus().isInProgress()) {
             long hash = game.getChessPosition().getPositionHash();
 
             SearchContext.TableEntry entry = maximize ? qMaxMap.get(hash) : qMinMap.get(hash);
 
             if (entry == null) {
-                entry = searchAndUpdate(new TableEntry(), currentPly, alpha, beta, maximize);
+                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                if(maximize) {
+                entry = updateEntry(new TableEntry(), currentPly, alpha, beta, bestMoveAndValue);
+
+                if (maximize) {
                     qMaxMap.put(hash, entry);
                 } else {
                     qMinMap.put(hash, entry);
@@ -69,17 +71,20 @@ public class QTranspositionTable implements AlphaBetaFilter {
                 if (entry.exact) {
                     entry = entry;
                 } else {
-                    if(maximize){
-                        if(entry.value >= beta){
+                    if (maximize) {
+                        if (entry.value >= beta) {
                             entry = entry;
                         } else {
-                            entry = searchAndUpdate(entry, currentPly, alpha, beta, true);
+                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                            entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
                         }
                     } else {
-                        if(entry.value <= alpha){
+                        if (entry.value <= alpha) {
                             entry = entry;
                         } else {
-                            entry = searchAndUpdate(entry, currentPly, alpha, beta, false);
+                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+                            entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
                         }
                     }
                 }
@@ -91,14 +96,13 @@ public class QTranspositionTable implements AlphaBetaFilter {
         return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
     }
 
-    private TableEntry searchAndUpdate(TableEntry entry, int currentPly, int alpha, int beta, boolean maximize) {
-        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+    private TableEntry updateEntry(TableEntry entry, int currentPly, int alpha, int beta, long bestMoveAndValue) {
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.searchDepth = currentPly;
         entry.alpha = alpha;
         entry.beta = beta;
         entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.exact =  entry.value > alpha && entry.value < beta;
+        entry.exact = entry.value > alpha && entry.value < beta;
         return entry;
     }
 }

@@ -40,10 +40,9 @@ public class QTranspositionMoveSorter implements MoveSorter {
 
     @Override
     public List<Move> getSortedMoves() {
-        SearchContext.TableEntry entry;
-
         long hash = game.getChessPosition().getPositionHash();
 
+        SearchContext.TableEntry entry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             entry = qMaxMap.get(hash);
         } else {
