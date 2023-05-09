@@ -8,7 +8,7 @@ import net.chesstango.uci.protocol.requests.CmdUci;
 /**
  * @author Mauricio Coria
  */
-interface ZondaState {
+interface TangoState {
 
     void do_uci(CmdUci cmdUci);
 

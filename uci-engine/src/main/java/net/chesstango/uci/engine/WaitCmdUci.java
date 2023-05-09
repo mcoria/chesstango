@@ -10,7 +10,7 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
 /**
  * @author Mauricio Coria
  */
-public class WaitCmdUci implements ZondaState {
+public class WaitCmdUci implements TangoState {
     public static final String ENGINE_NAME = "Tango";
     public static final String ENGINE_AUTHOR = "Mauricio Coria";
     private final EngineTango engineTango;

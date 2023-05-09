@@ -11,7 +11,7 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 /**
  * @author Mauricio Coria
  */
-class FindingBestMove implements ZondaState {
+class FindingBestMove implements TangoState {
     private final EngineTango engineTango;
     private UCIEncoder uciEncoder = new UCIEncoder();
 
@@ -42,7 +42,6 @@ class FindingBestMove implements ZondaState {
     }
 
     public void findBestMove(CmdGo cmdGo) {
-        // TODO: for the moment we are cheating
         Move selectedMove = null;
 
         if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {

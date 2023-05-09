@@ -27,7 +27,7 @@ public class EngineTango implements Service {
     protected UCIOutputStream responseOutputStream;
     protected ExecutorService executor;
 
-    ZondaState currentState;
+    TangoState currentState;
 
     public EngineTango() {
         this(new DefaultSearchMove());

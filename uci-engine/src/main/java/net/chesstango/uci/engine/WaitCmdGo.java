@@ -9,7 +9,7 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 /**
  * @author Mauricio Coria
  */
-class WaitCmdGo implements ZondaState {
+class WaitCmdGo implements TangoState {
     private final EngineTango engineTango;
 
     WaitCmdGo(EngineTango engineTango) {

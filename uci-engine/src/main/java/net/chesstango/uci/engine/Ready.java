@@ -10,7 +10,7 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 /**
  * @author Mauricio Coria
  */
-class Ready implements ZondaState {
+class Ready implements TangoState {
 
     private final EngineTango engineTango;
 
