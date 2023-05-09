@@ -71,21 +71,12 @@ public class QTranspositionTable implements AlphaBetaFilter {
                 if (entry.exact) {
                     entry = entry;
                 } else {
-                    if (maximize) {
-                        if (entry.value >= beta) {
-                            entry = entry;
-                        } else {
-                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                            entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
-                        }
+                    if (entry.value <= alpha || entry.value >= beta) {
+                        entry = entry;
                     } else {
-                        if (entry.value <= alpha) {
-                            entry = entry;
-                        } else {
-                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-                            entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
-                        }
+                        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                        entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
                     }
                 }
             }

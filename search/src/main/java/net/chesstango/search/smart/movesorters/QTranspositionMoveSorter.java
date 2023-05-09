@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.alphabeta.Quiescence;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -60,7 +61,9 @@ public class QTranspositionMoveSorter implements MoveSorter {
                 if (move.binaryEncoding() == bestMoveEncoded) {
                     bestMove = move;
                 } else {
-                    unsortedMoveList.add(move);
+                    if(Quiescence.isNotQuiet(move)){
+                        unsortedMoveList.add(move);
+                    }
                 }
             }
 
@@ -70,7 +73,11 @@ public class QTranspositionMoveSorter implements MoveSorter {
             sortedMoveList.addAll(unsortedMoveList);
 
         } else {
-            game.getPossibleMoves().forEach(sortedMoveList::add);
+            game.getPossibleMoves().forEach( move ->{
+                if(Quiescence.isNotQuiet(move)){
+                    sortedMoveList.add(move);
+                }
+            });
 
             Collections.sort(sortedMoveList, moveComparator.reversed());
         }

@@ -64,7 +64,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                entry = updateEntry(new TableEntry(), currentPly, alpha, beta, bestMoveAndValue);
+                entry = updateEntry(new TableEntry(), searchDepth, alpha, beta, bestMoveAndValue);
 
                 if (maximize) {
                     maxMap.put(hash, entry);
@@ -75,29 +75,19 @@ public class TranspositionTable implements AlphaBetaFilter {
                 if (searchDepth > entry.searchDepth) {
                     long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                    entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
+                    entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
 
                 } else {
                     // Es un valor exacto
                     if (entry.exact) {
                         entry = entry;
                     } else {
-                        if (maximize) {
-                            if (entry.value >= beta) {
-                                entry = entry;
-                            } else {
-                                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                                entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
-                            }
+                        if (entry.value <= alpha || entry.value >= beta) {
+                            entry = entry;
                         } else {
-                            if (entry.value <= alpha) {
-                                entry = entry;
-                            } else {
-                                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                                entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
-                            }
+                            entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
                         }
                     }
                 }
@@ -108,9 +98,9 @@ public class TranspositionTable implements AlphaBetaFilter {
         return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
     }
 
-    private TableEntry updateEntry(TableEntry entry, int currentPly, int alpha, int beta, long bestMoveAndValue) {
+    private TableEntry updateEntry(TableEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         entry.bestMoveAndValue = bestMoveAndValue;
-        entry.searchDepth = maxPly - currentPly;
+        entry.searchDepth = searchDepth;
         entry.alpha = alpha;
         entry.beta = beta;
         entry.value = BinaryUtils.decodeValue(bestMoveAndValue);

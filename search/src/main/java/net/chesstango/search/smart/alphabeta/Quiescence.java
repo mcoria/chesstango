@@ -109,7 +109,7 @@ public class Quiescence implements AlphaBetaFilter {
         return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
     }
 
-    protected boolean isNotQuiet(Move move) {
+    public static boolean isNotQuiet(Move move) {
         return move.getTo().getPiece() != null ||  // Captura
                 move.getFrom().getPiece().isPawn() && move.getFrom().getSquare().getFile() != move.getTo().getSquare().getFile() || // Captura de peon
                 move instanceof MovePromotion;     // Promocion
