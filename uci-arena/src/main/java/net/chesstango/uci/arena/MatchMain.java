@@ -5,6 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
+import net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.MinMaxBuilder;
 import net.chesstango.search.builders.MinMaxPruningBuilder;
@@ -26,7 +27,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 3;
+    private static final int DEPTH = 6;
     private static final boolean MATCH_DEBUG = false;
 
     /**
@@ -39,21 +40,22 @@ public class MatchMain implements MatchListener {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                .createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class)
+                .createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class);
                 //.createTangoControllerWithDefaultEvaluator(MinMaxPruningBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder.withStatics() )
-                .overrideEngineName("MinMaxPruning");
+                //.overrideEngineName("MinMaxPruning");
+
+
+        EngineController engineController2 = EngineControllerFactory
+                .createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class);
+               // .createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
+                //.overrideEngineName("MinMax");
+
 
         /*
         EngineController engineController2 = EngineControllerFactory
-                //.createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class);
-                .createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
-                .overrideEngineName("MinMax");
+                                            .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
+                                            //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
         */
-
-        EngineController engineController2 = EngineControllerFactory
-                                            .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false))
-                                            .overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
-
 
 
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
@@ -97,8 +99,8 @@ public class MatchMain implements MatchListener {
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         return fenList;
     }
 

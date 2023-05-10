@@ -13,7 +13,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 public abstract class AbstractEvaluator implements GameEvaluator {
-    protected int evaluateFinalStatus(final Game game) {
+    public static int evaluateFinalStatus(final Game game) {
         int evaluation = 0;
         switch (game.getStatus()) {
             case MATE:
