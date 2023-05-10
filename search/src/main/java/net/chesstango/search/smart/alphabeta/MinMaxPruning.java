@@ -26,7 +26,7 @@ public class MinMaxPruning implements AbstractSmart {
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
 
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
-        final List<Move> bestMoves = new ArrayList<Move>();
+        final List<Move> bestMoves = new ArrayList<>();
 
         initFilters(game, context);
 

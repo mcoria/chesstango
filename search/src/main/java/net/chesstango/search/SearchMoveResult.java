@@ -25,9 +25,10 @@ public class SearchMoveResult {
     private int[] evaluatedNodes;
     private Set<Move>[] distinctMovesPerLevel;
     private List<Move> bestMoveOptions;
-    private List<String> principalVariation;
     private long evaluatedGamesCounter;
-    private List<MoveEvaluation> moveEvaluationList;
+
+    private List<String> principalVariation;
+    private Collection<MoveEvaluation> moveEvaluationList;
 
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
@@ -131,6 +132,16 @@ public class SearchMoveResult {
 
     public Collection<MoveEvaluation> getMoveEvaluationList() {
         return moveEvaluationList;
+    }
+
+    public SearchMoveResult setPrincipalVariation(List<String> principalVariation) {
+        this.principalVariation = principalVariation;
+        return this;
+    }
+
+    public SearchMoveResult setMoveEvaluationList(Collection<MoveEvaluation> moveEvaluationList) {
+        this.moveEvaluationList = moveEvaluationList;
+        return this;
     }
 
     public SearchMoveResult calculatePrincipalVariation(Game game, int maxExploredDepth,

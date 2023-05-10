@@ -17,6 +17,9 @@ public class TranspositionTable implements AlphaBetaFilter {
     private Map<Long, TableEntry> maxMap;
     private Map<Long, TableEntry> minMap;
 
+    private Map<Long, TableEntry> qMaxMap;
+    private Map<Long, TableEntry> qMinMap;
+
     private Game game;
     private int maxPly;
 
@@ -26,11 +29,15 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
     public void close(SearchMoveResult result) {
-
+        result
+                .storeMoveEvaluations(game, maxPly, maxMap, minMap)
+                .calculatePrincipalVariation(game, maxPly, maxMap, minMap, qMaxMap, qMinMap);
     }
 
     @Override

@@ -58,7 +58,7 @@ public class MinMaxPrunningTest {
         });
 
 
-        Thread.sleep(6000);
+        Thread.sleep(1000);
 
         if (!searchTask.isDone()) {
             search.stopSearching();
