@@ -34,11 +34,6 @@ public class TranspositionMoveSorter implements MoveSorter {
     }
 
     @Override
-    public void stopSearching() {
-
-    }
-
-    @Override
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getPositionHash();
 

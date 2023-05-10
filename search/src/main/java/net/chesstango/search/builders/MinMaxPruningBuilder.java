@@ -40,6 +40,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private QTranspositionTable qTranspositionTable;
 
+    private GameRevert gameRevert;
+
     private boolean withIterativeDeepening;
     private boolean withStatics;
 
@@ -101,6 +103,11 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         return this;
     }
 
+    public MinMaxPruningBuilder withGameRevert() {
+        gameRevert = new GameRevert();
+        return this;
+    }
+
     /**
      * MinMaxPruning -> Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
      *                     ^                                                |
@@ -131,9 +138,6 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         if(gameEvaluator instanceof GameEvaluatorCounter) {
             filters.add((GameEvaluatorCounter)gameEvaluator);
         }
-
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setGameEvaluator(gameEvaluator);
 
         // =============  quiescence setup =====================
         AlphaBetaFilter headQuiescence = null;
@@ -170,9 +174,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             ((QuiescenceNull) quiescence).setGameEvaluator(gameEvaluator);
             headQuiescence = quiescence;
         }
-
-        alphaBeta.setQuiescence(headQuiescence);
-        // ===================================
+        // ====================================================
 
         // =============  alphaBeta setup =====================
         AlphaBetaFilter head = null;
@@ -212,8 +214,22 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             head = alphaBeta;
         }
 
+
+        alphaBeta.setMoveSorter(moveSorter);
+        alphaBeta.setGameEvaluator(gameEvaluator);
+        alphaBeta.setQuiescence(headQuiescence);
         alphaBeta.setNext(head);
-        // ===================================
+        // ====================================================
+
+        // GameRevert is set one in the chain
+        if(gameRevert != null) {
+            filters.add(gameRevert);
+
+            gameRevert.setNext(head);
+
+            head = gameRevert;
+        }
+        // ====================================================
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);

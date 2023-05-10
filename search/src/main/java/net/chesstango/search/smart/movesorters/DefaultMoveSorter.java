@@ -133,9 +133,4 @@ public class DefaultMoveSorter implements FilterActions, MoveSorter {
 
     }
 
-    @Override
-    public void stopSearching() {
-
-    }
-
 }

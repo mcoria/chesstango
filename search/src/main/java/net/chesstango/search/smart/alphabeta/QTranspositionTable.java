@@ -18,7 +18,6 @@ public class QTranspositionTable implements AlphaBetaFilter {
     private Map<Long, TableEntry> qMinMap;
     private Game game;
 
-
     @Override
     public void init(Game game, SearchContext context) {
         this.game = game;
@@ -39,10 +38,6 @@ public class QTranspositionTable implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         return process(currentPly, alpha, beta, false);
-    }
-
-    @Override
-    public void stopSearching() {
     }
 
     public void setNext(AlphaBetaFilter next) {

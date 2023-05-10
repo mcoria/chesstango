@@ -40,8 +40,4 @@ public class GameEvaluatorCounter implements GameEvaluator, FilterActions {
         result.setEvaluatedGamesCounter(counter);
     }
 
-    @Override
-    public void stopSearching() {
-
-    }
 }

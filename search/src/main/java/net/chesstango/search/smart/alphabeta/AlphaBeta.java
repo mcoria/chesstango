@@ -6,6 +6,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.StopProcessingException;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.Iterator;
@@ -42,7 +43,7 @@ public class AlphaBeta implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if(!keepProcessing){
-            return BinaryUtils.encodedMoveAndValue((short) 0, alpha);
+            throw  new StopProcessingException();
         }
         if (!game.getStatus().isInProgress()) {
             return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
@@ -56,7 +57,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
             List<Move> sortedMoves = moveSorter.getSortedMoves();
             Iterator<Move> moveIterator = sortedMoves.iterator();
-            while (moveIterator.hasNext() && search && keepProcessing) {
+            while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();
 
                 game = game.executeMove(move);
@@ -73,14 +74,14 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.undoMove();
             }
-            return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), maxValue);
+            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
         }
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if(!keepProcessing){
-            return BinaryUtils.encodedMoveAndValue((short) 0, beta);
+            throw  new StopProcessingException();
         }
         if (!game.getStatus().isInProgress()) {
             return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
@@ -94,7 +95,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
             List<Move> sortedMoves = moveSorter.getSortedMoves();
             Iterator<Move> moveIterator = sortedMoves.iterator();
-            while (moveIterator.hasNext() && search && keepProcessing) {
+            while (moveIterator.hasNext() && search) {
                 Move move = moveIterator.next();
 
                 game = game.executeMove(move);
@@ -111,11 +112,10 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.undoMove();
             }
-            return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
+            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
         }
     }
 
-    @Override
     public void stopSearching() {
         this.keepProcessing = false;
     }

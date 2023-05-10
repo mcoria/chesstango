@@ -16,7 +16,6 @@ import java.util.stream.IntStream;
  */
 public class IterativeDeepening implements SearchMove {
     private final AbstractSmart searchMove;
-    private volatile boolean keepProcessing;
 
     public IterativeDeepening(AbstractSmart searchMove) {
         this.searchMove = searchMove;
@@ -29,7 +28,6 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public SearchMoveResult searchBestMove(final Game game, final int depth) {
-        this.keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
@@ -44,21 +42,21 @@ public class IterativeDeepening implements SearchMove {
 
         int maxExploredDepth = 0;
 
-        for (int i = 1; i <= depth; i++) {
+        try {
+            for (int i = 1; i <= depth; i++) {
 
-            SearchContext context = new SearchContext(i,
-                    visitedNodesCounters,
-                    expectedNodesCounters,
-                    visitedNodesQuiescenceCounter,
-                    distinctMovesPerLevel,
-                    maxMap,
-                    minMap,
-                    qMaxMap,
-                    qMinMap);
+                SearchContext context = new SearchContext(i,
+                        visitedNodesCounters,
+                        expectedNodesCounters,
+                        visitedNodesQuiescenceCounter,
+                        distinctMovesPerLevel,
+                        maxMap,
+                        minMap,
+                        qMaxMap,
+                        qMinMap);
 
-            SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
+                SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
 
-            if(keepProcessing) {
                 maxExploredDepth = i;
 
                 bestMovesByDepth.add(searchResult);
@@ -66,10 +64,9 @@ public class IterativeDeepening implements SearchMove {
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
                 }
-
-            } else {
-                break;
             }
+        } catch (StopProcessingException spe) {
+
         }
 
         SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
@@ -90,7 +87,6 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public void stopSearching() {
-        this.keepProcessing = false;
         searchMove.stopSearching();
     }
 

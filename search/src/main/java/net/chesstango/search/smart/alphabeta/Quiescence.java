@@ -7,6 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.StopProcessingException;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.Iterator;
@@ -35,7 +36,7 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if(!keepProcessing){
-            return BinaryUtils.encodedMoveAndValue((short) 0, alpha);
+            throw  new StopProcessingException();
         }
 
         int maxValue = evaluator.evaluate(game);
@@ -49,7 +50,7 @@ public class Quiescence implements AlphaBetaFilter {
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search && keepProcessing) {
+        while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
             if (isNotQuiet(move)) {
@@ -75,7 +76,7 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if(!keepProcessing){
-            return BinaryUtils.encodedMoveAndValue((short) 0, beta);
+            throw  new StopProcessingException();
         }
 
         int minValue = evaluator.evaluate(game);
@@ -89,7 +90,7 @@ public class Quiescence implements AlphaBetaFilter {
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
-        while (moveIterator.hasNext() && search && keepProcessing) {
+        while (moveIterator.hasNext() && search) {
             Move move = moveIterator.next();
 
             if (isNotQuiet(move)) {
@@ -118,7 +119,6 @@ public class Quiescence implements AlphaBetaFilter {
                 move instanceof MovePromotion;     // Promocion
     }
 
-    @Override
     public void stopSearching() {
         this.keepProcessing = false;
     }

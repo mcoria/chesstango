@@ -33,10 +33,6 @@ public class QuiescenceNull implements AlphaBetaFilter {
         return evaluator.evaluate(game);
     }
 
-    @Override
-    public void stopSearching() {
-    }
-
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = evaluator;
     }

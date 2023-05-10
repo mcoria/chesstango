@@ -11,5 +11,4 @@ public interface FilterActions {
 
     void close(SearchMoveResult result);
 
-    void stopSearching();
 }

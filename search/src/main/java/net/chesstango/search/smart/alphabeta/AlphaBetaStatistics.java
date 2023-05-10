@@ -50,11 +50,6 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
 
-    @Override
-    public void stopSearching() {
-        next.stopSearching();
-    }
-
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }

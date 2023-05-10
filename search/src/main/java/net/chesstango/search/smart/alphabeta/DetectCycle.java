@@ -93,10 +93,6 @@ public class DetectCycle implements AlphaBetaFilter {
         return next.minimize(currentPly, alpha, beta);
     }
 
-    @Override
-    public void stopSearching() {
-    }
-
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }

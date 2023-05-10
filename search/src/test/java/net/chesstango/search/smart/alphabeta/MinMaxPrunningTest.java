@@ -23,13 +23,8 @@ public class MinMaxPrunningTest {
     public void test01() throws ExecutionException, InterruptedException {
         SearchMove search = new MinMaxPruningBuilder()
                 .withGameEvaluator(new GameEvaluatorByMaterial())
-
                 .withStatics()
-
-                //.withDetectCycle()
-
                 .withTranspositionTable()
-
                 .withQTranspositionTable()
 
                 .withQuiescence()
@@ -37,8 +32,9 @@ public class MinMaxPrunningTest {
                 .withIterativeDeepening()
 
                 .withTranspositionMoveSorter()
-
                 .withQTranspositionMoveSorter()
+
+                .withGameRevert()
 
                 .build();
 
@@ -50,7 +46,7 @@ public class MinMaxPrunningTest {
 
         Future<SearchMoveResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                SearchMoveResult searchResult = search.searchBestMove(game, 10);
+                SearchMoveResult searchResult = search.searchBestMove(game, 20);
 
                 testingThread.interrupt();
 

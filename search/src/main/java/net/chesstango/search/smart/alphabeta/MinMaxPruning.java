@@ -63,7 +63,14 @@ public class MinMaxPruning implements AbstractSmart {
 
     @Override
     public void stopSearching() {
-        filters.stream().forEach(FilterActions::stopSearching);
+        filters.stream().forEach(filterActions -> {
+            if(filterActions instanceof AlphaBeta){
+                ((AlphaBeta)filterActions).stopSearching();
+            }
+            if(filterActions instanceof Quiescence){
+                ((Quiescence)filterActions).stopSearching();
+            }
+        });
     }
 
     public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {

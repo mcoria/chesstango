@@ -8,10 +8,8 @@ import net.chesstango.search.smart.SearchContext;
  * @author Mauricio Coria
  */
 public class QuiescenceStatics implements AlphaBetaFilter {
-
     private AlphaBetaFilter next;
     private int[] visitedNodesQuiescenceCounter;
-
     private int maxPly;
 
     @Override
@@ -37,9 +35,6 @@ public class QuiescenceStatics implements AlphaBetaFilter {
         return next.maximize(currentPly, alpha, beta);
     }
 
-    @Override
-    public void stopSearching() {
-    }
 
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
