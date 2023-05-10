@@ -9,7 +9,7 @@ import net.chesstango.search.smart.minmax.MinMax;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxBuilder implements SearchBuilder{
+public class MinMaxBuilder implements SearchBuilder {
 
     private GameEvaluator gameEvaluator = new DefaultGameEvaluator();
 

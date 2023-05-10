@@ -15,7 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Mauricio Coria
- *
  */
 public class Dummy implements SearchMove {
 

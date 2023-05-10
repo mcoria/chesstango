@@ -36,7 +36,7 @@ class Node {
             }
         }
 
-        if(selectedLink == null){
+        if (selectedLink == null) {
             throw new RuntimeException("Move doesn't exist in link + " + move);
         }
         gameMock.currentMockNode = selectedLink.mockNode;

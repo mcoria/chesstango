@@ -53,7 +53,7 @@ public class MinMaxPrunningTest {
                 return searchResult;
             } catch (RuntimeException exception) {
                 exception.printStackTrace(System.err);
-                throw  exception;
+                throw exception;
             }
         });
 

@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
@@ -35,6 +35,7 @@ public class GameRevert implements AlphaBetaFilter {
     public long minimize(int currentPly, int alpha, int beta) {
         return process(currentPly, alpha, beta, false);
     }
+
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }

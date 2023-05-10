@@ -1,8 +1,8 @@
-package net.chesstango.search.smart.alphabeta.filteractors;
+package net.chesstango.search.smart.alphabeta.actions;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.FilterActions;
+import net.chesstango.search.smart.SearchActions;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluations implements FilterActions {
+public class MoveEvaluations implements SearchActions {
     private Map<Long, SearchContext.TableEntry> maxMap;
     private Map<Long, SearchContext.TableEntry> minMap;
     private Game game;

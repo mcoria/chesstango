@@ -14,7 +14,7 @@ public class MinMaxMateIn2Test extends MateIn2Test {
     private SearchMove searchMove;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         MinMax searchMove = new MinMax();
         searchMove.setGameEvaluator(new GameEvaluatorByMaterial());
         this.searchMove = new NoIterativeDeepening(searchMove);

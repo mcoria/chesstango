@@ -4,7 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.Iterator;
@@ -35,7 +34,7 @@ public class NegaQuiescence {
             if (move.getTo().getPiece() != null || move instanceof MovePromotion) {
                 game.executeMove(move);
 
-                int currentValue = - quiescenceMax(game, -beta, -Math.max(maxValue, alpha));
+                int currentValue = -quiescenceMax(game, -beta, -Math.max(maxValue, alpha));
 
                 if (currentValue > maxValue) {
                     maxValue = currentValue;

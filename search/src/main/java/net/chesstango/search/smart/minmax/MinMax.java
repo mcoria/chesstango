@@ -23,6 +23,7 @@ public class MinMax implements AbstractSmart {
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
     private GameEvaluator evaluator;
+
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = evaluator;
     }
@@ -33,7 +34,7 @@ public class MinMax implements AbstractSmart {
         this.visitedNodesCounter = context.getVisitedNodesCounters();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
 
-        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
 
@@ -81,7 +82,7 @@ public class MinMax implements AbstractSmart {
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
         visitedNodesCounter[maxPly - currentPly - 1]++;
-        expectedNodesCounters[maxPly - currentPly] +=  game.getPossibleMoves().size();
+        expectedNodesCounters[maxPly - currentPly] += game.getPossibleMoves().size();
 
         int betterEvaluation = minOrMax ? GameEvaluator.INFINITE_POSITIVE : GameEvaluator.INFINITE_NEGATIVE;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {

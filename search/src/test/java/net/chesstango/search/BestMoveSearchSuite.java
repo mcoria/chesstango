@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * Esta clase esta destinada a resolver test-positions
- *
+ * <p>
  * https://www.chessprogramming.org/Test-Positions
  *
  * @author Mauricio Coria
@@ -66,7 +65,7 @@ public class BestMoveSearchSuite {
     protected void run(String suiteName, List<EDPReader.EDPEntry> edpEntries) {
         List<String> failedSuites = new ArrayList<String>();
 
-        for (EDPReader.EDPEntry edpEntry: edpEntries) {
+        for (EDPReader.EDPEntry edpEntry : edpEntries) {
             if (run(edpEntry) == false) {
                 failedSuites.add(edpEntry.fen);
             }
@@ -80,7 +79,7 @@ public class BestMoveSearchSuite {
                 System.out.println("\t test failed: " + suiteStr);
             }
         }
-        System.out.printf("Success rate: %d%% \n", (100 * (edpEntries.size() - failedSuites.size())) /  edpEntries.size());
+        System.out.printf("Success rate: %d%% \n", (100 * (edpEntries.size() - failedSuites.size())) / edpEntries.size());
 
         new SearchesReport()
                 //.withCutoffStatics()
@@ -99,7 +98,7 @@ public class BestMoveSearchSuite {
 
         boolean result = edpEntry.bestMoves.contains(bestMove);
 
-        if(result){
+        if (result) {
             System.out.printf("Success %s\n", edpEntry.fen);
         } else {
             SANEncoder sanEncoder = new SANEncoder();

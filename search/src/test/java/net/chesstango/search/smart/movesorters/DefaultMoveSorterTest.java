@@ -4,8 +4,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
@@ -13,15 +11,15 @@ import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @author Mauricio Coria
@@ -236,7 +234,7 @@ public class DefaultMoveSorterTest {
     }
 
     @Test
-    public void testInitial(){
+    public void testInitial() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
         initMoveSorter(moveSorter, game);
@@ -252,7 +250,7 @@ public class DefaultMoveSorterTest {
     }
 
     @Test
-    public void testGamesMirror(){
+    public void testGamesMirror() {
         testMirror(FENDecoder.loadGame(FENDecoder.INITIAL_FEN));
         testMirror(FENDecoder.loadGame("r4rk1/1pp2ppp/p2b1n2/3pp3/8/PPNbPN2/3P1PPP/R1B1K2R b KQ - 0 14"));
         testMirror(FENDecoder.loadGame("2r1nrk1/p2q1ppp/bp1p4/n1pPp3/P1P1P3/2PBB1N1/4QPPP/R4RK1 w - - 0 1"));
@@ -260,7 +258,7 @@ public class DefaultMoveSorterTest {
     }
 
 
-    private void testMirror(Game game){
+    private void testMirror(Game game) {
         DefaultMoveSorter moveSorter = new DefaultMoveSorter();
 
         Game gameMirror = game.mirror();
@@ -284,7 +282,7 @@ public class DefaultMoveSorterTest {
             assertEquals(move.getFrom().getSquare(), moveMirror.getFrom().getSquare().getMirrorSquare());
             assertEquals(move.getTo().getSquare(), moveMirror.getTo().getSquare().getMirrorSquare());
 
-            if(move instanceof MovePromotion){
+            if (move instanceof MovePromotion) {
                 MovePromotion movePromotion = (MovePromotion) move;
                 MovePromotion movePromotionMirror = (MovePromotion) moveMirror;
                 assertEquals(movePromotion.getPromotion(), movePromotionMirror.getPromotion().getOpposite());

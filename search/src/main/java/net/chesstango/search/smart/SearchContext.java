@@ -33,7 +33,7 @@ public class SearchContext {
         this.visitedNodesQuiescenceCounter = new int[30];
         this.expectedNodesCounters = new int[30];
         this.distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>() );
+        IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>());
         this.maxMap = new HashMap<>();
         this.minMap = new HashMap<>();
         this.qMaxMap = new HashMap<>();

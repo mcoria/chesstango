@@ -5,8 +5,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
+import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.MoveSelector;
+import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class NegaMaxPruning implements AbstractSmart {
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
-        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         int bestValue = GameEvaluator.INFINITE_NEGATIVE;
         boolean search = true;

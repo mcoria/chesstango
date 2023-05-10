@@ -7,9 +7,13 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
+import net.chesstango.search.smart.alphabeta.filters.DetectCycle;
+import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
-import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,7 +35,7 @@ public class DetectCycleTest {
 
     @BeforeEach
     public void setup() {
-        evaluator =  new GameEvaluatorByCondition();
+        evaluator = new GameEvaluatorByCondition();
         evaluator.setDefaultValue(0);
 
         // FILTERS START
@@ -61,45 +65,43 @@ public class DetectCycleTest {
 
 
     /**
-     *
-     *  -------------------------------
+     * -------------------------------
      * 8| k |   |   |   | b |   |   |   |
-     *   -------------------------------
+     * -------------------------------
      * 7|   |   |   | p | P | p |   |   |
-     *   -------------------------------
+     * -------------------------------
      * 6|   |   | p | P |   | P |   | p |
-     *   -------------------------------
+     * -------------------------------
      * 5|   | p | P |   |   |   | p | P |
-     *   -------------------------------
+     * -------------------------------
      * 4| p | P |   |   |   | p | P |   |
-     *   -------------------------------
+     * -------------------------------
      * 3| P |   | p |   | p | P |   |   |
-     *   -------------------------------
+     * -------------------------------
      * 2|   |   | P | p | P |   |   |   |
-     *   -------------------------------
+     * -------------------------------
      * 1|   |   |   | B |   |   |   | K |
-     *   -------------------------------
-     *    a   b   c   d   e   f   g   h
-     *
-     *    Ambos reyes se encuentran atrapados por una muralla de peones trabados. Cada rey puede alcanzar solamente los
-     *    siguientes squares
-     *    Rey blanco: g1; f1; g2; h2; h3
-     *    Rey negro: b8; c8; b7; a7; a6
-     *
-     *    Por mas profundidad que alcance el algoritmo de busqueda  deberia detectar bucles.
-     *
+     * -------------------------------
+     * a   b   c   d   e   f   g   h
+     * <p>
+     * Ambos reyes se encuentran atrapados por una muralla de peones trabados. Cada rey puede alcanzar solamente los
+     * siguientes squares
+     * Rey blanco: g1; f1; g2; h2; h3
+     * Rey negro: b8; c8; b7; a7; a6
+     * <p>
+     * Por mas profundidad que alcance el algoritmo de busqueda  deberia detectar bucles.
      */
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
     @Disabled
-    public void detectCycle(){
+    public void detectCycle() {
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
         evaluator.addCondition(theGame -> {
             ChessPositionReader chessPosition = theGame.getChessPosition();
             Square kingSquare = chessPosition.getKingSquare(Color.WHITE);
-            return switch (kingSquare){
+            return switch (kingSquare) {
                 case g1 -> 1;
                 case f1 -> 2;
                 case h1 -> 3;

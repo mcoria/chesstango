@@ -1,17 +1,14 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- *
  * @author Mauricio Coria
  */
 public class SearchesReport {
@@ -26,14 +23,14 @@ public class SearchesReport {
 
         printSummary(reportModel);
 
-        if(printNodesVisitedStatics) {
+        if (printNodesVisitedStatics) {
             printVisitedNodes(reportModel);
         }
-        if(printCutoffStatics) {
+        if (printCutoffStatics) {
             printCutoff(reportModel);
         }
 
-        if(printPrincipalVariation){
+        if (printPrincipalVariation) {
             printPrincipalVariation(reportModel);
         }
     }
@@ -87,8 +84,8 @@ public class SearchesReport {
             reportModelDetail.cutoffPercentages = cutoffPercentages;
 
             StringBuilder sb = new StringBuilder();
-            for (String moveStr: searchMoveResult.getPrincipalVariation()) {
-                sb.append( String.format("%s ", moveStr) );
+            for (String moveStr : searchMoveResult.getPrincipalVariation()) {
+                sb.append(String.format("%s ", moveStr));
             }
             reportModelDetail.principalVariation = sb.toString();
 
@@ -212,7 +209,7 @@ public class SearchesReport {
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
             System.out.printf("%6s:", moveDetail.move);
             System.out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points);
-            if(moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON){
+            if (moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON) {
                 System.out.printf(" MATE");
             }
             System.out.printf("\n");
@@ -237,8 +234,8 @@ public class SearchesReport {
     private static class ReportModel {
         int maxSearchLevel;
         long[] expectedNodesCounters;
-        long [] visitedNodesCounters;
-        int [] cutoffPercentages;
+        long[] visitedNodesCounters;
+        int[] cutoffPercentages;
 
         int maxSearchLevelQuiescence;
         long[] visitedNodesQuiescenceCounter;

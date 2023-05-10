@@ -4,11 +4,13 @@ package net.chesstango.search.builders;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.*;
-import net.chesstango.search.smart.alphabeta.GameEvaluatorCounter;
-import net.chesstango.search.smart.alphabeta.*;
-import net.chesstango.search.smart.alphabeta.filteractors.MoveEvaluations;
-import net.chesstango.search.smart.alphabeta.filteractors.PrincipalVariation;
+import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SearchActions;
+import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.actions.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.actions.PrincipalVariation;
+import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.movesorters.QTranspositionMoveSorter;
@@ -47,7 +49,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     private boolean withIterativeDeepening;
     private boolean withStatics;
 
-    public MinMaxPruningBuilder(){
+    public MinMaxPruningBuilder() {
         alphaBeta = new AlphaBeta();
 
         quiescence = new QuiescenceNull();
@@ -112,34 +114,32 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     /**
      * MinMaxPruning -> Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
-     *                     ^                                                |
-     *                     |                                                |
-     *                     -------------------------------------------------
-     *
-     *
+     * ^                                                |
+     * |                                                |
+     * -------------------------------------------------
+     * <p>
+     * <p>
      * QuiescenceStatics -> QTranspositionTable -> Quiescence
-     *
-     *
      *
      * @return
      */
     @Override
     public SearchMove build() {
 
-        if(withStatics){
+        if (withStatics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
             quiescenceStatics = new QuiescenceStatics();
             gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
         }
 
-        List<FilterActions> filters = new ArrayList<>();
+        List<SearchActions> filters = new ArrayList<>();
         filters.add(alphaBeta);
         filters.add(quiescence);
         filters.add(moveSorter);
         filters.add(qMoveSorter);
 
-        if(gameEvaluator instanceof GameEvaluatorCounter) {
-            filters.add((GameEvaluatorCounter)gameEvaluator);
+        if (gameEvaluator instanceof GameEvaluatorCounter) {
+            filters.add((GameEvaluatorCounter) gameEvaluator);
         }
 
         // =============  quiescence setup =====================
@@ -225,7 +225,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         // ====================================================
 
         // GameRevert is set one in the chain
-        if(gameRevert != null) {
+        if (gameRevert != null) {
             filters.add(gameRevert);
 
             gameRevert.setNext(head);

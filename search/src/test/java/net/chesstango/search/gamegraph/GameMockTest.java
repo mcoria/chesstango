@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameMockTest {
 
     @Test
-    public void loadFromFile(){
+    public void loadFromFile() {
         GameMock game = GameMockLoader.loadFromFile("GameGraph.json");
         GameMockEvaluator evaluator = new GameMockEvaluator();
 
@@ -38,8 +38,8 @@ public class GameMockTest {
     }
 
     @Test
-    public void repeatedMoves(){
-        assertThrows(RuntimeException.class, ()-> {
+    public void repeatedMoves() {
+        assertThrows(RuntimeException.class, () -> {
             String lines = "{\n" +
                     "  \"fen\": \"rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 1\",\n" +
                     "  \"links\": [\n" +
@@ -71,7 +71,7 @@ public class GameMockTest {
 
 
     @Test
-    public void loadGraphWithoutChildFEN(){
+    public void loadGraphWithoutChildFEN() {
         String lines = "{\n" +
                 "  \"fen\": \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\",\n" +
                 "  \"links\": [\n" +

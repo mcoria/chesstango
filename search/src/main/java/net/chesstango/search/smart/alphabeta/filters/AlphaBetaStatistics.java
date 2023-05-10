@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -54,10 +54,10 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateCounters(final int currentPly){
-        if(currentPly == 0) {
+    protected void updateCounters(final int currentPly) {
+        if (currentPly == 0) {
             expectedNodesCounters[0] += game.getPossibleMoves().size();
-        } else if(currentPly > 0) {
+        } else if (currentPly > 0) {
             visitedNodesCounter[currentPly - 1]++;
 
             expectedNodesCounters[currentPly] += game.getPossibleMoves().size();

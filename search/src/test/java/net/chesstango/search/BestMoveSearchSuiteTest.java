@@ -30,9 +30,9 @@ public class BestMoveSearchSuiteTest {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         Duration timeElapsed = Duration.between(start, Instant.now());
-        System.out.println("Time taken: "+ timeElapsed.toMillis() +" ms");
+        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
         new SearchesReport()
                 .withNodesVisitedStatics()
                 .withCutoffStatics()

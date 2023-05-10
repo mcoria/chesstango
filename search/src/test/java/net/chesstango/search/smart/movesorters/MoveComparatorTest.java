@@ -20,13 +20,14 @@ public class MoveComparatorTest {
     private MoveFactory moveFactoryBlack = SingletonMoveFactories.getDefaultMoveFactoryBlack();
 
     private MoveComparator moveComparator;
+
     @BeforeEach
     public void setUp() {
         moveComparator = new MoveComparator();
     }
 
     @Test
-    public void testPawnMove(){
+    public void testPawnMove() {
         Move move1 = moveFactoryWhite.createSimpleOneSquarePawnMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a3));
         Move move2 = moveFactoryWhite.createSimpleTwoSquaresPawnMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a4), Square.a3);
 
@@ -36,7 +37,7 @@ public class MoveComparatorTest {
     }
 
     @Test
-    public void testPawnAndKnightMove(){
+    public void testPawnAndKnightMove() {
         Move move1 = moveFactoryWhite.createSimpleMove(PiecePositioned.getPiecePositioned(Square.b1, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.a3));
 
         Move move2 = moveFactoryWhite.createSimpleTwoSquaresPawnMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPosition(Square.a4), Square.a3);

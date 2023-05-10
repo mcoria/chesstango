@@ -14,7 +14,7 @@ public class GameMockEvaluator implements GameEvaluator {
     public int evaluate(Game game) {
         nodesEvaluated++;
 
-        GameMock gameMove = (GameMock)game;
+        GameMock gameMove = (GameMock) game;
 
         return gameMove.currentMockNode.evaluation;
     }

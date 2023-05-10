@@ -95,7 +95,7 @@ public class GameMock implements Game {
         return nodesVisited;
     }
 
-    public Node getNodeMock(){
+    public Node getNodeMock() {
         return currentMockNode;
     }
 

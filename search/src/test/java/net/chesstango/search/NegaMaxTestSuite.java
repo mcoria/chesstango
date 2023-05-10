@@ -7,7 +7,6 @@ import org.junit.platform.suite.api.Suite;
 
 /**
  * @author Mauricio Coria
- *
  */
 @Suite
 @SelectClasses({

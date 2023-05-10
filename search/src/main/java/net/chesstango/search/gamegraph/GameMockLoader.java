@@ -88,7 +88,7 @@ public class GameMockLoader {
 
         @Override
         public void visit(Node node) {
-            if(node.position == null) {
+            if (node.position == null) {
                 ChessPosition position = FENDecoder.loadChessPosition(node.fen);
                 node.position = position;
             }
@@ -97,10 +97,10 @@ public class GameMockLoader {
             node.position.constructChessPositionRepresentation(fenEncoder);
             String fenFromPosition = fenEncoder.getChessRepresentation();
 
-            if(node.fen == null) {
+            if (node.fen == null) {
                 node.fen = fenFromPosition;
             } else {
-                if(!node.fen.equals(fenFromPosition)){
+                if (!node.fen.equals(fenFromPosition)) {
                     throw new RuntimeException(String.format("invalid fen at this position: %s", node.fen));
                 }
             }
@@ -121,7 +121,7 @@ public class GameMockLoader {
 
                 game.executeMove(selectedMove);
 
-                nodeLink.mockNode.position =  game.getChessPosition();
+                nodeLink.mockNode.position = game.getChessPosition();
                 nodeLink.mockNode.gameStatus = game.getStatus();
 
             } else {

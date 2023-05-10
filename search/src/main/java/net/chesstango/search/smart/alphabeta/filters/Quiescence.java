@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
@@ -35,8 +35,8 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        if(!keepProcessing){
-            throw  new StopProcessingException();
+        if (!keepProcessing) {
+            throw new StopProcessingException();
         }
 
         int maxValue = evaluator.evaluate(game);
@@ -46,7 +46,7 @@ public class Quiescence implements AlphaBetaFilter {
         }
 
         Move bestMove = null;
-		boolean search = true;
+        boolean search = true;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -75,8 +75,8 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        if(!keepProcessing){
-            throw  new StopProcessingException();
+        if (!keepProcessing) {
+            throw new StopProcessingException();
         }
 
         int minValue = evaluator.evaluate(game);

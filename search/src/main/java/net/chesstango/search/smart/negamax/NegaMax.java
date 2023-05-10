@@ -28,7 +28,7 @@ public class NegaMax implements AbstractSmart {
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
         final List<Move> bestMoves = new ArrayList<Move>();
-        final Color currentTurn =  game.getChessPosition().getCurrentTurn();
+        final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;

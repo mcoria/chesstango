@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
@@ -29,7 +29,7 @@ public class QuiescenceNull implements AlphaBetaFilter {
     }
 
     @Override
-    public long maximize(final int currentPly, final int alpha, final int beta){
+    public long maximize(final int currentPly, final int alpha, final int beta) {
         return evaluator.evaluate(game);
     }
 

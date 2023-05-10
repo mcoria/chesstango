@@ -3,10 +3,12 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.MateIn3Test;
-import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Arrays;
@@ -19,7 +21,7 @@ public class MinMaxPrunningMateIn3Test extends MateIn3Test {
     private SearchMove searchMove;
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
 
         GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();

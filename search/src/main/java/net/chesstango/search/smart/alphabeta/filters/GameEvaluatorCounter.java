@@ -1,21 +1,21 @@
-package net.chesstango.search.smart.alphabeta;
+package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.FilterActions;
+import net.chesstango.search.smart.SearchActions;
 import net.chesstango.search.smart.SearchContext;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorCounter implements GameEvaluator, FilterActions {
+public class GameEvaluatorCounter implements GameEvaluator, SearchActions {
     private GameEvaluator imp;
 
     private long counter;
 
 
-    public GameEvaluatorCounter(GameEvaluator instance){
+    public GameEvaluatorCounter(GameEvaluator instance) {
         this.imp = instance;
     }
 
@@ -26,7 +26,7 @@ public class GameEvaluatorCounter implements GameEvaluator, FilterActions {
     }
 
 
-    public long getCounter(){
+    public long getCounter() {
         return counter;
     }
 

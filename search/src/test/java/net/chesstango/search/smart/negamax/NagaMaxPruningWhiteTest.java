@@ -8,8 +8,8 @@ import net.chesstango.board.moves.containers.MoveContainer;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.movesorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,6 +24,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
+
 /**
  * @author Mauricio Coria
  */
