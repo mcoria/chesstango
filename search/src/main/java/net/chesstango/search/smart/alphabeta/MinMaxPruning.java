@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPruning extends AbstractSmart {
+public class MinMaxPruning implements AbstractSmart {
 
     private AlphaBetaFilter alphaBetaFilter;
 
@@ -24,7 +24,6 @@ public class MinMaxPruning extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
-        this.keepProcessing = true;
 
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -62,6 +61,11 @@ public class MinMaxPruning extends AbstractSmart {
         return searchResult;
     }
 
+    @Override
+    public void stopSearching() {
+        filters.stream().forEach(FilterActions::stopSearching);
+    }
+
     public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
         this.alphaBetaFilter = alphaBetaFilter;
     }
@@ -70,11 +74,6 @@ public class MinMaxPruning extends AbstractSmart {
         this.filters = filters;
     }
 
-    @Override
-    public void stopSearching() {
-        keepProcessing = false;
-        filters.stream().forEach(FilterActions::stopSearching);
-    }
 
     private void initFilters(Game game, SearchContext context) {
         filters.stream().forEach(filter -> filter.init(game, context));

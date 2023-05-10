@@ -56,7 +56,7 @@ public class FitnessBySearchTest {
         }
 
         SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
-        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+        searchResult.storeMoveEvaluations(game, 1, maxMap, minMap);
 
         long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, searchResult.getMoveEvaluationList());
 
@@ -90,7 +90,7 @@ public class FitnessBySearchTest {
         }
 
         SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
-        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+        searchResult.storeMoveEvaluations(game, 1, maxMap, minMap);
 
         long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, searchResult.getMoveEvaluationList());
 
@@ -124,7 +124,7 @@ public class FitnessBySearchTest {
         }
 
         SearchMoveResult searchResult = new SearchMoveResult(1, 100, bestMoveFound, null);
-        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+        searchResult.storeMoveEvaluations(game, 1, maxMap, minMap);
 
         long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, searchResult.getMoveEvaluationList());
 
@@ -156,7 +156,7 @@ public class FitnessBySearchTest {
         }
 
         SearchMoveResult searchResult = new SearchMoveResult(1, -100, bestMoveFound, null);
-        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+        searchResult.storeMoveEvaluations(game, 1, maxMap, minMap);
 
         long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, searchResult.getMoveEvaluationList());
 
@@ -190,7 +190,7 @@ public class FitnessBySearchTest {
         }
 
         SearchMoveResult searchResult = new SearchMoveResult(1, -100, bestMoveFound, null);
-        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+        searchResult.storeMoveEvaluations(game, 1, maxMap, minMap);
 
         long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, searchResult.getMoveEvaluationList());
 
@@ -224,7 +224,7 @@ public class FitnessBySearchTest {
         }
 
         SearchMoveResult searchResult = new SearchMoveResult(1, -100, bestMoveFound, null);
-        searchResult.storeMoveEvaluations(game, maxMap, minMap);
+        searchResult.storeMoveEvaluations(game, 1, maxMap, minMap);
 
         long points = fitnessFn.getPoints(game.getPossibleMoves().size(), actualBestMove, searchResult.getMoveEvaluationList());
 
@@ -236,6 +236,7 @@ public class FitnessBySearchTest {
 
         entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
         entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+        entry.searchDepth = 1;
 
         long hash = game.getChessPosition().getPositionHash();
 

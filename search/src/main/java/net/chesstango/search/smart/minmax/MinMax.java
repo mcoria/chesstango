@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMax extends AbstractSmart {
+public class MinMax implements AbstractSmart {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
 
@@ -29,7 +29,6 @@ public class MinMax extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
-        this.keepProcessing = true;
         this.maxPly = context.getMaxPly();
         this.visitedNodesCounter = context.getVisitedNodesCounters();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
@@ -73,6 +72,11 @@ public class MinMax extends AbstractSmart {
                 .setExpectedNodesCounters(expectedNodesCounters)
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);
+    }
+
+    @Override
+    public void stopSearching() {
+
     }
 
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {

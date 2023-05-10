@@ -15,7 +15,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class AlphaBeta implements AlphaBetaFilter {
-    protected boolean keepProcessing;
+    private volatile boolean keepProcessing;
 
     private GameEvaluator evaluator;
 
@@ -37,11 +37,13 @@ public class AlphaBeta implements AlphaBetaFilter {
 
     @Override
     public void close(SearchMoveResult result) {
-
     }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
+        if(!keepProcessing){
+            return BinaryUtils.encodedMoveAndValue((short) 0, alpha);
+        }
         if (!game.getStatus().isInProgress()) {
             return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
         }
@@ -49,7 +51,7 @@ public class AlphaBeta implements AlphaBetaFilter {
             return quiescence.maximize(currentPly, alpha, beta);
         } else {
             Move bestMove = null;
-            boolean search = true;
+			boolean search = true;
             int maxValue = GameEvaluator.INFINITE_NEGATIVE;
 
             List<Move> sortedMoves = moveSorter.getSortedMoves();
@@ -60,9 +62,7 @@ public class AlphaBeta implements AlphaBetaFilter {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
-
                 int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
-
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMove = move;
@@ -73,12 +73,15 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.undoMove();
             }
-            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
+            return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), maxValue);
         }
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
+        if(!keepProcessing){
+            return BinaryUtils.encodedMoveAndValue((short) 0, beta);
+        }
         if (!game.getStatus().isInProgress()) {
             return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
         }
@@ -97,9 +100,7 @@ public class AlphaBeta implements AlphaBetaFilter {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-
                 int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
-
                 if (currentValue < minValue) {
                     minValue = currentValue;
                     bestMove = move;
@@ -110,7 +111,7 @@ public class AlphaBeta implements AlphaBetaFilter {
 
                 game = game.undoMove();
             }
-            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
+            return BinaryUtils.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
         }
     }
 

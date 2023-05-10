@@ -1,7 +1,6 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.evaluation.GameEvaluator;
@@ -17,8 +16,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Quiescence implements AlphaBetaFilter {
-    private boolean keepProcessing;
-
+    private volatile boolean keepProcessing;
     private AlphaBetaFilter next;
     private MoveSorter moveSorter;
     private GameEvaluator evaluator;
@@ -32,11 +30,14 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public void close(SearchMoveResult result) {
-
     }
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
+        if(!keepProcessing){
+            return BinaryUtils.encodedMoveAndValue((short) 0, alpha);
+        }
+
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
@@ -44,7 +45,7 @@ public class Quiescence implements AlphaBetaFilter {
         }
 
         Move bestMove = null;
-        boolean search = true;
+		boolean search = true;
 
         List<Move> sortedMoves = moveSorter.getSortedMoves();
         Iterator<Move> moveIterator = sortedMoves.iterator();
@@ -55,7 +56,6 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
-
                 int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
 
                 if (currentValue > maxValue) {
@@ -74,6 +74,10 @@ public class Quiescence implements AlphaBetaFilter {
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
+        if(!keepProcessing){
+            return BinaryUtils.encodedMoveAndValue((short) 0, beta);
+        }
+
         int minValue = evaluator.evaluate(game);
 
         if (minValue <= alpha) {
@@ -92,7 +96,6 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-
                 int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
 
                 if (currentValue < minValue) {

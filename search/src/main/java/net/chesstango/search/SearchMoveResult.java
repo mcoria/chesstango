@@ -133,7 +133,7 @@ public class SearchMoveResult {
         return moveEvaluationList;
     }
 
-    public SearchMoveResult calculatePrincipalVariation(Game game, int depth,
+    public SearchMoveResult calculatePrincipalVariation(Game game, int maxExploredDepth,
                                                         Map<Long, TableEntry> maxMap,
                                                         Map<Long, TableEntry> minMap,
                                                         Map<Long, TableEntry> qMaxMap,
@@ -144,17 +144,19 @@ public class SearchMoveResult {
         Move move = bestMove;
 
         SANEncoder sanEncoder = new SANEncoder();
+        int pvMoveCounter = 0;
         do {
 
             principalVariation.add(sanEncoder.encode(move, game.getPossibleMoves()));
 
             game.executeMove(move);
+            pvMoveCounter++;
 
-            move = principalVariation.size() < depth ? readMoveFromTT(game, maxMap, minMap) : readMoveFromQTT(game, qMaxMap, qMinMap);
+            move = principalVariation.size() < depth
+                    ? readMoveFromTT(game, maxMap, minMap)
+                    : readMoveFromQTT(game, qMaxMap, qMinMap);
 
         } while (move != null);
-
-        final int pvMoveCounter = principalVariation.size();
 
         for (int i = 0; i < pvMoveCounter; i++) {
             game.undoMove();
@@ -171,7 +173,6 @@ public class SearchMoveResult {
         long hash = game.getChessPosition().getPositionHash();
 
         TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
-
 
         if (entry != null) {
             short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
@@ -214,7 +215,7 @@ public class SearchMoveResult {
         return result;
     }
 
-    public SearchMoveResult storeMoveEvaluations(Game game, Map<Long, TableEntry> maxMap, Map<Long, TableEntry> minMap) {
+    public SearchMoveResult storeMoveEvaluations(Game game, int maxExploredDepth, Map<Long, TableEntry> maxMap, Map<Long, TableEntry> minMap) {
         List<MoveEvaluation> moveEvaluationList = new ArrayList<>();
 
         boolean bestMovePresent = false;
@@ -225,7 +226,7 @@ public class SearchMoveResult {
 
             TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-            if (entry != null) {
+            if (entry != null && entry.searchDepth == maxExploredDepth) {
                 MoveEvaluation moveEvaluation = new MoveEvaluation();
                 moveEvaluation.move = move;
                 moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
@@ -255,8 +256,11 @@ public class SearchMoveResult {
             } else {
                 bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
             }
-            if (!bestEvaluation.isPresent() || bestEvaluation.getAsInt() != evaluation) {
-                throw new RuntimeException("El mejor valor no coincide");
+            if (!bestEvaluation.isPresent()) {
+                throw new RuntimeException("moveEvaluationList is empty");
+            }
+            if (bestEvaluation.getAsInt() != evaluation) {
+                throw new RuntimeException("bestEvaluation in moveEvaluationList");
             }
         }
 

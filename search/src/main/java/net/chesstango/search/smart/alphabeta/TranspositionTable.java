@@ -14,8 +14,8 @@ import static net.chesstango.search.smart.SearchContext.TableEntry;
  */
 public class TranspositionTable implements AlphaBetaFilter {
 
+    private volatile boolean keepProcessing;
     private AlphaBetaFilter next;
-
     private Map<Long, TableEntry> maxMap;
     private Map<Long, TableEntry> minMap;
 
@@ -28,6 +28,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
+        this.keepProcessing = true;
     }
 
     @Override
@@ -47,6 +48,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
     @Override
     public void stopSearching() {
+        this.keepProcessing = false;
     }
 
     public void setNext(AlphaBetaFilter next) {
@@ -66,7 +68,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
                 entry = updateEntry(new TableEntry(), searchDepth, alpha, beta, bestMoveAndValue);
 
-                if (maximize) {
+                if (maximize && keepProcessing) {
                     maxMap.put(hash, entry);
                 } else {
                     minMap.put(hash, entry);
@@ -99,12 +101,14 @@ public class TranspositionTable implements AlphaBetaFilter {
     }
 
     private TableEntry updateEntry(TableEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
-        entry.bestMoveAndValue = bestMoveAndValue;
-        entry.searchDepth = searchDepth;
-        entry.alpha = alpha;
-        entry.beta = beta;
-        entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.exact = entry.value > alpha && entry.value < beta;
+        if(keepProcessing) {
+            entry.bestMoveAndValue = bestMoveAndValue;
+            entry.searchDepth = searchDepth;
+            entry.alpha = alpha;
+            entry.beta = beta;
+            entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
+            entry.exact = entry.value > alpha && entry.value < beta;
+        }
         return entry;
     }
 }

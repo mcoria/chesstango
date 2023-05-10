@@ -6,12 +6,9 @@ import net.chesstango.search.SearchMoveResult;
 /**
  * @author Mauricio Coria
  */
-public abstract class AbstractSmart {
-    protected volatile boolean keepProcessing = true;
+public interface AbstractSmart {
 
-    public void stopSearching() {
-        keepProcessing = false;
-    }
+    SearchMoveResult searchBestMove(Game game, SearchContext context);
 
-    public abstract SearchMoveResult searchBestMove(Game game, SearchContext context);
+    void stopSearching();
 }

@@ -16,7 +16,9 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning extends AbstractSmart {
+public class NegaMaxPruning implements AbstractSmart {
+
+    private volatile boolean keepProcessing;
     private MoveSorter moveSorter;
     private final NegaQuiescence negaQuiescence;
     private int[] visitedNodesCounter;
@@ -72,6 +74,11 @@ public class NegaMaxPruning extends AbstractSmart {
                 .setVisitedNodesCounters(this.visitedNodesCounter)
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);
+    }
+
+    @Override
+    public void stopSearching() {
+        this.keepProcessing = false;
     }
 
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {

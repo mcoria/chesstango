@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMax extends AbstractSmart {
+public class NegaMax implements AbstractSmart {
 
     private static final int DEFAULT_MAX_PLIES = 4;
 
@@ -27,7 +27,6 @@ public class NegaMax extends AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
-        this.keepProcessing = true;
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn =  game.getChessPosition().getCurrentTurn();
 
@@ -57,6 +56,12 @@ public class NegaMax extends AbstractSmart {
         return new SearchMoveResult(context.getMaxPly(), minOrMax ? -betterEvaluation : betterEvaluation, bestMove, null)
                 .setEvaluationCollisions(bestMoves.size() - 1);
     }
+
+    @Override
+    public void stopSearching() {
+
+    }
+
 
     protected int negaMax(Game game, final int currentPly) {
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;

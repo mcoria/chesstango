@@ -3,9 +3,12 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.EDPReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
+import net.chesstango.search.BestMoveSearchSuite;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -20,11 +23,11 @@ public class IterativeDeepeningTest {
 
     private IterativeDeepening iterativeDeepening;
 
-    private MinMax smart;
+    private AbstractSmart smart;
 
     @BeforeEach
     public void setup(){
-        smart = new MinMax();
+        smart = new MinMaxPruning();
 
         iterativeDeepening = new IterativeDeepening(smart);
     }
@@ -36,7 +39,7 @@ public class IterativeDeepeningTest {
         evaluatorMock.setDefaultValue(0);
         evaluatorMock.addEvaluation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", 1);
 
-        smart.setGameEvaluator(evaluatorMock);
+        //smart.setGameEvaluator(evaluatorMock);
 
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 

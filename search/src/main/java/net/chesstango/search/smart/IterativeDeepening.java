@@ -29,23 +29,24 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public SearchMoveResult searchBestMove(final Game game, final int depth) {
-        keepProcessing = true;
+        this.keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
         int[] visitedNodesQuiescenceCounter = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>() );
+        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
         Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
-        int exploringDepth = 0;
+        int maxExploredDepth = 0;
+
         for (int i = 1; i <= depth; i++) {
-            exploringDepth = i;
-            SearchContext context = new SearchContext(exploringDepth,
+
+            SearchContext context = new SearchContext(i,
                     visitedNodesCounters,
                     expectedNodesCounters,
                     visitedNodesQuiescenceCounter,
@@ -57,18 +58,17 @@ public class IterativeDeepening implements SearchMove {
 
             SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
 
-            if (keepProcessing) {
+            if(keepProcessing) {
+                maxExploredDepth = i;
+
                 bestMovesByDepth.add(searchResult);
+
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
                 }
+
             } else {
-                /*
-                SearchMoveResult lastBestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-                if (searchResult.getEvaluation() >= lastBestMove.getEvaluation()) {
-                    bestMovesByDepth.add(lastBestMove);
-                }*/
-                throw new RuntimeException("Unimplemented logic");
+                break;
             }
         }
 
@@ -76,7 +76,7 @@ public class IterativeDeepening implements SearchMove {
 
         Move bestMove = lastSearch.getBestMove();
 
-        return new SearchMoveResult(exploringDepth, lastSearch.getEvaluation(), bestMove, null)
+        return new SearchMoveResult(maxExploredDepth, lastSearch.getEvaluation(), bestMove, null)
                 .setVisitedNodesCounters(visitedNodesCounters)
                 .setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter)
                 .setDistinctMovesPerLevel(distinctMovesPerLevel)
@@ -84,8 +84,14 @@ public class IterativeDeepening implements SearchMove {
                 .setEvaluationCollisions(lastSearch.getEvaluationCollisions())
                 .setBestMoveOptions(lastSearch.getBestMoveOptions())
                 .setEvaluatedGamesCounter(lastSearch.getEvaluatedGamesCounter())
-                .calculatePrincipalVariation(game, exploringDepth, maxMap, minMap, qMaxMap, qMinMap)
-                .storeMoveEvaluations(game, maxMap, minMap);
+                .calculatePrincipalVariation(game, maxExploredDepth, maxMap, minMap, qMaxMap, qMinMap)
+                .storeMoveEvaluations(game, maxExploredDepth, maxMap, minMap);
+    }
+
+    @Override
+    public void stopSearching() {
+        this.keepProcessing = false;
+        searchMove.stopSearching();
     }
 
     /**
@@ -106,20 +112,14 @@ public class IterativeDeepening implements SearchMove {
         for (int i = 0; i < bestMovesByDepth.size(); i++) {
             final Integer currentDepth = i + 1; // Depth provides extra points
             List<Move> byDepthOptions = bestMovesByDepth.get(i).getBestMoveOptions();
-            byDepthOptions.stream().filter( lastSearchMoveOptions::contains ).forEach( move -> moveByFrequency.compute(move, (k, v) -> v + currentDepth ));
+            byDepthOptions.stream().filter(lastSearchMoveOptions::contains).forEach(move -> moveByFrequency.compute(move, (k, v) -> v + currentDepth));
         }
 
         int maxFrequency = moveByFrequency.values().stream().mapToInt(Integer::intValue).max().getAsInt();
-        
+
         List<Move> filteredOptions = moveByFrequency.entrySet().stream().filter(entry -> entry.getValue().equals(maxFrequency)).map(Map.Entry::getKey).collect(Collectors.toList());
 
         return MoveSelector.selectMove(currentTurn, filteredOptions);
-    }
-
-    @Override
-    public void stopSearching() {
-        keepProcessing = false;
-        searchMove.stopSearching();
     }
 
 }
