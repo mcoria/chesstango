@@ -7,6 +7,8 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.GameEvaluatorCounter;
 import net.chesstango.search.smart.alphabeta.*;
+import net.chesstango.search.smart.alphabeta.filteractors.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.filteractors.PrincipalVariation;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 import net.chesstango.search.smart.movesorters.QTranspositionMoveSorter;
@@ -123,6 +125,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
+
         if(withStatics){
             alphaBetaStatistics = new AlphaBetaStatistics();
             quiescenceStatics = new QuiescenceStatics();
@@ -230,6 +233,11 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             head = gameRevert;
         }
         // ====================================================
+
+        if (transpositionTable != null && qTranspositionTable != null) {
+            filters.add(new PrincipalVariation());
+            filters.add(new MoveEvaluations());
+        }
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);
