@@ -49,8 +49,7 @@ public class NoIterativeDeepening implements SearchMove {
                 qMaxMap,
                 qMinMap);
 
-        return searchMove.searchBestMove(game, context)
-                .calculatePrincipalVariation(game, depth, maxMap, minMap, qMaxMap, qMinMap);
+        return searchMove.searchBestMove(game, context);
     }
 
     @Override
