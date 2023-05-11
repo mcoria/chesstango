@@ -16,18 +16,16 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class PrincipalVariation implements SearchListener {
+public class SetPrincipalVariation implements SearchListener {
     private Map<Long, SearchContext.TableEntry> maxMap;
     private Map<Long, SearchContext.TableEntry> minMap;
     private Map<Long, SearchContext.TableEntry> qMaxMap;
     private Map<Long, SearchContext.TableEntry> qMinMap;
     private Game game;
-    private int maxPly;
 
     @Override
     public void init(Game game, SearchContext context) {
         this.game = game;
-        this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
         this.qMaxMap = context.getQMaxMap();

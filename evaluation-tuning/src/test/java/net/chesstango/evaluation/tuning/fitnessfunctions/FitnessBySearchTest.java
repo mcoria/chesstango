@@ -250,7 +250,7 @@ public class FitnessBySearchTest {
         moveEvaluations.init(game, searchContext);
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
         moveEvaluations.close(searchResult);
-        return searchResult.getMoveEvaluationList();
+        return searchResult.getMoveEvaluations();
     }
 
     private SearchContext.TableEntry saveEntry(Game game, Move move, int value) {

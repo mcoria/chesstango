@@ -66,7 +66,7 @@ public class FitnessBySearch implements FitnessFunction {
 
         SearchMoveResult searchResult = moveFinder.searchBestMove(game, MATCH_DEPTH);
 
-        return getPoints(game.getPossibleMoves().size(), edpEntry.bestMoves.get(0), searchResult.getMoveEvaluationList());
+        return getPoints(game.getPossibleMoves().size(), edpEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
     }
 
     protected long getPoints(int possibleMoves, Move bestMove, Collection<SearchMoveResult.MoveEvaluation> evaluationCollection) {

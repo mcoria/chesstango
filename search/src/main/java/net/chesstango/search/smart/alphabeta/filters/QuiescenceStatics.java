@@ -20,7 +20,7 @@ public class QuiescenceStatics implements AlphaBetaFilter {
 
     @Override
     public void close(SearchMoveResult result) {
-
+        result.setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class MoveEvaluations implements SearchListener {
     @Override
     public void close(SearchMoveResult result) {
         List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
-        result.setMoveEvaluationList(moveEvaluationList);
+        result.setMoveEvaluations(moveEvaluationList);
     }
 
     public List<SearchMoveResult.MoveEvaluation> createMoveEvaluations(final Move bestMove,

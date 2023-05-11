@@ -9,7 +9,7 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
-import net.chesstango.search.smart.alphabeta.listeners.PrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -235,7 +235,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         // ====================================================
 
         if (transpositionTable != null && qTranspositionTable != null) {
-            filters.add(new PrincipalVariation());
+            filters.add(new SetPrincipalVariation());
             filters.add(new MoveEvaluations());
         }
 

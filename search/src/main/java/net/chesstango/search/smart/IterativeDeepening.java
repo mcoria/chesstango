@@ -57,9 +57,9 @@ public class IterativeDeepening implements SearchMove {
 
                 SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
 
-                maxExploredDepth = i;
-
                 bestMovesByDepth.add(searchResult);
+
+                maxExploredDepth++;
 
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
@@ -82,7 +82,7 @@ public class IterativeDeepening implements SearchMove {
                 .setBestMoveOptions(lastSearch.getBestMoveOptions())
                 .setEvaluatedGamesCounter(lastSearch.getEvaluatedGamesCounter())
                 .setPrincipalVariation(lastSearch.getPrincipalVariation())
-                .setMoveEvaluationList(lastSearch.getMoveEvaluationList());
+                .setMoveEvaluations(lastSearch.getMoveEvaluations());
 
     }
 

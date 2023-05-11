@@ -27,11 +27,9 @@ public class MinMaxPruning implements AbstractSmart {
 
     @Override
     public SearchMoveResult searchBestMove(Game game, SearchContext context) {
-
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
-        final List<Move> bestMoves = new ArrayList<>();
 
-        init(game, context);
+        initListeners(game, context);
 
         long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
                 alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
@@ -51,15 +49,9 @@ public class MinMaxPruning implements AbstractSmart {
             throw new RuntimeException("BestMove not found");
         }
 
-        SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null)
-                .setVisitedNodesCounters(context.getVisitedNodesCounters())
-                .setVisitedNodesQuiescenceCounter(context.getVisitedNodesQuiescenceCounter())
-                .setDistinctMovesPerLevel(context.getDistinctMovesPerLevel())
-                .setEvaluationCollisions(bestMoves.size() - 1)
-                .setExpectedNodesCounters(context.getExpectedNodesCounters())
-                .setBestMoveOptions(bestMoves);
+        SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
 
-        close(searchResult);
+        closeListeners(searchResult);
 
         return searchResult;
     }
@@ -85,11 +77,11 @@ public class MinMaxPruning implements AbstractSmart {
     }
 
 
-    private void init(Game game, SearchContext context) {
+    private void initListeners(Game game, SearchContext context) {
         searchActions.stream().forEach(filter -> filter.init(game, context));
     }
 
-    private void close(SearchMoveResult searchResult) {
+    private void closeListeners(SearchMoveResult searchResult) {
         searchActions.stream().forEach(filter -> filter.close(searchResult));
     }
 }
