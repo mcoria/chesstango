@@ -55,13 +55,9 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     protected void updateCounters(final int currentPly) {
-        if (currentPly == 0) {
-            expectedNodesCounters[0] += game.getPossibleMoves().size();
-        } else if (currentPly > 0) {
+        expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
+         if (currentPly > 0) {
             visitedNodesCounter[currentPly - 1]++;
-
-            expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
-
             //updateDistinctMoves(currentPly);
         }
     }

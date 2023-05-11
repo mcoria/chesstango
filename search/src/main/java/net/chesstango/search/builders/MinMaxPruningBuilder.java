@@ -8,9 +8,10 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.filters.*;
+import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
-import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
@@ -44,7 +45,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private QTranspositionTable qTranspositionTable;
 
-    private GameRevert gameRevert;
+    private StopProcessingCatch stopProcessingCatch;
 
     private boolean withIterativeDeepening;
     private boolean withStatics;
@@ -108,15 +109,19 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     }
 
     public MinMaxPruningBuilder withGameRevert() {
-        gameRevert = new GameRevert();
+        stopProcessingCatch = new StopProcessingCatch();
         return this;
     }
 
     /**
-     * MinMaxPruning -> Statics -> DetectCycle -> TranspositionTable -> AlphaBeta
-     * ^                                                |
-     * |                                                |
-     * -------------------------------------------------
+     * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> DetectCycle -> TranspositionTable -> AlphaBeta
+     * *                                                   ^                                                 |
+     * *                                                   |                                                 |
+     * *                                                   -------------------------------------------------
+     * StopProcessingCatch: al comienzo y solo una vez para atrapar excepciones de stop
+     * AlphaBetaStatistics: al comienzo, para contabilizar los movimientos iniciales posibles
+     * TranspositionTable: al comienzo, con iterative deeping tiene sentido dado que (DEPTH) + 4 puede repetir la misma posicion
+     *
      * <p>
      * <p>
      * QuiescenceStatics -> QTranspositionTable -> Quiescence
@@ -225,12 +230,12 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         // ====================================================
 
         // GameRevert is set one in the chain
-        if (gameRevert != null) {
-            filters.add(gameRevert);
+        if (stopProcessingCatch != null) {
+            filters.add(stopProcessingCatch);
 
-            gameRevert.setNext(head);
+            stopProcessingCatch.setNext(head);
 
-            head = gameRevert;
+            head = stopProcessingCatch;
         }
         // ====================================================
 

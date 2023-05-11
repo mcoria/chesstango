@@ -6,54 +6,57 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * @author Mauricio Coria
  */
 public class TranspositionTableTest {
 
-    private ExecutorService executor;
-
     private SearchMove searchWithoutTT;
 
     private SearchMove searchWithTT;
 
     @BeforeEach
-    public void setup(){
-        executor = Executors.newFixedThreadPool(2);
-
+    public void setup() {
         searchWithoutTT = createSearchWithoutTT();
         searchWithTT = createSearchWithTT();
     }
 
     @Test
-    public void test_01() throws ExecutionException, InterruptedException {
-        Game game01 = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        Game game02 = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
+    public void test_01(){
+        executeTest(FENDecoder.INITIAL_FEN, 6);
+    }
 
-        Future<SearchMoveResult> searchTask01 =  executor.submit(() -> searchWithoutTT.searchBestMove(game01, 7));
-        Future<SearchMoveResult> searchTask02 =  executor.submit(() -> searchWithTT.searchBestMove(game02, 7));
-        
+    @Test
+    public void test_02(){
+        executeTest("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1", 7);
+    }
 
-        while ( !searchTask01.isDone()  || !searchTask02.isDone() ) {
-            Thread.sleep(1000);
-        };
+    @Test
+    public void test_03()  {
+        executeTest("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - -", 6);
+    }
 
-        SearchMoveResult searchResult01 = searchTask01.get();
-        SearchMoveResult searchResult02 = searchTask02.get();
+
+    public void executeTest(String fen, int depth) {
+        Game game = FENDecoder.loadGame(fen);
+
+        SearchMoveResult searchResult01 = searchWithTT.searchBestMove(game, depth);
+
+        game.executeMove(searchResult01.getBestMove());
+
+        SearchMoveResult searchResult02 = searchWithoutTT.searchBestMove(game, depth - 1);
 
         Assertions.assertEquals(searchResult01.getEvaluation(), searchResult02.getEvaluation());
     }
@@ -85,7 +88,7 @@ public class TranspositionTableTest {
     private SearchMove createSearchWithTT() {
         GameEvaluator gameEvaluator = new GameEvaluatorSEandImp02();
 
-        MoveSorter moveSorter = new DefaultMoveSorter();
+        MoveSorter moveSorter = new TranspositionMoveSorter();
 
         QuiescenceNull quiescenceNull = new QuiescenceNull();
         quiescenceNull.setGameEvaluator(gameEvaluator);
@@ -105,6 +108,6 @@ public class TranspositionTableTest {
         minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescenceNull, moveSorter));
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
 
-        return new NoIterativeDeepening(minMaxPruning);
+        return new IterativeDeepening(minMaxPruning);
     }
 }

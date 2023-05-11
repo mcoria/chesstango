@@ -1,14 +1,15 @@
-package net.chesstango.search.smart.alphabeta.filters;
+package net.chesstango.search.smart.alphabeta.filters.once;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.StopProcessingException;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
  * @author Mauricio Coria
  */
-public class GameRevert implements AlphaBetaFilter {
+public class StopProcessingCatch implements AlphaBetaFilter {
 
     private AlphaBetaFilter next;
 

@@ -15,4 +15,5 @@ module net.chesstango.search {
     opens net.chesstango.search.gamegraph;
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.alphabeta.filters;
+    exports net.chesstango.search.smart.alphabeta.filters.once;
 }
