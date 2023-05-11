@@ -2,6 +2,7 @@ package net.chesstango.search;
 
 
 import net.chesstango.search.smart.alphabeta.*;
+import net.chesstango.search.smart.alphabeta.filters.TranspositionTableTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -20,7 +21,8 @@ import org.junit.platform.suite.api.Suite;
         MinMaxPruningMateIn3Test.class,
         MinMaxPruningMateIn4Test.class,
         Pruning01Test.class,
-        WhiteBestMovesTest.class
+        WhiteBestMovesTest.class,
+        TranspositionTableTest.class
 })
 public class AlphaBetaTestSuite {
 
