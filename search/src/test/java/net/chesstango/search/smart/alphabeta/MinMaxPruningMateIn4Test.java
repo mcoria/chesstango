@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.MateIn1Test;
+import net.chesstango.search.smart.MateIn4Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPrunningMateIn1Test extends MateIn1Test {
+public class MinMaxPruningMateIn4Test extends MateIn4Test {
 
     private SearchMove searchMove;
 
@@ -32,8 +32,8 @@ public class MinMaxPrunningMateIn1Test extends MateIn1Test {
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setNext(alphaBeta);
         alphaBeta.setGameEvaluator(gameEvaluator);
+        alphaBeta.setNext(alphaBeta);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
@@ -47,6 +47,4 @@ public class MinMaxPrunningMateIn1Test extends MateIn1Test {
     public SearchMove getBestMoveFinder() {
         return searchMove;
     }
-
-
 }

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPrunningMateIn4Test extends MateIn4Test {
+public class NegaMaxPruningMateIn4Test extends MateIn4Test {
 
     private SearchMove searchMove;
 

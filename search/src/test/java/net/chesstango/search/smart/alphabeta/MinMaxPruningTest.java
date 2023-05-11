@@ -16,7 +16,7 @@ import java.util.concurrent.Future;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPrunningTest {
+public class MinMaxPruningTest {
 
 
     @Test

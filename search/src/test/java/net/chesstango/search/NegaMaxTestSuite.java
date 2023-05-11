@@ -15,12 +15,12 @@ import org.junit.platform.suite.api.Suite;
         NegaMaxMateIn1Test.class,
         NegaMaxMateIn2Test.class,
         NegaMaxPruningBlackTest.class,
-        NegaMaxPrunningMateIn1Test.class,
-        NegaMaxPrunningMateIn2Test.class,
-        NegaMaxPrunningMateIn3Test.class,
-        NegaMaxPrunningMateIn4Test.class,
+        NegaMaxPruningMateIn1Test.class,
+        NegaMaxPruningMateIn2Test.class,
+        NegaMaxPruningMateIn3Test.class,
+        NegaMaxPruningMateIn4Test.class,
         NegaMaxTest.class,
-        Prunning01Test.class,
+        Pruning01Test.class,
         WhiteBestMovesTest.class
 })
 public class NegaMaxTestSuite {

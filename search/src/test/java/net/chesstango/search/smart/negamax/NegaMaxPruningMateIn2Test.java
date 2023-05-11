@@ -2,7 +2,7 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.smart.MateIn1Test;
+import net.chesstango.search.smart.MateIn2Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPrunningMateIn1Test extends MateIn1Test {
+public class NegaMaxPruningMateIn2Test extends MateIn2Test {
 
     private SearchMove searchMove;
 

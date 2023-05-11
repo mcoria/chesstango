@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 /**
  * @author Mauricio Coria
  */
-public abstract class Pruning01Test {
+public abstract class GenericTest {
 
     private MoveFactory moveFactoryWhite = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 

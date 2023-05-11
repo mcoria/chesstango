@@ -2,8 +2,8 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.smart.GenericTest;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.Pruning01Test;
 import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
 import net.chesstango.search.smart.movesorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */
-public class Prunning01Test extends Pruning01Test {
+public class Pruning01Test extends GenericTest {
 
     private SearchMove searchMove;
 
