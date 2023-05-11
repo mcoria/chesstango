@@ -1,14 +1,10 @@
 package net.chesstango.search;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.SANEncoder;
-import net.chesstango.search.smart.BinaryUtils;
 
-import java.util.*;
-
-import static net.chesstango.search.smart.SearchContext.TableEntry;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -141,60 +137,6 @@ public class SearchMoveResult {
 
     public SearchMoveResult setMoveEvaluationList(Collection<MoveEvaluation> moveEvaluationList) {
         this.moveEvaluationList = moveEvaluationList;
-        return this;
-    }
-
-    public SearchMoveResult storeMoveEvaluations(Game game, int maxExploredDepth, Map<Long, TableEntry> maxMap, Map<Long, TableEntry> minMap) {
-        List<MoveEvaluation> moveEvaluationList = new ArrayList<>();
-
-        boolean bestMovePresent = false;
-        for (Move move : game.getPossibleMoves()) {
-            game.executeMove(move);
-
-            long hash = game.getChessPosition().getPositionHash();
-
-            TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
-
-            if (entry != null && entry.searchDepth == maxExploredDepth) {
-                MoveEvaluation moveEvaluation = new MoveEvaluation();
-                moveEvaluation.move = move;
-                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
-                moveEvaluationList.add(moveEvaluation);
-            }
-
-            if (move.equals(bestMove)) {
-                bestMovePresent = true;
-            }
-
-            game.undoMove();
-        }
-
-        if (!bestMovePresent) {
-            throw new RuntimeException("Best move is not present in game");
-        }
-
-        if (moveEvaluationList.isEmpty()) {
-            MoveEvaluation moveEvaluation = new MoveEvaluation();
-            moveEvaluation.move = this.bestMove;
-            moveEvaluation.evaluation = this.evaluation;
-            moveEvaluationList.add(moveEvaluation);
-        } else {
-            OptionalInt bestEvaluation = null;
-            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).max();
-            } else {
-                bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
-            }
-            if (!bestEvaluation.isPresent()) {
-                throw new RuntimeException("moveEvaluationList is empty");
-            }
-            if (bestEvaluation.getAsInt() != evaluation) {
-                throw new RuntimeException("bestEvaluation in moveEvaluationList");
-            }
-        }
-
-        this.moveEvaluationList = moveEvaluationList;
-
         return this;
     }
 
