@@ -6,15 +6,15 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchActions;
+import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
-import net.chesstango.search.smart.alphabeta.actions.MoveEvaluations;
-import net.chesstango.search.smart.alphabeta.actions.PrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.listeners.PrincipalVariation;
 import net.chesstango.search.smart.alphabeta.filters.*;
-import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
-import net.chesstango.search.smart.movesorters.MoveSorter;
-import net.chesstango.search.smart.movesorters.QTranspositionMoveSorter;
-import net.chesstango.search.smart.movesorters.TranspositionMoveSorter;
+import net.chesstango.search.smart.sorters.DefaultMoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
+import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +132,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
         }
 
-        List<SearchActions> filters = new ArrayList<>();
+        List<SearchListener> filters = new ArrayList<>();
         filters.add(alphaBeta);
         filters.add(quiescence);
         filters.add(moveSorter);
@@ -241,7 +241,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);
-        minMaxPruning.setFilters(filters);
+        minMaxPruning.setSearchActions(filters);
 
         return withIterativeDeepening ? new IterativeDeepening(minMaxPruning) : new NoIterativeDeepening(minMaxPruning);
     }

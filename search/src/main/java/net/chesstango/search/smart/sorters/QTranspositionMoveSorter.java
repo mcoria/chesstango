@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.movesorters;
+package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -15,17 +16,17 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorter implements MoveSorter {
+public class QTranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, SearchContext.TableEntry> qMaxMap;
+    private Map<Long, SearchContext.TableEntry> qMinMap;
 
     @Override
     public void init(Game game, SearchContext context) {
         this.game = game;
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
@@ -39,9 +40,9 @@ public class TranspositionMoveSorter implements MoveSorter {
 
         SearchContext.TableEntry entry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = maxMap.get(hash);
+            entry = qMaxMap.get(hash);
         } else {
-            entry = minMap.get(hash);
+            entry = qMinMap.get(hash);
         }
 
         short bestMoveEncoded = entry != null ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
@@ -55,7 +56,9 @@ public class TranspositionMoveSorter implements MoveSorter {
                 if (move.binaryEncoding() == bestMoveEncoded) {
                     bestMove = move;
                 } else {
-                    unsortedMoveList.add(move);
+                    if (Quiescence.isNotQuiet(move)) {
+                        unsortedMoveList.add(move);
+                    }
                 }
             }
 
@@ -65,7 +68,11 @@ public class TranspositionMoveSorter implements MoveSorter {
             sortedMoveList.addAll(unsortedMoveList);
 
         } else {
-            game.getPossibleMoves().forEach(sortedMoveList::add);
+            game.getPossibleMoves().forEach(move -> {
+                if (Quiescence.isNotQuiet(move)) {
+                    sortedMoveList.add(move);
+                }
+            });
 
             Collections.sort(sortedMoveList, moveComparator.reversed());
         }

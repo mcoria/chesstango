@@ -7,7 +7,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.StopProcessingException;
-import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
 import java.util.List;

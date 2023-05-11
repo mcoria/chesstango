@@ -7,8 +7,8 @@ import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
-import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
-import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.sorters.DefaultMoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence, moveSorter));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter));
 
         this.searchMove = new IterativeDeepening(minMaxPruning);
     }

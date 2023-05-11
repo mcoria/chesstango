@@ -6,7 +6,7 @@ import net.chesstango.search.SearchMoveResult;
 /**
  * @author Mauricio Coria
  */
-public interface SearchActions {
+public interface SearchListener {
     void init(Game game, final SearchContext context);
 
     void close(SearchMoveResult result);

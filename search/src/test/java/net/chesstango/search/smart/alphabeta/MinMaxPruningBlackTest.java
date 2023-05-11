@@ -11,7 +11,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
-import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -56,7 +56,7 @@ public class MinMaxPruningBlackTest {
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
@@ -85,7 +85,7 @@ public class MinMaxPruningBlackTest {
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
@@ -122,7 +122,7 @@ public class MinMaxPruningBlackTest {
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 
@@ -170,7 +170,7 @@ public class MinMaxPruningBlackTest {
 
         MinMaxPruning minMaxPruning = Mockito.spy(new MinMaxPruning());
         minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, quiescence));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence));
 
         Game rootGame = setupGame(Color.BLACK, GameStatus.NO_CHECK);
 

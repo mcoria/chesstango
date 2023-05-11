@@ -1,4 +1,4 @@
-package net.chesstango.search.smart.movesorters;
+package net.chesstango.search.smart.sorters;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;

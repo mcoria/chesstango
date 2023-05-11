@@ -1,11 +1,11 @@
-package net.chesstango.search.smart.alphabeta.actions;
+package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.SearchActions;
+import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.OptionalInt;
 /**
  * @author Mauricio Coria
  */
-public class MoveEvaluations implements SearchActions {
+public class MoveEvaluations implements SearchListener {
     private Map<Long, SearchContext.TableEntry> maxMap;
     private Map<Long, SearchContext.TableEntry> minMap;
     private Game game;

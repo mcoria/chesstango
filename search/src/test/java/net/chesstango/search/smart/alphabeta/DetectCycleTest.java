@@ -12,8 +12,8 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.DetectCycle;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
-import net.chesstango.search.smart.movesorters.DefaultMoveSorter;
-import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.sorters.DefaultMoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ public class DetectCycleTest {
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setFilters(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, detectCycle));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, detectCycle));
     }
 
 

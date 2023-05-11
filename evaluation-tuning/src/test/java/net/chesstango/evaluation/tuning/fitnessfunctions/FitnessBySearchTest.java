@@ -8,7 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.alphabeta.actions.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

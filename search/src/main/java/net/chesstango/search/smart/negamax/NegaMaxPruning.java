@@ -8,7 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.AbstractSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.movesorters.MoveSorter;
+import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
