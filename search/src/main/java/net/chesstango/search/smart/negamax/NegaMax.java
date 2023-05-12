@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMax implements AbstractSmart {
+public class NegaMax implements SearchSmart {
 
     private static final int DEFAULT_MAX_PLIES = 4;
 
@@ -26,7 +26,7 @@ public class NegaMax implements AbstractSmart {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
+    public SearchMoveResult search(Game game, SearchContext context) {
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 

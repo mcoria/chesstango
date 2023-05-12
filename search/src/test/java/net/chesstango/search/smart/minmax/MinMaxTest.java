@@ -34,7 +34,7 @@ public class MinMaxTest {
     public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
-        SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(1));
+        SearchMoveResult searchResult = minMax.search(game, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
@@ -49,7 +49,7 @@ public class MinMaxTest {
     public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
-        SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(1));
+        SearchMoveResult searchResult = minMax.search(game, new SearchContext(1));
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
@@ -64,7 +64,7 @@ public class MinMaxTest {
     public void whiteTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
-        SearchMoveResult searchResult = minMax.searchBestMove(game, new SearchContext(2));
+        SearchMoveResult searchResult = minMax.search(game, new SearchContext(2));
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);

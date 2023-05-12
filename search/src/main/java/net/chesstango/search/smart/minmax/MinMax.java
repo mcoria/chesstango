@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMax implements AbstractSmart {
+public class MinMax implements SearchSmart {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
 
@@ -29,7 +29,7 @@ public class MinMax implements AbstractSmart {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
+    public SearchMoveResult search(Game game, SearchContext context) {
         this.maxPly = context.getMaxPly();
         this.visitedNodesCounter = context.getVisitedNodesCounters();
         this.expectedNodesCounters = context.getExpectedNodesCounters();

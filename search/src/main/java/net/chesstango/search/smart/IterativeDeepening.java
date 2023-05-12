@@ -15,9 +15,9 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class IterativeDeepening implements SearchMove {
-    private final AbstractSmart searchMove;
+    private final SearchSmart searchMove;
 
-    public IterativeDeepening(AbstractSmart searchMove) {
+    public IterativeDeepening(SearchSmart searchMove) {
         this.searchMove = searchMove;
     }
 
@@ -54,7 +54,7 @@ public class IterativeDeepening implements SearchMove {
                         qMaxMap,
                         qMinMap);
 
-                SearchMoveResult searchResult = searchMove.searchBestMove(game, context);
+                SearchMoveResult searchResult = searchMove.search(game, context);
 
                 bestMovesByDepth.add(searchResult);
 
@@ -62,7 +62,7 @@ public class IterativeDeepening implements SearchMove {
                     break;
                 }
             }
-        } catch (StopProcessingException spe) {
+        } catch (StopSearchingException spe) {
 
         }
 

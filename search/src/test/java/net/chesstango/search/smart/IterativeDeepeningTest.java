@@ -20,7 +20,7 @@ public class IterativeDeepeningTest {
 
     private IterativeDeepening iterativeDeepening;
 
-    private AbstractSmart smart;
+    private SearchSmart smart;
 
     @BeforeEach
     public void setup() {

@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters.once;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.StopProcessingException;
+import net.chesstango.search.smart.StopSearchingException;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 
 /**
@@ -55,7 +55,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
             } else {
                 return next.minimize(currentPly, alpha, beta);
             }
-        } catch (StopProcessingException re) {
+        } catch (StopSearchingException re) {
             long currentHash = game.getChessPosition().getPositionHash();
             while (currentHash != startHash) {
                 game.undoMove();

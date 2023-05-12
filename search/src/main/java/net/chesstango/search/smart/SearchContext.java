@@ -48,8 +48,7 @@ public class SearchContext {
                          Map<Long, TableEntry> maxMap,
                          Map<Long, TableEntry> minMap,
                          Map<Long, TableEntry> qMaxMap,
-                         Map<Long, TableEntry> qMinMap
-    ) {
+                         Map<Long, TableEntry> qMinMap) {
         this.maxPly = maxPly;
         this.visitedNodesCounters = visitedNodesCounters;
         this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;

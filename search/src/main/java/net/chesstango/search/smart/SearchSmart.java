@@ -6,9 +6,9 @@ import net.chesstango.search.SearchMoveResult;
 /**
  * @author Mauricio Coria
  */
-public interface AbstractSmart {
+public interface SearchSmart {
 
-    SearchMoveResult searchBestMove(Game game, SearchContext context);
+    SearchMoveResult search(Game game, SearchContext context);
 
     void stopSearching();
 }

@@ -46,7 +46,7 @@ public class SetBestMoveOptions implements SearchListener {
 
             SearchContext.TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-            if (entry != null && entry.searchDepth == maxPly && entry.value == bestMoveEvaluation) {
+            if (entry != null && entry.searchDepth == maxPly - 1 && entry.value == bestMoveEvaluation) {
                 bestMoveOptions.add(move);
             }
 

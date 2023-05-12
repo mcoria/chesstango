@@ -111,7 +111,7 @@ public class DetectCycleTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.searchBestMove(game, new SearchContext(23));
+        SearchMoveResult searchResult = minMaxPruning.search(game, new SearchContext(23));
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());

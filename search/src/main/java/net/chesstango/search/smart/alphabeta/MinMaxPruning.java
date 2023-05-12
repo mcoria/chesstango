@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchListener;
 import net.chesstango.search.smart.SearchContext;
@@ -13,20 +13,19 @@ import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPruning implements AbstractSmart {
+public class MinMaxPruning implements SearchSmart {
 
     private AlphaBetaFilter alphaBetaFilter;
 
     private List<SearchListener> searchActions;
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
+    public SearchMoveResult search(Game game, SearchContext context) {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         initListeners(game, context);

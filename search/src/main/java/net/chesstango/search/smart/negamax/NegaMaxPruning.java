@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.AbstractSmart;
+import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class NegaMaxPruning implements AbstractSmart {
+public class NegaMaxPruning implements SearchSmart {
 
     private volatile boolean keepProcessing;
     private MoveSorter moveSorter;
@@ -29,7 +29,7 @@ public class NegaMaxPruning implements AbstractSmart {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, SearchContext context) {
+    public SearchMoveResult search(Game game, SearchContext context) {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];
 

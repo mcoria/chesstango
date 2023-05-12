@@ -15,9 +15,9 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class NoIterativeDeepening implements SearchMove {
-    private final AbstractSmart searchMove;
+    private final SearchSmart searchMove;
 
-    public NoIterativeDeepening(AbstractSmart searchMove) {
+    public NoIterativeDeepening(SearchSmart searchMove) {
         this.searchMove = searchMove;
     }
 
@@ -49,7 +49,7 @@ public class NoIterativeDeepening implements SearchMove {
                 qMaxMap,
                 qMinMap);
 
-        return searchMove.searchBestMove(game, context);
+        return searchMove.search(game, context);
     }
 
     @Override

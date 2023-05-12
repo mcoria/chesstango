@@ -7,7 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.StopProcessingException;
+import net.chesstango.search.smart.StopSearchingException;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;
@@ -36,7 +36,7 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if (!keepProcessing) {
-            throw new StopProcessingException();
+            throw new StopSearchingException();
         }
 
         int maxValue = evaluator.evaluate(game);
@@ -76,7 +76,7 @@ public class Quiescence implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if (!keepProcessing) {
-            throw new StopProcessingException();
+            throw new StopSearchingException();
         }
 
         int minValue = evaluator.evaluate(game);
