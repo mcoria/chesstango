@@ -133,6 +133,9 @@ public class UCIDecoder {
                 case "DEPTH":
                     result = parseGoDepth(words);
                     break;
+                case "MOVETIME":
+                    result = parseGoMoveTime(words);
+                    break;
                 default:
                     break;
             }
@@ -150,6 +153,18 @@ public class UCIDecoder {
 
         result.setGoType(CmdGo.GoType.DEPTH);
         result.setDepth(depthInt);
+
+        return result;
+    }
+
+    private CmdGo parseGoMoveTime(String[] words) {
+        CmdGo result = new CmdGo();
+
+        String timeOut = words[2].toUpperCase();
+        int timeOutInt = Integer.parseInt(timeOut);
+
+        result.setGoType(CmdGo.GoType.MOVE_TIME);
+        result.setTimeOut(timeOutInt);
 
         return result;
     }

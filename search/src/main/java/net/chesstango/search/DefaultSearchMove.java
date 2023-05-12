@@ -39,17 +39,27 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return imp.searchBestMove(game);
+    public SearchMoveResult searchInfinite(Game game) {
+        return imp.searchInfinite(game);
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, int depth) {
-        return imp.searchBestMove(game, depth);
+    public SearchMoveResult searchUpToDepth(Game game, int depth) {
+        return imp.searchUpToDepth(game, depth);
+    }
+
+    @Override
+    public SearchMoveResult searchUpToTime(Game game, int msTimeout) {
+        return imp.searchUpToTime(game, msTimeout);
     }
 
     @Override
     public void stopSearching() {
         imp.stopSearching();
+    }
+
+    @Override
+    public void reset() {
+        imp.reset();
     }
 }

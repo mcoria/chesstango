@@ -92,7 +92,7 @@ public class BestMoveSearchSuite {
     protected boolean run(EDPReader.EDPEntry edpEntry) {
         SearchMove moveFinder = new DefaultSearchMove();
 
-        SearchMoveResult searchResult = moveFinder.searchBestMove(edpEntry.game, depth);
+        SearchMoveResult searchResult = moveFinder.searchUpToDepth(edpEntry.game, depth);
 
         Move bestMove = searchResult.getBestMove();
 

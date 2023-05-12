@@ -8,11 +8,18 @@ import net.chesstango.uci.protocol.UCIRequest;
  */
 public class CmdGo implements UCIRequest {
 
-    public enum GoType {NO_SUBCOMMAND, INFINITE, DEPTH};
+    public enum GoType {
+        NO_SUBCOMMAND,
+        INFINITE,
+        DEPTH,
+        MOVE_TIME
+    };
 
     private GoType type;
 
     private int depth;
+
+    private int timeOut;
 
     public CmdGo() {
         this.type = GoType.NO_SUBCOMMAND;
@@ -27,6 +34,9 @@ public class CmdGo implements UCIRequest {
         return depth;
     }
 
+    public int getTimeOut() {
+        return timeOut;
+    }
 
     public CmdGo setGoType(GoType type) {
         this.type = type;
@@ -36,6 +46,11 @@ public class CmdGo implements UCIRequest {
     public CmdGo setDepth(int depth) {
         setGoType(GoType.DEPTH);
         this.depth = depth;
+        return this;
+    }
+
+    public CmdGo setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
         return this;
     }
 
@@ -62,6 +77,8 @@ public class CmdGo implements UCIRequest {
             return "go infinite";
         } else if (GoType.DEPTH.equals(type)) {
             return "go depth " + depth;
+        } else if (GoType.MOVE_TIME.equals(type)) {
+            return "go movetime " + timeOut;
         }
         throw new RuntimeException("Invalid go command");
     }

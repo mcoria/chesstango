@@ -16,30 +16,18 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Session implements ServiceElement {
-    private final SearchMove searchMove;
     private final List<SearchMoveResult> searches = new ArrayList<>();
-    private String initialFENPosition;
+
+    private final UCIEncoder uciEncoder = new UCIEncoder();
+
     private Game game;
 
-    public Session(SearchMove searchMove) {
-        this.searchMove = searchMove;
-    }
-
-    public void setInitialFENPosition(String initialFENPosition) {
-        this.initialFENPosition = initialFENPosition;
-    }
-
-    public String getInitialFENPosition() {
-        return initialFENPosition;
-    }
-
-    protected void executeMoves(List<String> moves) {
-        game = FENDecoder.loadGame(initialFENPosition);
+    public void setPosition(String fen, List<String> moves) {
+        game = FENDecoder.loadGame(fen);
         if (moves != null && !moves.isEmpty()) {
-            UCIEncoder uciEncoder = new UCIEncoder();
             for (String moveStr : moves) {
                 Move move = uciEncoder.selectMove(game.getPossibleMoves(), moveStr);
-                if(move == null){
+                if (move == null) {
                     throw new RuntimeException(String.format("No move found %s", moveStr));
                 }
                 game.executeMove(move);
@@ -47,20 +35,31 @@ public class Session implements ServiceElement {
         }
     }
 
-    public SearchMoveResult searchBestMove() {
-        SearchMoveResult searchBestMove = searchMove.searchBestMove(game);
-        searches.add(searchBestMove);
-        return searchBestMove;
+    public String getInitialFen() {
+        return game == null ? null : game.getInitialFen();
     }
 
-    public SearchMoveResult searchBestMove(int depth) {
-        SearchMoveResult searchBestMove = searchMove.searchBestMove(game, depth);
-        searches.add(searchBestMove);
-        return searchBestMove;
+    public String goInfinite(SearchMove searchMove) {
+        SearchMoveResult bestMoveFound = searchMove.searchInfinite(game);
+        searches.add(bestMoveFound);
+        return uciEncoder.encode(bestMoveFound.getBestMove());
+    }
+
+    public String goDepth(SearchMove searchMove, int depth) {
+        SearchMoveResult bestMoveFound = searchMove.searchUpToDepth(game, depth);
+        searches.add(bestMoveFound);
+        return uciEncoder.encode(bestMoveFound.getBestMove());
+    }
+
+    public String goMoveTime(SearchMove searchMove, int timeOut) {
+        SearchMoveResult bestMoveFound = searchMove.searchUpToTime(game, timeOut);
+        searches.add(bestMoveFound);
+        return uciEncoder.encode(bestMoveFound.getBestMove());
     }
 
     /**
-     * Revuelve el resultado de las busquedas efectuadas durante el juego.
+     * Devuelve el resultado de las busquedas efectuadas durante el juego.
+     *
      * @return
      */
     public List<SearchMoveResult> getSearches() {
@@ -72,4 +71,5 @@ public class Session implements ServiceElement {
     public void accept(ServiceVisitor serviceVisitor) {
         serviceVisitor.visit(this);
     }
+
 }

@@ -22,12 +22,12 @@ public class NoIterativeDeepening implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, 10);
+    public SearchMoveResult searchInfinite(Game game) {
+        return searchUpToDepth(game, 10);
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, int depth) {
+    public SearchMoveResult searchUpToDepth(Game game, int depth) {
 
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
@@ -53,7 +53,17 @@ public class NoIterativeDeepening implements SearchMove {
     }
 
     @Override
+    public SearchMoveResult searchUpToTime(Game game, int msTimeout) {
+        return null;
+    }
+
+    @Override
     public void stopSearching() {
         searchMove.stopSearching();
+    }
+
+    @Override
+    public void reset() {
+
     }
 }

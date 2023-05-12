@@ -22,7 +22,6 @@ public class SearchMoveResult {
     private Set<Move>[] distinctMovesPerLevel;
     private List<Move> bestMoveOptions;
     private long evaluatedGamesCounter;
-
     private List<String> principalVariation;
     private Collection<MoveEvaluation> moveEvaluations;
 

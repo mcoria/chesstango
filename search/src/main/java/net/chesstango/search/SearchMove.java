@@ -73,10 +73,14 @@ import net.chesstango.board.Game;
  * EL OBJETIVO SERIA DISMINUIR 'AVG Nodes/S' (promedio de nodos visitados por busqueda)
  */
 public interface SearchMove {
-    SearchMoveResult searchBestMove(Game game);
 
-    SearchMoveResult searchBestMove(Game game, int depth);
+    SearchMoveResult searchInfinite(Game game);
+
+    SearchMoveResult searchUpToDepth(Game game, int depth);
+
+    SearchMoveResult searchUpToTime(Game game, int timeOut);
 
     void stopSearching();
 
+    void reset();
 }

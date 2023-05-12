@@ -19,12 +19,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Dummy implements SearchMove {
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, 10);
+    public SearchMoveResult searchInfinite(Game game) {
+        return searchUpToDepth(game, 10);
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game, int depth) {
+    public SearchMoveResult searchUpToDepth(Game game, int depth) {
         Iterable<Move> moves = game.getPossibleMoves();
 
         Map<PiecePositioned, List<Move>> moveMap = new HashMap<PiecePositioned, List<Move>>();
@@ -43,7 +43,17 @@ public class Dummy implements SearchMove {
     }
 
     @Override
+    public SearchMoveResult searchUpToTime(Game game, int msTimeout) {
+        return null;
+    }
+
+    @Override
     public void stopSearching() {
+    }
+
+    @Override
+    public void reset() {
+
     }
 
 

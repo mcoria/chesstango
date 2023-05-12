@@ -22,12 +22,12 @@ public class IterativeDeepening implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult searchBestMove(Game game) {
-        return searchBestMove(game, 10);
+    public SearchMoveResult searchInfinite(Game game) {
+        return searchUpToDepth(game, 10);
     }
 
     @Override
-    public SearchMoveResult searchBestMove(final Game game, final int depth) {
+    public SearchMoveResult searchUpToDepth(final Game game, final int depth) {
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
@@ -40,7 +40,6 @@ public class IterativeDeepening implements SearchMove {
         Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
-        int maxExploredDepth = 0;
 
         try {
             for (int i = 1; i <= depth; i++) {
@@ -59,8 +58,6 @@ public class IterativeDeepening implements SearchMove {
 
                 bestMovesByDepth.add(searchResult);
 
-                maxExploredDepth++;
-
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
                 }
@@ -71,24 +68,23 @@ public class IterativeDeepening implements SearchMove {
 
         SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
 
-        Move bestMove = lastSearch.getBestMove();
 
-        return new SearchMoveResult(maxExploredDepth, lastSearch.getEvaluation(), bestMove, null)
-                .setVisitedNodesCounters(visitedNodesCounters)
-                .setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter)
-                .setDistinctMovesPerLevel(distinctMovesPerLevel)
-                .setExpectedNodesCounters(expectedNodesCounters)
-                .setEvaluationCollisions(lastSearch.getEvaluationCollisions())
-                .setBestMoveOptions(lastSearch.getBestMoveOptions())
-                .setEvaluatedGamesCounter(lastSearch.getEvaluatedGamesCounter())
-                .setPrincipalVariation(lastSearch.getPrincipalVariation())
-                .setMoveEvaluations(lastSearch.getMoveEvaluations());
-
+        return lastSearch;
     }
+
+    @Override
+    public SearchMoveResult searchUpToTime(Game game, int msTimeout) {
+        return searchUpToDepth(game, 6);
+    }
+
 
     @Override
     public void stopSearching() {
         searchMove.stopSearching();
+    }
+
+    @Override
+    public void reset() {
     }
 
     /**

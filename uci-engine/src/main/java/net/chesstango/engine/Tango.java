@@ -1,12 +1,12 @@
 package net.chesstango.engine;
 
 import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.service.ServiceElement;
 import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Mauricio Coria
@@ -24,31 +24,29 @@ public class Tango implements ServiceElement {
     }
 
     public void newGame() {
-        currentSession = new Session(searchMove);
+        searchMove.reset();
+        currentSession = new Session();
         sessions.add(currentSession);
     }
 
     public void setPosition(String fen, List<String> moves) {
-        if (currentSession == null) {
+        if (currentSession == null || currentSession!=null && !Objects.equals(fen, currentSession.getInitialFen() )) {
             newGame();
         }
-        if (currentSession.getInitialFENPosition() == null) {
-            currentSession.setInitialFENPosition(fen);
-        } else if (!currentSession.getInitialFENPosition().equals(fen)) {
-            newGame();
-            currentSession.setInitialFENPosition(fen);
-        }
-
-        currentSession.executeMoves(moves);
+        currentSession.setPosition(fen, moves);
     }
 
 
-    public SearchMoveResult searchBestMove() {
-        return currentSession.searchBestMove();
+    public String goInfinite() {
+        return currentSession.goInfinite(searchMove);
     }
 
-    public SearchMoveResult searchBestMove(int depth) {
-        return currentSession.searchBestMove(depth);
+    public String goDepth(int depth) {
+        return currentSession.goDepth(searchMove, depth);
+    }
+
+    public String goMoveTime(int timeOut) {
+        return currentSession.goMoveTime(searchMove, timeOut);
     }
 
     public void stopSearching() {

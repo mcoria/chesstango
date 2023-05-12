@@ -1,7 +1,5 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.board.moves.Move;
-import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdIsReady;
 import net.chesstango.uci.protocol.requests.CmdPosition;
@@ -13,7 +11,6 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
  */
 class FindingBestMove implements TangoState {
     private final EngineTango engineTango;
-    private UCIEncoder uciEncoder = new UCIEncoder();
 
     FindingBestMove(EngineTango engineTango) {
         this.engineTango = engineTango;
@@ -42,17 +39,19 @@ class FindingBestMove implements TangoState {
     }
 
     public void findBestMove(CmdGo cmdGo) {
-        Move selectedMove = null;
+        String selectedMove = null;
 
         if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
-            selectedMove = engineTango.tango.searchBestMove().getBestMove();
+            selectedMove = engineTango.tango.goInfinite();
         } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-            selectedMove = engineTango.tango.searchBestMove(cmdGo.getDepth()).getBestMove();
+            selectedMove = engineTango.tango.goDepth(cmdGo.getDepth());
+        } else if (CmdGo.GoType.MOVE_TIME.equals(cmdGo.getGoType())) {
+            selectedMove = engineTango.tango.goMoveTime(cmdGo.getTimeOut());
         } else {
             throw new RuntimeException("go subtype not implemented yet");
         }
 
-        engineTango.responseOutputStream.accept(new RspBestMove(uciEncoder.encode(selectedMove)));
+        engineTango.responseOutputStream.accept(new RspBestMove(selectedMove));
 
         engineTango.currentState = new Ready(engineTango);
     }

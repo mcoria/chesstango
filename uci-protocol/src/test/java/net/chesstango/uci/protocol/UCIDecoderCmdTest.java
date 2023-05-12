@@ -154,7 +154,6 @@ public class UCIDecoderCmdTest {
 		assertEquals("go infinite", result.toString());
 	}
 
-
 	@Test
 	public void test_parse_go_depth() {
 		UCIMessage result =  decoder.parseMessage("go depth 1");
@@ -166,6 +165,19 @@ public class UCIDecoderCmdTest {
 		assertEquals(1, go.getDepth());
 
 		assertEquals("go depth 1", result.toString());
+	}
+
+	@Test
+	public void test_parse_go_movetime() {
+		UCIMessage result =  decoder.parseMessage("go movetime 20000");
+
+		assertTrue(result instanceof CmdGo);
+
+		CmdGo go = (CmdGo) result;
+		assertEquals(CmdGo.GoType.MOVE_TIME, go.getGoType());
+		assertEquals(20000, go.getTimeOut());
+
+		assertEquals("go movetime 20000", result.toString());
 	}
 
 	@Test
