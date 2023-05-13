@@ -17,8 +17,8 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     private int processingCounter;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
         this.processingCounter = 0;
     }
 

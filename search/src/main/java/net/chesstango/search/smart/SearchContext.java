@@ -1,5 +1,6 @@
 package net.chesstango.search.smart;
 
+import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class SearchContext {
+    private final Game game;
     private final int maxPly;
     private final int[] visitedNodesCounters;
     private final int[] expectedNodesCounters;
@@ -27,7 +29,8 @@ public class SearchContext {
 
     private final Map<Long, TableEntry> qMinMap;
 
-    public SearchContext(int maxPly) {
+    public SearchContext(Game game, int maxPly) {
+        this.game = game;
         this.maxPly = maxPly;
         this.visitedNodesCounters = new int[30];
         this.visitedNodesQuiescenceCounter = new int[30];
@@ -40,7 +43,8 @@ public class SearchContext {
         this.qMinMap = new HashMap<>();
     }
 
-    public SearchContext(int maxPly,
+    public SearchContext(Game game,
+                         int maxPly,
                          int[] visitedNodesCounters,
                          int[] expectedNodesCounters,
                          int[] visitedNodesQuiescenceCounter,
@@ -49,6 +53,7 @@ public class SearchContext {
                          Map<Long, TableEntry> minMap,
                          Map<Long, TableEntry> qMaxMap,
                          Map<Long, TableEntry> qMinMap) {
+        this.game = game;
         this.maxPly = maxPly;
         this.visitedNodesCounters = visitedNodesCounters;
         this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
@@ -58,6 +63,10 @@ public class SearchContext {
         this.minMap = minMap;
         this.qMaxMap = qMaxMap;
         this.qMinMap = qMinMap;
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     public int getMaxPly() {

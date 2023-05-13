@@ -22,8 +22,8 @@ public class TranspositionMoveSorter implements MoveSorter {
     private Map<Long, SearchContext.TableEntry> minMap;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }

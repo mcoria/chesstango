@@ -65,7 +65,8 @@ public class TranspositionMoveSorterTest {
         Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
-        SearchContext context = new SearchContext(1,
+        SearchContext context = new SearchContext(game,
+                1,
                 visitedNodesCounters,
                 expectedNodesCounters,
                 visitedNodesQuiescenceCounter,
@@ -75,7 +76,7 @@ public class TranspositionMoveSorterTest {
                 qMaxMap,
                 qMinMap);
 
-        moveSorter.init(game, context);
+        moveSorter.init(context);
     }
 
     private SearchContext.TableEntry createTableEntry(short bestMoveEncoded) {

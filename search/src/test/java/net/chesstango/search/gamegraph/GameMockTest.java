@@ -26,7 +26,7 @@ public class GameMockTest {
 
         minMax.setGameEvaluator(evaluator);
 
-        SearchMoveResult searchResult = minMax.search(game, new SearchContext(4));
+        SearchMoveResult searchResult = minMax.search(new SearchContext(game, 4));
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);

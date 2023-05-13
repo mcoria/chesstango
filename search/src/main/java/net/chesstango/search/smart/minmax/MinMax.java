@@ -29,7 +29,8 @@ public class MinMax implements SearchSmart {
     }
 
     @Override
-    public SearchMoveResult search(Game game, SearchContext context) {
+    public SearchMoveResult search(SearchContext context) {
+        final Game game = context.getGame();
         this.maxPly = context.getMaxPly();
         this.visitedNodesCounter = context.getVisitedNodesCounters();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
@@ -42,7 +43,7 @@ public class MinMax implements SearchSmart {
 
         expectedNodesCounters[0] += game.getPossibleMoves().size();
         for (Move move : game.getPossibleMoves()) {
-            game = game.executeMove(move);
+            game.executeMove(move);
 
             int currentEvaluation = minMax(game, !minOrMax, context.getMaxPly() - 1);
 
@@ -64,7 +65,7 @@ public class MinMax implements SearchSmart {
                 }
             }
 
-            game = game.undoMove();
+            game.undoMove();
         }
 
 

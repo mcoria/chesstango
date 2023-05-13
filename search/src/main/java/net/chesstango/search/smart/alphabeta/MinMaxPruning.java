@@ -25,7 +25,8 @@ public class MinMaxPruning implements SearchSmart {
     private List<SearchListener> searchActions;
 
     @Override
-    public SearchMoveResult search(Game game, SearchContext context) {
+    public SearchMoveResult search(SearchContext context) {
+        final Game game = context.getGame();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         initListeners(game, context);
@@ -77,7 +78,7 @@ public class MinMaxPruning implements SearchSmart {
 
 
     private void initListeners(Game game, SearchContext context) {
-        searchActions.stream().forEach(filter -> filter.init(game, context));
+        searchActions.stream().forEach(filter -> filter.init(context));
     }
 
     private void closeListeners(SearchMoveResult searchResult) {

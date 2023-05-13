@@ -29,11 +29,13 @@ public class NegaMaxPruning implements SearchSmart {
     }
 
     @Override
-    public SearchMoveResult search(Game game, SearchContext context) {
+    public SearchMoveResult search(SearchContext context) {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];
 
-        this.moveSorter.init(game, context);
+        this.moveSorter.init(context);
+
+        final Game game = context.getGame();
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -47,7 +49,7 @@ public class NegaMaxPruning implements SearchSmart {
         while (moveIterator.hasNext() && search && keepProcessing) {
             Move move = moveIterator.next();
 
-            game = game.executeMove(move);
+            game.executeMove(move);
 
             int currentValue = -negaMax(game, context.getMaxPly() - 1, GameEvaluator.INFINITE_NEGATIVE, -bestValue);
 
@@ -65,7 +67,7 @@ public class NegaMaxPruning implements SearchSmart {
                 bestMoves.add(move);
             }
 
-            game = game.undoMove();
+            game.undoMove();
         }
 
 

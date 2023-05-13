@@ -26,7 +26,8 @@ public class NegaMax implements SearchSmart {
     }
 
     @Override
-    public SearchMoveResult search(Game game, SearchContext context) {
+    public SearchMoveResult search(SearchContext context) {
+        final Game game = context.getGame();
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
@@ -34,7 +35,7 @@ public class NegaMax implements SearchSmart {
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;
 
         for (Move move : game.getPossibleMoves()) {
-            game = game.executeMove(move);
+            game.executeMove(move);
 
             int currentEvaluation = -negaMax(game, context.getMaxPly() - 1);
 
@@ -48,7 +49,7 @@ public class NegaMax implements SearchSmart {
                 }
             }
 
-            game = game.undoMove();
+            game.undoMove();
         }
 
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);

@@ -23,8 +23,8 @@ public class QTranspositionMoveSorter implements MoveSorter {
     private Map<Long, SearchContext.TableEntry> qMinMap;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
         this.qMaxMap = context.getQMaxMap();
         this.qMinMap = context.getQMinMap();
     }

@@ -67,8 +67,8 @@ public class DetectCycle implements AlphaBetaFilter {
     private Game game;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
     }
 
     @Override

@@ -23,8 +23,8 @@ public class MoveEvaluations implements SearchListener {
     private int maxPly;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();

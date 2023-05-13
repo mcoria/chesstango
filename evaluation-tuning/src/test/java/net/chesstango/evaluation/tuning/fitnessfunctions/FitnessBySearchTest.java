@@ -238,7 +238,9 @@ public class FitnessBySearchTest {
     }
 
     private Collection<SearchMoveResult.MoveEvaluation> getMoveEvaluationList(Game game, int bestEvaluationFoundBySearch, Move bestMoveFoundBySearch) {
-        SearchContext searchContext = new SearchContext(DEPTH,
+        SearchContext searchContext = new SearchContext(
+                game,
+                DEPTH,
                 null,
                 null,
                 null,
@@ -247,7 +249,7 @@ public class FitnessBySearchTest {
                 minMap,
                 null,
                 null);
-        moveEvaluations.init(game, searchContext);
+        moveEvaluations.init(searchContext);
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
         moveEvaluations.close(searchResult);
         return searchResult.getMoveEvaluations();

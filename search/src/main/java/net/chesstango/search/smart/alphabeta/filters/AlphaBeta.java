@@ -30,8 +30,8 @@ public class AlphaBeta implements AlphaBetaFilter {
     private Game game;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
         this.maxPly = context.getMaxPly();
         this.keepProcessing = true;
     }

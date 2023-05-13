@@ -44,7 +44,8 @@ public class IterativeDeepening implements SearchMove {
         try {
             for (int i = 1; i <= depth; i++) {
 
-                SearchContext context = new SearchContext(i,
+                SearchContext context = new SearchContext(game,
+                        i,
                         visitedNodesCounters,
                         expectedNodesCounters,
                         visitedNodesQuiescenceCounter,
@@ -54,7 +55,7 @@ public class IterativeDeepening implements SearchMove {
                         qMaxMap,
                         qMinMap);
 
-                SearchMoveResult searchResult = searchMove.search(game, context);
+                SearchMoveResult searchResult = searchMove.search(context);
 
                 bestMovesByDepth.add(searchResult);
 

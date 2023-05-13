@@ -24,8 +24,8 @@ public class SetPrincipalVariation implements SearchListener {
     private Game game;
 
     @Override
-    public void init(Game game, SearchContext context) {
-        this.game = game;
+    public void init(SearchContext context) {
+        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
         this.qMaxMap = context.getQMaxMap();

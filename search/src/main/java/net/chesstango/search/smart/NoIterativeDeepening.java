@@ -39,7 +39,8 @@ public class NoIterativeDeepening implements SearchMove {
         Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
-        SearchContext context = new SearchContext(depth,
+        SearchContext context = new SearchContext(game,
+                depth,
                 visitedNodesCounters,
                 expectedNodesCounters,
                 visitedNodesQuiescenceCounter,
@@ -49,7 +50,7 @@ public class NoIterativeDeepening implements SearchMove {
                 qMaxMap,
                 qMinMap);
 
-        return searchMove.search(game, context);
+        return searchMove.search(context);
     }
 
     @Override

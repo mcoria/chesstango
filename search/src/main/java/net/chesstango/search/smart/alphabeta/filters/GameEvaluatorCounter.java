@@ -31,7 +31,7 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchListener {
     }
 
     @Override
-    public void init(Game game, SearchContext context) {
+    public void init(SearchContext context) {
 
     }
 
