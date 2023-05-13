@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdIsReady;
 import net.chesstango.uci.protocol.requests.CmdPosition;
@@ -27,13 +28,9 @@ class WaitCmdGo implements TangoState {
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        FindingBestMove findingBestMove = new FindingBestMove(engineTango);
-        engineTango.currentState = findingBestMove;
-        if (engineTango.executor != null) {
-            engineTango.executor.execute(() -> findingBestMove.findBestMove(cmdGo));
-        } else {
-            findingBestMove.findBestMove(cmdGo);
-        }
+        Searching searching = new Searching(engineTango);
+        engineTango.currentState = searching;
+        searching.search(cmdGo);
     }
 
     @Override
@@ -42,5 +39,6 @@ class WaitCmdGo implements TangoState {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
+        engineTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.INITIAL_FEN : cmdPosition.getFen(), cmdPosition.getMoves());
     }
 }

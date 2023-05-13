@@ -1,56 +1,70 @@
 package net.chesstango.engine;
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
+import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.manager.SearchListener;
+import net.chesstango.search.manager.SearchManager;
+import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.service.ServiceElement;
 import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
  */
-public class Tango implements ServiceElement {
-
-    protected final SearchMove searchMove;
-
+public class Tango implements ServiceElement, SearchListener {
+    protected final SearchManager searchManager;
     private List<Session> sessions = new ArrayList<>();
-
     private Session currentSession;
+    private Consumer<String> searchCallBackFn;
 
     public Tango(SearchMove searchMove) {
-        this.searchMove = searchMove;
+        searchManager = new SearchManager()
+                            .setSearchMove(searchMove)
+                            .setSearchListener(this);
+    }
+
+    public void open() {
+        searchManager.open();
+    }
+
+    public void close() {
+        searchManager.close();
     }
 
     public void newGame() {
-        searchMove.reset();
+        searchManager.reset();
         currentSession = new Session();
         sessions.add(currentSession);
     }
 
     public void setPosition(String fen, List<String> moves) {
-        if (currentSession == null || currentSession!=null && !Objects.equals(fen, currentSession.getInitialFen() )) {
+        if (currentSession == null || currentSession != null && !Objects.equals(fen, currentSession.getInitialFen())) {
             newGame();
         }
         currentSession.setPosition(fen, moves);
     }
 
 
-    public String goInfinite() {
-        return currentSession.goInfinite(searchMove);
+    public void goInfinite() {
+        searchManager.searchInfinite(currentSession.getGame());
     }
 
-    public String goDepth(int depth) {
-        return currentSession.goDepth(searchMove, depth);
+    public void goDepth(int depth) {
+        searchManager.searchUpToDepth(currentSession.getGame(), depth);
     }
 
-    public String goMoveTime(int timeOut) {
-        return currentSession.goMoveTime(searchMove, timeOut);
+    public void goMoveTime(int timeOut) {
+        searchManager.searchUpToTime(currentSession.getGame(), timeOut);
     }
 
     public void stopSearching() {
-        searchMove.stopSearching();
+        searchManager.stopSearching();
     }
 
     public List<Session> getSessions() {
@@ -63,5 +77,24 @@ public class Tango implements ServiceElement {
         if (currentSession != null) {
             currentSession.accept(serviceVisitor);
         }
+    }
+
+    @Override
+    public void searchStarted() {
+    }
+
+    @Override
+    public void searchStopped() {
+    }
+
+    @Override
+    public void searchFinished(SearchMoveResult result) {
+        currentSession.addResult(result);
+
+        searchCallBackFn.accept(new UCIEncoder().encode(result.getBestMove()));
+    }
+
+    public void setCallBack(Consumer<String> searchCallBackFn) {
+        this.searchCallBackFn = searchCallBackFn;
     }
 }

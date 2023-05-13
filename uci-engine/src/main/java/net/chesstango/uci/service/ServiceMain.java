@@ -28,7 +28,7 @@ public class ServiceMain {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public static void main(String[] args) {
-        ServiceMain serviceMain = new ServiceMain(new EngineTango().enableAsync(), System.in, System.out);
+        ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
         //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
 
         serviceMain.open();

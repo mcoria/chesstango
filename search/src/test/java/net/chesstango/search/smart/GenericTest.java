@@ -28,7 +28,7 @@ public abstract class GenericTest {
     public void testHorizonteEffectCapture() {
         Game game = FENDecoder.loadGame("3q3k/3r4/8/3p4/8/8/3R4/3Q3K w - - 0 1");
 
-        Move bestMove = getBestMoveFinder().searchUpToDepth(game, 1).getBestMove();
+        Move bestMove = getBestMoveFinder().search(game, 1).getBestMove();
 
         Move rookCapturePawn = moveFactoryWhite.createCaptureRookMove(PiecePositioned.getPiecePositioned(Square.d2, Piece.ROOK_WHITE), PiecePositioned.getPiecePositioned(Square.d5, Piece.PAWN_BLACK), Cardinal.Norte);
 
@@ -39,7 +39,7 @@ public abstract class GenericTest {
     public void testHorizonteEffectPromotion() {
         Game game = FENDecoder.loadGame("6k1/8/8/8/3Q4/2n5/3p3K/8 w - - 2 1");
 
-        Move bestMove = getBestMoveFinder().searchUpToDepth(game, 1).getBestMove();
+        Move bestMove = getBestMoveFinder().search(game, 1).getBestMove();
 
         Move queenCaptureKnight = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.d4, Piece.QUEEN_WHITE), PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), Cardinal.SurOeste);
 
@@ -49,11 +49,11 @@ public abstract class GenericTest {
     @Test
     public void testDeterministicMove() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
-        Move bestMove = getBestMoveFinder().searchUpToDepth(game, 1).getBestMove();
+        Move bestMove = getBestMoveFinder().search(game, 1).getBestMove();
 
         Game gameMirror = game.mirror();
 
-        Move bestMoveMirror = getBestMoveFinder().searchUpToDepth(gameMirror, 1).getBestMove();
+        Move bestMoveMirror = getBestMoveFinder().search(gameMirror, 1).getBestMove();
 
 
         assertEquals(bestMove.getFrom().getPiece().getOpposite(), bestMoveMirror.getFrom().getPiece());

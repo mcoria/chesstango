@@ -5,6 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.manager.SearchManager;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.service.ServiceElement;
 import net.chesstango.uci.service.ServiceVisitor;
@@ -18,11 +19,14 @@ import java.util.List;
 public class Session implements ServiceElement {
     private final List<SearchMoveResult> searches = new ArrayList<>();
 
-    private final UCIEncoder uciEncoder = new UCIEncoder();
-
     private Game game;
 
+    public Game getGame() {
+        return game;
+    }
+
     public void setPosition(String fen, List<String> moves) {
+        UCIEncoder uciEncoder = new UCIEncoder();
         game = FENDecoder.loadGame(fen);
         if (moves != null && !moves.isEmpty()) {
             for (String moveStr : moves) {
@@ -39,24 +43,6 @@ public class Session implements ServiceElement {
         return game == null ? null : game.getInitialFen();
     }
 
-    public String goInfinite(SearchMove searchMove) {
-        SearchMoveResult bestMoveFound = searchMove.searchInfinite(game);
-        searches.add(bestMoveFound);
-        return uciEncoder.encode(bestMoveFound.getBestMove());
-    }
-
-    public String goDepth(SearchMove searchMove, int depth) {
-        SearchMoveResult bestMoveFound = searchMove.searchUpToDepth(game, depth);
-        searches.add(bestMoveFound);
-        return uciEncoder.encode(bestMoveFound.getBestMove());
-    }
-
-    public String goMoveTime(SearchMove searchMove, int timeOut) {
-        SearchMoveResult bestMoveFound = searchMove.searchUpToTime(game, timeOut);
-        searches.add(bestMoveFound);
-        return uciEncoder.encode(bestMoveFound.getBestMove());
-    }
-
     /**
      * Devuelve el resultado de las busquedas efectuadas durante el juego.
      *
@@ -66,10 +52,12 @@ public class Session implements ServiceElement {
         return searches;
     }
 
+    public void addResult(SearchMoveResult result) {
+        searches.add(result);
+    }
 
     @Override
     public void accept(ServiceVisitor serviceVisitor) {
         serviceVisitor.visit(this);
     }
-
 }

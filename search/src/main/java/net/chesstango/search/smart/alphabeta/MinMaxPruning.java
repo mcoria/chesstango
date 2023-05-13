@@ -7,7 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.SearchListener;
+import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
@@ -22,7 +22,7 @@ public class MinMaxPruning implements SearchSmart {
 
     private AlphaBetaFilter alphaBetaFilter;
 
-    private List<SearchListener> searchActions;
+    private List<SearchLifeCycle> searchActions;
 
     @Override
     public SearchMoveResult search(SearchContext context) {
@@ -72,7 +72,7 @@ public class MinMaxPruning implements SearchSmart {
         this.alphaBetaFilter = alphaBetaFilter;
     }
 
-    public void setSearchActions(List<SearchListener> searchActions) {
+    public void setSearchActions(List<SearchLifeCycle> searchActions) {
         this.searchActions = searchActions;
     }
 

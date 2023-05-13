@@ -22,12 +22,7 @@ public class NoIterativeDeepening implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult searchInfinite(Game game) {
-        return searchUpToDepth(game, 10);
-    }
-
-    @Override
-    public SearchMoveResult searchUpToDepth(Game game, int depth) {
+    public SearchMoveResult search(Game game, int depth) {
 
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
@@ -51,11 +46,6 @@ public class NoIterativeDeepening implements SearchMove {
                 qMinMap);
 
         return searchMove.search(context);
-    }
-
-    @Override
-    public SearchMoveResult searchUpToTime(Game game, int msTimeout) {
-        return null;
     }
 
     @Override

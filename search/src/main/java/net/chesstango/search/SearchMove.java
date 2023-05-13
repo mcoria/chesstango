@@ -74,11 +74,7 @@ import net.chesstango.board.Game;
  */
 public interface SearchMove {
 
-    SearchMoveResult searchInfinite(Game game);
-
-    SearchMoveResult searchUpToDepth(Game game, int depth);
-
-    SearchMoveResult searchUpToTime(Game game, int timeOut);
+    SearchMoveResult search(Game game, int depth);
 
     void stopSearching();
 

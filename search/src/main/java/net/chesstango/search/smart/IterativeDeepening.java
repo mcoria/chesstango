@@ -22,12 +22,7 @@ public class IterativeDeepening implements SearchMove {
     }
 
     @Override
-    public SearchMoveResult searchInfinite(Game game) {
-        return searchUpToDepth(game, 10);
-    }
-
-    @Override
-    public SearchMoveResult searchUpToDepth(final Game game, final int depth) {
+    public SearchMoveResult search(final Game game, final int depth) {
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
@@ -71,11 +66,6 @@ public class IterativeDeepening implements SearchMove {
 
 
         return lastSearch;
-    }
-
-    @Override
-    public SearchMoveResult searchUpToTime(Game game, int msTimeout) {
-        return searchUpToDepth(game, 6);
     }
 
 

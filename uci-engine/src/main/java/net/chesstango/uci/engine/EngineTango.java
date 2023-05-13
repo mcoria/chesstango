@@ -25,7 +25,6 @@ public class EngineTango implements Service {
 
     protected final Tango tango;
     protected UCIOutputStream responseOutputStream;
-    protected ExecutorService executor;
 
     TangoState currentState;
 
@@ -91,28 +90,15 @@ public class EngineTango implements Service {
         tango.accept(serviceVisitor);
     }
 
-    public EngineTango enableAsync() {
-        executor = Executors.newSingleThreadExecutor();
-        return this;
-    }
-
     @Override
     public void open() {
         currentState = new WaitCmdUci(this);
+        tango.open();
     }
 
     @Override
     public void close() {
-        if (executor != null) {
-            try {
-                executor.shutdown();
-                while (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
-                }
-                executor = null;
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        tango.close();
         currentState = null;
     }
 

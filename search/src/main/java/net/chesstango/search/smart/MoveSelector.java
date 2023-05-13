@@ -36,10 +36,7 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class MoveSelector {
-    private MoveSelector() {
-    }
 
-    ;
 
     public static Move selectMove(Color currentTurn, List<Move> moves) {
         if (moves.size() == 0) {

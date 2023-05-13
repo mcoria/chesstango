@@ -52,11 +52,11 @@ public class TranspositionTableTest {
     public void executeTest(String fen, int depth) {
         Game game = FENDecoder.loadGame(fen);
 
-        SearchMoveResult searchResult01 = searchWithTT.searchUpToDepth(game, depth);
+        SearchMoveResult searchResult01 = searchWithTT.search(game, depth);
 
         game.executeMove(searchResult01.getBestMove());
 
-        SearchMoveResult searchResult02 = searchWithoutTT.searchUpToDepth(game, depth - 1);
+        SearchMoveResult searchResult02 = searchWithoutTT.search(game, depth - 1);
 
         Assertions.assertEquals(searchResult01.getEvaluation(), searchResult02.getEvaluation());
     }

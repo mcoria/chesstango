@@ -6,7 +6,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.SearchListener;
+import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
@@ -137,7 +137,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
             gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
         }
 
-        List<SearchListener> filters = new ArrayList<>();
+        List<SearchLifeCycle> filters = new ArrayList<>();
         filters.add(alphaBeta);
         filters.add(quiescence);
         filters.add(moveSorter);

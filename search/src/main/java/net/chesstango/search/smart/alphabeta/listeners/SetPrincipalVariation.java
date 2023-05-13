@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.SearchListener;
+import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class SetPrincipalVariation implements SearchListener {
+public class SetPrincipalVariation implements SearchLifeCycle {
     private Map<Long, SearchContext.TableEntry> maxMap;
     private Map<Long, SearchContext.TableEntry> minMap;
     private Map<Long, SearchContext.TableEntry> qMaxMap;

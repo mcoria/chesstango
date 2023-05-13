@@ -46,7 +46,7 @@ public class MinMaxPruningTest {
 
         Future<SearchMoveResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                SearchMoveResult searchResult = search.searchUpToDepth(game, 20);
+                SearchMoveResult searchResult = search.search(game, 20);
 
                 testingThread.interrupt();
 
