@@ -1,6 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.protocol.requests.CmdGo;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.List;
@@ -10,18 +11,18 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class MatchScheduler {
-    private final int depth;
+    private final CmdGo cmdGo;
     private final GenericObjectPool<EngineController> pool1;
     private final GenericObjectPool<EngineController> pool2;
     private final MatchListener matchListener;
 
     public MatchScheduler(GenericObjectPool<EngineController> pool1,
                           GenericObjectPool<EngineController> pool2,
-                          int depth,
+                          CmdGo cmdGo,
                           MatchListener matchListener) {
         this.pool1 = pool1;
         this.pool2 = pool2;
-        this.depth = depth;
+        this.cmdGo = cmdGo;
         this.matchListener = matchListener;
     }
 
@@ -38,7 +39,7 @@ public class MatchScheduler {
             controller1 = getControllerFromPool(pool1);
             controller2 = getControllerFromPool(pool2);
 
-            Match match = new Match(controller1, controller2, depth);
+            Match match = new Match(controller1, controller2, cmdGo);
             match.setMatchListener(matchListener);
 
             match.play(fen);

@@ -27,7 +27,10 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class MatchMain implements MatchListener {
-    private static final int DEPTH = 3;
+
+    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(100);
+
     private static final boolean MATCH_DEBUG = false;
 
     /**
@@ -96,10 +99,10 @@ public class MatchMain implements MatchListener {
     }
 
     private static List<String> getFenList() {
-        //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
+        List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
-        List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
+        //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
         //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         return fenList;
     }
@@ -109,7 +112,7 @@ public class MatchMain implements MatchListener {
         matchBroadcaster.addListener(new MatchListenerToMBean(arenaMBean));
         matchBroadcaster.addListener(this);
 
-        Match match = new Match(engineController1, engineController2, DEPTH)
+        Match match = new Match(engineController1, engineController2, CMD_GO)
                             .setDebugEnabled(MATCH_DEBUG)
                             //.switchChairs(false)
                             .setMatchListener(matchBroadcaster);

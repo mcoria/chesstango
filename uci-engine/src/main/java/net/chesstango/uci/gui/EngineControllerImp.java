@@ -123,7 +123,7 @@ public class EngineControllerImp implements EngineController {
     }
 
     private abstract class RspAbstract implements EngineClientState {
-        private UCIResponse response;
+        private volatile UCIResponse response;
 
         @Override
         public synchronized UCIResponse sendRequest(UCIRequest request, boolean waitResponse) {
@@ -132,16 +132,16 @@ public class EngineControllerImp implements EngineController {
             if (waitResponse) {
                 try {
                     int waitingCounter = 0;
-                    while (response == null) {
+                    while (response == null && waitingCounter < 20 ) {
                         wait(1000);
-                        if (response == null) {
-                            //TODO: aca deberiamos validar si el engine sigue vivo
-                            if (waitingCounter == 20) {
-                                System.err.println("Engine has not provided any response after sending: " + request.toString());
-                                throw new RuntimeException("Perhaps engine has closed its output");
-                            }
-                        }
                         waitingCounter++;
+                    }
+                    if (response == null) {
+                        //TODO: aca deberiamos validar si el engine sigue vivo
+                        if (waitingCounter == 20) {
+                            System.err.println("Engine has not provided any response after sending: " + request.toString());
+                            throw new RuntimeException("Perhaps engine has closed its output");
+                        }
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchLifeCycle;
@@ -29,7 +30,7 @@ public class MinMaxPruning implements SearchSmart {
         final Game game = context.getGame();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        initListeners(game, context);
+        initListeners(context);
 
         long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
                 alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
@@ -58,14 +59,21 @@ public class MinMaxPruning implements SearchSmart {
 
     @Override
     public void stopSearching() {
-        searchActions.stream().forEach(filterActions -> {
-            if (filterActions instanceof AlphaBeta) {
-                ((AlphaBeta) filterActions).stopSearching();
-            }
-            if (filterActions instanceof Quiescence) {
-                ((Quiescence) filterActions).stopSearching();
-            }
-        });
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filterActions -> {
+                if (filterActions instanceof AlphaBeta) {
+                    ((AlphaBeta) filterActions).stopSearching();
+                }
+                if (filterActions instanceof Quiescence) {
+                    ((Quiescence) filterActions).stopSearching();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+
     }
 
     public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
@@ -77,11 +85,15 @@ public class MinMaxPruning implements SearchSmart {
     }
 
 
-    private void initListeners(Game game, SearchContext context) {
-        searchActions.stream().forEach(filter -> filter.init(context));
+    private void initListeners(SearchContext context) {
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.init(context));
+        }
     }
 
     private void closeListeners(SearchMoveResult searchResult) {
-        searchActions.stream().forEach(filter -> filter.close(searchResult));
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.close(searchResult));
+        }
     }
 }

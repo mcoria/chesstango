@@ -1,6 +1,7 @@
 package net.chesstango.uci.arena;
 
 import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.protocol.requests.CmdGo;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.util.ArrayList;
@@ -15,13 +16,13 @@ import java.util.stream.Collectors;
  */
 public class Tournament {
     private final static int THREADS_NUMBER = 5;
-    private final int depth;
+    private final CmdGo cmdGo;
     private final List<GenericObjectPool<EngineController>> pools;
     private final MatchListener matchListener;
 
-    public Tournament(List<EngineControllerPoolFactory> opponentsControllerFactories, int depth, MatchListener matchListener) {
+    public Tournament(List<EngineControllerPoolFactory> opponentsControllerFactories, CmdGo cmdGo, MatchListener matchListener) {
         this.pools = opponentsControllerFactories.stream().map(GenericObjectPool::new).collect(Collectors.toList());
-        this.depth = depth;
+        this.cmdGo = cmdGo;
         this.matchListener = matchListener;
     }
 
@@ -34,7 +35,7 @@ public class Tournament {
 
         for (GenericObjectPool<EngineController> pool : pools) {
             if(pool != mainPool) {
-                MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, depth, matchListener);
+                MatchScheduler matchScheduler = new MatchScheduler(mainPool, pool, cmdGo, matchListener);
 
                 tasks.addAll(matchScheduler.createTasks(fenList));
             }

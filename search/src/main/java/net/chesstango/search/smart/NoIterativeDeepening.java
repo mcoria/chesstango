@@ -2,6 +2,7 @@ package net.chesstango.search.smart;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
@@ -15,15 +16,14 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class NoIterativeDeepening implements SearchMove {
-    private final SearchSmart searchMove;
+    private final SearchSmart searchSmart;
 
-    public NoIterativeDeepening(SearchSmart searchMove) {
-        this.searchMove = searchMove;
+    public NoIterativeDeepening(SearchSmart searchSmartAlgorithm) {
+        searchSmart = searchSmartAlgorithm;
     }
 
     @Override
     public SearchMoveResult search(Game game, int depth) {
-
         int[] visitedNodesCounters = new int[30];
         int[] expectedNodesCounters = new int[30];
         int[] visitedNodesQuiescenceCounter = new int[30];
@@ -45,16 +45,20 @@ public class NoIterativeDeepening implements SearchMove {
                 qMaxMap,
                 qMinMap);
 
-        return searchMove.search(context);
+        return searchSmart.search(context);
     }
 
     @Override
     public void stopSearching() {
-        searchMove.stopSearching();
+        searchSmart.stopSearching();
     }
 
     @Override
     public void reset() {
+    }
 
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        searchSmart.setSearchListener(searchListener);
     }
 }

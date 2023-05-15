@@ -52,4 +52,9 @@ public class DefaultSearchMove implements SearchMove {
     public void reset() {
         imp.reset();
     }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        imp.setSearchListener(searchListener);
+    }
 }

@@ -25,7 +25,7 @@ public class Match {
     public static final int WINNER_POINTS = 1000;
     private final EngineController controller1;
     private final EngineController controller2;
-    private final int depth;
+    private final CmdGo cmdGo;
     private EngineController white;
     private EngineController black;
     private String fen;
@@ -35,10 +35,10 @@ public class Match {
     private MatchListener matchListener;
 
 
-    public Match(EngineController controller1, EngineController controller2, int depth) {
+    public Match(EngineController controller1, EngineController controller2, CmdGo cmdGo) {
         this.controller1 = controller1;
         this.controller2 = controller2;
-        this.depth = depth;
+        this.cmdGo = cmdGo;
         this.switchChairs = true;
     }
 
@@ -222,7 +222,7 @@ public class Match {
             currentTurn.send_CmdPosition(new CmdPosition(fen, moves));
         }
 
-        RspBestMove bestMove = currentTurn.send_CmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(depth));
+        RspBestMove bestMove = currentTurn.send_CmdGo(cmdGo);
 
         return bestMove.getBestMove();
     }

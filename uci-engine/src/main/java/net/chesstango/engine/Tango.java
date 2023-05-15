@@ -1,9 +1,8 @@
 package net.chesstango.engine;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.manager.SearchListener;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.manager.SearchManager;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.service.ServiceElement;

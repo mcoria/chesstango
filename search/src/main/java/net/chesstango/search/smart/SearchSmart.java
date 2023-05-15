@@ -1,5 +1,6 @@
 package net.chesstango.search.smart;
 
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 
 /**
@@ -10,4 +11,6 @@ public interface SearchSmart {
     SearchMoveResult search(SearchContext context);
 
     void stopSearching();
+
+    void setSearchListener(SearchListener searchListener);
 }

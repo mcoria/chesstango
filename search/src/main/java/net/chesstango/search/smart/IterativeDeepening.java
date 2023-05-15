@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
@@ -15,14 +16,19 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class IterativeDeepening implements SearchMove {
-    private final SearchSmart searchMove;
+    private final SearchSmart searchSmart;
 
-    public IterativeDeepening(SearchSmart searchMove) {
-        this.searchMove = searchMove;
+    private SearchListener searchListener;
+
+    private volatile boolean keepProcessing;
+
+    public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
+        searchSmart = searchSmartAlgorithm;
     }
 
     @Override
     public SearchMoveResult search(final Game game, final int depth) {
+        keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
@@ -35,12 +41,11 @@ public class IterativeDeepening implements SearchMove {
         Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
         Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
-
         try {
-            for (int i = 1; i <= depth; i++) {
+            for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
                 SearchContext context = new SearchContext(game,
-                        i,
+                        currentSearchDepth,
                         visitedNodesCounters,
                         expectedNodesCounters,
                         visitedNodesQuiescenceCounter,
@@ -50,32 +55,48 @@ public class IterativeDeepening implements SearchMove {
                         qMaxMap,
                         qMinMap);
 
-                SearchMoveResult searchResult = searchMove.search(context);
+                SearchMoveResult searchResult = searchSmart.search(context);
 
                 bestMovesByDepth.add(searchResult);
+
+                if (searchListener != null && currentSearchDepth == 1) {
+                    searchListener.searchStarted();
+                }
 
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
                 }
             }
         } catch (StopSearchingException spe) {
-
         }
 
-        SearchMoveResult lastSearch = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+        if (searchListener != null && !keepProcessing ) {
+            searchListener.searchStopped();
+        }
 
+        SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
 
-        return lastSearch;
+        if (searchListener != null) {
+            searchListener.searchFinished(bestMove);
+        }
+
+        return bestMove;
     }
 
 
     @Override
     public void stopSearching() {
-        searchMove.stopSearching();
+        keepProcessing = false;
+        searchSmart.stopSearching();
     }
 
     @Override
     public void reset() {
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
     }
 
     /**
