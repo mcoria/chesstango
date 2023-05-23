@@ -17,7 +17,40 @@ import java.util.concurrent.TimeUnit;
 public class SearchManager {
     private ExecutorService executorService;
     private SearchMove searchMove;
-    private SearchListener listener;
+    private SearchListener listenerClient;
+    private SearchListener listenerManager = new SearchListener() {
+        @Override
+        public void searchStarted() {
+            if (timeOut != null) {
+                executorService.submit(() -> {
+                    try {
+                        Thread.sleep(timeOut);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    stopSearching();
+                });
+            }
+            if (listenerClient != null) {
+                listenerClient.searchStarted();
+            }
+        }
+
+        @Override
+        public void searchStopped() {
+            if (listenerClient != null) {
+                listenerClient.searchStopped();
+            }
+        }
+
+        @Override
+        public void searchFinished(SearchMoveResult searchResult) {
+            if (listenerClient != null) {
+                listenerClient.searchFinished(searchResult);
+            }
+        }
+    };
+
     private volatile Future<SearchMoveResult> searchTask;
     private volatile Integer timeOut;
 
@@ -56,45 +89,13 @@ public class SearchManager {
     }
 
     public SearchManager setSearchListener(SearchListener listener) {
-        this.listener = listener;
+        this.listenerClient = listener;
         return this;
     }
 
     public SearchManager setSearchMove(SearchMove searchMove) {
         this.searchMove = searchMove;
-        this.searchMove.setSearchListener(new SearchListener() {
-            @Override
-            public void searchStarted() {
-                if (timeOut != null) {
-                    executorService.submit(() -> {
-                        try {
-                            Thread.sleep(timeOut);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        stopSearching();
-                    });
-                }
-                if (listener != null) {
-                    listener.searchStarted();
-                }
-            }
-
-            @Override
-            public void searchStopped() {
-                if (listener != null) {
-                    listener.searchStopped();
-                }
-            }
-
-            @Override
-            public void searchFinished(SearchMoveResult searchResult) {
-                if (listener != null) {
-                    listener.searchFinished(searchResult);
-                }
-            }
-        });
-
+        this.searchMove.setSearchListener(listenerManager);
         return this;
     }
 

@@ -19,6 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Dummy implements SearchMove {
 
+    private SearchListener searchListener;
+
     @Override
     public SearchMoveResult search(Game game, int depth) {
         Iterable<Move> moves = game.getPossibleMoves();
@@ -35,7 +37,14 @@ public class Dummy implements SearchMove {
 
         List<Move> selectedMovesCollection = moveMap.get(selectedPiece);
 
-        return new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
+
+        SearchMoveResult result = new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
+
+        if (searchListener != null) {
+            searchListener.searchFinished(result);
+        }
+
+        return result;
     }
 
     @Override
@@ -49,7 +58,7 @@ public class Dummy implements SearchMove {
 
     @Override
     public void setSearchListener(SearchListener searchListener) {
-
+        this.searchListener = searchListener;
     }
 
 
