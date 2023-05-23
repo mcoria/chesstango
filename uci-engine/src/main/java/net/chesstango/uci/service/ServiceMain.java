@@ -1,10 +1,8 @@
 package net.chesstango.uci.service;
 
 import net.chesstango.uci.engine.EngineTango;
-import net.chesstango.uci.protocol.requests.CmdQuit;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
-import net.chesstango.uci.protocol.stream.UCIOutputStreamSwitch;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
@@ -13,8 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,15 +21,13 @@ public class ServiceMain {
 
     private final UCIActiveStreamReader pipe;
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private volatile Boolean isRunning;
 
     public static void main(String[] args) {
         ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
         //ServiceMain serviceMain = new ServiceMain(new EngineProxy(), System.in, System.out);
 
-        serviceMain.open();
-
-        serviceMain.waitTermination();
+        serviceMain.run();
     }
 
     public ServiceMain(Service service, InputStream in, PrintStream out) {
@@ -43,31 +37,24 @@ public class ServiceMain {
 
         this.pipe = new UCIActiveStreamReader();
         this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
-        this.pipe.setOutputStream(new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, executorService::shutdown)
-                .setOutputStream(this.service));
+        this.pipe.setOutputStream(this.service);
     }
 
 
-    public void open() {
+    public void run() {
         service.open();
 
-        executorService.execute(pipe::read);
-        //TODO: no podemos esperar que los threads terminen, de lo contrario impedimos la ejecucion de test unitarios
-    }
+        isRunning = true;
 
+        pipe.read();
 
-    public void waitTermination() {
-        //TODO: no podemos llamar a shutdown() aca, de lo contrario impedimos que Go se ejecute en Zonda
-        //      de momento terminamos en EngineZonda.do_quit()
-        try {
-            while (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-                //System.out.println("Engine still executing");
-            }
-        } catch (InterruptedException e) {
-            executorService.shutdownNow();
-        }
+        isRunning = false;
 
         service.close();
+    }
+
+    public Boolean isRunning(){
+        return isRunning;
     }
 
 }
