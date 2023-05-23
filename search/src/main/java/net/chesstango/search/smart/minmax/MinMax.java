@@ -82,11 +82,6 @@ public class MinMax implements SearchSmart {
 
     }
 
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-
-    }
-
     protected int minMax(Game game, final boolean minOrMax, final int currentPly) {
         visitedNodesCounter[maxPly - currentPly - 1]++;
         expectedNodesCounters[maxPly - currentPly] += game.getPossibleMoves().size();

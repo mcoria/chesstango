@@ -40,10 +40,6 @@ public class Dummy implements SearchMove {
 
         SearchMoveResult result = new SearchMoveResult(depth, 0, selectedMovesCollection.get(ThreadLocalRandom.current().nextInt(0, selectedMovesCollection.size())), null);
 
-        if (searchListener != null) {
-            searchListener.searchFinished(result);
-        }
-
         return result;
     }
 
@@ -54,11 +50,6 @@ public class Dummy implements SearchMove {
     @Override
     public void reset() {
 
-    }
-
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-        this.searchListener = searchListener;
     }
 
 

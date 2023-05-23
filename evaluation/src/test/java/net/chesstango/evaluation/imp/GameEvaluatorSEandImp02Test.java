@@ -222,4 +222,11 @@ public class GameEvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
                 + (-1) * (5 + 10 + 0 + 20 + 10 + 10 + 5), evaluator.evaluateByPosition(game));
     }
 
+    @Test
+    public void testEvaluateSymmetric01() {
+        Game game = FENDecoder.loadGame("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
+        assertEquals(0, evaluator.evaluate(game));
+    }
+
+
 }

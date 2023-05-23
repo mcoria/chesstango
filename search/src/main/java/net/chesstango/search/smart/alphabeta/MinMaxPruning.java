@@ -71,11 +71,6 @@ public class MinMaxPruning implements SearchSmart {
         }
     }
 
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-
-    }
-
     public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
         this.alphaBetaFilter = alphaBetaFilter;
     }

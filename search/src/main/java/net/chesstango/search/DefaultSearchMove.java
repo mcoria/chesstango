@@ -53,8 +53,4 @@ public class DefaultSearchMove implements SearchMove {
         imp.reset();
     }
 
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-        imp.setSearchListener(searchListener);
-    }
 }

@@ -79,6 +79,4 @@ public interface SearchMove {
     void stopSearching();
 
     void reset();
-
-    void setSearchListener(SearchListener searchListener);
 }

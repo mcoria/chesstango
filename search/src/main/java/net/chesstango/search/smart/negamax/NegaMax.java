@@ -64,10 +64,6 @@ public class NegaMax implements SearchSmart {
 
     }
 
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-
-    }
 
     protected int negaMax(Game game, final int currentPly) {
         int betterEvaluation = GameEvaluator.INFINITE_NEGATIVE;

@@ -85,11 +85,6 @@ public class NegaMaxPruning implements SearchSmart {
         this.keepProcessing = false;
     }
 
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-
-    }
-
     protected int negaMax(Game game, final int currentPly, final int alpha, final int beta) {
         visitedNodesCounter[visitedNodesCounter.length - currentPly - 1]++;
         if (currentPly == 0 || !game.getStatus().isInProgress()) {

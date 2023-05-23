@@ -57,8 +57,4 @@ public class NoIterativeDeepening implements SearchMove {
     public void reset() {
     }
 
-    @Override
-    public void setSearchListener(SearchListener searchListener) {
-        searchSmart.setSearchListener(searchListener);
-    }
 }

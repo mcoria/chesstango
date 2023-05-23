@@ -18,64 +18,19 @@ public class SearchManager {
     private ExecutorService executorService;
     private SearchMove searchMove;
     private SearchListener listenerClient;
-    private SearchListener listenerManager = new SearchListener() {
-        @Override
-        public void searchStarted() {
-            if (timeOut != null) {
-                executorService.submit(() -> {
-                    try {
-                        Thread.sleep(timeOut);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    stopSearching();
-                });
-            }
-            if (listenerClient != null) {
-                listenerClient.searchStarted();
-            }
-        }
 
-        @Override
-        public void searchStopped() {
-            if (listenerClient != null) {
-                listenerClient.searchStopped();
-            }
-        }
-
-        @Override
-        public void searchFinished(SearchMoveResult searchResult) {
-            if (listenerClient != null) {
-                listenerClient.searchFinished(searchResult);
-            }
-        }
-    };
-
-    private volatile Future<SearchMoveResult> searchTask;
-    private volatile Integer timeOut;
+    private volatile Future<?> searchTask;
 
     public void searchInfinite(Game game) {
-        this.timeOut = null;
-        searchTask = executorService.submit(() -> {
-            SearchMoveResult searchResult = searchMove.search(game, Integer.MAX_VALUE);
-            return searchResult;
-        });
+        searchImp(game, Integer.MAX_VALUE, null);
     }
 
     public void searchUpToDepth(Game game, int depth) {
-        this.timeOut = null;
-        searchTask = executorService.submit(() -> {
-            SearchMoveResult searchResult = searchMove.search(game, depth);
-            return searchResult;
-        });
+        searchImp(game, depth, null);
     }
 
     public void searchUpToTime(Game game, int timeOut) {
-        this.timeOut = timeOut;
-        searchTask = executorService.submit(() -> {
-            SearchMoveResult searchResult = searchMove.search(game, Integer.MAX_VALUE);
-            return searchResult;
-        });
+        searchImp(game, Integer.MAX_VALUE, timeOut);
     }
 
     public void reset() {
@@ -95,7 +50,6 @@ public class SearchManager {
 
     public SearchManager setSearchMove(SearchMove searchMove) {
         this.searchMove = searchMove;
-        this.searchMove.setSearchListener(listenerManager);
         return this;
     }
 
@@ -110,5 +64,32 @@ public class SearchManager {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    private void searchImp(Game game, int depth, Integer timeOut) {
+        searchTask = executorService.submit(() -> {
+
+            if (listenerClient != null) {
+                listenerClient.searchStarted();
+            }
+
+            if (timeOut != null) {
+                executorService.submit(() -> {
+                    try {
+                        Thread.sleep(timeOut);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    stopSearching();
+                });
+            }
+
+            SearchMoveResult searchResult = searchMove.search(game, depth);
+
+            if (listenerClient != null) {
+                listenerClient.searchFinished(searchResult);
+            }
+        });
     }
 }
