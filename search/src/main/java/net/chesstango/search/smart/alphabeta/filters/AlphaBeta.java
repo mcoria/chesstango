@@ -4,9 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.StopSearchingException;
 import net.chesstango.search.smart.sorters.MoveSorter;
 
 import java.util.Iterator;

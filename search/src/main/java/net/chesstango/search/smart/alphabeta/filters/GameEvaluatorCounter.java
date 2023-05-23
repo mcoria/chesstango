@@ -3,8 +3,8 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchLifeCycle;
 
 /**
  * @author Mauricio Coria

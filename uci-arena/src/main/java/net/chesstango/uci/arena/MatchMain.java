@@ -29,7 +29,7 @@ import java.util.List;
 public class MatchMain implements MatchListener {
 
     //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(100);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(500);
 
     private static final boolean MATCH_DEBUG = false;
 

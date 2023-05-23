@@ -5,10 +5,9 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchSmart;
 
 import java.util.ArrayList;
 import java.util.List;
