@@ -1,9 +1,7 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.CmdIsReady;
-import net.chesstango.uci.protocol.requests.CmdPosition;
-import net.chesstango.uci.protocol.requests.CmdUci;
+import net.chesstango.uci.protocol.UCIEngine;
+import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
 import java.util.function.Consumer;
@@ -11,7 +9,7 @@ import java.util.function.Consumer;
 /**
  * @author Mauricio Coria
  */
-class Searching implements TangoState, Consumer<String> {
+class Searching implements UCIEngine, Consumer<String> {
     private final EngineTango engineTango;
 
     Searching(EngineTango engineTango) {
@@ -23,7 +21,16 @@ class Searching implements TangoState, Consumer<String> {
     }
 
     @Override
+    public void do_setOption(CmdSetOption cmdSetOption) {
+
+    }
+
+    @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
+    }
+
+    @Override
+    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
     }
 
     @Override
@@ -31,8 +38,14 @@ class Searching implements TangoState, Consumer<String> {
     }
 
     @Override
-    public void do_stop() {
+    public void do_stop(CmdStop cmdStop) {
         engineTango.tango.stopSearching();
+    }
+
+    @Override
+    public void do_quit(CmdQuit cmdQuit) {
+        engineTango.tango.stopSearching();
+        engineTango.close();
     }
 
     @Override

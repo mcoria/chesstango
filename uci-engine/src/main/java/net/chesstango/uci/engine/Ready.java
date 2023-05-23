@@ -1,16 +1,14 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.protocol.requests.CmdIsReady;
-import net.chesstango.uci.protocol.requests.CmdPosition;
-import net.chesstango.uci.protocol.requests.CmdUci;
+import net.chesstango.uci.protocol.UCIEngine;
+import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspReadyOk;
 
 /**
  * @author Mauricio Coria
  */
-class Ready implements TangoState {
+class Ready implements UCIEngine {
 
     private final EngineTango engineTango;
 
@@ -23,6 +21,16 @@ class Ready implements TangoState {
     }
 
     @Override
+    public void do_setOption(CmdSetOption cmdSetOption) {
+
+    }
+
+    @Override
+    public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+        engineTango.tango.newGame();
+    }
+
+    @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
         engineTango.reply(new RspReadyOk());
     }
@@ -32,7 +40,12 @@ class Ready implements TangoState {
     }
 
     @Override
-    public void do_stop() {
+    public void do_stop(CmdStop cmdStop) {
+    }
+
+    @Override
+    public void do_quit(CmdQuit cmdQuit) {
+        engineTango.close();
     }
 
     @Override

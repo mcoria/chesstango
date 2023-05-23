@@ -1,20 +1,15 @@
 package net.chesstango.uci.engine;
 
-import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
-import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.service.Service;
 import net.chesstango.uci.service.ServiceVisitor;
-
-import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -28,7 +23,7 @@ public class EngineTango implements Service {
 
     private boolean logging;
 
-    TangoState currentState;
+    UCIEngine currentState;
 
     final Ready readyState;
     final WaitCmdUci waitCmdUciState;
@@ -53,11 +48,12 @@ public class EngineTango implements Service {
 
             @Override
             public void do_setOption(CmdSetOption cmdSetOption) {
+                currentState.do_setOption(cmdSetOption);
             }
 
             @Override
             public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-                tango.newGame();
+                currentState.do_newGame(cmdUciNewGame);
             }
 
             @Override
@@ -72,13 +68,12 @@ public class EngineTango implements Service {
 
             @Override
             public void do_stop(CmdStop cmdStop) {
-                currentState.do_stop();
+                currentState.do_stop(cmdStop);
             }
 
             @Override
             public void do_quit(CmdQuit cmdQuit) {
-                currentState.do_stop();
-                close();
+                currentState.do_quit(cmdQuit);
             }
         };
 
