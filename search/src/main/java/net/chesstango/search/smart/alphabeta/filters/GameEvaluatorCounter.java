@@ -37,7 +37,9 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
-        result.setEvaluatedGamesCounter(counter);
+        if(result!=null) {
+            result.setEvaluatedGamesCounter(counter);
+        }
     }
 
 }

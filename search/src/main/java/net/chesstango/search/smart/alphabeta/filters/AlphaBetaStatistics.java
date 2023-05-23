@@ -30,9 +30,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
 
     @Override
     public void close(SearchMoveResult result) {
-        result.setVisitedNodesCounters(visitedNodesCounter);
-        result.setExpectedNodesCounters(expectedNodesCounters);
-        result.setDistinctMovesPerLevel(distinctMoves);
+        if(result!=null) {
+            result.setVisitedNodesCounters(visitedNodesCounter);
+            result.setExpectedNodesCounters(expectedNodesCounters);
+            result.setDistinctMovesPerLevel(distinctMoves);
+        }
     }
 
     @Override

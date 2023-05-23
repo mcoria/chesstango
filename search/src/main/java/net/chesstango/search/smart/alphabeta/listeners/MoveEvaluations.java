@@ -5,8 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchLifeCycle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,10 @@ public class MoveEvaluations implements SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
-        List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
-        result.setMoveEvaluations(moveEvaluationList);
+        if(result!=null) {
+            List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
+            result.setMoveEvaluations(moveEvaluationList);
+        }
     }
 
     public List<SearchMoveResult.MoveEvaluation> createMoveEvaluations(final Move bestMove,

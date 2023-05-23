@@ -5,11 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.smart.SearchSmart;
-import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.*;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
@@ -30,31 +26,37 @@ public class MinMaxPruning implements SearchSmart {
         final Game game = context.getGame();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        initListeners(context);
+        try {
+            initListeners(context);
 
-        long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
-                alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
+            long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
+                    alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
+                    alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
 
-        int bestValue = BinaryUtils.decodeValue(bestMoveAndValue);
-        short bestMoveEncoded = BinaryUtils.decodeMove(bestMoveAndValue);
+            int bestValue = BinaryUtils.decodeValue(bestMoveAndValue);
+            short bestMoveEncoded = BinaryUtils.decodeMove(bestMoveAndValue);
 
-        Move bestMove = null;
-        for (Move move : game.getPossibleMoves()) {
-            if (move.binaryEncoding() == bestMoveEncoded) {
-                bestMove = move;
-                break;
+            Move bestMove = null;
+            for (Move move : game.getPossibleMoves()) {
+                if (move.binaryEncoding() == bestMoveEncoded) {
+                    bestMove = move;
+                    break;
+                }
             }
+            if (bestMove == null) {
+                throw new RuntimeException("BestMove not found");
+            }
+
+            SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
+
+            closeListeners(searchResult);
+
+            return searchResult;
+
+        } catch (StopSearchingException spe) {
+            closeListeners(null);
+            throw spe;
         }
-        if (bestMove == null) {
-            throw new RuntimeException("BestMove not found");
-        }
-
-        SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
-
-        closeListeners(searchResult);
-
-        return searchResult;
     }
 
     @Override

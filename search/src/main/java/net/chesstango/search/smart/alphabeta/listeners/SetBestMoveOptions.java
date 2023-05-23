@@ -30,9 +30,11 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
-        List<Move> bestMoveOptions = findBestMoveOptions(result.getBestMove(), result.getEvaluation());
-        result.setBestMoveOptions(bestMoveOptions);
-        result.setEvaluationCollisions(bestMoveOptions.size() - 1);
+        if(result != null) {
+            List<Move> bestMoveOptions = findBestMoveOptions(result.getBestMove(), result.getEvaluation());
+            result.setBestMoveOptions(bestMoveOptions);
+            result.setEvaluationCollisions(bestMoveOptions.size() - 1);
+        }
     }
 
     public List<Move> findBestMoveOptions(final Move bestMove, final int bestMoveEvaluation) {

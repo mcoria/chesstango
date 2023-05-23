@@ -5,21 +5,20 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.StopSearchingException;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchManager {
-    private ExecutorService executorService;
+    private ScheduledExecutorService executorService;
     private SearchMove searchMove;
     private SearchListener listenerClient;
-
-    private volatile Future<?> searchTask;
 
     public void searchInfinite(Game game) {
         searchImp(game, Integer.MAX_VALUE, null);
@@ -38,9 +37,7 @@ public class SearchManager {
     }
 
     public void stopSearching() {
-        if (!searchTask.isDone()) {
-            searchMove.stopSearching();
-        }
+        searchMove.stopSearching();
     }
 
     public SearchManager setSearchListener(SearchListener listener) {
@@ -54,7 +51,7 @@ public class SearchManager {
     }
 
     public void open() {
-        executorService = Executors.newFixedThreadPool(2);
+        executorService = Executors.newScheduledThreadPool(2);
     }
 
     public void close() {
@@ -68,24 +65,24 @@ public class SearchManager {
 
 
     private void searchImp(Game game, int depth, Integer timeOut) {
-        searchTask = executorService.submit(() -> {
-
+        executorService.execute(() -> {
             if (listenerClient != null) {
                 listenerClient.searchStarted();
             }
 
             if (timeOut != null) {
-                executorService.submit(() -> {
-                    try {
-                        Thread.sleep(timeOut);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                    stopSearching();
-                });
+                executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
             }
 
-            SearchMoveResult searchResult = searchMove.search(game, depth);
+            SearchMoveResult searchResult = null;
+            try {
+                searchResult = searchMove.search(game, depth);
+            } catch (StopSearchingException spe) {
+                searchResult = spe.getSearchMoveResult();
+                if (listenerClient != null) {
+                    listenerClient.searchStopped();
+                }
+            }
 
             if (listenerClient != null) {
                 listenerClient.searchFinished(searchResult);

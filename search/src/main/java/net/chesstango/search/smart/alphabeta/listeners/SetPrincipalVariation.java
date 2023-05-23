@@ -6,8 +6,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.SearchLifeCycle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +34,10 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
-        List<String> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap, qMaxMap, qMinMap);
-        result.setPrincipalVariation(principalVariation);
-
+        if(result != null) {
+            List<String> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap, qMaxMap, qMinMap);
+            result.setPrincipalVariation(principalVariation);
+        }
     }
 
     public List<String> calculatePrincipalVariation(Game game,
