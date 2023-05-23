@@ -17,7 +17,8 @@ import net.chesstango.uci.service.ServiceVisitor;
  */
 public class EngineControllerImp implements EngineController {
     private final Service service;
-    private volatile EngineClientState currentState;
+    private volatile UCIGui currentState;
+    private volatile UCIResponse response;
     private String engineName;
     private String engineAuthor;
     private CmdGo cmdGo;
@@ -54,39 +55,39 @@ public class EngineControllerImp implements EngineController {
     public void send_CmdUci() {
         service.open();
 		currentState = new WaitRspUciOk();
-        currentState.sendRequest(new CmdUci(), true);
+        sendRequest(new CmdUci(), true);
     }
 
     @Override
     public void send_CmdIsReady() {
         currentState = new WaitRspReadyOk();
-        currentState.sendRequest(new CmdIsReady(), true);
+        sendRequest(new CmdIsReady(), true);
     }
 
     @Override
     public void send_CmdUciNewGame() {
-        currentState.sendRequest(new CmdUciNewGame(), false);
+        sendRequest(new CmdUciNewGame(), false);
     }
 
     @Override
     public void send_CmdPosition(CmdPosition cmdPosition) {
-        currentState.sendRequest(cmdPosition, false);
+        sendRequest(cmdPosition, false);
     }
 
     @Override
     public RspBestMove send_CmdGo(CmdGo cmdGo) {
         currentState = new WaitRspBestMove();
-        return (RspBestMove) currentState.sendRequest(this.cmdGo == null ? cmdGo : this.cmdGo, true);
+        return (RspBestMove) sendRequest(this.cmdGo == null ? cmdGo : this.cmdGo, true);
     }
 
     @Override
     public void send_CmdStop() {
-        currentState.sendRequest(new CmdStop(), false);
+        sendRequest(new CmdStop(), false);
     }
 
     @Override
     public void send_CmdQuit() {
-        currentState.sendRequest(new CmdQuit(), false);
+        sendRequest(new CmdQuit(), false);
         service.close();
     }
 
@@ -107,45 +108,47 @@ public class EngineControllerImp implements EngineController {
     }
 
 
-    private interface EngineClientState extends UCIGui {
-        UCIResponse sendRequest(UCIRequest request, boolean waitResponse);
+    public EngineControllerImp overrideEngineName(String name) {
+        engineName = name;
+        return this;
     }
 
-    private abstract class RspAbstract implements EngineClientState {
-        private volatile UCIResponse response;
+    public EngineController overrideCmdGo(CmdGo cmdGo) {
+        this.cmdGo = cmdGo;
+        return this;
+    }
 
-        @Override
-        public synchronized UCIResponse sendRequest(UCIRequest request, boolean waitResponse) {
-            this.response = null;
-            service.accept(request);
-            if (waitResponse) {
-                try {
-                    int waitingCounter = 0;
-                    while (response == null && waitingCounter < 20 ) {
-                        wait(1000);
-                        waitingCounter++;
-                    }
-                    if (response == null) {
-                        //TODO: aca deberiamos validar si el engine sigue vivo
-                        if (waitingCounter == 20) {
-                            System.err.println("Engine has not provided any response after sending: " + request.toString());
-                            throw new RuntimeException("Perhaps engine has closed its output");
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+    public synchronized UCIResponse sendRequest(UCIRequest request, boolean waitResponse) {
+        this.response = null;
+        service.accept(request);
+        if (waitResponse) {
+            try {
+                int waitingCounter = 0;
+                while (response == null && waitingCounter < 20 ) {
+                    wait(1000);
+                    waitingCounter++;
                 }
+                if (response == null) {
+                    //TODO: aca deberiamos validar si el engine sigue vivo
+                    if (waitingCounter == 20) {
+                        System.err.println("Engine has not provided any response after sending: " + request.toString());
+                        throw new RuntimeException("Perhaps engine has closed its output");
+                    }
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-            return response;
         }
-
-        protected synchronized void responseReceived(UCIResponse response) {
-            this.response = response;
-            notifyAll();
-        }
+        return response;
     }
 
-    private class NoWaitRsp extends RspAbstract {
+    protected synchronized void responseReceived(UCIResponse response) {
+        this.response = response;
+        notifyAll();
+    }
+
+
+    private class NoWaitRsp implements UCIGui {
         @Override
         public void do_uciOk(RspUciOk rspUciOk) {
         }
@@ -163,7 +166,7 @@ public class EngineControllerImp implements EngineController {
         }
     }
 
-    private class WaitRspUciOk extends RspAbstract {
+    private class WaitRspUciOk implements UCIGui {
         @Override
         public void do_uciOk(RspUciOk rspUciOk) {
             responseReceived(rspUciOk);
@@ -190,7 +193,7 @@ public class EngineControllerImp implements EngineController {
 
     }
 
-    private class WaitRspReadyOk extends RspAbstract {
+    private class WaitRspReadyOk implements UCIGui {
         @Override
         public void do_uciOk(RspUciOk rspUciOk) {
         }
@@ -211,7 +214,7 @@ public class EngineControllerImp implements EngineController {
     }
 
 
-    private class WaitRspBestMove extends RspAbstract {
+    private class WaitRspBestMove implements UCIGui {
         @Override
         public void do_uciOk(RspUciOk rspUciOk) {
         }
@@ -229,15 +232,5 @@ public class EngineControllerImp implements EngineController {
         @Override
         public void do_id(RspId rspId) {
         }
-    }
-
-    public EngineControllerImp overrideEngineName(String name) {
-        engineName = name;
-        return this;
-    }
-
-    public EngineController overrideCmdGo(CmdGo cmdGo) {
-        this.cmdGo = cmdGo;
-        return this;
     }
 }
