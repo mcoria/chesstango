@@ -9,11 +9,11 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
  * @author Mauricio Coria
  */
 public interface UCIGui {
-    void received_uciOk(RspUciOk rspUciOk);
+    void do_uciOk(RspUciOk rspUciOk);
 
-    void received_id(RspId rspId);
+    void do_id(RspId rspId);
 
-    void received_readyOk(RspReadyOk rspReadyOk);
+    void do_readyOk(RspReadyOk rspReadyOk);
 
-    void received_bestMove(RspBestMove rspBestMove);
+    void do_bestMove(RspBestMove rspBestMove);
 }

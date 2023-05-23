@@ -36,7 +36,7 @@ public class RspId implements UCIResponse {
 
     @Override
     public void execute(UCIGui executor) {
-        executor.received_id(this);
+        executor.do_id(this);
     }
 
     @Override
