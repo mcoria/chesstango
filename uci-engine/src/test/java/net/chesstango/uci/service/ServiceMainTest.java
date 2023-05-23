@@ -53,6 +53,7 @@ public class ServiceMainTest {
         PipedInputStream inputFromEngine = new PipedInputStream();
 
         EngineTango engine = new EngineTango();
+        engine.setLogging(true);
 
         ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
         executorService.submit(serviceMain::run);

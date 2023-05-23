@@ -21,9 +21,9 @@ public class WaitCmdUci implements TangoState {
 
     @Override
     public void do_uci(CmdUci cmdUci) {
-        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
-        engineTango.responseOutputStream.accept(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
-        engineTango.responseOutputStream.accept(new RspUciOk());
+        engineTango.reply(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
+        engineTango.reply(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
+        engineTango.reply(new RspUciOk());
         engineTango.currentState = new Ready(engineTango);
     }
 

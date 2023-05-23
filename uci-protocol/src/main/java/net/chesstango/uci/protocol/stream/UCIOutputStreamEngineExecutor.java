@@ -3,6 +3,7 @@ package net.chesstango.uci.protocol.stream;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.UCIRequest;
+import net.chesstango.uci.protocol.UCIResponse;
 
 /**
  * @author Mauricio Coria
@@ -19,7 +20,9 @@ public class UCIOutputStreamEngineExecutor implements UCIOutputStream {
     @Override
     public void accept(UCIMessage message) {
         //TODO: implementar filtrado, se me ocurre una canal para descartar
-        ((UCIRequest) message).execute(engine);
+        if(message instanceof UCIRequest) {
+            ((UCIRequest) message).execute(engine);
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
+import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.service.Service;
 import net.chesstango.uci.service.ServiceVisitor;
 
@@ -22,7 +23,10 @@ public class EngineTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
 
     protected final Tango tango;
-    protected UCIOutputStream responseOutputStream;
+
+    private UCIOutputStream responseOutputStream;
+
+    private boolean logging;
 
     TangoState currentState;
 
@@ -80,7 +84,17 @@ public class EngineTango implements Service {
 
     @Override
     public void accept(UCIMessage message) {
+        if (logging) {
+            System.out.println("tango << " + message);
+        }
         engineExecutor.accept(message);
+    }
+
+    public void reply(UCIMessage message) {
+        if (logging) {
+            System.out.println("tango >> " + message);
+        }
+        responseOutputStream.accept(message);
     }
 
     @Override
@@ -107,7 +121,7 @@ public class EngineTango implements Service {
 
     protected Tango createTango(SearchMove searchMove) {
         return new Tango(searchMove, selectedMove -> {
-            this.responseOutputStream.accept(new RspBestMove(selectedMove));
+            this.reply(new RspBestMove(selectedMove));
 
             this.currentState = new Ready(this);
         });
@@ -115,5 +129,10 @@ public class EngineTango implements Service {
 
     public List<Session> getSessions() {
         return tango.getSessions();
+    }
+
+    public EngineTango setLogging(boolean flag) {
+        this.logging = flag;
+        return this;
     }
 }

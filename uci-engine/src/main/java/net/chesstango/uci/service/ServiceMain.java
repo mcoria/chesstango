@@ -6,6 +6,8 @@ import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
+import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.ProxyConfig;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +27,7 @@ public class ServiceMain {
 
     public static void main(String[] args) {
         ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
-        //ServiceMain serviceMain = new ServiceMain(new EngineProxy(), System.in, System.out);
+        //ServiceMain serviceMain = new ServiceMain(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")), System.in, System.out);
 
         serviceMain.run();
     }

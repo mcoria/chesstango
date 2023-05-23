@@ -24,7 +24,7 @@ class Ready implements TangoState {
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
-        engineTango.responseOutputStream.accept(new RspReadyOk());
+        engineTango.reply(new RspReadyOk());
     }
 
     @Override
