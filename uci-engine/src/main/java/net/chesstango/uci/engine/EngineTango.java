@@ -30,6 +30,11 @@ public class EngineTango implements Service {
 
     TangoState currentState;
 
+    final Ready readyState;
+    final WaitCmdUci waitCmdUciState;
+    final WaitCmdGo waitCmdGoState;
+    final Searching searchingState;
+
     public EngineTango() {
         this(new DefaultSearchMove());
     }
@@ -77,6 +82,11 @@ public class EngineTango implements Service {
             }
         };
 
+        this.readyState = new Ready(this);
+        this.waitCmdUciState = new WaitCmdUci(this);
+        this.waitCmdGoState = new WaitCmdGo(this);
+        this.searchingState = new Searching(this);
+
         this.tango = createTango(searchMove);
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
@@ -105,7 +115,7 @@ public class EngineTango implements Service {
 
     @Override
     public void open() {
-        currentState = new WaitCmdUci(this);
+        currentState = waitCmdUciState;
         tango.open();
     }
 
@@ -120,15 +130,7 @@ public class EngineTango implements Service {
     }
 
     protected Tango createTango(SearchMove searchMove) {
-        return new Tango(searchMove, selectedMove -> {
-            this.reply(new RspBestMove(selectedMove));
-
-            this.currentState = new Ready(this);
-        });
-    }
-
-    public List<Session> getSessions() {
-        return tango.getSessions();
+        return new Tango(searchMove, searchingState);
     }
 
     public EngineTango setLogging(boolean flag) {

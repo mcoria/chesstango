@@ -38,6 +38,6 @@ class Ready implements TangoState {
     @Override
     public void do_position(CmdPosition cmdPosition) {
         engineTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.INITIAL_FEN : cmdPosition.getFen(), cmdPosition.getMoves());
-        engineTango.currentState = new WaitCmdGo(engineTango);
+        engineTango.currentState = engineTango.waitCmdGoState;
     }
 }

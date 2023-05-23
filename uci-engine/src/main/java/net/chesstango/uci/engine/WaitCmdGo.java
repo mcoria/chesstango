@@ -28,9 +28,16 @@ class WaitCmdGo implements TangoState {
 
     @Override
     public void do_go(CmdGo cmdGo) {
-        Searching searching = new Searching(engineTango);
-        engineTango.currentState = searching;
-        searching.search(cmdGo);
+        if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
+            engineTango.tango.goInfinite();
+        } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
+            engineTango.tango.goDepth(cmdGo.getDepth());
+        } else if (CmdGo.GoType.MOVE_TIME.equals(cmdGo.getGoType())) {
+            engineTango.tango.goMoveTime(cmdGo.getTimeOut());
+        } else {
+            throw new RuntimeException("go subtype not implemented yet");
+        }
+        engineTango.currentState = engineTango.searchingState;
     }
 
     @Override

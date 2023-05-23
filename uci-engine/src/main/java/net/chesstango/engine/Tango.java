@@ -70,10 +70,6 @@ public class Tango implements ServiceElement, SearchListener {
         searchManager.stopSearching();
     }
 
-    public List<Session> getSessions() {
-        return sessions;
-    }
-
     @Override
     public void accept(ServiceVisitor serviceVisitor) {
         serviceVisitor.visit(this);

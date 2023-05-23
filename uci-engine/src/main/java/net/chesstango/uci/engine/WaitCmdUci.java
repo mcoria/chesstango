@@ -24,7 +24,7 @@ public class WaitCmdUci implements TangoState {
         engineTango.reply(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
         engineTango.reply(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
         engineTango.reply(new RspUciOk());
-        engineTango.currentState = new Ready(engineTango);
+        engineTango.currentState = engineTango.readyState;
     }
 
     @Override

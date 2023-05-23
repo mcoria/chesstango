@@ -6,10 +6,12 @@ import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.requests.CmdUci;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 
+import java.util.function.Consumer;
+
 /**
  * @author Mauricio Coria
  */
-class Searching implements TangoState {
+class Searching implements TangoState, Consumer<String> {
     private final EngineTango engineTango;
 
     Searching(EngineTango engineTango) {
@@ -37,15 +39,10 @@ class Searching implements TangoState {
     public void do_position(CmdPosition cmdPosition) {
     }
 
-    public void search(CmdGo cmdGo) {
-        if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
-            engineTango.tango.goInfinite();
-        } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {
-            engineTango.tango.goDepth(cmdGo.getDepth());
-        } else if (CmdGo.GoType.MOVE_TIME.equals(cmdGo.getGoType())) {
-            engineTango.tango.goMoveTime(cmdGo.getTimeOut());
-        } else {
-            throw new RuntimeException("go subtype not implemented yet");
-        }
+    @Override
+    public void accept(String selectedMove) {
+        engineTango.reply(new RspBestMove(selectedMove));
+
+        engineTango.currentState = engineTango.readyState;
     }
 }
