@@ -7,15 +7,13 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
+import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
 import net.chesstango.uci.service.Service;
 import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
@@ -76,6 +74,7 @@ public class EngineTango implements Service {
         };
 
         this.tango = createTango(searchMove);
+
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
     }
 
@@ -107,7 +106,11 @@ public class EngineTango implements Service {
     }
 
     protected Tango createTango(SearchMove searchMove) {
-        return new Tango(searchMove);
+        return new Tango(searchMove, selectedMove -> {
+            this.responseOutputStream.accept(new RspBestMove(selectedMove));
+
+            this.currentState = new Ready(this);
+        });
     }
 
     public List<Session> getSessions() {

@@ -22,7 +22,6 @@ class Searching implements TangoState {
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
-        throw new RuntimeException("Nop, I'm not ready");
     }
 
     @Override
@@ -39,12 +38,6 @@ class Searching implements TangoState {
     }
 
     public void search(CmdGo cmdGo) {
-        engineTango.tango.setCallBack(selectedMove -> {
-            engineTango.responseOutputStream.accept(new RspBestMove(selectedMove));
-
-            engineTango.currentState = new Ready(engineTango);
-        });
-
         if (CmdGo.GoType.INFINITE.equals(cmdGo.getGoType())) {
             engineTango.tango.goInfinite();
         } else if (CmdGo.GoType.DEPTH.equals(cmdGo.getGoType())) {

@@ -29,7 +29,7 @@ public class ServiceMain {
 
     public static void main(String[] args) {
         ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
-        //EngineMain engineMain = new EngineMain(new EngineProxy(), System.in, System.out);
+        //ServiceMain serviceMain = new ServiceMain(new EngineProxy(), System.in, System.out);
 
         serviceMain.open();
 

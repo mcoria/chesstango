@@ -48,17 +48,18 @@ public class MatchMain implements MatchListener {
                 //.overrideEngineName("MinMaxPruning");
 
 
+        /*
         EngineController engineController2 = EngineControllerFactory
                 .createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class);
                // .createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
                 //.overrideEngineName("MinMax");
 
 
-        /*
+*/
         EngineController engineController2 = EngineControllerFactory
                                             .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
                                             //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
-        */
+
 
 
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();

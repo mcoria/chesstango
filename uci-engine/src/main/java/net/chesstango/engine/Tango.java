@@ -17,15 +17,16 @@ import java.util.function.Consumer;
  * @author Mauricio Coria
  */
 public class Tango implements ServiceElement, SearchListener {
-    protected final SearchManager searchManager;
-    private List<Session> sessions = new ArrayList<>();
+    private final SearchManager searchManager;
+    private final List<Session> sessions = new ArrayList<>();
+    private final Consumer<String> searchCallBackFn;
     private Session currentSession;
-    private Consumer<String> searchCallBackFn;
 
-    public Tango(SearchMove searchMove) {
-        searchManager = new SearchManager()
+    public Tango(SearchMove searchMove, Consumer<String> searchCallBackFn) {
+        this.searchManager = new SearchManager()
                             .setSearchMove(searchMove)
                             .setSearchListener(this);
+        this.searchCallBackFn = searchCallBackFn;
     }
 
     public void open() {
@@ -43,7 +44,10 @@ public class Tango implements ServiceElement, SearchListener {
     }
 
     public void setPosition(String fen, List<String> moves) {
-        if (currentSession == null || currentSession != null && !Objects.equals(fen, currentSession.getInitialFen())) {
+        if (currentSession == null ||
+                currentSession != null &&
+                currentSession.getGame() != null &&
+                !Objects.equals(fen, currentSession.getInitialFen())) {
             newGame();
         }
         currentSession.setPosition(fen, moves);
@@ -91,9 +95,5 @@ public class Tango implements ServiceElement, SearchListener {
         currentSession.addResult(result);
 
         searchCallBackFn.accept(new UCIEncoder().encode(result.getBestMove()));
-    }
-
-    public void setCallBack(Consumer<String> searchCallBackFn) {
-        this.searchCallBackFn = searchCallBackFn;
     }
 }
