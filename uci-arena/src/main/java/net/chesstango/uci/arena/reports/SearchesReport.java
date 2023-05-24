@@ -91,11 +91,15 @@ public class SearchesReport {
             reportModelDetail.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
             reportModelDetail.cutoffPercentages = cutoffPercentages;
 
-            StringBuilder sb = new StringBuilder();
-            for (Move move : searchMoveResult.getPrincipalVariation()) {
-                sb.append(String.format("%s ", UCIEncoder.encode(move)));
+            if (searchMoveResult.getPrincipalVariation() == null) {
+                reportModelDetail.principalVariation = "-";
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (Move move : searchMoveResult.getPrincipalVariation()) {
+                    sb.append(String.format("%s ", UCIEncoder.encode(move)));
+                }
+                reportModelDetail.principalVariation = sb.toString();
             }
-            reportModelDetail.principalVariation = sb.toString();
 
             Move bestMove = searchMoveResult.getBestMove();
             reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());

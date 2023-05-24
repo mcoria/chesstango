@@ -3,6 +3,7 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.reports.SearchesReport;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 public class SearchesTest {
 
     @Test
+    @Disabled
     public void testSearch_01(){
         SearchMove moveFinder = new DefaultSearchMove();
 

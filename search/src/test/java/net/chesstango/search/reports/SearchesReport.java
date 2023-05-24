@@ -1,6 +1,7 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 
@@ -76,12 +77,12 @@ public class SearchesReport {
             reportModelDetail.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
             reportModelDetail.cutoffPercentages = cutoffPercentages;
 
-            if(searchMoveResult.getPrincipalVariation() == null) {
+            if (searchMoveResult.getPrincipalVariation() == null) {
                 reportModelDetail.principalVariation = "-";
-            } else{
+            } else {
                 StringBuilder sb = new StringBuilder();
-                for (String moveStr : searchMoveResult.getPrincipalVariation()) {
-                    sb.append(String.format("%s ", moveStr));
+                for (Move move : searchMoveResult.getPrincipalVariation()) {
+                    sb.append(String.format("%s ", String.format("%s%s", move.getFrom().getSquare(), move.getTo().getSquare())));
                 }
                 reportModelDetail.principalVariation = sb.toString();
             }
