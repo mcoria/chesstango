@@ -22,7 +22,7 @@ public class SearchMoveResult {
     private Set<Move>[] distinctMovesPerLevel;
     private List<Move> bestMoveOptions;
     private long evaluatedGamesCounter;
-    private List<String> principalVariation;
+    private List<Move> principalVariation;
     private Collection<MoveEvaluation> moveEvaluations;
 
 
@@ -121,7 +121,7 @@ public class SearchMoveResult {
         return this;
     }
 
-    public List<String> getPrincipalVariation() {
+    public List<Move> getPrincipalVariation() {
         return principalVariation;
     }
 
@@ -129,7 +129,7 @@ public class SearchMoveResult {
         return moveEvaluations;
     }
 
-    public SearchMoveResult setPrincipalVariation(List<String> principalVariation) {
+    public SearchMoveResult setPrincipalVariation(List<Move> principalVariation) {
         this.principalVariation = principalVariation;
         return this;
     }

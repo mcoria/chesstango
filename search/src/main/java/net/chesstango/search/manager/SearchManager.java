@@ -2,13 +2,12 @@ package net.chesstango.search.manager;
 
 
 import net.chesstango.board.Game;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.StopSearchingException;
+import net.chesstango.board.moves.Move;
+import net.chesstango.search.*;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.SearchStatusListener;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,9 +22,8 @@ public class SearchManager {
 
     private final SearchStatusListener searchStatusListener = new SearchStatusListener() {
         @Override
-        public void info(int depth, int selDepth, String pv) {
-            String info = String.format("depth %d seldepth %d pv %s", depth, selDepth, pv);
-            listenerClient.searchInfo(info);
+        public void info(int depth, int selDepth, List<Move> pv) {
+            listenerClient.searchInfo(depth, selDepth, pv);
         }
     };
 
@@ -33,8 +31,13 @@ public class SearchManager {
         this.searchMove = searchMove;
         this.listenerClient = listenerClient;
 
-        if(searchMove instanceof IterativeDeepening){
-            ((IterativeDeepening) searchMove).setSearchStatusListener(searchStatusListener);
+        if(searchMove instanceof DefaultSearchMove){
+            DefaultSearchMove searchMoveDefault = (DefaultSearchMove) searchMove;
+            SearchMove searchImp = searchMoveDefault.getImplementation();
+
+            if(searchImp instanceof IterativeDeepening){
+                ((IterativeDeepening) searchImp).setSearchStatusListener(searchStatusListener);
+            }
         }
     }
 

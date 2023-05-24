@@ -1,11 +1,15 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
+import net.chesstango.uci.protocol.responses.RspInfo;
+
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -57,7 +61,15 @@ class Searching implements UCIEngine, SearchListener {
     }
 
     @Override
-    public void searchInfo(String info) {
+    public void searchInfo(int depth, int selDepth, List<Move> pv) {
+        StringBuilder sb = new StringBuilder();
+        for (Move move : pv) {
+            sb.append(String.format("%s ", UCIEncoder.encode(move)));
+        }
+
+        String info = String.format("depth %d seldepth %d pv %s", depth, selDepth, sb);
+
+        engineTango.reply(new RspInfo(info));
     }
 
     @Override

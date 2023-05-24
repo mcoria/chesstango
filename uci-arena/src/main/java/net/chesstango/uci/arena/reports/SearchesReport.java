@@ -6,6 +6,7 @@ import net.chesstango.engine.Session;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.protocol.UCIEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +92,8 @@ public class SearchesReport {
             reportModelDetail.cutoffPercentages = cutoffPercentages;
 
             StringBuilder sb = new StringBuilder();
-            for (String moveStr : searchMoveResult.getPrincipalVariation()) {
-                sb.append(String.format("%s ", moveStr));
+            for (Move move : searchMoveResult.getPrincipalVariation()) {
+                sb.append(String.format("%s ", UCIEncoder.encode(move)));
             }
             reportModelDetail.principalVariation = sb.toString();
 

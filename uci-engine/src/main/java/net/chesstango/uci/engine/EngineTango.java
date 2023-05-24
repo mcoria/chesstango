@@ -122,12 +122,12 @@ public class EngineTango implements Service {
         this.responseOutputStream = output;
     }
 
-    protected Tango createTango(SearchMove searchMove) {
-        return new Tango(searchMove, searchingState);
-    }
-
     public EngineTango setLogging(boolean flag) {
         this.logging = flag;
         return this;
+    }
+
+    protected Tango createTango(SearchMove searchMove) {
+        return new Tango(searchMove, searchingState);
     }
 }

@@ -48,6 +48,7 @@ public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implement
             SearchMove search = searchBuilder.build();
 
             return new EngineTango(search);
+
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

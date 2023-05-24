@@ -9,6 +9,7 @@ import net.chesstango.search.builders.MinMaxPruningBuilder;
  * @author Mauricio Coria
  */
 public class DefaultSearchMove implements SearchMove {
+
     private final SearchMove imp;
 
     public DefaultSearchMove() {
@@ -53,4 +54,7 @@ public class DefaultSearchMove implements SearchMove {
         imp.reset();
     }
 
+    public SearchMove getImplementation() {
+        return imp;
+    }
 }

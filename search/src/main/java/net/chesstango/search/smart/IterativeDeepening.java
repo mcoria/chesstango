@@ -60,7 +60,7 @@ public class IterativeDeepening implements SearchMove {
                 bestMovesByDepth.add(searchResult);
 
                 if(searchStatusListener != null){
-                    searchStatusListener.info(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation().toString());
+                    searchStatusListener.info(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
                 }
 
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {

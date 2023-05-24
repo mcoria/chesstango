@@ -248,7 +248,6 @@ public class EngineControllerImp implements EngineController {
 
         @Override
         public void do_info(RspInfo rspInfo) {
-            System.out.println(rspInfo.toString());
         }
 
         @Override

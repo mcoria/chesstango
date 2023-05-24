@@ -10,9 +10,7 @@ import java.util.List;
  */
 public class CmdPosition implements UCIRequest {
 
-    public enum CmdType {STARTPOS, FEN}
-
-    ;
+    public enum CmdType {STARTPOS, FEN};
 
     private final CmdType type;
 

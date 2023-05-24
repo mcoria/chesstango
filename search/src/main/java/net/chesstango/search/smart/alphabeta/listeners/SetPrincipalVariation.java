@@ -35,12 +35,12 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     @Override
     public void close(SearchMoveResult result) {
         if(result != null) {
-            List<String> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap, qMaxMap, qMinMap);
+            List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap, qMaxMap, qMinMap);
             result.setPrincipalVariation(principalVariation);
         }
     }
 
-    public List<String> calculatePrincipalVariation(Game game,
+    public List<Move> calculatePrincipalVariation(Game game,
                                                     Move bestMove,
                                                     int depth,
                                                     Map<Long, SearchContext.TableEntry> maxMap,
@@ -48,15 +48,14 @@ public class SetPrincipalVariation implements SearchLifeCycle {
                                                     Map<Long, SearchContext.TableEntry> qMaxMap,
                                                     Map<Long, SearchContext.TableEntry> qMinMap) {
 
-        List<String> principalVariation = new ArrayList<>();
+        List<Move> principalVariation = new ArrayList<>();
 
         Move move = bestMove;
 
-        SANEncoder sanEncoder = new SANEncoder();
         int pvMoveCounter = 0;
         do {
 
-            principalVariation.add(sanEncoder.encode(move, game.getPossibleMoves()));
+            principalVariation.add(move);
 
             game.executeMove(move);
             pvMoveCounter++;
