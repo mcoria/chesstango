@@ -6,7 +6,7 @@ package net.chesstango.uci.protocol;
 public interface UCIResponse extends UCIMessage {
 
     enum UCIResponseType {
-        ID, UCIOK, READYOK, BESTMOVE
+        ID, UCIOK, READYOK, INFO, BESTMOVE
     }
 
     UCIResponseType getResponseType();

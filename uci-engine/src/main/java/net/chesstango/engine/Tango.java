@@ -19,12 +19,12 @@ import java.util.function.Consumer;
 public class Tango implements ServiceElement, SearchListener {
     private final SearchManager searchManager;
     private final List<Session> sessions = new ArrayList<>();
-    private final Consumer<String> searchCallBackFn;
+    private final SearchListener listenerClient;
     private Session currentSession;
 
-    public Tango(SearchMove searchMove, Consumer<String> searchCallBackFn) {
+    public Tango(SearchMove searchMove, SearchListener listenerClient) {
         this.searchManager = new SearchManager(searchMove, this);
-        this.searchCallBackFn = searchCallBackFn;
+        this.listenerClient = listenerClient;
     }
 
     public void open() {
@@ -81,6 +81,11 @@ public class Tango implements ServiceElement, SearchListener {
     }
 
     @Override
+    public void searchInfo(String info) {
+
+    }
+
+    @Override
     public void searchStopped() {
     }
 
@@ -88,6 +93,6 @@ public class Tango implements ServiceElement, SearchListener {
     public void searchFinished(SearchMoveResult result) {
         currentSession.addResult(result);
 
-        searchCallBackFn.accept(new UCIEncoder().encode(result.getBestMove()));
+        listenerClient.searchFinished(result);
     }
 }

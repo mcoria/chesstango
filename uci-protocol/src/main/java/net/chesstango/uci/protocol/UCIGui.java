@@ -1,9 +1,6 @@
 package net.chesstango.uci.protocol;
 
-import net.chesstango.uci.protocol.responses.RspBestMove;
-import net.chesstango.uci.protocol.responses.RspId;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
-import net.chesstango.uci.protocol.responses.RspUciOk;
+import net.chesstango.uci.protocol.responses.*;
 
 /**
  * @author Mauricio Coria
@@ -16,4 +13,6 @@ public interface UCIGui {
     void do_readyOk(RspReadyOk rspReadyOk);
 
     void do_bestMove(RspBestMove rspBestMove);
+
+    void do_info(RspInfo rspInfo);
 }

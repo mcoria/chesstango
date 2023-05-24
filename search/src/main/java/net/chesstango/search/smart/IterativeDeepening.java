@@ -18,6 +18,8 @@ import java.util.stream.IntStream;
 public class IterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
 
+    private SearchStatusListener searchStatusListener;
+
     private volatile boolean keepProcessing;
 
     public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
@@ -57,6 +59,10 @@ public class IterativeDeepening implements SearchMove {
 
                 bestMovesByDepth.add(searchResult);
 
+                if(searchStatusListener != null){
+                    searchStatusListener.info(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation().toString());
+                }
+
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
                     break;
                 }
@@ -84,6 +90,14 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public void reset() {
+    }
+
+    public SearchStatusListener getSearchStatusListener() {
+        return searchStatusListener;
+    }
+
+    public void setSearchStatusListener(SearchStatusListener searchStatusListener) {
+        this.searchStatusListener = searchStatusListener;
     }
 
     /**

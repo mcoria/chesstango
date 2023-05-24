@@ -10,8 +10,6 @@ public class RspId implements UCIResponse {
 
     public enum RspIdType {NAME, AUTHOR}
 
-    ;
-
     private final RspIdType type;
 
     private final String text;
@@ -43,7 +41,6 @@ public class RspId implements UCIResponse {
     public UCIResponseType getResponseType() {
         return UCIResponseType.ID;
     }
-
 
     @Override
     public String toString() {

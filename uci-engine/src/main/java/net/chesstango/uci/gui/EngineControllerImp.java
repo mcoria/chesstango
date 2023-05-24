@@ -4,10 +4,7 @@ import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.requests.*;
-import net.chesstango.uci.protocol.responses.RspBestMove;
-import net.chesstango.uci.protocol.responses.RspId;
-import net.chesstango.uci.protocol.responses.RspReadyOk;
-import net.chesstango.uci.protocol.responses.RspUciOk;
+import net.chesstango.uci.protocol.responses.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
 import net.chesstango.uci.service.Service;
 import net.chesstango.uci.service.ServiceVisitor;
@@ -38,6 +35,11 @@ public class EngineControllerImp implements EngineController {
             @Override
             public void do_bestMove(RspBestMove rspBestMove) {
                 currentState.do_bestMove(rspBestMove);
+            }
+
+            @Override
+            public void do_info(RspInfo rspInfo) {
+                currentState.do_info(rspInfo);
             }
 
             @Override
@@ -162,6 +164,11 @@ public class EngineControllerImp implements EngineController {
         }
 
         @Override
+        public void do_info(RspInfo rspInfo) {
+
+        }
+
+        @Override
         public void do_id(RspId rspId) {
         }
     }
@@ -179,6 +186,11 @@ public class EngineControllerImp implements EngineController {
 
         @Override
         public void do_bestMove(RspBestMove rspBestMove) {
+        }
+
+        @Override
+        public void do_info(RspInfo rspInfo) {
+
         }
 
         @Override
@@ -209,6 +221,11 @@ public class EngineControllerImp implements EngineController {
         }
 
         @Override
+        public void do_info(RspInfo rspInfo) {
+
+        }
+
+        @Override
         public void do_id(RspId rspId) {
         }
     }
@@ -227,6 +244,11 @@ public class EngineControllerImp implements EngineController {
         public void do_bestMove(RspBestMove rspBestMove) {
             responseReceived(rspBestMove);
             currentState = new NoWaitRsp();
+        }
+
+        @Override
+        public void do_info(RspInfo rspInfo) {
+            System.out.println(rspInfo.toString());
         }
 
         @Override

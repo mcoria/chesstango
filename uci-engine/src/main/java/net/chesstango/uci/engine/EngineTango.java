@@ -18,9 +18,7 @@ public class EngineTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
 
     protected final Tango tango;
-
     private UCIOutputStream responseOutputStream;
-
     private boolean logging;
 
     UCIEngine currentState;

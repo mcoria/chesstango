@@ -6,6 +6,8 @@ import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
+import net.chesstango.search.smart.IterativeDeepening;
+import net.chesstango.search.smart.SearchStatusListener;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,9 +21,21 @@ public class SearchManager {
     private final SearchMove searchMove;
     private final SearchListener listenerClient;
 
+    private final SearchStatusListener searchStatusListener = new SearchStatusListener() {
+        @Override
+        public void info(int depth, int selDepth, String pv) {
+            String info = String.format("depth %d seldepth %d pv %s", depth, selDepth, pv);
+            listenerClient.searchInfo(info);
+        }
+    };
+
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
         this.searchMove = searchMove;
         this.listenerClient = listenerClient;
+
+        if(searchMove instanceof IterativeDeepening){
+            ((IterativeDeepening) searchMove).setSearchStatusListener(searchStatusListener);
+        }
     }
 
     public void searchInfinite(Game game) {
