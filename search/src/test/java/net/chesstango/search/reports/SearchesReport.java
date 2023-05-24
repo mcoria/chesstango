@@ -15,7 +15,6 @@ public class SearchesReport {
 
     private boolean printCutoffStatics;
     private boolean printNodesVisitedStatics;
-
     private boolean printPrincipalVariation;
 
     public void printSearchesStatics(List<SearchMoveResult> searchMoveResults) {
@@ -29,7 +28,6 @@ public class SearchesReport {
         if (printCutoffStatics) {
             printCutoff(reportModel);
         }
-
         if (printPrincipalVariation) {
             printPrincipalVariation(reportModel);
         }
@@ -62,11 +60,6 @@ public class SearchesReport {
 
                 if (expectedNodesCounters[i] > 0 && visitedNodesCounters[i] > 0) {
                     cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
-                    reportModel.maxSearchLevel = i + 1; //En el nivel más bajo no exploramos ningun nodo
-                }
-
-                if (visitedNodesQuiescenceCounter[i] > 0) {
-                    reportModel.maxSearchLevelQuiescence = i + 1;
                 }
 
                 reportModel.expectedNodesCounters[i] += expectedNodesCounters[i];
@@ -104,9 +97,18 @@ public class SearchesReport {
         for (int i = 0; i < 30; i++) {
             long[] expectedNodesCounters = reportModel.expectedNodesCounters;
             long[] visitedNodesCounters = reportModel.visitedNodesCounters;
+            long[] visitedNodesQuiescenceCounter = reportModel.visitedNodesQuiescenceCounter;
 
             if (expectedNodesCounters[i] > 0) {
                 reportModel.cutoffPercentages[i] = (int) (100 - (100 * visitedNodesCounters[i] / expectedNodesCounters[i]));
+            }
+
+            if (expectedNodesCounters[i] > 0 && visitedNodesCounters[i] > 0) {
+                reportModel.maxSearchLevel = i + 1; //En el nivel más bajo no exploramos ningun nodo
+            }
+
+            if (visitedNodesQuiescenceCounter[i] > 0) {
+                reportModel.maxSearchLevelQuiescence = i + 1;
             }
         }
 

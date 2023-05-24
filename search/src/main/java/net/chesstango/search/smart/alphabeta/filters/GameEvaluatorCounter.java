@@ -32,7 +32,7 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void init(SearchContext context) {
-
+        counter = 0;
     }
 
     @Override

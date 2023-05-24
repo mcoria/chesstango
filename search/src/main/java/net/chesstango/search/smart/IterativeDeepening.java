@@ -67,7 +67,7 @@ public class IterativeDeepening implements SearchMove {
             return bestMove;
 
         } catch (StopSearchingException spe) {
-            SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+            SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);  // Aca deberiamos buscar en TT el mejor
 
             spe.setSearchMoveResult(bestMove);
 
