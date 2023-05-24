@@ -16,8 +16,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class SearchManager {
     private ScheduledExecutorService executorService;
-    private SearchMove searchMove;
-    private SearchListener listenerClient;
+    private final SearchMove searchMove;
+    private final SearchListener listenerClient;
+
+    public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
+        this.searchMove = searchMove;
+        this.listenerClient = listenerClient;
+    }
 
     public void searchInfinite(Game game) {
         searchImp(game, Integer.MAX_VALUE, null);
@@ -39,16 +44,6 @@ public class SearchManager {
         searchMove.stopSearching();
     }
 
-    public SearchManager setSearchListener(SearchListener listener) {
-        this.listenerClient = listener;
-        return this;
-    }
-
-    public SearchManager setSearchMove(SearchMove searchMove) {
-        this.searchMove = searchMove;
-        return this;
-    }
-
     public void open() {
         executorService = Executors.newScheduledThreadPool(2);
     }
@@ -65,9 +60,7 @@ public class SearchManager {
 
     private void searchImp(Game game, int depth, Integer timeOut) {
         executorService.execute(() -> {
-            if (listenerClient != null) {
-                listenerClient.searchStarted();
-            }
+            listenerClient.searchStarted();
 
             if (timeOut != null) {
                 executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
@@ -78,14 +71,10 @@ public class SearchManager {
                 searchResult = searchMove.search(game, depth);
             } catch (StopSearchingException spe) {
                 searchResult = spe.getSearchMoveResult();
-                if (listenerClient != null) {
-                    listenerClient.searchStopped();
-                }
+                listenerClient.searchStopped();
             }
 
-            if (listenerClient != null) {
-                listenerClient.searchFinished(searchResult);
-            }
+            listenerClient.searchFinished(searchResult);
         });
     }
 }

@@ -23,9 +23,7 @@ public class Tango implements ServiceElement, SearchListener {
     private Session currentSession;
 
     public Tango(SearchMove searchMove, Consumer<String> searchCallBackFn) {
-        this.searchManager = new SearchManager()
-                            .setSearchMove(searchMove)
-                            .setSearchListener(this);
+        this.searchManager = new SearchManager(searchMove, this);
         this.searchCallBackFn = searchCallBackFn;
     }
 
