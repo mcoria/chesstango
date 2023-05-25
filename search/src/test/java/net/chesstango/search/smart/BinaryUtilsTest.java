@@ -1,5 +1,7 @@
 package net.chesstango.search.smart;
 
+import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.smart.alphabeta.filters.DetectCycle;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,5 +52,25 @@ public class BinaryUtilsTest {
 
         assertEquals(0b00001110_11011111, move);
         assertEquals(0b10000000_00000000_00000000_00000010, value);
+    }
+
+    @Test
+    public void testCycleMax() {
+        long encodedMoveAndValue = 0b00000000_00000000_00000000_00000000_01111111_11111111_11111111_11111111L;
+
+        long cycleMax = BinaryUtils.encodedMoveAndValue((short) 0, GameEvaluator.INFINITE_POSITIVE);
+
+        assertEquals(encodedMoveAndValue, cycleMax);
+        assertEquals(encodedMoveAndValue, DetectCycle.CYCLE_MAX);
+    }
+
+    @Test
+    public void testCycleMin() {
+        long encodedMoveAndValue = 0b00000000_00000000_00000000_00000000_10000000_00000000_00000000_00000001L;
+
+        long cycleMax = BinaryUtils.encodedMoveAndValue((short) 0, GameEvaluator.INFINITE_NEGATIVE);
+
+        assertEquals(encodedMoveAndValue, cycleMax);
+        assertEquals(encodedMoveAndValue, DetectCycle.CYCLE_MIN);
     }
 }

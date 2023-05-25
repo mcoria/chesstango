@@ -1,8 +1,8 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.CycleException;
 import net.chesstango.search.smart.SearchContext;
 
 
@@ -59,6 +59,11 @@ import net.chesstango.search.smart.SearchContext;
  */
 //TODO: no esta funcionando adecuadamente este filtro
 public class DetectCycle implements AlphaBetaFilter {
+
+    public final static long CYCLE_MAX = 0b00000000_00000000_00000000_00000000_01111111_11111111_11111111_11111111L;
+
+    public final static long CYCLE_MIN = 0b00000000_00000000_00000000_00000000_10000000_00000000_00000000_00000001L;
+
     private AlphaBetaFilter next;
 
     private long[] whitePositions = new long[60];
@@ -79,17 +84,33 @@ public class DetectCycle implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if (repeated(currentPly, whitePositions)) {
-            return GameEvaluator.INFINITE_POSITIVE;
+            // minimize invoca a maximize, esto tiene el efecto de saltear el movimiento en minimize
+            return CYCLE_MAX;
         }
-        return next.maximize(currentPly, alpha, beta);
+
+        long result = next.maximize(currentPly, alpha, beta);
+
+        if (currentPly == 0 && result == CYCLE_MAX) {
+            throw new CycleException(CYCLE_MAX);
+        }
+
+        return result;
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if (repeated(currentPly, blackPositions)) {
-            return GameEvaluator.INFINITE_NEGATIVE;
+            // maximize invoca a minimize, esto tiene el efecto de saltear el movimiento en maximize
+            return CYCLE_MIN;
         }
-        return next.minimize(currentPly, alpha, beta);
+
+        long result = next.minimize(currentPly, alpha, beta);
+
+        if (currentPly == 0 && result == CYCLE_MIN) {
+            throw new CycleException(CYCLE_MIN);
+        }
+
+        return result;
     }
 
     public void setNext(AlphaBetaFilter next) {

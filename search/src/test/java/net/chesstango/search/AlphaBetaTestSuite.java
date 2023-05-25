@@ -14,7 +14,8 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
         AlphaBetaStatisticsTest.class,
         BlackBestMovesTest.class,
-        DetectCycleTest.class,
+        DetectCycleEnabledTest.class,
+        DetectCycleDisabledTest.class,
         MinMaxPruningBlackTest.class,
         MinMaxPruningWhiteTest.class,
         MinMaxPruningMateIn1Test.class,

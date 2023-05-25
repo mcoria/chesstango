@@ -78,6 +78,11 @@ public class IterativeDeepening implements SearchMove {
             spe.setSearchMoveResult(bestMove);
 
             throw spe;
+
+        } catch (CycleException ce) {
+            SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+
+           return bestMove;
         }
     }
 

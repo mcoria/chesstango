@@ -109,6 +109,15 @@ public class DefaultMoveSorter implements SearchLifeCycle, MoveSorter {
     private Game game;
 
     @Override
+    public void init(SearchContext context) {
+        this.game = context.getGame();
+    }
+
+    @Override
+    public void close(SearchMoveResult result) {
+    }
+
+    @Override
     public List<Move> getSortedMoves() {
         return getSortedMoves(game.getPossibleMoves());
     }
@@ -122,16 +131,6 @@ public class DefaultMoveSorter implements SearchLifeCycle, MoveSorter {
         Collections.sort(moveList, moveComparator.reversed());
 
         return moveList;
-    }
-
-    @Override
-    public void init(SearchContext context) {
-        this.game = context.getGame();
-    }
-
-    @Override
-    public void close(SearchMoveResult result) {
-
     }
 
 }

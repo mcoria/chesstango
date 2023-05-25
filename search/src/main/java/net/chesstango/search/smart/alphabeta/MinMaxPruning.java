@@ -12,6 +12,7 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.CycleException;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
 import java.util.List;
@@ -57,9 +58,9 @@ public class MinMaxPruning implements SearchSmart {
 
             return searchResult;
 
-        } catch (StopSearchingException spe) {
+        } catch (StopSearchingException | CycleException ex ) {
             closeListeners(null);
-            throw spe;
+            throw ex;
         }
     }
 
