@@ -21,7 +21,7 @@ public class MinMaxPruningTest {
 
 
     @Test
-    public void testStop() throws ExecutionException, InterruptedException {
+    public void testStop() throws InterruptedException {
         SearchMove search = new MinMaxPruningBuilder()
                 .withGameEvaluator(new GameEvaluatorByMaterial())
                 .withStatics()
@@ -44,8 +44,7 @@ public class MinMaxPruningTest {
 
         Future<SearchMoveResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
-                SearchMoveResult searchResult = search.search(game, 20);
-
+                search.search(game, 20);
 
                 throw new RuntimeException("This point should not be reachable");
             } catch (StopSearchingException exception) {
@@ -61,7 +60,7 @@ public class MinMaxPruningTest {
         ExecutionException exception = null;
         try {
             searchTask.get();
-        } catch (ExecutionException executionException){
+        } catch (ExecutionException executionException) {
             exception = executionException;
         }
 
