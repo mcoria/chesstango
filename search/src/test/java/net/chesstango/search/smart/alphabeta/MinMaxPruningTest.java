@@ -5,6 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.builders.MinMaxPruningBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class MinMaxPruningTest {
 
 
     @Test
-    public void test01() throws ExecutionException, InterruptedException {
+    public void testStop() throws ExecutionException, InterruptedException {
         SearchMove search = new MinMaxPruningBuilder()
                 .withGameEvaluator(new GameEvaluatorByMaterial())
                 .withStatics()
@@ -41,18 +42,13 @@ public class MinMaxPruningTest {
 
         Game game = FENDecoder.loadGame("r1bqkb1r/pppppppp/2n5/3nP3/2BP4/8/PPP2PPP/RNBQK1NR b KQkq - 2 4 ");
 
-
-        Thread testingThread = Thread.currentThread();
-
         Future<SearchMoveResult> searchTask = Executors.newSingleThreadExecutor().submit(() -> {
             try {
                 SearchMoveResult searchResult = search.search(game, 20);
 
-                testingThread.interrupt();
 
-                return searchResult;
-            } catch (RuntimeException exception) {
-                exception.printStackTrace(System.err);
+                throw new RuntimeException("This point should not be reachable");
+            } catch (StopSearchingException exception) {
                 throw exception;
             }
         });
@@ -60,17 +56,17 @@ public class MinMaxPruningTest {
 
         Thread.sleep(1000);
 
-        if (!searchTask.isDone()) {
-            search.stopSearching();
-            try {
-                Thread.sleep(Long.MAX_VALUE);
-            } catch (InterruptedException ie) {
+        search.stopSearching();
 
-            }
+        ExecutionException exception = null;
+        try {
+            searchTask.get();
+        } catch (ExecutionException executionException){
+            exception = executionException;
         }
 
-        SearchMoveResult result = searchTask.get();
+        Assertions.assertNotNull(exception);
 
-        Assertions.assertTrue(result != null);
+        Assertions.assertInstanceOf(StopSearchingException.class, exception.getCause());
     }
 }
