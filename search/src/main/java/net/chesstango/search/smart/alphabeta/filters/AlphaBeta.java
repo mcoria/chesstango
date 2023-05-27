@@ -13,9 +13,6 @@ import net.chesstango.search.smart.sorters.MoveSorter;
 import java.util.Iterator;
 import java.util.List;
 
-import static net.chesstango.search.smart.alphabeta.filters.DetectCycle.CYCLE_MAX;
-import static net.chesstango.search.smart.alphabeta.filters.DetectCycle.CYCLE_MIN;
-
 /**
  * @author Mauricio Coria
  */
@@ -79,12 +76,6 @@ public class AlphaBeta implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            // Quiere decir que en todos los movimientos posibles entramos en bucle
-            // minimize invoca a maximize, esto tiene el efecto de saltear el movimiento en minimize
-            if(bestMove == null){
-                return CYCLE_MAX;
-            }
-
             return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
         }
     }
@@ -122,11 +113,6 @@ public class AlphaBeta implements AlphaBetaFilter {
                 }
 
                 game = game.undoMove();
-            }
-
-            // Quiere decir que en todos los movimientos posibles entramos en bucle
-            if(bestMove == null){
-                return CYCLE_MIN;
             }
 
             return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), minValue);

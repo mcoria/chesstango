@@ -65,11 +65,11 @@ public class SearchesReport {
 
                 reportModel.expectedNodesCounters[i] += expectedNodesCounters[i];
                 reportModel.visitedNodesCounters[i] += visitedNodesCounters[i];
-                reportModel.visitedNodesQuiescenceCounter[i] += visitedNodesQuiescenceCounter[i];
+                reportModel.visitedNodesQuiescenceCounter[i] += visitedNodesQuiescenceCounter == null ? 0 : visitedNodesQuiescenceCounter[i];
 
                 reportModel.visitedNodesTotal += visitedNodesCounters[i];
                 reportModel.expectedNodesTotal += expectedNodesCounters[i];
-                reportModel.visitedNodesQuiescenceTotal += visitedNodesQuiescenceCounter[i];
+                reportModel.visitedNodesQuiescenceTotal += visitedNodesQuiescenceCounter == null ? 0 : visitedNodesQuiescenceCounter[i];
             }
 
             reportModelDetail.expectedNodesCounters = expectedNodesCounters;

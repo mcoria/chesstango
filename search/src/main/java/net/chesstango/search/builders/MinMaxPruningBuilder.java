@@ -39,8 +39,6 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private QuiescenceStatics quiescenceStatics;
 
-    private DetectCycle detectCycle;
-
     private TranspositionTable transpositionTable;
 
     private QTranspositionTable qTranspositionTable;
@@ -75,11 +73,6 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     public MinMaxPruningBuilder withQuiescence() {
         quiescence = new Quiescence();
-        return this;
-    }
-
-    public MinMaxPruningBuilder withDetectCycle() {
-        detectCycle = new DetectCycle();
         return this;
     }
 
@@ -188,26 +181,12 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
             filters.add(alphaBetaStatistics);
-            if (detectCycle != null) {
-                alphaBetaStatistics.setNext(detectCycle);
-            } else if (transpositionTable != null) {
+             if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
                 alphaBetaStatistics.setNext(alphaBeta);
             }
             head = alphaBetaStatistics;
-        }
-
-        if (detectCycle != null) {
-            filters.add(detectCycle);
-            if (transpositionTable != null) {
-                detectCycle.setNext(transpositionTable);
-            } else {
-                detectCycle.setNext(alphaBeta);
-            }
-            if (head == null) {
-                head = detectCycle;
-            }
         }
 
         if (transpositionTable != null) {

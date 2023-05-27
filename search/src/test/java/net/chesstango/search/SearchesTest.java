@@ -28,4 +28,22 @@ public class SearchesTest {
                 .withPrincipalVariation()
                 .printSearchesStatics(Arrays.asList(searchResult));
     }
+
+    @Test
+    @Disabled
+    public void testSearch_02(){
+        SearchMove moveFinder = new DefaultSearchMove();
+
+        Game game = FENDecoder.loadGame("1k2r3/1pp5/4B3/1P3Q2/3q1Pp1/3n2Pp/3p3P/5R1K b - - 0 1");
+
+        long hash = game.getChessPosition().getPositionHash();
+
+        SearchMoveResult searchResult = moveFinder.search( game, 6);
+
+        new SearchesReport()
+                .withNodesVisitedStatics()
+                .withCutoffStatics()
+                .withPrincipalVariation()
+                .printSearchesStatics(Arrays.asList(searchResult));
+    }
 }

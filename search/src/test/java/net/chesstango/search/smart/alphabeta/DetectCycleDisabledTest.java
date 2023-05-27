@@ -51,7 +51,6 @@ public class DetectCycleDisabledTest {
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
-
         alphaBeta.setNext(alphaBetaStatistics);
         alphaBetaStatistics.setNext(alphaBeta);
 

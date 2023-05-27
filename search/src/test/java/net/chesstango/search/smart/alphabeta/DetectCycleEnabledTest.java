@@ -11,12 +11,13 @@ import net.chesstango.search.smart.CycleException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
-import net.chesstango.search.smart.alphabeta.filters.DetectCycle;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -52,16 +53,16 @@ public class DetectCycleEnabledTest {
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
-        DetectCycle detectCycle = new DetectCycle();
+        TranspositionTable transpositionTable = new TranspositionTable();
         // FILTERS END
 
         alphaBeta.setNext(alphaBetaStatistics);
-        detectCycle.setNext(alphaBeta);
-        alphaBetaStatistics.setNext(detectCycle);
+        transpositionTable.setNext(alphaBeta);
+        alphaBetaStatistics.setNext(transpositionTable);
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, detectCycle, moveSorter));
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, transpositionTable, moveSorter));
     }
 
 
@@ -95,6 +96,7 @@ public class DetectCycleEnabledTest {
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
+    @Disabled
     public void testDetectCycle01() {
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
@@ -152,6 +154,7 @@ public class DetectCycleEnabledTest {
 
 
     @Test
+    @Disabled
     public void testDetectCycle02() {
         Game game = FENDecoder.loadGame("k2b4/2pPp3/1pP1P3/pP5p/P5pP/3p1pP1/3PpP2/4B2K w - - 0 1");
 
@@ -232,6 +235,7 @@ public class DetectCycleEnabledTest {
     }
 
     @Test
+    @Disabled
     public void testDetectCycle04() {
         Game game = FENDecoder.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
