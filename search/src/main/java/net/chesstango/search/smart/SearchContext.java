@@ -96,18 +96,15 @@ public class SearchContext {
         public int searchDepth;
 
         public long bestMoveAndValue;
-        public int alpha;
-        public int beta;
+
         public int value;
         public EntryType type;
 
 
 
         public long qBestMoveAndValue;
-        public int qAlpha;
-        public int qBeta;
         public int qValue;
-        public boolean qExact;
+        public EntryType qType;
     }
 
 }

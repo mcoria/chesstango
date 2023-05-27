@@ -7,6 +7,7 @@ import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
+import static net.chesstango.search.smart.SearchContext.EntryType;
 import static net.chesstango.search.smart.SearchContext.TableEntry;
 
 /**
@@ -31,79 +32,117 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        return process(currentPly, alpha, beta, true);
+        if (game.getStatus().isInProgress()) {
+            long hash = game.getChessPosition().getPositionHash();
+            long bestMoveAndValue;
+
+            SearchContext.TableEntry entry = maxMap.get(hash);
+
+            if (entry == null) {
+                entry = new TableEntry();
+
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+                maxMap.put(hash, entry);
+            } else {
+                if (entry.bestMoveAndValue != 0) {
+                    // Es un valor exacto
+                    if (entry.type == SearchContext.EntryType.EXACT) {
+                        return entry.bestMoveAndValue;
+                    } else if (entry.type == SearchContext.EntryType.LOWER_BOUND && beta <= entry.value) {
+                        return entry.bestMoveAndValue;
+                    } else if (entry.type == SearchContext.EntryType.UPPER_BOUND && entry.value <= alpha) {
+                        return entry.bestMoveAndValue;
+                    }
+                }
+
+                if (entry.qBestMoveAndValue != 0) {
+                    // Es un valor exacto
+                    if (entry.qType == SearchContext.EntryType.EXACT) {
+                        return entry.qBestMoveAndValue;
+                    } else if (entry.qType == SearchContext.EntryType.LOWER_BOUND && beta <= entry.qValue) {
+                        return entry.qBestMoveAndValue;
+                    } else if (entry.qType == SearchContext.EntryType.UPPER_BOUND && entry.qValue <= alpha) {
+                        return entry.qBestMoveAndValue;
+                    }
+                }
+
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+            }
+
+            updateQEntry(entry, alpha, beta, bestMoveAndValue);
+
+            return entry.qBestMoveAndValue;
+        }
+
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        return process(currentPly, alpha, beta, false);
+        if (game.getStatus().isInProgress()) {
+            long hash = game.getChessPosition().getPositionHash();
+            long bestMoveAndValue;
+
+            SearchContext.TableEntry entry = minMap.get(hash);
+
+            if (entry == null) {
+                entry = new TableEntry();
+
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+                minMap.put(hash, entry);
+            } else {
+                if (entry.bestMoveAndValue != 0) {
+                    // Es un valor exacto
+                    if (entry.type == SearchContext.EntryType.EXACT) {
+                        return entry.bestMoveAndValue;
+                    } else if (entry.type == SearchContext.EntryType.LOWER_BOUND && beta <= entry.value) {
+                        return entry.bestMoveAndValue;
+                    } else if (entry.type == SearchContext.EntryType.UPPER_BOUND && entry.value <= alpha) {
+                        return entry.bestMoveAndValue;
+                    }
+                }
+
+                if (entry.qBestMoveAndValue != 0) {
+                    // Es un valor exacto
+                    if (entry.qType == SearchContext.EntryType.EXACT) {
+                        return entry.qBestMoveAndValue;
+                    } else if (entry.qType == SearchContext.EntryType.LOWER_BOUND && beta <= entry.qValue) {
+                        return entry.qBestMoveAndValue;
+                    } else if (entry.qType == SearchContext.EntryType.UPPER_BOUND && entry.qValue <= alpha) {
+                        return entry.qBestMoveAndValue;
+                    }
+                }
+
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+            }
+
+            updateQEntry(entry, alpha, beta, bestMoveAndValue);
+
+            return entry.qBestMoveAndValue;
+        }
+
+        return next.minimize(currentPly, alpha, beta);
     }
 
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }
 
-
-    private long process(int currentPly, int alpha, int beta, boolean maximize) {
-        /*
-        if (game.getStatus().isInProgress()) {
-            long hash = game.getChessPosition().getPositionHash();
-
-            SearchContext.TableEntry entry = maximize ? maxMap.get(hash) : minMap.get(hash);
-
-            if (entry == null) {
-                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                entry = updateQEntry(new TableEntry(), alpha, beta, bestMoveAndValue);
-
-                if (maximize) {
-                    maxMap.put(hash, entry);
-                } else {
-                    minMap.put(hash, entry);
-                }
-            } else {
-                if(entry.bestMoveAndValue != 0){
-                    if (entry.exact) {
-                        return entry.bestMoveAndValue;
-                    } else {
-                        if (entry.value < alpha || beta < entry.value) {
-                            return entry.bestMoveAndValue;
-                        }
-                    }
-                }
-
-                if(entry.qBestMoveAndValue != 0){
-                    // Es un valor exacto
-                    if (entry.qExact) {
-                        entry = entry;
-                    } else {
-                        if (entry.qValue < alpha || beta < entry.qValue) {
-                            entry = entry;
-                        } else {
-                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                            entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
-                        }
-                    }
-                } else {
-                    long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                    entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
-                }
-            }
-            return entry.qBestMoveAndValue;
+    protected void updateQEntry(TableEntry entry, int alpha, int beta, long bestMoveAndValue) {
+        int value = BinaryUtils.decodeValue(bestMoveAndValue);
+        EntryType type;
+        if (beta <= value) {
+            type = EntryType.LOWER_BOUND;
+        } else if (value <= alpha) {
+            type = EntryType.UPPER_BOUND;
+        } else {
+            type = EntryType.EXACT;
         }
-         */
 
-        return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-    }
-
-    private TableEntry updateQEntry(TableEntry entry, int alpha, int beta, long bestMoveAndValue) {
         entry.qBestMoveAndValue = bestMoveAndValue;
-        entry.qAlpha = alpha;
-        entry.qBeta = beta;
-        entry.qValue = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.qExact = alpha < entry.value  && entry.value < beta;
-        return entry;
+        entry.qValue = value;
+        entry.qType = type;
     }
 }
