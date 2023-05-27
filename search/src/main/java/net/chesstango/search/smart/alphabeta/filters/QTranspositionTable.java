@@ -45,6 +45,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
 
     private long process(int currentPly, int alpha, int beta, boolean maximize) {
+        /*
         if (game.getStatus().isInProgress()) {
             long hash = game.getChessPosition().getPositionHash();
 
@@ -92,6 +93,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             }
             return entry.qBestMoveAndValue;
         }
+         */
 
         return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
     }

@@ -89,6 +89,9 @@ public class SearchContext {
         return minMap;
     }
 
+
+    public enum EntryType{EXACT, LOWER_BOUND, UPPER_BOUND};
+
     public static class TableEntry {
         public int searchDepth;
 
@@ -96,7 +99,7 @@ public class SearchContext {
         public int alpha;
         public int beta;
         public int value;
-        public boolean exact;
+        public EntryType type;
 
 
 

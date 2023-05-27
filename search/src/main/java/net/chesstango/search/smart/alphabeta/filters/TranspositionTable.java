@@ -7,6 +7,7 @@ import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
+import static net.chesstango.search.smart.SearchContext.EntryType;
 import static net.chesstango.search.smart.SearchContext.TableEntry;
 
 /**
@@ -34,76 +35,105 @@ public class TranspositionTable implements AlphaBetaFilter {
 
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
-        return process(currentPly, alpha, beta, true);
+        int searchDepth = maxPly - currentPly;
+
+        if (searchDepth > 0 && game.getStatus().isInProgress()) {
+            long hash = game.getChessPosition().getPositionHash();
+            long bestMoveAndValue;
+
+            SearchContext.TableEntry entry = maxMap.get(hash);
+
+            if (entry == null) {
+                entry = new TableEntry();
+
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+                maxMap.put(hash, entry);
+            } else {
+                if (entry.bestMoveAndValue != 0) {
+                    if (searchDepth <= entry.searchDepth) {
+                        // Es un valor exacto
+                        if (entry.type == EntryType.EXACT) {
+                            return entry.bestMoveAndValue;
+                        } else if (entry.type == EntryType.LOWER_BOUND && beta <= entry.value) {
+                            return entry.bestMoveAndValue;
+                        } else if (entry.type == EntryType.UPPER_BOUND && entry.value <= alpha) {
+                            return entry.bestMoveAndValue;
+                        }
+                    }
+
+                }
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+            }
+
+            entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+
+            return entry.bestMoveAndValue;
+        }
+
+        return next.maximize(currentPly, alpha, beta);
     }
 
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
-        return process(currentPly, alpha, beta, false);
+        int searchDepth = maxPly - currentPly;
+
+        if (searchDepth > 0 && game.getStatus().isInProgress()) {
+            long hash = game.getChessPosition().getPositionHash();
+            long bestMoveAndValue;
+
+            SearchContext.TableEntry entry = minMap.get(hash);
+
+            if (entry == null) {
+                entry = new TableEntry();
+
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+                minMap.put(hash, entry);
+            } else {
+                if (entry.bestMoveAndValue != 0) {
+                    if (searchDepth <= entry.searchDepth) {
+                        // Es un valor exacto
+                        if (entry.type == EntryType.EXACT) {
+                            return entry.bestMoveAndValue;
+                        } else if (entry.type == EntryType.LOWER_BOUND && beta <= entry.value) {
+                            return entry.bestMoveAndValue;
+                        } else if (entry.type == EntryType.UPPER_BOUND && entry.value <= alpha) {
+                            return entry.bestMoveAndValue;
+                        }
+                    }
+
+                }
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+            }
+
+            entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+
+            return entry.bestMoveAndValue;
+        }
+
+        return next.minimize(currentPly, alpha, beta);
     }
 
     public void setNext(AlphaBetaFilter next) {
         this.next = next;
     }
 
-    private long process(int currentPly, int alpha, int beta, boolean maximize) {
-        int searchDepth = maxPly - currentPly;
-
-        if (searchDepth > 0 && game.getStatus().isInProgress()) {
-            long hash = game.getChessPosition().getPositionHash();
-
-            SearchContext.TableEntry entry = maximize ? maxMap.get(hash) : minMap.get(hash);
-
-            if (entry == null) {
-                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                entry = updateEntry(new TableEntry(), searchDepth, alpha, beta, bestMoveAndValue);
-
-                if (maximize) {
-                    maxMap.put(hash, entry);
-                } else {
-                    minMap.put(hash, entry);
-                }
-            } else {
-                if (entry.value == 0) {
-                    long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                    entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
-                } else {
-                    if (searchDepth > entry.searchDepth) { // Es una repeticion de posicion, investigar
-                        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                        entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
-
-                    } else {
-                        // Es un valor exacto
-                        if (entry.exact) {
-                            entry = entry;
-                        } else {
-                            if (entry.value < alpha || beta < entry.value) {
-                                entry = entry;
-                            } else {
-                                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                                entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
-                            }
-                        }
-                    }
-                }
-            }
-            return entry.bestMoveAndValue;
+    protected TableEntry updateEntry(TableEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
+        int value = BinaryUtils.decodeValue(bestMoveAndValue);
+        EntryType type;
+        if (beta <= value) {
+            type = EntryType.LOWER_BOUND;
+        } else if (value <= alpha) {
+            type = EntryType.UPPER_BOUND;
+        } else {
+            type = EntryType.EXACT;
         }
 
-        return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-    }
-
-    private TableEntry updateEntry(TableEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.searchDepth = searchDepth;
-        entry.alpha = alpha;
-        entry.beta = beta;
-        entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.exact = alpha < entry.value  && entry.value < beta;
+        entry.value = value;
+        entry.type = type;
         return entry;
     }
 }
