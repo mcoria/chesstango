@@ -65,20 +65,18 @@ public class QTranspositionTable implements AlphaBetaFilter {
                     if (entry.exact) {
                         return entry.bestMoveAndValue;
                     } else {
-                        if (entry.value <= alpha || entry.value >= beta) {
+                        if (entry.value < alpha || beta < entry.value) {
                             return entry.bestMoveAndValue;
-                        } else {
-                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
-
-                            entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
                         }
                     }
-                } else {
+                }
+
+                if(entry.qBestMoveAndValue != 0){
                     // Es un valor exacto
                     if (entry.qExact) {
                         entry = entry;
                     } else {
-                        if (entry.qValue <= alpha || entry.qValue >= beta) {
+                        if (entry.qValue < alpha || beta < entry.qValue) {
                             entry = entry;
                         } else {
                             long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
@@ -86,9 +84,12 @@ public class QTranspositionTable implements AlphaBetaFilter {
                             entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
                         }
                     }
+                } else {
+                    long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                    entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
                 }
             }
-
             return entry.qBestMoveAndValue;
         }
 
@@ -100,7 +101,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
         entry.qAlpha = alpha;
         entry.qBeta = beta;
         entry.qValue = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.qExact = entry.value > alpha && entry.value < beta;
+        entry.qExact = alpha < entry.value  && entry.value < beta;
         return entry;
     }
 }
