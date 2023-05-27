@@ -2,6 +2,7 @@ package net.chesstango.board.perft;
 
 import net.chesstango.board.Game;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,5 +43,24 @@ public class PerftDifferentPositionsTest extends AbstractPerftTest {
 		assertEquals(193690690, result.getTotalNodes());
 	}
 
+
+	@Test
+	public void test_3() {
+		board = getGame("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1");
+
+		PerftResult result = perft.start(board, 5);
+
+		assertEquals(46934059, result.getTotalNodes());
+	}
+
+	@Test
+	@Disabled // Takes too long
+	public void test_6() {
+		board = getGame("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1");
+
+		PerftResult result = perft.start(board, 6);
+
+		assertEquals(1478670842, result.getTotalNodes());
+	}
 
 }
