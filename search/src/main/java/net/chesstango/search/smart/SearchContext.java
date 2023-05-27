@@ -25,10 +25,6 @@ public class SearchContext {
 
     private final Map<Long, TableEntry> minMap;
 
-    private final Map<Long, TableEntry> qMaxMap;
-
-    private final Map<Long, TableEntry> qMinMap;
-
     public SearchContext(Game game, int maxPly) {
         this.game = game;
         this.maxPly = maxPly;
@@ -39,8 +35,6 @@ public class SearchContext {
         IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>());
         this.maxMap = new HashMap<>();
         this.minMap = new HashMap<>();
-        this.qMaxMap = new HashMap<>();
-        this.qMinMap = new HashMap<>();
     }
 
     public SearchContext(Game game,
@@ -61,8 +55,6 @@ public class SearchContext {
         this.distinctMovesPerLevel = distinctMovesPerLevel;
         this.maxMap = maxMap;
         this.minMap = minMap;
-        this.qMaxMap = qMaxMap;
-        this.qMinMap = qMinMap;
     }
 
     public Game getGame() {
@@ -97,14 +89,6 @@ public class SearchContext {
         return minMap;
     }
 
-    public Map<Long, TableEntry> getQMaxMap() {
-        return qMaxMap;
-    }
-
-    public Map<Long, TableEntry> getQMinMap() {
-        return qMinMap;
-    }
-
     public static class TableEntry {
         public int searchDepth;
 
@@ -113,6 +97,14 @@ public class SearchContext {
         public int beta;
         public int value;
         public boolean exact;
+
+
+
+        public long qBestMoveAndValue;
+        public int qAlpha;
+        public int qBeta;
+        public int qValue;
+        public boolean qExact;
     }
 
 }

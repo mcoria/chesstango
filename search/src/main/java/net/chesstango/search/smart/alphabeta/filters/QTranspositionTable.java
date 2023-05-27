@@ -14,20 +14,19 @@ import static net.chesstango.search.smart.SearchContext.TableEntry;
  */
 public class QTranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, TableEntry> qMaxMap;
-    private Map<Long, TableEntry> qMinMap;
+    private Map<Long, TableEntry> maxMap;
+    private Map<Long, TableEntry> minMap;
     private Game game;
 
     @Override
     public void init(SearchContext context) {
         this.game = context.getGame();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
     }
 
     @Override
     public void close(SearchMoveResult result) {
-
     }
 
     @Override
@@ -49,46 +48,59 @@ public class QTranspositionTable implements AlphaBetaFilter {
         if (game.getStatus().isInProgress()) {
             long hash = game.getChessPosition().getPositionHash();
 
-            SearchContext.TableEntry entry = maximize ? qMaxMap.get(hash) : qMinMap.get(hash);
+            SearchContext.TableEntry entry = maximize ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry == null) {
                 long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                entry = updateEntry(new TableEntry(), currentPly, alpha, beta, bestMoveAndValue);
+                entry = updateQEntry(new TableEntry(), alpha, beta, bestMoveAndValue);
 
                 if (maximize) {
-                    qMaxMap.put(hash, entry);
+                    maxMap.put(hash, entry);
                 } else {
-                    qMinMap.put(hash, entry);
+                    minMap.put(hash, entry);
                 }
             } else {
-                // Es un valor exacto
-                if (entry.exact) {
-                    entry = entry;
+                if(entry.bestMoveAndValue != 0){
+                    if (entry.exact) {
+                        return entry.bestMoveAndValue;
+                    } else {
+                        if (entry.value <= alpha || entry.value >= beta) {
+                            return entry.bestMoveAndValue;
+                        } else {
+                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                            entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
+                        }
+                    }
                 } else {
-                    if (entry.value <= alpha || entry.value >= beta) {
+                    // Es un valor exacto
+                    if (entry.qExact) {
                         entry = entry;
                     } else {
-                        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+                        if (entry.qValue <= alpha || entry.qValue >= beta) {
+                            entry = entry;
+                        } else {
+                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                        entry = updateEntry(entry, currentPly, alpha, beta, bestMoveAndValue);
+                            entry = updateQEntry(entry, alpha, beta, bestMoveAndValue);
+                        }
                     }
                 }
             }
 
-            return entry.bestMoveAndValue;
+            return entry.qBestMoveAndValue;
         }
 
         return maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
     }
 
-    private TableEntry updateEntry(TableEntry entry, int currentPly, int alpha, int beta, long bestMoveAndValue) {
-        entry.bestMoveAndValue = bestMoveAndValue;
-        entry.searchDepth = currentPly;
-        entry.alpha = alpha;
-        entry.beta = beta;
-        entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.exact = entry.value > alpha && entry.value < beta;
+    private TableEntry updateQEntry(TableEntry entry, int alpha, int beta, long bestMoveAndValue) {
+        entry.qBestMoveAndValue = bestMoveAndValue;
+        entry.qAlpha = alpha;
+        entry.qBeta = beta;
+        entry.qValue = BinaryUtils.decodeValue(bestMoveAndValue);
+        entry.qExact = entry.value > alpha && entry.value < beta;
         return entry;
     }
 }

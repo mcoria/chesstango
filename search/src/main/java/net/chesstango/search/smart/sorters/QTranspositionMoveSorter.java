@@ -19,14 +19,14 @@ import java.util.Map;
 public class QTranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private Map<Long, SearchContext.TableEntry> qMaxMap;
-    private Map<Long, SearchContext.TableEntry> qMinMap;
+    private Map<Long, SearchContext.TableEntry> maxMap;
+    private Map<Long, SearchContext.TableEntry> minMap;
 
     @Override
     public void init(SearchContext context) {
         this.game = context.getGame();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
+        this.maxMap = context.getMaxMap();
+        this.minMap = context.getMinMap();
     }
 
     @Override
@@ -40,12 +40,12 @@ public class QTranspositionMoveSorter implements MoveSorter {
 
         SearchContext.TableEntry entry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = qMaxMap.get(hash);
+            entry = maxMap.get(hash);
         } else {
-            entry = qMinMap.get(hash);
+            entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = entry != null ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
+        short bestMoveEncoded = entry != null && entry.qBestMoveAndValue != 0  ? BinaryUtils.decodeMove(entry.qBestMoveAndValue) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 

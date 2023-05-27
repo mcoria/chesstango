@@ -44,7 +44,7 @@ public class TranspositionMoveSorter implements MoveSorter {
             entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = entry != null ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
+        short bestMoveEncoded = (entry != null && entry.bestMoveAndValue != 0) ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 

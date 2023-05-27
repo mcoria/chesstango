@@ -19,8 +19,6 @@ import java.util.Map;
 public class SetPrincipalVariation implements SearchLifeCycle {
     private Map<Long, SearchContext.TableEntry> maxMap;
     private Map<Long, SearchContext.TableEntry> minMap;
-    private Map<Long, SearchContext.TableEntry> qMaxMap;
-    private Map<Long, SearchContext.TableEntry> qMinMap;
     private Game game;
 
     @Override
@@ -28,14 +26,12 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
-        this.qMaxMap = context.getQMaxMap();
-        this.qMinMap = context.getQMinMap();
     }
 
     @Override
     public void close(SearchMoveResult result) {
         if(result != null) {
-            List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap, qMaxMap, qMinMap);
+            List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap);
             result.setPrincipalVariation(principalVariation);
         }
     }
@@ -44,9 +40,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
                                                     Move bestMove,
                                                     int depth,
                                                     Map<Long, SearchContext.TableEntry> maxMap,
-                                                    Map<Long, SearchContext.TableEntry> minMap,
-                                                    Map<Long, SearchContext.TableEntry> qMaxMap,
-                                                    Map<Long, SearchContext.TableEntry> qMinMap) {
+                                                    Map<Long, SearchContext.TableEntry> minMap) {
 
         List<Move> principalVariation = new ArrayList<>();
 
@@ -62,7 +56,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
             move = principalVariation.size() < depth
                     ? readMoveFromTT(game, maxMap, minMap)
-                    : readMoveFromQTT(game, qMaxMap, qMinMap);
+                    : readMoveFromQTT(game, maxMap, maxMap);
 
         } while (move != null);
 

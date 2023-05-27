@@ -11,7 +11,6 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,20 +44,49 @@ public class TranspositionTableTest {
 
     @Test
     public void test_03()  {
-        executeTest("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - -", 6);
+        executeTest("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1", 5);
+    }
+
+    @Test
+    public void test_04()  {
+        executeTest("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1", 6);
     }
 
 
     public void executeTest(String fen, int depth) {
-        Game game = FENDecoder.loadGame(fen);
+        Game game01 = FENDecoder.loadGame(fen);
+        Game game02 = FENDecoder.loadGame(fen);
 
-        SearchMoveResult searchResult01 = searchWithTT.search(game, depth);
+        SearchMoveResult searchResult01 = searchWithoutTT.search(game01, depth);
 
-        game.executeMove(searchResult01.getBestMove());
+        SearchMoveResult searchResult02 = searchWithTT.search(game02, depth);
 
-        SearchMoveResult searchResult02 = searchWithoutTT.search(game, depth - 1);
+        //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString() , searchResult01.getEvaluation(), depth - 1, searchWithoutTT, searchWithTT);
+
+        //debugTT(FENDecoder.loadGame(fen).executeMove(searchResult02.getBestMove()).toString() , searchResult02.getEvaluation(), depth - 1, searchWithTT, searchWithoutTT);
 
         Assertions.assertEquals(searchResult01.getEvaluation(), searchResult02.getEvaluation());
+
+        Assertions.assertEquals(searchResult01.getBestMove(), searchResult02.getBestMove());
+    }
+
+    private void debugTT(String fen, int evaluation, int depth, SearchMove searchMethod1, SearchMove searchMethod2) {
+        if(depth > 0 && FENDecoder.loadGame(fen).getStatus().isInProgress()) {
+            Game game01 = FENDecoder.loadGame(fen);
+            Game game02 = FENDecoder.loadGame(fen);
+
+            SearchMoveResult searchResult01 = searchMethod1.search(game01, depth);
+
+            SearchMoveResult searchResult02 = searchMethod2.search(game02, depth);
+
+            Assertions.assertEquals(evaluation, searchResult01.getEvaluation());
+
+            debugTT(FENDecoder.loadGame(fen).executeMove(searchResult01.getBestMove()).toString(), searchResult01.getEvaluation(), depth - 1, searchMethod1, searchMethod2);
+
+            Assertions.assertEquals(searchResult01.getEvaluation(), searchResult02.getEvaluation());
+
+            Assertions.assertEquals(searchResult01.getBestMove(), searchResult02.getBestMove());
+        }
     }
 
 
@@ -69,7 +97,6 @@ public class TranspositionTableTest {
 
         QuiescenceNull quiescenceNull = new QuiescenceNull();
         quiescenceNull.setGameEvaluator(gameEvaluator);
-
 
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setNext(alphaBeta);
@@ -88,11 +115,11 @@ public class TranspositionTableTest {
     private SearchMove createSearchWithTT() {
         GameEvaluator gameEvaluator = new GameEvaluatorSEandImp02();
 
-        MoveSorter moveSorter = new TranspositionMoveSorter();
+        //MoveSorter moveSorter = new TranspositionMoveSorter();
+        MoveSorter moveSorter = new DefaultMoveSorter();
 
         QuiescenceNull quiescenceNull = new QuiescenceNull();
         quiescenceNull.setGameEvaluator(gameEvaluator);
-
 
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setQuiescence(quiescenceNull);
@@ -105,8 +132,8 @@ public class TranspositionTableTest {
         alphaBeta.setNext(transpositionTable);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescenceNull, moveSorter));
-        minMaxPruning.setAlphaBetaSearch(alphaBeta);
+        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, transpositionTable, quiescenceNull, moveSorter));
+        minMaxPruning.setAlphaBetaSearch(transpositionTable);
 
         return new IterativeDeepening(minMaxPruning);
     }

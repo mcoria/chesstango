@@ -65,22 +65,28 @@ public class TranspositionTable implements AlphaBetaFilter {
                     minMap.put(hash, entry);
                 }
             } else {
-                if (searchDepth > entry.searchDepth) {
+                if (entry.value == 0) {
                     long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
                     entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
-
                 } else {
-                    // Es un valor exacto
-                    if (entry.exact) {
-                        entry = entry;
+                    if (searchDepth > entry.searchDepth) { // Es una repeticion de posicion, investigar
+                        long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+
+                        entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+
                     } else {
-                        if (entry.value <= alpha || entry.value >= beta) {
+                        // Es un valor exacto
+                        if (entry.exact) {
                             entry = entry;
                         } else {
-                            long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
+                            if (entry.value < alpha || beta < entry.value) {
+                                entry = entry;
+                            } else {
+                                long bestMoveAndValue = maximize ? next.maximize(currentPly, alpha, beta) : next.minimize(currentPly, alpha, beta);
 
-                            entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+                                entry = updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+                            }
                         }
                     }
                 }
@@ -97,7 +103,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         entry.alpha = alpha;
         entry.beta = beta;
         entry.value = BinaryUtils.decodeValue(bestMoveAndValue);
-        entry.exact = entry.value > alpha && entry.value < beta;
+        entry.exact = alpha < entry.value  && entry.value < beta;
         return entry;
     }
 }
