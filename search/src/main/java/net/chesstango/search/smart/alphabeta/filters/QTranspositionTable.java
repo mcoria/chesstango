@@ -41,9 +41,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = new TableEntry();
 
-                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-
                 maxMap.put(hash, entry);
+
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
                 if (entry.bestMoveAndValue != 0) {
                     // Es un valor exacto
@@ -89,9 +89,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = new TableEntry();
 
-                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-
                 minMap.put(hash, entry);
+
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
                 if (entry.bestMoveAndValue != 0) {
                     // Es un valor exacto

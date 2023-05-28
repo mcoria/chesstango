@@ -46,9 +46,9 @@ public class TranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = new TableEntry();
 
-                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-
                 maxMap.put(hash, entry);
+
+                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
                 if (entry.bestMoveAndValue != 0) {
                     if (searchDepth <= entry.searchDepth) {
@@ -87,9 +87,9 @@ public class TranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = new TableEntry();
 
-                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-
                 minMap.put(hash, entry);
+
+                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
                 if (entry.bestMoveAndValue != 0) {
                     if (searchDepth <= entry.searchDepth) {
