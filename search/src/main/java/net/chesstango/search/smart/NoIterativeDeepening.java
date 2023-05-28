@@ -16,9 +16,13 @@ import java.util.stream.IntStream;
  */
 public class NoIterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
+    private Map<Long, SearchContext.TableEntry> maxMap;
+    private Map<Long, SearchContext.TableEntry> minMap;
 
     public NoIterativeDeepening(SearchSmart searchSmartAlgorithm) {
-        searchSmart = searchSmartAlgorithm;
+        this.searchSmart = searchSmartAlgorithm;
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
     }
 
     @Override
@@ -28,10 +32,6 @@ public class NoIterativeDeepening implements SearchMove {
         int[] visitedNodesQuiescenceCounter = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
-        Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
         SearchContext context = new SearchContext(game,
                 depth,
@@ -40,20 +40,20 @@ public class NoIterativeDeepening implements SearchMove {
                 visitedNodesQuiescenceCounter,
                 distinctMovesPerLevel,
                 maxMap,
-                minMap,
-                qMaxMap,
-                qMinMap);
+                minMap);
 
         return searchSmart.search(context);
     }
 
     @Override
     public void stopSearching() {
-        searchSmart.stopSearching();
+        this.searchSmart.stopSearching();
     }
 
     @Override
     public void reset() {
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
     }
 
 }

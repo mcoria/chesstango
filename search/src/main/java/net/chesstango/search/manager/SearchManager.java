@@ -31,11 +31,11 @@ public class SearchManager {
         this.searchMove = searchMove;
         this.listenerClient = listenerClient;
 
-        if(searchMove instanceof DefaultSearchMove){
+        if (searchMove instanceof DefaultSearchMove) {
             DefaultSearchMove searchMoveDefault = (DefaultSearchMove) searchMove;
             SearchMove searchImp = searchMoveDefault.getImplementation();
 
-            if(searchImp instanceof IterativeDeepening){
+            if (searchImp instanceof IterativeDeepening) {
                 ((IterativeDeepening) searchImp).setSearchStatusListener(searchStatusListener);
             }
         }
@@ -77,21 +77,25 @@ public class SearchManager {
 
     private void searchImp(Game game, int depth, Integer timeOut) {
         executorService.execute(() -> {
-            listenerClient.searchStarted();
-
-            if (timeOut != null) {
-                executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
-            }
-
-            SearchMoveResult searchResult = null;
             try {
-                searchResult = searchMove.search(game, depth);
-            } catch (StopSearchingException spe) {
-                searchResult = spe.getSearchMoveResult();
-                listenerClient.searchStopped();
-            }
+                listenerClient.searchStarted();
 
-            listenerClient.searchFinished(searchResult);
+                if (timeOut != null) {
+                    executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
+                }
+
+                SearchMoveResult searchResult = null;
+                try {
+                    searchResult = searchMove.search(game, depth);
+                } catch (StopSearchingException spe) {
+                    searchResult = spe.getSearchMoveResult();
+                    listenerClient.searchStopped();
+                }
+
+                listenerClient.searchFinished(searchResult);
+            } catch (RuntimeException exception) {
+                exception.printStackTrace(System.err);
+            }
         });
     }
 }

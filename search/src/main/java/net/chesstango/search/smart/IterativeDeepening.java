@@ -17,18 +17,21 @@ import java.util.stream.IntStream;
  */
 public class IterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
-
     private SearchStatusListener searchStatusListener;
+    private Map<Long, SearchContext.TableEntry> maxMap;
+    private Map<Long, SearchContext.TableEntry> minMap;
 
     private volatile boolean keepProcessing;
 
     public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
-        searchSmart = searchSmartAlgorithm;
+        this.searchSmart = searchSmartAlgorithm;
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
     }
 
     @Override
     public SearchMoveResult search(final Game game, final int depth) {
-        keepProcessing = true;
+        this.keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         int[] visitedNodesCounters = new int[30];
@@ -36,10 +39,6 @@ public class IterativeDeepening implements SearchMove {
         int[] visitedNodesQuiescenceCounter = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
-        Map<Long, SearchContext.TableEntry> maxMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> minMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
         try {
             for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
@@ -51,9 +50,7 @@ public class IterativeDeepening implements SearchMove {
                         visitedNodesQuiescenceCounter,
                         distinctMovesPerLevel,
                         maxMap,
-                        minMap,
-                        qMaxMap,
-                        qMinMap);
+                        minMap);
 
                 SearchMoveResult searchResult = searchSmart.search(context);
 
@@ -89,16 +86,14 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public void stopSearching() {
-        keepProcessing = false;
-        searchSmart.stopSearching();
+        this.keepProcessing = false;
+        this.searchSmart.stopSearching();
     }
 
     @Override
     public void reset() {
-    }
-
-    public SearchStatusListener getSearchStatusListener() {
-        return searchStatusListener;
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
     }
 
     public void setSearchStatusListener(SearchStatusListener searchStatusListener) {

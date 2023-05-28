@@ -246,9 +246,7 @@ public class FitnessBySearchTest {
                 null,
                 null,
                 maxMap,
-                minMap,
-                null,
-                null);
+                minMap);
         moveEvaluations.init(searchContext);
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
         moveEvaluations.close(searchResult);
@@ -260,7 +258,7 @@ public class FitnessBySearchTest {
 
         entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
         entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
-        entry.searchDepth = 1;
+        entry.searchDepth = 0;
 
         long hash = game.getChessPosition().getPositionHash();
 

@@ -47,6 +47,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
     private boolean withIterativeDeepening;
     private boolean withStatics;
+    private boolean withMoveEvaluation;
 
     public MinMaxPruningBuilder() {
         alphaBeta = new AlphaBeta();
@@ -105,6 +106,13 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         stopProcessingCatch = new StopProcessingCatch();
         return this;
     }
+
+
+    public MinMaxPruningBuilder withMoveEvaluation() {
+        withMoveEvaluation = true;
+        return this;
+    }
+
 
     /**
      * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> DetectCycle -> TranspositionTable -> AlphaBeta
@@ -220,7 +228,10 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         if (transpositionTable != null && qTranspositionTable != null) {
             filters.add(new SetPrincipalVariation());
-            filters.add(new MoveEvaluations());
+
+            if(withMoveEvaluation) {
+                filters.add(new MoveEvaluations());
+            }
         }
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();

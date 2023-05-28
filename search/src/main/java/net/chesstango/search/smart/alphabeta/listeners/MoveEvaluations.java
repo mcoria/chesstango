@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.OptionalInt;
 
 /**
+ * ESTA JOROBANDO
+ *
  * @author Mauricio Coria
  */
 public class MoveEvaluations implements SearchLifeCycle {
@@ -32,7 +34,7 @@ public class MoveEvaluations implements SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
-        if(result!=null) {
+        if (result != null) {
             List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
             result.setMoveEvaluations(moveEvaluationList);
         }
@@ -50,10 +52,10 @@ public class MoveEvaluations implements SearchLifeCycle {
 
             SearchContext.TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-            if (entry != null && entry.searchDepth == maxPly) {
+            if (entry != null && entry.searchDepth == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
                 moveEvaluation.move = move;
-                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+                moveEvaluation.evaluation = entry.bestMoveAndValue != 0 ? BinaryUtils.decodeValue(entry.bestMoveAndValue) : BinaryUtils.decodeValue(entry.qBestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 
@@ -73,19 +75,21 @@ public class MoveEvaluations implements SearchLifeCycle {
             moveEvaluation.move = bestMove;
             moveEvaluation.evaluation = bestMoveEvaluation;
             moveEvaluationList.add(moveEvaluation);
+        }
+
+        OptionalInt bestEvaluation = null;
+        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
+            bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).max();
         } else {
-            OptionalInt bestEvaluation = null;
-            if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).max();
-            } else {
-                bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
-            }
-            if (!bestEvaluation.isPresent()) {
-                throw new RuntimeException("moveEvaluationList is empty");
-            }
-            if (bestEvaluation.getAsInt() != bestMoveEvaluation) {
-                throw new RuntimeException("bestEvaluation in moveEvaluationList");
-            }
+            bestEvaluation = moveEvaluationList.stream().mapToInt(me -> me.evaluation).min();
+        }
+
+        if (!bestEvaluation.isPresent()) {
+            throw new RuntimeException("moveEvaluationList is empty");
+        }
+
+        if (bestEvaluation.getAsInt() != bestMoveEvaluation) {
+            throw new RuntimeException("bestEvaluation doesn't match");
         }
 
         return moveEvaluationList;

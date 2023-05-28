@@ -44,9 +44,7 @@ public class SearchContext {
                          int[] visitedNodesQuiescenceCounter,
                          Set<Move>[] distinctMovesPerLevel,
                          Map<Long, TableEntry> maxMap,
-                         Map<Long, TableEntry> minMap,
-                         Map<Long, TableEntry> qMaxMap,
-                         Map<Long, TableEntry> qMinMap) {
+                         Map<Long, TableEntry> minMap) {
         this.game = game;
         this.maxPly = maxPly;
         this.visitedNodesCounters = visitedNodesCounters;
@@ -99,7 +97,6 @@ public class SearchContext {
 
         public int value;
         public EntryType type;
-
 
 
         public long qBestMoveAndValue;

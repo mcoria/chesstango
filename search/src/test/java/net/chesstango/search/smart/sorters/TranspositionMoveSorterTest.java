@@ -62,8 +62,6 @@ public class TranspositionMoveSorterTest {
         int[] visitedNodesQuiescenceCounter = new int[30];
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
-        Map<Long, SearchContext.TableEntry> qMaxMap = new HashMap<>();
-        Map<Long, SearchContext.TableEntry> qMinMap = new HashMap<>();
 
         SearchContext context = new SearchContext(game,
                 1,
@@ -72,9 +70,7 @@ public class TranspositionMoveSorterTest {
                 visitedNodesQuiescenceCounter,
                 distinctMovesPerLevel,
                 maxMap,
-                minMap,
-                qMaxMap,
-                qMinMap);
+                minMap);
 
         moveSorter.init(context);
     }
