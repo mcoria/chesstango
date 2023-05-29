@@ -12,6 +12,8 @@ import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.TTDump;
+import net.chesstango.search.smart.alphabeta.listeners.TTLoad;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
@@ -224,8 +226,8 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
             head = stopProcessingCatch;
         }
-        // ====================================================
 
+        // ====================================================
         if (transpositionTable != null && qTranspositionTable != null) {
             filters.add(new SetPrincipalVariation());
 
@@ -233,6 +235,15 @@ public class MinMaxPruningBuilder implements SearchBuilder {
                 filters.add(new MoveEvaluations());
             }
         }
+        /*
+        TTDump ttDump = new TTDump();
+        filters.add(ttDump);
+
+        TTLoad ttLoad = new TTLoad();
+        filters.add(ttLoad);
+         */
+
+        // ====================================================
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(head);

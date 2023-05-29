@@ -45,7 +45,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
             entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = entry != null && entry.qBestMoveAndValue != 0  ? BinaryUtils.decodeMove(entry.qBestMoveAndValue) : 0;
+        short bestMoveEncoded = (entry != null && entry.qBestMoveAndValue != 0)  ? BinaryUtils.decodeMove(entry.qBestMoveAndValue) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 

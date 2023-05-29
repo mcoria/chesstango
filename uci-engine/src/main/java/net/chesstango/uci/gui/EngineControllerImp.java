@@ -131,11 +131,8 @@ public class EngineControllerImp implements EngineController {
                     waitingCounter++;
                 }
                 if (response == null) {
-                    //TODO: aca deberiamos validar si el engine sigue vivo
-                    if (waitingCounter == 20) {
-                        System.err.println("Engine has not provided any response after sending: " + request.toString());
-                        throw new RuntimeException("Perhaps engine has closed its output");
-                    }
+                    System.err.println("Engine has not provided any response after sending: " + request.toString());
+                    throw new RuntimeException("Perhaps engine has closed its output");
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

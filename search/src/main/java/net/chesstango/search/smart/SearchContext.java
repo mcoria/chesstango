@@ -3,6 +3,7 @@ package net.chesstango.search.smart;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -90,7 +91,7 @@ public class SearchContext {
 
     public enum EntryType{EXACT, LOWER_BOUND, UPPER_BOUND};
 
-    public static class TableEntry {
+    public static class TableEntry implements Serializable {
         public int searchDepth;
 
         public long bestMoveAndValue;

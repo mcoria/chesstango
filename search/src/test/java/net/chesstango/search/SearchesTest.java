@@ -46,4 +46,23 @@ public class SearchesTest {
                 .withPrincipalVariation()
                 .printSearchesStatics(Arrays.asList(searchResult));
     }
+
+
+    @Test
+    @Disabled
+    public void testSearch_03(){
+        SearchMove moveFinder = new DefaultSearchMove();
+
+        Game game = FENDecoder.loadGame("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43");
+
+        long hash = game.getChessPosition().getPositionHash();
+
+        SearchMoveResult searchResult = moveFinder.search( game, 4);
+
+        new SearchesReport()
+                .withNodesVisitedStatics()
+                .withCutoffStatics()
+                .withPrincipalVariation()
+                .printSearchesStatics(Arrays.asList(searchResult));
+    }
 }
