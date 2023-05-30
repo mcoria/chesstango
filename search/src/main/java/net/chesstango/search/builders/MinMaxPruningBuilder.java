@@ -8,12 +8,11 @@ import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
-import net.chesstango.search.smart.alphabeta.listeners.TTDump;
-import net.chesstango.search.smart.alphabeta.listeners.TTLoad;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
@@ -141,6 +140,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
+        filters.add(new SearchSetup());
         filters.add(alphaBeta);
         filters.add(quiescence);
         filters.add(moveSorter);
@@ -242,7 +242,6 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         //TTLoad ttLoad = new TTLoad();
         //filters.add(ttLoad);
-
 
         // ====================================================
 

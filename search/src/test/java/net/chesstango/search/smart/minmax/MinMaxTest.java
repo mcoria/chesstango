@@ -11,6 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -34,7 +39,10 @@ public class MinMaxTest {
     public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
+        minMax.initSearch(game, 1);
         SearchMoveResult searchResult = minMax.search(new SearchContext(game, 1));
+        minMax.closeSearch(searchResult);
+
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
@@ -49,7 +57,10 @@ public class MinMaxTest {
     public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
+        minMax.initSearch(game, 1);
         SearchMoveResult searchResult = minMax.search(new SearchContext(game,1));
+        minMax.closeSearch(searchResult);
+
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
@@ -64,7 +75,10 @@ public class MinMaxTest {
     public void whiteTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
+        minMax.initSearch(game, 2);
         SearchMoveResult searchResult = minMax.search(new SearchContext(game,2));
+        minMax.closeSearch(searchResult);
+
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);
@@ -80,4 +94,5 @@ public class MinMaxTest {
     public void blackTurn2Ply() {
         throw new RuntimeException("Implement");
     }
+
 }

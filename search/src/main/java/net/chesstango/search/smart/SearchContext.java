@@ -16,44 +16,20 @@ import java.util.stream.IntStream;
 public class SearchContext {
     private final Game game;
     private final int maxPly;
-    private final int[] visitedNodesCounters;
-    private final int[] expectedNodesCounters;
-    private final int[] visitedNodesQuiescenceCounter;
 
-    private final Set<Move>[] distinctMovesPerLevel;
+    private int[] visitedNodesCounters;
+    private int[] expectedNodesCounters;
+    private int[] visitedNodesQuiescenceCounter;
 
-    private final Map<Long, TableEntry> maxMap;
+    private Set<Move>[] distinctMovesPerLevel;
 
-    private final Map<Long, TableEntry> minMap;
+    private Map<Long, TableEntry> maxMap;
+
+    private Map<Long, TableEntry> minMap;
 
     public SearchContext(Game game, int maxPly) {
         this.game = game;
         this.maxPly = maxPly;
-        this.visitedNodesCounters = new int[30];
-        this.visitedNodesQuiescenceCounter = new int[30];
-        this.expectedNodesCounters = new int[30];
-        this.distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>());
-        this.maxMap = new HashMap<>();
-        this.minMap = new HashMap<>();
-    }
-
-    public SearchContext(Game game,
-                         int maxPly,
-                         int[] visitedNodesCounters,
-                         int[] expectedNodesCounters,
-                         int[] visitedNodesQuiescenceCounter,
-                         Set<Move>[] distinctMovesPerLevel,
-                         Map<Long, TableEntry> maxMap,
-                         Map<Long, TableEntry> minMap) {
-        this.game = game;
-        this.maxPly = maxPly;
-        this.visitedNodesCounters = visitedNodesCounters;
-        this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
-        this.expectedNodesCounters = expectedNodesCounters;
-        this.distinctMovesPerLevel = distinctMovesPerLevel;
-        this.maxMap = maxMap;
-        this.minMap = minMap;
     }
 
     public Game getGame() {
@@ -88,6 +64,29 @@ public class SearchContext {
         return minMap;
     }
 
+    public void setVisitedNodesCounters(int[] visitedNodesCounters) {
+        this.visitedNodesCounters = visitedNodesCounters;
+    }
+
+    public void setExpectedNodesCounters(int[] expectedNodesCounters) {
+        this.expectedNodesCounters = expectedNodesCounters;
+    }
+
+    public void setVisitedNodesQuiescenceCounter(int[] visitedNodesQuiescenceCounter) {
+        this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
+    }
+
+    public void setDistinctMovesPerLevel(Set<Move>[] distinctMovesPerLevel) {
+        this.distinctMovesPerLevel = distinctMovesPerLevel;
+    }
+
+    public void setMaxMap(Map<Long, TableEntry> maxMap) {
+        this.maxMap = maxMap;
+    }
+
+    public void setMinMap(Map<Long, TableEntry> minMap) {
+        this.minMap = minMap;
+    }
 
     public enum EntryType{EXACT((byte)0b00000001), LOWER_BOUND((byte)0b00000010), UPPER_BOUND((byte)0b00000011);
         private final byte byteValue;

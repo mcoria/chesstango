@@ -32,8 +32,6 @@ public class MinMax implements SearchSmart {
     public SearchMoveResult search(SearchContext context) {
         final Game game = context.getGame();
         this.maxPly = context.getMaxPly();
-        this.visitedNodesCounter = context.getVisitedNodesCounters();
-        this.expectedNodesCounters = context.getExpectedNodesCounters();
 
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
         final boolean minOrMax = Color.WHITE.equals(currentTurn) ? false : true;
@@ -111,7 +109,8 @@ public class MinMax implements SearchSmart {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
-
+        this.visitedNodesCounter = new int[30];
+        this.expectedNodesCounters = new int[30];
     }
 
     @Override

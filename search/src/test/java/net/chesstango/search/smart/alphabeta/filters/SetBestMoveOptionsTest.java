@@ -7,6 +7,7 @@ import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -48,7 +49,7 @@ public class SetBestMoveOptionsTest {
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(transpositionTable);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, transpositionTable, quiescence, moveSorter, setBestMoveOptions));
+        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBeta, transpositionTable, quiescence, moveSorter, setBestMoveOptions));
     }
 
 

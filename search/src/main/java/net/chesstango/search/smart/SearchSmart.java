@@ -18,7 +18,13 @@ public interface SearchSmart {
      */
     void closeSearch(SearchMoveResult result);
 
+    /**
+     * Reset internal buffers
+     */
     void reset();
+
+
+
 
     SearchMoveResult search(SearchContext context);
 

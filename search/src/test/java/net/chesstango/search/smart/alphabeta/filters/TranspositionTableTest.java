@@ -9,6 +9,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.Assertions;
@@ -56,6 +57,7 @@ public class TranspositionTableTest {
     public void executeTest(String fen, int depth) {
         Game game01 = FENDecoder.loadGame(fen);
         Game game02 = FENDecoder.loadGame(fen);
+
 
         SearchMoveResult searchResult01 = searchWithoutTT.search(game01, depth);
 
@@ -132,7 +134,7 @@ public class TranspositionTableTest {
         alphaBeta.setNext(transpositionTable);
 
         MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, transpositionTable, quiescenceNull, moveSorter));
+        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBeta, transpositionTable, quiescenceNull, moveSorter));
         minMaxPruning.setAlphaBetaSearch(transpositionTable);
 
         return new IterativeDeepening(minMaxPruning);

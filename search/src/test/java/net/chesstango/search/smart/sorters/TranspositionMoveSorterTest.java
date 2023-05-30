@@ -57,20 +57,11 @@ public class TranspositionMoveSorterTest {
 
 
     private void initMoveSorter(Game game) {
-        int[] visitedNodesCounters = new int[30];
-        int[] expectedNodesCounters = new int[30];
-        int[] visitedNodesQuiescenceCounter = new int[30];
-        Set<Move>[] distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
+        moveSorter.initSearch(game, 1);
 
-        SearchContext context = new SearchContext(game,
-                1,
-                visitedNodesCounters,
-                expectedNodesCounters,
-                visitedNodesQuiescenceCounter,
-                distinctMovesPerLevel,
-                maxMap,
-                minMap);
+        SearchContext context = new SearchContext(game, 1);
+        context.setMaxMap(maxMap);
+        context.setMinMap(minMap);
 
         moveSorter.init(context);
     }

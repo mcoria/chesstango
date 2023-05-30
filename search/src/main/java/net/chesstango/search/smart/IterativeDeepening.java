@@ -18,15 +18,11 @@ import java.util.stream.IntStream;
 public class IterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
     private SearchStatusListener searchStatusListener;
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
 
     private volatile boolean keepProcessing;
 
     public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
         this.searchSmart = searchSmartAlgorithm;
-        this.maxMap = new HashMap<>();
-        this.minMap = new HashMap<>();
     }
 
     @Override
@@ -34,25 +30,12 @@ public class IterativeDeepening implements SearchMove {
         this.keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
-        int[] visitedNodesCounters = new int[30];
-        int[] expectedNodesCounters = new int[30];
-        int[] visitedNodesQuiescenceCounter = new int[30];
-        Set<Move>[] distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
-
         searchSmart.initSearch(game, depth);
 
         try {
             for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
-                SearchContext context = new SearchContext(game,
-                        currentSearchDepth,
-                        visitedNodesCounters,
-                        expectedNodesCounters,
-                        visitedNodesQuiescenceCounter,
-                        distinctMovesPerLevel,
-                        maxMap,
-                        minMap);
+                SearchContext context = new SearchContext(game, currentSearchDepth);
 
                 SearchMoveResult searchResult = searchSmart.search(context);
 
@@ -93,8 +76,6 @@ public class IterativeDeepening implements SearchMove {
 
     @Override
     public void reset() {
-        this.maxMap = new HashMap<>();
-        this.minMap = new HashMap<>();
         this.searchSmart.reset();
     }
 
