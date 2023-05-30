@@ -89,7 +89,32 @@ public class SearchContext {
     }
 
 
-    public enum EntryType{EXACT, LOWER_BOUND, UPPER_BOUND};
+    public enum EntryType{EXACT((byte)0b00000001), LOWER_BOUND((byte)0b00000010), UPPER_BOUND((byte)0b00000011);
+        private final byte byteValue;
+
+        EntryType(byte byteValue) {
+            this.byteValue = byteValue;
+        }
+
+        public byte toByte() {
+            return byteValue;
+        }
+
+
+        public static EntryType valueOf(byte byteValue){
+            for (EntryType type:
+                    EntryType.values()) {
+                if(type.byteValue == byteValue){
+                    return type;
+                }
+            }
+            if(byteValue == 0){
+                return null;
+            }
+
+            throw new  RuntimeException("Unable to convert from byte to EntryType");
+        }
+    };
 
     public static class TableEntry implements Serializable {
         public int searchDepth;

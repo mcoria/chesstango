@@ -5,13 +5,14 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * @author Mauricio Coria
@@ -41,37 +42,52 @@ public class TTLoad implements SearchLifeCycle {
     }
 
     private void loadTables() {
-        loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", maxMap);
-        loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", minMap);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+        System.out.println("Loading ...");
+        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", maxMap));
+        Future<?> task2 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", minMap));
+
+        while(! ( task1.isDone() && task2.isDone() ) ){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        System.out.println("Loading finished");
+
+        executorService.shutdown();
     }
 
     private void loadTable(String fileName, Map<Long, SearchContext.TableEntry> map) {
-        Map<Long, SearchContext.TableEntry> mapFromDisk = readTable(fileName);
-
-        Set set = mapFromDisk.entrySet();
-        Iterator iterator = set.iterator();
-        while(iterator.hasNext()) {
-            Map.Entry<Long, SearchContext.TableEntry> mentry = (Map.Entry) iterator.next();
-            map.put(mentry.getKey(), mentry.getValue());
-        }
-    }
-
-    private Map<Long, SearchContext.TableEntry> readTable(String fileName) {
-        Map<Long, SearchContext.TableEntry> map = null;
         try {
             FileInputStream fis = new FileInputStream(fileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (HashMap) ois.readObject();
-            ois.close();
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            DataInputStream dis = new DataInputStream(bis);
+
+            while (dis.available() > 0) {
+                long key = dis.readLong();
+                SearchContext.TableEntry tableEntry = new SearchContext.TableEntry();
+                tableEntry.searchDepth = dis.readInt();
+                tableEntry.bestMoveAndValue = dis.readLong();
+                tableEntry.value = dis.readInt();
+                tableEntry.type = SearchContext.EntryType.valueOf(dis.readByte());
+
+                tableEntry.qBestMoveAndValue = dis.readLong();
+                tableEntry.qValue = dis.readInt();
+                tableEntry.qType = SearchContext.EntryType.valueOf(dis.readByte());
+
+                map.put(key, tableEntry);
+            }
+
+            dis.close();
+            bis.close();
             fis.close();
         } catch (IOException ioe) {
             ioe.printStackTrace();
             throw new RuntimeException(ioe);
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            throw new RuntimeException(c);
         }
-        return map;
     }
+
 }
