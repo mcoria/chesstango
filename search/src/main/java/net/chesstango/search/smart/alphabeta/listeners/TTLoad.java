@@ -5,14 +5,17 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static net.chesstango.search.smart.SearchContext.EntryType;
+import static net.chesstango.search.smart.SearchContext.TableEntry;
 
 /**
  * @author Mauricio Coria
@@ -48,7 +51,7 @@ public class TTLoad implements SearchLifeCycle {
         Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", maxMap));
         Future<?> task2 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", minMap));
 
-        while(! ( task1.isDone() && task2.isDone() ) ){
+        while (!(task1.isDone() && task2.isDone())) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -68,15 +71,15 @@ public class TTLoad implements SearchLifeCycle {
 
             while (dis.available() > 0) {
                 long key = dis.readLong();
-                SearchContext.TableEntry tableEntry = new SearchContext.TableEntry();
+                SearchContext.TableEntry tableEntry = new TableEntry();
                 tableEntry.searchDepth = dis.readInt();
                 tableEntry.bestMoveAndValue = dis.readLong();
                 tableEntry.value = dis.readInt();
-                tableEntry.type = SearchContext.EntryType.valueOf(dis.readByte());
+                tableEntry.type = EntryType.valueOf(dis.readByte());
 
                 tableEntry.qBestMoveAndValue = dis.readLong();
                 tableEntry.qValue = dis.readInt();
-                tableEntry.qType = SearchContext.EntryType.valueOf(dis.readByte());
+                tableEntry.qType = EntryType.valueOf(dis.readByte());
 
                 map.put(key, tableEntry);
             }

@@ -13,6 +13,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static net.chesstango.search.smart.SearchContext.EntryType;
+import static net.chesstango.search.smart.SearchContext.TableEntry;
+
 /**
  * @author Mauricio Coria
  */
@@ -76,27 +79,17 @@ public class TTDump implements SearchLifeCycle {
                 dos.writeInt(tableEntry.searchDepth);
                 dos.writeLong(tableEntry.bestMoveAndValue);
                 dos.writeInt(tableEntry.value);
-                if(tableEntry.type != null) {
-                    dos.writeByte(tableEntry.type.toByte());
-                } else {
-                    dos.writeByte(0);
-                }
+                dos.writeByte(EntryType.encode(tableEntry.type));
 
                 dos.writeLong(tableEntry.qBestMoveAndValue);
                 dos.writeInt(tableEntry.qValue);
-                if(tableEntry.qType != null) {
-                    dos.writeByte(tableEntry.qType.toByte());
-                } else {
-                    dos.writeByte(0);
-                }
+                dos.writeByte(EntryType.encode(tableEntry.qType));
 
                 counter++;
             }
-
             dos.flush();
             bos.flush();
             fos.flush();
-
 
             dos.close();
             bos.close();

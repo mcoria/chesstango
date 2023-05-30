@@ -96,10 +96,6 @@ public class SearchContext {
             this.byteValue = byteValue;
         }
 
-        public byte toByte() {
-            return byteValue;
-        }
-
 
         public static EntryType valueOf(byte byteValue){
             for (EntryType type:
@@ -111,9 +107,16 @@ public class SearchContext {
             if(byteValue == 0){
                 return null;
             }
-
             throw new  RuntimeException("Unable to convert from byte to EntryType");
         }
+
+        public static byte encode(EntryType entryType){
+            if(entryType == null){
+                return 0;
+            }
+            return entryType.byteValue;
+        }
+
     };
 
     public static class TableEntry implements Serializable {
