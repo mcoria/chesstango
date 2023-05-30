@@ -18,8 +18,17 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private Game game;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+        this.game = game;
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
         this.visitedNodesCounter = context.getVisitedNodesCounters();
         this.expectedNodesCounters = context.getExpectedNodesCounters();
         this.distinctMoves = context.getDistinctMovesPerLevel();
@@ -35,6 +44,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
             result.setExpectedNodesCounters(expectedNodesCounters);
             result.setDistinctMovesPerLevel(distinctMoves);
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     @Override

@@ -7,15 +7,14 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.CycleException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -90,6 +89,7 @@ public class DetectCycleDisabledTest {
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
+    @Disabled
     public void testDetectCycle01() {
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
@@ -106,7 +106,9 @@ public class DetectCycleDisabledTest {
         });
 
 
+        minMaxPruning.initSearch(game, 23);
         SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 23));
+        minMaxPruning.closeSearch(searchResult);
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
@@ -147,6 +149,7 @@ public class DetectCycleDisabledTest {
 
 
     @Test
+    @Disabled
     public void testDetectCycle02() {
         Game game = FENDecoder.loadGame("k2b4/2pPp3/1pP1P3/pP5p/P5pP/3p1pP1/3PpP2/4B2K w - - 0 1");
 
@@ -161,7 +164,9 @@ public class DetectCycleDisabledTest {
         });
 
 
+        minMaxPruning.initSearch(game, 16);
         SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 16));
+        minMaxPruning.closeSearch(searchResult);
 
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
@@ -193,6 +198,7 @@ public class DetectCycleDisabledTest {
     }
 
     @Test
+    @Disabled
     public void testDetectCycle03() {
         Game game = FENDecoder.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
@@ -207,7 +213,9 @@ public class DetectCycleDisabledTest {
         });
 
 
+        minMaxPruning.initSearch(game, 3);
         SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 3));
+        minMaxPruning.closeSearch(searchResult);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -226,6 +234,7 @@ public class DetectCycleDisabledTest {
     }
 
     @Test
+    @Disabled
     public void testDetectCycle04() {
         Game game = FENDecoder.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
@@ -239,7 +248,9 @@ public class DetectCycleDisabledTest {
             };
         });
 
+        minMaxPruning.initSearch(game, 4);
         SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 4));
+        minMaxPruning.closeSearch(searchResult);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());

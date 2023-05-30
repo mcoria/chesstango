@@ -12,7 +12,6 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.CycleException;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
 import java.util.List;
@@ -32,8 +31,7 @@ public class MinMaxPruning implements SearchSmart {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
         try {
-            initListeners(context);
-
+            init(context);
             long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
                     alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
                     alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
@@ -54,12 +52,11 @@ public class MinMaxPruning implements SearchSmart {
 
             SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
 
-            closeListeners(searchResult);
-
+            close(searchResult);
             return searchResult;
 
-        } catch (StopSearchingException | CycleException ex ) {
-            closeListeners(null);
+        } catch (StopSearchingException ex) {
+            close(null);
             throw ex;
         }
     }
@@ -86,16 +83,38 @@ public class MinMaxPruning implements SearchSmart {
         this.searchActions = searchActions;
     }
 
+    @Override
+    public void initSearch(Game game, int maxDepth) {
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.initSearch(game, maxDepth));
+        }
+    }
 
-    private void initListeners(SearchContext context) {
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.closeSearch(result));
+        }
+    }
+
+
+    public void init(SearchContext context) {
         synchronized (searchActions) {
             searchActions.stream().forEach(filter -> filter.init(context));
         }
     }
 
-    private void closeListeners(SearchMoveResult searchResult) {
+
+    public void close(SearchMoveResult result) {
         synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.close(searchResult));
+            searchActions.stream().forEach(filter -> filter.close(result));
+        }
+    }
+
+    @Override
+    public void reset() {
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.reset());
         }
     }
 }

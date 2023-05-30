@@ -22,6 +22,16 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     private Game game;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
         this.game = context.getGame();
         this.maxMap = context.getMaxMap();
@@ -34,6 +44,11 @@ public class SetPrincipalVariation implements SearchLifeCycle {
             List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap);
             result.setPrincipalVariation(principalVariation);
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     public List<Move> calculatePrincipalVariation(Game game,

@@ -78,5 +78,8 @@ public interface SearchMove {
 
     void stopSearching();
 
+    /**
+     * Reset internal counters and buffers (for instance TT)
+     */
     void reset();
 }

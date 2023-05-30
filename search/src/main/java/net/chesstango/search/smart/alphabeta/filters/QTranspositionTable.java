@@ -20,14 +20,26 @@ public class QTranspositionTable implements AlphaBetaFilter {
     private Game game;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+        this.game = game;
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+    }
+
+    @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
 
     @Override
     public void close(SearchMoveResult result) {
+    }
+
+    @Override
+    public void reset() {
     }
 
     @Override

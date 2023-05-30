@@ -40,6 +40,8 @@ public class IterativeDeepening implements SearchMove {
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
 
+        searchSmart.initSearch(game, depth);
+
         try {
             for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
@@ -56,7 +58,7 @@ public class IterativeDeepening implements SearchMove {
 
                 bestMovesByDepth.add(searchResult);
 
-                if(searchStatusListener != null){
+                if (searchStatusListener != null) {
                     searchStatusListener.info(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
                 }
 
@@ -70,16 +72,15 @@ public class IterativeDeepening implements SearchMove {
             return bestMove;
 
         } catch (StopSearchingException spe) {
+
             SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);  // Aca deberiamos buscar en TT el mejor
 
             spe.setSearchMoveResult(bestMove);
 
+            searchSmart.closeSearch(bestMove);
+
             throw spe;
 
-        } catch (CycleException ce) {
-            SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-
-           return bestMove;
         }
     }
 
@@ -94,6 +95,7 @@ public class IterativeDeepening implements SearchMove {
     public void reset() {
         this.maxMap = new HashMap<>();
         this.minMap = new HashMap<>();
+        this.searchSmart.reset();
     }
 
     public void setSearchStatusListener(SearchStatusListener searchStatusListener) {

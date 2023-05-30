@@ -31,6 +31,16 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
     }
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
         counter = 0;
     }
@@ -40,6 +50,11 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
         if(result!=null) {
             result.setEvaluatedGamesCounter(counter);
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
 }

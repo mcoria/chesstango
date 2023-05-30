@@ -28,8 +28,17 @@ public class TTDump implements SearchLifeCycle {
     private boolean initialStateDumped = false;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+        this.game = game;
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
 
@@ -44,6 +53,11 @@ public class TTDump implements SearchLifeCycle {
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString())) {
             dumpTables(result.getDepth());
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     private void dumpTables(int searchCycle) {

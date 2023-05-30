@@ -25,6 +25,16 @@ public class MoveEvaluations implements SearchLifeCycle {
     private int maxPly;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
         this.game = context.getGame();
         this.maxPly = context.getMaxPly();
@@ -38,6 +48,11 @@ public class MoveEvaluations implements SearchLifeCycle {
             List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
             result.setMoveEvaluations(moveEvaluationList);
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     public List<SearchMoveResult.MoveEvaluation> createMoveEvaluations(final Move bestMove,

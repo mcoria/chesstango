@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 
@@ -12,8 +13,17 @@ public class QuiescenceStatics implements AlphaBetaFilter {
     private int maxPly;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
-        this.maxPly = context.getMaxPly();
+		this.maxPly = context.getMaxPly();
         this.visitedNodesQuiescenceCounter = context.getVisitedNodesQuiescenceCounter();
     }
 
@@ -22,6 +32,11 @@ public class QuiescenceStatics implements AlphaBetaFilter {
         if(result!=null) {
             result.setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter);
         }
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     @Override

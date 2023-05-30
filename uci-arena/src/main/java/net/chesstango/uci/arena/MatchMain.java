@@ -28,8 +28,8 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
 
-    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(500);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
+    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(500);
 
     private static final boolean MATCH_DEBUG = false;
 
@@ -46,6 +46,7 @@ public class MatchMain implements MatchListener {
                 .createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class);
                 //.createTangoControllerWithDefaultEvaluator(MinMaxPruningBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder.withStatics() )
                 //.overrideEngineName("MinMaxPruning");
+
 
 
         /*
@@ -70,7 +71,7 @@ public class MatchMain implements MatchListener {
         new SummaryReport()
                 .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);
 
-         /*
+
 
 
         new SessionReport()
@@ -81,10 +82,11 @@ public class MatchMain implements MatchListener {
                  //.breakByColor()
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
-        */
+
         new SearchesReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
+                .withPrincipalVariation()
                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
     }
@@ -115,7 +117,7 @@ public class MatchMain implements MatchListener {
 
         Match match = new Match(engineController1, engineController2, CMD_GO)
                             .setDebugEnabled(MATCH_DEBUG)
-                            //.switchChairs(false)
+                            .switchChairs(false)
                             .setMatchListener(matchBroadcaster);
 
         startEngines();

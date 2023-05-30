@@ -22,15 +22,29 @@ public class TranspositionTable implements AlphaBetaFilter {
     private int maxPly;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+        this.game = game;
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
-        this.maxPly = context.getMaxPly();
+		this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
 
     @Override
     public void close(SearchMoveResult result) {
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     @Override

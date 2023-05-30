@@ -33,6 +33,8 @@ public class NoIterativeDeepening implements SearchMove {
         Set<Move>[] distinctMovesPerLevel = new Set[30];
         IntStream.range(0, 30).forEach(i -> distinctMovesPerLevel[i] = new HashSet<>());
 
+        searchSmart.initSearch(game, depth);
+
         SearchContext context = new SearchContext(game,
                 depth,
                 visitedNodesCounters,
@@ -42,7 +44,11 @@ public class NoIterativeDeepening implements SearchMove {
                 maxMap,
                 minMap);
 
-        return searchSmart.search(context);
+        SearchMoveResult result = searchSmart.search(context);
+
+        searchSmart.closeSearch(result);
+
+        return result;
     }
 
     @Override

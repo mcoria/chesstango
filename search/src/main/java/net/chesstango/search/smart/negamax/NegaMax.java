@@ -83,4 +83,19 @@ public class NegaMax implements SearchSmart {
         }
         return betterEvaluation;
     }
+
+    @Override
+    public void initSearch(Game game, int maxDepth) {
+
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
+    public void reset() {
+
+    }
 }

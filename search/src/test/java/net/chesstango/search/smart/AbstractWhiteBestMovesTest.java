@@ -72,8 +72,6 @@ public abstract class AbstractWhiteBestMovesTest {
         assertEquals(GameEvaluator.BLACK_WON, searchResult.getEvaluation());
     }
 
-    //5R2/6p1/2p1pp2/3p4/K1k5/8/8/1q6 b - - 2 55
-
     @Test
     public void test_Mate() {
         // White can win the game in the next move

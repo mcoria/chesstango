@@ -23,6 +23,16 @@ public class QTranspositionMoveSorter implements MoveSorter {
     private Map<Long, SearchContext.TableEntry> minMap;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
         this.game = context.getGame();
         this.maxMap = context.getMaxMap();
@@ -31,6 +41,11 @@ public class QTranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void close(SearchMoveResult result) {
+
+    }
+
+    @Override
+    public void reset() {
 
     }
 

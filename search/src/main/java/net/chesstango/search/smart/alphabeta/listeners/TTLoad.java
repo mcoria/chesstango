@@ -29,6 +29,16 @@ public class TTLoad implements SearchLifeCycle {
     private boolean initialStateLoaded = false;
 
     @Override
+    public void initSearch(Game game, int maxDepth) {
+
+    }
+
+    @Override
+    public void closeSearch(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void init(SearchContext context) {
         this.game = context.getGame();
         this.maxMap = context.getMaxMap();
@@ -42,6 +52,11 @@ public class TTLoad implements SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
+    }
+
+    @Override
+    public void reset() {
+
     }
 
     private void loadTables() {
