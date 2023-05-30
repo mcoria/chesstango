@@ -44,24 +44,27 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
         List<Move> principalVariation = new ArrayList<>();
 
-        Move move = bestMove;
+        if(maxMap != null && minMap != null) {
+            Move move = bestMove;
+            int pvMoveCounter = 0;
+            do {
 
-        int pvMoveCounter = 0;
-        do {
+                principalVariation.add(move);
 
-            principalVariation.add(move);
+                game.executeMove(move);
+                pvMoveCounter++;
 
-            game.executeMove(move);
-            pvMoveCounter++;
+                move = principalVariation.size() < depth
+                        ? readMoveFromTT(game, maxMap, minMap)
+                        : readMoveFromQTT(game, maxMap, maxMap);
 
-            move = principalVariation.size() < depth
-                    ? readMoveFromTT(game, maxMap, minMap)
-                    : readMoveFromQTT(game, maxMap, maxMap);
+            } while (move != null);
 
-        } while (move != null);
-
-        for (int i = 0; i < pvMoveCounter; i++) {
-            game.undoMove();
+            for (int i = 0; i < pvMoveCounter; i++) {
+                game.undoMove();
+            }
+        } else {
+            principalVariation.add(bestMove);
         }
 
         return principalVariation;

@@ -117,10 +117,10 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
 
     /**
-     * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> DetectCycle -> TranspositionTable -> AlphaBeta
-     * *                                                   ^                                                 |
-     * *                                                   |                                                 |
-     * *                                                   -------------------------------------------------
+     * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> AlphaBeta
+     * *                                                   ^                                    |
+     * *                                                   |                                    |
+     * *                                                   -------------------------------------
      * StopProcessingCatch: al comienzo y solo una vez para atrapar excepciones de stop
      * AlphaBetaStatistics: al comienzo, para contabilizar los movimientos iniciales posibles
      * TranspositionTable: al comienzo, con iterative deeping tiene sentido dado que (DEPTH) + 4 puede repetir la misma posicion
@@ -229,19 +229,20 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         // ====================================================
         if (transpositionTable != null && qTranspositionTable != null) {
-            filters.add(new SetPrincipalVariation());
-
             if(withMoveEvaluation) {
                 filters.add(new MoveEvaluations());
             }
         }
-        /*
-        TTDump ttDump = new TTDump();
-        filters.add(ttDump);
 
-        TTLoad ttLoad = new TTLoad();
-        filters.add(ttLoad);
-         */
+        filters.add(new SetPrincipalVariation());
+
+        //TTDump ttDump = new TTDump();
+        //filters.add(ttDump);
+
+
+        //TTLoad ttLoad = new TTLoad();
+        //filters.add(ttLoad);
+
 
         // ====================================================
 

@@ -5,8 +5,10 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 
-import java.io.*;
-import java.nio.ByteBuffer;
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +16,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static net.chesstango.search.smart.SearchContext.EntryType;
-import static net.chesstango.search.smart.SearchContext.TableEntry;
 
 /**
  * @author Mauricio Coria
