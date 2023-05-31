@@ -16,7 +16,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class Pruning01Test extends GenericTest {
+public class MinMaxPruningGenericTest extends GenericTest {
 
     private SearchMove searchMove;
 
