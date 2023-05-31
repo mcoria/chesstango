@@ -1,172 +1,107 @@
 package net.chesstango.search.smart.negamax;
 
-import net.chesstango.board.Color;
-import net.chesstango.board.Game;
+import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.moves.containers.MoveContainer;
-import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.gamegraph.GameMock;
+import net.chesstango.search.gamegraph.GameMockEvaluator;
+import net.chesstango.search.gamegraph.GameMockLoader;
+import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Mauricio Coria
  */
-@ExtendWith(MockitoExtension.class)
 public class NegaMaxTest {
 
-    @Mock
-    private GameEvaluator evaluator;
+    private GameMockEvaluator evaluator;
 
     private NegaMax negaMax;
 
     @BeforeEach
     public void setup() {
         negaMax = new NegaMax();
+        evaluator = new GameMockEvaluator();
         negaMax.setGameEvaluator(evaluator);
     }
 
     @Test
-    @Disabled
-    public void testSingleMoveWhitePlays() {
-        Game rootGame = setupGame(Color.WHITE);
+    public void whiteTurn1Ply() {
+        GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
-        Game childGame = setupGame(Color.BLACK);
-        when(evaluator.evaluate(childGame)).thenReturn(1);
-
-        Move move = mock(Move.class);
-
-        linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
-
-        SearchMoveResult searchResult = new NoIterativeDeepening(negaMax).search(rootGame, 1);
+        SearchMoveResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
-        assertEquals(move, bestMove);
+        assertNotNull(searchResult);
+        assertEquals(Square.b1, bestMove.getFrom().getSquare());
+        assertEquals(Square.c3, bestMove.getTo().getSquare());
         assertEquals(1, searchResult.getEvaluation());
-        verify(evaluator, times(1)).evaluate(childGame);
+        assertEquals(3, evaluator.getNodesEvaluated());
+        assertEquals(3, game.getNodesVisited());
     }
 
     @Test
-    @Disabled
-    public void testSingleMoveBlackPlays() {
-        Game rootGame = setupGame(Color.BLACK);
+    public void blackTurn1Ply() {
+        GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
-        Game childGame = setupGame(Color.WHITE);
-        when(evaluator.evaluate(childGame)).thenReturn(1);
-
-        Move move = mock(Move.class);
-
-        linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
-
-        SearchMoveResult searchResult = new NoIterativeDeepening(negaMax).search(rootGame, 1);
+        SearchMoveResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
-        assertEquals(move, bestMove);
-        assertEquals(1, searchResult.getEvaluation());
-        verify(evaluator, times(1)).evaluate(childGame);
+        assertNotNull(searchResult);
+        assertEquals(Square.b8, bestMove.getFrom().getSquare());
+        assertEquals(Square.c6, bestMove.getTo().getSquare());
+        assertEquals(-1, searchResult.getEvaluation());
+        assertEquals(3, evaluator.getNodesEvaluated());
+        assertEquals(3, game.getNodesVisited());
     }
 
     @Test
-    @Disabled
-    public void testTwoMovesWhitePlays() {
-        NegaMax minMax = Mockito.spy(this.negaMax);
+    public void whiteTurn2Ply() {
+        GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
-        Game rootGame = setupGame(Color.WHITE);
-
-        Game childGame1 = setupGame(Color.BLACK);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
-
-        Game childGame2 = setupGame(Color.BLACK);
-        when(evaluator.evaluate(childGame2)).thenReturn(2);
-
-        Move move1 = mock(Move.class);
-        Move move2 = mock(Move.class);
-        linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
-
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(rootGame,1);
+        SearchMoveResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
-        assertEquals(move2, bestMove);
-        assertEquals(2, searchResult.getEvaluation());
-
-        verify(minMax).negaMax(childGame1, 0);
-        verify(minMax).negaMax(childGame2, 0);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
+        assertNotNull(searchResult);
+        assertEquals(Square.d2, bestMove.getFrom().getSquare());
+        assertEquals(Square.d4, bestMove.getTo().getSquare());
+        assertEquals(5, searchResult.getEvaluation());
+        assertEquals(6, evaluator.getNodesEvaluated());
+        assertEquals(8, game.getNodesVisited());
     }
 
     @Test
-    @Disabled
-    public void testTwoMovesBlackPlays() {
-        NegaMax minMax = Mockito.spy(this.negaMax);
+    public void blackTurn2Ply() {
+        GameMock game = GameMockLoader.loadFromFile("BlackTurn2Ply.json");
 
-        Game rootGame = setupGame(Color.BLACK);
-
-        Game childGame1 = setupGame(Color.WHITE);
-        when(evaluator.evaluate(childGame1)).thenReturn(1);
-
-        Game childGame2 = setupGame(Color.WHITE);
-        when(evaluator.evaluate(childGame2)).thenReturn(2);
-
-        Move move1 = mock(Move.class);
-        Move move2 = mock(Move.class);
-        linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
-
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(rootGame,1);
+        SearchMoveResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
-        assertEquals(move1, bestMove);
-        assertEquals(1, searchResult.getEvaluation());
-
-        verify(minMax).negaMax(childGame1, 0);
-        verify(minMax).negaMax(childGame2, 0);
-
-        verify(evaluator, times(1)).evaluate(childGame1);
-        verify(evaluator, times(1)).evaluate(childGame2);
+        assertNotNull(searchResult);
+        assertEquals(Square.d7, bestMove.getFrom().getSquare());
+        assertEquals(Square.d5, bestMove.getTo().getSquare());
+        assertEquals(14, searchResult.getEvaluation());
+        assertEquals(9, evaluator.getNodesEvaluated());
+        assertEquals(12, game.getNodesVisited());
     }
 
+    private SearchMoveResult search(GameMock game, int depth) {
+        negaMax.initSearch(game, depth);
 
-    private Game setupGame(Color turn) {
-        Game game = mock(Game.class);
+        SearchContext context = new SearchContext(depth);
 
-        ChessPositionReader mockPositionReader = mock(ChessPositionReader.class);
-        when(game.getChessPosition()).thenReturn(mockPositionReader);
-        when(mockPositionReader.getCurrentTurn()).thenReturn(turn);
+        SearchMoveResult result = negaMax.search(context);
 
-        return game;
-    }
+        negaMax.closeSearch(result);
 
-    private void linkMovesToGames(Game parentGame, Move moves[], Game childGames[]) {
-        List<Move> moveList = new LinkedList<Move>();
-        if (moves != null) {
-            for (int i = 0; i < moves.length; i++) {
-                Move move = moves[i];
-                when(parentGame.executeMove(move)).thenReturn(childGames[i]);
-                when(childGames[i].undoMove()).thenReturn(parentGame);
-                moveList.add(move);
-            }
-        }
-
-        MoveContainer moveContainer = new MoveContainer();
-        moveList.forEach(moveContainer::add);
-        when(parentGame.getPossibleMoves()).thenReturn(moveContainer);
+        return result;
     }
 }

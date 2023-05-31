@@ -6,7 +6,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.NoIterativeDeepening;
+import net.chesstango.search.smart.SearchContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ public class MinMaxTest {
     public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 1);
+        SearchMoveResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -49,7 +49,7 @@ public class MinMaxTest {
     public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game,1);
+        SearchMoveResult searchResult = search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -65,7 +65,7 @@ public class MinMaxTest {
     public void whiteTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 2);
+        SearchMoveResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -81,7 +81,7 @@ public class MinMaxTest {
     public void blackTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn2Ply.json");
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 2);
+        SearchMoveResult searchResult = search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -91,6 +91,18 @@ public class MinMaxTest {
         assertEquals(14, searchResult.getEvaluation());
         assertEquals(9, evaluator.getNodesEvaluated());
         assertEquals(12, game.getNodesVisited());
+    }
+
+    private SearchMoveResult search(GameMock game, int depth) {
+        minMax.initSearch(game, depth);
+
+        SearchContext context = new SearchContext(depth);
+
+        SearchMoveResult result = minMax.search(context);
+
+        minMax.closeSearch(result);
+
+        return result;
     }
 
 }
