@@ -106,7 +106,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 23));
+        SearchMoveResult searchResult = minMaxPruning.search(game, 23);
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
@@ -162,7 +162,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 16));
+        SearchMoveResult searchResult = minMaxPruning.search(game, 16);
 
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
@@ -209,7 +209,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 3));
+        SearchMoveResult searchResult = minMaxPruning.search(game, 3);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -242,7 +242,7 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 4));
+        SearchMoveResult searchResult = minMaxPruning.search(game, 4);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());

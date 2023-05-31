@@ -16,7 +16,7 @@ public class QuiescenceNull implements AlphaBetaFilter {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
-
+        this.game = game;
     }
 
     @Override
@@ -26,7 +26,6 @@ public class QuiescenceNull implements AlphaBetaFilter {
 
     @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
     }
 
     @Override

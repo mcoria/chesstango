@@ -58,7 +58,7 @@ public class NagaMaxPruningWhiteTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = minMax.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMax.search(rootGame,1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -85,7 +85,7 @@ public class NagaMaxPruningWhiteTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        SearchMoveResult searchResult = minMax.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMax.search(rootGame,1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -121,7 +121,7 @@ public class NagaMaxPruningWhiteTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMax.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMax.search(rootGame,1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -164,7 +164,7 @@ public class NagaMaxPruningWhiteTest {
         Move move3 = moveFactoryWhite.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_WHITE), PiecePositioned.getPosition(Square.e4));
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMax.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMax.search(rootGame,1);
 
         Move bestMove = searchResult.getBestMove();
 

@@ -22,7 +22,7 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
-
+        this.game = game;
     }
 
     @Override
@@ -32,7 +32,6 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
     @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();

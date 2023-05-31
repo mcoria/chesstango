@@ -67,7 +67,7 @@ public class MinMaxPruningBlackTest {
 
         linkMovesToGames(rootGame, new Move[]{move}, new Game[]{childGame});
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -99,7 +99,7 @@ public class MinMaxPruningBlackTest {
         Move move2 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2}, new Game[]{childGame1, childGame2});
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -140,7 +140,7 @@ public class MinMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -188,7 +188,7 @@ public class MinMaxPruningBlackTest {
         Move move3 = moveFactoryBlack.createCaptureMove(PiecePositioned.getPiecePositioned(Square.c3, Piece.KNIGHT_BLACK), PiecePositioned.getPosition(Square.e5));
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(rootGame,1));
+        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(1));
 
         Move bestMove = searchResult.getBestMove();
 
@@ -232,7 +232,7 @@ public class MinMaxPruningBlackTest {
         Move move3 = mock(Move.class);
         linkMovesToGames(rootGame, new Move[]{move1, move2, move3}, new Game[]{childGame1, childGame2, childGame3});
 
-        alphaBeta.init(new SearchContext(rootGame,2));
+        alphaBeta.init(new SearchContext(2));
         //long minValue = alphaBeta.minimize(rootGame, 1, GameEvaluator.INFINITE_NEGATIVE, GameEvaluator.INFINITE_POSITIVE);
 
         //assertEquals(GameEvaluator.BLACK_WON, minValue);

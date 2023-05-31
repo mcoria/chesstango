@@ -23,7 +23,7 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
-
+        this.game = game;
     }
 
     @Override
@@ -33,7 +33,6 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void init(SearchContext context) {
-        this.game = context.getGame();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }

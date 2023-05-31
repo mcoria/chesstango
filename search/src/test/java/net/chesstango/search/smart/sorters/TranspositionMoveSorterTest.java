@@ -59,7 +59,7 @@ public class TranspositionMoveSorterTest {
     private void initMoveSorter(Game game) {
         moveSorter.initSearch(game, 1);
 
-        SearchContext context = new SearchContext(game, 1);
+        SearchContext context = new SearchContext(1);
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
 

@@ -35,7 +35,7 @@ public class IterativeDeepening implements SearchMove {
         try {
             for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
 
-                SearchContext context = new SearchContext(game, currentSearchDepth);
+                SearchContext context = new SearchContext(currentSearchDepth);
 
                 SearchMoveResult searchResult = searchSmart.search(context);
 

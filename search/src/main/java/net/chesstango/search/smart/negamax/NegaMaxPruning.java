@@ -20,6 +20,8 @@ import java.util.List;
 public class NegaMaxPruning implements SearchSmart {
 
     private volatile boolean keepProcessing;
+
+    private Game game;
     private MoveSorter moveSorter;
     private final NegaQuiescence negaQuiescence;
     private int[] visitedNodesCounter;
@@ -32,7 +34,7 @@ public class NegaMaxPruning implements SearchSmart {
     public SearchMoveResult search(Game game, int maxDepth) {
         initSearch(game, maxDepth);
 
-        SearchMoveResult searchResult = search(new SearchContext(game, maxDepth));
+        SearchMoveResult searchResult = search(new SearchContext(maxDepth));
 
         closeSearch(searchResult);
         return searchResult;
@@ -44,8 +46,6 @@ public class NegaMaxPruning implements SearchSmart {
         this.visitedNodesCounter = new int[context.getMaxPly()];
 
         this.moveSorter.init(context);
-
-        final Game game = context.getGame();
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -134,6 +134,7 @@ public class NegaMaxPruning implements SearchSmart {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
+        this.game = game;
         moveSorter.initSearch(game, maxDepth);
     }
 

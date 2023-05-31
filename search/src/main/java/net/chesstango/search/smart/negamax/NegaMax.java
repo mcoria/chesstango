@@ -21,6 +21,8 @@ public class NegaMax implements SearchSmart {
 
     private GameEvaluator evaluator;
 
+    private Game game;
+
     public void setGameEvaluator(GameEvaluator evaluator) {
         this.evaluator = new NegaMaxEvaluatorWrapper(evaluator);
     }
@@ -29,7 +31,7 @@ public class NegaMax implements SearchSmart {
     public SearchMoveResult search(Game game, int maxDepth) {
         initSearch(game, maxDepth);
 
-        SearchMoveResult searchResult = search(new SearchContext(game, maxDepth));
+        SearchMoveResult searchResult = search(new SearchContext(maxDepth));
 
         closeSearch(searchResult);
         return searchResult;
@@ -37,7 +39,6 @@ public class NegaMax implements SearchSmart {
 
     @Override
     public SearchMoveResult search(SearchContext context) {
-        final Game game = context.getGame();
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
@@ -96,7 +97,7 @@ public class NegaMax implements SearchSmart {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
-
+        this.game = game;
     }
 
     @Override

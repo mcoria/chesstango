@@ -295,7 +295,7 @@ public class DefaultMoveSorterTest {
     private void initMoveSorter(MoveSorter moveSorter, Game game) {
         moveSorter.initSearch(game, 1);
 
-        SearchContext context = new SearchContext(game, 1);
+        SearchContext context = new SearchContext(1);
 
         moveSorter.init(context);
     }

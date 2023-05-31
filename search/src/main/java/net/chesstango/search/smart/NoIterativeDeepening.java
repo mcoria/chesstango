@@ -25,7 +25,7 @@ public class NoIterativeDeepening implements SearchMove {
     public SearchMoveResult search(Game game, int depth) {
         searchSmart.initSearch(game, depth);
 
-        SearchContext context = new SearchContext(game, depth);
+        SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = searchSmart.search(context);
 

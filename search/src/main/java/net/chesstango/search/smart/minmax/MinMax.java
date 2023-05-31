@@ -19,6 +19,7 @@ public class MinMax implements SearchSmart {
     // Beyond level 4, the performance is terrible
     private static final int DEFAULT_MAX_PLIES = 4;
 
+    private Game game;
     private int maxPly;
     private int[] visitedNodesCounter;
     private int[] expectedNodesCounters;
@@ -32,7 +33,7 @@ public class MinMax implements SearchSmart {
     public SearchMoveResult search(Game game, int maxDepth) {
         initSearch(game, maxDepth);
 
-        SearchMoveResult searchResult = search(new SearchContext(game, maxDepth));
+        SearchMoveResult searchResult = search(new SearchContext(maxDepth));
 
         closeSearch(searchResult);
         return searchResult;
@@ -40,7 +41,6 @@ public class MinMax implements SearchSmart {
 
     @Override
     public SearchMoveResult search(SearchContext context) {
-        final Game game = context.getGame();
         this.maxPly = context.getMaxPly();
 
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
@@ -119,6 +119,7 @@ public class MinMax implements SearchSmart {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
+        this.game = game;
         this.visitedNodesCounter = new int[30];
         this.expectedNodesCounters = new int[30];
     }
