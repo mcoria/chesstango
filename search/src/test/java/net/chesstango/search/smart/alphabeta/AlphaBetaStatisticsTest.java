@@ -10,7 +10,9 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
 import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
+import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,23 +41,32 @@ public class AlphaBetaStatisticsTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);
 
+        AlphaBeta alphaBeta = new AlphaBeta();
+        TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
-        AlphaBeta alphaBeta = new AlphaBeta();
+
         alphaBeta.setQuiescence(quiescence);
         alphaBeta.setMoveSorter(moveSorter);
         alphaBeta.setNext(alphaBetaStatistics);
         alphaBeta.setGameEvaluator(gameEvaluator);
 
-        alphaBetaStatistics.setNext(alphaBeta);
+        transpositionTable.setNext(alphaBeta);
+
+        alphaBetaStatistics.setNext(transpositionTable);
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBeta, alphaBetaStatistics, quiescence, moveSorter));
+        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(),
+                alphaBeta,
+                alphaBetaStatistics,
+                transpositionTable,
+                quiescence,
+                moveSorter,
+                new SetBestMoveOptions()));
     }
 
     @Test
-    @Disabled
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
@@ -92,7 +103,6 @@ public class AlphaBetaStatisticsTest {
     }
 
     @Test
-    @Disabled // TODO: con el refactoring de MinMaxPruning debemos calcular las colisiones de otra forma
     public void testEvaluationCollisions() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
