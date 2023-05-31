@@ -870,6 +870,8 @@ public class KiwipeteTest extends AbstractPerftTest {
 	}
 	
 	//Test //842segs 772segs 701segs 673segs 554segs 522segs 506segs 490segs
+	@Test
+	@Disabled
 	public void test_divide6() {
 		PerftResult result= pert.start(board, 6);
 		

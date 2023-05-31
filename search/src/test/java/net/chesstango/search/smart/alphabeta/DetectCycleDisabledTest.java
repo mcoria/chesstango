@@ -167,7 +167,7 @@ public class DetectCycleDisabledTest {
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        debug(visitedNodesTotal, visitedNodesCounters);
+        //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(2, visitedNodesCounters[0]);
         assertEquals(3, visitedNodesCounters[1]);
