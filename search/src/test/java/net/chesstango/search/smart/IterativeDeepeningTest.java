@@ -6,7 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ public class IterativeDeepeningTest {
 
     @BeforeEach
     public void setup() {
-        smart = new MinMaxPruning();
+        smart = new AlphaBeta();
 
         iterativeDeepening = new IterativeDeepening(smart);
     }

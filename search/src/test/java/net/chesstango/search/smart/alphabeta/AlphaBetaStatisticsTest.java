@@ -7,7 +7,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
@@ -16,7 +16,6 @@ import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -30,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class AlphaBetaStatisticsTest {
 
-    private MinMaxPruning minMaxPruning;
+    private AlphaBeta alphaBeta;
 
     @BeforeEach
     public void setup() {
@@ -41,24 +40,24 @@ public class AlphaBetaStatisticsTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);
 
-        AlphaBeta alphaBeta = new AlphaBeta();
+        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
         TranspositionTable transpositionTable = new TranspositionTable();
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
 
-        alphaBeta.setQuiescence(quiescence);
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setNext(alphaBetaStatistics);
-        alphaBeta.setGameEvaluator(gameEvaluator);
+        alphaBetaImp.setQuiescence(quiescence);
+        alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setNext(alphaBetaStatistics);
+        alphaBetaImp.setGameEvaluator(gameEvaluator);
 
-        transpositionTable.setNext(alphaBeta);
+        transpositionTable.setNext(alphaBetaImp);
 
         alphaBetaStatistics.setNext(transpositionTable);
 
-        minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(),
-                alphaBeta,
+        this.alphaBeta = new AlphaBeta();
+        this.alphaBeta.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBeta.setSearchActions(Arrays.asList(new SearchSetup(),
+                alphaBetaImp,
                 alphaBetaStatistics,
                 transpositionTable,
                 quiescence,
@@ -70,7 +69,7 @@ public class AlphaBetaStatisticsTest {
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
         Set<Move>[] distinctMoves = searchResult.getDistinctMovesPerLevel();
 
@@ -82,7 +81,7 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
@@ -94,7 +93,7 @@ public class AlphaBetaStatisticsTest {
     public void testExpectedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getExpectedNodesCounters();
 
@@ -106,7 +105,7 @@ public class AlphaBetaStatisticsTest {
     public void testEvaluationCollisions() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }

@@ -16,14 +16,14 @@ import org.junit.platform.suite.api.Suite;
 
         DetectCycleEnabledTest.class,
         DetectCycleDisabledTest.class,
-        MinMaxPruningMateIn1Test.class,
-        MinMaxPruningMateIn2Test.class,
-        MinMaxPruningMateIn3Test.class,
-        MinMaxPruningMateIn4Test.class,
+        AlphaBetaMateIn1Test.class,
+        AlphaBetaMateIn2Test.class,
+        AlphaBetaMateIn3Test.class,
+        AlphaBetaMateIn4Test.class,
 
-        MinMaxPruningTest.class,
-        MinMaxPruningGenericTest.class,
-        MinMaxPruningStopTest.class,
+        AlphaBetaTest.class,
+        AlphaBetaGenericTest.class,
+        AlphaBetaStopTest.class,
 
         BlackBestMovesTest.class,
         WhiteBestMovesTest.class,

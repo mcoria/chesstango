@@ -1,34 +1,20 @@
 package net.chesstango.search.smart.alphabeta;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.builders.MinMaxPruningBuilder;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.filters.Quiescence;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
-import net.chesstango.search.smart.minmax.MinMax;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -36,12 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPruningTest {
+public class AlphaBetaTest {
 
 
     private GameMockEvaluator evaluator;
 
-    private MinMaxPruning minMaxPruning ;
+    private AlphaBeta alphaBeta;
 
     @BeforeEach
     public void setup() {
@@ -52,15 +38,15 @@ public class MinMaxPruningTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setQuiescence(quiescence);
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setGameEvaluator(evaluator);
-        alphaBeta.setNext(alphaBeta);
+        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
+        alphaBetaImp.setQuiescence(quiescence);
+        alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setGameEvaluator(evaluator);
+        alphaBetaImp.setNext(alphaBetaImp);
 
-        minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBeta);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, quiescence, moveSorter));
+        this.alphaBeta = new AlphaBeta();
+        this.alphaBeta.setAlphaBetaSearch(alphaBetaImp);
+        this.alphaBeta.setSearchActions(Arrays.asList(alphaBetaImp, quiescence, moveSorter));
     }
 
     @Test
@@ -128,13 +114,13 @@ public class MinMaxPruningTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        minMaxPruning.initSearch(game, depth);
+        alphaBeta.initSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
-        SearchMoveResult result = minMaxPruning.search(context);
+        SearchMoveResult result = alphaBeta.search(context);
 
-        minMaxPruning.closeSearch(result);
+        alphaBeta.closeSearch(result);
 
         return result;
     }

@@ -10,16 +10,14 @@ import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchSmart;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
-import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPruning implements SearchSmart {
+public class AlphaBeta implements SearchSmart {
 
     private AlphaBetaFilter alphaBetaFilter;
 

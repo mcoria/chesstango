@@ -7,7 +7,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.alphabeta.MinMaxPruning;
+import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
 import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class MinMaxPruningBuilder implements SearchBuilder {
 
-    private final AlphaBeta alphaBeta;
+    private final AlphaBetaImp alphaBetaImp;
 
     private MoveSorter moveSorter;
 
@@ -51,7 +51,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     private boolean withMoveEvaluation;
 
     public MinMaxPruningBuilder() {
-        alphaBeta = new AlphaBeta();
+        alphaBetaImp = new AlphaBetaImp();
 
         quiescence = new QuiescenceNull();
 
@@ -141,7 +141,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         List<SearchLifeCycle> filters = new ArrayList<>();
         filters.add(new SearchSetup());
-        filters.add(alphaBeta);
+        filters.add(this.alphaBetaImp);
         filters.add(quiescence);
         filters.add(moveSorter);
         filters.add(qMoveSorter);
@@ -194,28 +194,28 @@ public class MinMaxPruningBuilder implements SearchBuilder {
              if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
-                alphaBetaStatistics.setNext(alphaBeta);
+                alphaBetaStatistics.setNext(this.alphaBetaImp);
             }
             head = alphaBetaStatistics;
         }
 
         if (transpositionTable != null) {
             filters.add(transpositionTable);
-            transpositionTable.setNext(alphaBeta);
+            transpositionTable.setNext(this.alphaBetaImp);
             if (head == null) {
                 head = transpositionTable;
             }
         }
 
         if (head == null) {
-            head = alphaBeta;
+            head = this.alphaBetaImp;
         }
 
 
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setGameEvaluator(gameEvaluator);
-        alphaBeta.setQuiescence(headQuiescence);
-        alphaBeta.setNext(head);
+        this.alphaBetaImp.setMoveSorter(moveSorter);
+        this.alphaBetaImp.setGameEvaluator(gameEvaluator);
+        this.alphaBetaImp.setQuiescence(headQuiescence);
+        this.alphaBetaImp.setNext(head);
         // ====================================================
 
         // GameRevert is set one in the chain
@@ -245,11 +245,11 @@ public class MinMaxPruningBuilder implements SearchBuilder {
 
         // ====================================================
 
-        MinMaxPruning minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(head);
-        minMaxPruning.setSearchActions(filters);
+        AlphaBeta alphaBeta = new AlphaBeta();
+        alphaBeta.setAlphaBetaSearch(head);
+        alphaBeta.setSearchActions(filters);
 
-        return withIterativeDeepening ? new IterativeDeepening(minMaxPruning) : new NoIterativeDeepening(minMaxPruning);
+        return withIterativeDeepening ? new IterativeDeepening(alphaBeta) : new NoIterativeDeepening(alphaBeta);
     }
 
 

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class AlphaBeta implements AlphaBetaFilter {
+public class AlphaBetaImp implements AlphaBetaFilter {
     private volatile boolean keepProcessing;
 
     private GameEvaluator evaluator;

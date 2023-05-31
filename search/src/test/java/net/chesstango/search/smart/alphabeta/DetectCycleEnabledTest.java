@@ -8,7 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
-import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
+import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class DetectCycleEnabledTest {
 
-    private MinMaxPruning minMaxPruning;
+    private AlphaBeta alphaBeta;
 
     private GameEvaluatorByCondition evaluator;
 
@@ -44,23 +44,23 @@ public class DetectCycleEnabledTest {
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(evaluator);
 
-        AlphaBeta alphaBeta = new AlphaBeta();
-        alphaBeta.setQuiescence(quiescence);
-        alphaBeta.setMoveSorter(moveSorter);
-        alphaBeta.setGameEvaluator(evaluator);
+        AlphaBetaImp alphaBetaImp = new AlphaBetaImp();
+        alphaBetaImp.setQuiescence(quiescence);
+        alphaBetaImp.setMoveSorter(moveSorter);
+        alphaBetaImp.setGameEvaluator(evaluator);
 
         AlphaBetaStatistics alphaBetaStatistics = new AlphaBetaStatistics();
 
         TranspositionTable transpositionTable = new TranspositionTable();
         // FILTERS END
 
-        alphaBeta.setNext(alphaBetaStatistics);
-        transpositionTable.setNext(alphaBeta);
+        alphaBetaImp.setNext(alphaBetaStatistics);
+        transpositionTable.setNext(alphaBetaImp);
         alphaBetaStatistics.setNext(transpositionTable);
 
-        minMaxPruning = new MinMaxPruning();
-        minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBeta, alphaBetaStatistics, quiescence, transpositionTable, moveSorter));
+        this.alphaBeta = new AlphaBeta();
+        this.alphaBeta.setAlphaBetaSearch(alphaBetaStatistics);
+        this.alphaBeta.setSearchActions(Arrays.asList(new SearchSetup(), alphaBetaImp, alphaBetaStatistics, quiescence, transpositionTable, moveSorter));
     }
 
 
@@ -110,7 +110,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 23);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 23);
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
@@ -164,7 +164,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 17);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 17);
 
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
@@ -210,7 +210,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 3);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -242,7 +242,7 @@ public class DetectCycleEnabledTest {
             };
         });
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 4);
+        SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 4);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
