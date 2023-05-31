@@ -11,10 +11,10 @@ import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
+import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -55,7 +55,7 @@ public class DetectCycleDisabledTest {
 
         minMaxPruning = new MinMaxPruning();
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
-        minMaxPruning.setSearchActions(Arrays.asList(alphaBeta, alphaBetaStatistics, quiescence, moveSorter));
+        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBeta, alphaBetaStatistics, quiescence, moveSorter));
     }
 
 
@@ -89,7 +89,6 @@ public class DetectCycleDisabledTest {
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
-    @Disabled
     public void testDetectCycle01() {
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
@@ -114,8 +113,7 @@ public class DetectCycleDisabledTest {
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        debug(visitedNodesTotal, visitedNodesCounters);
-
+        //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(3, visitedNodesCounters[0]);
         assertEquals(5, visitedNodesCounters[1]);
@@ -147,7 +145,6 @@ public class DetectCycleDisabledTest {
 
 
     @Test
-    @Disabled
     public void testDetectCycle02() {
         Game game = FENDecoder.loadGame("k2b4/2pPp3/1pP1P3/pP5p/P5pP/3p1pP1/3PpP2/4B2K w - - 0 1");
 
@@ -162,7 +159,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 16);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 17);
 
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
@@ -184,17 +181,16 @@ public class DetectCycleDisabledTest {
         assertEquals(63, visitedNodesCounters[9]);
         assertEquals(95, visitedNodesCounters[10]);
         assertEquals(127, visitedNodesCounters[11]);
-        assertEquals(254, visitedNodesCounters[12]);
-        assertEquals(382, visitedNodesCounters[13]);
-        assertEquals(637, visitedNodesCounters[14]);
-        assertEquals(1021, visitedNodesCounters[15]);
-        assertEquals(0, visitedNodesCounters[16]);
+        assertEquals(191, visitedNodesCounters[12]);
+        assertEquals(255, visitedNodesCounters[13]);
+        assertEquals(383, visitedNodesCounters[14]);
+        assertEquals(511, visitedNodesCounters[15]);
+        assertEquals(767, visitedNodesCounters[16]);
 
-        assertEquals(2723, visitedNodesTotal);
+        assertEquals(2536, visitedNodesTotal);
     }
 
     @Test
-    @Disabled
     public void testDetectCycle03() {
         Game game = FENDecoder.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
@@ -217,7 +213,7 @@ public class DetectCycleDisabledTest {
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        debug(visitedNodesTotal, visitedNodesCounters);
+        //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(1, visitedNodesCounters[1]);
@@ -228,7 +224,6 @@ public class DetectCycleDisabledTest {
     }
 
     @Test
-    @Disabled
     public void testDetectCycle04() {
         Game game = FENDecoder.loadGame("k1p5/1pP5/1p6/1P6/6p1/6P1/5pP1/5P1K w - - 0 1");
 
@@ -250,7 +245,7 @@ public class DetectCycleDisabledTest {
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
-        debug(visitedNodesTotal, visitedNodesCounters);
+        //debug(visitedNodesTotal, visitedNodesCounters);
 
         assertEquals(1, visitedNodesCounters[0]);
         assertEquals(1, visitedNodesCounters[1]);
@@ -263,13 +258,13 @@ public class DetectCycleDisabledTest {
     private void debug(long visitedNodesTotal, int[] visitedNodesCounters) {
         System.out.printf("Total visited Nodes = %d\n", visitedNodesTotal);
         for (int i = 0; i < 30; i++) {
-            if(visitedNodesCounters[i] > 0) {
+            if (visitedNodesCounters[i] > 0) {
                 System.out.printf("Visited Nodes Level %2d = %10d\n", i + 1, visitedNodesCounters[i]);
             }
         }
 
         for (int i = 0; i < 30; i++) {
-            if(visitedNodesCounters[i] > 0) {
+            if (visitedNodesCounters[i] > 0) {
                 System.out.printf("assertEquals(%d, visitedNodesCounters[%d]);\n", visitedNodesCounters[i], i);
             }
         }
