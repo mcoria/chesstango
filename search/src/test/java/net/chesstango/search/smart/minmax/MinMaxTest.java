@@ -8,7 +8,6 @@ import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -79,9 +78,19 @@ public class MinMaxTest {
     }
 
     @Test
-    @Disabled
     public void blackTurn2Ply() {
-        throw new RuntimeException("Implement");
+        GameMock game = GameMockLoader.loadFromFile("BlackTurn2Ply.json");
+
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 2);
+
+        Move bestMove = searchResult.getBestMove();
+
+        assertNotNull(searchResult);
+        assertEquals(Square.d7, bestMove.getFrom().getSquare());
+        assertEquals(Square.d5, bestMove.getTo().getSquare());
+        assertEquals(14, searchResult.getEvaluation());
+        assertEquals(9, evaluator.getNodesEvaluated());
+        assertEquals(12, game.getNodesVisited());
     }
 
 }

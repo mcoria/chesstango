@@ -2,34 +2,6 @@
   "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
   "links": [
     {
-      "move": "d2d4",
-      "node": {
-        "links": [
-          {
-            "move": "a7a6",
-            "node": {
-              "evaluation": 10,
-              "links": []
-            }
-          },
-          {
-            "move": "b7b6",
-            "node": {
-              "evaluation": 5,
-              "links": []
-            }
-          },
-          {
-            "move": "c7c6",
-            "node": {
-              "evaluation": 20,
-              "links": []
-            }
-          }
-        ]
-      }
-    },
-    {
       "move": "e2e4",
       "node": {
         "links": [
@@ -51,6 +23,34 @@
             "move": "e7e6",
             "node": {
               "evaluation": 40,
+              "links": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "move": "d2d4",
+      "node": {
+        "links": [
+          {
+            "move": "a7a6",
+            "node": {
+              "evaluation": 10,
+              "links": []
+            }
+          },
+          {
+            "move": "b7b6",
+            "node": {
+              "evaluation": 5,
+              "links": []
+            }
+          },
+          {
+            "move": "c7c6",
+            "node": {
+              "evaluation": 20,
               "links": []
             }
           }

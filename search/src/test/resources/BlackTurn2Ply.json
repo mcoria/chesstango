@@ -1,0 +1,92 @@
+{
+  "fen": "rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 1",
+  "links": [
+    {
+      "move": "d7d5",
+      "node": {
+        "evaluation": 1,
+        "links": [
+          {
+            "move": "c3d5",
+            "node": {
+              "evaluation": 10,
+              "links": []
+            }
+          },
+          {
+            "move": "d2d3",
+            "node": {
+              "evaluation": 11,
+              "links": []
+            }
+          },
+          {
+            "move": "d2d4",
+            "node": {
+              "evaluation": 14,
+              "links": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "move": "e7e5",
+      "node": {
+        "evaluation": 0,
+        "links": [
+          {
+            "move": "c3d5",
+            "node": {
+              "evaluation": 20,
+              "links": []
+            }
+          },
+          {
+            "move": "d2d3",
+            "node": {
+              "evaluation": 21,
+              "links": []
+            }
+          },
+          {
+            "move": "d2d4",
+            "node": {
+              "evaluation": 22,
+              "links": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "move": "b8c6",
+      "node": {
+        "evaluation": -1,
+        "links": [
+          {
+            "move": "c3d5",
+            "node": {
+              "evaluation": 30,
+              "links": []
+            }
+          },
+          {
+            "move": "d2d3",
+            "node": {
+              "evaluation": 32,
+              "links": []
+            }
+          },
+          {
+            "move": "d2d4",
+            "node": {
+              "evaluation": 31,
+              "links": []
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
