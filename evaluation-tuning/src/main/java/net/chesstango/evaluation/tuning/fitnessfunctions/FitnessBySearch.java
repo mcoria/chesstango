@@ -76,6 +76,8 @@ public class FitnessBySearch implements FitnessFunction {
 
                 .withMoveEvaluation()
 
+                .withIterativeDeepening()
+
                 .build();
 
 
