@@ -5,43 +5,47 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
  */
 public class AlphaBetaStatistics implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private int[] visitedNodesCounter;
+    private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
-    private Set<Move>[] distinctMoves;
+    private Set<Move>[] distinctMovesPerLevel;
     private Game game;
 
     @Override
     public void initSearch(Game game, int maxDepth) {
         this.game = game;
+        this.visitedNodesCounters = new int[30];
+        this.expectedNodesCounters = new int[30];
+        this.distinctMovesPerLevel = new Set[30];
+        IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>());
     }
 
     @Override
     public void closeSearch(SearchMoveResult result) {
+        this.game = null;
+        this.visitedNodesCounters = null;
+        this.expectedNodesCounters = null;
+        this.distinctMovesPerLevel = null;
     }
 
     @Override
     public void init(SearchContext context) {
-        this.visitedNodesCounter = context.getVisitedNodesCounters();
-        this.expectedNodesCounters = context.getExpectedNodesCounters();
-        this.distinctMoves = context.getDistinctMovesPerLevel();
-        if (visitedNodesCounter == null || distinctMoves == null || expectedNodesCounters == null) {
-            throw new RuntimeException("Context not initiated");
-        }
     }
 
     @Override
     public void close(SearchMoveResult result) {
         if(result!=null) {
-            result.setVisitedNodesCounters(visitedNodesCounter);
+            result.setVisitedNodesCounters(visitedNodesCounters);
             result.setExpectedNodesCounters(expectedNodesCounters);
-            result.setDistinctMovesPerLevel(distinctMoves);
+            result.setDistinctMovesPerLevel(distinctMovesPerLevel);
         }
     }
 
@@ -74,13 +78,13 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
         updateDistinctMoves(currentPly);
          if (currentPly > 0) {
-            visitedNodesCounter[currentPly - 1]++;
+             visitedNodesCounters[currentPly - 1]++;
         }
     }
 
 
     protected void updateDistinctMoves(int currentPly) {
-        Set<Move> currentMoveSet = distinctMoves[currentPly];
+        Set<Move> currentMoveSet = distinctMovesPerLevel[currentPly];
         for (Move move: game.getPossibleMoves()) {
             currentMoveSet.add(move);
         }

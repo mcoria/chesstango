@@ -39,7 +39,6 @@ public class SearchesTest {
         Game game = FENDecoder.loadGame("r4rk1/p1qbp1b1/2p3pp/2Pn1p2/1pQ5/5B2/PPP1NPPP/R1B2RK1 w - - 1 22");
 
         searchResult = moveFinder.search( game, 4);
-
     }
 
     @Test

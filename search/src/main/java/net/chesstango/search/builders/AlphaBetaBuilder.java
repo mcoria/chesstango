@@ -141,7 +141,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         List<SearchLifeCycle> filters = new ArrayList<>();
         filters.add(new SearchSetup());
-        filters.add(this.alphaBetaImp);
+        filters.add(alphaBetaImp);
         filters.add(quiescence);
         filters.add(moveSorter);
         filters.add(qMoveSorter);
