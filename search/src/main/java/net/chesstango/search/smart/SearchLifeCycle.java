@@ -26,7 +26,7 @@ public interface SearchLifeCycle {
      * Invoked multiple times per search session
      */
     void close(SearchMoveResult result);
-
+    void stopSearching();
 
     void reset();
 }

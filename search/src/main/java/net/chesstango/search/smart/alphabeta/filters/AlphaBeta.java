@@ -130,6 +130,7 @@ public class AlphaBeta implements AlphaBetaFilter {
         }
     }
 
+    @Override
     public void stopSearching() {
         this.keepProcessing = false;
     }

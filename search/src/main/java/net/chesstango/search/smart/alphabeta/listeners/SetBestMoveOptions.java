@@ -47,6 +47,11 @@ public class SetBestMoveOptions implements SearchLifeCycle {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

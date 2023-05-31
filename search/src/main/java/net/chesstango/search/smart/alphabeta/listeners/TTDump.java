@@ -56,6 +56,11 @@ public class TTDump implements SearchLifeCycle {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

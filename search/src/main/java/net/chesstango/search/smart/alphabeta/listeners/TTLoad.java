@@ -54,6 +54,11 @@ public class TTLoad implements SearchLifeCycle {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

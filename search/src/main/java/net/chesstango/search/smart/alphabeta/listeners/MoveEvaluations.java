@@ -50,6 +50,11 @@ public class MoveEvaluations implements SearchLifeCycle {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

@@ -39,6 +39,11 @@ public class QTranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
     }
 

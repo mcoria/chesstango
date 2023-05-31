@@ -44,6 +44,11 @@ public class QTranspositionMoveSorter implements MoveSorter {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

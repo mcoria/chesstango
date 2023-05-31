@@ -34,6 +34,7 @@ public class NoIterativeDeepening implements SearchMove {
 
     @Override
     public void reset() {
+        this.searchSmart.reset();
     }
 
 }

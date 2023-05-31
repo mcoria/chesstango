@@ -37,6 +37,11 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

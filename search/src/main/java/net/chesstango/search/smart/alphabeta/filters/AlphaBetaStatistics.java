@@ -47,6 +47,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

@@ -63,6 +63,11 @@ public class SearchSetup implements net.chesstango.search.smart.SearchLifeCycle 
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
     }
 }

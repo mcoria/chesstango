@@ -45,6 +45,11 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

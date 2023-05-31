@@ -127,6 +127,11 @@ public class DefaultMoveSorter implements SearchLifeCycle, MoveSorter {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

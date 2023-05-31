@@ -53,6 +53,11 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
     }
 
     @Override
+    public void stopSearching() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

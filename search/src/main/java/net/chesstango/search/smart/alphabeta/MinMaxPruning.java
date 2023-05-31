@@ -65,14 +65,7 @@ public class MinMaxPruning implements SearchSmart {
     @Override
     public void stopSearching() {
         synchronized (searchActions) {
-            searchActions.stream().forEach(filterActions -> {
-                if (filterActions instanceof AlphaBeta) {
-                    ((AlphaBeta) filterActions).stopSearching();
-                }
-                if (filterActions instanceof Quiescence) {
-                    ((Quiescence) filterActions).stopSearching();
-                }
-            });
+            searchActions.stream().forEach(SearchLifeCycle::stopSearching);
         }
     }
 
