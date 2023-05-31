@@ -7,16 +7,17 @@ import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
-import static net.chesstango.search.smart.SearchContext.EntryType;
-import static net.chesstango.search.smart.SearchContext.TableEntry;
+import static net.chesstango.search.smart.Transposition.Type;
+
+import net.chesstango.search.smart.Transposition;
 
 /**
  * @author Mauricio Coria
  */
 public class TranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, TableEntry> maxMap;
-    private Map<Long, TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
 
     private Game game;
     private int maxPly;
@@ -60,10 +61,10 @@ public class TranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getPositionHash();
             long bestMoveAndValue;
 
-            SearchContext.TableEntry entry = maxMap.get(hash);
+            Transposition entry = maxMap.get(hash);
 
             if (entry == null) {
-                entry = new TableEntry();
+                entry = new Transposition();
 
                 maxMap.put(hash, entry);
 
@@ -72,11 +73,11 @@ public class TranspositionTable implements AlphaBetaFilter {
                 if (entry.bestMoveAndValue != 0) {
                     if (searchDepth <= entry.searchDepth) {
                         // Es un valor exacto
-                        if (entry.type == EntryType.EXACT) {
+                        if (entry.type == Type.EXACT) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == EntryType.LOWER_BOUND && beta <= entry.value) {
+                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == EntryType.UPPER_BOUND && entry.value <= alpha) {
+                        } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
                             return entry.bestMoveAndValue;
                         }
                     }
@@ -101,10 +102,10 @@ public class TranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getPositionHash();
             long bestMoveAndValue;
 
-            SearchContext.TableEntry entry = minMap.get(hash);
+            Transposition entry = minMap.get(hash);
 
             if (entry == null) {
-                entry = new TableEntry();
+                entry = new Transposition();
 
                 minMap.put(hash, entry);
 
@@ -113,11 +114,11 @@ public class TranspositionTable implements AlphaBetaFilter {
                 if (entry.bestMoveAndValue != 0) {
                     if (searchDepth <= entry.searchDepth) {
                         // Es un valor exacto
-                        if (entry.type == EntryType.EXACT) {
+                        if (entry.type == Type.EXACT) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == EntryType.LOWER_BOUND && beta <= entry.value) {
+                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == EntryType.UPPER_BOUND && entry.value <= alpha) {
+                        } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
                             return entry.bestMoveAndValue;
                         }
                     }
@@ -138,15 +139,15 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateEntry(TableEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateEntry(Transposition entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
-        EntryType type;
+        Type type;
         if (beta <= value) {
-            type = EntryType.LOWER_BOUND;
+            type = Type.LOWER_BOUND;
         } else if (value <= alpha) {
-            type = EntryType.UPPER_BOUND;
+            type = Type.UPPER_BOUND;
         } else {
-            type = EntryType.EXACT;
+            type = Type.EXACT;
         }
 
         entry.searchDepth = searchDepth;

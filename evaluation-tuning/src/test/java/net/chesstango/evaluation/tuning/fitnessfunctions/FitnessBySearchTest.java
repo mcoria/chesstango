@@ -8,6 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.Transposition;
 import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FitnessBySearchTest {
     private static final int DEPTH = 1;
     private FitnessBySearch fitnessFn;
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
 
     private MoveEvaluations moveEvaluations;
 
@@ -249,8 +250,8 @@ public class FitnessBySearchTest {
         return searchResult.getMoveEvaluations();
     }
 
-    private SearchContext.TableEntry saveEntry(Game game, Move move, int value) {
-        SearchContext.TableEntry entry = new SearchContext.TableEntry();
+    private Transposition saveEntry(Game game, Move move, int value) {
+        Transposition entry = new Transposition();
 
         entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
         entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);

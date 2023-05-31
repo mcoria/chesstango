@@ -14,8 +14,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static net.chesstango.search.smart.SearchContext.EntryType;
-import static net.chesstango.search.smart.SearchContext.TableEntry;
+import static net.chesstango.search.smart.Transposition.Type;
+
+import net.chesstango.search.smart.Transposition;
 
 /**
  * @author Mauricio Coria
@@ -23,8 +24,8 @@ import static net.chesstango.search.smart.SearchContext.TableEntry;
 public class TTLoad implements SearchLifeCycle {
 
     private Game game;
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
 
     private boolean initialStateLoaded = false;
 
@@ -82,7 +83,7 @@ public class TTLoad implements SearchLifeCycle {
         executorService.shutdown();
     }
 
-    private void loadTable(String fileName, Map<Long, SearchContext.TableEntry> map) {
+    private void loadTable(String fileName, Map<Long, Transposition> map) {
         try {
             FileInputStream fis = new FileInputStream(fileName);
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -90,15 +91,15 @@ public class TTLoad implements SearchLifeCycle {
 
             while (dis.available() > 0) {
                 long key = dis.readLong();
-                SearchContext.TableEntry tableEntry = new TableEntry();
+                Transposition tableEntry = new Transposition();
                 tableEntry.searchDepth = dis.readInt();
                 tableEntry.bestMoveAndValue = dis.readLong();
                 tableEntry.value = dis.readInt();
-                tableEntry.type = EntryType.valueOf(dis.readByte());
+                tableEntry.type = Type.valueOf(dis.readByte());
 
                 tableEntry.qBestMoveAndValue = dis.readLong();
                 tableEntry.qValue = dis.readInt();
-                tableEntry.qType = EntryType.valueOf(dis.readByte());
+                tableEntry.qType = Type.valueOf(dis.readByte());
 
                 map.put(key, tableEntry);
             }

@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.Transposition;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,9 +23,9 @@ public class SearchSetup implements net.chesstango.search.smart.SearchLifeCycle 
 
     private Set<Move>[] distinctMovesPerLevel;
 
-    private Map<Long, SearchContext.TableEntry> maxMap;
+    private Map<Long, Transposition> maxMap;
 
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> minMap;
 
     @Override
     public void initSearch(Game game, int maxDepth) {

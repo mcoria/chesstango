@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.Transposition;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -15,15 +16,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static net.chesstango.search.smart.SearchContext.EntryType;
+import static net.chesstango.search.smart.Transposition.Type;
 
 /**
  * @author Mauricio Coria
  */
 public class TTDump implements SearchLifeCycle {
     private Game game;
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
 
     private boolean initialStateDumped = false;
 
@@ -83,7 +84,7 @@ public class TTDump implements SearchLifeCycle {
         executorService.shutdown();
     }
 
-    private void dumpTable(String fileName, Map<Long, SearchContext.TableEntry> map) {
+    private void dumpTable(String fileName, Map<Long, Transposition> map) {
         try {
             FileOutputStream fos = new FileOutputStream(fileName);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -91,19 +92,19 @@ public class TTDump implements SearchLifeCycle {
 
             int counter = 0;
 
-            Set<Map.Entry<Long, SearchContext.TableEntry>> entries = map.entrySet();
-            for (Map.Entry<Long, SearchContext.TableEntry> entry: entries) {
+            Set<Map.Entry<Long, Transposition>> entries = map.entrySet();
+            for (Map.Entry<Long, Transposition> entry: entries) {
                 dos.writeLong(entry.getKey());
 
-                SearchContext.TableEntry tableEntry = entry.getValue();
+                Transposition tableEntry = entry.getValue();
                 dos.writeInt(tableEntry.searchDepth);
                 dos.writeLong(tableEntry.bestMoveAndValue);
                 dos.writeInt(tableEntry.value);
-                dos.writeByte(EntryType.encode(tableEntry.type));
+                dos.writeByte(Type.encode(tableEntry.type));
 
                 dos.writeLong(tableEntry.qBestMoveAndValue);
                 dos.writeInt(tableEntry.qValue);
-                dos.writeByte(EntryType.encode(tableEntry.qType));
+                dos.writeByte(Type.encode(tableEntry.qType));
 
                 counter++;
             }

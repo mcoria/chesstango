@@ -2,7 +2,6 @@ package net.chesstango.search.smart;
 
 import net.chesstango.board.moves.Move;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,8 +14,8 @@ public class SearchContext {
     private int[] expectedNodesCounters;
     private int[] visitedNodesQuiescenceCounter;
     private Set<Move>[] distinctMovesPerLevel;
-    private Map<Long, TableEntry> maxMap;
-    private Map<Long, TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
@@ -42,11 +41,11 @@ public class SearchContext {
         return distinctMovesPerLevel;
     }
 
-    public Map<Long, TableEntry> getMaxMap() {
+    public Map<Long, Transposition> getMaxMap() {
         return maxMap;
     }
 
-    public Map<Long, TableEntry> getMinMap() {
+    public Map<Long, Transposition> getMinMap() {
         return minMap;
     }
 
@@ -66,59 +65,13 @@ public class SearchContext {
         this.distinctMovesPerLevel = distinctMovesPerLevel;
     }
 
-    public void setMaxMap(Map<Long, TableEntry> maxMap) {
+    public void setMaxMap(Map<Long, Transposition> maxMap) {
         this.maxMap = maxMap;
     }
 
-    public void setMinMap(Map<Long, TableEntry> minMap) {
+    public void setMinMap(Map<Long, Transposition> minMap) {
         this.minMap = minMap;
     }
 
-    public enum EntryType {
-        EXACT((byte) 0b00000001), LOWER_BOUND((byte) 0b00000010), UPPER_BOUND((byte) 0b00000011);
-        private final byte byteValue;
-
-        EntryType(byte byteValue) {
-            this.byteValue = byteValue;
-        }
-
-
-        public static EntryType valueOf(byte byteValue) {
-            for (EntryType type :
-                    EntryType.values()) {
-                if (type.byteValue == byteValue) {
-                    return type;
-                }
-            }
-            if (byteValue == 0) {
-                return null;
-            }
-            throw new RuntimeException("Unable to convert from byte to EntryType");
-        }
-
-        public static byte encode(EntryType entryType) {
-            if (entryType == null) {
-                return 0;
-            }
-            return entryType.byteValue;
-        }
-
-    }
-
-    ;
-
-    public static class TableEntry implements Serializable {
-        public int searchDepth;
-
-        public long bestMoveAndValue;
-
-        public int value;
-        public EntryType type;
-
-
-        public long qBestMoveAndValue;
-        public int qValue;
-        public EntryType qType;
-    }
 
 }

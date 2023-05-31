@@ -7,6 +7,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.Transposition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,8 @@ import java.util.OptionalInt;
  * @author Mauricio Coria
  */
 public class MoveEvaluations implements SearchLifeCycle {
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
     private Game game;
     private int maxPly;
 
@@ -69,7 +70,7 @@ public class MoveEvaluations implements SearchLifeCycle {
 
             long hash = game.getChessPosition().getPositionHash();
 
-            SearchContext.TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+            Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry != null && entry.searchDepth == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();

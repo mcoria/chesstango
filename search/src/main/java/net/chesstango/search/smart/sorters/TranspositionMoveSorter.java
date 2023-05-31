@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.Transposition;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,8 +19,8 @@ import java.util.Map;
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
 
     @Override
     public void initSearch(Game game, int maxDepth) {
@@ -56,7 +57,7 @@ public class TranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getPositionHash();
 
-        SearchContext.TableEntry entry;
+        Transposition entry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             entry = maxMap.get(hash);
         } else {

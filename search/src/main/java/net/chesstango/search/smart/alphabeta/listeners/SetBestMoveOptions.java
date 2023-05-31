@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.Transposition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetBestMoveOptions implements SearchLifeCycle {
-    private Map<Long, SearchContext.TableEntry> maxMap;
-    private Map<Long, SearchContext.TableEntry> minMap;
+    private Map<Long, Transposition> maxMap;
+    private Map<Long, Transposition> minMap;
     private Game game;
     private int maxPly;
 
@@ -65,7 +66,7 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
             long hash = game.getChessPosition().getPositionHash();
 
-            SearchContext.TableEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+            Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry != null && entry.searchDepth == maxPly - 1 && entry.value == bestMoveEvaluation) {
                 bestMoveOptions.add(move);
