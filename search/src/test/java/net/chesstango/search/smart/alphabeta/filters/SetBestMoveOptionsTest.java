@@ -57,9 +57,7 @@ public class SetBestMoveOptionsTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        minMaxPruning.initSearch(game, 2);
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game,2));
-        minMaxPruning.closeSearch(searchResult);
+        SearchMoveResult searchResult = minMaxPruning.search(game,2);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }
@@ -68,9 +66,7 @@ public class SetBestMoveOptionsTest {
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        minMaxPruning.initSearch(game, 3);
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 3));
-        minMaxPruning.closeSearch(searchResult);
+        SearchMoveResult searchResult = minMaxPruning.search(game, 3);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }

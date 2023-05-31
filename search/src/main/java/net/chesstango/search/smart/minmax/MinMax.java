@@ -29,6 +29,16 @@ public class MinMax implements SearchSmart {
     }
 
     @Override
+    public SearchMoveResult search(Game game, int maxDepth) {
+        initSearch(game, maxDepth);
+
+        SearchMoveResult searchResult = search(new SearchContext(game, maxDepth));
+
+        closeSearch(searchResult);
+        return searchResult;
+    }
+
+    @Override
     public SearchMoveResult search(SearchContext context) {
         final Game game = context.getGame();
         this.maxPly = context.getMaxPly();

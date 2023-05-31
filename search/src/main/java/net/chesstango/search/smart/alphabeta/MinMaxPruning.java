@@ -26,6 +26,16 @@ public class MinMaxPruning implements SearchSmart {
     private List<SearchLifeCycle> searchActions;
 
     @Override
+    public SearchMoveResult search(Game game, int maxDepth) {
+        initSearch(game, maxDepth);
+
+        SearchMoveResult searchResult = search(new SearchContext(game, maxDepth));
+
+        closeSearch(searchResult);
+        return searchResult;
+    }
+
+    @Override
     public SearchMoveResult search(SearchContext context) {
         final Game game = context.getGame();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();

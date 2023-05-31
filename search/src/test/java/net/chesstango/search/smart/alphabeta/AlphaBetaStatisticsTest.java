@@ -59,9 +59,7 @@ public class AlphaBetaStatisticsTest {
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        minMaxPruning.initSearch(game, 2);
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 2));
-        minMaxPruning.closeSearch(searchResult);
+        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
 
         Set<Move>[] distinctMoves = searchResult.getDistinctMovesPerLevel();
 
@@ -73,9 +71,7 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        minMaxPruning.initSearch(game, 2);
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 2));
-        minMaxPruning.closeSearch(searchResult);
+        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
@@ -87,9 +83,7 @@ public class AlphaBetaStatisticsTest {
     public void testExpectedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        minMaxPruning.initSearch(game, 2);
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 2));
-        minMaxPruning.closeSearch(searchResult);
+        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getExpectedNodesCounters();
 
@@ -102,7 +96,7 @@ public class AlphaBetaStatisticsTest {
     public void testEvaluationCollisions() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(new SearchContext(game, 2));
+        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }
