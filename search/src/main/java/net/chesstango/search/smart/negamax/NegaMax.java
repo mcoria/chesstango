@@ -28,16 +28,6 @@ public class NegaMax implements SearchSmart {
     }
 
     @Override
-    public SearchMoveResult search(Game game, int maxDepth) {
-        initSearch(game, maxDepth);
-
-        SearchMoveResult searchResult = search(new SearchContext(maxDepth));
-
-        closeSearch(searchResult);
-        return searchResult;
-    }
-
-    @Override
     public SearchMoveResult search(SearchContext context) {
         final List<Move> bestMoves = new ArrayList<Move>();
         final Color currentTurn = game.getChessPosition().getCurrentTurn();

@@ -6,7 +6,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
@@ -59,7 +59,7 @@ public class AlphaBetaStatisticsTest {
     public void testDistinctMoves() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
 
         Set<Move>[] distinctMoves = searchResult.getDistinctMovesPerLevel();
 
@@ -71,7 +71,7 @@ public class AlphaBetaStatisticsTest {
     public void testVisitedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
 
@@ -83,7 +83,7 @@ public class AlphaBetaStatisticsTest {
     public void testExpectedNodesCounters() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
 
         int[] visitedNodesCounters = searchResult.getExpectedNodesCounters();
 
@@ -96,7 +96,7 @@ public class AlphaBetaStatisticsTest {
     public void testEvaluationCollisions() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 2);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }

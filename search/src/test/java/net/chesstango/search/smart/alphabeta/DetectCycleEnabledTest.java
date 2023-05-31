@@ -7,6 +7,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
@@ -14,7 +15,6 @@ import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
 import net.chesstango.search.smart.alphabeta.filters.TranspositionTable;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -168,7 +168,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 17);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 17);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -216,7 +216,7 @@ public class DetectCycleEnabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 3);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());

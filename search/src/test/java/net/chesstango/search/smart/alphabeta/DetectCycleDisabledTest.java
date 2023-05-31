@@ -7,7 +7,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaStatistics;
 import net.chesstango.search.smart.alphabeta.filters.QuiescenceNull;
@@ -106,7 +106,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 23);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 23);
 
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
@@ -162,7 +162,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 16);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 16);
 
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
@@ -209,7 +209,7 @@ public class DetectCycleDisabledTest {
         });
 
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 3);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
@@ -242,7 +242,7 @@ public class DetectCycleDisabledTest {
             };
         });
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 4);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 4);
 
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());

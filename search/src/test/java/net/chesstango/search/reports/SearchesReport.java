@@ -1,7 +1,6 @@
 package net.chesstango.search.reports;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 

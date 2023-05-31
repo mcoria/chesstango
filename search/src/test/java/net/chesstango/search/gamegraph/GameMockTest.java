@@ -3,7 +3,7 @@ package net.chesstango.search.gamegraph;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.minmax.MinMax;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ public class GameMockTest {
 
         minMax.setGameEvaluator(evaluator);
 
-        SearchMoveResult searchResult = minMax.search(game, 4);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 4);
         Move bestMove = searchResult.getBestMove();
 
         assertNotNull(searchResult);

@@ -24,9 +24,6 @@ public interface SearchSmart {
     void reset();
 
 
-    SearchMoveResult search(Game game, int maxDepth);
-
-
     SearchMoveResult search(SearchContext context);
 
     void stopSearching();

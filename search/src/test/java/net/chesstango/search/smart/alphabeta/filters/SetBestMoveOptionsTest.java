@@ -5,7 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.MinMaxPruning;
 import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
@@ -57,7 +57,7 @@ public class SetBestMoveOptionsTest {
     public void testEvaluationCollisions01() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(game,2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game,2);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }
@@ -66,7 +66,7 @@ public class SetBestMoveOptionsTest {
     public void testEvaluationCollisions02() {
         Game game = FENDecoder.loadGame(FENDecoder.INITIAL_FEN);
 
-        SearchMoveResult searchResult = minMaxPruning.search(game, 3);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMaxPruning).search(game, 3);
 
         assertEquals(19, searchResult.getEvaluationCollisions());
     }

@@ -4,7 +4,6 @@ package net.chesstango.search.dummy;
 import net.chesstango.board.Game;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 
@@ -18,8 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Mauricio Coria
  */
 public class Dummy implements SearchMove {
-
-    private SearchListener searchListener;
 
     @Override
     public SearchMoveResult search(Game game, int depth) {

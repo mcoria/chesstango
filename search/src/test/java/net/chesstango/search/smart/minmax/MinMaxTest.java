@@ -6,15 +6,10 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
 import net.chesstango.search.gamegraph.GameMockLoader;
-import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.NoIterativeDeepening;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -39,7 +34,7 @@ public class MinMaxTest {
     public void whiteTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn1Ply.json");
 
-        SearchMoveResult searchResult = minMax.search(game, 1);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -55,7 +50,7 @@ public class MinMaxTest {
     public void blackTurn1Ply() {
         GameMock game = GameMockLoader.loadFromFile("BlackTurn1Ply.json");
 
-        SearchMoveResult searchResult = minMax.search(game,1);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game,1);
 
         Move bestMove = searchResult.getBestMove();
 
@@ -71,7 +66,7 @@ public class MinMaxTest {
     public void whiteTurn2Ply() {
         GameMock game = GameMockLoader.loadFromFile("WhiteTurn2Ply.json");
 
-        SearchMoveResult searchResult = minMax.search(game, 2);
+        SearchMoveResult searchResult = new NoIterativeDeepening(minMax).search(game, 2);
 
         Move bestMove = searchResult.getBestMove();
 
