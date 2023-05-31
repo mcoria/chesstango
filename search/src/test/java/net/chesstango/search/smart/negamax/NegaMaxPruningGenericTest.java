@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 /**
  * @author Mauricio Coria
  */
-public class Pruning01Test extends GenericTest {
+public class NegaMaxPruningGenericTest extends GenericTest {
 
     private SearchMove searchMove;
 
