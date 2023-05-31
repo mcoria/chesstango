@@ -2,13 +2,9 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
-import net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator;
 import net.chesstango.mbeans.Arena;
-import net.chesstango.search.builders.MinMaxBuilder;
-import net.chesstango.search.builders.MinMaxPruningBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.SearchesReport;

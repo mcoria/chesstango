@@ -10,7 +10,7 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class MinMaxPruningBuilder implements SearchBuilder {
+public class AlphaBetaBuilder implements SearchBuilder {
 
     private final AlphaBetaImp alphaBetaImp;
 
@@ -50,7 +50,7 @@ public class MinMaxPruningBuilder implements SearchBuilder {
     private boolean withStatics;
     private boolean withMoveEvaluation;
 
-    public MinMaxPruningBuilder() {
+    public AlphaBetaBuilder() {
         alphaBetaImp = new AlphaBetaImp();
 
         quiescence = new QuiescenceNull();
@@ -62,54 +62,54 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         qMoveSorter = new DefaultMoveSorter();
     }
 
-    public MinMaxPruningBuilder withIterativeDeepening() {
+    public AlphaBetaBuilder withIterativeDeepening() {
         this.withIterativeDeepening = true;
         return this;
     }
 
     @Override
-    public MinMaxPruningBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
+    public AlphaBetaBuilder withGameEvaluator(GameEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
         return this;
     }
 
-    public MinMaxPruningBuilder withQuiescence() {
+    public AlphaBetaBuilder withQuiescence() {
         quiescence = new Quiescence();
         return this;
     }
 
-    public MinMaxPruningBuilder withStatics() {
+    public AlphaBetaBuilder withStatics() {
         this.withStatics = true;
         return this;
     }
 
-    public MinMaxPruningBuilder withTranspositionTable() {
+    public AlphaBetaBuilder withTranspositionTable() {
         transpositionTable = new TranspositionTable();
         return this;
     }
 
-    public MinMaxPruningBuilder withQTranspositionTable() {
+    public AlphaBetaBuilder withQTranspositionTable() {
         qTranspositionTable = new QTranspositionTable();
         return this;
     }
 
-    public MinMaxPruningBuilder withTranspositionMoveSorter() {
+    public AlphaBetaBuilder withTranspositionMoveSorter() {
         moveSorter = new TranspositionMoveSorter();
         return this;
     }
 
-    public MinMaxPruningBuilder withQTranspositionMoveSorter() {
+    public AlphaBetaBuilder withQTranspositionMoveSorter() {
         qMoveSorter = new QTranspositionMoveSorter();
         return this;
     }
 
-    public MinMaxPruningBuilder withGameRevert() {
+    public AlphaBetaBuilder withStopProcessingCatch() {
         stopProcessingCatch = new StopProcessingCatch();
         return this;
     }
 
 
-    public MinMaxPruningBuilder withMoveEvaluation() {
+    public AlphaBetaBuilder withMoveEvaluation() {
         withMoveEvaluation = true;
         return this;
     }
@@ -228,9 +228,11 @@ public class MinMaxPruningBuilder implements SearchBuilder {
         }
 
         // ====================================================
-        if (transpositionTable != null && qTranspositionTable != null) {
-            if(withMoveEvaluation) {
-                filters.add(new MoveEvaluations());
+        if(withMoveEvaluation) {
+            if (transpositionTable == null) {
+                throw new RuntimeException("SetMoveEvaluations requires transpositionTable");
+            } else {
+                filters.add(new SetMoveEvaluations());
             }
         }
 

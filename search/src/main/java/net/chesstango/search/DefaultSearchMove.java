@@ -3,7 +3,7 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.DefaultGameEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.builders.MinMaxPruningBuilder;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 
 /**
  * @author Mauricio Coria
@@ -17,7 +17,7 @@ public class DefaultSearchMove implements SearchMove {
     }
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {
-        this.imp = new MinMaxPruningBuilder()
+        this.imp = new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
 
                 .withQuiescence()
@@ -28,7 +28,7 @@ public class DefaultSearchMove implements SearchMove {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                .withGameRevert()
+                .withStopProcessingCatch()
 
                 .withIterativeDeepening()
 

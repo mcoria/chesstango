@@ -9,7 +9,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.Transposition;
-import net.chesstango.search.smart.alphabeta.listeners.MoveEvaluations;
+import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,13 +27,12 @@ public class FitnessBySearchTest {
     private FitnessBySearch fitnessFn;
     private Map<Long, Transposition> maxMap;
     private Map<Long, Transposition> minMap;
-
-    private MoveEvaluations moveEvaluations;
+    private SetMoveEvaluations setMoveEvaluations;
 
     @BeforeEach
     public void setup() {
         fitnessFn = new FitnessBySearch(null);
-        moveEvaluations = new MoveEvaluations();
+        setMoveEvaluations = new SetMoveEvaluations();
         maxMap = new HashMap<>();
         minMap = new HashMap<>();
     }
@@ -242,11 +241,11 @@ public class FitnessBySearchTest {
         SearchContext searchContext = new SearchContext(DEPTH);
         searchContext.setMaxMap(maxMap);
         searchContext.setMinMap(minMap);
-        moveEvaluations.initSearch(game, DEPTH);
-        moveEvaluations.init(searchContext);
+        setMoveEvaluations.initSearch(game, DEPTH);
+        setMoveEvaluations.init(searchContext);
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
-        moveEvaluations.close(searchResult);
-        moveEvaluations.closeSearch(searchResult);
+        setMoveEvaluations.close(searchResult);
+        setMoveEvaluations.closeSearch(searchResult);
         return searchResult.getMoveEvaluations();
     }
 

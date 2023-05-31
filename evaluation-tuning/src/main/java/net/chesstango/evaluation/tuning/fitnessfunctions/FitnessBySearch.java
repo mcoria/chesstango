@@ -11,6 +11,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 
 import java.util.*;
 import java.util.function.Function;
@@ -60,7 +61,23 @@ public class FitnessBySearch implements FitnessFunction {
     }
 
     protected long run(EDPReader.EDPEntry edpEntry, GameEvaluator gameEvaluator) {
-        SearchMove moveFinder = new DefaultSearchMove(gameEvaluator);
+        SearchMove moveFinder = new AlphaBetaBuilder()
+                .withGameEvaluator(gameEvaluator)
+
+                .withQuiescence()
+
+                .withTranspositionTable()
+                .withQTranspositionTable()
+
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
+
+                .withStatics()
+
+                .withMoveEvaluation()
+
+                .build();
+
 
         Game game = FENDecoder.loadGame(edpEntry.fen);
 

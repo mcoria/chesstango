@@ -6,7 +6,7 @@ import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.builders.MinMaxPruningBuilder;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
 public class AlphaBetaStopTest {
     @Test
     public void testStop() throws InterruptedException {
-        SearchMove search = new MinMaxPruningBuilder()
+        SearchMove search = new AlphaBetaBuilder()
                 .withGameEvaluator(new GameEvaluatorByMaterial())
                 .withStatics()
                 .withTranspositionTable()
@@ -33,7 +33,7 @@ public class AlphaBetaStopTest {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                .withGameRevert()
+                .withStopProcessingCatch()
 
                 .build();
 

@@ -19,7 +19,7 @@ import java.util.OptionalInt;
  *
  * @author Mauricio Coria
  */
-public class MoveEvaluations implements SearchLifeCycle {
+public class SetMoveEvaluations implements SearchLifeCycle {
     private Map<Long, Transposition> maxMap;
     private Map<Long, Transposition> minMap;
     private Game game;
