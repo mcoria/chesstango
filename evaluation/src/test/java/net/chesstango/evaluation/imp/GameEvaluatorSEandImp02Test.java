@@ -215,17 +215,21 @@ public class GameEvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
     }
 
     @Test
-    @Disabled
     public void testEvaluateByPosition() {
         Game game = FENDecoder.loadGame("r3kb1r/1p3ppp/p7/P1pp2n1/3n1R2/6q1/1PPPB1b1/RNBQ2K1 b kq - 1 21");
-        assertEquals(1 * (5 + 10 + 10 - 20)  //White
-                + (-1) * (5 + 10 + 0 + 20 + 10 + 10 + 5), evaluator.evaluateByPosition(game));
+        assertEquals(-90, evaluator.evaluateByPosition(game));
+
+        Game gameMirror = game.mirror();
+        assertEquals(90, evaluator.evaluateByPosition(gameMirror));
     }
 
     @Test
     public void testEvaluateSymmetric01() {
         Game game = FENDecoder.loadGame("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
         assertEquals(0, evaluator.evaluate(game));
+
+        Game gameMirror = game.mirror();
+        assertEquals(0, evaluator.evaluateByPosition(gameMirror));
     }
 
 

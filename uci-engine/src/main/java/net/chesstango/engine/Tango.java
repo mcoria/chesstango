@@ -1,19 +1,16 @@
 package net.chesstango.engine;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchInfo;
+import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.SearchListener;
 import net.chesstango.search.manager.SearchManager;
-import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.service.ServiceElement;
 import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -46,8 +43,8 @@ public class Tango implements ServiceElement, SearchListener {
     public void setPosition(String fen, List<String> moves) {
         if (currentSession == null ||
                 currentSession != null &&
-                currentSession.getGame() != null &&
-                !Objects.equals(fen, currentSession.getInitialFen())) {
+                        currentSession.getGame() != null &&
+                        !Objects.equals(fen, currentSession.getInitialFen())) {
             newGame();
         }
         currentSession.setPosition(fen, moves);
