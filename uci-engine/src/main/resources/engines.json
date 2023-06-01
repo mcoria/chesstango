@@ -24,5 +24,10 @@
     "name": "MinimalChess",
     "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MinimalChess.0.5.Windows\\MinimalChess 0.5 Windows",
     "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MinimalChess.0.5.Windows\\MinimalChess 0.5 Windows\\MinimalChessEngine.exe"
+  },
+  {
+    "name": "MadChess",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MadChess-3-1\\MadChess\\x64\\",
+    "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MadChess-3-1\\MadChess\\x64\\MadChess.Engine.exe"
   }
 ]
