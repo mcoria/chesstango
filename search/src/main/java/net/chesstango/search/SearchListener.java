@@ -10,7 +10,7 @@ import java.util.List;
 public interface SearchListener {
     void searchStarted();
 
-    void searchInfo(int depth, int selDepth, List<Move> pv);
+    void searchInfo(SearchInfo info);
 
     void searchStopped();
 

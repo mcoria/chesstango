@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class IterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
-    private SearchStatusListener searchStatusListener;
+    private Consumer<SearchInfo> searchStatusListener;
 
     private volatile boolean keepProcessing;
 
@@ -44,7 +46,8 @@ public class IterativeDeepening implements SearchMove {
                 bestMovesByDepth.add(searchResult);
 
                 if (searchStatusListener != null) {
-                    searchStatusListener.info(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
+                    SearchInfo searchInfo = new SearchInfo(currentSearchDepth, currentSearchDepth, searchResult.getPrincipalVariation());
+                    searchStatusListener.accept(searchInfo);
                 }
 
                 if (GameEvaluator.WHITE_WON == searchResult.getEvaluation() || GameEvaluator.BLACK_WON == searchResult.getEvaluation()) {
@@ -81,7 +84,7 @@ public class IterativeDeepening implements SearchMove {
         this.searchSmart.reset();
     }
 
-    public void setSearchStatusListener(SearchStatusListener searchStatusListener) {
+    public void setSearchStatusListener(Consumer<SearchInfo> searchStatusListener) {
         this.searchStatusListener = searchStatusListener;
     }
 

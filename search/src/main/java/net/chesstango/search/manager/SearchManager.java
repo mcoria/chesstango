@@ -5,12 +5,12 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.*;
 import net.chesstango.search.smart.IterativeDeepening;
-import net.chesstango.search.smart.SearchStatusListener;
 
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -18,14 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class SearchManager {
     private ScheduledExecutorService executorService;
     private final SearchMove searchMove;
-    private final SearchListener listenerClient;
-
-    private final SearchStatusListener searchStatusListener = new SearchStatusListener() {
-        @Override
-        public void info(int depth, int selDepth, List<Move> pv) {
-            listenerClient.searchInfo(depth, selDepth, pv);
-        }
-    };
+	private final SearchListener listenerClient;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
         this.searchMove = searchMove;
@@ -36,7 +29,7 @@ public class SearchManager {
             SearchMove searchImp = searchMoveDefault.getImplementation();
 
             if (searchImp instanceof IterativeDeepening) {
-                ((IterativeDeepening) searchImp).setSearchStatusListener(searchStatusListener);
+                ((IterativeDeepening) searchImp).setSearchStatusListener(listenerClient::searchInfo);
             }
         }
     }

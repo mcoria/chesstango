@@ -1,6 +1,7 @@
 package net.chesstango.uci.engine;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
@@ -61,15 +62,15 @@ class Searching implements UCIEngine, SearchListener {
     }
 
     @Override
-    public void searchInfo(int depth, int selDepth, List<Move> pv) {
+    public void searchInfo(SearchInfo info) {
         StringBuilder sb = new StringBuilder();
-        for (Move move : pv) {
+        for (Move move : info.pv()) {
             sb.append(String.format("%s ", UCIEncoder.encode(move)));
         }
 
-        String info = String.format("depth %d seldepth %d pv %s", depth, selDepth, sb);
+        String infoStr = String.format("depth %d seldepth %d pv %s", info.depth(), info.selDepth(), sb);
 
-        engineTango.reply(new RspInfo(info));
+        engineTango.reply(new RspInfo(infoStr));
     }
 
     @Override

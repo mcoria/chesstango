@@ -1,6 +1,7 @@
 package net.chesstango.engine;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.SearchListener;
@@ -79,15 +80,17 @@ public class Tango implements ServiceElement, SearchListener {
 
     @Override
     public void searchStarted() {
+        listenerClient.searchStarted();
     }
 
     @Override
-    public void searchInfo(int depth, int selDepth, List<Move> pv) {
-        listenerClient.searchInfo(depth, selDepth, pv);
+    public void searchInfo(SearchInfo info) {
+        listenerClient.searchInfo(info);
     }
 
     @Override
     public void searchStopped() {
+        listenerClient.searchStopped();
     }
 
     @Override
