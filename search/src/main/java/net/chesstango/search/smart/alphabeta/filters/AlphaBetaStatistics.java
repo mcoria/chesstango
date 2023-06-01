@@ -30,6 +30,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
 
     @Override
     public void closeSearch(SearchMoveResult result) {
+        if (result != null) {
+            result.setVisitedNodesCounters(visitedNodesCounters);
+            result.setExpectedNodesCounters(expectedNodesCounters);
+            result.setDistinctMovesPerLevel(distinctMovesPerLevel);
+        }
         this.game = null;
         this.visitedNodesCounters = null;
         this.expectedNodesCounters = null;
@@ -42,7 +47,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
 
     @Override
     public void close(SearchMoveResult result) {
-        if(result!=null) {
+        if (result != null) {
             result.setVisitedNodesCounters(visitedNodesCounters);
             result.setExpectedNodesCounters(expectedNodesCounters);
             result.setDistinctMovesPerLevel(distinctMovesPerLevel);
@@ -77,15 +82,15 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     protected void updateCounters(final int currentPly) {
         expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
         updateDistinctMoves(currentPly);
-         if (currentPly > 0) {
-             visitedNodesCounters[currentPly - 1]++;
+        if (currentPly > 0) {
+            visitedNodesCounters[currentPly - 1]++;
         }
     }
 
 
     protected void updateDistinctMoves(int currentPly) {
         Set<Move> currentMoveSet = distinctMovesPerLevel[currentPly];
-        for (Move move: game.getPossibleMoves()) {
+        for (Move move : game.getPossibleMoves()) {
             currentMoveSet.add(move);
         }
     }

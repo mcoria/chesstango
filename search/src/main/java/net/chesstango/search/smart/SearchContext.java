@@ -10,7 +10,6 @@ import java.util.Set;
  */
 public class SearchContext {
     private final int maxPly;
-    private int[] visitedNodesQuiescenceCounter;
     private Map<Long, Transposition> maxMap;
     private Map<Long, Transposition> minMap;
 
@@ -22,20 +21,12 @@ public class SearchContext {
         return maxPly;
     }
 
-    public int[] getVisitedNodesQuiescenceCounter() {
-        return visitedNodesQuiescenceCounter;
-    }
-
     public Map<Long, Transposition> getMaxMap() {
         return maxMap;
     }
 
     public Map<Long, Transposition> getMinMap() {
         return minMap;
-    }
-
-    public void setVisitedNodesQuiescenceCounter(int[] visitedNodesQuiescenceCounter) {
-        this.visitedNodesQuiescenceCounter = visitedNodesQuiescenceCounter;
     }
 
     public void setMaxMap(Map<Long, Transposition> maxMap) {

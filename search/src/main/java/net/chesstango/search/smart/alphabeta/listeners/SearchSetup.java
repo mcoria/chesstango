@@ -13,7 +13,6 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SearchSetup implements SearchLifeCycle {
-    private int[] visitedNodesQuiescenceCounter;
 
     private Map<Long, Transposition> maxMap;
 
@@ -21,21 +20,18 @@ public class SearchSetup implements SearchLifeCycle {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
-        this.visitedNodesQuiescenceCounter = new int[30];
         this.maxMap = new HashMap<>();
         this.minMap = new HashMap<>();
     }
 
     @Override
     public void closeSearch(SearchMoveResult result) {
-        this.visitedNodesQuiescenceCounter = null;
         this.maxMap = null;
         this.minMap = null;
     }
 
     @Override
     public void init(SearchContext context) {
-        context.setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter);
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
     }

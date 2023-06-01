@@ -14,22 +14,25 @@ public class QuiescenceStatics implements AlphaBetaFilter {
 
     @Override
     public void initSearch(Game game, int maxDepth) {
+        this.visitedNodesQuiescenceCounter = new int[30];
     }
 
     @Override
     public void closeSearch(SearchMoveResult result) {
-
+        if (result != null) {
+            result.setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter);
+        }
+        this.visitedNodesQuiescenceCounter = null;
     }
 
     @Override
     public void init(SearchContext context) {
-		this.maxPly = context.getMaxPly();
-        this.visitedNodesQuiescenceCounter = context.getVisitedNodesQuiescenceCounter();
+        this.maxPly = context.getMaxPly();
     }
 
     @Override
     public void close(SearchMoveResult result) {
-        if(result!=null) {
+        if (result != null) {
             result.setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter);
         }
     }
