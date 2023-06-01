@@ -21,7 +21,7 @@ public class SearchSetup implements SearchLifeCycle {
     private boolean reuseTranspositionTable;
 
     @Override
-    public void initSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game, int maxDepth) {
         if(!reuseTranspositionTable) {
             this.maxMap = new HashMap<>();
             this.minMap = new HashMap<>();
@@ -29,7 +29,7 @@ public class SearchSetup implements SearchLifeCycle {
     }
 
     @Override
-    public void closeSearch(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
         if(!reuseTranspositionTable) {
             this.maxMap = null;
             this.minMap = null;

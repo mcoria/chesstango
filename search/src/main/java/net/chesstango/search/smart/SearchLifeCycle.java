@@ -7,26 +7,34 @@ import net.chesstango.search.SearchMoveResult;
  * @author Mauricio Coria
  */
 public interface SearchLifeCycle {
-    /**
-     * Invoked once per search session before searching
-     */
-    void initSearch(Game game, int maxDepth);
 
     /**
-     * Invoked once per search session after searching is done
+     * Invoked once before searching
      */
-    void closeSearch(SearchMoveResult result);
+    void beforeSearch(Game game, int maxDepth);
 
     /**
-     * Invoked multiple times per search session
+     * Invoked once after searching is done
+     */
+    void afterSearch(SearchMoveResult result);
+
+    /**
+     * Invoked multiple times per search depth.
+     * If Iterating Deeping is disabled then once,
+     * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
      */
     void init(SearchContext context);
 
     /**
-     * Invoked multiple times per search session
+     * Invoked multiple times per search depth.
+     * If Iterating Deeping is disabled then once,
+     * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
      */
     void close(SearchMoveResult result);
+
+
     void stopSearching();
+
 
     void reset();
 }

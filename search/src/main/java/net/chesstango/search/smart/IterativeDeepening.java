@@ -32,7 +32,7 @@ public class IterativeDeepening implements SearchMove {
         this.keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
-        searchSmart.initSearch(game, depth);
+        searchSmart.beforeSearch(game, depth);
 
         try {
             for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
@@ -62,7 +62,7 @@ public class IterativeDeepening implements SearchMove {
 
             spe.setSearchMoveResult(bestMove);
 
-            searchSmart.closeSearch(bestMove);
+            searchSmart.afterSearch(bestMove);
 
             throw spe;
 

@@ -114,13 +114,13 @@ public class AlphaBetaTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        alphaBeta.initSearch(game, depth);
+        alphaBeta.beforeSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = alphaBeta.search(context);
 
-        alphaBeta.closeSearch(result);
+        alphaBeta.afterSearch(result);
 
         return result;
     }

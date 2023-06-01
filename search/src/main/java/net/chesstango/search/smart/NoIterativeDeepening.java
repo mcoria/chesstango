@@ -16,13 +16,13 @@ public class NoIterativeDeepening implements SearchMove {
 
     @Override
     public SearchMoveResult search(Game game, int depth) {
-        searchSmart.initSearch(game, depth);
+        searchSmart.beforeSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = searchSmart.search(context);
 
-        searchSmart.closeSearch(result);
+        searchSmart.afterSearch(result);
 
         return result;
     }

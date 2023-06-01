@@ -24,12 +24,12 @@ public class QTranspositionMoveSorter implements MoveSorter {
     private Map<Long, Transposition> minMap;
 
     @Override
-    public void initSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
     }
 
     @Override
-    public void closeSearch(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
 
     }
 

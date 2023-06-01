@@ -9,14 +9,14 @@ import net.chesstango.search.SearchMoveResult;
 public interface SearchSmart {
 
     /**
-     * Invoked once per search session before searching
+     * Invoked once before searching
      */
-    void initSearch(Game game, int maxDepth);
+    void beforeSearch(Game game, int maxDepth);
 
     /**
-     * Invoked once per search session after searching is done
+     * Invoked once after searching is done
      */
-    void closeSearch(SearchMoveResult result);
+    void afterSearch(SearchMoveResult result);
 
     /**
      * Reset internal buffers

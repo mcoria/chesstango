@@ -30,12 +30,12 @@ public class TTLoad implements SearchLifeCycle {
     private boolean initialStateLoaded = false;
 
     @Override
-    public void initSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
     }
 
     @Override
-    public void closeSearch(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
 
     }
 

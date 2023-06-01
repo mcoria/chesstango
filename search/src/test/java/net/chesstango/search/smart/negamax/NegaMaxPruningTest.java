@@ -2,7 +2,6 @@ package net.chesstango.search.smart.negamax;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.gamegraph.GameMock;
 import net.chesstango.search.gamegraph.GameMockEvaluator;
@@ -104,13 +103,13 @@ public class NegaMaxPruningTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        negaMaxPruning.initSearch(game, depth);
+        negaMaxPruning.beforeSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = negaMaxPruning.search(context);
 
-        negaMaxPruning.closeSearch(result);
+        negaMaxPruning.afterSearch(result);
 
         return result;
     }

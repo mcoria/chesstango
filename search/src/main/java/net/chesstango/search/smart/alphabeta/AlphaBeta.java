@@ -76,17 +76,17 @@ public class AlphaBeta implements SearchSmart {
     }
 
     @Override
-    public void initSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
         synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.initSearch(game, maxDepth));
+            searchActions.stream().forEach(filter -> filter.beforeSearch(game, maxDepth));
         }
     }
 
     @Override
-    public void closeSearch(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
         synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.closeSearch(result));
+            searchActions.stream().forEach(filter -> filter.afterSearch(result));
         }
     }
 

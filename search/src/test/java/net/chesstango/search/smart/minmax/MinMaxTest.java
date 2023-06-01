@@ -94,13 +94,13 @@ public class MinMaxTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        minMax.initSearch(game, depth);
+        minMax.beforeSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = minMax.search(context);
 
-        minMax.closeSearch(result);
+        minMax.afterSearch(result);
 
         return result;
     }

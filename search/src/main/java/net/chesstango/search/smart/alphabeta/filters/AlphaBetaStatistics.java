@@ -20,7 +20,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private Game game;
 
     @Override
-    public void initSearch(Game game, int maxDepth) {
+    public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
         this.visitedNodesCounters = new int[30];
         this.expectedNodesCounters = new int[30];
@@ -29,7 +29,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     @Override
-    public void closeSearch(SearchMoveResult result) {
+    public void afterSearch(SearchMoveResult result) {
         if (result != null) {
             result.setVisitedNodesCounters(visitedNodesCounters);
             result.setExpectedNodesCounters(expectedNodesCounters);

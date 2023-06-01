@@ -94,13 +94,13 @@ public class NegaMaxTest {
     }
 
     private SearchMoveResult search(GameMock game, int depth) {
-        negaMax.initSearch(game, depth);
+        negaMax.beforeSearch(game, depth);
 
         SearchContext context = new SearchContext(depth);
 
         SearchMoveResult result = negaMax.search(context);
 
-        negaMax.closeSearch(result);
+        negaMax.afterSearch(result);
 
         return result;
     }

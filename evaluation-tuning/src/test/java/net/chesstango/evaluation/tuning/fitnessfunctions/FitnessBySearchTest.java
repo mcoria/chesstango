@@ -241,11 +241,11 @@ public class FitnessBySearchTest {
         SearchContext searchContext = new SearchContext(DEPTH);
         searchContext.setMaxMap(maxMap);
         searchContext.setMinMap(minMap);
-        setMoveEvaluations.initSearch(game, DEPTH);
+        setMoveEvaluations.beforeSearch(game, DEPTH);
         setMoveEvaluations.init(searchContext);
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
         setMoveEvaluations.close(searchResult);
-        setMoveEvaluations.closeSearch(searchResult);
+        setMoveEvaluations.afterSearch(searchResult);
         return searchResult.getMoveEvaluations();
     }
 
