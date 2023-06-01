@@ -24,6 +24,7 @@ public class DefaultSearchMove implements SearchMove {
 
                 .withTranspositionTable()
                 .withQTranspositionTable()
+                .withTranspositionTableReuse()
 
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()

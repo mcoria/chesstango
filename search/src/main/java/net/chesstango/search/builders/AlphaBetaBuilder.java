@@ -10,8 +10,8 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
+import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -49,6 +49,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withIterativeDeepening;
     private boolean withStatics;
     private boolean withMoveEvaluation;
+
+    private boolean withTranspositionTableReuse;
 
     public AlphaBetaBuilder() {
         alphaBetaImp = new AlphaBetaImp();
@@ -114,6 +116,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public AlphaBetaBuilder withTranspositionTableReuse() {
+        withTranspositionTableReuse = true;
+        return this;
+    }
+
 
     /**
      * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> AlphaBeta
@@ -132,6 +139,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
+        SearchSetup searchSetup = new SearchSetup();
 
         if (withStatics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
@@ -140,7 +148,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
-        filters.add(new SearchSetup());
+
+        filters.add(searchSetup);
         filters.add(alphaBetaImp);
         filters.add(quiescence);
         filters.add(moveSorter);
@@ -204,6 +213,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
             transpositionTable.setNext(this.alphaBetaImp);
             if (head == null) {
                 head = transpositionTable;
+            }
+
+            if(withTranspositionTableReuse){
+                searchSetup.setReuseTranspositionTable(true);
             }
         }
 
