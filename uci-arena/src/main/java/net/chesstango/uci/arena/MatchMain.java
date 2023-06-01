@@ -3,12 +3,11 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.SearchesReport;
+import net.chesstango.uci.arena.reports.ControllersSearchesReport;
 import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.gui.EngineController;
@@ -95,7 +94,7 @@ public class MatchMain implements MatchListener {
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
 
-        new SearchesReport()
+        new ControllersSearchesReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 .withPrincipalVariation()

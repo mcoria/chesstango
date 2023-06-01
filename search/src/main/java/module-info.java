@@ -18,4 +18,5 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.filters.once;
     exports net.chesstango.search.manager;
     exports net.chesstango.search.smart.alphabeta.listeners;
+    exports net.chesstango.search.reports;
 }
