@@ -5,6 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
 import net.chesstango.mbeans.Arena;
+import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
 import net.chesstango.uci.arena.reports.SearchesReport;
@@ -25,7 +26,7 @@ import java.util.List;
 public class MatchMain implements MatchListener {
 
     private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(5);
-    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(500);
+    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(10000);
 
     private static final boolean MATCH_DEBUG = false;
 
@@ -39,8 +40,23 @@ public class MatchMain implements MatchListener {
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
-                .createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class);
-                //.createTangoControllerWithDefaultEvaluator(MinMaxPruningBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder.withStatics() )
+                //.createTangoControllerWithDefaultSearch(GameEvaluatorSEandImp02.class)
+                .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
+                        .withQuiescence()
+
+                        .withTranspositionTable()
+                        .withQTranspositionTable()
+                        .withTranspositionTableReuse()
+
+                        .withTranspositionMoveSorter()
+                        .withQTranspositionMoveSorter()
+
+                        .withStopProcessingCatch()
+
+                        .withIterativeDeepening()
+
+                        .withStatics()
+                );
                 //.overrideEngineName("MinMaxPruning");
 
 
@@ -50,9 +66,8 @@ public class MatchMain implements MatchListener {
                 .createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class);
                // .createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
                 //.overrideEngineName("MinMax");
+        */
 
-
-*/
         EngineController engineController2 = EngineControllerFactory
                                             .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
                                             //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
@@ -62,6 +77,7 @@ public class MatchMain implements MatchListener {
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
+
 
 
         new SummaryReport()

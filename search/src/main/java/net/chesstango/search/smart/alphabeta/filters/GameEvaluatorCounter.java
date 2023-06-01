@@ -25,11 +25,6 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
         return imp.evaluate(game);
     }
 
-
-    public long getCounter() {
-        return counter;
-    }
-
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         counter = 0;
@@ -55,12 +50,10 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
     public void reset() {
-
     }
 
 }

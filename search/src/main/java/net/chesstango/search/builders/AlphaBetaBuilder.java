@@ -49,7 +49,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withIterativeDeepening;
     private boolean withStatics;
     private boolean withMoveEvaluation;
-
     private boolean withTranspositionTableReuse;
 
     public AlphaBetaBuilder() {

@@ -53,13 +53,11 @@ public class SearchSetup implements SearchLifeCycle {
 
     @Override
     public void reset() {
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
     }
 
     public void setReuseTranspositionTable(boolean reuseTranspositionTable) {
-        if(reuseTranspositionTable){
-            this.maxMap = new HashMap<>();
-            this.minMap = new HashMap<>();
-        }
         this.reuseTranspositionTable = reuseTranspositionTable;
     }
 }
