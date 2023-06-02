@@ -32,7 +32,7 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        if(result!=null) {
+        if (result != null) {
             result.setEvaluatedGamesCounter(counter);
         }
     }
@@ -43,7 +43,7 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void close(SearchMoveResult result) {
-        if(result!=null) {
+        if (result != null) {
             result.setEvaluatedGamesCounter(counter);
         }
     }
