@@ -14,7 +14,7 @@ import static net.chesstango.search.reports.SearchesReport.ReportModel;
  *
  * @author Mauricio Coria
  */
-public class ControllersSearchesReport {
+public class SearchesPerGameReport {
 
     private SearchesReport searchesReport = new SearchesReport();
 
@@ -32,17 +32,17 @@ public class ControllersSearchesReport {
     }
 
 
-    public ControllersSearchesReport withCutoffStatics() {
+    public SearchesPerGameReport withCutoffStatics() {
         searchesReport.withCutoffStatics();
         return this;
     }
 
-    public ControllersSearchesReport withNodesVisitedStatics() {
+    public SearchesPerGameReport withNodesVisitedStatics() {
         searchesReport.withNodesVisitedStatics();
         return this;
     }
 
-    public ControllersSearchesReport withPrincipalVariation() {
+    public SearchesPerGameReport withPrincipalVariation() {
         searchesReport.withPrincipalVariation();
         return this;
     }

@@ -7,7 +7,7 @@ import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.ControllersSearchesReport;
+import net.chesstango.uci.arena.reports.SearchesPerGameReport;
 import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.gui.EngineController;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
 
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(5);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
     //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(10000);
 
     private static final boolean MATCH_DEBUG = false;
@@ -45,27 +45,38 @@ public class MatchMain implements MatchListener {
 
                         .withTranspositionTable()
                         .withQTranspositionTable()
-                        .withTranspositionTableReuse()
+                        //.withTranspositionTableReuse()
 
                         .withTranspositionMoveSorter()
                         .withQTranspositionMoveSorter()
 
-                        .withStopProcessingCatch()
+                        //.withStopProcessingCatch()
 
                         .withIterativeDeepening()
 
                         .withStatics()
                 );
-                //.overrideEngineName("MinMaxPruning");
+        //.overrideEngineName("AB Full");
 
 
 
         /*
         EngineController engineController2 = EngineControllerFactory
-                .createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class);
-               // .createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
-                //.overrideEngineName("MinMax");
+                //.createTangoControllerWithDefaultSearch(GameEvaluatorSimplifiedEvaluator.class);
+                //.createTangoControllerWithDefaultEvaluator(MinMaxBuilder.class, null )
+                .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
+                        .withQuiescence()
+                        //.withTranspositionTable()
+                        //.withQTranspositionTable()
+                        //.withTranspositionTableReuse()
+                        //.withTranspositionMoveSorter()
+                        //.withQTranspositionMoveSorter()
+                        //.withStopProcessingCatch()
+                        //.withIterativeDeepening()
+                        .withStatics()
+                ).overrideEngineName("AB without TT" );
         */
+
 
         EngineController engineController2 = EngineControllerFactory
                                             .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
@@ -94,7 +105,7 @@ public class MatchMain implements MatchListener {
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
 
-        new ControllersSearchesReport()
+        new SearchesPerGameReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 .withPrincipalVariation()
@@ -128,7 +139,7 @@ public class MatchMain implements MatchListener {
 
         Match match = new Match(engineController1, engineController2, CMD_GO)
                             .setDebugEnabled(MATCH_DEBUG)
-                            .switchChairs(false)
+                            .switchChairs(true)
                             .setMatchListener(matchBroadcaster);
 
         startEngines();

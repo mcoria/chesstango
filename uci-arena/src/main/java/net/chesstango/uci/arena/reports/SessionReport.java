@@ -118,6 +118,7 @@ public class SessionReport {
 
     private void print(List<ReportRowModel> reportRows) {
         AtomicInteger maxLevelVisited = new AtomicInteger();
+
         for (ReportRowModel reportRowModel : reportRows) {
             if (maxLevelVisited.get() < reportRowModel.maxLevelVisited) {
                 maxLevelVisited.set(reportRowModel.maxLevelVisited);
