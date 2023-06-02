@@ -56,6 +56,13 @@ public class SearchesReport {
         searchMoveResults.forEach(searchMoveResult -> {
             ReportRowMoveDetail reportModelDetail = new ReportRowMoveDetail();
 
+            Move bestMove = searchMoveResult.getBestMove();
+            reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
+
+            reportModelDetail.points = searchMoveResult.getEvaluation();
+            reportModelDetail.evaluatedGamesCounter = searchMoveResult.getEvaluatedGamesCounter();
+            reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
+
             reportModelDetail.expectedRNodesCounters = searchMoveResult.getExpectedNodesCounters();
             reportModelDetail.visitedRNodesCounters = searchMoveResult.getVisitedNodesCounters();
             reportModelDetail.visitedQNodesCounters = searchMoveResult.getVisitedNodesQuiescenceCounter();
@@ -74,14 +81,6 @@ public class SearchesReport {
                 reportModel.visitedRNodesCounters[i] += reportModelDetail.visitedRNodesCounters[i];
                 reportModel.visitedQNodesCounter[i] += reportModelDetail.visitedQNodesCounters == null ? 0 : reportModelDetail.visitedQNodesCounters[i];
             }
-
-
-            Move bestMove = searchMoveResult.getBestMove();
-            reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
-
-            reportModelDetail.points = searchMoveResult.getEvaluation();
-            reportModelDetail.evaluatedGamesCounter = searchMoveResult.getEvaluatedGamesCounter();
-            reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
 
             reportModel.evaluatedGamesCounterTotal += searchMoveResult.getEvaluatedGamesCounter();
             reportModel.moveDetails.add(reportModelDetail);
@@ -247,18 +246,11 @@ public class SearchesReport {
     public static class ReportModel {
         public String engineName;
 
-
         // Regular vs Quiescence
-        ///////////////////// START VISITED NODES
-        long visitedRNodesTotal;
-
-        long visitedQNodesTotal;
-
+        ///////////////////// START TOTALS
         long visitedNodesTotal;
-
         long evaluatedGamesCounterTotal;
-
-        ///////////////////// END VISITED QNODES
+        ///////////////////// END TOTALS
 
 
         ///////////////////// START VISITED REGULAR NODES
@@ -266,11 +258,13 @@ public class SearchesReport {
         long[] expectedRNodesCounters;
         long[] visitedRNodesCounters;
         int[] cutoffPercentages;
+        long visitedRNodesTotal;
         ///////////////////// END VISITED REGULAR NODES
 
         ///////////////////// START VISITED QUIESCENCE NODES
         int maxSearchQLevel;
         long[] visitedQNodesCounter;
+        long visitedQNodesTotal;
         ///////////////////// END VISITED QUIESCENCE NODES
 
         List<ReportRowMoveDetail> moveDetails;
