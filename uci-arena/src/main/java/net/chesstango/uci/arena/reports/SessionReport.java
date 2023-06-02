@@ -119,12 +119,17 @@ public class SessionReport {
                 rowModel.maxSearchQLevel = i + 1;
             }
 
-            rowModel.visitedNodesTotal += (rowModel.visitedRNodesCounters[i] + rowModel.visitedQNodesCounters[i]);
+            rowModel.visitedRNodesTotal += rowModel.visitedRNodesCounters[i];
+            rowModel.visitedQNodesTotal += rowModel.visitedQNodesCounters[i];
             rowModel.visitedRNodesCountersAvg[i] = (int) (rowModel.visitedRNodesCounters[i] / rowModel.searches);
             rowModel.visitedQNodesCountersAvg[i] = (int) (rowModel.visitedQNodesCounters[i] / rowModel.searches);
         }
 
-        rowModel.visitedRNodesTotalAvg = (int) (rowModel.visitedNodesTotal / rowModel.searches);
+        rowModel.visitedNodesTotal = rowModel.visitedRNodesTotal + rowModel.visitedQNodesTotal;
+        rowModel.visitedNodesTotalAvg = (int) (rowModel.visitedNodesTotal / rowModel.searches);
+
+        rowModel.visitedRNodesAvg = (int) (rowModel.visitedRNodesTotal/ rowModel.searches);
+        rowModel.visitedQNodesAvg = (int) (rowModel.visitedQNodesTotal/ rowModel.searches);
 
         return rowModel;
     }
@@ -148,6 +153,7 @@ public class SessionReport {
         }
 
         if (printNodesVisitedStatics) {
+            printNodesVisitedStaticsByType(reportRows);
             printNodesVisitedStatics(maxRLevelVisited, maxQLevelVisited, reportRows);
             printNodesVisitedStaticsAvg(maxRLevelVisited, maxQLevelVisited, reportRows);
         }
@@ -180,6 +186,35 @@ public class SessionReport {
 
         // Marco inferior de la tabla
         System.out.printf(" -----------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("\n");
+    }
+
+
+    private void printNodesVisitedStaticsByType(List<ReportRowModel> reportRows) {
+        System.out.println("\n Nodes visited per type");
+
+        // Marco superior de la tabla
+        System.out.printf(" _____________________________________________________________________________________________________________________________________");
+        System.out.printf("\n");
+
+        // Nombre de las columnas
+        System.out.printf("|ENGINE NAME                        | SEARCHES |    RNodes    |    QNodes    |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
+        System.out.printf("|\n");
+
+        // Cuerpo
+        reportRows.forEach(row -> {
+            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
+            System.out.printf("| %12d ", row.visitedRNodesTotal);
+            System.out.printf("| %12d ", row.visitedQNodesTotal);
+            System.out.printf("| %12d ", row.visitedNodesTotal);
+            System.out.printf("| %11d ", row.visitedRNodesAvg);
+            System.out.printf("| %11d ", row.visitedQNodesAvg);
+            System.out.printf("| %11d ", row.visitedNodesTotalAvg);
+            System.out.printf("|\n");
+        });
+
+        // Marco inferior de la tabla
+        System.out.printf(" -------------------------------------------------------------------------------------------------------------------------------------");
         System.out.printf("\n");
     }
 
@@ -241,7 +276,7 @@ public class SessionReport {
             System.out.printf("|%35s|%9d ", row.engineName, row.searches);
             IntStream.range(0, maxRLevelVisited.get()).forEach(depth -> System.out.printf("| %8d ", row.visitedRNodesCountersAvg[depth]));
             IntStream.range(0, maxQLevelVisited.get()).forEach(depth -> System.out.printf("| %9d ", row.visitedQNodesCountersAvg[depth]));
-            System.out.printf("| %11d ", row.visitedRNodesTotalAvg);
+            System.out.printf("| %11d ", row.visitedNodesTotalAvg);
             System.out.printf("|\n");
         });
 
@@ -347,7 +382,12 @@ public class SessionReport {
 
         ///////// START TOTALS
         long visitedNodesTotal;
-        int visitedRNodesTotalAvg;
+        int visitedNodesTotalAvg;
+        long visitedRNodesTotal;
+        long visitedQNodesTotal;
+
+        int visitedRNodesAvg;
+        int visitedQNodesAvg;
         //////// END TOTALS
 
 
@@ -361,7 +401,6 @@ public class SessionReport {
         ///////////////////// START VISITED QUIESCENCE NODES
         int maxSearchQLevel;
         int[] visitedQNodesCounters;
-
         int[] visitedQNodesCountersAvg;
         ///////////////////// END VISITED QUIESCENCE NODES
 
