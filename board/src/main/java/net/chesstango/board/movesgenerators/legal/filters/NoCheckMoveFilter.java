@@ -8,8 +8,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquareCapturer;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquareCaptured;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
@@ -28,16 +28,16 @@ public class NoCheckMoveFilter implements MoveFilter {
 	protected final ColorBoard colorBoard;	
 	protected final PositionState positionState;
 
-	protected final FullScanSquareCapturer fullScanSquareCapturer;
-	protected final CardinalSquareCapturer cardinalSquareCapturer;
+	protected final FullScanSquareCaptured fullScanSquareCapturer;
+	protected final CardinalSquareCaptured cardinalSquareCapturer;
 	
 	public NoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.positionState = positionState;
-		this.fullScanSquareCapturer = new FullScanSquareCapturer(dummyBoard);
-		this.cardinalSquareCapturer = new CardinalSquareCapturer(dummyBoard);
+		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummyBoard);
+		this.cardinalSquareCapturer = new CardinalSquareCaptured(dummyBoard);
 	}
 	
 	@Override
@@ -57,14 +57,13 @@ public class NoCheckMoveFilter implements MoveFilter {
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 
-		if(! cardinalSquareCapturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! cardinalSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 
 		move.undoMove(this.colorBoard);
 		move.undoMove(this.dummyBoard);
-		
-		
+
 		return result;
 	}	
 	
@@ -79,7 +78,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 		move.executeMove(this.dummyBoard);
 		move.executeMove(this.colorBoard);
 
-		if(! fullScanSquareCapturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 
@@ -97,8 +96,8 @@ public class NoCheckMoveFilter implements MoveFilter {
 	public boolean filterMoveCastling(MoveCastling moveCastling) {
 		Color opositeColor = moveCastling.getFrom().getPiece().getColor().oppositeColor();
 		//assert(!capturer.positionCaptured(oppositeColor, moveCastling.getFrom().getKey())); 					    // El king no esta en jaque... lo asumimos
-		return !fullScanSquareCapturer.positionCaptured(opositeColor, moveCastling.getRookTo().getSquare()) 		// El king no puede ser capturado en casillero intermedio
-			&& !fullScanSquareCapturer.positionCaptured(opositeColor, moveCastling.getTo().getSquare());  			// El king no puede  ser capturado en casillero destino
+		return !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getRookTo().getSquare()) 		// El king no puede ser capturado en casillero intermedio
+			&& !fullScanSquareCapturer.isCaptured(opositeColor, moveCastling.getTo().getSquare());  			// El king no puede  ser capturado en casillero destino
 		
 	}		
 

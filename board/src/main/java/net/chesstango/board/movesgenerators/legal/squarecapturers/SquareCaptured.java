@@ -8,6 +8,6 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface SquareCapturer {
-    boolean positionCaptured(Color color, Square square);
+public interface SquareCaptured {
+    boolean isCaptured(Color color, Square square);
 }

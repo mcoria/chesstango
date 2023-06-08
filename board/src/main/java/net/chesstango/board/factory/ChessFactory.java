@@ -10,7 +10,7 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
@@ -94,8 +94,8 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public FullScanSquareCapturer createCapturer(BoardReader boardReader) {
-		return new FullScanSquareCapturer(boardReader);
+	public FullScanSquareCaptured createCapturer(BoardReader boardReader) {
+		return new FullScanSquareCaptured(boardReader);
 	}
 
 

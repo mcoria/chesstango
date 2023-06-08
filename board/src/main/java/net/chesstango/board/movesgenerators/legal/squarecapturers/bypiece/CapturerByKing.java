@@ -11,9 +11,8 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class CapturerByKing implements SquareCapturerByPiece{
+public class CapturerByKing implements CapturerByPiece {
 
     private final BoardReader boardReader;
     private final Color color;

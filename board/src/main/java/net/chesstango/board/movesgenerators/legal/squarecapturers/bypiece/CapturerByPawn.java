@@ -13,9 +13,8 @@ import java.util.function.Function;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class CapturerByPawn implements SquareCapturerByPiece{
+public class CapturerByPawn implements CapturerByPiece {
 
     private final BoardReader boardReader;
     private final Color color;
@@ -34,7 +33,7 @@ public class CapturerByPawn implements SquareCapturerByPiece{
         Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
-            if(pawn.equals(destino.getPiece())){
+            if (pawn.equals(destino.getPiece())) {
                 return true;
             }
         }

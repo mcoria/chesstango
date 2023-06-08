@@ -4,8 +4,7 @@ import net.chesstango.board.Square;
 
 /**
  * @author Mauricio Coria
- *
  */
-public interface SquareCapturerByPiece {
+public interface CapturerByPiece {
     boolean positionCaptured(Square square);
 }

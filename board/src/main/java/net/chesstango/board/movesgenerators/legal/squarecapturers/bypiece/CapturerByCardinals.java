@@ -6,48 +6,38 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
-import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 import net.chesstango.board.position.BoardReader;
 
 import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class CapturerByCardinals implements SquareCapturerByPiece{
-
+public abstract class CapturerByCardinals implements CapturerByPiece {
     private final BoardReader boardReader;
-    private final Color color;
-    private final Piece rook;
-    private final Piece bishop;
+    private final Piece bishopOrRook;
     private final Piece queen;
+    private final Cardinal[] cardinals;
 
-    public CapturerByCardinals(BoardReader boardReader, Color color) {
+    public CapturerByCardinals(BoardReader boardReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
         this.boardReader = boardReader;
-        this.color = color;
-        this.rook = Piece.getRook(color);
-        this.bishop = Piece.getBishop(color);
+        this.cardinals = cardinals;
+        this.bishopOrRook = bishopOrRook;
         this.queen = Piece.getQueen(color);
     }
 
     @Override
     public boolean positionCaptured(Square square) {
-        return positionCapturedByDireccion(square, RookMoveGenerator.ROOK_CARDINAL, rook) ||
-                positionCapturedByDireccion(square, BishopMoveGenerator.BISHOP_CARDINAL, bishop);
-    }
-
-    private boolean positionCapturedByDireccion(Square square, Cardinal[] direcciones, Piece capturer) {
-        for (Cardinal cardinal : direcciones) {
-            if(positionCapturedByCardinalPieza(square, cardinal, capturer)){
+        for (Cardinal cardinal : cardinals) {
+            if (positionCapturedByCardinal(square, cardinal)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean positionCapturedByCardinalPieza(Square square, Cardinal cardinal, Piece capturer) {
+
+    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal) {
         Iterator<PiecePositioned> iterator = boardReader.iterator(new CardinalSquareIterator(square, cardinal));
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
@@ -56,7 +46,7 @@ public class CapturerByCardinals implements SquareCapturerByPiece{
                 continue;
             } else if (queen.equals(piece)) {
                 return true;
-            } else if (capturer.equals(piece)) {
+            } else if (bishopOrRook.equals(piece)) {
                 return true;
             } else {
                 break;

@@ -11,9 +11,8 @@ import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class CapturerByKnight implements SquareCapturerByPiece{
+public class CapturerByKnight implements CapturerByPiece {
 
     private final BoardReader boardReader;
     private final Color color;
@@ -30,7 +29,7 @@ public class CapturerByKnight implements SquareCapturerByPiece{
         Iterator<PiecePositioned> iterator = new KnightBitIterator<PiecePositioned>(boardReader, square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
-            if(knight.equals(destino.getPiece())){
+            if (knight.equals(destino.getPiece())) {
                 return true;
             }
         }

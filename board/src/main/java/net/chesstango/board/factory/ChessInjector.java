@@ -7,7 +7,7 @@ import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.Board;
@@ -53,7 +53,7 @@ public class ChessInjector {
 
     private LegalMoveGeneratorImp legalMoveGenerator = null;
 
-    private FullScanSquareCapturer fullScanSquareCapturer = null;
+    private FullScanSquareCaptured fullScanSquareCapturer = null;
 
     private MoveFilter checkMoveFilter;
 

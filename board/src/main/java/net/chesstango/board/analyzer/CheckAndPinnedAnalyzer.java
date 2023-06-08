@@ -8,7 +8,7 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByKnight;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPawn;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.SquareCapturerByPiece;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPiece;
 import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
@@ -30,7 +30,6 @@ public class CheckAndPinnedAnalyzer {
 	private final ChessPositionReader positionReader;
 	private final CheckAndPinnedAnalyzerByColor analyzerWhite;
 	private final CheckAndPinnedAnalyzerByColor analyzerBlack;
-	
 	private long pinnedPositions;
 	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
 	private boolean kingInCheck;
@@ -75,8 +74,8 @@ public class CheckAndPinnedAnalyzer {
 		private final Piece rook;
 		private final Piece bishop;
 		private final Piece queen;
-		private final SquareCapturerByPiece knightCapturer;
-		private final SquareCapturerByPiece pawnCapturer;
+		private final CapturerByPiece knightCapturer;
+		private final CapturerByPiece pawnCapturer;
 
 		
 		public CheckAndPinnedAnalyzerByColor(Color color) {
