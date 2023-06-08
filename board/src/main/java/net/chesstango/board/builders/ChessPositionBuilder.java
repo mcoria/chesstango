@@ -99,7 +99,7 @@ public class ChessPositionBuilder implements ChessRepresentationBuilder<ChessPos
 	}
 
 	public ChessRepresentationBuilder<ChessPosition> withPiece(Square square, Piece piece) {
-		board.setPieza(square, piece);
+		board.setPiece(square, piece);
 		return this;
 	}
 

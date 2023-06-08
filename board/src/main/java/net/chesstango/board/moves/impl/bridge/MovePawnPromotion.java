@@ -54,7 +54,7 @@ class MovePawnPromotion implements MovePromotion {
     @Override
     public void executeMove(BoardWriter board) {
         board.setEmptyPosition(from);
-        board.setPieza(to.getSquare(), this.promotion);
+        board.setPiece(to.getSquare(), this.promotion);
     }
 
     @Override

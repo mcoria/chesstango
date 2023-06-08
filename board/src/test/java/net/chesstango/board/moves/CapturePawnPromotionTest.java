@@ -56,8 +56,8 @@ public class CapturePawnPromotionTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e7, Piece.PAWN_WHITE);
-        board.setPieza(Square.f8, Piece.KNIGHT_BLACK);
+        board.setPiece(Square.e7, Piece.PAWN_WHITE);
+        board.setPiece(Square.f8, Piece.KNIGHT_BLACK);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

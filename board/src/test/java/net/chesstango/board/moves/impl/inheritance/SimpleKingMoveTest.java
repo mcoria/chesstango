@@ -49,7 +49,7 @@ public class SimpleKingMoveTest {
     @BeforeEach
     public void setUp() throws Exception {
         board = new ArrayBoard();
-        board.setPieza(Square.e1, Piece.KING_WHITE);
+        board.setPiece(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

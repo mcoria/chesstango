@@ -72,7 +72,7 @@ public class PiecePlacementBuilder implements ChessRepresentationBuilder<Board> 
 	}
 
 	public ChessRepresentationBuilder<Board> withPiece(Square square, Piece piece) {
-		board.setPieza(square, piece);
+		board.setPiece(square, piece);
 		return this;
 	}
 

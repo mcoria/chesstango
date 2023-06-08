@@ -56,8 +56,8 @@ public class SimpleTwoSquaresPawnMoveTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e2, Piece.PAWN_WHITE);
-        board.setPieza(Square.f4, Piece.PAWN_BLACK);
+        board.setPiece(Square.e2, Piece.PAWN_WHITE);
+        board.setPiece(Square.f4, Piece.PAWN_BLACK);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

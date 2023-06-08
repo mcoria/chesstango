@@ -54,8 +54,8 @@ public class CastlingBlackQueenMoveTest {
         positionState.setFullMoveClock(10);
 
         board = new ArrayBoard();
-        board.setPieza(Square.a8, Piece.ROOK_BLACK);
-        board.setPieza(Square.e8, Piece.KING_BLACK);
+        board.setPiece(Square.a8, Piece.ROOK_BLACK);
+        board.setPiece(Square.e8, Piece.KING_BLACK);
 
         kingCacheBoard = new KingCacheBoard();
         colorBoard = new ColorBoardDebug();

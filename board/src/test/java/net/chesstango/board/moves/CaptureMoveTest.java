@@ -55,8 +55,8 @@ public class CaptureMoveTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e5, Piece.ROOK_WHITE);
-        board.setPieza(Square.e7, Piece.PAWN_BLACK);
+        board.setPiece(Square.e5, Piece.ROOK_WHITE);
+        board.setPiece(Square.e7, Piece.PAWN_BLACK);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

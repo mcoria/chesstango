@@ -57,8 +57,8 @@ public class CastlingWhiteKingMoveTest {
         positionState.setFullMoveClock(10);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e1, Piece.KING_WHITE);
-        board.setPieza(Square.h1, Piece.ROOK_WHITE);
+        board.setPiece(Square.e1, Piece.KING_WHITE);
+        board.setPiece(Square.h1, Piece.ROOK_WHITE);
 
         kingCacheBoard = new KingCacheBoardDebug();
         kingCacheBoard.init(board);

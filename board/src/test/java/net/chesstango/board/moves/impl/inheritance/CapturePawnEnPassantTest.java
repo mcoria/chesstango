@@ -49,8 +49,8 @@ public class CapturePawnEnPassantTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.b5, Piece.PAWN_WHITE);
-        board.setPieza(Square.a5, Piece.PAWN_BLACK);
+        board.setPiece(Square.b5, Piece.PAWN_WHITE);
+        board.setPiece(Square.a5, Piece.PAWN_BLACK);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

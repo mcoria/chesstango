@@ -55,7 +55,7 @@ public class ArrayBoard implements Board, Cloneable {
 
 
     @Override
-    public void setPieza(Square square, Piece piece) {
+    public void setPiece(Square square, Piece piece) {
         tablero[square.toIdx()] = PiecePositioned.getPiecePositioned(square, piece);
     }
 
@@ -102,7 +102,7 @@ public class ArrayBoard implements Board, Cloneable {
     @Override
     public void move(PiecePositioned from, PiecePositioned to) {
         this.setEmptySquare(from.getSquare());                            //Dejamos el origen
-        this.setPieza(to.getSquare(), from.getPiece());                //Vamos al destino
+        this.setPiece(to.getSquare(), from.getPiece());                //Vamos al destino
     }
 
     @Override

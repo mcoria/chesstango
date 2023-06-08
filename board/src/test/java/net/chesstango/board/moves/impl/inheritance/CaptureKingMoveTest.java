@@ -55,7 +55,7 @@ public class CaptureKingMoveTest {
     @Test
     public void testPosicionPiezaBoard() {
         board = new ArrayBoard();
-        board.setPieza(Square.e1, Piece.KING_WHITE);
+        board.setPiece(Square.e1, Piece.KING_WHITE);
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e1, Piece.KING_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e2, Piece.KNIGHT_BLACK);
@@ -122,7 +122,7 @@ public class CaptureKingMoveTest {
     @Test
     public void testColorBoard() {
         board = new ArrayBoard();
-        board.setPieza(Square.e1, Piece.KING_WHITE);
+        board.setPiece(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoard();
         colorBoard.init(board);
@@ -186,7 +186,7 @@ public class CaptureKingMoveTest {
     @Test
     public void testExecuteUndo() {
         board = new ArrayBoard();
-        board.setPieza(Square.e1, Piece.KING_WHITE);
+        board.setPiece(Square.e1, Piece.KING_WHITE);
 
         colorBoard = new ColorBoard();
         colorBoard.init(board);

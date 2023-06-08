@@ -12,7 +12,7 @@ public interface BoardWriter {
 
 	void setPosition(PiecePositioned entry);
 
-	void setPieza(Square square, Piece piece);
+	void setPiece(Square square, Piece piece);
 
 	void setEmptyPosition(PiecePositioned piecePositioned);
 

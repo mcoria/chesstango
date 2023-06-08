@@ -49,7 +49,7 @@ public class SimpleTwoSquaresPawnMoveTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e2, Piece.PAWN_WHITE);
+        board.setPiece(Square.e2, Piece.PAWN_WHITE);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);
@@ -118,7 +118,7 @@ public class SimpleTwoSquaresPawnMoveTest {
     @Test
     public void testBoard() {
         board = new ArrayBoard();
-        board.setPieza(Square.e2, Piece.PAWN_WHITE);
+        board.setPiece(Square.e2, Piece.PAWN_WHITE);
 
         PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.e2, Piece.ROOK_WHITE);
         PiecePositioned destino = PiecePositioned.getPiecePositioned(Square.e4, null);

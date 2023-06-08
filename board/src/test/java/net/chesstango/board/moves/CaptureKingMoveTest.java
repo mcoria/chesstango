@@ -58,8 +58,8 @@ public class CaptureKingMoveTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e1, Piece.KING_WHITE);
-        board.setPieza(Square.e2, Piece.KNIGHT_BLACK);
+        board.setPiece(Square.e1, Piece.KING_WHITE);
+        board.setPiece(Square.e2, Piece.KNIGHT_BLACK);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

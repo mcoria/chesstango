@@ -56,7 +56,7 @@ public class SimpleMoveTest {
         positionState.setFullMoveClock(5);
 
         board = new ArrayBoard();
-        board.setPieza(Square.e5, Piece.ROOK_WHITE);
+        board.setPiece(Square.e5, Piece.ROOK_WHITE);
 
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);

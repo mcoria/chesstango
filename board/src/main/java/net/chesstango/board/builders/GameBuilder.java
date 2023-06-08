@@ -84,7 +84,7 @@ public class GameBuilder implements ChessRepresentationBuilder<Game> {
 	}
 
 	public ChessRepresentationBuilder<Game> withPiece(Square square, Piece piece) {
-		board.setPieza(square, piece);
+		board.setPiece(square, piece);
 		return this;
 	}
 

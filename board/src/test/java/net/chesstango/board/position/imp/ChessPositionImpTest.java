@@ -29,11 +29,11 @@ public class ChessPositionImpTest {
     public void test_iterator() {
         ArrayBoard tablero = new ArrayBoard();
 
-        tablero.setPieza(Square.a1, Piece.ROOK_WHITE);
-        tablero.setPieza(Square.b7, Piece.PAWN_BLACK);
-        tablero.setPieza(Square.b8, Piece.KNIGHT_BLACK);
-        tablero.setPieza(Square.e1, Piece.KING_WHITE);
-        tablero.setPieza(Square.e8, Piece.KING_BLACK);
+        tablero.setPiece(Square.a1, Piece.ROOK_WHITE);
+        tablero.setPiece(Square.b7, Piece.PAWN_BLACK);
+        tablero.setPiece(Square.b8, Piece.KNIGHT_BLACK);
+        tablero.setPiece(Square.e1, Piece.KING_WHITE);
+        tablero.setPiece(Square.e8, Piece.KING_BLACK);
 
         ColorBoard colorBoard = new ColorBoard();
         colorBoard.init(tablero);
