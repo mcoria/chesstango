@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.perft.imp;
 
 import net.chesstango.board.Game;

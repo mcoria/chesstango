@@ -198,7 +198,7 @@ public class SessionReport {
         System.out.printf("\n");
 
         // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        | SEARCHES |    RNodes    |    QNodes    |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
+        System.out.printf("|ENGINE NAME                        | SEARCHES |       RNodes |       QNodes |  Total Nodes |  AVG RNodes |  AVG QNodes |   AVG Nodes ");
         System.out.printf("|\n");
 
         // Cuerpo
@@ -320,25 +320,25 @@ public class SessionReport {
         System.out.println("\n Cutoff per search level (higher is better)");
 
         // Marco superior de la tabla
-        System.out.printf(" ___________________________________");
+        System.out.printf(" ______________________________________________");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("___________"));
         System.out.printf("\n");
 
 
         // Nombre de las columnas
-        System.out.printf("|ENGINE NAME                        ");
+        System.out.printf("|ENGINE NAME                        | SEARCHES ");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
         System.out.printf("|\n");
 
         // Cuerpo
         reportRows.forEach(row -> {
-            System.out.printf("|%35s", row.engineName, row.searches);
+            System.out.printf("|%35s|%9d ", row.engineName, row.searches);
             IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("| %6d %% ", row.cutoffPercentages[depth]));
             System.out.printf("|\n");
         });
 
         // Marco inferior de la tabla
-        System.out.printf(" -----------------------------------");
+        System.out.printf(" ----------------------------------------------");
         IntStream.range(0, maxLevelVisited.get()).forEach(depth -> System.out.printf("-----------"));
         System.out.printf("\n");
     }

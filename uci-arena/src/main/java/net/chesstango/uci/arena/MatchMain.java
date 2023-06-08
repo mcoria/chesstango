@@ -43,16 +43,15 @@ public class MatchMain implements MatchListener {
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
                         .withQuiescence()
 
-                        .withTranspositionTable()
-                        .withQTranspositionTable()
+                        //.withTranspositionTable()
+                        //.withQTranspositionTable()
                         //.withTranspositionTableReuse()
 
-                        .withTranspositionMoveSorter()
-                        .withQTranspositionMoveSorter()
+                        //.withTranspositionMoveSorter()
+                        //.withQTranspositionMoveSorter()
 
                         //.withStopProcessingCatch()
-
-                        .withIterativeDeepening()
+                        //.withIterativeDeepening()
 
                         .withStatics()
                 );
@@ -99,7 +98,7 @@ public class MatchMain implements MatchListener {
         new SessionReport()
                  //.withCollisionStatics()
                  .withNodesVisitedStatics()
-                 .withMovesPerLevelStatics()
+                 //.withMovesPerLevelStatics()
                  .withCutoffStatics()
                  //.breakByColor()
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
@@ -110,7 +109,6 @@ public class MatchMain implements MatchListener {
                 .withNodesVisitedStatics()
                 .withPrincipalVariation()
                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
-
     }
 
     private final Arena arenaMBean;
