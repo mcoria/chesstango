@@ -18,7 +18,7 @@ public interface ChessPositionReader extends BoardReader, PositionStateReader {
 
 	Square getKingSquare(Color color);
 
-	long getPositions(Color color);
+	long getColorPositions(Color color);
 
 	SquareIterator iteratorSquare(Color color);
 

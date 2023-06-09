@@ -142,7 +142,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 		setupMoveGenerator(rnmg);
 		
-		settupEnPassantMoveGenerator();
+		setupEnPassantMoveGenerator();
 	}	
 	
 	private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
@@ -166,7 +166,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	}
 	
 
-	private void settupEnPassantMoveGenerator() {
+	private void setupEnPassantMoveGenerator() {
 		ppmg.setBoardState(positionState);
 		ppmg.setPiecePlacement(piecePlacement);
 	}
@@ -180,11 +180,11 @@ public class MoveGeneratorImp implements MoveGenerator {
 		return pnmg;
 	}
 
-	public RookMoveGenerator getRookBlancaMoveGenerator() {
+	public RookMoveGenerator getRookWhiteMoveGenerator() {
 		return tbmg;
 	}
 
-	public RookMoveGenerator getRookNegraMoveGenerator() {
+	public RookMoveGenerator getRookBlackMoveGenerator() {
 		return tnmg;
 	}	
 	
@@ -204,11 +204,11 @@ public class MoveGeneratorImp implements MoveGenerator {
 		return anmg;
 	}	
 	
-	public QueenMoveGenerator getQueenBlancaMoveGenerator() {
+	public QueenMoveGenerator getQueenWhiteMoveGenerator() {
 		return rebmg;
 	}
 	
-	public QueenMoveGenerator getQueenNegraMoveGenerator() {
+	public QueenMoveGenerator getQueenBlackMoveGenerator() {
 		return renmg;
 	}	
 	

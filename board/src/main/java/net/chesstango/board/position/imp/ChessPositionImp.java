@@ -11,7 +11,6 @@ import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.representations.ascii.ASCIIEncoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.Iterator;
@@ -173,7 +172,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
-		return board.iterator(colorBoard.getPosiciones(Color.WHITE) | colorBoard.getPosiciones(Color.BLACK));
+		return board.iterator(colorBoard.getPositions(Color.WHITE) | colorBoard.getPositions(Color.BLACK));
 	}
 
 	@Override
@@ -197,8 +196,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public long getPositions(Color color) {
-		return colorBoard.getPosiciones(color);
+	public long getColorPositions(Color color) {
+		return colorBoard.getPositions(color);
 	}
 
 	@Override

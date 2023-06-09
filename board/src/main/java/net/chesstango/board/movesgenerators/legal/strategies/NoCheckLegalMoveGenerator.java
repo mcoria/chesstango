@@ -38,7 +38,7 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		final Color turnoActual = this.positionReader.getCurrentTurn();
 
-		final long posicionesTurnoActual =  this.positionReader.getPositions(turnoActual);
+		final long posicionesTurnoActual =  this.positionReader.getColorPositions(turnoActual);
 
 		final long pinnedSquares = analysis.getPinnedSquares();
 

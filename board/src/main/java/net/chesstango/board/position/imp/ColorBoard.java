@@ -60,7 +60,7 @@ public class ColorBoard {
 		return new PositionsSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getBitPosition());
 	}
 	
-	public long getPosiciones (Color color){
+	public long getPositions(Color color){
 		return Color.WHITE.equals(color) ? squareWhites : squareBlacks;		
 	}
 	
