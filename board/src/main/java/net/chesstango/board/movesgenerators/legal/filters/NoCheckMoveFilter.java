@@ -12,7 +12,7 @@ import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquare
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.ColorBoard;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
 
 /**
@@ -25,16 +25,16 @@ public class NoCheckMoveFilter implements MoveFilter {
 	
 	protected final SquareBoard dummySquareBoard;
 	protected final KingSquareImp kingCacheBoard;
-	protected final ColorBoard colorBoard;	
+	protected final BitBoard bitBoard;
 	protected final PositionStateReader positionState;
 
 	protected final FullScanSquareCaptured fullScanSquareCapturer;
 	protected final CardinalSquareCaptured cardinalSquareCapturer;
 	
-	public NoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard, PositionStateReader positionState) {
+	public NoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
 		this.dummySquareBoard = dummySquareBoard;
 		this.kingCacheBoard = kingCacheBoard;
-		this.colorBoard = colorBoard;
+		this.bitBoard = bitBoard;
 		this.positionState = positionState;
 		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
 		this.cardinalSquareCapturer = new CardinalSquareCaptured(dummySquareBoard);
@@ -55,13 +55,13 @@ public class NoCheckMoveFilter implements MoveFilter {
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.dummySquareBoard);
-		move.executeMove(this.colorBoard);
+		move.executeMove(this.bitBoard);
 
 		if(! cardinalSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 
-		move.undoMove(this.colorBoard);
+		move.undoMove(this.bitBoard);
 		move.undoMove(this.dummySquareBoard);
 
 		return result;
@@ -76,13 +76,13 @@ public class NoCheckMoveFilter implements MoveFilter {
 		move.executeMove(this.kingCacheBoard);
 
 		move.executeMove(this.dummySquareBoard);
-		move.executeMove(this.colorBoard);
+		move.executeMove(this.bitBoard);
 
 		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 
-		move.undoMove(this.colorBoard);
+		move.undoMove(this.bitBoard);
 		move.undoMove(this.dummySquareBoard);
 
 		move.undoMove(this.kingCacheBoard);

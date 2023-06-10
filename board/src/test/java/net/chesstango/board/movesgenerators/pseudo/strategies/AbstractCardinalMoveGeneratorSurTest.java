@@ -6,14 +6,14 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.ColorBoard;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,9 +64,9 @@ public class AbstractCardinalMoveGeneratorSurTest {
 		SquareBoard tablero = getTablero("8/8/8/4R3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 
-		ColorBoard colorBoard = new ColorBoardDebug();
-		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		BitBoard bitBoard = new BitBoardDebug();
+		bitBoard.init(tablero);
+		moveGenerator.setColorBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -90,9 +90,9 @@ public class AbstractCardinalMoveGeneratorSurTest {
 		SquareBoard tablero =  getTablero("8/8/8/4R3/8/8/8/4B3");
 		moveGenerator.setBoard(tablero);
 
-		ColorBoard colorBoard = new ColorBoardDebug();
-		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		BitBoard bitBoard = new BitBoardDebug();
+		bitBoard.init(tablero);
+		moveGenerator.setColorBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -116,9 +116,9 @@ public class AbstractCardinalMoveGeneratorSurTest {
 		SquareBoard tablero = getTablero("8/8/8/4R3/8/8/8/4b3");
 		moveGenerator.setBoard(tablero);
 
-		ColorBoard colorBoard = new ColorBoardDebug();
-		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		BitBoard bitBoard = new BitBoardDebug();
+		bitBoard.init(tablero);
+		moveGenerator.setColorBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));

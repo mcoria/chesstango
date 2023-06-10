@@ -5,14 +5,14 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.ColorBoard;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.KingSquare;
 import net.chesstango.board.position.imp.KingSquareImp;
@@ -41,7 +41,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private PositionState state;
 	
-	private ColorBoard colorBoard;
+	private BitBoard bitBoard;
 	
 	protected KingSquare kingSquare;
 
@@ -56,8 +56,8 @@ public class KingWhiteMoveGeneratorTest {
 		moveGenerator.setBoardState(state);
 		moveGenerator.setMoveFactory(moveFactoryImp);
 		
-		colorBoard = new ColorBoardDebug();
-		moveGenerator.setColorBoard(colorBoard);
+		bitBoard = new BitBoardDebug();
+		moveGenerator.setColorBoard(bitBoard);
 		
 		kingSquare = new KingSquareImp();
 		moveGenerator.setKingCacheBoard(kingSquare);
@@ -520,7 +520,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		SquareBoard tablero = builder.getChessRepresentation();
 		
-		colorBoard.init(tablero);
+		bitBoard.init(tablero);
 		kingSquare.init(tablero);
 		
 		moveGenerator.setBoard(tablero);

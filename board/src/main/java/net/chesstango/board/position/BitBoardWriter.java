@@ -8,10 +8,10 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface ColorBoardWriter {
+public interface BitBoardWriter {
     void swapPositions(Color color, Square remove, Square add);
 
-    void addPositions(PiecePositioned position);
+    void addPosition(PiecePositioned position);
 
-    void removePositions(PiecePositioned position);
+    void removePosition(PiecePositioned position);
 }

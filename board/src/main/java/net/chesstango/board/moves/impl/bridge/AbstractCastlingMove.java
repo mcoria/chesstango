@@ -57,13 +57,13 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(ColorBoardWriter colorBoard) {
+    public void executeMove(BitBoardWriter colorBoard) {
         colorBoard.swapPositions(kingFrom.getPiece().getColor(), kingFrom.getSquare(), kingTo.getSquare());
         colorBoard.swapPositions(rookFrom.getPiece().getColor(), rookFrom.getSquare(), rookTo.getSquare());
     }
 
     @Override
-    public void undoMove(ColorBoardWriter colorBoard) {
+    public void undoMove(BitBoardWriter colorBoard) {
         colorBoard.swapPositions(kingFrom.getPiece().getColor(), kingTo.getSquare(), kingFrom.getSquare());
         colorBoard.swapPositions(rookFrom.getPiece().getColor(), rookTo.getSquare(), rookFrom.getSquare());
     }

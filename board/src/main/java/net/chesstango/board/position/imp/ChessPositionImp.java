@@ -22,7 +22,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	protected SquareBoard squareBoard = null;
-	protected ColorBoard colorBoard = null;
+	protected BitBoard bitBoard = null;
 	protected KingSquare kingSquare = null;
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;
@@ -30,7 +30,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public void init() {
-		colorBoard.init(squareBoard);
+		bitBoard.init(squareBoard);
 		kingSquare.init(squareBoard);
 		zobristHash.init(squareBoard, positionState);
 	}
@@ -44,7 +44,7 @@ public class ChessPositionImp implements ChessPosition {
 	public void executeMove(Move move) {
 		move.executeMove(this.squareBoard);
 
-		move.executeMove(this.colorBoard);
+		move.executeMove(this.bitBoard);
 
 		move.executeMove(this.moveCache);
 
@@ -77,7 +77,7 @@ public class ChessPositionImp implements ChessPosition {
 
 		move.undoMove(this.moveCache);
 
-		move.undoMove(this.colorBoard);
+		move.undoMove(this.bitBoard);
 
 		move.undoMove(this.squareBoard);
 
@@ -170,17 +170,17 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public SquareIterator iteratorSquare(Color color) {
-		return colorBoard.iteratorSquare(color);
+		return bitBoard.iteratorSquare(color);
 	}
 
 	@Override
 	public long getPositions(Color color) {
-		return colorBoard.getPositions(color);
+		return bitBoard.getPositions(color);
 	}
 
 	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
-		return squareBoard.iterator(colorBoard.getPositions(Color.WHITE) | colorBoard.getPositions(Color.BLACK));
+		return squareBoard.iterator(bitBoard.getPositions(Color.WHITE) | bitBoard.getPositions(Color.BLACK));
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Color getColor(Square square) {
-		return colorBoard.getColor(square);
+		return bitBoard.getColor(square);
 	}
 
 	@Override
@@ -237,8 +237,8 @@ public class ChessPositionImp implements ChessPosition {
 		this.squareBoard = squareBoard;
 	}
 
-	public void setColorBoard(ColorBoard colorBoard) {
-		this.colorBoard = colorBoard;
+	public void setColorBoard(BitBoard bitBoard) {
+		this.bitBoard = bitBoard;
 	}
 
 	public void setKingCacheBoard(KingSquare kingSquare) {

@@ -15,9 +15,9 @@ import java.util.Iterator;
 /**
  * @author Mauricio Coria
  */
-public class ArrayBoard implements SquareBoard, Cloneable {
+public class SquareBoardImp implements SquareBoard, Cloneable {
 
-    public ArrayBoard() {
+    public SquareBoardImp() {
         for (int i = 0; i < 64; i++) {
             this.setEmptySquare(Square.getSquareByIdx(i));
         }
@@ -42,9 +42,9 @@ public class ArrayBoard implements SquareBoard, Cloneable {
     }
 
     @Override
-    public void setPosition(PiecePositioned entry) {
-        Square square = entry.getSquare();
-        tablero[square.toIdx()] = entry;
+    public void setPosition(PiecePositioned piecePositioned) {
+        Square square = piecePositioned.getSquare();
+        tablero[square.toIdx()] = piecePositioned;
     }
 
 
@@ -102,7 +102,7 @@ public class ArrayBoard implements SquareBoard, Cloneable {
     @Override
     public void move(PiecePositioned from, PiecePositioned to) {
         this.setEmptySquare(from.getSquare());                            //Dejamos el origen
-        this.setPiece(to.getSquare(), from.getPiece());                //Vamos al destino
+        this.setPiece(to.getSquare(), from.getPiece());                   //Vamos al destino
     }
 
     @Override
@@ -120,8 +120,8 @@ public class ArrayBoard implements SquareBoard, Cloneable {
 
 
     @Override
-    public ArrayBoard clone() throws CloneNotSupportedException {
-        ArrayBoard clone = new ArrayBoard();
+    public SquareBoardImp clone() throws CloneNotSupportedException {
+        SquareBoardImp clone = new SquareBoardImp();
         for (int i = 0; i < 64; i++) {
             clone.tablero[i] = this.tablero[i];
         }
@@ -130,8 +130,8 @@ public class ArrayBoard implements SquareBoard, Cloneable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ArrayBoard) {
-            ArrayBoard theInstance = (ArrayBoard) obj;
+        if (obj instanceof SquareBoardImp) {
+            SquareBoardImp theInstance = (SquareBoardImp) obj;
             for (int i = 0; i < 64; i++) {
                 if (!this.tablero[i].equals(theInstance.tablero[i])) {
                     return false;

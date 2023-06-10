@@ -6,9 +6,9 @@ import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquare
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGeneratorTest;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGeneratorTest;
 import net.chesstango.board.position.ChessPositionTest;
-import net.chesstango.board.position.imp.ArrayBoardTest;
+import net.chesstango.board.position.imp.SquareBoardImpTest;
 import net.chesstango.board.position.imp.ChessPositionImpTest;
-import net.chesstango.board.position.imp.ColorBoardTest;
+import net.chesstango.board.position.imp.BitBoardTest;
 import net.chesstango.board.position.imp.MoveCacheBoardTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
@@ -20,7 +20,7 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({ PieceTest.class, SquareTest.class, PiecePositionedTest.class, GameTest.class, FullScanSquareCapturedTest.class,
-		ChessPositionTest.class, MoveCacheBoardTest.class, ColorBoardTest.class, ArrayBoardTest.class,
+		ChessPositionTest.class, MoveCacheBoardTest.class, BitBoardTest.class, SquareBoardImpTest.class,
 		ChessPositionImpTest.class, CheckLegalMoveGeneratorTest.class, NoCheckLegalMoveGeneratorTest.class, MoveContainerTest.class,
 		ZobristNoCollisionTest.class})
 public class BasicTestSuite {

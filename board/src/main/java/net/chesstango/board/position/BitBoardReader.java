@@ -8,7 +8,7 @@ import net.chesstango.board.iterators.SquareIterator;
  * @author Mauricio Coria
  *
  */
-public interface ColorBoardReader {
+public interface BitBoardReader {
     SquareIterator iteratorSquare(Color color);
 
     long getPositions(Color color);

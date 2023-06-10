@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Mauricio Coria
  *
  */
-public class ArrayBoardTest {
+public class SquareBoardImpTest {
 
 	@Test
 	public void test() {
-		ArrayBoard tablero = new ArrayBoard();
+		SquareBoardImp tablero = new SquareBoardImp();
 		
 		tablero.setPiece(Square.a1, Piece.ROOK_WHITE);
 		tablero.setPiece(Square.b7, Piece.PAWN_BLACK);
@@ -69,7 +69,7 @@ public class ArrayBoardTest {
 	
 	@Test
 	public void testToString() {
-		ArrayBoard tablero = new ArrayBoard();
+		SquareBoardImp tablero = new SquareBoardImp();
 		
 		assertTrue(tablero.toString().length() > 0);
 

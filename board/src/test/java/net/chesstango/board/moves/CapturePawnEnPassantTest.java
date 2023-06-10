@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
@@ -14,7 +14,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ArrayBoard;
+import net.chesstango.board.position.imp.SquareBoardImp;
 import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
@@ -40,7 +40,7 @@ public class CapturePawnEnPassantTest {
 
     private Move moveExecutor;
 
-    private ColorBoardDebug colorBoard;
+    private BitBoardDebug colorBoard;
 
     private MoveCacheBoardDebug moveCacheBoard;
 
@@ -60,11 +60,11 @@ public class CapturePawnEnPassantTest {
         positionState.setHalfMoveClock(2);
         positionState.setFullMoveClock(5);
 
-        squareBoard = new ArrayBoard();
+        squareBoard = new SquareBoardImp();
         squareBoard.setPiece(Square.b5, Piece.PAWN_WHITE);
         squareBoard.setPiece(Square.a5, Piece.PAWN_BLACK);
 
-        colorBoard = new ColorBoardDebug();
+        colorBoard = new BitBoardDebug();
         colorBoard.init(squareBoard);
 
         PiecePositioned pawnWhite = squareBoard.getPosition(Square.b5);

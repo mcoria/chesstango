@@ -6,14 +6,14 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.position.SquareBoard;
-import net.chesstango.board.position.imp.ColorBoardImp;
+import net.chesstango.board.position.imp.BitBoardImp;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class ColorBoardDebug extends ColorBoardImp {
+public class BitBoardDebug extends BitBoardImp {
 
 	@Override
 	public void swapPositions(Color color, Square remove, Square add) {
@@ -22,14 +22,14 @@ public class ColorBoardDebug extends ColorBoardImp {
 	}	
 	
 	@Override
-	public void addPositions(PiecePositioned position) {
-		super.addPositions(position);
+	public void addPosition(PiecePositioned position) {
+		super.addPosition(position);
 		validar();
 	}
 	
 	@Override
-	public void removePositions(PiecePositioned position) {
-		super.removePositions(position);
+	public void removePosition(PiecePositioned position) {
+		super.removePosition(position);
 		validar();
 	}	
 	

@@ -17,8 +17,8 @@ class MovePawnPromotion implements MovePromotion {
     protected final Piece promotion;
     protected final Cardinal direction;
 
-    private MoveExecutor<ColorBoardWriter> fnDoColorBoard;
-    private MoveExecutor<ColorBoardWriter> fnUndoColorBoard;
+    private MoveExecutor<BitBoardWriter> fnDoColorBoard;
+    private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
 
     public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
         this.from = from;
@@ -95,12 +95,12 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(ColorBoardWriter colorBoard) {
+    public void executeMove(BitBoardWriter colorBoard) {
         fnDoColorBoard.apply(from, to, colorBoard);
     }
 
     @Override
-    public void undoMove(ColorBoardWriter colorBoard) {
+    public void undoMove(BitBoardWriter colorBoard) {
         fnUndoColorBoard.apply(from, to, colorBoard);
     }
 
@@ -166,11 +166,11 @@ class MovePawnPromotion implements MovePromotion {
         return promotion;
     }
 
-    public void setFnDoColorBoard(MoveExecutor<ColorBoardWriter> fnDoColorBoard) {
+    public void setFnDoColorBoard(MoveExecutor<BitBoardWriter> fnDoColorBoard) {
         this.fnDoColorBoard = fnDoColorBoard;
     }
 
-    public void setFnUndoColorBoard(MoveExecutor<ColorBoardWriter> fnUndoColorBoard) {
+    public void setFnUndoColorBoard(MoveExecutor<BitBoardWriter> fnUndoColorBoard) {
         this.fnUndoColorBoard = fnUndoColorBoard;
     }
 

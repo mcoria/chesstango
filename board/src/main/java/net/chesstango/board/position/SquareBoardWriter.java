@@ -10,7 +10,7 @@ import net.chesstango.board.Square;
  */
 public interface SquareBoardWriter {
 
-	void setPosition(PiecePositioned entry);
+	void setPosition(PiecePositioned piecePositioned);
 
 	void setPiece(Square square, Piece piece);
 
@@ -19,5 +19,4 @@ public interface SquareBoardWriter {
 	void setEmptySquare(Square square);
 
 	void move(PiecePositioned from, PiecePositioned to);
-
 }

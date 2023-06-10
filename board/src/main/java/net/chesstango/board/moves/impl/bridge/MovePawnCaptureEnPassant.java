@@ -69,17 +69,17 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void executeMove(ColorBoardWriter colorBoard) {
+    public void executeMove(BitBoardWriter colorBoard) {
         colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
 
-        colorBoard.removePositions(capture);
+        colorBoard.removePosition(capture);
     }
 
     @Override
-    public void undoMove(ColorBoardWriter colorBoard) {
+    public void undoMove(BitBoardWriter colorBoard) {
         colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
 
-        colorBoard.addPositions(capture);
+        colorBoard.addPosition(capture);
     }
 
     @Override

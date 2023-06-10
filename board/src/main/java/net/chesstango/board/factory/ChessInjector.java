@@ -28,7 +28,7 @@ public class ChessInjector {
 
     private PositionState positionState = null;
 
-    private ColorBoard colorBoard = null;
+    private BitBoard bitBoard = null;
 
     private MoveCacheBoard moveCache = null;
 
@@ -114,11 +114,11 @@ public class ChessInjector {
         return kingCacheBoard;
     }
 
-    protected ColorBoard getColorBoard() {
-        if (colorBoard == null) {
-            colorBoard = chessFactory.createColorBoard();
+    protected BitBoard getColorBoard() {
+        if (bitBoard == null) {
+            bitBoard = chessFactory.createColorBoard();
         }
-        return colorBoard;
+        return bitBoard;
     }
 
     protected MoveCacheBoard getMoveCacheBoard() {

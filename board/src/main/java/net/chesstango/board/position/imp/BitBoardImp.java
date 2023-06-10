@@ -8,7 +8,7 @@ import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 import net.chesstango.board.position.SquareBoardReader;
-import net.chesstango.board.position.ColorBoard;
+import net.chesstango.board.position.BitBoard;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -17,7 +17,7 @@ import java.io.PrintStream;
  * @author Mauricio Coria
  *
  */
-public class ColorBoardImp implements ColorBoard {
+public class BitBoardImp implements BitBoard {
 	
 	protected long squareWhites = 0;
 	protected long squareBlacks = 0;
@@ -38,7 +38,7 @@ public class ColorBoardImp implements ColorBoard {
 	}
 	
 	@Override
-	public void addPositions(PiecePositioned position) {
+	public void addPosition(PiecePositioned position) {
 		if (Color.WHITE.equals(position.getPiece().getColor())) {
 			squareWhites |= position.getSquare().getBitPosition();
 		} else {
@@ -47,7 +47,7 @@ public class ColorBoardImp implements ColorBoard {
 	}
 	
 	@Override
-	public void removePositions(PiecePositioned position){
+	public void removePosition(PiecePositioned position){
 		if(Color.WHITE.equals(position.getPiece().getColor())){
 			squareWhites &= ~position.getSquare().getBitPosition();
 		} else {

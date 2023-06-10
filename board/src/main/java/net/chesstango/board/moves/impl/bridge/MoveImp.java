@@ -18,8 +18,8 @@ class MoveImp implements Move {
     private MoveExecutor<SquareBoardWriter> fnDoMovePiecePlacement;
     private MoveExecutor<SquareBoardWriter> fnUndoMovePiecePlacement;
 
-    private MoveExecutor<ColorBoardWriter> fnDoColorBoard;
-    private MoveExecutor<ColorBoardWriter> fnUndoColorBoard;
+    private MoveExecutor<BitBoardWriter> fnDoColorBoard;
+    private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
 
     private ZobritExecutor fnDoZobrit;
 
@@ -67,12 +67,12 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(ColorBoardWriter colorBoard) {
+    public void executeMove(BitBoardWriter colorBoard) {
         fnDoColorBoard.apply(from, to, colorBoard);
     }
 
     @Override
-    public void undoMove(ColorBoardWriter colorBoard) {
+    public void undoMove(BitBoardWriter colorBoard) {
         fnUndoColorBoard.apply(from, to, colorBoard);
     }
 
@@ -129,11 +129,11 @@ class MoveImp implements Move {
         this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
     }
 
-    public void setFnDoColorBoard(MoveExecutor<ColorBoardWriter> fnDoColorBoard) {
+    public void setFnDoColorBoard(MoveExecutor<BitBoardWriter> fnDoColorBoard) {
         this.fnDoColorBoard = fnDoColorBoard;
     }
 
-    public void setFnUndoColorBoard(MoveExecutor<ColorBoardWriter> fnUndoColorBoard) {
+    public void setFnUndoColorBoard(MoveExecutor<BitBoardWriter> fnUndoColorBoard) {
         this.fnUndoColorBoard = fnUndoColorBoard;
     }
 

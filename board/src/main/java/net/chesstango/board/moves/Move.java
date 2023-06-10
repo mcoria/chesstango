@@ -39,9 +39,9 @@ public interface Move extends Comparable<Move> {
 
     void undoMove(PositionStateWriter positionStateWriter);
 
-    void executeMove(ColorBoardWriter colorBoard);
+    void executeMove(BitBoardWriter colorBoard);
 
-    void undoMove(ColorBoardWriter colorBoard);
+    void undoMove(BitBoardWriter colorBoard);
 
     void executeMove(MoveCacheBoardWriter moveCache);
 

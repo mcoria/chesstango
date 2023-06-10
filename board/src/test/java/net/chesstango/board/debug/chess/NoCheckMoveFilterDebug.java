@@ -5,8 +5,8 @@ import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.ColorBoard;
+import net.chesstango.board.position.imp.SquareBoardImp;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 
@@ -17,9 +17,9 @@ import net.chesstango.board.position.imp.PositionStateImp;
  */
 public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 	
-	public NoCheckMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+	public NoCheckMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
 								  PositionState positionState) {
-		super(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
+		super(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 		try {
 			boolean reportError = false;
 
-			ArrayBoard boardInicial = ((ArrayBoard) super.dummySquareBoard).clone();
+			SquareBoardImp boardInicial = ((SquareBoardImp) super.dummySquareBoard).clone();
 			
 			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 
@@ -59,7 +59,7 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 			}
 			
 			((PositionStateDebug)positionState).validar(this.dummySquareBoard);
-			((ColorBoardDebug)colorBoard).validar(this.dummySquareBoard);
+			((BitBoardDebug) bitBoard).validar(this.dummySquareBoard);
 			
 			return result;
 		} catch (CloneNotSupportedException e) {

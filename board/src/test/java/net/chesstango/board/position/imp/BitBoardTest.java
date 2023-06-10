@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Mauricio Coria
  *
  */
-public class ColorBoardTest {
+public class BitBoardTest {
 
-	private ColorBoardImp colorBoard;
+	private BitBoardImp colorBoard;
 
 	
 	@Test
@@ -28,7 +28,7 @@ public class ColorBoardTest {
 		
 		SquareBoard tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
-		colorBoard = new ColorBoardDebug();
+		colorBoard = new BitBoardDebug();
 		colorBoard.init(tablero);
 		
 		for (SquareIterator iterator = colorBoard.iteratorSquare(Color.WHITE); iterator.hasNext();) {

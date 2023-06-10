@@ -34,9 +34,9 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public ColorBoard createColorBoard() {
-		ColorBoard colorBoard = new ColorBoardDebug();
-		return colorBoard;
+	public BitBoard createColorBoard() {
+		BitBoard bitBoard = new BitBoardDebug();
+		return bitBoard;
 	}	
 	
 	@Override
@@ -50,14 +50,14 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
-		return new CheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
+	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
+		return new CheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 
 	@Override
-	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
                                                      PositionState positionState) {
-		return new NoCheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
+		return new NoCheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}		
 	
 	@Override

@@ -45,8 +45,8 @@ public class ChessFactory {
 		return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
-	public ColorBoard createColorBoard() {
-		return new ColorBoardImp();
+	public BitBoard createColorBoard() {
+		return new BitBoardImp();
 	}
 
 	public KingSquareImp createKingCacheBoard() {
@@ -57,18 +57,18 @@ public class ChessFactory {
 		return new MoveCacheBoardImp();
 	}
 
-	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
 												 PositionState positionState) {
-		return new CheckMoveFilter(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
+		return new CheckMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
 													 PositionState positionState) {
-		return new NoCheckMoveFilter(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
+		return new NoCheckMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}	
 
 	public SquareBoard createPiecePlacement() {
-		return new ArrayBoard();
+		return new SquareBoardImp();
 	}
 
 	public PositionState createPositionState() {

@@ -15,7 +15,7 @@ import net.chesstango.board.position.imp.*;
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
 	protected SquareBoardReader squareBoardReader = null;
-	protected ColorBoardReader colorBoard = null;
+	protected BitBoardReader colorBoard = null;
 	protected KingSquareImp kingCacheBoard = null;
 	protected MoveCacheBoardWriter moveCache = null;
 	protected PositionState positionState = null;
@@ -29,7 +29,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			SquareBoardReader boardInicial =  ((ArrayBoard)this.squareBoardReader).clone();
+			SquareBoardReader boardInicial =  ((SquareBoardImp)this.squareBoardReader).clone();
 			
 			KingSquareImp kingCacheBoardInicial = this.kingCacheBoard.clone();
 
@@ -69,7 +69,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		this.squareBoardReader = dummyBoard;
 	}
 
-	public void setColorBoard(ColorBoardReader colorBoard) {
+	public void setColorBoard(BitBoardReader colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 

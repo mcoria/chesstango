@@ -24,7 +24,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 	public void acceptForDo(Move move) {
 		super.acceptForDo(move);
 		((PositionStateDebug)positionState).validar(this.squareBoard);
-		((ColorBoardDebug)colorBoard).validar(this.squareBoard);
+		((BitBoardDebug) bitBoard).validar(this.squareBoard);
 		((KingSquareDebug) kingSquare).validar(this.squareBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.squareBoard);
 		((ZobristHashDebug)zobristHash).validar(this);
@@ -34,7 +34,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 	public void acceptForUndo(Move move) {
 		super.acceptForUndo(move);
 		((PositionStateDebug)positionState).validar(this.squareBoard);
-		((ColorBoardDebug)colorBoard).validar(this.squareBoard);
+		((BitBoardDebug) bitBoard).validar(this.squareBoard);
 		((KingSquareDebug) kingSquare).validar(this.squareBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.squareBoard);
 		((ZobristHashDebug)zobristHash).validar(this);
@@ -45,7 +45,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 	public void init() {
 		super.init();
 		((PositionStateDebug)positionState).validar(this.squareBoard);
-		((ColorBoardDebug)colorBoard).validar(this.squareBoard);
+		((BitBoardDebug) bitBoard).validar(this.squareBoard);
 		((KingSquareDebug) kingSquare).validar(this.squareBoard);
 		((MoveCacheBoardDebug)moveCache).validar(this.squareBoard);
 	}
@@ -55,7 +55,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 			moveGeneratorImp = new MoveGeneratorImp();			
 			moveGeneratorImp.setPiecePlacement(this.squareBoard);
 			moveGeneratorImp.setBoardState(this.positionState);
-			moveGeneratorImp.setColorBoard(this.colorBoard);
+			moveGeneratorImp.setColorBoard(this.bitBoard);
 		}
 		return moveGeneratorImp;
 	}
