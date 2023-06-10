@@ -11,7 +11,7 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  */
-public interface BoardReader extends Iterable<PiecePositioned>, GetElementByIndex<PiecePositioned> {
+public interface SquareBoardReader extends Iterable<PiecePositioned>, GetElementByIndex<PiecePositioned> {
 
 	PiecePositioned getPosition(Square square);
 

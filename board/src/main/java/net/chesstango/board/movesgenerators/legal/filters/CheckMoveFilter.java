@@ -9,7 +9,7 @@ import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
@@ -22,19 +22,19 @@ import net.chesstango.board.position.imp.KingSquareImp;
  */
 public class CheckMoveFilter implements MoveFilter {
 	
-	protected final Board dummyBoard;
+	protected final SquareBoard dummySquareBoard;
 	protected final KingSquareImp kingCacheBoard;
 	protected final ColorBoard colorBoard;	
 	protected final PositionStateReader positionState;
 
 	protected final FullScanSquareCaptured fullScanSquareCapturer;
 	
-	public CheckMoveFilter(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard, PositionStateReader positionState) {
-		this.dummyBoard = dummyBoard;
+	public CheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard, PositionStateReader positionState) {
+		this.dummySquareBoard = dummySquareBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;
 		this.positionState = positionState;
-		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummyBoard);
+		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public class CheckMoveFilter implements MoveFilter {
 		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
-		move.executeMove(this.dummyBoard);
+		move.executeMove(this.dummySquareBoard);
 		move.executeMove(this.colorBoard);
 
 		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
@@ -52,7 +52,7 @@ public class CheckMoveFilter implements MoveFilter {
 		}
 
 		move.undoMove(this.colorBoard);
-		move.undoMove(this.dummyBoard);
+		move.undoMove(this.dummySquareBoard);
 		
 		return result;
 	}	

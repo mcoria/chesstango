@@ -31,9 +31,9 @@ public interface Move extends Comparable<Move> {
         return filter.filterMove(this);
     }
 
-    void executeMove(BoardWriter board);
+    void executeMove(SquareBoardWriter board);
 
-    void undoMove(BoardWriter board);
+    void undoMove(SquareBoardWriter board);
 
     void executeMove(PositionStateWriter positionState);
 
@@ -47,9 +47,9 @@ public interface Move extends Comparable<Move> {
 
     void undoMove(MoveCacheBoardWriter moveCache);
 
-    void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
 
-    void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
 
     /**
      * "move" is a bit field with the following meaning (bit 0 is the least significant bit)

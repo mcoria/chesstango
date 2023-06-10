@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +20,9 @@ public class FullScanSquareCapturedTest {
 	
 	@Test
 	public void testPositionCapturedByPawnWhite() {
-		Board dummyBoard = getTablero("8/8/8/1P6/8/8/8/8");
+		SquareBoard dummySquareBoard = getTablero("8/8/8/1P6/8/8/8/8");
 		
-		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummyBoard);
+		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
 		
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.a6) );
 		assertFalse( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.b6) );
@@ -31,9 +31,9 @@ public class FullScanSquareCapturedTest {
 	
 	@Test
 	public void testPositionCapturedByPawnBlack() {
-		Board dummyBoard = getTablero("8/8/8/1p6/8/8/8/8");
+		SquareBoard dummySquareBoard = getTablero("8/8/8/1p6/8/8/8/8");
 		
-		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummyBoard);
+		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
 		
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.BLACK, Square.a4) );
 		assertFalse( fullScanSquareCapturer.isCaptured(Color.BLACK, Square.b4) );
@@ -43,9 +43,9 @@ public class FullScanSquareCapturedTest {
 	
 	@Test
 	public void testPositionCapturedByKnight() {
-		Board dummyBoard = getTablero("8/8/8/3N4/8/8/8/8");
+		SquareBoard dummySquareBoard = getTablero("8/8/8/3N4/8/8/8/8");
 		
-		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummyBoard);
+		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
 		
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.c7) );
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.e7) );
@@ -60,7 +60,7 @@ public class FullScanSquareCapturedTest {
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.e3) );
 	}	
 	
-	private Board getTablero(String string) {
+	private SquareBoard getTablero(String string) {
 		ChessFactory chessFactory = new ChessFactoryDebug();
 		
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(chessFactory);

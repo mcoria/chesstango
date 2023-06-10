@@ -12,9 +12,8 @@ import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ColorBoard;
-import net.chesstango.board.position.imp.ColorBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +59,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste() {
-		Board tablero =  getTablero("8/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getTablero("8/8/8/4B3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 
 		ColorBoard colorBoard = new ColorBoardDebug();
@@ -87,7 +86,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste01() {
-		Board tablero =  getTablero("7R/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getTablero("7R/8/8/4B3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 
 		ColorBoard colorBoard = new ColorBoardDebug();
@@ -112,7 +111,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 	
 	@Test
 	public void testNorteEste02() {
-		Board tablero =  getTablero("7r/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getTablero("7r/8/8/4B3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 
 		ColorBoard colorBoard = new ColorBoardDebug();
@@ -144,7 +143,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		return moveFactoryImp.createCaptureMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}	
 	
-	private Board getTablero(String string) {
+	private SquareBoard getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);

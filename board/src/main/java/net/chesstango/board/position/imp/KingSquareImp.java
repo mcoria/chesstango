@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.KingSquare;
 
 /**
@@ -18,7 +18,7 @@ public class KingSquareImp implements KingSquare {
 	protected Square squareKingBlackCache = null;
 	
 	@Override
-	public void init(BoardReader board){
+	public void init(SquareBoardReader board){
 		this.squareKingWhiteCache = getKingSquare(Color.WHITE, board);
 		this.squareKingBlackCache = getKingSquare(Color.BLACK, board);
 	}	
@@ -75,7 +75,7 @@ public class KingSquareImp implements KingSquare {
 	}
 
 
-	public Square getKingSquare(Color color, BoardReader board) {
+	public Square getKingSquare(Color color, SquareBoardReader board) {
 		Square kingSquare = null;
 		Piece king = Piece.getKing(color);
 		for (PiecePositioned entry : board) {

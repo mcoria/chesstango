@@ -6,7 +6,7 @@ import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
 import net.chesstango.board.iterators.SquareIterator;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ public class ColorBoardTest {
 	public void test01() {
 		int totalPiezas = 0;
 		
-		Board tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		SquareBoard tablero = getTablero("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 		
 		colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -40,7 +40,7 @@ public class ColorBoardTest {
 	}
 	
 	
-	private Board getTablero(String string) {
+	private SquareBoard getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 
 		FENDecoder parser = new FENDecoder(builder);

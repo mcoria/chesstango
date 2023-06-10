@@ -2,7 +2,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.MoveCacheBoardImp;
 
 
@@ -20,16 +20,16 @@ public class MoveCacheBoardDebug extends MoveCacheBoardImp {
 		super();
 	}
 
-	public void validar(Board dummyBoard) {
+	public void validar(SquareBoard dummySquareBoard) {
 		validarAffectedByAndAffects();
 
 		for(int i = 0; i < 64; i++){
-			if(pseudoMoves[i] != null && dummyBoard.isEmpty(Square.getSquareByIdx(i))) {
+			if(pseudoMoves[i] != null && dummySquareBoard.isEmpty(Square.getSquareByIdx(i))) {
 				throw new RuntimeException(String.format("Un casillero de cache contiene movimientos (%s) pero no existe pieza en tablero!!!", Square.getSquareByIdx(i)));
 			}
 		}
 
-		for (PiecePositioned piecePositioned : dummyBoard) {
+		for (PiecePositioned piecePositioned : dummySquareBoard) {
 			if(piecePositioned.getPiece() == null && pseudoMoves[piecePositioned.getSquare().toIdx()] != null){
 				throw new RuntimeException(String.format("Para un casillero de tablero sin pieza (%s) existe movimientos en cache!!!", piecePositioned.getSquare()) );
 			}

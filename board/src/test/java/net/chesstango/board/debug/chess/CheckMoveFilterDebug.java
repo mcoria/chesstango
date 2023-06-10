@@ -3,7 +3,7 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.ColorBoard;
@@ -17,9 +17,9 @@ import net.chesstango.board.position.imp.PositionStateImp;
  */
 public class CheckMoveFilterDebug extends CheckMoveFilter {
 	
-	public CheckMoveFilterDebug(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+	public CheckMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
 								PositionState positionState) {
-		super(dummyBoard, kingCacheBoard, colorBoard, positionState);
+		super(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 		try {
 			boolean reportError = false;
 
-			ArrayBoard boardInicial = ((ArrayBoard) super.dummyBoard).clone();
+			ArrayBoard boardInicial = ((ArrayBoard) super.dummySquareBoard).clone();
 			
 			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 
@@ -47,9 +47,9 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 				reportError = true;
 			}
 	
-			if (!super.dummyBoard.equals(boardInicial)) {
+			if (!super.dummySquareBoard.equals(boardInicial)) {
 				System.out.println("El board fu� modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard);
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummySquareBoard);
 				reportError = true;				
 			}
 	
@@ -58,8 +58,8 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((PositionStateDebug)positionState).validar(this.dummyBoard);
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
+			((PositionStateDebug)positionState).validar(this.dummySquareBoard);
+			((ColorBoardDebug)colorBoard).validar(this.dummySquareBoard);
 			
 			return result;
 		} catch (CloneNotSupportedException e) {
@@ -87,7 +87,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((KingSquareDebug)kingCacheBoard).validar(this.dummyBoard);
+			((KingSquareDebug)kingCacheBoard).validar(this.dummySquareBoard);
 			
 			return result;
 		} catch (CloneNotSupportedException e) {

@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByBishop;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPiece;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByRook;
-import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.SquareBoardReader;
 
 
 /**
@@ -18,13 +18,13 @@ import net.chesstango.board.position.BoardReader;
  */
 public class CardinalSquareCaptured implements SquareCaptured {
 	
-	private final BoardReader boardReader;
+	private final SquareBoardReader squareBoardReader;
 	private final CapturerAgregate capturerWhite;
 	private final CapturerAgregate capturerBlack;
 
 	
-	public CardinalSquareCaptured(BoardReader boardReader) {
-		this.boardReader = boardReader;
+	public CardinalSquareCaptured(SquareBoardReader squareBoardReader) {
+		this.squareBoardReader = squareBoardReader;
 		this.capturerWhite = new CapturerAgregate(Color.WHITE);
 		this.capturerBlack = new CapturerAgregate(Color.BLACK);
 	}	
@@ -44,8 +44,8 @@ public class CardinalSquareCaptured implements SquareCaptured {
 		private final CapturerByPiece bishopCapturer;
 
 		public CapturerAgregate(Color color) {
-			this.rookCapturer = new CapturerByRook(boardReader, color);
-			this.bishopCapturer = new CapturerByBishop(boardReader, color);
+			this.rookCapturer = new CapturerByRook(squareBoardReader, color);
+			this.bishopCapturer = new CapturerByBishop(squareBoardReader, color);
 		}
 
 		public boolean positionCaptured(Square square) {

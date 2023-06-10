@@ -24,7 +24,7 @@ public class ChessInjector {
 
     private final ChessFactory chessFactory;
 
-    private Board board = null;
+    private SquareBoard squareBoard = null;
 
     private PositionState positionState = null;
 
@@ -93,11 +93,11 @@ public class ChessInjector {
         return chessPosition;
     }
 
-    public Board getPiecePlacement() {
-        if (board == null) {
-            board = chessFactory.createPiecePlacement();
+    public SquareBoard getPiecePlacement() {
+        if (squareBoard == null) {
+            squareBoard = chessFactory.createPiecePlacement();
         }
-        return board;
+        return squareBoard;
     }
 
     public PositionState getPositionState() {

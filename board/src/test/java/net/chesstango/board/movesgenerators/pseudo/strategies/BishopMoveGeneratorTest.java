@@ -11,9 +11,8 @@ import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ColorBoard;
-import net.chesstango.board.position.imp.ColorBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +44,7 @@ public class BishopMoveGeneratorTest {
 	
 	@Test
 	public void testGetPseudoMoves01() {
-		Board tablero =  getTablero("8/8/8/4B3/8/8/8/8");
+		SquareBoard tablero =  getTablero("8/8/8/4B3/8/8/8/8");
 		
 		moveGenerator.setBoard(tablero);
 
@@ -116,7 +115,7 @@ public class BishopMoveGeneratorTest {
 
 	@Test
 	public void testGetPseudoMoves02() {
-		Board tablero =  getTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5");
+		SquareBoard tablero =  getTablero("8/8/8/6p1/8/8/PPP1PPPP/2B5");
 		
 		moveGenerator.setBoard(tablero);
 
@@ -174,7 +173,7 @@ public class BishopMoveGeneratorTest {
 		return affectedBySquares;
 	}
 	
-	private Board getTablero(String string) {
+	private SquareBoard getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);

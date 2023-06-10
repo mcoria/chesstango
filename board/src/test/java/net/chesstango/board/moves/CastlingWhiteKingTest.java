@@ -10,7 +10,7 @@ import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayBoard;
@@ -33,7 +33,7 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 public class CastlingWhiteKingTest {
 
-    private Board board;
+    private SquareBoard squareBoard;
 
     private PositionStateDebug positionState;
 
@@ -64,22 +64,22 @@ public class CastlingWhiteKingTest {
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(10);
 
-        board = new ArrayBoard();
-        board.setPiece(Square.e1, Piece.KING_WHITE);
-        board.setPiece(Square.h1, Piece.ROOK_WHITE);
+        squareBoard = new ArrayBoard();
+        squareBoard.setPiece(Square.e1, Piece.KING_WHITE);
+        squareBoard.setPiece(Square.h1, Piece.ROOK_WHITE);
 
         kingCacheBoard = new KingSquareDebug();
-        kingCacheBoard.init(board);
+        kingCacheBoard.init(squareBoard);
 
         colorBoard = new ColorBoardDebug();
-        colorBoard.init(board);
+        colorBoard.init(squareBoard);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(moveExecutor.getFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getFrom()));
         moveCacheBoard.setPseudoMoves(moveExecutor.getRookFrom().getSquare(), new MoveGeneratorResult(moveExecutor.getRookFrom()));
 
         zobristHash = new ZobristHashImp();
-        zobristHash.init(board, positionState);
+        zobristHash.init(squareBoard, positionState);
     }
 
     @Test
@@ -119,21 +119,21 @@ public class CastlingWhiteKingTest {
 
     @Test
     public void testPosicionPiezaBoard() {
-        moveExecutor.executeMove(board);
+        moveExecutor.executeMove(squareBoard);
 
-        assertEquals(Piece.KING_WHITE, board.getPiece(Square.g1));
-        assertEquals(Piece.ROOK_WHITE, board.getPiece(Square.f1));
+        assertEquals(Piece.KING_WHITE, squareBoard.getPiece(Square.g1));
+        assertEquals(Piece.ROOK_WHITE, squareBoard.getPiece(Square.f1));
 
-        assertTrue(board.isEmpty(Square.e1));
-        assertTrue(board.isEmpty(Square.h1));
+        assertTrue(squareBoard.isEmpty(Square.e1));
+        assertTrue(squareBoard.isEmpty(Square.h1));
 
-        moveExecutor.undoMove(board);
+        moveExecutor.undoMove(squareBoard);
 
-        assertEquals(Piece.KING_WHITE, board.getPiece(Square.e1));
-        assertEquals(Piece.ROOK_WHITE, board.getPiece(Square.h1));
+        assertEquals(Piece.KING_WHITE, squareBoard.getPiece(Square.e1));
+        assertEquals(Piece.ROOK_WHITE, squareBoard.getPiece(Square.h1));
 
-        assertTrue(board.isEmpty(Square.g1));
-        assertTrue(board.isEmpty(Square.f1));
+        assertTrue(squareBoard.isEmpty(Square.g1));
+        assertTrue(squareBoard.isEmpty(Square.f1));
     }
 
     @Test
@@ -252,20 +252,20 @@ public class CastlingWhiteKingTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(board);
+        moveExecutor.executeMove(squareBoard);
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(colorBoard);
         moveExecutor.executeMove(kingCacheBoard);
         moveExecutor.executeMove(moveCacheBoard);
 
         // asserts execute
-        colorBoard.validar(board);
-        positionState.validar(board);
-        kingCacheBoard.validar(board);
-        moveCacheBoard.validar(board);
+        colorBoard.validar(squareBoard);
+        positionState.validar(squareBoard);
+        kingCacheBoard.validar(squareBoard);
+        moveCacheBoard.validar(squareBoard);
 
         // undos
-        moveExecutor.undoMove(board);
+        moveExecutor.undoMove(squareBoard);
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(colorBoard);
         moveExecutor.undoMove(kingCacheBoard);
@@ -273,9 +273,9 @@ public class CastlingWhiteKingTest {
 
 
         // asserts undos
-        colorBoard.validar(board);
-        positionState.validar(board);
-        kingCacheBoard.validar(board);
-        moveCacheBoard.validar(board);
+        colorBoard.validar(squareBoard);
+        positionState.validar(squareBoard);
+        kingCacheBoard.validar(squareBoard);
+        moveCacheBoard.validar(squareBoard);
     }
 }

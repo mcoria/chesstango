@@ -36,14 +36,14 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(BoardWriter board) {
+    public void executeMove(SquareBoardWriter board) {
         board.move(kingFrom, kingTo);
         board.move(rookFrom, rookTo);
     }
 
 
     @Override
-    public void undoMove(BoardWriter board) {
+    public void undoMove(SquareBoardWriter board) {
         board.setPosition(kingFrom);
         board.setPosition(kingTo);
 
@@ -81,7 +81,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.pushState();
 
         hash.xorPosition(kingFrom);
@@ -98,7 +98,7 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.popState();
     }
 

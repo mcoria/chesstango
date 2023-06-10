@@ -12,7 +12,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.ColorBoardImp;
@@ -69,7 +69,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test01() {
-		Board tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
 		
 		state.setCastlingBlackQueenAllowed(true);
 		
@@ -93,7 +93,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackQueen01() {
-		Board tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k3/8/8/8/8/8/8/8");
 		
 		state.setCastlingBlackQueenAllowed(true);
 		
@@ -110,7 +110,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test02() {
-		Board tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
 		
 		state.setCastlingBlackQueenAllowed(true);
 	
@@ -135,7 +135,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackQueen02() {
-		Board tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k3/8/5B2/8/8/8/8/8");
 		
 		state.setCastlingBlackQueenAllowed(true);
 	
@@ -152,7 +152,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test03() {
-		Board tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
 		
 		state.setCastlingBlackQueenAllowed(true);
 		
@@ -177,7 +177,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackQueen03() {
-		Board tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k3/8/8/5B2/8/8/8/8");
 		
 		state.setCastlingBlackQueenAllowed(true);
 		
@@ -195,7 +195,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test04() {
-		Board tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 		
@@ -225,7 +225,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackKing01() {
-		Board tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("4k2r/8/8/8/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 
@@ -242,7 +242,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test05() {
-		Board tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 
@@ -273,7 +273,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackKing02() {
-		Board tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
+		SquareBoard tablero =  getTablero("4k2r/8/3B4/8/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 		
@@ -291,7 +291,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test06() {
-		Board tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
+		SquareBoard tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 		
@@ -322,7 +322,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCastlingBlackKing03() {
-		Board tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
+		SquareBoard tablero =  getTablero("4k2r/8/8/3B4/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 		
@@ -340,7 +340,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void test07() {
-		Board tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 		state.setCastlingBlackQueenAllowed(true);
@@ -373,7 +373,7 @@ public class KingBlackMoveGeneratorTest {
 
 	@Test
 	public void testCastlingBlackJaque() {
-		Board tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
+		SquareBoard tablero =  getTablero("r3k2r/8/8/4R3/8/8/8/8");
 		
 		state.setCastlingBlackKingAllowed(true);
 		state.setCastlingBlackQueenAllowed(true);
@@ -395,7 +395,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	@Test
 	public void testCapturedPositions() {
-		Board tablero =  getTablero("8/8/8/8/8/8/6k1/4K2R");
+		SquareBoard tablero =  getTablero("8/8/8/8/8/8/6k1/4K2R");
 		
 		PiecePositioned origen = PiecePositioned.getPiecePositioned(Square.g2, Piece.KING_BLACK);
 		
@@ -422,14 +422,14 @@ public class KingBlackMoveGeneratorTest {
 		return moveFactoryImp.createSimpleKingMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, null));
 	}
 
-	private Board getTablero(String string) {
+	private SquareBoard getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);
 		
 		parser.parsePiecePlacement(string);
 		
-		Board tablero = builder.getChessRepresentation();
+		SquareBoard tablero = builder.getChessRepresentation();
 		
 		colorBoard.init(tablero);
 		kingSquare.init(tablero);

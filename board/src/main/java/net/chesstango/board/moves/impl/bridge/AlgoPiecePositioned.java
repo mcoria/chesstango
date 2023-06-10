@@ -1,18 +1,18 @@
 package net.chesstango.board.moves.impl.bridge;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.BoardWriter;
+import net.chesstango.board.position.SquareBoardWriter;
 
 /**
  * @author Mauricio Coria
  */
 class AlgoPiecePositioned {
-    protected void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, BoardWriter boardWriter) {
-        boardWriter.move(from, to);
+    protected void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
+        squareBoardWriter.move(from, to);
     }
 
-    protected void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, BoardWriter boardWriter) {
-        boardWriter.setPosition(from);
-        boardWriter.setPosition(to);
+    protected void defaultFnUndoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
+        squareBoardWriter.setPosition(from);
+        squareBoardWriter.setPosition(to);
     }
 }

@@ -14,7 +14,7 @@ import net.chesstango.board.position.imp.*;
  */
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
-	protected BoardReader boardReader = null;
+	protected SquareBoardReader squareBoardReader = null;
 	protected ColorBoardReader colorBoard = null;
 	protected KingSquareImp kingCacheBoard = null;
 	protected MoveCacheBoardWriter moveCache = null;
@@ -29,7 +29,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			BoardReader boardInicial =  ((ArrayBoard)this.boardReader).clone();
+			SquareBoardReader boardInicial =  ((ArrayBoard)this.squareBoardReader).clone();
 			
 			KingSquareImp kingCacheBoardInicial = this.kingCacheBoard.clone();
 
@@ -49,9 +49,9 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 				reportError = true;
 			}
 
-			if (!this.boardReader.equals(boardInicial)) {
+			if (!this.squareBoardReader.equals(boardInicial)) {
 				System.out.println("El board fu� modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.boardReader.toString());
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.squareBoardReader.toString());
 				reportError = true;				
 			}
 
@@ -65,8 +65,8 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		}
 	}
 	
-	public void setPiecePlacement(BoardReader dummyBoard) {
-		this.boardReader = dummyBoard;
+	public void setPiecePlacement(SquareBoardReader dummyBoard) {
+		this.squareBoardReader = dummyBoard;
 	}
 
 	public void setColorBoard(ColorBoardReader colorBoard) {

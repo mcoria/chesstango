@@ -5,6 +5,6 @@ package net.chesstango.board.position;
  *
  */
 public interface KingSquare extends KingSquareReader, KingSquareWriter {
-    void init(BoardReader board);
+    void init(SquareBoardReader board);
 
 }

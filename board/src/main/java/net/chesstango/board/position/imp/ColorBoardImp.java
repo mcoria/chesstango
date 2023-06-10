@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
-import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.SquareBoardReader;
 import net.chesstango.board.position.ColorBoard;
 
 import java.io.ByteArrayOutputStream;
@@ -100,7 +100,7 @@ public class ColorBoardImp implements ColorBoard {
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
 	@Override
-	public void init(BoardReader board) {
+	public void init(SquareBoardReader board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getPiece();
 			if (piece != null) {

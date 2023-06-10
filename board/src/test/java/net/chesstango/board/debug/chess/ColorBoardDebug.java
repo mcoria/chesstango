@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.ColorBoardImp;
 
 
@@ -45,10 +45,10 @@ public class ColorBoardDebug extends ColorBoardImp {
 		}
 	}
 	
-	public void validar(Board board) {
+	public void validar(SquareBoard squareBoard) {
 		validar();
 		
-		for (PiecePositioned piecePositioned : board) {
+		for (PiecePositioned piecePositioned : squareBoard) {
 			if(piecePositioned.getPiece() == null){
 				if(! this.isEmpty(piecePositioned.getSquare()) ){
 					throw new RuntimeException("ColorBoard contiene una pieza " + this.getColor(piecePositioned.getSquare()) + " en " + piecePositioned.getSquare() + " pero en PosicionPieza esta vacia");

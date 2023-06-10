@@ -15,8 +15,8 @@ class MoveImp implements Move {
     protected final PiecePositioned to;
     protected final Cardinal direction;
     private MoveExecutor<PositionStateWriter> fnDoPositionState;
-    private MoveExecutor<BoardWriter> fnDoMovePiecePlacement;
-    private MoveExecutor<BoardWriter> fnUndoMovePiecePlacement;
+    private MoveExecutor<SquareBoardWriter> fnDoMovePiecePlacement;
+    private MoveExecutor<SquareBoardWriter> fnUndoMovePiecePlacement;
 
     private MoveExecutor<ColorBoardWriter> fnDoColorBoard;
     private MoveExecutor<ColorBoardWriter> fnUndoColorBoard;
@@ -47,12 +47,12 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(BoardWriter board) {
+    public void executeMove(SquareBoardWriter board) {
         fnDoMovePiecePlacement.apply(from, to, board);
     }
 
     @Override
-    public void undoMove(BoardWriter board) {
+    public void undoMove(SquareBoardWriter board) {
         fnUndoMovePiecePlacement.apply(from, to, board);
     }
 
@@ -89,12 +89,12 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         fnDoZobrit.apply(from, to, hash, oldPositionState, newPositionState);
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.popState();
     }
 
@@ -121,11 +121,11 @@ class MoveImp implements Move {
         this.fnDoPositionState = fnDoPositionState;
     }
 
-    public void setFnDoMovePiecePlacement(MoveExecutor<BoardWriter> fnDoMovePiecePlacement) {
+    public void setFnDoMovePiecePlacement(MoveExecutor<SquareBoardWriter> fnDoMovePiecePlacement) {
         this.fnDoMovePiecePlacement = fnDoMovePiecePlacement;
     }
 
-    public void setFnUndoMovePiecePlacement(MoveExecutor<BoardWriter> fnUndoMovePiecePlacement) {
+    public void setFnUndoMovePiecePlacement(MoveExecutor<SquareBoardWriter> fnUndoMovePiecePlacement) {
         this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
     }
 

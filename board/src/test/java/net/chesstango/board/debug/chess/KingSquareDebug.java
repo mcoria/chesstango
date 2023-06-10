@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.imp.KingSquareImp;
 
 
@@ -14,16 +14,16 @@ import net.chesstango.board.position.imp.KingSquareImp;
  */
 public class KingSquareDebug extends KingSquareImp {
 	
-	public void validar(Board dummyBoard) {
-		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPiece(squareKingWhiteCache))) {
+	public void validar(SquareBoard dummySquareBoard) {
+		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummySquareBoard.getPiece(squareKingWhiteCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedo desactualizado");
 		}
 
-		if (squareKingBlackCache != null && !Piece.KING_BLACK.equals(dummyBoard.getPiece(squareKingBlackCache))) {
+		if (squareKingBlackCache != null && !Piece.KING_BLACK.equals(dummySquareBoard.getPiece(squareKingBlackCache))) {
 			throw new RuntimeException("KingCacheBoard - squareKingBlackCache quedo desactualizado");
 		}
 		
-		for (PiecePositioned pieza : dummyBoard) {
+		for (PiecePositioned pieza : dummySquareBoard) {
 			if (Piece.KING_WHITE.equals(pieza.getPiece()) && !pieza.getSquare().equals(squareKingWhiteCache)) {
 				throw new RuntimeException("KingCacheBoard - squareKingWhiteCache quedo desactualizado");
 			}

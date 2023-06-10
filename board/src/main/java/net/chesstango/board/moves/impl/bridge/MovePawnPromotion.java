@@ -46,13 +46,13 @@ class MovePawnPromotion implements MovePromotion {
 
 
     @Override
-    public void executeMove(BoardWriter board) {
+    public void executeMove(SquareBoardWriter board) {
         board.setEmptyPosition(from);
         board.setPiece(to.getSquare(), this.promotion);
     }
 
     @Override
-    public void undoMove(BoardWriter board) {
+    public void undoMove(SquareBoardWriter board) {
         board.setPosition(from);
         board.setPosition(to);
     }
@@ -118,7 +118,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -152,7 +152,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.popState();
     }
 

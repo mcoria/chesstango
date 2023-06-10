@@ -57,17 +57,17 @@ public class ChessFactory {
 		return new MoveCacheBoardImp();
 	}
 
-	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
-                                                 PositionState positionState) {
-		return new CheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+												 PositionState positionState) {
+		return new CheckMoveFilter(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
-                                                     PositionState positionState) {
-		return new NoCheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+													 PositionState positionState) {
+		return new NoCheckMoveFilter(dummySquareBoard, kingCacheBoard, colorBoard, positionState);
 	}	
 
-	public Board createPiecePlacement() {
+	public SquareBoard createPiecePlacement() {
 		return new ArrayBoard();
 	}
 
@@ -91,8 +91,8 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public FullScanSquareCaptured createCapturer(BoardReader boardReader) {
-		return new FullScanSquareCaptured(boardReader);
+	public FullScanSquareCaptured createCapturer(SquareBoardReader squareBoardReader) {
+		return new FullScanSquareCaptured(squareBoardReader);
 	}
 
 
