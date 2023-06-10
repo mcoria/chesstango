@@ -7,7 +7,7 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
+import net.chesstango.board.position.imp.KingCacheBoardImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 
 
@@ -17,8 +17,8 @@ import net.chesstango.board.position.imp.PositionStateImp;
  */
 public class CheckMoveFilterDebug extends CheckMoveFilter {
 	
-	public CheckMoveFilterDebug(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-                                PositionState positionState) {
+	public CheckMoveFilterDebug(Board dummyBoard, KingCacheBoardImp kingCacheBoard, ColorBoard colorBoard,
+								PositionState positionState) {
 		super(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 
@@ -29,7 +29,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 
 			ArrayBoard boardInicial = ((ArrayBoard) super.dummyBoard).clone();
 			
-			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
+			KingCacheBoardImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 
 			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 	
@@ -72,7 +72,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 		try {
 			boolean reportError = false;	
 			
-			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
+			KingCacheBoardImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
 			boolean result = super.filterMoveKing(move);
 			

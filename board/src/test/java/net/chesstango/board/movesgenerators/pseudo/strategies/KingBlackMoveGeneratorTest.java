@@ -16,7 +16,8 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.ColorBoardImp;
-import net.chesstango.board.position.imp.KingCacheBoard;
+import net.chesstango.board.position.KingCacheBoard;
+import net.chesstango.board.position.imp.KingCacheBoardImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +62,7 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard = new ColorBoardDebug();
 		moveGenerator.setColorBoard(colorBoard);
 		
-		kingCacheBoard = new KingCacheBoard();
+		kingCacheBoard = new KingCacheBoardImp();
 		moveGenerator.setKingCacheBoard(kingCacheBoard);
 	}
 	

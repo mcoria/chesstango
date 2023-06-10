@@ -32,7 +32,7 @@ public class ChessInjector {
 
     private MoveCacheBoard moveCache = null;
 
-    private KingCacheBoard kingCacheBoard = null;
+    private KingCacheBoardImp kingCacheBoard = null;
 
     private ZobristHash zobristHash  = null;
 
@@ -107,7 +107,7 @@ public class ChessInjector {
         return positionState;
     }
 
-    protected KingCacheBoard getKingCacheBoard() {
+    protected KingCacheBoardImp getKingCacheBoard() {
         if (kingCacheBoard == null) {
             kingCacheBoard = chessFactory.createKingCacheBoard();
         }

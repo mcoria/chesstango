@@ -13,7 +13,7 @@ import net.chesstango.board.movesgenerators.pseudo.strategies.*;
 import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.ColorBoardReader;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.KingCacheBoard;
+import net.chesstango.board.position.KingCacheBoard;
 
 /**
  * @author Mauricio Coria

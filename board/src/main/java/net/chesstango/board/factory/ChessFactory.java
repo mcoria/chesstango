@@ -49,21 +49,21 @@ public class ChessFactory {
 		return new ColorBoardImp();
 	}
 
-	public KingCacheBoard createKingCacheBoard() {
-		return new KingCacheBoard();
+	public KingCacheBoardImp createKingCacheBoard() {
+		return new KingCacheBoardImp();
 	}
 
 	public MoveCacheBoard createMoveCacheBoard() {
 		return new MoveCacheBoardImp();
 	}
 
-	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-                                                 PositionState positionState) {
+	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoardImp kingCacheBoard, ColorBoard colorBoard,
+												 PositionState positionState) {
 		return new CheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-                                                     PositionState positionState) {
+	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoardImp kingCacheBoard, ColorBoard colorBoard,
+													 PositionState positionState) {
 		return new NoCheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}	
 

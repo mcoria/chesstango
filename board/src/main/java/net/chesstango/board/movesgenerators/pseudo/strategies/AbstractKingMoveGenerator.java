@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingPositionsSquareIterator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorCastling;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.KingCacheBoard;
+import net.chesstango.board.position.KingCacheBoard;
 
 import java.util.Iterator;
 
