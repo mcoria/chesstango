@@ -106,6 +106,6 @@ public class ChessFactory {
 	}
 
     public ZobristHash createZobristHash() {
-		return new ZobristHash();
+		return new ZobristHashImp();
     }
 }

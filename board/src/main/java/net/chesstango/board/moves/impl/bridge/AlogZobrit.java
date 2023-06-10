@@ -2,14 +2,14 @@ package net.chesstango.board.moves.impl.bridge;
 
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.ZobristHashWriter;
 
 /**
  * @author Mauricio Coria
  */
 class AlogZobrit {
 
-    public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+    public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         hash.pushState();
 
         hash.xorPosition(from);

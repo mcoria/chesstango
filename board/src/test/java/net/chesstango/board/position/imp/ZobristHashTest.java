@@ -4,9 +4,9 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.ZobristHash;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +20,7 @@ public class ZobristHashTest {
     public void testXorPosition01(){
         ChessPosition position = FENDecoder.loadChessPosition(FENDecoder.INITIAL_FEN);
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         zobristHash.xorPosition(position.getPosition(Square.f2));
@@ -32,7 +32,7 @@ public class ZobristHashTest {
     public void testXorPosition02(){
         ChessPosition position = FENDecoder.loadChessPosition(FENDecoder.INITIAL_FEN);
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         zobristHash.xorPosition(position.getPosition(Square.f2));
@@ -45,7 +45,7 @@ public class ZobristHashTest {
     public void testMoveToEmptySquare(){
         ChessPosition position = FENDecoder.loadChessPosition(FENDecoder.INITIAL_FEN);
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         zobristHash.xorPosition(position.getPosition(Square.f2));
@@ -59,7 +59,7 @@ public class ZobristHashTest {
     public void testTwoMoves(){
         ChessPosition position = FENDecoder.loadChessPosition(FENDecoder.INITIAL_FEN);
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         // White Move
@@ -79,7 +79,7 @@ public class ZobristHashTest {
     public void testCaptureMove(){
         ChessPosition position = FENDecoder.loadChessPosition("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2 ");
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         // White Move capture
@@ -96,7 +96,7 @@ public class ZobristHashTest {
     public void testCastleWhiteKing(){
         ChessPosition position = FENDecoder.loadChessPosition("8/8/8/8/8/8/8/4K2R w K - 0 1");
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         // White move King
@@ -118,7 +118,7 @@ public class ZobristHashTest {
     public void testCastleWhiteQueen(){
         ChessPosition position = FENDecoder.loadChessPosition("8/8/8/8/8/8/8/R3K3 w Q - 0 1 ");
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         // White move King
@@ -140,7 +140,7 @@ public class ZobristHashTest {
     public void testCastleBlackKing(){
         ChessPosition position = FENDecoder.loadChessPosition("4k2r/8/8/8/8/8/8/8 b k - 0 1");
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         // White move King
@@ -162,7 +162,7 @@ public class ZobristHashTest {
     public void testCastleBlackQueen(){
         ChessPosition position = FENDecoder.loadChessPosition("r3k3/8/8/8/8/8/8/8 b q - 0 1");
 
-        ZobristHash zobristHash = new ZobristHash();
+        ZobristHash zobristHash = new ZobristHashImp();
         zobristHash.init(position);
 
         // White move King

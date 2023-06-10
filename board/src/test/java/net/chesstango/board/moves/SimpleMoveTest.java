@@ -15,7 +15,8 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.ZobristHash;
+import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +68,7 @@ public class SimpleMoveTest {
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e5, new MoveGeneratorResult(origen));
 
-        zobristHash = new ZobristHash();
+        zobristHash = new ZobristHashImp();
         zobristHash.init(board, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleMove(origen, destino);

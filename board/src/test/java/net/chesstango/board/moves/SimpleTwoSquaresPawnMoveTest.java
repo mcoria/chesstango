@@ -15,7 +15,8 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.ZobristHash;
+import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,7 +71,7 @@ public class SimpleTwoSquaresPawnMoveTest {
         moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(origen));
         moveCacheBoard.setPseudoMoves(Square.f4, new MoveGeneratorResult(peonNegro).addAffectedByPositions(Square.e3));
 
-        zobristHash = new ZobristHash();
+        zobristHash = new ZobristHashImp();
         zobristHash.init(board, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createSimpleTwoSquaresPawnMove(origen, destino, Square.e3);

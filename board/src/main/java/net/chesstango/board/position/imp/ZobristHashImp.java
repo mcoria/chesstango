@@ -7,6 +7,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.ZobristHash;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -14,21 +15,24 @@ import java.util.Deque;
 /**
  * @author Mauricio Coria
  */
-public class ZobristHash {
-    private final Deque<ZobristHash.ZobristHashData> stackZobristHistory = new ArrayDeque<ZobristHash.ZobristHashData>();
+public class ZobristHashImp implements ZobristHash {
+    private final Deque<ZobristHashImp.ZobristHashData> stackZobristHistory = new ArrayDeque<ZobristHashImp.ZobristHashData>();
 
     private long zobristHash;
 
     private long zobristOldEnPassantSquare;
 
+    @Override
     public long getZobristHash() {
         return zobristHash;
     }
 
+    @Override
     public void init(ChessPositionReader piecePlacement) {
         init(piecePlacement, piecePlacement);
     }
 
+    @Override
     public void init(BoardReader piecePlacement, PositionStateReader positionState) {
         for( PiecePositioned piecePositioned: piecePlacement){
             if(piecePositioned.getPiece() != null){
@@ -62,46 +66,56 @@ public class ZobristHash {
     }
 
 
+    @Override
     public void xorPosition(PiecePositioned piecePositioned) {
         zobristHash ^= KEYS[64 * getKindOfPiece(piecePositioned.getPiece()) + 8 * piecePositioned.getSquare().getRank() + piecePositioned.getSquare().getFile()];
     }
 
+    @Override
     public void xorTurn(){
         zobristHash ^= KEYS[780];
     }
 
+    @Override
     public void xorCastleWhiteKing() {
         zobristHash ^= KEYS[768];
     }
 
+    @Override
     public void xorCastleWhiteQueen() {
         zobristHash ^= KEYS[769];
     }
 
+    @Override
     public void xorCastleBlackKing() {
         zobristHash ^= KEYS[770];
     }
 
+    @Override
     public void xorCastleBlackQueen() {
         zobristHash ^= KEYS[771];
     }
 
+    @Override
     public void xorEnPassantSquare(Square enPassantSquare) {
         zobristHash ^= KEYS[772 + enPassantSquare.getFile()];
         zobristOldEnPassantSquare = KEYS[772 + enPassantSquare.getFile()];
     }
 
+    @Override
     public void xorOldEnPassantSquare() {
         zobristHash ^= zobristOldEnPassantSquare;
         zobristOldEnPassantSquare = 0;
     }
 
+    @Override
     public void pushState() {
         ZobristHashData node = new ZobristHashData(zobristHash, zobristOldEnPassantSquare);
 
         stackZobristHistory.push(node);
     }
 
+    @Override
     public void popState() {
         ZobristHashData lastState = stackZobristHistory.pop();
 

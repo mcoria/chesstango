@@ -3,6 +3,10 @@ package net.chesstango.board.position;
 import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 
+/**
+ * @author Mauricio Coria
+ *
+ */
 public interface MoveCacheBoardWriter {
     void setPseudoMoves(Square key, MoveGeneratorResult generatorResult);
 
@@ -18,6 +22,5 @@ public interface MoveCacheBoardWriter {
 
     void pushCleared();
 
-    //TODO: este metodo consume el 20% del procesamiento
     void popCleared();
 }

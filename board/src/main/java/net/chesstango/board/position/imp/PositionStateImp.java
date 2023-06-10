@@ -4,7 +4,6 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.PositionStateWriter;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

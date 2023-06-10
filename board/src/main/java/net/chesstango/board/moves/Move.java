@@ -5,7 +5,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.ZobristHash;
 
 //TODO: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a bysquare vacios
@@ -48,9 +47,9 @@ public interface Move extends Comparable<Move> {
 
     void undoMove(MoveCacheBoardWriter moveCache);
 
-    void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
 
-    void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
 
     /**
      * "move" is a bit field with the following meaning (bit 0 is the least significant bit)

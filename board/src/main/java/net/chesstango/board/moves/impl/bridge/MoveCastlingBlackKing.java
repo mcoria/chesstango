@@ -5,7 +5,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.PositionStateWriter;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.ZobristHashWriter;
 
 /**
  * @author Mauricio Coria
@@ -35,7 +35,7 @@ class MoveCastlingBlackKing extends AbstractCastlingMove{
     }
 
     @Override
-    protected void xorCastling(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
+    protected void xorCastling(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         if(oldPositionState.isCastlingBlackQueenAllowed() == true){
             hash.xorCastleBlackQueen();
         }

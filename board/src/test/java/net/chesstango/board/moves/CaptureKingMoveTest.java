@@ -16,7 +16,8 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.ZobristHash;
+import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +75,7 @@ public class CaptureKingMoveTest {
         moveCacheBoard.setPseudoMoves(Square.e1, new MoveGeneratorResult(origen));
         moveCacheBoard.setPseudoMoves(Square.e2, new MoveGeneratorResult(destino));
 
-        zobristHash = new ZobristHash();
+        zobristHash = new ZobristHashImp();
         zobristHash.init(board, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCaptureKingMove(origen, destino);
