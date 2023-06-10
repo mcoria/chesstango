@@ -8,9 +8,9 @@ import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 
 /**
@@ -64,7 +64,7 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(PositionState positionState) {
+    public void executeMove(PositionStateWriter positionState) {
         positionState.pushState();
         positionState.resetHalfMoveClock();
         positionState.setEnPassantSquare(null);
@@ -88,7 +88,7 @@ class MovePawnPromotion implements MovePromotion {
             }
         }
 
-        if(Color.BLACK.equals(positionState.getCurrentTurn())){
+        if(Color.BLACK.equals(from.getPiece().getColor())){
             positionState.incrementFullMoveClock();
         }
 
@@ -96,8 +96,8 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void undoMove(PositionState positionState) {
-        positionState.popState();
+    public void undoMove(PositionStateWriter positionStateWriter) {
+        positionStateWriter.popState();
     }
 
     @Override

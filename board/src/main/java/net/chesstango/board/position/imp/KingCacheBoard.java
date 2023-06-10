@@ -17,8 +17,8 @@ public class KingCacheBoard {
 	protected Square squareKingBlackCache = null;
 	
 	public void init(BoardReader board){
-		this.squareKingWhiteCache = getKingSquareRecorrer(Color.WHITE, board);
-		this.squareKingBlackCache = getKingSquareRecorrer(Color.BLACK, board);			
+		this.squareKingWhiteCache = getKingSquare(Color.WHITE, board);
+		this.squareKingBlackCache = getKingSquare(Color.BLACK, board);
 	}	
 	
 	///////////////////////////// START getKingSquare Logic /////////////////////////////
@@ -43,7 +43,7 @@ public class KingCacheBoard {
 		return squareKingBlackCache;
 	}
 	
-	private Square getKingSquareRecorrer(Color color, BoardReader board) {
+	private Square getKingSquare(Color color, BoardReader board) {
 		Square kingSquare = null;
 		Piece king = Piece.getKing(color);
 		for (PiecePositioned entry : board) {

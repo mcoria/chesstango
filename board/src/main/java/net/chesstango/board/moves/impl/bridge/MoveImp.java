@@ -7,9 +7,9 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 
 /**
@@ -20,7 +20,7 @@ class MoveImp implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final Cardinal direction;
-    private MoveExecutor<PositionState> fnDoPositionState;
+    private MoveExecutor<PositionStateWriter> fnDoPositionState;
     private MoveExecutor<BoardWriter> fnDoMovePiecePlacement;
     private MoveExecutor<BoardWriter> fnUndoMovePiecePlacement;
 
@@ -63,13 +63,13 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(PositionState positionState) {
+    public void executeMove(PositionStateWriter positionState) {
         fnDoPositionState.apply(from, to, positionState);
     }
 
     @Override
-    public void undoMove(PositionState positionState) {
-        positionState.popState();
+    public void undoMove(PositionStateWriter positionStateWriter) {
+        positionStateWriter.popState();
     }
 
     @Override
@@ -123,7 +123,7 @@ class MoveImp implements Move {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
 
-    public void setFnDoPositionState(MoveExecutor<PositionState> fnDoPositionState) {
+    public void setFnDoPositionState(MoveExecutor<PositionStateWriter> fnDoPositionState) {
         this.fnDoPositionState = fnDoPositionState;
     }
 

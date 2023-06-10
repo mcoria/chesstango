@@ -10,9 +10,9 @@ import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 
 /**
  * Este filtro se utiliza cuando el jugador actual SI se encuentra en jaque
@@ -25,11 +25,11 @@ public class CheckMoveFilter implements MoveFilter {
 	protected final Board dummyBoard;
 	protected final KingCacheBoard kingCacheBoard;
 	protected final ColorBoard colorBoard;	
-	protected final PositionState positionState;
+	protected final PositionStateReader positionState;
 
 	protected final FullScanSquareCaptured fullScanSquareCapturer;
 	
-	public CheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
+	public CheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionStateReader positionState) {
 		this.dummyBoard = dummyBoard;
 		this.kingCacheBoard = kingCacheBoard;
 		this.colorBoard = colorBoard;

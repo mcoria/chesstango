@@ -4,13 +4,9 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.BoardWriter;
-import net.chesstango.board.position.ChessPositionWriter;
-import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 
 //TODO: Y si en vez de PosicionPieza utilizamos Square para To?
@@ -42,9 +38,9 @@ public interface Move extends Comparable<Move> {
 
     void undoMove(BoardWriter board);
 
-    void executeMove(PositionState positionState);
+    void executeMove(PositionStateWriter positionState);
 
-    void undoMove(PositionState positionState);
+    void undoMove(PositionStateWriter positionStateWriter);
 
     void executeMove(ColorBoard colorBoard);
 

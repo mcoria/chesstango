@@ -47,7 +47,7 @@ public class KnightMoveGeneratorTest {
 	@Test
 	public void test() {
 		Board tablero =  getTablero("8/3P1p2/8/4N3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);

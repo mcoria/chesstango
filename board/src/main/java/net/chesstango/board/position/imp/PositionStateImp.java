@@ -2,7 +2,9 @@ package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
+import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.PositionStateWriter;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -11,7 +13,7 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class PositionState implements PositionStateReader {
+public class PositionStateImp implements PositionState {
     private static class PositionStateData implements PositionStateReader {
         private Color currentTurn;
         private Square enPassantSquare;
@@ -72,6 +74,7 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.enPassantSquare;
     }
 
+    @Override
     public void setEnPassantSquare(Square enPassantSquare) {
         currentPositionState.enPassantSquare = enPassantSquare;
     }
@@ -81,6 +84,7 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.castlingWhiteQueenAllowed;
     }
 
+    @Override
     public void setCastlingWhiteQueenAllowed(boolean castlingWhiteQueenAllowed) {
         currentPositionState.castlingWhiteQueenAllowed = castlingWhiteQueenAllowed;
     }
@@ -90,6 +94,7 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.castlingWhiteKingAllowed;
     }
 
+    @Override
     public void setCastlingWhiteKingAllowed(boolean castlingWhiteKingAllowed) {
         currentPositionState.castlingWhiteKingAllowed = castlingWhiteKingAllowed;
     }
@@ -99,6 +104,7 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.castlingBlackQueenAllowed;
     }
 
+    @Override
     public void setCastlingBlackQueenAllowed(boolean castlingBlackQueenAllowed) {
         currentPositionState.castlingBlackQueenAllowed = castlingBlackQueenAllowed;
     }
@@ -108,6 +114,7 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.castlingBlackKingAllowed;
     }
 
+    @Override
     public void setCastlingBlackKingAllowed(boolean castlingBlackKingAllowed) {
         currentPositionState.castlingBlackKingAllowed = castlingBlackKingAllowed;
     }
@@ -117,10 +124,12 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.currentTurn;
     }
 
+    @Override
     public void setCurrentTurn(Color turn) {
         currentPositionState.currentTurn = turn;
     }
 
+    @Override
     public void rollTurn() {
         currentPositionState.currentTurn = currentPositionState.currentTurn.oppositeColor();
     }
@@ -131,14 +140,17 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.halfMoveClock;
     }
 
+    @Override
     public void setHalfMoveClock(int halfMoveClock) {
         this.currentPositionState.halfMoveClock = halfMoveClock;
     }
 
+    @Override
     public void incrementHalfMoveClock() {
         this.currentPositionState.halfMoveClock++;
     }
 
+    @Override
     public void resetHalfMoveClock() {
         this.currentPositionState.halfMoveClock = 0;
     }
@@ -149,20 +161,24 @@ public class PositionState implements PositionStateReader {
         return currentPositionState.fullMoveClock;
     }
 
+    @Override
     public void setFullMoveClock(int fullMoveClock) {
         this.currentPositionState.fullMoveClock = fullMoveClock;
     }
 
+    @Override
     public void incrementFullMoveClock() {
         if (Color.BLACK.equals(currentPositionState.currentTurn)) {
             currentPositionState.fullMoveClock++;
         }
     }
 
+    @Override
     public PositionStateReader getCurrentState(){
         return currentPositionState;
     }
 
+    @Override
     public void pushState() {
         PositionStateData node = new PositionStateData();
         node.enPassantSquare = currentPositionState.enPassantSquare;
@@ -179,6 +195,7 @@ public class PositionState implements PositionStateReader {
         currentPositionState = node;
     }
 
+    @Override
     public void popState() {
         PositionStateData lastState = stackPositionStates.pop();
 
@@ -186,8 +203,8 @@ public class PositionState implements PositionStateReader {
     }
 
     @Override
-    public PositionState clone() throws CloneNotSupportedException {
-        PositionState clone = new PositionState();
+    public PositionStateWriter clone() throws CloneNotSupportedException {
+        PositionStateImp clone = new PositionStateImp();
         clone.currentPositionState.enPassantSquare = currentPositionState.enPassantSquare;
         clone.currentPositionState.castlingWhiteQueenAllowed = currentPositionState.castlingWhiteQueenAllowed;
         clone.currentPositionState.castlingWhiteKingAllowed = currentPositionState.castlingWhiteKingAllowed;
@@ -201,8 +218,8 @@ public class PositionState implements PositionStateReader {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PositionState) {
-            PositionState theInstance = (PositionState) obj;
+        if (obj instanceof PositionStateImp) {
+            PositionStateImp theInstance = (PositionStateImp) obj;
             return Objects.equals(currentPositionState.currentTurn, theInstance.currentPositionState.currentTurn) && Objects.equals(currentPositionState.enPassantSquare, theInstance.currentPositionState.enPassantSquare) && currentPositionState.castlingWhiteQueenAllowed == theInstance.currentPositionState.castlingWhiteQueenAllowed && currentPositionState.castlingWhiteKingAllowed == theInstance.currentPositionState.castlingWhiteKingAllowed && currentPositionState.castlingBlackQueenAllowed == theInstance.currentPositionState.castlingBlackQueenAllowed && currentPositionState.castlingBlackKingAllowed == theInstance.currentPositionState.castlingBlackKingAllowed && currentPositionState.halfMoveClock == theInstance.currentPositionState.halfMoveClock && currentPositionState.fullMoveClock == theInstance.currentPositionState.fullMoveClock;
         }
         return false;

@@ -4,10 +4,12 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.PositionStateImp;
 
 
 /**
@@ -29,8 +31,8 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 			ArrayBoard boardInicial = ((ArrayBoard) super.dummyBoard).clone();
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
-			
-			PositionState boardStateInicial = super.positionState.clone();
+
+			PositionStateImp boardStateInicial = (PositionStateImp) ((PositionStateImp) (super.positionState)).clone();
 	
 			boolean result = super.filterMove(move);
 			

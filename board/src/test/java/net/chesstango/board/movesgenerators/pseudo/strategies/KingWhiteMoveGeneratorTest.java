@@ -14,7 +14,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private MovePair moveCastling;
 	
-	private PositionState state;
+	private PositionStateImp state;
 	
 	private ColorBoard colorBoard;
 	
@@ -48,7 +48,7 @@ public class KingWhiteMoveGeneratorTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-		state = new PositionState();
+		state = new PositionStateImp();
 		
 		moveGenerator = new KingWhiteMoveGenerator();
 		moveGenerator.setBoardState(state);
@@ -119,7 +119,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
@@ -521,7 +521,7 @@ public class KingWhiteMoveGeneratorTest {
 		colorBoard.init(tablero);
 		kingCacheBoard.init(tablero);
 		
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		return tablero;
 	}

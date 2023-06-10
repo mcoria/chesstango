@@ -60,7 +60,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	@Test
 	public void testNorteOeste() {
 		Board tablero =  getTablero("8/8/8/4B3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -87,7 +87,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	@Test
 	public void testNorteOeste01() {
 		Board tablero =  getTablero("1R6/8/8/4B3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -113,7 +113,7 @@ public class AbstractCardinalMoveGeneratorNorteOesteTest {
 	@Test
 	public void testNorteOeste02() {
 		Board tablero =  getTablero("1r6/8/8/4B3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);

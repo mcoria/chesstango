@@ -61,7 +61,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 	@Test
 	public void testSurEste() {
 		Board tablero =  getTablero("8/8/8/4B3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -87,7 +87,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 	@Test
 	public void testSurEste01() {
 		Board tablero = getTablero("8/8/8/4B3/8/8/7R/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -113,7 +113,7 @@ public class AbstractCardinalMoveGeneratorSurEsteTest {
 	@Test
 	public void testSurEste02() {
 		Board tablero = getTablero("8/8/8/4B3/8/8/7r/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);

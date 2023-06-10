@@ -6,9 +6,9 @@ import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 import net.chesstango.board.position.imp.ZobristHash;
 
 /**
@@ -58,8 +58,8 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void undoMove(PositionState positionState) {
-        positionState.popState();
+    public void undoMove(PositionStateWriter positionStateWriter) {
+        positionStateWriter.popState();
     }
 
     @Override

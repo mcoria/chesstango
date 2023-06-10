@@ -15,7 +15,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	private MovePair moveCastling;
 	
-	private PositionState state;
+	private PositionStateImp state;
 	
 	private ColorBoard colorBoard;
 	
@@ -49,7 +49,7 @@ public class KingBlackMoveGeneratorTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-		state = new PositionState();
+		state = new PositionStateImp();
 		state.setCurrentTurn(Color.BLACK);
 		
 		moveGenerator = new KingBlackMoveGenerator();
@@ -196,7 +196,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		state.setCastlingBlackKingAllowed(true);
 		
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -243,7 +243,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		state.setCastlingBlackKingAllowed(true);
 
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -292,7 +292,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		state.setCastlingBlackKingAllowed(true);
 		
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -342,7 +342,7 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackKingAllowed(true);
 		state.setCastlingBlackQueenAllowed(true);
 		
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -431,7 +431,7 @@ public class KingBlackMoveGeneratorTest {
 		colorBoard.init(tablero);
 		kingCacheBoard.init(tablero);
 		
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		return tablero;
 	}	

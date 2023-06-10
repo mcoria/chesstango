@@ -45,7 +45,7 @@ public class PawnBlackMoveGeneratorTest {
     public void testSaltoSimple() {
         Board tablero = getTablero("8/8/p7/8/8/8/8/8");
 
-        moveGenerator.setPiecePlacement(tablero);
+        moveGenerator.setBoard(tablero);
 
         Square from = Square.a6;
         assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
@@ -65,7 +65,7 @@ public class PawnBlackMoveGeneratorTest {
     public void testSaltoDoble() {
         Board tablero = getTablero("8/p7/8/8/8/8/8/8");
 
-        moveGenerator.setPiecePlacement(tablero);
+        moveGenerator.setBoard(tablero);
 
         Square from = Square.a7;
         assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
@@ -86,7 +86,7 @@ public class PawnBlackMoveGeneratorTest {
     public void testAtaqueIzquierda() {
         Board tablero = getTablero("8/4p3/3P4/8/8/8/8/8");
 
-        moveGenerator.setPiecePlacement(tablero);
+        moveGenerator.setBoard(tablero);
 
         Square from = Square.e7;
         assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));
@@ -109,7 +109,7 @@ public class PawnBlackMoveGeneratorTest {
     public void testAtaqueDerecha() {
         Board tablero = getTablero("8/4p3/5P2/8/8/8/8/8");
 
-        moveGenerator.setPiecePlacement(tablero);
+        moveGenerator.setBoard(tablero);
 
         Square from = Square.e7;
         assertEquals(Piece.PAWN_BLACK, tablero.getPiece(from));

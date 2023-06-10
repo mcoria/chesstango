@@ -3,8 +3,8 @@ package net.chesstango.board.movesgenerators.legal.squarecapturers;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByBishop;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByRook;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByPiece;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.CapturerByRook;
 import net.chesstango.board.position.BoardReader;
 
 

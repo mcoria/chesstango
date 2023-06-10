@@ -6,6 +6,7 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.*;
 
 /**
@@ -18,7 +19,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
-	protected PositionState positionState = null;	
+	protected PositionStateImp positionState = null;
 
 	@Override
 	// TODO: validadciones del metodo getBoardStatus(): 
@@ -33,7 +34,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 			
 			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
 			
-			PositionState boardStateInicial = this.positionState.clone();
+			PositionStateWriter boardStateInicial = this.positionState.clone();
 
 			AnalyzerResult result = analyze();
 			
@@ -83,12 +84,12 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	}
 
 
-	public PositionState getBoardState() {
+	public PositionStateImp getBoardState() {
 		return positionState;
 	}
 
 
-	public void setBoardState(PositionState positionState) {
-		this.positionState = positionState;
+	public void setBoardState(PositionStateImp positionStateWriter) {
+		this.positionState = positionStateWriter;
 	}	
 }

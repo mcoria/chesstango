@@ -12,7 +12,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class MoveGeneratorEnPassantImpTest {
 
 	private MovePair movePair;
 
-	private PositionState state;
+	private PositionStateImp state;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -42,7 +42,7 @@ public class MoveGeneratorEnPassantImpTest {
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		moves = new ArrayList<Move>();
-		state = new PositionState();
+		state = new PositionStateImp();
 		
 		moveGenerator = new MoveGeneratorEnPassantImp();
 		moveGenerator.setBoardState(state);

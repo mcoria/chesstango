@@ -48,7 +48,7 @@ public class RookMoveGeneratorTest {
 	@Test
 	public void testGetPseudoMoves01() {
 		Board tablero =  getTablero("8/8/8/4R3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
@@ -92,7 +92,7 @@ public class RookMoveGeneratorTest {
 	@Test
 	public void testGetPseudoMoves02() {		
 		Board tablero =  getTablero("8/4p3/8/4R3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		
 		ColorBoard colorBoard = new ColorBoardDebug();

@@ -4,14 +4,14 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.imp.PositionStateImp;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class PositionStateDebug extends PositionState{
+public class PositionStateDebug extends PositionStateImp {
 
 	public void validar() {
 		if(this.getCurrentTurn() == null){

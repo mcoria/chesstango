@@ -11,9 +11,9 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorByPiecePositione
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.strategies.*;
 import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
 
 /**
  * @author Mauricio Coria
@@ -39,7 +39,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	
 	private BoardReader piecePlacement;
 	private ColorBoard colorBoard;
-	private PositionState positionState;	
+	private PositionStateReader positionState;
 	private KingCacheBoard kingCacheBoard;
 	
 	public MoveGeneratorImp() {
@@ -107,7 +107,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		setupMoveGenerators();
 	}
 
-	public void setBoardState(PositionState positionState) {
+	public void setBoardState(PositionStateReader positionState) {
 		this.positionState = positionState;
 		setupMoveGenerators();
 	}
@@ -148,7 +148,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
 		if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator) {
 			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGeneratorByPiecePositioned;
-			generator.setPiecePlacement(piecePlacement);
+			generator.setBoard(piecePlacement);
 			generator.setColorBoard(colorBoard);
 			
 			if(moveGeneratorByPiecePositioned.equals(pbmg) || moveGeneratorByPiecePositioned.equals(tbmg) || moveGeneratorByPiecePositioned.equals(cbmg) || moveGeneratorByPiecePositioned.equals(abmg) || moveGeneratorByPiecePositioned.equals(rebmg) || moveGeneratorByPiecePositioned.equals(rbmg)){

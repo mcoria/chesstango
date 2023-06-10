@@ -47,7 +47,7 @@ public class QueenMoveGeneratorTest {
 	@Test
 	public void testGetPseudoMoves() {
 		Board tablero =  getTablero("8/8/8/4Q3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
+		moveGenerator.setBoard(tablero);
 		
 		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);

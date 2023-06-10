@@ -16,7 +16,7 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	
 	protected final Color color;
 	
-	protected BoardReader piecePlacement;
+	protected BoardReader board;
 
 	protected ColorBoard colorBoard;	
 	
@@ -26,8 +26,8 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 		this.color = color;
 	}
 
-	public void setPiecePlacement(BoardReader piecePlacement) {
-		this.piecePlacement = piecePlacement;
+	public void setBoard(BoardReader board) {
+		this.board = board;
 	}	
 
 	public void setColorBoard(ColorBoard colorBoard) {

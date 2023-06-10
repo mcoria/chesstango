@@ -12,6 +12,7 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.*;
 
 import java.util.HashMap;

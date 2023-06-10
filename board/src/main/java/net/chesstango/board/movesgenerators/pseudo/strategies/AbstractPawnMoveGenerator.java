@@ -48,7 +48,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		PiecePositioned destino = null;
 		
 		if (saltoSimpleCasillero != null) {
-			destino = this.piecePlacement.getPosition(saltoSimpleCasillero);
+			destino = this.board.getPosition(saltoSimpleCasillero);
 			result.addAffectedByPositions(saltoSimpleCasillero);
 			// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 			if (destino.getPiece() == null) {
@@ -62,7 +62,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 					result.addPseudoMove(moveSaltoSimple);
 					
 					if (saltoDobleCasillero != null) {
-						destino = this.piecePlacement.getPosition(saltoDobleCasillero);
+						destino = this.board.getPosition(saltoDobleCasillero);
 						result.addAffectedByPositions(saltoDobleCasillero);
 						// Esta vacio? consultamos de esta forma para evitar ir dos veces el tablero
 						if (destino.getPiece() == null) {
@@ -75,7 +75,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		}
 
 		if (casilleroAtaqueIzquierda != null) {
-			destino = this.piecePlacement.getPosition(casilleroAtaqueIzquierda);
+			destino = this.board.getPosition(casilleroAtaqueIzquierda);
 			result.addAffectedByPositions(casilleroAtaqueIzquierda);
 			result.addCapturedPositions(casilleroAtaqueIzquierda);
 			Piece piece = destino.getPiece();
@@ -94,7 +94,7 @@ abstract class AbstractPawnMoveGenerator extends AbstractMoveGenerator {
 		}
 
 		if (casilleroAtaqueDerecha != null) {
-			destino = this.piecePlacement.getPosition(casilleroAtaqueDerecha);
+			destino = this.board.getPosition(casilleroAtaqueDerecha);
 			result.addAffectedByPositions(casilleroAtaqueDerecha);
 			result.addCapturedPositions(casilleroAtaqueDerecha);
 			Piece piece = destino.getPiece();

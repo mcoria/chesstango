@@ -10,6 +10,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.representations.fen.FENEncoder;
 

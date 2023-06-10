@@ -7,7 +7,7 @@ import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.PositionState;
 
 
 /**

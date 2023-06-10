@@ -4,7 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.ZobristHash;
 
 /**
@@ -24,7 +24,7 @@ class MoveCastlingWhiteQueen extends AbstractCastlingMove{
     }
 
     @Override
-    public void executeMove(PositionState positionState) {
+    public void executeMove(PositionStateWriter positionState) {
         positionState.pushState();
         positionState.setCastlingWhiteKingAllowed(false);
         positionState.setCastlingWhiteQueenAllowed(false);
