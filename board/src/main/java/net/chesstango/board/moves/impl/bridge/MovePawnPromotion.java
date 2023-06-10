@@ -97,12 +97,12 @@ class MovePawnPromotion implements MovePromotion {
     }
 
     @Override
-    public void executeMove(ColorBoard colorBoard) {
+    public void executeMove(ColorBoardWriter colorBoard) {
         fnDoColorBoard.apply(from, to, colorBoard);
     }
 
     @Override
-    public void undoMove(ColorBoard colorBoard) {
+    public void undoMove(ColorBoardWriter colorBoard) {
         fnUndoColorBoard.apply(from, to, colorBoard);
     }
 

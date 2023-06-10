@@ -5,7 +5,6 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 
@@ -42,9 +41,9 @@ public interface Move extends Comparable<Move> {
 
     void undoMove(PositionStateWriter positionStateWriter);
 
-    void executeMove(ColorBoard colorBoard);
+    void executeMove(ColorBoardWriter colorBoard);
 
-    void undoMove(ColorBoard colorBoard);
+    void undoMove(ColorBoardWriter colorBoard);
 
     void executeMove(MoveCacheBoard moveCache);
 
