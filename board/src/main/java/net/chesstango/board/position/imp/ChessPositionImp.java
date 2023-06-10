@@ -23,7 +23,7 @@ public class ChessPositionImp implements ChessPosition {
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	protected Board board = null;
 	protected ColorBoard colorBoard = null;
-	protected KingCacheBoard kingCacheBoard = null;	
+	protected KingSquare kingSquare = null;
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;
 	protected ZobristHash zobristHash = null;
@@ -31,7 +31,7 @@ public class ChessPositionImp implements ChessPosition {
 	@Override
 	public void init() {
 		colorBoard.init(board);
-		kingCacheBoard.init(board);
+		kingSquare.init(board);
 		zobristHash.init(board, positionState);
 	}
 
@@ -60,7 +60,7 @@ public class ChessPositionImp implements ChessPosition {
 	public void executeMoveKing(MoveKing move) {
 		executeMove(move);
 		
-		move.executeMove(this.kingCacheBoard);
+		move.executeMove(this.kingSquare);
 
 	}	
 
@@ -89,7 +89,7 @@ public class ChessPositionImp implements ChessPosition {
 	public void undoMoveKing(MoveKing move) {
 		undoMove(move);
 
-		move.undoMove(this.kingCacheBoard);
+		move.undoMove(this.kingSquare);
 	}	
 	
 	@Override
@@ -155,17 +155,17 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Square getKingSquare(Color color) {
-		return kingCacheBoard.getKingSquare(color);
+		return kingSquare.getKingSquare(color);
 	}
 
 	@Override
 	public Square getKingSquareWhite() {
-		return kingCacheBoard.getKingSquareWhite();
+		return kingSquare.getKingSquareWhite();
 	}
 
 	@Override
 	public Square getKingSquareBlack() {
-		return kingCacheBoard.getKingSquareBlack();
+		return kingSquare.getKingSquareBlack();
 	}
 
 	@Override
@@ -175,7 +175,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public SquareIterator iteratorSquareWithoutKing(Color color) {
-		return colorBoard.iteratorSquareWithoutKing(color, kingCacheBoard.getKingSquare(color));
+		return colorBoard.iteratorSquareWithoutKing(color, kingSquare.getKingSquare(color));
 	}
 
 	@Override
@@ -245,8 +245,8 @@ public class ChessPositionImp implements ChessPosition {
 		this.colorBoard = colorBoard;
 	}
 
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
+	public void setKingCacheBoard(KingSquare kingSquare) {
+		this.kingSquare = kingSquare;
 	}
 
 	public void setMoveCache(MoveCacheBoard moveCache) {

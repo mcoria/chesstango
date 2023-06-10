@@ -16,7 +16,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
 	protected BoardReader boardReader = null;
 	protected ColorBoardReader colorBoard = null;
-	protected KingCacheBoardImp kingCacheBoard = null;
+	protected KingSquareImp kingCacheBoard = null;
 	protected MoveCacheBoardWriter moveCache = null;
 	protected PositionState positionState = null;
 
@@ -31,7 +31,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 			
 			BoardReader boardInicial =  ((ArrayBoard)this.boardReader).clone();
 			
-			KingCacheBoardImp kingCacheBoardInicial = this.kingCacheBoard.clone();
+			KingSquareImp kingCacheBoardInicial = this.kingCacheBoard.clone();
 
 			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 
@@ -73,7 +73,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		this.colorBoard = colorBoard;
 	}
 
-	public void setKingCacheBoard(KingCacheBoardImp kingCacheBoard) {
+	public void setKingCacheBoard(KingSquareImp kingCacheBoard) {
 		this.kingCacheBoard = kingCacheBoard;
 	}
 

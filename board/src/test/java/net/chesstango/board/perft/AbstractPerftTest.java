@@ -31,9 +31,9 @@ public abstract class AbstractPerftTest {
 	}
 
 	protected Perft createPerft(){
-		//return new PerftBrute();
+		return new PerftBrute();
 		//return new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
-		return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
+		//return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
 	}
 
 

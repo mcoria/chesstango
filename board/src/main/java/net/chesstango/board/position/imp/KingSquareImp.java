@@ -5,13 +5,13 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.KingCacheBoard;
+import net.chesstango.board.position.KingSquare;
 
 /**
  * @author Mauricio Coria
  *
  */
-public class KingCacheBoardImp implements KingCacheBoard {
+public class KingSquareImp implements KingSquare {
 	
 	protected Square squareKingWhiteCache = null;
 	
@@ -52,8 +52,8 @@ public class KingCacheBoardImp implements KingCacheBoard {
 	///////////////////////////// END getKingSquare Logic /////////////////////////////
 	
 	@Override
-	public KingCacheBoardImp clone() throws CloneNotSupportedException {
-		KingCacheBoardImp clone = new KingCacheBoardImp();
+	public KingSquareImp clone() throws CloneNotSupportedException {
+		KingSquareImp clone = new KingSquareImp();
 		clone.squareKingWhiteCache = this.squareKingWhiteCache;
 		clone.squareKingBlackCache = this.squareKingBlackCache;
 		return clone;
@@ -61,8 +61,8 @@ public class KingCacheBoardImp implements KingCacheBoard {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof KingCacheBoardImp){
-			KingCacheBoardImp theInstance = (KingCacheBoardImp) obj;
+		if(obj instanceof KingSquareImp){
+			KingSquareImp theInstance = (KingSquareImp) obj;
 			return this.squareKingWhiteCache.equals(theInstance.squareKingWhiteCache) && this.squareKingBlackCache.equals(theInstance.squareKingBlackCache); 
 		}
 		return false;

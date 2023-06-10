@@ -7,6 +7,6 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface KingCacheBoardWriter {
+public interface KingSquareWriter {
     void setKingSquare(Color color, Square square);
 }

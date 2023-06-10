@@ -7,7 +7,7 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  *
  */
-public interface KingCacheBoardReader {
+public interface KingSquareReader {
     Square getKingSquare(Color color);
 
     Square getKingSquareWhite();

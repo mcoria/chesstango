@@ -7,7 +7,7 @@ import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.ArrayBoard;
 import net.chesstango.board.position.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoardImp;
+import net.chesstango.board.position.imp.KingSquareImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 
 
@@ -17,7 +17,7 @@ import net.chesstango.board.position.imp.PositionStateImp;
  */
 public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 	
-	public NoCheckMoveFilterDebug(Board dummyBoard, KingCacheBoardImp kingCacheBoard, ColorBoard colorBoard,
+	public NoCheckMoveFilterDebug(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
                                   PositionState positionState) {
 		super(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
@@ -29,7 +29,7 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 
 			ArrayBoard boardInicial = ((ArrayBoard) super.dummyBoard).clone();
 			
-			KingCacheBoardImp kingCacheBoardInicial = super.kingCacheBoard.clone();
+			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 
 			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 	
@@ -72,7 +72,7 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 		try {
 			boolean reportError = false;	
 			
-			KingCacheBoardImp kingCacheBoardInicial = super.kingCacheBoard.clone();
+			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
 			boolean result = super.filterMoveKing(move);
 			
@@ -87,7 +87,7 @@ public class NoCheckMoveFilterDebug extends NoCheckMoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+			((KingSquareDebug)kingCacheBoard).validar(this.dummyBoard);
 			
 			return result;
 		} catch (CloneNotSupportedException e) {

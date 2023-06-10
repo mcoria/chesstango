@@ -40,8 +40,8 @@ public class ChessFactoryDebug extends ChessFactory {
 	}	
 	
 	@Override
-	public KingCacheBoardImp createKingCacheBoard() {
-		return new KingCacheBoardDebug();
+	public KingSquareImp createKingCacheBoard() {
+		return new KingSquareDebug();
 	}
 	
 	@Override
@@ -50,13 +50,13 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoardImp kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
+	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		return new CheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
 
 	@Override
-	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoardImp kingCacheBoard, ColorBoard colorBoard,
-													 PositionState positionState) {
+	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingSquareImp kingCacheBoard, ColorBoard colorBoard,
+                                                     PositionState positionState) {
 		return new NoCheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}		
 	

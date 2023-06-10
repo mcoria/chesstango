@@ -14,8 +14,8 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.KingCacheBoard;
-import net.chesstango.board.position.imp.KingCacheBoardImp;
+import net.chesstango.board.position.KingSquare;
+import net.chesstango.board.position.imp.KingSquareImp;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +43,7 @@ public class KingWhiteMoveGeneratorTest {
 	
 	private ColorBoard colorBoard;
 	
-	protected KingCacheBoard kingCacheBoard;
+	protected KingSquare kingSquare;
 
 	private MoveFactory moveFactoryImp;
 	
@@ -59,8 +59,8 @@ public class KingWhiteMoveGeneratorTest {
 		colorBoard = new ColorBoardDebug();
 		moveGenerator.setColorBoard(colorBoard);
 		
-		kingCacheBoard = new KingCacheBoardImp();
-		moveGenerator.setKingCacheBoard(kingCacheBoard);		
+		kingSquare = new KingSquareImp();
+		moveGenerator.setKingCacheBoard(kingSquare);
 	}
 	
 	@Test
@@ -521,7 +521,7 @@ public class KingWhiteMoveGeneratorTest {
 		Board tablero = builder.getChessRepresentation();
 		
 		colorBoard.init(tablero);
-		kingCacheBoard.init(tablero);
+		kingSquare.init(tablero);
 		
 		moveGenerator.setBoard(tablero);
 		

@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingPositionsSquareIterator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorCastling;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.KingCacheBoard;
+import net.chesstango.board.position.KingSquare;
 
 import java.util.Iterator;
 
@@ -19,7 +19,7 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	
 	protected PositionStateReader positionState;
 	
-	protected KingCacheBoard kingCacheBoard;
+	protected KingSquare kingSquare;
 	
 	public AbstractKingMoveGenerator(Color color) {
 		super(color);
@@ -69,8 +69,8 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 	}
 	
 
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
+	public void setKingCacheBoard(KingSquare kingSquare) {
+		this.kingSquare = kingSquare;
 	}	
 	
 }

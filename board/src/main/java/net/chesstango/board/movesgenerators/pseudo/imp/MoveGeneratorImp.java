@@ -13,7 +13,7 @@ import net.chesstango.board.movesgenerators.pseudo.strategies.*;
 import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.ColorBoardReader;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.KingCacheBoard;
+import net.chesstango.board.position.KingSquare;
 
 /**
  * @author Mauricio Coria
@@ -40,7 +40,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private BoardReader piecePlacement;
 	private ColorBoardReader colorBoard;
 	private PositionStateReader positionState;
-	private KingCacheBoard kingCacheBoard;
+	private KingSquare kingSquare;
 	
 	public MoveGeneratorImp() {
 		pbmg =  new PawnWhiteMoveGenerator();
@@ -112,8 +112,8 @@ public class MoveGeneratorImp implements MoveGenerator {
 		setupMoveGenerators();
 	}
 	
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
+	public void setKingCacheBoard(KingSquare kingSquare) {
+		this.kingSquare = kingSquare;
 		setupMoveGenerators();
 	}	
 	
@@ -161,7 +161,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator) {
 			AbstractKingMoveGenerator generator = (AbstractKingMoveGenerator) moveGeneratorByPiecePositioned;
 			generator.setBoardState(positionState);
-			generator.setKingCacheBoard(kingCacheBoard);
+			generator.setKingCacheBoard(kingSquare);
 		}
 	}
 	

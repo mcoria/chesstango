@@ -6,7 +6,6 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.position.imp.ChessPositionImp;
 import net.chesstango.board.representations.ascii.ASCIIEncoder;
-import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.Collection;
 
@@ -26,7 +25,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 		super.acceptForDo(move);
 		((PositionStateDebug)positionState).validar(this.board);
 		((ColorBoardDebug)colorBoard).validar(this.board);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.board);
+		((KingSquareDebug) kingSquare).validar(this.board);
 		((MoveCacheBoardDebug)moveCache).validar(this.board);
 		((ZobristHashDebug)zobristHash).validar(this);
 	}
@@ -36,7 +35,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 		super.acceptForUndo(move);
 		((PositionStateDebug)positionState).validar(this.board);
 		((ColorBoardDebug)colorBoard).validar(this.board);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.board);
+		((KingSquareDebug) kingSquare).validar(this.board);
 		((MoveCacheBoardDebug)moveCache).validar(this.board);
 		((ZobristHashDebug)zobristHash).validar(this);
 		validar(getMoveGeneratorImp());
@@ -47,7 +46,7 @@ public class ChessPositionDebug extends ChessPositionImp {
 		super.init();
 		((PositionStateDebug)positionState).validar(this.board);
 		((ColorBoardDebug)colorBoard).validar(this.board);
-		((KingCacheBoardDebug)kingCacheBoard).validar(this.board);
+		((KingSquareDebug) kingSquare).validar(this.board);
 		((MoveCacheBoardDebug)moveCache).validar(this.board);
 	}
 	

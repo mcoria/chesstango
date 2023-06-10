@@ -5,7 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.debug.chess.KingCacheBoardDebug;
+import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
@@ -40,7 +40,7 @@ public class SimpleKingMoveTest {
 
     private PositionStateDebug positionState;
     private ColorBoardDebug colorBoard;
-    private KingCacheBoardDebug kingCacheBoard;
+    private KingSquareDebug kingCacheBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
 
@@ -65,7 +65,7 @@ public class SimpleKingMoveTest {
         colorBoard = new ColorBoardDebug();
         colorBoard.init(board);
 
-        kingCacheBoard = new KingCacheBoardDebug();
+        kingCacheBoard = new KingSquareDebug();
         kingCacheBoard.init(board);
 
         PiecePositioned origen = board.getPosition(Square.e1);

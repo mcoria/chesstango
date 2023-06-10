@@ -29,7 +29,7 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	public MovePair generateCastlingPseudoMoves() {
 		MovePair moveContainer = new MovePair();
 		if (this.positionState.isCastlingWhiteQueenAllowed()){
-			if(puedeEnroqueQueen(	kingCacheBoard.getKingSquareWhite(),
+			if(puedeEnroqueQueen(	kingSquare.getKingSquareWhite(),
 								PiecePositioned.KING_WHITE, 
 								PiecePositioned.ROOK_WHITE_QUEEN,
 								INTERMEDIO_ROOK_QUEEN_SQUARE, 
@@ -41,7 +41,7 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 		
 		
 		if (this.positionState.isCastlingWhiteKingAllowed() ){
-			if(puedeEnroqueKing(	kingCacheBoard.getKingSquareWhite(),
+			if(puedeEnroqueKing(	kingSquare.getKingSquareWhite(),
 								PiecePositioned.KING_WHITE, 
 								PiecePositioned.ROOK_WHITE_KING,
 								DESTINO_KING_SQUARE, 

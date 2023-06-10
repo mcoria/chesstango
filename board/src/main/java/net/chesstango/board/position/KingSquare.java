@@ -4,7 +4,7 @@ package net.chesstango.board.position;
  * @author Mauricio Coria
  *
  */
-public interface KingCacheBoard extends KingCacheBoardReader, KingCacheBoardWriter {
+public interface KingSquare extends KingSquareReader, KingSquareWriter {
     void init(BoardReader board);
 
 }

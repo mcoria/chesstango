@@ -5,14 +5,14 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.KingCacheBoardImp;
+import net.chesstango.board.position.imp.KingSquareImp;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class KingCacheBoardDebug extends KingCacheBoardImp {
+public class KingSquareDebug extends KingSquareImp {
 	
 	public void validar(Board dummyBoard) {
 		if (squareKingWhiteCache != null && !Piece.KING_WHITE.equals(dummyBoard.getPiece(squareKingWhiteCache))) {

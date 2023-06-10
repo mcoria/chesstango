@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.debug.chess.ColorBoardDebug;
-import net.chesstango.board.debug.chess.KingCacheBoardDebug;
+import net.chesstango.board.debug.chess.KingSquareDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
@@ -39,7 +39,7 @@ public class CastlingWhiteKingTest {
 
     private MoveCastling moveExecutor;
 
-    private KingCacheBoardDebug kingCacheBoard;
+    private KingSquareDebug kingCacheBoard;
 
     private ColorBoardDebug colorBoard;
 
@@ -68,7 +68,7 @@ public class CastlingWhiteKingTest {
         board.setPiece(Square.e1, Piece.KING_WHITE);
         board.setPiece(Square.h1, Piece.ROOK_WHITE);
 
-        kingCacheBoard = new KingCacheBoardDebug();
+        kingCacheBoard = new KingSquareDebug();
         kingCacheBoard.init(board);
 
         colorBoard = new ColorBoardDebug();
