@@ -3,6 +3,7 @@ package net.chesstango.board.position.imp;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
+import net.chesstango.board.position.ColorBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,7 @@ public class ChessPositionImpTest {
         tablero.setPiece(Square.e1, Piece.KING_WHITE);
         tablero.setPiece(Square.e8, Piece.KING_BLACK);
 
-        ColorBoardImp colorBoard = new ColorBoardImp();
+        ColorBoard colorBoard = new ColorBoardImp();
         colorBoard.init(tablero);
 
         chessPosition.setPiecePlacement(tablero);

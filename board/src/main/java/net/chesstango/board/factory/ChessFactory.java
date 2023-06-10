@@ -45,7 +45,7 @@ public class ChessFactory {
 		return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
-	public ColorBoardImp createColorBoard() {
+	public ColorBoard createColorBoard() {
 		return new ColorBoardImp();
 	}
 

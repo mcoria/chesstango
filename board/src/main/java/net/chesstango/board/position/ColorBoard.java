@@ -6,4 +6,5 @@ package net.chesstango.board.position;
  */
 public interface ColorBoard extends ColorBoardReader, ColorBoardWriter {
 
+    void init(BoardReader board);
 }

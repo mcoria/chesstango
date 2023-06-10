@@ -8,10 +8,7 @@ import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.*;
 import net.chesstango.board.representations.fen.FENEncoder;
 
 import java.util.Iterator;
@@ -25,7 +22,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	protected Board board = null;
-	protected ColorBoardImp colorBoard = null;
+	protected ColorBoard colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;
@@ -234,7 +231,7 @@ public class ChessPositionImp implements ChessPosition {
 		this.board = board;
 	}
 
-	public void setColorBoard(ColorBoardImp colorBoard) {
+	public void setColorBoard(ColorBoard colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 

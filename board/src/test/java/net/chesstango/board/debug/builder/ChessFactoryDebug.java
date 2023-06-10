@@ -37,8 +37,8 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public ColorBoardImp createColorBoard() {
-		ColorBoardImp colorBoard = new ColorBoardDebug();
+	public ColorBoard createColorBoard() {
+		ColorBoard colorBoard = new ColorBoardDebug();
 		return colorBoard;
 	}	
 	

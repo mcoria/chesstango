@@ -12,6 +12,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.ColorBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,8 +49,8 @@ public class QueenMoveGeneratorTest {
 	public void testGetPseudoMoves() {
 		Board tablero =  getTablero("8/8/8/4Q3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
-		
-		ColorBoardImp colorBoard = new ColorBoardDebug();
+
+		ColorBoard colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 

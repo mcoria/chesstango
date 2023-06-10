@@ -99,6 +99,7 @@ public class ColorBoardImp implements ColorBoard {
 	
 	
 	//TODO: quitar este metodo de carga, moverlo a un builder
+	@Override
 	public void init(BoardReader board) {
 		for (PiecePositioned piecePositioned : board) {
 			Piece piece = piecePositioned.getPiece();
