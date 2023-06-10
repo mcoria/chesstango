@@ -6,6 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.position.MoveCacheBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ public class MoveCacheBoardTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
-		cache = new MoveCacheBoard();
+		cache = new MoveCacheBoardImp();
 	}
 	
 	@Test

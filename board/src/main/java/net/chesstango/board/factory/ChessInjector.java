@@ -10,10 +10,7 @@ import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ColorBoard;
-import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 import java.util.HashMap;

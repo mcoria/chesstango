@@ -2,6 +2,7 @@ package net.chesstango.board.position.imp;
 
 import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
+import net.chesstango.board.position.MoveCacheBoard;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  * TODO: LOS TESTS DE MOVIMIENTOS DEBERIAN PROBAR LOS AFFECTS
  *
  */
-public class MoveCacheBoard {
+public class MoveCacheBoardImp implements MoveCacheBoard {
 	
 	protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
 	protected long[] affects = new long[64];
@@ -22,10 +23,12 @@ public class MoveCacheBoard {
 	private List<MoveGeneratorResult> currentClearedSquares = new ArrayList<MoveGeneratorResult>();
 	private final Deque<List<MoveGeneratorResult>> clearedSquares = new ArrayDeque<List<MoveGeneratorResult>>();
 	
+	@Override
 	public MoveGeneratorResult getPseudoMovesResult(Square key) {
 		return  pseudoMoves[key.toIdx()];
 	}	
 	 
+	@Override
 	public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
 		pseudoMoves[key.toIdx()] = generatorResult;
 		long keyAdded = key.getBitPosition();
@@ -40,29 +43,34 @@ public class MoveCacheBoard {
 		}		
 	}		
 
+	@Override
 	public void clearPseudoMoves(Square key, boolean trackCleared) {
 		clearPseudoMoves(affects[key.toIdx()] | (pseudoMoves[key.toIdx()] != null ? key.getBitPosition() : 0), trackCleared);
 	}
 
+	@Override
 	public void clearPseudoMoves(Square key1, Square key2, boolean trackCleared) {
 		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
 				                  | affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0), trackCleared);
 	}
 
+	@Override
 	public void clearPseudoMoves(Square key1, Square key2, Square key3, boolean trackCleared) {
 		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
 				                 | affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
 				                 | affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0), trackCleared);
 	}
 
+	@Override
 	public void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4, boolean trackCleared) {
 		clearPseudoMoves(affects[key1.toIdx()] | (pseudoMoves[key1.toIdx()] != null ? key1.getBitPosition() : 0)
 				                 | affects[key2.toIdx()] | (pseudoMoves[key2.toIdx()] != null ? key2.getBitPosition() : 0)
 				                 | affects[key3.toIdx()] | (pseudoMoves[key3.toIdx()] != null ? key3.getBitPosition() : 0)
 				                 | affects[key4.toIdx()] | (pseudoMoves[key4.toIdx()] != null ? key4.getBitPosition() : 0), trackCleared);
-	}	
-	
-	private void clearPseudoMoves(long clearSquares, boolean trackCleared) {
+	}
+
+	@Override
+	public void clearPseudoMoves(long clearSquares, boolean trackCleared) {
 		long affectsBySquares = 0;
 		for(int i = 0; i < 64; i++){
 			if( (clearSquares & (1L << i))  != 0 ) {
@@ -76,22 +84,24 @@ public class MoveCacheBoard {
 				}
 			}
 		}
-		
+
 		long keyRemoved = ~clearSquares;
 		for(int i = 0; i < 64; i++){
 			if( (affectsBySquares & (1L << i))  != 0 ) {
 				affects[i] &= keyRemoved;
 			}
 		}
-	}	
+	}
 
-	
+
+	@Override
 	public void pushCleared() {
 		clearedSquares.push(currentClearedSquares);
 		currentClearedSquares = new ArrayList<MoveGeneratorResult>();
 	}
 
 	//TODO: este metodo consume el 20% del procesamiento
+	@Override
 	public void popCleared() {
 		currentClearedSquares.stream()
 				.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult));

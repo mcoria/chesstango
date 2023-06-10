@@ -8,10 +8,7 @@ import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.ChessPositionReader;
-import net.chesstango.board.position.ColorBoard;
-import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 

@@ -5,7 +5,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 
 /**
@@ -79,13 +78,13 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(MoveCacheBoard moveCache) {
+    public void executeMove(MoveCacheBoardWriter moveCache) {
         moveCache.pushCleared();
         moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), true);
     }
 
     @Override
-    public void undoMove(MoveCacheBoard moveCache) {
+    public void undoMove(MoveCacheBoardWriter moveCache) {
         moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), false);
         moveCache.popCleared();
     }

@@ -5,9 +5,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.ColorBoardReader;
-import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 /**
@@ -19,7 +17,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	protected BoardReader boardReader = null;
 	protected ColorBoardReader colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
-	protected MoveCacheBoard moveCache = null;
+	protected MoveCacheBoardWriter moveCache = null;
 	protected PositionState positionState = null;
 
 	@Override
@@ -80,7 +78,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	}
 
 
-	public void setMoveCache(MoveCacheBoard moveCache) {
+	public void setMoveCache(MoveCacheBoardWriter moveCache) {
 		this.moveCache = moveCache;
 	}
 

@@ -8,7 +8,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
-import net.chesstango.board.position.imp.MoveCacheBoard;
+import net.chesstango.board.position.MoveCacheBoard;
 
 /**
  * @author Mauricio Coria

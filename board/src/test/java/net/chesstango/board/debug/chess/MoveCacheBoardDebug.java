@@ -3,14 +3,14 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.MoveCacheBoard;
+import net.chesstango.board.position.imp.MoveCacheBoardImp;
 
 
 /**
  * @author Mauricio Coria
  *
  */
-public class MoveCacheBoardDebug extends MoveCacheBoard {
+public class MoveCacheBoardDebug extends MoveCacheBoardImp {
 
 	/**
 	 * @param piecePlacement

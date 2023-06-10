@@ -4,7 +4,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 
 /**
@@ -71,13 +70,13 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(MoveCacheBoard moveCache) {
+    public void executeMove(MoveCacheBoardWriter moveCache) {
         moveCache.pushCleared();
         moveCache.clearPseudoMoves(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare(),true);
     }
 
     @Override
-    public void undoMove(MoveCacheBoard moveCache) {
+    public void undoMove(MoveCacheBoardWriter moveCache) {
         moveCache.clearPseudoMoves(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare(),false);
         moveCache.popCleared();
     }

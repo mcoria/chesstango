@@ -54,7 +54,7 @@ public class ChessFactory {
 	}
 
 	public MoveCacheBoard createMoveCacheBoard() {
-		return new MoveCacheBoard();
+		return new MoveCacheBoardImp();
 	}
 
 	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
