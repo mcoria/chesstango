@@ -1,6 +1,7 @@
 package net.chesstango.board.position;
 
 import net.chesstango.board.Color;
+import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 
@@ -9,7 +10,8 @@ import net.chesstango.board.Square;
  *
  */
 public interface BitBoardWriter {
-    void swapPositions(Color color, Square remove, Square add);
+
+    void swapPositions(Piece piece, Square remove, Square add);
 
     void addPosition(PiecePositioned position);
 

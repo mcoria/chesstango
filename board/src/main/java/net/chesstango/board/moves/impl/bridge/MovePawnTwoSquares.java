@@ -66,13 +66,13 @@ class MovePawnTwoSquares implements Move {
     }
 
     @Override
-    public void executeMove(BitBoardWriter colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
+    public void executeMove(BitBoardWriter bitBoardWriter) {
+        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
     }
 
     @Override
-    public void undoMove(BitBoardWriter colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
+    public void undoMove(BitBoardWriter bitBoardWriter) {
+        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
     }
 
     @Override
