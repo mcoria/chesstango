@@ -184,11 +184,11 @@ public class CastlingWhiteQueenTest {
     public void testKingCacheBoard() {
         moveExecutor.executeMove(kingCacheBoard);
 
-        assertEquals(Square.c1, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.c1, kingCacheBoard.getKingSquareWhite());
 
         moveExecutor.undoMove(kingCacheBoard);
 
-        assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.e1, kingCacheBoard.getKingSquareWhite());
     }
 
     @Test

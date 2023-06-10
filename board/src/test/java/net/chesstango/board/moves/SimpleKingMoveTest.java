@@ -156,11 +156,11 @@ public class SimpleKingMoveTest {
     public void testKingCacheBoard() {
         moveExecutor.executeMove(kingCacheBoard);
 
-        assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.e2, kingCacheBoard.getKingSquareWhite());
 
         moveExecutor.undoMove(kingCacheBoard);
 
-        assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.e1, kingCacheBoard.getKingSquareWhite());
     }
 
     @Test
@@ -231,7 +231,7 @@ public class SimpleKingMoveTest {
         assertEquals(Piece.KING_WHITE, board.getPiece(Square.e2));
         assertNull(board.getPiece(Square.e1));
 
-        assertEquals(Square.e2, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.e2, kingCacheBoard.getKingSquareWhite());
 
         assertEquals(Color.BLACK, positionState.getCurrentTurn());
 
@@ -254,7 +254,7 @@ public class SimpleKingMoveTest {
         assertEquals(Piece.KING_WHITE, board.getPiece(Square.e1));
         assertTrue(board.isEmpty(Square.e2));
 
-        assertEquals(Square.e1, kingCacheBoard.getSquareKingWhiteCache());
+        assertEquals(Square.e1, kingCacheBoard.getKingSquareWhite());
 
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
 

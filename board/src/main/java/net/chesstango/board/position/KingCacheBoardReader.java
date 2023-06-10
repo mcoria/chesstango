@@ -10,9 +10,8 @@ import net.chesstango.board.Square;
 public interface KingCacheBoardReader {
     Square getKingSquare(Color color);
 
-    Square getSquareKingWhiteCache();
+    Square getKingSquareWhite();
 
-    Square getSquareKingBlackCache();
+    Square getKingSquareBlack();
 
-    Square getKingSquare(Color color, BoardReader board);
 }

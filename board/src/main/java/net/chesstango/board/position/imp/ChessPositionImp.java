@@ -159,6 +159,16 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public Square getKingSquareWhite() {
+		return kingCacheBoard.getKingSquareWhite();
+	}
+
+	@Override
+	public Square getKingSquareBlack() {
+		return kingCacheBoard.getKingSquareBlack();
+	}
+
+	@Override
 	public SquareIterator iteratorSquare(Color color) {
 		return colorBoard.iteratorSquare(color);
 	}

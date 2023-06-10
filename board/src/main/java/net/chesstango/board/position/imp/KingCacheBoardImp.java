@@ -36,16 +36,16 @@ public class KingCacheBoardImp implements KingCacheBoard {
 	
 	@Override
 	public Square getKingSquare(Color color) {
-		return Color.WHITE.equals(color) ? getSquareKingWhiteCache() : getSquareKingBlackCache();
+		return Color.WHITE.equals(color) ? getKingSquareWhite() : getKingSquareBlack();
 	}
 
 	@Override
-	public Square getSquareKingWhiteCache() {
+	public Square getKingSquareWhite() {
 		return squareKingWhiteCache;
 	}
 	
 	@Override
-	public Square getSquareKingBlackCache() {
+	public Square getKingSquareBlack() {
 		return squareKingBlackCache;
 	}
 

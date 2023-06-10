@@ -12,11 +12,9 @@ import java.util.Iterator;
  * @author Mauricio Coria
  *
  */
-public interface ChessPositionReader extends BoardReader, PositionStateReader, ZobristHashReader {
+public interface ChessPositionReader extends BoardReader, PositionStateReader, ZobristHashReader, KingCacheBoardReader {
 
 	Color getColor(Square square);
-
-	Square getKingSquare(Color color);
 
 	long getColorPositions(Color color);
 
