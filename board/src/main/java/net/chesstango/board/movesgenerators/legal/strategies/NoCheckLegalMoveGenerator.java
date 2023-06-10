@@ -36,15 +36,15 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	public MoveContainerReader getLegalMoves(AnalyzerResult analysis) {
 		final Square kingSquare = getCurrentKingSquare();
 
-		final Color turnoActual = this.positionReader.getCurrentTurn();
+		final Color currentTurn = positionReader.getCurrentTurn();
 
-		final long posicionesTurnoActual =  this.positionReader.getColorPositions(turnoActual);
+		final long posicionesTurnoActual =  positionReader.getPositions(currentTurn);
 
 		final long pinnedSquares = analysis.getPinnedSquares();
 
 		final long posicionRey = kingSquare.getBitPosition();
 
-		long safePositions = posicionesTurnoActual & ~pinnedSquares & ~posicionRey;
+		final long safePositions = posicionesTurnoActual & ~pinnedSquares & ~posicionRey;
 
 		MoveContainer moves = new MoveContainer(Long.bitCount(safePositions));
 

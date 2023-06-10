@@ -48,7 +48,7 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 
 		long posicionesCapturadas = 0;
 		
-		for (SquareIterator iterator = this.positionReader.iteratorSquare( turnoActual.oppositeColor() ); iterator.hasNext();) {
+		for (SquareIterator iterator = positionReader.iteratorSquare( turnoActual.oppositeColor() ); iterator.hasNext();) {
 
 			Square origenSquare = iterator.next();
 

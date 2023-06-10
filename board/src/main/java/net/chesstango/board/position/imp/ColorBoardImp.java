@@ -62,29 +62,13 @@ public class ColorBoardImp implements ColorBoard {
 	}
 	
 	@Override
-	public SquareIterator iteratorSquareWithoutKing(Color color, Square kingSquare){
-		return new PositionsSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getBitPosition());
-	}
-	
-	@Override
 	public long getPositions(Color color){
 		return Color.WHITE.equals(color) ? squareWhites : squareBlacks;		
 	}
 	
 	@Override
-	public boolean isEmpty(Square destino) {
-		return ((~(squareWhites | squareBlacks)) &  destino.getBitPosition()) != 0 ;
-	}	
-	
-	@Override
-	public boolean isColor(Color color, Square square) {
-		if(Color.WHITE.equals(color)){
-			return (squareWhites & square.getBitPosition()) != 0;
-		} else if(Color.BLACK.equals(color)){
-			return (squareBlacks & square.getBitPosition()) != 0;
-		} else{
-			throw new RuntimeException("Empty bysquare");
-		}
+	public boolean isEmpty(Square square) {
+		return ((~(squareWhites | squareBlacks)) &  square.getBitPosition()) != 0 ;
 	}
 
 	@Override

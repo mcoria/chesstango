@@ -174,8 +174,8 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
-	public SquareIterator iteratorSquareWithoutKing(Color color) {
-		return colorBoard.iteratorSquareWithoutKing(color, kingSquare.getKingSquare(color));
+	public long getPositions(Color color) {
+		return colorBoard.getPositions(color);
 	}
 
 	@Override
@@ -203,10 +203,6 @@ public class ChessPositionImp implements ChessPosition {
 		return squareBoard.isEmpty(square);
 	}
 
-	@Override
-	public long getColorPositions(Color color) {
-		return colorBoard.getPositions(color);
-	}
 
 	@Override
 	public Iterator<PiecePositioned> iterator(SquareIterator squareIterator) {

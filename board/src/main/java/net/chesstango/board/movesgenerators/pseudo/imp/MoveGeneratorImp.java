@@ -112,7 +112,7 @@ public class MoveGeneratorImp implements MoveGenerator {
 		setupMoveGenerators();
 	}
 	
-	public void setKingCacheBoard(KingSquare kingSquare) {
+	public void setKingSquare(KingSquare kingSquare) {
 		this.kingSquare = kingSquare;
 		setupMoveGenerators();
 	}	
