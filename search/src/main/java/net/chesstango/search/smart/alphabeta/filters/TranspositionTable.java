@@ -58,7 +58,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         int searchDepth = maxPly - currentPly;
 
         if (searchDepth > 0 && game.getStatus().isInProgress()) {
-            long hash = game.getChessPosition().getPositionHash();
+            long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
             Transposition entry = maxMap.get(hash);
@@ -99,7 +99,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         int searchDepth = maxPly - currentPly;
 
         if (searchDepth > 0 && game.getStatus().isInProgress()) {
-            long hash = game.getChessPosition().getPositionHash();
+            long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
             Transposition entry = minMap.get(hash);

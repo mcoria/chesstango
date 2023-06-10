@@ -67,7 +67,7 @@ public class StopProcessingCatch implements AlphaBetaFilter {
         if (processingCounter > 1) {
             throw new RuntimeException("Filter already processing");
         }
-        final long startHash = game.getChessPosition().getPositionHash();
+        final long startHash = game.getChessPosition().getZobristHash();
         try {
             if (maximize) {
                 return next.maximize(currentPly, alpha, beta);
@@ -75,10 +75,10 @@ public class StopProcessingCatch implements AlphaBetaFilter {
                 return next.minimize(currentPly, alpha, beta);
             }
         } catch (StopSearchingException re) {
-            long currentHash = game.getChessPosition().getPositionHash();
+            long currentHash = game.getChessPosition().getZobristHash();
             while (currentHash != startHash) {
                 game.undoMove();
-                currentHash = game.getChessPosition().getPositionHash();
+                currentHash = game.getChessPosition().getZobristHash();
             }
             throw re;
         }

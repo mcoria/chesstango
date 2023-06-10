@@ -44,7 +44,7 @@ public class TranspositionMoveSorterTest {
                 break;
             }
         }
-        maxMap.put(game.getChessPosition().getPositionHash(), createTableEntry(bestMoveEncoded));
+        maxMap.put(game.getChessPosition().getZobristHash(), createTableEntry(bestMoveEncoded));
 
         initMoveSorter(game);
 

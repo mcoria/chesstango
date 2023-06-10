@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ZobristHashDebug extends ZobristHashImp {
 
     public void validar(ChessPositionReader position) {
-        assertEquals(PolyglotEncoder.getKey(position).longValue(), position.getPositionHash());
+        assertEquals(PolyglotEncoder.getKey(position).longValue(), position.getZobristHash());
     }
 
 }

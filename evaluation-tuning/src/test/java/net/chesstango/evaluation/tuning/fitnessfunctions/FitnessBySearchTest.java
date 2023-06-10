@@ -256,7 +256,7 @@ public class FitnessBySearchTest {
         entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
         entry.searchDepth = 0;
 
-        long hash = game.getChessPosition().getPositionHash();
+        long hash = game.getChessPosition().getZobristHash();
 
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             maxMap.put(hash, entry);
