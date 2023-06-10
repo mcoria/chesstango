@@ -14,7 +14,7 @@ import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.imp.ColorBoardImp;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -41,7 +41,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	private PositionState state;
 	
-	private ColorBoard colorBoard;
+	private ColorBoardImp colorBoard;
 	
 	protected KingCacheBoard kingCacheBoard;
 
@@ -199,7 +199,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
@@ -246,7 +246,7 @@ public class KingBlackMoveGeneratorTest {
 
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
@@ -295,7 +295,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
@@ -345,7 +345,7 @@ public class KingBlackMoveGeneratorTest {
 		
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		

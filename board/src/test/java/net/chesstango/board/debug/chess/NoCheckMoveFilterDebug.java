@@ -5,9 +5,8 @@ import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionState;
-import net.chesstango.board.position.PositionStateWriter;
 import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
 

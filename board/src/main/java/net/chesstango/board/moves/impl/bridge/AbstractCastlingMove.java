@@ -7,7 +7,7 @@ import net.chesstango.board.position.BoardReader;
 import net.chesstango.board.position.BoardWriter;
 import net.chesstango.board.position.PositionStateReader;
 import net.chesstango.board.position.PositionStateWriter;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 

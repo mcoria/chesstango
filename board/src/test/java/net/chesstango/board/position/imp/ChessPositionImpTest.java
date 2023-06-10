@@ -35,7 +35,7 @@ public class ChessPositionImpTest {
         tablero.setPiece(Square.e1, Piece.KING_WHITE);
         tablero.setPiece(Square.e8, Piece.KING_BLACK);
 
-        ColorBoard colorBoard = new ColorBoard();
+        ColorBoardImp colorBoard = new ColorBoardImp();
         colorBoard.init(tablero);
 
         chessPosition.setPiecePlacement(tablero);

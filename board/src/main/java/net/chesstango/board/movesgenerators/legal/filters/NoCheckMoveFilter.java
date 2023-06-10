@@ -12,7 +12,7 @@ import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquare
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 
 /**

@@ -13,7 +13,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.imp.ColorBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		Board tablero =  getTablero("8/8/8/4B3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
@@ -89,7 +89,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		Board tablero =  getTablero("7R/8/8/4B3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		
@@ -114,7 +114,7 @@ public class AbstractCardinalMoveGeneratorNorteEsteTest {
 		Board tablero =  getTablero("7r/8/8/4B3/8/8/8/8");
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 		

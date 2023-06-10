@@ -12,7 +12,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.imp.ColorBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,7 +48,7 @@ public class BishopMoveGeneratorTest {
 		
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 
@@ -119,7 +119,7 @@ public class BishopMoveGeneratorTest {
 		
 		moveGenerator.setBoard(tablero);
 		
-		ColorBoard colorBoard = new ColorBoardDebug();
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		colorBoard.init(tablero);
 		moveGenerator.setColorBoard(colorBoard);
 

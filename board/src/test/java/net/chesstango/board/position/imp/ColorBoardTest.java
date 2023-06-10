@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class ColorBoardTest {
 
-	private ColorBoard colorBoard;
+	private ColorBoardImp colorBoard;
 
 	
 	@Test

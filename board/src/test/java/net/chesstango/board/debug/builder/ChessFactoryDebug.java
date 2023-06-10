@@ -10,6 +10,7 @@ import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGen
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.Board;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.*;
 
@@ -36,8 +37,8 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public ColorBoard createColorBoard() {
-		ColorBoard colorBoard = new ColorBoardDebug();
+	public ColorBoardImp createColorBoard() {
+		ColorBoardImp colorBoard = new ColorBoardDebug();
 		return colorBoard;
 	}	
 	

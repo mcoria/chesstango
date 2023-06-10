@@ -5,11 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.MovePromotion;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.BoardWriter;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.PositionStateWriter;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 
@@ -23,8 +19,8 @@ class MovePawnPromotion implements MovePromotion {
     protected final Piece promotion;
     protected final Cardinal direction;
 
-    private MoveExecutor<ColorBoard> fnDoColorBoard;
-    private MoveExecutor<ColorBoard> fnUndoColorBoard;
+    private MoveExecutor<ColorBoardWriter> fnDoColorBoard;
+    private MoveExecutor<ColorBoardWriter> fnUndoColorBoard;
 
     public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
         this.from = from;
@@ -172,11 +168,11 @@ class MovePawnPromotion implements MovePromotion {
         return promotion;
     }
 
-    public void setFnDoColorBoard(MoveExecutor<ColorBoard> fnDoColorBoard) {
+    public void setFnDoColorBoard(MoveExecutor<ColorBoardWriter> fnDoColorBoard) {
         this.fnDoColorBoard = fnDoColorBoard;
     }
 
-    public void setFnUndoColorBoard(MoveExecutor<ColorBoard> fnUndoColorBoard) {
+    public void setFnUndoColorBoard(MoveExecutor<ColorBoardWriter> fnUndoColorBoard) {
         this.fnUndoColorBoard = fnUndoColorBoard;
     }
 

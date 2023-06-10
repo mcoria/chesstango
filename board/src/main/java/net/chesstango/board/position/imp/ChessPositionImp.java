@@ -25,7 +25,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	// PosicionPiezaBoard y ColorBoard son representaciones distintas del tablero. Uno con mas informacion que la otra.
 	protected Board board = null;
-	protected ColorBoard colorBoard = null;
+	protected ColorBoardImp colorBoard = null;
 	protected KingCacheBoard kingCacheBoard = null;	
 	protected MoveCacheBoard moveCache = null;
 	protected PositionState positionState = null;
@@ -234,7 +234,7 @@ public class ChessPositionImp implements ChessPosition {
 		this.board = board;
 	}
 
-	public void setColorBoard(ColorBoard colorBoard) {
+	public void setColorBoard(ColorBoardImp colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 

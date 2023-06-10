@@ -8,6 +8,7 @@ import net.chesstango.board.iterators.SquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.iterators.bysquare.TopDownSquareIterator;
 import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.ColorBoard;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -16,11 +17,12 @@ import java.io.PrintStream;
  * @author Mauricio Coria
  *
  */
-public class ColorBoard {
+public class ColorBoardImp implements ColorBoard {
 	
 	protected long squareWhites = 0;
 	protected long squareBlacks = 0;
 	
+	@Override
 	public void swapPositions(Color color, Square remove, Square add){
 		if (Color.WHITE.equals(color)) {
 			squareWhites &= ~remove.getBitPosition();
@@ -35,6 +37,7 @@ public class ColorBoard {
 		}
 	}
 	
+	@Override
 	public void addPositions(PiecePositioned position) {
 		if (Color.WHITE.equals(position.getPiece().getColor())) {
 			squareWhites |= position.getSquare().getBitPosition();
@@ -43,6 +46,7 @@ public class ColorBoard {
 		}
 	}
 	
+	@Override
 	public void removePositions(PiecePositioned position){
 		if(Color.WHITE.equals(position.getPiece().getColor())){
 			squareWhites &= ~position.getSquare().getBitPosition();
@@ -52,22 +56,27 @@ public class ColorBoard {
 	}		
 	
 
+	@Override
 	public SquareIterator iteratorSquare(Color color){
 		return Color.WHITE.equals(color) ? new PositionsSquareIterator(squareWhites) : new PositionsSquareIterator(squareBlacks);
 	}
 	
+	@Override
 	public SquareIterator iteratorSquareWithoutKing(Color color, Square kingSquare){
 		return new PositionsSquareIterator( (Color.WHITE.equals(color) ? squareWhites :  squareBlacks ) & ~kingSquare.getBitPosition());
 	}
 	
+	@Override
 	public long getPositions(Color color){
 		return Color.WHITE.equals(color) ? squareWhites : squareBlacks;		
 	}
 	
+	@Override
 	public boolean isEmpty(Square destino) {
 		return ((~(squareWhites | squareBlacks)) &  destino.getBitPosition()) != 0 ;
 	}	
 	
+	@Override
 	public boolean isColor(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
 			return (squareWhites & square.getBitPosition()) != 0;
@@ -78,6 +87,7 @@ public class ColorBoard {
 		}
 	}
 
+	@Override
 	public Color getColor(Square square) {
 		if ((squareWhites & square.getBitPosition()) != 0) {
 			return Color.WHITE;

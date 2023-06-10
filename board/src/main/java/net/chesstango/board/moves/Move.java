@@ -5,7 +5,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.position.*;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.ColorBoard;
 import net.chesstango.board.position.imp.MoveCacheBoard;
 import net.chesstango.board.position.imp.ZobristHash;
 

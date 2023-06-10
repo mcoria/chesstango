@@ -30,7 +30,7 @@ public class ChessInjector {
 
     private PositionState positionState = null;
 
-    private ColorBoard colorBoard = null;
+    private ColorBoardImp colorBoard = null;
 
     private MoveCacheBoard moveCache = null;
 
@@ -116,7 +116,7 @@ public class ChessInjector {
         return kingCacheBoard;
     }
 
-    protected ColorBoard getColorBoard() {
+    protected ColorBoardImp getColorBoard() {
         if (colorBoard == null) {
             colorBoard = chessFactory.createColorBoard();
         }
