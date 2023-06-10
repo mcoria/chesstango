@@ -203,7 +203,7 @@ public class PositionStateImp implements PositionState {
     }
 
     @Override
-    public PositionStateWriter clone() throws CloneNotSupportedException {
+    public PositionStateImp clone() throws CloneNotSupportedException {
         PositionStateImp clone = new PositionStateImp();
         clone.currentPositionState.enPassantSquare = currentPositionState.enPassantSquare;
         clone.currentPositionState.castlingWhiteQueenAllowed = currentPositionState.castlingWhiteQueenAllowed;

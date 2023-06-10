@@ -13,6 +13,7 @@ import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.moves.containers.MovePair;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.Board;
+import net.chesstango.board.position.PositionState;
 import net.chesstango.board.position.imp.ColorBoard;
 import net.chesstango.board.position.imp.KingCacheBoard;
 import net.chesstango.board.position.imp.PositionStateImp;
@@ -38,7 +39,7 @@ public class KingBlackMoveGeneratorTest {
 	
 	private MovePair moveCastling;
 	
-	private PositionStateImp state;
+	private PositionState state;
 	
 	private ColorBoard colorBoard;
 	

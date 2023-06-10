@@ -55,14 +55,15 @@ public class ChessFactoryDebug extends ChessFactory {
 	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
 		return new CheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}
-	
+
+	@Override
 	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
                                                      PositionState positionState) {
 		return new NoCheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
 	}		
 	
 	@Override
-	public PositionStateImp createPositionState() {
+	public PositionState createPositionState() {
 		return new PositionStateDebug();
 	}
 	

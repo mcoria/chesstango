@@ -32,7 +32,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 			
 			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
 
-			PositionStateImp boardStateInicial = (PositionStateImp) ((PositionStateImp) (super.positionState)).clone();
+			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 	
 			boolean result = super.filterMove(move);
 			
