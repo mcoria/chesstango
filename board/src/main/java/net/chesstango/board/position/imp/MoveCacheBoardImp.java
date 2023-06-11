@@ -14,14 +14,11 @@ import java.util.List;
  * TODO: LOS TESTS DE MOVIMIENTOS DEBERIAN PROBAR LOS AFFECTS
  */
 public class MoveCacheBoardImp implements MoveCacheBoard {
-
-    protected MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
-    protected long[] affects = new long[64];
-
-	private final Deque<MoveGeneratorResult> clearedSquares = new ArrayDeque<>();
-    private int currentClearedSquaresCounter = 0;
-
-	private final Deque<Integer> clearedSquaresCounters = new ArrayDeque<>();
+    protected final MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
+    protected final long[] affects = new long[64];
+    protected final Deque<MoveGeneratorResult> clearedSquares = new ArrayDeque<>();
+    protected final Deque<Integer> clearedSquaresCounters = new ArrayDeque<>();
+    protected int currentClearedSquaresCounter = 0;
     @Override
     public MoveGeneratorResult getPseudoMovesResult(Square key) {
         return pseudoMoves[key.toIdx()];
@@ -30,6 +27,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     @Override
     public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
         pseudoMoves[key.toIdx()] = generatorResult;
+
         final long keyAdded = key.getBitPosition();
 
         long affectedByCollection = generatorResult.getAffectedByPositions();
@@ -69,8 +67,6 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
     @Override
     public void clearPseudoMoves(final long clearSquares, final boolean trackCleared) {
-        final long keyRemoved = ~clearSquares;
-
         long affectsBySquares = 0;
 
         long positions = clearSquares;
@@ -92,7 +88,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         while(affectsBySquares != 0) {
             long posicionLng = Long.lowestOneBit(affectsBySquares);
             int i = Long.numberOfTrailingZeros(posicionLng);
-            affects[i] &= keyRemoved;
+            affects[i] &= ~clearSquares;
             affectsBySquares &= ~posicionLng;
         }
     }
@@ -110,7 +106,6 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         for(int i = 0; i < currentClearedSquaresCounter; i++){
             MoveGeneratorResult generatorResult = clearedSquares.pop();
             setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult);
-
         }
         currentClearedSquaresCounter = clearedSquaresCounters.pop();
 	}	
