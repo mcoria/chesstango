@@ -35,16 +35,16 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter board) {
-        board.move(from, to);
-        board.setEmptyPosition(capture);
+    public void executeMove(SquareBoardWriter squareBoard) {
+        squareBoard.move(from, to);
+        squareBoard.setEmptyPosition(capture);
     }
 
     @Override
-    public void undoMove(SquareBoardWriter board) {
-        board.setPosition(from);
-        board.setPosition(to);
-        board.setPosition(capture);
+    public void undoMove(SquareBoardWriter squareBoard) {
+        squareBoard.setPosition(from);
+        squareBoard.setPosition(to);
+        squareBoard.setPosition(capture);
     }
 
     @Override

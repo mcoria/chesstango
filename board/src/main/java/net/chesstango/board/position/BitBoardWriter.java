@@ -15,5 +15,9 @@ public interface BitBoardWriter {
 
     void addPosition(PiecePositioned position);
 
+    void addPosition(Piece piece, Square square);
+
     void removePosition(PiecePositioned position);
+
+    void removePosition(Piece piece, Square square);
 }

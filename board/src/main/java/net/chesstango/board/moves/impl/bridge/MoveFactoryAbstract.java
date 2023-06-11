@@ -74,8 +74,6 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
     @Override
     public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
         MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, getPawnDirection(), piece);
-        moveImp.setFnDoBitBoard(algoBitBoard::defaultFnDoBitBoard);
-        moveImp.setFnUndoBitBoard(algoBitBoard::defaultFnUndoBitBoard);
         return moveImp;
     }
 
@@ -128,8 +126,6 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
     @Override
     public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal) {
         MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, piece);
-        moveImp.setFnDoBitBoard(algoBitBoard::captureFnDoBitBoard);
-        moveImp.setFnUndoBitBoard(algoBitBoard::captureFnUndoBitBoard);
         return moveImp;
     }
 

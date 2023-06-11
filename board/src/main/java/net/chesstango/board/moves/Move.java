@@ -31,17 +31,17 @@ public interface Move extends Comparable<Move> {
         return filter.filterMove(this);
     }
 
-    void executeMove(SquareBoardWriter board);
+    void executeMove(SquareBoardWriter squareBoard);
 
-    void undoMove(SquareBoardWriter board);
+    void undoMove(SquareBoardWriter squareBoard);
 
     void executeMove(PositionStateWriter positionState);
 
     void undoMove(PositionStateWriter positionStateWriter);
 
-    void executeMove(BitBoardWriter colorBoard);
+    void executeMove(BitBoardWriter bitBoard);
 
-    void undoMove(BitBoardWriter colorBoard);
+    void undoMove(BitBoardWriter bitBoard);
 
     void executeMove(MoveCacheBoardWriter moveCache);
 

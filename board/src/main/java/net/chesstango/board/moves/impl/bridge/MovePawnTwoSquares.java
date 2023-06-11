@@ -35,14 +35,14 @@ class MovePawnTwoSquares implements Move {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter board) {
-        board.move(from, to);
+    public void executeMove(SquareBoardWriter squareBoard) {
+        squareBoard.move(from, to);
     }
 
     @Override
-    public void undoMove(SquareBoardWriter board) {
-        board.setPosition(from);
-        board.setPosition(to);
+    public void undoMove(SquareBoardWriter squareBoard) {
+        squareBoard.setPosition(from);
+        squareBoard.setPosition(to);
     }
 
     @Override

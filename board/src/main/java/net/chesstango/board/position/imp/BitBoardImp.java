@@ -53,15 +53,20 @@ public class BitBoardImp implements BitBoard {
 
 	@Override
 	public void addPosition(PiecePositioned position) {
-		final long bitPosition = position.getSquare().getBitPosition();
+		addPosition(position.getPiece(), position.getSquare());
+	}
 
-		if (Color.WHITE.equals(position.getPiece().getColor())) {
+	@Override
+	public void addPosition(Piece piece, Square square) {
+		final long bitPosition = square.getBitPosition();
+
+		if (Color.WHITE.equals(piece.getColor())) {
 			squareWhites |= bitPosition;
 		} else {
 			squareBlacks |= bitPosition;
 		}
 
-		switch(position.getPiece()){
+		switch(piece){
 			case PAWN_WHITE, PAWN_BLACK ->  pawns |= bitPosition;
 			case ROOK_WHITE, ROOK_BLACK -> rooks |=  bitPosition;
 			case BISHOP_WHITE, BISHOP_BLACK -> bishops |= bitPosition;
@@ -69,20 +74,24 @@ public class BitBoardImp implements BitBoard {
 			case QUEEN_WHITE, QUEEN_BLACK -> queens |= bitPosition;
 			case KING_WHITE, KING_BLACK -> kings |= bitPosition;
 		}
-
 	}
-	
+
 	@Override
 	public void removePosition(PiecePositioned position){
-		final long bitPosition = position.getSquare().getBitPosition();
+		removePosition(position.getPiece(), position.getSquare());
+	}
 
-		if(Color.WHITE.equals(position.getPiece().getColor())){
+	@Override
+	public void removePosition(Piece piece, Square square) {
+		final long bitPosition = square.getBitPosition();
+
+		if(Color.WHITE.equals(piece.getColor())){
 			squareWhites &= ~bitPosition;
 		} else {
 			squareBlacks &= ~bitPosition;
 		}
 
-		switch(position.getPiece()){
+		switch(piece){
 			case PAWN_WHITE, PAWN_BLACK ->  pawns &= ~bitPosition;
 			case ROOK_WHITE, ROOK_BLACK -> rooks &= ~bitPosition;
 			case BISHOP_WHITE, BISHOP_BLACK -> bishops &= ~bitPosition;
@@ -90,8 +99,9 @@ public class BitBoardImp implements BitBoard {
 			case QUEEN_WHITE, QUEEN_BLACK -> queens &= ~bitPosition;
 			case KING_WHITE, KING_BLACK -> kings &= ~bitPosition;
 		}
-	}		
-	
+
+	}
+
 
 	@Override
 	public SquareIterator iteratorSquare(Color color){

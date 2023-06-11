@@ -17,9 +17,6 @@ class MovePawnPromotion implements MovePromotion {
     protected final Piece promotion;
     protected final Cardinal direction;
 
-    private MoveExecutor<BitBoardWriter> fnDoBitBoard;
-    private MoveExecutor<BitBoardWriter> fnUndoBitBoard;
-
     public MovePawnPromotion(PiecePositioned from, PiecePositioned to, Cardinal direction, Piece promotion) {
         this.from = from;
         this.to = to;
@@ -46,15 +43,15 @@ class MovePawnPromotion implements MovePromotion {
 
 
     @Override
-    public void executeMove(SquareBoardWriter board) {
-        board.setEmptyPosition(from);
-        board.setPiece(to.getSquare(), this.promotion);
+    public void executeMove(SquareBoardWriter squareBoard) {
+        squareBoard.setEmptyPosition(from);
+        squareBoard.setPiece(to.getSquare(), this.promotion);
     }
 
     @Override
-    public void undoMove(SquareBoardWriter board) {
-        board.setPosition(from);
-        board.setPosition(to);
+    public void undoMove(SquareBoardWriter squareBoard) {
+        squareBoard.setPosition(from);
+        squareBoard.setPosition(to);
     }
 
     @Override
@@ -96,12 +93,22 @@ class MovePawnPromotion implements MovePromotion {
 
     @Override
     public void executeMove(BitBoardWriter bitBoardWriter) {
-        fnDoBitBoard.apply(from, to, bitBoardWriter);
+        bitBoardWriter.removePosition(from);
+        // Captura
+        if(to.getPiece() != null) {
+            bitBoardWriter.removePosition(to);
+        }
+        bitBoardWriter.addPosition(promotion, to.getSquare());
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
-        fnUndoBitBoard.apply(from, to, bitBoardWriter);
+        bitBoardWriter.removePosition(promotion, to.getSquare());
+        // Captura
+        if(to.getPiece() != null) {
+            bitBoardWriter.addPosition(to);
+        }
+        bitBoardWriter.addPosition(from);
     }
 
 
@@ -164,14 +171,6 @@ class MovePawnPromotion implements MovePromotion {
     @Override
     public Piece getPromotion() {
         return promotion;
-    }
-
-    public void setFnDoBitBoard(MoveExecutor<BitBoardWriter> fnDoBitBoard) {
-        this.fnDoBitBoard = fnDoBitBoard;
-    }
-
-    public void setFnUndoBitBoard(MoveExecutor<BitBoardWriter> fnUndoBitBoard) {
-        this.fnUndoBitBoard = fnUndoBitBoard;
     }
 
     @Override

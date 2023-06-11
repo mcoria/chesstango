@@ -36,19 +36,19 @@ abstract class AbstractCastlingMove implements MoveCastling {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter board) {
-        board.move(kingFrom, kingTo);
-        board.move(rookFrom, rookTo);
+    public void executeMove(SquareBoardWriter squareBoard) {
+        squareBoard.move(kingFrom, kingTo);
+        squareBoard.move(rookFrom, rookTo);
     }
 
 
     @Override
-    public void undoMove(SquareBoardWriter board) {
-        board.setPosition(kingFrom);
-        board.setPosition(kingTo);
+    public void undoMove(SquareBoardWriter squareBoard) {
+        squareBoard.setPosition(kingFrom);
+        squareBoard.setPosition(kingTo);
 
-        board.setPosition(rookFrom);
-        board.setPosition(rookTo);
+        squareBoard.setPosition(rookFrom);
+        squareBoard.setPosition(rookTo);
     }
 
     @Override

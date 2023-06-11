@@ -47,13 +47,13 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(SquareBoardWriter board) {
-        fnDoSquareBoard.apply(from, to, board);
+    public void executeMove(SquareBoardWriter squareBoard) {
+        fnDoSquareBoard.apply(from, to, squareBoard);
     }
 
     @Override
-    public void undoMove(SquareBoardWriter board) {
-        fnUndoSquareBoard.apply(from, to, board);
+    public void undoMove(SquareBoardWriter squareBoard) {
+        fnUndoSquareBoard.apply(from, to, squareBoard);
     }
 
     @Override
@@ -67,13 +67,13 @@ class MoveImp implements Move {
     }
 
     @Override
-    public void executeMove(BitBoardWriter colorBoard) {
-        fnDoColorBoard.apply(from, to, colorBoard);
+    public void executeMove(BitBoardWriter bitBoard) {
+        fnDoColorBoard.apply(from, to, bitBoard);
     }
 
     @Override
-    public void undoMove(BitBoardWriter colorBoard) {
-        fnUndoColorBoard.apply(from, to, colorBoard);
+    public void undoMove(BitBoardWriter bitBoard) {
+        fnUndoColorBoard.apply(from, to, bitBoard);
     }
 
     @Override
