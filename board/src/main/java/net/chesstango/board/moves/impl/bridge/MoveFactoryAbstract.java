@@ -2,6 +2,7 @@ package net.chesstango.board.moves.impl.bridge;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
@@ -13,13 +14,15 @@ import net.chesstango.board.moves.MovePromotion;
  *
  */
 public abstract class MoveFactoryAbstract  implements MoveFactory {
-    protected final AlgoPiecePositioned algoPiecePositioned = new AlgoPiecePositioned();
+    protected final AlgoSquareBoard algoSquareBoard = new AlgoSquareBoard();
 
-    protected final AlgoColorBoard algoColorBoard = new AlgoColorBoard();
+    protected final AlgoBitBoard algoBitBoard = new AlgoBitBoard();
 
-    protected final AlogZobrit alogZobrit = new AlogZobrit();
+    protected final AlgoZobrist algoZobrist = new AlgoZobrist();
 
     protected final AlgoPositionState algoPositionState;
+
+    protected abstract Cardinal getPawnDirection();
 
     protected MoveFactoryAbstract(AlgoPositionState algoPositionState) {
         this.algoPositionState = algoPositionState;
@@ -52,6 +55,27 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
     public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
         MoveKingImp moveImp = new MoveKingImp(origen, destino);
         addSimpleMoveExecutors(origen, destino, moveImp);
+        return moveImp;
+    }
+
+    @Override
+    public Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino) {
+        MoveImp moveImp = new MoveImp(origen, destino, getPawnDirection());
+        addSimpleMoveExecutors(origen, destino, moveImp);
+        return moveImp;
+    }
+
+    @Override
+    public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
+        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(origen, destino, getPawnDirection(), enPassantSquare);
+        return moveImp;
+    }
+
+    @Override
+    public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
+        MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, getPawnDirection(), piece);
+        moveImp.setFnDoBitBoard(algoBitBoard::defaultFnDoBitBoard);
+        moveImp.setFnUndoBitBoard(algoBitBoard::defaultFnUndoBitBoard);
         return moveImp;
     }
 
@@ -104,8 +128,8 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
     @Override
     public MovePromotion createCapturePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece, Cardinal cardinal) {
         MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, piece);
-        moveImp.setFnDoColorBoard(algoColorBoard::captureFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(algoColorBoard::captureFnUndoColorBoard);
+        moveImp.setFnDoBitBoard(algoBitBoard::captureFnDoBitBoard);
+        moveImp.setFnUndoBitBoard(algoBitBoard::captureFnUndoBitBoard);
         return moveImp;
     }
 
@@ -126,13 +150,13 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
             moveImp.setFnDoPositionState(algoPositionState::doSimpleNotPawnNorKingMove);
         }
 
-        moveImp.setFnDoMovePiecePlacement(algoPiecePositioned::defaultFnDoMovePiecePlacement);
-        moveImp.setFnUndoMovePiecePlacement(algoPiecePositioned::defaultFnUndoMovePiecePlacement);
+        moveImp.setFnDoSquareBoard(algoSquareBoard::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoSquareBoard(algoSquareBoard::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
+        moveImp.setFnDoColorBoard(algoBitBoard::defaultFnDoBitBoard);
+        moveImp.setFnUndoColorBoard(algoBitBoard::defaultFnUndoBitBoard);
 
-        moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
+        moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrit);
     }
 
     protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
@@ -142,13 +166,13 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
             moveImp.setFnDoPositionState(algoPositionState::doCaptureNotKingPositionState);
         }
 
-        moveImp.setFnDoMovePiecePlacement(algoPiecePositioned::defaultFnDoMovePiecePlacement);
-        moveImp.setFnUndoMovePiecePlacement(algoPiecePositioned::defaultFnUndoMovePiecePlacement);
+        moveImp.setFnDoSquareBoard(algoSquareBoard::defaultFnDoMovePiecePlacement);
+        moveImp.setFnUndoSquareBoard(algoSquareBoard::defaultFnUndoMovePiecePlacement);
 
-        moveImp.setFnDoColorBoard(algoColorBoard::captureFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(algoColorBoard::captureFnUndoColorBoard);
+        moveImp.setFnDoColorBoard(algoBitBoard::captureFnDoBitBoard);
+        moveImp.setFnUndoColorBoard(algoBitBoard::captureFnUndoBitBoard);
 
-        moveImp.setFnDoZobrit(alogZobrit::defaultFnDoZobrit);
+        moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrit);
     }
 
 }

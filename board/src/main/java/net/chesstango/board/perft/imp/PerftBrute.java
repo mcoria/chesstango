@@ -58,11 +58,20 @@ public class PerftBrute implements Perft {
 
             for (Move move : movimientosPosible) {
 
+                long hashBefore = game.getChessPosition().getZobristHash();
+
                 game.executeMove(move);
 
                 totalNodes += visitChild(game, level + 1);
 
                 game.undoMove();
+
+                long hashAfter = game.getChessPosition().getZobristHash();
+
+                if(hashBefore != hashAfter) {
+                    throw new RuntimeException("hashBefore != hashAfter");
+                }
+
             }
         } else {
             totalNodes = movimientosPosible.size();

@@ -15,13 +15,13 @@ class MoveImp implements Move {
     protected final PiecePositioned to;
     protected final Cardinal direction;
     private MoveExecutor<PositionStateWriter> fnDoPositionState;
-    private MoveExecutor<SquareBoardWriter> fnDoMovePiecePlacement;
-    private MoveExecutor<SquareBoardWriter> fnUndoMovePiecePlacement;
+    private MoveExecutor<SquareBoardWriter> fnDoSquareBoard;
+    private MoveExecutor<SquareBoardWriter> fnUndoSquareBoard;
 
     private MoveExecutor<BitBoardWriter> fnDoColorBoard;
     private MoveExecutor<BitBoardWriter> fnUndoColorBoard;
 
-    private ZobritExecutor fnDoZobrit;
+    private ZobristExecutor fnDoZobrist;
 
     public MoveImp(PiecePositioned from, PiecePositioned to, Cardinal direction) {
         this.from = from;
@@ -48,12 +48,12 @@ class MoveImp implements Move {
 
     @Override
     public void executeMove(SquareBoardWriter board) {
-        fnDoMovePiecePlacement.apply(from, to, board);
+        fnDoSquareBoard.apply(from, to, board);
     }
 
     @Override
     public void undoMove(SquareBoardWriter board) {
-        fnUndoMovePiecePlacement.apply(from, to, board);
+        fnUndoSquareBoard.apply(from, to, board);
     }
 
     @Override
@@ -90,7 +90,7 @@ class MoveImp implements Move {
 
     @Override
     public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
-        fnDoZobrit.apply(from, to, hash, oldPositionState, newPositionState);
+        fnDoZobrist.apply(from, to, hash, oldPositionState, newPositionState);
     }
 
     @Override
@@ -121,12 +121,12 @@ class MoveImp implements Move {
         this.fnDoPositionState = fnDoPositionState;
     }
 
-    public void setFnDoMovePiecePlacement(MoveExecutor<SquareBoardWriter> fnDoMovePiecePlacement) {
-        this.fnDoMovePiecePlacement = fnDoMovePiecePlacement;
+    public void setFnDoSquareBoard(MoveExecutor<SquareBoardWriter> fnDoSquareBoard) {
+        this.fnDoSquareBoard = fnDoSquareBoard;
     }
 
-    public void setFnUndoMovePiecePlacement(MoveExecutor<SquareBoardWriter> fnUndoMovePiecePlacement) {
-        this.fnUndoMovePiecePlacement = fnUndoMovePiecePlacement;
+    public void setFnUndoSquareBoard(MoveExecutor<SquareBoardWriter> fnUndoSquareBoard) {
+        this.fnUndoSquareBoard = fnUndoSquareBoard;
     }
 
     public void setFnDoColorBoard(MoveExecutor<BitBoardWriter> fnDoColorBoard) {
@@ -137,8 +137,8 @@ class MoveImp implements Move {
         this.fnUndoColorBoard = fnUndoColorBoard;
     }
 
-    public void setFnDoZobrit(ZobritExecutor fnDoZobrit) {
-        this.fnDoZobrit = fnDoZobrit;
+    public void setFnDoZobrist(ZobristExecutor fnDoZobrist) {
+        this.fnDoZobrist = fnDoZobrist;
     }
 
     private Cardinal calculateMoveDirection() {

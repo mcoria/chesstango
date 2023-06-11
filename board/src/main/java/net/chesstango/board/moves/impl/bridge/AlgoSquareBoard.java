@@ -6,7 +6,7 @@ import net.chesstango.board.position.SquareBoardWriter;
 /**
  * @author Mauricio Coria
  */
-class AlgoPiecePositioned {
+class AlgoSquareBoard {
     protected void defaultFnDoMovePiecePlacement(PiecePositioned from, PiecePositioned to, SquareBoardWriter squareBoardWriter) {
         squareBoardWriter.move(from, to);
     }

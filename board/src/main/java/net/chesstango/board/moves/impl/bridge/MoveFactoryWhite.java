@@ -21,26 +21,7 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
         super(new AlgoPositionStateWhite());
     }
 
-    @Override
-    public Move createSimpleOneSquarePawnMove(PiecePositioned origen, PiecePositioned destino) {
-        MoveImp moveImp = new MoveImp(origen, destino, Cardinal.Norte);
-        addSimpleMoveExecutors(origen, destino, moveImp);
-        return moveImp;
-    }
 
-    @Override
-    public Move createSimpleTwoSquaresPawnMove(PiecePositioned origen, PiecePositioned destino, Square enPassantSquare) {
-        MovePawnTwoSquares moveImp = new MovePawnTwoSquares(origen, destino, Cardinal.Norte, enPassantSquare);
-        return moveImp;
-    }
-
-    @Override
-    public MovePromotion createSimplePromotionPawnMove(PiecePositioned origen, PiecePositioned destino, Piece piece) {
-        MovePawnPromotion moveImp = new MovePawnPromotion(origen, destino, Cardinal.Norte, piece);
-        moveImp.setFnDoColorBoard(algoColorBoard::defaultFnDoColorBoard);
-        moveImp.setFnUndoColorBoard(algoColorBoard::defaultFnUndoColorBoard);
-        return moveImp;
-    }
 
     @Override
     public MoveCastling createCastlingQueenMove() {
@@ -53,4 +34,8 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     }
 
 
+    @Override
+    protected Cardinal getPawnDirection() {
+        return Cardinal.Norte;
+    }
 }

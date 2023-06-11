@@ -7,7 +7,7 @@ import net.chesstango.board.position.ZobristHashWriter;
 /**
  * @author Mauricio Coria
  */
-class AlogZobrit {
+class AlgoZobrist {
 
     public void defaultFnDoZobrit(PiecePositioned from, PiecePositioned to, ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState) {
         hash.pushState();
