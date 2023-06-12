@@ -5,9 +5,13 @@ import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.factory.ChessFactory;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.imp.BitBoardImp;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.Test;
+
+import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,8 +25,10 @@ public class FullScanSquareCapturedTest {
 	@Test
 	public void testPositionCapturedByPawnWhite() {
 		SquareBoard dummySquareBoard = getTablero("8/8/8/1P6/8/8/8/8");
+		BitBoard bitBoard = new BitBoardImp();
+		bitBoard.init(dummySquareBoard);
 		
-		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
+		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
 		
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.a6) );
 		assertFalse( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.b6) );
@@ -32,8 +38,10 @@ public class FullScanSquareCapturedTest {
 	@Test
 	public void testPositionCapturedByPawnBlack() {
 		SquareBoard dummySquareBoard = getTablero("8/8/8/1p6/8/8/8/8");
+		BitBoard bitBoard = new BitBoardImp();
+		bitBoard.init(dummySquareBoard);
 		
-		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
+		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
 		
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.BLACK, Square.a4) );
 		assertFalse( fullScanSquareCapturer.isCaptured(Color.BLACK, Square.b4) );
@@ -44,8 +52,10 @@ public class FullScanSquareCapturedTest {
 	@Test
 	public void testPositionCapturedByKnight() {
 		SquareBoard dummySquareBoard = getTablero("8/8/8/3N4/8/8/8/8");
+		BitBoard bitBoard = new BitBoardImp();
+		bitBoard.init(dummySquareBoard);
 		
-		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
+		FullScanSquareCaptured fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
 		
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.c7) );
 		assertTrue( fullScanSquareCapturer.isCaptured(Color.WHITE, Square.e7) );

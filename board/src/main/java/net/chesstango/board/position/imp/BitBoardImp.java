@@ -112,7 +112,22 @@ public class BitBoardImp implements BitBoard {
 	public long getPositions(Color color){
 		return Color.WHITE.equals(color) ? squareWhites : squareBlacks;		
 	}
-	
+
+	@Override
+	public long getBishopPositions() {
+		return bishops;
+	}
+
+	@Override
+	public long getRookPositions() {
+		return rooks;
+	}
+
+	@Override
+	public long getQueenPositions() {
+		return queens;
+	}
+
 	@Override
 	public boolean isEmpty(Square square) {
 		return ((~(squareWhites | squareBlacks)) &  square.getBitPosition()) != 0 ;

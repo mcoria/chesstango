@@ -91,8 +91,8 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public FullScanSquareCaptured createCapturer(SquareBoardReader squareBoardReader) {
-		return new FullScanSquareCaptured(squareBoardReader);
+	public FullScanSquareCaptured createCapturer(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
+		return new FullScanSquareCaptured(squareBoardReader, bitBoardReader);
 	}
 
 

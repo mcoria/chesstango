@@ -6,78 +6,607 @@ import java.util.Objects;
 
 /**
  * @author Mauricio Coria
- *
  */
 public enum Cardinal {
-	Norte(null,true), Sur(null,false), Este(true,null), Oeste(false,null),
-	NorteEste(true,true), SurEste(true, false), SurOeste(false, false), NorteOeste(false, true);
-	
-	private final Boolean east;
-	private final Boolean north;
-	
-	private final int offSetEast;
-	private final int offSetNorth;
-	
-	Cardinal(Boolean east, Boolean north) {
-		this.east = east;
-		this.north = north;
-		
-		this.offSetEast = this.east == null ? 0 : (this.east ? 1 : -1);
-		this.offSetNorth = this.north == null ? 0 : (this.north ? 1 : -1);
-	}
-	
-	public Square calcularNextPoint(Square from) {
-		return Square.getSquare(from.getFile() + offSetEast, from.getRank() + offSetNorth);
-	}
-	
-	public boolean isInDirection(Square from, Square to) {
-		if (Objects.equals(east, getDirection(from.getFile(), to.getFile()))) {
-			if (Objects.equals(north, getDirection(from.getRank(), to.getRank()))) {
-				if (east == null) { // Puede ser mismo lugar; NORTE o SUR
-					if (north == null) {
-						throw new RuntimeException("from equals to");
-					} else { // NORTE o SUR
-						return true;
-					}
-				} else if (east.equals(true)) { // Puede ser Este, NorteEste; SurEste
-					if (north == null) { // Este
-						return true;
-					} else if (north.equals(true)) { // NorteEste
+    Norte(null, true, new long[]{
+            0x101010101010100L,
+            0x202020202020200L,
+            0x404040404040400L,
+            0x808080808080800L,
+            0x1010101010101000L,
+            0x2020202020202000L,
+            0x4040404040404000L,
+            0x8080808080808000L,
+            0x101010101010000L,
+            0x202020202020000L,
+            0x404040404040000L,
+            0x808080808080000L,
+            0x1010101010100000L,
+            0x2020202020200000L,
+            0x4040404040400000L,
+            0x8080808080800000L,
+            0x101010101000000L,
+            0x202020202000000L,
+            0x404040404000000L,
+            0x808080808000000L,
+            0x1010101010000000L,
+            0x2020202020000000L,
+            0x4040404040000000L,
+            0x8080808080000000L,
+            0x101010100000000L,
+            0x202020200000000L,
+            0x404040400000000L,
+            0x808080800000000L,
+            0x1010101000000000L,
+            0x2020202000000000L,
+            0x4040404000000000L,
+            0x8080808000000000L,
+            0x101010000000000L,
+            0x202020000000000L,
+            0x404040000000000L,
+            0x808080000000000L,
+            0x1010100000000000L,
+            0x2020200000000000L,
+            0x4040400000000000L,
+            0x8080800000000000L,
+            0x101000000000000L,
+            0x202000000000000L,
+            0x404000000000000L,
+            0x808000000000000L,
+            0x1010000000000000L,
+            0x2020000000000000L,
+            0x4040000000000000L,
+            0x8080000000000000L,
+            0x100000000000000L,
+            0x200000000000000L,
+            0x400000000000000L,
+            0x800000000000000L,
+            0x1000000000000000L,
+            0x2000000000000000L,
+            0x4000000000000000L,
+            0x8000000000000000L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L
+    }), Sur(null, false, new long[]{
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x1L,
+            0x2L,
+            0x4L,
+            0x8L,
+            0x10L,
+            0x20L,
+            0x40L,
+            0x80L,
+            0x101L,
+            0x202L,
+            0x404L,
+            0x808L,
+            0x1010L,
+            0x2020L,
+            0x4040L,
+            0x8080L,
+            0x10101L,
+            0x20202L,
+            0x40404L,
+            0x80808L,
+            0x101010L,
+            0x202020L,
+            0x404040L,
+            0x808080L,
+            0x1010101L,
+            0x2020202L,
+            0x4040404L,
+            0x8080808L,
+            0x10101010L,
+            0x20202020L,
+            0x40404040L,
+            0x80808080L,
+            0x101010101L,
+            0x202020202L,
+            0x404040404L,
+            0x808080808L,
+            0x1010101010L,
+            0x2020202020L,
+            0x4040404040L,
+            0x8080808080L,
+            0x10101010101L,
+            0x20202020202L,
+            0x40404040404L,
+            0x80808080808L,
+            0x101010101010L,
+            0x202020202020L,
+            0x404040404040L,
+            0x808080808080L,
+            0x1010101010101L,
+            0x2020202020202L,
+            0x4040404040404L,
+            0x8080808080808L,
+            0x10101010101010L,
+            0x20202020202020L,
+            0x40404040404040L,
+            0x80808080808080L}),
+    Este(true, null, new long[]{
+            0xfeL,
+            0xfcL,
+            0xf8L,
+            0xf0L,
+            0xe0L,
+            0xc0L,
+            0x80L,
+            0x0L,
+            0xfe00L,
+            0xfc00L,
+            0xf800L,
+            0xf000L,
+            0xe000L,
+            0xc000L,
+            0x8000L,
+            0x0L,
+            0xfe0000L,
+            0xfc0000L,
+            0xf80000L,
+            0xf00000L,
+            0xe00000L,
+            0xc00000L,
+            0x800000L,
+            0x0L,
+            0xfe000000L,
+            0xfc000000L,
+            0xf8000000L,
+            0xf0000000L,
+            0xe0000000L,
+            0xc0000000L,
+            0x80000000L,
+            0x0L,
+            0xfe00000000L,
+            0xfc00000000L,
+            0xf800000000L,
+            0xf000000000L,
+            0xe000000000L,
+            0xc000000000L,
+            0x8000000000L,
+            0x0L,
+            0xfe0000000000L,
+            0xfc0000000000L,
+            0xf80000000000L,
+            0xf00000000000L,
+            0xe00000000000L,
+            0xc00000000000L,
+            0x800000000000L,
+            0x0L,
+            0xfe000000000000L,
+            0xfc000000000000L,
+            0xf8000000000000L,
+            0xf0000000000000L,
+            0xe0000000000000L,
+            0xc0000000000000L,
+            0x80000000000000L,
+            0x0L,
+            0xfe00000000000000L,
+            0xfc00000000000000L,
+            0xf800000000000000L,
+            0xf000000000000000L,
+            0xe000000000000000L,
+            0xc000000000000000L,
+            0x8000000000000000L,
+            0x0L
+    }),
+    Oeste(false, null, new long[]{
+            0x0L,
+            0x1L,
+            0x3L,
+            0x7L,
+            0xfL,
+            0x1fL,
+            0x3fL,
+            0x7fL,
+            0x0L,
+            0x100L,
+            0x300L,
+            0x700L,
+            0xf00L,
+            0x1f00L,
+            0x3f00L,
+            0x7f00L,
+            0x0L,
+            0x10000L,
+            0x30000L,
+            0x70000L,
+            0xf0000L,
+            0x1f0000L,
+            0x3f0000L,
+            0x7f0000L,
+            0x0L,
+            0x1000000L,
+            0x3000000L,
+            0x7000000L,
+            0xf000000L,
+            0x1f000000L,
+            0x3f000000L,
+            0x7f000000L,
+            0x0L,
+            0x100000000L,
+            0x300000000L,
+            0x700000000L,
+            0xf00000000L,
+            0x1f00000000L,
+            0x3f00000000L,
+            0x7f00000000L,
+            0x0L,
+            0x10000000000L,
+            0x30000000000L,
+            0x70000000000L,
+            0xf0000000000L,
+            0x1f0000000000L,
+            0x3f0000000000L,
+            0x7f0000000000L,
+            0x0L,
+            0x1000000000000L,
+            0x3000000000000L,
+            0x7000000000000L,
+            0xf000000000000L,
+            0x1f000000000000L,
+            0x3f000000000000L,
+            0x7f000000000000L,
+            0x0L,
+            0x100000000000000L,
+            0x300000000000000L,
+            0x700000000000000L,
+            0xf00000000000000L,
+            0x1f00000000000000L,
+            0x3f00000000000000L,
+            0x7f00000000000000L
+    }),
+    NorteEste(true, true, new long[]{
+            0x8040201008040200L,
+            0x80402010080400L,
+            0x804020100800L,
+            0x8040201000L,
+            0x80402000L,
+            0x804000L,
+            0x8000L,
+            0x0L,
+            0x4020100804020000L,
+            0x8040201008040000L,
+            0x80402010080000L,
+            0x804020100000L,
+            0x8040200000L,
+            0x80400000L,
+            0x800000L,
+            0x0L,
+            0x2010080402000000L,
+            0x4020100804000000L,
+            0x8040201008000000L,
+            0x80402010000000L,
+            0x804020000000L,
+            0x8040000000L,
+            0x80000000L,
+            0x0L,
+            0x1008040200000000L,
+            0x2010080400000000L,
+            0x4020100800000000L,
+            0x8040201000000000L,
+            0x80402000000000L,
+            0x804000000000L,
+            0x8000000000L,
+            0x0L,
+            0x804020000000000L,
+            0x1008040000000000L,
+            0x2010080000000000L,
+            0x4020100000000000L,
+            0x8040200000000000L,
+            0x80400000000000L,
+            0x800000000000L,
+            0x0L,
+            0x402000000000000L,
+            0x804000000000000L,
+            0x1008000000000000L,
+            0x2010000000000000L,
+            0x4020000000000000L,
+            0x8040000000000000L,
+            0x80000000000000L,
+            0x0L,
+            0x200000000000000L,
+            0x400000000000000L,
+            0x800000000000000L,
+            0x1000000000000000L,
+            0x2000000000000000L,
+            0x4000000000000000L,
+            0x8000000000000000L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L
+    }),
+    SurEste(true, false, new long[]{
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x2L,
+            0x4L,
+            0x8L,
+            0x10L,
+            0x20L,
+            0x40L,
+            0x80L,
+            0x0L,
+            0x204L,
+            0x408L,
+            0x810L,
+            0x1020L,
+            0x2040L,
+            0x4080L,
+            0x8000L,
+            0x0L,
+            0x20408L,
+            0x40810L,
+            0x81020L,
+            0x102040L,
+            0x204080L,
+            0x408000L,
+            0x800000L,
+            0x0L,
+            0x2040810L,
+            0x4081020L,
+            0x8102040L,
+            0x10204080L,
+            0x20408000L,
+            0x40800000L,
+            0x80000000L,
+            0x0L,
+            0x204081020L,
+            0x408102040L,
+            0x810204080L,
+            0x1020408000L,
+            0x2040800000L,
+            0x4080000000L,
+            0x8000000000L,
+            0x0L,
+            0x20408102040L,
+            0x40810204080L,
+            0x81020408000L,
+            0x102040800000L,
+            0x204080000000L,
+            0x408000000000L,
+            0x800000000000L,
+            0x0L,
+            0x2040810204080L,
+            0x4081020408000L,
+            0x8102040800000L,
+            0x10204080000000L,
+            0x20408000000000L,
+            0x40800000000000L,
+            0x80000000000000L,
+            0x0L
+    }),
+    SurOeste(false, false, new long[]{
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x1L,
+            0x2L,
+            0x4L,
+            0x8L,
+            0x10L,
+            0x20L,
+            0x40L,
+            0x0L,
+            0x100L,
+            0x201L,
+            0x402L,
+            0x804L,
+            0x1008L,
+            0x2010L,
+            0x4020L,
+            0x0L,
+            0x10000L,
+            0x20100L,
+            0x40201L,
+            0x80402L,
+            0x100804L,
+            0x201008L,
+            0x402010L,
+            0x0L,
+            0x1000000L,
+            0x2010000L,
+            0x4020100L,
+            0x8040201L,
+            0x10080402L,
+            0x20100804L,
+            0x40201008L,
+            0x0L,
+            0x100000000L,
+            0x201000000L,
+            0x402010000L,
+            0x804020100L,
+            0x1008040201L,
+            0x2010080402L,
+            0x4020100804L,
+            0x0L,
+            0x10000000000L,
+            0x20100000000L,
+            0x40201000000L,
+            0x80402010000L,
+            0x100804020100L,
+            0x201008040201L,
+            0x402010080402L,
+            0x0L,
+            0x1000000000000L,
+            0x2010000000000L,
+            0x4020100000000L,
+            0x8040201000000L,
+            0x10080402010000L,
+            0x20100804020100L,
+            0x40201008040201L
+    }),
+    NorteOeste(false, true, new long[]{
+            0x0L,
+            0x100L,
+            0x10200L,
+            0x1020400L,
+            0x102040800L,
+            0x10204081000L,
+            0x1020408102000L,
+            0x102040810204000L,
+            0x0L,
+            0x10000L,
+            0x1020000L,
+            0x102040000L,
+            0x10204080000L,
+            0x1020408100000L,
+            0x102040810200000L,
+            0x204081020400000L,
+            0x0L,
+            0x1000000L,
+            0x102000000L,
+            0x10204000000L,
+            0x1020408000000L,
+            0x102040810000000L,
+            0x204081020000000L,
+            0x408102040000000L,
+            0x0L,
+            0x100000000L,
+            0x10200000000L,
+            0x1020400000000L,
+            0x102040800000000L,
+            0x204081000000000L,
+            0x408102000000000L,
+            0x810204000000000L,
+            0x0L,
+            0x10000000000L,
+            0x1020000000000L,
+            0x102040000000000L,
+            0x204080000000000L,
+            0x408100000000000L,
+            0x810200000000000L,
+            0x1020400000000000L,
+            0x0L,
+            0x1000000000000L,
+            0x102000000000000L,
+            0x204000000000000L,
+            0x408000000000000L,
+            0x810000000000000L,
+            0x1020000000000000L,
+            0x2040000000000000L,
+            0x0L,
+            0x100000000000000L,
+            0x200000000000000L,
+            0x400000000000000L,
+            0x800000000000000L,
+            0x1000000000000000L,
+            0x2000000000000000L,
+            0x4000000000000000L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L,
+            0x0L
+    });
+
+    private final Boolean east;
+    private final Boolean north;
+    private final int offSetEast;
+    private final int offSetNorth;
+    private final long[] posiciones;
+
+    Cardinal(Boolean east, Boolean north, long[] posiciones) {
+        this.east = east;
+        this.north = north;
+
+        this.offSetEast = this.east == null ? 0 : (this.east ? 1 : -1);
+        this.offSetNorth = this.north == null ? 0 : (this.north ? 1 : -1);
+        this.posiciones = posiciones;
+    }
+
+    public Square nextSquare(Square from) {
+        return Square.getSquare(from.getFile() + offSetEast, from.getRank() + offSetNorth);
+    }
+
+    public long getPosiciones(Square from) {
+        return posiciones[from.toIdx()];
+    }
+
+
+    public boolean isInDirection(Square from, Square to) {
+        if (Objects.equals(east, getDirection(from.getFile(), to.getFile()))) {
+            if (Objects.equals(north, getDirection(from.getRank(), to.getRank()))) {
+                if (east == null) { // Puede ser mismo lugar; NORTE o SUR
+                    if (north == null) {
+                        throw new RuntimeException("from equals to");
+                    } else { // NORTE o SUR
+                        return true;
+                    }
+                } else if (east.equals(true)) { // Puede ser Este, NorteEste; SurEste
+                    if (north == null) { // Este
+                        return true;
+                    } else if (north.equals(true)) { // NorteEste
                         return to.getFile() - from.getFile() == to.getRank() - from.getRank();
-					} else { // norte.equals(false) --  SurEste
+                    } else { // norte.equals(false) --  SurEste
                         return to.getFile() - from.getFile() == from.getRank() - to.getRank();
-					}
-				} else { // este.equals(false)  -- Puede ser Oeste,NorteOeste, SurOeste
-					if (north == null) { // Oeste
-						return true;
-					} else if (north.equals(true)) { // NorteOeste
+                    }
+                } else { // este.equals(false)  -- Puede ser Oeste,NorteOeste, SurOeste
+                    if (north == null) { // Oeste
+                        return true;
+                    } else if (north.equals(true)) { // NorteOeste
                         return from.getFile() - to.getFile() == to.getRank() - from.getRank();
-					} else { // norte.equals(false) SurOeste
+                    } else { // norte.equals(false) SurOeste
                         return from.getFile() - to.getFile() == from.getRank() - to.getRank();
-					}
-				}
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
+                    }
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
-	private static Boolean getDirection(int from, int to) {
-		if( from == to ) {
-			return null;
-		} else {
-			return from < to;
-		}
-	}
+    private static Boolean getDirection(int from, int to) {
+        if (from == to) {
+            return null;
+        } else {
+            return from < to;
+        }
+    }
 
-	public static Cardinal calculateSquaresDirection(Square from, Square to) {
-		for(Cardinal direction: Cardinal.values()){
-			if(direction.isInDirection(from, to)){
-				return direction;
-			}
-		}
-		return null;
-	}
+    public static Cardinal calculateSquaresDirection(Square from, Square to) {
+        for (Cardinal direction : Cardinal.values()) {
+            if (direction.isInDirection(from, to)) {
+                return direction;
+            }
+        }
+        return null;
+    }
 }

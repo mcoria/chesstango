@@ -34,7 +34,7 @@ public class CheckMoveFilter implements MoveFilter {
 		this.kingCacheBoard = kingCacheBoard;
 		this.bitBoard = bitBoard;
 		this.positionState = positionState;
-		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard);
+		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
 	}
 	
 	@Override

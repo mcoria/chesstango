@@ -6,6 +6,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
+import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.SquareBoardReader;
 
 import java.util.Iterator;
@@ -14,22 +16,28 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 public abstract class CapturerByCardinals implements CapturerByPiece {
-    private final SquareBoardReader squareBoardReader;
-    private final Piece bishopOrRook;
-    private final Piece queen;
-    private final Cardinal[] cardinals;
+    protected final SquareBoardReader squareBoardReader;
+    protected final BitBoardReader bitBoardReader;
+    protected final Piece bishopOrRook;
+    protected final Piece queen;
+    protected final Cardinal[] cardinals;
+    protected final Color color;
 
-    public CapturerByCardinals(SquareBoardReader squareBoardReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
+    protected abstract boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal);
+
+    public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
         this.squareBoardReader = squareBoardReader;
+        this.bitBoardReader = bitBoardReader;
         this.cardinals = cardinals;
         this.bishopOrRook = bishopOrRook;
         this.queen = Piece.getQueen(color);
+        this.color = color;
     }
 
     @Override
     public boolean positionCaptured(Square square) {
         for (Cardinal cardinal : cardinals) {
-            if (positionCapturedByCardinal(square, cardinal)) {
+            if ( thereIsCapturerInCardinalDirection(square, cardinal) && positionCapturedByCardinal(square, cardinal)) {
                 return true;
             }
         }

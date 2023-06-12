@@ -179,6 +179,21 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public long getBishopPositions() {
+		return bitBoard.getBishopPositions();
+	}
+
+	@Override
+	public long getRookPositions() {
+		return bitBoard.getRookPositions();
+	}
+
+	@Override
+	public long getQueenPositions() {
+		return bitBoard.getQueenPositions();
+	}
+
+	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
 		return squareBoard.iterator(bitBoard.getPositions(Color.WHITE) | bitBoard.getPositions(Color.BLACK));
 	}
