@@ -53,7 +53,7 @@ public class ChessPositionTest {
 	
 	@Test
 	public void testDefaultPosition() {		
-		settupWithDefaultBoard();
+		setupWithDefaultBoard();
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 		
@@ -99,7 +99,7 @@ public class ChessPositionTest {
 
 	@Test
 	public void testKingInCheck01() {
-		settupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
+		setupWithBoard("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 
@@ -115,7 +115,7 @@ public class ChessPositionTest {
 
 	@Test
 	public void testKingInCheck02() {
-		settupWithBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
+		setupWithBoard("rnb1kbnr/pp1ppppp/8/q1p5/8/3P4/PPPKPPPP/RNBQ1BNR w KQkq - 0 1");
 
 		AnalyzerResult result = analyzer.analyze();
 
@@ -136,7 +136,7 @@ public class ChessPositionTest {
 
 	@Test
 	public void testJuegoCastlingWhiteJaque() {		
-		settupWithBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
+		setupWithBoard("r3k3/8/8/8/4r3/8/8/R3K2R w KQq - 0 1");
 
 		AnalyzerResult result = analyzer.analyze();
 
@@ -159,7 +159,7 @@ public class ChessPositionTest {
 
 	@Test
 	public void testJuegoPawnPromocion() {
-		settupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
+		setupWithBoard("r3k2r/p1ppqpb1/bn1Ppnp1/4N3/1p2P3/2N2Q2/PPPBBPpP/R4RK1 b kq - 0 2");
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 
@@ -178,7 +178,7 @@ public class ChessPositionTest {
 	
 	@Test
 	public void testJauqeMate() {	
-		settupWithBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
+		setupWithBoard("r1bqk1nr/pppp1Qpp/2n5/2b1p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 		
 		AnalyzerResult result = analyzer.analyze();
 		
@@ -190,7 +190,7 @@ public class ChessPositionTest {
 	
 	@Test
 	public void testKingNoPuedeMoverAJaque(){
-		settupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
+		setupWithBoard("8/8/8/8/8/8/6k1/4K2R w K - 0 1");
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 		
@@ -204,7 +204,7 @@ public class ChessPositionTest {
 	
 	@Test
 	public void testMovimientoEnPassantNoAllowed(){
-		settupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
+		setupWithBoard("8/2p5/3p4/KP5r/1R3pPk/8/4P3/8 b - g3 0 1");
 
 		MoveContainerReader moves = gameState.getLegalMoves();
 		
@@ -247,11 +247,11 @@ public class ChessPositionTest {
 		return moveFactoryWhite.createSimpleKingMove(PiecePositioned.getPiecePositioned(origen, Piece.KING_WHITE), PiecePositioned.getPiecePositioned(destino, null));
 	}	
 	
-	private void settupWithDefaultBoard() {
-		settupWithBoard(FENDecoder.INITIAL_FEN);
+	private void setupWithDefaultBoard() {
+		setupWithBoard(FENDecoder.INITIAL_FEN);
 	}	
 	
-	private void settupWithBoard(String string) {		
+	private void setupWithBoard(String string) {
 		GameBuilder builder = new GameBuilder(injector);
 
 		FENDecoder parser = new FENDecoder(builder);
