@@ -53,7 +53,6 @@ public class ChessPositionImp implements ChessPosition {
 		move.executeMove(this.positionState);
 
 		move.executeMove(this.zobristHash, oldPositionState, this.positionState, this.squareBoard);
-
 	}
 
 	@Override

@@ -14,9 +14,9 @@ import java.util.Deque;
 public class MoveCacheBoardImp implements MoveCacheBoard {
     protected final MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
     protected final long[] affects = new long[64];
-    protected final Deque<MoveGeneratorResult> clearedSquares = new ArrayDeque<>();
-    protected final Deque<Integer> clearedSquaresCounters = new ArrayDeque<>();
-    protected int currentClearedSquaresCounter = 0;
+    protected final Deque<MoveGeneratorResult> clearedPseudoMoves = new ArrayDeque<>();
+    protected final Deque<Long> clearedSquares = new ArrayDeque<>();
+    protected long currentClearedSquares = 0;
 
     @Override
     public MoveGeneratorResult getPseudoMovesResult(Square key) {
@@ -24,7 +24,16 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     }
 
     @Override
+    public long getClearedSquares() {
+        return clearedSquares.peekLast();
+    }
+
+    @Override
     public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
+        if(pseudoMoves[key.toIdx()] != null){
+            throw new RuntimeException("pseudoMoves[key.toIdx()]");
+        }
+
         pseudoMoves[key.toIdx()] = generatorResult;
 
         final long keyAdded = key.getBitPosition();
@@ -66,6 +75,10 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
     @Override
     public void clearPseudoMoves(final long clearSquares, final boolean trackCleared) {
+        if(trackCleared && currentClearedSquares != 0){
+            throw new RuntimeException("currentClearedSquaresCounter > 0");
+        }
+
         long affectedByClearedSquares = 0;
 
         long positions = clearSquares;
@@ -76,8 +89,8 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
             if (pseudoMove != null) {
                 affectedByClearedSquares |= pseudoMove.getAffectedByPositions();
                 if (trackCleared) {
-                    clearedSquares.push(pseudoMove);
-                    currentClearedSquaresCounter++;
+                    clearedPseudoMoves.push(pseudoMove);
+                    currentClearedSquares |= posicionLng;
                 }
                 pseudoMoves[i] = null;
             }
@@ -95,18 +108,19 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
     @Override
     public void pushCleared() {
-        clearedSquaresCounters.push(currentClearedSquaresCounter);
-        currentClearedSquaresCounter = 0;
+        clearedSquares.push(currentClearedSquares);
+        currentClearedSquares = 0;
     }
 
     //TODO: este metodo consume el 20% del procesamiento
     @Override
     public void popCleared() {
-        for (int i = 0; i < currentClearedSquaresCounter; i++) {
-            MoveGeneratorResult generatorResult = clearedSquares.pop();
+        int counter = Long.bitCount(currentClearedSquares);
+        for (int i = 0; i < counter; i++) {
+            MoveGeneratorResult generatorResult = clearedPseudoMoves.pop();
             setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult);
         }
-        currentClearedSquaresCounter = clearedSquaresCounters.pop();
+        currentClearedSquares = clearedSquares.pop();
     }
 
     @Override
