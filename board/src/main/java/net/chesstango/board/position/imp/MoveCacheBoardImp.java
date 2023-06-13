@@ -23,10 +23,6 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         return pseudoMoves[key.toIdx()];
     }
 
-    @Override
-    public long getClearedSquares() {
-        return clearedSquares.peekLast();
-    }
 
     @Override
     public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
