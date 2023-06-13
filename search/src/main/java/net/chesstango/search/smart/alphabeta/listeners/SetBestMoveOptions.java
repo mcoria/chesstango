@@ -64,7 +64,7 @@ public class SetBestMoveOptions implements SearchLifeCycle {
         for (Move move : game.getPossibleMoves()) {
             game.executeMove(move);
 
-            long hash = game.getChessPosition().getPositionHash();
+            long hash = game.getChessPosition().getZobristHash();
 
             Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 

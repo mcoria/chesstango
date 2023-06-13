@@ -15,7 +15,7 @@ public class CardinalSquareIterator implements SquareIterator {
 	
 	public CardinalSquareIterator(Square startingPoint, Cardinal cardinal) {
 		this.cardinal = cardinal;
-		this.nextPoint = this.cardinal.calcularNextPoint(startingPoint);
+		this.nextPoint = this.cardinal.nextSquare(startingPoint);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class CardinalSquareIterator implements SquareIterator {
 	@Override
 	public Square next() {
 		Square currentPoint = nextPoint;
-		this.nextPoint = this.cardinal.calcularNextPoint(currentPoint);
+		this.nextPoint = this.cardinal.nextSquare(currentPoint);
 		return currentPoint;
 	}
 

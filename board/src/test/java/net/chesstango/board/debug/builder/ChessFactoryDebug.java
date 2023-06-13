@@ -8,8 +8,7 @@ import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 
@@ -35,14 +34,14 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public ColorBoard createColorBoard() {
-		ColorBoard colorBoard = new ColorBoardDebug();
-		return colorBoard;
+	public BitBoard createColorBoard() {
+		BitBoard bitBoard = new BitBoardDebug();
+		return bitBoard;
 	}	
 	
 	@Override
-	public KingCacheBoard createKingCacheBoard() {
-		return new KingCacheBoardDebug();
+	public KingSquareImp createKingCacheBoard() {
+		return new KingSquareDebug();
 	}
 	
 	@Override
@@ -51,13 +50,14 @@ public class ChessFactoryDebug extends ChessFactory {
 	}
 	
 	@Override
-	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
-		return new CheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionState positionState) {
+		return new CheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
-	
-	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
+
+	@Override
+	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
                                                      PositionState positionState) {
-		return new NoCheckMoveFilterDebug(dummyBoard, kingCacheBoard, colorBoard, positionState);
+		return new NoCheckMoveFilterDebug(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}		
 	
 	@Override

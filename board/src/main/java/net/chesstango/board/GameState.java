@@ -65,7 +65,7 @@ public class GameState implements GameStateReader {
     }
 
     @Override
-    public GameStateReader getPreviosState() {
+    public GameStateReader getPreviousState() {
         return currentGameState.previosGameState;
     }
 
@@ -139,7 +139,7 @@ public class GameState implements GameStateReader {
         }
 
         @Override
-        public GameStateData getPreviosState() {
+        public GameStateData getPreviousState() {
             return previosGameState;
         }
     }

@@ -5,6 +5,7 @@ package net.chesstango.board.perft;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.builders.GameBuilder;
+import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.perft.imp.PerftBrute;
 import net.chesstango.board.perft.imp.PerftWithMap;
@@ -31,9 +32,9 @@ public abstract class AbstractPerftTest {
 	}
 
 	protected Perft createPerft(){
-		//return new PerftBrute();
+		return new PerftBrute();
 		//return new PerftWithMapIterateDeeping<Long>(PerftWithMapIterateDeeping::getZobristGameId);
-		return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
+		//return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
 	}
 
 

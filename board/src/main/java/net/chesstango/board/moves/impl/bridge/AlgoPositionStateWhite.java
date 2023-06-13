@@ -1,7 +1,7 @@
 package net.chesstango.board.moves.impl.bridge;
 
 import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.PositionStateWriter;
 
 /**
  * @author Mauricio Coria
@@ -9,15 +9,15 @@ import net.chesstango.board.position.imp.PositionState;
 class AlgoPositionStateWhite implements AlgoPositionState {
 
     @Override
-    public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionState positionState) {
-        positionState.pushState();
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
-        positionState.rollTurn();
+    public void doSimplePawnMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.resetHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
+        positionStateWriter.rollTurn();
     }
 
     @Override
-    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionState positionState) {
+    public void doSimpleNotPawnNorKingMove(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState) {
         positionState.pushState();
         positionState.incrementHalfMoveClock();
         positionState.setEnPassantSquare(null);
@@ -34,7 +34,7 @@ class AlgoPositionStateWhite implements AlgoPositionState {
     }
 
     @Override
-    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionState positionState) {
+    public void doSimpleKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionState) {
         positionState.pushState();
         positionState.incrementHalfMoveClock();
         positionState.setEnPassantSquare(null);
@@ -44,47 +44,47 @@ class AlgoPositionStateWhite implements AlgoPositionState {
     }
 
     @Override
-    public void doCaptureNotKingPositionState(PiecePositioned from, PiecePositioned to, PositionState positionState) {
-        positionState.pushState();
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
+    public void doCaptureNotKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.resetHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
 
         if(MoveCastlingWhiteKing.ROOK_FROM.equals(from)){
-            positionState.setCastlingWhiteKingAllowed(false);
+            positionStateWriter.setCastlingWhiteKingAllowed(false);
         }
 
         if(MoveCastlingWhiteQueen.ROOK_FROM.equals(from)){
-            positionState.setCastlingWhiteQueenAllowed(false);
+            positionStateWriter.setCastlingWhiteQueenAllowed(false);
         }
 
         if(MoveCastlingBlackKing.ROOK_FROM.equals(to)){
-            positionState.setCastlingBlackKingAllowed(false);
+            positionStateWriter.setCastlingBlackKingAllowed(false);
         }
 
         if(MoveCastlingBlackQueen.ROOK_FROM.equals(to)){
-            positionState.setCastlingBlackQueenAllowed(false);
+            positionStateWriter.setCastlingBlackQueenAllowed(false);
         }
 
-        positionState.rollTurn();
+        positionStateWriter.rollTurn();
     }
 
     @Override
-    public void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, PositionState positionState) {
-        positionState.pushState();
-        positionState.resetHalfMoveClock();
-        positionState.setEnPassantSquare(null);
+    public void doCaptureKingPositionState(PiecePositioned from, PiecePositioned to, PositionStateWriter positionStateWriter) {
+        positionStateWriter.pushState();
+        positionStateWriter.resetHalfMoveClock();
+        positionStateWriter.setEnPassantSquare(null);
 
-        positionState.setCastlingWhiteKingAllowed(false);
-        positionState.setCastlingWhiteQueenAllowed(false);
+        positionStateWriter.setCastlingWhiteKingAllowed(false);
+        positionStateWriter.setCastlingWhiteQueenAllowed(false);
 
         if(MoveCastlingBlackKing.ROOK_FROM.equals(to)){
-            positionState.setCastlingBlackKingAllowed(false);
+            positionStateWriter.setCastlingBlackKingAllowed(false);
         }
 
         if(MoveCastlingBlackQueen.ROOK_FROM.equals(to)){
-            positionState.setCastlingBlackQueenAllowed(false);
+            positionStateWriter.setCastlingBlackQueenAllowed(false);
         }
 
-        positionState.rollTurn();
+        positionStateWriter.rollTurn();
     }
 }

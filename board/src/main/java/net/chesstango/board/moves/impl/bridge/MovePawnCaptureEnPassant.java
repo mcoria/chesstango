@@ -5,13 +5,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.BoardWriter;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.*;
 
 /**
  * @author Mauricio Coria
@@ -41,20 +35,20 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void executeMove(BoardWriter board) {
-        board.move(from, to);
-        board.setEmptyPosition(capture);
+    public void executeMove(SquareBoardWriter squareBoard) {
+        squareBoard.move(from, to);
+        squareBoard.setEmptyPosition(capture);
     }
 
     @Override
-    public void undoMove(BoardWriter board) {
-        board.setPosition(from);
-        board.setPosition(to);
-        board.setPosition(capture);
+    public void undoMove(SquareBoardWriter squareBoard) {
+        squareBoard.setPosition(from);
+        squareBoard.setPosition(to);
+        squareBoard.setPosition(capture);
     }
 
     @Override
-    public void executeMove(PositionState positionState) {
+    public void executeMove(PositionStateWriter positionState) {
         positionState.pushState();
 
         positionState.setEnPassantSquare(null);
@@ -62,7 +56,7 @@ class MovePawnCaptureEnPassant implements Move {
 
         positionState.resetHalfMoveClock();
 
-        if(Color.BLACK.equals(positionState.getCurrentTurn())){
+        if(Color.BLACK.equals(from.getPiece().getColor())){
             positionState.incrementFullMoveClock();
         }
 
@@ -70,38 +64,38 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void undoMove(PositionState positionState) {
-        positionState.popState();
+    public void undoMove(PositionStateWriter positionStateWriter) {
+        positionStateWriter.popState();
     }
 
     @Override
-    public void executeMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), from.getSquare(), to.getSquare());
+    public void executeMove(BitBoardWriter bitBoardWriter) {
+        bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
 
-        colorBoard.removePositions(capture);
+        bitBoardWriter.removePosition(capture);
     }
 
     @Override
-    public void undoMove(ColorBoard colorBoard) {
-        colorBoard.swapPositions(from.getPiece().getColor(), to.getSquare(), from.getSquare());
+    public void undoMove(BitBoardWriter bitBoardWriter) {
+        bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
 
-        colorBoard.addPositions(capture);
+        bitBoardWriter.addPosition(capture);
     }
 
     @Override
-    public void executeMove(MoveCacheBoard moveCache) {
+    public void executeMove(MoveCacheBoardWriter moveCache) {
         moveCache.pushCleared();
         moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), capture.getSquare(), true);
     }
 
     @Override
-    public void undoMove(MoveCacheBoard moveCache) {
+    public void undoMove(MoveCacheBoardWriter moveCache) {
         moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), capture.getSquare(), false);
         moveCache.popCleared();
     }
 
     @Override
-    public void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.pushState();
 
         hash.xorPosition(from);
@@ -116,7 +110,7 @@ class MovePawnCaptureEnPassant implements Move {
     }
 
     @Override
-    public void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board) {
+    public void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board) {
         hash.popState();
     }
 

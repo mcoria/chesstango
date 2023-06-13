@@ -5,8 +5,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingPositionsSquareIterator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorCastling;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.KingSquare;
 
 import java.util.Iterator;
 
@@ -17,9 +17,9 @@ import java.util.Iterator;
  */
 public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerator implements MoveGeneratorCastling {
 	
-	protected PositionState positionState;
+	protected PositionStateReader positionState;
 	
-	protected KingCacheBoard kingCacheBoard;
+	protected KingSquare kingSquare;
 	
 	public AbstractKingMoveGenerator(Color color) {
 		super(color);
@@ -33,11 +33,11 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
-			if (torre.getPiece().equals(piecePlacement.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
+			if (torre.getPiece().equals(board.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
-                return piecePlacement.isEmpty(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
-                        && piecePlacement.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
-                        && piecePlacement.isEmpty(casilleroIntermedioKing);
+                return board.isEmpty(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
+                        && board.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && board.isEmpty(casilleroIntermedioKing);
 			}
 		}
 		return false;
@@ -50,10 +50,10 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
-			if (torre.getPiece().equals(piecePlacement.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
+			if (torre.getPiece().equals(board.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
-                return piecePlacement.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
-                        && piecePlacement.isEmpty(casilleroIntermedioKing);
+                return board.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && board.isEmpty(casilleroIntermedioKing);
 			}
 		}
 		return false;
@@ -64,12 +64,13 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 		return new KingPositionsSquareIterator(fromSquare);
 	}
 
-	public void setBoardState(PositionState positionState) {
+	public void setBoardState(PositionStateReader positionState) {
 		this.positionState = positionState;
 	}
 	
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
+
+	public void setKingCacheBoard(KingSquare kingSquare) {
+		this.kingSquare = kingSquare;
 	}	
 	
 }

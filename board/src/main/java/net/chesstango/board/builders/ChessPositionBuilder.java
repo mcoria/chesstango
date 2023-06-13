@@ -5,9 +5,9 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.ChessFactory;
 import net.chesstango.board.factory.ChessInjector;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.PositionState;
 
 
 /**
@@ -16,14 +16,14 @@ import net.chesstango.board.position.imp.PositionState;
  */
 public class ChessPositionBuilder implements ChessRepresentationBuilder<ChessPosition> {
 	
-	private final Board board;
+	private final SquareBoard squareBoard;
 	private final PositionState positionState;
 	private final ChessInjector chessInjector;
 	private ChessPosition chessPosition = null;
 
 	
 	public ChessPositionBuilder(ChessInjector chessInjector) {
-		this.board = chessInjector.getPiecePlacement();
+		this.squareBoard = chessInjector.getPiecePlacement();
 		this.positionState =  chessInjector.getPositionState();
 		this.chessInjector = chessInjector;
 	}
@@ -99,7 +99,7 @@ public class ChessPositionBuilder implements ChessRepresentationBuilder<ChessPos
 	}
 
 	public ChessRepresentationBuilder<ChessPosition> withPiece(Square square, Piece piece) {
-		board.setPieza(square, piece);
+		squareBoard.setPiece(square, piece);
 		return this;
 	}
 

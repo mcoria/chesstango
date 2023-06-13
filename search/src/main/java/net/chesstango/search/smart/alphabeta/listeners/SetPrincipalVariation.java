@@ -92,7 +92,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     private Move readMoveFromTT(Game game, Map<Long, Transposition> maxMap, Map<Long, Transposition> minMap) {
         Move result = null;
 
-        long hash = game.getChessPosition().getPositionHash();
+        long hash = game.getChessPosition().getZobristHash();
 
         Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
@@ -115,7 +115,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     private Move readMoveFromQTT(Game game, Map<Long, Transposition> qMaxMap, Map<Long, Transposition> qMinMap) {
         Move result = null;
 
-        long hash = game.getChessPosition().getPositionHash();
+        long hash = game.getChessPosition().getZobristHash();
 
         Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
 

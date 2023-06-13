@@ -4,14 +4,7 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.BoardWriter;
-import net.chesstango.board.position.ChessPositionWriter;
-import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.MoveCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.*;
 
 //TODO: Y si en vez de PosicionPieza utilizamos Square para To?
 //      La mayoria de los movimientos posibles es a bysquare vacios
@@ -38,25 +31,25 @@ public interface Move extends Comparable<Move> {
         return filter.filterMove(this);
     }
 
-    void executeMove(BoardWriter board);
+    void executeMove(SquareBoardWriter squareBoard);
 
-    void undoMove(BoardWriter board);
+    void undoMove(SquareBoardWriter squareBoard);
 
-    void executeMove(PositionState positionState);
+    void executeMove(PositionStateWriter positionState);
 
-    void undoMove(PositionState positionState);
+    void undoMove(PositionStateWriter positionStateWriter);
 
-    void executeMove(ColorBoard colorBoard);
+    void executeMove(BitBoardWriter bitBoard);
 
-    void undoMove(ColorBoard colorBoard);
+    void undoMove(BitBoardWriter bitBoard);
 
-    void executeMove(MoveCacheBoard moveCache);
+    void executeMove(MoveCacheBoardWriter moveCache);
 
-    void undoMove(MoveCacheBoard moveCache);
+    void undoMove(MoveCacheBoardWriter moveCache);
 
-    void executeMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void executeMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
 
-    void undoMove(ZobristHash hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, BoardReader board);
+    void undoMove(ZobristHashWriter hash, PositionStateReader oldPositionState, PositionStateReader newPositionState, SquareBoardReader board);
 
     /**
      * "move" is a bit field with the following meaning (bit 0 is the least significant bit)

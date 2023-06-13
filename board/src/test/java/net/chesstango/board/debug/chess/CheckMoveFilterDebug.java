@@ -3,11 +3,12 @@ package net.chesstango.board.debug.chess;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.imp.SquareBoardImp;
+import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.imp.KingSquareImp;
+import net.chesstango.board.position.imp.PositionStateImp;
 
 
 /**
@@ -16,9 +17,9 @@ import net.chesstango.board.position.imp.PositionState;
  */
 public class CheckMoveFilterDebug extends CheckMoveFilter {
 	
-	public CheckMoveFilterDebug(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-                                PositionState positionState) {
-		super(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	public CheckMoveFilterDebug(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+								PositionState positionState) {
+		super(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 
 	@Override
@@ -26,11 +27,11 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 		try {
 			boolean reportError = false;
 
-			ArrayBoard boardInicial = ((ArrayBoard) super.dummyBoard).clone();
+			SquareBoardImp boardInicial = ((SquareBoardImp) super.dummySquareBoard).clone();
 			
-			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
-			
-			PositionState boardStateInicial = super.positionState.clone();
+			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
+
+			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 	
 			boolean result = super.filterMove(move);
 			
@@ -46,9 +47,9 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 				reportError = true;
 			}
 	
-			if (!super.dummyBoard.equals(boardInicial)) {
+			if (!super.dummySquareBoard.equals(boardInicial)) {
 				System.out.println("El board fu� modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummyBoard);
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + super.dummySquareBoard);
 				reportError = true;				
 			}
 	
@@ -57,8 +58,8 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((PositionStateDebug)positionState).validar(this.dummyBoard);
-			((ColorBoardDebug)colorBoard).validar(this.dummyBoard);	
+			((PositionStateDebug)positionState).validar(this.dummySquareBoard);
+			((BitBoardDebug) bitBoard).validar(this.dummySquareBoard);
 			
 			return result;
 		} catch (CloneNotSupportedException e) {
@@ -71,7 +72,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 		try {
 			boolean reportError = false;	
 			
-			KingCacheBoard kingCacheBoardInicial = super.kingCacheBoard.clone();
+			KingSquareImp kingCacheBoardInicial = super.kingCacheBoard.clone();
 	
 			boolean result = super.filterMoveKing(move);
 			
@@ -86,7 +87,7 @@ public class CheckMoveFilterDebug extends CheckMoveFilter {
 				throw new RuntimeException("Hubo modificaciones ! ! !");
 			}
 			
-			((KingCacheBoardDebug)kingCacheBoard).validar(this.dummyBoard);			
+			((KingSquareDebug)kingCacheBoard).validar(this.dummySquareBoard);
 			
 			return result;
 		} catch (CloneNotSupportedException e) {

@@ -7,11 +7,10 @@ import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.ChessPosition;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 import java.util.HashMap;
@@ -25,15 +24,15 @@ public class ChessInjector {
 
     private final ChessFactory chessFactory;
 
-    private Board board = null;
+    private SquareBoard squareBoard = null;
 
     private PositionState positionState = null;
 
-    private ColorBoard colorBoard = null;
+    private BitBoard bitBoard = null;
 
     private MoveCacheBoard moveCache = null;
 
-    private KingCacheBoard kingCacheBoard = null;
+    private KingSquareImp kingCacheBoard = null;
 
     private ZobristHash zobristHash  = null;
 
@@ -53,7 +52,7 @@ public class ChessInjector {
 
     private LegalMoveGeneratorImp legalMoveGenerator = null;
 
-    private FullScanSquareCapturer fullScanSquareCapturer = null;
+    private FullScanSquareCaptured fullScanSquareCapturer = null;
 
     private MoveFilter checkMoveFilter;
 
@@ -94,11 +93,11 @@ public class ChessInjector {
         return chessPosition;
     }
 
-    public Board getPiecePlacement() {
-        if (board == null) {
-            board = chessFactory.createPiecePlacement();
+    public SquareBoard getPiecePlacement() {
+        if (squareBoard == null) {
+            squareBoard = chessFactory.createPiecePlacement();
         }
-        return board;
+        return squareBoard;
     }
 
     public PositionState getPositionState() {
@@ -108,18 +107,18 @@ public class ChessInjector {
         return positionState;
     }
 
-    protected KingCacheBoard getKingCacheBoard() {
+    protected KingSquareImp getKingCacheBoard() {
         if (kingCacheBoard == null) {
             kingCacheBoard = chessFactory.createKingCacheBoard();
         }
         return kingCacheBoard;
     }
 
-    protected ColorBoard getColorBoard() {
-        if (colorBoard == null) {
-            colorBoard = chessFactory.createColorBoard();
+    protected BitBoard getColorBoard() {
+        if (bitBoard == null) {
+            bitBoard = chessFactory.createColorBoard();
         }
-        return colorBoard;
+        return bitBoard;
     }
 
     protected MoveCacheBoard getMoveCacheBoard() {
@@ -209,7 +208,7 @@ public class ChessInjector {
             moveGeneratorImp.setPiecePlacement(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
             moveGeneratorImp.setColorBoard(getColorBoard());
-            moveGeneratorImp.setKingCacheBoard(getKingCacheBoard());
+            moveGeneratorImp.setKingSquare(getKingCacheBoard());
         }
         return moveGeneratorImp;
     }

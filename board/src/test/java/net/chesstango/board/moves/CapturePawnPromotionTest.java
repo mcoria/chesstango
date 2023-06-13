@@ -4,18 +4,19 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.debug.chess.PositionStateDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.Board;
+import net.chesstango.board.position.SquareBoard;
 import net.chesstango.board.position.ChessPosition;
 import net.chesstango.board.position.PositionStateReader;
-import net.chesstango.board.position.imp.ArrayBoard;
-import net.chesstango.board.position.imp.ZobristHash;
+import net.chesstango.board.position.imp.SquareBoardImp;
+import net.chesstango.board.position.ZobristHash;
+import net.chesstango.board.position.imp.ZobristHashImp;
 import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,10 +35,10 @@ import static org.mockito.Mockito.verify;
 public class CapturePawnPromotionTest {
 
     private Move moveExecutor;
-    private Board board;
+    private SquareBoard squareBoard;
 
     private PositionStateDebug positionState;
-    private ColorBoardDebug colorBoard;
+    private BitBoardDebug colorBoard;
     private MoveCacheBoardDebug moveCacheBoard;
     private ZobristHash zobristHash;
 
@@ -55,30 +56,30 @@ public class CapturePawnPromotionTest {
         positionState.setHalfMoveClock(3);
         positionState.setFullMoveClock(5);
 
-        board = new ArrayBoard();
-        board.setPieza(Square.e7, Piece.PAWN_WHITE);
-        board.setPieza(Square.f8, Piece.KNIGHT_BLACK);
+        squareBoard = new SquareBoardImp();
+        squareBoard.setPiece(Square.e7, Piece.PAWN_WHITE);
+        squareBoard.setPiece(Square.f8, Piece.KNIGHT_BLACK);
 
-        colorBoard = new ColorBoardDebug();
-        colorBoard.init(board);
+        colorBoard = new BitBoardDebug();
+        colorBoard.init(squareBoard);
 
-        PiecePositioned origen = board.getPosition(Square.e7);
-        PiecePositioned destino = board.getPosition(Square.f8);
+        PiecePositioned origen = squareBoard.getPosition(Square.e7);
+        PiecePositioned destino = squareBoard.getPosition(Square.f8);
 
         moveCacheBoard = new MoveCacheBoardDebug();
         moveCacheBoard.setPseudoMoves(Square.e7, new MoveGeneratorResult(origen));
         moveCacheBoard.setPseudoMoves(Square.f8, new MoveGeneratorResult(destino));
 
-        zobristHash = new ZobristHash();
-        zobristHash.init(board, positionState);
+        zobristHash = new ZobristHashImp();
+        zobristHash.init(squareBoard, positionState);
 
         moveExecutor = SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(origen, destino, Piece.QUEEN_WHITE, Cardinal.NorteEste);
     }
 
     @Test
     public void testEquals() {
-        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(board.getPosition(Square.e7), board.getPosition(Square.f8), Piece.QUEEN_WHITE, Cardinal.NorteEste), moveExecutor);
-        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(board.getPosition(Square.e7), board.getPosition(Square.f8), Piece.ROOK_WHITE, Cardinal.NorteEste), moveExecutor);
+        assertEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.f8), Piece.QUEEN_WHITE, Cardinal.NorteEste), moveExecutor);
+        assertNotEquals(SingletonMoveFactories.getDefaultMoveFactoryWhite().createCapturePromotionPawnMove(squareBoard.getPosition(Square.e7), squareBoard.getPosition(Square.f8), Piece.ROOK_WHITE, Cardinal.NorteEste), moveExecutor);
     }
 
     @Test
@@ -113,18 +114,18 @@ public class CapturePawnPromotionTest {
     @Test
     public void testPosicionPiezaBoard() {
         // execute
-        moveExecutor.executeMove(board);
+        moveExecutor.executeMove(squareBoard);
 
         // asserts execute
-        assertEquals(Piece.QUEEN_WHITE, board.getPiece(Square.f8));
-        assertTrue(board.isEmpty(Square.e7));
+        assertEquals(Piece.QUEEN_WHITE, squareBoard.getPiece(Square.f8));
+        assertTrue(squareBoard.isEmpty(Square.e7));
 
         // undos
-        moveExecutor.undoMove(board);
+        moveExecutor.undoMove(squareBoard);
 
         // asserts undos
-        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.e7));
-        assertEquals(Piece.KNIGHT_BLACK, board.getPiece(Square.f8));
+        assertEquals(Piece.PAWN_WHITE, squareBoard.getPiece(Square.e7));
+        assertEquals(Piece.KNIGHT_BLACK, squareBoard.getPiece(Square.f8));
     }
 
     @Test
@@ -206,13 +207,13 @@ public class CapturePawnPromotionTest {
     @Test
     public void testIntegrated() {
         // execute
-        moveExecutor.executeMove(board);
+        moveExecutor.executeMove(squareBoard);
         moveExecutor.executeMove(positionState);
         moveExecutor.executeMove(colorBoard);
 
         // asserts execute
-        assertEquals(Piece.QUEEN_WHITE, board.getPiece(Square.f8));
-        assertTrue(board.isEmpty(Square.e7));
+        assertEquals(Piece.QUEEN_WHITE, squareBoard.getPiece(Square.f8));
+        assertTrue(squareBoard.isEmpty(Square.e7));
 
         assertNull(positionState.getEnPassantSquare());
         assertEquals(Color.BLACK, positionState.getCurrentTurn());
@@ -222,18 +223,18 @@ public class CapturePawnPromotionTest {
         assertEquals(Color.WHITE, colorBoard.getColor(Square.f8));
         assertTrue(colorBoard.isEmpty(Square.e7));
 
-        colorBoard.validar(board);
-        positionState.validar(board);
+        colorBoard.validar(squareBoard);
+        positionState.validar(squareBoard);
 
         // undos
-        moveExecutor.undoMove(board);
+        moveExecutor.undoMove(squareBoard);
         moveExecutor.undoMove(positionState);
         moveExecutor.undoMove(colorBoard);
 
 
         // asserts undos
-        assertEquals(Piece.PAWN_WHITE, board.getPiece(Square.e7));
-        assertEquals(Piece.KNIGHT_BLACK, board.getPiece(Square.f8));
+        assertEquals(Piece.PAWN_WHITE, squareBoard.getPiece(Square.e7));
+        assertEquals(Piece.KNIGHT_BLACK, squareBoard.getPiece(Square.f8));
 
         assertNull(positionState.getEnPassantSquare());
         assertEquals(Color.WHITE, positionState.getCurrentTurn());
@@ -243,7 +244,7 @@ public class CapturePawnPromotionTest {
         assertEquals(Color.WHITE, colorBoard.getColor(Square.e7));
         assertEquals(Color.BLACK, colorBoard.getColor(Square.f8));
 
-        colorBoard.validar(board);
-        positionState.validar(board);
+        colorBoard.validar(squareBoard);
+        positionState.validar(squareBoard);
     }
 }

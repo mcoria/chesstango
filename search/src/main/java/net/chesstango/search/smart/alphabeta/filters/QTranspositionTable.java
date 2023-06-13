@@ -51,7 +51,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
     @Override
     public long maximize(final int currentPly, final int alpha, final int beta) {
         if (game.getStatus().isInProgress()) {
-            long hash = game.getChessPosition().getPositionHash();
+            long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
             Transposition entry = maxMap.get(hash);
@@ -99,7 +99,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
     @Override
     public long minimize(final int currentPly, final int alpha, final int beta) {
         if (game.getStatus().isInProgress()) {
-            long hash = game.getChessPosition().getPositionHash();
+            long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
             Transposition entry = minMap.get(hash);

@@ -5,7 +5,7 @@ package net.chesstango.board.debug.chess;
 
 import net.chesstango.board.analyzer.AnalyzerResult;
 import net.chesstango.board.analyzer.PositionAnalyzer;
-import net.chesstango.board.position.BoardReader;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 /**
@@ -14,11 +14,11 @@ import net.chesstango.board.position.imp.*;
  */
 public class PositionAnalyzerDebug extends PositionAnalyzer {
 	
-	protected BoardReader boardReader = null;
-	protected ColorBoard colorBoard = null;
-	protected KingCacheBoard kingCacheBoard = null;	
-	protected MoveCacheBoard moveCache = null;
-	protected PositionState positionState = null;	
+	protected SquareBoardReader squareBoardReader = null;
+	protected BitBoardReader colorBoard = null;
+	protected KingSquareImp kingCacheBoard = null;
+	protected MoveCacheBoardWriter moveCache = null;
+	protected PositionState positionState = null;
 
 	@Override
 	// TODO: validadciones del metodo getBoardStatus(): 
@@ -29,11 +29,11 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		try {
 			boolean reportError = false;
 			
-			BoardReader boardInicial =  ((ArrayBoard)this.boardReader).clone();
+			SquareBoardReader boardInicial =  ((SquareBoardImp)this.squareBoardReader).clone();
 			
-			KingCacheBoard kingCacheBoardInicial = this.kingCacheBoard.clone();
-			
-			PositionState boardStateInicial = this.positionState.clone();
+			KingSquareImp kingCacheBoardInicial = this.kingCacheBoard.clone();
+
+			PositionStateImp boardStateInicial = ((PositionStateImp)positionState).clone();
 
 			AnalyzerResult result = analyze();
 			
@@ -49,9 +49,9 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 				reportError = true;
 			}
 
-			if (!this.boardReader.equals(boardInicial)) {
+			if (!this.squareBoardReader.equals(boardInicial)) {
 				System.out.println("El board fu� modificado");
-				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.boardReader.toString());
+				System.out.println("Inicial:\n" + boardInicial.toString() + "\n" + "Final:\n" + this.squareBoardReader.toString());
 				reportError = true;				
 			}
 
@@ -65,20 +65,20 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 		}
 	}
 	
-	public void setPiecePlacement(BoardReader dummyBoard) {
-		this.boardReader = dummyBoard;
+	public void setPiecePlacement(SquareBoardReader dummyBoard) {
+		this.squareBoardReader = dummyBoard;
 	}
 
-	public void setColorBoard(ColorBoard colorBoard) {
+	public void setColorBoard(BitBoardReader colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
+	public void setKingCacheBoard(KingSquareImp kingCacheBoard) {
 		this.kingCacheBoard = kingCacheBoard;
 	}
 
 
-	public void setMoveCache(MoveCacheBoard moveCache) {
+	public void setMoveCache(MoveCacheBoardWriter moveCache) {
 		this.moveCache = moveCache;
 	}
 
@@ -88,7 +88,7 @@ public class PositionAnalyzerDebug extends PositionAnalyzer {
 	}
 
 
-	public void setBoardState(PositionState positionState) {
-		this.positionState = positionState;
+	public void setBoardState(PositionStateImp positionStateWriter) {
+		this.positionState = positionStateWriter;
 	}	
 }

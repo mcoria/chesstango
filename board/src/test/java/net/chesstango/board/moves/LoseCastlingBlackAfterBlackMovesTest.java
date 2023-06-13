@@ -6,7 +6,8 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.PositionState;
+import net.chesstango.board.position.imp.PositionStateImp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,7 @@ public class LoseCastlingBlackAfterBlackMovesTest {
     @BeforeEach
     public void setUp() throws Exception {
         moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryBlack();
-        positionState = new PositionState();
+        positionState = new PositionStateImp();
         moveExecutor = null;
     }
 

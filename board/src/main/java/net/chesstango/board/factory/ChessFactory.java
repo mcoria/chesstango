@@ -10,16 +10,13 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.filters.CheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.filters.NoCheckMoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.strategies.NoCheckLegalMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorImp;
 import net.chesstango.board.movesgenerators.pseudo.imp.MoveGeneratorWithCacheProxy;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.ChessPosition;
-import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.*;
 import net.chesstango.board.position.imp.*;
 
 import java.util.Map;
@@ -48,34 +45,34 @@ public class ChessFactory {
 		return new NoCheckLegalMoveGenerator(positionReader, buildMoveGeneratorStrategy, filter);
 	}
 
-	public ColorBoard createColorBoard() {
-		return new ColorBoard();
+	public BitBoard createColorBoard() {
+		return new BitBoardImp();
 	}
 
-	public KingCacheBoard createKingCacheBoard() {
-		return new KingCacheBoard();
+	public KingSquareImp createKingCacheBoard() {
+		return new KingSquareImp();
 	}
 
 	public MoveCacheBoard createMoveCacheBoard() {
-		return new MoveCacheBoard();
+		return new MoveCacheBoardImp();
 	}
 
-	public CheckMoveFilter createCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-                                                 PositionState positionState) {
-		return new CheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	public CheckMoveFilter createCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+												 PositionState positionState) {
+		return new CheckMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}
 	
-	public NoCheckMoveFilter createNoCheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard,
-                                                     PositionState positionState) {
-		return new NoCheckMoveFilter(dummyBoard, kingCacheBoard, colorBoard, positionState);
+	public NoCheckMoveFilter createNoCheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard,
+													 PositionState positionState) {
+		return new NoCheckMoveFilter(dummySquareBoard, kingCacheBoard, bitBoard, positionState);
 	}	
 
-	public Board createPiecePlacement() {
-		return new ArrayBoard();
+	public SquareBoard createPiecePlacement() {
+		return new SquareBoardImp();
 	}
 
 	public PositionState createPositionState() {
-		return new PositionState();
+		return new PositionStateImp();
 	}
 
 	public MoveGenerator createMoveGeneratorWithCacheProxy(MoveGenerator moveGenerator, MoveCacheBoard moveCacheBoard) {
@@ -94,8 +91,8 @@ public class ChessFactory {
 		return  new PositionAnalyzer();
 	}
 
-	public FullScanSquareCapturer createCapturer(BoardReader boardReader) {
-		return new FullScanSquareCapturer(boardReader);
+	public FullScanSquareCaptured createCapturer(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
+		return new FullScanSquareCaptured(squareBoardReader, bitBoardReader);
 	}
 
 
@@ -109,6 +106,6 @@ public class ChessFactory {
 	}
 
     public ZobristHash createZobristHash() {
-		return new ZobristHash();
+		return new ZobristHashImp();
     }
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.iterators.byposition.bypiece;
 
 import net.chesstango.board.Square;

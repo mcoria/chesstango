@@ -3,8 +3,8 @@ package net.chesstango.board.movesgenerators.pseudo.strategies;
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorByPiecePositioned;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.SquareBoardReader;
+import net.chesstango.board.position.BitBoardReader;
 
 
 /**
@@ -16,9 +16,9 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	
 	protected final Color color;
 	
-	protected BoardReader piecePlacement;
+	protected SquareBoardReader board;
 
-	protected ColorBoard colorBoard;	
+	protected BitBoardReader colorBoard;
 	
 	protected MoveFactory moveFactory;
 	
@@ -26,11 +26,11 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 		this.color = color;
 	}
 
-	public void setPiecePlacement(BoardReader piecePlacement) {
-		this.piecePlacement = piecePlacement;
+	public void setBoard(SquareBoardReader board) {
+		this.board = board;
 	}	
 
-	public void setColorBoard(ColorBoard colorBoard) {
+	public void setColorBoard(BitBoardReader colorBoard) {
 		this.colorBoard = colorBoard;
 	}
 

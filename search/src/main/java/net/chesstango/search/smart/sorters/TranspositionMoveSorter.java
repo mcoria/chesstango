@@ -55,7 +55,7 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public List<Move> getSortedMoves() {
-        long hash = game.getChessPosition().getPositionHash();
+        long hash = game.getChessPosition().getZobristHash();
 
         Transposition entry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {

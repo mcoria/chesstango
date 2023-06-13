@@ -6,14 +6,14 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.builders.PiecePlacementBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
-import net.chesstango.board.debug.chess.ColorBoardDebug;
+import net.chesstango.board.debug.chess.BitBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ColorBoard;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,12 +61,12 @@ public class AbstractCardinalMoveGeneratorSurTest {
 	
 	@Test
 	public void testSur() {
-		Board tablero = getTablero("8/8/8/4R3/8/8/8/8");
-		moveGenerator.setPiecePlacement(tablero);
-		
-		ColorBoard colorBoard = new ColorBoardDebug();
-		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		SquareBoard tablero = getTablero("8/8/8/4R3/8/8/8/8");
+		moveGenerator.setBoard(tablero);
+
+		BitBoard bitBoard = new BitBoardDebug();
+		bitBoard.init(tablero);
+		moveGenerator.setColorBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -87,12 +87,12 @@ public class AbstractCardinalMoveGeneratorSurTest {
 	
 	@Test
 	public void testSur01() {
-		Board tablero =  getTablero("8/8/8/4R3/8/8/8/4B3");
-		moveGenerator.setPiecePlacement(tablero);
-		
-		ColorBoard colorBoard = new ColorBoardDebug();
-		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		SquareBoard tablero =  getTablero("8/8/8/4R3/8/8/8/4B3");
+		moveGenerator.setBoard(tablero);
+
+		BitBoard bitBoard = new BitBoardDebug();
+		bitBoard.init(tablero);
+		moveGenerator.setColorBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -113,12 +113,12 @@ public class AbstractCardinalMoveGeneratorSurTest {
 	
 	@Test
 	public void testSur02() {
-		Board tablero = getTablero("8/8/8/4R3/8/8/8/4b3");
-		moveGenerator.setPiecePlacement(tablero);
-		
-		ColorBoard colorBoard = new ColorBoardDebug();
-		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		SquareBoard tablero = getTablero("8/8/8/4R3/8/8/8/4b3");
+		moveGenerator.setBoard(tablero);
+
+		BitBoard bitBoard = new BitBoardDebug();
+		bitBoard.init(tablero);
+		moveGenerator.setColorBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -146,7 +146,7 @@ public class AbstractCardinalMoveGeneratorSurTest {
 		return moveFactoryImp.createCaptureMove(origen, PiecePositioned.getPiecePositioned(destinoSquare, destinoPieza));
 	}
 	
-	private Board getTablero(String string) {
+	private SquareBoard getTablero(String string) {
 		PiecePlacementBuilder builder = new PiecePlacementBuilder(new ChessFactoryDebug());
 		
 		FENDecoder parser = new FENDecoder(builder);

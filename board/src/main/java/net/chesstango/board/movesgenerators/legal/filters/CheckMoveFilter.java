@@ -8,11 +8,11 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
-import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturer;
-import net.chesstango.board.position.Board;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
+import net.chesstango.board.position.SquareBoard;
+import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.BitBoard;
+import net.chesstango.board.position.imp.KingSquareImp;
 
 /**
  * Este filtro se utiliza cuando el jugador actual SI se encuentra en jaque
@@ -22,19 +22,19 @@ import net.chesstango.board.position.imp.PositionState;
  */
 public class CheckMoveFilter implements MoveFilter {
 	
-	protected final Board dummyBoard;
-	protected final KingCacheBoard kingCacheBoard;
-	protected final ColorBoard colorBoard;	
-	protected final PositionState positionState;
+	protected final SquareBoard dummySquareBoard;
+	protected final KingSquareImp kingCacheBoard;
+	protected final BitBoard bitBoard;
+	protected final PositionStateReader positionState;
 
-	protected final FullScanSquareCapturer fullScanSquareCapturer;
+	protected final FullScanSquareCaptured fullScanSquareCapturer;
 	
-	public CheckMoveFilter(Board dummyBoard, KingCacheBoard kingCacheBoard, ColorBoard colorBoard, PositionState positionState) {
-		this.dummyBoard = dummyBoard;
+	public CheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
+		this.dummySquareBoard = dummySquareBoard;
 		this.kingCacheBoard = kingCacheBoard;
-		this.colorBoard = colorBoard;
+		this.bitBoard = bitBoard;
 		this.positionState = positionState;
-		this.fullScanSquareCapturer = new FullScanSquareCapturer(dummyBoard);
+		this.fullScanSquareCapturer = new FullScanSquareCaptured(dummySquareBoard, bitBoard);
 	}
 	
 	@Override
@@ -44,15 +44,15 @@ public class CheckMoveFilter implements MoveFilter {
 		final Color turnoActual = positionState.getCurrentTurn();
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
-		move.executeMove(this.dummyBoard);
-		move.executeMove(this.colorBoard);
+		move.executeMove(this.dummySquareBoard);
+		move.executeMove(this.bitBoard);
 
-		if(! fullScanSquareCapturer.positionCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
+		if(! fullScanSquareCapturer.isCaptured(opositeTurnoActual, kingCacheBoard.getKingSquare(turnoActual)) ) {
 			result = true;
 		}
 
-		move.undoMove(this.colorBoard);
-		move.undoMove(this.dummyBoard);
+		move.undoMove(this.bitBoard);
+		move.undoMove(this.dummySquareBoard);
 		
 		return result;
 	}	

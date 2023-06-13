@@ -141,6 +141,6 @@ public class PerftWithMapIterateDeeping<T> implements Perft  {
 	}
 
 	public static Long getZobristGameId(Game game) {
-		return game.getChessPosition().getPositionHash();
+		return game.getChessPosition().getZobristHash();
 	}
 }

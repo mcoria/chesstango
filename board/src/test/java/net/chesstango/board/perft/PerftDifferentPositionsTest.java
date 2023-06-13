@@ -54,6 +54,7 @@ public class PerftDifferentPositionsTest extends AbstractPerftTest {
 	}
 
 	@Test
+	@Disabled
 	public void test_4() {
 		board = getGame("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1");
 

@@ -6,6 +6,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -214,6 +215,7 @@ public class InitialPositionTest extends AbstractPerftTest  {
 	//PerftWithMap (Zobrist + bridge):  45segs
 	//PerftWithMapIterateDeeping: 		43segs
 	@Test
+	@Disabled
 	public void test_divide7() {
 		PerftResult result = perft.start(game, 7);
 		

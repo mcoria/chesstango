@@ -10,10 +10,10 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorByPiecePositioned;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.movesgenerators.pseudo.strategies.*;
-import net.chesstango.board.position.BoardReader;
-import net.chesstango.board.position.imp.ColorBoard;
-import net.chesstango.board.position.imp.KingCacheBoard;
-import net.chesstango.board.position.imp.PositionState;
+import net.chesstango.board.position.SquareBoardReader;
+import net.chesstango.board.position.BitBoardReader;
+import net.chesstango.board.position.PositionStateReader;
+import net.chesstango.board.position.KingSquare;
 
 /**
  * @author Mauricio Coria
@@ -37,10 +37,10 @@ public class MoveGeneratorImp implements MoveGenerator {
 	private final KingBlackMoveGenerator rnmg;
 	private final MoveGeneratorEnPassantImp ppmg;
 	
-	private BoardReader piecePlacement;
-	private ColorBoard colorBoard;
-	private PositionState positionState;	
-	private KingCacheBoard kingCacheBoard;
+	private SquareBoardReader piecePlacement;
+	private BitBoardReader colorBoard;
+	private PositionStateReader positionState;
+	private KingSquare kingSquare;
 	
 	public MoveGeneratorImp() {
 		pbmg =  new PawnWhiteMoveGenerator();
@@ -97,23 +97,23 @@ public class MoveGeneratorImp implements MoveGenerator {
 		}
 	}	
 
-	public void setPiecePlacement(BoardReader dummyBoard) {
+	public void setPiecePlacement(SquareBoardReader dummyBoard) {
 		this.piecePlacement = dummyBoard;
 		setupMoveGenerators();
 	}
 
-	public void setColorBoard(ColorBoard colorBoard) {
+	public void setColorBoard(BitBoardReader colorBoard) {
 		this.colorBoard = colorBoard;
 		setupMoveGenerators();
 	}
 
-	public void setBoardState(PositionState positionState) {
+	public void setBoardState(PositionStateReader positionState) {
 		this.positionState = positionState;
 		setupMoveGenerators();
 	}
 	
-	public void setKingCacheBoard(KingCacheBoard kingCacheBoard) {
-		this.kingCacheBoard = kingCacheBoard;
+	public void setKingSquare(KingSquare kingSquare) {
+		this.kingSquare = kingSquare;
 		setupMoveGenerators();
 	}	
 	
@@ -142,13 +142,13 @@ public class MoveGeneratorImp implements MoveGenerator {
 
 		setupMoveGenerator(rnmg);
 		
-		settupEnPassantMoveGenerator();
+		setupEnPassantMoveGenerator();
 	}	
 	
 	private void setupMoveGenerator(MoveGeneratorByPiecePositioned moveGeneratorByPiecePositioned) {
 		if (moveGeneratorByPiecePositioned instanceof AbstractMoveGenerator) {
 			AbstractMoveGenerator generator = (AbstractMoveGenerator) moveGeneratorByPiecePositioned;
-			generator.setPiecePlacement(piecePlacement);
+			generator.setBoard(piecePlacement);
 			generator.setColorBoard(colorBoard);
 			
 			if(moveGeneratorByPiecePositioned.equals(pbmg) || moveGeneratorByPiecePositioned.equals(tbmg) || moveGeneratorByPiecePositioned.equals(cbmg) || moveGeneratorByPiecePositioned.equals(abmg) || moveGeneratorByPiecePositioned.equals(rebmg) || moveGeneratorByPiecePositioned.equals(rbmg)){
@@ -161,12 +161,12 @@ public class MoveGeneratorImp implements MoveGenerator {
 		if (moveGeneratorByPiecePositioned instanceof AbstractKingMoveGenerator) {
 			AbstractKingMoveGenerator generator = (AbstractKingMoveGenerator) moveGeneratorByPiecePositioned;
 			generator.setBoardState(positionState);
-			generator.setKingCacheBoard(kingCacheBoard);
+			generator.setKingCacheBoard(kingSquare);
 		}
 	}
 	
 
-	private void settupEnPassantMoveGenerator() {
+	private void setupEnPassantMoveGenerator() {
 		ppmg.setBoardState(positionState);
 		ppmg.setPiecePlacement(piecePlacement);
 	}
@@ -180,11 +180,11 @@ public class MoveGeneratorImp implements MoveGenerator {
 		return pnmg;
 	}
 
-	public RookMoveGenerator getRookBlancaMoveGenerator() {
+	public RookMoveGenerator getRookWhiteMoveGenerator() {
 		return tbmg;
 	}
 
-	public RookMoveGenerator getRookNegraMoveGenerator() {
+	public RookMoveGenerator getRookBlackMoveGenerator() {
 		return tnmg;
 	}	
 	
@@ -204,11 +204,11 @@ public class MoveGeneratorImp implements MoveGenerator {
 		return anmg;
 	}	
 	
-	public QueenMoveGenerator getQueenBlancaMoveGenerator() {
+	public QueenMoveGenerator getQueenWhiteMoveGenerator() {
 		return rebmg;
 	}
 	
-	public QueenMoveGenerator getQueenNegraMoveGenerator() {
+	public QueenMoveGenerator getQueenBlackMoveGenerator() {
 		return renmg;
 	}	
 	

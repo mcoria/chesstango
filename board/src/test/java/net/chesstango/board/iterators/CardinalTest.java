@@ -1,0 +1,58 @@
+package net.chesstango.board.iterators;
+
+import net.chesstango.board.Square;
+import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+/**
+ * @author Mauricio Coria
+ *
+ */
+public class CardinalTest {
+
+    @Test
+    public void testNorte(){
+        Cardinal norte = Cardinal.Norte;
+
+        Square a1 = Square.a1;
+
+        long a1_posiciones = norte.getPosiciones(a1);
+
+        Assertions.assertTrue( (a1_posiciones & Square.a2.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a3.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a4.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a5.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a6.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a7.getBitPosition()) != 0 );
+        Assertions.assertTrue( (a1_posiciones & Square.a8.getBitPosition()) != 0 );
+
+        Assertions.assertFalse( (a1_posiciones & Square.b2.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b3.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b4.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b5.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b6.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b7.getBitPosition()) != 0 );
+        Assertions.assertFalse( (a1_posiciones & Square.b8.getBitPosition()) != 0 );
+    }
+
+
+    @Test
+    public void testPosicionesAlcanzadas() {
+        long posiciones[] = new long[64];
+        for (Square squareOrigen : Square.values()) {
+            CardinalSquareIterator cardinalIterator = new CardinalSquareIterator(squareOrigen, Cardinal.NorteOeste);
+            while (cardinalIterator.hasNext()) {
+                Square posicion = cardinalIterator.next();
+                if (!squareOrigen.equals(posicion)) {
+                    posiciones[squareOrigen.toIdx()] |= posicion.getBitPosition();
+                }
+            }
+        }
+
+        for (long posicion : posiciones) {
+            System.out.println(String.format("0x%sL,", Long.toHexString(posicion)));
+        }
+
+    }
+}
