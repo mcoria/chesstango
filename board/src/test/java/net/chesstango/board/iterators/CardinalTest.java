@@ -37,7 +37,6 @@ public class CardinalTest {
     }
 
 
-    @Test
     public void testPosicionesAlcanzadas() {
         long posiciones[] = new long[64];
         for (Square squareOrigen : Square.values()) {

@@ -108,8 +108,11 @@ public class BishopMoveGeneratorTest {
 		assertTrue(affectedBySquares.contains( Square.d6 ));
 		assertTrue(affectedBySquares.contains( Square.c7 ));
 		assertTrue(affectedBySquares.contains( Square.b8 ));
+
+		// La posicion del Bishop
+		assertTrue(affectedBySquares.contains( Square.e5 ));
 		
-		assertEquals(13, affectedBySquares.size());
+		assertEquals(14, affectedBySquares.size());
 		
 	}
 
@@ -149,8 +152,11 @@ public class BishopMoveGeneratorTest {
 		assertTrue(affectedBySquares.contains( Square.f4 ));
 		assertTrue(affectedBySquares.contains( Square.g5 ));
 		assertTrue(affectedBySquares.contains( Square.b2 ));
+
+		// La posicion del Bishop
+		assertTrue(affectedBySquares.contains( Square.c1 ));
 		
-		assertEquals(5, affectedBySquares.size());		
+		assertEquals(6, affectedBySquares.size());
 
 	}	
 
