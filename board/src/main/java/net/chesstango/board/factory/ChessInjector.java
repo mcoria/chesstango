@@ -30,7 +30,7 @@ public class ChessInjector {
 
     private BitBoard bitBoard = null;
 
-    private MoveCacheBoard moveCache = null;
+    private MoveCacheBoardImp moveCache = null;
 
     private KingSquareImp kingCacheBoard = null;
 
@@ -82,7 +82,7 @@ public class ChessInjector {
 
             chessPositionImp.setKingCacheBoard(getKingCacheBoard());
 
-            chessPositionImp.setColorBoard(getColorBoard());
+            chessPositionImp.setColorBoard(getBitBoard());
 
             chessPositionImp.setMoveCache(getMoveCacheBoard());
 
@@ -114,7 +114,7 @@ public class ChessInjector {
         return kingCacheBoard;
     }
 
-    protected BitBoard getColorBoard() {
+    protected BitBoard getBitBoard() {
         if (bitBoard == null) {
             bitBoard = chessFactory.createColorBoard();
         }
@@ -207,7 +207,7 @@ public class ChessInjector {
             moveGeneratorImp = chessFactory.createMoveGenerator();
             moveGeneratorImp.setPiecePlacement(getPiecePlacement());
             moveGeneratorImp.setBoardState(getPositionState());
-            moveGeneratorImp.setColorBoard(getColorBoard());
+            moveGeneratorImp.setColorBoard(getBitBoard());
             moveGeneratorImp.setKingSquare(getKingCacheBoard());
         }
         return moveGeneratorImp;
@@ -215,7 +215,7 @@ public class ChessInjector {
 
     private MoveFilter getCheckMoveFilter() {
         if (checkMoveFilter == null) {
-            checkMoveFilter = chessFactory.createCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getColorBoard(), getPositionState());
+            checkMoveFilter = chessFactory.createCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }
         return checkMoveFilter;
     }
@@ -223,7 +223,7 @@ public class ChessInjector {
 
 	private MoveFilter getNoCheckMoveFilter() {
         if (noCheckMoveFilter == null) {
-            noCheckMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getColorBoard(), getPositionState());
+            noCheckMoveFilter = chessFactory.createNoCheckMoveFilter(getPiecePlacement(), getKingCacheBoard(), getBitBoard(), getPositionState());
         }
         return noCheckMoveFilter;
     }

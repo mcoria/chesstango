@@ -53,7 +53,7 @@ public class ChessFactory {
 		return new KingSquareImp();
 	}
 
-	public MoveCacheBoard createMoveCacheBoard() {
+	public MoveCacheBoardImp createMoveCacheBoard() {
 		return new MoveCacheBoardImp();
 	}
 

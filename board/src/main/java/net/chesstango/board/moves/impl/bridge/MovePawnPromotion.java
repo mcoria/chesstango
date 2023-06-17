@@ -114,14 +114,14 @@ class MovePawnPromotion implements MovePromotion {
 
     @Override
     public void executeMove(MoveCacheBoardWriter moveCache) {
-        moveCache.pushCleared();
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), true);
+        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare());
+        moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), false);
-        moveCache.popCleared();
+        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare());
+        moveCache.pop();
     }
 
     @Override

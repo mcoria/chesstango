@@ -21,7 +21,7 @@ public class GameTest {
 
     @Test
     public void testInitialPosition() {
-        Game game = getDefaultGame();
+        Game game = getGame(FENDecoder.INITIAL_FEN);
 
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
         assertTrue(game.getChessPosition().isCastlingWhiteQueenAllowed());
@@ -37,7 +37,7 @@ public class GameTest {
 
     @Test
     public void test_mate() {
-        Game game = getDefaultGame();
+        Game game = getGame(FENDecoder.INITIAL_FEN);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 
@@ -59,7 +59,7 @@ public class GameTest {
 
     @Test
     public void test_mateAndUndo() {
-        Game game = getDefaultGame();
+        Game game = getGame(FENDecoder.INITIAL_FEN);
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
 
@@ -94,7 +94,7 @@ public class GameTest {
 
     @Test
     public void testJuegoJaque() {
-        Game game = getDefaultGame();
+        Game game = getGame(FENDecoder.INITIAL_FEN);
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
@@ -177,7 +177,7 @@ public class GameTest {
 
     @Test
     public void testJuegoDraw_foldRepetition() {
-        Game game = getDefaultGame();
+        Game game = getGame(FENDecoder.INITIAL_FEN);
         game.detectRepetitions(true);
 
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
@@ -220,7 +220,7 @@ public class GameTest {
 
     @Test
     public void test_undo() {
-        Game game = getDefaultGame();
+        Game game = getGame(FENDecoder.INITIAL_FEN);
 
         assertEquals(20, game.getPossibleMoves().size());
         assertEquals(Color.WHITE, game.getChessPosition().getCurrentTurn());
@@ -808,11 +808,6 @@ public class GameTest {
         parser.parseFEN(string);
 
         return builder.getChessRepresentation();
-    }
-
-
-    private Game getDefaultGame() {
-        return getGame(FENDecoder.INITIAL_FEN);
     }
 
 }

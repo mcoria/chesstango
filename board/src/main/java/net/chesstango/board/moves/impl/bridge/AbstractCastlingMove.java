@@ -70,14 +70,14 @@ abstract class AbstractCastlingMove implements MoveCastling {
 
     @Override
     public void executeMove(MoveCacheBoardWriter moveCache) {
-        moveCache.pushCleared();
-        moveCache.clearPseudoMoves(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare(),true);
+        moveCache.clearPseudoMoves(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare(),false);
-        moveCache.popCleared();
+        moveCache.clearPseudoMoves(kingFrom.getSquare(), kingTo.getSquare(), rookFrom.getSquare(), rookTo.getSquare());
+        moveCache.pop();
     }
 
     @Override

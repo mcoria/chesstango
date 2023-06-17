@@ -22,6 +22,7 @@ public class MoveGeneratorResult {
 	public MoveGeneratorResult(PiecePositioned from) {
 		this.pseudoMoves = new MoveList();
 		this.from = from;
+		this.affectedByContainer = from.getSquare().getBitPosition();
 	}
 
 	public MoveGeneratorResult addPseudoMove(Move move) {
