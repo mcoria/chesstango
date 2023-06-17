@@ -8,6 +8,9 @@ import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
+import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.iterators.byposition.bypiece.KingBitIterator;
+import net.chesstango.board.iterators.byposition.bypiece.KnightBitIterator;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
@@ -23,25 +26,43 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class MoveCacheBoardTest {
 
 	private MoveCacheBoard cache;
-	
+
 	private MoveFactory moveFactoryImp;
-	
+
 	@BeforeEach
 	public void setUp() throws Exception {
 		moveFactoryImp = SingletonMoveFactories.getDefaultMoveFactoryWhite();
 		cache = new MoveCacheBoardImp();
 	}
-	
+
 	@Test
 	public void test01() {
 		MoveGeneratorResult result = new MoveGeneratorResult(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE));
 		result.addPseudoMove(moveFactoryImp.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a3, null)));
 		result.addPseudoMove(moveFactoryImp.createSimpleMove(PiecePositioned.getPiecePositioned(Square.a2, Piece.PAWN_WHITE), PiecePositioned.getPiecePositioned(Square.a4, null)));
 		cache.setPseudoMoves(Square.a2, result);
-		
+
 		assertNotNull(cache.getPseudoMovesResult(Square.a2));
 	}
 
+
+	//Test
+	public void createPositionArray(){
+		long posiciones[] = new long[64];
+		for (Square square: Square.values()) {
+			long possibleAffects = 0;
+			for (Cardinal cardinal: Cardinal.values()){
+				possibleAffects |= cardinal.getPosiciones(square);
+			}
+			possibleAffects |= KingBitIterator.ARRAY_SALTOS[square.toIdx()];
+			possibleAffects |= KnightBitIterator.ARRAY_SALTOS[square.toIdx()];
+			posiciones[square.toIdx()] = possibleAffects;
+		}
+
+		for (long posicion : posiciones) {
+			System.out.println(String.format("0x%sL,", Long.toHexString(posicion)));
+		}
+	}
 
 	private Game getGame(String string) {
 		GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
