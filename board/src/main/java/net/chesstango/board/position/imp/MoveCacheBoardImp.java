@@ -69,8 +69,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
                 | affects[key4.toIdx()] | key4.getBitPosition(), trackCleared);
     }
 
-    @Override
-    public void clearPseudoMoves(final long clearSquares, final boolean trackCleared) {
+    protected void clearPseudoMoves(final long clearSquares, final boolean trackCleared) {
         if(trackCleared && currentClearedSquares != 0){
             throw new RuntimeException("currentClearedSquaresCounter > 0");
         }

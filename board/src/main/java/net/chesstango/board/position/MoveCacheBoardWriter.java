@@ -18,8 +18,6 @@ public interface MoveCacheBoardWriter {
 
     void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4, boolean trackCleared);
 
-    void clearPseudoMoves(long clearSquares, boolean trackCleared);
-
     void pushCleared();
 
     void popCleared();
