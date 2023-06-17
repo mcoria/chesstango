@@ -14,8 +14,9 @@ import java.util.Deque;
  * TODO: LOS TESTS DE MOVIMIENTOS DEBERIAN PROBAR LOS AFFECTS
  */
 public class MoveCacheBoardImp implements MoveCacheBoard {
-    private BitBoard bitBoard;
     protected final MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
+
+    protected long setPseudoMoves = 0;
     protected final Deque<MoveGeneratorResult> removedPseudoMoves = new ArrayDeque<>();
     protected final Deque<Long> removedPseudoMovesPositions = new ArrayDeque<>();
     protected long affectedPositionsByMove = 0;
@@ -33,6 +34,8 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         }
 
         pseudoMoves[key.toIdx()] = generatorResult;
+
+        setPseudoMoves |= key.getBitPosition();
     }
 
     @Override
@@ -90,17 +93,24 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     protected void syncCache(final boolean trackRemoved) {
         long currentRemovedPseudoMovePositions = 0;
 
-        for (int i = 0; i < 64; i++) {
+        long allPositions = setPseudoMoves;
+
+        while(allPositions != 0) {
+            long posicionLng = Long.lowestOneBit(allPositions);
+            int i = Long.numberOfTrailingZeros(posicionLng);
             MoveGeneratorResult pseudoMove = pseudoMoves[i];
             if (pseudoMove != null) {
+                Square key = pseudoMove.getFrom().getSquare();
                 if ((pseudoMove.getAffectedByPositions() & affectedPositionsByMove) != 0) {
                     if (trackRemoved) {
                         removedPseudoMoves.push(pseudoMove);
-                        currentRemovedPseudoMovePositions |= pseudoMove.getFrom().getSquare().getBitPosition();
+                        currentRemovedPseudoMovePositions |= key.getBitPosition();
                     }
                     pseudoMoves[i] = null;
+                    setPseudoMoves &= ~key.getBitPosition();
                 }
             }
+            allPositions &= ~posicionLng;
         }
 
         if (trackRemoved) {
@@ -108,9 +118,5 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         }
 
         affectedPositionsByMove = 0;
-    }
-
-    public void setBitBoard(BitBoard bitBoard) {
-        this.bitBoard = bitBoard;
     }
 }

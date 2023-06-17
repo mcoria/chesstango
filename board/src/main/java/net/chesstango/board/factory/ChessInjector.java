@@ -124,7 +124,6 @@ public class ChessInjector {
     protected MoveCacheBoard getMoveCacheBoard() {
         if (moveCache == null) {
             moveCache = chessFactory.createMoveCacheBoard();
-            moveCache.setBitBoard(getBitBoard());
         }
         return moveCache;
     }

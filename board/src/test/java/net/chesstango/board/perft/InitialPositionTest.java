@@ -209,11 +209,9 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertEquals(119060324, result.getTotalNodes());
 	}
 
-
-	//PerftBrute (movimientos herencia): 394segs 279segs 217segs 196segs
-	//PerftBrute (movimientos bridge):   204segs
-	//PerftWithMap (Zobrist + bridge):  45segs
-	//PerftWithMapIterateDeeping: 		43segs
+	//PerftBrute (movimientos bridge):  204s 181s
+	//PerftWithMap (Zobrist + bridge):  45s
+	//PerftWithMapIterateDeeping: 		43s 35s
 	@Test
 	@Disabled
 	public void test_divide7() {

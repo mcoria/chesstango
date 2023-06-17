@@ -869,7 +869,7 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(193690690, result.getTotalNodes());
 	}
 	
-	//Test //842segs 772segs 701segs 673segs 554segs 522segs 506segs 490segs
+	//Test 842segs 772segs 701segs 673segs 554segs 522segs 506segs 490segs 465segs
 	@Test
 	@Disabled
 	public void test_divide6() {
