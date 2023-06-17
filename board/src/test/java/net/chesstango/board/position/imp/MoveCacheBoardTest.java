@@ -46,7 +46,7 @@ public class MoveCacheBoardTest {
 	private Game getGame(String string) {
 		GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
 			@Override
-			public MoveCacheBoard createMoveCacheBoard() {
+			public MoveCacheBoardImp createMoveCacheBoard() {
 				return new MoveCacheBoardForTest();
 			}
 		});

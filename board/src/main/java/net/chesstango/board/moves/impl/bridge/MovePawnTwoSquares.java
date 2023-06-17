@@ -77,14 +77,14 @@ class MovePawnTwoSquares implements Move {
 
     @Override
     public void executeMove(MoveCacheBoardWriter moveCache) {
-        moveCache.pushCleared();
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), enPassantSquare, true);
+        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), enPassantSquare);
+        moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), enPassantSquare, false);
-        moveCache.popCleared();
+        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), enPassantSquare);
+        moveCache.pop();
     }
 
     @Override
