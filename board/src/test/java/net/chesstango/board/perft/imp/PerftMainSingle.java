@@ -17,12 +17,16 @@ import java.time.Instant;
 public class PerftMainSingle {
 
 	public static void main(String[] args) {
+		//String fen = FENDecoder.INITIAL_FEN;
+		String fen = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1";  //KiwipeteTest
+
+		System.out.println(String.format("FEN =  %s", fen));
+
 		GameBuilder builder = new GameBuilder();
 		
 		FENDecoder parser = new FENDecoder(builder);
-		
-		parser.parseFEN(FENDecoder.INITIAL_FEN);
-		//parser.parseFEN("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"); //KiwipeteTest
+
+		parser.parseFEN(fen);
 		
 		Game board = builder.getChessRepresentation();
 		
