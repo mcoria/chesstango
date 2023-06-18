@@ -4,10 +4,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Mauricio Coria
@@ -104,7 +101,7 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     protected void syncCache(final boolean trackRemoved) {
         List<MoveGeneratorResult> currentRemovedPseudoMoves = null;
         if (trackRemoved) {
-            currentRemovedPseudoMoves = new ArrayList<>();
+            currentRemovedPseudoMoves = new LinkedList<>();
         }
 
 
