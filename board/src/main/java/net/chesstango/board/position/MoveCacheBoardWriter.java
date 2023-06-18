@@ -10,13 +10,13 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 public interface MoveCacheBoardWriter {
     void setPseudoMoves(Square key, MoveGeneratorResult generatorResult);
 
-    void clearPseudoMoves(Square key);
+    void affectedPositionsByMove(Square key);
 
-    void clearPseudoMoves(Square key1, Square key2);
+    void affectedPositionsByMove(Square key1, Square key2);
 
-    void clearPseudoMoves(Square key1, Square key2, Square key3);
+    void affectedPositionsByMove(Square key1, Square key2, Square key3);
 
-    void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4);
+    void affectedPositionsByMove(Square key1, Square key2, Square key3, Square key4);
 
     void push();
 

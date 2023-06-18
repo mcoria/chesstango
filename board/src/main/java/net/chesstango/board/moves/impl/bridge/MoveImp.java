@@ -78,13 +78,13 @@ class MoveImp implements Move {
 
     @Override
     public void executeMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare());
         moveCache.pop();
     }
 

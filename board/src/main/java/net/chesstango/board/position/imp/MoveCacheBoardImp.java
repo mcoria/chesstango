@@ -5,7 +5,9 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 /**
  * @author Mauricio Coria
@@ -13,12 +15,22 @@ import java.util.Deque;
  */
 public class MoveCacheBoardImp implements MoveCacheBoard {
     protected final MoveGeneratorResult[] pseudoMoves = new MoveGeneratorResult[64];
-    protected final Deque<MoveGeneratorResult> removedPseudoMoves = new ArrayDeque<>();
-    protected final Deque<Long> removedPseudoMovesPositions = new ArrayDeque<>();
+    protected final Deque<List<MoveGeneratorResult>> removedPseudoMoves = new ArrayDeque<>();
 
-    protected long setPseudoMoves = 0;
+    /**
+     * Aquellas posiciones pseudoMoves[] != null
+     */
+    protected long pseudoMovesPositions = 0;
+
+    /**
+     * Affected position squares by move (do or undo)
+     */
     protected long affectedPositionsByMove = 0;
-    protected long possibleAffectedPositions = 0;
+
+    /**
+     * Possible affected pseudo move positions by move (do or undo)
+     */
+    protected long possibleAffectedPseudoMovesPositions = 0;
 
     @Override
     public MoveGeneratorResult getPseudoMovesResult(Square key) {
@@ -34,31 +46,31 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
         pseudoMoves[key.toIdx()] = generatorResult;
 
-        setPseudoMoves |= key.getBitPosition();
+        pseudoMovesPositions |= key.getBitPosition();
     }
 
     @Override
-    public void clearPseudoMoves(Square key) {
+    public void affectedPositionsByMove(Square key) {
         affectedPositionsByMove = key.getBitPosition();
-        possibleAffectedPositions = possibleAffectedBySquare[key.toIdx()];
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key.toIdx()];
     }
 
     @Override
-    public void clearPseudoMoves(Square key1, Square key2) {
+    public void affectedPositionsByMove(Square key1, Square key2) {
         affectedPositionsByMove = key1.getBitPosition() | key2.getBitPosition();
-        possibleAffectedPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] ;
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()];
     }
 
     @Override
-    public void clearPseudoMoves(Square key1, Square key2, Square key3) {
+    public void affectedPositionsByMove(Square key1, Square key2, Square key3) {
         affectedPositionsByMove = key1.getBitPosition() | key2.getBitPosition() | key3.getBitPosition();
-        possibleAffectedPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] | possibleAffectedBySquare[key3.toIdx()] ;
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] | possibleAffectedBySquare[key3.toIdx()];
     }
 
     @Override
-    public void clearPseudoMoves(Square key1, Square key2, Square key3, Square key4) {
+    public void affectedPositionsByMove(Square key1, Square key2, Square key3, Square key4) {
         affectedPositionsByMove = key1.getBitPosition() | key2.getBitPosition() | key3.getBitPosition() | key4.getBitPosition();
-        possibleAffectedPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] | possibleAffectedBySquare[key3.toIdx()] | possibleAffectedBySquare[key4.toIdx()] ;
+        possibleAffectedPseudoMovesPositions = possibleAffectedBySquare[key1.toIdx()] | possibleAffectedBySquare[key2.toIdx()] | possibleAffectedBySquare[key3.toIdx()] | possibleAffectedBySquare[key4.toIdx()];
     }
 
 
@@ -71,13 +83,9 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
     public void pop() {
         syncCache(false);
 
-        long currentRemovedPseudoMovePositions = removedPseudoMovesPositions.pop();
+        List<MoveGeneratorResult> currentRemovedPseudoMoves = removedPseudoMoves.pop();
 
-        int counter = Long.bitCount(currentRemovedPseudoMovePositions);
-        for (int i = 0; i < counter; i++) {
-            MoveGeneratorResult generatorResult = removedPseudoMoves.pop();
-            setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult);
-        }
+        currentRemovedPseudoMoves.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult));
     }
 
     @Override
@@ -94,10 +102,14 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
 
 
     protected void syncCache(final boolean trackRemoved) {
-        long currentRemovedPseudoMovePositions = 0;
+        List<MoveGeneratorResult> currentRemovedPseudoMoves = null;
+        if (trackRemoved) {
+            currentRemovedPseudoMoves = new ArrayList<>();
+        }
 
-        long allPositions = setPseudoMoves & possibleAffectedPositions;
-        while(allPositions != 0) {
+
+        long allPositions = pseudoMovesPositions & possibleAffectedPseudoMovesPositions;
+        while (allPositions != 0) {
             long posicionLng = Long.lowestOneBit(allPositions);
             int i = Long.numberOfTrailingZeros(posicionLng);
             MoveGeneratorResult pseudoMove = pseudoMoves[i];
@@ -105,25 +117,24 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
                 Square key = pseudoMove.getFrom().getSquare();
                 if ((pseudoMove.getAffectedByPositions() & affectedPositionsByMove) != 0) {
                     if (trackRemoved) {
-                        removedPseudoMoves.push(pseudoMove);
-                        currentRemovedPseudoMovePositions |= key.getBitPosition();
+                        currentRemovedPseudoMoves.add(pseudoMove);
                     }
                     pseudoMoves[i] = null;
-                    setPseudoMoves &= ~key.getBitPosition();
+                    pseudoMovesPositions &= ~key.getBitPosition();
                 }
             }
             allPositions &= ~posicionLng;
         }
 
         if (trackRemoved) {
-            removedPseudoMovesPositions.push(currentRemovedPseudoMovePositions);
+            removedPseudoMoves.push(currentRemovedPseudoMoves);
         }
 
         affectedPositionsByMove = 0;
-        possibleAffectedPositions = 0;
+        possibleAffectedPseudoMovesPositions = 0;
     }
 
-    private static final long[] possibleAffectedBySquare= new long[]{
+    private static final long[] possibleAffectedBySquare = new long[]{
             0x81412111090707feL,
             0x2824222120f0ffdL,
             0x4048444241f1ffbL,

@@ -84,13 +84,13 @@ class MovePawnCaptureEnPassant implements Move {
 
     @Override
     public void executeMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), capture.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.clearPseudoMoves(from.getSquare(), to.getSquare(), capture.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
         moveCache.pop();
     }
 
