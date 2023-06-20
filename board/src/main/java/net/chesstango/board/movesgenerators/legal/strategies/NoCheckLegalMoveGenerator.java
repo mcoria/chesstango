@@ -44,6 +44,8 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		final long posicionRey = kingSquare.getBitPosition();
 
+		//final long capturedPositions = analysis.getCapturedPositions();
+
 		final long safePositions = posicionesTurnoActual & ~pinnedSquares & ~posicionRey;
 
 		MoveContainer moves = new MoveContainer(Long.bitCount(safePositions));
@@ -97,20 +99,6 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
-	//TODO: Esta complicado este metodo, se pierde demasiada performance
-	/*
-	protected void getCastlingMoves(Collection<Move> moves) {
-		Collection<MoveCastling> pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();
-		long capturedPositionsOponente = this.getCapturedPositionsOponente();
-		for (MoveCastling move : pseudoMoves) {
-			long posicionesRey = (move.getRookMove().getTo().getKey().getPosicion())
-					| (move.getTo().getKey().getPosicion());
-			if ((capturedPositionsOponente & posicionesRey) == 0) {
-				moves.add(move);
-			}
-		}
-	}
-	 */
 
 	protected void getCastlingMoves(MoveContainer moves) {
 		final MovePair pseudoMoves = pseudoMovesGenerator.generateCastlingPseudoMoves();

@@ -16,8 +16,9 @@ public class CheckAndPinnedAnalyzerTest {
         ChessPosition gamePosition = FENDecoder.loadChessPosition("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
         CheckAndPinnedAnalyzer checkAndPinnedAnalyzer =  new CheckAndPinnedAnalyzer(gamePosition);
 
-        checkAndPinnedAnalyzer.analyze();
+        AnalyzerResult analyzerResult =  new AnalyzerResult();
+        checkAndPinnedAnalyzer.analyze(analyzerResult);
 
-        Assertions.assertTrue(checkAndPinnedAnalyzer.isKingInCheck());
+        Assertions.assertTrue(analyzerResult.isKingInCheck());
     }
 }

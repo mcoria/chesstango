@@ -13,6 +13,7 @@ import java.util.List;
 public class AnalyzerResult {
 	private boolean isKingInCheck;
 	private long pinnedSquares;
+	private long capturedPositions;
 
 	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
 
@@ -40,4 +41,11 @@ public class AnalyzerResult {
 		this.pinnedPositionCardinals = pinnedPositionCardinals;
 	}
 
+	public void setCapturedPositions(long capturedPositions) {
+		this.capturedPositions = capturedPositions;
+	}
+
+	public long getCapturedPositions() {
+		return capturedPositions;
+	}
 }

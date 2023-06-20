@@ -10,18 +10,20 @@ import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-/*
- * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
- */
-
-//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
-//      Me imagino un tablero con X y O para representar los distintos colores.
-
 /**
- * @author Mauricio Coria
+ *  @author Mauricio Coria
+ *
+ * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
+ *
+ * TODO: La generacion de movimientos dummy debiera ser en base al layer de color.
+ * Me imagino un tablero con X y O para representar los distintos colores.
+ *
+ *
  */
 public class PositionAnalyzer {
     private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
+
+    private CapturedPositionsAnalyzer capturedPositionsAnalyzer;
     private GameState gameState;
     private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
@@ -86,13 +88,9 @@ public class PositionAnalyzer {
 
         AnalyzerResult result = new AnalyzerResult();
 
-        checkAndPinnedAnalyzer.analyze();
+        checkAndPinnedAnalyzer.analyze(result);
 
-        result.setKingInCheck(checkAndPinnedAnalyzer.isKingInCheck());
-
-        result.setPinnedSquares(checkAndPinnedAnalyzer.getPinnedPositions());
-
-        result.setPinnedPositionCardinals(checkAndPinnedAnalyzer.getPinnedPositionCardinals());
+        //capturedPositionsAnalyzer.analyze(result);
 
         return result;
     }
@@ -117,4 +115,7 @@ public class PositionAnalyzer {
         this.detectRepetitions = flag;
     }
 
+    public void setCapturedPositionsAnalyzer(CapturedPositionsAnalyzer capturedPositionsAnalyzer) {
+        this.capturedPositionsAnalyzer = capturedPositionsAnalyzer;
+    }
 }

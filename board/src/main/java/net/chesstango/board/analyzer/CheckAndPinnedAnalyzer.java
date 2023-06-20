@@ -30,9 +30,9 @@ public class CheckAndPinnedAnalyzer {
 	private final ChessPositionReader positionReader;
 	private final CheckAndPinnedAnalyzerByColor analyzerWhite;
 	private final CheckAndPinnedAnalyzerByColor analyzerBlack;
-	private long pinnedPositions;
-	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
-	private boolean kingInCheck;
+	protected long pinnedPositions;
+	protected List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
+	protected boolean kingInCheck;
 	
 	public CheckAndPinnedAnalyzer(ChessPositionReader positionReader) {
 		this.positionReader = positionReader;
@@ -40,7 +40,7 @@ public class CheckAndPinnedAnalyzer {
 		this.analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK);
 	}	
 
-	public void analyze() {
+	public void analyze(AnalyzerResult result) {
 		pinnedPositions = 0;
 		pinnedPositionCardinals = new ArrayList<>(8);
 		kingInCheck = false;
@@ -52,19 +52,12 @@ public class CheckAndPinnedAnalyzer {
 		} else {
 			analyzerBlack.analyze();
 		}
-	}
 
-	public long getPinnedPositions() {
-		return pinnedPositions;
-	}
+		result.setKingInCheck(kingInCheck);
 
+		result.setPinnedSquares(pinnedPositions);
 
-	public boolean isKingInCheck() {
-		return kingInCheck;
-	}
-
-	public List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> getPinnedPositionCardinals() {
-		return pinnedPositionCardinals;
+		result.setPinnedPositionCardinals(pinnedPositionCardinals);
 	}
 
 
