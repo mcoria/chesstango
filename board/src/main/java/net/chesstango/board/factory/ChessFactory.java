@@ -3,7 +3,8 @@ package net.chesstango.board.factory;
 import net.chesstango.board.Game;
 import net.chesstango.board.GameImp;
 import net.chesstango.board.GameState;
-import net.chesstango.board.analyzer.CheckAndPinnedAnalyzer;
+import net.chesstango.board.analyzer.CheckAnalyzer;
+import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
@@ -101,11 +102,16 @@ public class ChessFactory {
 	}
 
 
-	public CheckAndPinnedAnalyzer createCheckAndPinnedAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
-		return new CheckAndPinnedAnalyzer(positionReader, moveCacheBoard);
+	public CheckAnalyzer createCheckAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
+		return new CheckAnalyzer(positionReader, moveCacheBoard);
+	}
+
+	public PinnedAnalyzer createPinnedAnalyzer(ChessPosition chessPosition) {
+		return new PinnedAnalyzer(chessPosition);
 	}
 
     public ZobristHash createZobristHash() {
 		return new ZobristHashImp();
     }
+
 }

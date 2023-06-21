@@ -21,9 +21,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  */
 public class PositionAnalyzer {
-    private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
-
-    private CapturedPositionsAnalyzer capturedPositionsAnalyzer;
+    private Analyzer checkAnalyzer;
+    private Analyzer capturedPositionsAnalyzer;
+    private Analyzer pinnedAnalyzer;
     private GameState gameState;
     private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
@@ -88,11 +88,17 @@ public class PositionAnalyzer {
 
         AnalyzerResult result = new AnalyzerResult();
 
-        checkAndPinnedAnalyzer.analyze(result);
+        checkAnalyzer.analyze(result);
+
+        pinnedAnalyzer.analyze(result);
 
         //capturedPositionsAnalyzer.analyze(result);
 
         return result;
+    }
+
+    public void detectRepetitions(boolean flag) {
+        this.detectRepetitions = flag;
     }
 
     public void setGameState(GameState gameState) {
@@ -103,19 +109,18 @@ public class PositionAnalyzer {
         this.legalMoveGenerator = legalMoveGenerator;
     }
 
-    public void setCheckAndPinnedAnalyzer(CheckAndPinnedAnalyzer checkAndPinnedAnalyzer) {
-        this.checkAndPinnedAnalyzer = checkAndPinnedAnalyzer;
-    }
-
     public void setPositionReader(ChessPositionReader positionReader) {
         this.positionReader = positionReader;
     }
 
-    public void detectRepetitions(boolean flag) {
-        this.detectRepetitions = flag;
+    public void setCheckAnalyzer(CheckAnalyzer checkAnalyzer) {
+        this.checkAnalyzer = checkAnalyzer;
+    }
+    public void setCapturedPositionsAnalyzer(Analyzer capturedPositionsAnalyzer) {
+        this.capturedPositionsAnalyzer = capturedPositionsAnalyzer;
     }
 
-    public void setCapturedPositionsAnalyzer(CapturedPositionsAnalyzer capturedPositionsAnalyzer) {
-        this.capturedPositionsAnalyzer = capturedPositionsAnalyzer;
+    public void setPinnedAnalyzer(Analyzer pinnedAnalyzer) {
+        this.pinnedAnalyzer = pinnedAnalyzer;
     }
 }

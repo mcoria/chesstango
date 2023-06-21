@@ -10,8 +10,9 @@ import net.chesstango.board.position.ChessPositionReader;
 /**
  * @author Mauricio Coria
  *
+ * Esta clase no se utiliza por el momento
  */
-public class CapturedPositionsAnalyzer {
+public class CapturedPositionsAnalyzer implements Analyzer {
     private final ChessPositionReader positionReader;
 
     protected final MoveGenerator pseudoMovesGenerator;
@@ -21,6 +22,7 @@ public class CapturedPositionsAnalyzer {
         this.pseudoMovesGenerator = pseudoMovesGenerator;
     }
 
+    @Override
     public void analyze(AnalyzerResult result) {
         result.setCapturedPositions(getCapturedPositionsOponente());
     }

@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Mauricio Coria
  */
-public class CheckAndPinnedAnalyzerTest {
+public class PositionAnalyzerTest {
 
     private AnalyzerResult analyzerResult;
 
     @Test
-    public void testCheckKingInCheck() {
+    public void testKingInCheck01() {
         Game game = getGame("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
         game.getStatus();
@@ -36,20 +36,19 @@ public class CheckAndPinnedAnalyzerTest {
 
         long pinnedSquares = analyzerResult.getPinnedSquares();
         Assertions.assertNotEquals(0, pinnedSquares);
-        Assertions.assertTrue((pinnedSquares & Square.d4.getBitPosition()) != 0);
-        Assertions.assertTrue(analyzerResult.isKingInCheck());
+        Assertions.assertTrue((pinnedSquares & Square.b4.getBitPosition()) != 0);
+        Assertions.assertFalse(analyzerResult.isKingInCheck());
     }
-
 
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
             @Override
-            public CheckAndPinnedAnalyzer createCheckAndPinnedAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
-                return new CheckAndPinnedAnalyzer(positionReader, moveCacheBoard) {
+            public CheckAnalyzer createCheckAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
+                return new CheckAnalyzer(positionReader, moveCacheBoard) {
                     @Override
                     public void analyze(AnalyzerResult result) {
                         super.analyze(result);
-                        CheckAndPinnedAnalyzerTest.this.analyzerResult = result;
+                        PositionAnalyzerTest.this.analyzerResult = result;
                     }
                 };
             }
