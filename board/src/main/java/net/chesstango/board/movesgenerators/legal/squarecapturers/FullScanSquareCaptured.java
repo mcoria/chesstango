@@ -24,14 +24,14 @@ import net.chesstango.board.position.SquareBoardReader;
 public class FullScanSquareCaptured implements SquareCaptured {
 	private final SquareBoardReader squareBoardReader;
 	private final BitBoardReader bitBoardReader;
-	private final CapturerAgregate capturerWhite;
-	private final CapturerAgregate capturerBlack;
+	private final FullScanSquareCapturedAggregate capturerWhite;
+	private final FullScanSquareCapturedAggregate capturerBlack;
 	
 	public FullScanSquareCaptured(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
 		this.squareBoardReader = squareBoardReader;
 		this.bitBoardReader = bitBoardReader;
-		this.capturerWhite = new CapturerAgregate(Color.WHITE);
-		this.capturerBlack = new CapturerAgregate(Color.BLACK);
+		this.capturerWhite = new FullScanSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.WHITE);
+		this.capturerBlack = new FullScanSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.BLACK);
 	}
 
 	@Override
@@ -43,17 +43,14 @@ public class FullScanSquareCaptured implements SquareCaptured {
 		}
 	}
 
-	
-	private class CapturerAgregate implements CapturerByPiece {
+
+	protected class FullScanSquareCapturedAggregate extends CardinalSquareCaptured.CardinalSquareCapturedAggregate {
 		private final CapturerByPiece knightCapturer;
 		private final CapturerByPiece pawnCapturer;
 		private final CapturerByPiece kingCapturer;
-		private final CapturerByPiece rookCapturer;
-		private final CapturerByPiece bishopCapturer;
 
-		public CapturerAgregate(Color color) {
-			this.rookCapturer = new CapturerByRook(squareBoardReader, bitBoardReader, color);
-			this.bishopCapturer = new CapturerByBishop(squareBoardReader, bitBoardReader, color);
+		public FullScanSquareCapturedAggregate(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color) {
+			super(squareBoardReader, bitBoardReader, color);
 			this.knightCapturer = new CapturerByKnight(squareBoardReader, color);
 			this.pawnCapturer = new CapturerByPawn(squareBoardReader, color);
 			this.kingCapturer = new CapturerByKing(squareBoardReader, color);
@@ -61,9 +58,8 @@ public class FullScanSquareCaptured implements SquareCaptured {
 
 		@Override
 		public boolean positionCaptured(Square square, long possibleAttackers) {
-            return knightCapturer.positionCaptured(square, possibleAttackers) ||
-					rookCapturer.positionCaptured(square, possibleAttackers) ||
-					bishopCapturer.positionCaptured(square, possibleAttackers) ||
+            return super.positionCaptured(square, possibleAttackers) ||
+					knightCapturer.positionCaptured(square, possibleAttackers) ||
 					pawnCapturer.positionCaptured(square, possibleAttackers) ||
 					kingCapturer.positionCaptured(square, possibleAttackers);
         }

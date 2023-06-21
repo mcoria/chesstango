@@ -20,15 +20,15 @@ import net.chesstango.board.position.SquareBoardReader;
 public class CardinalSquareCaptured implements SquareCaptured {
 	private final SquareBoardReader squareBoardReader;
 	private final BitBoardReader bitBoardReader;
-	private final CapturerAgregate capturerWhite;
-	private final CapturerAgregate capturerBlack;
+	private final CardinalSquareCapturedAggregate capturerWhite;
+	private final CardinalSquareCapturedAggregate capturerBlack;
 
 	
 	public CardinalSquareCaptured(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
 		this.squareBoardReader = squareBoardReader;
 		this.bitBoardReader = bitBoardReader;
-		this.capturerWhite = new CapturerAgregate(Color.WHITE);
-		this.capturerBlack = new CapturerAgregate(Color.BLACK);
+		this.capturerWhite = new CardinalSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.WHITE);
+		this.capturerBlack = new CardinalSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.BLACK);
 	}	
 
 	@Override
@@ -40,12 +40,12 @@ public class CardinalSquareCaptured implements SquareCaptured {
 		}
 	}
 
-	private class CapturerAgregate implements CapturerByPiece {
+	protected static class CardinalSquareCapturedAggregate implements CapturerByPiece {
 
 		private final CapturerByPiece rookCapturer;
 		private final CapturerByPiece bishopCapturer;
 
-		public CapturerAgregate(Color color) {
+		public CardinalSquareCapturedAggregate(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color) {
 			this.rookCapturer = new CapturerByRook(squareBoardReader, bitBoardReader, color);
 			this.bishopCapturer = new CapturerByBishop(squareBoardReader, bitBoardReader, color);
 		}

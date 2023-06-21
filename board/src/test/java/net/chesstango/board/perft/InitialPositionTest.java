@@ -554,8 +554,6 @@ public class InitialPositionTest extends AbstractPerftTest  {
 		assertFalse(result.moveExists(Square.b4, Square.b5), "b4b5 is not valid");
 		assertFalse(result.moveExists(Square.b4, Square.c5), "b4c5 is not valid");
 
-		printForUnitTest(result);
-
 		assertEquals(24, result.getMovesCount());
 		assertEquals(24, result.getTotalNodes());
 	}
