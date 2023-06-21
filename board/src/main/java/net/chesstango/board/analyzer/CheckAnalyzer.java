@@ -65,16 +65,16 @@ public class CheckAnalyzer implements Analyzer {
 
 			long positionsNotInCache = allPositions & ~positionsInCache;
 
-			long positionsAttackers = positionsNotInCache & positionReader.getPositions(color.oppositeColor()) ;
+			long possibleAttackers = positionsNotInCache & positionReader.getPositions(color.oppositeColor()) ;
 
 
 			// Las posiciones que no estan en cache y son del color contrario pueden capturar al REY
 			// Si el cache esta vacio entonces considerar que cualquier pieza puede capturar al REY
 
-			if( knightCapturer.positionCaptured(squareKing, positionsAttackers) ||
-				pawnCapturer.positionCaptured(squareKing, positionsAttackers) ||
-				rookCapturer.positionCaptured(squareKing, positionsAttackers) ||
-				bishopCapturer.positionCaptured(squareKing, positionsAttackers)) {
+			if( knightCapturer.positionCaptured(squareKing, possibleAttackers) ||
+				pawnCapturer.positionCaptured(squareKing, possibleAttackers) ||
+				rookCapturer.positionCaptured(squareKing, possibleAttackers) ||
+				bishopCapturer.positionCaptured(squareKing, possibleAttackers)) {
 				result.setKingInCheck(true);
 			} else {
 				result.setKingInCheck(false);

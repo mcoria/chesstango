@@ -59,12 +59,13 @@ public class FullScanSquareCaptured implements SquareCaptured {
 			this.kingCapturer = new CapturerByKing(squareBoardReader, color);
 		}
 
-		public boolean positionCaptured(Square square, long possiblePositions) {
-            return knightCapturer.positionCaptured(square, possiblePositions) ||
-					rookCapturer.positionCaptured(square, possiblePositions) ||
-					bishopCapturer.positionCaptured(square, possiblePositions) ||
-					pawnCapturer.positionCaptured(square, possiblePositions) ||
-					kingCapturer.positionCaptured(square, possiblePositions);
+		@Override
+		public boolean positionCaptured(Square square, long possibleAttackers) {
+            return knightCapturer.positionCaptured(square, possibleAttackers) ||
+					rookCapturer.positionCaptured(square, possibleAttackers) ||
+					bishopCapturer.positionCaptured(square, possibleAttackers) ||
+					pawnCapturer.positionCaptured(square, possibleAttackers) ||
+					kingCapturer.positionCaptured(square, possibleAttackers);
         }
 	}
 

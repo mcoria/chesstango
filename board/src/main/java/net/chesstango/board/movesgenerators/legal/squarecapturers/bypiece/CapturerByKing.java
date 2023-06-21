@@ -25,7 +25,7 @@ public class CapturerByKing implements CapturerByPiece {
     }
 
     @Override
-    public boolean positionCaptured(Square square, long possiblePositions) {
+    public boolean positionCaptured(Square square, long possibleAttackers) {
         Iterator<PiecePositioned> iterator = new KingBitIterator<PiecePositioned>(squareBoardReader, square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();

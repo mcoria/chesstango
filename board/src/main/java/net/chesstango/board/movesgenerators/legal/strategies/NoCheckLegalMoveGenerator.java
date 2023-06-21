@@ -14,8 +14,10 @@ import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.pseudo.MoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 //TODO: deberiamos contabilizar aquellas piezas que se exploraron en busca de movimientos validos y no producieron resultados validos.
 //      de esta forma cuando se busca en getLegalMovesNotKing() no volver a filtrar los mismos movimientos
@@ -52,14 +54,14 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 		getLegalMovesNotKingNotPinned(safePositions, moves);
 
-		getLegalMovesNotKingPinned(analysis, moves);
-		
+		getLegalMovesNotKingPinned(analysis.getPinnedPositionCardinals(), moves);
+
 		getLegalMovesKing(moves);
-		
+
 		getEnPassantMoves(moves);
-		
+
 		getCastlingMoves(moves);
-		
+
 		return moves;
 	}
 
@@ -78,19 +80,22 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 		return moves;
 	}
 
-	protected MoveContainer getLegalMovesNotKingPinned(AnalyzerResult analysis, MoveContainer moves) {
-		analysis.getPinnedPositionCardinals().forEach( pinnedPositionCardinal -> {
-			getPseudoMoves(pinnedPositionCardinal.getKey())
-					.stream()
-					.filter(pseudoMove -> NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(),  pseudoMove.getMoveDirection()))
-					.forEach(move -> moves.add(move));
-		});
+	protected MoveContainer getLegalMovesNotKingPinned(List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals, MoveContainer moves) {
+		for (AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal> pinnedPositionCardinal: pinnedPositionCardinals) {
+			PiecePositioned from = pinnedPositionCardinal.getKey();
+			MoveList pseudoMoves = getPseudoMoves(from);
+			for(Move pseudoMove: pseudoMoves){
+				if(NoCheckLegalMoveGenerator.moveBlocksThreat(pinnedPositionCardinal.getValue(),  pseudoMove.getMoveDirection())){
+					moves.add(pseudoMove);
+				}
+			}
+		}
 		return moves;
 	}
 
 
 	protected MoveContainer getLegalMovesKing(MoveContainer moves) {
-		Square 	kingSquare = getCurrentKingSquare();
+		Square kingSquare = getCurrentKingSquare();
 
 		Collection<Move> pseudoMovesKing = getPseudoMoves(kingSquare);
 
@@ -108,37 +113,37 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	public static boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
 		if(moveDirection != null){
 			switch (threatDirection) {
-			case Norte:
-			case Sur:
-				if (Cardinal.Norte.equals(moveDirection) || Cardinal.Sur.equals(moveDirection)) {
-					return true;
-				}			
-				break;
-			case Este:
-			case Oeste:
-				if (Cardinal.Este.equals(moveDirection) || Cardinal.Oeste.equals(moveDirection)) {
-					return true;
-				}				
-				break;
-			case NorteEste:
-			case SurOeste:
-				if (Cardinal.NorteEste.equals(moveDirection) || Cardinal.SurOeste.equals(moveDirection)) {
-					return true;
-				}				
-				break;
-			case NorteOeste:
-			case SurEste:
-				if (Cardinal.NorteOeste.equals(moveDirection) || Cardinal.SurEste.equals(moveDirection)) {
-					return true;
-				}				
-				break;
-			default:
-				throw new RuntimeException("Falta direccion");
+				case Norte:
+				case Sur:
+					if (Cardinal.Norte.equals(moveDirection) || Cardinal.Sur.equals(moveDirection)) {
+						return true;
+					}
+					break;
+				case Este:
+				case Oeste:
+					if (Cardinal.Este.equals(moveDirection) || Cardinal.Oeste.equals(moveDirection)) {
+						return true;
+					}
+					break;
+				case NorteEste:
+				case SurOeste:
+					if (Cardinal.NorteEste.equals(moveDirection) || Cardinal.SurOeste.equals(moveDirection)) {
+						return true;
+					}
+					break;
+				case NorteOeste:
+				case SurEste:
+					if (Cardinal.NorteOeste.equals(moveDirection) || Cardinal.SurEste.equals(moveDirection)) {
+						return true;
+					}
+					break;
+				default:
+					throw new RuntimeException("Falta direccion");
 			}
 
 		}
 		return false;
 	}
-	
+
 
 }

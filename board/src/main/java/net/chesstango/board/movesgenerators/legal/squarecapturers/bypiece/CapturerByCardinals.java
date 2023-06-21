@@ -22,7 +22,7 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     protected final Cardinal[] cardinals;
     protected final Color color;
 
-    protected abstract boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal);
+    protected abstract long getAttackerInCardinalDirection(Square square, Cardinal cardinal);
 
     public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
         this.squareBoardReader = squareBoardReader;
@@ -34,9 +34,10 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     }
 
     @Override
-    public boolean positionCaptured(Square square, long possiblePositions) {
+    public boolean positionCaptured(Square square, long possibleAttackers) {
         for (Cardinal cardinal : cardinals) {
-            if ( thereIsCapturerInCardinalDirection(square, cardinal) && positionCapturedByCardinal(square, cardinal)) {
+            long attackerInCardinalDirection = getAttackerInCardinalDirection(square, cardinal);
+            if ((attackerInCardinalDirection & possibleAttackers) != 0 && positionCapturedByCardinal(square, cardinal)) {
                 return true;
             }
         }

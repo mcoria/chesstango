@@ -17,10 +17,8 @@ public class CapturerByBishop extends CapturerByCardinals {
     }
 
     @Override
-    protected boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal) {
-        long result =  (cardinal.getPosiciones(square) & bitBoardReader.getPositions(color)) &
+    protected long getAttackerInCardinalDirection(Square square, Cardinal cardinal) {
+        return (cardinal.getPosiciones(square) & bitBoardReader.getPositions(color)) &
                 ( bitBoardReader.getBishopPositions() | bitBoardReader.getQueenPositions() );
-
-        return result != 0  ;
     }
 }
