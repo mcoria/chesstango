@@ -29,7 +29,7 @@ public class CheckAndPinnedAnalyzerBishopTest {
 
         List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals = new LinkedList<>();
 
-        boolean positionCaptured = checkAndPinnedAnalyzer.positionCaptured(squareKing, pinnedPositionCardinals);
+        boolean positionCaptured = checkAndPinnedAnalyzer.positionCaptured(squareKing, gamePosition.getPositions(Color.WHITE), pinnedPositionCardinals);
 
         Assertions.assertTrue(positionCaptured);
 

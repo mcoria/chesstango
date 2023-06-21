@@ -178,6 +178,11 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public long getAllPositions() {
+		return bitBoard.getAllPositions();
+	}
+
+	@Override
 	public long getBishopPositions() {
 		return bitBoard.getBishopPositions();
 	}
@@ -194,7 +199,7 @@ public class ChessPositionImp implements ChessPosition {
 
 	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
-		return squareBoard.iterator(bitBoard.getPositions(Color.WHITE) | bitBoard.getPositions(Color.BLACK));
+		return squareBoard.iterator(bitBoard.getAllPositions());
 	}
 
 	@Override

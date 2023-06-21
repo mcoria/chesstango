@@ -1,6 +1,8 @@
 package net.chesstango;
 
 import net.chesstango.board.*;
+import net.chesstango.board.analyzer.CheckAndPinnedAnalyzerBishopTest;
+import net.chesstango.board.analyzer.CheckAndPinnedAnalyzerTest;
 import net.chesstango.board.moves.containers.MoveContainerTest;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCapturedTest;
 import net.chesstango.board.movesgenerators.legal.strategies.CheckLegalMoveGeneratorTest;
@@ -22,7 +24,7 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({ PieceTest.class, SquareTest.class, PiecePositionedTest.class, GameTest.class, FullScanSquareCapturedTest.class,
 		ChessPositionTest.class, MoveCacheBoardTest.class, BitBoardTest.class, SquareBoardImpTest.class,
 		ChessPositionImpTest.class, CheckLegalMoveGeneratorTest.class, NoCheckLegalMoveGeneratorTest.class, MoveContainerTest.class,
-		ZobristNoCollisionTest.class})
+		ZobristNoCollisionTest.class, CheckAndPinnedAnalyzerTest.class, CheckAndPinnedAnalyzerBishopTest.class})
 public class BasicTestSuite {
 
 }

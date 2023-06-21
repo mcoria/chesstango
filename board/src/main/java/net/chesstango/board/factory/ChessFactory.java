@@ -101,8 +101,8 @@ public class ChessFactory {
 	}
 
 
-	public CheckAndPinnedAnalyzer createCheckAndPinnedAnalyzer(ChessPositionReader positionReader) {
-		return new CheckAndPinnedAnalyzer(positionReader);
+	public CheckAndPinnedAnalyzer createCheckAndPinnedAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
+		return new CheckAndPinnedAnalyzer(positionReader, moveCacheBoard);
 	}
 
     public ZobristHash createZobristHash() {

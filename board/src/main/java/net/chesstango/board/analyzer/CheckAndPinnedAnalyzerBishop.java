@@ -5,7 +5,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
-import net.chesstango.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
 /**
@@ -19,10 +18,8 @@ class CheckAndPinnedAnalyzerBishop extends CheckAndPinnedAnalyzerCardinal {
     }
 
     @Override
-    protected boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal) {
-        long result =  (cardinal.getPosiciones(square) & positionReader.getPositions(color)) &
+    protected long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal) {
+        return (cardinal.getPosiciones(square) & positionReader.getPositions(color)) &
                 ( positionReader.getBishopPositions() | positionReader.getQueenPositions() );
-
-        return result != 0  ;
     }
 }

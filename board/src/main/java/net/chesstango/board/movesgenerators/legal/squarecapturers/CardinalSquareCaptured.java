@@ -34,9 +34,9 @@ public class CardinalSquareCaptured implements SquareCaptured {
 	@Override
 	public boolean isCaptured(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
-			return capturerWhite.positionCaptured(square);
+			return capturerWhite.positionCaptured(square, bitBoardReader.getPositions(Color.WHITE));
 		} else {
-			return capturerBlack.positionCaptured(square);
+			return capturerBlack.positionCaptured(square, bitBoardReader.getPositions(Color.WHITE));
 		}
 	}
 
@@ -50,9 +50,9 @@ public class CardinalSquareCaptured implements SquareCaptured {
 			this.bishopCapturer = new CapturerByBishop(squareBoardReader, bitBoardReader, color);
 		}
 
-		public boolean positionCaptured(Square square) {
-			return rookCapturer.positionCaptured(square) ||
-					bishopCapturer.positionCaptured(square);
+		public boolean positionCaptured(Square square, long possiblePositions) {
+			return rookCapturer.positionCaptured(square, possiblePositions) ||
+					bishopCapturer.positionCaptured(square, possiblePositions);
 		}
 	}
 

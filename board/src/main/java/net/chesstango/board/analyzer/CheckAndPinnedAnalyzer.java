@@ -12,6 +12,7 @@ import net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece.Captur
 import net.chesstango.board.movesgenerators.pseudo.strategies.BishopMoveGenerator;
 import net.chesstango.board.movesgenerators.pseudo.strategies.RookMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
+import net.chesstango.board.position.MoveCacheBoard;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -30,15 +31,17 @@ public class CheckAndPinnedAnalyzer {
 	private final ChessPositionReader positionReader;
 	private final CheckAndPinnedAnalyzerByColor analyzerWhite;
 	private final CheckAndPinnedAnalyzerByColor analyzerBlack;
-	protected long pinnedPositions;
+	private final MoveCacheBoard moveCacheBoard;
 	protected List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
+	protected long pinnedPositions;
 	protected boolean kingInCheck;
 	
-	public CheckAndPinnedAnalyzer(ChessPositionReader positionReader) {
+	public CheckAndPinnedAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
 		this.positionReader = positionReader;
+		this.moveCacheBoard = moveCacheBoard;
 		this.analyzerWhite = new CheckAndPinnedAnalyzerByColor(Color.WHITE);
 		this.analyzerBlack = new CheckAndPinnedAnalyzerByColor(Color.BLACK);
-	}	
+	}
 
 	public void analyze(AnalyzerResult result) {
 		pinnedPositions = 0;
@@ -80,10 +83,22 @@ public class CheckAndPinnedAnalyzer {
 		public void analyze() {
 			Square squareKing = positionReader.getKingSquare(color);
 
-			if( knightCapturer.positionCaptured(squareKing) ||
-				pawnCapturer.positionCaptured(squareKing) ||
-				rookCapturer.positionCaptured(squareKing, pinnedPositionCardinals) ||
-				bishopCapturer.positionCaptured(squareKing, pinnedPositionCardinals)) {
+			long allPositions = positionReader.getAllPositions();
+
+			long positionsInCache = moveCacheBoard.getPseudoMovesPositions();
+
+			long positionsNotInCache = allPositions & ~positionsInCache;
+
+			long positionsAttackers = positionsNotInCache & positionReader.getPositions(color.oppositeColor()) ;
+
+
+			// Las posiciones que no estan en cache y son del color contrario pueden capturar al REY
+			// Si el cache esta vacio entonces considerar que cualquier pieza puede capturar al REY
+
+			if( knightCapturer.positionCaptured(squareKing, positionsAttackers) ||
+				pawnCapturer.positionCaptured(squareKing, positionsAttackers) ||
+				rookCapturer.positionCaptured(squareKing, positionsAttackers, pinnedPositionCardinals) ||
+				bishopCapturer.positionCaptured(squareKing, positionsAttackers, pinnedPositionCardinals)) {
 				CheckAndPinnedAnalyzer.this.kingInCheck = true;
 			}
 

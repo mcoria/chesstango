@@ -18,10 +18,8 @@ class CheckAndPinnedAnalyzerRook extends CheckAndPinnedAnalyzerCardinal {
     }
 
     @Override
-    protected boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal) {
-        long result =  (cardinal.getPosiciones(square) & positionReader.getPositions(color)) &
+    protected long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal) {
+        return (cardinal.getPosiciones(square) & positionReader.getPositions(color)) &
                 ( positionReader.getRookPositions() | positionReader.getQueenPositions() );
-
-        return result != 0  ;
     }
 }

@@ -6,5 +6,5 @@ import net.chesstango.board.Square;
  * @author Mauricio Coria
  */
 public interface CapturerByPiece {
-    boolean positionCaptured(Square square);
+    boolean positionCaptured(Square square, long positionsAttackers);
 }

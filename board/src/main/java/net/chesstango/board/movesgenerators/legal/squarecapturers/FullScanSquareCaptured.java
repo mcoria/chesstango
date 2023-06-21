@@ -37,9 +37,9 @@ public class FullScanSquareCaptured implements SquareCaptured {
 	@Override
 	public boolean isCaptured(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
-			return capturerWhite.positionCaptured(square);
+			return capturerWhite.positionCaptured(square, bitBoardReader.getPositions(Color.WHITE));
 		} else {
-			return capturerBlack.positionCaptured(square);
+			return capturerBlack.positionCaptured(square, bitBoardReader.getPositions(Color.BLACK));
 		}
 	}
 
@@ -59,12 +59,12 @@ public class FullScanSquareCaptured implements SquareCaptured {
 			this.kingCapturer = new CapturerByKing(squareBoardReader, color);
 		}
 
-		public boolean positionCaptured(Square square) {
-            return knightCapturer.positionCaptured(square) ||
-					rookCapturer.positionCaptured(square) ||
-					bishopCapturer.positionCaptured(square) ||
-					pawnCapturer.positionCaptured(square) ||
-					kingCapturer.positionCaptured(square);
+		public boolean positionCaptured(Square square, long possiblePositions) {
+            return knightCapturer.positionCaptured(square, possiblePositions) ||
+					rookCapturer.positionCaptured(square, possiblePositions) ||
+					bishopCapturer.positionCaptured(square, possiblePositions) ||
+					pawnCapturer.positionCaptured(square, possiblePositions) ||
+					kingCapturer.positionCaptured(square, possiblePositions);
         }
 	}
 

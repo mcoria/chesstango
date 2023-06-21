@@ -163,7 +163,7 @@ public class ChessInjector {
 
     private CheckAndPinnedAnalyzer getCheckAndPinnedAnalyzer() {
         if (checkAndPinnedAnalyzer == null) {
-            checkAndPinnedAnalyzer = chessFactory.createCheckAndPinnedAnalyzer(getChessPosition());
+            checkAndPinnedAnalyzer = chessFactory.createCheckAndPinnedAnalyzer(getChessPosition(), getMoveCacheBoard());
         }
         return checkAndPinnedAnalyzer;
     }

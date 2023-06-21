@@ -6,7 +6,6 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
-import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.SquareBoardReader;
 
@@ -35,7 +34,7 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     }
 
     @Override
-    public boolean positionCaptured(Square square) {
+    public boolean positionCaptured(Square square, long possiblePositions) {
         for (Cardinal cardinal : cardinals) {
             if ( thereIsCapturerInCardinalDirection(square, cardinal) && positionCapturedByCardinal(square, cardinal)) {
                 return true;

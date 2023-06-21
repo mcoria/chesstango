@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * @author Mauricio Coria
- *
  */
 abstract class CheckAndPinnedAnalyzerCardinal {
     protected final ChessPositionReader positionReader;
@@ -26,7 +25,7 @@ abstract class CheckAndPinnedAnalyzerCardinal {
 
     protected long pinnedPositions = 0;
 
-    protected abstract boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal);
+    protected abstract long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal);
 
     CheckAndPinnedAnalyzerCardinal(ChessPositionReader positionReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
         this.positionReader = positionReader;
@@ -36,11 +35,13 @@ abstract class CheckAndPinnedAnalyzerCardinal {
         this.cardinals = cardinals;
     }
 
-    public boolean positionCaptured(Square squareKingOpponent, List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals) {
+    public boolean positionCaptured(Square squareKingOpponent, long positionsAttackers, List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals) {
         pinnedPositions = 0;
         for (Cardinal cardinal : cardinals) {
-            if(thereIsCapturerInCardinalDirection(squareKingOpponent, cardinal) && positionCapturedByDirection(squareKingOpponent, cardinal, pinnedPositionCardinals)){
-                return true;
+            if ((getPossibleCapturerInCardinalDirection(squareKingOpponent, cardinal) & positionsAttackers) != 0) {
+                if (positionCapturedByDirection(squareKingOpponent, cardinal, pinnedPositionCardinals)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -56,9 +57,9 @@ abstract class CheckAndPinnedAnalyzerCardinal {
             Piece piece = destino.getPiece();
 
             if (piece != null) {
-                if (possiblePinned == null){
-                    if(color.equals(piece.getColor())){
-                        if(queen.equals(piece) || bishopOrRook.equals(piece)){
+                if (possiblePinned == null) {
+                    if (color.equals(piece.getColor())) {
+                        if (queen.equals(piece) || bishopOrRook.equals(piece)) {
                             return true;
                         } else {
                             return false;

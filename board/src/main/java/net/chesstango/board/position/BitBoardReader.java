@@ -13,6 +13,8 @@ public interface BitBoardReader {
 
     long getPositions(Color color);
 
+    long getAllPositions();
+
     long getBishopPositions();
 
     long getRookPositions();
