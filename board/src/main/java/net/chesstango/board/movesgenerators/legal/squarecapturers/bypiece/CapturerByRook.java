@@ -13,11 +13,11 @@ import net.chesstango.board.position.SquareBoardReader;
  */
 public class CapturerByRook extends CapturerByCardinals {
     public CapturerByRook(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color) {
-        super(squareBoardReader, bitBoardReader, color, RookMoveGenerator.ROOK_CARDINAL, Piece.getRook(color));
+        super(squareBoardReader, bitBoardReader, color, RookMoveGenerator.ROOK_CARDINAL);
     }
 
     @Override
-    protected long getAttackerInCardinalDirection(Square square, Cardinal cardinal) {
+    protected long getThreatsInCardinalDirection(Square square, Cardinal cardinal) {
         return  (cardinal.getPosiciones(square) & bitBoardReader.getPositions(color)) &
                 ( bitBoardReader.getRookPositions() | bitBoardReader.getQueenPositions() );
     }

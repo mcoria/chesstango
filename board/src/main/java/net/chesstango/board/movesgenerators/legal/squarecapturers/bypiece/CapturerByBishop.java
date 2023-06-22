@@ -13,11 +13,11 @@ import net.chesstango.board.position.SquareBoardReader;
  */
 public class CapturerByBishop extends CapturerByCardinals {
     public CapturerByBishop(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color) {
-        super(squareBoardReader, bitBoardReader, color, BishopMoveGenerator.BISHOP_CARDINAL, Piece.getBishop(color));
+        super(squareBoardReader, bitBoardReader, color, BishopMoveGenerator.BISHOP_CARDINAL);
     }
 
     @Override
-    protected long getAttackerInCardinalDirection(Square square, Cardinal cardinal) {
+    protected long getThreatsInCardinalDirection(Square square, Cardinal cardinal) {
         return (cardinal.getPosiciones(square) & bitBoardReader.getPositions(color)) &
                 ( bitBoardReader.getBishopPositions() | bitBoardReader.getQueenPositions() );
     }

@@ -15,29 +15,28 @@ import java.util.Iterator;
  * @author Mauricio Coria
  */
 public abstract class CapturerByCardinals implements CapturerByPiece {
+
     protected final SquareBoardReader squareBoardReader;
     protected final BitBoardReader bitBoardReader;
-    protected final Piece bishopOrRook;
-    protected final Piece queen;
     protected final Cardinal[] cardinals;
+
     protected final Color color;
 
-    protected abstract long getAttackerInCardinalDirection(Square square, Cardinal cardinal);
+    protected abstract long getThreatsInCardinalDirection(Square square, Cardinal cardinal);
 
-    public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
+    public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals) {
         this.squareBoardReader = squareBoardReader;
         this.bitBoardReader = bitBoardReader;
         this.cardinals = cardinals;
-        this.bishopOrRook = bishopOrRook;
-        this.queen = Piece.getQueen(color);
         this.color = color;
     }
 
     @Override
-    public boolean positionCaptured(Square square, long possibleAttackers) {
+    public boolean positionCaptured(Square square, long possibleThreats) {
         for (Cardinal cardinal : cardinals) {
-            long attackerInCardinalDirection = getAttackerInCardinalDirection(square, cardinal);
-            if ((attackerInCardinalDirection & possibleAttackers) != 0 && positionCapturedByCardinal(square, cardinal)) {
+            long threatsInCardinalDirection = getThreatsInCardinalDirection(square, cardinal);
+            long possibleThreatsInCardinalDirection = threatsInCardinalDirection & possibleThreats;
+            if (possibleThreatsInCardinalDirection != 0 && positionCapturedByCardinal(square, cardinal, possibleThreatsInCardinalDirection)) {
                 return true;
             }
         }
@@ -45,19 +44,18 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     }
 
 
-    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal) {
+    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal, long possibleThreatsInCardinalDirection) {
         Iterator<PiecePositioned> iterator = squareBoardReader.iterator(new CardinalSquareIterator(square, cardinal));
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
             Piece piece = destino.getPiece();
-            if (piece == null) {
-                continue;
-            } else if (queen.equals(piece)) {
-                return true;
-            } else if (bishopOrRook.equals(piece)) {
-                return true;
-            } else {
-                break;
+            Square squarePiece = destino.getSquare();
+            if (piece != null) {
+                if ((possibleThreatsInCardinalDirection & squarePiece.getBitPosition()) != 0) {
+                    return true;
+                } else {
+                    break;
+                }
             }
         }
         return false;

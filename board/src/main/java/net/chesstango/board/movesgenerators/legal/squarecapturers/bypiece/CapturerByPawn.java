@@ -29,7 +29,7 @@ public class CapturerByPawn implements CapturerByPiece {
     }
 
     @Override
-    public boolean positionCaptured(Square square, long possibleAttackers) {
+    public boolean positionCaptured(Square square, long possibleThreats) {
         Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();

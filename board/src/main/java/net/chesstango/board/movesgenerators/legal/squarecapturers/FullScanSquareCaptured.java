@@ -22,13 +22,11 @@ import net.chesstango.board.position.SquareBoardReader;
 //			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
 //		 - deberiamos tener un capturer especifico para Castling
 public class FullScanSquareCaptured implements SquareCaptured {
-	private final SquareBoardReader squareBoardReader;
 	private final BitBoardReader bitBoardReader;
 	private final FullScanSquareCapturedAggregate capturerWhite;
 	private final FullScanSquareCapturedAggregate capturerBlack;
 	
 	public FullScanSquareCaptured(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
-		this.squareBoardReader = squareBoardReader;
 		this.bitBoardReader = bitBoardReader;
 		this.capturerWhite = new FullScanSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.WHITE);
 		this.capturerBlack = new FullScanSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.BLACK);
@@ -57,11 +55,11 @@ public class FullScanSquareCaptured implements SquareCaptured {
 		}
 
 		@Override
-		public boolean positionCaptured(Square square, long possibleAttackers) {
-            return super.positionCaptured(square, possibleAttackers) ||
-					knightCapturer.positionCaptured(square, possibleAttackers) ||
-					pawnCapturer.positionCaptured(square, possibleAttackers) ||
-					kingCapturer.positionCaptured(square, possibleAttackers);
+		public boolean positionCaptured(Square square, long possibleThreats) {
+            return super.positionCaptured(square, possibleThreats) ||
+					knightCapturer.positionCaptured(square, possibleThreats) ||
+					pawnCapturer.positionCaptured(square, possibleThreats) ||
+					kingCapturer.positionCaptured(square, possibleThreats);
         }
 	}
 

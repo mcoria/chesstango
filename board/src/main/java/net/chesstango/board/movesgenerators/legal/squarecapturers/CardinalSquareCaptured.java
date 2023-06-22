@@ -18,14 +18,12 @@ import net.chesstango.board.position.SquareBoardReader;
  *
  */
 public class CardinalSquareCaptured implements SquareCaptured {
-	private final SquareBoardReader squareBoardReader;
 	private final BitBoardReader bitBoardReader;
 	private final CardinalSquareCapturedAggregate capturerWhite;
 	private final CardinalSquareCapturedAggregate capturerBlack;
 
 	
 	public CardinalSquareCaptured(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
-		this.squareBoardReader = squareBoardReader;
 		this.bitBoardReader = bitBoardReader;
 		this.capturerWhite = new CardinalSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.WHITE);
 		this.capturerBlack = new CardinalSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.BLACK);
@@ -51,9 +49,9 @@ public class CardinalSquareCaptured implements SquareCaptured {
 		}
 
 		@Override
-		public boolean positionCaptured(Square square, long possibleAttackers) {
-			return rookCapturer.positionCaptured(square, possibleAttackers) ||
-					bishopCapturer.positionCaptured(square, possibleAttackers);
+		public boolean positionCaptured(Square square, long possibleThreats) {
+			return rookCapturer.positionCaptured(square, possibleThreats) ||
+					bishopCapturer.positionCaptured(square, possibleThreats);
 		}
 	}
 
