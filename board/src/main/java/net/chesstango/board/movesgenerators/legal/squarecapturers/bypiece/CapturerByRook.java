@@ -16,8 +16,7 @@ public class CapturerByRook extends CapturerByCardinals {
     }
 
     @Override
-    protected long getThreatsInCardinalDirection(Square square, Cardinal cardinal) {
-        return  (cardinal.getSquaresInDirection(square) & bitBoardReader.getPositions(color)) &
-                ( bitBoardReader.getRookPositions() | bitBoardReader.getQueenPositions() );
+    protected long getCardinalThreats() {
+        return  bitBoardReader.getPositions(color) & ( bitBoardReader.getRookPositions() | bitBoardReader.getQueenPositions() );
     }
 }

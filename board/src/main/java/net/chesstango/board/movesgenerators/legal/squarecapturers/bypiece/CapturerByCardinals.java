@@ -17,7 +17,7 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
 
     protected final Color color;
 
-    protected abstract long getThreatsInCardinalDirection(Square square, Cardinal cardinal);
+    protected abstract long getCardinalThreats();
 
     public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals) {
         this.squareBoardReader = squareBoardReader;
@@ -29,9 +29,7 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     @Override
     public boolean positionCaptured(Square square, long possibleThreats) {
         for (Cardinal cardinal : cardinals) {
-            long threatsInCardinalDirection = getThreatsInCardinalDirection(square, cardinal);
-            long possibleThreatsInCardinalDirection = threatsInCardinalDirection & possibleThreats;
-            if (possibleThreatsInCardinalDirection != 0 && positionCapturedByCardinal(square, cardinal, possibleThreatsInCardinalDirection)) {
+            if (positionCapturedByCardinal(square, cardinal, possibleThreats)) {
                 return true;
             }
         }
@@ -39,28 +37,34 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     }
 
 
-    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal, long possibleThreatsInCardinalDirection) {
-        long squaresInCardinalDirection = cardinal.getSquaresInDirection(square);
+    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal, long possibleThreats) {
+        long cardinalThreats = getCardinalThreats();
 
-        while (possibleThreatsInCardinalDirection != 0) {
-            long posicionLng = Long.lowestOneBit(possibleThreatsInCardinalDirection);
+        long squaresToThreat = cardinal.getSquaresInDirection(square);
 
-            Square threat = Square.getSquareByIdx(Long.numberOfTrailingZeros(posicionLng));
+        long possibleThreatsInCardinalDirection = possibleThreats & cardinalThreats & squaresToThreat;
 
-            long squaresInThreatDirection = cardinal.getOpposite().getSquaresInDirection(threat);
+        if(possibleThreatsInCardinalDirection != 0) {
+            while (possibleThreatsInCardinalDirection != 0) {
+                long posicionLng = Long.lowestOneBit(possibleThreatsInCardinalDirection);
 
-            long betweenSquares = squaresInCardinalDirection & squaresInThreatDirection;
+                Square threat = Square.getSquareByIdx(Long.numberOfTrailingZeros(posicionLng));
 
-            if (betweenSquares == 0) {
-                return true;
-            } else {
-                long intersection = betweenSquares & bitBoardReader.getEmptyPositions();
-                if (intersection == betweenSquares) {
+                long squaresFromThreat = cardinal.getOpposite().getSquaresInDirection(threat);
+
+                long betweenSquares = squaresToThreat & squaresFromThreat;
+
+                if (betweenSquares == 0) {
                     return true;
+                } else {
+                    long intersection = betweenSquares & bitBoardReader.getEmptyPositions();
+                    if (intersection == betweenSquares) {
+                        return true;
+                    }
                 }
-            }
 
-            possibleThreatsInCardinalDirection &= ~posicionLng;
+                possibleThreatsInCardinalDirection &= ~posicionLng;
+            }
         }
 
         return false;
