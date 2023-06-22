@@ -13,8 +13,8 @@ import java.util.HexFormat;
  */
 public class JumpSquareIteratorTest {
 
-    //@Test
-    public void printSaltosKnightPosicionesLong() {
+    @Test
+    public void printKnightJumpPositions(){
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
             Square square = Square.getSquareByIdx(idx);
@@ -28,12 +28,14 @@ public class JumpSquareIteratorTest {
             arraySaltos[idx] = posicionesSalto;
         }
         for (int idx = 0; idx < 64; idx++) {
-            System.out.println(arraySaltos[idx] + "L,");
+            HexFormat hexFormat = HexFormat.of().withUpperCase();
+            System.out.println(String.format("0x%sL,", hexFormat.formatHex(longToByte(arraySaltos[idx]))));
+            //System.out.println(Long.toHexString(arraySaltos[idx]));
         }
     }
 
-    @Test
-    public void printSaltosKingPosicionesLong() {
+    //@Test
+    public void printKingJumpPositions() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
             Square square = Square.getSquareByIdx(idx);
@@ -52,21 +54,6 @@ public class JumpSquareIteratorTest {
             System.out.println(String.format("0x%sL,", hexFormat.formatHex(longToByte(arraySaltos[idx]))));
             //System.out.println(Long.toHexString(arraySaltos[idx]));
         }
-    }
-
-
-    private byte[] longToByte(long lng) {
-        byte[] b = new byte[]{
-                (byte) (lng >> 56),
-                (byte) (lng >> 48),
-                (byte) (lng >> 40),
-                (byte) (lng >> 32),
-                (byte) (lng >> 24),
-                (byte) (lng >> 16),
-                (byte) (lng >> 8),
-                (byte) lng
-        };
-        return b;
     }
 
     private final int[][] casillerosPawnWhite = {
@@ -119,6 +106,20 @@ public class JumpSquareIteratorTest {
             System.out.println(arraySaltos[idx] + "L,");
         }
 
+    }
+
+    private byte[] longToByte(long lng) {
+        byte[] b = new byte[]{
+                (byte) (lng >> 56),
+                (byte) (lng >> 48),
+                (byte) (lng >> 40),
+                (byte) (lng >> 32),
+                (byte) (lng >> 24),
+                (byte) (lng >> 16),
+                (byte) (lng >> 8),
+                (byte) lng
+        };
+        return b;
     }
 
 }
