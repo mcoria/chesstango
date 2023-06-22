@@ -1,15 +1,10 @@
 package net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.SquareBoardReader;
-
-import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
@@ -45,19 +40,29 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
 
 
     private boolean positionCapturedByCardinal(Square square, Cardinal cardinal, long possibleThreatsInCardinalDirection) {
-        Iterator<PiecePositioned> iterator = squareBoardReader.iterator(new CardinalSquareIterator(square, cardinal));
-        while (iterator.hasNext()) {
-            PiecePositioned destino = iterator.next();
-            Piece piece = destino.getPiece();
-            Square squarePiece = destino.getSquare();
-            if (piece != null) {
-                if ((possibleThreatsInCardinalDirection & squarePiece.getBitPosition()) != 0) {
+        long squaresInCardinalDirection = cardinal.getSquaresInDirection(square);
+
+        while (possibleThreatsInCardinalDirection != 0) {
+            long posicionLng = Long.lowestOneBit(possibleThreatsInCardinalDirection);
+
+            Square threat = Square.getSquareByIdx(Long.numberOfTrailingZeros(posicionLng));
+
+            long squaresInThreatDirection = cardinal.getOpposite().getSquaresInDirection(threat);
+
+            long betweenSquares = squaresInCardinalDirection & squaresInThreatDirection;
+
+            if (betweenSquares == 0) {
+                return true;
+            } else {
+                long intersection = betweenSquares & bitBoardReader.getEmptyPositions();
+                if (intersection == betweenSquares) {
                     return true;
-                } else {
-                    break;
                 }
             }
+
+            possibleThreatsInCardinalDirection &= ~posicionLng;
         }
+
         return false;
     }
 }

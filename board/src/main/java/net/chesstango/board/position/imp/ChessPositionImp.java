@@ -183,6 +183,11 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public long getEmptyPositions() {
+		return bitBoard.getEmptyPositions();
+	}
+
+	@Override
 	public long getBishopPositions() {
 		return bitBoard.getBishopPositions();
 	}

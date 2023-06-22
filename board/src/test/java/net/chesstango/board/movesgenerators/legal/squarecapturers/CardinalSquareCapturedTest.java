@@ -33,6 +33,9 @@ public class CardinalSquareCapturedTest {
 
     @Test
     public void test02(){
+        /**
+         * La reina esta arriba del rey
+         */
         SquareBoard dummySquareBoard = getSquareBoard("8/8/8/8/8/8/3q4/3K4");
         BitBoard bitBoard = new BitBoardImp();
         bitBoard.init(dummySquareBoard);

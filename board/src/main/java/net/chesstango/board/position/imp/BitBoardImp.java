@@ -119,6 +119,11 @@ public class BitBoardImp implements BitBoard {
 	}
 
 	@Override
+	public long getEmptyPositions() {
+		return ~(squareWhites | squareBlacks);
+	}
+
+	@Override
 	public long getBishopPositions() {
 		return bishops;
 	}
