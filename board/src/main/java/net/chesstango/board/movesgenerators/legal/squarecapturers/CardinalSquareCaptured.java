@@ -38,7 +38,7 @@ public class CardinalSquareCaptured implements SquareCaptured {
 		}
 	}
 
-	protected static class CardinalSquareCapturedAggregate implements CapturerByPiece {
+	private static class CardinalSquareCapturedAggregate implements CapturerByPiece {
 
 		private final CapturerByPiece rookCapturer;
 		private final CapturerByPiece bishopCapturer;

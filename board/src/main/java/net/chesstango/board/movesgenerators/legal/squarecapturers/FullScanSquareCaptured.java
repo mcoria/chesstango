@@ -21,34 +21,34 @@ import net.chesstango.board.position.SquareBoardReader;
 //				deberia buscar el jaque en direccion del pinned
 //			- cuando mueve el rey deberia preguntar por todas las posibilidades de captura
 //		 - deberiamos tener un capturer especifico para Castling
-public class FullScanSquareCaptured implements SquareCaptured {
+public class FullScanSquareCaptured extends CardinalSquareCaptured {
 	private final BitBoardReader bitBoardReader;
-	private final FullScanSquareCapturedAggregate capturerWhite;
-	private final FullScanSquareCapturedAggregate capturerBlack;
+	private final NoCardinalSquareCapturedAggregate capturerWhite;
+	private final NoCardinalSquareCapturedAggregate capturerBlack;
 	
 	public FullScanSquareCaptured(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader) {
+		super(squareBoardReader, bitBoardReader);
 		this.bitBoardReader = bitBoardReader;
-		this.capturerWhite = new FullScanSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.WHITE);
-		this.capturerBlack = new FullScanSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.BLACK);
+		this.capturerWhite = new NoCardinalSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.WHITE);
+		this.capturerBlack = new NoCardinalSquareCapturedAggregate(squareBoardReader, bitBoardReader, Color.BLACK);
 	}
 
 	@Override
 	public boolean isCaptured(Color color, Square square) {
 		if(Color.WHITE.equals(color)){
-			return capturerWhite.positionCaptured(square, bitBoardReader.getPositions(Color.WHITE));
+			return super.isCaptured(Color.WHITE, square)  || capturerWhite.positionCaptured(square, bitBoardReader.getPositions(Color.WHITE));
 		} else {
-			return capturerBlack.positionCaptured(square, bitBoardReader.getPositions(Color.BLACK));
+			return super.isCaptured(Color.BLACK, square)  || capturerBlack.positionCaptured(square, bitBoardReader.getPositions(Color.BLACK));
 		}
 	}
 
 
-	protected class FullScanSquareCapturedAggregate extends CardinalSquareCaptured.CardinalSquareCapturedAggregate {
+	private static class NoCardinalSquareCapturedAggregate implements CapturerByPiece{
 		private final CapturerByPiece knightCapturer;
 		private final CapturerByPiece pawnCapturer;
 		private final CapturerByPiece kingCapturer;
 
-		public FullScanSquareCapturedAggregate(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color) {
-			super(squareBoardReader, bitBoardReader, color);
+		public NoCardinalSquareCapturedAggregate(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color) {
 			this.knightCapturer = new CapturerByKnight(squareBoardReader, color);
 			this.pawnCapturer = new CapturerByPawn(squareBoardReader, color);
 			this.kingCapturer = new CapturerByKing(squareBoardReader, color);
@@ -56,8 +56,7 @@ public class FullScanSquareCaptured implements SquareCaptured {
 
 		@Override
 		public boolean positionCaptured(Square square, long possibleThreats) {
-            return super.positionCaptured(square, possibleThreats) ||
-					knightCapturer.positionCaptured(square, possibleThreats) ||
+            return knightCapturer.positionCaptured(square, possibleThreats) ||
 					pawnCapturer.positionCaptured(square, possibleThreats) ||
 					kingCapturer.positionCaptured(square, possibleThreats);
         }
