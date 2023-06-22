@@ -17,7 +17,7 @@ public class CardinalTest {
 
         Square a1 = Square.a1;
 
-        long a1_posiciones = norte.getPosiciones(a1);
+        long a1_posiciones = norte.getSquaresInDirection(a1);
 
         Assertions.assertTrue( (a1_posiciones & Square.a2.getBitPosition()) != 0 );
         Assertions.assertTrue( (a1_posiciones & Square.a3.getBitPosition()) != 0 );

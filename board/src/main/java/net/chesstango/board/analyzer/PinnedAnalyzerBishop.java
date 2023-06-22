@@ -19,7 +19,7 @@ class PinnedAnalyzerBishop extends PinnedAnalyzerCardinal {
 
     @Override
     protected long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal) {
-        return (cardinal.getPosiciones(square) & positionReader.getPositions(color)) &
+        return (cardinal.getSquaresInDirection(square) & positionReader.getPositions(color)) &
                 ( positionReader.getBishopPositions() | positionReader.getQueenPositions() );
     }
 }

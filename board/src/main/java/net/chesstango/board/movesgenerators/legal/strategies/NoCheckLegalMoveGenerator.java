@@ -112,35 +112,9 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	public static boolean moveBlocksThreat(Cardinal threatDirection, Cardinal moveDirection) {
 		if(moveDirection != null){
-			switch (threatDirection) {
-				case Norte:
-				case Sur:
-					if (Cardinal.Norte.equals(moveDirection) || Cardinal.Sur.equals(moveDirection)) {
-						return true;
-					}
-					break;
-				case Este:
-				case Oeste:
-					if (Cardinal.Este.equals(moveDirection) || Cardinal.Oeste.equals(moveDirection)) {
-						return true;
-					}
-					break;
-				case NorteEste:
-				case SurOeste:
-					if (Cardinal.NorteEste.equals(moveDirection) || Cardinal.SurOeste.equals(moveDirection)) {
-						return true;
-					}
-					break;
-				case NorteOeste:
-				case SurEste:
-					if (Cardinal.NorteOeste.equals(moveDirection) || Cardinal.SurEste.equals(moveDirection)) {
-						return true;
-					}
-					break;
-				default:
-					throw new RuntimeException("Falta direccion");
+			if(threatDirection.equals(moveDirection) || threatDirection.equals(moveDirection.getOpposite()) ){
+				return true;
 			}
-
 		}
 		return false;
 	}

@@ -554,7 +554,7 @@ public enum Cardinal {
         return Square.getSquare(from.getFile() + offSetEast, from.getRank() + offSetNorth);
     }
 
-    public long getPosiciones(Square from) {
+    public long getSquaresInDirection(Square from) {
         return posiciones[from.toIdx()];
     }
 
@@ -591,6 +591,19 @@ public enum Cardinal {
         } else {
             return false;
         }
+    }
+
+    public Cardinal getOpposite() {
+        return switch (this) {
+            case Norte -> Sur;
+            case Sur -> Norte;
+            case Este -> Oeste;
+            case Oeste -> Este;
+            case NorteEste -> SurOeste;
+            case SurEste -> NorteOeste;
+            case SurOeste -> NorteEste;
+            case NorteOeste -> SurEste;
+        };
     }
 
     private static Boolean getDirection(int from, int to) {
