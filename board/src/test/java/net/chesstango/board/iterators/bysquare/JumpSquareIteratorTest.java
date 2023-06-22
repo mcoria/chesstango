@@ -13,7 +13,7 @@ import java.util.HexFormat;
  */
 public class JumpSquareIteratorTest {
 
-    @Test
+    //@Test
     public void printKnightJumpPositions(){
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
@@ -56,17 +56,17 @@ public class JumpSquareIteratorTest {
         }
     }
 
-    private final int[][] casillerosPawnWhite = {
+    private final int[][] pawnCaptureJumpsWhite = {
             {-1, -1},
             {1, -1}
     };
 
-    //@Test
+    @Test
     public void printSaltosPawnWhitePosicionesLong() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
             Square square = Square.getSquareByIdx(idx);
-            JumpSquareIterator iterator = new JumpSquareIterator(square, casillerosPawnWhite);
+            JumpSquareIterator iterator = new JumpSquareIterator(square, pawnCaptureJumpsWhite);
             long posicionesSalto = 0;
             while (iterator.hasNext()) {
                 Square salto = iterator.next();
@@ -77,7 +77,9 @@ public class JumpSquareIteratorTest {
         }
 
         for (int idx = 0; idx < 64; idx++) {
-            System.out.println(arraySaltos[idx] + "L,");
+            HexFormat hexFormat = HexFormat.of().withUpperCase();
+            System.out.println(String.format("0x%sL,", hexFormat.formatHex(longToByte(arraySaltos[idx]))));
+            //System.out.println(Long.toHexString(arraySaltos[idx]));
         }
 
     }
