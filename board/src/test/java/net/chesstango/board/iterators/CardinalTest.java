@@ -5,6 +5,8 @@ import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HexFormat;
+
 /**
  * @author Mauricio Coria
  *
@@ -37,7 +39,8 @@ public class CardinalTest {
     }
 
 
-    public void testPosicionesAlcanzadas() {
+    @Test
+    public void testReachedSquares() {
         long posiciones[] = new long[64];
         for (Square squareOrigen : Square.values()) {
             CardinalSquareIterator cardinalIterator = new CardinalSquareIterator(squareOrigen, Cardinal.NorteOeste);
@@ -50,8 +53,24 @@ public class CardinalTest {
         }
 
         for (long posicion : posiciones) {
-            System.out.println(String.format("0x%sL,", Long.toHexString(posicion)));
+            HexFormat hexFormat = HexFormat.of().withUpperCase();
+            System.out.println(String.format("0x%sL,", hexFormat.formatHex(longToByte(posicion))));
+            //System.out.println(Long.toHexString(arraySaltos[idx]));
         }
 
+    }
+
+    private byte[] longToByte(long lng) {
+        byte[] b = new byte[]{
+                (byte) (lng >> 56),
+                (byte) (lng >> 48),
+                (byte) (lng >> 40),
+                (byte) (lng >> 32),
+                (byte) (lng >> 24),
+                (byte) (lng >> 16),
+                (byte) (lng >> 8),
+                (byte) lng
+        };
+        return b;
     }
 }
