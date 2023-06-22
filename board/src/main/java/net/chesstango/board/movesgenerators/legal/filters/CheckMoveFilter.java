@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.movesgenerators.legal.filters;
 
 import net.chesstango.board.Color;
@@ -26,7 +23,6 @@ public class CheckMoveFilter implements MoveFilter {
 	protected final KingSquareImp kingCacheBoard;
 	protected final BitBoard bitBoard;
 	protected final PositionStateReader positionState;
-
 	protected final FullScanSquareCaptured fullScanSquareCapturer;
 	
 	public CheckMoveFilter(SquareBoard dummySquareBoard, KingSquareImp kingCacheBoard, BitBoard bitBoard, PositionStateReader positionState) {
@@ -59,11 +55,9 @@ public class CheckMoveFilter implements MoveFilter {
 	
 	@Override
 	public boolean filterMoveKing(MoveKing move) {
-		boolean result = false;
-		
 		move.executeMove(this.kingCacheBoard);
 
-		result = filterMove(move);
+		boolean result = filterMove(move);
 
 		move.undoMove(this.kingCacheBoard);
 		

@@ -10,7 +10,7 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-class MovePawnCaptureEnPassant implements Move {
+public class MovePawnCaptureEnPassant implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
     protected final PiecePositioned capture;
