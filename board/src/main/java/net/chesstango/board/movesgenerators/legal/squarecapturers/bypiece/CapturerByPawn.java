@@ -41,10 +41,10 @@ public class CapturerByPawn implements CapturerByPiece {
     }
 
     private Iterator<PiecePositioned> createPawnWhiteIterator(Square square) {
-        return new PawnWhiteBitIterator<PiecePositioned>(squareBoardReader, square);
+        return new PawnWhiteBitIterator<>(squareBoardReader, square);
     }
 
     private Iterator<PiecePositioned> createPawnBlackIterator(Square square) {
-        return new PawnBlackBitIterator<PiecePositioned>(squareBoardReader, square);
+        return new PawnBlackBitIterator<>(squareBoardReader, square);
     }
 }

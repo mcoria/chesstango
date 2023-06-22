@@ -3,7 +3,6 @@ package net.chesstango.board.iterators.bysquare;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.bysquare.bypiece.KingSquareIterator;
 import net.chesstango.board.iterators.bysquare.bypiece.KnightSquareIterator;
-import org.junit.jupiter.api.Test;
 
 import java.util.HexFormat;
 
@@ -14,7 +13,7 @@ import java.util.HexFormat;
 public class JumpSquareIteratorTest {
 
     //@Test
-    public void printKnightJumpPositions(){
+    public void printKnightJumpPositions() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
             Square square = Square.getSquareByIdx(idx);
@@ -61,7 +60,7 @@ public class JumpSquareIteratorTest {
             {1, -1}
     };
 
-    @Test
+    //@Test
     public void printSaltosPawnWhitePosicionesLong() {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
@@ -84,7 +83,7 @@ public class JumpSquareIteratorTest {
 
     }
 
-    private final int[][] casillerosPawnBlack = {
+    private final int[][] pawnCaptureJumpsBlack = {
             {-1, 1},
             {1, 1}
     };
@@ -94,7 +93,7 @@ public class JumpSquareIteratorTest {
         long[] arraySaltos = new long[64];
         for (int idx = 0; idx < 64; idx++) {
             Square square = Square.getSquareByIdx(idx);
-            JumpSquareIterator iterator = new JumpSquareIterator(square, casillerosPawnBlack);
+            JumpSquareIterator iterator = new JumpSquareIterator(square, pawnCaptureJumpsBlack);
             long posicionesSalto = 0;
             while (iterator.hasNext()) {
                 Square salto = iterator.next();
@@ -105,7 +104,9 @@ public class JumpSquareIteratorTest {
         }
 
         for (int idx = 0; idx < 64; idx++) {
-            System.out.println(arraySaltos[idx] + "L,");
+            HexFormat hexFormat = HexFormat.of().withUpperCase();
+            System.out.println(String.format("0x%sL,", hexFormat.formatHex(longToByte(arraySaltos[idx]))));
+            //System.out.println(Long.toHexString(arraySaltos[idx]));
         }
 
     }
