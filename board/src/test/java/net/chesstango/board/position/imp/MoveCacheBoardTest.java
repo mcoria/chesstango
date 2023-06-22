@@ -54,7 +54,7 @@ public class MoveCacheBoardTest {
 			for (Cardinal cardinal: Cardinal.values()){
 				possibleAffects |= cardinal.getSquaresInDirection(square);
 			}
-			possibleAffects |= KingBitIterator.ARRAY_SALTOS[square.toIdx()];
+			possibleAffects |= square.getKingJumps();
 			possibleAffects |= KnightBitIterator.ARRAY_SALTOS[square.toIdx()];
 			posiciones[square.toIdx()] = possibleAffects;
 		}

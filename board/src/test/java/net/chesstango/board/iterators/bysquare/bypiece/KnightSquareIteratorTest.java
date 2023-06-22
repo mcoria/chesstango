@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  *
  */
-public class KnightJumpSquareIteratorTest {
+public class KnightSquareIteratorTest {
 
 	@Test
 	public void test01() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.e5, KnightJumpSquareIterator.KNIGHT_JUMPS);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.e5, KnightSquareIterator.KNIGHT_JUMPS_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -42,7 +42,7 @@ public class KnightJumpSquareIteratorTest {
 
 	@Test
 	public void test02() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.a1, KnightJumpSquareIterator.KNIGHT_JUMPS);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.a1, KnightSquareIterator.KNIGHT_JUMPS_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -59,7 +59,7 @@ public class KnightJumpSquareIteratorTest {
 
 	@Test
 	public void test03() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KnightJumpSquareIterator.KNIGHT_JUMPS);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KnightSquareIterator.KNIGHT_JUMPS_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -75,7 +75,7 @@ public class KnightJumpSquareIteratorTest {
 
 	@Test
 	public void test04() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KnightJumpSquareIterator.KNIGHT_JUMPS);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KnightSquareIterator.KNIGHT_JUMPS_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -92,7 +92,7 @@ public class KnightJumpSquareIteratorTest {
 
 	@Test
 	public void test05() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KnightJumpSquareIterator.KNIGHT_JUMPS);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KnightSquareIterator.KNIGHT_JUMPS_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
