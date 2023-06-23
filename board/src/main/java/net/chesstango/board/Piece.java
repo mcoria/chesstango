@@ -4,28 +4,32 @@ package net.chesstango.board;
  * @author Mauricio Coria
  */
 public enum Piece {
-    PAWN_WHITE(Color.WHITE),
-    PAWN_BLACK(Color.BLACK),
+    PAWN_WHITE(Color.WHITE, 1),
+    PAWN_BLACK(Color.BLACK, 2),
 
-    KNIGHT_WHITE(Color.WHITE),
-    KNIGHT_BLACK(Color.BLACK),
+    KNIGHT_WHITE(Color.WHITE, 3),
+    KNIGHT_BLACK(Color.BLACK, 4),
 
-    BISHOP_WHITE(Color.WHITE),
-    BISHOP_BLACK(Color.BLACK),
+    BISHOP_WHITE(Color.WHITE, 5),
+    BISHOP_BLACK(Color.BLACK, 6),
 
-    ROOK_WHITE(Color.WHITE),
-    ROOK_BLACK(Color.BLACK),
+    ROOK_WHITE(Color.WHITE, 7),
+    ROOK_BLACK(Color.BLACK, 8),
 
-    QUEEN_WHITE(Color.WHITE),
-    QUEEN_BLACK(Color.BLACK),
+    QUEEN_WHITE(Color.WHITE, 9),
+    QUEEN_BLACK(Color.BLACK, 10),
 
-    KING_WHITE(Color.WHITE),
-    KING_BLACK(Color.BLACK);
+    KING_WHITE(Color.WHITE, 11),
+    KING_BLACK(Color.BLACK, 12);
 
     private final Color color;
+    private final short binaryEncodedTo;
+    private final short binaryEncodedFrom;
 
-    Piece(Color color) {
+    Piece(Color color, int binaryEncodedFrom) {
         this.color = color;
+        this.binaryEncodedFrom = (short) (binaryEncodedFrom << 8);
+        this.binaryEncodedTo = (short) binaryEncodedFrom;
     }
 
     public Color getColor() {
@@ -38,6 +42,14 @@ public enum Piece {
 
     public boolean isKing() {
         return KING_WHITE.equals(this) || KING_BLACK.equals(this);
+    }
+
+    public short getBinaryEncodedTo() {
+        return binaryEncodedTo;
+    }
+
+    public short getBinaryEncodedFrom() {
+        return binaryEncodedFrom;
     }
 
     public static Piece getKing(Color color) {

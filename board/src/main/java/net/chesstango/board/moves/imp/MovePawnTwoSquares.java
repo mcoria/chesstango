@@ -1,8 +1,9 @@
-package net.chesstango.board.moves.impl.bridge;
+package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
+import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.*;
@@ -10,17 +11,16 @@ import net.chesstango.board.position.*;
 /**
  * @author Mauricio Coria
  */
-public class MovePawnCaptureEnPassant implements Move {
+class MovePawnTwoSquares implements Move {
     protected final PiecePositioned from;
     protected final PiecePositioned to;
-    protected final PiecePositioned capture;
+    protected final Square enPassantSquare;
     protected final Cardinal direction;
 
-
-    public MovePawnCaptureEnPassant(PiecePositioned from, PiecePositioned to, Cardinal direction, PiecePositioned capture) {
+    public MovePawnTwoSquares(PiecePositioned from, PiecePositioned to, Cardinal direction, Square enPassantSquare) {
         this.from = from;
         this.to = to;
-        this.capture = capture;
+        this.enPassantSquare = enPassantSquare;
         this.direction = direction;
     }
 
@@ -37,22 +37,19 @@ public class MovePawnCaptureEnPassant implements Move {
     @Override
     public void executeMove(SquareBoardWriter squareBoard) {
         squareBoard.move(from, to);
-        squareBoard.setEmptyPosition(capture);
     }
 
     @Override
     public void undoMove(SquareBoardWriter squareBoard) {
         squareBoard.setPosition(from);
         squareBoard.setPosition(to);
-        squareBoard.setPosition(capture);
     }
 
     @Override
     public void executeMove(PositionStateWriter positionState) {
         positionState.pushState();
 
-        positionState.setEnPassantSquare(null);
-
+        positionState.setEnPassantSquare(enPassantSquare);
 
         positionState.resetHalfMoveClock();
 
@@ -71,26 +68,22 @@ public class MovePawnCaptureEnPassant implements Move {
     @Override
     public void executeMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(from.getPiece(), from.getSquare(), to.getSquare());
-
-        bitBoardWriter.removePosition(capture);
     }
 
     @Override
     public void undoMove(BitBoardWriter bitBoardWriter) {
         bitBoardWriter.swapPositions(from.getPiece(), to.getSquare(), from.getSquare());
-
-        bitBoardWriter.addPosition(capture);
     }
 
     @Override
     public void executeMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), enPassantSquare);
         moveCache.push();
     }
 
     @Override
     public void undoMove(MoveCacheBoardWriter moveCache) {
-        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), capture.getSquare());
+        moveCache.affectedPositionsByMove(from.getSquare(), to.getSquare(), enPassantSquare);
         moveCache.pop();
     }
 
@@ -100,11 +93,18 @@ public class MovePawnCaptureEnPassant implements Move {
 
         hash.xorPosition(from);
 
-        hash.xorPosition(capture);
-
         hash.xorPosition(PiecePositioned.getPiecePositioned(to.getSquare(), from.getPiece()));
 
         hash.xorOldEnPassantSquare();
+
+        if(enPassantSquare.equals(newPositionState.getEnPassantSquare())) {
+            Square leftSquare = Square.getSquare(to.getSquare().getFile() - 1, to.getSquare().getRank());
+            Square rightSquare = Square.getSquare(to.getSquare().getFile() + 1, to.getSquare().getRank());
+            if (leftSquare != null && from.getPiece().getOpposite().equals(board.getPiece(leftSquare)) ||
+                    rightSquare != null && from.getPiece().getOpposite().equals(board.getPiece(rightSquare))) {
+                hash.xorEnPassantSquare(enPassantSquare);
+            }
+        }
 
         hash.xorTurn();
     }
@@ -121,9 +121,9 @@ public class MovePawnCaptureEnPassant implements Move {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof MovePawnCaptureEnPassant){
-            MovePawnCaptureEnPassant theOther = (MovePawnCaptureEnPassant) obj;
-            return from.equals(theOther.from) &&  to.equals(to);
+        if(obj instanceof MovePawnTwoSquares){
+            MovePawnTwoSquares theOther = (MovePawnTwoSquares) obj;
+            return from.equals(theOther.from) &&  to.equals(theOther.to) && enPassantSquare.equals(theOther.enPassantSquare);
         }
         return false;
     }
@@ -132,7 +132,6 @@ public class MovePawnCaptureEnPassant implements Move {
     public String toString() {
         return String.format("%s %s - %s", from, to, getClass().getSimpleName());
     }
-
 
     private Cardinal calculateMoveDirection() {
         Piece piece = getFrom().getPiece();

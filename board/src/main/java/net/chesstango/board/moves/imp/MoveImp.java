@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.impl.bridge;
+package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;

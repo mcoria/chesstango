@@ -1,4 +1,4 @@
-package net.chesstango.board.moves.impl.bridge;
+package net.chesstango.board.moves.imp;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.PiecePositioned;
@@ -17,9 +17,9 @@ public class MoveFactoryCache implements MoveFactory {
 
     private final MoveFactory moveFactoryImp;
 
-    private final Map<Long, Move> regularMoves = new HashMap<>();
+    private final Map<Integer, Move> regularMoves = new HashMap<>();
 
-    private final Map<Long, MoveKing> movesKings = new HashMap<>();
+    private final Map<Integer, MoveKing> movesKings = new HashMap<>();
 
     public MoveFactoryCache(MoveFactory moveFactoryImp) {
         this.moveFactoryImp = moveFactoryImp;
@@ -78,12 +78,12 @@ public class MoveFactoryCache implements MoveFactory {
 
     @Override
     public MoveKing createSimpleKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return movesKings.computeIfAbsent(computeKingKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
+        return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
     }
 
     @Override
     public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return movesKings.computeIfAbsent(computeKingKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
+        return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
     }
 
     @Override
@@ -106,11 +106,9 @@ public class MoveFactoryCache implements MoveFactory {
         return moveFactoryImp.createCapturePromotionPawnMove(origen, destino, piece, cardinal);
     }
 
-    private Long computeKey(PiecePositioned origen, PiecePositioned destino) {
-        return 0L;
-    }
-
-    private Long computeKingKey(PiecePositioned origen, PiecePositioned destino) {
-        return 0L;
+    protected Integer computeKey(PiecePositioned origen, PiecePositioned destino) {
+        short squaresKey = (short) (origen.getSquare().getBinaryEncodedFrom() | destino.getSquare().getBinaryEncodedTo());
+        short pieceKey = (short) (origen.getPiece().getBinaryEncodedFrom() | (destino.getPiece() == null ? 0 : destino.getPiece().getBinaryEncodedTo()));
+        return squaresKey << 16 | pieceKey;
     }
 }

@@ -4,7 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
-import net.chesstango.board.moves.impl.bridge.MovePawnCaptureEnPassant;
+import net.chesstango.board.moves.imp.MovePawnCaptureEnPassant;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquareCaptured;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
