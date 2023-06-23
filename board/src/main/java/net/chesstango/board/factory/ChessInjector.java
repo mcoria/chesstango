@@ -2,9 +2,7 @@ package net.chesstango.board.factory;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.GameState;
-import net.chesstango.board.analyzer.CheckAnalyzer;
-import net.chesstango.board.analyzer.PinnedAnalyzer;
-import net.chesstango.board.analyzer.PositionAnalyzer;
+import net.chesstango.board.analyzer.*;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
@@ -45,7 +43,9 @@ public class ChessInjector {
 
     private PositionAnalyzer positionAnalyzer = null;
 
-    private CheckAnalyzer checkAnalyzer;
+    private CheckAnalyzer checkAnalyzer = null;
+
+    private KingSafePositionsAnalyzer kingSafePositionsAnalyzer = null;
 
     private PinnedAnalyzer pinnedAnalyzer = null;
 
@@ -161,8 +161,16 @@ public class ChessInjector {
             positionAnalyzer.setPositionReader(getChessPosition());
             positionAnalyzer.setCheckAnalyzer(getCheckAnalyzer());
             positionAnalyzer.setPinnedAnalyzer(getPinnedAnalyzer());
+            positionAnalyzer.setKingSafePositionsAnalyzer(getKingSafePositionsAnalyzer());
         }
         return positionAnalyzer;
+    }
+
+    private Analyzer getKingSafePositionsAnalyzer() {
+        if (kingSafePositionsAnalyzer == null) {
+            kingSafePositionsAnalyzer = chessFactory.createKingSafePositionsAnalyzer(getChessPosition());
+        }
+        return kingSafePositionsAnalyzer;
     }
 
     private CheckAnalyzer getCheckAnalyzer() {

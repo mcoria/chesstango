@@ -32,7 +32,7 @@ public class PinnedAnalyzer implements Analyzer {
         }
     }
 
-    private class PinnedAnalyzerByColor {
+    private class PinnedAnalyzerByColor implements Analyzer{
         private final Color color;
         private final PinnedAnalyzerRook analyzerRook;
         private final PinnedAnalyzerBishop analyzerBishop;
@@ -43,6 +43,7 @@ public class PinnedAnalyzer implements Analyzer {
             this.analyzerBishop = new PinnedAnalyzerBishop(chessPosition, color.oppositeColor());
         }
 
+        @Override
         public void analyze(AnalyzerResult result) {
             // King square under attack
             Square squareKing = positionReader.getKingSquare(color);

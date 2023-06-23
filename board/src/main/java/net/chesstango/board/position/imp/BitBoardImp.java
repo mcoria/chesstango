@@ -139,6 +139,16 @@ public class BitBoardImp implements BitBoard {
 	}
 
 	@Override
+	public long getKnightPositions() {
+		return knights;
+	}
+
+	@Override
+	public long getPawnPositions() {
+		return pawns;
+	}
+
+	@Override
 	public boolean isEmpty(Square square) {
 		return ((~(squareWhites | squareBlacks)) &  square.getBitPosition()) != 0 ;
 	}

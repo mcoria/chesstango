@@ -39,7 +39,7 @@ public class CheckAnalyzer implements Analyzer {
 	}
 
 
-	private class CheckAnalyzerByColor {
+	private class CheckAnalyzerByColor implements Analyzer{
 		private final Color color;
 		private final CapturerByPiece rookCapturer;
 		private final CapturerByPiece bishopCapturer;
@@ -55,6 +55,7 @@ public class CheckAnalyzer implements Analyzer {
 			this.pawnCapturer = new CapturerByPawn(positionReader, color.oppositeColor());
 		}
 
+		@Override
 		public void analyze(AnalyzerResult result) {
 			// King square under attack
 			Square squareKing = positionReader.getKingSquare(color);

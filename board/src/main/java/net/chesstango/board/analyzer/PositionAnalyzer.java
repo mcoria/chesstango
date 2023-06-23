@@ -24,6 +24,7 @@ public class PositionAnalyzer {
     private Analyzer checkAnalyzer;
     private Analyzer capturedPositionsAnalyzer;
     private Analyzer pinnedAnalyzer;
+    private Analyzer kingSafePositionsAnalyzer;
     private GameState gameState;
     private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
@@ -92,6 +93,8 @@ public class PositionAnalyzer {
 
         pinnedAnalyzer.analyze(result);
 
+        kingSafePositionsAnalyzer.analyze(result);
+
         //capturedPositionsAnalyzer.analyze(result);
 
         return result;
@@ -116,11 +119,16 @@ public class PositionAnalyzer {
     public void setCheckAnalyzer(CheckAnalyzer checkAnalyzer) {
         this.checkAnalyzer = checkAnalyzer;
     }
+
     public void setCapturedPositionsAnalyzer(Analyzer capturedPositionsAnalyzer) {
         this.capturedPositionsAnalyzer = capturedPositionsAnalyzer;
     }
 
     public void setPinnedAnalyzer(Analyzer pinnedAnalyzer) {
         this.pinnedAnalyzer = pinnedAnalyzer;
+    }
+
+    public void setKingSafePositionsAnalyzer(Analyzer kingSafePositionsAnalyzer) {
+        this.kingSafePositionsAnalyzer = kingSafePositionsAnalyzer;
     }
 }

@@ -14,6 +14,7 @@ public class AnalyzerResult {
 	private boolean isKingInCheck;
 	private long pinnedSquares;
 	private long capturedPositions;
+	private long safeKingPositions;
 
 	private List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals;
 
@@ -47,5 +48,13 @@ public class AnalyzerResult {
 
 	public long getCapturedPositions() {
 		return capturedPositions;
+	}
+
+	public long getSafeKingPositions() {
+		return safeKingPositions;
+	}
+
+	public void setSafeKingPositions(long safeKingPositions) {
+		this.safeKingPositions = safeKingPositions;
 	}
 }

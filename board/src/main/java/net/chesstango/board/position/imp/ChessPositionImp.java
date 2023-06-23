@@ -203,6 +203,16 @@ public class ChessPositionImp implements ChessPosition {
 	}
 
 	@Override
+	public long getKnightPositions() {
+		return bitBoard.getKnightPositions();
+	}
+
+	@Override
+	public long getPawnPositions() {
+		return bitBoard.getPawnPositions();
+	}
+
+	@Override
 	public Iterator<PiecePositioned> iteratorAllPieces(){
 		return squareBoard.iterator(bitBoard.getAllPositions());
 	}

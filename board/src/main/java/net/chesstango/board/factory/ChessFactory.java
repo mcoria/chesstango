@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.GameImp;
 import net.chesstango.board.GameState;
 import net.chesstango.board.analyzer.CheckAnalyzer;
+import net.chesstango.board.analyzer.KingSafePositionsAnalyzer;
 import net.chesstango.board.analyzer.PinnedAnalyzer;
 import net.chesstango.board.analyzer.PositionAnalyzer;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
@@ -110,8 +111,11 @@ public class ChessFactory {
 		return new PinnedAnalyzer(chessPosition);
 	}
 
-    public ZobristHash createZobristHash() {
-		return new ZobristHashImp();
-    }
+	public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
+		return new KingSafePositionsAnalyzer(positionReader);
+	}
 
+	public ZobristHash createZobristHash() {
+		return new ZobristHashImp();
+	}
 }

@@ -23,6 +23,10 @@ public interface BitBoardReader {
 
     long getQueenPositions();
 
+    long getKnightPositions();
+
+    long getPawnPositions();
+
     boolean isEmpty(Square square);
 
     Color getColor(Square square);
