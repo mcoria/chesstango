@@ -72,15 +72,10 @@ public interface Move extends Comparable<Move> {
      */
     default short binaryEncoding() {
         Square fromSquare = getFrom().getSquare();
+
         Square toSquare = getTo().getSquare();
 
-        int toFile = toSquare.getFile();
-        int toRow = toSquare.getRank() << 3;
-
-        int fromFile = fromSquare.getFile() << 6;
-        int fromRow = fromSquare.getRank() << 9;
-
-        return (short) (fromRow | fromFile | toRow | toFile);
+        return (short) (fromSquare.getBinaryEncodedFrom() | toSquare.getBinaryEncodedTo());
     }
 
     Cardinal getMoveDirection();

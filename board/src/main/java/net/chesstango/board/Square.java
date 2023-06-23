@@ -20,6 +20,9 @@ public enum Square {
     private final String fileChar;
     private final String rankChar;
 
+    private final short binaryEncodedTo;
+    private final short binaryEncodedFrom;
+
     Square(int file, int rank) {
         this.file = file;
         this.rank = rank;
@@ -48,6 +51,9 @@ public enum Square {
             case 7 -> "8";
             default -> throw new IllegalStateException("Unexpected value: " + file);
         };
+
+        this.binaryEncodedTo = (short) (file | (rank << 3));
+        this.binaryEncodedFrom = (short) ((file << 6 )| (rank << 9));
     }
 
     public int getRank() {
@@ -92,6 +98,14 @@ public enum Square {
 
     public Square getMirrorSquare() {
         return getSquare(file, 7 - rank);
+    }
+
+    public short getBinaryEncodedTo() {
+        return binaryEncodedTo;
+    }
+
+    public short getBinaryEncodedFrom() {
+        return binaryEncodedFrom;
     }
 
     @Override
