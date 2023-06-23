@@ -47,11 +47,11 @@ public class QueenMoveGeneratorTest {
 	@Test
 	public void testGetPseudoMoves() {
 		SquareBoard tablero =  getTablero("8/8/8/4Q3/8/8/8/8");
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
 		bitBoard.init(tablero);
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 
 		Square from = Square.e5;
 		assertEquals(Piece.QUEEN_WHITE, tablero.getPiece(from));

@@ -60,7 +60,7 @@ public class KingBlackMoveGeneratorTest {
 		moveGenerator.setMoveFactory(moveFactoryImp);
 		
 		bitBoard = new BitBoardDebug();
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 		
 		kingSquare = new KingSquareImp();
 		moveGenerator.setKingCacheBoard(kingSquare);
@@ -199,11 +199,11 @@ public class KingBlackMoveGeneratorTest {
 		
 		state.setCastlingBlackKingAllowed(true);
 		
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		BitBoardImp colorBoard = new BitBoardDebug();
 		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		moveGenerator.setBitBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPiece(PiecePositioned.KING_BLACK.getSquare()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.h8));
@@ -246,11 +246,11 @@ public class KingBlackMoveGeneratorTest {
 		
 		state.setCastlingBlackKingAllowed(true);
 
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		BitBoardImp colorBoard = new BitBoardDebug();
 		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		moveGenerator.setBitBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPiece(PiecePositioned.KING_BLACK.getSquare()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.h8));
@@ -295,11 +295,11 @@ public class KingBlackMoveGeneratorTest {
 		
 		state.setCastlingBlackKingAllowed(true);
 		
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		BitBoardImp colorBoard = new BitBoardDebug();
 		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		moveGenerator.setBitBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPiece(PiecePositioned.KING_BLACK.getSquare()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.h8));
@@ -345,11 +345,11 @@ public class KingBlackMoveGeneratorTest {
 		state.setCastlingBlackKingAllowed(true);
 		state.setCastlingBlackQueenAllowed(true);
 		
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		BitBoardImp colorBoard = new BitBoardDebug();
 		colorBoard.init(tablero);
-		moveGenerator.setColorBoard(colorBoard);
+		moveGenerator.setBitBoard(colorBoard);
 		
 		assertEquals(Piece.KING_BLACK, tablero.getPiece(PiecePositioned.KING_BLACK.getSquare()));
 		assertEquals(Piece.ROOK_BLACK, tablero.getPiece(Square.a8));
@@ -434,7 +434,7 @@ public class KingBlackMoveGeneratorTest {
 		bitBoard.init(tablero);
 		kingSquare.init(tablero);
 		
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		return tablero;
 	}	
