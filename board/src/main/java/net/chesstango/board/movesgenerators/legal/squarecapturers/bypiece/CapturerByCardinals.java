@@ -1,43 +1,35 @@
 package net.chesstango.board.movesgenerators.legal.squarecapturers.bypiece;
 
 import net.chesstango.board.Color;
-import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
-import net.chesstango.board.position.BitBoard;
 import net.chesstango.board.position.BitBoardReader;
 import net.chesstango.board.position.SquareBoardReader;
-
-import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
  */
 public abstract class CapturerByCardinals implements CapturerByPiece {
+
     protected final SquareBoardReader squareBoardReader;
     protected final BitBoardReader bitBoardReader;
-    protected final Piece bishopOrRook;
-    protected final Piece queen;
     protected final Cardinal[] cardinals;
+
     protected final Color color;
 
-    protected abstract boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal);
+    protected abstract long getCardinalThreats();
 
-    public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
+    public CapturerByCardinals(SquareBoardReader squareBoardReader, BitBoardReader bitBoardReader, Color color, Cardinal[] cardinals) {
         this.squareBoardReader = squareBoardReader;
         this.bitBoardReader = bitBoardReader;
         this.cardinals = cardinals;
-        this.bishopOrRook = bishopOrRook;
-        this.queen = Piece.getQueen(color);
         this.color = color;
     }
 
     @Override
-    public boolean positionCaptured(Square square) {
+    public boolean positionCaptured(Square square, long possibleThreats) {
         for (Cardinal cardinal : cardinals) {
-            if ( thereIsCapturerInCardinalDirection(square, cardinal) && positionCapturedByCardinal(square, cardinal)) {
+            if (positionCapturedByCardinal(square, cardinal, possibleThreats)) {
                 return true;
             }
         }
@@ -45,21 +37,36 @@ public abstract class CapturerByCardinals implements CapturerByPiece {
     }
 
 
-    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal) {
-        Iterator<PiecePositioned> iterator = squareBoardReader.iterator(new CardinalSquareIterator(square, cardinal));
-        while (iterator.hasNext()) {
-            PiecePositioned destino = iterator.next();
-            Piece piece = destino.getPiece();
-            if (piece == null) {
-                continue;
-            } else if (queen.equals(piece)) {
-                return true;
-            } else if (bishopOrRook.equals(piece)) {
-                return true;
-            } else {
-                break;
+    private boolean positionCapturedByCardinal(Square square, Cardinal cardinal, long possibleThreats) {
+        long cardinalThreats = getCardinalThreats();
+
+        long squaresToThreat = cardinal.getSquaresInDirection(square);
+
+        long possibleThreatsInCardinalDirection = possibleThreats & cardinalThreats & squaresToThreat;
+
+        if(possibleThreatsInCardinalDirection != 0) {
+            while (possibleThreatsInCardinalDirection != 0) {
+                long posicionLng = Long.lowestOneBit(possibleThreatsInCardinalDirection);
+
+                Square threat = Square.getSquareByIdx(Long.numberOfTrailingZeros(posicionLng));
+
+                long squaresFromThreat = cardinal.getOpposite().getSquaresInDirection(threat);
+
+                long betweenSquares = squaresToThreat & squaresFromThreat;
+
+                if (betweenSquares == 0) {
+                    return true;
+                } else {
+                    long intersection = betweenSquares & bitBoardReader.getEmptyPositions();
+                    if (intersection == betweenSquares) {
+                        return true;
+                    }
+                }
+
+                possibleThreatsInCardinalDirection &= ~posicionLng;
             }
         }
+
         return false;
     }
 }

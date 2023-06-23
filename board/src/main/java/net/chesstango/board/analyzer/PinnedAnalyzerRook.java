@@ -11,17 +11,15 @@ import net.chesstango.board.position.ChessPositionReader;
  * @author Mauricio Coria
  *
  */
-class CheckAndPinnedAnalyzerRook extends CheckAndPinnedAnalyzerCardinal {
+class PinnedAnalyzerRook extends PinnedAnalyzerCardinal {
 
-    CheckAndPinnedAnalyzerRook(ChessPositionReader positionReader, Color color) {
+    PinnedAnalyzerRook(ChessPositionReader positionReader, Color color) {
         super(positionReader, color, RookMoveGenerator.ROOK_CARDINAL, Piece.getRook(color));
     }
 
     @Override
-    protected boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal) {
-        long result =  (cardinal.getPosiciones(square) & positionReader.getPositions(color)) &
+    protected long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal) {
+        return (cardinal.getSquaresInDirection(square) & positionReader.getPositions(color)) &
                 ( positionReader.getRookPositions() | positionReader.getQueenPositions() );
-
-        return result != 0  ;
     }
 }

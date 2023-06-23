@@ -9,4 +9,6 @@ import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
  */
 public interface MoveCacheBoardReader {
     MoveGeneratorResult getPseudoMovesResult(Square key);
+
+    long getPseudoMovesPositions();
 }

@@ -15,11 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  *
  */
-public class KingJumpSquareIteratorTest {
+public class KingSquareIteratorTest {
 
 	@Test
 	public void test01() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.e5, KingJumpSquareIterator.SALTOS_KING);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.e5, KingSquareIterator.KING_JUMP_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -42,7 +42,7 @@ public class KingJumpSquareIteratorTest {
 
 	@Test
 	public void test02() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.a1, KingJumpSquareIterator.SALTOS_KING);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.a1, KingSquareIterator.KING_JUMP_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -60,7 +60,7 @@ public class KingJumpSquareIteratorTest {
 	
 	@Test
 	public void test03() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KingJumpSquareIterator.SALTOS_KING);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.h1, KingSquareIterator.KING_JUMP_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -78,7 +78,7 @@ public class KingJumpSquareIteratorTest {
 	
 	@Test
 	public void test04() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KingJumpSquareIterator.SALTOS_KING);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.a8, KingSquareIterator.KING_JUMP_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {
@@ -96,7 +96,7 @@ public class KingJumpSquareIteratorTest {
 	
 	@Test
 	public void test05() {
-		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KingJumpSquareIterator.SALTOS_KING);
+		JumpSquareIterator iterator = new JumpSquareIterator(Square.h8, KingSquareIterator.KING_JUMP_OFFSETS);
 		Set<Square> squares = new HashSet<Square>();
 
 		while (iterator.hasNext()) {

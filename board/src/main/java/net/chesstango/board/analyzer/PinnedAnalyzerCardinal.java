@@ -14,9 +14,8 @@ import java.util.List;
 
 /**
  * @author Mauricio Coria
- *
  */
-abstract class CheckAndPinnedAnalyzerCardinal {
+abstract class PinnedAnalyzerCardinal {
     protected final ChessPositionReader positionReader;
 
     protected final Color color;
@@ -24,11 +23,9 @@ abstract class CheckAndPinnedAnalyzerCardinal {
     protected final Piece bishopOrRook;
     protected final Cardinal[] cardinals;
 
-    protected long pinnedPositions = 0;
+    protected abstract long getPossibleCapturerInCardinalDirection(Square square, Cardinal cardinal);
 
-    protected abstract boolean thereIsCapturerInCardinalDirection(Square square, Cardinal cardinal);
-
-    CheckAndPinnedAnalyzerCardinal(ChessPositionReader positionReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
+    PinnedAnalyzerCardinal(ChessPositionReader positionReader, Color color, Cardinal[] cardinals, Piece bishopOrRook) {
         this.positionReader = positionReader;
         this.color = color;
         this.queen = Piece.getQueen(color);
@@ -36,17 +33,20 @@ abstract class CheckAndPinnedAnalyzerCardinal {
         this.cardinals = cardinals;
     }
 
-    public boolean positionCaptured(Square squareKingOpponent, List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals) {
-        pinnedPositions = 0;
+    public void pinnedSquares(Square squareKing, AnalyzerResult result) {
+        List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals = result.getPinnedPositionCardinals();
+        long pinnedPositions = result.getPinnedSquares();
+
         for (Cardinal cardinal : cardinals) {
-            if(thereIsCapturerInCardinalDirection(squareKingOpponent, cardinal) && positionCapturedByDirection(squareKingOpponent, cardinal, pinnedPositionCardinals)){
-                return true;
+            if (getPossibleCapturerInCardinalDirection(squareKing, cardinal) != 0) {
+                pinnedPositions |= pinnedSquaresByDirection(squareKing, cardinal, pinnedPositionCardinals);
             }
         }
-        return false;
+
+        result.setPinnedSquares(pinnedPositions);
     }
 
-    private boolean positionCapturedByDirection(Square squareKingOpponent, Cardinal cardinal, List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals) {
+    protected long pinnedSquaresByDirection(Square squareKingOpponent, Cardinal cardinal, List<AbstractMap.SimpleImmutableEntry<PiecePositioned, Cardinal>> pinnedPositionCardinals) {
         PiecePositioned possiblePinned = null;
 
         Iterator<PiecePositioned> iterator = positionReader.iterator(new CardinalSquareIterator(squareKingOpponent, cardinal));
@@ -56,27 +56,22 @@ abstract class CheckAndPinnedAnalyzerCardinal {
             Piece piece = destino.getPiece();
 
             if (piece != null) {
-                if (possiblePinned == null){
-                    if(color.equals(piece.getColor())){
-                        if(queen.equals(piece) || bishopOrRook.equals(piece)){
-                            return true;
-                        } else {
-                            return false;
-                        }
+                if (possiblePinned == null) {
+                    if (color.equals(piece.getColor())) {
+                        return 0;
                     } else {
                         possiblePinned = destino;
                     }
-
                 } else {
                     if (queen.equals(piece) || bishopOrRook.equals(piece)) {
                         // Confirmado, tenemos pinned
-                        pinnedPositions |= possiblePinned.getSquare().getBitPosition();
                         pinnedPositionCardinals.add(new AbstractMap.SimpleImmutableEntry<>(possiblePinned, cardinal));
+                        return possiblePinned.getSquare().getBitPosition();
                     }
-                    return false;
+                    return 0;
                 }
             }
         }
-        return false;
+        return 0;
     }
 }

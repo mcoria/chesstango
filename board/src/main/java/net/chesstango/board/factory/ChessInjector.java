@@ -2,8 +2,7 @@ package net.chesstango.board.factory;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.GameState;
-import net.chesstango.board.analyzer.CheckAndPinnedAnalyzer;
-import net.chesstango.board.analyzer.PositionAnalyzer;
+import net.chesstango.board.analyzer.*;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.imp.LegalMoveGeneratorImp;
@@ -44,7 +43,11 @@ public class ChessInjector {
 
     private PositionAnalyzer positionAnalyzer = null;
 
-    private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
+    private CheckAnalyzer checkAnalyzer = null;
+
+    private KingSafePositionsAnalyzer kingSafePositionsAnalyzer = null;
+
+    private PinnedAnalyzer pinnedAnalyzer = null;
 
     private LegalMoveGenerator defaultMoveCalculator = null;
 
@@ -155,19 +158,34 @@ public class ChessInjector {
             positionAnalyzer = chessFactory.createPositionAnalyzer();
             positionAnalyzer.setLegalMoveGenerator(getLegalMoveGenerator());
             positionAnalyzer.setGameState(getGameState());
-            positionAnalyzer.setCheckAndPinnedAnalyzer(getCheckAndPinnedAnalyzer());
             positionAnalyzer.setPositionReader(getChessPosition());
+            positionAnalyzer.setCheckAnalyzer(getCheckAnalyzer());
+            positionAnalyzer.setPinnedAnalyzer(getPinnedAnalyzer());
+            positionAnalyzer.setKingSafePositionsAnalyzer(getKingSafePositionsAnalyzer());
         }
         return positionAnalyzer;
     }
 
-    private CheckAndPinnedAnalyzer getCheckAndPinnedAnalyzer() {
-        if (checkAndPinnedAnalyzer == null) {
-            checkAndPinnedAnalyzer = chessFactory.createCheckAndPinnedAnalyzer(getChessPosition());
+    private Analyzer getKingSafePositionsAnalyzer() {
+        if (kingSafePositionsAnalyzer == null) {
+            kingSafePositionsAnalyzer = chessFactory.createKingSafePositionsAnalyzer(getChessPosition());
         }
-        return checkAndPinnedAnalyzer;
+        return kingSafePositionsAnalyzer;
     }
 
+    private CheckAnalyzer getCheckAnalyzer() {
+        if (checkAnalyzer == null) {
+            checkAnalyzer = chessFactory.createCheckAnalyzer(getChessPosition(), getMoveCacheBoard());
+        }
+        return checkAnalyzer;
+    }
+
+    private PinnedAnalyzer getPinnedAnalyzer() {
+        if (pinnedAnalyzer == null) {
+            pinnedAnalyzer = chessFactory.createPinnedAnalyzer(getChessPosition());
+        }
+        return pinnedAnalyzer;
+    }
 
     private LegalMoveGenerator getLegalMoveGenerator() {
         if (this.legalMoveGenerator == null) {

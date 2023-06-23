@@ -1,27 +1,27 @@
 package net.chesstango.board.analyzer;
 
-import net.chesstango.board.GameState;
-import net.chesstango.board.GameStateReader;
-import net.chesstango.board.GameStatus;
-import net.chesstango.board.GameVisitor;
+import net.chesstango.board.*;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.movesgenerators.legal.LegalMoveGenerator;
 import net.chesstango.board.position.ChessPositionReader;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-/*
- * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
- */
-
-//TODO: La generacion de movimientos dummy debiera ser en base al layer de color. 
-//      Me imagino un tablero con X y O para representar los distintos colores.
-
 /**
- * @author Mauricio Coria
+ *  @author Mauricio Coria
+ *
+ * Necesitamos los estadios para seleccionar el LegalMoveGenerator que corresponde
+ *
+ * TODO: La generacion de movimientos dummy debiera ser en base al layer de color.
+ * Me imagino un tablero con X y O para representar los distintos colores.
+ *
+ *
  */
 public class PositionAnalyzer {
-    private CheckAndPinnedAnalyzer checkAndPinnedAnalyzer;
+    private Analyzer checkAnalyzer;
+    private Analyzer capturedPositionsAnalyzer;
+    private Analyzer pinnedAnalyzer;
+    private Analyzer kingSafePositionsAnalyzer;
     private GameState gameState;
     private ChessPositionReader positionReader;
     private LegalMoveGenerator legalMoveGenerator;
@@ -86,15 +86,19 @@ public class PositionAnalyzer {
 
         AnalyzerResult result = new AnalyzerResult();
 
-        checkAndPinnedAnalyzer.analyze();
+        //checkAnalyzer.analyze(result);
 
-        result.setKingInCheck(checkAndPinnedAnalyzer.isKingInCheck());
+        pinnedAnalyzer.analyze(result);
 
-        result.setPinnedSquares(checkAndPinnedAnalyzer.getPinnedPositions());
+        kingSafePositionsAnalyzer.analyze(result);
 
-        result.setPinnedPositionCardinals(checkAndPinnedAnalyzer.getPinnedPositionCardinals());
+        //capturedPositionsAnalyzer.analyze(result);
 
         return result;
+    }
+
+    public void detectRepetitions(boolean flag) {
+        this.detectRepetitions = flag;
     }
 
     public void setGameState(GameState gameState) {
@@ -105,16 +109,23 @@ public class PositionAnalyzer {
         this.legalMoveGenerator = legalMoveGenerator;
     }
 
-    public void setCheckAndPinnedAnalyzer(CheckAndPinnedAnalyzer checkAndPinnedAnalyzer) {
-        this.checkAndPinnedAnalyzer = checkAndPinnedAnalyzer;
-    }
-
     public void setPositionReader(ChessPositionReader positionReader) {
         this.positionReader = positionReader;
     }
 
-    public void detectRepetitions(boolean flag) {
-        this.detectRepetitions = flag;
+    public void setCheckAnalyzer(CheckAnalyzer checkAnalyzer) {
+        this.checkAnalyzer = checkAnalyzer;
     }
 
+    public void setCapturedPositionsAnalyzer(Analyzer capturedPositionsAnalyzer) {
+        this.capturedPositionsAnalyzer = capturedPositionsAnalyzer;
+    }
+
+    public void setPinnedAnalyzer(Analyzer pinnedAnalyzer) {
+        this.pinnedAnalyzer = pinnedAnalyzer;
+    }
+
+    public void setKingSafePositionsAnalyzer(Analyzer kingSafePositionsAnalyzer) {
+        this.kingSafePositionsAnalyzer = kingSafePositionsAnalyzer;
+    }
 }

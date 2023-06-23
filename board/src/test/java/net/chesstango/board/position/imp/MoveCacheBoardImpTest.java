@@ -9,8 +9,6 @@ import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.debug.chess.MoveCacheBoardDebug;
 import net.chesstango.board.factory.SingletonMoveFactories;
 import net.chesstango.board.iterators.Cardinal;
-import net.chesstango.board.iterators.byposition.bypiece.KingBitIterator;
-import net.chesstango.board.iterators.byposition.bypiece.KnightBitIterator;
 import net.chesstango.board.moves.MoveFactory;
 import net.chesstango.board.movesgenerators.pseudo.MoveGeneratorResult;
 import net.chesstango.board.position.MoveCacheBoard;
@@ -23,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Mauricio Coria
  *
  */
-public class MoveCacheBoardTest {
+public class MoveCacheBoardImpTest {
 
 	private MoveCacheBoard cache;
 
@@ -47,15 +45,15 @@ public class MoveCacheBoardTest {
 
 
 	//Test
-	public void createPositionArray(){
+	public void possibleAffectedPseudoMovesPositions(){
 		long posiciones[] = new long[64];
 		for (Square square: Square.values()) {
 			long possibleAffects = 0;
 			for (Cardinal cardinal: Cardinal.values()){
-				possibleAffects |= cardinal.getPosiciones(square);
+				possibleAffects |= cardinal.getSquaresInDirection(square);
 			}
-			possibleAffects |= KingBitIterator.ARRAY_SALTOS[square.toIdx()];
-			possibleAffects |= KnightBitIterator.ARRAY_SALTOS[square.toIdx()];
+			possibleAffects |= square.getKingJumps();
+			possibleAffects |= square.getKnightJumps();
 			posiciones[square.toIdx()] = possibleAffects;
 		}
 

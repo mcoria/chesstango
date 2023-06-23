@@ -42,25 +42,6 @@ public abstract class AbstractLegalMoveGenerator implements LegalMoveGenerator {
 		return getPseudoMoves(positionReader.getPosition(origenSquare));
 	}
 
-	//TODO: este metodo no tien buena performance
-	protected long getCapturedPositionsOponente(){
-		final Color turnoActual = this.positionReader.getCurrentTurn();
-
-		long posicionesCapturadas = 0;
-		
-		for (SquareIterator iterator = positionReader.iteratorSquare( turnoActual.oppositeColor() ); iterator.hasNext();) {
-
-			Square origenSquare = iterator.next();
-
-			MoveGeneratorResult generatorResult = pseudoMovesGenerator.generatePseudoMoves(positionReader.getPosition(origenSquare));
-			
-			posicionesCapturadas |= generatorResult.getCapturedPositions();
-
-		}
-
-		return posicionesCapturadas;		
-	}
-
 	protected void getEnPassantMoves(MoveContainer moves) {
 		final MovePair pseudoMoves = pseudoMovesGenerator.generateEnPassantPseudoMoves();
 		filterMoveCollection(pseudoMoves, moves);

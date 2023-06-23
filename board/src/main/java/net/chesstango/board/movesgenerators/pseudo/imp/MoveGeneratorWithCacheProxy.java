@@ -16,9 +16,9 @@ import net.chesstango.board.position.MoveCacheBoard;
  */
 public class MoveGeneratorWithCacheProxy implements MoveGenerator {
 
-	protected MoveGenerator moveGenerator = null;
+	protected final MoveGenerator moveGenerator;
 	
-	protected MoveCacheBoard moveCache = null;
+	protected final MoveCacheBoard moveCache;
 	
 
 	public MoveGeneratorWithCacheProxy(MoveGenerator implementation, MoveCacheBoard moveCache) {
@@ -47,10 +47,11 @@ public class MoveGeneratorWithCacheProxy implements MoveGenerator {
 	public MovePair generateEnPassantPseudoMoves() {
 		return moveGenerator.generateEnPassantPseudoMoves();
 	}
-	
+
+
+	// TODO: Investigar por que no pueden entrar en cache estos movimientos
 	@Override
 	public MovePair generateCastlingPseudoMoves() {
 		return moveGenerator.generateCastlingPseudoMoves();
-	}	
-
+	}
 }

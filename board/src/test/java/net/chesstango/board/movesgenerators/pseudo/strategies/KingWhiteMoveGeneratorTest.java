@@ -57,7 +57,7 @@ public class KingWhiteMoveGeneratorTest {
 		moveGenerator.setMoveFactory(moveFactoryImp);
 		
 		bitBoard = new BitBoardDebug();
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 		
 		kingSquare = new KingSquareImp();
 		moveGenerator.setKingCacheBoard(kingSquare);
@@ -121,7 +121,7 @@ public class KingWhiteMoveGeneratorTest {
 		
 		state.setCastlingWhiteQueenAllowed(true);
 		
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		assertEquals(Piece.KING_WHITE, tablero.getPiece(PiecePositioned.KING_WHITE.getSquare()));
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(Square.a1));
@@ -523,7 +523,7 @@ public class KingWhiteMoveGeneratorTest {
 		bitBoard.init(tablero);
 		kingSquare.init(tablero);
 		
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 		
 		return tablero;
 	}

@@ -114,6 +114,16 @@ public class BitBoardImp implements BitBoard {
 	}
 
 	@Override
+	public long getAllPositions() {
+		return squareWhites | squareBlacks;
+	}
+
+	@Override
+	public long getEmptyPositions() {
+		return ~(squareWhites | squareBlacks);
+	}
+
+	@Override
 	public long getBishopPositions() {
 		return bishops;
 	}
@@ -126,6 +136,16 @@ public class BitBoardImp implements BitBoard {
 	@Override
 	public long getQueenPositions() {
 		return queens;
+	}
+
+	@Override
+	public long getKnightPositions() {
+		return knights;
+	}
+
+	@Override
+	public long getPawnPositions() {
+		return pawns;
 	}
 
 	@Override

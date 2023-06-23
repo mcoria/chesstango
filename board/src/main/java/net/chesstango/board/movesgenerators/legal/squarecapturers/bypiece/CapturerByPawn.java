@@ -29,7 +29,7 @@ public class CapturerByPawn implements CapturerByPiece {
     }
 
     @Override
-    public boolean positionCaptured(Square square) {
+    public boolean positionCaptured(Square square, long possibleThreats) {
         Iterator<PiecePositioned> iterator = createPawnJumpsIterator.apply(square);
         while (iterator.hasNext()) {
             PiecePositioned destino = iterator.next();
@@ -41,10 +41,10 @@ public class CapturerByPawn implements CapturerByPiece {
     }
 
     private Iterator<PiecePositioned> createPawnWhiteIterator(Square square) {
-        return new PawnWhiteBitIterator<PiecePositioned>(squareBoardReader, square);
+        return new PawnWhiteBitIterator<>(squareBoardReader, square);
     }
 
     private Iterator<PiecePositioned> createPawnBlackIterator(Square square) {
-        return new PawnBlackBitIterator<PiecePositioned>(squareBoardReader, square);
+        return new PawnBlackBitIterator<>(squareBoardReader, square);
     }
 }

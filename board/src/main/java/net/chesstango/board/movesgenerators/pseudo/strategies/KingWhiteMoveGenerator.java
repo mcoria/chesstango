@@ -27,6 +27,7 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 	
 	@Override
 	public MovePair generateCastlingPseudoMoves() {
+		//TODO: al dope creamos este objeto
 		MovePair moveContainer = new MovePair();
 		if (this.positionState.isCastlingWhiteQueenAllowed()){
 			if(puedeEnroqueQueen(	kingSquare.getKingSquareWhite(),
@@ -49,6 +50,7 @@ public class KingWhiteMoveGenerator extends AbstractKingMoveGenerator {
 				moveContainer.setSecond(moveFactory.createCastlingKingMove());
 			}
 		}
+
 		return moveContainer;
 	}		
 

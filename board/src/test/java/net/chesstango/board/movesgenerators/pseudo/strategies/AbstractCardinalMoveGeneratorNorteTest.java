@@ -60,11 +60,11 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 	@Test
 	public void testNorte() {
 		SquareBoard tablero =  getTablero("8/8/8/4R3/8/8/8/8");
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
 		bitBoard.init(tablero);
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -85,11 +85,11 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 	@Test
 	public void testNorte01() {
 		SquareBoard tablero =  getTablero("4B3/8/8/4R3/8/8/8/8");
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
 		bitBoard.init(tablero);
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));
@@ -110,11 +110,11 @@ public class AbstractCardinalMoveGeneratorNorteTest {
 	@Test
 	public void testNorte02() {
 		SquareBoard tablero =  getTablero("4b3/8/8/4R3/8/8/8/8");
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
 		bitBoard.init(tablero);
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.ROOK_WHITE, tablero.getPiece(from));

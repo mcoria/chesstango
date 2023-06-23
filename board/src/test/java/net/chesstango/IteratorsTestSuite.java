@@ -1,8 +1,8 @@
 package net.chesstango;
 
 import net.chesstango.board.iterators.bysquare.*;
-import net.chesstango.board.iterators.bysquare.bypiece.KingJumpSquareIteratorTest;
-import net.chesstango.board.iterators.bysquare.bypiece.KnightJumpSquareIteratorTest;
+import net.chesstango.board.iterators.bysquare.bypiece.KingSquareIteratorTest;
+import net.chesstango.board.iterators.bysquare.bypiece.KnightSquareIteratorTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -13,7 +13,7 @@ import org.junit.platform.suite.api.Suite;
 @Suite
 @SelectClasses({ TopDownSquareIteratorTest.class, BitSquareIteratorTest.class, TopDownSquareIteratorTest.class,
 		BottomUpSquareIteratorTest.class, CardinalSquareIterator01Test.class, CardinalSquareIterator02Test.class,
-		KingJumpSquareIteratorTest.class, KnightJumpSquareIteratorTest.class})
+		KingSquareIteratorTest.class, KnightSquareIteratorTest.class})
 public class IteratorsTestSuite {
 
 }

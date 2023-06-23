@@ -15,14 +15,28 @@ public class MoveGeneratorResult {
 
 	private final MoveList pseudoMoves;
 
-	private long affectedByContainer;
+	private long affectedByPositions;
 	
 	private long capturedPositions;
 
 	public MoveGeneratorResult(PiecePositioned from) {
 		this.pseudoMoves = new MoveList();
 		this.from = from;
-		this.affectedByContainer = from.getSquare().getBitPosition();
+		this.affectedByPositions = from.getSquare().getBitPosition();
+	}
+
+	public void setAffectedByPositions(long affectedByPositions) {
+		this.affectedByPositions = affectedByPositions;
+	}
+
+	public long getAffectedByPositions() {
+		return affectedByPositions;
+	}
+	public void setCapturedPositions(long capturedPositions) {
+		this.capturedPositions = capturedPositions;
+	}
+	public long getCapturedPositions() {
+		return capturedPositions;
 	}
 
 	public MoveGeneratorResult addPseudoMove(Move move) {
@@ -35,19 +49,13 @@ public class MoveGeneratorResult {
 	}
 
 	public MoveGeneratorResult addAffectedByPositions(Square key) {
-		affectedByContainer |= key.getBitPosition();
+		affectedByPositions |= key.getBitPosition();
 		return this;
-	}
-	public long getAffectedByPositions() {
-		return affectedByContainer;
 	}
 
 	public MoveGeneratorResult addCapturedPositions(Square key) {
 		capturedPositions |= key.getBitPosition();
 		return this;
-	}
-	public long getCapturedPositions() {
-		return capturedPositions;
 	}
 
 	public PiecePositioned getFrom() {

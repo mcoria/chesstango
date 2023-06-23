@@ -33,11 +33,11 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
-			if (torre.getPiece().equals(board.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
+			if (torre.getPiece().equals(squareBoard.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
-                return board.isEmpty(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
-                        && board.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
-                        && board.isEmpty(casilleroIntermedioKing);
+                return squareBoard.isEmpty(casilleroIntermedioRook)                                                    //El casillero intermedio ROOK esta vacio
+                        && squareBoard.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && squareBoard.isEmpty(casilleroIntermedioKing);
 			}
 		}
 		return false;
@@ -50,10 +50,10 @@ public abstract class AbstractKingMoveGenerator extends AbstractJumpMoveGenerato
 			final Square casilleroDestinoKing, 
 			final Square casilleroIntermedioKing) {
 		if ( king.getSquare().equals(origen) ) {           																//El king se encuentra en su lugar
-			if (torre.getPiece().equals(board.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
+			if (torre.getPiece().equals(squareBoard.getPiece(torre.getSquare()))) {								  		//La torre se encuentra en su lugar
                 //El casillero intermedio KING esta vacio
-                return board.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
-                        && board.isEmpty(casilleroIntermedioKing);
+                return squareBoard.isEmpty(casilleroDestinoKing)                                                        //El casillero destino KING esta vacio
+                        && squareBoard.isEmpty(casilleroIntermedioKing);
 			}
 		}
 		return false;

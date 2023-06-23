@@ -47,11 +47,11 @@ public class KnightMoveGeneratorTest {
 	@Test
 	public void test() {
 		SquareBoard tablero =  getTablero("8/3P1p2/8/4N3/8/8/8/8");
-		moveGenerator.setBoard(tablero);
+		moveGenerator.setSquareBoard(tablero);
 
 		BitBoard bitBoard = new BitBoardDebug();
 		bitBoard.init(tablero);
-		moveGenerator.setColorBoard(bitBoard);
+		moveGenerator.setBitBoard(bitBoard);
 		
 		Square from = Square.e5;
 		assertEquals(Piece.KNIGHT_WHITE, tablero.getPiece(from));

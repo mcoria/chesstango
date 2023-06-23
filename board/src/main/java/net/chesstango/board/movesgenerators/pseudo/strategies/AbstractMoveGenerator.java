@@ -16,9 +16,9 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 	
 	protected final Color color;
 	
-	protected SquareBoardReader board;
+	protected SquareBoardReader squareBoard;
 
-	protected BitBoardReader colorBoard;
+	protected BitBoardReader bitBoard;
 	
 	protected MoveFactory moveFactory;
 	
@@ -26,12 +26,12 @@ public abstract class AbstractMoveGenerator implements MoveGeneratorByPiecePosit
 		this.color = color;
 	}
 
-	public void setBoard(SquareBoardReader board) {
-		this.board = board;
+	public void setSquareBoard(SquareBoardReader squareBoard) {
+		this.squareBoard = squareBoard;
 	}	
 
-	public void setColorBoard(BitBoardReader colorBoard) {
-		this.colorBoard = colorBoard;
+	public void setBitBoard(BitBoardReader bitBoard) {
+		this.bitBoard = bitBoard;
 	}
 
 	public void setMoveFactory(MoveFactory moveFactory) {

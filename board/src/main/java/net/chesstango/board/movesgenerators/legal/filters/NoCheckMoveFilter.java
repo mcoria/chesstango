@@ -1,12 +1,10 @@
-/**
- * 
- */
 package net.chesstango.board.movesgenerators.legal.filters;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
 import net.chesstango.board.moves.MoveKing;
+import net.chesstango.board.moves.impl.bridge.MovePawnCaptureEnPassant;
 import net.chesstango.board.movesgenerators.legal.MoveFilter;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.CardinalSquareCaptured;
 import net.chesstango.board.movesgenerators.legal.squarecapturers.FullScanSquareCaptured;
@@ -49,6 +47,10 @@ public class NoCheckMoveFilter implements MoveFilter {
 	 *  Dado que no se encuentra en jaque, no pregunta por jaque de knight; king o pawn
 	 */
 	public boolean filterMove(Move move) {
+		if( ! (move instanceof MovePawnCaptureEnPassant)){
+			throw new RuntimeException("Solo deberiamos filtrar MovePawnCaptureEnPassant");
+		}
+
 		boolean result = false;
 		
 		final Color turnoActual = positionState.getCurrentTurn();
@@ -65,7 +67,7 @@ public class NoCheckMoveFilter implements MoveFilter {
 		move.undoMove(this.dummySquareBoard);
 
 		return result;
-	}	
+	}
 	
 	@Override
 	public boolean filterMoveKing(MoveKing move) {
@@ -74,7 +76,6 @@ public class NoCheckMoveFilter implements MoveFilter {
 		final Color opositeTurnoActual = turnoActual.oppositeColor();
 		
 		move.executeMove(this.kingCacheBoard);
-
 		move.executeMove(this.dummySquareBoard);
 		move.executeMove(this.bitBoard);
 
@@ -84,7 +85,6 @@ public class NoCheckMoveFilter implements MoveFilter {
 
 		move.undoMove(this.bitBoard);
 		move.undoMove(this.dummySquareBoard);
-
 		move.undoMove(this.kingCacheBoard);
 		
 		return result;

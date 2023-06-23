@@ -34,7 +34,6 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         return pseudoMoves[key.toIdx()];
     }
 
-
     @Override
     public void setPseudoMoves(Square key, MoveGeneratorResult generatorResult) {
         if (pseudoMoves[key.toIdx()] != null) {
@@ -83,6 +82,11 @@ public class MoveCacheBoardImp implements MoveCacheBoard {
         List<MoveGeneratorResult> currentRemovedPseudoMoves = removedPseudoMoves.pop();
 
         currentRemovedPseudoMoves.forEach(generatorResult -> setPseudoMoves(generatorResult.getFrom().getSquare(), generatorResult));
+    }
+
+    @Override
+    public long getPseudoMovesPositions() {
+        return pseudoMovesPositions;
     }
 
     @Override

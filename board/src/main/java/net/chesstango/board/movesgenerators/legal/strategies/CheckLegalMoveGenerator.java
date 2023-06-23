@@ -24,7 +24,6 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 
 	@Override
 	public MoveContainer getLegalMoves(AnalyzerResult analysis) {
-
 		MoveContainer moves = new MoveContainer();
 		
 		getBySquareMoves(moves);
@@ -35,7 +34,7 @@ public class CheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
 	}
 
 	protected MoveContainer getBySquareMoves(MoveContainer moves) {
-		for (SquareIterator iterator = this.positionReader.iteratorSquare(this.positionReader.getCurrentTurn()); iterator.hasNext();) {
+		for (SquareIterator iterator = positionReader.iteratorSquare(positionReader.getCurrentTurn()); iterator.hasNext();) {
 			
 			Square origenSquare = iterator.next();
 

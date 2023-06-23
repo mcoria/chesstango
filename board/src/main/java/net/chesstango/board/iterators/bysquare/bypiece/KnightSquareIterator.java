@@ -7,9 +7,9 @@ import net.chesstango.board.iterators.bysquare.JumpSquareIterator;
  * @author Mauricio Coria
  *
  */
-public class KnightJumpSquareIterator extends JumpSquareIterator {
+public class KnightSquareIterator extends JumpSquareIterator {
 
-	public final static int[][] KNIGHT_JUMPS = {
+	public final static int[][] KNIGHT_JUMPS_OFFSETS = {
 			//Arriba
 			{ -1, 2 },
 			{ 1, 2 },
@@ -27,8 +27,8 @@ public class KnightJumpSquareIterator extends JumpSquareIterator {
 			{ 1, -2 },
 	};
 
-	public KnightJumpSquareIterator(Square startingPoint) {
-		super(startingPoint, KNIGHT_JUMPS);
+	public KnightSquareIterator(Square startingPoint) {
+		super(startingPoint, KNIGHT_JUMPS_OFFSETS);
 	}
 
 }

@@ -2,6 +2,7 @@ package net.chesstango.board.perft;
 
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,7 +75,6 @@ public class PerftMainTestSuiteTest {
 		assertTrue(suite.run("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1 ;D1 26 ;D2 568 ;D3 13744 ;D4 314346 ;D5 7594526 ;D6 179862938"));
 	}
 	
-	
 	@Test
 	public void run_2() {
 		assertTrue(suite.run("4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1 ;D1 26 ;D2 112 ;D3 3189 ;D4 17945 ;D5 532933 ;D6 2788982"));
@@ -100,5 +100,11 @@ public class PerftMainTestSuiteTest {
 	@Test
 	public void run_6() {
 		assertTrue(suite.run("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -  0 1; D4 23441"));
+	}
+
+	@Test
+	@Disabled
+	public void run_7() {
+		assertTrue(suite.run("4r2r/Qppk1n1p/3b1p2/2B2n2/PP3P1q/2p1p1P1/R3P2P/3K1bR1 w - - 0 1; D1 26; D2 1225; D3 32565; D4 1425765; D5 39316149; D6 1650366795"));
 	}
 }
