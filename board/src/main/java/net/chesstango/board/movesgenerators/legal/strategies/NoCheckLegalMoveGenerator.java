@@ -103,8 +103,6 @@ public class NoCheckLegalMoveGenerator extends AbstractLegalMoveGenerator {
             Square toSquare = pseudoMove.getTo().getSquare();
             if ((toSquare.getBitPosition() & safeKingPositions) != 0) {
                 moves.add(pseudoMove);
-            } else if (pseudoMove instanceof MoveCastling) {
-                filter(pseudoMove, moves);
             }
         }
 
