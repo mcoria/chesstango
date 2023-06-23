@@ -53,13 +53,13 @@ public class PositionAnalyzerTest {
 
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
-            @Override
-            public CheckAnalyzer createCheckAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
-                return new CheckAnalyzer(positionReader, moveCacheBoard) {
+
+            public PositionAnalyzer createPositionAnalyzer() {
+                return  new PositionAnalyzer(){
                     @Override
-                    public void analyze(AnalyzerResult result) {
-                        super.analyze(result);
-                        PositionAnalyzerTest.this.analyzerResult = result;
+                    public AnalyzerResult analyze() {
+                        analyzerResult = super.analyze();
+                        return analyzerResult;
                     }
                 };
             }

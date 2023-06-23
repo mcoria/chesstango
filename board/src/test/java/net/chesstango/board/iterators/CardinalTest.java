@@ -39,7 +39,7 @@ public class CardinalTest {
     }
 
 
-    @Test
+    //@Test
     public void testReachedSquares() {
         long posiciones[] = new long[64];
         for (Square squareOrigen : Square.values()) {

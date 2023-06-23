@@ -17,7 +17,7 @@ public class KingSafePositionsAnalyzerTest {
 
     private AnalyzerResult analyzerResult;
 
-    //@Test
+    @Test
     public void testKingInCheck01() {
         Game game = getGame("r1bqkb1r/pppp1Qpp/2n4n/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 1");
 
@@ -34,29 +34,34 @@ public class KingSafePositionsAnalyzerTest {
         game.getStatus();
 
         // El king se encuentra en Jaque, e1 no es una posicion safe
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) == 0);
-
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) == 0);
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) == 0);
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) != 0);
+
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) == 0);
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) != 0);
+
     }
 
     @Test
-    public void testKings() {
-        Game game = getGame("8/8/8/8/8/4k3/8/4K3 w - - 0 1");
+    public void testBishops() {
+        Game game = getGame("B3k3/q7/b7/B7/8/8/4K3/8 w - - 0 1");
 
         game.getStatus();
 
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) != 0);
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d1.getBitPosition()) != 0);
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) != 0);
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e1.getBitPosition()) != 0);
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f1.getBitPosition()) == 0);
 
-        // No puede subir el rey
-        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) == 0);
+
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d2.getBitPosition()) != 0);
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e2.getBitPosition()) == 0);
         Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f2.getBitPosition()) == 0);
+
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.d3.getBitPosition()) == 0);
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.e3.getBitPosition()) == 0);
+        Assertions.assertTrue((analyzerResult.getSafeKingPositions() & Square.f3.getBitPosition()) != 0);
     }
 
     @Test
@@ -76,9 +81,9 @@ public class KingSafePositionsAnalyzerTest {
 
     private Game getGame(String string) {
         GameBuilder builder = new GameBuilder(new ChessFactoryDebug() {
-            @Override
-            public CheckAnalyzer createCheckAnalyzer(ChessPositionReader positionReader, MoveCacheBoard moveCacheBoard) {
-                return new CheckAnalyzer(positionReader, moveCacheBoard) {
+
+            public KingSafePositionsAnalyzer createKingSafePositionsAnalyzer(ChessPositionReader positionReader) {
+                return new KingSafePositionsAnalyzer(positionReader){
                     @Override
                     public void analyze(AnalyzerResult result) {
                         super.analyze(result);

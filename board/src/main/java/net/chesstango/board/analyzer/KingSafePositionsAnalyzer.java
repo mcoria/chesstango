@@ -3,8 +3,11 @@ package net.chesstango.board.analyzer;
 import net.chesstango.board.Color;
 import net.chesstango.board.Square;
 import net.chesstango.board.iterators.Cardinal;
+import net.chesstango.board.iterators.bysquare.CardinalSquareIterator;
 import net.chesstango.board.iterators.bysquare.PositionsSquareIterator;
 import net.chesstango.board.position.ChessPositionReader;
+
+import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
@@ -30,6 +33,12 @@ public class KingSafePositionsAnalyzer implements Analyzer {
         } else {
             analyzerBlack.analyze(result);
         }
+
+        Square kingSquare = positionReader.getKingSquare(currentTurn);
+        long safeKingPositions = result.getSafeKingPositions();
+        boolean kingsInCheck = (safeKingPositions & kingSquare.getBitPosition()) == 0;
+
+        result.setKingInCheck(kingsInCheck);
     }
 
     private class KingSafePositionsAnalyzerByColor implements Analyzer {
@@ -65,10 +74,12 @@ public class KingSafePositionsAnalyzer implements Analyzer {
                 Square possibleKingSquare = possibleKingPositionsIt.next();
                 searchKnightsAt |= possibleKingSquare.getKnightJumps();
                 searchPawnsAt |= possibleKingSquare.getKingJumps(); // TODO: Esto se puede mejorar para que solo busquemos posiciones Pawn
+
                 searchNorte |= Cardinal.Norte.getSquaresInDirection(possibleKingSquare);
                 searchSur |= Cardinal.Sur.getSquaresInDirection(possibleKingSquare);
                 searchEste |= Cardinal.Este.getSquaresInDirection(possibleKingSquare);
                 searchOeste |= Cardinal.Oeste.getSquaresInDirection(possibleKingSquare);
+
                 searchNorteEste |= Cardinal.NorteEste.getSquaresInDirection(possibleKingSquare);
                 searchNorteOeste |= Cardinal.NorteOeste.getSquaresInDirection(possibleKingSquare);
                 searchSurEste |= Cardinal.SurEste.getSquaresInDirection(possibleKingSquare);
@@ -85,7 +96,37 @@ public class KingSafePositionsAnalyzer implements Analyzer {
 
             safePositions &= ~positionReader.getKingSquare(color.oppositeColor()).getKingJumps();
 
+            safePositions &= ~cardinalCapturedSquares(Cardinal.Sur, opponentPositions & (positionReader.getRookPositions() | positionReader.getQueenPositions())  & searchNorte);
+            safePositions &= ~cardinalCapturedSquares(Cardinal.Norte, opponentPositions & (positionReader.getRookPositions() | positionReader.getQueenPositions())  & searchSur);
+            safePositions &= ~cardinalCapturedSquares(Cardinal.Oeste, opponentPositions & (positionReader.getRookPositions() | positionReader.getQueenPositions())  & searchEste);
+            safePositions &= ~cardinalCapturedSquares(Cardinal.Este, opponentPositions & (positionReader.getRookPositions() | positionReader.getQueenPositions())  & searchOeste);
+
+            safePositions &= ~cardinalCapturedSquares(Cardinal.SurOeste, opponentPositions & (positionReader.getBishopPositions() | positionReader.getQueenPositions())  & searchNorteEste);
+            safePositions &= ~cardinalCapturedSquares(Cardinal.SurEste, opponentPositions & (positionReader.getBishopPositions() | positionReader.getQueenPositions())  & searchNorteOeste);
+            safePositions &= ~cardinalCapturedSquares(Cardinal.NorteOeste, opponentPositions & (positionReader.getBishopPositions() | positionReader.getQueenPositions())  & searchSurEste);
+            safePositions &= ~cardinalCapturedSquares(Cardinal.NorteEste, opponentPositions & (positionReader.getBishopPositions() | positionReader.getQueenPositions())  & searchSurOeste);
+
             result.setSafeKingPositions(safePositions);
+        }
+
+        private long cardinalCapturedSquares(Cardinal attackerDirection, long searchFrom) {
+            long result = 0;
+            if (searchFrom != 0) {
+                PositionsSquareIterator cardinalAttackerIt = new PositionsSquareIterator(searchFrom);
+                while (cardinalAttackerIt.hasNext()) {
+                    Square cardinalAttackerFrom = cardinalAttackerIt.next();
+                    Iterator<Square> iterator = new CardinalSquareIterator(cardinalAttackerFrom, attackerDirection);
+                    while (iterator.hasNext()) {
+                        Square to = iterator.next();
+                        result |= to.getBitPosition();
+                        if (positionReader.getColor(to) == null || positionReader.getKingSquare(color).equals(to)) {
+                            continue;
+                        }
+                        break;
+                    }
+                }
+            }
+            return result;
         }
 
         private long knightCapturedSquares(long searchKnightsAt) {
