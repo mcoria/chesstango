@@ -1,5 +1,7 @@
 package net.chesstango.board;
 
+import java.util.Objects;
+
 /**
  * @author Mauricio Coria
  */
@@ -41,6 +43,19 @@ public class PiecePositioned {
     @Override
     public String toString() {
         return String.format("%s=%s", square, piece);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PiecePositioned that = (PiecePositioned) o;
+        return square == that.square && piece == that.piece;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(square, piece);
     }
 
     public PiecePositioned getMirrorPosition() {
