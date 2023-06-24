@@ -17,16 +17,16 @@ public class SingletonMoveFactories {
 
     public static MoveFactory getDefaultMoveFactoryWhite(){
         if(factoryWhite == null) {
-            factoryWhite =  new MoveFactoryWhite();
-            //factoryWhite =  new MoveFactoryCache(new MoveFactoryWhite());
+            //factoryWhite =  new MoveFactoryWhite();
+            factoryWhite =  new MoveFactoryCache(new MoveFactoryWhite());
         }
         return factoryWhite;
     }
 
     public static MoveFactory getDefaultMoveFactoryBlack(){
         if(factoryBlack == null) {
-            factoryBlack =  new MoveFactoryBlack();
-            //factoryBlack =  new MoveFactoryCache(new MoveFactoryBlack());
+            //factoryBlack =  new MoveFactoryBlack();
+            factoryBlack =  new MoveFactoryCache(new MoveFactoryBlack());
         }
         return factoryBlack;
     }

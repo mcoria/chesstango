@@ -53,7 +53,7 @@ public class MoveFactoryCache implements MoveFactory {
 
     @Override
     public Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal) {
-        return regularMoves.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleMove(origen, destino));
+        return regularMoves.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleMove(origen, destino, cardinal));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class MoveFactoryCache implements MoveFactory {
 
     @Override
     public MoveKing createCaptureKingMove(PiecePositioned origen, PiecePositioned destino) {
-        return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createSimpleKingMove(origen, destino));
+        return movesKings.computeIfAbsent(computeKey(origen, destino), key -> moveFactoryImp.createCaptureKingMove(origen, destino));
     }
 
     @Override
@@ -93,7 +93,7 @@ public class MoveFactoryCache implements MoveFactory {
 
     @Override
     public MoveCastling createCastlingKingMove() {
-        return moveFactoryImp.createCastlingQueenMove();
+        return moveFactoryImp.createCastlingKingMove();
     }
 
     @Override

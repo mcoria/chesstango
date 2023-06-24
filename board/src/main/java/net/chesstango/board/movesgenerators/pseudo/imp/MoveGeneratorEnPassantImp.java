@@ -107,12 +107,12 @@ public class MoveGeneratorEnPassantImp implements MoveGeneratorEnPassant {
     }
 
 
-    public void setBoardState(PositionStateReader positionState) {
+    public void setPositionState(PositionStateReader positionState) {
         this.positionState = positionState;
     }
 
 
-    public void setPiecePlacement(SquareBoardReader piecePlacement) {
+    public void setSquareBoard(SquareBoardReader piecePlacement) {
         this.piecePlacement = piecePlacement;
     }
 

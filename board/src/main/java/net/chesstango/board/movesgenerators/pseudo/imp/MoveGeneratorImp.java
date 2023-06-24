@@ -167,8 +167,8 @@ public class MoveGeneratorImp implements MoveGenerator {
 	
 
 	private void setupEnPassantMoveGenerator() {
-		ppmg.setBoardState(positionState);
-		ppmg.setPiecePlacement(piecePlacement);
+		ppmg.setPositionState(positionState);
+		ppmg.setSquareBoard(piecePlacement);
 	}
 	
 	
