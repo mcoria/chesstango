@@ -24,8 +24,8 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
 
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
-    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(10000);
+    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(5000);
 
     private static final boolean MATCH_DEBUG = false;
 
@@ -43,15 +43,15 @@ public class MatchMain implements MatchListener {
                 .createTangoControllerWithDefaultEvaluator(AlphaBetaBuilder.class, minMaxPruningBuilder -> minMaxPruningBuilder
                         .withQuiescence()
 
-                        //.withTranspositionTable()
-                        //.withQTranspositionTable()
-                        //.withTranspositionTableReuse()
+                        .withTranspositionTable()
+                        .withQTranspositionTable()
+                        .withTranspositionTableReuse()
 
-                        //.withTranspositionMoveSorter()
-                        //.withQTranspositionMoveSorter()
+                        .withTranspositionMoveSorter()
+                        .withQTranspositionMoveSorter()
 
-                        //.withStopProcessingCatch()
-                        //.withIterativeDeepening()
+                        .withStopProcessingCatch()
+                        .withIterativeDeepening()
 
                         .withStatics()
                 );
@@ -86,8 +86,6 @@ public class MatchMain implements MatchListener {
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
 
         // Solo para ordenar la tabla de salida se especifican los engines en la lista
-
-
 
         new SummaryReport()
                 .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);

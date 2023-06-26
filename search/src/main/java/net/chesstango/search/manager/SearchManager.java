@@ -3,14 +3,18 @@ package net.chesstango.search.manager;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.search.*;
+import net.chesstango.search.polyglot.MappedPolyglotBook;
+import net.chesstango.search.polyglot.PolyglotEntry;
 import net.chesstango.search.smart.IterativeDeepening;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 /**
  * @author Mauricio Coria
@@ -18,11 +22,13 @@ import java.util.function.Consumer;
 public class SearchManager {
     private ScheduledExecutorService executorService;
     private final SearchMove searchMove;
-	private final SearchListener listenerClient;
+    private final SearchListener listenerClient;
+    private final MappedPolyglotBook book;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
         this.searchMove = searchMove;
         this.listenerClient = listenerClient;
+        this.book = new MappedPolyglotBook();
 
         if (searchMove instanceof DefaultSearchMove) {
             DefaultSearchMove searchMoveDefault = (DefaultSearchMove) searchMove;
@@ -56,13 +62,17 @@ public class SearchManager {
 
     public void open() {
         executorService = Executors.newScheduledThreadPool(2);
+        book.load(Path.of("C:\\Java\\projects\\chess\\chess-utils\\books\\openings\\polyglot-collection\\final-book.bin"));
     }
 
     public void close() {
-        executorService.shutdown();
         try {
+            executorService.shutdown();
             executorService.awaitTermination(500, TimeUnit.MILLISECONDS);
+            book.close();
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -73,16 +83,10 @@ public class SearchManager {
             try {
                 listenerClient.searchStarted();
 
-                if (timeOut != null) {
-                    executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
-                }
+                SearchMoveResult searchResult = searchByBook(game);
 
-                SearchMoveResult searchResult = null;
-                try {
-                    searchResult = searchMove.search(game, depth);
-                } catch (StopSearchingException spe) {
-                    searchResult = spe.getSearchMoveResult();
-                    listenerClient.searchStopped();
+                if (searchResult == null) {
+                    searchResult = searchByAlgorithm(game, depth, timeOut);
                 }
 
                 listenerClient.searchFinished(searchResult);
@@ -90,5 +94,36 @@ public class SearchManager {
                 exception.printStackTrace(System.err);
             }
         });
+    }
+
+    protected SearchMoveResult searchByBook(Game game) {
+        List<PolyglotEntry> bookSearchResult = book.search(game.getChessPosition().getZobristHash());
+        if (bookSearchResult != null) {
+            MoveContainerReader possibleMoves = game.getPossibleMoves();
+            for (PolyglotEntry polyglotEntry : bookSearchResult) {
+                Move move = possibleMoves.getMove(polyglotEntry.from(), polyglotEntry.to());
+                if (move != null) {
+                    return new SearchMoveResult(1, 0, move, null);
+                }
+            }
+        }
+        return null;
+    }
+
+    protected SearchMoveResult searchByAlgorithm(Game game, int depth, Integer timeOut) {
+        if (timeOut != null) {
+            executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
+        }
+
+        SearchMoveResult searchResult = null;
+
+        try {
+            searchResult = searchMove.search(game, depth);
+        } catch (StopSearchingException spe) {
+            searchResult = spe.getSearchMoveResult();
+            listenerClient.searchStopped();
+        }
+
+        return searchResult;
     }
 }

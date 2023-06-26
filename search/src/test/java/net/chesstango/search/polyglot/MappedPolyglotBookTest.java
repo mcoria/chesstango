@@ -1,6 +1,6 @@
-package net.chesstango.board.representations.polyglot;
+package net.chesstango.search.polyglot;
 
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

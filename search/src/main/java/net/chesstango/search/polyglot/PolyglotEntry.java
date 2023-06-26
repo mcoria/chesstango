@@ -1,4 +1,4 @@
-package net.chesstango.board.representations.polyglot;
+package net.chesstango.search.polyglot;
 
 import net.chesstango.board.Square;
 
@@ -10,11 +10,11 @@ import net.chesstango.board.Square;
  * learn  uint32
  */
 
-public class PolyglotEntry {
-    Square from;
-    Square to;
-    byte promotion;
-    int weight;
+public record PolyglotEntry(Square from, Square to, int weight) {
+    //public Square from;
+    //public Square to;
+    //public byte promotion;
+    //public int weight;
 
     @Override
     public String toString() {

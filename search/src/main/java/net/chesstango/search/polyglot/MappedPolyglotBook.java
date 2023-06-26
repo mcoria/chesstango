@@ -1,4 +1,4 @@
-package net.chesstango.board.representations.polyglot;
+package net.chesstango.search.polyglot;
 
 import net.chesstango.board.Square;
 
@@ -62,8 +62,6 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
 
             while (getKey(idx) == key) {
 
-                PolyglotEntry entry = new PolyglotEntry();
-
                 long rawEntry = mappedByteBuffer.getLong(idx * ENTRY_SIZE + 8);
 
                 int toFile = (int) ((rawEntry & 0b00000000_00000111_00000000_00000000_00000000_00000000_00000000_00000000L) >> (48));
@@ -74,10 +72,10 @@ public class MappedPolyglotBook implements PolyglotBook, Closeable {
 
                 int weight = (int) ((rawEntry & 0b00000000_00000000_11111111_11111111_00000000_00000000_00000000_00000000L) >> (32));
 
-                entry.to = Square.getSquare(toFile, toRow);
-                entry.from = Square.getSquare(fromFile, fromRow);
+                Square to = Square.getSquare(toFile, toRow);
+                Square from = Square.getSquare(fromFile, fromRow);
 
-                entry.weight = weight;
+                PolyglotEntry entry = new PolyglotEntry(from, to, weight);
 
                 polyglotEntryList.add(entry);
 

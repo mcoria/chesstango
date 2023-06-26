@@ -1,16 +1,10 @@
-package net.chesstango.board.representations.polyglot;
+package net.chesstango.search.polyglot;
 
-import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.polyglot.PolyglotEncoder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
