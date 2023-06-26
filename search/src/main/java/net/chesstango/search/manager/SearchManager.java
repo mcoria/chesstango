@@ -24,6 +24,7 @@ public class SearchManager {
     private final SearchMove searchMove;
     private final SearchListener listenerClient;
     private final MappedPolyglotBook book;
+    private final boolean searByBookEnabled = false;
 
     public SearchManager(SearchMove searchMove, SearchListener listenerClient) {
         this.searchMove = searchMove;
@@ -62,14 +63,18 @@ public class SearchManager {
 
     public void open() {
         executorService = Executors.newScheduledThreadPool(2);
-        book.load(Path.of("C:\\Java\\projects\\chess\\chess-utils\\books\\openings\\polyglot-collection\\final-book.bin"));
+        if (searByBookEnabled) {
+            book.load(Path.of("C:\\Java\\projects\\chess\\chess-utils\\books\\openings\\polyglot-collection\\final-book.bin"));
+        }
     }
 
     public void close() {
         try {
             executorService.shutdown();
             executorService.awaitTermination(500, TimeUnit.MILLISECONDS);
-            book.close();
+            if (searByBookEnabled) {
+                book.close();
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -83,7 +88,11 @@ public class SearchManager {
             try {
                 listenerClient.searchStarted();
 
-                SearchMoveResult searchResult = searchByBook(game);
+                SearchMoveResult searchResult = null;
+
+                if (searByBookEnabled) {
+                    searchResult = searchByBook(game);
+                }
 
                 if (searchResult == null) {
                     searchResult = searchByAlgorithm(game, depth, timeOut);
