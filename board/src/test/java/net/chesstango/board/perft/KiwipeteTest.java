@@ -897,7 +897,6 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(3989454, result.getChildNode(Square.h1, Square.g1));
 		assertEquals(3685756, result.getChildNode(Square.h1, Square.f1));
 		
-		
 		assertEquals(48, result.getMovesCount());
 		assertEquals(193690690, result.getTotalNodes());
 	}
@@ -1067,8 +1066,6 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(84406, result.getChildNode(Square.f6, Square.h7));
 		assertEquals(86559, result.getChildNode(Square.f6, Square.h5));
 		assertEquals(87361, result.getChildNode(Square.f6, Square.g4));
-
-		
 		
 		assertEquals(43, result.getMovesCount());
 		assertEquals(3377351, result.getTotalNodes());	
@@ -1127,7 +1124,6 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(1643, result.getChildNode(Square.a1, Square.e1));
 		assertEquals(1681, result.getChildNode(Square.h1, Square.g1));
 		
-		
 		assertEquals(45, result.getMovesCount());
 		assertEquals(77387, result.getTotalNodes());	
 	}
@@ -1180,7 +1176,6 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(47, result.getChildNode(Square.f6, Square.h5));
 		assertEquals(45, result.getChildNode(Square.f6, Square.g4));
 		assertEquals(47, result.getChildNode(Square.f6, Square.e8));
-		
 		
 		assertEquals(40, result.getMovesCount());
 		assertEquals(1832, result.getTotalNodes());
@@ -1241,7 +1236,6 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(1, result.getChildNode(Square.a1, Square.d1));
 		assertEquals(1, result.getChildNode(Square.h1, Square.g1));
 		assertEquals(1, result.getChildNode(Square.h1, Square.f1));
-		
 		
 		assertEquals(46, result.getMovesCount());
 		assertEquals(46, result.getTotalNodes());
@@ -1358,7 +1352,6 @@ public class KiwipeteTest extends AbstractPerftTest {
 		assertEquals(1744, result.getChildNode(Square.e2, Square.a6));
 		assertEquals(1855, result.getChildNode(Square.h1, Square.g1));
 		assertEquals(1779, result.getChildNode(Square.h1, Square.f1));
-		
 
 		assertEquals(49, result.getMovesCount());
 		assertEquals(90953, result.getTotalNodes());			

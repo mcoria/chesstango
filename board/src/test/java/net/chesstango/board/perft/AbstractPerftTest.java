@@ -4,9 +4,11 @@
 package net.chesstango.board.perft;
 
 import net.chesstango.board.Game;
+import net.chesstango.board.Square;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.debug.builder.ChessFactoryDebug;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.board.perft.imp.PerftBrute;
 import net.chesstango.board.perft.imp.PerftWithMap;
 import net.chesstango.board.perft.imp.PerftWithMapIterateDeeping;
@@ -37,6 +39,14 @@ public abstract class AbstractPerftTest {
 		//return new PerftWithMap<Long>(PerftWithMap::getZobristGameId);
 	}
 
+	protected boolean contieneMove(MoveContainerReader movimientos, Square from, Square to) {
+		for (Move move : movimientos) {
+			if(from.equals(move.getFrom().getSquare()) && to.equals(move.getTo().getSquare())){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	protected void printForUnitTest(PerftResult result) {
 
