@@ -39,7 +39,7 @@ public class SearchesTest {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                .withStopProcessingCatch()
+                //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
 
@@ -55,6 +55,7 @@ public class SearchesTest {
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
                     .withPrincipalVariation()
+                    .withExportEvaluations()
                     .printSearchesStatics(Arrays.asList(searchResult));
         }
     }

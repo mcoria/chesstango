@@ -1,9 +1,11 @@
 package net.chesstango.search;
 
 import net.chesstango.board.moves.Move;
+import net.chesstango.search.smart.alphabeta.filters.GameEvaluatorCounter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,6 +26,8 @@ public class SearchMoveResult {
     private long evaluatedGamesCounter;
     private List<Move> principalVariation;
     private Collection<MoveEvaluation> moveEvaluations;
+
+    private Set<GameEvaluatorCounter.EvaluationEntry> evaluations;
 
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
@@ -137,6 +141,15 @@ public class SearchMoveResult {
     public SearchMoveResult setMoveEvaluations(Collection<MoveEvaluation> moveEvaluations) {
         this.moveEvaluations = moveEvaluations;
         return this;
+    }
+
+    public SearchMoveResult setEvaluations(Set<GameEvaluatorCounter.EvaluationEntry> evaluations) {
+        this.evaluations = evaluations;
+        return this;
+    }
+
+    public Set<GameEvaluatorCounter.EvaluationEntry> getEvaluations() {
+        return evaluations;
     }
 
     public static class MoveEvaluation implements Comparable<MoveEvaluation> {

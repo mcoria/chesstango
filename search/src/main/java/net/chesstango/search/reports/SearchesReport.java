@@ -3,19 +3,25 @@ package net.chesstango.search.reports;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.alphabeta.filters.GameEvaluatorCounter;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HexFormat;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria
  */
 public class SearchesReport {
-
     private boolean printCutoffStatics;
     private boolean printNodesVisitedStatics;
     private boolean printPrincipalVariation;
+    private boolean exportEvaluations;
 
     public void printSearchesStatics(List<SearchMoveResult> searchMoveResults) {
         printSearchesStatics("Tango", searchMoveResults);
@@ -39,6 +45,11 @@ public class SearchesReport {
         if (printPrincipalVariation) {
             printPrincipalVariation(reportModel);
         }
+
+        if (exportEvaluations) {
+            exportEvaluations(reportModel);
+        }
+
     }
 
 
@@ -60,7 +71,13 @@ public class SearchesReport {
             reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
 
             reportModelDetail.points = searchMoveResult.getEvaluation();
+
             reportModelDetail.evaluatedGamesCounter = searchMoveResult.getEvaluatedGamesCounter();
+            reportModelDetail.evaluations = searchMoveResult.getEvaluations();
+            reportModelDetail.distinctEvaluatedGamesCounter = searchMoveResult.getEvaluations().size();
+            reportModelDetail.distinctEvaluatedGamesCounterCollisions = reportModelDetail.distinctEvaluatedGamesCounter - searchMoveResult.getEvaluations().parallelStream().mapToInt(GameEvaluatorCounter.EvaluationEntry::getValue).distinct().count();
+            reportModelDetail.collisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
 
             reportModelDetail.expectedRNodesCounters = searchMoveResult.getExpectedNodesCounters();
@@ -133,6 +150,9 @@ public class SearchesReport {
         IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("_____________________"));
         IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("____________"));
         System.out.printf("______________");
+        System.out.printf("_______________");
+        System.out.printf("_____________");
+        System.out.printf("______________");
         System.out.printf("\n");
 
         // Nombre de las columnas
@@ -140,6 +160,9 @@ public class SearchesReport {
         IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("|     Level %2d       ", depth + 1));
         IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("| QLevel %2d ", depth + 1));
         System.out.printf("| Evaluations ");
+        System.out.printf("| UEvaluations ");
+        System.out.printf("| Collisions ");
+        System.out.printf("| PCollisions ");
         System.out.printf("|\n");
 
         // Cuerpo
@@ -148,6 +171,9 @@ public class SearchesReport {
             IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));
             IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("|   %7d ", moveDetail.visitedQNodesCounters[depth]));
             System.out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
+            System.out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
+            System.out.printf("| %10d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
+            System.out.printf("| %11d ", moveDetail.collisionPercentage);
             System.out.printf("|\n");
         }
 
@@ -155,11 +181,17 @@ public class SearchesReport {
         System.out.printf("|--------");
         IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("---------------------"));
         IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("|-------------");
+        System.out.printf("--------------");
+        System.out.printf("---------------");
+        System.out.printf("-------------");
+        System.out.printf("--------------");
         System.out.printf("|\n");
         System.out.printf("| SUM    ");
         IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("| %7d / %8d ", report.visitedRNodesCounters[depth], report.expectedRNodesCounters[depth]));
         IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("|   %7d ", report.visitedQNodesCounter[depth]));
+        System.out.printf("| %11d ", report.evaluatedGamesCounterTotal);
+        System.out.printf("| %12d ", report.evaluatedGamesCounterTotal);
+        System.out.printf("| %10d ", report.evaluatedGamesCounterTotal);
         System.out.printf("| %11d ", report.evaluatedGamesCounterTotal);
         System.out.printf("|\n");
 
@@ -168,7 +200,10 @@ public class SearchesReport {
         System.out.printf(" ---------");
         IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("---------------------"));
         IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("------------"));
+        System.out.printf("--------------");
+        System.out.printf("---------------");
         System.out.printf("-------------");
+        System.out.printf("--------------");
         System.out.printf("\n\n");
     }
 
@@ -228,6 +263,45 @@ public class SearchesReport {
         }
     }
 
+    private void exportEvaluations(ReportModel report) {
+        int fileCounter = 0;
+        // Cuerpo
+        for (ReportRowMoveDetail moveDetail : report.moveDetails) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
+
+                writer.append(String.format("%6s:", moveDetail.move));
+                writer.append(String.format(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points));
+                if (moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON) {
+                    writer.append(String.format(" MATE"));
+                }
+                writer.append(String.format("\n"));
+
+                HexFormat hexFormat = HexFormat.of().withUpperCase();
+                for (GameEvaluatorCounter.EvaluationEntry evaluation : moveDetail.evaluations) {
+                    writer.append(String.format("0x%sL\t%d\n", hexFormat.formatHex(longToByte(evaluation.getKey())), evaluation.getValue()));
+                }
+                writer.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            fileCounter++;
+        }
+    }
+
+    private byte[] longToByte(long lng) {
+        byte[] b = new byte[]{
+                (byte) (lng >> 56),
+                (byte) (lng >> 48),
+                (byte) (lng >> 40),
+                (byte) (lng >> 32),
+                (byte) (lng >> 24),
+                (byte) (lng >> 16),
+                (byte) (lng >> 8),
+                (byte) lng
+        };
+        return b;
+    }
+
     public SearchesReport withCutoffStatics() {
         this.printCutoffStatics = true;
         return this;
@@ -240,6 +314,11 @@ public class SearchesReport {
 
     public SearchesReport withPrincipalVariation() {
         this.printPrincipalVariation = true;
+        return this;
+    }
+
+    public SearchesReport withExportEvaluations() {
+        this.exportEvaluations = true;
         return this;
     }
 
@@ -272,7 +351,11 @@ public class SearchesReport {
 
     private static class ReportRowMoveDetail {
         String move;
+        Set<GameEvaluatorCounter.EvaluationEntry> evaluations;
         long evaluatedGamesCounter;
+        int distinctEvaluatedGamesCounter;
+        long distinctEvaluatedGamesCounterCollisions;
+        long collisionPercentage;
         int[] expectedRNodesCounters;
         int[] visitedRNodesCounters;
         int[] cutoffPercentages;
