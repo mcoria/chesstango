@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 7;
+    private static final int DEFAULT_MAX_DEPTH = 5;
 
     public static void main(String[] args) {
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all.epd");
@@ -84,6 +84,7 @@ public class BestMoveSearchSuite {
         new SearchesReport()
                 //.withCutoffStatics()
                 .withNodesVisitedStatics()
+                .withExportEvaluations()
                 .printSearchesStatics(searchMoveResults);
 
         System.out.println("=================");
