@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.EvaluatorByMaterial;
+import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.NoIterativeDeepening;

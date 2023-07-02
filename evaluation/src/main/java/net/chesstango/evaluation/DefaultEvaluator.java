@@ -1,7 +1,7 @@
 package net.chesstango.evaluation;
 
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.imp.EvaluatorSEandImp02;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 
 /**
  * @author Mauricio Coria

@@ -1,4 +1,4 @@
-package net.chesstango.evaluation.imp;
+package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;

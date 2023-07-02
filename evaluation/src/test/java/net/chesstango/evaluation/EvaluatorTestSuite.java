@@ -1,7 +1,7 @@
 
 package net.chesstango.evaluation;
 
-import net.chesstango.evaluation.imp.*;
+import net.chesstango.evaluation.evaluators.*;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 

@@ -1,13 +1,12 @@
-package net.chesstango.evaluation.imp;
+package net.chesstango.evaluation.evaluators;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorByMaterialCount extends AbstractEvaluator {
+public class EvaluatorByMaterial extends AbstractEvaluator {
     @Override
     public int evaluate(final Game game) {
         int evaluation = 0;
@@ -39,13 +38,6 @@ public class EvaluatorByMaterialCount extends AbstractEvaluator {
             case KING_WHITE -> 10;
             case KING_BLACK -> -10;
         };
-    }
-
-    @Override
-    protected int evaluateByMaterial(final Game game) {
-        long whitePositions = game.getChessPosition().getPositions(Color.WHITE);
-        long blackPositions = game.getChessPosition().getPositions(Color.BLACK);
-        return Long.bitCount(whitePositions) - Long.bitCount(blackPositions);
     }
 
 }

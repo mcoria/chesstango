@@ -8,5 +8,5 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public interface GameFeatures {
-    Map<String, Integer> extractFeatures(final Game game);
+    void extractFeatures(final Game game, Map<String, Integer> featuresMap);
 }

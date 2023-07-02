@@ -14,7 +14,8 @@ import java.util.Map;
  */
 public class ExtractorByMaterial implements GameFeatures {
 
-    protected void extractMaterial(final Game game, Map<String, Integer> featuresMap) {
+    @Override
+    public void extractFeatures(final Game game, Map<String, Integer> featuresMap) {
         ChessPositionReader positionReader = game.getChessPosition();
 
         long whitePositions = positionReader.getPositions(Color.WHITE);
@@ -32,14 +33,5 @@ public class ExtractorByMaterial implements GameFeatures {
         featuresMap.put(Piece.BISHOP_BLACK.toString(), Long.bitCount (blackPositions & positionReader.getBishopPositions()));
         featuresMap.put(Piece.QUEEN_BLACK.toString(), Long.bitCount (blackPositions & positionReader.getQueenPositions()));
         featuresMap.put(Piece.PAWN_BLACK.toString(), Long.bitCount (blackPositions & positionReader.getPawnPositions()));
-    }
-
-    @Override
-    public Map<String, Integer> extractFeatures(final Game game) {
-        Map<String, Integer> featuresMap = new HashMap<>();
-
-        extractMaterial(game, featuresMap);
-
-        return featuresMap;
     }
 }

@@ -1,14 +1,10 @@
-package net.chesstango.evaluation.imp;
+package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
-
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria

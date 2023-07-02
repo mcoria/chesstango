@@ -1,17 +1,20 @@
-package net.chesstango.evaluation.imp;
+package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
+import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.evaluation.GameEvaluator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
-public class EvaluatorByCondition implements GameEvaluator {
+/**
+ * @author Mauricio Coria
+ */
+public class EvaluatorByFEN implements GameEvaluator {
     private int defaultValue;
-
-    private List<Function<Game, Integer>> evaluationConditions = new ArrayList<>();
+    private Map<String, Integer> evaluations = new HashMap<>();
 
     @Override
     public int evaluate(final Game game) {
@@ -19,13 +22,15 @@ public class EvaluatorByCondition implements GameEvaluator {
     }
 
     protected int evaluateNonFinalStatus(final Game game) {
-        Integer evaluationResult = null;
-        for (Function<Game, Integer> evaluationCondition: evaluationConditions) {
-            evaluationResult =  evaluationCondition.apply(game);
-            if(evaluationResult != null ) break;
-        }
+        FENEncoder fenEncoder = new FENEncoder();
 
-        return evaluationResult == null ? defaultValue : evaluationResult.intValue();
+        game.getChessPosition().constructChessPositionRepresentation(fenEncoder);
+
+        String fen = fenEncoder.getChessRepresentation();
+
+        Integer evaluation = evaluations.get(fen);
+
+        return evaluation == null ? defaultValue : evaluation.intValue();
     }
 
     protected int evaluateFinalStatus(final Game game) {
@@ -45,14 +50,21 @@ public class EvaluatorByCondition implements GameEvaluator {
         return evaluation;
     }
 
-    public EvaluatorByCondition setDefaultValue(int defaultValue) {
+    public EvaluatorByFEN setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
-    public EvaluatorByCondition addCondition(Function<Game, Integer> evaluationCondition) {
-        evaluationConditions.add(evaluationCondition);
+    public EvaluatorByFEN addEvaluation(String fen, int evaluation) {
+        evaluations.put(fen, evaluation);
         return this;
     }
 
+    public static EvaluatorByFEN loadEvaluations(){
+        EvaluatorByFEN mock = new EvaluatorByFEN();
+        mock.setDefaultValue(0);
+        mock.addEvaluation(FENDecoder.INITIAL_FEN, 0);
+
+        return mock;
+    }
 }

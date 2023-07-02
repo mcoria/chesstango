@@ -1,4 +1,4 @@
-package net.chesstango.evaluation.imp;
+package net.chesstango.evaluation.evaluators;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
@@ -6,20 +6,17 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.evaluation.imp.EvaluatorSimplifiedEvaluator.*;
+import static net.chesstango.evaluation.evaluators.EvaluatorSimplifiedEvaluator.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * @author Mauricio Coria
- */
-public class EvaluatorSimplifiedEvaluatorTest extends GameEvaluatorTestCollection {
+public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
 
-    private EvaluatorSimplifiedEvaluator evaluator;
+    private EvaluatorSEandImp02 evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new EvaluatorSimplifiedEvaluator();
+        evaluator = new EvaluatorSEandImp02();
     }
 
     @Override
@@ -224,5 +221,15 @@ public class EvaluatorSimplifiedEvaluatorTest extends GameEvaluatorTestCollectio
         Game gameMirror = game.mirror();
         assertEquals(90, evaluator.evaluateByPosition(gameMirror));
     }
+
+    @Test
+    public void testEvaluateSymmetric01() {
+        Game game = FENDecoder.loadGame("r1bqkb1r/ppp1pppp/2n2n2/3p4/3P4/2N2N2/PPP1PPPP/R1BQKB1R w KQkq d6 0 4");
+        assertEquals(0, evaluator.evaluate(game));
+
+        Game gameMirror = game.mirror();
+        assertEquals(0, evaluator.evaluateByPosition(gameMirror));
+    }
+
 
 }

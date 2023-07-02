@@ -3,7 +3,7 @@ package net.chesstango.uci.arena;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.Transcoding;
-import net.chesstango.evaluation.imp.*;
+import net.chesstango.evaluation.evaluators.*;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerMbeans;
 import net.chesstango.uci.arena.reports.SummaryReport;
