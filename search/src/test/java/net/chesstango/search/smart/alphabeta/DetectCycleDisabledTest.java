@@ -5,7 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.imp.GameEvaluatorByCondition;
+import net.chesstango.evaluation.imp.EvaluatorByCondition;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaImp;
@@ -30,11 +30,11 @@ public class DetectCycleDisabledTest {
 
     private AlphaBeta alphaBeta;
 
-    private GameEvaluatorByCondition evaluator;
+    private EvaluatorByCondition evaluator;
 
     @BeforeEach
     public void setup() {
-        evaluator = new GameEvaluatorByCondition();
+        evaluator = new EvaluatorByCondition();
         evaluator.setDefaultValue(0);
 
         // FILTERS START

@@ -1,7 +1,7 @@
 package net.chesstango.search.builders;
 
 
-import net.chesstango.evaluation.DefaultGameEvaluator;
+import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -56,7 +56,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         quiescence = new QuiescenceNull();
 
-        gameEvaluator = new DefaultGameEvaluator();
+        gameEvaluator = new DefaultEvaluator();
 
         moveSorter = new DefaultMoveSorter();
 

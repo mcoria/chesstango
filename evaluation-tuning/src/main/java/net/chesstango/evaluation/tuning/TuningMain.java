@@ -7,8 +7,7 @@ import io.jenetics.Phenotype;
 import io.jenetics.engine.Engine;
 import io.jenetics.engine.EvolutionResult;
 import io.jenetics.engine.EvolutionStart;
-import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
-import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessBySearch;
+import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessByLeastSquare;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider4FactorsGenes;
@@ -23,13 +22,14 @@ import java.util.stream.Collectors;
  */
 public class TuningMain {
     private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 50;
+    private static final int GENERATION_LIMIT = 3;
 
     public static void main(String[] args) {
-        GeneticProvider geneticProvider =  new GeneticProvider4FactorsGenes(GameEvaluatorSEandImp02.class);
+        GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
 
         //FitnessFunction fitnessFunction = new FitnessByMatch(geneticProvider::createGameEvaluator);
-        FitnessFunction fitnessFunction = new FitnessBySearch(geneticProvider::createGameEvaluator);
+        //FitnessFunction fitnessFunction = new FitnessBySearch((Genotype<IntegerGene> genotype) -> GeneticProvider4FactorsGenes.createGameEvaluator(GameEvaluatorSEandImp02.class, genotype));
+        FitnessFunction fitnessFunction = new FitnessByLeastSquare();
 
         TuningMain main = new TuningMain(fitnessFunction, geneticProvider);
 

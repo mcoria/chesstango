@@ -8,7 +8,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EDPReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;

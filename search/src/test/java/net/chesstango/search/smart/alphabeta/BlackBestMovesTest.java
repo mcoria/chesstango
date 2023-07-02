@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
+import net.chesstango.evaluation.imp.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractBlackBestMovesTest;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -22,7 +22,7 @@ public class BlackBestMovesTest extends AbstractBlackBestMovesTest {
 
     @BeforeEach
     public void setup() {
-        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+        GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
         MoveSorter moveSorter = new DefaultMoveSorter();
 

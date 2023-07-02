@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorByFEN implements GameEvaluator {
+public class EvaluatorByFEN implements GameEvaluator {
     private int defaultValue;
     private Map<String, Integer> evaluations = new HashMap<>();
 
@@ -50,18 +50,18 @@ public class GameEvaluatorByFEN implements GameEvaluator {
         return evaluation;
     }
 
-    public GameEvaluatorByFEN setDefaultValue(int defaultValue) {
+    public EvaluatorByFEN setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
-    public GameEvaluatorByFEN addEvaluation(String fen, int evaluation) {
+    public EvaluatorByFEN addEvaluation(String fen, int evaluation) {
         evaluations.put(fen, evaluation);
         return this;
     }
 
-    public static GameEvaluatorByFEN loadEvaluations(){
-        GameEvaluatorByFEN mock = new GameEvaluatorByFEN();
+    public static EvaluatorByFEN loadEvaluations(){
+        EvaluatorByFEN mock = new EvaluatorByFEN();
         mock.setDefaultValue(0);
         mock.addEvaluation(FENDecoder.INITIAL_FEN, 0);
 

@@ -49,7 +49,7 @@ import java.util.Iterator;
  * |                          Spike 1.4|    1853 |    1760 |       21 |       38 |      850 |      926 |     2278.0 |     2223.0 |  4501.0 / 5448  |   82.6 |
  *  --------------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class GameEvaluatorImp02 extends AbstractEvaluator {
+public class EvaluatorImp02 extends AbstractEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 422;
     private static final int FACTOR_EXPANSION_DEFAULT = 3;
     private static final int FACTOR_ATAQUE_DEFAULT = 575;
@@ -62,11 +62,11 @@ public class GameEvaluatorImp02 extends AbstractEvaluator {
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
 
-    public GameEvaluatorImp02() {
+    public EvaluatorImp02() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluatorImp02(int material, int expansion, int ataque) {
+    public EvaluatorImp02(int material, int expansion, int ataque) {
         this.material = material;
         this.expansion = expansion;
         this.ataque = ataque;
@@ -110,9 +110,9 @@ public class GameEvaluatorImp02 extends AbstractEvaluator {
                 PiecePositioned fromPosition = move.getFrom();
                 PiecePositioned toPosition = move.getTo();
                 if (toPosition.getPiece() == null) {
-                    evaluationByMoveToEmptySquare += getPieceValue(game, fromPosition.getPiece());
+                    evaluationByMoveToEmptySquare += getPieceValue(fromPosition.getPiece());
                 } else {
-                    evaluationByAttack -= getPieceValue(game, toPosition.getPiece());
+                    evaluationByAttack -= getPieceValue(toPosition.getPiece());
                 }
             }
         }
@@ -130,7 +130,7 @@ public class GameEvaluatorImp02 extends AbstractEvaluator {
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;

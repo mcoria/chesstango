@@ -37,7 +37,6 @@ public class GeneticProvider2FactorsGenes implements GeneticProvider {
         return decodedGenotype.getFactor1() + "|" + decodedGenotype.getFactor2();
     }
 
-    @Override
     public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 

@@ -20,7 +20,7 @@ import java.util.Iterator;
  * |                 GameEvaluatorImp02|      15 |      17 |        5 |        6 |       30 |       27 |       30.0 |       30.5 |  60.5 /100 |   60.5 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class GameEvaluatorSimplifiedEvaluator extends AbstractEvaluator {
+public class EvaluatorSimplifiedEvaluator extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 650;
     private static final int FACTOR_POSITION_DEFAULT = 350;
@@ -28,11 +28,11 @@ public class GameEvaluatorSimplifiedEvaluator extends AbstractEvaluator {
     private final int material;
     private final int position;
 
-    public GameEvaluatorSimplifiedEvaluator() {
+    public EvaluatorSimplifiedEvaluator() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT);
     }
 
-    public GameEvaluatorSimplifiedEvaluator(Integer material, Integer position) {
+    public EvaluatorSimplifiedEvaluator(Integer material, Integer position) {
         this.material = material;
         this.position = position;
     }
@@ -80,7 +80,7 @@ public class GameEvaluatorSimplifiedEvaluator extends AbstractEvaluator {
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 100;
             case PAWN_BLACK -> -100;

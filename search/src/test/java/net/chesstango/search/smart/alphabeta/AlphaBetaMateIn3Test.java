@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
+import net.chesstango.evaluation.imp.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.MateIn3Test;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -24,7 +24,7 @@ public class AlphaBetaMateIn3Test extends MateIn3Test {
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
 
-        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+        GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);

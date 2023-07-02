@@ -25,7 +25,7 @@ import java.util.Iterator;
  * |                          Spike 1.4|    2659 |    2658 |        1 |        0 |       54 |       56 |     2686.0 |     2686.0 | 5372.0 / 5428  |   99.0 |
  *  -------------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class GameEvaluatorImp03 extends AbstractEvaluator {
+public class EvaluatorImp03 extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 500;
     private static final int FACTOR_MATERIAL_COLOR_DEFAULT = 500;
@@ -33,11 +33,11 @@ public class GameEvaluatorImp03 extends AbstractEvaluator {
     private final int material;
     private final int material_color;
 
-    public GameEvaluatorImp03() {
+    public EvaluatorImp03() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_MATERIAL_COLOR_DEFAULT);
     }
 
-    public GameEvaluatorImp03(Integer material, Integer material_color) {
+    public EvaluatorImp03(Integer material, Integer material_color) {
         this.material = material;
         this.material_color = material_color;
     }
@@ -71,7 +71,7 @@ public class GameEvaluatorImp03 extends AbstractEvaluator {
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;

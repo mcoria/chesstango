@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
+import net.chesstango.evaluation.imp.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
@@ -30,7 +30,7 @@ public class SetBestMoveOptionsTest {
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
 
-        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+        GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
         QuiescenceNull quiescence = new QuiescenceNull();
         quiescence.setGameEvaluator(gameEvaluator);

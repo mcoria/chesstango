@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.imp.GameEvaluatorByFEN;
+import net.chesstango.evaluation.imp.EvaluatorByFEN;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ public class IterativeDeepeningTest {
     @Test
     @Disabled //Se deberia resolver cuando ordenamos considerando TT
     public void testPasarPorMaximo() {
-        GameEvaluatorByFEN evaluatorMock = new GameEvaluatorByFEN();
+        EvaluatorByFEN evaluatorMock = new EvaluatorByFEN();
         evaluatorMock.setDefaultValue(0);
         evaluatorMock.addEvaluation("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", 1);
 

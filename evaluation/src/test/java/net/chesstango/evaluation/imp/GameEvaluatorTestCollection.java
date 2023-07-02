@@ -2,8 +2,6 @@ package net.chesstango.evaluation.imp;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.builders.GameBuilder;
-import net.chesstango.board.builders.MirrorBuilder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import org.junit.jupiter.api.Test;
@@ -170,12 +168,12 @@ public abstract class GameEvaluatorTestCollection {
     @Test
     public void testSymmetryOfPieceValues() {
         AbstractEvaluator evaluator = getEvaluator();
-        assertTrue(evaluator.getPieceValue(null, Piece.PAWN_WHITE) == -evaluator.getPieceValue(null, Piece.PAWN_BLACK)) ;
-        assertTrue(evaluator.getPieceValue(null, Piece.ROOK_WHITE) == -evaluator.getPieceValue(null, Piece.ROOK_BLACK)) ;
-        assertTrue(evaluator.getPieceValue(null, Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(null, Piece.KNIGHT_BLACK)) ;
-        assertTrue(evaluator.getPieceValue(null, Piece.BISHOP_WHITE) == -evaluator.getPieceValue(null, Piece.BISHOP_BLACK)) ;
-        assertTrue(evaluator.getPieceValue(null, Piece.QUEEN_WHITE) == -evaluator.getPieceValue(null, Piece.QUEEN_BLACK)) ;
-        assertTrue(evaluator.getPieceValue(null, Piece.KING_WHITE) == -evaluator.getPieceValue(null, Piece.KING_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(Piece.PAWN_WHITE) == -evaluator.getPieceValue(Piece.PAWN_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(Piece.ROOK_WHITE) == -evaluator.getPieceValue(Piece.ROOK_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(Piece.KNIGHT_WHITE) == -evaluator.getPieceValue(Piece.KNIGHT_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(Piece.BISHOP_WHITE) == -evaluator.getPieceValue(Piece.BISHOP_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(Piece.QUEEN_WHITE) == -evaluator.getPieceValue(Piece.QUEEN_BLACK)) ;
+        assertTrue(evaluator.getPieceValue(Piece.KING_WHITE) == -evaluator.getPieceValue(Piece.KING_BLACK)) ;
     }
 
 

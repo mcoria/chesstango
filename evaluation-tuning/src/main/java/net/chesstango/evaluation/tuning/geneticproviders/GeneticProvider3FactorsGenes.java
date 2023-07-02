@@ -18,7 +18,7 @@ import java.util.List;
 public class GeneticProvider3FactorsGenes implements GeneticProvider {
     private final Class<? extends GameEvaluator> gameEvaluatorClass;
 
-    private static int CONSTRAINT_MAX_VALUE = 1000;
+    private static final int CONSTRAINT_MAX_VALUE = 1000;
 
     private final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
 
@@ -38,7 +38,7 @@ public class GeneticProvider3FactorsGenes implements GeneticProvider {
         return decodedGenotype.getGene1() + "|" + decodedGenotype.getGene2();
     }
 
-    @Override
+
     public GameEvaluator createGameEvaluator(Genotype<IntegerGene> genotype) {
         GenoDecoder decodedGenotype = decodeGenotype(genotype);
 

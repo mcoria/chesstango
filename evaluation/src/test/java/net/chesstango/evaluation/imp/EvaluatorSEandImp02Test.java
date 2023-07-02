@@ -4,20 +4,19 @@ import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.representations.fen.FENDecoder;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static net.chesstango.evaluation.imp.GameEvaluatorSimplifiedEvaluator.*;
+import static net.chesstango.evaluation.imp.EvaluatorSimplifiedEvaluator.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GameEvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
+public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
 
-    private GameEvaluatorSEandImp02 evaluator;
+    private EvaluatorSEandImp02 evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new GameEvaluatorSEandImp02();
+        evaluator = new EvaluatorSEandImp02();
     }
 
     @Override

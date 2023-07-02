@@ -1,27 +1,12 @@
 package net.chesstango.evaluation.imp;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorByMaterialAndMoves extends AbstractEvaluator {
-    private static final int FACTOR_MATERIAL_DEFAULT = 600;
-    private static final int FACTOR_MOVE_DEFAULT = 400;
-    private final int material;
-    private final int legalmoves;
-
-    public GameEvaluatorByMaterialAndMoves() {
-        this(FACTOR_MATERIAL_DEFAULT, FACTOR_MOVE_DEFAULT);
-    }
-
-    public GameEvaluatorByMaterialAndMoves(int material, int legalmoves) {
-        this.material = material;
-        this.legalmoves = legalmoves;
-    }
-
+public class EvaluatorByMaterial extends AbstractEvaluator {
     @Override
     public int evaluate(final Game game) {
         int evaluation = 0;
@@ -32,14 +17,13 @@ public class GameEvaluatorByMaterialAndMoves extends AbstractEvaluator {
                 break;
             case CHECK:
             case NO_CHECK:
-                evaluation += material * evaluateByMaterial(game);
-                evaluation += legalmoves * (Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? +game.getPossibleMoves().size() : -game.getPossibleMoves().size());
+                evaluation = evaluateByMaterial(game);
         }
         return evaluation;
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;
@@ -55,4 +39,5 @@ public class GameEvaluatorByMaterialAndMoves extends AbstractEvaluator {
             case KING_BLACK -> -10;
         };
     }
+
 }

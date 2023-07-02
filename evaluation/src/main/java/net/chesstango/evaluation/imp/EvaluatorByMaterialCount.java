@@ -3,15 +3,11 @@ package net.chesstango.evaluation.imp;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
-import net.chesstango.board.PiecePositioned;
-import net.chesstango.board.position.ChessPositionReader;
-
-import java.util.Iterator;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorByMaterialCount extends AbstractEvaluator {
+public class EvaluatorByMaterialCount extends AbstractEvaluator {
     @Override
     public int evaluate(final Game game) {
         int evaluation = 0;
@@ -28,7 +24,7 @@ public class GameEvaluatorByMaterialCount extends AbstractEvaluator {
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;

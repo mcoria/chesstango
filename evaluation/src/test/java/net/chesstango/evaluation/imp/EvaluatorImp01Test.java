@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp01Test extends GameEvaluatorTestCollection {
+public class EvaluatorImp01Test extends GameEvaluatorTestCollection {
 
-    private GameEvaluatorImp01 evaluator;
+    private EvaluatorImp01 evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new GameEvaluatorImp01();
+        evaluator = new EvaluatorImp01();
     }
 
     @Override

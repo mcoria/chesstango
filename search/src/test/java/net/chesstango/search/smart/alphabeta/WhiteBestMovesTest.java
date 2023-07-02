@@ -1,7 +1,7 @@
 package net.chesstango.search.smart.alphabeta;
 
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorByMaterial;
+import net.chesstango.evaluation.imp.EvaluatorByMaterial;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.AbstractWhiteBestMovesTest;
 import net.chesstango.search.smart.IterativeDeepening;
@@ -24,10 +24,10 @@ public class WhiteBestMovesTest extends AbstractWhiteBestMovesTest {
     public void setup() {
         MoveSorter moveSorter = new DefaultMoveSorter();
 
-        GameEvaluator gameEvaluator = new GameEvaluatorByMaterial();
+        GameEvaluator gameEvaluator = new EvaluatorByMaterial();
 
         Quiescence quiescence = new Quiescence();
-        quiescence.setGameEvaluator(new GameEvaluatorByMaterial());
+        quiescence.setGameEvaluator(new EvaluatorByMaterial());
         quiescence.setMoveSorter(moveSorter);
         quiescence.setNext(quiescence);
 

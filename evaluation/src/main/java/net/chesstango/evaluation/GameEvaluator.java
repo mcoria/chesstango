@@ -2,6 +2,8 @@ package net.chesstango.evaluation;
 
 import net.chesstango.board.Game;
 
+import java.util.Map;
+
 /**
  * @author Mauricio Coria
  *
@@ -21,4 +23,5 @@ public interface GameEvaluator {
 
 
     int evaluate(final Game game);
+
 }

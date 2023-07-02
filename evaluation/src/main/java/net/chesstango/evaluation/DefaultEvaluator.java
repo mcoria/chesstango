@@ -1,14 +1,14 @@
 package net.chesstango.evaluation;
 
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
+import net.chesstango.evaluation.imp.EvaluatorSEandImp02;
 
 /**
  * @author Mauricio Coria
  */
-public class DefaultGameEvaluator implements GameEvaluator {
+public class DefaultEvaluator implements GameEvaluator {
 
-    private GameEvaluator imp = new GameEvaluatorSEandImp02();
+    private GameEvaluator imp = new EvaluatorSEandImp02();
 
     @Override
     public int evaluate(Game game) {

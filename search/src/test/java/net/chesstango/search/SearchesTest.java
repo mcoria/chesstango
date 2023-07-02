@@ -2,7 +2,7 @@ package net.chesstango.search;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.DefaultGameEvaluator;
+import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.SearchesReport;
 import org.junit.jupiter.api.AfterEach;
@@ -28,7 +28,7 @@ public class SearchesTest {
         printReport = false;
 
         moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultGameEvaluator())
+                .withGameEvaluator(new DefaultEvaluator())
 
                 .withQuiescence()
 

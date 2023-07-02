@@ -8,6 +8,7 @@ import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameEvaluator;
 
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -32,14 +33,27 @@ public abstract class AbstractEvaluator implements GameEvaluator {
 
     protected int evaluateByMaterial(final Game game) {
         int evaluation = 0;
+
         ChessPositionReader positionReader = game.getChessPosition();
-        for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
-            PiecePositioned piecePlacement = it.next();
-            Piece piece = piecePlacement.getPiece();
-            evaluation += getPieceValue(game, piece);
-        }
+
+        long whitePositions = positionReader.getPositions(Color.WHITE);
+
+        long blackPositions = positionReader.getPositions(Color.BLACK);
+
+        evaluation += Long.bitCount(whitePositions & positionReader.getRookPositions()) * getPieceValue(Piece.getRook(Color.WHITE));
+        evaluation += Long.bitCount(whitePositions & positionReader.getKnightPositions()) * getPieceValue(Piece.getRook(Color.WHITE));
+        evaluation += Long.bitCount(whitePositions & positionReader.getBishopPositions()) * getPieceValue(Piece.getRook(Color.WHITE));
+        evaluation += Long.bitCount(whitePositions & positionReader.getQueenPositions()) * getPieceValue(Piece.getRook(Color.WHITE));
+        evaluation += Long.bitCount(whitePositions & positionReader.getPawnPositions()) * getPieceValue(Piece.getRook(Color.WHITE));
+
+        evaluation += Long.bitCount(blackPositions & positionReader.getRookPositions()) * getPieceValue(Piece.getRook(Color.BLACK));
+        evaluation += Long.bitCount(blackPositions & positionReader.getKnightPositions()) * getPieceValue(Piece.getRook(Color.BLACK));
+        evaluation += Long.bitCount(blackPositions & positionReader.getBishopPositions()) * getPieceValue(Piece.getRook(Color.BLACK));
+        evaluation += Long.bitCount(blackPositions & positionReader.getQueenPositions()) * getPieceValue(Piece.getRook(Color.BLACK));
+        evaluation += Long.bitCount(blackPositions & positionReader.getPawnPositions()) * getPieceValue(Piece.getRook(Color.BLACK));
+
         return evaluation;
     }
 
-    abstract int getPieceValue(final Game game, Piece piece);
+    abstract int getPieceValue(Piece piece);
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class GameEvaluatorByCondition implements GameEvaluator {
+public class EvaluatorByCondition implements GameEvaluator {
     private int defaultValue;
 
     private List<Function<Game, Integer>> evaluationConditions = new ArrayList<>();
@@ -45,12 +45,12 @@ public class GameEvaluatorByCondition implements GameEvaluator {
         return evaluation;
     }
 
-    public GameEvaluatorByCondition setDefaultValue(int defaultValue) {
+    public EvaluatorByCondition setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
-    public GameEvaluatorByCondition addCondition(Function<Game, Integer> evaluationCondition) {
+    public EvaluatorByCondition addCondition(Function<Game, Integer> evaluationCondition) {
         evaluationConditions.add(evaluationCondition);
         return this;
     }

@@ -2,8 +2,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.evaluation.imp.GameEvaluatorSEandImp02;
+import net.chesstango.evaluation.imp.EvaluatorSEandImp02;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.reports.SearchesReport;
@@ -113,7 +112,7 @@ public class TranspositionTableTest {
 
     private SearchMove createSearchWithoutTT() {
 
-        GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new GameEvaluatorSEandImp02());
+        GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new EvaluatorSEandImp02());
 
         MoveSorter moveSorter = new DefaultMoveSorter();
 
@@ -138,7 +137,7 @@ public class TranspositionTableTest {
     }
 
     private SearchMove createSearchWithTT() {
-        GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new GameEvaluatorSEandImp02());
+        GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new EvaluatorSEandImp02());
 
         MoveSorter moveSorter = new TranspositionMoveSorter();
         //MoveSorter moveSorter = new DefaultMoveSorter();

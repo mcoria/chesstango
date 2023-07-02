@@ -38,7 +38,7 @@ import java.util.Iterator;
  * |                 GameEvaluatorImp02|       4 |       6 |       11 |       13 |       35 |       31 |       21.5 |       21.5 |  43.0 /100 |   43.0 |
  *  ---------------------------------------------------------------------------------------------------------------------------------------------------
  */
-public class GameEvaluatorSEandImp02 extends AbstractEvaluator {
+public class EvaluatorSEandImp02 extends AbstractEvaluator {
 
     private static final int FACTOR_MATERIAL_DEFAULT = 756;
     private static final int FACTOR_POSITION_DEFAULT = 204;
@@ -55,11 +55,11 @@ public class GameEvaluatorSEandImp02 extends AbstractEvaluator {
     private ChessPositionReader positionReader;
     private MoveGenerator pseudoMovesGenerator;
 
-    public GameEvaluatorSEandImp02() {
+    public EvaluatorSEandImp02() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_POSITION_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer ataque) {
+    public EvaluatorSEandImp02(Integer material, Integer position, Integer expansion, Integer ataque) {
         this.material = material;
         this.position = position;
         this.expansion = expansion;
@@ -147,7 +147,7 @@ public class GameEvaluatorSEandImp02 extends AbstractEvaluator {
                     };
                     evaluationByMoveToEmptySquare += positionValues[toSquare.toIdx()];
                 } else {
-                    evaluationByAttack -= getPieceValue(game, toPosition.getPiece());
+                    evaluationByAttack -= getPieceValue(toPosition.getPiece());
                 }
 
             }
@@ -166,7 +166,7 @@ public class GameEvaluatorSEandImp02 extends AbstractEvaluator {
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 100;
             case PAWN_BLACK -> -100;

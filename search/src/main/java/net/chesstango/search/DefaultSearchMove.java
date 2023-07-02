@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.board.Game;
-import net.chesstango.evaluation.DefaultGameEvaluator;
+import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 
@@ -13,7 +13,7 @@ public class DefaultSearchMove implements SearchMove {
     private final SearchMove imp;
 
     public DefaultSearchMove() {
-        this(new DefaultGameEvaluator());
+        this(new DefaultEvaluator());
     }
 
     public DefaultSearchMove(final GameEvaluator gameEvaluator) {

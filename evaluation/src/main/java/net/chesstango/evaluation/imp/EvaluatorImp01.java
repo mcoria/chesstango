@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp01 extends AbstractEvaluator {
+public class EvaluatorImp01 extends AbstractEvaluator {
     private static final int FACTOR_MATERIAL_DEFAULT = 628;
     private static final int FACTOR_EXPANSION_DEFAULT = 288;
     private static final int FACTOR_ATAQUE_DEFAULT = 84;
@@ -18,11 +18,11 @@ public class GameEvaluatorImp01 extends AbstractEvaluator {
     private final int expansion;
     private final int ataque;
 
-    public GameEvaluatorImp01() {
+    public EvaluatorImp01() {
         this(FACTOR_MATERIAL_DEFAULT, FACTOR_EXPANSION_DEFAULT, FACTOR_ATAQUE_DEFAULT);
     }
 
-    public GameEvaluatorImp01(int material, int expansion, int ataque) {
+    public EvaluatorImp01(int material, int expansion, int ataque) {
         this.material = material;
         this.expansion = expansion;
         this.ataque = ataque;
@@ -61,7 +61,7 @@ public class GameEvaluatorImp01 extends AbstractEvaluator {
 
             if (to.getPiece() != null) {
                 territorioAtaque.add(to.getSquare());
-                posiblesCapturasValor += Math.abs(getPieceValue(game, to.getPiece()));
+                posiblesCapturasValor += Math.abs(getPieceValue(to.getPiece()));
             }
         }
 
@@ -71,7 +71,7 @@ public class GameEvaluatorImp01 extends AbstractEvaluator {
     }
 
     @Override
-    public int getPieceValue(Game game, Piece piece) {
+    public int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;

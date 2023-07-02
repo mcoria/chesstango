@@ -9,12 +9,13 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorByMaterialAndMovesTest extends GameEvaluatorTestCollection {
-    private GameEvaluatorImp01 evaluator;
+public class EvaluatorImp02Test extends GameEvaluatorTestCollection {
+
+    private EvaluatorImp02 evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new GameEvaluatorImp01();
+        evaluator = new EvaluatorImp02();
     }
 
     @Override
@@ -25,12 +26,7 @@ public class GameEvaluatorByMaterialAndMovesTest extends GameEvaluatorTestCollec
     @Test
     @Override
     @Disabled //El evaluator no es lo suficientemente bueno como para resolver esta situation
-    public void testCloseToPromotionOneMove() {
-    }
-
-    @Test
-    @Override
-    @Disabled //El evaluator no es lo suficientemente bueno como para resolver esta situation
     public void testCloseToPromotionTwoMoves() {
     }
+
 }

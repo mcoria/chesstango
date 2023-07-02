@@ -1,6 +1,6 @@
 package net.chesstango.uci.engine.builders;
 
-import net.chesstango.evaluation.DefaultGameEvaluator;
+import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.SearchBuilder;
@@ -43,7 +43,7 @@ public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implement
                 fnSearchBuilderSetup.accept(searchBuilder);
             }
 
-            searchBuilder.withGameEvaluator(new DefaultGameEvaluator());
+            searchBuilder.withGameEvaluator(new DefaultEvaluator());
 
             SearchMove search = searchBuilder.build();
 

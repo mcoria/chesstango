@@ -9,20 +9,18 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorImp03Test extends GameEvaluatorTestCollection {
-
-    private GameEvaluatorImp03 evaluator;
+public class EvaluatorByMaterialAndMovesTest extends GameEvaluatorTestCollection {
+    private EvaluatorImp01 evaluator;
 
     @BeforeEach
     public void setUp() {
-        evaluator = new GameEvaluatorImp03();
+        evaluator = new EvaluatorImp01();
     }
 
     @Override
     protected AbstractEvaluator getEvaluator() {
         return evaluator;
     }
-
 
     @Test
     @Override

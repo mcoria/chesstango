@@ -12,12 +12,12 @@ import org.junit.platform.suite.api.Suite;
  */
 @Suite
 @SelectClasses({
-        GameEvaluatorByMaterialAndMovesTest.class,
-        GameEvaluatorImp01Test.class,
-        GameEvaluatorImp02Test.class,
-        GameEvaluatorImp03Test.class,
-        GameEvaluatorSEandImp02Test.class,
-        GameEvaluatorSimplifiedEvaluatorTest.class,
+        EvaluatorByMaterialAndMovesTest.class,
+        EvaluatorImp01Test.class,
+        EvaluatorImp02Test.class,
+        EvaluatorImp03Test.class,
+        EvaluatorSEandImp02Test.class,
+        EvaluatorSimplifiedEvaluatorTest.class,
         GameEvaluatorTestCollection.class,
 })
 public class EvaluatorTestSuite {

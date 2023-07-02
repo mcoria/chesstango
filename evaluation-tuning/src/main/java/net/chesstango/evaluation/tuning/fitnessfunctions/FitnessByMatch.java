@@ -39,10 +39,6 @@ public class FitnessByMatch implements FitnessFunction {
         this.fenList = getFenList() ;
     }
 
-    private static List<String> getFenList() {
-        return new Transcoding().pgnFileToFenPositions(TuningMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
-    }
-
     @Override
     public void start() {
         pool = new GenericObjectPool<>(new EngineControllerPoolFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
@@ -103,4 +99,7 @@ public class FitnessByMatch implements FitnessFunction {
     }
 
 
+    private static List<String> getFenList() {
+        return new Transcoding().pgnFileToFenPositions(TuningMain.class.getClassLoader().getResourceAsStream("Balsa_Top25.pgn"));
+    }
 }
