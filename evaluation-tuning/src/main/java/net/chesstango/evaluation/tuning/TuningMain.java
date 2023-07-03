@@ -11,6 +11,7 @@ import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessByLeastSquare;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider4FactorsGenes;
+import net.chesstango.evaluation.tuning.geneticproviders.GeneticProviderNIntChromosomes;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -21,11 +22,12 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class TuningMain {
-    private static final int POPULATION_SIZE = 10;
-    private static final int GENERATION_LIMIT = 3;
+    private static final int POPULATION_SIZE = 20;
+    private static final int GENERATION_LIMIT = 50000;
 
     public static void main(String[] args) {
-        GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
+        //GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
+        GeneticProvider geneticProvider = new GeneticProviderNIntChromosomes(10);
 
         //FitnessFunction fitnessFunction = new FitnessByMatch(geneticProvider::createGameEvaluator);
         //FitnessFunction fitnessFunction = new FitnessBySearch((Genotype<IntegerGene> genotype) -> GeneticProvider4FactorsGenes.createGameEvaluator(GameEvaluatorSEandImp02.class, genotype));
@@ -68,12 +70,14 @@ public class TuningMain {
         System.out.println("El mejor fenotipo encontrado = " + result.fitness());
         System.out.println("Y su genotipo = " + result.genotype());
 
+        /*
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
         List<Map.Entry<String, Long>> entryList = entrySet.stream().collect(Collectors.toList());
         Collections.sort(entryList, Comparator.comparing(Map.Entry::getValue));
         entryList.stream().forEach(entry -> {
             System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
         });
+         */
 
         fitnessFn.stop();
         executor.shutdown();

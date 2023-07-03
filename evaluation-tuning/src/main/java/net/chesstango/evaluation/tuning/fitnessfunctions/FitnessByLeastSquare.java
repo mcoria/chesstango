@@ -42,7 +42,7 @@ public class FitnessByLeastSquare implements FitnessFunction {
 
     private List<FeaturesValues> readFeaturesFromFile() {
         List<FeaturesValues> records = new LinkedList<>();
-        try (Scanner scanner = new Scanner(new File("C:\\Java\\projects\\chess\\chess-utils\\testing\\features.csv"))) {
+        try (Scanner scanner = new Scanner(new File("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\mate-all-features.epd"))) {
             while (scanner.hasNextLine()) {
                 records.add(getRecordFromLine(scanner.nextLine()));
             }
@@ -57,18 +57,21 @@ public class FitnessByLeastSquare implements FitnessFunction {
         GameResult expectedResult = null;
         int featuresCount = 0;
         try (Scanner rowScanner = new Scanner(line)) {
-            rowScanner.useDelimiter(",");
+            rowScanner.useDelimiter(";");
+            rowScanner.next(); //Skip FEN
             while (rowScanner.hasNext() && featuresCount < FeaturesValues.FEATURES_COUNT) {
-                features[featuresCount] =  Integer.parseInt(rowScanner.next());
+                features[featuresCount] = Integer.parseInt(rowScanner.next());
                 featuresCount++;
             }
-            int expectedResultInt = Integer.parseInt(rowScanner.next());
-            if(expectedResultInt == 0){
-                expectedResult = GameResult.EMPATE;
-            } else if (expectedResultInt == 1) {
+            String expectedResultStr = rowScanner.next();
+            if ("DRAW".equals(expectedResultStr)) {
+                expectedResult = GameResult.DRAW;
+            } else if ("WHITE_WON".equals(expectedResultStr)) {
                 expectedResult = GameResult.WHITE_WINS;
-            }else if (expectedResultInt == -1) {
+            } else if ("BLACK_WON".equals(expectedResultStr)) {
                 expectedResult = GameResult.BLACK_WINS;
+            } else {
+                throw new RuntimeException("Unknown result " + expectedResultStr);
             }
         }
 
@@ -87,16 +90,19 @@ public class FitnessByLeastSquare implements FitnessFunction {
     enum GameResult {
         WHITE_WINS,
         BLACK_WINS,
-        EMPATE
+        DRAW
     }
 
     protected static class FeaturesValues {
-        static final int FEATURES_COUNT = 3;
-
+        static final int FEATURES_COUNT = 10;
         int features[];
         GameResult expectedResult;
 
         public int error(int[] factors) {
+            if (factors.length != FEATURES_COUNT) {
+                throw new RuntimeException(String.format("Expected %d features", factors.length));
+            }
+
             int evaluation = 0;
 
             for (int i = 0; i < FEATURES_COUNT; i++) {

@@ -149,4 +149,13 @@ public class EDPReaderTest {
 
         assertEquals(201, entryList.size());
     }
+
+
+    @Test
+    @Disabled
+    public void testReadEvalTunnerWhite(){
+        List<EDPReader.EDPEntry> entryList = edpReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-white.txt");
+
+        assertEquals(32571, entryList.size());
+    }
 }

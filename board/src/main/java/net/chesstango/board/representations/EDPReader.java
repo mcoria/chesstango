@@ -40,6 +40,7 @@ public class EDPReader {
                         edpEntries.add(entry);
                     } catch (RuntimeException e) {
                         e.printStackTrace(System.err);
+                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -53,20 +54,21 @@ public class EDPReader {
         EDPEntry edpEntry = parseLine(line);
         edpEntry.game = FENDecoder.loadGame(edpEntry.fen);
 
-        String[] bestMoves = edpEntry.bestMovesString.split(" ");
-
-        for (int i = 0; i < bestMoves.length; i++) {
-            Move move = decodeMove(bestMoves[i], edpEntry.game.getPossibleMoves());
-            if (move != null) {
-                edpEntry.bestMoves.add(move);
-            } else {
-                throw new RuntimeException(String.format("Unable to decode %s", bestMoves[i]));
+        if(edpEntry.bestMovesString != null) {
+            String[] bestMoves = edpEntry.bestMovesString.split(" ");
+            for (int i = 0; i < bestMoves.length; i++) {
+                Move move = decodeMove(bestMoves[i], edpEntry.game.getPossibleMoves());
+                if (move != null) {
+                    edpEntry.bestMoves.add(move);
+                } else {
+                    throw new RuntimeException(String.format("Unable to decode %s", bestMoves[i]));
+                }
             }
         }
         return edpEntry;
     }
 
-    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*) bm (?<bestmoves>[^;]*);.*");
+    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*)((?<bestmove>bm (?<bestmoves>[^;]*);)|).*");
 
     protected EDPEntry parseLine(String line) {
         EDPEntry edpParsed = new EDPEntry();
@@ -75,8 +77,10 @@ public class EDPReader {
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
             edpParsed.fen = matcher.group("fen");
-            edpParsed.bestMovesString = matcher.group("bestmoves");
-            edpParsed.bestMoves = new ArrayList<>();
+            if(matcher.group("bestmove") != null) {
+                edpParsed.bestMovesString = matcher.group("bestmoves");
+                edpParsed.bestMoves = new ArrayList<>();
+            }
         }
 
         return edpParsed;

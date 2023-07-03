@@ -18,29 +18,40 @@ public class ExtractorMain {
         new ExtractorMain().extract();
     }
 
-    private void extract() {
-        List<GameFeatures> featureExtractors = new ArrayList<>();
-        featureExtractors.add(new ExtractorByMaterial());
+    private final List<GameFeatures> featureExtractors = new ArrayList<>();
 
+    public ExtractorMain(){
+        featureExtractors.add(new ExtractorByMaterial());
+    }
+
+    private void extract() {
         List<String> featuresList = new LinkedList<>();
 
+        //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all-w.epd", "WHITE_WON");
+        //extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all-b.epd", "BLACK_WON");
+
+        extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-white.txt", "WHITE_WON");
+        extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-black.txt", "BLACK_WON");
+        extractFeaturesFromEDPFile(featuresList, "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-draw.txt", "DRAW");
+
+        whiteToFile(featuresList);
+    }
+
+    private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) {
         EDPReader epdReader = new EDPReader();
-        //List<EDPReader.EDPEntry> edpEntryList = epdReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all.epd");
-        List<EDPReader.EDPEntry> edpEntryList = epdReader.readEdpFile("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-all-w.epd");
+        List<EDPReader.EDPEntry> edpEntryList = epdReader.readEdpFile(fileName);
 
         for (EDPReader.EDPEntry edpEntry : edpEntryList) {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
                 extractor.extractFeatures(edpEntry.game, features);
             }
-            featuresList.add(convertToLine(edpEntry.game.getChessPosition().toString(), features, "WHITE_WON"));
+            featuresList.add(convertToLine(edpEntry.game.getChessPosition().toString(), features, gameResultString));
         }
-
-        whiteToFile(featuresList);
     }
 
     private void whiteToFile(List<String> featuresList) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("games-features.epd"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("eval-tunner-features.epd"))) {
             for (String featuresStr: featuresList) {
                 writer.append(String.format("%s\n", featuresStr));
             }

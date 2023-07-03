@@ -13,7 +13,7 @@ public class FitnessByLeastSquareTest {
     public void testError01() {
         FitnessByLeastSquare.FeaturesValues featuresValues = new FitnessByLeastSquare.FeaturesValues();
         featuresValues.features = new int[]{1, 2, 3};
-        featuresValues.expectedResult = FitnessByLeastSquare.GameResult.EMPATE;
+        featuresValues.expectedResult = FitnessByLeastSquare.GameResult.DRAW;
 
         int error = featuresValues.error(new int[]{4, 5, 6});
 
