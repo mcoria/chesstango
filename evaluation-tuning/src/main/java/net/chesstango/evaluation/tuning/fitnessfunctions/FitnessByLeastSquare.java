@@ -40,9 +40,46 @@ public class FitnessByLeastSquare implements FitnessFunction {
         featuresValuesList = readFeaturesFromFile();
     }
 
+    @Override
+    public void stop() {
+
+    }
+
+    enum GameResult {
+        WHITE_WINS,
+        BLACK_WINS,
+        DRAW
+    }
+
+    protected static class FeaturesValues {
+        static final int FEATURES_COUNT = 10;
+        int features[];
+        GameResult expectedResult;
+
+        public int error(int[] factors) {
+            if (factors.length != FEATURES_COUNT) {
+                throw new RuntimeException(String.format("Expected %d features", factors.length));
+            }
+
+            int evaluation = 0;
+
+            for (int i = 0; i < FEATURES_COUNT; i++) {
+                evaluation += factors[i] * features[i];
+            }
+
+            if (GameResult.WHITE_WINS.equals(expectedResult)) {
+                return GameEvaluator.WHITE_WON - evaluation;
+            } else if (GameResult.BLACK_WINS.equals(expectedResult)) {
+                return GameEvaluator.BLACK_WON - evaluation;
+            }
+
+            return evaluation;
+        }
+    }
+
     private List<FeaturesValues> readFeaturesFromFile() {
         List<FeaturesValues> records = new LinkedList<>();
-        try (Scanner scanner = new Scanner(new File("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\mate-all-features.epd"))) {
+        try (Scanner scanner = new Scanner(new File("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Texel\\eval-tunner-features.epd"))) {
             while (scanner.hasNextLine()) {
                 records.add(getRecordFromLine(scanner.nextLine()));
             }
@@ -80,42 +117,5 @@ public class FitnessByLeastSquare implements FitnessFunction {
         featuresValues.expectedResult = expectedResult;
 
         return featuresValues;
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    enum GameResult {
-        WHITE_WINS,
-        BLACK_WINS,
-        DRAW
-    }
-
-    protected static class FeaturesValues {
-        static final int FEATURES_COUNT = 10;
-        int features[];
-        GameResult expectedResult;
-
-        public int error(int[] factors) {
-            if (factors.length != FEATURES_COUNT) {
-                throw new RuntimeException(String.format("Expected %d features", factors.length));
-            }
-
-            int evaluation = 0;
-
-            for (int i = 0; i < FEATURES_COUNT; i++) {
-                evaluation += factors[i] * features[i];
-            }
-
-            if (GameResult.WHITE_WINS.equals(expectedResult)) {
-                return GameEvaluator.WHITE_WON - evaluation;
-            } else if (GameResult.BLACK_WINS.equals(expectedResult)) {
-                return GameEvaluator.BLACK_WON - evaluation;
-            }
-
-            return evaluation;
-        }
     }
 }

@@ -10,7 +10,6 @@ import io.jenetics.engine.EvolutionStart;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessByLeastSquare;
 import net.chesstango.evaluation.tuning.fitnessfunctions.FitnessFunction;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider;
-import net.chesstango.evaluation.tuning.geneticproviders.GeneticProvider4FactorsGenes;
 import net.chesstango.evaluation.tuning.geneticproviders.GeneticProviderNIntChromosomes;
 
 import java.util.*;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class TuningMain {
     private static final int POPULATION_SIZE = 20;
-    private static final int GENERATION_LIMIT = 50000;
+    private static final int GENERATION_LIMIT = 100000;
 
     public static void main(String[] args) {
         //GeneticProvider geneticProvider = new GeneticProvider4FactorsGenes();
@@ -53,7 +52,7 @@ public class TuningMain {
         fitnessFn.start();
 
         Engine<IntegerGene, Long> engine = Engine.builder(this::fitness, geneticProvider.getGenotypeFactory())
-                .selector(new EliteSelector<>(5))
+                .selector(new EliteSelector<>(10))
                 //.constraint(geneticProvider.getPhenotypeConstraint())
                 .populationSize(POPULATION_SIZE)
                 .executor(executor)
@@ -70,19 +69,20 @@ public class TuningMain {
         System.out.println("El mejor fenotipo encontrado = " + result.fitness());
         System.out.println("Y su genotipo = " + result.genotype());
 
-        /*
+
         Set<Map.Entry<String, Long>> entrySet = fitnessMemory.entrySet();
         List<Map.Entry<String, Long>> entryList = entrySet.stream().collect(Collectors.toList());
-        Collections.sort(entryList, Comparator.comparing(Map.Entry::getValue));
-        entryList.stream().forEach(entry -> {
+        Collections.sort(entryList, Collections.reverseOrder(Comparator.comparingLong(Map.Entry::getValue)));
+        entryList.stream().limit(20).forEach(entry -> {
             System.out.println("key = [" + entry.getKey() + "]; value=[" + entry.getValue() + "]");
         });
-         */
+
 
         fitnessFn.stop();
         executor.shutdown();
     }
 
+    /*
     private long fitness(Genotype<IntegerGene> genotype) {
         String keyGenes = geneticProvider.getKeyGenesString(genotype);
 
@@ -98,6 +98,9 @@ public class TuningMain {
         }
 
         return points;
-    }
+    }*/
 
+    private long fitness(Genotype<IntegerGene> genotype) {
+        return fitnessFn.fitness(genotype);
+    }
 }
