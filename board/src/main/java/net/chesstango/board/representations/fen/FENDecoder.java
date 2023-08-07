@@ -9,250 +9,262 @@ import net.chesstango.board.builders.ChessRepresentationBuilder;
 import net.chesstango.board.builders.GameBuilder;
 import net.chesstango.board.position.ChessPosition;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Mauricio Coria
- *
  */
 public class FENDecoder {
-	public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    public static final String INITIAL_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-	private final ChessRepresentationBuilder<?> chessRepresentationBuilder;
-	
-	public FENDecoder(ChessRepresentationBuilder<?> chessRepresentationBuilder) {
-		this.chessRepresentationBuilder = chessRepresentationBuilder;
-	}	
-			
-	public void parseFEN(String input) {
-		String[] fields = input.trim().split("\\s+");
-		
-		String piecePlacement = fields[0];
-		String activeColor= fields[1];
-		String castingsAllowed = fields[2];
-		String enPassantSquare = fields[3];
-		String halfMoveClock = fields.length < 5 ? "0" : fields[4];
-		String fullMoveClock = fields.length < 5 ? "1" : fields[5];
-		
-		parsePiecePlacement(piecePlacement);
-		
-		chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
-		
-		chessRepresentationBuilder.withTurn(parseTurno(activeColor));
-		
-		if(isCastlingWhiteQueenAllowed(castingsAllowed)){
-			chessRepresentationBuilder.withCastlingWhiteQueenAllowed(true);
-		}
-		
-		if(isCastlingWhiteKingAllowed(castingsAllowed)){
-			chessRepresentationBuilder.withCastlingWhiteKingAllowed(true);
-		}
-		
-		if(isCastlingBlackQueenAllowed(castingsAllowed)){
-			chessRepresentationBuilder.withCastlingBlackQueenAllowed(true);
-		}
-		
-		if(isCastlingBlackKingAllowed(castingsAllowed)){
-			chessRepresentationBuilder.withCastlingBlackKingAllowed(true);
-		}
+    public static Pattern fenPattern = Pattern.compile("(?<piecePlacement>([rnbqkpRNBQKP12345678]{1,8}/){7}[rnbqkpRNBQKP12345678]{1,8})\\s+" +
+            "(?<activeColor>[wb])\\s+" +
+            "(?<castingsAllowed>([KQkq]{1,4}|-))\\s+" +
+            "(?<enPassantSquare>(\\w\\d|-))(\\s*|\\s+" +
+            "(?<halfMoveClock>[0-9]*)\\s+" +
+            "(?<fullMoveClock>[0-9]*)\\s*)");
 
-		chessRepresentationBuilder.withHalfMoveClock(Integer.parseInt(halfMoveClock));
+    private final ChessRepresentationBuilder<?> chessRepresentationBuilder;
 
-		chessRepresentationBuilder.withFullMoveClock(Integer.parseInt(fullMoveClock));
+    public FENDecoder(ChessRepresentationBuilder<?> chessRepresentationBuilder) {
+        this.chessRepresentationBuilder = chessRepresentationBuilder;
+    }
 
-	}
-	
-	public void parsePiecePlacement(String piecePlacement){
-		Piece[][] piezas = parsePieces(piecePlacement);
-		for (int rank = 0; rank < 8; rank++) {
-			for (int file = 0; file < 8; file++) {
-				Square square = Square.getSquare(file, rank);
-				Piece piece = piezas[rank][file];
-				if(piece != null){
-					chessRepresentationBuilder.withPiece(square, piece);
-				}
-			}
-		}
-	}
-	
-	protected Piece[][] parsePieces(String piecePlacement){
-		Piece[][] tablero = new Piece[8][8];
-		String[] ranks = piecePlacement.split("/");
-		int currentRank = 7;
-		for (int i = 0; i < 8; i++) {
-			Piece[] rankPiezas = parseRank(ranks[i]);
-			for (int j = 0; j < 8; j++) {
-				tablero[currentRank][j] = rankPiezas[j];
-			}
-			currentRank--;
-		}
-		return tablero;
-	}	
-	
-	protected Piece[] parseRank(String rank) {
-		Piece[] piezas = new Piece[8];
-		int position = 0;
-		for (int i = 0; i < rank.length(); i++) {
-			char theCharCode = rank.charAt(i);
-			Piece currentPieza =  getCode(theCharCode);
-			if(currentPieza != null){
-				piezas[position] = currentPieza;
-				position++;
-			} else {
-				int offset = Integer.parseInt(String.valueOf(theCharCode)); 
-				position += offset;
-			}
-		}
-		if(position != 8) {
-			throw new RuntimeException("FEN: Malformed rank: " + rank);
-		}
-		return piezas;
-	}
+    public void parseFEN(String input) {
+        Matcher matcher = fenPattern.matcher(input);
+        if (!matcher.matches()) {
+            throw new RuntimeException("Invalid fen input string");
+        }
 
-	private Piece getCode(char t) {
-		Piece piece = null;
-		switch (t) {
-			case 'r':
-				piece = Piece.ROOK_BLACK;
-				break;
-			case 'n':
-				piece = Piece.KNIGHT_BLACK;
-				break;
-			case 'q':
-				piece = Piece.QUEEN_BLACK;
-				break;
-			case 'k':
-				piece = Piece.KING_BLACK;
-				break;
-			case 'p':
-				piece = Piece.PAWN_BLACK;
-				break;
-			case 'b':
-				piece = Piece.BISHOP_BLACK;
-				break;
-			case 'R':
-				piece = Piece.ROOK_WHITE;
-				break;
-			case 'N':
-				piece = Piece.KNIGHT_WHITE;
-				break;
-			case 'Q':
-				piece = Piece.QUEEN_WHITE;
-				break;
-			case 'K':
-				piece = Piece.KING_WHITE;
-				break;
-			case 'P':
-				piece = Piece.PAWN_WHITE;
-				break;
-			case 'B':
-				piece = Piece.BISHOP_WHITE;
-				break;
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-				break;				
-			default:
-				throw new RuntimeException("Unknown FEN code " + t);
-		}
+        String piecePlacement = matcher.group("piecePlacement");
+        String activeColor = matcher.group("activeColor");
+        String castingsAllowed = matcher.group("castingsAllowed");
+        String enPassantSquare = matcher.group("enPassantSquare");
+        String halfMoveClock = matcher.group("halfMoveClock");
+        String fullMoveClock = matcher.group("fullMoveClock");
 
-		return piece;
-	}	
-	
-	protected Square parseEnPassantSquare(String pawnPasante) {
-		Square result = null;
-		if( ! "-".equals(pawnPasante)){
-			char file = pawnPasante.charAt(0);
-			char rank = pawnPasante.charAt(1);
-			int fileNumber = -1;
-			int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
-			switch (file) {
-			case 'a':
-				fileNumber = 0;
-				break;
-			case 'b':
-				fileNumber = 1;
-				break;
-			case 'c':
-				fileNumber = 2;
-				break;
-			case 'd':
-				fileNumber = 3;
-				break;
-			case 'e':
-				fileNumber = 4;
-				break;
-			case 'f':
-				fileNumber = 5;
-				break;
-			case 'g':
-				fileNumber = 6;
-				break;
-			case 'h':
-				fileNumber = 7;
-				break;				
-			default:
-				throw new RuntimeException("Invalid FEV code");
-			}
-			result = Square.getSquare(fileNumber, rankNumber);
-		}
+        parsePiecePlacement(piecePlacement);
+
+        chessRepresentationBuilder.withEnPassantSquare(parseEnPassantSquare(enPassantSquare));
+
+        chessRepresentationBuilder.withTurn(parseTurn(activeColor));
+
+        if (isCastlingWhiteQueenAllowed(castingsAllowed)) {
+            chessRepresentationBuilder.withCastlingWhiteQueenAllowed(true);
+        }
+
+        if (isCastlingWhiteKingAllowed(castingsAllowed)) {
+            chessRepresentationBuilder.withCastlingWhiteKingAllowed(true);
+        }
+
+        if (isCastlingBlackQueenAllowed(castingsAllowed)) {
+            chessRepresentationBuilder.withCastlingBlackQueenAllowed(true);
+        }
+
+        if (isCastlingBlackKingAllowed(castingsAllowed)) {
+            chessRepresentationBuilder.withCastlingBlackKingAllowed(true);
+        }
+
+        chessRepresentationBuilder.withHalfMoveClock(halfMoveClock == null ? 0 : Integer.parseInt(halfMoveClock));
+
+        chessRepresentationBuilder.withFullMoveClock(fullMoveClock == null ? 1 : Integer.parseInt(fullMoveClock));
+
+    }
+
+    public void parsePiecePlacement(String piecePlacement) {
+        Piece[][] piezas = parsePieces(piecePlacement);
+        for (int rank = 0; rank < 8; rank++) {
+            for (int file = 0; file < 8; file++) {
+                Square square = Square.getSquare(file, rank);
+                Piece piece = piezas[rank][file];
+                if (piece != null) {
+                    chessRepresentationBuilder.withPiece(square, piece);
+                }
+            }
+        }
+    }
+
+    protected Piece[][] parsePieces(String piecePlacement) {
+        Piece[][] tablero = new Piece[8][8];
+        String[] ranks = piecePlacement.split("/");
+        int currentRank = 7;
+        for (int i = 0; i < 8; i++) {
+            Piece[] rankPiezas = parseRank(ranks[i]);
+            for (int j = 0; j < 8; j++) {
+                tablero[currentRank][j] = rankPiezas[j];
+            }
+            currentRank--;
+        }
+        return tablero;
+    }
+
+    protected Piece[] parseRank(String rank) {
+        Piece[] piezas = new Piece[8];
+        int position = 0;
+        for (int i = 0; i < rank.length(); i++) {
+            char theCharCode = rank.charAt(i);
+            Piece currentPieza = getCode(theCharCode);
+            if (currentPieza != null) {
+                piezas[position] = currentPieza;
+                position++;
+            } else {
+                int offset = Integer.parseInt(String.valueOf(theCharCode));
+                position += offset;
+            }
+        }
+        if (position != 8) {
+            throw new RuntimeException("FEN: Malformed rank: " + rank);
+        }
+        return piezas;
+    }
+
+    private Piece getCode(char t) {
+        Piece piece = null;
+        switch (t) {
+            case 'r':
+                piece = Piece.ROOK_BLACK;
+                break;
+            case 'n':
+                piece = Piece.KNIGHT_BLACK;
+                break;
+            case 'q':
+                piece = Piece.QUEEN_BLACK;
+                break;
+            case 'k':
+                piece = Piece.KING_BLACK;
+                break;
+            case 'p':
+                piece = Piece.PAWN_BLACK;
+                break;
+            case 'b':
+                piece = Piece.BISHOP_BLACK;
+                break;
+            case 'R':
+                piece = Piece.ROOK_WHITE;
+                break;
+            case 'N':
+                piece = Piece.KNIGHT_WHITE;
+                break;
+            case 'Q':
+                piece = Piece.QUEEN_WHITE;
+                break;
+            case 'K':
+                piece = Piece.KING_WHITE;
+                break;
+            case 'P':
+                piece = Piece.PAWN_WHITE;
+                break;
+            case 'B':
+                piece = Piece.BISHOP_WHITE;
+                break;
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+                break;
+            default:
+                throw new RuntimeException("Unknown FEN code " + t);
+        }
+
+        return piece;
+    }
+
+    protected Square parseEnPassantSquare(String pawnPasante) {
+        Square result = null;
+        if (!"-".equals(pawnPasante)) {
+            char file = pawnPasante.charAt(0);
+            char rank = pawnPasante.charAt(1);
+            int fileNumber = -1;
+            int rankNumber = Integer.parseInt(String.valueOf(rank)) - 1;
+            switch (file) {
+                case 'a':
+                    fileNumber = 0;
+                    break;
+                case 'b':
+                    fileNumber = 1;
+                    break;
+                case 'c':
+                    fileNumber = 2;
+                    break;
+                case 'd':
+                    fileNumber = 3;
+                    break;
+                case 'e':
+                    fileNumber = 4;
+                    break;
+                case 'f':
+                    fileNumber = 5;
+                    break;
+                case 'g':
+                    fileNumber = 6;
+                    break;
+                case 'h':
+                    fileNumber = 7;
+                    break;
+                default:
+                    throw new RuntimeException("Invalid FEV code");
+            }
+            result = Square.getSquare(fileNumber, rankNumber);
+        }
         return result;
-	}	
-	
-	protected Color parseTurno(String activeColor) {
-		char colorChar = activeColor.charAt(0);
-		Color turno = null;
-		switch (colorChar) {
-		case 'w':
-			turno = Color.WHITE;
-			break;	
-		case 'b':
-			turno = Color.BLACK;
-			break;				
-		default:
-			throw new RuntimeException("Unknown FEN code " + activeColor);			
-		}
-		return turno;
-	}
+    }
 
-	protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds){
+    protected Color parseTurn(String activeColor) {
+        char colorChar = activeColor.charAt(0);
+        Color turno = null;
+        switch (colorChar) {
+            case 'w':
+                turno = Color.WHITE;
+                break;
+            case 'b':
+                turno = Color.BLACK;
+                break;
+            default:
+                throw new RuntimeException("Unknown FEN code " + activeColor);
+        }
+        return turno;
+    }
+
+    protected boolean isCastlingWhiteQueenAllowed(String castlingsAlloweds) {
         return castlingsAlloweds.contains("Q");
     }
-	
-	protected boolean isCastlingWhiteKingAllowed(String castlingsAlloweds){
+
+    protected boolean isCastlingWhiteKingAllowed(String castlingsAlloweds) {
         return castlingsAlloweds.contains("K");
     }
-	
-	protected boolean isCastlingBlackQueenAllowed(String castlingsAlloweds){
+
+    protected boolean isCastlingBlackQueenAllowed(String castlingsAlloweds) {
         return castlingsAlloweds.contains("q");
     }
-	
-	protected boolean isCastlingBlackKingAllowed(String castlingsAlloweds){
+
+    protected boolean isCastlingBlackKingAllowed(String castlingsAlloweds) {
         return castlingsAlloweds.contains("k");
     }
 
 
-	public static Game loadGame(String fen) {
-		GameBuilder builder = new GameBuilder();
+    public static Game loadGame(String fen) {
+        GameBuilder builder = new GameBuilder();
 
-		FENDecoder parser = new FENDecoder(builder);
+        FENDecoder parser = new FENDecoder(builder);
 
-		parser.parseFEN(fen);
+        parser.parseFEN(fen);
 
-		return builder.getChessRepresentation();
-	}
+        return builder.getChessRepresentation();
+    }
 
-	public static ChessPosition loadChessPosition(String fen) {
-		ChessPositionBuilder builder = new ChessPositionBuilder();
+    public static ChessPosition loadChessPosition(String fen) {
+        ChessPositionBuilder builder = new ChessPositionBuilder();
 
-		FENDecoder parser = new FENDecoder(builder);
+        FENDecoder parser = new FENDecoder(builder);
 
-		parser.parseFEN(fen);
+        parser.parseFEN(fen);
 
-		return builder.getChessRepresentation();
-	}
+        return builder.getChessRepresentation();
+    }
 
 }

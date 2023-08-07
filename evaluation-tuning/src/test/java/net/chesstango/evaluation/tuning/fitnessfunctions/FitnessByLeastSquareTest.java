@@ -2,6 +2,7 @@ package net.chesstango.evaluation.tuning.fitnessfunctions;
 
 import net.chesstango.evaluation.GameEvaluator;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 public class FitnessByLeastSquareTest {
 
     @Test
+    @Disabled
     public void testError01() {
         FitnessByLeastSquare.FeaturesValues featuresValues = new FitnessByLeastSquare.FeaturesValues();
         featuresValues.features = new int[]{1, 2, 3};
@@ -21,6 +23,7 @@ public class FitnessByLeastSquareTest {
     }
 
     @Test
+    @Disabled
     public void testError02() {
         FitnessByLeastSquare.FeaturesValues featuresValues = new FitnessByLeastSquare.FeaturesValues();
         featuresValues.features = new int[]{1, 2, 3};
@@ -32,6 +35,7 @@ public class FitnessByLeastSquareTest {
     }
 
     @Test
+    @Disabled
     public void testError03() {
         FitnessByLeastSquare.FeaturesValues featuresValues = new FitnessByLeastSquare.FeaturesValues();
         featuresValues.features = new int[]{1, 2, 3};

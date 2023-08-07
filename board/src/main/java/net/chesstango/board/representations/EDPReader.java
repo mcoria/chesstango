@@ -68,7 +68,7 @@ public class EDPReader {
         return edpEntry;
     }
 
-    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*)((?<bestmove>bm (?<bestmoves>[^;]*);)|).*");
+    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|.*)*");
 
     protected EDPEntry parseLine(String line) {
         EDPEntry edpParsed = new EDPEntry();
@@ -77,7 +77,7 @@ public class EDPReader {
         Matcher matcher = edpLinePattern.matcher(line);
         if (matcher.matches()) {
             edpParsed.fen = matcher.group("fen");
-            if(matcher.group("bestmove") != null) {
+            if(matcher.group("bestmoves") != null) {
                 edpParsed.bestMovesString = matcher.group("bestmoves");
                 edpParsed.bestMoves = new ArrayList<>();
             }

@@ -249,14 +249,14 @@ public class FENDecoderTest {
 	
 	@Test
 	public void testParseColorWhite() {
-		Color actualColor = parser.parseTurno("w");
+		Color actualColor = parser.parseTurn("w");
 		
 		assertEquals(Color.WHITE, actualColor);
 	}	
 	
 	@Test
 	public void testParseColorBlack() {
-		Color actualColor = parser.parseTurno("b");
+		Color actualColor = parser.parseTurn("b");
 		
 		assertEquals(Color.BLACK, actualColor);
 	}	
@@ -378,6 +378,15 @@ public class FENDecoderTest {
 		assertEquals(Color.WHITE, this.turn);
 		assertEquals(4, this.halfMoveClock);
 		assertEquals(10, this.fullMoveClock);
+	}
+
+	@Test
+	public void testParseFenWithoutClocks() {
+		parser.parseFEN("8/5kpp/8/8/1p3P2/6PP/r3KP2/1R1q4 w - -");
+
+		assertEquals(Color.WHITE, this.turn);
+		assertEquals(0, this.halfMoveClock);
+		assertEquals(1, this.fullMoveClock);
 	}
 
 	private boolean isEmtpy(Piece[][] tablero, Square square) {
