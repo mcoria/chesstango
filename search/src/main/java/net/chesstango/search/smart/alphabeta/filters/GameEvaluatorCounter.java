@@ -63,7 +63,7 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
     public void reset() {
     }
 
-    public class EvaluationEntry {
+    public static class EvaluationEntry {
 
         private final long key;
         private final int value;

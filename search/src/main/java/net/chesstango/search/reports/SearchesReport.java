@@ -75,8 +75,15 @@ public class SearchesReport {
             reportModelDetail.evaluatedGamesCounter = searchMoveResult.getEvaluatedGamesCounter();
             reportModelDetail.evaluations = searchMoveResult.getEvaluations();
             reportModelDetail.distinctEvaluatedGamesCounter = searchMoveResult.getEvaluations().size();
-            reportModelDetail.distinctEvaluatedGamesCounterCollisions = reportModelDetail.distinctEvaluatedGamesCounter - searchMoveResult.getEvaluations().parallelStream().mapToInt(GameEvaluatorCounter.EvaluationEntry::getValue).distinct().count();
-            reportModelDetail.collisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+            reportModelDetail.distinctEvaluatedGamesCounterCollisions = searchMoveResult.getEvaluatedGamesCounter() - searchMoveResult.getEvaluations().parallelStream().mapToInt(GameEvaluatorCounter.EvaluationEntry::getValue).distinct().count();
+
+            /*
+             * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
+             */
+            if(reportModelDetail.distinctEvaluatedGamesCounter != 0){
+                reportModelDetail.collisionPercentage =  (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+            }
+
 
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
 
