@@ -115,6 +115,16 @@ public class MinMax implements SearchSmart {
     }
 
     @Override
+    public void beforeSearchByDepth(SearchContext context) {
+
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
+    }
+
+    @Override
     public void afterSearch(SearchMoveResult result) {
 
     }

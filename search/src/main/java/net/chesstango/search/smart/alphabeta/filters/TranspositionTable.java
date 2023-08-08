@@ -33,14 +33,14 @@ public class TranspositionTable implements AlphaBetaFilter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
 		this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

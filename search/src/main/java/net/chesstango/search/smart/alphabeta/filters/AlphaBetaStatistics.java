@@ -42,11 +42,11 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
         if (result != null) {
             result.setVisitedNodesCounters(visitedNodesCounters);
             result.setExpectedNodesCounters(expectedNodesCounters);

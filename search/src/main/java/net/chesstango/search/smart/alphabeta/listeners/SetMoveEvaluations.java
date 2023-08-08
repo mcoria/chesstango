@@ -36,14 +36,14 @@ public class SetMoveEvaluations implements SearchLifeCycle {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
         if (result != null) {
             List<SearchMoveResult.MoveEvaluation> moveEvaluationList = createMoveEvaluations(result.getBestMove(), result.getEvaluation());
             result.setMoveEvaluations(moveEvaluationList);

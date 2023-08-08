@@ -119,11 +119,11 @@ public class DefaultMoveSorter implements SearchLifeCycle, MoveSorter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

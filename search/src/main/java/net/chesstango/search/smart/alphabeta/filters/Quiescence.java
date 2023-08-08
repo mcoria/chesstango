@@ -34,12 +34,12 @@ public class Quiescence implements AlphaBetaFilter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         this.keepProcessing = true;
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

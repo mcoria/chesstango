@@ -32,14 +32,14 @@ public class SetBestMoveOptions implements SearchLifeCycle {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         this.maxPly = context.getMaxPly();
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
         if(result != null) {
             List<Move> bestMoveOptions = findBestMoveOptions(result.getBestMove(), result.getEvaluation());
             result.setBestMoveOptions(bestMoveOptions);

@@ -25,11 +25,11 @@ public class QuiescenceNull implements AlphaBetaFilter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

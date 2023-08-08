@@ -35,7 +35,7 @@ public class NegaMaxPruning implements SearchSmart {
         this.keepProcessing = true;
         this.visitedNodesCounter = new int[context.getMaxPly()];
 
-        this.moveSorter.init(context);
+        this.moveSorter.beforeSearchByDepth(context);
 
         final boolean minOrMax = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? false : true;
         final List<Move> bestMoves = new ArrayList<Move>();
@@ -126,6 +126,16 @@ public class NegaMaxPruning implements SearchSmart {
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
         moveSorter.beforeSearch(game, maxDepth);
+    }
+
+    @Override
+    public void beforeSearchByDepth(SearchContext context) {
+
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+
     }
 
     @Override

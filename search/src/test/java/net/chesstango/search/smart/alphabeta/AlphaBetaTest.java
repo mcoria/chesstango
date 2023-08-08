@@ -118,7 +118,11 @@ public class AlphaBetaTest {
 
         SearchContext context = new SearchContext(depth);
 
+        alphaBeta.beforeSearchByDepth(context);
+
         SearchMoveResult result = alphaBeta.search(context);
+
+        alphaBeta.afterSearchByDepth(result);
 
         alphaBeta.afterSearch(result);
 

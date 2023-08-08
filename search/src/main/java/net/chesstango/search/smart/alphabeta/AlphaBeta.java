@@ -29,35 +29,25 @@ public class AlphaBeta implements SearchSmart {
     public SearchMoveResult search(SearchContext context) {
         final Color currentTurn = game.getChessPosition().getCurrentTurn();
 
-        try {
-            init(context);
-            long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
-                    alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
-                    alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
+        long bestMoveAndValue = Color.WHITE.equals(currentTurn) ?
+                alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
+                alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
 
-            int bestValue = BinaryUtils.decodeValue(bestMoveAndValue);
-            short bestMoveEncoded = BinaryUtils.decodeMove(bestMoveAndValue);
+        int bestValue = BinaryUtils.decodeValue(bestMoveAndValue);
+        short bestMoveEncoded = BinaryUtils.decodeMove(bestMoveAndValue);
 
-            Move bestMove = null;
-            for (Move move : game.getPossibleMoves()) {
-                if (move.binaryEncoding() == bestMoveEncoded) {
-                    bestMove = move;
-                    break;
-                }
+        Move bestMove = null;
+        for (Move move : game.getPossibleMoves()) {
+            if (move.binaryEncoding() == bestMoveEncoded) {
+                bestMove = move;
+                break;
             }
-            if (bestMove == null) {
-                throw new RuntimeException("BestMove not found");
-            }
-
-            SearchMoveResult searchResult = new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
-
-            close(searchResult);
-            return searchResult;
-
-        } catch (StopSearchingException ex) {
-            close(null);
-            throw ex;
         }
+        if (bestMove == null) {
+            throw new RuntimeException("BestMove not found");
+        }
+
+        return new SearchMoveResult(context.getMaxPly(), bestValue, bestMove, null);
     }
 
     @Override
@@ -65,14 +55,6 @@ public class AlphaBeta implements SearchSmart {
         synchronized (searchActions) {
             searchActions.stream().forEach(SearchLifeCycle::stopSearching);
         }
-    }
-
-    public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
-        this.alphaBetaFilter = alphaBetaFilter;
-    }
-
-    public void setSearchActions(List<SearchLifeCycle> searchActions) {
-        this.searchActions = searchActions;
     }
 
     @Override
@@ -90,24 +72,33 @@ public class AlphaBeta implements SearchSmart {
         }
     }
 
-
-    public void init(SearchContext context) {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.init(context));
-        }
-    }
-
-
-    public void close(SearchMoveResult result) {
-        synchronized (searchActions) {
-            searchActions.stream().forEach(filter -> filter.close(result));
-        }
-    }
-
     @Override
     public void reset() {
         synchronized (searchActions) {
             searchActions.stream().forEach(filter -> filter.reset());
         }
     }
+
+    @Override
+    public void beforeSearchByDepth(SearchContext context) {
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.beforeSearchByDepth(context));
+        }
+    }
+
+    @Override
+    public void afterSearchByDepth(SearchMoveResult result) {
+        synchronized (searchActions) {
+            searchActions.stream().forEach(filter -> filter.afterSearchByDepth(result));
+        }
+    }
+
+    public void setAlphaBetaSearch(AlphaBetaFilter alphaBetaFilter) {
+        this.alphaBetaFilter = alphaBetaFilter;
+    }
+
+    public void setSearchActions(List<SearchLifeCycle> searchActions) {
+        this.searchActions = searchActions;
+    }
+
 }

@@ -40,7 +40,7 @@ public class TTLoad implements SearchLifeCycle {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
 
@@ -51,7 +51,7 @@ public class TTLoad implements SearchLifeCycle {
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override

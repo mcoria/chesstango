@@ -66,7 +66,7 @@ public class TranspositionMoveSorterTest {
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
 
-        moveSorter.init(context);
+        moveSorter.beforeSearchByDepth(context);
     }
 
     private Transposition createTableEntry(short bestMoveEncoded) {

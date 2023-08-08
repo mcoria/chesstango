@@ -14,27 +14,31 @@ public interface SearchLifeCycle {
     void beforeSearch(Game game, int maxDepth);
 
     /**
+     * Invoked once per search depth
+     * If Iterating Deeping is disabled then once,
+     * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
+     */
+    void beforeSearchByDepth(SearchContext context);
+
+    /**
+     * Invoked once per search depth
+     * If Iterating Deeping is disabled then once,
+     * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
+     */
+    void afterSearchByDepth(SearchMoveResult result);
+
+    /**
      * Invoked once after searching is done
      */
     void afterSearch(SearchMoveResult result);
 
     /**
-     * Invoked multiple times per search depth.
-     * If Iterating Deeping is disabled then once,
-     * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
+     * Stop searching. This method may be called while another thread is searching
      */
-    void init(SearchContext context);
-
-    /**
-     * Invoked multiple times per search depth.
-     * If Iterating Deeping is disabled then once,
-     * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
-     */
-    void close(SearchMoveResult result);
-
-
     void stopSearching();
 
-
+    /**
+     * Reset internal buffers
+     */
     void reset();
 }

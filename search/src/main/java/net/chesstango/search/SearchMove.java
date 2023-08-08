@@ -74,8 +74,14 @@ import net.chesstango.board.Game;
  */
 public interface SearchMove {
 
+    /**
+     * Search up to depth
+     */
     SearchMoveResult search(Game game, int depth);
 
+    /**
+     * Stop searching. This method may be called while another thread is searching
+     */
     void stopSearching();
 
     /**

@@ -25,8 +25,8 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
 
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
-    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(5000);
+    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(1000);
 
     private static final boolean MATCH_DEBUG = false;
 
@@ -79,8 +79,8 @@ public class MatchMain implements MatchListener {
 
 
         EngineController engineController2 = EngineControllerFactory
-                                            .createProxyController("tango-v0.0.11", engineProxy -> engineProxy.setLogging(false))
-                                            .overrideEngineName("tango-v0.0.11");
+                                            .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
+                                            //.overrideEngineName("tango-v0.0.11");
                                             //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
 

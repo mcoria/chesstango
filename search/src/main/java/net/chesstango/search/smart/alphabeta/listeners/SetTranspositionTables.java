@@ -13,37 +13,35 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetTranspositionTables implements SearchLifeCycle {
-
-    private Map<Long, Transposition> maxMap;
-
-    private Map<Long, Transposition> minMap;
-
+    private final Map<Long, Transposition> maxMap;
+    private final Map<Long, Transposition> minMap;
     private boolean reuseTranspositionTable;
+
+    public SetTranspositionTables(){
+        this.maxMap = new HashMap<>();
+        this.minMap = new HashMap<>();
+    }
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         if(!reuseTranspositionTable) {
-            this.maxMap = new HashMap<>();
-            this.minMap = new HashMap<>();
+            this.maxMap.clear();
+            this.minMap.clear();
         }
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-        if(!reuseTranspositionTable) {
-            this.maxMap = null;
-            this.minMap = null;
-        }
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
     }
 
     @Override
@@ -53,8 +51,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void reset() {
-        this.maxMap = new HashMap<>();
-        this.minMap = new HashMap<>();
+        this.maxMap.clear();
+        this.minMap.clear();
     }
 
     public void setReuseTranspositionTable(boolean reuseTranspositionTable) {

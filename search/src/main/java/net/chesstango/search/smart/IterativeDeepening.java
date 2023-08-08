@@ -41,7 +41,11 @@ public class IterativeDeepening implements SearchMove {
 
                 SearchContext context = new SearchContext(currentSearchDepth);
 
+                searchSmart.beforeSearchByDepth(context);
+
                 SearchMoveResult searchResult = searchSmart.search(context);
+
+                searchSmart.afterSearchByDepth(searchResult);
 
                 bestMovesByDepth.add(searchResult);
 
@@ -55,11 +59,11 @@ public class IterativeDeepening implements SearchMove {
                 }
             }
 
-            SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-
-            return bestMove;
+            return bestMovesByDepth.get(bestMovesByDepth.size() - 1);
 
         } catch (StopSearchingException spe) {
+
+            searchSmart.afterSearchByDepth(null);
 
             SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);  // Aca deberiamos buscar en TT el mejor
 
@@ -68,7 +72,6 @@ public class IterativeDeepening implements SearchMove {
             searchSmart.afterSearch(bestMove);
 
             throw spe;
-
         }
     }
 

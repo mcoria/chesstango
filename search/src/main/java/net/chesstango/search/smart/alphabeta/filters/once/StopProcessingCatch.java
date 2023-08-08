@@ -27,12 +27,12 @@ public class StopProcessingCatch implements AlphaBetaFilter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         this.processingCounter = 0;
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
 
     }
 

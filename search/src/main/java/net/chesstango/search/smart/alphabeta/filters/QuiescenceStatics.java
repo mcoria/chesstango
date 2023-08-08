@@ -26,12 +26,12 @@ public class QuiescenceStatics implements AlphaBetaFilter {
     }
 
     @Override
-    public void init(SearchContext context) {
+    public void beforeSearchByDepth(SearchContext context) {
         this.maxPly = context.getMaxPly();
     }
 
     @Override
-    public void close(SearchMoveResult result) {
+    public void afterSearchByDepth(SearchMoveResult result) {
         if (result != null) {
             result.setVisitedNodesQuiescenceCounter(visitedNodesQuiescenceCounter);
         }
