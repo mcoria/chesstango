@@ -259,7 +259,7 @@ public class Match {
         System.out.println(encoder.encode(game));
     }
 
-    static public int material(Game game, boolean difference) {
+    protected static int material(Game game, boolean difference) {
         int evaluation = 0;
         ChessPositionReader positionReader = game.getChessPosition();
         for (Iterator<PiecePositioned> it = positionReader.iteratorAllPieces(); it.hasNext(); ) {
@@ -270,7 +270,7 @@ public class Match {
         return evaluation;
     }
 
-    static public int getPieceValue(Piece piece) {
+    protected static int getPieceValue(Piece piece) {
         return switch (piece) {
             case PAWN_WHITE -> 1;
             case PAWN_BLACK -> -1;

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * @author Mauricio Coria
+ */
 public class EvaluatorByCondition implements GameEvaluator {
     private int defaultValue;
 

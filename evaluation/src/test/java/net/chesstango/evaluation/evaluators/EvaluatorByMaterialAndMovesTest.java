@@ -1,10 +1,8 @@
 package net.chesstango.evaluation.evaluators;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * @author Mauricio Coria

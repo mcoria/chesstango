@@ -2,6 +2,7 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -45,7 +46,7 @@ public class MatchMain implements MatchListener {
 
                         .withTranspositionTable()
                         .withQTranspositionTable()
-                        .withTranspositionTableReuse()
+                        //.withTranspositionTableReuse()
 
                         .withTranspositionMoveSorter()
                         .withQTranspositionMoveSorter()
@@ -53,7 +54,7 @@ public class MatchMain implements MatchListener {
                         .withStopProcessingCatch()
                         .withIterativeDeepening()
 
-                        .withStatics()
+                        //.withStatics()
                 );
         //.overrideEngineName("AB Full");
 
@@ -78,7 +79,8 @@ public class MatchMain implements MatchListener {
 
 
         EngineController engineController2 = EngineControllerFactory
-                                            .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
+                                            .createProxyController("tango-v0.0.11", engineProxy -> engineProxy.setLogging(false))
+                                            .overrideEngineName("tango-v0.0.11");
                                             //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
 
@@ -90,9 +92,7 @@ public class MatchMain implements MatchListener {
         new SummaryReport()
                 .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);
 
-
-
-
+        /*
         new SessionReport()
                  //.withCollisionStatics()
                  .withNodesVisitedStatics()
@@ -102,11 +102,14 @@ public class MatchMain implements MatchListener {
                  .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
 
+
         new SearchesPerGameReport()
                 .withCutoffStatics()
                 .withNodesVisitedStatics()
                 .withPrincipalVariation()
                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
+
+         */
     }
 
     private final Arena arenaMBean;
@@ -120,11 +123,11 @@ public class MatchMain implements MatchListener {
     }
 
     private static List<String> getFenList() {
-        List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
+        //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         return fenList;
     }
 

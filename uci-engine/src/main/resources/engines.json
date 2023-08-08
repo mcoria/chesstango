@@ -15,12 +15,6 @@
     "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MORA\\MORA_1.1.0.exe"
   },
   {
-    "name": "GameEvaluatorImp02",
-    "directory": "C:\\Java\\projects\\chess\\chess-utils\\tangoengines\\13-GameEvaluatorImp02",
-    "exe": "C:\\Java\\jdk-17.0.5\\bin\\java",
-    "params": "-jar uci-engine-0.0.10-SNAPSHOT.jar"
-  },
-  {
     "name": "MinimalChess",
     "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MinimalChess.0.5.Windows\\MinimalChess 0.5 Windows",
     "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MinimalChess.0.5.Windows\\MinimalChess 0.5 Windows\\MinimalChessEngine.exe"
@@ -29,5 +23,16 @@
     "name": "MadChess",
     "directory": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MadChess-3-1\\MadChess\\x64\\",
     "exe": "C:\\Java\\projects\\chess\\chess-utils\\engines\\MadChess-3-1\\MadChess\\x64\\MadChess.Engine.exe"
+  },
+  {
+    "name": "GameEvaluatorImp02",
+    "directory": "C:\\Java\\projects\\chess\\chess-utils\\tangoengines\\13-GameEvaluatorImp02",
+    "exe": "C:\\Java\\jdk-17.0.5\\bin\\java",
+    "params": "-jar uci-engine-0.0.10-SNAPSHOT.jar"
+  },
+  {
+    "name": "tango-v0.0.11",
+    "directory": "C:\\java\\projects\\chess\\chess-utils\\engines\\Tango\\15-Tango-v0.0.11",
+    "exe": "C:\\java\\projects\\chess\\chess-utils\\engines\\Tango\\15-Tango-v0.0.11\\tango-v0.0.11.exe"
   }
 ]

@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implements TangoFactory {
 
-    private Class<T> searchBuilderClass;
+    private Class<? extends SearchBuilder> searchBuilderClass;
 
     private Consumer<T> fnSearchBuilderSetup;
 
@@ -25,7 +25,7 @@ public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implement
 
     @Override
     public TangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass) {
-        this.searchBuilderClass = (Class<T>) searchBuilderClass;
+        this.searchBuilderClass = searchBuilderClass;
         return this;
     }
 
@@ -37,7 +37,7 @@ public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implement
     @Override
     public EngineTango build() {
         try {
-            T searchBuilder = searchBuilderClass.getDeclaredConstructor().newInstance();
+            T searchBuilder = (T) searchBuilderClass.getDeclaredConstructor().newInstance();
 
             if(fnSearchBuilderSetup != null) {
                 fnSearchBuilderSetup.accept(searchBuilder);

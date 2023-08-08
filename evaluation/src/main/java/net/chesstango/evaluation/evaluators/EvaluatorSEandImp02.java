@@ -69,17 +69,12 @@ public class EvaluatorSEandImp02 extends AbstractEvaluator {
 
     @Override
     public int evaluate(final Game game) {
-        int evaluation = 0;
-        switch (game.getStatus()) {
-            case MATE:
-            case DRAW:
-                evaluation = evaluateFinalStatus(game);
-                break;
-            case CHECK:
-            case NO_CHECK:
-                evaluation = material * evaluateByMaterial(game) + position * evaluateByPosition(game) + evaluateByMoveAndByAttack(game);
-        }
-        return evaluation;
+        return switch (game.getStatus()) {
+            case MATE, DRAW -> evaluateFinalStatus(game);
+            case CHECK, NO_CHECK ->
+                    material * evaluateByMaterial(game) + position * evaluateByPosition(game) + evaluateByMoveAndByAttack(game);
+            default -> throw new RuntimeException("Game is still in progress");
+        };
     }
 
     protected int evaluateByPosition(Game game) {

@@ -2,7 +2,6 @@ package net.chesstango.evaluation.extractors;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.EDPReader;
-import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.GameFeatures;
 
 import java.io.BufferedWriter;

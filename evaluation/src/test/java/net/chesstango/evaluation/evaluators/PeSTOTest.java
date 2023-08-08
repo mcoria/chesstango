@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Mauricio Coria
  */
-public class PesSTOTest {
+public class PeSTOTest {
 
     private PeSTO evaluator;
 

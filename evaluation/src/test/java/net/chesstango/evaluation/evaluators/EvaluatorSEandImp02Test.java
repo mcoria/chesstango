@@ -10,6 +10,9 @@ import static net.chesstango.evaluation.evaluators.EvaluatorSimplifiedEvaluator.
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Mauricio Coria
+ */
 public class EvaluatorSEandImp02Test extends GameEvaluatorTestCollection {
 
     private EvaluatorSEandImp02 evaluator;

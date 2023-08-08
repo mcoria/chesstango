@@ -6,6 +6,9 @@ import net.chesstango.board.PiecePositioned;
 import net.chesstango.board.Square;
 import net.chesstango.evaluation.GameEvaluator;
 
+/**
+ * @author Mauricio Coria
+ */
 public class PeSTO implements GameEvaluator {
     private static final int PAWN = 0;
     private static final int KNIGHT = 1;

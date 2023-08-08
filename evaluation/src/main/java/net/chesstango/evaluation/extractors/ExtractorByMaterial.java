@@ -6,7 +6,6 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.evaluation.GameFeatures;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
