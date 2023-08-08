@@ -7,7 +7,7 @@ import net.chesstango.evaluation.evaluators.EvaluatorByMaterial;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
+import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.alphabeta.listeners.SetBestMoveOptions;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -49,7 +49,7 @@ public class SetBestMoveOptionsTest {
 
         this.alphaBeta = new AlphaBeta();
         this.alphaBeta.setAlphaBetaSearch(transpositionTable);
-        this.alphaBeta.setSearchActions(Arrays.asList(new SearchSetup(), alphaBetaImp, transpositionTable, quiescence, moveSorter, setBestMoveOptions));
+        this.alphaBeta.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, quiescence, moveSorter, setBestMoveOptions));
     }
 
 

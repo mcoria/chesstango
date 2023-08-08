@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class SearchesTest {
     private SearchMove moveFinder;
     private SearchMoveResult searchResult;
-    private static final boolean printReport = true;
+    private static final boolean printReport = false;
 
     @BeforeEach
     public void setup(){

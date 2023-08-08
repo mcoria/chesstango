@@ -54,7 +54,7 @@ public class MatchMain implements MatchListener {
                         .withStopProcessingCatch()
                         .withIterativeDeepening()
 
-                        //.withStatics()
+                        .withStatics()
                 );
         //.overrideEngineName("AB Full");
 

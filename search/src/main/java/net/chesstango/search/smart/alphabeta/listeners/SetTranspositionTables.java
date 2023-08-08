@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class SearchSetup implements SearchLifeCycle {
+public class SetTranspositionTables implements SearchLifeCycle {
 
     private Map<Long, Transposition> maxMap;
 

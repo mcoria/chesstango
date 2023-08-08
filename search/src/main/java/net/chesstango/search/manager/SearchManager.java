@@ -105,7 +105,7 @@ public class SearchManager {
         });
     }
 
-    protected SearchMoveResult searchByBook(Game game) {
+    private SearchMoveResult searchByBook(Game game) {
         List<PolyglotEntry> bookSearchResult = book.search(game.getChessPosition().getZobristHash());
         if (bookSearchResult != null) {
             MoveContainerReader possibleMoves = game.getPossibleMoves();
@@ -119,7 +119,7 @@ public class SearchManager {
         return null;
     }
 
-    protected SearchMoveResult searchByAlgorithm(Game game, int depth, Integer timeOut) {
+    private SearchMoveResult searchByAlgorithm(Game game, int depth, Integer timeOut) {
         if (timeOut != null) {
             executorService.schedule(this::stopSearching, timeOut, TimeUnit.MILLISECONDS);
         }

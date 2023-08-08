@@ -9,7 +9,7 @@ import net.chesstango.search.reports.SearchesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
+import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
@@ -130,7 +130,7 @@ public class TranspositionTableTest {
         alphaBetaStatistics.setNext(alphaBetaImp);;
 
         AlphaBeta minMaxPruning = new AlphaBeta();
-        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBetaImp, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator));
+        minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
 
         return new NoIterativeDeepening(minMaxPruning);
@@ -160,7 +160,7 @@ public class TranspositionTableTest {
 
 
         AlphaBeta minMaxPruning = new AlphaBeta();
-        minMaxPruning.setSearchActions(Arrays.asList(new SearchSetup(), alphaBetaImp, transpositionTable, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator, new SetPrincipalVariation()));
+        minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator, new SetPrincipalVariation()));
         minMaxPruning.setAlphaBetaSearch(alphaBetaStatistics);
 
         return new IterativeDeepening(minMaxPruning);

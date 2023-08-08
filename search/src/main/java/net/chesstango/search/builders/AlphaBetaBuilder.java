@@ -10,9 +10,9 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
 import net.chesstango.search.smart.alphabeta.filters.*;
 import net.chesstango.search.smart.alphabeta.filters.once.StopProcessingCatch;
-import net.chesstango.search.smart.alphabeta.listeners.SearchSetup;
 import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
@@ -138,8 +138,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
-        SearchSetup searchSetup = new SearchSetup();
-
         if (withStatics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
             quiescenceStatics = new QuiescenceStatics();
@@ -148,7 +146,19 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         List<SearchLifeCycle> filters = new ArrayList<>();
 
-        filters.add(searchSetup);
+        // ====================================================
+        if (transpositionTable != null || qTranspositionTable != null) {
+            SetTranspositionTables setTranspositionTables = new SetTranspositionTables();
+
+            if (withTranspositionTableReuse) {
+                setTranspositionTables.setReuseTranspositionTable(true);
+            }
+
+            // Este filtro necesita agregarse primero
+            filters.add(setTranspositionTables);
+        }
+        // ====================================================
+
         filters.add(alphaBetaImp);
         filters.add(quiescence);
         filters.add(moveSorter);
@@ -199,7 +209,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         AlphaBetaFilter head = null;
         if (alphaBetaStatistics != null) {
             filters.add(alphaBetaStatistics);
-             if (transpositionTable != null) {
+            if (transpositionTable != null) {
                 alphaBetaStatistics.setNext(transpositionTable);
             } else {
                 alphaBetaStatistics.setNext(this.alphaBetaImp);
@@ -213,10 +223,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
             if (head == null) {
                 head = transpositionTable;
             }
-
-            if(withTranspositionTableReuse){
-                searchSetup.setReuseTranspositionTable(true);
-            }
         }
 
         if (head == null) {
@@ -228,6 +234,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         this.alphaBetaImp.setGameEvaluator(gameEvaluator);
         this.alphaBetaImp.setQuiescence(headQuiescence);
         this.alphaBetaImp.setNext(head);
+
         // ====================================================
 
         // GameRevert is set one in the chain
@@ -240,7 +247,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         }
 
         // ====================================================
-        if(withMoveEvaluation) {
+        if (withMoveEvaluation) {
             if (transpositionTable == null) {
                 throw new RuntimeException("SetMoveEvaluations requires transpositionTable");
             } else {
