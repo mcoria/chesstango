@@ -11,6 +11,7 @@
         <module>board</module>
         <module>evaluation</module>
         <module>search</module>
+        <module>engine</module>
         <module>uci-protocol</module>
 		<module>uci-engine</module>
         <module>arena-mbean</module>
@@ -79,6 +80,11 @@
             <dependency>
                 <groupId>net.chesstango</groupId>
                 <artifactId>search</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.chesstango</groupId>
+                <artifactId>engine</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

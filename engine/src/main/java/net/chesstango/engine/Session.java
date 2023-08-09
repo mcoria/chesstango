@@ -3,12 +3,8 @@ package net.chesstango.engine;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
-import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.manager.SearchManager;
 import net.chesstango.uci.protocol.UCIEncoder;
-import net.chesstango.uci.service.ServiceElement;
-import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.ArrayList;
 import java.util.List;

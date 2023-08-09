@@ -5,8 +5,6 @@ import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.manager.SearchManager;
-import net.chesstango.uci.service.ServiceElement;
-import net.chesstango.uci.service.ServiceVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
