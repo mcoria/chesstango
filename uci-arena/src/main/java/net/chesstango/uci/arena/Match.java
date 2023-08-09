@@ -50,7 +50,7 @@ public class Match {
     public List<GameResult> play(List<String> fenList) {
         List<GameResult> result = new ArrayList<>();
 
-        fenList.stream().forEach(fen -> {
+        fenList.forEach(fen -> {
             result.addAll(play(fen));
         });
 

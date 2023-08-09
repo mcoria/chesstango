@@ -122,8 +122,8 @@ public class ArenaMBeanClient implements NotificationListener {
         GameDescriptionInitial gameDescriptionInitial = gameNotification.getGameDescriptionInitial();
         System.out.println("SequenceNumber: " + gameNotification.getSequenceNumber());
         System.out.println("Game ID: " + gameNotification.getUserData());
-        System.out.println(String.format("White = %s vs Black = %s", gameDescriptionInitial.white(), gameDescriptionInitial.black()));
-        System.out.println(String.format("Initial FEN = %s", gameDescriptionInitial.initialFEN()));
+        System.out.println(String.format("White = %s vs Black = %s", gameDescriptionInitial.getWhite(), gameDescriptionInitial.getBlack()));
+        System.out.println(String.format("Initial FEN = %s", gameDescriptionInitial.getInitialFEN()));
         System.out.println(String.format("---------------------------------------------------------------------------"));
     }
 

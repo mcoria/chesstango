@@ -29,7 +29,7 @@ public class WebSocketController {
 
             GameDescriptionInitial currentGame = arenaMBeanClient.getCurrentGame();
 
-            response = new JsonResponse(currentGame, arenaMBeanClient.getGameDescriptionCurrent(currentGame.gameId()));
+            response = new JsonResponse(currentGame, arenaMBeanClient.getGameDescriptionCurrent(currentGame.getGameId()));
         }
 
         return response;
@@ -48,7 +48,7 @@ public class WebSocketController {
     public JsonResponse retrieveGame() {
         GameDescriptionInitial currentGame = arenaMBeanClient.getCurrentGame();
 
-        return new JsonResponse(currentGame, arenaMBeanClient.getGameDescriptionCurrent(currentGame.gameId()));
+        return new JsonResponse(currentGame, arenaMBeanClient.getGameDescriptionCurrent(currentGame.getGameId()));
     }
 
     public static class JsonResponse{

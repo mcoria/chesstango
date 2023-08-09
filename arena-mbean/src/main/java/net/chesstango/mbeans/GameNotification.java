@@ -19,7 +19,7 @@ public class GameNotification extends Notification {
                             long sequenceNumber,
                             GameDescriptionInitial gameDescriptionInitial) {
         super(GameNotification.ATTRIBUTE_CHANGE, source, sequenceNumber);
-        this.setUserData(gameDescriptionInitial.gameId());
+        this.setUserData(gameDescriptionInitial.getGameId());
         this.gameDescriptionInitial = gameDescriptionInitial;
     }
 
