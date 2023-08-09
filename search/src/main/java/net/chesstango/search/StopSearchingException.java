@@ -1,16 +1,13 @@
 package net.chesstango.search;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Mauricio Coria
  */
 public class StopSearchingException extends RuntimeException {
+    @Getter
+    @Setter
     private SearchMoveResult searchMoveResult;
-
-    public SearchMoveResult getSearchMoveResult() {
-        return searchMoveResult;
-    }
-
-    public void setSearchMoveResult(SearchMoveResult searchMoveResult) {
-        this.searchMoveResult = searchMoveResult;
-    }
 }

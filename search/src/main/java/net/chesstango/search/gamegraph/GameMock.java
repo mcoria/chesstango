@@ -1,5 +1,6 @@
 package net.chesstango.search.gamegraph;
 
+import lombok.Getter;
 import net.chesstango.board.*;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
@@ -9,6 +10,8 @@ import net.chesstango.board.position.ChessPositionReader;
  * @author Mauricio Coria
  */
 public class GameMock implements Game {
+
+    @Getter
     private int nodesVisited = 0;
 
     Node currentMockNode;
@@ -89,10 +92,6 @@ public class GameMock implements Game {
     @Override
     public Game mirror() {
         return null;
-    }
-
-    public int getNodesVisited() {
-        return nodesVisited;
     }
 
     public Node getNodeMock() {

@@ -11,6 +11,7 @@ module net.chesstango.search {
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
     requires com.fasterxml.jackson.databind;
+    requires lombok;
 
     opens net.chesstango.search.gamegraph;
     exports net.chesstango.search.smart.sorters;

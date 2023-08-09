@@ -141,7 +141,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${projectlombok.version}</version>
-                <optional>true</optional>
             </dependency>
 
             <dependency>

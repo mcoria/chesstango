@@ -39,7 +39,7 @@ public class MoveSelector {
 
 
     public static Move selectMove(Color currentTurn, List<Move> moves) {
-        if (moves.size() == 0) {
+        if (moves.isEmpty()) {
             throw new RuntimeException("There is no move to select");
         } else if (moves.size() == 1) {
             return moves.get(0);

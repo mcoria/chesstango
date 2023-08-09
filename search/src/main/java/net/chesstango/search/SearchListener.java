@@ -1,9 +1,5 @@
 package net.chesstango.search;
 
-import net.chesstango.board.moves.Move;
-
-import java.util.List;
-
 /**
  * @author Mauricio Coria
  */

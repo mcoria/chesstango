@@ -1,5 +1,6 @@
 package net.chesstango.search.gamegraph;
 
+import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 
@@ -8,6 +9,7 @@ import net.chesstango.evaluation.GameEvaluator;
  */
 public class GameMockEvaluator implements GameEvaluator {
 
+    @Getter
     private int nodesEvaluated = 0;
 
     @Override
@@ -19,7 +21,4 @@ public class GameMockEvaluator implements GameEvaluator {
         return gameMove.currentMockNode.evaluation;
     }
 
-    public int getNodesEvaluated() {
-        return nodesEvaluated;
-    }
 }
