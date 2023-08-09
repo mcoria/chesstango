@@ -1,4 +1,4 @@
-package net.chesstango.search.polyglot;
+package net.chesstango.engine.polyglot;
 
 import net.chesstango.board.Square;
 

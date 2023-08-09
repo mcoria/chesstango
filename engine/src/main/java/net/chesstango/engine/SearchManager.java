@@ -1,12 +1,11 @@
-package net.chesstango.search.manager;
-
+package net.chesstango.engine;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveContainerReader;
 import net.chesstango.search.*;
-import net.chesstango.search.polyglot.MappedPolyglotBook;
-import net.chesstango.search.polyglot.PolyglotEntry;
+import net.chesstango.engine.polyglot.MappedPolyglotBook;
+import net.chesstango.engine.polyglot.PolyglotEntry;
 import net.chesstango.search.smart.IterativeDeepening;
 
 import java.io.IOException;
@@ -31,8 +30,7 @@ public class SearchManager {
         this.listenerClient = listenerClient;
         this.book = new MappedPolyglotBook();
 
-        if (searchMove instanceof DefaultSearchMove) {
-            DefaultSearchMove searchMoveDefault = (DefaultSearchMove) searchMove;
+        if (searchMove instanceof DefaultSearchMove searchMoveDefault) {
             SearchMove searchImp = searchMoveDefault.getImplementation();
 
             if (searchImp instanceof IterativeDeepening) {
@@ -75,9 +73,7 @@ public class SearchManager {
             if (searByBookEnabled) {
                 book.close();
             }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,4 +1,4 @@
-package net.chesstango.search.polyglot;
+package net.chesstango.engine.polyglot;
 
 import java.nio.file.Path;
 import java.util.List;

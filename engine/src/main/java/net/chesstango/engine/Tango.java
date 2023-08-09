@@ -4,7 +4,6 @@ import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.manager.SearchManager;
 
 import java.util.ArrayList;
 import java.util.List;
