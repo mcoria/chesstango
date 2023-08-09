@@ -130,7 +130,7 @@ public class PGNGame {
 
         List<String> moveList = new ArrayList<>();
         game.accept(new GameVisitor() {
-            private SANEncoder sanEncoder = new SANEncoder();
+            private final SANEncoder sanEncoder = new SANEncoder();
 
             private String moveStrTmp = "";
 
@@ -153,34 +153,20 @@ public class PGNGame {
     }
 
     private static String encodeGameStatusAtMove(GameStatus gameStatus) {
-        switch (gameStatus) {
-            case NO_CHECK:
-            case DRAW:
-            case DRAW_BY_FIFTY_RULE:
-            case DRAW_BY_FOLD_REPETITION:
-                return "";
-            case CHECK:
-                return "+";
-            case MATE:
-                return "#";
-            default:
-                throw new RuntimeException("Invalid game status");
-        }
+        return switch (gameStatus) {
+            case NO_CHECK, DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "";
+            case CHECK -> "+";
+            case MATE -> "#";
+            default -> throw new RuntimeException("Invalid game status");
+        };
     }
 
     private static String encodeGameResult(Game game) {
-        switch (game.getStatus()) {
-            case NO_CHECK:
-            case CHECK:
-                return "*";
-            case DRAW:
-            case DRAW_BY_FIFTY_RULE:
-            case DRAW_BY_FOLD_REPETITION:
-                return "1/2-1/2";
-            case MATE:
-                return Color.BLACK.equals(game.getChessPosition().getCurrentTurn()) ? "1-0" : "0-1";
-            default:
-                throw new RuntimeException("Invalid game status");
-        }
+        return switch (game.getStatus()) {
+            case NO_CHECK, CHECK -> "*";
+            case DRAW, DRAW_BY_FIFTY_RULE, DRAW_BY_FOLD_REPETITION -> "1/2-1/2";
+            case MATE -> Color.BLACK.equals(game.getChessPosition().getCurrentTurn()) ? "1-0" : "0-1";
+            default -> throw new RuntimeException("Invalid game status");
+        };
     }
 }

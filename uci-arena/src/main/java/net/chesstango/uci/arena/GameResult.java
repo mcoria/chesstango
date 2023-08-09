@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena;
 
+import lombok.Getter;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Session;
@@ -19,11 +20,18 @@ import java.util.function.Consumer;
  */
 public class GameResult {
     private final PGNGame pgnGame;
+
+    @Getter
     private final EngineController engineWhite;
+    @Getter
     private final EngineController engineBlack;
+    @Getter
     private final EngineController winner;
+    @Getter
     private final int points;
+    @Getter
     private Session sessionWhite;
+    @Getter
     private Session sessionBlack;
 
     public GameResult(PGNGame pgnGame, EngineController engineWhite, EngineController engineBlack, EngineController winner, int points) {
@@ -32,49 +40,27 @@ public class GameResult {
         this.engineBlack = engineBlack;
         this.winner = winner;
         this.points = points;
+        this.sessionWhite = null;
+        this.sessionBlack = null;
 
-        discoverEngineController(engineWhite, this::setSessionWhite);
-        discoverEngineController(engineBlack, this::setSessionBlack);
+        discoverEngineController(engineWhite, session -> this.sessionWhite = session);
+        discoverEngineController(engineBlack, session -> this.sessionBlack = session);
     }
 
-
-    public int getPoints() {
-        return points;
+    public void save() {
+        PGNEncoder encoder = new PGNEncoder();
+        String encodedGame = encoder.encode(pgnGame);
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));
+            writer.append(encodedGame);
+            writer.append("\n\n");
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public EngineController getEngineWhite() {
-        return engineWhite;
-    }
-
-    public EngineController getEngineBlack() {
-        return engineBlack;
-    }
-
-    public EngineController getWinner() {
-        return winner;
-    }
-
-    private void setSessionWhite(Session sessionWhite) {
-        this.sessionWhite = sessionWhite;
-    }
-
-    private void setSessionBlack(Session sessionBlack) {
-        this.sessionBlack = sessionBlack;
-    }
-
-    public Session getSessionWhite() {
-        return sessionWhite;
-    }
-
-    public Session getSessionBlack() {
-        return sessionBlack;
-    }
-
-    public PGNGame getPgnGame() {
-        return pgnGame;
-    }
-
-    private void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
+    private static void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
         controller.accept(new ServiceVisitor() {
             @Override
             public void visit(EngineController engineController) {
@@ -93,19 +79,5 @@ public class GameResult {
             public void visit(EngineProxy engineProxy) {
             }
         });
-    }
-
-    public void save() {
-        PGNEncoder encoder = new PGNEncoder();
-        String encodedGame = encoder.encode(pgnGame);
-
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("./matches.pgn", true));
-            writer.append(encodedGame);
-            writer.append("\n\n");
-            writer.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

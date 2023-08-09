@@ -11,4 +11,5 @@ module net.chesstango.uci.arena {
     requires net.chesstango.engine;
     requires org.apache.commons.pool2;
     requires java.management;
+    requires lombok;
 }

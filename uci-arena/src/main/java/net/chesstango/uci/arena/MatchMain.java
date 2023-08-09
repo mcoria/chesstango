@@ -2,14 +2,11 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.Transcoding;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
-import net.chesstango.uci.arena.reports.SearchesPerGameReport;
-import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerFactory;
@@ -26,7 +23,7 @@ import java.util.List;
 public class MatchMain implements MatchListener {
 
     //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(1000);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(500);
 
     private static final boolean MATCH_DEBUG = false;
 
@@ -36,7 +33,6 @@ public class MatchMain implements MatchListener {
      * -Dcom.sun.management.jmxremote.local.only=false
      * -Dcom.sun.management.jmxremote.authenticate=false
      * -Dcom.sun.management.jmxremote.ssl=false
-     *
      */
     public static void main(String[] args) {
         EngineController engineController1 = EngineControllerFactory
@@ -79,10 +75,9 @@ public class MatchMain implements MatchListener {
 
 
         EngineController engineController2 = EngineControllerFactory
-                                            .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
-                                            //.overrideEngineName("tango-v0.0.11");
-                                            //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
-
+                .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
+        //.overrideEngineName("tango-v0.0.11");
+        //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
 
         List<GameResult> matchResult = new MatchMain(engineController1, engineController2).play();
@@ -123,11 +118,11 @@ public class MatchMain implements MatchListener {
     }
 
     private static List<String> getFenList() {
-        //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN);
+        List<String> fenList = Arrays.asList(FENDecoder.INITIAL_FEN);
         //List<String> fenList =  Arrays.asList("1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList =  Arrays.asList(FENDecoder.INITIAL_FEN, "1k1r3r/pp6/2P1bp2/2R1p3/Q3Pnp1/P2q4/1BR3B1/6K1 b - - 0 1");
         //List<String> fenList = new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top10.pgn"));
-        List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
+        //List<String> fenList =  new Transcoding().pgnFileToFenPositions(MatchMain.class.getClassLoader().getResourceAsStream("Balsa_Top50.pgn"));
         return fenList;
     }
 
@@ -137,9 +132,9 @@ public class MatchMain implements MatchListener {
         matchBroadcaster.addListener(this);
 
         Match match = new Match(engineController1, engineController2, CMD_GO)
-                            .setDebugEnabled(MATCH_DEBUG)
-                            .switchChairs(true)
-                            .setMatchListener(matchBroadcaster);
+                .setDebugEnabled(MATCH_DEBUG)
+                .switchChairs(true)
+                .setMatchListener(matchBroadcaster);
 
         startEngines();
 
