@@ -1,4 +1,3 @@
-
 package net.chesstango.uci.protocol;
 
 import net.chesstango.uci.protocol.requests.*;
@@ -27,53 +26,27 @@ public class UCIDecoder {
 
         if (words.length > 0) {
             String command = words[0].toUpperCase();
-            switch (command) {
+            result = switch (command) {
 
                 // ====================== REQUESTS
-                case "UCI":
-                    result = new CmdUci();
-                    break;
-                case "SETOPTION":
-                    result = parseSetOption(input);
-                    break;
-                case "UCINEWGAME":
-                    result = new CmdUciNewGame();
-                    break;
-                case "POSITION":
-                    result = parsePosition(words);
-                    break;
-                case "QUIT":
-                    result = new CmdQuit();
-                    break;
-                case "ISREADY":
-                    result = new CmdIsReady();
-                    break;
-                case "GO":
-                    result = parseGo(words);
-                    break;
-                case "STOP":
-                    result = new CmdStop();
-                    break;
+                case "UCI" -> new CmdUci();
+                case "SETOPTION" -> parseSetOption(input);
+                case "UCINEWGAME" -> new CmdUciNewGame();
+                case "POSITION" -> parsePosition(words);
+                case "QUIT" -> new CmdQuit();
+                case "ISREADY" -> new CmdIsReady();
+                case "GO" -> parseGo(words);
+                case "STOP" -> new CmdStop();
 
                 // ====================== RESPONSES
-                case "READYOK":
-                    result = new RspReadyOk();
-                    break;
-                case "UCIOK":
-                    result = new RspUciOk();
-                    break;
-                case "BESTMOVE":
-                    result = parseBestMove(words);
-                    break;
-                case "ID":
-                    result = parseId(words);
-                    break;
+                case "READYOK" -> new RspReadyOk();
+                case "UCIOK" -> new RspUciOk();
+                case "BESTMOVE" -> parseBestMove(words);
+                case "ID" -> parseId(words);
 
                 // ====================== UNKNOWN
-                default:
-                    result = new UCIMessageUnknown(input);
-                    break;
-            }
+                default -> new UCIMessageUnknown(input);
+            };
         }
         return result;
     }

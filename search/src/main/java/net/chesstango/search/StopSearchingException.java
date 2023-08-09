@@ -6,8 +6,8 @@ import lombok.Setter;
 /**
  * @author Mauricio Coria
  */
+@Getter
+@Setter
 public class StopSearchingException extends RuntimeException {
-    @Getter
-    @Setter
     private SearchMoveResult searchMoveResult;
 }

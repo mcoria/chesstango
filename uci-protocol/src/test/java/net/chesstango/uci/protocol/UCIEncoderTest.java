@@ -14,7 +14,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * @author Mauricio Coria
+ *
+ */
 public class UCIEncoderTest {
     private UCIEncoder encoder;
 

@@ -1,6 +1,8 @@
 package net.chesstango.mbeans;
 
 
+import lombok.Getter;
+
 import javax.management.Notification;
 
 /**
@@ -9,6 +11,8 @@ import javax.management.Notification;
 public class MoveNotification extends Notification {
     private static final long serialVersionUID = 1L;
     public static final String ATTRIBUTE_CHANGE = "net.chesstango.move";
+
+    @Getter
     private final GameDescriptionCurrent gameDescriptionCurrent;
 
     public MoveNotification(Object source,
@@ -18,9 +22,5 @@ public class MoveNotification extends Notification {
         super(MoveNotification.ATTRIBUTE_CHANGE, source, sequenceNumber);
         this.setUserData(move);
         this.gameDescriptionCurrent = gameDescriptionCurrent;
-    }
-
-    public GameDescriptionCurrent getGameDescriptionCurrent(){
-        return gameDescriptionCurrent;
     }
 }

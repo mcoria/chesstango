@@ -23,11 +23,8 @@ public class EngineProxy implements Service {
     private Process process;
     private InputStream inputStreamProcess;
     private PrintStream outputStreamProcess;
-
     private UCIOutputStream responseOutputStream;
-
     private UCIActiveStreamReader pipe;
-
     private Thread readingPipeThread;
     private boolean logging;
 

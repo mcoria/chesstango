@@ -60,7 +60,7 @@ public class Arena extends NotificationBroadcasterSupport implements ArenaMBean 
     public void newGame(GameDescriptionInitial gameDescriptionInitial) {
         gameList.add(gameDescriptionInitial);
         currentGame = gameDescriptionInitial;
-        initialMap.put(currentGame.getGameId(), gameDescriptionInitial);
+        initialMap.put(currentGame.gameId(), gameDescriptionInitial);
         notifyNewGame(gameDescriptionInitial);
     }
 
