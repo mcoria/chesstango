@@ -20,9 +20,7 @@ public class EngineTango implements Service {
     protected final Tango tango;
     private UCIOutputStream responseOutputStream;
     private boolean logging;
-
     UCIEngine currentState;
-
     final Ready readyState;
     final WaitCmdUci waitCmdUciState;
     final WaitCmdGo waitCmdGoState;
@@ -103,7 +101,6 @@ public class EngineTango implements Service {
     @Override
     public void accept(ServiceVisitor serviceVisitor) {
         serviceVisitor.visit(this);
-        tango.accept(serviceVisitor);
     }
 
     @Override
@@ -125,6 +122,10 @@ public class EngineTango implements Service {
     public EngineTango setLogging(boolean flag) {
         this.logging = flag;
         return this;
+    }
+
+    public Tango getTango() {
+        return tango;
     }
 
     protected Tango createTango(SearchMove searchMove) {

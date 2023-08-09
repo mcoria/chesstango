@@ -85,19 +85,12 @@ public class GameResult {
 
             @Override
             public void visit(EngineTango engineTango) {
+                Tango tango = engineTango.getTango();
+                sessionSetter.accept(tango.getCurrentSession());
             }
 
             @Override
             public void visit(EngineProxy engineProxy) {
-            }
-
-            @Override
-            public void visit(Tango tango) {
-            }
-
-            @Override
-            public void visit(Session session) {
-                sessionSetter.accept(session);
             }
         });
     }

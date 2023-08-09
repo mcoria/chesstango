@@ -15,8 +15,4 @@ public interface ServiceVisitor {
     void visit(EngineTango engineTango);
 
     void visit(EngineProxy engineProxy);
-
-    void visit(Tango tango);
-
-    void visit(Session session);
 }

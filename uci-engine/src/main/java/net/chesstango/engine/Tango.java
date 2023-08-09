@@ -15,10 +15,11 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class Tango implements ServiceElement, SearchListener {
+public class Tango implements SearchListener {
     private final SearchManager searchManager;
     private final List<Session> sessions = new ArrayList<>();
     private final SearchListener listenerClient;
+
     private Session currentSession;
 
     public Tango(SearchMove searchMove, SearchListener listenerClient) {
@@ -68,14 +69,6 @@ public class Tango implements ServiceElement, SearchListener {
     }
 
     @Override
-    public void accept(ServiceVisitor serviceVisitor) {
-        serviceVisitor.visit(this);
-        if (currentSession != null) {
-            currentSession.accept(serviceVisitor);
-        }
-    }
-
-    @Override
     public void searchStarted() {
         listenerClient.searchStarted();
     }
@@ -95,5 +88,9 @@ public class Tango implements ServiceElement, SearchListener {
         currentSession.addResult(result);
 
         listenerClient.searchFinished(result);
+    }
+
+    public Session getCurrentSession() {
+        return currentSession;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class Session implements ServiceElement {
+public class Session{
     private final List<SearchMoveResult> searches = new ArrayList<>();
 
     private Game game;
@@ -26,11 +26,10 @@ public class Session implements ServiceElement {
     }
 
     public void setPosition(String fen, List<String> moves) {
-        UCIEncoder uciEncoder = new UCIEncoder();
         game = FENDecoder.loadGame(fen);
         if (moves != null && !moves.isEmpty()) {
             for (String moveStr : moves) {
-                Move move = uciEncoder.selectMove(game.getPossibleMoves(), moveStr);
+                Move move = UCIEncoder.selectMove(game.getPossibleMoves(), moveStr);
                 if (move == null) {
                     throw new RuntimeException(String.format("No move found %s", moveStr));
                 }
@@ -54,10 +53,5 @@ public class Session implements ServiceElement {
 
     public void addResult(SearchMoveResult result) {
         searches.add(result);
-    }
-
-    @Override
-    public void accept(ServiceVisitor serviceVisitor) {
-        serviceVisitor.visit(this);
     }
 }
