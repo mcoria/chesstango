@@ -100,7 +100,7 @@ public class ArenaMBeanClient implements NotificationListener {
 
         printInitialStatus(currentGame);
 
-        printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGame.gameId()));
+        printCurrentStatus(arenaProxy.getGameDescriptionCurrent(currentGame.getGameId()));
 
         mbsc.addNotificationListener(currentMBeanName, this, null, null);
     }
@@ -163,8 +163,8 @@ public class ArenaMBeanClient implements NotificationListener {
     }
 
     public static void printInitialStatus(GameDescriptionInitial gameDescriptionInitial) {
-        System.out.println(String.format("White = %s vs Black = %s", gameDescriptionInitial.white(), gameDescriptionInitial.black()));
-        System.out.println(String.format("Initial FEN = %s", gameDescriptionInitial.initialFEN()));
+        System.out.println(String.format("White = %s vs Black = %s", gameDescriptionInitial.getWhite(), gameDescriptionInitial.getBlack()));
+        System.out.println(String.format("Initial FEN = %s", gameDescriptionInitial.getInitialFEN()));
         System.out.println(String.format("---------------------------------------------------------------------------"));
     }
 
