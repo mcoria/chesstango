@@ -14,6 +14,7 @@
         <module>engine</module>
         <module>uci-protocol</module>
 		<module>uci-engine</module>
+        <module>li-engine</module>
         <module>arena-mbean</module>
         <module>uci-arena</module>
         <module>arena-ui</module>
@@ -26,6 +27,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <projectlombok.version>1.18.26</projectlombok.version>
+        <logback.version>1.4.1</logback.version>
+        <chariot.version>0.0.72</chariot.version>
     </properties>
 
     <build>
@@ -136,6 +139,18 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>2.13.5</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.tors42</groupId>
+                <artifactId>chariot</artifactId>
+                <version>${chariot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
