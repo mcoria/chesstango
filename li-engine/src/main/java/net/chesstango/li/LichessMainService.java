@@ -2,10 +2,7 @@ package net.chesstango.li;
 
 import chariot.Client;
 import chariot.ClientAuth;
-import chariot.model.ChallengeInfo;
-import chariot.model.Event;
-import chariot.model.Unlimited;
-import chariot.model.VariantType;
+import chariot.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -78,9 +76,20 @@ public class LichessMainService implements Runnable {
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
         ChallengeInfo challenge = challengeEvent.challenge();
 
-        return VariantType.Variant.standard.equals(challenge.gameType().variant())  // Chess variant
-                && challenge.gameType().timeControl() instanceof Unlimited          // Time control
-                && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;                   // I'm not busy..
+        Predicate<TimeControl> timeControlPredicate = getTimeControlPredicate();
+
+        return VariantType.Variant.standard.equals(challenge.gameType().variant())      // Chess variant
+                && timeControlPredicate.test(challenge.gameType().timeControl())        // Time control
+                && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;                       // Not busy..
+    }
+
+    private static Predicate<TimeControl> getTimeControlPredicate() {
+        Predicate<RealTime> supportedRealtimeGames = realtime ->
+                (Enums.Speed.blitz.equals(realtime.speed()) || Enums.Speed.rapid.equals(realtime.speed()))
+                && realtime.initial().getSeconds() >= 30L;
+
+        return timeControl -> timeControl instanceof Unlimited                                              // Unlimited
+                || (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));     // Realtime
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
