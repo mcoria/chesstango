@@ -2,14 +2,18 @@ package net.chesstango.li;
 
 import chariot.Client;
 import chariot.ClientAuth;
-import chariot.model.*;
+import chariot.model.ChallengeInfo;
+import chariot.model.Event;
+import chariot.model.Unlimited;
+import chariot.model.VariantType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Stream;
 
 /**
@@ -18,6 +22,7 @@ import java.util.stream.Stream;
 public class LichessMainService implements Runnable {
 
     private final static Logger logger = LoggerFactory.getLogger(LichessMainService.class);
+    private static final int MAX_SIMULTANEOUS_GAMES = 2;
 
     public static void main(String[] args) {
         URI lichessApi = URI.create("https://lichess.org");
@@ -29,32 +34,39 @@ public class LichessMainService implements Runnable {
         new LichessMainService(new LichessClient(clientAuth)).run();
     }
 
+    private final ScheduledExecutorService gameExecutorService;
+
     private final Map<String, LichessGame> onlineGameMap = new HashMap<>();
 
     private final LichessClient client;
 
     public LichessMainService(LichessClient client) {
         this.client = client;
+        this.gameExecutorService = Executors.newScheduledThreadPool(MAX_SIMULTANEOUS_GAMES);
     }
 
     @Override
     public void run() {
         Stream<Event> events = client.streamEvents();
 
-        logger.info("Connection successful, waiting for challenges...");
+        logger.info("Connection successful, entering main event loop...");
 
         events.forEach(event -> {
+            logger.info("event received: {}", event);
             switch (event.type()) {
-                case challenge -> newChallenge((Event.ChallengeEvent)event);
-                case challengeCanceled, challengeDeclined -> logger.info("Challenge cancelled / declined: {}", event);
-                case gameStart -> startGame((Event.GameStartEvent)event);
-                case gameFinish -> gameFinish((Event.GameStopEvent)event);
+                case challenge -> newChallenge((Event.ChallengeEvent) event);
+                case challengeCanceled, challengeDeclined ->
+                        logger.info("Challenge cancelled / declined: {}", event.id());
+                case gameStart -> startGame((Event.GameStartEvent) event);
+                case gameFinish -> gameFinish((Event.GameStopEvent) event);
             }
         });
+
+        logger.info("main event loop finished");
     }
 
     private void newChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("New challenge received. Details: {}", challengeEvent.challenge());
+        logger.info("New challenge received: {}", challengeEvent.challenge());
 
         if (isChallengeAcceptable(challengeEvent)) {
             acceptChallenge(challengeEvent);
@@ -64,15 +76,17 @@ public class LichessMainService implements Runnable {
     }
 
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
-        Predicate<ChallengeInfo> variantStandard = challenge -> VariantType.Variant.standard.equals(challenge.gameType().variant()) && challenge.gameType().timeControl() instanceof Unlimited;
+        ChallengeInfo challenge = challengeEvent.challenge();
 
-        return variantStandard.test(challengeEvent.challenge());
+        return VariantType.Variant.standard.equals(challenge.gameType().variant()) && challenge.gameType().timeControl() instanceof Unlimited && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
-        logger.info("Accepting challenge {}!", challengeEvent.id());
+        logger.info("Accepting challenge {}", challengeEvent.id());
 
-        var onlineGame = new LichessGame(client, challengeEvent.id(), challengeEvent.challenge());
+        var onlineGame = new LichessGame(client, challengeEvent.id());
+
+        onlineGame.setChallenge(challengeEvent.challenge());
 
         onlineGameMap.put(challengeEvent.id(), onlineGame);
 
@@ -85,7 +99,7 @@ public class LichessMainService implements Runnable {
     }
 
     private void startGame(Event.GameStartEvent gameStartEvent) {
-        logger.info("Game to start: {}", gameStartEvent);
+        logger.info("Starting game {}", gameStartEvent.id());
 
         if (!onlineGameMap.containsKey(gameStartEvent.id())) {
             logger.info("Game {} is not in memory, resigning", gameStartEvent.id());
@@ -95,7 +109,9 @@ public class LichessMainService implements Runnable {
 
         var onlineGame = onlineGameMap.get(gameStartEvent.id());
 
-        onlineGame.start(gameStartEvent);
+        onlineGame.setGame(gameStartEvent.game());
+
+        gameExecutorService.submit(onlineGame);
     }
 
     private void gameFinish(Event.GameStopEvent gameStopEvent) {

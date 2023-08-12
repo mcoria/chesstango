@@ -5,4 +5,5 @@ module net.chesstango.li.engine {
     requires net.chesstango.search;
     requires net.chesstango.board;
     requires net.chesstango.uci;
+    requires lombok;
 }

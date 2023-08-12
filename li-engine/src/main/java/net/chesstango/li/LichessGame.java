@@ -10,24 +10,30 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import lombok.Setter;
+
 
 import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
  */
-public class LichessGame {
+public class LichessGame implements Runnable {
     private final static Logger logger = LoggerFactory.getLogger(LichessGame.class);
+    private static final int DEFAULT_DEPTH = 5;
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
-    private final ChallengeInfo challenge;
+
+    @Setter
+    private ChallengeInfo challenge;
+
+    @Setter
     private GameInfo game;
 
-    public LichessGame(LichessClient client, String gameId, ChallengeInfo challenge) {
+    public LichessGame(LichessClient client, String gameId) {
         this.client = client;
         this.gameId = gameId;
-        this.challenge = challenge;
         this.tango = new Tango(new DefaultSearchMove(), new SearchListener() {
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
@@ -38,16 +44,15 @@ public class LichessGame {
         });
     }
 
-    public void start(Event.GameStartEvent gameStartEvent) {
-        logger.info("Ready to play game with id {}, waiting for events...", gameStartEvent.id());
-
-        game = gameStartEvent.game();
+    @Override
+    public void run() {
+        logger.info("Ready to play game {}, entering game event loop...", gameId);
 
         tango.open();
 
         tango.newGame();
 
-        Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameStartEvent.id());
+        Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameId);
 
         gameEvents.forEach(gameEvent -> {
             switch (gameEvent.type()) {
@@ -57,6 +62,8 @@ public class LichessGame {
                 case opponentGone -> opponentGone((GameStateEvent.OpponentGone) gameEvent);
             }
         });
+
+        logger.info("game {} event loop finished", gameId);
     }
 
     public void stop(Event.GameStopEvent gameStopEvent) {
@@ -91,7 +98,7 @@ public class LichessGame {
     private void play(GameStateEvent.State state) {
         tango.setPosition(game.fen(), state.moveList());
         if (isMyTurn()) {
-            tango.goMoveTime(1000);
+            tango.goDepth(DEFAULT_DEPTH);
         }
     }
 
@@ -115,4 +122,5 @@ public class LichessGame {
         logger.info("Chat: [{}] -> {}", "chesstango", message);
         client.gameChat(gameId, message);
     }
+
 }
