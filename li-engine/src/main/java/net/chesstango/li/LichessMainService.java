@@ -78,7 +78,9 @@ public class LichessMainService implements Runnable {
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
         ChallengeInfo challenge = challengeEvent.challenge();
 
-        return VariantType.Variant.standard.equals(challenge.gameType().variant()) && challenge.gameType().timeControl() instanceof Unlimited && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;
+        return VariantType.Variant.standard.equals(challenge.gameType().variant())  // Chess variant
+                && challenge.gameType().timeControl() instanceof Unlimited          // Time control
+                && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;                   // I'm not busy..
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
@@ -109,7 +111,7 @@ public class LichessMainService implements Runnable {
 
         var onlineGame = onlineGameMap.get(gameStartEvent.id());
 
-        onlineGame.setGame(gameStartEvent.game());
+        onlineGame.start(gameStartEvent);
 
         gameExecutorService.submit(onlineGame);
     }

@@ -27,8 +27,6 @@ public class LichessGame implements Runnable {
 
     @Setter
     private ChallengeInfo challenge;
-
-    @Setter
     private GameInfo game;
 
     public LichessGame(LichessClient client, String gameId) {
@@ -44,13 +42,21 @@ public class LichessGame implements Runnable {
         });
     }
 
-    @Override
-    public void run() {
-        logger.info("Ready to play game {}, entering game event loop...", gameId);
+    public void start(Event.GameStartEvent gameStartEvent) {
+        game = gameStartEvent.game();
 
         tango.open();
 
         tango.newGame();
+    }
+
+    public void stop(Event.GameStopEvent gameStopEvent) {
+        tango.close();
+    }
+
+    @Override
+    public void run() {
+        logger.info("Ready to play game {}, entering game event loop...", gameId);
 
         Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameId);
 
@@ -64,14 +70,6 @@ public class LichessGame implements Runnable {
         });
 
         logger.info("game {} event loop finished", gameId);
-    }
-
-    public void stop(Event.GameStopEvent gameStopEvent) {
-        tango.close();
-    }
-
-    private void opponentGone(GameStateEvent.OpponentGone gameEvent) {
-        logger.warn("opponentGone {}", gameEvent);
     }
 
     private void gameFull(GameStateEvent.Full gameFullEvent) {
@@ -93,6 +91,10 @@ public class LichessGame implements Runnable {
             }
         }
 
+    }
+
+    private void opponentGone(GameStateEvent.OpponentGone gameEvent) {
+        logger.warn("opponentGone {}", gameEvent);
     }
 
     private void play(GameStateEvent.State state) {
@@ -122,5 +124,4 @@ public class LichessGame implements Runnable {
         logger.info("Chat: [{}] -> {}", "chesstango", message);
         client.gameChat(gameId, message);
     }
-
 }
