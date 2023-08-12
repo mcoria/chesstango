@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class Session{
+public class Session {
     private final List<SearchMoveResult> searches = new ArrayList<>();
 
     private Game game;

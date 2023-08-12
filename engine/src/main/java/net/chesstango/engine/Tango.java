@@ -12,16 +12,37 @@ import java.util.Objects;
 /**
  * @author Mauricio Coria
  */
-public class Tango implements SearchListener {
+public class Tango {
     private final SearchManager searchManager;
     private final List<Session> sessions = new ArrayList<>();
-    private final SearchListener listenerClient;
-
     private Session currentSession;
 
     public Tango(SearchMove searchMove, SearchListener listenerClient) {
-        this.searchManager = new SearchManager(searchMove, this);
-        this.listenerClient = listenerClient;
+        SearchListener myListener = new SearchListener() {
+            @Override
+            public void searchStarted() {
+                listenerClient.searchStarted();
+            }
+
+            @Override
+            public void searchInfo(SearchInfo info) {
+                listenerClient.searchInfo(info);
+            }
+
+            @Override
+            public void searchStopped() {
+                listenerClient.searchStopped();
+            }
+
+            @Override
+            public void searchFinished(SearchMoveResult searchResult) {
+                currentSession.addResult(searchResult);
+
+                listenerClient.searchFinished(searchResult);
+            }
+        };
+
+        this.searchManager = new SearchManager(searchMove, myListener);
     }
 
     public void open() {
@@ -63,28 +84,6 @@ public class Tango implements SearchListener {
 
     public void stopSearching() {
         searchManager.stopSearching();
-    }
-
-    @Override
-    public void searchStarted() {
-        listenerClient.searchStarted();
-    }
-
-    @Override
-    public void searchInfo(SearchInfo info) {
-        listenerClient.searchInfo(info);
-    }
-
-    @Override
-    public void searchStopped() {
-        listenerClient.searchStopped();
-    }
-
-    @Override
-    public void searchFinished(SearchMoveResult result) {
-        currentSession.addResult(result);
-
-        listenerClient.searchFinished(result);
     }
 
     public Session getCurrentSession() {

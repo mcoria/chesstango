@@ -4,11 +4,15 @@ package net.chesstango.search;
  * @author Mauricio Coria
  */
 public interface SearchListener {
-    void searchStarted();
+    default void searchStarted() {
+    }
 
-    void searchInfo(SearchInfo info);
+    default void searchInfo(SearchInfo info) {
+    }
 
-    void searchStopped();
+    default void searchStopped() {
+    }
 
-    void searchFinished(SearchMoveResult searchResult);
+    default void searchFinished(SearchMoveResult searchResult) {
+    }
 }

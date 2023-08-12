@@ -57,9 +57,6 @@ class Searching implements UCIEngine, SearchListener {
     public void do_position(CmdPosition cmdPosition) {
     }
 
-    @Override
-    public void searchStarted() {
-    }
 
     @Override
     public void searchInfo(SearchInfo info) {
@@ -73,13 +70,10 @@ class Searching implements UCIEngine, SearchListener {
         engineTango.reply(new RspInfo(infoStr));
     }
 
-    @Override
-    public void searchStopped() {
-    }
 
     @Override
     public void searchFinished(SearchMoveResult searchResult) {
-        String selectedMoveStr = new UCIEncoder().encode(searchResult.getBestMove());
+        String selectedMoveStr = UCIEncoder.encode(searchResult.getBestMove());
 
         engineTango.reply(new RspBestMove(selectedMoveStr));
 
