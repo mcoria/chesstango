@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Predicate;
@@ -25,11 +26,19 @@ public class LichessMainService implements Runnable {
     public static void main(String[] args) {
         URI lichessApi = URI.create("https://lichess.org");
 
-        ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), "lip_Qk9igzwz1rgEWOUOKf6P");
+        String token = System.getenv("BOT_TOKEN");
 
-        logger.info("Start playing as a bot");
-
-        new LichessMainService(new LichessClient(clientAuth)).run();
+        if (Objects.nonNull(token) && !token.isEmpty()) {
+            ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), token);
+            if (clientAuth.scopes().contains(Client.Scope.bot_play)) {
+                logger.info("Start playing as a bot");
+                new LichessMainService(new LichessClient(clientAuth)).run();
+            } else {
+                throw new RuntimeException("BOT_TOKEN is missing scope bot:play");
+            }
+        } else {
+            throw new RuntimeException("BOT_TOKEN is missing");
+        }
     }
 
     private final ScheduledExecutorService gameExecutorService;
@@ -88,11 +97,11 @@ public class LichessMainService implements Runnable {
     private static boolean isTimeControlAcceptable(TimeControl timeControl) {
         Predicate<RealTime> supportedRealtimeGames = realtime ->
                 (Enums.Speed.blitz.equals(realtime.speed()) || Enums.Speed.rapid.equals(realtime.speed()))
-                && realtime.initial().getSeconds() >= 30L;
+                        && realtime.initial().getSeconds() >= 30L;
 
         // timeControl instanceof Unlimited                     // Unlimited games are not supported for the moment
         return (timeControl instanceof RealTime realtime        // Realtime
-                    && supportedRealtimeGames.test(realtime));
+                && supportedRealtimeGames.test(realtime));
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
