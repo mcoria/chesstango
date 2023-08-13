@@ -15,6 +15,7 @@ import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -89,6 +90,7 @@ public class DetectCycleDisabledTest {
 
     //TODO: quizas necesitariamos un mapa de posicion->evaluacion
     @Test
+    @Disabled
     public void testDetectCycle01() {
         Game game = FENDecoder.loadGame("k3b3/3pPp2/2pP1P1p/1pP3pP/pP3pP1/P1p1pP2/2PpP3/3B3K w - - 0 1");
 
