@@ -37,7 +37,7 @@ public class LichessGame implements Runnable {
             public void searchFinished(SearchMoveResult searchResult) {
                 logger.info("Search finished");
                 String moveUci = UCIEncoder.encode(searchResult.getBestMove());
-                sendMove(moveUci);
+                client.gameMove(gameId, moveUci);
             }
         });
     }
@@ -108,12 +108,6 @@ public class LichessGame implements Runnable {
         ChessPositionReader currentChessPosition = tango.getCurrentSession().getGame().getChessPosition();
         return Enums.Color.white.equals(game.color()) && Color.WHITE.equals(currentChessPosition.getCurrentTurn()) ||
                 Enums.Color.black.equals(game.color()) && Color.BLACK.equals(currentChessPosition.getCurrentTurn());
-    }
-
-
-    private void sendMove(String moveUci) {
-        logger.info("Sending move: {}", moveUci);
-        client.gameMove(gameId, moveUci);
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {

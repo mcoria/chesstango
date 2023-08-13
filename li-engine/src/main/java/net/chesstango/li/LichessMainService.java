@@ -74,22 +74,25 @@ public class LichessMainService implements Runnable {
     }
 
     private boolean isChallengeAcceptable(Event.ChallengeEvent challengeEvent) {
-        ChallengeInfo challenge = challengeEvent.challenge();
+        GameType gameType = challengeEvent.challenge().gameType();
 
-        Predicate<TimeControl> timeControlPredicate = getTimeControlPredicate();
-
-        return VariantType.Variant.standard.equals(challenge.gameType().variant())      // Chess variant
-                && timeControlPredicate.test(challenge.gameType().timeControl())        // Time control
-                && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;                       // Not busy..
+        return isVariantAcceptable(gameType.variant())                    // Chess variant
+                && isTimeControlAcceptable(gameType.timeControl())        // Time control
+                && onlineGameMap.size() < MAX_SIMULTANEOUS_GAMES;         // Not busy..
     }
 
-    private static Predicate<TimeControl> getTimeControlPredicate() {
+    private static boolean isVariantAcceptable(VariantType variant) {
+        return VariantType.Variant.standard.equals(variant) || variant instanceof VariantType.FromPosition;
+    }
+
+    private static boolean isTimeControlAcceptable(TimeControl timeControl) {
         Predicate<RealTime> supportedRealtimeGames = realtime ->
                 (Enums.Speed.blitz.equals(realtime.speed()) || Enums.Speed.rapid.equals(realtime.speed()))
                 && realtime.initial().getSeconds() >= 30L;
 
-        return timeControl -> timeControl instanceof Unlimited                                              // Unlimited
-                || (timeControl instanceof RealTime realtime && supportedRealtimeGames.test(realtime));     // Realtime
+        // timeControl instanceof Unlimited                     // Unlimited games are not supported for the moment
+        return (timeControl instanceof RealTime realtime        // Realtime
+                    && supportedRealtimeGames.test(realtime));
     }
 
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
