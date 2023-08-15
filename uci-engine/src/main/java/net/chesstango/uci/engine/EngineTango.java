@@ -18,13 +18,14 @@ public class EngineTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
 
     protected final Tango tango;
+    protected final Ready readyState;
+    protected final WaitCmdUci waitCmdUciState;
+    protected final WaitCmdGo waitCmdGoState;
+    protected final Searching searchingState;
+
     private UCIOutputStream responseOutputStream;
     private boolean logging;
-    UCIEngine currentState;
-    final Ready readyState;
-    final WaitCmdUci waitCmdUciState;
-    final WaitCmdGo waitCmdGoState;
-    final Searching searchingState;
+    protected volatile UCIEngine currentState;
 
     public EngineTango() {
         this(new DefaultSearchMove());
@@ -59,7 +60,6 @@ public class EngineTango implements Service {
 
             @Override
             public void do_go(CmdGo cmdGo) {
-                System.out.println(String.format("current state %s", currentState));
                 currentState.do_go(cmdGo);
             }
 
