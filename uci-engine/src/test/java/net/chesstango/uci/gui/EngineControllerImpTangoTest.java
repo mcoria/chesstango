@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class EngineControllerImpTangoTest {
 
     @Test
-    public void test_Zonda() {
+    public void test_Tango() {
         Service service = new EngineTango();
 
         EngineControllerImp client = new EngineControllerImp(service);

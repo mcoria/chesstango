@@ -2,11 +2,9 @@
 package net.chesstango.uci;
 
 import net.chesstango.uci.engine.EngineTangoTest;
-import net.chesstango.uci.gui.EngineControllerImpProxyTest;
 import net.chesstango.uci.gui.EngineControllerImpTangoTest;
-import net.chesstango.uci.proxy.EngineProxyTest;
 import net.chesstango.uci.proxy.ProxyConfigTest;
-import net.chesstango.uci.service.ServiceMainTest;
+import net.chesstango.uci.service.ServiceMainTangoTest;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
@@ -15,8 +13,8 @@ import org.junit.platform.suite.api.Suite;
  *
  */
 @Suite
-@SelectClasses({ServiceMainTest.class, EngineTangoTest.class, EngineProxyTest.class,
-        EngineControllerImpTangoTest.class, ProxyConfigTest.class, EngineControllerImpProxyTest.class})
+@SelectClasses({ServiceMainTangoTest.class, EngineTangoTest.class,
+        EngineControllerImpTangoTest.class, ProxyConfigTest.class})
 public class UCIEngineTestSuite {
 
 }

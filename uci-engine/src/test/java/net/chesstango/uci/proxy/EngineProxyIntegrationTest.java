@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class EngineProxyTest {
+public class EngineProxyIntegrationTest {
     private EngineProxy engine;
 
 

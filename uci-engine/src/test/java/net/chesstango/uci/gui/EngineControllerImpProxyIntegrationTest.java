@@ -5,7 +5,6 @@ import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  */
-public class EngineControllerImpProxyTest {
+public class EngineControllerImpProxyIntegrationTest {
 
     @Test
     public void test_Proxy() {

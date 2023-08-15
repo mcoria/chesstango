@@ -1,18 +1,12 @@
 
 package net.chesstango.uci.service;
 
-import net.chesstango.board.Game;
-import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.proxy.EngineProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class ServiceMainTest {
+public class ServiceMainProxyIntegrationTest {
 
     private ExecutorService executorService;
 
@@ -44,49 +38,6 @@ public class ServiceMainTest {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Test
-    @Timeout(value = 3000, unit = TimeUnit.MILLISECONDS)
-    public void test_playTango() throws IOException, InterruptedException {
-        PipedOutputStream outputToEngine = new PipedOutputStream();
-        PipedInputStream inputFromEngine = new PipedInputStream();
-
-        EngineTango engine = new EngineTango();
-        engine.setLogging(true);
-
-        ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
-        executorService.submit(serviceMain::run);
-
-        PrintStream out = new PrintStream(outputToEngine, true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
-
-        // uci command
-        out.println("uci");
-        assertEquals("id name Tango", in.readLine());
-        assertEquals("id author Mauricio Coria", in.readLine());
-        assertEquals("uciok", in.readLine());
-
-        // isready command
-        out.println("isready");
-        assertEquals("readyok", in.readLine());
-
-        // ucinewgame command
-        out.println("ucinewgame");
-
-        // isready command
-        out.println("isready");
-        assertEquals("readyok", in.readLine());
-
-        // isrpositioneady command
-        out.println("position startpos moves e2e4");
-
-        // quit command
-        out.println("quit");
-
-        while (serviceMain.isRunning()){
-            Thread.sleep(200);
-        };
     }
 
     @Test
