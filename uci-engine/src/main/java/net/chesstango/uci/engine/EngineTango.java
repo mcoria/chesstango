@@ -59,6 +59,7 @@ public class EngineTango implements Service {
 
             @Override
             public void do_go(CmdGo cmdGo) {
+                System.out.println(String.format("current state %s", currentState));
                 currentState.do_go(cmdGo);
             }
 
