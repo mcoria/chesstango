@@ -26,4 +26,5 @@ public class StringConsumer implements Consumer<String> {
             throw new RuntimeException(e);
         }
     }
+
 }

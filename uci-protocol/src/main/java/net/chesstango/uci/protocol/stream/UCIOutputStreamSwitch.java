@@ -32,5 +32,4 @@ public class UCIOutputStreamSwitch implements UCIOutputStream {
             execute.run();
         }
     }
-
 }

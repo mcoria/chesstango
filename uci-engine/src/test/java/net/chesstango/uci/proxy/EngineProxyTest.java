@@ -31,7 +31,6 @@ public class EngineProxyTest {
     }
 
     @Test
-    @Disabled
     public void test_OpenAndClose() throws IOException, InterruptedException {
         PipedOutputStream posOutput = new PipedOutputStream();
         PipedInputStream pisOutput = new PipedInputStream(posOutput);
@@ -43,7 +42,6 @@ public class EngineProxyTest {
     }
 
     @Test
-    @Disabled
     public void test_HappyPath() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();
@@ -99,7 +97,6 @@ public class EngineProxyTest {
     }
 
     @Test // MORA crashes
-    @Disabled
     public void test_Crash() throws IOException, InterruptedException {
         List<String> lines = null;
         PipedOutputStream posOutput = new PipedOutputStream();

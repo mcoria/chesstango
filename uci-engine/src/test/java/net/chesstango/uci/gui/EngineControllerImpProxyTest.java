@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class EngineControllerImpProxyTest {
 
     @Test
-    @Disabled
     public void test_Proxy() {
         EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true);
 

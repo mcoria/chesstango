@@ -6,29 +6,26 @@ import net.chesstango.uci.protocol.requests.CmdQuit;
 /**
  * @author Mauricio Coria
  */
-public class UCIActiveStreamReader {
-    private boolean keepReading;
+public class UCIActiveStreamReader implements Runnable {
+    protected volatile boolean keepReading;
     protected UCIInputStream input;
     protected UCIOutputStream output;
 
-    public void read() {
+    @Override
+    public void run() {
         UCIOutputStreamSwitch actionOutput = new UCIOutputStreamSwitch(uciMessage -> uciMessage instanceof CmdQuit, this::stopReading);
         actionOutput.setOutputStream(output);
+
         keepReading = true;
-        UCIMessage message;
+        UCIMessage message = null;
         while (keepReading && (message = input.get()) != null) {
             actionOutput.accept(message);
         }
     }
 
     public void stopReading() {
-        try {
-            keepReading = false;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+        keepReading = false;
     }
-
 
     public void setInputStream(UCIInputStream input) {
         this.input = input;
@@ -37,5 +34,4 @@ public class UCIActiveStreamReader {
     public void setOutputStream(UCIOutputStream output) {
         this.output = output;
     }
-
 }

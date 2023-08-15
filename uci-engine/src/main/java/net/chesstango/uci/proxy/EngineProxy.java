@@ -164,7 +164,7 @@ public class EngineProxy implements Service {
         if (logging) {
             System.out.println("proxy: EngineProxy::readFromPipe(): start reading engine output");
         }
-        pipe.read();
+        pipe.run();
         if (logging) {
             System.out.println("proxy: EngineProxy::readFromPipe():end reading engine output");
         }

@@ -6,24 +6,19 @@ import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
-import net.chesstango.uci.proxy.EngineProxy;
-import net.chesstango.uci.proxy.ProxyConfig;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mauricio Coria
  */
-public class ServiceMain {
+public class ServiceMain implements Runnable{
     private final Service service;
-
     private final UCIActiveStreamReader pipe;
-
-    private volatile Boolean isRunning;
+    private volatile boolean isRunning;
 
     public static void main(String[] args) {
         ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
@@ -36,27 +31,30 @@ public class ServiceMain {
         this.service = service;
         this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
 
-
         this.pipe = new UCIActiveStreamReader();
         this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
         this.pipe.setOutputStream(this.service);
     }
 
-
+    @Override
     public void run() {
-        service.open();
+        try {
+            service.open();
 
-        isRunning = true;
+            isRunning = true;
 
-        pipe.read();
+            pipe.run();
 
-        isRunning = false;
+            isRunning = false;
 
-        service.close();
+            service.close();
+        } catch (RuntimeException e) {
+            e.printStackTrace(System.err);
+            throw e;
+        }
     }
 
-    public Boolean isRunning(){
+    public boolean isRunning() {
         return isRunning;
     }
-
 }

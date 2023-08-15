@@ -18,9 +18,7 @@ public class StringSupplierLogger implements Supplier<String> {
     @Override
     public String get() {
         String line = reader.get();
-        if(line != null) {
-            System.out.println(logprefix + line);
-        }
+        System.out.println(logprefix + line);
         return line;
     }
 }

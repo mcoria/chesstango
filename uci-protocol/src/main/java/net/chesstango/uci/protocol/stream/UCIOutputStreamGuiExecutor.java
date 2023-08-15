@@ -22,5 +22,4 @@ public class UCIOutputStreamGuiExecutor implements UCIOutputStream {
             ((UCIResponse) message).execute(executor);
         }
     }
-
 }
