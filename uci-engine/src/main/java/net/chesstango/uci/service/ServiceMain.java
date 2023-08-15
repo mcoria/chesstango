@@ -7,16 +7,17 @@ import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
+import java.io.*;
 
 /**
  * @author Mauricio Coria
  */
 public class ServiceMain implements Runnable{
     private final Service service;
+    private final InputStream in;
+
+    private final PrintStream out;
+
     private final UCIActiveStreamReader pipe;
     private volatile boolean isRunning;
 
@@ -29,15 +30,18 @@ public class ServiceMain implements Runnable{
 
     public ServiceMain(Service service, InputStream in, PrintStream out) {
         this.service = service;
-        this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
-
+        this.in = in;
+        this.out = out;
         this.pipe = new UCIActiveStreamReader();
-        this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
-        this.pipe.setOutputStream(this.service);
+
     }
 
     @Override
     public void run() {
+        this.service.setResponseOutputStream(new UCIOutputStreamToStringAdapter(new StringConsumer(new OutputStreamWriter(out))));
+        this.pipe.setInputStream(new UCIInputStreamAdapter(new StringSupplier(new InputStreamReader(in))));
+        this.pipe.setOutputStream(this.service);
+
         try {
             service.open();
 
@@ -51,6 +55,13 @@ public class ServiceMain implements Runnable{
         } catch (RuntimeException e) {
             e.printStackTrace(System.err);
             throw e;
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace(System.err);
+            }
+            out.close();
         }
     }
 

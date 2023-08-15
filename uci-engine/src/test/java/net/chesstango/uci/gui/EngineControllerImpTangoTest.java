@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Mauricio Coria
  */
-public class EngineControllerImpZondaTest {
+public class EngineControllerImpTangoTest {
 
     @Test
     public void test_Zonda() {

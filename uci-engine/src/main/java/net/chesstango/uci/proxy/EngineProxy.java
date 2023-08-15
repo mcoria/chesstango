@@ -54,7 +54,7 @@ public class EngineProxy implements Service {
     @Override
     public void open() {
         startProcess();
-        readingPipeThread = new Thread(this::readFromPipe);
+        readingPipeThread = new Thread(this::readFromProcess);
         readingPipeThread.start();
     }
 
@@ -99,8 +99,8 @@ public class EngineProxy implements Service {
 
         if (config.getParams() != null) {
             String[] parameters = config.getParams().split(" ");
-            if(parameters.length > 0){
-                commandAndArguments.addAll( Arrays.stream(parameters).toList() );
+            if (parameters.length > 0) {
+                commandAndArguments.addAll(Arrays.stream(parameters).toList());
             }
         }
 
@@ -114,19 +114,18 @@ public class EngineProxy implements Service {
                 inputStreamProcess = process.getInputStream();
                 outputStreamProcess = new PrintStream(process.getOutputStream(), true);
             }
-
-            Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
-
-            if (logging) {
-                stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
-            }
-
-            pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
-            pipe.setOutputStream(responseOutputStream);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
+
+        if (logging) {
+            stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
+        }
+
+        pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
+        pipe.setOutputStream(responseOutputStream);
     }
 
     private void stopProcess() {
@@ -160,7 +159,7 @@ public class EngineProxy implements Service {
         }
     }
 
-    private void readFromPipe() {
+    private void readFromProcess() {
         if (logging) {
             System.out.println("proxy: EngineProxy::readFromPipe(): start reading engine output");
         }

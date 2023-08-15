@@ -19,9 +19,13 @@ public class StringConsumer implements Consumer<String> {
     @Override
     public void accept(String line) {
         try {
-            out.write(line);
-            out.newLine();
-            out.flush();
+            if(line != null) {
+                out.write(line);
+                out.newLine();
+                out.flush();
+            } else {
+                out.close();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
