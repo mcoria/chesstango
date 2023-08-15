@@ -40,6 +40,7 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void do_go(CmdGo cmdGo) {
+        throw new RuntimeException("Unable to process go command. Tango is still searching.");
     }
 
     @Override
