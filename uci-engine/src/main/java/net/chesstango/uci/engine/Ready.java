@@ -12,7 +12,7 @@ class Ready implements UCIEngine {
 
     private final EngineTango engineTango;
 
-    Ready(EngineTango engineTango) {
+    protected Ready(EngineTango engineTango) {
         this.engineTango = engineTango;
     }
 
@@ -37,10 +37,12 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_go(CmdGo cmdGo) {
+        throw new RuntimeException("Unable to process go command. Waiting position command.");
     }
 
     @Override
     public void do_stop(CmdStop cmdStop) {
+        throw new RuntimeException("Unable to process stop command. Waiting position command.");
     }
 
     @Override

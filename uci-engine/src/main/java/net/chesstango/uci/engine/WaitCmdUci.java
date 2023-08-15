@@ -13,7 +13,7 @@ public class WaitCmdUci implements UCIEngine {
     public static final String ENGINE_AUTHOR = "Mauricio Coria";
     private final EngineTango engineTango;
 
-    public WaitCmdUci(EngineTango engineTango) {
+    protected  WaitCmdUci(EngineTango engineTango) {
         this.engineTango = engineTango;
     }
 

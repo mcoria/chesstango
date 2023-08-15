@@ -10,4 +10,5 @@ module net.chesstango.uci.engine {
     requires net.chesstango.evaluation;
     requires net.chesstango.engine;
     requires com.fasterxml.jackson.databind;
+    requires lombok;
 }

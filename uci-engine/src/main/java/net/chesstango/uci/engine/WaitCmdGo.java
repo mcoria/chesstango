@@ -11,7 +11,7 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
 class WaitCmdGo implements UCIEngine {
     private final EngineTango engineTango;
 
-    WaitCmdGo(EngineTango engineTango) {
+    protected WaitCmdGo(EngineTango engineTango) {
         this.engineTango = engineTango;
     }
 
@@ -21,7 +21,6 @@ class WaitCmdGo implements UCIEngine {
 
     @Override
     public void do_setOption(CmdSetOption cmdSetOption) {
-
     }
 
     @Override

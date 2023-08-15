@@ -1,5 +1,6 @@
 package net.chesstango.uci.engine;
 
+import lombok.Getter;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
@@ -17,6 +18,7 @@ import net.chesstango.uci.service.ServiceVisitor;
 public class EngineTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
 
+    @Getter
     protected final Tango tango;
     protected final Ready readyState;
     protected final WaitCmdUci waitCmdUciState;
@@ -79,7 +81,7 @@ public class EngineTango implements Service {
         this.waitCmdGoState = new WaitCmdGo(this);
         this.searchingState = new Searching(this);
 
-        this.tango = createTango(searchMove);
+        this.tango = createTango(searchMove, this.searchingState);
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
     }
@@ -89,10 +91,12 @@ public class EngineTango implements Service {
         if (logging) {
             System.out.println("tango << " + message);
         }
-        engineExecutor.accept(message);
+        synchronized (engineExecutor) {
+            engineExecutor.accept(message);
+        }
     }
 
-    public void reply(UCIMessage message) {
+    protected void reply(UCIMessage message) {
         if (logging) {
             System.out.println("tango >> " + message);
         }
@@ -125,11 +129,7 @@ public class EngineTango implements Service {
         return this;
     }
 
-    public Tango getTango() {
-        return tango;
-    }
-
-    protected Tango createTango(SearchMove searchMove) {
+    protected Tango createTango(SearchMove searchMove, Searching searchingState) {
         return new Tango(searchMove, searchingState);
     }
 }

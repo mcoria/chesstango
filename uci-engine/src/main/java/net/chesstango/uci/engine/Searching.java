@@ -18,7 +18,7 @@ import java.util.List;
 class Searching implements UCIEngine, SearchListener {
     private final EngineTango engineTango;
 
-    Searching(EngineTango engineTango) {
+    protected Searching(EngineTango engineTango) {
         this.engineTango = engineTango;
     }
 
@@ -36,6 +36,7 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void do_newGame(CmdUciNewGame cmdUciNewGame) {
+        throw new RuntimeException("Unable to process newgame command. Tango is still searching.");
     }
 
     @Override
@@ -56,6 +57,7 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
+        throw new RuntimeException("Unable to process position command. Tango is still searching.");
     }
 
 
