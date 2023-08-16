@@ -19,7 +19,8 @@ public class EngineControllerImpProxyIntegrationTest {
 
     @Test
     public void test_Proxy() {
-        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike")).setLogging(true);
+        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))
+                .setLogging(false);
 
         EngineControllerImp client = new EngineControllerImp(engine);
 

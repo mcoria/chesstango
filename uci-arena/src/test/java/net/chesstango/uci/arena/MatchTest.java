@@ -2,6 +2,7 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
+import net.chesstango.engine.Tango;
 import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineControllerImp;
@@ -26,7 +27,7 @@ public class MatchTest {
     @BeforeEach
     public void setup() {
         smartEngine = new EngineControllerImp(new EngineTango().setLogging(true)).overrideEngineName("Smart");
-        dummyEngine = new EngineControllerImp(new EngineTango(new Dummy()).setLogging(true)).overrideEngineName("Dummy");
+        dummyEngine = new EngineControllerImp(new EngineTango(new Tango(new Dummy())).setLogging(true)).overrideEngineName("Dummy");
 
         smartEngine.startEngine();
         dummyEngine.startEngine();

@@ -26,8 +26,8 @@ public class EngineProxyIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        this.engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"));
-        this.engine.setLogging(true);
+        this.engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))
+                .setLogging(false);
     }
 
     @Test

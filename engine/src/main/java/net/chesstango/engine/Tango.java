@@ -1,9 +1,8 @@
 package net.chesstango.engine;
 
-import net.chesstango.search.SearchInfo;
-import net.chesstango.search.SearchListener;
-import net.chesstango.search.SearchMove;
-import net.chesstango.search.SearchMoveResult;
+import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.search.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,30 +14,47 @@ import java.util.Objects;
 public class Tango {
     private final SearchManager searchManager;
     private final List<Session> sessions = new ArrayList<>();
+
+    @Getter
     private Session currentSession;
 
-    public Tango(SearchMove searchMove, SearchListener listenerClient) {
+    @Setter
+    SearchListener listenerClient;
+
+    public Tango(){
+        this(new DefaultSearchMove());
+    }
+
+    public Tango(SearchMove searchMove) {
         SearchListener myListener = new SearchListener() {
             @Override
             public void searchStarted() {
-                listenerClient.searchStarted();
+                if(listenerClient !=null) {
+                    listenerClient.searchStarted();
+                }
             }
 
             @Override
             public void searchInfo(SearchInfo info) {
-                listenerClient.searchInfo(info);
+                if(listenerClient !=null) {
+                    listenerClient.searchInfo(info);
+                }
             }
 
             @Override
             public void searchStopped() {
-                listenerClient.searchStopped();
+                if(listenerClient !=null) {
+                    listenerClient.searchStopped();
+                }
             }
 
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
                 currentSession.addResult(searchResult);
 
-                listenerClient.searchFinished(searchResult);
+                if(listenerClient !=null) {
+                    listenerClient.searchFinished(searchResult);
+                }
             }
         };
 
@@ -86,7 +102,4 @@ public class Tango {
         searchManager.stopSearching();
     }
 
-    public Session getCurrentSession() {
-        return currentSession;
-    }
 }

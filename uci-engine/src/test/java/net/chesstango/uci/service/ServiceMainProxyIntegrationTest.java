@@ -47,8 +47,8 @@ public class ServiceMainProxyIntegrationTest {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"));
-        engine.setLogging(true);
+        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))
+                .setLogging(false);
 
         ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
         executorService.submit(serviceMain::run);

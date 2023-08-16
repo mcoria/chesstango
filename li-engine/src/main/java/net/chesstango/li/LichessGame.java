@@ -32,7 +32,8 @@ public class LichessGame implements Runnable {
     public LichessGame(LichessClient client, String gameId) {
         this.client = client;
         this.gameId = gameId;
-        this.tango = new Tango(new DefaultSearchMove(), new SearchListener() {
+        this.tango = new Tango();
+        this.tango.setListenerClient(new SearchListener() {
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
                 logger.info("Search finished");

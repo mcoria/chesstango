@@ -1,38 +1,43 @@
-package net.chesstango.uci.engine.builders;
+package net.chesstango.engine.builders;
 
+import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.SearchBuilder;
-import net.chesstango.uci.engine.EngineTango;
 
 import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Mauricio Coria
  */
-public class TangoFactoryWithDefaultSearch implements TangoFactory {
+public class GenericTangoFactory implements TangoFactory {
 
     private Class<? extends GameEvaluator> gameEvaluatorClass;
 
+    private Class<? extends SearchBuilder> searchBuilderClass;
+
     @Override
-    public TangoFactory withGameEvaluatorClass(Class<? extends GameEvaluator> gameEvaluatorClass) {
+    public GenericTangoFactory withGameEvaluatorClass(Class<? extends GameEvaluator> gameEvaluatorClass) {
         this.gameEvaluatorClass = gameEvaluatorClass;
         return this;
     }
 
     @Override
-    public TangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass) {
-        throw new RuntimeException("This builder uses DefaultSearchMove class");
+    public GenericTangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass) {
+        this.searchBuilderClass = searchBuilderClass;
+        return this;
     }
 
     @Override
-    public EngineTango build() {
+    public Tango build() {
         try {
+            SearchBuilder searchBuilder = searchBuilderClass.getDeclaredConstructor().newInstance();
 
-            SearchMove search = new DefaultSearchMove(gameEvaluatorClass.getDeclaredConstructor().newInstance());
+            searchBuilder.withGameEvaluator(gameEvaluatorClass.getDeclaredConstructor().newInstance());
 
-            return new EngineTango(search);
+            SearchMove search = searchBuilder.build();
+
+            return new Tango(search);
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

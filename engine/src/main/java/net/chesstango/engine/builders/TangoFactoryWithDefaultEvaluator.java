@@ -1,10 +1,10 @@
-package net.chesstango.uci.engine.builders;
+package net.chesstango.engine.builders;
 
+import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.builders.SearchBuilder;
-import net.chesstango.uci.engine.EngineTango;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
@@ -35,11 +35,11 @@ public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implement
     }
 
     @Override
-    public EngineTango build() {
+    public Tango build() {
         try {
             T searchBuilder = (T) searchBuilderClass.getDeclaredConstructor().newInstance();
 
-            if(fnSearchBuilderSetup != null) {
+            if (fnSearchBuilderSetup != null) {
                 fnSearchBuilderSetup.accept(searchBuilder);
             }
 
@@ -47,7 +47,7 @@ public class TangoFactoryWithDefaultEvaluator<T extends SearchBuilder> implement
 
             SearchMove search = searchBuilder.build();
 
-            return new EngineTango(search);
+            return new Tango(search);
 
         } catch (InstantiationException e) {
             throw new RuntimeException(e);

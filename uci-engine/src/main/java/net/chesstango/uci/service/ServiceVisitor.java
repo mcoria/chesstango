@@ -1,7 +1,5 @@
 package net.chesstango.uci.service;
 
-import net.chesstango.engine.Session;
-import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.EngineTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.proxy.EngineProxy;

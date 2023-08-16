@@ -37,12 +37,7 @@ public class EngineTangoTest {
 
     @BeforeEach
     public void setUp() {
-        engine = new EngineTango() {
-            @Override
-            protected Tango createTango(SearchMove searchMove, Searching searchingState) {
-                return EngineTangoTest.this.tango;
-            }
-        };
+        engine = new EngineTango(this.tango);
 
         engine.open();
     }

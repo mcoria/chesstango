@@ -23,7 +23,7 @@ import java.util.List;
 public class MatchMain implements MatchListener {
 
     //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(3000);
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
 
     private static final boolean MATCH_DEBUG = false;
 

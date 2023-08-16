@@ -1,8 +1,8 @@
-package net.chesstango.uci.engine.builders;
+package net.chesstango.engine.builders;
 
+import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.builders.SearchBuilder;
-import net.chesstango.uci.engine.EngineTango;
 
 /**
  * @author Mauricio Coria
@@ -13,5 +13,5 @@ public interface TangoFactory {
 
     TangoFactory withSearchBuilderClass(Class<? extends SearchBuilder> searchBuilderClass);
 
-    EngineTango build();
+    Tango build();
 }

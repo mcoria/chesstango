@@ -30,10 +30,10 @@ public class EngineTango implements Service {
     protected volatile UCIEngine currentState;
 
     public EngineTango() {
-        this(new DefaultSearchMove());
+        this(new Tango());
     }
 
-    public EngineTango(SearchMove searchMove) {
+    public EngineTango(Tango tango) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(CmdUci cmdUci) {
@@ -81,7 +81,8 @@ public class EngineTango implements Service {
         this.waitCmdGoState = new WaitCmdGo(this);
         this.searchingState = new Searching(this);
 
-        this.tango = createTango(searchMove, this.searchingState);
+        this.tango = tango;
+        this.tango.setListenerClient(this.searchingState);
 
         this.engineExecutor = new UCIOutputStreamEngineExecutor(messageExecutor);
     }
@@ -130,6 +131,6 @@ public class EngineTango implements Service {
     }
 
     protected Tango createTango(SearchMove searchMove, Searching searchingState) {
-        return new Tango(searchMove, searchingState);
+        return new Tango(searchMove);
     }
 }

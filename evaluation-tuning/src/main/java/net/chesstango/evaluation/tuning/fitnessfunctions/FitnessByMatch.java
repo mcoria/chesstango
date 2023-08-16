@@ -3,6 +3,7 @@ package net.chesstango.evaluation.tuning.fitnessfunctions;
 import io.jenetics.Genotype;
 import io.jenetics.IntegerGene;
 import net.chesstango.board.representations.Transcoding;
+import net.chesstango.engine.Tango;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.evaluation.tuning.TuningMain;
 import net.chesstango.search.DefaultSearchMove;
@@ -68,7 +69,7 @@ public class FitnessByMatch implements FitnessFunction {
     public EngineController createTango(Genotype<IntegerGene> genotype) {
         DefaultSearchMove search = new DefaultSearchMove(gameEvaluatorSupplierFn.apply(genotype));
 
-        EngineController tango = new EngineControllerImp(new EngineTango(search));
+        EngineController tango = new EngineControllerImp(new EngineTango( new Tango( search )));
 
         tango.startEngine();
 
