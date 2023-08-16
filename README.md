@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/mcoria/chesstango/actions/workflows/maven.yml/badge.svg)](https://github.com/mcoria/chesstango/actions/workflows/maven.yml)
+
 # Overview
 This project demonstrates the implementation of Object-oriented design patterns in a classical board game: <b>chess</b>.
 
