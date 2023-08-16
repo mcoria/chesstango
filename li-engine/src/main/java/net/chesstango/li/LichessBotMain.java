@@ -18,9 +18,9 @@ import java.util.stream.Stream;
 /**
  * @author Mauricio Coria
  */
-public class LichessMainService implements Runnable {
+public class LichessBotMain implements Runnable {
 
-    private final static Logger logger = LoggerFactory.getLogger(LichessMainService.class);
+    private final static Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
     private static final int MAX_SIMULTANEOUS_GAMES = 2;
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class LichessMainService implements Runnable {
             ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), token);
             if (clientAuth.scopes().contains(Client.Scope.bot_play)) {
                 logger.info("Start playing as a bot");
-                new LichessMainService(new LichessClient(clientAuth)).run();
+                new LichessBotMain(new LichessClient(clientAuth)).run();
             } else {
                 throw new RuntimeException("BOT_TOKEN is missing scope bot:play");
             }
@@ -43,11 +43,11 @@ public class LichessMainService implements Runnable {
 
     private final ScheduledExecutorService gameExecutorService;
 
-    private final Map<String, LichessGame> onlineGameMap = new HashMap<>();
+    private final Map<String, LichessTango> onlineGameMap = new HashMap<>();
 
     private final LichessClient client;
 
-    public LichessMainService(LichessClient client) {
+    public LichessBotMain(LichessClient client) {
         this.client = client;
         this.gameExecutorService = Executors.newScheduledThreadPool(MAX_SIMULTANEOUS_GAMES);
     }
@@ -107,7 +107,7 @@ public class LichessMainService implements Runnable {
     private void acceptChallenge(Event.ChallengeEvent challengeEvent) {
         logger.info("Accepting challenge {}", challengeEvent.id());
 
-        var onlineGame = new LichessGame(client, challengeEvent.id());
+        var onlineGame = new LichessTango(client, challengeEvent.id());
 
         onlineGame.setChallenge(challengeEvent.challenge());
 

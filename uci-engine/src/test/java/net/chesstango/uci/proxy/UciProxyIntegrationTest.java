@@ -20,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class EngineProxyIntegrationTest {
-    private EngineProxy engine;
+public class UciProxyIntegrationTest {
+    private UciProxy engine;
 
 
     @BeforeEach
     public void setUp() {
-        this.engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))
+        this.engine = new UciProxy(ProxyConfig.loadEngineConfig("Spike"))
                 .setLogging(false);
     }
 

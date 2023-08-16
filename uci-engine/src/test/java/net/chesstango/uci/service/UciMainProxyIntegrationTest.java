@@ -1,8 +1,7 @@
 
 package net.chesstango.uci.service;
 
-import net.chesstango.uci.engine.EngineTango;
-import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.UciProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import org.junit.jupiter.api.*;
 
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class ServiceMainProxyIntegrationTest {
+public class UciMainProxyIntegrationTest {
 
     private ExecutorService executorService;
 
@@ -47,11 +46,11 @@ public class ServiceMainProxyIntegrationTest {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        EngineProxy engine = new EngineProxy(ProxyConfig.loadEngineConfig("Spike"))
+        UciProxy engine = new UciProxy(ProxyConfig.loadEngineConfig("Spike"))
                 .setLogging(false);
 
-        ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
-        executorService.submit(serviceMain::run);
+        UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
+        executorService.submit(uciMain::run);
 
         PrintStream out = new PrintStream(outputToEngine, true);
         BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
@@ -89,7 +88,7 @@ public class ServiceMainProxyIntegrationTest {
         // quit command
         out.println("quit");
 
-        while (serviceMain.isRunning()){
+        while (uciMain.isRunning()){
             Thread.sleep(200);
         };
     }

@@ -1,8 +1,8 @@
 package net.chesstango.uci.service;
 
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.UciProxy;
 
 /**
  * @author Mauricio Coria
@@ -10,7 +10,7 @@ import net.chesstango.uci.proxy.EngineProxy;
 public interface ServiceVisitor {
     void visit(EngineController engineController);
 
-    void visit(EngineTango engineTango);
+    void visit(UciTango uciTango);
 
-    void visit(EngineProxy engineProxy);
+    void visit(UciProxy uciProxy);
 }

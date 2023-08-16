@@ -11,10 +11,10 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
 public class WaitCmdUci implements UCIEngine {
     public static final String ENGINE_NAME = "Tango";
     public static final String ENGINE_AUTHOR = "Mauricio Coria";
-    private final EngineTango engineTango;
+    private final UciTango uciTango;
 
-    protected  WaitCmdUci(EngineTango engineTango) {
-        this.engineTango = engineTango;
+    protected  WaitCmdUci(UciTango uciTango) {
+        this.uciTango = uciTango;
     }
 
     @Override
@@ -23,10 +23,10 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_uci(CmdUci cmdUci) {
-        engineTango.reply(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
-        engineTango.reply(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
-        engineTango.reply(new RspUciOk());
-        engineTango.currentState = engineTango.readyState;
+        uciTango.reply(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
+        uciTango.reply(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
+        uciTango.reply(new RspUciOk());
+        uciTango.currentState = uciTango.readyState;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        engineTango.close();
+        uciTango.close();
     }
 
     @Override

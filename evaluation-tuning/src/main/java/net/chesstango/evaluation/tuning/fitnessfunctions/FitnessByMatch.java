@@ -10,11 +10,11 @@ import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.Match;
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
-import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.UciProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -42,7 +42,7 @@ public class FitnessByMatch implements FitnessFunction {
 
     @Override
     public void start() {
-        pool = new GenericObjectPool<>(new EngineControllerPoolFactory(() -> new EngineControllerImp(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")))));
+        pool = new GenericObjectPool<>(new EngineControllerPoolFactory(() -> new EngineControllerImp(new UciProxy(ProxyConfig.loadEngineConfig("Spike")))));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FitnessByMatch implements FitnessFunction {
     public EngineController createTango(Genotype<IntegerGene> genotype) {
         DefaultSearchMove search = new DefaultSearchMove(gameEvaluatorSupplierFn.apply(genotype));
 
-        EngineController tango = new EngineControllerImp(new EngineTango( new Tango( search )));
+        EngineController tango = new EngineControllerImp(new UciTango( new Tango( search )));
 
         tango.startEngine();
 

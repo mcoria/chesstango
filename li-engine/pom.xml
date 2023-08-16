@@ -69,7 +69,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>net.chesstango.li.LichessMainService</mainClass>
+                            <mainClass>net.chesstango.li.LichessBotMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

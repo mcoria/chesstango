@@ -1,25 +1,23 @@
 package net.chesstango.li;
 
 import chariot.model.*;
+import lombok.Setter;
 import net.chesstango.board.Color;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.engine.Tango;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import lombok.Setter;
-
 
 import java.util.stream.Stream;
 
 /**
  * @author Mauricio Coria
  */
-public class LichessGame implements Runnable {
-    private final static Logger logger = LoggerFactory.getLogger(LichessGame.class);
+public class LichessTango implements Runnable {
+    private final static Logger logger = LoggerFactory.getLogger(LichessTango.class);
     private static final int DEFAULT_DEPTH = 5;
     private final LichessClient client;
     private final String gameId;
@@ -29,7 +27,7 @@ public class LichessGame implements Runnable {
     private ChallengeInfo challenge;
     private GameInfo game;
 
-    public LichessGame(LichessClient client, String gameId) {
+    public LichessTango(LichessClient client, String gameId) {
         this.client = client;
         this.gameId = gameId;
         this.tango = new Tango();

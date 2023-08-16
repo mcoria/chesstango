@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 /**
  * @author Mauricio Coria
  */
-public class EngineProxy implements Service {
+public class UciProxy implements Service {
     private final ProxyConfig config;
     private Process process;
     private InputStream inputStreamProcess;
@@ -33,7 +33,7 @@ public class EngineProxy implements Service {
      * Para que Spike pueda leer sus settings, el working directory debe ser el del ejecutable.
      * Los settings generales para todos los engines se controlan desde EngineManagement -> UCI en Arena.
      */
-    public EngineProxy(ProxyConfig config) {
+    public UciProxy(ProxyConfig config) {
         this.pipe = new UCIActiveStreamReader();
         this.config = config;
     }
@@ -78,7 +78,7 @@ public class EngineProxy implements Service {
         this.responseOutputStream = output;
     }
 
-    public EngineProxy setLogging(boolean flag) {
+    public UciProxy setLogging(boolean flag) {
         this.logging = flag;
         return this;
     }

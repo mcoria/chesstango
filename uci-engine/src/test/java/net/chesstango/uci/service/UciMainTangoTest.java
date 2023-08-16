@@ -1,9 +1,7 @@
 
 package net.chesstango.uci.service;
 
-import net.chesstango.uci.engine.EngineTango;
-import net.chesstango.uci.proxy.EngineProxy;
-import net.chesstango.uci.proxy.ProxyConfig;
+import net.chesstango.uci.engine.UciTango;
 import org.junit.jupiter.api.*;
 
 import java.io.*;
@@ -20,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Mauricio Coria
  */
-public class ServiceMainTangoTest {
+public class UciMainTangoTest {
 
     private ExecutorService executorService;
 
@@ -46,11 +44,10 @@ public class ServiceMainTangoTest {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        EngineTango engine = new EngineTango();
-        engine.setLogging(true);
+        UciTango engine = new UciTango().setLogging(false);
 
-        ServiceMain serviceMain = new ServiceMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
-        executorService.submit(serviceMain::run);
+        UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
+        executorService.submit(uciMain::run);
 
         PrintStream out = new PrintStream(outputToEngine, true);
         BufferedReader in = new BufferedReader(new InputStreamReader(inputFromEngine));
@@ -78,7 +75,7 @@ public class ServiceMainTangoTest {
         // quit command
         out.println("quit");
 
-        while (serviceMain.isRunning()){
+        while (uciMain.isRunning()){
             Thread.sleep(200);
         };
     }

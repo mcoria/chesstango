@@ -2,7 +2,6 @@ package net.chesstango.uci.engine;
 
 import lombok.Getter;
 import net.chesstango.engine.Tango;
-import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
@@ -15,7 +14,7 @@ import net.chesstango.uci.service.ServiceVisitor;
 /**
  * @author Mauricio Coria
  */
-public class EngineTango implements Service {
+public class UciTango implements Service {
     protected final UCIOutputStreamEngineExecutor engineExecutor;
 
     @Getter
@@ -29,11 +28,11 @@ public class EngineTango implements Service {
     private boolean logging;
     protected volatile UCIEngine currentState;
 
-    public EngineTango() {
+    public UciTango() {
         this(new Tango());
     }
 
-    public EngineTango(Tango tango) {
+    public UciTango(Tango tango) {
         UCIEngine messageExecutor = new UCIEngine() {
             @Override
             public void do_uci(CmdUci cmdUci) {
@@ -125,7 +124,7 @@ public class EngineTango implements Service {
         this.responseOutputStream = output;
     }
 
-    public EngineTango setLogging(boolean flag) {
+    public UciTango setLogging(boolean flag) {
         this.logging = flag;
         return this;
     }

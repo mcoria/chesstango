@@ -1,6 +1,6 @@
 package net.chesstango.uci.gui;
 
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
@@ -18,7 +18,7 @@ public class EngineControllerImpTangoTest {
 
     @Test
     public void test_Tango() {
-        Service service = new EngineTango();
+        Service service = new UciTango();
 
         EngineControllerImp client = new EngineControllerImp(service);
 

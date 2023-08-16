@@ -5,7 +5,6 @@ import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.fen.FENEncoder;
 import net.chesstango.engine.Tango;
-import net.chesstango.search.SearchMove;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
@@ -29,15 +28,15 @@ import static org.mockito.Mockito.verify;
  * @author Mauricio Coria
  */
 @ExtendWith(MockitoExtension.class)
-public class EngineTangoTest {
-    private EngineTango engine;
+public class UciTangoTest {
+    private UciTango engine;
 
     @Mock
     private Tango tango;
 
     @BeforeEach
     public void setUp() {
-        engine = new EngineTango(this.tango);
+        engine = new UciTango(this.tango);
 
         engine.open();
     }

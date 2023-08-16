@@ -1,6 +1,6 @@
 package net.chesstango.uci.service;
 
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
@@ -12,7 +12,7 @@ import java.io.*;
 /**
  * @author Mauricio Coria
  */
-public class ServiceMain implements Runnable{
+public class UciMain implements Runnable{
     private final Service service;
     private final InputStream in;
 
@@ -22,13 +22,13 @@ public class ServiceMain implements Runnable{
     private volatile boolean isRunning;
 
     public static void main(String[] args) {
-        ServiceMain serviceMain = new ServiceMain(new EngineTango(), System.in, System.out);
+        UciMain uciMain = new UciMain(new UciTango(), System.in, System.out);
         //ServiceMain serviceMain = new ServiceMain(new EngineProxy(ProxyConfig.loadEngineConfig("Spike")), System.in, System.out);
 
-        serviceMain.run();
+        uciMain.run();
     }
 
-    public ServiceMain(Service service, InputStream in, PrintStream out) {
+    public UciMain(Service service, InputStream in, PrintStream out) {
         this.service = service;
         this.in = in;
         this.out = out;

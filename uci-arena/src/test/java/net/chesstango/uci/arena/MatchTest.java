@@ -4,7 +4,7 @@ import net.chesstango.board.Piece;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.dummy.Dummy;
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import org.junit.jupiter.api.AfterEach;
@@ -26,8 +26,8 @@ public class MatchTest {
 
     @BeforeEach
     public void setup() {
-        smartEngine = new EngineControllerImp(new EngineTango().setLogging(true)).overrideEngineName("Smart");
-        dummyEngine = new EngineControllerImp(new EngineTango(new Tango(new Dummy())).setLogging(true)).overrideEngineName("Dummy");
+        smartEngine = new EngineControllerImp(new UciTango().setLogging(false)).overrideEngineName("Smart");
+        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy())).setLogging(false)).overrideEngineName("Dummy");
 
         smartEngine.startEngine();
         dummyEngine.startEngine();

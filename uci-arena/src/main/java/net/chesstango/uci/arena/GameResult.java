@@ -5,9 +5,9 @@ import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
-import net.chesstango.uci.engine.EngineTango;
+import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.proxy.EngineProxy;
+import net.chesstango.uci.proxy.UciProxy;
 import net.chesstango.uci.service.ServiceVisitor;
 
 import java.io.BufferedWriter;
@@ -70,13 +70,13 @@ public class GameResult {
             }
 
             @Override
-            public void visit(EngineTango engineTango) {
-                Tango tango = engineTango.getTango();
+            public void visit(UciTango uciTango) {
+                Tango tango = uciTango.getTango();
                 sessionSetter.accept(tango.getCurrentSession());
             }
 
             @Override
-            public void visit(EngineProxy engineProxy) {
+            public void visit(UciProxy uciProxy) {
             }
         });
     }

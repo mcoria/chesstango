@@ -63,7 +63,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>net.chesstango.uci.service.ServiceMain</mainClass>
+                            <mainClass>net.chesstango.uci.service.UciMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

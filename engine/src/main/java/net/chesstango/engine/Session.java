@@ -1,5 +1,6 @@
 package net.chesstango.engine;
 
+import lombok.Getter;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
@@ -13,13 +14,15 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Session {
+
+    /**
+     * Resultado de las busquedas efectuadas durante el juego.
+     */
+    @Getter
     private final List<SearchMoveResult> searches = new ArrayList<>();
 
+    @Getter
     private Game game;
-
-    public Game getGame() {
-        return game;
-    }
 
     public void setPosition(String fen, List<String> moves) {
         game = FENDecoder.loadGame(fen);
@@ -36,15 +39,6 @@ public class Session {
 
     public String getInitialFen() {
         return game == null ? null : game.getInitialFen();
-    }
-
-    /**
-     * Devuelve el resultado de las busquedas efectuadas durante el juego.
-     *
-     * @return
-     */
-    public List<SearchMoveResult> getSearches() {
-        return searches;
     }
 
     public void addResult(SearchMoveResult result) {

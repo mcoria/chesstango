@@ -10,16 +10,14 @@ import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.protocol.responses.RspInfo;
 
-import java.util.List;
-
 /**
  * @author Mauricio Coria
  */
 class Searching implements UCIEngine, SearchListener {
-    private final EngineTango engineTango;
+    private final UciTango uciTango;
 
-    protected Searching(EngineTango engineTango) {
-        this.engineTango = engineTango;
+    protected Searching(UciTango uciTango) {
+        this.uciTango = uciTango;
     }
 
     @Override
@@ -46,13 +44,13 @@ class Searching implements UCIEngine, SearchListener {
 
     @Override
     public void do_stop(CmdStop cmdStop) {
-        engineTango.tango.stopSearching();
+        uciTango.tango.stopSearching();
     }
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        engineTango.tango.stopSearching();
-        engineTango.close();
+        uciTango.tango.stopSearching();
+        uciTango.close();
     }
 
     @Override
@@ -70,7 +68,7 @@ class Searching implements UCIEngine, SearchListener {
 
         String infoStr = String.format("depth %d seldepth %d pv %s", info.depth(), info.selDepth(), sb);
 
-        engineTango.reply(new RspInfo(infoStr));
+        uciTango.reply(new RspInfo(infoStr));
     }
 
 
@@ -78,10 +76,10 @@ class Searching implements UCIEngine, SearchListener {
     public void searchFinished(SearchMoveResult searchResult) {
         String selectedMoveStr = UCIEncoder.encode(searchResult.getBestMove());
 
-        synchronized (engineTango.engineExecutor) {
-            engineTango.reply(new RspBestMove(selectedMoveStr));
+        synchronized (uciTango.engineExecutor) {
+            uciTango.reply(new RspBestMove(selectedMoveStr));
 
-            engineTango.currentState = engineTango.readyState;
+            uciTango.currentState = uciTango.readyState;
         }
     }
 }

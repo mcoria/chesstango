@@ -10,10 +10,10 @@ import net.chesstango.uci.protocol.responses.RspReadyOk;
  */
 class Ready implements UCIEngine {
 
-    private final EngineTango engineTango;
+    private final UciTango uciTango;
 
-    protected Ready(EngineTango engineTango) {
-        this.engineTango = engineTango;
+    protected Ready(UciTango uciTango) {
+        this.uciTango = uciTango;
     }
 
     @Override
@@ -27,12 +27,12 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_newGame(CmdUciNewGame cmdUciNewGame) {
-        engineTango.tango.newGame();
+        uciTango.tango.newGame();
     }
 
     @Override
     public void do_isReady(CmdIsReady cmdIsReady) {
-        engineTango.reply(new RspReadyOk());
+        uciTango.reply(new RspReadyOk());
     }
 
     @Override
@@ -47,12 +47,12 @@ class Ready implements UCIEngine {
 
     @Override
     public void do_quit(CmdQuit cmdQuit) {
-        engineTango.close();
+        uciTango.close();
     }
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-        engineTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.INITIAL_FEN : cmdPosition.getFen(), cmdPosition.getMoves());
-        engineTango.currentState = engineTango.waitCmdGoState;
+        uciTango.tango.setPosition(CmdPosition.CmdType.STARTPOS == cmdPosition.getType() ? FENDecoder.INITIAL_FEN : cmdPosition.getFen(), cmdPosition.getMoves());
+        uciTango.currentState = uciTango.waitCmdGoState;
     }
 }
