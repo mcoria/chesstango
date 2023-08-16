@@ -78,8 +78,10 @@ class Searching implements UCIEngine, SearchListener {
     public void searchFinished(SearchMoveResult searchResult) {
         String selectedMoveStr = UCIEncoder.encode(searchResult.getBestMove());
 
-        engineTango.reply(new RspBestMove(selectedMoveStr));
+        synchronized (engineTango.engineExecutor) {
+            engineTango.reply(new RspBestMove(selectedMoveStr));
 
-        engineTango.currentState = engineTango.readyState;
+            engineTango.currentState = engineTango.readyState;
+        }
     }
 }
