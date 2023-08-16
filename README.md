@@ -1,15 +1,15 @@
 [![Java CI with Maven](https://github.com/mcoria/chesstango/actions/workflows/maven.yml/badge.svg)](https://github.com/mcoria/chesstango/actions/workflows/maven.yml)
 
 # Overview
-This project demonstrates the implementation of Object-oriented design patterns in a classical board game: <b>chess</b>.
+This project exemplifies the practical application of object-oriented design patterns within a traditional board game: chess.
 
-Most of the patterns applied in this project are described in more detail by GoF book (Design Patterns: Elements of Reusable Object-Oriented Software (1994)). You should read this book especially if you are a beginner programmer. As the years go by, I always keep a copy near for reference.
+The majority of these patterns have been extensively outlined in the GoF book, "Design Patterns: Elements of Reusable Object-Oriented Software (1994)". This book is particularly recommended for beginner programmers. Over time, I've consistently kept a copy of this book on hand for easy reference.
 
-There are special cases where patterns applied in this project are not described by GoF book, I explicitly mention those cases and the bibliography references that describe them.
+It's important to note that while this project draws heavily from the patterns described in the GoF book, there are instances where unique patterns are employed. These exceptional cases are explicitly identified, along with references to external sources that elucidate their concepts.
 
-By no means does this project intents to implement all design patterns you may find in the field, instead, I've used only those patterns that helped me to solve specific situations for the task at hand.
+It's worth clarifying that the objective of this project isn't to incorporate every conceivable design pattern present within the domain. Rather, I've selectively adopted patterns that aptly address specific challenges posed by the task.
 
-Although performance is taken into consideration, this is not the top non-functional priority, clear design patterns implementation is preferred.
+While I've certainly taken performance considerations into account, the predominant non-functional priority remains the precise and coherent implementation of design patterns.
 
 ## Creational Patterns
 - Factory Method
