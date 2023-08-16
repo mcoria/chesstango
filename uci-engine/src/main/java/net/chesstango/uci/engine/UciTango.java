@@ -8,8 +8,8 @@ import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
-import net.chesstango.uci.service.Service;
-import net.chesstango.uci.service.ServiceVisitor;
+import net.chesstango.uci.Service;
+import net.chesstango.uci.ServiceVisitor;
 
 /**
  * @author Mauricio Coria

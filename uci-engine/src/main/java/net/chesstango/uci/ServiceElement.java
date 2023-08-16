@@ -1,4 +1,4 @@
-package net.chesstango.uci.service;
+package net.chesstango.uci;
 
 /**
  * @author Mauricio Coria

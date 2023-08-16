@@ -6,8 +6,8 @@ import net.chesstango.uci.protocol.UCIResponse;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
-import net.chesstango.uci.service.Service;
-import net.chesstango.uci.service.ServiceVisitor;
+import net.chesstango.uci.Service;
+import net.chesstango.uci.ServiceVisitor;
 
 /**
  * @author Mauricio Coria

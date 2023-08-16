@@ -6,8 +6,8 @@ import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
 import net.chesstango.uci.protocol.stream.strings.StringSupplierLogger;
-import net.chesstango.uci.service.Service;
-import net.chesstango.uci.service.ServiceVisitor;
+import net.chesstango.uci.Service;
+import net.chesstango.uci.ServiceVisitor;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
-import net.chesstango.uci.service.Service;
+import net.chesstango.uci.Service;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

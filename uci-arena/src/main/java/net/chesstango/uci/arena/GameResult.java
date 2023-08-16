@@ -8,7 +8,7 @@ import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.gui.EngineController;
 import net.chesstango.uci.proxy.UciProxy;
-import net.chesstango.uci.service.ServiceVisitor;
+import net.chesstango.uci.ServiceVisitor;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
