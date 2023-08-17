@@ -2,14 +2,13 @@ package net.chesstango.uci.engine;
 
 import lombok.Getter;
 import net.chesstango.engine.Tango;
-import net.chesstango.search.SearchMove;
+import net.chesstango.uci.Service;
+import net.chesstango.uci.ServiceVisitor;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
-import net.chesstango.uci.Service;
-import net.chesstango.uci.ServiceVisitor;
 
 /**
  * @author Mauricio Coria
@@ -96,13 +95,6 @@ public class UciTango implements Service {
         }
     }
 
-    protected void reply(UCIMessage message) {
-        if (logging) {
-            System.out.println("tango >> " + message);
-        }
-        responseOutputStream.accept(message);
-    }
-
     @Override
     public void accept(ServiceVisitor serviceVisitor) {
         serviceVisitor.visit(this);
@@ -129,7 +121,10 @@ public class UciTango implements Service {
         return this;
     }
 
-    protected Tango createTango(SearchMove searchMove, Searching searchingState) {
-        return new Tango(searchMove);
+    protected void reply(UCIMessage message) {
+        if (logging) {
+            System.out.println("tango >> " + message);
+        }
+        responseOutputStream.accept(message);
     }
 }

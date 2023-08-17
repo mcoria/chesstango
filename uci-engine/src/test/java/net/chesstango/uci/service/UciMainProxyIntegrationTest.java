@@ -1,9 +1,13 @@
 
 package net.chesstango.uci.service;
 
+
+import net.chesstango.uci.proxy.SpikeProxy;
 import net.chesstango.uci.proxy.UciProxy;
-import net.chesstango.uci.proxy.ProxyConfig;
-import org.junit.jupiter.api.*;
+import net.chesstango.uci.service.UciMain;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -25,12 +29,12 @@ public class UciMainProxyIntegrationTest {
 
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
         executorService = Executors.newSingleThreadExecutor();
     }
 
     @AfterEach
-    public void end(){
+    public void end() {
         executorService.shutdown();
         try {
             executorService.awaitTermination(500, TimeUnit.MILLISECONDS);
@@ -46,7 +50,7 @@ public class UciMainProxyIntegrationTest {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        UciProxy engine = new UciProxy(ProxyConfig.loadEngineConfig("Spike"))
+        UciProxy engine = new UciProxy(SpikeProxy.INSTANCE)
                 .setLogging(false);
 
         UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
@@ -88,9 +92,10 @@ public class UciMainProxyIntegrationTest {
         // quit command
         out.println("quit");
 
-        while (uciMain.isRunning()){
+        while (uciMain.isRunning()) {
             Thread.sleep(200);
-        };
+        }
+        ;
     }
 
     private List<String> readLastLine(BufferedReader input, Predicate<String> breakCondition) throws IOException {

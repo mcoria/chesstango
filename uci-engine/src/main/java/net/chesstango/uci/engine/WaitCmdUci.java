@@ -6,8 +6,6 @@ import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspUciOk;
 
-import java.util.Properties;
-
 /**
  * @author Mauricio Coria
  */

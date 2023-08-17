@@ -6,9 +6,9 @@ import net.chesstango.board.representations.pgn.PGNGame;
 import net.chesstango.engine.Session;
 import net.chesstango.engine.Tango;
 import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.proxy.UciProxy;
+import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.ServiceVisitor;
+import net.chesstango.uci.proxy.UciProxy;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -62,12 +62,6 @@ public class GameResult {
 
     private static void discoverEngineController(EngineController controller, Consumer<Session> sessionSetter) {
         controller.accept(new ServiceVisitor() {
-            @Override
-            public void visit(EngineController engineController) {
-                if (controller != engineController) {
-                    throw new RuntimeException("visiting unknown controller");
-                }
-            }
 
             @Override
             public void visit(UciTango uciTango) {

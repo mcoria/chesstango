@@ -18,10 +18,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.chesstango</groupId>
             <artifactId>uci-engine</artifactId>
         </dependency>
@@ -29,7 +25,16 @@
             <groupId>net.chesstango</groupId>
             <artifactId>uci-arena-ipc</artifactId>
         </dependency>
-        
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

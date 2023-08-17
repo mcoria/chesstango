@@ -4,7 +4,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.arena.GameResult;
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;

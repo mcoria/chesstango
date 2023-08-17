@@ -26,7 +26,7 @@ public class UciProxyIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        this.engine = new UciProxy(ProxyConfig.loadEngineConfig("Spike"))
+        this.engine = new UciProxy(SpikeProxy.INSTANCE)
                 .setLogging(false);
     }
 
@@ -172,9 +172,9 @@ public class UciProxyIntegrationTest {
         String movesStr = "a7a6 b5e2 d7b6 a4a5 b6d7 f3e1 d7b8 c3b1 f6e4 h2h3 b8c6 h3h4 d8h4 g2g3 h4h3 g3g4 d6d5 g4g5 e4g5 f2f3 c6d4 f3f4 e5f4 f1f4 h3g3 g1f1 c8h3 e1g2 h3g2 f1g1";
         List<String> moveList = Arrays.asList(movesStr.split(" "));
 
-        for(int i = 0; i < 16; i++) {
+        for (int i = 0; i < 16; i++) {
             // startpos command
-            engine.accept(new CmdPosition("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6", moveList.subList(0, i * 2) ));
+            engine.accept(new CmdPosition("r1bqkb1r/pp1n1ppp/3p1n2/1Bp1p3/P3P3/2N2N2/1PPP1PPP/R1BQ1RK1 b kq - 1 6", moveList.subList(0, i * 2)));
             Thread.sleep(200);
 
             // go command

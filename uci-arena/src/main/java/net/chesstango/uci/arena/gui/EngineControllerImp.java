@@ -1,4 +1,4 @@
-package net.chesstango.uci.gui;
+package net.chesstango.uci.arena.gui;
 
 import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIRequest;
@@ -105,7 +105,6 @@ public class EngineControllerImp implements EngineController {
 
     @Override
     public void accept(ServiceVisitor serviceVisitor) {
-        serviceVisitor.visit(this);
         service.accept(serviceVisitor);
     }
 

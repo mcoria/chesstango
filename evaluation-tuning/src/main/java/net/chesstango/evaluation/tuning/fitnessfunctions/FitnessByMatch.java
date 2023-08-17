@@ -10,9 +10,10 @@ import net.chesstango.search.DefaultSearchMove;
 import net.chesstango.uci.arena.EngineControllerPoolFactory;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.Match;
+import net.chesstango.uci.arena.gui.ProxyConfigLoader;
 import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.gui.EngineController;
-import net.chesstango.uci.gui.EngineControllerImp;
+import net.chesstango.uci.arena.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.proxy.UciProxy;
 import net.chesstango.uci.proxy.ProxyConfig;
@@ -42,7 +43,7 @@ public class FitnessByMatch implements FitnessFunction {
 
     @Override
     public void start() {
-        pool = new GenericObjectPool<>(new EngineControllerPoolFactory(() -> new EngineControllerImp(new UciProxy(ProxyConfig.loadEngineConfig("Spike")))));
+        pool = new GenericObjectPool<>(new EngineControllerPoolFactory(() -> new EngineControllerImp(new UciProxy(ProxyConfigLoader.loadEngineConfig("Spike")))));
     }
 
     @Override

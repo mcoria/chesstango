@@ -1,4 +1,4 @@
-package net.chesstango.uci.gui;
+package net.chesstango.uci.arena.gui;
 
 import net.chesstango.engine.builders.TangoFactory;
 import net.chesstango.engine.builders.TangoFactoryWithDefaultEvaluator;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  */
 public class EngineControllerFactory {
     public static EngineControllerImp createProxyController(String proxyName, Consumer<UciProxy> fnProxySetup) {
-        UciProxy proxy = new UciProxy(ProxyConfig.loadEngineConfig(proxyName));
+        UciProxy proxy = new UciProxy(ProxyConfigLoader.loadEngineConfig(proxyName));
         if (fnProxySetup != null) {
             fnProxySetup.accept(proxy);
         }

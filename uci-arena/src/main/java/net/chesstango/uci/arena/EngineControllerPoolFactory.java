@@ -1,6 +1,6 @@
 package net.chesstango.uci.arena;
 
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;

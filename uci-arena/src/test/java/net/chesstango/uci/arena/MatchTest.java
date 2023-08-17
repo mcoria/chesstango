@@ -5,7 +5,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.engine.Tango;
 import net.chesstango.search.dummy.Dummy;
 import net.chesstango.uci.engine.UciTango;
-import net.chesstango.uci.gui.EngineControllerImp;
+import net.chesstango.uci.arena.gui.EngineControllerImp;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

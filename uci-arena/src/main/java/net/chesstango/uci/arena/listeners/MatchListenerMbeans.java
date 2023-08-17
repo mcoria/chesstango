@@ -5,7 +5,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.mbeans.Arena;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.MatchListener;
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineController;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.ObjectPool;
 import org.apache.commons.pool2.PooledObject;

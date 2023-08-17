@@ -2,7 +2,7 @@ package net.chesstango.uci.arena;
 
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineController;
 
 /**
  * @author Mauricio Coria

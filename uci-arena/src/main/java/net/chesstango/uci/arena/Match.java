@@ -7,7 +7,7 @@ import net.chesstango.board.representations.GameDebugEncoder;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.board.representations.pgn.PGNEncoder;
 import net.chesstango.board.representations.pgn.PGNGame;
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;

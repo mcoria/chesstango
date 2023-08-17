@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.reports;
 
 import net.chesstango.search.reports.SearchesReport;
 import net.chesstango.uci.arena.GameResult;
-import net.chesstango.uci.gui.EngineController;
+import net.chesstango.uci.arena.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;
