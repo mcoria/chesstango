@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 
 /**
  * @author Mauricio Coria
@@ -97,6 +100,30 @@ public class Tango {
 
     public void stopSearching() {
         searchManager.stopSearching();
+    }
+
+    public static final Properties properties = loadProperties();
+
+    private static Properties loadProperties() {
+        Properties properties;
+        InputStream inputStream = null;
+        try {
+            inputStream = Tango.class.getClassLoader().getResourceAsStream("chesstango.properties");
+            // create Properties class object
+            properties = new Properties();
+            // load properties file into it
+            properties.load(inputStream);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return properties;
     }
 
 }

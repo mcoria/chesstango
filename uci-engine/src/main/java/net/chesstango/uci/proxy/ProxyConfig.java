@@ -13,6 +13,7 @@ import java.util.Optional;
  * @author Mauricio Coria
  */
 public class ProxyConfig {
+    public static final String ENGINES_JSON = "engines.json";
     private String name;
     private String directory;
     private String exe;
@@ -28,7 +29,7 @@ public class ProxyConfig {
 
     protected static List<ProxyConfig> loadFromFile() {
         try {
-            InputStream inputStream = ProxyConfig.class.getClassLoader().getResourceAsStream("engines.json");
+            InputStream inputStream = ProxyConfig.class.getClassLoader().getResourceAsStream(ENGINES_JSON);
 
             // reading the files with buffered reader
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);

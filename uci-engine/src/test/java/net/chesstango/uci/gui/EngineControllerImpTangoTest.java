@@ -7,8 +7,7 @@ import net.chesstango.uci.protocol.responses.RspBestMove;
 import net.chesstango.uci.Service;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -25,7 +24,7 @@ public class EngineControllerImpTangoTest {
         client.send_CmdUci();
 
         assertEquals("Mauricio Coria", client.getEngineAuthor());
-        assertEquals("Tango", client.getEngineName());
+        assertTrue(client.getEngineName().startsWith("Tango"));
 
         client.send_CmdIsReady();
 

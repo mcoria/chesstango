@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -114,7 +115,7 @@ public class UciTangoTest {
 
         // uci command
         engine.accept(new CmdUci());
-        assertEquals("id name Tango", in.readLine());
+        assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
         assertEquals("uciok", in.readLine());
         assertEquals(Ready.class, engine.currentState.getClass());

@@ -54,7 +54,7 @@ public class UciMainTangoTest {
 
         // uci command
         out.println("uci");
-        assertEquals("id name Tango", in.readLine());
+        assertTrue(in.readLine().startsWith("id name Tango"));
         assertEquals("id author Mauricio Coria", in.readLine());
         assertEquals("uciok", in.readLine());
 

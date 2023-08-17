@@ -1,9 +1,12 @@
 package net.chesstango.uci.engine;
 
+import net.chesstango.engine.Tango;
 import net.chesstango.uci.protocol.UCIEngine;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.responses.RspId;
 import net.chesstango.uci.protocol.responses.RspUciOk;
+
+import java.util.Properties;
 
 /**
  * @author Mauricio Coria
@@ -12,9 +15,11 @@ public class WaitCmdUci implements UCIEngine {
     public static final String ENGINE_NAME = "Tango";
     public static final String ENGINE_AUTHOR = "Mauricio Coria";
     private final UciTango uciTango;
+    private final String version;
 
     protected  WaitCmdUci(UciTango uciTango) {
         this.uciTango = uciTango;
+        this.version = Tango.properties.getProperty("version");
     }
 
     @Override
@@ -23,7 +28,7 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_uci(CmdUci cmdUci) {
-        uciTango.reply(new RspId(RspId.RspIdType.NAME, ENGINE_NAME));
+        uciTango.reply(new RspId(RspId.RspIdType.NAME, String.format("%s %s", ENGINE_NAME, version)));
         uciTango.reply(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
         uciTango.reply(new RspUciOk());
         uciTango.currentState = uciTango.readyState;
@@ -31,7 +36,6 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_setOption(CmdSetOption cmdSetOption) {
-
     }
 
     @Override
@@ -40,12 +44,10 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_go(CmdGo cmdGo) {
-
     }
 
     @Override
     public void do_stop(CmdStop cmdStop) {
-
     }
 
     @Override
@@ -55,6 +57,5 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_position(CmdPosition cmdPosition) {
-
     }
 }
