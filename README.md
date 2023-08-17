@@ -1,7 +1,7 @@
 [![Java CI with Maven](https://github.com/mcoria/chesstango/actions/workflows/maven.yml/badge.svg)](https://github.com/mcoria/chesstango/actions/workflows/maven.yml)
 
 # Overview
-This project exemplifies the practical application of object-oriented design patterns within a traditional board game: chess.
+This project exemplifies the practical application of object-oriented design patterns within a board game context: a chess engine.
 
 The majority of these patterns have been extensively outlined in the GoF book, "Design Patterns: Elements of Reusable Object-Oriented Software (1994)". This book is particularly recommended for beginner programmers. Over time, I've consistently kept a copy of this book on hand for easy reference.
 
