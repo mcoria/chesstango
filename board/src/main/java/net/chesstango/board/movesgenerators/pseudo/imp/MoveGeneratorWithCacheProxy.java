@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.chesstango.board.movesgenerators.pseudo.imp;
 
 import net.chesstango.board.PiecePositioned;

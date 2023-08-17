@@ -5,9 +5,8 @@ import net.chesstango.board.moves.MoveCastling;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class MoveFactoryBlack extends MoveFactoryAbstract{
+public class MoveFactoryBlack extends MoveFactoryAbstract {
 
     private static final MoveCastling castlingKingMove = new MoveCastlingBlackKing();
     private static final MoveCastling castlingQueenMove = new MoveCastlingBlackQueen();

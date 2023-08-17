@@ -11,6 +11,29 @@ It's worth clarifying that the objective of this project isn't to incorporate ev
 
 While I've certainly taken performance considerations into account, the predominant non-functional priority remains the precise and coherent implementation of design patterns.
 
+## Engine Features
+- Board
+  - square-centric 8x8 board representation
+  - piece-centric bitboard representation
+- Move generation 
+  - Implementation has been [tested](PerftMainTestSuiteResult.txt) with +100K positions (perft)
+- Representations
+  - Forsyth–Edwards Notation (FEN)
+  - Portable Game Notation (PGN) 
+  - Extended Position Description (EPD)
+  - Standard Algebraic Notation (SAN)
+- Communication protocols
+  - UCI
+  - [Lichess API](https://lichess.org/api)
+- Search
+  - Zobrist hash
+  - MinMax
+  - Alpha Beta Pruning
+  - Iterative Deepening
+  - Transposition Tables
+- Evaluation
+- Polyglot Opening Books
+
 ## Creational Patterns
 - Factory Method
 - Builder
@@ -18,8 +41,12 @@ While I've certainly taken performance considerations into account, the predomin
 
 ### Factory Method
 Factory method pattern is usually applied in combination with Template method pattern:
-- [AbstractCardinalMoveGenerator](src/main/java/net/chesstango/pseudomovesgenerators/AbstractCardinalMoveGenerator.java) class.
-- [AbstractJumpMoveGenerator](src/main/java/net/chesstango/pseudomovesgenerators/AbstractJumpMoveGenerator.java) class.
+- [AbstractCardinalMoveGenerator](board/src/main/java/net/chesstango/board/movesgenerators/pseudo/strategies/AbstractCardinalMoveGenerator.java) class.
+- [AbstractJumpMoveGenerator](board/src/main/java/net/chesstango/board/movesgenerators/pseudo/strategies/AbstractJumpMoveGenerator.java) class.
+
+### Abstract Factory
+Abstract Factory pattern examples:
+- [MoveFactory](board/src/main/java/net/chesstango/board/moves/MoveFactory.java) is the interface and [MoveFactoryBlack](board/src/main/java/net/chesstango/board/moves/imp/MoveFactoryBlack.java) and [MoveFactoryWhite](board/src/main/java/net/chesstango/board/moves/imp/MoveFactoryWhite.java) are two different implementations.
 
 ### Builder
 Builder pattern has been implemented with different participant classes
@@ -32,22 +59,14 @@ Builder pattern has been implemented with different participant classes
     - ChessBuilderGame
 - Director: Board.constructBoardRepresentation() is the director method
 
-### Abstract Factory
-Abstract Factory pattern examples:
-
-MoveFactory class declares the interface. MoveFactoryBlack and MoveFactoryWhite are two different implementations. 
-
 ## Structural Patterns
-- Decorator
 - Facade
 - Proxy
 
-Facade pattern is implemented by [Game](src/main/java/net/chesstango/Game.java) class.
-
-Decorator pattern is implemented by [MoveDecorator](src/main/java/net/chesstango/moves/imp/MoveDecorator.java) class, this abstract class declares a reference to concrete Move being decorated.
+Facade pattern is implemented by [GameImp](board/src/main/java/net/chesstango/board/GameImp.java) class.
 
 Proxy pattern is implemented by ChessPositionReader as access control interface to underlying implementation classes. Game and ChessPosition implements this interface, Game forwards all requests to ChessPosition class for actual implementation.
-MoveGenaratorWithCacheProxy implements a cache proxy.
+MoveGenaratorWithCacheProxy implements a cache proxy. Another example is MoveGeneratorWithCacheProxy.
 
 ## Behavioral Patterns
 - Template method
@@ -58,31 +77,24 @@ MoveGenaratorWithCacheProxy implements a cache proxy.
 
 ### Template method
 Template method pattern is applied in different situations by abstract classes: 
-[AbstractPawnMoveGenerator](src/main/java/net/chesstango/pseudomovesgenerators/AbstractPawnMoveGenerator.java)
+[AbstractPawnMoveGenerator](board/src/main/java/net/chesstango/board/movesgenerators/pseudo/strategies/AbstractPawnMoveGenerator.java)
 
 By convention, those classes with template methods are abstract classes and named with the prefix Abstract.
  
 ### Command
 Command pattern in combination with Visitor pattern can be found at chess.moves package. 
 
-Interface Move/MoveKing/MoveCastling define DO and UNDO operations.
+Interfaces Move/MoveKing/MoveCastling define DO and UNDO operations.
 
-Classes in package chess.moves.imp implement these interfaces.
+Classes in package net.chesstango.board.moves.imp implement these interfaces.
 
 ### Strategy
-Strategy pattern is implemented at chess.pseudomovesgenerators package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
+Strategy pattern is implemented at net.chesstango.board.movesgenerators.pseudo.strategies package. MoveGenerator interface declares the interface, all the classes in this package implements the interface (with the exception of PeonPasanteMoveGenerator). 
 
 ### Iterators
-Iterators can be found at chess.iterators package, two different iterator types are defined:
-- Square Iterators
-- Piece Placement Iterators
+Iterators can be found at net.chesstango.board.iterators package.
 
-## Project roadmap
-- Implement chess state machine. (DONE)
-- FEN decoder/encoder and PGN decoder. (DONE)
-- UCI communication protocol. (DONE)
-- Implement Search algorithms (WIP)
-  - MinMax
-  - MinMax with Alpha Beta Pruning
-  - Iterative Deepening
-- Implement Evaluation algorithms (WIP)
+
+# Credits
+- [www.chessprogramming.org](https://www.chessprogramming.org/) Probably this is one of the best chess programming help resource.
+- [Chariot](https://github.com/tors42/chariot) has been used for implementing the Lichess BOT. 

@@ -5,9 +5,8 @@ import net.chesstango.board.moves.MoveCastling;
 
 /**
  * @author Mauricio Coria
- *
  */
-public class MoveFactoryWhite extends  MoveFactoryAbstract{
+public class MoveFactoryWhite extends MoveFactoryAbstract {
 
     private static final MoveCastling castlingKingMove = new MoveCastlingWhiteKing();
     private static final MoveCastling castlingQueenMove = new MoveCastlingWhiteQueen();
@@ -15,8 +14,6 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     public MoveFactoryWhite() {
         super(new AlgoPositionStateWhite());
     }
-
-
 
     @Override
     public MoveCastling createCastlingQueenMove() {
@@ -27,7 +24,6 @@ public class MoveFactoryWhite extends  MoveFactoryAbstract{
     public MoveCastling createCastlingKingMove() {
         return castlingKingMove;
     }
-
 
     @Override
     protected Cardinal getPawnDirection() {

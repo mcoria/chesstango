@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EDPReader;
+import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.search.reports.SearchesReport;
 
@@ -47,8 +47,8 @@ public class BestMoveSearchSuite {
     }
 
     protected static void execute(String filename) {
-        EDPReader reader = new EDPReader();
-        List<EDPReader.EDPEntry> edpEntries = reader.readEdpFile(filename);
+        EPDReader reader = new EPDReader();
+        List<EPDReader.EDPEntry> edpEntries = reader.readEdpFile(filename);
         BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
         suite.run(filename, edpEntries);
         System.gc();
@@ -62,10 +62,10 @@ public class BestMoveSearchSuite {
         this.searchMoveResults = new ArrayList<>();
     }
 
-    protected void run(String suiteName, List<EDPReader.EDPEntry> edpEntries) {
+    protected void run(String suiteName, List<EPDReader.EDPEntry> edpEntries) {
         List<String> failedSuites = new ArrayList<String>();
 
-        for (EDPReader.EDPEntry edpEntry : edpEntries) {
+        for (EPDReader.EDPEntry edpEntry : edpEntries) {
             if (run(edpEntry) == false) {
                 failedSuites.add(edpEntry.fen);
             }
@@ -90,7 +90,7 @@ public class BestMoveSearchSuite {
         System.out.println("=================");
     }
 
-    protected boolean run(EDPReader.EDPEntry edpEntry) {
+    protected boolean run(EPDReader.EDPEntry edpEntry) {
         SearchMove moveFinder = new DefaultSearchMove();
 
         SearchMoveResult searchResult = moveFinder.search(edpEntry.game, depth);

@@ -5,7 +5,7 @@ import io.jenetics.IntegerGene;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
-import net.chesstango.board.representations.EDPReader;
+import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
@@ -24,7 +24,7 @@ public class FitnessBySearch implements FitnessFunction {
 
     private final Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn;
 
-    private List<EDPReader.EDPEntry> edpEntries;
+    private List<EPDReader.EDPEntry> edpEntries;
 
     public FitnessBySearch(Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn) {
         this.gameEvaluatorSupplierFn = gameEvaluatorSupplierFn;
@@ -40,7 +40,7 @@ public class FitnessBySearch implements FitnessFunction {
         //String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\failed-2023-04-30.epd";
         String filename = "C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\wac\\wac-2018.epd";
 
-        EDPReader reader = new EDPReader();
+        EPDReader reader = new EPDReader();
 
         edpEntries = reader.readEdpFile(filename);
     }
@@ -52,14 +52,14 @@ public class FitnessBySearch implements FitnessFunction {
     protected long run(GameEvaluator gameEvaluator) {
         long points = 0;
 
-        for (EDPReader.EDPEntry edpEntry : edpEntries) {
+        for (EPDReader.EDPEntry edpEntry : edpEntries) {
             points += run(edpEntry, gameEvaluator);
         }
 
         return points;
     }
 
-    protected long run(EDPReader.EDPEntry edpEntry, GameEvaluator gameEvaluator) {
+    protected long run(EPDReader.EDPEntry edpEntry, GameEvaluator gameEvaluator) {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
 

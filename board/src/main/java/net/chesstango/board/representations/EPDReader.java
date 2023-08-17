@@ -14,9 +14,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * This class reads Extended Position Description files.
+ *
  * @author Mauricio Coria
  */
-public class EDPReader {
+public class EPDReader {
 
     public List<EDPEntry> readEdpFile(String filename) {
         List<EDPEntry> edpEntries = new ArrayList<>();

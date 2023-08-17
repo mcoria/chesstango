@@ -17,12 +17,12 @@ import java.util.Iterator;
  */
 public abstract class AbstractCardinalMoveGenerator extends AbstractMoveGenerator {
 	
-	/*
+	/**
 	 * Factory Method
 	 */
 	protected abstract Move createSimpleMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);
 
-	/*
+	/**
 	 * Factory Method
 	 */	
 	protected abstract Move createCaptureMove(PiecePositioned origen, PiecePositioned destino, Cardinal cardinal);

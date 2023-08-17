@@ -1,7 +1,7 @@
 package net.chesstango.evaluation.extractors;
 
 import net.chesstango.board.Piece;
-import net.chesstango.board.representations.EDPReader;
+import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.GameFeatures;
 
 import java.io.BufferedWriter;
@@ -37,10 +37,10 @@ public class ExtractorMain {
     }
 
     private void extractFeaturesFromEDPFile(final List<String> featuresList, final String fileName, final String gameResultString) {
-        EDPReader epdReader = new EDPReader();
-        List<EDPReader.EDPEntry> edpEntryList = epdReader.readEdpFile(fileName);
+        EPDReader epdReader = new EPDReader();
+        List<EPDReader.EDPEntry> edpEntryList = epdReader.readEdpFile(fileName);
 
-        for (EDPReader.EDPEntry edpEntry : edpEntryList) {
+        for (EPDReader.EDPEntry edpEntry : edpEntryList) {
             Map<String, Integer> features = new HashMap<>();
             for (GameFeatures extractor : featureExtractors) {
                 extractor.extractFeatures(edpEntry.game, features);
