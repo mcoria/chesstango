@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>net.chesstango</groupId>
-            <artifactId>arena-mbean</artifactId>
+            <artifactId>uci-arena-ipc</artifactId>
         </dependency>
         
         <dependency>

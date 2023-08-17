@@ -9,8 +9,8 @@
 		<version>0.0.12-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>arena-ui</artifactId>
-	<name>arena-ui</name>
+	<artifactId>uci-arena-tv</artifactId>
+	<name>uci-arena-tv</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,7 +43,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.chesstango</groupId>
-			<artifactId>arena-mbean</artifactId>
+			<artifactId>uci-arena-ipc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

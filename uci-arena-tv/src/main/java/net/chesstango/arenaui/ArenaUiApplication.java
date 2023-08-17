@@ -12,6 +12,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class ArenaUiApplication {
 
+	/*
+	 * Set the working directory to module uci-arena-tv before executing main
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(ArenaUiApplication.class, args);
 	}

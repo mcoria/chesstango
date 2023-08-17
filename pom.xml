@@ -15,9 +15,9 @@
         <module>uci-protocol</module>
 		<module>uci-engine</module>
         <module>li-engine</module>
-        <module>arena-mbean</module>
+        <module>uci-arena-ipc</module>
         <module>uci-arena</module>
-        <module>arena-ui</module>
+        <module>uci-arena-tv</module>
         <module>evaluation-tuning</module>
     </modules>
 
@@ -144,7 +144,7 @@
             </dependency>
             <dependency>
                 <groupId>net.chesstango</groupId>
-                <artifactId>arena-mbean</artifactId>
+                <artifactId>uci-arena-ipc</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

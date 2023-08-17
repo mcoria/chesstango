@@ -32,7 +32,9 @@ While I've certainly taken performance considerations into account, the predomin
   - Iterative Deepening
   - Transposition Tables
 - Evaluation
+  - Piece-Square Tables
 - Polyglot Opening Books
+- Arena for tournaments between ChessTango vs other UCI-compliant engines
 
 ## Creational Patterns
 - Factory Method
@@ -96,5 +98,7 @@ Iterators can be found at net.chesstango.board.iterators package.
 
 
 # Credits
-- [www.chessprogramming.org](https://www.chessprogramming.org/) Probably this is one of the best chess programming help resource.
-- [Chariot](https://github.com/tors42/chariot) has been used for implementing the Lichess BOT. 
+- [www.chessprogramming.org](https://www.chessprogramming.org) probably is one of the best chess programming help resources
+- [chariot](https://github.com/tors42/chariot) has been used for invoking Lichess API
+- [chessboard.js](https://chessboardjs.com) has been used for implementing ArenaTV UI
+- [jenetics](https://jenetics.io) has been used for game evaluation parameter tuning
