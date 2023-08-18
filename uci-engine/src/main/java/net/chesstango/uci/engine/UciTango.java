@@ -88,7 +88,7 @@ public class UciTango implements Service {
 
     @Override
     public void accept(UCIMessage message) {
-        logger.debug("tango << {}", message);
+        logger.trace("tango << {}", message);
         synchronized (engineExecutor) {
             engineExecutor.accept(message);
         }
@@ -116,7 +116,7 @@ public class UciTango implements Service {
     }
 
     protected void reply(UCIMessage message) {
-        logger.debug("tango >> {}", message);
+        logger.trace("tango >> {}", message);
         responseOutputStream.accept(message);
     }
 }

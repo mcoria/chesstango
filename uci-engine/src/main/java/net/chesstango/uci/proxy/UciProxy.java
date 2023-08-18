@@ -48,7 +48,7 @@ public class UciProxy implements Service {
             waitProcessStart();
         }
 
-        logger.debug("proxy >> {}", message);
+        logger.trace("proxy >> {}", message);
 
         outputStreamProcess.println(message);
     }
@@ -86,7 +86,7 @@ public class UciProxy implements Service {
             outputStreamProcess.close();
             inputStreamProcess.close();
         } catch (IOException e) {
-            logger.info("Error:", e);
+            logger.error("Error:", e);
         }
     }
 
@@ -118,7 +118,7 @@ public class UciProxy implements Service {
 
         Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
 
-        stringSupplier = new StringActionSupplier(stringSupplier, line -> logger.debug("proxy << {}", line));
+        stringSupplier = new StringActionSupplier(stringSupplier, line -> logger.trace("proxy << {}", line));
 
         pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
         pipe.setOutputStream(responseOutputStream);
