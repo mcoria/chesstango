@@ -4,6 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.statics.RNodeStatics;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private int[] visitedNodesCounters;
     private int[] expectedNodesCounters;
-    private Set<Move>[] distinctMovesPerLevel;
+
     private Game game;
 
     @Override
@@ -24,21 +25,16 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
         this.game = game;
         this.visitedNodesCounters = new int[30];
         this.expectedNodesCounters = new int[30];
-        this.distinctMovesPerLevel = new Set[30];
-        IntStream.range(0, 30).forEach(i -> this.distinctMovesPerLevel[i] = new HashSet<>());
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
-            result.setVisitedNodesCounters(visitedNodesCounters);
-            result.setExpectedNodesCounters(expectedNodesCounters);
-            result.setDistinctMovesPerLevel(distinctMovesPerLevel);
+            result.setRegularNodeStatics(new RNodeStatics(expectedNodesCounters, visitedNodesCounters));
         }
         this.game = null;
         this.visitedNodesCounters = null;
-        this.expectedNodesCounters = null;
-        this.distinctMovesPerLevel = null;
+        this.expectedNodesCounters =  null;
     }
 
     @Override
@@ -47,11 +43,6 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        if (result != null) {
-            result.setVisitedNodesCounters(visitedNodesCounters);
-            result.setExpectedNodesCounters(expectedNodesCounters);
-            result.setDistinctMovesPerLevel(distinctMovesPerLevel);
-        }
     }
 
     @Override
@@ -81,17 +72,8 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
 
     protected void updateCounters(final int currentPly) {
         expectedNodesCounters[currentPly] += game.getPossibleMoves().size();
-        updateDistinctMoves(currentPly);
         if (currentPly > 0) {
             visitedNodesCounters[currentPly - 1]++;
-        }
-    }
-
-
-    protected void updateDistinctMoves(int currentPly) {
-        Set<Move> currentMoveSet = distinctMovesPerLevel[currentPly];
-        for (Move move : game.getPossibleMoves()) {
-            currentMoveSet.add(move);
         }
     }
 }

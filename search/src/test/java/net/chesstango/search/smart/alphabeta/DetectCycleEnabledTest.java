@@ -115,7 +115,7 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(4, searchResult.getEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
@@ -169,7 +169,7 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(2, searchResult.getEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
@@ -215,7 +215,7 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);
@@ -247,7 +247,7 @@ public class DetectCycleEnabledTest {
         assertNotNull(searchResult);
         assertEquals(0, searchResult.getEvaluation());
 
-        int[] visitedNodesCounters = searchResult.getVisitedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatics().visitedNodesCounters();
         long visitedNodesTotal = IntStream.range(0, 30).map(i -> visitedNodesCounters[i]).sum();
 
         //debug(visitedNodesTotal, visitedNodesCounters);

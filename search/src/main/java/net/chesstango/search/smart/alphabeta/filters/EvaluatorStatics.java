@@ -5,19 +5,22 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.statics.EvaluationEntry;
+import net.chesstango.search.smart.statics.EvaluationStatics;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * @author Mauricio Coria
  */
-public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
+public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
     private GameEvaluator imp;
     private long counter;
     private Set<EvaluationEntry> evaluations;
 
 
-    public GameEvaluatorCounter(GameEvaluator instance) {
+    public EvaluatorStatics(GameEvaluator instance) {
         this.imp = instance;
     }
 
@@ -38,9 +41,10 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
     @Override
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
-            result.setEvaluatedGamesCounter(counter);
-            result.setEvaluations(evaluations);
+            result.setEvaluationStatics(new EvaluationStatics(counter, evaluations));
         }
+        counter = 0;
+        evaluations = null;
     }
 
     @Override
@@ -49,10 +53,6 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        if (result != null) {
-            result.setEvaluatedGamesCounter(counter);
-            result.setEvaluations(evaluations);
-        }
     }
 
     @Override
@@ -63,36 +63,4 @@ public class GameEvaluatorCounter implements GameEvaluator, SearchLifeCycle {
     public void reset() {
     }
 
-    public static class EvaluationEntry {
-
-        private final long key;
-        private final int value;
-
-        public EvaluationEntry(long key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            EvaluationEntry that = (EvaluationEntry) o;
-            return key == that.key && value == that.value;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key, value);
-        }
-
-        public long getKey() {
-            return key;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-    }
 }

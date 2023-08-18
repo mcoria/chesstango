@@ -23,21 +23,19 @@ public class IterativeDeepening implements SearchMove {
     private final SearchSmart searchSmart;
     private Consumer<SearchInfo> searchStatusListener;
 
-    private volatile boolean keepProcessing;
-
     public IterativeDeepening(SearchSmart searchSmartAlgorithm) {
         this.searchSmart = searchSmartAlgorithm;
     }
 
     @Override
     public SearchMoveResult search(final Game game, final int depth) {
-        this.keepProcessing = true;
         List<SearchMoveResult> bestMovesByDepth = new ArrayList<>();
 
         searchSmart.beforeSearch(game, depth);
 
         try {
-            for (int currentSearchDepth = 1; currentSearchDepth <= depth && keepProcessing; currentSearchDepth++) {
+
+            for (int currentSearchDepth = 1; currentSearchDepth <= depth; currentSearchDepth++) {
 
                 SearchContext context = new SearchContext(currentSearchDepth);
 
@@ -59,8 +57,6 @@ public class IterativeDeepening implements SearchMove {
                 }
             }
 
-            return bestMovesByDepth.get(bestMovesByDepth.size() - 1);
-
         } catch (StopSearchingException spe) {
 
             searchSmart.afterSearchByDepth(null);
@@ -73,12 +69,17 @@ public class IterativeDeepening implements SearchMove {
 
             throw spe;
         }
+
+        SearchMoveResult bestMove = bestMovesByDepth.get(bestMovesByDepth.size() - 1);
+
+        searchSmart.afterSearch(bestMove);
+
+        return bestMove;
     }
 
 
     @Override
     public void stopSearching() {
-        this.keepProcessing = false;
         this.searchSmart.stopSearching();
     }
 

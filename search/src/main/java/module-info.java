@@ -8,10 +8,11 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.minmax;
     exports net.chesstango.search.smart.negamax;
     exports net.chesstango.search.smart.alphabeta;
-    exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.alphabeta.filters;
     exports net.chesstango.search.smart.alphabeta.filters.once;
     exports net.chesstango.search.smart.alphabeta.listeners;
+    exports net.chesstango.search.smart.sorters;
+    exports net.chesstango.search.smart.statics;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;

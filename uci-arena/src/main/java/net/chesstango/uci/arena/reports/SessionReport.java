@@ -3,6 +3,7 @@ package net.chesstango.uci.arena.reports;
 import net.chesstango.board.moves.Move;
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.statics.RNodeStatics;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
@@ -84,8 +85,9 @@ public class SessionReport {
 
 
         searches.forEach(searchMoveResult -> {
-            int[] visitedRNodeCounters = searchMoveResult.getVisitedNodesCounters();
-            int[] expectedRNodeCounters = searchMoveResult.getExpectedNodesCounters();
+            RNodeStatics regularNodeStatics = searchMoveResult.getRegularNodeStatics();
+            int[] visitedRNodeCounters = regularNodeStatics.visitedNodesCounters();
+            int[] expectedRNodeCounters = regularNodeStatics.expectedNodesCounters();
             for (int i = 0; i < visitedRNodeCounters.length; i++) {
                 rowModel.visitedRNodesCounters[i] += visitedRNodeCounters[i];
                 expectedRNodesCounters[i] += expectedRNodeCounters[i];
@@ -97,6 +99,7 @@ public class SessionReport {
                 rowModel.visitedQNodesCounters[i] += visitedQNodesCounters[i];
             }
 
+            /*
             if (searchMoveResult.getDistinctMovesPerLevel() != null) {
                 int level = 0;
                 for (Set<Move> moveCollection :
@@ -107,6 +110,7 @@ public class SessionReport {
                     level++;
                 }
             }
+             */
         });
 
         for (int i = 0; i < 30; i++) {

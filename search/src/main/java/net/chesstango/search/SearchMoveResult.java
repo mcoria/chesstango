@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.alphabeta.filters.GameEvaluatorCounter;
+import net.chesstango.search.smart.statics.EvaluationStatics;
+import net.chesstango.search.smart.statics.RNodeStatics;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -28,25 +28,17 @@ public class SearchMoveResult {
 
     private int evaluationCollisions;
 
-    private int[] visitedNodesCounters;
-
-    private int[] visitedNodesQuiescenceCounter;
-
-    private int[] expectedNodesCounters;
-
-    private int[] evaluatedNodes;
-
-    private Set<Move>[] distinctMovesPerLevel;
-
     private List<Move> bestMoveOptions;
-
-    private long evaluatedGamesCounter;
 
     private List<Move> principalVariation;
 
     private Collection<MoveEvaluation> moveEvaluations;
 
-    private Set<GameEvaluatorCounter.EvaluationEntry> evaluations;
+    private EvaluationStatics evaluationStatics;
+
+    private RNodeStatics regularNodeStatics;
+
+    private int[] visitedNodesQuiescenceCounter;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;

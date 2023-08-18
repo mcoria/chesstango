@@ -141,7 +141,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withStatics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
             quiescenceStatics = new QuiescenceStatics();
-            gameEvaluator = new GameEvaluatorCounter(gameEvaluator);
+            gameEvaluator = new EvaluatorStatics(gameEvaluator);
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
@@ -164,8 +164,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         filters.add(moveSorter);
         filters.add(qMoveSorter);
 
-        if (gameEvaluator instanceof GameEvaluatorCounter) {
-            filters.add((GameEvaluatorCounter) gameEvaluator);
+        if (gameEvaluator instanceof EvaluatorStatics) {
+            filters.add((EvaluatorStatics) gameEvaluator);
         }
 
         // =============  quiescence setup =====================

@@ -7,6 +7,8 @@ import net.chesstango.mbeans.Arena;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.uci.arena.listeners.MatchBroadcaster;
 import net.chesstango.uci.arena.listeners.MatchListenerToMBean;
+import net.chesstango.uci.arena.reports.SearchesPerGameReport;
+import net.chesstango.uci.arena.reports.SessionReport;
 import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
@@ -92,7 +94,7 @@ public class MatchMain implements MatchListener {
         new SummaryReport()
                 .printReportSingleEngineInstance(Arrays.asList(engineController1, engineController2), matchResult);
 
-        /*
+
         new SessionReport()
                  //.withCollisionStatics()
                  .withNodesVisitedStatics()
@@ -109,7 +111,6 @@ public class MatchMain implements MatchListener {
                 .withPrincipalVariation()
                 .printTangoStatics(Arrays.asList(engineController1, engineController2), matchResult);
 
-         */
     }
 
     private final Arena arenaMBean;

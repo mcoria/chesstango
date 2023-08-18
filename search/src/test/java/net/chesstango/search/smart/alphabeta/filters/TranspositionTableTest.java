@@ -111,8 +111,7 @@ public class TranspositionTableTest {
 
 
     private SearchMove createSearchWithoutTT() {
-
-        GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new EvaluatorSEandImp02());
+        EvaluatorStatics gameEvaluator = new EvaluatorStatics(new EvaluatorSEandImp02());
 
         MoveSorter moveSorter = new DefaultMoveSorter();
 
@@ -137,7 +136,7 @@ public class TranspositionTableTest {
     }
 
     private SearchMove createSearchWithTT() {
-        GameEvaluatorCounter gameEvaluator = new GameEvaluatorCounter(new EvaluatorSEandImp02());
+        EvaluatorStatics gameEvaluator = new EvaluatorStatics(new EvaluatorSEandImp02());
 
         MoveSorter moveSorter = new TranspositionMoveSorter();
         //MoveSorter moveSorter = new DefaultMoveSorter();

@@ -8,6 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchSmart;
+import net.chesstango.search.smart.statics.RNodeStatics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +69,7 @@ public class MinMax implements SearchSmart {
 
 
         return new SearchMoveResult(context.getMaxPly(), betterEvaluation, MoveSelector.selectMove(currentTurn, bestMoves), null)
-                .setVisitedNodesCounters(visitedNodesCounter)
-                .setExpectedNodesCounters(expectedNodesCounters)
+                .setRegularNodeStatics(new RNodeStatics(expectedNodesCounters, visitedNodesCounter))
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);
     }

@@ -33,7 +33,7 @@ public class DefaultSearchMove implements SearchMove {
 
                 .withIterativeDeepening()
 
-                .withStatics()
+                //.withStatics()
 
                 .build();
     }

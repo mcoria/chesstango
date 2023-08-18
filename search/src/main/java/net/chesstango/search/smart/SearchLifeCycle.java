@@ -24,6 +24,7 @@ public interface SearchLifeCycle {
      * Invoked once per search depth
      * If Iterating Deeping is disabled then once,
      * If Iterating Deeping is enabled then multiple times from depth 1 to maxDepth
+     * If result == null, it means search was stopped before completion
      */
     void afterSearchByDepth(SearchMoveResult result);
 

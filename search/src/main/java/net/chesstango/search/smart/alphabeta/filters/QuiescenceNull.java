@@ -21,7 +21,6 @@ public class QuiescenceNull implements AlphaBetaFilter {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
     }
 
     @Override
@@ -34,12 +33,10 @@ public class QuiescenceNull implements AlphaBetaFilter {
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
     public void reset() {
-
     }
 
     @Override
