@@ -57,17 +57,19 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.5.0</version>
                     <executions>
                         <execution>
-                            <id>make-assembly</id>
                             <phase>package</phase>
                             <goals>
-                                <goal>single</goal>
+                                <goal>shade</goal>
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
