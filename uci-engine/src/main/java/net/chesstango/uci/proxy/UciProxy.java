@@ -1,11 +1,14 @@
 package net.chesstango.uci.proxy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
 import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
-import net.chesstango.uci.protocol.stream.strings.StringSupplierLogger;
+import net.chesstango.uci.protocol.stream.strings.StringActionSupplier;
 import net.chesstango.uci.Service;
 import net.chesstango.uci.ServiceVisitor;
 
@@ -19,6 +22,7 @@ import java.util.function.Supplier;
  * @author Mauricio Coria
  */
 public class UciProxy implements Service {
+    private static final Logger logger = LoggerFactory.getLogger(UciProxy.class);
     private final ProxyConfig config;
     private Process process;
     private InputStream inputStreamProcess;
@@ -26,7 +30,6 @@ public class UciProxy implements Service {
     private UCIOutputStream responseOutputStream;
     private UCIActiveStreamReader pipe;
     private Thread readingPipeThread;
-    private boolean logging;
 
 
     /**
@@ -44,9 +47,9 @@ public class UciProxy implements Service {
         if (outputStreamProcess == null) {
             waitProcessStart();
         }
-        if (logging) {
-            System.out.println("proxy >> " + message);
-        }
+
+        logger.debug("proxy >> {}", message);
+
         outputStreamProcess.println(message);
     }
 
@@ -78,17 +81,12 @@ public class UciProxy implements Service {
         this.responseOutputStream = output;
     }
 
-    public UciProxy setLogging(boolean flag) {
-        this.logging = flag;
-        return this;
-    }
-
     private void closeProcessIO() {
         try {
             outputStreamProcess.close();
             inputStreamProcess.close();
         } catch (IOException e) {
-            e.printStackTrace(System.err);
+            logger.info("Error:", e);
         }
     }
 
@@ -120,26 +118,22 @@ public class UciProxy implements Service {
 
         Supplier<String> stringSupplier = new StringSupplier(new InputStreamReader(inputStreamProcess));
 
-        if (logging) {
-            stringSupplier = new StringSupplierLogger("proxy << ", stringSupplier);
-        }
+        stringSupplier = new StringActionSupplier(stringSupplier, line -> logger.debug("proxy << {}", line));
 
         pipe.setInputStream(new UCIInputStreamAdapter(stringSupplier));
         pipe.setOutputStream(responseOutputStream);
     }
 
     private void stopProcess() {
-        if (logging) {
-            System.out.println("proxy: EngineProxy::stopProcess() invoked");
-        }
+        logger.debug("stopProcess() invoked");
+
         try {
             process.waitFor();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        if (logging) {
-            System.out.println("proxy: EngineProxy::stopProcess() finished");
-        }
+
+        logger.debug("stopProcess() finished");
     }
 
     private void waitProcessStart() {
@@ -160,13 +154,9 @@ public class UciProxy implements Service {
     }
 
     private void readFromProcess() {
-        if (logging) {
-            System.out.println("proxy: EngineProxy::readFromPipe(): start reading engine output");
-        }
+        logger.debug("readFromPipe(): start reading engine output");
         pipe.run();
-        if (logging) {
-            System.out.println("proxy: EngineProxy::readFromPipe():end reading engine output");
-        }
+        logger.debug("readFromPipe():end reading engine output");
     }
 
 

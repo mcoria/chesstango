@@ -11,6 +11,8 @@ import net.chesstango.uci.arena.reports.SummaryReport;
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.arena.gui.EngineControllerFactory;
 import net.chesstango.uci.protocol.requests.CmdGo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -22,8 +24,10 @@ import java.util.List;
  */
 public class MatchMain implements MatchListener {
 
-    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(4);
-    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(3000);
+    private static final Logger logger = LoggerFactory.getLogger(MatchMain.class);
+
+    private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(2);
+    //private static final CmdGo CMD_GO = new CmdGo().setGoType(CmdGo.GoType.MOVE_TIME).setTimeOut(300);
 
     private static final boolean MATCH_DEBUG = false;
 
@@ -76,7 +80,7 @@ public class MatchMain implements MatchListener {
 
 
         EngineController engineController2 = EngineControllerFactory
-                .createProxyController("Spike", engineProxy -> engineProxy.setLogging(false));
+                .createProxyController("Spike", null);
         //.overrideEngineName("tango-v0.0.11");
         //.overrideCmdGo(new CmdGo().setGoType(CmdGo.GoType.DEPTH).setDepth(1));
 
@@ -141,7 +145,8 @@ public class MatchMain implements MatchListener {
 
         Instant start = Instant.now();
         List<GameResult> matchResult = match.play(getFenList());
-        System.out.println("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
+
+        logger.info("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms");
 
         quitEngines();
 

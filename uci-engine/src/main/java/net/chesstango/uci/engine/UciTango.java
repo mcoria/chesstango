@@ -9,22 +9,23 @@ import net.chesstango.uci.protocol.UCIMessage;
 import net.chesstango.uci.protocol.requests.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStream;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamEngineExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Mauricio Coria
  */
 public class UciTango implements Service {
-    protected final UCIOutputStreamEngineExecutor engineExecutor;
+    private static final Logger logger = LoggerFactory.getLogger(UciTango.class);
 
     @Getter
     protected final Tango tango;
+    protected final UCIOutputStreamEngineExecutor engineExecutor;
     protected final Ready readyState;
     protected final WaitCmdUci waitCmdUciState;
     protected final WaitCmdGo waitCmdGoState;
     protected final Searching searchingState;
-
     private UCIOutputStream responseOutputStream;
-    private boolean logging;
     protected volatile UCIEngine currentState;
 
     public UciTango() {
@@ -87,9 +88,7 @@ public class UciTango implements Service {
 
     @Override
     public void accept(UCIMessage message) {
-        if (logging) {
-            System.out.println("tango << " + message);
-        }
+        logger.debug("tango << {}", message);
         synchronized (engineExecutor) {
             engineExecutor.accept(message);
         }
@@ -116,15 +115,8 @@ public class UciTango implements Service {
         this.responseOutputStream = output;
     }
 
-    public UciTango setLogging(boolean flag) {
-        this.logging = flag;
-        return this;
-    }
-
     protected void reply(UCIMessage message) {
-        if (logging) {
-            System.out.println("tango >> " + message);
-        }
+        logger.debug("tango >> {}", message);
         responseOutputStream.accept(message);
     }
 }

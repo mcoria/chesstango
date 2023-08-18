@@ -5,9 +5,9 @@ import io.jenetics.engine.EvolutionStart;
 import io.jenetics.util.Factory;
 import io.jenetics.util.ISeq;
 import io.jenetics.util.IntRange;
-import net.chesstango.evaluation.GameEvaluator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +15,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class GeneticProviderNIntChromosomes implements GeneticProvider {
+
+    private static final Logger logger = LoggerFactory.getLogger(GeneticProviderNIntChromosomes.class);
 
     private static final int CONSTRAINT_MAX_VALUE = 1000;
     private static final IntRange geneRange = IntRange.of(0, CONSTRAINT_MAX_VALUE);
@@ -49,7 +51,7 @@ public class GeneticProviderNIntChromosomes implements GeneticProvider {
 
     @Override
     public void printGeneAndPoints(Genotype<IntegerGene> genotype, long points) {
-        System.out.println(String.format("Evaluacion con %s ; puntos = [%d]", getKeyGenesString(genotype), points));
+        logger.info(String.format("Evaluacion con %s ; puntos = [%d]", getKeyGenesString(genotype), points));
     }
 
     @Override

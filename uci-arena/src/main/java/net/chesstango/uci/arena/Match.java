@@ -12,6 +12,8 @@ import net.chesstango.uci.protocol.UCIEncoder;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import net.chesstango.uci.protocol.requests.CmdPosition;
 import net.chesstango.uci.protocol.responses.RspBestMove;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class Match {
+    private static final Logger logger = LoggerFactory.getLogger(Match.class);
     public static final int WINNER_POINTS = 1000;
     private final EngineController controller1;
     private final EngineController controller2;
@@ -70,9 +73,9 @@ public class Match {
             }
 
         } catch (RuntimeException e) {
-            System.err.println("Error playing fen:" + fen);
+            logger.error("Error playing fen: {}", fen);
 
-            printPGN(System.err);
+            logger.error("PGN: {}", generatePGN());
 
             throw e;
         }
@@ -170,25 +173,25 @@ public class Match {
         EngineController winner = null;
 
         if (GameStatus.DRAW_BY_FOLD_REPETITION.equals(game.getStatus())) {
-            System.out.printf("[%s] DRAW (por fold repetition)\n", Thread.currentThread().getName());
+            logger.info("DRAW (por fold repetition)");
             matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW_BY_FIFTY_RULE.equals(game.getStatus())) {
-            System.out.printf("[%s] DRAW (por fiftyMoveRule)\n", Thread.currentThread().getName());
+            logger.info("DRAW (por fold fiftyMoveRule)");
             matchPoints = material(game, true);
 
         } else if (GameStatus.DRAW.equals(game.getStatus())) {
-            System.out.printf("[%s] DRAW\n", Thread.currentThread().getName());
+            logger.info("DRAW");
             matchPoints = material(game, true);
 
         } else if (GameStatus.MATE.equals(game.getStatus())) {
             if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.printf("[%s] BLACK WON %s\n", Thread.currentThread().getName(), black.getEngineName());
+                logger.info("BLACK WON {}", black.getEngineName());
                 matchPoints = -1 * (WINNER_POINTS + material(game, false));
                 winner = black;
 
             } else if (Color.BLACK.equals(game.getChessPosition().getCurrentTurn())) {
-                System.out.printf("[%s] WHITE WON %s\n", Thread.currentThread().getName(), white.getEngineName());
+                logger.info("WHITE WON {}", white.getEngineName());
                 matchPoints = (WINNER_POINTS + material(game, false));
                 winner = white;
 
@@ -241,7 +244,12 @@ public class Match {
         printStream.println("--------------------------------------------------------------------------------");
     }
 
+
     private void printPGN(PrintStream printStream) {
+        printStream.println(generatePGN());
+    }
+
+    private String generatePGN() {
         PGNEncoder encoder = new PGNEncoder();
         PGNGame pgnGame = PGNGame.createFromGame(game);
 
@@ -250,7 +258,7 @@ public class Match {
         pgnGame.setBlack(black.getEngineName());
         pgnGame.setFen(fen);
 
-        printStream.println(encoder.encode(pgnGame));
+        return encoder.encode(pgnGame);
     }
 
     private void printMoveExecution() {

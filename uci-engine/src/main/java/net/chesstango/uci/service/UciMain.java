@@ -7,6 +7,9 @@ import net.chesstango.uci.protocol.stream.UCIInputStreamAdapter;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamToStringAdapter;
 import net.chesstango.uci.protocol.stream.strings.StringConsumer;
 import net.chesstango.uci.protocol.stream.strings.StringSupplier;
+import net.chesstango.uci.proxy.UciProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
@@ -14,6 +17,7 @@ import java.io.*;
  * @author Mauricio Coria
  */
 public class UciMain implements Runnable{
+    private static final Logger logger = LoggerFactory.getLogger(UciMain.class);
     private final Service service;
     private final InputStream in;
 
@@ -54,13 +58,13 @@ public class UciMain implements Runnable{
 
             service.close();
         } catch (RuntimeException e) {
-            e.printStackTrace(System.err);
+            logger.error("Error:", e);
             throw e;
         } finally {
             try {
                 in.close();
             } catch (IOException e) {
-                e.printStackTrace(System.err);
+                logger.error("Error:", e);
             }
             out.close();
         }

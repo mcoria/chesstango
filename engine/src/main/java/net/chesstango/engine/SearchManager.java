@@ -95,8 +95,8 @@ public class SearchManager {
                 }
 
                 listenerClient.searchFinished(searchResult);
-            } catch (RuntimeException exception) {
-                exception.printStackTrace(System.err);
+            } catch (RuntimeException e) {
+                e.printStackTrace(System.err);
             }
         });
     }

@@ -26,8 +26,7 @@ public class UciProxyIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        this.engine = new UciProxy(SpikeProxy.INSTANCE)
-                .setLogging(false);
+        this.engine = new UciProxy(SpikeProxy.INSTANCE);
     }
 
     @Test

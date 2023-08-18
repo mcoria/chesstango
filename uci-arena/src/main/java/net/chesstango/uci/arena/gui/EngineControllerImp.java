@@ -1,5 +1,6 @@
 package net.chesstango.uci.arena.gui;
 
+import net.chesstango.uci.arena.Match;
 import net.chesstango.uci.protocol.UCIGui;
 import net.chesstango.uci.protocol.UCIRequest;
 import net.chesstango.uci.protocol.UCIResponse;
@@ -8,11 +9,14 @@ import net.chesstango.uci.protocol.responses.*;
 import net.chesstango.uci.protocol.stream.UCIOutputStreamGuiExecutor;
 import net.chesstango.uci.Service;
 import net.chesstango.uci.ServiceVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Mauricio Coria
  */
 public class EngineControllerImp implements EngineController {
+    private static final Logger logger = LoggerFactory.getLogger(EngineControllerImp.class);
     private final Service service;
     private volatile UCIGui currentState;
     private volatile UCIResponse response;
@@ -130,7 +134,7 @@ public class EngineControllerImp implements EngineController {
                     waitingCounter++;
                 }
                 if (response == null) {
-                    System.err.println("Engine has not provided any response after sending: " + request.toString());
+                    logger.error("Engine has not provided any response after sending: {}", request);
                     throw new RuntimeException("Perhaps engine has closed its output");
                 }
             } catch (InterruptedException e) {

@@ -19,8 +19,7 @@ public class EngineControllerImpProxyIntegrationTest {
 
     @Test
     public void test_Proxy() {
-        UciProxy engine = new UciProxy(ProxyConfigLoader.loadEngineConfig("Spike"))
-                .setLogging(false);
+        UciProxy engine = new UciProxy(ProxyConfigLoader.loadEngineConfig("Spike"));
 
         EngineControllerImp client = new EngineControllerImp(engine);
 

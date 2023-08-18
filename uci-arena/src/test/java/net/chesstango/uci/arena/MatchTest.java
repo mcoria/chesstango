@@ -26,8 +26,8 @@ public class MatchTest {
 
     @BeforeEach
     public void setup() {
-        smartEngine = new EngineControllerImp(new UciTango().setLogging(false)).overrideEngineName("Smart");
-        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy())).setLogging(false)).overrideEngineName("Dummy");
+        smartEngine = new EngineControllerImp(new UciTango()).overrideEngineName("Smart");
+        dummyEngine = new EngineControllerImp(new UciTango(new Tango(new Dummy()))).overrideEngineName("Dummy");
 
         smartEngine.startEngine();
         dummyEngine.startEngine();

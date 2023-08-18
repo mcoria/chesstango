@@ -8,5 +8,6 @@ module net.chesstango.uci.engine {
     requires net.chesstango.uci;
     requires net.chesstango.evaluation;
     requires net.chesstango.engine;
-    requires lombok;
+    requires org.slf4j;
+    requires static lombok;
 }

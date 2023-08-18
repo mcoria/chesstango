@@ -1,5 +1,8 @@
 package net.chesstango.uci.arena;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.chesstango.uci.arena.gui.EngineController;
 import net.chesstango.uci.protocol.requests.CmdGo;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -11,6 +14,7 @@ import java.util.stream.Collectors;
  * @author Mauricio Coria
  */
 public class MatchScheduler {
+    private static final Logger logger = LoggerFactory.getLogger(MatchScheduler.class);
     private final CmdGo cmdGo;
     private final GenericObjectPool<EngineController> pool1;
     private final GenericObjectPool<EngineController> pool2;
@@ -48,7 +52,7 @@ public class MatchScheduler {
             pool2.returnObject(controller2);
 
         } catch (RuntimeException e) {
-            e.printStackTrace(System.err);
+            logger.error("Error playing", e);
 
             invalidateObject(controller1, pool1);
             invalidateObject(controller2, pool2);
@@ -70,7 +74,7 @@ public class MatchScheduler {
             try {
                 pool.invalidateObject(controller);
             } catch (Exception e) {
-                e.printStackTrace(System.err);
+                logger.error("invalidateObject error", e);
             }
         }
     }

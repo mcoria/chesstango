@@ -50,8 +50,7 @@ public class UciMainProxyIntegrationTest {
         PipedOutputStream outputToEngine = new PipedOutputStream();
         PipedInputStream inputFromEngine = new PipedInputStream();
 
-        UciProxy engine = new UciProxy(SpikeProxy.INSTANCE)
-                .setLogging(false);
+        UciProxy engine = new UciProxy(SpikeProxy.INSTANCE);
 
         UciMain uciMain = new UciMain(engine, new PipedInputStream(outputToEngine), new PrintStream(new PipedOutputStream(inputFromEngine), true));
         executorService.submit(uciMain::run);
