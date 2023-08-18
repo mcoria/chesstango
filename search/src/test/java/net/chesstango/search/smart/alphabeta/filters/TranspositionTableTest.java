@@ -9,8 +9,8 @@ import net.chesstango.search.reports.SearchesReport;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
 import net.chesstango.search.smart.alphabeta.AlphaBeta;
-import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.alphabeta.listeners.SetPrincipalVariation;
+import net.chesstango.search.smart.alphabeta.listeners.SetTranspositionTables;
 import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
@@ -25,11 +25,9 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class TranspositionTableTest {
-
+    private static final boolean PRINT_REPORT = false;
     private SearchMove searchWithoutTT;
-
     private SearchMove searchWithTT;
-
     private SearchMoveResult searchResultWithoutTT;
     private SearchMoveResult searchResultWithTT;
 
@@ -43,31 +41,33 @@ public class TranspositionTableTest {
 
 
     @AfterEach
-    public void printReport(){
-        new SearchesReport()
-                .withNodesVisitedStatics()
-                .withCutoffStatics()
-                .withPrincipalVariation()
-                .printSearchesStatics(Arrays.asList(searchResultWithoutTT, searchResultWithTT));
+    public void printReport() {
+        if (PRINT_REPORT) {
+            new SearchesReport()
+                    .withNodesVisitedStatics()
+                    .withCutoffStatics()
+                    .withPrincipalVariation()
+                    .printSearchesStatics(Arrays.asList(searchResultWithoutTT, searchResultWithTT));
+        }
     }
 
     @Test
-    public void test_01(){
+    public void test_01() {
         executeTest(FENDecoder.INITIAL_FEN, 6);
     }
 
     @Test
-    public void test_02(){
+    public void test_02() {
         executeTest("1k1r4/pp1b1R2/3q2pp/4p3/2B5/4Q3/PPP2B2/2K5 b - - 0 1", 7);
     }
 
     @Test
-    public void test_03()  {
+    public void test_03() {
         executeTest("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1", 5);
     }
 
     @Test
-    public void test_04()  {
+    public void test_04() {
         executeTest("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - - 0 1", 6);
     }
 
@@ -91,7 +91,7 @@ public class TranspositionTableTest {
     }
 
     private void debugTT(String fen, int evaluation, int depth, SearchMove searchMethod1, SearchMove searchMethod2) {
-        if(depth > 0 && FENDecoder.loadGame(fen).getStatus().isInProgress()) {
+        if (depth > 0 && FENDecoder.loadGame(fen).getStatus().isInProgress()) {
             Game game01 = FENDecoder.loadGame(fen);
             Game game02 = FENDecoder.loadGame(fen);
 
@@ -126,7 +126,7 @@ public class TranspositionTableTest {
         alphaBetaImp.setMoveSorter(moveSorter);
         alphaBetaImp.setGameEvaluator(gameEvaluator);
 
-        alphaBetaStatistics.setNext(alphaBetaImp);;
+        alphaBetaStatistics.setNext(alphaBetaImp);
 
         AlphaBeta minMaxPruning = new AlphaBeta();
         minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator));
@@ -156,7 +156,6 @@ public class TranspositionTableTest {
         transpositionTable.setNext(alphaBetaImp);
 
         alphaBetaStatistics.setNext(transpositionTable);
-
 
         AlphaBeta minMaxPruning = new AlphaBeta();
         minMaxPruning.setSearchActions(Arrays.asList(new SetTranspositionTables(), alphaBetaImp, transpositionTable, alphaBetaStatistics, quiescenceNull, moveSorter, gameEvaluator, new SetPrincipalVariation()));
