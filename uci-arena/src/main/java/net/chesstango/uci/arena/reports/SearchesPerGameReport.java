@@ -7,7 +7,7 @@ import net.chesstango.uci.arena.gui.EngineController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.chesstango.search.reports.SearchesReport.ReportModel;
+import net.chesstango.search.reports.SearchesReportModel;
 
 /**
  * Por cada juego de Tango muestra estadísticas de cada búsqueda.
@@ -19,23 +19,23 @@ public class SearchesPerGameReport {
     private SearchesReport searchesReport = new SearchesReport();
 
     public void printTangoStatics(List<EngineController> enginesOrder, List<GameResult> matchResult) {
-        List<ReportModel> reportRows = new ArrayList<>();
+        List<SearchesReportModel> reportRows = new ArrayList<>();
 
         enginesOrder.forEach(engineController -> {
             matchResult.stream()
                     .filter(result -> result.getEngineWhite() == engineController && result.getSessionWhite() != null)
-                    .map(result -> searchesReport.collectStatics(engineController.getEngineName(), result.getSessionWhite().getSearches()))
+                    .map(result -> SearchesReportModel.collectStatics(engineController.getEngineName(), result.getSessionWhite().getSearches()))
                     .forEach(reportRows::add);
 
             matchResult.stream()
                     .filter(result -> result.getEngineBlack() == engineController && result.getSessionBlack() != null)
-                    .map(result -> searchesReport.collectStatics(engineController.getEngineName(), result.getSessionBlack().getSearches()))
+                    .map(result -> SearchesReportModel.collectStatics(engineController.getEngineName(), result.getSessionBlack().getSearches()))
                     .forEach(reportRows::add);
 
         });
 
-        reportRows.forEach(reportModel -> {
-            searchesReport.setReport(reportModel);
+        reportRows.forEach(searchesReportModel -> {
+            searchesReport.setReportModel(searchesReportModel);
             searchesReport.printReport(System.out);
         });
     }

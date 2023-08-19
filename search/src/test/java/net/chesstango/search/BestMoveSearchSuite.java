@@ -181,7 +181,7 @@ public class BestMoveSearchSuite {
         return result;
     }
 
-    private Path createSessionDirectory(Path suitePath) {
+    private static Path createSessionDirectory(Path suitePath) {
         Path parentDirectory = suitePath.getParent();
 
         Path sessionDirectory = parentDirectory.resolve(SEARCH_SESSION_ID);
