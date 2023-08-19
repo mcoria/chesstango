@@ -47,7 +47,7 @@ public class EPDReader {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e);
+            throw new RuntimeException(e);
         }
         return edpEntries;
     }

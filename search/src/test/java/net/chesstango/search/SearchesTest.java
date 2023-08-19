@@ -16,9 +16,9 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class SearchesTest {
+    private static final boolean PRINT_REPORT = false;
     private SearchMove moveFinder;
     private SearchMoveResult searchResult;
-    private static final boolean PRINT_REPORT = false;
 
     @BeforeEach
     public void setup(){

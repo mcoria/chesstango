@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class BestMoveSearchSuiteTest {
+    private static final boolean PRINT_REPORT = false;
     private EPDReader EPDReader;
-
     private BestMoveSearchSuite finderSuite;
 
     private Instant start;
@@ -31,14 +31,16 @@ public class BestMoveSearchSuiteTest {
 
     @AfterEach
     public void tearDown() {
-        Duration timeElapsed = Duration.between(start, Instant.now());
-        System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
-        new SearchesReport()
-                .withNodesVisitedStatics()
-                .withCutoffStatics()
-                .withPrincipalVariation()
-                .withMoveResults(finderSuite.searchMoveResults)
-                .printReport(System.out);
+        if(PRINT_REPORT) {
+            Duration timeElapsed = Duration.between(start, Instant.now());
+            System.out.println("Time taken: " + timeElapsed.toMillis() + " ms");
+            new SearchesReport()
+                    .withNodesVisitedStatics()
+                    .withCutoffStatics()
+                    .withPrincipalVariation()
+                    .withMoveResults(finderSuite.searchMoveResults)
+                    .printReport(System.out);
+        }
     }
 
     @Test
