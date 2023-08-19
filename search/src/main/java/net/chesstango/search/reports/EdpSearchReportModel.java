@@ -8,15 +8,15 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EdpSearchSummaryReportModel {
+public class EdpSearchReportModel {
     long searches;
     long success;
     int successRate;
     List<String> failedEntries;
     long duration;
 
-    public static EdpSearchSummaryReportModel collectStatics(List<EPDReader.EDPEntry> edpEntries) {
-        EdpSearchSummaryReportModel reportModel = new EdpSearchSummaryReportModel();
+    public static EdpSearchReportModel collectStatics(List<EPDReader.EDPEntry> edpEntries) {
+        EdpSearchReportModel reportModel = new EdpSearchReportModel();
 
         reportModel.searches = edpEntries.size();
 

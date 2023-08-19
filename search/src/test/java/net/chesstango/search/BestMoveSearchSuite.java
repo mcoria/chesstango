@@ -5,7 +5,7 @@ import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.EdpSearchSummaryReport;
+import net.chesstango.search.reports.EdpSearchReport;
 import net.chesstango.search.reports.SearchesReport;
 
 import java.io.FileOutputStream;
@@ -137,7 +137,7 @@ public class BestMoveSearchSuite {
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
 
-            new EdpSearchSummaryReport()
+            new EdpSearchReport()
                     .withEdpEntries(edpEntries)
                     .printReport(out);
 

@@ -5,22 +5,20 @@ import lombok.experimental.Accessors;
 import net.chesstango.board.representations.EPDReader;
 
 import java.io.PrintStream;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 
 /**
  * @author Mauricio Coria
  */
-public class EdpSearchSummaryReport {
+public class EdpSearchReport {
 
     private PrintStream out;
 
     @Setter
     @Accessors(chain = true)
-    private EdpSearchSummaryReportModel reportModel;
+    private EdpSearchReportModel reportModel;
 
-    public EdpSearchSummaryReport printReport(PrintStream output) {
+    public EdpSearchReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
@@ -41,8 +39,8 @@ public class EdpSearchSummaryReport {
         out.printf("Time taken      : %dms\n", reportModel.duration);
     }
 
-    public EdpSearchSummaryReport withEdpEntries(List<EPDReader.EDPEntry> edpEntries) {
-        this.reportModel = EdpSearchSummaryReportModel.collectStatics(edpEntries);
+    public EdpSearchReport withEdpEntries(List<EPDReader.EDPEntry> edpEntries) {
+        this.reportModel = EdpSearchReportModel.collectStatics(edpEntries);
         return this;
     }
 
