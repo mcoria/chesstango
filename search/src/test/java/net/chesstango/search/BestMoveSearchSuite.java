@@ -1,5 +1,6 @@
 package net.chesstango.search;
 
+import lombok.Getter;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
@@ -12,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -20,7 +22,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.file.Files;
 
 /**
  * Esta clase esta destinada a resolver test-positions
@@ -37,8 +38,10 @@ public class BestMoveSearchSuite {
 
     public static void main(String[] args) {
 
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w1.epd");
-        execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b1.epd");
+        BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
+
+        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w1.epd");
+        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b1.epd");
 
         /*
         execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w2.epd");
@@ -87,56 +90,67 @@ public class BestMoveSearchSuite {
          */
     }
 
-    protected static void execute(String suiteFile) {
+    protected static final SANEncoder sanEncoder = new SANEncoder();
+    protected static final EPDReader reader = new EPDReader();
+
+    protected final int depth;
+
+    @Getter
+    private SearchMoveResult currentSearchResult;
+
+    public BestMoveSearchSuite(int depth) {
+        this.depth = depth;
+    }
+
+    public boolean run(EPDReader.EDPEntry edpEntry) {
+        SearchMove searchMove = buildSearchMove();
+
+        Instant start = Instant.now();
+
+        SearchMoveResult searchResult = searchMove.search(edpEntry.game, depth);
+
+        currentSearchResult = searchResult;
+
+        edpEntry.searchDuration = Duration.between(start, Instant.now()).toMillis();
+
+        Move bestMove = searchResult.getBestMove();
+
+        edpEntry.bestMoveFoundStr = sanEncoder.encode(bestMove, edpEntry.game.getPossibleMoves());
+
+        edpEntry.bestMoveFound = edpEntry.bestMoves.contains(bestMove);
+
+        return edpEntry.bestMoveFound;
+    }
+
+    private void execute(String suiteFile) {
         Path suitePath = Paths.get(suiteFile);
 
-        if(!Files.exists(suitePath)){
+        if (!Files.exists(suitePath)) {
             System.err.printf("file not found: %s\n", suiteFile);
             return;
         }
 
-        EPDReader reader = new EPDReader();
-
         List<EPDReader.EDPEntry> edpEntries = reader.readEdpFile(suiteFile);
 
-        BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
-
-        suite.run(suitePath, edpEntries);
+        run(suitePath, edpEntries);
 
         System.gc();
     }
 
-    protected final int depth;
-    protected final List<SearchMoveResult> searchMoveResults;
+    private void run(Path suitePath, List<EPDReader.EDPEntry> edpEntries) {
 
-    protected final SANEncoder sanEncoder = new SANEncoder();
+        List<SearchMoveResult> searchMoveResults = new ArrayList<>();
 
-    public BestMoveSearchSuite(int depth) {
-        this.depth = depth;
-        this.searchMoveResults = new ArrayList<>();
-    }
-
-    protected void run(Path suitePath, List<EPDReader.EDPEntry> edpEntries) {
-        for (EPDReader.EDPEntry edpEntry : edpEntries) {
-            if (run(edpEntry)) {
-                System.out.printf("Success %s\n", edpEntry.fen);
-            } else {
-                String failedTest = String.format("Fail [%s] - best move found %s",
-                        edpEntry.text,
-                        edpEntry.bestMoveFoundStr
-                );
-                System.out.println(failedTest);
-            }
-        }
+        run(searchMoveResults, edpEntries);
 
         String suiteName = suitePath.getFileName().toString();
 
         Path sessionDirectory = createSessionDirectory(suitePath);
 
-        Path suitePathReport = sessionDirectory.resolve( String.format("%s-report.txt", suiteName));
+
+        Path suitePathReport = sessionDirectory.resolve(String.format("%s-report.txt", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
-
             new EdpSearchReport()
                     .withEdpEntries(edpEntries)
                     .printReport(out);
@@ -153,26 +167,24 @@ public class BestMoveSearchSuite {
         } catch (IOException e) {
             e.printStackTrace(System.err);
         }
+
+
     }
 
-    protected boolean run(EPDReader.EDPEntry edpEntry) {
-        SearchMove searchMove = buildSearchMove();
+    private void run(List<SearchMoveResult> searchMoveResults, List<EPDReader.EDPEntry> edpEntries) {
+        for (EPDReader.EDPEntry edpEntry : edpEntries) {
+            if (run(edpEntry)) {
+                System.out.printf("Success %s\n", edpEntry.fen);
+            } else {
+                String failedTest = String.format("Fail [%s] - best move found %s",
+                        edpEntry.text,
+                        edpEntry.bestMoveFoundStr
+                );
+                System.out.println(failedTest);
+            }
 
-        Instant start = Instant.now();
-
-        SearchMoveResult searchResult = searchMove.search(edpEntry.game, depth);
-
-        edpEntry.searchDuration = Duration.between(start, Instant.now()).toMillis();
-
-        Move bestMove = searchResult.getBestMove();
-
-        edpEntry.bestMoveFoundStr = sanEncoder.encode(bestMove, edpEntry.game.getPossibleMoves());
-
-        edpEntry.bestMoveFound = edpEntry.bestMoves.contains(bestMove);
-
-        searchMoveResults.add(searchResult);
-
-        return edpEntry.bestMoveFound;
+            searchMoveResults.add(currentSearchResult);
+        }
     }
 
     private static Path createSessionDirectory(Path suitePath) {
