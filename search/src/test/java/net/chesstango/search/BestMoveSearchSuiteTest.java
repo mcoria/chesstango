@@ -37,7 +37,8 @@ public class BestMoveSearchSuiteTest {
                 .withNodesVisitedStatics()
                 .withCutoffStatics()
                 .withPrincipalVariation()
-                .printSearchesStatics(finderSuite.searchMoveResults);
+                .withMoveResults(finderSuite.searchMoveResults)
+                .printReport(System.out);
     }
 
     @Test

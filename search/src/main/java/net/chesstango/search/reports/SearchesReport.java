@@ -1,5 +1,7 @@
 package net.chesstango.search.reports;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -7,9 +9,7 @@ import net.chesstango.search.smart.statics.EvaluationEntry;
 import net.chesstango.search.smart.statics.EvaluationStatics;
 import net.chesstango.search.smart.statics.RNodeStatics;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
@@ -25,31 +25,38 @@ public class SearchesReport {
     private boolean printPrincipalVariation;
     private boolean exportEvaluations;
 
-    public void printSearchesStatics(List<SearchMoveResult> searchMoveResults) {
-        printSearchesStatics("Tango", searchMoveResults);
+    @Setter
+    @Accessors(chain = true)
+    private String engineName = "Tango";
+
+    @Setter
+    @Accessors(chain = true)
+    private ReportModel report;
+
+    private PrintStream out;
+
+    public SearchesReport printReport(PrintStream output) {
+        out = output;
+        print();
+        return this;
     }
 
-    public void printSearchesStatics(String engineName, List<SearchMoveResult> searchMoveResults) {
-        ReportModel reportModel = collectStatics(engineName, searchMoveResults);
 
-        print(reportModel);
-    }
-
-    public void print(ReportModel reportModel) {
-        printSummary(reportModel);
+    protected void print() {
+        printSummary();
 
         if (printNodesVisitedStatics) {
-            printVisitedNodes(reportModel);
+            printVisitedNodes();
         }
         if (printCutoffStatics) {
-            printCutoff(reportModel);
+            printCutoff();
         }
         if (printPrincipalVariation) {
-            printPrincipalVariation(reportModel);
+            printPrincipalVariation();
         }
 
         if (exportEvaluations) {
-            exportEvaluations(reportModel);
+            exportEvaluations();
         }
 
     }
@@ -74,11 +81,11 @@ public class SearchesReport {
             reportModelDetail.points = searchMoveResult.getEvaluation();
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
 
-            if(searchMoveResult.getEvaluationStatics() != null) {
+            if (searchMoveResult.getEvaluationStatics() != null) {
                 collectStaticsEvaluationStatics(reportModelDetail, searchMoveResult);
             }
 
-            if(searchMoveResult.getRegularNodeStatics()!=null){
+            if (searchMoveResult.getRegularNodeStatics() != null) {
                 collectStaticsRegularNodeStatic(reportModel, reportModelDetail, searchMoveResult);
             }
 
@@ -87,7 +94,7 @@ public class SearchesReport {
                 reportModel.visitedQNodesCounter[i] += reportModelDetail.visitedQNodesCounters == null ? 0 : reportModelDetail.visitedQNodesCounters[i];
             }
 
-			reportModel.evaluatedGamesCounterTotal += reportModelDetail.evaluatedGamesCounter;
+            reportModel.evaluatedGamesCounterTotal += reportModelDetail.evaluatedGamesCounter;
             reportModel.moveDetails.add(reportModelDetail);
         });
 
@@ -141,7 +148,7 @@ public class SearchesReport {
 
     private void collectStaticsEvaluationStatics(ReportRowMoveDetail reportModelDetail, SearchMoveResult searchMoveResult) {
         EvaluationStatics evaluationStatics = searchMoveResult.getEvaluationStatics();
-                
+
         reportModelDetail.evaluatedGamesCounter = evaluationStatics.evaluatedGamesCounter();
         reportModelDetail.evaluations = evaluationStatics.evaluations();
 
@@ -152,129 +159,129 @@ public class SearchesReport {
         /*
          * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
          */
-        if(reportModelDetail.distinctEvaluatedGamesCounter != 0){
-            reportModelDetail.collisionPercentage =  (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+        if (reportModelDetail.distinctEvaluatedGamesCounter != 0) {
+            reportModelDetail.collisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
         }
     }
 
-    private void printSummary(ReportModel reportModel) {
-        System.out.println("----------------------------------------------------------------------------");
-        System.out.printf("Moves played by engine: %s\n\n", reportModel.engineName);
-        System.out.printf("Visited  Regular Nodes: %8d\n", reportModel.visitedRNodesTotal);
-        System.out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
-        System.out.printf("Visited  Total   Nodes: %8d\n", reportModel.visitedNodesTotal);
-        System.out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedGamesCounterTotal);
-        System.out.printf("Max              Depth: %8d\n", reportModel.maxSearchRLevel);
-        System.out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
-        System.out.printf("\n");
+    private void printSummary() {
+        out.println("----------------------------------------------------------------------------");
+        out.printf("Moves played by engine: %s\n\n", report.engineName);
+        out.printf("Visited  Regular Nodes: %8d\n", report.visitedRNodesTotal);
+        out.printf("Visited         QNodes: %8d\n", report.visitedQNodesTotal);
+        out.printf("Visited  Total   Nodes: %8d\n", report.visitedNodesTotal);
+        out.printf("Evaluated        Nodes: %8d\n", report.evaluatedGamesCounterTotal);
+        out.printf("Max              Depth: %8d\n", report.maxSearchRLevel);
+        out.printf("Max             QDepth: %8d\n", report.maxSearchQLevel);
+        out.printf("\n");
     }
 
-    private void printVisitedNodes(ReportModel report) {
-        System.out.printf("Visited Nodes\n");
+    private void printVisitedNodes() {
+        out.printf("Visited Nodes\n");
 
         // Marco superior de la tabla
-        System.out.printf(" ________");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("_____________________"));
-        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("____________"));
-        System.out.printf("______________");
-        System.out.printf("_______________");
-        System.out.printf("_____________");
-        System.out.printf("______________");
-        System.out.printf("\n");
+        out.printf(" ________");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("_____________________"));
+        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> out.printf("____________"));
+        out.printf("______________");
+        out.printf("_______________");
+        out.printf("_____________");
+        out.printf("______________");
+        out.printf("\n");
 
         // Nombre de las columnas
-        System.out.printf("| Move   ");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("|     Level %2d       ", depth + 1));
-        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("| QLevel %2d ", depth + 1));
-        System.out.printf("| Evaluations ");
-        System.out.printf("| UEvaluations ");
-        System.out.printf("| Collisions ");
-        System.out.printf("| PCollisions ");
-        System.out.printf("|\n");
+        out.printf("| Move   ");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("|     Level %2d       ", depth + 1));
+        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
+        out.printf("| Evaluations ");
+        out.printf("| UEvaluations ");
+        out.printf("| Collisions ");
+        out.printf("| PCollisions ");
+        out.printf("|\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
-            System.out.printf("| %6s ", moveDetail.move);
-            IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));
-            IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("|   %7d ", moveDetail.visitedQNodesCounters[depth]));
-            System.out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
-            System.out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
-            System.out.printf("| %10d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
-            System.out.printf("| %11d ", moveDetail.collisionPercentage);
-            System.out.printf("|\n");
+            out.printf("| %6s ", moveDetail.move);
+            IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));
+            IntStream.range(0, report.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", moveDetail.visitedQNodesCounters[depth]));
+            out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
+            out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
+            out.printf("| %10d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
+            out.printf("| %11d ", moveDetail.collisionPercentage);
+            out.printf("|\n");
         }
 
         // Totales
-        System.out.printf("|--------");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("---------------------"));
-        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("--------------");
-        System.out.printf("---------------");
-        System.out.printf("-------------");
-        System.out.printf("--------------");
-        System.out.printf("|\n");
-        System.out.printf("| SUM    ");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("| %7d / %8d ", report.visitedRNodesCounters[depth], report.expectedRNodesCounters[depth]));
-        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("|   %7d ", report.visitedQNodesCounter[depth]));
-        System.out.printf("| %11d ", report.evaluatedGamesCounterTotal);
-        System.out.printf("| %12d ", report.evaluatedGamesCounterTotal);
-        System.out.printf("| %10d ", report.evaluatedGamesCounterTotal);
-        System.out.printf("| %11d ", report.evaluatedGamesCounterTotal);
-        System.out.printf("|\n");
+        out.printf("|--------");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
+        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> out.printf("------------"));
+        out.printf("--------------");
+        out.printf("---------------");
+        out.printf("-------------");
+        out.printf("--------------");
+        out.printf("|\n");
+        out.printf("| SUM    ");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", report.visitedRNodesCounters[depth], report.expectedRNodesCounters[depth]));
+        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", report.visitedQNodesCounter[depth]));
+        out.printf("| %11d ", report.evaluatedGamesCounterTotal);
+        out.printf("| %12d ", report.evaluatedGamesCounterTotal);
+        out.printf("| %10d ", report.evaluatedGamesCounterTotal);
+        out.printf("| %11d ", report.evaluatedGamesCounterTotal);
+        out.printf("|\n");
 
 
         // Marco inferior de la tabla
-        System.out.printf(" ---------");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("---------------------"));
-        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> System.out.printf("------------"));
-        System.out.printf("--------------");
-        System.out.printf("---------------");
-        System.out.printf("-------------");
-        System.out.printf("--------------");
-        System.out.printf("\n\n");
+        out.printf(" ---------");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
+        IntStream.range(0, report.maxSearchQLevel).forEach(depth -> out.printf("------------"));
+        out.printf("--------------");
+        out.printf("---------------");
+        out.printf("-------------");
+        out.printf("--------------");
+        out.printf("\n\n");
     }
 
-    private void printCutoff(ReportModel report) {
-        System.out.printf("Cutoff per search level (higher is better)\n");
+    private void printCutoff() {
+        out.printf("Cutoff per search level (higher is better)\n");
 
         // Marco superior de la tabla
-        System.out.printf(" ________");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("___________"));
-        System.out.printf("\n");
+        out.printf(" ________");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("___________"));
+        out.printf("\n");
 
         // Nombre de las columnas
-        System.out.printf("| Move   ");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("| Level %2d ", depth + 1));
-        System.out.printf("|\n");
+        out.printf("| Move   ");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("| Level %2d ", depth + 1));
+        out.printf("|\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
-            System.out.printf("| %6s ", moveDetail.move);
-            IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("| %6d %% ", moveDetail.cutoffPercentages[depth]));
-            System.out.printf("|\n");
+            out.printf("| %6s ", moveDetail.move);
+            IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("| %6d %% ", moveDetail.cutoffPercentages[depth]));
+            out.printf("|\n");
         }
 
         // Marco inferior de la tabla
-        System.out.printf(" --------");
-        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> System.out.printf("-----------"));
-        System.out.printf("\n\n");
+        out.printf(" --------");
+        IntStream.range(0, report.maxSearchRLevel).forEach(depth -> out.printf("-----------"));
+        out.printf("\n\n");
     }
 
-    private void printPrincipalVariation(ReportModel report) {
-        System.out.printf("Principal Variations\n");
+    private void printPrincipalVariation() {
+        out.printf("Principal Variations\n");
 
 
         // Nombre de las columnas
-        System.out.printf("Move\n");
+        out.printf("Move\n");
 
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
-            System.out.printf("%6s:", moveDetail.move);
-            System.out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points);
+            out.printf("%6s:", moveDetail.move);
+            out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points);
             if (moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON) {
-                System.out.printf(" MATE");
+                out.printf(" MATE");
             }
-            System.out.printf("\n");
+            out.printf("\n");
         }
     }
 
@@ -290,7 +297,7 @@ public class SearchesReport {
         }
     }
 
-    private void exportEvaluations(ReportModel report) {
+    private void exportEvaluations() {
         int fileCounter = 0;
         // Cuerpo
         for (ReportRowMoveDetail moveDetail : report.moveDetails) {
@@ -346,6 +353,11 @@ public class SearchesReport {
 
     public SearchesReport withExportEvaluations() {
         this.exportEvaluations = true;
+        return this;
+    }
+
+    public SearchesReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
+        report = collectStatics(engineName, searchMoveResults);
         return this;
     }
 

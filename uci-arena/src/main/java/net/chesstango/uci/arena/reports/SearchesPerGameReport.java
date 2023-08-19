@@ -34,7 +34,10 @@ public class SearchesPerGameReport {
 
         });
 
-        reportRows.forEach(searchesReport::print);
+        reportRows.forEach(reportModel -> {
+            searchesReport.setReport(reportModel);
+            searchesReport.printReport(System.out);
+        });
     }
 
 

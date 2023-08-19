@@ -44,10 +44,12 @@ public class TranspositionTableTest {
     public void printReport() {
         if (PRINT_REPORT) {
             new SearchesReport()
+                    .setEngineName("Comparation report")
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
                     .withPrincipalVariation()
-                    .printSearchesStatics(Arrays.asList(searchResultWithoutTT, searchResultWithTT));
+                    .withMoveResults(Arrays.asList(searchResultWithoutTT, searchResultWithTT))
+                    .printReport(System.out);
         }
     }
 

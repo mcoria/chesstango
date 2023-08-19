@@ -96,6 +96,7 @@ public class EPDReader {
         public List<Move> bestMoves;
 
         public Game game;
+        public String bestMoveFoundStr;
     }
 
 

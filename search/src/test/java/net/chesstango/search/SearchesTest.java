@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class SearchesTest {
     private SearchMove moveFinder;
     private SearchMoveResult searchResult;
-    private static final boolean printReport = false;
+    private static final boolean PRINT_REPORT = false;
 
     @BeforeEach
     public void setup(){
@@ -47,13 +47,14 @@ public class SearchesTest {
 
     @AfterEach
     public void printReport(){
-        if(printReport) {
+        if(PRINT_REPORT) {
             new SearchesReport()
                     .withNodesVisitedStatics()
                     .withCutoffStatics()
                     .withPrincipalVariation()
-                    .withExportEvaluations()
-                    .printSearchesStatics(Arrays.asList(searchResult));
+                    //.withExportEvaluations()
+                    .withMoveResults(Arrays.asList(searchResult))
+                    .printReport(System.out);
         }
     }
 
