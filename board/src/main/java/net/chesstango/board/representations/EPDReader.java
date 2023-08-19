@@ -97,6 +97,9 @@ public class EPDReader {
 
         public Game game;
         public String bestMoveFoundStr;
+
+        public boolean bestMoveFound;
+        public long searchDuration;
     }
 
 

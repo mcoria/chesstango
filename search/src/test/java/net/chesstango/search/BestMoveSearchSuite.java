@@ -5,6 +5,7 @@ import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
+import net.chesstango.search.reports.EdpSearchSummaryReport;
 import net.chesstango.search.reports.SearchesReport;
 
 import java.io.FileOutputStream;
@@ -108,25 +109,23 @@ public class BestMoveSearchSuite {
     protected final int depth;
     protected final List<SearchMoveResult> searchMoveResults;
 
+    protected final SANEncoder sanEncoder = new SANEncoder();
+
     public BestMoveSearchSuite(int depth) {
         this.depth = depth;
         this.searchMoveResults = new ArrayList<>();
     }
 
     protected void run(Path suitePath, List<EPDReader.EDPEntry> edpEntries) {
-        List<String> failedSuites = new ArrayList<>();
-
-        Instant start = Instant.now();
         for (EPDReader.EDPEntry edpEntry : edpEntries) {
             if (run(edpEntry)) {
                 System.out.printf("Success %s\n", edpEntry.fen);
             } else {
-                String failedTest = String.format("Fail   [%s] - best move found %s",
+                String failedTest = String.format("Fail [%s] - best move found %s",
                         edpEntry.text,
                         edpEntry.bestMoveFoundStr
                 );
                 System.out.println(failedTest);
-                failedSuites.add(failedTest);
             }
         }
 
@@ -138,16 +137,9 @@ public class BestMoveSearchSuite {
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
 
-            out.println("Suite summary " + suiteName);
-            if (failedSuites.isEmpty()) {
-                out.println("\tall tests executed successfully !!!!");
-            } else {
-                for (String failedTest : failedSuites) {
-                    out.printf("\t%s\n", failedTest);
-                }
-            }
-            out.printf("Success rate: %d%% \n", (100 * (edpEntries.size() - failedSuites.size())) / edpEntries.size());
-            out.printf("Time taken: " + Duration.between(start, Instant.now()).toMillis() + " ms \n");
+            new EdpSearchSummaryReport()
+                    .withEdpEntries(edpEntries)
+                    .printReport(out);
 
             new SearchesReport()
                     //.withCutoffStatics()
@@ -166,19 +158,21 @@ public class BestMoveSearchSuite {
     protected boolean run(EPDReader.EDPEntry edpEntry) {
         SearchMove searchMove = buildSearchMove();
 
+        Instant start = Instant.now();
+
         SearchMoveResult searchResult = searchMove.search(edpEntry.game, depth);
+
+        edpEntry.searchDuration = Duration.between(start, Instant.now()).toMillis();
 
         Move bestMove = searchResult.getBestMove();
 
-        SANEncoder sanEncoder = new SANEncoder();
-
         edpEntry.bestMoveFoundStr = sanEncoder.encode(bestMove, edpEntry.game.getPossibleMoves());
 
-        boolean result = edpEntry.bestMoves.contains(bestMove);
+        edpEntry.bestMoveFound = edpEntry.bestMoves.contains(bestMove);
 
         searchMoveResults.add(searchResult);
 
-        return result;
+        return edpEntry.bestMoveFound;
     }
 
     private static Path createSessionDirectory(Path suitePath) {

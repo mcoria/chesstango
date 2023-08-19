@@ -2,6 +2,7 @@ package net.chesstango.search.reports;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.statics.EvaluationEntry;
@@ -28,6 +29,7 @@ public class SearchesReport {
     @Setter
     @Accessors(chain = true)
     private SearchesReportModel reportModel;
+
 
     private PrintStream out;
 
@@ -58,8 +60,9 @@ public class SearchesReport {
     }
 
     private void printSummary() {
-        out.println("----------------------------------------------------------------------------");
-        out.printf("Moves played by engine: %s\n\n", reportModel.engineName);
+        out.printf("----------------------------------------------------------------------------\n\n");
+
+        out.printf("Moves played by engine: %s\n", reportModel.engineName);
         out.printf("Visited  Regular Nodes: %8d\n", reportModel.visitedRNodesTotal);
         out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
         out.printf("Visited  Total   Nodes: %8d\n", reportModel.visitedNodesTotal);
