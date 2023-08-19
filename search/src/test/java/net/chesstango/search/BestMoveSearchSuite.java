@@ -140,7 +140,6 @@ public class BestMoveSearchSuite {
     }
 
     private void run(Path suitePath, List<EPDReader.EDPEntry> edpEntries) {
-
         List<SearchMoveResult> searchMoveResults = new ArrayList<>();
 
         run(searchMoveResults, edpEntries);
@@ -153,29 +152,38 @@ public class BestMoveSearchSuite {
 
         Path sessionDirectory = createSessionDirectory(suitePath);
 
-        printReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
+        printReport(System.out, edpSearchReportModel, searchesReportModel);
+
+        saveReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
+
+        //saveSummary(edpSearchReportModel, searchesReportModel);
     }
 
-    private void printReport(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
+    private void saveReport(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
         Path suitePathReport = sessionDirectory.resolve(String.format("%s-report.txt", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
-            new EdpSearchReport()
-                    .setReportModel(edpSearchReportModel)
-                    .printReport(out);
 
-            new SearchesReport()
-                    .setReportModel(searchesReportModel)
-                    //.withCutoffStatics()
-                    .withNodesVisitedStatics()
-                    //.withExportEvaluations()
-                    .printReport(out)
-                    .printReport(System.out);
+            printReport(out, edpSearchReportModel, searchesReportModel);
 
             out.flush();
         } catch (IOException e) {
             e.printStackTrace(System.err);
         }
+    }
+
+    private void printReport(PrintStream output, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
+        new EdpSearchReport()
+                .setReportModel(edpSearchReportModel)
+                .printReport(output);
+
+        new SearchesReport()
+                .setReportModel(searchesReportModel)
+                //.withCutoffStatics()
+                .withNodesVisitedStatics()
+                //.withExportEvaluations()
+                .printReport(output)
+                .printReport(System.out);
     }
 
     private void run(List<SearchMoveResult> searchMoveResults, List<EPDReader.EDPEntry> edpEntries) {
