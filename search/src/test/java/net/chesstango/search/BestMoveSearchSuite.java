@@ -6,10 +6,7 @@ import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.reports.EdpSearchReport;
-import net.chesstango.search.reports.EdpSearchReportModel;
-import net.chesstango.search.reports.SearchesReport;
-import net.chesstango.search.reports.SearchesReportModel;
+import net.chesstango.search.reports.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -156,7 +153,24 @@ public class BestMoveSearchSuite {
 
         saveReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
 
-        //saveSummary(edpSearchReportModel, searchesReportModel);
+        saveSearchSummary(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
+    }
+
+    private void saveSearchSummary(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
+        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(edpSearchReportModel, searchesReportModel);
+
+        Path suitePathReport = sessionDirectory.resolve(String.format("%s.json", suiteName));
+
+        try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
+
+            new SearchSummarySaver()
+                    .withSearchSummaryModel(searchSummaryModel)
+                    .print(out);
+
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     private void saveReport(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
@@ -182,8 +196,7 @@ public class BestMoveSearchSuite {
                 //.withCutoffStatics()
                 .withNodesVisitedStatics()
                 //.withExportEvaluations()
-                .printReport(output)
-                .printReport(System.out);
+                .printReport(output);
     }
 
     private void run(List<SearchMoveResult> searchMoveResults, List<EPDReader.EDPEntry> edpEntries) {
