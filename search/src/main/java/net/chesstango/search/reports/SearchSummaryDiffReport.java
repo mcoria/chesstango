@@ -28,6 +28,7 @@ public class SearchSummaryDiffReport {
     private static final String durationFmt = "| %9dms (%3d%%) ";
     private static final String searchesFmt = "| %s %16d ";
     private static final String successRateFmt = "| %17d%% ";
+    private static final String successLevelFmt = "| %18d ";
 
     private void print() {
         SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -37,38 +38,49 @@ public class SearchSummaryDiffReport {
         out.printf("Suite: %s\n", reportModel.suiteName);
 
         // Marco superior de la tabla
-        out.printf(" __________");
+        out.printf(" ____________");
         out.printf(lineaSuperiorFmt);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(lineaSuperiorFmt));
         out.printf("\n");
 
         // Nombre de las columnas
-        out.printf("| Metric   ");
+        out.printf("| Metric     ");
         out.printf("|  %s  ", baseLineSearchSummary.sessionid);
         searchSummaryList.forEach(summary -> out.printf("|  %s  ", summary.sessionid));
         out.printf("|\n");
 
         // Duration
-        out.printf("| Duration ");
+        out.printf("| Duration   ");
         out.printf(durationFmt, baseLineSearchSummary.duration, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(durationFmt, searchSummaryList.get(i).duration, searchSummaryDiffs.get(i).durationPercentage()));
         out.printf("|\n");
 
         // Searches
-        out.printf("| Searches ");
+        out.printf("| Searches   ");
         out.printf(searchesFmt, " ", baseLineSearchSummary.searches);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(searchesFmt, searchSummaryDiffs.get(i).sameSearches() ? " " : "*", searchSummaryList.get(i).searches));
         out.printf("|\n");
 
         // Searches
-        out.printf("| Success  ");
+        out.printf("| Success    ");
         out.printf(successRateFmt, baseLineSearchSummary.successRate);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(successRateFmt, searchSummaryList.get(i).successRate));
         out.printf("|\n");
 
+        // RLevel
+        out.printf("| Max RLevel ");
+        out.printf(successLevelFmt, baseLineSearchSummary.maxSearchRLevel);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(successLevelFmt, searchSummaryList.get(i).maxSearchRLevel));
+        out.printf("|\n");
+
+        // QLevel
+        out.printf("| Max QLevel ");
+        out.printf(successLevelFmt, baseLineSearchSummary.maxSearchQLevel);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(successLevelFmt, searchSummaryList.get(i).maxSearchQLevel));
+        out.printf("|\n");
 
         // Marco inferior de la tabla
-        out.printf(" ----------");
+        out.printf(" ------------");
         out.printf(lineaInferiorFmt);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(lineaInferiorFmt));
         out.printf("\n\n");
