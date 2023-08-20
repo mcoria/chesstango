@@ -8,8 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SearchSummaryModel {
 
+    @JsonProperty("sessionid")
+    String sessionid;
+
     @JsonProperty("duration")
-    private long duration;
+    long duration;
 
     @JsonProperty("searches")
     long searches;
@@ -38,9 +41,10 @@ public class SearchSummaryModel {
     @JsonProperty("evaluatedGamesCounterTotal")
     long evaluatedGamesCounterTotal;
 
-    public static SearchSummaryModel collectStatics(EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
+    public static SearchSummaryModel collectStatics(String sessionId, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
         SearchSummaryModel model = new SearchSummaryModel();
 
+        model.sessionid = sessionId;
         model.duration =  edpSearchReportModel.duration;
         model.searches = edpSearchReportModel.searches;
         model.success = edpSearchReportModel.success;

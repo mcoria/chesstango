@@ -2,13 +2,14 @@ package net.chesstango.search.reports;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.board.representations.EPDReader;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.statics.EvaluationEntry;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.stream.IntStream;

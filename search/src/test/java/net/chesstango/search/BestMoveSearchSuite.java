@@ -43,6 +43,7 @@ public class BestMoveSearchSuite {
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b1.epd");
 
 
+        /*
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w2.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b2.epd");
 
@@ -84,7 +85,7 @@ public class BestMoveSearchSuite {
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS13.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS14.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS15.epd");
-
+        */
     }
 
     protected static final SANEncoder sanEncoder = new SANEncoder();
@@ -115,6 +116,8 @@ public class BestMoveSearchSuite {
         edpEntry.bestMoveFoundStr = sanEncoder.encode(bestMove, edpEntry.game.getPossibleMoves());
 
         edpEntry.bestMoveFound = edpEntry.bestMoves.contains(bestMove);
+
+        searchMove.reset();
 
         return edpEntry.bestMoveFound;
     }
@@ -155,11 +158,11 @@ public class BestMoveSearchSuite {
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
-        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(edpSearchReportModel, searchesReportModel);
+        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(SEARCH_SESSION_ID, edpSearchReportModel, searchesReportModel);
 
-        Path suitePathReport = sessionDirectory.resolve(String.format("%s.json", suiteName));
+        Path searchSummaryPath = sessionDirectory.resolve(String.format("%s.json", suiteName));
 
-        try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
+        try (PrintStream out = new PrintStream(new FileOutputStream(searchSummaryPath.toFile()), true)) {
 
             new SearchSummarySaver()
                     .withSearchSummaryModel(searchSummaryModel)

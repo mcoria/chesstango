@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import java.util.Objects;
 
+/**
+ * @author Mauricio Coria
+ */
 @Getter
 public class EvaluationEntry {
 

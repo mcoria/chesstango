@@ -21,4 +21,5 @@ module net.chesstango.search {
     requires static lombok;
 
     opens net.chesstango.search.gamegraph;
+    opens net.chesstango.search.reports;
 }
