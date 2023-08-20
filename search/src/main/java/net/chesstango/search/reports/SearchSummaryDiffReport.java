@@ -29,6 +29,7 @@ public class SearchSummaryDiffReport {
     private static final String searchesFmt = "| %s %16d ";
     private static final String successRateFmt = "| %17d%% ";
     private static final String successLevelFmt = "| %18d ";
+    private static final String visitedNodesFmt = "| %11d (%3d%%) ";
 
     private void print() {
         SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -77,6 +78,17 @@ public class SearchSummaryDiffReport {
         out.printf("| Max QLevel ");
         out.printf(successLevelFmt, baseLineSearchSummary.maxSearchQLevel);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(successLevelFmt, searchSummaryList.get(i).maxSearchQLevel));
+        out.printf("|\n");
+
+        // RLevel
+        out.printf("| Vis RNodes ");
+        out.printf(visitedNodesFmt, baseLineSearchSummary.visitedRNodesTotal, 100);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(visitedNodesFmt, searchSummaryList.get(i).visitedRNodesTotal, searchSummaryDiffs.get(i).visitedRNodesPercentage()));
+        out.printf("|\n");
+
+        out.printf("| Vis QNodes ");
+        out.printf(visitedNodesFmt, baseLineSearchSummary.visitedQNodesTotal, 100);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(visitedNodesFmt, searchSummaryList.get(i).visitedQNodesTotal, searchSummaryDiffs.get(i).visitedQNodesPercentage()));
         out.printf("|\n");
 
         // Marco inferior de la tabla
