@@ -23,10 +23,11 @@ public class SearchSummaryDiffReport {
         return this;
     }
 
-    private static final String lineaSuperiorFmt =  "_____________________";
+    private static final String lineaSuperiorFmt = "_____________________";
     private static final String lineaInferiorFmt = "---------------------";
     private static final String durationFmt = "| %9dms (%3d%%) ";
     private static final String searchesFmt = "| %s %16d ";
+    private static final String successRateFmt = "| %17d%% ";
 
     private void print() {
         SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -53,10 +54,16 @@ public class SearchSummaryDiffReport {
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(durationFmt, searchSummaryList.get(i).duration, searchSummaryDiffs.get(i).durationPercentage()));
         out.printf("|\n");
 
-        // Duration
+        // Searches
         out.printf("| Searches ");
         out.printf(searchesFmt, " ", baseLineSearchSummary.searches);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(searchesFmt, searchSummaryDiffs.get(i).sameSearches() ? " " : "*", searchSummaryList.get(i).searches));
+        out.printf("|\n");
+
+        // Searches
+        out.printf("| Success  ");
+        out.printf(successRateFmt, baseLineSearchSummary.successRate);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(successRateFmt, searchSummaryList.get(i).successRate));
         out.printf("|\n");
 
 
