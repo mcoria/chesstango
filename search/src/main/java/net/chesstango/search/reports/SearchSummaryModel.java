@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SearchSummaryModel {
 
+    @JsonProperty("duration")
+    private long duration;
+
     @JsonProperty("searches")
     long searches;
 
@@ -16,12 +19,6 @@ public class SearchSummaryModel {
 
     @JsonProperty("successRate")
     int successRate;
-
-    @JsonProperty("visitedNodesTotal")
-    long visitedNodesTotal;
-
-    @JsonProperty("evaluatedGamesCounterTotal")
-    long evaluatedGamesCounterTotal;
 
     @JsonProperty("maxSearchRLevel")
     int maxSearchRLevel;
@@ -35,21 +32,27 @@ public class SearchSummaryModel {
     @JsonProperty("visitedQNodesTotal")
     long visitedQNodesTotal;
 
+    @JsonProperty("visitedNodesTotal")
+    long visitedNodesTotal;
+
+    @JsonProperty("evaluatedGamesCounterTotal")
+    long evaluatedGamesCounterTotal;
+
     public static SearchSummaryModel collectStatics(EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
         SearchSummaryModel model = new SearchSummaryModel();
 
+        model.duration =  edpSearchReportModel.duration;
         model.searches = edpSearchReportModel.searches;
         model.success = edpSearchReportModel.success;
         model.successRate = edpSearchReportModel.successRate;
-
-        model.visitedNodesTotal = searchesReportModel.visitedNodesTotal;
-        model.evaluatedGamesCounterTotal = searchesReportModel.evaluatedGamesCounterTotal;
 
         model.maxSearchRLevel = searchesReportModel.maxSearchRLevel;
         model.maxSearchQLevel = searchesReportModel.maxSearchQLevel;
 
         model.visitedRNodesTotal = searchesReportModel.visitedRNodesTotal;
         model.visitedQNodesTotal = searchesReportModel.visitedQNodesTotal;
+        model.visitedNodesTotal = searchesReportModel.visitedNodesTotal;
+        model.evaluatedGamesCounterTotal = searchesReportModel.evaluatedGamesCounterTotal;
 
         return model;
     }
