@@ -12,7 +12,10 @@ public class SearchSummaryDiffReportModel {
     SearchSummaryModel baseLineSearchSummary;
     List<SearchSummaryModel> searchSummaryList;
     List<SearchSummaryDiff> searchSummaryDiffs;
-    public record SearchSummaryDiff(int durationPercentage, boolean sameSearches, int visitedRNodesPercentage, int visitedQNodesPercentage){}
+
+    public record SearchSummaryDiff(int durationPercentage, boolean sameSearches, int visitedRNodesPercentage,
+                                    int visitedQNodesPercentage, int visitedNodesPercentage) {
+    }
 
     public static SearchSummaryDiffReportModel createModel(String suiteName, SearchSummaryModel baseLineSearchSummary, List<SearchSummaryModel> searchSummaryList) {
         SearchSummaryDiffReportModel reportModel = new SearchSummaryDiffReportModel();
@@ -23,7 +26,7 @@ public class SearchSummaryDiffReportModel {
         reportModel.searchSummaryList = searchSummaryList;
         reportModel.searchSummaryDiffs = searchSummaryList
                 .stream()
-                .map(searchSummary-> calculateDiff(baseLineSearchSummary, searchSummary))
+                .map(searchSummary -> calculateDiff(baseLineSearchSummary, searchSummary))
                 .toList();
 
 
@@ -35,6 +38,7 @@ public class SearchSummaryDiffReportModel {
         boolean sameSearches = searchSummary.searches == baseLineSearchSummary.searches;
         int visitedRNodesPercentage = (int) ((searchSummary.visitedRNodesTotal * 100) / baseLineSearchSummary.visitedRNodesTotal);
         int visitedQNodesPercentage = (int) ((searchSummary.visitedQNodesTotal * 100) / baseLineSearchSummary.visitedQNodesTotal);
-        return new SearchSummaryDiff(durationPercentage, sameSearches, visitedRNodesPercentage, visitedQNodesPercentage);
+        int visitedNodesPercentage = (int) ((searchSummary.visitedNodesTotal * 100) / baseLineSearchSummary.visitedNodesTotal);
+        return new SearchSummaryDiff(durationPercentage, sameSearches, visitedRNodesPercentage, visitedQNodesPercentage, visitedNodesPercentage);
     }
 }

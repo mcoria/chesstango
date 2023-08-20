@@ -91,6 +91,11 @@ public class SearchSummaryDiffReport {
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(visitedNodesFmt, searchSummaryList.get(i).visitedQNodesTotal, searchSummaryDiffs.get(i).visitedQNodesPercentage()));
         out.printf("|\n");
 
+        out.printf("| Vis  Nodes ");
+        out.printf(visitedNodesFmt, baseLineSearchSummary.visitedNodesTotal, 100);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(visitedNodesFmt, searchSummaryList.get(i).visitedNodesTotal, searchSummaryDiffs.get(i).visitedNodesPercentage()));
+        out.printf("|\n");
+
         // Marco inferior de la tabla
         out.printf(" ------------");
         out.printf(lineaInferiorFmt);
