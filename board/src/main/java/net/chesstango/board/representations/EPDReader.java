@@ -41,8 +41,8 @@ public class EPDReader {
                         EDPEntry entry = readEdpLine(line);
                         edpEntries.add(entry);
                     } catch (RuntimeException e) {
-                        e.printStackTrace(System.err);
-                        throw new RuntimeException(e);
+                    	e.printStackTrace(System.err);
+                        System.err.printf("Error decoding: %s\n", line);
                     }
                 }
             }
@@ -63,7 +63,7 @@ public class EPDReader {
                 if (move != null) {
                     edpEntry.bestMoves.add(move);
                 } else {
-                    throw new RuntimeException(String.format("Unable to decode %s", bestMoves[i]));
+                    throw new RuntimeException(String.format("Unable to find move %s", bestMoves[i]));
                 }
             }
         }

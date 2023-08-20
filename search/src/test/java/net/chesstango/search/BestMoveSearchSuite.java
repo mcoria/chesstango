@@ -31,27 +31,28 @@ import java.util.List;
  */
 public class BestMoveSearchSuite {
 
-    private static final int DEFAULT_MAX_DEPTH = 7;
+    private static final int DEFAULT_MAX_DEPTH = 6;
 
+    //private static final String SEARCH_SESSION_ID = "2023-08-20-12-10";
     private static final String SEARCH_SESSION_ID = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm"));
 
     public static void main(String[] args) {
 
         BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
 
+
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w1.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b1.epd");
 
 
-        /*
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w2.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b2.epd");
 
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w3.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b3.epd");
+        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w3.epd");
+        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b3.epd");
 
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w4.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b4.epd");
+        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w4.epd");
+        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b4.epd");
 
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w5.epd");
         //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b5.epd");
@@ -85,7 +86,6 @@ public class BestMoveSearchSuite {
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS13.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS14.epd");
         suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS15.epd");
-        */
     }
 
     protected static final SANEncoder sanEncoder = new SANEncoder();
@@ -219,7 +219,7 @@ public class BestMoveSearchSuite {
     private static Path createSessionDirectory(Path suitePath) {
         Path parentDirectory = suitePath.getParent();
 
-        Path sessionDirectory = parentDirectory.resolve(SEARCH_SESSION_ID);
+        Path sessionDirectory = parentDirectory.resolve(String.format("depth-%d-%s", DEFAULT_MAX_DEPTH, SEARCH_SESSION_ID));
 
         try {
             Files.createDirectory(sessionDirectory);
@@ -238,14 +238,14 @@ public class BestMoveSearchSuite {
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
-                .withStopProcessingCatch()
+                //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
 
