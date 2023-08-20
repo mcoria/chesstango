@@ -12,7 +12,7 @@ public class SearchSummaryDiffReportModel {
     SearchSummaryModel baseLineSearchSummary;
     List<SearchSummaryModel> searchSummaryList;
     List<SearchSummaryDiff> searchSummaryDiffs;
-    public record SearchSummaryDiff(int durationPercentage){}
+    public record SearchSummaryDiff(int durationPercentage, boolean sameSearches){}
 
     public static SearchSummaryDiffReportModel createModel(String suiteName, SearchSummaryModel baseLineSearchSummary, List<SearchSummaryModel> searchSummaryList) {
         SearchSummaryDiffReportModel reportModel = new SearchSummaryDiffReportModel();
@@ -32,6 +32,7 @@ public class SearchSummaryDiffReportModel {
 
     private static SearchSummaryDiff calculateDiff(SearchSummaryModel baseLineSearchSummary, SearchSummaryModel searchSummary) {
         int durationPercentage = (int) ((searchSummary.duration * 100) / baseLineSearchSummary.duration);
-        return new SearchSummaryDiff(durationPercentage);
+        boolean sameSearches = searchSummary.searches == baseLineSearchSummary.searches;
+        return new SearchSummaryDiff(durationPercentage, sameSearches);
     }
 }

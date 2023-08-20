@@ -25,7 +25,8 @@ public class SearchSummaryDiffReport {
 
     private static final String lineaSuperiorFmt =  "_____________________";
     private static final String lineaInferiorFmt = "---------------------";
-    private static final String durationFmt = "| %11d (%3d%%) ";
+    private static final String durationFmt = "| %9dms (%3d%%) ";
+    private static final String searchesFmt = "| %s %16d ";
 
     private void print() {
         SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -46,12 +47,20 @@ public class SearchSummaryDiffReport {
         searchSummaryList.forEach(summary -> out.printf("|  %s  ", summary.sessionid));
         out.printf("|\n");
 
-        // Nombre de las columnas
+        // Duration
         out.printf("| Duration ");
         out.printf(durationFmt, baseLineSearchSummary.duration, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(durationFmt, searchSummaryList.get(i).duration, searchSummaryDiffs.get(i).durationPercentage()));
         out.printf("|\n");
 
+        // Duration
+        out.printf("| Searches ");
+        out.printf(searchesFmt, " ", baseLineSearchSummary.searches);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(searchesFmt, searchSummaryDiffs.get(i).sameSearches() ? " " : "*", searchSummaryList.get(i).searches));
+        out.printf("|\n");
+
+
+        // Marco inferior de la tabla
         out.printf(" ----------");
         out.printf(lineaInferiorFmt);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(lineaInferiorFmt));
