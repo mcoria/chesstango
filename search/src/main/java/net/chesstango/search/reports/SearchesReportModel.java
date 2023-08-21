@@ -147,14 +147,16 @@ public class SearchesReportModel {
         reportModelDetail.evaluations = evaluationStatics.evaluations();
 
 
-        reportModelDetail.distinctEvaluatedGamesCounter = evaluationStatics.evaluations().size();
-        reportModelDetail.distinctEvaluatedGamesCounterCollisions = evaluationStatics.evaluatedGamesCounter() - evaluationStatics.evaluations().parallelStream().mapToInt(EvaluationEntry::getValue).distinct().count();
+        if(reportModelDetail.evaluations !=null) {
+            reportModelDetail.distinctEvaluatedGamesCounter = evaluationStatics.evaluations().size();
+            reportModelDetail.distinctEvaluatedGamesCounterCollisions = evaluationStatics.evaluatedGamesCounter() - evaluationStatics.evaluations().parallelStream().mapToInt(EvaluationEntry::getValue).distinct().count();
 
-        /*
-         * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
-         */
-        if (reportModelDetail.distinctEvaluatedGamesCounter != 0) {
-            reportModelDetail.collisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+            /*
+             * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones
+             */
+            if (reportModelDetail.distinctEvaluatedGamesCounter != 0) {
+                reportModelDetail.collisionPercentage = (100 * reportModelDetail.distinctEvaluatedGamesCounterCollisions) / reportModelDetail.distinctEvaluatedGamesCounter;
+            }
         }
     }
 

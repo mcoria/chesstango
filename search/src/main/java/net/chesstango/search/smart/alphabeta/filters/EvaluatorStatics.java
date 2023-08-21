@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
@@ -19,6 +21,10 @@ public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
     private long counter;
     private Set<EvaluationEntry> evaluations;
 
+    @Setter
+    @Accessors(chain = true)
+    private boolean trackEvaluations;
+
 
     public EvaluatorStatics(GameEvaluator instance) {
         this.imp = instance;
@@ -28,14 +34,18 @@ public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
     public int evaluate(Game game) {
         counter++;
         int evaluation = imp.evaluate(game);
-        evaluations.add(new EvaluationEntry(game.getChessPosition().getZobristHash(), evaluation));
+        if (trackEvaluations) {
+            evaluations.add(new EvaluationEntry(game.getChessPosition().getZobristHash(), evaluation));
+        }
         return evaluation;
     }
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         counter = 0;
-        evaluations = new LinkedHashSet<>();
+        if (trackEvaluations) {
+            evaluations = new LinkedHashSet<>();
+        }
     }
 
     @Override
@@ -43,8 +53,6 @@ public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
         if (result != null) {
             result.setEvaluationStatics(new EvaluationStatics(counter, evaluations));
         }
-        counter = 0;
-        evaluations = null;
     }
 
     @Override
