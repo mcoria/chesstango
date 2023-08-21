@@ -50,6 +50,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withStatics;
     private boolean withMoveEvaluation;
     private boolean withTranspositionTableReuse;
+    private boolean withStaticsTrackEvaluations;
 
     public AlphaBetaBuilder() {
         alphaBetaImp = new AlphaBetaImp();
@@ -120,6 +121,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
+    public SearchBuilder withStaticsTrackEvaluations() {
+        withStaticsTrackEvaluations = true;
+        return this;
+    }
+
 
     /**
      * MinMaxPruning -> StopProcessingCatch -> AlphaBetaStatistics -> TranspositionTable -> AlphaBeta
@@ -140,8 +146,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
     public SearchMove build() {
         if (withStatics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
+
             quiescenceStatics = new QuiescenceStatics();
-            gameEvaluator = new EvaluatorStatics(gameEvaluator);
+
+            gameEvaluator = new EvaluatorStatics(gameEvaluator)
+                    .setTrackEvaluations(withStaticsTrackEvaluations);
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
@@ -272,6 +281,5 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         return withIterativeDeepening ? new IterativeDeepening(alphaBeta) : new NoIterativeDeepening(alphaBeta);
     }
-
 
 }
