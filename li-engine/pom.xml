@@ -76,11 +76,13 @@
                             </excludes>
                         </filter>
                     </filters>
+                    <!--
                     <artifactSet>
                         <excludes>
                             <exclude>com.fasterxml.jackson.core:*</exclude>
                         </excludes>
                     </artifactSet>
+                    -->
                 </configuration>
             </plugin>
         </plugins>

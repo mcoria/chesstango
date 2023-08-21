@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Esta clase esta destinada a resolver test-positions
@@ -29,63 +32,46 @@ import java.util.List;
  *
  * @author Mauricio Coria
  */
-public class BestMoveSearchSuite {
+public class SearchMoveMain {
 
-    private static final int DEFAULT_MAX_DEPTH = 6;
+    //private static final String SEARCH_SESSION_ID = "2023-08-20-18-37";
+    //private static final String SEARCH_SESSION_ID = "test";
 
-    //private static final String SEARCH_SESSION_ID = "2023-08-20-12-10";
     private static final String SEARCH_SESSION_ID = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm"));
 
+    /**
+     * Parametros
+     * 1. Depth
+     * 2. Directorio donde se encuentran los archivos de posicion
+     * 3. Filtro de archivos
+     *
+     * @param args
+     */
     public static void main(String[] args) {
+        int depth = Integer.parseInt(args[0]);
 
-        BestMoveSearchSuite suite = new BestMoveSearchSuite(DEFAULT_MAX_DEPTH);
+        String directory = args[1];
 
+        String filePattern = args[2];
 
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w1.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b1.epd");
+        System.out.printf("depth={%d}, directory={%s}; filePattern={%s}\n", depth, directory, filePattern);
 
+        SearchMoveMain suite = new SearchMoveMain(depth);
 
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w2.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b2.epd");
+        getFiles(directory, filePattern).forEach(suite::execute);
+    }
 
-        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w3.epd");
-        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b3.epd");
-
-        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w4.epd");
-        //suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b4.epd");
-
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w5.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b5.epd");
-
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w6.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b6.epd");
-
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w7.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b7.epd");
-
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-w8.epd");
-        //execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\40H-EPD-databases-2022-10-04\\mate-b8.epd");
-
-
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\Bratko-Kopec\\Bratko-Kopec.epd");
-
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\wac\\wac-2018.epd");
-
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS1.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS2.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS3.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS4.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS5.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS6.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS7.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS8.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS9.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS10.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS11.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS12.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS13.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS14.epd");
-        suite.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\STS\\STS15.epd");
+    private static List<Path> getFiles(String directory, String filePattern) {
+        String finalPattern = filePattern.replace(".", "\\.").replace("*", ".*");
+        Predicate<String> matchPredicate = Pattern.compile(finalPattern).asMatchPredicate();
+        try (Stream<Path> stream = Files.list(Paths.get(directory))) {
+            return stream
+                    .filter(file -> !Files.isDirectory(file))
+                    .filter(file -> matchPredicate.test(file.getFileName().toString()))
+                    .toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected static final SANEncoder sanEncoder = new SANEncoder();
@@ -96,7 +82,7 @@ public class BestMoveSearchSuite {
     @Getter
     private SearchMoveResult currentSearchResult;
 
-    public BestMoveSearchSuite(int depth) {
+    public SearchMoveMain(int depth) {
         this.depth = depth;
     }
 
@@ -122,15 +108,10 @@ public class BestMoveSearchSuite {
         return edpEntry.bestMoveFound;
     }
 
-    private void execute(String suiteFile) {
-        Path suitePath = Paths.get(suiteFile);
+    private void execute(Path suitePath) {
+        String suiteFile = suitePath.getFileName().toString();
 
-        if (!Files.exists(suitePath)) {
-            System.err.printf("file not found: %s\n", suiteFile);
-            return;
-        }
-
-        List<EPDReader.EDPEntry> edpEntries = reader.readEdpFile(suiteFile);
+        List<EPDReader.EDPEntry> edpEntries = reader.readEdpFile(suitePath);
 
         run(suitePath, edpEntries);
 
@@ -150,7 +131,7 @@ public class BestMoveSearchSuite {
 
         Path sessionDirectory = createSessionDirectory(suitePath);
 
-        printReport(System.out, edpSearchReportModel, searchesReportModel);
+        //printReport(System.out, edpSearchReportModel, searchesReportModel);
 
         saveReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
 
@@ -216,10 +197,10 @@ public class BestMoveSearchSuite {
         }
     }
 
-    private static Path createSessionDirectory(Path suitePath) {
+    private Path createSessionDirectory(Path suitePath) {
         Path parentDirectory = suitePath.getParent();
 
-        Path sessionDirectory = parentDirectory.resolve(String.format("depth-%d-%s", DEFAULT_MAX_DEPTH, SEARCH_SESSION_ID));
+        Path sessionDirectory = parentDirectory.resolve(String.format("depth-%d-%s", depth, SEARCH_SESSION_ID));
 
         try {
             Files.createDirectory(sessionDirectory);
@@ -250,6 +231,7 @@ public class BestMoveSearchSuite {
                 .withIterativeDeepening()
 
                 .withStatics()
+                //.withStaticsTrackEvaluations() Consume demasiada memoria
 
                 .build();
     }

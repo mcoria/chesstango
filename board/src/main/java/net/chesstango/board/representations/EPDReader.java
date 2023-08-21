@@ -8,6 +8,9 @@ import net.chesstango.board.moves.MovePromotion;
 import net.chesstango.board.representations.fen.FENDecoder;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -21,11 +24,21 @@ import java.util.regex.Pattern;
 public class EPDReader {
 
     public List<EDPEntry> readEdpFile(String filename) {
+        return readEdpFile(Paths.get(filename));
+
+    }
+
+    public List<EDPEntry> readEdpFile(Path filePath) {
+        if (!Files.exists(filePath)) {
+            System.err.printf("file not found: %s\n", filePath.getFileName());
+            throw new RuntimeException(String.format("file not found: %s", filePath.getFileName()));
+        }
+
         List<EDPEntry> edpEntries = new ArrayList<>();
         try {
-            System.out.println("Reading suite " + filename);
+            System.out.println("Reading suite " + filePath);
 
-            InputStream instr = new FileInputStream(filename);
+            InputStream instr = new FileInputStream(filePath.toFile());
 
             // reading the files with buffered reader
             InputStreamReader inputStreamReader = new InputStreamReader(instr);
@@ -41,8 +54,8 @@ public class EPDReader {
                         EDPEntry entry = readEdpLine(line);
                         edpEntries.add(entry);
                     } catch (RuntimeException e) {
-                    	e.printStackTrace(System.err);
                         System.err.printf("Error decoding: %s\n", line);
+                        e.printStackTrace(System.err);
                     }
                 }
             }
