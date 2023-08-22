@@ -18,14 +18,16 @@ import java.util.stream.Stream;
  */
 public class LichessTango implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(LichessTango.class);
-    private static final int DEFAULT_DEPTH = 6;
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;
+    private GameInfo game;
 
     @Setter
     private ChallengeInfo challenge;
-    private GameInfo game;
+
+    @Setter
+    private int maxDepth;
 
     public LichessTango(LichessClient client, String gameId) {
         this.client = client;
@@ -99,7 +101,7 @@ public class LichessTango implements Runnable {
     private void play(GameStateEvent.State state) {
         tango.setPosition(game.fen(), state.moveList());
         if (isMyTurn()) {
-            tango.goDepth(DEFAULT_DEPTH);
+            tango.goDepth(maxDepth);
         }
     }
 

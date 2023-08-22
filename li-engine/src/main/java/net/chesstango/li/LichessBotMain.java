@@ -21,23 +21,42 @@ import java.util.stream.Stream;
 public class LichessBotMain implements Runnable {
 
     private final static Logger logger = LoggerFactory.getLogger(LichessBotMain.class);
-    private static final int MAX_SIMULTANEOUS_GAMES = 2;
+    private static String BOT_TOKEN;
+    private static Integer MAX_SIMULTANEOUS_GAMES;
+    private static Integer MAX_DEFAULT_DEPTH;
 
     public static void main(String[] args) {
         URI lichessApi = URI.create("https://lichess.org");
 
-        String token = System.getenv("BOT_TOKEN");
+        getEnvs();
 
-        if (Objects.nonNull(token) && !token.isEmpty()) {
-            ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), token);
-            if (clientAuth.scopes().contains(Client.Scope.bot_play)) {
-                logger.info("Start playing as a bot");
-                new LichessBotMain(new LichessClient(clientAuth)).run();
-            } else {
-                throw new RuntimeException("BOT_TOKEN is missing scope bot:play");
-            }
+        ClientAuth clientAuth = Client.auth(conf -> conf.api(lichessApi), BOT_TOKEN);
+        if (clientAuth.scopes().contains(Client.Scope.bot_play)) {
+            logger.info("Start playing as a bot");
+            new LichessBotMain(new LichessClient(clientAuth)).run();
         } else {
+            throw new RuntimeException("BOT_TOKEN is missing scope bot:play");
+        }
+    }
+
+    private static void getEnvs() {
+        BOT_TOKEN = System.getenv("BOT_TOKEN");
+        if (Objects.isNull(BOT_TOKEN) || BOT_TOKEN.isEmpty()) {
             throw new RuntimeException("BOT_TOKEN is missing");
+        }
+
+        MAX_SIMULTANEOUS_GAMES = Integer.parseInt(System.getenv("MAX_SIMULTANEOUS_GAMES"));
+        if ( Objects.isNull(MAX_SIMULTANEOUS_GAMES)) {
+            throw new RuntimeException("MAX_SIMULTANEOUS_GAMES is missing");
+        } else if (MAX_SIMULTANEOUS_GAMES  <= 0) {
+            throw new RuntimeException("MAX_SIMULTANEOUS_GAMES value is wrong");
+        }
+
+        MAX_DEFAULT_DEPTH = Integer.parseInt(System.getenv("MAX_DEFAULT_DEPTH"));
+        if ( Objects.isNull(MAX_DEFAULT_DEPTH)) {
+            throw new RuntimeException("MAX_DEFAULT_DEPTH is missing");
+        } else if (MAX_DEFAULT_DEPTH  <= 0) {
+            throw new RuntimeException("MAX_DEFAULT_DEPTH value is wrong");
         }
     }
 
@@ -110,6 +129,7 @@ public class LichessBotMain implements Runnable {
         var onlineGame = new LichessTango(client, challengeEvent.id());
 
         onlineGame.setChallenge(challengeEvent.challenge());
+        onlineGame.setMaxDepth(MAX_DEFAULT_DEPTH);
 
         onlineGameMap.put(challengeEvent.id(), onlineGame);
 
