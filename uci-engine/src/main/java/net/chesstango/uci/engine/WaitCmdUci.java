@@ -10,14 +10,10 @@ import net.chesstango.uci.protocol.responses.RspUciOk;
  * @author Mauricio Coria
  */
 public class WaitCmdUci implements UCIEngine {
-    public static final String ENGINE_NAME = "Tango";
-    public static final String ENGINE_AUTHOR = "Mauricio Coria";
     private final UciTango uciTango;
-    private final String version;
 
-    protected  WaitCmdUci(UciTango uciTango) {
+    protected WaitCmdUci(UciTango uciTango) {
         this.uciTango = uciTango;
-        this.version = Tango.properties.getProperty("version");
     }
 
     @Override
@@ -26,8 +22,8 @@ public class WaitCmdUci implements UCIEngine {
 
     @Override
     public void do_uci(CmdUci cmdUci) {
-        uciTango.reply(new RspId(RspId.RspIdType.NAME, String.format("%s %s", ENGINE_NAME, version)));
-        uciTango.reply(new RspId(RspId.RspIdType.AUTHOR, ENGINE_AUTHOR));
+        uciTango.reply(new RspId(RspId.RspIdType.NAME, String.format("%s %s", Tango.ENGINE_NAME, Tango.ENGINE_VERSION)));
+        uciTango.reply(new RspId(RspId.RspIdType.AUTHOR, Tango.ENGINE_AUTHOR));
         uciTango.reply(new RspUciOk());
         uciTango.currentState = uciTango.readyState;
     }

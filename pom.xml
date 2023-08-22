@@ -32,6 +32,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <lombok.version>1.18.26</lombok.version>
         <logback.version>1.4.1</logback.version>
+        <slf4j.version>2.0.1</slf4j.version>
         <chariot.version>0.0.72</chariot.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <jackson.version>2.13.5</jackson.version>
@@ -208,11 +209,26 @@
                 <artifactId>chariot</artifactId>
                 <version>${chariot.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- Colisiona con slf4j-simple
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${logback.version}</version>
             </dependency>
+            -->
 
 
             <dependency>

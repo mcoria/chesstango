@@ -1,5 +1,6 @@
 package net.chesstango.uci.service;
 
+import net.chesstango.engine.Tango;
 import net.chesstango.uci.Service;
 import net.chesstango.uci.engine.UciTango;
 import net.chesstango.uci.protocol.stream.UCIActiveStreamReader;
@@ -48,6 +49,8 @@ public class UciMain implements Runnable{
         this.pipe.setOutputStream(this.service);
 
         try {
+            logger.info("{} {} by {}", Tango.ENGINE_NAME, Tango.ENGINE_AUTHOR,  Tango.ENGINE_VERSION);
+
             service.open();
 
             isRunning = true;

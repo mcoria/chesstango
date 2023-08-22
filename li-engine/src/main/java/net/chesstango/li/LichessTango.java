@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class LichessTango implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(LichessTango.class);
-    private static final int DEFAULT_DEPTH = 5;
+    private static final int DEFAULT_DEPTH = 6;
     private final LichessClient client;
     private final String gameId;
     private final Tango tango;

@@ -14,6 +14,11 @@ import java.util.Properties;
  * @author Mauricio Coria
  */
 public class Tango {
+    public static final Properties PROPERTIES = loadProperties();
+    public static final String ENGINE_NAME = "Tango";
+    public static final String ENGINE_AUTHOR = "Mauricio Coria";
+    public static final String ENGINE_VERSION = PROPERTIES.getProperty("version");
+
     private final SearchManager searchManager;
 
     @Getter
@@ -102,23 +107,23 @@ public class Tango {
         searchManager.stopSearching();
     }
 
-    public static final Properties properties = loadProperties();
-
     private static Properties loadProperties() {
         Properties properties;
         InputStream inputStream = null;
         try {
-            inputStream = Tango.class.getClassLoader().getResourceAsStream("chesstango.properties");
+            inputStream = Tango.class.getResourceAsStream("/chesstango.properties");
             // create Properties class object
             properties = new Properties();
             // load properties file into it
             properties.load(inputStream);
-
         } catch (IOException e) {
+            e.printStackTrace(System.err);
             throw new RuntimeException(e);
         } finally {
             try {
-                inputStream.close();
+                if (inputStream != null) {
+                    inputStream.close();
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
