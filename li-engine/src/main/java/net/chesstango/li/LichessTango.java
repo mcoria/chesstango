@@ -3,8 +3,10 @@ package net.chesstango.li;
 import chariot.model.*;
 import lombok.Setter;
 import net.chesstango.board.Color;
+import net.chesstango.board.moves.Move;
 import net.chesstango.board.position.ChessPositionReader;
 import net.chesstango.engine.Tango;
+import net.chesstango.search.SearchInfo;
 import net.chesstango.search.SearchListener;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.uci.protocol.UCIEncoder;
@@ -34,9 +36,20 @@ public class LichessTango implements Runnable {
         this.gameId = gameId;
         this.tango = new Tango();
         this.tango.setListenerClient(new SearchListener() {
+
+            @Override
+            public void searchInfo(SearchInfo info) {
+                StringBuilder sb = new StringBuilder();
+                for (Move move : info.pv()) {
+                    sb.append(String.format("%s ", UCIEncoder.encode(move)));
+                }
+
+                logger.info("[{}] Depth {} seldepth {} pv {}", gameId, info.depth(), info.selDepth(), sb);
+            }
+
             @Override
             public void searchFinished(SearchMoveResult searchResult) {
-                logger.info("Search finished");
+                logger.info("[{}] Search finished", gameId);
                 String moveUci = UCIEncoder.encode(searchResult.getBestMove());
                 client.gameMove(gameId, moveUci);
             }
@@ -57,7 +70,7 @@ public class LichessTango implements Runnable {
 
     @Override
     public void run() {
-        logger.info("Ready to play game {}, entering game event loop...", gameId);
+        logger.info("[{}] Ready to play game. Entering game event loop...", gameId);
 
         Stream<GameStateEvent> gameEvents = client.gameStreamEvents(gameId);
 
@@ -70,17 +83,17 @@ public class LichessTango implements Runnable {
             }
         });
 
-        logger.info("game {} event loop finished", gameId);
+        logger.info("[{}] Event loop finished", gameId);
     }
 
     private void gameFull(GameStateEvent.Full gameFullEvent) {
-        logger.info("gameFull: {}", gameFullEvent);
+        logger.info("[{}] gameFull: {}", gameId, gameFullEvent);
 
         play(gameFullEvent.state());
     }
 
     private void gameState(GameStateEvent.State state) {
-        logger.info("gameState: {}", state);
+        logger.info("[{}] gameState: {}", gameId, state);
 
         var status = state.status();
 
@@ -88,14 +101,14 @@ public class LichessTango implements Runnable {
             case mate, resign, outoftime, stalemate, draw -> sendChatMessage("good game!!!");
             case started, created -> play(state);
             default -> {
-                logger.warn("no action handler for status {}", status);
+                logger.warn("[{}] No action handler for status {}", gameId, status);
             }
         }
 
     }
 
     private void opponentGone(GameStateEvent.OpponentGone gameEvent) {
-        logger.warn("opponentGone {}", gameEvent);
+        logger.warn("[{}] opponentGone {}", gameId, gameEvent);
     }
 
     private void play(GameStateEvent.State state) {
@@ -112,11 +125,11 @@ public class LichessTango implements Runnable {
     }
 
     private void receiveChatMessage(GameStateEvent.Chat chat) {
-        logger.info("Chat: [{}] -> {}", chat.username(), chat.text());
+        logger.info("[{}] Chat: [{}] -> {}", gameId, chat.username(), chat.text());
     }
 
     private void sendChatMessage(String message) {
-        logger.info("Chat: [{}] -> {}", "chesstango", message);
+        logger.info("[{}] Chat: [{}] -> {}", gameId, "chesstango", message);
         client.gameChat(gameId, message);
     }
 }
