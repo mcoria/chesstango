@@ -12,7 +12,7 @@ class MapTTable<T extends TranspositionEntry> implements TTable<T>{
     private Map<Long, T> table = new HashMap<>();
 
     @Override
-    public T get(long hash) {
+    public T read(long hash) {
         return table.get(hash);
     }
 

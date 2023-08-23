@@ -71,7 +71,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
 
             long hash = game.getChessPosition().getZobristHash();
 
-            Transposition entry = tTable.get(hash);
+            Transposition entry = tTable.read(hash);
 
             if (entry != null && entry.getSearchDepth() == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();

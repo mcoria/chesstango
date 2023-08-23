@@ -91,7 +91,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = tTable.get(hash);
+        Transposition entry = tTable.read(hash);
 
         if (entry != null) {
             short bestMoveEncoded = BinaryUtils.decodeMove(entry.getBestMoveAndValue());

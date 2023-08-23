@@ -16,7 +16,7 @@ public class ArrayTTable<T extends TranspositionEntry> implements TTable<T> {
     }
 
     @Override
-    public T get(long hash) {
+    public T read(long hash) {
 
         int idx = Math.abs((int) (hash % TABLE_SIZE));
 

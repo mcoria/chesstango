@@ -4,7 +4,7 @@ package net.chesstango.search.smart.transposition;
  * @author Mauricio Coria
  */
 public interface TTable<T extends TranspositionEntry> {
-    T get(long hash);
+    T read(long hash);
 
     void write(T entry);
 

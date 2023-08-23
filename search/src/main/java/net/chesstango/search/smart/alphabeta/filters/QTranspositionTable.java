@@ -6,7 +6,6 @@ import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
 import net.chesstango.search.smart.transposition.TranspositionType;
 
 /**
@@ -50,7 +49,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            QTransposition entry = tTable.get(hash);
+            QTransposition entry = tTable.read(hash);
 
             if (entry == null) {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
@@ -88,7 +87,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            QTransposition entry = tTable.get(hash);
+            QTransposition entry = tTable.read(hash);
 
             if (entry == null) {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
