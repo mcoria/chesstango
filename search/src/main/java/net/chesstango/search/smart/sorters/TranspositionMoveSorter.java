@@ -67,11 +67,14 @@ public class TranspositionMoveSorter implements MoveSorter {
         short bestMoveEncoded = 0;
 
         if(entry != null){
-            if(entry.bestMoveAndValue != 0){
+            if(entry.bestMoveAndValue != 0) {
                 bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
-            } else if(entry.qBestMoveAndValue != 0){
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.qBestMoveAndValue);
+
             }
+            // Podriamos buscar en QTable
+            //} else if(entry.qBestMoveAndValue != 0){
+            //  bestMoveEncoded = BinaryUtils.decodeMove(entry.qBestMoveAndValue);
+            //}
         }
 
         List<Move> sortedMoveList = new LinkedList<>();

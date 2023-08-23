@@ -96,8 +96,13 @@ public class TTLoad implements SearchLifeCycle {
                 tableEntry.bestMoveAndValue = dis.readLong();
                 tableEntry.type = Type.valueOf(dis.readByte());
 
-                tableEntry.qBestMoveAndValue = dis.readLong();
-                tableEntry.qType = Type.valueOf(dis.readByte());
+                /**
+                 * REVISAR ESTO
+                 */
+
+
+                //tableEntry.qBestMoveAndValue = dis.readLong();
+                //tableEntry.qType = Type.valueOf(dis.readByte());
 
                 map.put(key, tableEntry);
             }
@@ -109,6 +114,8 @@ public class TTLoad implements SearchLifeCycle {
             ioe.printStackTrace();
             throw new RuntimeException(ioe);
         }
+
+        throw new RuntimeException("Revisar este metodo");
     }
 
 }

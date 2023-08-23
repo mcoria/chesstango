@@ -5,16 +5,15 @@ import java.io.Serializable;
 /**
  * @author Mauricio Coria
  */
-public class Transposition implements Serializable {
-    public int searchDepth;
+public class QTransposition implements Serializable {
+    public long qBestMoveAndValue;
 
-    public long bestMoveAndValue;
-    public Type type;
+    public Type qType;
 
-    public int getValue() {
-        return BinaryUtils.decodeValue(bestMoveAndValue);
+
+    public int getQValue() {
+        return BinaryUtils.decodeValue(qBestMoveAndValue);
     }
-
 
     public enum Type {
         EXACT((byte) 0b00000001), LOWER_BOUND((byte) 0b00000010), UPPER_BOUND((byte) 0b00000011);

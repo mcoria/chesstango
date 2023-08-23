@@ -21,6 +21,10 @@ public class SearchContext {
 
     private Map<Long, Transposition> minMap;
 
+    private Map<Long, QTransposition> qMaxMap;
+
+    private Map<Long, QTransposition> qMinMap;
+
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
     }

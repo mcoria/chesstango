@@ -60,6 +60,9 @@ public class SetMoveEvaluations implements SearchLifeCycle {
 
     }
 
+    /**
+     * Antes considerabamos QTable, deberiamos implementar para que considere una tabla x adicional
+     */
     public List<SearchMoveResult.MoveEvaluation> createMoveEvaluations(final Move bestMove,
                                                                        final int bestMoveEvaluation) {
         List<SearchMoveResult.MoveEvaluation> moveEvaluationList = new ArrayList<>();
@@ -75,7 +78,11 @@ public class SetMoveEvaluations implements SearchLifeCycle {
             if (entry != null && entry.searchDepth == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
                 moveEvaluation.move = move;
-                moveEvaluation.evaluation = entry.bestMoveAndValue != 0 ? BinaryUtils.decodeValue(entry.bestMoveAndValue) : BinaryUtils.decodeValue(entry.qBestMoveAndValue);
+                /**
+                 * Antes considerabamos QTable
+                 */
+                //moveEvaluation.evaluation = entry.bestMoveAndValue != 0 ? BinaryUtils.decodeValue(entry.bestMoveAndValue) : BinaryUtils.decodeValue(entry.qBestMoveAndValue);
+                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 

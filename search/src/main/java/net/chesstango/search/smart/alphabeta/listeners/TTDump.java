@@ -102,9 +102,13 @@ public class TTDump implements SearchLifeCycle {
                 dos.writeInt(tableEntry.getValue());
                 dos.writeByte(Type.encode(tableEntry.type));
 
-                dos.writeLong(tableEntry.qBestMoveAndValue);
-                dos.writeInt(tableEntry.getQValue());
-                dos.writeByte(Type.encode(tableEntry.qType));
+                /**
+                 * REVISAR ESTO
+                 */
+
+                //dos.writeLong(tableEntry.qBestMoveAndValue);
+                //dos.writeInt(tableEntry.getQValue());
+                //dos.writeByte(Type.encode(tableEntry.qType));
 
                 counter++;
             }
@@ -124,6 +128,8 @@ public class TTDump implements SearchLifeCycle {
             e.printStackTrace(System.err);
             throw new RuntimeException(e);
         }
+
+        throw new RuntimeException("Revisar este metodo");
     }
 
 }

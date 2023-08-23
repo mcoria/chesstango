@@ -3,21 +3,20 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
+import net.chesstango.search.smart.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
-import static net.chesstango.search.smart.Transposition.Type;
-
-import net.chesstango.search.smart.Transposition;
+import static net.chesstango.search.smart.QTransposition.Type;
 
 /**
  * @author Mauricio Coria
  */
 public class QTranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, QTransposition> maxMap;
+    private Map<Long, QTransposition> minMap;
     private Game game;
 
     @Override
@@ -31,8 +30,8 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = context.getQMaxMap();
+        this.minMap = context.getQMinMap();
     }
 
     @Override
@@ -54,25 +53,20 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            Transposition entry = maxMap.get(hash);
+            QTransposition entry = maxMap.get(hash);
 
             if (entry == null) {
-                entry = new Transposition();
+                entry = new QTransposition();
 
                 maxMap.put(hash, entry);
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
-                if (entry.bestMoveAndValue != 0) {
-                    // Es un valor exacto
-                    if (entry.type == Type.EXACT) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.LOWER_BOUND && beta <= entry.getValue()) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.UPPER_BOUND && entry.getValue() <= alpha) {
-                        return entry.bestMoveAndValue;
-                    }
-                }
+
+                /**
+                 * Antes buscabamos en la tabla normal
+                 */
+
 
                 if (entry.qBestMoveAndValue != 0) {
                     // Es un valor exacto
@@ -101,25 +95,19 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            Transposition entry = minMap.get(hash);
+            QTransposition entry = minMap.get(hash);
 
             if (entry == null) {
-                entry = new Transposition();
+                entry = new QTransposition();
 
                 minMap.put(hash, entry);
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
-                if (entry.bestMoveAndValue != 0) {
-                    // Es un valor exacto
-                    if (entry.type == Type.EXACT) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.LOWER_BOUND && beta <= entry.getValue()) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.UPPER_BOUND && entry.getValue() <= alpha) {
-                        return entry.bestMoveAndValue;
-                    }
-                }
+
+                /**
+                 * Antes buscabamos en la tabla normal
+                 */
 
                 if (entry.qBestMoveAndValue != 0) {
                     // Es un valor exacto
@@ -131,6 +119,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
                         return entry.qBestMoveAndValue;
                     }
                 }
+
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
@@ -146,8 +135,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateQEntry(Transposition entry, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateQEntry(QTransposition entry, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
+
         Type type;
         if (beta <= value) {
             type = Type.LOWER_BOUND;

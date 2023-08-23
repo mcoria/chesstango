@@ -5,6 +5,7 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
+import net.chesstango.search.smart.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.Transposition;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
@@ -20,8 +21,8 @@ import java.util.Map;
 public class QTranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, QTransposition> maxMap;
+    private Map<Long, QTransposition> minMap;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -35,8 +36,8 @@ public class QTranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = context.getQMaxMap();
+        this.minMap = context.getQMinMap();
     }
 
     @Override
@@ -58,7 +59,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry;
+        QTransposition entry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             entry = maxMap.get(hash);
         } else {

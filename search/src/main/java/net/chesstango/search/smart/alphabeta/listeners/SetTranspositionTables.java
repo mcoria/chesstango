@@ -2,6 +2,7 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.Transposition;
@@ -15,11 +16,17 @@ import java.util.Map;
 public class SetTranspositionTables implements SearchLifeCycle {
     private final Map<Long, Transposition> maxMap;
     private final Map<Long, Transposition> minMap;
+
+    private final Map<Long, QTransposition> qMaxMap;
+    private final Map<Long, QTransposition> qMinMap;
+
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
         this.maxMap = new HashMap<>();
         this.minMap = new HashMap<>();
+        this.qMaxMap = new HashMap<>();
+        this.qMinMap = new HashMap<>();
     }
 
     @Override
@@ -27,6 +34,9 @@ public class SetTranspositionTables implements SearchLifeCycle {
         if(!reuseTranspositionTable) {
             this.maxMap.clear();
             this.minMap.clear();
+
+            this.qMaxMap.clear();
+            this.qMinMap.clear();
         }
     }
 
@@ -38,6 +48,9 @@ public class SetTranspositionTables implements SearchLifeCycle {
     public void beforeSearchByDepth(SearchContext context) {
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
+
+        context.setQMaxMap(qMaxMap);
+        context.setQMinMap(qMinMap);
     }
 
     @Override
@@ -46,7 +59,6 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
