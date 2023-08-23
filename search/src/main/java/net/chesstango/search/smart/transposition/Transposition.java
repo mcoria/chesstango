@@ -1,5 +1,6 @@
 package net.chesstango.search.smart.transposition;
 
+import lombok.Getter;
 import net.chesstango.search.smart.BinaryUtils;
 
 import java.io.Serializable;
@@ -10,13 +11,22 @@ import java.io.Serializable;
 public class Transposition implements TranspositionEntry, Serializable {
     public int searchDepth;
 
-    public long bestMoveAndValue;
+    @Getter
+    private long bestMoveAndValue;
 
-    public TranspositionType type;
+    @Getter
+    private TranspositionType type;
 
     @Override
     public int getValue() {
-        return BinaryUtils.decodeValue(bestMoveAndValue);
+        return BinaryUtils.decodeValue(getBestMoveAndValue());
     }
 
+    public void setBestMoveAndValue(long bestMoveAndValue) {
+        this.bestMoveAndValue = bestMoveAndValue;
+    }
+
+    public void setType(TranspositionType type) {
+        this.type = type;
+    }
 }

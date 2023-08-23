@@ -80,7 +80,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
                  * Antes considerabamos QTable
                  */
                 //moveEvaluation.evaluation = entry.bestMoveAndValue != 0 ? BinaryUtils.decodeValue(entry.bestMoveAndValue) : BinaryUtils.decodeValue(entry.qBestMoveAndValue);
-                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.getBestMoveAndValue());
                 moveEvaluationList.add(moveEvaluation);
             }
 

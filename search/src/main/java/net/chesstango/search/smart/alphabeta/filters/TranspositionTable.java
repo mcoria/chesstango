@@ -67,15 +67,15 @@ public class TranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
-                if (entry.bestMoveAndValue != 0) {
+                if (entry.getBestMoveAndValue() != 0) {
                     if (searchDepth <= entry.searchDepth) {
                         // Es un valor exacto
-                        if (entry.type == TranspositionType.EXACT) {
-                            return entry.bestMoveAndValue;
-                        } else if (entry.type == TranspositionType.LOWER_BOUND && beta <= entry.getValue()) {
-                            return entry.bestMoveAndValue;
-                        } else if (entry.type == TranspositionType.UPPER_BOUND && entry.getValue() <= alpha) {
-                            return entry.bestMoveAndValue;
+                        if (entry.getType() == TranspositionType.EXACT) {
+                            return entry.getBestMoveAndValue();
+                        } else if (entry.getType() == TranspositionType.LOWER_BOUND && beta <= entry.getValue()) {
+                            return entry.getBestMoveAndValue();
+                        } else if (entry.getType() == TranspositionType.UPPER_BOUND && entry.getValue() <= alpha) {
+                            return entry.getBestMoveAndValue();
                         }
                     }
                 }
@@ -84,7 +84,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
 
-            return entry.bestMoveAndValue;
+            return entry.getBestMoveAndValue();
         }
 
         return next.maximize(currentPly, alpha, beta);
@@ -107,15 +107,15 @@ public class TranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
-                if (entry.bestMoveAndValue != 0) {
+                if (entry.getBestMoveAndValue() != 0) {
                     if (searchDepth <= entry.searchDepth) {
                         // Es un valor exacto
-                        if (entry.type == TranspositionType.EXACT) {
-                            return entry.bestMoveAndValue;
-                        } else if (entry.type == TranspositionType.LOWER_BOUND && beta <= entry.getValue()) {
-                            return entry.bestMoveAndValue;
-                        } else if (entry.type == TranspositionType.UPPER_BOUND && entry.getValue() <= alpha) {
-                            return entry.bestMoveAndValue;
+                        if (entry.getType() == TranspositionType.EXACT) {
+                            return entry.getBestMoveAndValue();
+                        } else if (entry.getType() == TranspositionType.LOWER_BOUND && beta <= entry.getValue()) {
+                            return entry.getBestMoveAndValue();
+                        } else if (entry.getType() == TranspositionType.UPPER_BOUND && entry.getValue() <= alpha) {
+                            return entry.getBestMoveAndValue();
                         }
                     }
                 }
@@ -124,7 +124,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
 
-            return entry.bestMoveAndValue;
+            return entry.getBestMoveAndValue();
         }
 
         return next.minimize(currentPly, alpha, beta);
@@ -146,7 +146,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         }
 
         entry.searchDepth = searchDepth;
-        entry.bestMoveAndValue = bestMoveAndValue;
-        entry.type = type;
+        entry.setBestMoveAndValue(bestMoveAndValue);
+        entry.setType(type);
     }
 }

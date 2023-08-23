@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.sorters;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
@@ -58,8 +57,8 @@ public class TranspositionMoveSorter implements MoveSorter {
         short bestMoveEncoded = 0;
 
         if(entry != null){
-            if(entry.bestMoveAndValue != 0) {
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+            if(entry.getBestMoveAndValue() != 0) {
+                bestMoveEncoded = BinaryUtils.decodeMove(entry.getBestMoveAndValue());
 
             }
             // Podriamos buscar en QTable
