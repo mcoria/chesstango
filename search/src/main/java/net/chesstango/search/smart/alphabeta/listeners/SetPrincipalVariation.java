@@ -7,7 +7,8 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.Transposition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetPrincipalVariation implements SearchLifeCycle {
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private Game game;
 
     @Override
@@ -58,8 +59,8 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     public List<Move> calculatePrincipalVariation(Game game,
                                                     Move bestMove,
                                                     int depth,
-                                                    Map<Long, Transposition> maxMap,
-                                                    Map<Long, Transposition> minMap) {
+                                                    TTable maxMap,
+                                                    TTable minMap) {
 
         List<Move> principalVariation = new ArrayList<>();
 
@@ -75,7 +76,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
                 move = principalVariation.size() < depth
                         ? readMoveFromTT(game, maxMap, minMap)
-                        : readMoveFromQTT(game, maxMap, maxMap);
+                        : null; //readMoveFromQTT(game, maxMap, maxMap);
 
             } while (move != null);
 
@@ -89,7 +90,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return principalVariation;
     }
 
-    private Move readMoveFromTT(Game game, Map<Long, Transposition> maxMap, Map<Long, Transposition> minMap) {
+    private Move readMoveFromTT(Game game, TTable maxMap, TTable minMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();

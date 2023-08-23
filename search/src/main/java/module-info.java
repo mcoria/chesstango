@@ -22,4 +22,5 @@ module net.chesstango.search {
 
     opens net.chesstango.search.gamegraph;
     opens net.chesstango.search.reports;
+    exports net.chesstango.search.smart.transposition;
 }

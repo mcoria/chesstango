@@ -2,10 +2,12 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.QTransposition;
+import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.Transposition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +16,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetTranspositionTables implements SearchLifeCycle {
-    private final Map<Long, Transposition> maxMap;
-    private final Map<Long, Transposition> minMap;
+    private final TTable maxMap;
+    private final TTable minMap;
 
     private final Map<Long, QTransposition> qMaxMap;
     private final Map<Long, QTransposition> qMinMap;
@@ -23,8 +25,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
-        this.maxMap = new HashMap<>();
-        this.minMap = new HashMap<>();
+        this.maxMap = new MapTTable();
+        this.minMap = new MapTTable();
         this.qMaxMap = new HashMap<>();
         this.qMinMap = new HashMap<>();
     }

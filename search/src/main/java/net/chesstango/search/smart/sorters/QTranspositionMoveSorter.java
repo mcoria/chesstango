@@ -5,9 +5,8 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.QTransposition;
+import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.Transposition;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
 import java.util.Collections;

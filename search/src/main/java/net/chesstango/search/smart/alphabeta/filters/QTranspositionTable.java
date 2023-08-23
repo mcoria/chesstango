@@ -3,12 +3,12 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.QTransposition;
+import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
-import static net.chesstango.search.smart.QTransposition.Type;
+import static net.chesstango.search.smart.transposition.QTransposition.Type;
 
 /**
  * @author Mauricio Coria
