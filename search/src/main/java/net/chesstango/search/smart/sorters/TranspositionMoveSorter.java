@@ -20,8 +20,8 @@ import java.util.Map;
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> maxMap;
+    private TTable<Transposition> minMap;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {

@@ -18,8 +18,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetPrincipalVariation implements SearchLifeCycle {
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> maxMap;
+    private TTable<Transposition> minMap;
     private Game game;
 
     @Override
@@ -59,8 +59,8 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     public List<Move> calculatePrincipalVariation(Game game,
                                                     Move bestMove,
                                                     int depth,
-                                                    TTable maxMap,
-                                                    TTable minMap) {
+                                                    TTable<Transposition> maxMap,
+                                                    TTable<Transposition> minMap) {
 
         List<Move> principalVariation = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return principalVariation;
     }
 
-    private Move readMoveFromTT(Game game, TTable maxMap, TTable minMap) {
+    private Move readMoveFromTT(Game game, TTable<Transposition> maxMap, TTable<Transposition> minMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();

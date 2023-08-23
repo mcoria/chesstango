@@ -27,16 +27,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FitnessBySearchTest {
     private static final int DEPTH = 1;
     private FitnessBySearch fitnessFn;
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> maxMap;
+    private TTable<Transposition> minMap;
     private SetMoveEvaluations setMoveEvaluations;
 
     @BeforeEach
     public void setup() {
         fitnessFn = new FitnessBySearch(null);
         setMoveEvaluations = new SetMoveEvaluations();
-        maxMap = new MapTTable();
-        minMap = new MapTTable();
+        maxMap = new MapTTable<>();
+        minMap = new MapTTable<>();
     }
 
     /**

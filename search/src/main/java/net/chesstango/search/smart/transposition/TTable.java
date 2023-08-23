@@ -3,10 +3,10 @@ package net.chesstango.search.smart.transposition;
 /**
  * @author Mauricio Coria
  */
-public interface TTable {
-    Transposition get(long hash);
+public interface TTable<T extends TranspositionEntry> {
+    T get(long hash);
 
-    void put(long hash, Transposition entry);
+    void put(long hash, T entry);
 
     void clear();
 }

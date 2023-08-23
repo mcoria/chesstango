@@ -17,8 +17,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetBestMoveOptions implements SearchLifeCycle {
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> maxMap;
+    private TTable<Transposition> minMap;
     private Game game;
     private int maxPly;
 

@@ -18,9 +18,9 @@ public class SearchContext {
 
     private final int maxPly;
 
-    private TTable maxMap;
+    private TTable<Transposition> maxMap;
 
-    private TTable minMap;
+    private TTable<Transposition> minMap;
 
     private Map<Long, QTransposition> qMaxMap;
 

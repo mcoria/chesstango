@@ -16,8 +16,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetTranspositionTables implements SearchLifeCycle {
-    private final TTable maxMap;
-    private final TTable minMap;
+    private final TTable<Transposition> maxMap;
+    private final TTable<Transposition> minMap;
 
     private final Map<Long, QTransposition> qMaxMap;
     private final Map<Long, QTransposition> qMinMap;
@@ -25,8 +25,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
-        this.maxMap = new MapTTable();
-        this.minMap = new MapTTable();
+        this.maxMap = new MapTTable<>();
+        this.minMap = new MapTTable<>();
         this.qMaxMap = new HashMap<>();
         this.qMinMap = new HashMap<>();
     }

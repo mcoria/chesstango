@@ -15,8 +15,8 @@ import net.chesstango.search.smart.transposition.Transposition;
  */
 public class TranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> maxMap;
+    private TTable<Transposition> minMap;
 
     private Game game;
     private int maxPly;
