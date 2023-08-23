@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static net.chesstango.search.smart.transposition.Transposition.Type;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 /**
  * @author Mauricio Coria
@@ -102,7 +102,7 @@ public class TTDump implements SearchLifeCycle {
                 dos.writeInt(tableEntry.searchDepth);
                 dos.writeLong(tableEntry.bestMoveAndValue);
                 dos.writeInt(tableEntry.getValue());
-                dos.writeByte(Type.encode(tableEntry.type));
+                dos.writeByte(TranspositionType.encode(tableEntry.type));
 
                 /**
                  * REVISAR ESTO

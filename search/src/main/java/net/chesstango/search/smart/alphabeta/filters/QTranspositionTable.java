@@ -3,12 +3,11 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
-import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.transposition.QTransposition;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.util.Map;
-
-import static net.chesstango.search.smart.transposition.QTransposition.Type;
 
 /**
  * @author Mauricio Coria
@@ -70,11 +69,11 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 if (entry.qBestMoveAndValue != 0) {
                     // Es un valor exacto
-                    if (entry.qType == Type.EXACT) {
+                    if (entry.qType == TranspositionType.EXACT) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.LOWER_BOUND && beta <= entry.getQValue()) {
+                    } else if (entry.qType == TranspositionType.LOWER_BOUND && beta <= entry.getQValue()) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.UPPER_BOUND && entry.getQValue() <= alpha) {
+                    } else if (entry.qType == TranspositionType.UPPER_BOUND && entry.getQValue() <= alpha) {
                         return entry.qBestMoveAndValue;
                     }
                 }
@@ -111,11 +110,11 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 if (entry.qBestMoveAndValue != 0) {
                     // Es un valor exacto
-                    if (entry.qType == Type.EXACT) {
+                    if (entry.qType == TranspositionType.EXACT) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.LOWER_BOUND && beta <= entry.getQValue()) {
+                    } else if (entry.qType == TranspositionType.LOWER_BOUND && beta <= entry.getQValue()) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.UPPER_BOUND && entry.getQValue() <= alpha) {
+                    } else if (entry.qType == TranspositionType.UPPER_BOUND && entry.getQValue() <= alpha) {
                         return entry.qBestMoveAndValue;
                     }
                 }
@@ -138,13 +137,13 @@ public class QTranspositionTable implements AlphaBetaFilter {
     protected void updateQEntry(QTransposition entry, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
 
-        Type type;
+        TranspositionType type;
         if (beta <= value) {
-            type = Type.LOWER_BOUND;
+            type = TranspositionType.LOWER_BOUND;
         } else if (value <= alpha) {
-            type = Type.UPPER_BOUND;
+            type = TranspositionType.UPPER_BOUND;
         } else {
-            type = Type.EXACT;
+            type = TranspositionType.EXACT;
         }
 
         entry.qBestMoveAndValue = bestMoveAndValue;

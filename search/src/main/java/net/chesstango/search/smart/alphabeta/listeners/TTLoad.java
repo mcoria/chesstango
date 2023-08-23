@@ -9,12 +9,11 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static net.chesstango.search.smart.transposition.Transposition.Type;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
@@ -95,7 +94,7 @@ public class TTLoad implements SearchLifeCycle {
                 Transposition tableEntry = new Transposition();
                 tableEntry.searchDepth = dis.readInt();
                 tableEntry.bestMoveAndValue = dis.readLong();
-                tableEntry.type = Type.valueOf(dis.readByte());
+                tableEntry.type = TranspositionType.valueOf(dis.readByte());
 
                 /**
                  * REVISAR ESTO
