@@ -12,8 +12,7 @@ import java.io.Serializable;
 public class Transposition implements TranspositionEntry, Serializable {
 
     @Getter
-    @Setter
-    private long hash;
+    private final long hash;
 
     @Getter
     @Setter
@@ -26,6 +25,10 @@ public class Transposition implements TranspositionEntry, Serializable {
     @Getter
     @Setter
     private TranspositionType type;
+
+    public Transposition(long hash) {
+        this.hash = hash;
+    }
 
     @Override
     public int getValue() {

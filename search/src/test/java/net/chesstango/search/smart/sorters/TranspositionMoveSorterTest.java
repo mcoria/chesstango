@@ -7,7 +7,6 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.ArrayTTable;
-import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +45,7 @@ public class TranspositionMoveSorterTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        tTable.put(hash, createTableEntry(hash, bestMoveEncoded));
+        tTable.write(createTableEntry(hash, bestMoveEncoded));
 
         initMoveSorter(game);
 
@@ -70,9 +69,8 @@ public class TranspositionMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private Transposition createTableEntry(long hash , short bestMoveEncoded) {
-        Transposition entry = new Transposition();
-        entry.setHash(hash);
+    private Transposition createTableEntry(long hash, short bestMoveEncoded) {
+        Transposition entry = new Transposition(hash);
         entry.setBestMoveAndValue(encodedMoveAndValue(bestMoveEncoded, 1));
         return entry;
     }

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * @author Mauricio Coria
  */
-public class MapTTable<T extends TranspositionEntry> implements TTable<T>{
+class MapTTable<T extends TranspositionEntry> implements TTable<T>{
 
     private Map<Long, T> table = new HashMap<>();
 
@@ -17,7 +17,7 @@ public class MapTTable<T extends TranspositionEntry> implements TTable<T>{
     }
 
     @Override
-    public void put(long hash, T entry) {
-        table.put(hash, entry);
+    public void write(T entry) {
+        table.put(entry.getHash(), entry);
     }
 }

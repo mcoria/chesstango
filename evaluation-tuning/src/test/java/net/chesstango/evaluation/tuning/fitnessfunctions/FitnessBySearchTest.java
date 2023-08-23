@@ -8,7 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
-import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.ArrayTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ public class FitnessBySearchTest {
     public void setup() {
         fitnessFn = new FitnessBySearch(null);
         setMoveEvaluations = new SetMoveEvaluations();
-        tTable = new MapTTable<>();
+        tTable = new ArrayTTable<>(Transposition.class);
     }
 
     /**
@@ -246,14 +246,13 @@ public class FitnessBySearchTest {
     }
 
     private Transposition saveEntry(Game game, Move move, int value) {
-        Transposition entry = new Transposition();
         long hash = game.getChessPosition().getZobristHash();
 
-        entry.setHash(hash);
+        Transposition entry = new Transposition(hash);
         entry.setBestMoveAndValue(BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value));
         entry.setSearchDepth(0);
 
-        tTable.put(hash, entry);
+        tTable.write(entry);
 
         return entry;
     }

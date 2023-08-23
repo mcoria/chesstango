@@ -12,8 +12,7 @@ import java.io.Serializable;
 public class QTransposition implements TranspositionEntry, Serializable {
 
     @Getter
-    @Setter
-    private long hash;
+    private final long hash;
 
     @Getter
     @Setter
@@ -22,6 +21,10 @@ public class QTransposition implements TranspositionEntry, Serializable {
     @Getter
     @Setter
     private TranspositionType type;
+
+    public QTransposition(long hash) {
+        this.hash = hash;
+    }
 
     @Override
     public int getValue() {
