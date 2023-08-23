@@ -75,13 +75,12 @@ public class TranspositionTable implements AlphaBetaFilter {
                         // Es un valor exacto
                         if (entry.type == Type.EXACT) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
+                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.getValue()) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
+                        } else if (entry.type == Type.UPPER_BOUND && entry.getValue() <= alpha) {
                             return entry.bestMoveAndValue;
                         }
                     }
-
                 }
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
@@ -116,13 +115,12 @@ public class TranspositionTable implements AlphaBetaFilter {
                         // Es un valor exacto
                         if (entry.type == Type.EXACT) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
+                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.getValue()) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
+                        } else if (entry.type == Type.UPPER_BOUND && entry.getValue() <= alpha) {
                             return entry.bestMoveAndValue;
                         }
                     }
-
                 }
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
@@ -152,7 +150,7 @@ public class TranspositionTable implements AlphaBetaFilter {
 
         entry.searchDepth = searchDepth;
         entry.bestMoveAndValue = bestMoveAndValue;
-        entry.value = value;
+        entry.setValue(value);
         entry.type = type;
     }
 }

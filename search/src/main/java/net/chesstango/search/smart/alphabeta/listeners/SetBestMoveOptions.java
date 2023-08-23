@@ -68,7 +68,7 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
             Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-            if (entry != null && entry.searchDepth == maxPly - 1 && entry.value == bestMoveEvaluation) {
+            if (entry != null && entry.searchDepth == maxPly - 1 && entry.getValue() == bestMoveEvaluation) {
                 bestMoveOptions.add(move);
             }
 

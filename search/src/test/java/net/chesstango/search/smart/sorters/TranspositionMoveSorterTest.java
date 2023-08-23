@@ -73,7 +73,7 @@ public class TranspositionMoveSorterTest {
         Transposition entry = new Transposition();
         long bestMoveAndValue = encodedMoveAndValue(bestMoveEncoded, 1);
         entry.bestMoveAndValue = bestMoveAndValue;
-        entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+        entry.setValue((int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue));
         return entry;
     }
 
