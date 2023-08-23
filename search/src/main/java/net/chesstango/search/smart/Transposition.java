@@ -1,7 +1,5 @@
 package net.chesstango.search.smart;
 
-import lombok.Getter;
-
 import java.io.Serializable;
 
 /**
@@ -12,15 +10,12 @@ public class Transposition implements Serializable {
 
     public long bestMoveAndValue;
 
-    @Getter
     private int value;
 
     public Type type;
 
-
     public long qBestMoveAndValue;
 
-    @Getter
     private int qValue;
 
     public Type qType;
@@ -31,6 +26,14 @@ public class Transposition implements Serializable {
 
     public void setQValue(int qValue) {
         this.qValue = qValue;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getQValue() {
+        return qValue;
     }
 
     public enum Type {
