@@ -7,13 +7,13 @@ import java.io.Serializable;
 /**
  * @author Mauricio Coria
  */
-public class QTransposition implements Serializable {
-    public long qBestMoveAndValue;
+public class QTransposition implements TranspositionEntry, Serializable {
+    public long bestMoveAndValue;
 
     public TranspositionType qType;
 
-
-    public int getQValue() {
-        return BinaryUtils.decodeValue(qBestMoveAndValue);
+    @Override
+    public int getValue() {
+        return BinaryUtils.decodeValue(bestMoveAndValue);
     }
 }

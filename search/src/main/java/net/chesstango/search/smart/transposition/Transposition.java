@@ -7,13 +7,14 @@ import java.io.Serializable;
 /**
  * @author Mauricio Coria
  */
-public class Transposition implements Serializable {
+public class Transposition implements TranspositionEntry, Serializable {
     public int searchDepth;
 
     public long bestMoveAndValue;
 
     public TranspositionType type;
 
+    @Override
     public int getValue() {
         return BinaryUtils.decodeValue(bestMoveAndValue);
     }
