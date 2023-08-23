@@ -17,8 +17,6 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     private final TTable<QTransposition> qTTable;
 
-    private boolean reuseTranspositionTable;
-
     public SetTranspositionTables(){
         this.tTable = new MapTTable<>();
         this.qTTable = new MapTTable<>();
@@ -26,11 +24,6 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
-        if(!reuseTranspositionTable) {
-            this.tTable.clear();
-
-            this.qTTable.clear();
-        }
     }
 
     @Override
@@ -40,7 +33,6 @@ public class SetTranspositionTables implements SearchLifeCycle {
     @Override
     public void beforeSearchByDepth(SearchContext context) {
         context.setTTable(tTable);
-
         context.setQTTable(qTTable);
     }
 
@@ -54,10 +46,6 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void reset() {
-        this.tTable.clear();
     }
 
-    public void setReuseTranspositionTable(boolean reuseTranspositionTable) {
-        this.reuseTranspositionTable = reuseTranspositionTable;
-    }
 }

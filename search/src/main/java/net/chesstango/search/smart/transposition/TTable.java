@@ -8,5 +8,4 @@ public interface TTable<T extends TranspositionEntry> {
 
     void put(long hash, T entry);
 
-    void clear();
 }

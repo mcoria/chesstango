@@ -49,7 +49,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private boolean withIterativeDeepening;
     private boolean withStatics;
     private boolean withMoveEvaluation;
-    private boolean withTranspositionTableReuse;
     private boolean withStaticsTrackEvaluations;
 
     public AlphaBetaBuilder() {
@@ -116,11 +115,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withTranspositionTableReuse() {
-        withTranspositionTableReuse = true;
-        return this;
-    }
-
     public SearchBuilder withStaticsTrackEvaluations() {
         withStaticsTrackEvaluations = true;
         return this;
@@ -158,10 +152,6 @@ public class AlphaBetaBuilder implements SearchBuilder {
         // ====================================================
         if (transpositionTable != null || qTranspositionTable != null) {
             SetTranspositionTables setTranspositionTables = new SetTranspositionTables();
-
-            if (withTranspositionTableReuse) {
-                setTranspositionTables.setReuseTranspositionTable(true);
-            }
 
             // Este filtro necesita agregarse primero
             filters.add(setTranspositionTables);

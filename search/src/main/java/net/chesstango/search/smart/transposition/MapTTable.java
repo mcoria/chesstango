@@ -20,9 +20,4 @@ public class MapTTable<T extends TranspositionEntry> implements TTable<T>{
     public void put(long hash, T entry) {
         table.put(hash, entry);
     }
-
-    @Override
-    public void clear() {
-        table.clear();
-    }
 }
