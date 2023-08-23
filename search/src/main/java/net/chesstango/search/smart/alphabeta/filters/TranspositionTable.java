@@ -95,10 +95,6 @@ public class TranspositionTable implements AlphaBetaFilter {
             Transposition entry = tTable.read(hash);
 
             if (entry == null) {
-                entry = new Transposition(hash);
-
-                tTable.write(entry);
-
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
                 if (entry.getBestMoveAndValue() != 0) {
@@ -149,7 +145,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         entry.setBestMoveAndValue(bestMoveAndValue);
         entry.setType(type);
 
-        tTable.write(entry);
+        tTable.write(hash, entry);
 
         return entry;
     }

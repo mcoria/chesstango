@@ -103,7 +103,7 @@ public class TTLoad implements SearchLifeCycle {
                 //tableEntry.qBestMoveAndValue = dis.readLong();
                 //tableEntry.qType = Type.valueOf(dis.readByte());
 
-                map.write(tableEntry);
+                map.write(key, tableEntry);
             }
 
             dis.close();

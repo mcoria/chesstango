@@ -252,7 +252,7 @@ public class FitnessBySearchTest {
         entry.setBestMoveAndValue(BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value));
         entry.setSearchDepth(0);
 
-        tTable.write(entry);
+        tTable.write(hash, entry);
 
         return entry;
     }

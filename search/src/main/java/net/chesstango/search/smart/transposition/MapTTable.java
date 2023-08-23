@@ -17,7 +17,7 @@ class MapTTable<T extends TranspositionEntry> implements TTable<T>{
     }
 
     @Override
-    public void write(T entry) {
+    public void write(long hash, T entry) {
         table.put(entry.getHash(), entry);
     }
 }

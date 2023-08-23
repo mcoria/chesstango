@@ -142,7 +142,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
         entry.setBestMoveAndValue(bestMoveAndValue);
         entry.setType(type);
 
-        tTable.write(entry);
+        tTable.write(hash, entry);
 
         return entry;
     }

@@ -45,7 +45,7 @@ public class TranspositionMoveSorterTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        tTable.write(createTableEntry(hash, bestMoveEncoded));
+        tTable.write(hash, createTableEntry(hash, bestMoveEncoded));
 
         initMoveSorter(game);
 

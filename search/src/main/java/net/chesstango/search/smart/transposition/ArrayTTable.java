@@ -32,7 +32,7 @@ public class ArrayTTable<T extends TranspositionEntry> implements TTable<T> {
     }
 
     @Override
-    public void write(T entry) {
+    public void write(long hash, T entry) {
         int idx = Math.abs((int) (entry.getHash() % TABLE_SIZE));
 
         table[idx] = entry;
