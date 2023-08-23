@@ -8,15 +8,12 @@ import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionType;
 
-import java.util.Map;
-
 /**
  * @author Mauricio Coria
  */
 public class QTranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private TTable<QTransposition> maxMap;
-    private TTable<QTransposition> minMap;
+    private TTable<QTransposition> tTable;
     private Game game;
 
     @Override
@@ -30,8 +27,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getQMaxMap();
-        this.minMap = context.getQMinMap();
+        this.tTable = context.getQTTable();
     }
 
     @Override
@@ -53,12 +49,12 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            QTransposition entry = maxMap.get(hash);
+            QTransposition entry = tTable.get(hash);
 
             if (entry == null) {
                 entry = new QTransposition();
 
-                maxMap.put(hash, entry);
+                tTable.put(hash, entry);
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
@@ -95,12 +91,12 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            QTransposition entry = minMap.get(hash);
+            QTransposition entry = tTable.get(hash);
 
             if (entry == null) {
                 entry = new QTransposition();
 
-                minMap.put(hash, entry);
+                tTable.put(hash, entry);
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {

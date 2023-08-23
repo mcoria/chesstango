@@ -9,12 +9,10 @@ import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -22,8 +20,7 @@ import java.util.Map;
 public class QTranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private TTable<QTransposition> maxMap;
-    private TTable<QTransposition> minMap;
+    private TTable<QTransposition> tTable;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -37,8 +34,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getQMaxMap();
-        this.minMap = context.getQMinMap();
+        this.tTable = context.getQTTable();
     }
 
     @Override
@@ -60,12 +56,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        QTransposition entry;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = maxMap.get(hash);
-        } else {
-            entry = minMap.get(hash);
-        }
+        QTransposition entry = tTable.get(hash);
 
         short bestMoveEncoded = (entry != null && entry.bestMoveAndValue != 0)  ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
 

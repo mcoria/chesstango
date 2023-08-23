@@ -18,9 +18,7 @@ public class SearchContext {
 
     private TTable<Transposition> tTable;
 
-    private TTable<QTransposition> qMaxMap;
-
-    private TTable<QTransposition> qMinMap;
+    private TTable<QTransposition> qTTable;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;

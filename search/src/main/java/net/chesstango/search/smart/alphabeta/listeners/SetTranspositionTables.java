@@ -15,15 +15,13 @@ import net.chesstango.search.smart.transposition.Transposition;
 public class SetTranspositionTables implements SearchLifeCycle {
     private final TTable<Transposition> tTable;
 
-    private final TTable<QTransposition> qMaxMap;
-    private final TTable<QTransposition> qMinMap;
+    private final TTable<QTransposition> qTTable;
 
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
         this.tTable = new MapTTable<>();
-        this.qMaxMap = new MapTTable<>();
-        this.qMinMap = new MapTTable<>();
+        this.qTTable = new MapTTable<>();
     }
 
     @Override
@@ -31,8 +29,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
         if(!reuseTranspositionTable) {
             this.tTable.clear();
 
-            this.qMaxMap.clear();
-            this.qMinMap.clear();
+            this.qTTable.clear();
         }
     }
 
@@ -44,8 +41,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
     public void beforeSearchByDepth(SearchContext context) {
         context.setTTable(tTable);
 
-        context.setQMaxMap(qMaxMap);
-        context.setQMinMap(qMinMap);
+        context.setQTTable(qTTable);
     }
 
     @Override

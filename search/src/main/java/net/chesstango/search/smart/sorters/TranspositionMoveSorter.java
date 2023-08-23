@@ -43,12 +43,10 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
     public void reset() {
-
     }
 
     @Override
