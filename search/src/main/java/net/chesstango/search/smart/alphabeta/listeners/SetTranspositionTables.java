@@ -19,16 +19,16 @@ public class SetTranspositionTables implements SearchLifeCycle {
     private final TTable<Transposition> maxMap;
     private final TTable<Transposition> minMap;
 
-    private final Map<Long, QTransposition> qMaxMap;
-    private final Map<Long, QTransposition> qMinMap;
+    private final TTable<QTransposition> qMaxMap;
+    private final TTable<QTransposition> qMinMap;
 
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
         this.maxMap = new MapTTable<>();
         this.minMap = new MapTTable<>();
-        this.qMaxMap = new HashMap<>();
-        this.qMinMap = new HashMap<>();
+        this.qMaxMap = new MapTTable<>();
+        this.qMinMap = new MapTTable<>();
     }
 
     @Override

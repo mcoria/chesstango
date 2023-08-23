@@ -22,9 +22,9 @@ public class SearchContext {
 
     private TTable<Transposition> minMap;
 
-    private Map<Long, QTransposition> qMaxMap;
+    private TTable<QTransposition> qMaxMap;
 
-    private Map<Long, QTransposition> qMinMap;
+    private TTable<QTransposition> qMinMap;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;

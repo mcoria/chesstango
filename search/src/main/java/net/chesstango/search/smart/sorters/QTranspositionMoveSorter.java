@@ -8,6 +8,8 @@ import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.alphabeta.filters.Quiescence;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.Transposition;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -20,8 +22,8 @@ import java.util.Map;
 public class QTranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private Map<Long, QTransposition> maxMap;
-    private Map<Long, QTransposition> minMap;
+    private TTable<QTransposition> maxMap;
+    private TTable<QTransposition> minMap;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {

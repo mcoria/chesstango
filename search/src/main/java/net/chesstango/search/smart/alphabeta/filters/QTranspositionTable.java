@@ -5,6 +5,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.QTransposition;
+import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.util.Map;
@@ -14,8 +15,8 @@ import java.util.Map;
  */
 public class QTranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, QTransposition> maxMap;
-    private Map<Long, QTransposition> minMap;
+    private TTable<QTransposition> maxMap;
+    private TTable<QTransposition> minMap;
     private Game game;
 
     @Override
