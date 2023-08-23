@@ -2,12 +2,9 @@ package net.chesstango.search.smart.alphabeta.listeners;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.transposition.MapTTable;
-import net.chesstango.search.smart.transposition.QTransposition;
+import net.chesstango.search.smart.transposition.*;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
 
 /**
  * @author Mauricio Coria
@@ -18,8 +15,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
     private final TTable<QTransposition> qTTable;
 
     public SetTranspositionTables(){
-        this.tTable = new MapTTable<>();
-        this.qTTable = new MapTTable<>();
+        this.tTable = new ArrayTTable<>(Transposition.class);
+        this.qTTable = new ArrayTTable<>(QTransposition.class);
     }
 
     @Override

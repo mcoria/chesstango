@@ -73,7 +73,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
 
             Transposition entry = tTable.get(hash);
 
-            if (entry != null && entry.searchDepth == maxPly - 1) {
+            if (entry != null && entry.getSearchDepth() == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
                 moveEvaluation.move = move;
                 /**

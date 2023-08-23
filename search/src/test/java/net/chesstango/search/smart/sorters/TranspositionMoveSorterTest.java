@@ -6,6 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.transposition.ArrayTTable;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
@@ -27,7 +28,7 @@ public class TranspositionMoveSorterTest {
 
     @BeforeEach
     public void setup() {
-        tTable = new MapTTable<>();
+        tTable = new ArrayTTable<>(Transposition.class);
         moveSorter = new TranspositionMoveSorter();
     }
 
@@ -42,7 +43,10 @@ public class TranspositionMoveSorterTest {
                 break;
             }
         }
-        tTable.put(game.getChessPosition().getZobristHash(), createTableEntry(bestMoveEncoded));
+
+        long hash = game.getChessPosition().getZobristHash();
+
+        tTable.put(hash, createTableEntry(hash, bestMoveEncoded));
 
         initMoveSorter(game);
 
@@ -66,8 +70,9 @@ public class TranspositionMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private Transposition createTableEntry(short bestMoveEncoded) {
+    private Transposition createTableEntry(long hash , short bestMoveEncoded) {
         Transposition entry = new Transposition();
+        entry.setHash(hash);
         entry.setBestMoveAndValue(encodedMoveAndValue(bestMoveEncoded, 1));
         return entry;
     }

@@ -123,29 +123,29 @@ public class DetectCycleEnabledTest {
         assertEquals(3, visitedNodesCounters[0]);
         assertEquals(5, visitedNodesCounters[1]);
         assertEquals(15, visitedNodesCounters[2]);
-        assertEquals(18, visitedNodesCounters[3]);
-        assertEquals(25, visitedNodesCounters[4]);
-        assertEquals(25, visitedNodesCounters[5]);
-        assertEquals(25, visitedNodesCounters[6]);
-        assertEquals(25, visitedNodesCounters[7]);
-        assertEquals(25, visitedNodesCounters[8]);
-        assertEquals(25, visitedNodesCounters[9]);
-        assertEquals(25, visitedNodesCounters[10]);
-        assertEquals(25, visitedNodesCounters[11]);
-        assertEquals(25, visitedNodesCounters[12]);
-        assertEquals(25, visitedNodesCounters[13]);
-        assertEquals(25, visitedNodesCounters[14]);
-        assertEquals(25, visitedNodesCounters[15]);
-        assertEquals(25, visitedNodesCounters[16]);
-        assertEquals(25, visitedNodesCounters[17]);
-        assertEquals(25, visitedNodesCounters[18]);
-        assertEquals(26, visitedNodesCounters[19]);
-        assertEquals(35, visitedNodesCounters[20]);
-        assertEquals(45, visitedNodesCounters[21]);
-        assertEquals(50, visitedNodesCounters[22]);
+        assertEquals(19, visitedNodesCounters[3]);
+        assertEquals(28, visitedNodesCounters[4]);
+        assertEquals(31, visitedNodesCounters[5]);
+        assertEquals(45, visitedNodesCounters[6]);
+        assertEquals(39, visitedNodesCounters[7]);
+        assertEquals(38, visitedNodesCounters[8]);
+        assertEquals(39, visitedNodesCounters[9]);
+        assertEquals(65, visitedNodesCounters[10]);
+        assertEquals(52, visitedNodesCounters[11]);
+        assertEquals(48, visitedNodesCounters[12]);
+        assertEquals(47, visitedNodesCounters[13]);
+        assertEquals(85, visitedNodesCounters[14]);
+        assertEquals(65, visitedNodesCounters[15]);
+        assertEquals(58, visitedNodesCounters[16]);
+        assertEquals(53, visitedNodesCounters[17]);
+        assertEquals(95, visitedNodesCounters[18]);
+        assertEquals(65, visitedNodesCounters[19]);
+        assertEquals(71, visitedNodesCounters[20]);
+        assertEquals(81, visitedNodesCounters[21]);
+        assertEquals(140, visitedNodesCounters[22]);
         assertEquals(0, visitedNodesCounters[23]);
 
-        assertEquals(572, visitedNodesTotal);
+        assertEquals(1187, visitedNodesTotal);
     }
 
 
@@ -177,22 +177,21 @@ public class DetectCycleEnabledTest {
         assertEquals(2, visitedNodesCounters[0]);
         assertEquals(3, visitedNodesCounters[1]);
         assertEquals(5, visitedNodesCounters[2]);
-        assertEquals(6, visitedNodesCounters[3]);
-        assertEquals(8, visitedNodesCounters[4]);
-        assertEquals(9, visitedNodesCounters[5]);
-        assertEquals(10, visitedNodesCounters[6]);
-        assertEquals(9, visitedNodesCounters[7]);
-        assertEquals(10, visitedNodesCounters[8]);
-        assertEquals(9, visitedNodesCounters[9]);
-        assertEquals(10, visitedNodesCounters[10]);
-        assertEquals(9, visitedNodesCounters[11]);
-        assertEquals(10, visitedNodesCounters[12]);
-        assertEquals(9, visitedNodesCounters[13]);
-        assertEquals(10, visitedNodesCounters[14]);
-        assertEquals(9, visitedNodesCounters[15]);
-        assertEquals(10, visitedNodesCounters[16]);
-
-        assertEquals(138, visitedNodesTotal);
+        assertEquals(7, visitedNodesCounters[3]);
+        assertEquals(10, visitedNodesCounters[4]);
+        assertEquals(10, visitedNodesCounters[5]);
+        assertEquals(13, visitedNodesCounters[6]);
+        assertEquals(13, visitedNodesCounters[7]);
+        assertEquals(16, visitedNodesCounters[8]);
+        assertEquals(16, visitedNodesCounters[9]);
+        assertEquals(19, visitedNodesCounters[10]);
+        assertEquals(19, visitedNodesCounters[11]);
+        assertEquals(22, visitedNodesCounters[12]);
+        assertEquals(15, visitedNodesCounters[13]);
+        assertEquals(16, visitedNodesCounters[14]);
+        assertEquals(15, visitedNodesCounters[15]);
+        assertEquals(16, visitedNodesCounters[16]);
+        assertEquals(217, visitedNodesTotal);
     }
 
     @Test
@@ -273,5 +272,7 @@ public class DetectCycleEnabledTest {
                 System.out.printf("assertEquals(%d, visitedNodesCounters[%d]);\n", visitedNodesCounters[i], i);
             }
         }
+
+        System.out.printf("assertEquals(%d, visitedNodesTotal);\n", visitedNodesTotal);
     }
 }

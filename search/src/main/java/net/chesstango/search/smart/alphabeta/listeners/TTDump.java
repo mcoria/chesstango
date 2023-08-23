@@ -98,7 +98,7 @@ public class TTDump implements SearchLifeCycle {
                 dos.writeLong(entry.getKey());
 
                 Transposition tableEntry = entry.getValue();
-                dos.writeInt(tableEntry.searchDepth);
+                dos.writeInt(tableEntry.getSearchDepth());
                 dos.writeLong(tableEntry.getBestMoveAndValue());
                 dos.writeInt(tableEntry.getValue());
                 dos.writeByte(TranspositionType.encode(tableEntry.getType()));

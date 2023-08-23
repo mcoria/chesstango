@@ -68,7 +68,7 @@ public class TranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
                 if (entry.getBestMoveAndValue() != 0) {
-                    if (searchDepth <= entry.searchDepth) {
+                    if (searchDepth <= entry.getSearchDepth()) {
                         // Es un valor exacto
                         if (entry.getType() == TranspositionType.EXACT) {
                             return entry.getBestMoveAndValue();
@@ -82,7 +82,7 @@ public class TranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
 
-            updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+            updateEntry(hash, entry, searchDepth, alpha, beta, bestMoveAndValue);
 
             return entry.getBestMoveAndValue();
         }
@@ -108,7 +108,7 @@ public class TranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
                 if (entry.getBestMoveAndValue() != 0) {
-                    if (searchDepth <= entry.searchDepth) {
+                    if (searchDepth <= entry.getSearchDepth()) {
                         // Es un valor exacto
                         if (entry.getType() == TranspositionType.EXACT) {
                             return entry.getBestMoveAndValue();
@@ -122,7 +122,7 @@ public class TranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
-            updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+            updateEntry(hash, entry, searchDepth, alpha, beta, bestMoveAndValue);
 
             return entry.getBestMoveAndValue();
         }
@@ -134,7 +134,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateEntry(Transposition entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateEntry(long hash, Transposition entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
         TranspositionType type;
         if (beta <= value) {
@@ -145,7 +145,8 @@ public class TranspositionTable implements AlphaBetaFilter {
             type = TranspositionType.EXACT;
         }
 
-        entry.searchDepth = searchDepth;
+        entry.setHash(hash);
+        entry.setSearchDepth(searchDepth);
         entry.setBestMoveAndValue(bestMoveAndValue);
         entry.setType(type);
     }

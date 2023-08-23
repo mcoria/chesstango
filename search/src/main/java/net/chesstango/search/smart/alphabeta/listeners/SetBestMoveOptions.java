@@ -1,6 +1,5 @@
 package net.chesstango.search.smart.alphabeta.listeners;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
@@ -66,7 +65,7 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
             Transposition entry = tTable.get(hash);
 
-            if (entry != null && entry.searchDepth == maxPly - 1 && entry.getValue() == bestMoveEvaluation) {
+            if (entry != null && entry.getSearchDepth() == maxPly - 1 && entry.getValue() == bestMoveEvaluation) {
                 bestMoveOptions.add(move);
             }
 
