@@ -248,7 +248,8 @@ public class FitnessBySearchTest {
     private Transposition saveEntry(Game game, Move move, int value) {
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = new Transposition(hash);
+        Transposition entry = new Transposition();
+        entry.setHash(hash);
         entry.setBestMoveAndValue(BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value));
         entry.setSearchDepth(0);
 

@@ -10,4 +10,6 @@ public interface TranspositionEntry {
     int getValue();
 
     TranspositionType getType();
+
+    void loadValues(TranspositionEntry theEntry);
 }

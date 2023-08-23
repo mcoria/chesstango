@@ -55,9 +55,9 @@ public class QTranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        QTransposition entry = tTable.read(hash);
+        QTransposition entry = new QTransposition();
 
-        short bestMoveEncoded = (entry != null && entry.getBestMoveAndValue() != 0)  ? BinaryUtils.decodeMove(entry.getBestMoveAndValue()) : 0;
+        short bestMoveEncoded = (tTable.read(hash, entry) && entry.getBestMoveAndValue() != 0)  ? BinaryUtils.decodeMove(entry.getBestMoveAndValue()) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 

@@ -63,9 +63,9 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
             long hash = game.getChessPosition().getZobristHash();
 
-            Transposition entry = tTable.read(hash);
+            Transposition entry = new Transposition();
 
-            if (entry != null && entry.getSearchDepth() == maxPly - 1 && entry.getValue() == bestMoveEvaluation) {
+            if (tTable.read(hash, entry) && entry.getSearchDepth() == maxPly - 1 && entry.getValue() == bestMoveEvaluation) {
                 bestMoveOptions.add(move);
             }
 

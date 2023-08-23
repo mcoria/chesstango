@@ -70,7 +70,8 @@ public class TranspositionMoveSorterTest {
     }
 
     private Transposition createTableEntry(long hash, short bestMoveEncoded) {
-        Transposition entry = new Transposition(hash);
+        Transposition entry = new Transposition();
+        entry.setHash(hash);
         entry.setBestMoveAndValue(encodedMoveAndValue(bestMoveEncoded, 1));
         return entry;
     }

@@ -12,7 +12,8 @@ import java.io.Serializable;
 public class Transposition implements TranspositionEntry, Serializable {
 
     @Getter
-    private final long hash;
+    @Setter
+    private long hash;
 
     @Getter
     @Setter
@@ -26,12 +27,17 @@ public class Transposition implements TranspositionEntry, Serializable {
     @Setter
     private TranspositionType type;
 
-    public Transposition(long hash) {
-        this.hash = hash;
-    }
-
     @Override
     public int getValue() {
         return BinaryUtils.decodeValue(getBestMoveAndValue());
+    }
+
+    @Override
+    public void loadValues(TranspositionEntry theEntry) {
+        Transposition refEntry = (Transposition) theEntry;
+        this.hash = refEntry.hash;
+        this.bestMoveAndValue = refEntry.bestMoveAndValue;
+        this.searchDepth = refEntry.searchDepth;
+        this.type = refEntry.type;
     }
 }

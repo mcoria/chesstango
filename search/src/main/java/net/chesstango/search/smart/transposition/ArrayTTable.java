@@ -1,6 +1,7 @@
 package net.chesstango.search.smart.transposition;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Mauricio Coria
@@ -13,28 +14,39 @@ public class ArrayTTable<T extends TranspositionEntry> implements TTable<T> {
 
     public ArrayTTable(Class<T> theClass) {
         table = (T[]) Array.newInstance(theClass, TABLE_SIZE);
+
+        try {
+            for (int i = 0; i < TABLE_SIZE; i++) {
+                table[i] = theClass.getDeclaredConstructor().newInstance();
+            }
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 InvocationTargetException e) {
+            throw  new RuntimeException(e);
+        }
     }
 
     @Override
-    public T read(long hash) {
+    public boolean read(long hash, T entry) {
 
         int idx = Math.abs((int) (hash % TABLE_SIZE));
 
-        T entry = table[idx];
+        T refEntry = table[idx];
 
-        if (entry == null) {
-            return null;
-        } else if (entry.getHash() != hash) {
-            return null;
+        if (refEntry == null) {
+            return false;
+        } else if (refEntry.getHash() != hash) {
+            return false;
         }
 
-        return entry;
+        entry.loadValues(refEntry);
+
+        return true;
     }
 
     @Override
     public void write(long hash, T entry) {
         int idx = Math.abs((int) (entry.getHash() % TABLE_SIZE));
 
-        table[idx] = entry;
+        table[idx].loadValues(entry);
     }
 }

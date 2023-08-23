@@ -49,9 +49,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            QTransposition entry = tTable.read(hash);
+            QTransposition entry = new QTransposition();
 
-            if (entry == null) {
+            if (!tTable.read(hash, entry)) {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
 
@@ -73,9 +73,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
 
-            entry = updateQEntry(hash, entry, alpha, beta, bestMoveAndValue);
+            updateQEntry(entry, hash, alpha, beta, bestMoveAndValue);
 
-            return entry.getBestMoveAndValue();
+            return bestMoveAndValue;
         }
 
         return next.maximize(currentPly, alpha, beta);
@@ -87,9 +87,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            QTransposition entry = tTable.read(hash);
+            QTransposition entry = new QTransposition();
 
-            if (entry == null) {
+            if (!tTable.read(hash, entry)) {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
 
@@ -111,9 +111,9 @@ public class QTranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
-            entry = updateQEntry(hash, entry, alpha, beta, bestMoveAndValue);
+            updateQEntry(entry, hash, alpha, beta, bestMoveAndValue);
 
-            return entry.getBestMoveAndValue();
+            return bestMoveAndValue;
         }
 
         return next.minimize(currentPly, alpha, beta);
@@ -123,7 +123,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected QTransposition updateQEntry(long hash, QTransposition entry, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateQEntry(QTransposition entry, long hash, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
 
         TranspositionType type;
@@ -135,15 +135,10 @@ public class QTranspositionTable implements AlphaBetaFilter {
             type = TranspositionType.EXACT;
         }
 
-        if (entry == null) {
-            entry = new QTransposition(hash);
-        }
-
+        entry.setHash(hash);
         entry.setBestMoveAndValue(bestMoveAndValue);
         entry.setType(type);
 
         tTable.write(hash, entry);
-
-        return entry;
     }
 }

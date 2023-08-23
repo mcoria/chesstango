@@ -52,11 +52,10 @@ public class TranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = tTable.read(hash);
-
+        Transposition entry = new Transposition();
         short bestMoveEncoded = 0;
 
-        if(entry != null){
+        if(tTable.read(hash, entry)){
             if(entry.getBestMoveAndValue() != 0) {
                 bestMoveEncoded = BinaryUtils.decodeMove(entry.getBestMoveAndValue());
 

@@ -12,7 +12,8 @@ import java.io.Serializable;
 public class QTransposition implements TranspositionEntry, Serializable {
 
     @Getter
-    private final long hash;
+    @Setter
+    private long hash;
 
     @Getter
     @Setter
@@ -22,12 +23,17 @@ public class QTransposition implements TranspositionEntry, Serializable {
     @Setter
     private TranspositionType type;
 
-    public QTransposition(long hash) {
-        this.hash = hash;
-    }
 
     @Override
     public int getValue() {
         return BinaryUtils.decodeValue(getBestMoveAndValue());
+    }
+
+    @Override
+    public void loadValues(TranspositionEntry theEntry) {
+        QTransposition refEntry = (QTransposition) theEntry;
+        this.hash = refEntry.hash;
+        this.bestMoveAndValue = refEntry.bestMoveAndValue;
+        this.type = refEntry.type;
     }
 }
