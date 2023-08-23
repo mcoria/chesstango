@@ -12,10 +12,8 @@ import net.chesstango.search.smart.transposition.Transposition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,14 +22,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class TranspositionMoveSorterTest {
 
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> tTable;
     private TranspositionMoveSorter moveSorter;
 
     @BeforeEach
     public void setup() {
-        maxMap = new MapTTable();
-        minMap = new MapTTable();
+        tTable = new MapTTable<>();
         moveSorter = new TranspositionMoveSorter();
     }
 
@@ -46,7 +42,7 @@ public class TranspositionMoveSorterTest {
                 break;
             }
         }
-        maxMap.put(game.getChessPosition().getZobristHash(), createTableEntry(bestMoveEncoded));
+        tTable.put(game.getChessPosition().getZobristHash(), createTableEntry(bestMoveEncoded));
 
         initMoveSorter(game);
 
@@ -65,8 +61,7 @@ public class TranspositionMoveSorterTest {
         moveSorter.beforeSearch(game, 1);
 
         SearchContext context = new SearchContext(1);
-        context.setMaxMap(maxMap);
-        context.setMinMap(minMap);
+        context.setTTable(tTable);
 
         moveSorter.beforeSearchByDepth(context);
     }

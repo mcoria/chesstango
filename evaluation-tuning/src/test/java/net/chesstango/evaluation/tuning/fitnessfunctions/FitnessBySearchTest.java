@@ -1,6 +1,5 @@
 package net.chesstango.evaluation.tuning.fitnessfunctions;
 
-import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
@@ -8,16 +7,14 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
-import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,16 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FitnessBySearchTest {
     private static final int DEPTH = 1;
     private FitnessBySearch fitnessFn;
-    private TTable<Transposition> maxMap;
-    private TTable<Transposition> minMap;
+    private TTable<Transposition> tTable;
     private SetMoveEvaluations setMoveEvaluations;
 
     @BeforeEach
     public void setup() {
         fitnessFn = new FitnessBySearch(null);
         setMoveEvaluations = new SetMoveEvaluations();
-        maxMap = new MapTTable<>();
-        minMap = new MapTTable<>();
+        tTable = new MapTTable<>();
     }
 
     /**
@@ -241,8 +236,7 @@ public class FitnessBySearchTest {
 
     private Collection<SearchMoveResult.MoveEvaluation> getMoveEvaluationList(Game game, int bestEvaluationFoundBySearch, Move bestMoveFoundBySearch) {
         SearchContext searchContext = new SearchContext(DEPTH);
-        searchContext.setMaxMap(maxMap);
-        searchContext.setMinMap(minMap);
+        searchContext.setTTable(tTable);
         setMoveEvaluations.beforeSearch(game, DEPTH);
         setMoveEvaluations.beforeSearchByDepth(searchContext);
         SearchMoveResult searchResult = new SearchMoveResult(DEPTH, bestEvaluationFoundBySearch, bestMoveFoundBySearch, null);
@@ -259,11 +253,7 @@ public class FitnessBySearchTest {
 
         long hash = game.getChessPosition().getZobristHash();
 
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            maxMap.put(hash, entry);
-        } else {
-            minMap.put(hash, entry);
-        }
+        tTable.put(hash, entry);
 
         return entry;
     }

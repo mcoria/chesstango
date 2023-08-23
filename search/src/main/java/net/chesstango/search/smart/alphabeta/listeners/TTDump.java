@@ -24,8 +24,7 @@ import net.chesstango.search.smart.transposition.TranspositionType;
  */
 public class TTDump implements SearchLifeCycle {
     private Game game;
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> maxMap;
 
     private boolean initialStateDumped = false;
 
@@ -41,8 +40,7 @@ public class TTDump implements SearchLifeCycle {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = context.getTTable();
 
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateDumped) {
             dumpTables(0);
@@ -72,7 +70,7 @@ public class TTDump implements SearchLifeCycle {
 
         System.out.println("Dumping " + searchCycle);
         Future<?> task1 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "maxMap", searchCycle), maxMap));
-        Future<?> task2 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "minMap", searchCycle), minMap));
+        Future<?> task2 = executorService.submit(() -> dumpTable(String.format("%s-%d.ser", "minMap", searchCycle), maxMap));
 
         while(! ( task1.isDone() && task2.isDone() ) ){
             try {
@@ -83,6 +81,7 @@ public class TTDump implements SearchLifeCycle {
         }
 
         executorService.shutdown();
+        throw new RuntimeException("Revisar este metodo");
     }
 
     private void dumpTable(String fileName, TTable map) {

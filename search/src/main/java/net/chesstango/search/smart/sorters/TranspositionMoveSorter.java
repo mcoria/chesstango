@@ -12,7 +12,6 @@ import net.chesstango.search.smart.transposition.Transposition;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -20,8 +19,7 @@ import java.util.Map;
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private TTable<Transposition> maxMap;
-    private TTable<Transposition> minMap;
+    private TTable<Transposition> tTable;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -35,8 +33,7 @@ public class TranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.tTable = context.getTTable();
     }
 
     @Override
@@ -58,12 +55,7 @@ public class TranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry;
-        if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            entry = maxMap.get(hash);
-        } else {
-            entry = minMap.get(hash);
-        }
+        Transposition entry = tTable.get(hash);
 
         short bestMoveEncoded = 0;
 

@@ -9,15 +9,11 @@ import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Mauricio Coria
  */
 public class SetTranspositionTables implements SearchLifeCycle {
-    private final TTable<Transposition> maxMap;
-    private final TTable<Transposition> minMap;
+    private final TTable<Transposition> tTable;
 
     private final TTable<QTransposition> qMaxMap;
     private final TTable<QTransposition> qMinMap;
@@ -25,8 +21,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
-        this.maxMap = new MapTTable<>();
-        this.minMap = new MapTTable<>();
+        this.tTable = new MapTTable<>();
         this.qMaxMap = new MapTTable<>();
         this.qMinMap = new MapTTable<>();
     }
@@ -34,8 +29,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         if(!reuseTranspositionTable) {
-            this.maxMap.clear();
-            this.minMap.clear();
+            this.tTable.clear();
 
             this.qMaxMap.clear();
             this.qMinMap.clear();
@@ -48,8 +42,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        context.setMaxMap(maxMap);
-        context.setMinMap(minMap);
+        context.setTTable(tTable);
 
         context.setQMaxMap(qMaxMap);
         context.setQMinMap(qMinMap);
@@ -65,8 +58,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
 
     @Override
     public void reset() {
-        this.maxMap.clear();
-        this.minMap.clear();
+        this.tTable.clear();
     }
 
     public void setReuseTranspositionTable(boolean reuseTranspositionTable) {

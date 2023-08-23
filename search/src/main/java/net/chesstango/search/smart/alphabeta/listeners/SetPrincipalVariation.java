@@ -18,8 +18,7 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetPrincipalVariation implements SearchLifeCycle {
-    private TTable<Transposition> maxMap;
-    private TTable<Transposition> minMap;
+    private TTable<Transposition> tTable;
     private Game game;
 
     @Override
@@ -34,14 +33,13 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.tTable = context.getTTable();
     }
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
         if(result != null) {
-            List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth(), maxMap, minMap);
+            List<Move> principalVariation = calculatePrincipalVariation(game, result.getBestMove(), result.getDepth());
             result.setPrincipalVariation(principalVariation);
         }
     }
@@ -58,13 +56,11 @@ public class SetPrincipalVariation implements SearchLifeCycle {
 
     public List<Move> calculatePrincipalVariation(Game game,
                                                     Move bestMove,
-                                                    int depth,
-                                                    TTable<Transposition> maxMap,
-                                                    TTable<Transposition> minMap) {
+                                                    int depth) {
 
         List<Move> principalVariation = new ArrayList<>();
 
-        if(maxMap != null && minMap != null) {
+        if(tTable != null) {
             Move move = bestMove;
             int pvMoveCounter = 0;
             do {
@@ -75,7 +71,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
                 pvMoveCounter++;
 
                 move = principalVariation.size() < depth
-                        ? readMoveFromTT(game, maxMap, minMap)
+                        ? readMoveFromTT(game)
                         : null; //readMoveFromQTT(game, maxMap, maxMap);
 
             } while (move != null);
@@ -90,12 +86,12 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return principalVariation;
     }
 
-    private Move readMoveFromTT(Game game, TTable<Transposition> maxMap, TTable<Transposition> minMap) {
+    private Move readMoveFromTT(Game game) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+        Transposition entry = tTable.get(hash);
 
         if (entry != null) {
             short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);

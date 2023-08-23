@@ -24,8 +24,7 @@ import net.chesstango.search.smart.transposition.Transposition;
 public class TTLoad implements SearchLifeCycle {
 
     private Game game;
-    private TTable maxMap;
-    private TTable minMap;
+    private TTable<Transposition> tTable;
 
     private boolean initialStateLoaded = false;
 
@@ -41,8 +40,7 @@ public class TTLoad implements SearchLifeCycle {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.tTable = context.getTTable();
 
         if ("8/p7/2R5/4k3/8/Pp1b3P/1r3PP1/6K1 w - - 2 43".equals(game.toString()) && !initialStateLoaded) {
             loadTables();
@@ -68,8 +66,8 @@ public class TTLoad implements SearchLifeCycle {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         System.out.println("Loading ...");
-        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", maxMap));
-        Future<?> task2 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", minMap));
+        Future<?> task1 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\maxMap-0.ser", tTable));
+        Future<?> task2 = executorService.submit(() -> loadTable("C:\\Java\\projects\\chess\\chesstango\\minMap-0.ser", tTable));
 
         while (!(task1.isDone() && task2.isDone())) {
             try {
@@ -81,6 +79,7 @@ public class TTLoad implements SearchLifeCycle {
         System.out.println("Loading finished");
 
         executorService.shutdown();
+        throw new RuntimeException("Revisar este metodo");
     }
 
     private void loadTable(String fileName, TTable map) {

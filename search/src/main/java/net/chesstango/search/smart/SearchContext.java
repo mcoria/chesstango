@@ -6,8 +6,6 @@ import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.Transposition;
 
-import java.util.Map;
-
 /**
  * @author Mauricio Coria
  */
@@ -18,9 +16,7 @@ public class SearchContext {
 
     private final int maxPly;
 
-    private TTable<Transposition> maxMap;
-
-    private TTable<Transposition> minMap;
+    private TTable<Transposition> tTable;
 
     private TTable<QTransposition> qMaxMap;
 
