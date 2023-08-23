@@ -158,7 +158,6 @@ public class QTranspositionTable implements AlphaBetaFilter {
         }
 
         entry.qBestMoveAndValue = bestMoveAndValue;
-        entry.setQValue(value);
         entry.qType = type;
     }
 }

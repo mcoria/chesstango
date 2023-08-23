@@ -150,7 +150,6 @@ public class TranspositionTable implements AlphaBetaFilter {
 
         entry.searchDepth = searchDepth;
         entry.bestMoveAndValue = bestMoveAndValue;
-        entry.setValue(value);
         entry.type = type;
     }
 }

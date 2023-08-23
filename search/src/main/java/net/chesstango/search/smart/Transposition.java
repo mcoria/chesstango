@@ -9,31 +9,22 @@ public class Transposition implements Serializable {
     public int searchDepth;
 
     public long bestMoveAndValue;
-
-    private int value;
-
     public Type type;
+
+
 
     public long qBestMoveAndValue;
 
-    private int qValue;
-
     public Type qType;
 
-    public void setValue(int value) {
-        this.value = value;
-    }
 
-    public void setQValue(int qValue) {
-        this.qValue = qValue;
-    }
 
     public int getValue() {
-        return value;
+        return BinaryUtils.decodeValue(bestMoveAndValue);
     }
 
     public int getQValue() {
-        return qValue;
+        return BinaryUtils.decodeValue(qBestMoveAndValue);
     }
 
     public enum Type {
