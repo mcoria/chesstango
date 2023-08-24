@@ -14,9 +14,16 @@ import net.chesstango.search.smart.transposition.TranspositionType;
 public class TranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private TTable tTable;
-
     private Game game;
     private int maxPly;
+    private final TranspositionEntry[] storage;
+
+    public TranspositionTable(){
+        storage = new  TranspositionEntry[64];
+        for (int i = 0; i < 64; i++) {
+            storage[i] = new TranspositionEntry();
+        }
+    }
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -25,7 +32,6 @@ public class TranspositionTable implements AlphaBetaFilter {
 
     @Override
     public void afterSearch(SearchMoveResult result) {
-
     }
 
     @Override
@@ -40,12 +46,10 @@ public class TranspositionTable implements AlphaBetaFilter {
 
     @Override
     public void stopSearching() {
-
     }
 
     @Override
     public void reset() {
-
     }
 
     @Override
@@ -56,7 +60,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            TranspositionEntry entry = new TranspositionEntry();
+            TranspositionEntry entry = storage[currentPly];
 
             if (!tTable.read(hash, entry)) {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
@@ -92,7 +96,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            TranspositionEntry entry = new TranspositionEntry();
+            TranspositionEntry entry = storage[currentPly];
 
             if (!tTable.read(hash, entry)) {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);

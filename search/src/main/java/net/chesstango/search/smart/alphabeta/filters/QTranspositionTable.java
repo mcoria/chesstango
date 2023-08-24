@@ -16,6 +16,15 @@ public class QTranspositionTable implements AlphaBetaFilter {
     private TTable tTable;
     private Game game;
 
+    private final TranspositionEntry[] storage;
+
+    public QTranspositionTable(){
+        storage = new  TranspositionEntry[64];
+        for (int i = 0; i < 64; i++) {
+            storage[i] = new TranspositionEntry();
+        }
+    }
+
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         this.game = game;
@@ -49,7 +58,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            TranspositionEntry entry = new TranspositionEntry();
+            TranspositionEntry entry = storage[currentPly];
 
             if (!tTable.read(hash, entry)) {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
@@ -87,7 +96,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            TranspositionEntry entry = new TranspositionEntry();
+            TranspositionEntry entry = storage[currentPly];
 
             if (!tTable.read(hash, entry)) {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
