@@ -8,7 +8,7 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.ArrayTTable;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,14 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorterTest {
+public class TranspositionEntryMoveSorterTest {
 
-    private TTable<Transposition> tTable;
+    private TTable tTable;
     private TranspositionMoveSorter moveSorter;
 
     @BeforeEach
     public void setup() {
-        tTable = new ArrayTTable<>(Transposition.class);
+        tTable = new ArrayTTable();
         moveSorter = new TranspositionMoveSorter();
     }
 
@@ -69,9 +69,8 @@ public class TranspositionMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private Transposition createTableEntry(long hash, short bestMoveEncoded) {
-        Transposition entry = new Transposition();
-        entry.setHash(hash);
+    private TranspositionEntry createTableEntry(long hash, short bestMoveEncoded) {
+        TranspositionEntry entry = new TranspositionEntry();
         entry.setBestMoveAndValue(encodedMoveAndValue(bestMoveEncoded, 1));
         return entry;
     }

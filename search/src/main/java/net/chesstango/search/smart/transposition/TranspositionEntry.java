@@ -1,15 +1,37 @@
 package net.chesstango.search.smart.transposition;
 
+import lombok.Getter;
+import lombok.Setter;
+import net.chesstango.search.smart.BinaryUtils;
+
+import java.io.Serializable;
+
 /**
  * @author Mauricio Coria
  */
-public interface TranspositionEntry {
+public class TranspositionEntry implements Serializable {
 
-    long getHash();
+    @Getter
+    @Setter
+    private TranspositionType type;
 
-    int getValue();
+    @Getter
+    @Setter
+    private int searchDepth;
 
-    TranspositionType getType();
+    @Getter
+    @Setter
+    private long bestMoveAndValue;
 
-    void loadValues(TranspositionEntry theEntry);
+
+    public int getValue() {
+        return BinaryUtils.decodeValue(getBestMoveAndValue());
+    }
+
+
+    public void loadValues(TranspositionEntry refEntry) {
+        this.bestMoveAndValue = refEntry.bestMoveAndValue;
+        this.searchDepth = refEntry.searchDepth;
+        this.type = refEntry.type;
+    }
 }

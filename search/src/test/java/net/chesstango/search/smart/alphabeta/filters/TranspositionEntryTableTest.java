@@ -24,7 +24,7 @@ import java.util.Arrays;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionTableTest {
+public class TranspositionEntryTableTest {
     private static final boolean PRINT_REPORT = false;
     private SearchMove searchWithoutTT;
     private SearchMove searchWithTT;

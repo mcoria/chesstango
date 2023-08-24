@@ -6,7 +6,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ import java.util.List;
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private TTable<Transposition> tTable;
+    private TTable tTable;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -52,7 +52,7 @@ public class TranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = new Transposition();
+        TranspositionEntry entry = new TranspositionEntry();
         short bestMoveEncoded = 0;
 
         if(tTable.read(hash, entry)){

@@ -1,6 +1,5 @@
 package net.chesstango.search.smart;
 
-import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 
 /**

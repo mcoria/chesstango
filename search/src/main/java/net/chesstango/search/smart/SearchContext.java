@@ -2,9 +2,7 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.search.smart.transposition.QTransposition;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
 
 /**
  * @author Mauricio Coria
@@ -16,9 +14,9 @@ public class SearchContext {
 
     private final int maxPly;
 
-    private TTable<Transposition> tTable;
+    private TTable tTable;
 
-    private TTable<QTransposition> qTTable;
+    private TTable qTTable;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;

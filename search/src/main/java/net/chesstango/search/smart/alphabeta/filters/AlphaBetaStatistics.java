@@ -1,14 +1,9 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.statics.RNodeStatics;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.IntStream;
 
 /**
  * @author Mauricio Coria

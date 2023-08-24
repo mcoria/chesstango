@@ -5,7 +5,8 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -17,14 +18,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import net.chesstango.search.smart.transposition.TranspositionType;
-
 /**
  * @author Mauricio Coria
  */
 public class TTDump implements SearchLifeCycle {
     private Game game;
-    private TTable<Transposition> maxMap;
+    private TTable maxMap;
 
     private boolean initialStateDumped = false;
 
@@ -93,11 +92,11 @@ public class TTDump implements SearchLifeCycle {
             int counter = 0;
 
             //Set<Map.Entry<Long, Transposition>> entries = map.entrySet();
-            Set<Map.Entry<Long, Transposition>> entries = null;
-            for (Map.Entry<Long, Transposition> entry: entries) {
+            Set<Map.Entry<Long, TranspositionEntry>> entries = null;
+            for (Map.Entry<Long, TranspositionEntry> entry: entries) {
                 dos.writeLong(entry.getKey());
 
-                Transposition tableEntry = entry.getValue();
+                TranspositionEntry tableEntry = entry.getValue();
                 dos.writeInt(tableEntry.getSearchDepth());
                 dos.writeLong(tableEntry.getBestMoveAndValue());
                 dos.writeInt(tableEntry.getValue());

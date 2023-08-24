@@ -1,42 +1,33 @@
 package net.chesstango.search.smart.transposition;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * @author Mauricio Coria
  */
-public class ArrayTTable<T extends TranspositionEntry> implements TTable<T> {
+public class ArrayTTable implements TTable {
 
     private final static int TABLE_SIZE = 1024;
 
-    private final T[] table;
+    private final TranspositionEntry[] table;
+    private final long[] hashTable;
 
-    public ArrayTTable(Class<T> theClass) {
-        table = (T[]) Array.newInstance(theClass, TABLE_SIZE);
+    public ArrayTTable() {
+        table = new TranspositionEntry[TABLE_SIZE];
+        hashTable = new long[TABLE_SIZE];
 
-        try {
-            for (int i = 0; i < TABLE_SIZE; i++) {
-                table[i] = theClass.getDeclaredConstructor().newInstance();
-            }
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
-                 InvocationTargetException e) {
-            throw  new RuntimeException(e);
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            table[i] = new TranspositionEntry();
         }
     }
 
     @Override
-    public boolean read(long hash, T entry) {
-
+    public boolean read(long hash, TranspositionEntry entry) {
         int idx = Math.abs((int) (hash % TABLE_SIZE));
 
-        T refEntry = table[idx];
-
-        if (refEntry == null) {
-            return false;
-        } else if (refEntry.getHash() != hash) {
+        if (hashTable[idx] != hash) {
             return false;
         }
+
+        TranspositionEntry refEntry = table[idx];
 
         entry.loadValues(refEntry);
 
@@ -44,8 +35,10 @@ public class ArrayTTable<T extends TranspositionEntry> implements TTable<T> {
     }
 
     @Override
-    public void write(long hash, T entry) {
-        int idx = Math.abs((int) (entry.getHash() % TABLE_SIZE));
+    public void write(long hash, TranspositionEntry entry) {
+        int idx = Math.abs((int) (hash % TABLE_SIZE));
+
+        hashTable[idx] = hash;
 
         table[idx].loadValues(entry);
     }

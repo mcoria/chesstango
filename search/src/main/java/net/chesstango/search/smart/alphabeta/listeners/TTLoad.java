@@ -4,6 +4,9 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -13,18 +16,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import net.chesstango.search.smart.transposition.TranspositionType;
-
-import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.Transposition;
-
 /**
  * @author Mauricio Coria
  */
 public class TTLoad implements SearchLifeCycle {
 
     private Game game;
-    private TTable<Transposition> tTable;
+    private TTable tTable;
 
     private boolean initialStateLoaded = false;
 
@@ -90,8 +88,7 @@ public class TTLoad implements SearchLifeCycle {
 
             while (dis.available() > 0) {
                 long key = dis.readLong();
-                Transposition tableEntry = new Transposition();
-                tableEntry.setHash(key);
+                TranspositionEntry tableEntry = new TranspositionEntry();
                 tableEntry.setSearchDepth(dis.readInt());
                 tableEntry.setBestMoveAndValue(dis.readLong());
                 tableEntry.setType(TranspositionType.valueOf(dis.readByte()));
