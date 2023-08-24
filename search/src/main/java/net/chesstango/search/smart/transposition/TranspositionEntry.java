@@ -15,6 +15,9 @@ public class TranspositionEntry implements Serializable {
     @Setter
     private TranspositionType type;
 
+    /**
+     * No tiene sentido en entradas Q por eso no lo setteamos este valor cuando escribimos
+     */
     @Getter
     @Setter
     private int searchDepth;
@@ -30,8 +33,8 @@ public class TranspositionEntry implements Serializable {
 
 
     public void loadValues(TranspositionEntry refEntry) {
-        this.bestMoveAndValue = refEntry.bestMoveAndValue;
-        this.searchDepth = refEntry.searchDepth;
         this.type = refEntry.type;
+        this.searchDepth = refEntry.searchDepth;
+        this.bestMoveAndValue = refEntry.bestMoveAndValue;
     }
 }

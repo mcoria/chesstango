@@ -17,18 +17,21 @@ import java.util.Objects;
 public class SearchSummaryComparator {
 
     public static void main(String[] args) {
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-20-12-10");
-        summaryComparator.addSession("depth-5-2023-08-20-13-35");
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-20-12-10-withMapTT");
+        //summaryComparator.addSession("depth-5-2023-08-20-13-35-withoutTT");
+        summaryComparator.addSession("depth-5-2023-08-23-22-44-withArrayTT1024");
 
-
+        /*
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w2.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b2.epd");
+        */
 
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
 
+        /*
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd");
@@ -44,7 +47,7 @@ public class SearchSummaryComparator {
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd");
-
+        */
 
     }
 
