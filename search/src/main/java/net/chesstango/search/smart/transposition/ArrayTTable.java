@@ -5,7 +5,7 @@ package net.chesstango.search.smart.transposition;
  */
 public class ArrayTTable implements TTable {
 
-    private final static int TABLE_SIZE = 1024;
+    private final static int TABLE_SIZE = 1024 ;
 
     private final TranspositionEntry[] table;
     private final long[] hashTable;
