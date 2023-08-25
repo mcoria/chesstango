@@ -17,24 +17,34 @@ import java.util.Objects;
 public class SearchSummaryComparator {
 
     public static void main(String[] args) {
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-20-12-10-withMapTT");
-        summaryComparator.addSession("depth-5-2023-08-20-13-35-withoutTT");
-        summaryComparator.addSession("depth-5-2023-08-23-23-44-withArray1024_withSort");
-        summaryComparator.addSession("depth-5-2023-08-23-23-52-withArray1024-16_withSort");
-        summaryComparator.addSession("depth-5-2023-08-24-00-00-withArray1024-32_withSort");
-        summaryComparator.addSession("depth-5-2023-08-24-00-05-withArray1024-128_withSort");
+        /*
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-4-v0.0.14-2023-08-24-14-12");
+        summaryComparator.addSession("depth-4-v0.0.15-SNAPSHOT-2023-08-24-08-37-withArrayTT_1024_128");
+        summaryComparator.addSession("depth-4-v0.0.15-SNAPSHOT-2023-08-24-22-56-withArrayTT_1024_512");
+        summaryComparator.addSession("depth-4-v0.0.15-SNAPSHOT-2023-08-24-23-57-withArrayTT_1024_512-Sorted1");
+         */
 
         /*
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-v0.0.14-2023-08-24-14-36");
+        summaryComparator.addSession("depth-5-v0.0.15-SNAPSHOT-2023-08-24-08-10-withArrayTT_1024_128");
+        summaryComparator.addSession("depth-5-v0.0.15-SNAPSHOT-2023-08-24-23-21-withArrayTT_1024_512");
+        summaryComparator.addSession("depth-5-v0.0.15-SNAPSHOT-2023-08-25-00-07-withArrayTT_1024_512-Sorted1");
+         */
+
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-6-v0.0.14-2023-08-24-15-03");
+        summaryComparator.addSession("depth-6-v0.0.14-2023-08-25-10-11");
+        summaryComparator.addSession("depth-6-v0.0.15-SNAPSHOT-2023-08-24-08-49-withArrayTT_1024_128-withSort");
+        summaryComparator.addSession("depth-6-v0.0.15-SNAPSHOT-2023-08-25-00-37-withArrayTT_1024_128-Sorted1");
+
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w2.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b2.epd");
-        */
 
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
 
-        /*
+
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS1.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS2.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS3.epd");
@@ -50,7 +60,6 @@ public class SearchSummaryComparator {
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS13.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS14.epd");
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\STS15.epd");
-        */
 
     }
 

@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class QTranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
+    private final TranspositionEntry storage = new TranspositionEntry();
     private Game game;
     private TTable tTable;
 
@@ -55,9 +56,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry = new TranspositionEntry();
-
-        short bestMoveEncoded = (tTable.read(hash, entry) && entry.getBestMoveAndValue() != 0)  ? BinaryUtils.decodeMove(entry.getBestMoveAndValue()) : 0;
+        short bestMoveEncoded = tTable.read(hash, storage) ? BinaryUtils.decodeMove(storage.getBestMoveAndValue()) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 

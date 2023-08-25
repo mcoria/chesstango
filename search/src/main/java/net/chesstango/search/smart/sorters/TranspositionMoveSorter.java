@@ -17,8 +17,10 @@ import java.util.List;
  */
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
+    private final TranspositionEntry storage = new TranspositionEntry();
     private Game game;
     private TTable tTable;
+    private TTable qTTable;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -33,6 +35,7 @@ public class TranspositionMoveSorter implements MoveSorter {
     @Override
     public void beforeSearchByDepth(SearchContext context) {
         this.tTable = context.getTTable();
+        this.qTTable = context.getQTTable();
     }
 
     @Override
@@ -52,18 +55,12 @@ public class TranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        TranspositionEntry entry = new TranspositionEntry();
         short bestMoveEncoded = 0;
 
-        if(tTable.read(hash, entry)){
-            if(entry.getBestMoveAndValue() != 0) {
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.getBestMoveAndValue());
-
-            }
-            // Podriamos buscar en QTable
-            //} else if(entry.qBestMoveAndValue != 0){
-            //  bestMoveEncoded = BinaryUtils.decodeMove(entry.qBestMoveAndValue);
-            //}
+        if(tTable.read(hash, storage)){
+            bestMoveEncoded = BinaryUtils.decodeMove(storage.getBestMoveAndValue());
+        } else if (qTTable.read(hash, storage)) {
+            bestMoveEncoded = BinaryUtils.decodeMove(storage.getBestMoveAndValue());
         }
 
         List<Move> sortedMoveList = new LinkedList<>();
