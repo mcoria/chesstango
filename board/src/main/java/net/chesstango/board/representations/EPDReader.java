@@ -108,7 +108,7 @@ public class EPDReader {
      * DECODE MOVE
      */
     private Pattern edpMovePattern = Pattern.compile("(" +
-            "(?<piecemove>(?<piece>[RNBQK]?)((?<from>[a-h][1-8])|(?<fromfile>[a-h]))?[-x]?(?<to>[a-h][1-8]))|" +
+            "(?<piecemove>(?<piece>[RNBQK]?)((?<from>[a-h][1-8])|(?<fromfile>[a-h])|(?<fromrank>[1-8]))?[-x]?(?<to>[a-h][1-8]))|" +
             "(?<promotion>(?<promotionfrom>[a-h][1-8])[-x](?<promotionto>[a-h][1-8])(?<promotionpiece>[RNBQK]))|" +
             "(?<queencaslting>O-O-O)|" +
             "(?<kingcastling>O-O)" +
@@ -134,6 +134,7 @@ public class EPDReader {
         String pieceStr = matcher.group("piece");
         String fromStr = matcher.group("from");
         String fromFileStr = matcher.group("fromfile");
+        String fromRankStr = matcher.group("fromrank");
         String toStr = matcher.group("to");
         for (Move move : possibleMoves) {
             if (pieceStr != null && pieceStr.length() == 1) {
@@ -155,6 +156,11 @@ public class EPDReader {
             }
             if (fromFileStr != null) {
                 if (!move.getFrom().getSquare().getFileChar().equals(fromFileStr)) {
+                    continue;
+                }
+            }
+            if (fromRankStr != null) {
+                if (!move.getFrom().getSquare().getRankChar().equals(fromRankStr)) {
                     continue;
                 }
             }

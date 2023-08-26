@@ -141,7 +141,7 @@ public class SearchMoveMain {
 
         saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
-        printReport(System.out, epdSearchReportModel, searchesReportModel);
+        //printReport(System.out, epdSearchReportModel, searchesReportModel);
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {

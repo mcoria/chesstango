@@ -1,6 +1,7 @@
 package net.chesstango.board.representations;
 
 import net.chesstango.board.Piece;
+import net.chesstango.board.Square;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -133,6 +134,20 @@ public class EPDReaderTest {
         assertNotNull(entry.game);
         assertEquals(1, entry.bestMoves.size());
         assertEquals(Piece.PAWN_WHITE, entry.bestMoves.get(0).getFrom().getPiece());
+    }
+
+    @Test
+    public void testReadEDP11(){
+        EPDEntry entry = EPDReader.readEdpLine("r2r2k1/p2n1p2/4q2p/3p2p1/1PpB4/P1NnPP2/2Q3PP/R2R2K1 b - - bm N7e5; c0 \"N7e5=10, a5=6, a6=6, Nb8=5\"; id \"STS(v12.0) Center Control.081\";");
+
+        assertEquals("r2r2k1/p2n1p2/4q2p/3p2p1/1PpB4/P1NnPP2/2Q3PP/R2R2K1 b - -", entry.fen);
+        assertEquals("N7e5", entry.bestMovesString);
+        assertEquals("STS(v12.0) Center Control.081", entry.id);
+        assertNotNull(entry.game);
+        assertEquals(1, entry.bestMoves.size());
+        assertEquals(Piece.KNIGHT_BLACK, entry.bestMoves.get(0).getFrom().getPiece());
+        assertEquals(Square.d7, entry.bestMoves.get(0).getFrom().getSquare());
+        assertEquals(Square.e5, entry.bestMoves.get(0).getTo().getSquare());
     }
 
     @Test
