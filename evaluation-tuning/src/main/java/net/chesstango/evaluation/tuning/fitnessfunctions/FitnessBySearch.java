@@ -5,6 +5,7 @@ import io.jenetics.IntegerGene;
 import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.GameEvaluator;
@@ -24,7 +25,7 @@ public class FitnessBySearch implements FitnessFunction {
 
     private final Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn;
 
-    private List<EPDReader.EDPEntry> edpEntries;
+    private List<EPDEntry> edpEntries;
 
     public FitnessBySearch(Function<Genotype<IntegerGene>, GameEvaluator> gameEvaluatorSupplierFn) {
         this.gameEvaluatorSupplierFn = gameEvaluatorSupplierFn;
@@ -52,14 +53,14 @@ public class FitnessBySearch implements FitnessFunction {
     protected long run(GameEvaluator gameEvaluator) {
         long points = 0;
 
-        for (EPDReader.EDPEntry edpEntry : edpEntries) {
-            points += run(edpEntry, gameEvaluator);
+        for (EPDEntry EPDEntry : edpEntries) {
+            points += run(EPDEntry, gameEvaluator);
         }
 
         return points;
     }
 
-    protected long run(EPDReader.EDPEntry edpEntry, GameEvaluator gameEvaluator) {
+    protected long run(EPDEntry EPDEntry, GameEvaluator gameEvaluator) {
         SearchMove moveFinder = new AlphaBetaBuilder()
                 .withGameEvaluator(gameEvaluator)
 
@@ -80,11 +81,11 @@ public class FitnessBySearch implements FitnessFunction {
                 .build();
 
 
-        Game game = FENDecoder.loadGame(edpEntry.fen);
+        Game game = FENDecoder.loadGame(EPDEntry.fen);
 
         SearchMoveResult searchResult = moveFinder.search(game, MATCH_DEPTH);
 
-        return getPoints(game.getPossibleMoves().size(), edpEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
+        return getPoints(game.getPossibleMoves().size(), EPDEntry.bestMoves.get(0), searchResult.getMoveEvaluations());
     }
 
     protected long getPoints(int possibleMoves, Move bestMove, Collection<SearchMoveResult.MoveEvaluation> evaluationCollection) {

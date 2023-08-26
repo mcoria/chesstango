@@ -1,6 +1,5 @@
 package net.chesstango.board.representations;
 
-import net.chesstango.board.Game;
 import net.chesstango.board.Piece;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.moves.MoveCastling;
@@ -23,18 +22,18 @@ import java.util.regex.Pattern;
  */
 public class EPDReader {
 
-    public List<EDPEntry> readEdpFile(String filename) {
+    public List<EPDEntry> readEdpFile(String filename) {
         return readEdpFile(Paths.get(filename));
 
     }
 
-    public List<EDPEntry> readEdpFile(Path filePath) {
+    public List<EPDEntry> readEdpFile(Path filePath) {
         if (!Files.exists(filePath)) {
             System.err.printf("file not found: %s\n", filePath.getFileName());
             throw new RuntimeException(String.format("file not found: %s", filePath.getFileName()));
         }
 
-        List<EDPEntry> edpEntries = new ArrayList<>();
+        List<EPDEntry> edpEntries = new ArrayList<>();
         try {
             System.out.println("Reading suite " + filePath);
 
@@ -51,7 +50,7 @@ public class EPDReader {
             while ((line = rr.readLine()) != null) {
                 if (!line.startsWith("#")) {
                     try {
-                        EDPEntry entry = readEdpLine(line);
+                        EPDEntry entry = readEdpLine(line);
                         edpEntries.add(entry);
                     } catch (RuntimeException e) {
                         System.err.printf("Error decoding: %s\n", line);
@@ -65,28 +64,28 @@ public class EPDReader {
         return edpEntries;
     }
 
-    public EDPEntry readEdpLine(String line) {
-        EDPEntry edpEntry = parseLine(line);
-        edpEntry.game = FENDecoder.loadGame(edpEntry.fen);
+    public EPDEntry readEdpLine(String line) {
+        EPDEntry EPDEntry = parseLine(line);
+        EPDEntry.game = FENDecoder.loadGame(EPDEntry.fen);
 
-        if(edpEntry.bestMovesString != null) {
-            String[] bestMoves = edpEntry.bestMovesString.split(" ");
+        if(EPDEntry.bestMovesString != null) {
+            String[] bestMoves = EPDEntry.bestMovesString.split(" ");
             for (int i = 0; i < bestMoves.length; i++) {
-                Move move = decodeMove(bestMoves[i], edpEntry.game.getPossibleMoves());
+                Move move = decodeMove(bestMoves[i], EPDEntry.game.getPossibleMoves());
                 if (move != null) {
-                    edpEntry.bestMoves.add(move);
+                    EPDEntry.bestMoves.add(move);
                 } else {
                     throw new RuntimeException(String.format("Unable to find move %s", bestMoves[i]));
                 }
             }
         }
-        return edpEntry;
+        return EPDEntry;
     }
 
     private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
-    protected EDPEntry parseLine(String line) {
-        EDPEntry edpParsed = new EDPEntry();
+    protected EPDEntry parseLine(String line) {
+        EPDEntry edpParsed = new EPDEntry();
         edpParsed.text = line;
 
         Matcher matcher = edpLinePattern.matcher(line);
@@ -102,21 +101,6 @@ public class EPDReader {
         }
 
         return edpParsed;
-    }
-
-    public static class EDPEntry {
-        public String id;
-        public String text;
-
-        public String fen;
-        public String bestMovesString;
-        public List<Move> bestMoves;
-
-        public Game game;
-        public String bestMoveFoundStr;
-
-        public boolean bestMoveFound;
-        public long searchDuration;
     }
 
 

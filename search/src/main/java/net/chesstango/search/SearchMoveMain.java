@@ -1,7 +1,7 @@
 package net.chesstango.search;
 
-import lombok.Getter;
 import net.chesstango.board.moves.Move;
+import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
@@ -44,7 +44,7 @@ public class SearchMoveMain {
      * 1. Depth
      * 2. Directorio donde se encuentran los archivos de posicion
      * 3. Filtro de archivos
-     *
+     * <p>
      * Ejemplo:
      * 5 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-w[12].epd|mate-b[12].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
      *
@@ -82,65 +82,69 @@ public class SearchMoveMain {
 
     protected final int depth;
 
-    @Getter
-    private SearchMoveResult currentSearchResult;
-
     public SearchMoveMain(int depth) {
         this.depth = depth;
     }
 
-    public boolean run(EPDReader.EDPEntry edpEntry) {
+    public boolean test(EPDEntry EPDEntry) {
+        return run(EPDEntry).bestMoveFound;
+    }
+
+    public EPDSearchResult run(EPDEntry epdEntry) {
         SearchMove searchMove = buildSearchMove();
 
         Instant start = Instant.now();
 
-        SearchMoveResult searchResult = searchMove.search(edpEntry.game, depth);
+        SearchMoveResult searchResult = searchMove.search(epdEntry.game, depth);
 
-        searchResult.setEpdID(edpEntry.id);
-
-        currentSearchResult = searchResult;
-
-        edpEntry.searchDuration = Duration.between(start, Instant.now()).toMillis();
+        searchResult.setEpdID(epdEntry.id);
 
         Move bestMove = searchResult.getBestMove();
 
-        edpEntry.bestMoveFoundStr = sanEncoder.encode(bestMove, edpEntry.game.getPossibleMoves());
+        EPDSearchResult epdSearchResult = new EPDSearchResult();
 
-        edpEntry.bestMoveFound = edpEntry.bestMoves.contains(bestMove);
+        epdSearchResult.epdEntry = epdEntry;
+
+        epdSearchResult.searchDuration = Duration.between(start, Instant.now()).toMillis();
+
+        epdSearchResult.bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
+
+        epdSearchResult.bestMoveFound = epdEntry.bestMoves.contains(bestMove);
+
+        epdSearchResult.searchResult = searchResult;
 
         searchMove.reset();
 
-        return edpEntry.bestMoveFound;
+        return epdSearchResult;
     }
 
     private void execute(Path suitePath) {
         String suiteFile = suitePath.getFileName().toString();
 
-        List<EPDReader.EDPEntry> edpEntries = reader.readEdpFile(suitePath);
+        List<EPDEntry> edpEntries = reader.readEdpFile(suitePath);
 
         run(suitePath, edpEntries);
 
         System.gc();
     }
 
-    private void run(Path suitePath, List<EPDReader.EDPEntry> edpEntries) {
-        List<SearchMoveResult> searchMoveResults = new ArrayList<>();
+    private void run(Path suitePath, List<EPDEntry> edpEntries) {
 
-        run(searchMoveResults, edpEntries);
+        List<EPDSearchResult> epdSearchResults = run(edpEntries);
 
-        SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", searchMoveResults);
+        SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", epdSearchResults.stream().map(epdSearchResult -> epdSearchResult.searchResult).toList());
 
-        EdpSearchReportModel edpSearchReportModel = EdpSearchReportModel.collectStatics(edpEntries);
+        EdpSearchReportModel edpSearchReportModel = EdpSearchReportModel.collectStatics(epdSearchResults);
+
+        printReport(System.out, edpSearchReportModel, searchesReportModel);
 
         String suiteName = suitePath.getFileName().toString();
 
         Path sessionDirectory = createSessionDirectory(suitePath);
 
-        //printReport(System.out, edpSearchReportModel, searchesReportModel);
+        //saveReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
 
-        saveReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
-
-        saveSearchSummary(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
+        //saveSearchSummary(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
@@ -186,20 +190,23 @@ public class SearchMoveMain {
                 .printReport(output);
     }
 
-    private void run(List<SearchMoveResult> searchMoveResults, List<EPDReader.EDPEntry> edpEntries) {
-        for (EPDReader.EDPEntry edpEntry : edpEntries) {
-            if (run(edpEntry)) {
-                System.out.printf("Success %s\n", edpEntry.fen);
+    private List<EPDSearchResult> run(List<EPDEntry> edpEntries) {
+        List<EPDSearchResult> epdSearchResults = new ArrayList<>();
+        for (EPDEntry epdEntry : edpEntries) {
+            EPDSearchResult epdSearchResult = run(epdEntry);
+            if (epdSearchResult.bestMoveFound) {
+                System.out.printf("Success %s\n", epdEntry.fen);
             } else {
                 String failedTest = String.format("Fail [%s] - best move found %s",
-                        edpEntry.text,
-                        edpEntry.bestMoveFoundStr
+                        epdEntry.text,
+                        epdSearchResult.bestMoveFoundStr
                 );
                 System.out.println(failedTest);
             }
 
-            searchMoveResults.add(currentSearchResult);
+            epdSearchResults.add(epdSearchResult);
         }
+        return epdSearchResults;
     }
 
     private Path createSessionDirectory(Path suitePath) {
