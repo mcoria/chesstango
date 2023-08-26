@@ -19,8 +19,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -38,6 +42,7 @@ public class SearchMoveMain {
     //private static final String SEARCH_SESSION_ID = "test";
 
     private static final String SEARCH_SESSION_ID = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm"));
+    private static final int SEARCH_THREADS = 4;
 
     /**
      * Parametros
@@ -119,8 +124,6 @@ public class SearchMoveMain {
     }
 
     private void execute(Path suitePath) {
-        String suiteFile = suitePath.getFileName().toString();
-
         List<EPDEntry> edpEntries = reader.readEdpFile(suitePath);
 
         run(suitePath, edpEntries);
@@ -136,15 +139,15 @@ public class SearchMoveMain {
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
-        printReport(System.out, epdSearchReportModel, searchesReportModel);
-
         String suiteName = suitePath.getFileName().toString();
 
         Path sessionDirectory = createSessionDirectory(suitePath);
 
-        //saveReport(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
+        saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
-        //saveSearchSummary(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
+        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+
+        printReport(System.out, epdSearchReportModel, searchesReportModel);
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
@@ -191,21 +194,33 @@ public class SearchMoveMain {
     }
 
     private List<EPDSearchResult> run(List<EPDEntry> edpEntries) {
-        List<EPDSearchResult> epdSearchResults = new ArrayList<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
+        List<EPDSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
         for (EPDEntry epdEntry : edpEntries) {
-            EPDSearchResult epdSearchResult = run(epdEntry);
-            if (epdSearchResult.bestMoveFound) {
-                System.out.printf("Success %s\n", epdEntry.fen);
-            } else {
-                String failedTest = String.format("Fail [%s] - best move found %s",
-                        epdEntry.text,
-                        epdSearchResult.bestMoveFoundStr
-                );
-                System.out.println(failedTest);
-            }
-
-            epdSearchResults.add(epdSearchResult);
+            executorService.submit(() -> {
+                EPDSearchResult epdSearchResult = run(epdEntry);
+                if (epdSearchResult.bestMoveFound) {
+                    System.out.printf("Success %s\n", epdEntry.fen);
+                } else {
+                    String failedTest = String.format("Fail [%s] - best move found %s",
+                            epdEntry.text,
+                            epdSearchResult.bestMoveFoundStr
+                    );
+                    System.out.println(failedTest);
+                }
+                epdSearchResults.add(epdSearchResult);
+            });
         }
+
+        executorService.shutdown();
+        try {
+            while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Stopping executorService....");
+            executorService.shutdownNow();
+        }
+
         return epdSearchResults;
     }
 

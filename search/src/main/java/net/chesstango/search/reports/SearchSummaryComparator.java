@@ -17,9 +17,15 @@ import java.util.Objects;
 public class SearchSummaryComparator {
 
     public static void main(String[] args) {
+        /*
         SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-v0.0.14-2023-08-24-14-36");
         //summaryComparator.addSession("depth-4-v0.0.14-2023-08-24-14-12");
         summaryComparator.addSession("depth-5-v0.0.15-SNAPSHOT-2023-08-24-08-10-withArrayTT_1024_128-withSort");
+         */
+
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-4-v0.0.14-2023-08-24-14-12");
+        //summaryComparator.addSession("depth-4-v0.0.14-2023-08-24-14-12");
+        summaryComparator.addSession("depth-4-2023-08-26-11-49");
 
 
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
