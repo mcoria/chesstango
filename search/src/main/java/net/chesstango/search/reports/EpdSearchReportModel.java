@@ -18,21 +18,21 @@ public class EpdSearchReportModel {
 
         reportModel.searches = edpEntries.size();
 
-        reportModel.success = edpEntries.stream().filter(edpEntry -> edpEntry.bestMoveFound).count();
+        reportModel.success = edpEntries.stream().filter(EPDSearchResult::bestMoveFound).count();
 
         reportModel.successRate = (int) ((100 * reportModel.success) / reportModel.searches);
 
-        reportModel.duration = edpEntries.stream().mapToLong(edpEntry -> edpEntry.searchDuration).sum();
+        reportModel.duration = edpEntries.stream().mapToLong(EPDSearchResult::searchDuration).sum();
 
         reportModel.failedEntries = new ArrayList<>();
 
         edpEntries.stream()
-                .filter(edpEntry -> !edpEntry.bestMoveFound)
+                .filter(edpEntry -> !edpEntry.bestMoveFound())
                 .forEach(edpEntry ->
                         reportModel.failedEntries.add(
                                 String.format("Fail [%s] - best move found %s",
                                         edpEntry.getText(),
-                                        edpEntry.bestMoveFoundStr
+                                        edpEntry.bestMoveFoundStr()
                                 )
                         ));
 

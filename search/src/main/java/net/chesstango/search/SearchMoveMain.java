@@ -42,7 +42,7 @@ public class SearchMoveMain {
     //private static final String SEARCH_SESSION_ID = "test";
 
     private static final String SEARCH_SESSION_ID = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm"));
-    private static final int SEARCH_THREADS = 4;
+    private static final int SEARCH_THREADS = 3;
 
     /**
      * Parametros
@@ -92,7 +92,7 @@ public class SearchMoveMain {
     }
 
     public boolean test(EPDEntry EPDEntry) {
-        return run(EPDEntry).bestMoveFound;
+        return run(EPDEntry).bestMoveFound();
     }
 
     public EPDSearchResult run(EPDEntry epdEntry) {
@@ -102,25 +102,19 @@ public class SearchMoveMain {
 
         SearchMoveResult searchResult = searchMove.search(epdEntry.game, depth);
 
+        long duration = Duration.between(start, Instant.now()).toMillis();
+
         searchResult.setEpdID(epdEntry.id);
 
         Move bestMove = searchResult.getBestMove();
 
-        EPDSearchResult epdSearchResult = new EPDSearchResult();
+        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
 
-        epdSearchResult.epdEntry = epdEntry;
-
-        epdSearchResult.searchDuration = Duration.between(start, Instant.now()).toMillis();
-
-        epdSearchResult.bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
-
-        epdSearchResult.bestMoveFound = epdEntry.bestMoves.contains(bestMove);
-
-        epdSearchResult.searchResult = searchResult;
+        boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
 
         searchMove.reset();
 
-        return epdSearchResult;
+        return new EPDSearchResult(epdEntry, bestMoveFoundStr, bestMoveFound, duration, searchResult);
     }
 
     private void execute(Path suitePath) {
@@ -135,7 +129,7 @@ public class SearchMoveMain {
 
         List<EPDSearchResult> epdSearchResults = run(edpEntries);
 
-        SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", epdSearchResults.stream().map(epdSearchResult -> epdSearchResult.searchResult).toList());
+        SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", epdSearchResults.stream().map(EPDSearchResult::searchResult).toList());
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
@@ -199,12 +193,12 @@ public class SearchMoveMain {
         for (EPDEntry epdEntry : edpEntries) {
             executorService.submit(() -> {
                 EPDSearchResult epdSearchResult = run(epdEntry);
-                if (epdSearchResult.bestMoveFound) {
+                if (epdSearchResult.bestMoveFound()) {
                     System.out.printf("Success %s\n", epdEntry.fen);
                 } else {
                     String failedTest = String.format("Fail [%s] - best move found %s",
                             epdEntry.text,
-                            epdSearchResult.bestMoveFoundStr
+                            epdSearchResult.bestMoveFoundStr()
                     );
                     System.out.println(failedTest);
                 }

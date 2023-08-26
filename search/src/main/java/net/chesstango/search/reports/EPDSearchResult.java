@@ -6,14 +6,11 @@ import net.chesstango.search.SearchMoveResult;
 /**
  * @author Mauricio Coria
  */
-public class EPDSearchResult {
-    public EPDEntry epdEntry;
-    public String bestMoveFoundStr;
-    public boolean bestMoveFound;
-    public long searchDuration;
-
-    public SearchMoveResult searchResult;
-
+public record EPDSearchResult(EPDEntry epdEntry,
+                              String bestMoveFoundStr,
+                              boolean bestMoveFound,
+                              long searchDuration,
+                              SearchMoveResult searchResult) {
     public String getText() {
         return epdEntry.text;
     }
