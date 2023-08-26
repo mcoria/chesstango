@@ -134,9 +134,9 @@ public class SearchMoveMain {
 
         SearchesReportModel searchesReportModel = SearchesReportModel.collectStatics("", epdSearchResults.stream().map(epdSearchResult -> epdSearchResult.searchResult).toList());
 
-        EdpSearchReportModel edpSearchReportModel = EdpSearchReportModel.collectStatics(epdSearchResults);
+        EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
-        printReport(System.out, edpSearchReportModel, searchesReportModel);
+        printReport(System.out, epdSearchReportModel, searchesReportModel);
 
         String suiteName = suitePath.getFileName().toString();
 
@@ -147,8 +147,8 @@ public class SearchMoveMain {
         //saveSearchSummary(sessionDirectory, suiteName, edpSearchReportModel, searchesReportModel);
     }
 
-    private void saveSearchSummary(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
-        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(SEARCH_SESSION_ID, edpSearchReportModel, searchesReportModel);
+    private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
+        SearchSummaryModel searchSummaryModel = SearchSummaryModel.collectStatics(SEARCH_SESSION_ID, epdSearchReportModel, searchesReportModel);
 
         Path searchSummaryPath = sessionDirectory.resolve(String.format("%s.json", suiteName));
 
@@ -164,12 +164,12 @@ public class SearchMoveMain {
         }
     }
 
-    private void saveReport(Path sessionDirectory, String suiteName, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
+    private void saveReport(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
         Path suitePathReport = sessionDirectory.resolve(String.format("%s-report.txt", suiteName));
 
         try (PrintStream out = new PrintStream(new FileOutputStream(suitePathReport.toFile()), true)) {
 
-            printReport(out, edpSearchReportModel, searchesReportModel);
+            printReport(out, epdSearchReportModel, searchesReportModel);
 
             out.flush();
         } catch (IOException e) {
@@ -177,9 +177,9 @@ public class SearchMoveMain {
         }
     }
 
-    private void printReport(PrintStream output, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
-        new EdpSearchReport()
-                .setReportModel(edpSearchReportModel)
+    private void printReport(PrintStream output, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
+        new EpdSearchReport()
+                .setReportModel(epdSearchReportModel)
                 .printReport(output);
 
         new SearchesReport()

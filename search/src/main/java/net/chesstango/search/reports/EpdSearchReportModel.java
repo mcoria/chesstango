@@ -6,15 +6,15 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EdpSearchReportModel {
+public class EpdSearchReportModel {
     long searches;
     long success;
     int successRate;
     List<String> failedEntries;
     long duration;
 
-    public static EdpSearchReportModel collectStatics(List<EPDSearchResult> edpEntries) {
-        EdpSearchReportModel reportModel = new EdpSearchReportModel();
+    public static EpdSearchReportModel collectStatics(List<EPDSearchResult> edpEntries) {
+        EpdSearchReportModel reportModel = new EpdSearchReportModel();
 
         reportModel.searches = edpEntries.size();
 

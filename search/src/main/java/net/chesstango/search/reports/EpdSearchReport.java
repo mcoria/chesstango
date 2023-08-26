@@ -2,7 +2,6 @@ package net.chesstango.search.reports;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.chesstango.board.representations.EPDEntry;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -10,15 +9,15 @@ import java.util.List;
 /**
  * @author Mauricio Coria
  */
-public class EdpSearchReport {
+public class EpdSearchReport {
 
     private PrintStream out;
 
     @Setter
     @Accessors(chain = true)
-    private EdpSearchReportModel reportModel;
+    private EpdSearchReportModel reportModel;
 
-    public EdpSearchReport printReport(PrintStream output) {
+    public EpdSearchReport printReport(PrintStream output) {
         out = output;
         print();
         return this;
@@ -39,8 +38,8 @@ public class EdpSearchReport {
         out.printf("Time taken      : %dms\n", reportModel.duration);
     }
 
-    public EdpSearchReport withEdpEntries(List<EPDSearchResult> edpEntries) {
-        this.reportModel = EdpSearchReportModel.collectStatics(edpEntries);
+    public EpdSearchReport withEdpEntries(List<EPDSearchResult> edpEntries) {
+        this.reportModel = EpdSearchReportModel.collectStatics(edpEntries);
         return this;
     }
 

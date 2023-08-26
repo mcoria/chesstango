@@ -41,14 +41,14 @@ public class SearchSummaryModel {
     @JsonProperty("evaluatedGamesCounterTotal")
     long evaluatedGamesCounterTotal;
 
-    public static SearchSummaryModel collectStatics(String sessionId, EdpSearchReportModel edpSearchReportModel, SearchesReportModel searchesReportModel) {
+    public static SearchSummaryModel collectStatics(String sessionId, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
         SearchSummaryModel model = new SearchSummaryModel();
 
         model.sessionid = sessionId;
-        model.duration =  edpSearchReportModel.duration;
-        model.searches = edpSearchReportModel.searches;
-        model.success = edpSearchReportModel.success;
-        model.successRate = edpSearchReportModel.successRate;
+        model.duration =  epdSearchReportModel.duration;
+        model.searches = epdSearchReportModel.searches;
+        model.success = epdSearchReportModel.success;
+        model.successRate = epdSearchReportModel.successRate;
 
         model.maxSearchRLevel = searchesReportModel.maxSearchRLevel;
         model.maxSearchQLevel = searchesReportModel.maxSearchQLevel;
