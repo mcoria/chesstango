@@ -27,6 +27,7 @@ public class EPDReaderTest {
 
         assertEquals("1B1bk1nr/5pp1/rNR5/p3Pp1p/1p2pP2/1P5P/1PP3P1/2KR4 w k -", entry.fen);
         assertEquals("Rd1xd8+", entry.bestMovesString);
+        assertEquals("5712", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -38,6 +39,7 @@ public class EPDReaderTest {
 
         assertEquals("r3k3/8/2P1b3/p3p1P1/P6B/1pKBR1R1/1P3b2/3r1N2 b q -", entry.fen);
         assertEquals("O-O-O", entry.bestMovesString);
+        assertEquals("6067", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -48,6 +50,7 @@ public class EPDReaderTest {
 
         assertEquals("8/6R1/1p6/p2r2pk/3P1R2/6P1/q4P2/2B2K2 w - -", entry.fen);
         assertEquals("Rh4+", entry.bestMovesString);
+        assertEquals("918", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -58,6 +61,7 @@ public class EPDReaderTest {
 
         assertEquals("q1r3r1/1b3Nbk/p3QBpp/1p1P3P/B1n5/8/P4PP1/3RR1K1 w - -", entry.fen);
         assertEquals("h5xg6+", entry.bestMovesString);
+        assertEquals("3050", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -68,6 +72,7 @@ public class EPDReaderTest {
 
         assertEquals("8/kpP2r1p/p6r/n3Q1p1/P6q/1PN3p1/5P2/2RR2K1 w - -", entry.fen);
         assertEquals("c7-c8N+", entry.bestMovesString);
+        assertEquals("7510", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -78,6 +83,7 @@ public class EPDReaderTest {
 
         assertEquals("r1bq2rk/pp3pbp/2p1p1pQ/7P/3P4/2PB1N2/PP3PPR/2KR4 w - -", entry.fen);
         assertEquals("Qxh7+", entry.bestMovesString);
+        assertEquals("WAC.004", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -88,6 +94,7 @@ public class EPDReaderTest {
 
         assertEquals("1n2rr2/1pk3pp/pNn2p2/2N1p3/8/6P1/PP2PPKP/2RR4 w - -", entry.fen);
         assertEquals("Nca4", entry.bestMovesString);
+        assertEquals("WAC.299", entry.id);
         assertNotNull(entry.game);
         assertNotNull(entry.bestMoves);
     }
@@ -98,6 +105,7 @@ public class EPDReaderTest {
 
         assertEquals("rb3qk1/pQ3ppp/4p3/3P4/8/1P3N2/1P3PPP/3R2K1 w - -", entry.fen);
         assertEquals("Qxa8 d6 dxe6", entry.bestMovesString);
+        assertEquals("WAC.031", entry.id);
         assertNotNull(entry.game);
         assertEquals(3, entry.bestMoves.size());
     }
@@ -109,6 +117,7 @@ public class EPDReaderTest {
 
         assertEquals("5rk1/1ppb3p/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - -", entry.fen);
         assertEquals("Rg3", entry.bestMovesString);
+        assertEquals("WAC.003", entry.id);
         assertNotNull(entry.game);
         assertEquals(1, entry.bestMoves.size());
         assertEquals(Piece.ROOK_WHITE, entry.bestMoves.get(0).getFrom().getPiece());
@@ -120,6 +129,7 @@ public class EPDReaderTest {
 
         assertEquals("r3r1k1/pp1n1ppp/2p5/4Pb2/2B2P2/B1P5/P5PP/R2R2K1 w - -", entry.fen);
         assertEquals("e6", entry.bestMovesString);
+        assertEquals("WAC.072", entry.id);
         assertNotNull(entry.game);
         assertEquals(1, entry.bestMoves.size());
         assertEquals(Piece.PAWN_WHITE, entry.bestMoves.get(0).getFrom().getPiece());

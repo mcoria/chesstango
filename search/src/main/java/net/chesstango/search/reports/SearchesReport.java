@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 /**
@@ -76,6 +77,14 @@ public class SearchesReport {
     private void printVisitedNodes() {
         out.printf("Visited Nodes\n");
 
+        int longestId = 0;
+        for (int i = 0; i < reportModel.moveDetails.size(); i++) {
+            String epdId = reportModel.moveDetails.get(i).id;
+            if (Objects.nonNull(epdId) && epdId.length() > longestId) {
+                longestId = epdId.length();
+            }
+        }
+
         // Marco superior de la tabla
         out.printf(" ________");
         IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("_____________________"));
@@ -84,6 +93,9 @@ public class SearchesReport {
         out.printf("_______________");
         out.printf("_____________");
         out.printf("______________");
+        if (longestId > 0) {
+            out.printf(" %s", "_".repeat(longestId + 2));
+        }
         out.printf("\n");
 
         // Nombre de las columnas
@@ -94,6 +106,10 @@ public class SearchesReport {
         out.printf("| UEvaluations ");
         out.printf("| Collisions ");
         out.printf("| PCollisions ");
+        if (longestId > 0) {
+            out.printf("| ID");
+            out.printf(" ".repeat(longestId - 1));
+        }
         out.printf("|\n");
 
         // Cuerpo
@@ -105,17 +121,24 @@ public class SearchesReport {
             out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
             out.printf("| %10d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
             out.printf("| %11d ", moveDetail.collisionPercentage);
+            if (longestId > 0) {
+                out.printf("| %" + longestId + "s ", moveDetail.id);
+            }
             out.printf("|\n");
         }
 
         // Totales
         out.printf("|--------");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
-        out.printf("--------------");
-        out.printf("---------------");
-        out.printf("-------------");
-        out.printf("--------------");
+        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|--------------------"));
+        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|-----------"));
+        out.printf("|-------------");
+        out.printf("|--------------");
+        out.printf("|------------");
+        out.printf("|-------------");
+        if (longestId > 0) {
+            out.printf("|");
+            out.printf("-".repeat(longestId + 2));
+        }
         out.printf("|\n");
         out.printf("| SUM    ");
         IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth]));
@@ -124,17 +147,24 @@ public class SearchesReport {
         out.printf("| %12d ", reportModel.evaluatedGamesCounterTotal);
         out.printf("| %10d ", reportModel.evaluatedGamesCounterTotal);
         out.printf("| %11d ", reportModel.evaluatedGamesCounterTotal);
+        if (longestId > 0) {
+            out.printf("|");
+            out.printf(" ".repeat(longestId + 2));
+        }
         out.printf("|\n");
 
 
         // Marco inferior de la tabla
-        out.printf(" ---------");
+        out.printf("----------");
         IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
         out.printf("--------------");
         out.printf("---------------");
         out.printf("-------------");
         out.printf("--------------");
+        if (longestId > 0) {
+            out.printf("%s", "-".repeat(longestId + 2));
+        }
         out.printf("\n\n");
     }
 
@@ -241,7 +271,7 @@ public class SearchesReport {
         return this;
     }
 
-    public SearchesReport withMoveResults(List<SearchMoveResult> searchMoveResults){
+    public SearchesReport withMoveResults(List<SearchMoveResult> searchMoveResults) {
         this.reportModel = SearchesReportModel.collectStatics(this.engineName, searchMoveResults);
         return this;
     }

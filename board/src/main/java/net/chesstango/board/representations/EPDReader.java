@@ -83,7 +83,7 @@ public class EPDReader {
         return edpEntry;
     }
 
-    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|.*)*");
+    private Pattern edpLinePattern = Pattern.compile("(?<fen>.*/.*/.*/.*/.*\\s+[wb]\\s+([KQkq]{1,4}|-)\\s+(\\w\\d|-))\\s+(bm\\s+(?<bestmoves>[^;]*);|\\s*id\\s+\"(?<id>[^\"]+)\";|[^;]+;)*");
 
     protected EDPEntry parseLine(String line) {
         EDPEntry edpParsed = new EDPEntry();
@@ -96,12 +96,16 @@ public class EPDReader {
                 edpParsed.bestMovesString = matcher.group("bestmoves");
                 edpParsed.bestMoves = new ArrayList<>();
             }
+            if(matcher.group("id") != null) {
+                edpParsed.id = matcher.group("id");
+            }
         }
 
         return edpParsed;
     }
 
     public static class EDPEntry {
+        public String id;
         public String text;
 
         public String fen;

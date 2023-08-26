@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 public class SearchMoveResult {
+
     private final int depth;
 
     private final int evaluation;
@@ -39,6 +40,8 @@ public class SearchMoveResult {
     private RNodeStatics regularNodeStatics;
 
     private int[] visitedNodesQuiescenceCounter;
+
+    private String epdID;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {
         this.depth = depth;

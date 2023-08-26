@@ -45,6 +45,9 @@ public class SearchMoveMain {
      * 2. Directorio donde se encuentran los archivos de posicion
      * 3. Filtro de archivos
      *
+     * Ejemplo:
+     * 5 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-w[12].epd|mate-b[12].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -92,6 +95,8 @@ public class SearchMoveMain {
         Instant start = Instant.now();
 
         SearchMoveResult searchResult = searchMove.search(edpEntry.game, depth);
+
+        searchResult.setEpdID(edpEntry.id);
 
         currentSearchResult = searchResult;
 

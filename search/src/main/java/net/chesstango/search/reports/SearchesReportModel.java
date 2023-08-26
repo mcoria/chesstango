@@ -40,6 +40,7 @@ public class SearchesReportModel {
     List<SearchReportModelDetail> moveDetails;
 
     public static class SearchReportModelDetail {
+        public String id;
         String move;
         Set<EvaluationEntry> evaluations;
         long evaluatedGamesCounter;
@@ -71,6 +72,7 @@ public class SearchesReportModel {
             SearchesReportModel.SearchReportModelDetail reportModelDetail = new SearchesReportModel.SearchReportModelDetail();
 
             Move bestMove = searchMoveResult.getBestMove();
+            reportModelDetail.id = searchMoveResult.getEpdID();
             reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
             reportModelDetail.points = searchMoveResult.getEvaluation();
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
