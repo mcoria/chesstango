@@ -85,7 +85,7 @@ public class AlphaBetaStatisticsTest {
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatics().visitedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().visitedNodesCounters();
 
         assertEquals(20, visitedNodesCounters[0]);
         assertEquals(39, visitedNodesCounters[1]); // ESTA PERFECTO ES 39!!!!
@@ -97,7 +97,7 @@ public class AlphaBetaStatisticsTest {
 
         SearchMoveResult searchResult = new NoIterativeDeepening(alphaBeta).search(game, 2);
 
-        int[] visitedNodesCounters = searchResult.getRegularNodeStatics().expectedNodesCounters();
+        int[] visitedNodesCounters = searchResult.getRegularNodeStatistics().expectedNodesCounters();
 
         assertEquals(20, visitedNodesCounters[0]);
         assertEquals(400, visitedNodesCounters[1]);

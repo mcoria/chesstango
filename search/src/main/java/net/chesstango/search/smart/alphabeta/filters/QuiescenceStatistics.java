@@ -7,7 +7,7 @@ import net.chesstango.search.smart.SearchContext;
 /**
  * @author Mauricio Coria
  */
-public class QuiescenceStatics implements AlphaBetaFilter {
+public class QuiescenceStatistics implements AlphaBetaFilter {
     private AlphaBetaFilter next;
     private int[] visitedNodesQuiescenceCounter;
     private int maxPly;

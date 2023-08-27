@@ -10,7 +10,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.statics.RNodeStatics;
+import net.chesstango.search.smart.statics.RNodeStatistics;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,13 +59,13 @@ public class AlphaBetaSymmetryTest {
         /**
          * Testing mirror
          */
-        RNodeStatics regularNodeStatics = searchResult.getRegularNodeStatics();
-        int[] expectedNodes = regularNodeStatics.expectedNodesCounters();
-        int[] visitedNodes = regularNodeStatics.visitedNodesCounters();
+        RNodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+        int[] expectedNodes = regularNodeStatistics.expectedNodesCounters();
+        int[] visitedNodes = regularNodeStatistics.visitedNodesCounters();
 
-        RNodeStatics regularNodeStaticsMirror = searchResultMirror.getRegularNodeStatics();
-        int[] expectedNodesMirror = regularNodeStaticsMirror.expectedNodesCounters();
-        int[] visitedNodesMirror = regularNodeStaticsMirror.visitedNodesCounters();
+        RNodeStatistics regularNodeStatisticsMirror = searchResultMirror.getRegularNodeStatistics();
+        int[] expectedNodesMirror = regularNodeStatisticsMirror.expectedNodesCounters();
+        int[] visitedNodesMirror = regularNodeStatisticsMirror.visitedNodesCounters();
 
         int[] visitedNodesQ = searchResult.getVisitedNodesQuiescenceCounter();
         int[] visitedNodesQMirror = searchResultMirror.getVisitedNodesQuiescenceCounter();
@@ -93,7 +93,7 @@ public class AlphaBetaSymmetryTest {
 
                 .withIterativeDeepening()
 
-                .withStatics()
+                .withtStatistics()
 
                 .build();
     }

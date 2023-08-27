@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class SearchMoveMainTest {
-    private static final boolean PRINT_REPORT = true;
+    private static final boolean PRINT_REPORT = false;
     private EPDReader EPDReader;
     private EPDSearchResult epdSearchResult;
     private SearchMoveMain finderSuite;

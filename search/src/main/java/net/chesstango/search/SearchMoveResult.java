@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.statics.EvaluationStatics;
-import net.chesstango.search.smart.statics.RNodeStatics;
+import net.chesstango.search.smart.statics.EvaluationStatistics;
+import net.chesstango.search.smart.statics.RNodeStatistics;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,9 +35,9 @@ public class SearchMoveResult {
 
     private Collection<MoveEvaluation> moveEvaluations;
 
-    private EvaluationStatics evaluationStatics;
+    private EvaluationStatistics evaluationStatistics;
 
-    private RNodeStatics regularNodeStatics;
+    private RNodeStatistics regularNodeStatistics;
 
     private int[] visitedNodesQuiescenceCounter;
 

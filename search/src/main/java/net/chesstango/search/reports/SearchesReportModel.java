@@ -3,8 +3,8 @@ package net.chesstango.search.reports;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.statics.EvaluationEntry;
-import net.chesstango.search.smart.statics.EvaluationStatics;
-import net.chesstango.search.smart.statics.RNodeStatics;
+import net.chesstango.search.smart.statics.EvaluationStatistics;
+import net.chesstango.search.smart.statics.RNodeStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ public class SearchesReportModel {
     long[] visitedRNodesCounters;
     int[] cutoffPercentages;
     long visitedRNodesTotal;
+    long expectedRNodesTotal;
     ///////////////////// END VISITED REGULAR NODES
 
     ///////////////////// START VISITED QUIESCENCE NODES
@@ -48,11 +49,13 @@ public class SearchesReportModel {
         long distinctEvaluatedGamesCounterCollisions;
         long collisionPercentage;
         int[] expectedRNodesCounters;
+        int expectedRNodesCounter;
         int[] visitedRNodesCounters;
+        int visitedRNodesCounter;
         int[] cutoffPercentages;
         int[] visitedQNodesCounters;
+        int visitedQNodesCounter;
         String principalVariation;
-
         int points;
     }
 
@@ -77,17 +80,16 @@ public class SearchesReportModel {
             reportModelDetail.points = searchMoveResult.getEvaluation();
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
 
-            if (searchMoveResult.getEvaluationStatics() != null) {
-                collectStaticsEvaluationStatics(reportModelDetail, searchMoveResult);
-            }
-
-            if (searchMoveResult.getRegularNodeStatics() != null) {
+            if (searchMoveResult.getRegularNodeStatistics() != null) {
                 collectStaticsRegularNodeStatic(searchesReportModel, reportModelDetail, searchMoveResult);
             }
 
-            reportModelDetail.visitedQNodesCounters = searchMoveResult.getVisitedNodesQuiescenceCounter();
-            for (int i = 0; i < 30; i++) {
-                searchesReportModel.visitedQNodesCounter[i] += reportModelDetail.visitedQNodesCounters == null ? 0 : reportModelDetail.visitedQNodesCounters[i];
+            if (searchMoveResult.getVisitedNodesQuiescenceCounter() != null) {
+                collectStaticsQuiescenceNodeStastics(searchesReportModel, reportModelDetail, searchMoveResult);
+            }
+
+            if (searchMoveResult.getEvaluationStatistics() != null) {
+                collectStaticsEvaluationStatics(reportModelDetail, searchMoveResult);
             }
 
             searchesReportModel.evaluatedGamesCounterTotal += reportModelDetail.evaluatedGamesCounter;
@@ -103,14 +105,18 @@ public class SearchesReportModel {
                 searchesReportModel.cutoffPercentages[i] = (int) (100 - (100 * searchesReportModel.visitedRNodesCounters[i] / searchesReportModel.expectedRNodesCounters[i]));
             }
 
-            if (searchesReportModel.expectedRNodesCounters[i] > 0 && searchesReportModel.visitedRNodesCounters[i] > 0) {
+            if (searchesReportModel.expectedRNodesCounters[i] > 0
+                    && searchesReportModel.visitedRNodesCounters[i] > 0
+                    && searchesReportModel.maxSearchRLevel < i + 1) {
                 searchesReportModel.maxSearchRLevel = i + 1; //En el nivel más bajo no exploramos ningun nodo
             }
 
-            if (searchesReportModel.visitedQNodesCounter[i] > 0) {
+            if (searchesReportModel.visitedQNodesCounter[i] > 0
+                    && searchesReportModel.maxSearchQLevel < i + 1) {
                 searchesReportModel.maxSearchQLevel = i + 1;
             }
 
+            searchesReportModel.expectedRNodesTotal += searchesReportModel.expectedRNodesCounters[i];
             searchesReportModel.visitedRNodesTotal += searchesReportModel.visitedRNodesCounters[i];
             searchesReportModel.visitedQNodesTotal += searchesReportModel.visitedQNodesCounter[i];
         }
@@ -120,38 +126,52 @@ public class SearchesReportModel {
         return searchesReportModel;
     }
 
+
     private static void collectStaticsRegularNodeStatic(SearchesReportModel searchesReportModel, SearchesReportModel.SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
-        RNodeStatics regularNodeStatics = searchMoveResult.getRegularNodeStatics();
-        reportModelDetail.expectedRNodesCounters = regularNodeStatics.expectedNodesCounters();
-        reportModelDetail.visitedRNodesCounters = regularNodeStatics.visitedNodesCounters();
+        RNodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
+        reportModelDetail.expectedRNodesCounters = regularNodeStatistics.expectedNodesCounters();
+        reportModelDetail.visitedRNodesCounters = regularNodeStatistics.visitedNodesCounters();
         reportModelDetail.cutoffPercentages = new int[30];
 
         for (int i = 0; i < 30; i++) {
-
             if (reportModelDetail.expectedRNodesCounters[i] <= 0 && reportModelDetail.visitedRNodesCounters[i] > 0) {
                 throw new RuntimeException("expectedNodesCounters[i] <= 0");
             } else if (reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]) {
                 throw new RuntimeException("reportModelDetail.expectedRNodesCounters[i] < reportModelDetail.visitedRNodesCounters[i]");
             }
+
             if (reportModelDetail.expectedRNodesCounters[i] > 0 && reportModelDetail.visitedRNodesCounters[i] > 0) {
                 reportModelDetail.cutoffPercentages[i] = (int) (100 - (100 * reportModelDetail.visitedRNodesCounters[i] / reportModelDetail.expectedRNodesCounters[i]));
             }
 
-            searchesReportModel.expectedRNodesCounters[i] += reportModelDetail.expectedRNodesCounters[i];
-            searchesReportModel.visitedRNodesCounters[i] += reportModelDetail.visitedRNodesCounters[i];
+            if (reportModelDetail.visitedRNodesCounters[i] > 0) {
+                reportModelDetail.visitedRNodesCounter += reportModelDetail.visitedRNodesCounters[i];
+                reportModelDetail.expectedRNodesCounter += reportModelDetail.expectedRNodesCounters[i];
+
+                searchesReportModel.visitedRNodesCounters[i] += reportModelDetail.visitedRNodesCounters[i];
+                searchesReportModel.expectedRNodesCounters[i] += reportModelDetail.expectedRNodesCounters[i];
+            }
+        }
+    }
+
+    private static void collectStaticsQuiescenceNodeStastics(SearchesReportModel searchesReportModel, SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
+        reportModelDetail.visitedQNodesCounters = searchMoveResult.getVisitedNodesQuiescenceCounter();
+        for (int i = 0; i < 30; i++) {
+            reportModelDetail.visitedQNodesCounter += reportModelDetail.visitedQNodesCounters[i];
+            searchesReportModel.visitedQNodesCounter[i] += reportModelDetail.visitedQNodesCounters[i];
         }
     }
 
     private static void collectStaticsEvaluationStatics(SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
-        EvaluationStatics evaluationStatics = searchMoveResult.getEvaluationStatics();
+        EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
 
-        reportModelDetail.evaluatedGamesCounter = evaluationStatics.evaluatedGamesCounter();
-        reportModelDetail.evaluations = evaluationStatics.evaluations();
+        reportModelDetail.evaluatedGamesCounter = evaluationStatistics.evaluatedGamesCounter();
+        reportModelDetail.evaluations = evaluationStatistics.evaluations();
 
 
-        if(reportModelDetail.evaluations !=null) {
-            reportModelDetail.distinctEvaluatedGamesCounter = evaluationStatics.evaluations().size();
-            reportModelDetail.distinctEvaluatedGamesCounterCollisions = evaluationStatics.evaluatedGamesCounter() - evaluationStatics.evaluations().parallelStream().mapToInt(EvaluationEntry::getValue).distinct().count();
+        if (reportModelDetail.evaluations != null) {
+            reportModelDetail.distinctEvaluatedGamesCounter = evaluationStatistics.evaluations().size();
+            reportModelDetail.distinctEvaluatedGamesCounterCollisions = evaluationStatistics.evaluatedGamesCounter() - evaluationStatistics.evaluations().parallelStream().mapToInt(EvaluationEntry::getValue).distinct().count();
 
             /*
              * Cuando TT reuse está habilitado y depth=1 se puede dar que no se evaluan algunas posiciones

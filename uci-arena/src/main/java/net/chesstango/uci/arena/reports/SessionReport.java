@@ -1,15 +1,13 @@
 package net.chesstango.uci.arena.reports;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.statics.RNodeStatics;
+import net.chesstango.search.smart.statics.RNodeStatistics;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -85,9 +83,9 @@ public class SessionReport {
 
 
         searches.forEach(searchMoveResult -> {
-            RNodeStatics regularNodeStatics = searchMoveResult.getRegularNodeStatics();
-            int[] visitedRNodeCounters = regularNodeStatics.visitedNodesCounters();
-            int[] expectedRNodeCounters = regularNodeStatics.expectedNodesCounters();
+            RNodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
+            int[] visitedRNodeCounters = regularNodeStatistics.visitedNodesCounters();
+            int[] expectedRNodeCounters = regularNodeStatistics.expectedNodesCounters();
             for (int i = 0; i < visitedRNodeCounters.length; i++) {
                 rowModel.visitedRNodesCounters[i] += visitedRNodeCounters[i];
                 expectedRNodesCounters[i] += expectedRNodeCounters[i];

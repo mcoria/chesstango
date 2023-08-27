@@ -19,8 +19,9 @@ import java.util.stream.IntStream;
  * @author Mauricio Coria
  */
 public class SearchesReport {
-    private boolean printCutoffStatics;
-    private boolean printNodesVisitedStatics;
+    private boolean printCutoffStatistics;
+    private boolean printNodesVisitedStatistics;
+    private boolean printEvaluationsStatistics;
     private boolean printPrincipalVariation;
     private boolean exportEvaluations;
 
@@ -45,12 +46,18 @@ public class SearchesReport {
     protected void print() {
         printSummary();
 
-        if (printNodesVisitedStatics) {
+        if (printNodesVisitedStatistics) {
             printVisitedNodes();
         }
-        if (printCutoffStatics) {
+
+        if (printEvaluationsStatistics) {
+            printEvaluationsStatistics();
+        }
+
+        if (printCutoffStatistics) {
             printCutoff();
         }
+
         if (printPrincipalVariation) {
             printPrincipalVariation();
         }
@@ -75,7 +82,7 @@ public class SearchesReport {
     }
 
     private void printVisitedNodes() {
-        out.printf("Visited Nodes\n");
+        out.printf("Visited Nodes Statistics\n");
 
         int longestId = 0;
         for (int i = 0; i < reportModel.moveDetails.size(); i++) {
@@ -88,7 +95,95 @@ public class SearchesReport {
         // Marco superior de la tabla
         out.printf(" ________");
         IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("_____________________"));
+        out.printf("_____________________");
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("____________"));
+        out.printf("____________");
+        if (longestId > 0) {
+            out.printf(" %s", "_".repeat(longestId + 2));
+        }
+        out.printf("\n");
+
+        // Nombre de las columnas
+        out.printf("| Move   ");
+        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|     Level %2d       ", depth + 1));
+        out.printf("|     R Total        ");
+        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
+        out.printf("| QTotal    ");
+        if (longestId > 0) {
+            out.printf("| ID");
+            out.printf(" ".repeat(longestId - 1));
+        }
+        out.printf("|\n");
+
+        // Cuerpo
+        for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
+            out.printf("| %6s ", moveDetail.move);
+            IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));
+            out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounter, moveDetail.expectedRNodesCounter);
+
+            IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", moveDetail.visitedQNodesCounters[depth]));
+            out.printf("|   %7d ", moveDetail.visitedQNodesCounter);
+
+            if (longestId > 0) {
+                out.printf("| %" + longestId + "s ", moveDetail.id);
+            }
+            out.printf("|\n");
+        }
+
+        // Totales
+        out.printf("|--------");
+        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|--------------------"));
+        out.printf("|--------------------");
+
+        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|-----------"));
+        out.printf("|-----------");
+
+        if (longestId > 0) {
+            out.printf("|");
+            out.printf("-".repeat(longestId + 2));
+        }
+        out.printf("|\n");
+        out.printf("| SUM    ");
+        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth]));
+        out.printf("| %7d / %8d ", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal);
+
+        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", reportModel.visitedQNodesCounter[depth]));
+        out.printf("|   %7d ", reportModel.visitedQNodesTotal);
+
+        if (longestId > 0) {
+            out.printf("|");
+            out.printf(" ".repeat(longestId + 2));
+        }
+        out.printf("|\n");
+
+
+        // Marco inferior de la tabla
+        out.printf("----------");
+        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
+        out.printf("---------------------");
+
+        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
+        out.printf("------------");
+
+        if (longestId > 0) {
+            out.printf("%s", "-".repeat(longestId + 2));
+        }
+        out.printf("\n\n");
+    }
+
+    private void printEvaluationsStatistics() {
+        out.printf("Evaluation Statistics\n");
+
+        int longestId = 0;
+        for (int i = 0; i < reportModel.moveDetails.size(); i++) {
+            String epdId = reportModel.moveDetails.get(i).id;
+            if (Objects.nonNull(epdId) && epdId.length() > longestId) {
+                longestId = epdId.length();
+            }
+        }
+
+        // Marco superior de la tabla
+        out.printf(" ________");
         out.printf("______________");
         out.printf("_______________");
         out.printf("_____________");
@@ -100,8 +195,6 @@ public class SearchesReport {
 
         // Nombre de las columnas
         out.printf("| Move   ");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|     Level %2d       ", depth + 1));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("| Evaluations ");
         out.printf("| UEvaluations ");
         out.printf("| Collisions ");
@@ -115,8 +208,6 @@ public class SearchesReport {
         // Cuerpo
         for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
-            IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", moveDetail.visitedRNodesCounters[depth], moveDetail.expectedRNodesCounters[depth]));
-            IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", moveDetail.visitedQNodesCounters[depth]));
             out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
             out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
             out.printf("| %10d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
@@ -129,8 +220,6 @@ public class SearchesReport {
 
         // Totales
         out.printf("|--------");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("|--------------------"));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|-----------"));
         out.printf("|-------------");
         out.printf("|--------------");
         out.printf("|------------");
@@ -140,9 +229,9 @@ public class SearchesReport {
             out.printf("-".repeat(longestId + 2));
         }
         out.printf("|\n");
+
+
         out.printf("| SUM    ");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth]));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", reportModel.visitedQNodesCounter[depth]));
         out.printf("| %11d ", reportModel.evaluatedGamesCounterTotal);
         out.printf("| %12d ", reportModel.evaluatedGamesCounterTotal);
         out.printf("| %10d ", reportModel.evaluatedGamesCounterTotal);
@@ -156,8 +245,6 @@ public class SearchesReport {
 
         // Marco inferior de la tabla
         out.printf("----------");
-        IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("---------------------"));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
         out.printf("--------------");
         out.printf("---------------");
         out.printf("-------------");
@@ -252,12 +339,17 @@ public class SearchesReport {
     }
 
     public SearchesReport withCutoffStatics() {
-        this.printCutoffStatics = true;
+        this.printCutoffStatistics = true;
         return this;
     }
 
     public SearchesReport withNodesVisitedStatics() {
-        this.printNodesVisitedStatics = true;
+        this.printNodesVisitedStatistics = true;
+        return this;
+    }
+
+    public SearchesReport withEvaluationsStatics() {
+        this.printEvaluationsStatistics = true;
         return this;
     }
 

@@ -8,7 +8,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.statics.EvaluationEntry;
-import net.chesstango.search.smart.statics.EvaluationStatics;
+import net.chesstango.search.smart.statics.EvaluationStatistics;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * @author Mauricio Coria
  */
-public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
+public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
     private GameEvaluator imp;
     private long counter;
     private Set<EvaluationEntry> evaluations;
@@ -26,7 +26,7 @@ public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
     private boolean trackEvaluations;
 
 
-    public EvaluatorStatics(GameEvaluator instance) {
+    public EvaluatorStatistics(GameEvaluator instance) {
         this.imp = instance;
     }
 
@@ -51,7 +51,7 @@ public class EvaluatorStatics implements GameEvaluator, SearchLifeCycle {
     @Override
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
-            result.setEvaluationStatics(new EvaluationStatics(counter, evaluations));
+            result.setEvaluationStatistics(new EvaluationStatistics(counter, evaluations));
         }
     }
 

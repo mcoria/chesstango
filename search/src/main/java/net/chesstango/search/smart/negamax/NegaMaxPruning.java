@@ -9,7 +9,7 @@ import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.statics.RNodeStatics;
+import net.chesstango.search.smart.statics.RNodeStatistics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -73,7 +73,7 @@ public class NegaMaxPruning implements SearchSmart {
         Move bestMove = MoveSelector.selectMove(currentTurn, bestMoves);
 
         return new SearchMoveResult(context.getMaxPly(), minOrMax ? -bestValue : bestValue, bestMove, null)
-                .setRegularNodeStatics(new RNodeStatics(new int[30], visitedNodesCounter))
+                .setRegularNodeStatistics(new RNodeStatistics(new int[30], visitedNodesCounter))
                 .setEvaluationCollisions(bestMoves.size() - 1)
                 .setBestMoveOptions(bestMoves);
     }

@@ -133,15 +133,15 @@ public class SearchMoveMain {
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
-        String suiteName = suitePath.getFileName().toString();
+        //String suiteName = suitePath.getFileName().toString();
 
-        Path sessionDirectory = createSessionDirectory(suitePath);
+        //Path sessionDirectory = createSessionDirectory(suitePath);
 
-        saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+        //saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
-        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+        //saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
-        //printReport(System.out, epdSearchReportModel, searchesReportModel);
+        printReport(System.out, epdSearchReportModel, searchesReportModel);
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
@@ -183,26 +183,33 @@ public class SearchMoveMain {
                 .setReportModel(searchesReportModel)
                 //.withCutoffStatics()
                 .withNodesVisitedStatics()
+                //.withEvaluationsStatics()
+                //.withPrincipalVariation()
                 //.withExportEvaluations()
                 .printReport(output);
     }
 
     private List<EPDSearchResult> run(List<EPDEntry> edpEntries) {
         ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
+
         List<EPDSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
         for (EPDEntry epdEntry : edpEntries) {
             executorService.submit(() -> {
-                EPDSearchResult epdSearchResult = run(epdEntry);
-                if (epdSearchResult.bestMoveFound()) {
-                    System.out.printf("Success %s\n", epdEntry.fen);
-                } else {
-                    String failedTest = String.format("Fail [%s] - best move found %s",
-                            epdEntry.text,
-                            epdSearchResult.bestMoveFoundStr()
-                    );
-                    System.out.println(failedTest);
+                try {
+                    EPDSearchResult epdSearchResult = run(epdEntry);
+                    if (epdSearchResult.bestMoveFound()) {
+                        System.out.printf("Success %s\n", epdEntry.fen);
+                    } else {
+                        String failedTest = String.format("Fail [%s] - best move found %s",
+                                epdEntry.text,
+                                epdSearchResult.bestMoveFoundStr()
+                        );
+                        System.out.println(failedTest);
+                    }
+                    epdSearchResults.add(epdSearchResult);
+                } catch (RuntimeException e) {
+                    e.printStackTrace(System.err);
                 }
-                epdSearchResults.add(epdSearchResult);
             });
         }
 
@@ -213,6 +220,10 @@ public class SearchMoveMain {
         } catch (InterruptedException e) {
             System.out.println("Stopping executorService....");
             executorService.shutdownNow();
+        }
+
+        if (epdSearchResults.isEmpty()) {
+            throw new RuntimeException("No edp entry was processed");
         }
 
         return epdSearchResults;
@@ -240,19 +251,19 @@ public class SearchMoveMain {
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
                 .withIterativeDeepening()
 
-                .withStatics()
-                //.withStaticsTrackEvaluations() Consume demasiada memoria
+                .withtStatistics()
+                //.withStaticsTrackEvaluations() //Consume demasiada memoria
 
                 .build();
     }

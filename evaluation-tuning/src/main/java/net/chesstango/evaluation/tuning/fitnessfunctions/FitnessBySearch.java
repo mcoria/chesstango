@@ -72,11 +72,11 @@ public class FitnessBySearch implements FitnessFunction {
                 .withTranspositionMoveSorter()
                 .withQTranspositionMoveSorter()
 
-                .withStatics()
-
                 .withMoveEvaluation()
 
                 .withIterativeDeepening()
+
+                .withtStatistics()
 
                 .build();
 

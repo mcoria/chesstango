@@ -22,7 +22,9 @@ public class AlphaBetaStopTest {
     public void testStop() throws InterruptedException {
         SearchMove search = new AlphaBetaBuilder()
                 .withGameEvaluator(new EvaluatorByMaterial())
-                .withStatics()
+
+                .withQuiescence()
+
                 .withTranspositionTable()
                 .withQTranspositionTable()
 
@@ -34,6 +36,8 @@ public class AlphaBetaStopTest {
                 .withQTranspositionMoveSorter()
 
                 .withStopProcessingCatch()
+
+                .withtStatistics()
 
                 .build();
 

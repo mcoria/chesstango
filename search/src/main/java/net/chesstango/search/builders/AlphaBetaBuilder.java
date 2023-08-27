@@ -38,7 +38,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
     private AlphaBetaStatistics alphaBetaStatistics;
 
-    private QuiescenceStatics quiescenceStatics;
+    private QuiescenceStatistics quiescenceStatistics;
 
     private TranspositionTable transpositionTable;
 
@@ -47,10 +47,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
     private StopProcessingCatch stopProcessingCatch;
 
     private boolean withIterativeDeepening;
-    private boolean withStatics;
+    private boolean withStatistics;
     private boolean withMoveEvaluation;
     private boolean withTranspositionTableReuse;
-    private boolean withStaticsTrackEvaluations;
+    private boolean withStatisticsTrackEvaluations;
 
     public AlphaBetaBuilder() {
         alphaBetaImp = new AlphaBetaImp();
@@ -80,8 +80,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withStatics() {
-        this.withStatics = true;
+    public AlphaBetaBuilder withtStatistics() {
+        this.withStatistics = true;
         return this;
     }
 
@@ -91,16 +91,26 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withQTranspositionTable() {
+        if (quiescence instanceof QuiescenceNull) {
+            throw new RuntimeException("You must enable Quiescence first");
+        }
         qTranspositionTable = new QTranspositionTable();
         return this;
     }
 
     public AlphaBetaBuilder withTranspositionMoveSorter() {
+        if(transpositionTable == null){
+            throw new RuntimeException("You must enable TranspositionTable first");
+        }
         moveSorter = new TranspositionMoveSorter();
         return this;
     }
 
     public AlphaBetaBuilder withQTranspositionMoveSorter() {
+        if (qTranspositionTable == null) {
+            throw new RuntimeException("You must enable QTranspositionTable first");
+        }
+
         qMoveSorter = new QTranspositionMoveSorter();
         return this;
     }
@@ -121,8 +131,11 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public SearchBuilder withStaticsTrackEvaluations() {
-        withStaticsTrackEvaluations = true;
+    public SearchBuilder whithStatisticsTrackEvaluations() {
+        if(!withStatistics){
+            throw new RuntimeException("You must enable QTranspositionTable first");
+        }
+        withStatisticsTrackEvaluations = true;
         return this;
     }
 
@@ -144,13 +157,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
      */
     @Override
     public SearchMove build() {
-        if (withStatics) {
+        if (withStatistics) {
             alphaBetaStatistics = new AlphaBetaStatistics();
 
-            quiescenceStatics = new QuiescenceStatics();
+            quiescenceStatistics = new QuiescenceStatistics();
 
-            gameEvaluator = new EvaluatorStatics(gameEvaluator)
-                    .setTrackEvaluations(withStaticsTrackEvaluations);
+            gameEvaluator = new EvaluatorStatistics(gameEvaluator)
+                    .setTrackEvaluations(withStatisticsTrackEvaluations);
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
@@ -173,8 +186,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         filters.add(moveSorter);
         filters.add(qMoveSorter);
 
-        if (gameEvaluator instanceof EvaluatorStatics) {
-            filters.add((EvaluatorStatics) gameEvaluator);
+        if (gameEvaluator instanceof EvaluatorStatistics) {
+            filters.add((EvaluatorStatistics) gameEvaluator);
         }
 
         // =============  quiescence setup =====================
@@ -184,14 +197,14 @@ public class AlphaBetaBuilder implements SearchBuilder {
             realQuiescence.setMoveSorter(qMoveSorter);
             realQuiescence.setGameEvaluator(gameEvaluator);
 
-            if (quiescenceStatics != null) {
-                filters.add(quiescenceStatics);
+            if (quiescenceStatistics != null) {
+                filters.add(quiescenceStatistics);
                 if (qTranspositionTable != null) {
-                    quiescenceStatics.setNext(qTranspositionTable);
+                    quiescenceStatistics.setNext(qTranspositionTable);
                 } else {
-                    quiescenceStatics.setNext(quiescence);
+                    quiescenceStatistics.setNext(quiescence);
                 }
-                headQuiescence = quiescenceStatics;
+                headQuiescence = quiescenceStatistics;
             }
 
             if (qTranspositionTable != null) {

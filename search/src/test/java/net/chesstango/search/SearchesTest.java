@@ -40,7 +40,7 @@ public class SearchesTest {
 
                 .withIterativeDeepening()
 
-                .withStatics()
+                .withtStatistics()
 
                 .build();
     }

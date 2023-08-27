@@ -1,14 +1,9 @@
 package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
-import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.statics.RNodeStatics;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.IntStream;
+import net.chesstango.search.smart.statics.RNodeStatistics;
 
 /**
  * @author Mauricio Coria
@@ -30,7 +25,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     @Override
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
-            result.setRegularNodeStatics(new RNodeStatics(expectedNodesCounters, visitedNodesCounters));
+            result.setRegularNodeStatistics(new RNodeStatistics(expectedNodesCounters, visitedNodesCounters));
         }
         this.game = null;
         this.visitedNodesCounters = null;
