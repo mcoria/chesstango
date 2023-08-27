@@ -249,18 +249,18 @@ public class SearchMoveMain {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
 
-                //.withQuiescence()
+                .withQuiescence()
 
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
+                .withTranspositionTable()
+                .withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
-                //.withIterativeDeepening()
+                .withIterativeDeepening()
 
                 .withStatistics()
                 //.withStatisticsTrackEvaluations() //Consume demasiada memoria
