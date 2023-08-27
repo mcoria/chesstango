@@ -249,7 +249,7 @@ public class SearchMoveMain {
         return new AlphaBetaBuilder()
                 .withGameEvaluator(new DefaultEvaluator())
 
-                .withQuiescence()
+                //.withQuiescence()
 
                 //.withTranspositionTable()
                 //.withQTranspositionTable()
@@ -260,10 +260,10 @@ public class SearchMoveMain {
 
                 //.withStopProcessingCatch()
 
-                .withIterativeDeepening()
+                //.withIterativeDeepening()
 
-                .withtStatistics()
-                //.withStaticsTrackEvaluations() //Consume demasiada memoria
+                .withStatistics()
+                //.withStatisticsTrackEvaluations() //Consume demasiada memoria
 
                 .build();
     }

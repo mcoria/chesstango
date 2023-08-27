@@ -9,7 +9,7 @@ import net.chesstango.search.smart.MoveSelector;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.sorters.MoveSorter;
-import net.chesstango.search.smart.statics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.RNodeStatistics;
 
 import java.util.ArrayList;
 import java.util.Iterator;

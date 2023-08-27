@@ -80,7 +80,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public AlphaBetaBuilder withtStatistics() {
+    public AlphaBetaBuilder withStatistics() {
         this.withStatistics = true;
         return this;
     }
@@ -131,7 +131,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public SearchBuilder whithStatisticsTrackEvaluations() {
+    public SearchBuilder withStatisticsTrackEvaluations() {
         if(!withStatistics){
             throw new RuntimeException("You must enable QTranspositionTable first");
         }

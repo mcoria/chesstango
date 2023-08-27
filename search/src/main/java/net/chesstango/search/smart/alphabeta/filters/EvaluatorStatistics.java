@@ -7,8 +7,8 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.statics.EvaluationEntry;
-import net.chesstango.search.smart.statics.EvaluationStatistics;
+import net.chesstango.search.smart.statistics.EvaluationEntry;
+import net.chesstango.search.smart.statistics.EvaluationStatistics;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

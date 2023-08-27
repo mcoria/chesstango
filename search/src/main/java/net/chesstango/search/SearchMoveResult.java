@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
-import net.chesstango.search.smart.statics.EvaluationStatistics;
-import net.chesstango.search.smart.statics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.EvaluationStatistics;
+import net.chesstango.search.smart.statistics.RNodeStatistics;
 
 import java.util.Collection;
 import java.util.List;

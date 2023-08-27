@@ -10,7 +10,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.statics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.RNodeStatistics;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -93,7 +93,7 @@ public class AlphaBetaSymmetryTest {
 
                 .withIterativeDeepening()
 
-                .withtStatistics()
+                .withStatistics()
 
                 .build();
     }

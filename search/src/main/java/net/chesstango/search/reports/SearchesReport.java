@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.statics.EvaluationEntry;
+import net.chesstango.search.smart.statistics.EvaluationEntry;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -163,7 +163,7 @@ public class SearchesReport {
         out.printf("---------------------");
 
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
-        out.printf("------------");
+        out.printf("----------- ");
 
         if (longestId > 0) {
             out.printf("%s", "-".repeat(longestId + 2));
@@ -186,7 +186,8 @@ public class SearchesReport {
         out.printf(" ________");
         out.printf("______________");
         out.printf("_______________");
-        out.printf("_____________");
+        out.printf("_______________");
+        out.printf("_______________");
         out.printf("______________");
         if (longestId > 0) {
             out.printf(" %s", "_".repeat(longestId + 2));
@@ -196,8 +197,9 @@ public class SearchesReport {
         // Nombre de las columnas
         out.printf("| Move   ");
         out.printf("| Evaluations ");
+        out.printf("| GEvaluations ");
         out.printf("| UEvaluations ");
-        out.printf("| Collisions ");
+        out.printf("| CEvaluations ");
         out.printf("| PCollisions ");
         if (longestId > 0) {
             out.printf("| ID");
@@ -210,8 +212,9 @@ public class SearchesReport {
             out.printf("| %6s ", moveDetail.move);
             out.printf("| %11d ", moveDetail.evaluatedGamesCounter);
             out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounter);
-            out.printf("| %10d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
-            out.printf("| %11d ", moveDetail.collisionPercentage);
+            out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounterUnique);
+            out.printf("| %12d ", moveDetail.distinctEvaluatedGamesCounterCollisions);
+            out.printf("| %9d %% ", moveDetail.evaluationCollisionPercentage);
             if (longestId > 0) {
                 out.printf("| %" + longestId + "s ", moveDetail.id);
             }
@@ -222,7 +225,8 @@ public class SearchesReport {
         out.printf("|--------");
         out.printf("|-------------");
         out.printf("|--------------");
-        out.printf("|------------");
+        out.printf("|--------------");
+        out.printf("|--------------");
         out.printf("|-------------");
         if (longestId > 0) {
             out.printf("|");
@@ -233,9 +237,10 @@ public class SearchesReport {
 
         out.printf("| SUM    ");
         out.printf("| %11d ", reportModel.evaluatedGamesCounterTotal);
-        out.printf("| %12d ", reportModel.evaluatedGamesCounterTotal);
-        out.printf("| %10d ", reportModel.evaluatedGamesCounterTotal);
-        out.printf("| %11d ", reportModel.evaluatedGamesCounterTotal);
+        out.printf("| %12d ", reportModel.distinctEvaluatedGamesCounterTotal);
+        out.printf("| %12d ", reportModel.distinctEvaluatedGamesCounterUniqueTotal);
+        out.printf("| %12d ", reportModel.distinctEvaluatedGamesCounterCollisionsTotal);
+        out.printf("| %9d %% ", reportModel.evaluationCollisionPercentageTotal);
         if (longestId > 0) {
             out.printf("|");
             out.printf(" ".repeat(longestId + 2));
@@ -247,8 +252,9 @@ public class SearchesReport {
         out.printf("----------");
         out.printf("--------------");
         out.printf("---------------");
-        out.printf("-------------");
-        out.printf("--------------");
+        out.printf("---------------");
+        out.printf("---------------");
+        out.printf("------------- ");
         if (longestId > 0) {
             out.printf("%s", "-".repeat(longestId + 2));
         }
@@ -314,7 +320,7 @@ public class SearchesReport {
 
                 HexFormat hexFormat = HexFormat.of().withUpperCase();
                 for (EvaluationEntry evaluation : moveDetail.evaluations) {
-                    writer.append(String.format("0x%sL\t%d\n", hexFormat.formatHex(longToByte(evaluation.getKey())), evaluation.getValue()));
+                    writer.append(String.format("0x%sL\t%d\n", hexFormat.formatHex(longToByte(evaluation.key())), evaluation.value()));
                 }
                 writer.flush();
             } catch (IOException e) {

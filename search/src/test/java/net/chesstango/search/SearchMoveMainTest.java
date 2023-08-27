@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Mauricio Coria
  */
 public class SearchMoveMainTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private EPDReader EPDReader;
     private EPDSearchResult epdSearchResult;
     private SearchMoveMain finderSuite;
@@ -34,8 +34,9 @@ public class SearchMoveMainTest {
             System.out.println("Time taken: " + epdSearchResult.searchDuration() + " ms");
             new SearchesReport()
                     .withNodesVisitedStatics()
-                    .withCutoffStatics()
-                    .withPrincipalVariation()
+                    .withEvaluationsStatics()
+                    //.withCutoffStatics()
+                    //.withPrincipalVariation()
                     .withMoveResults(List.of(epdSearchResult.searchResult()))
                     .printReport(System.out);
         }

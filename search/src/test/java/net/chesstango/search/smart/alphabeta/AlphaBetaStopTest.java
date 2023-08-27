@@ -37,7 +37,7 @@ public class AlphaBetaStopTest {
 
                 .withStopProcessingCatch()
 
-                .withtStatistics()
+                .withStatistics()
 
                 .build();
 
