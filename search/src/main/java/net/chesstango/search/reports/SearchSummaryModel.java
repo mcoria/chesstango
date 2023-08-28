@@ -41,6 +41,9 @@ public class SearchSummaryModel {
     @JsonProperty("evaluatedGamesCounterTotal")
     long evaluatedGamesCounterTotal;
 
+    @JsonProperty("executedMovesTotal")
+    int executedMovesTotal;
+
     public static SearchSummaryModel collectStatics(String sessionId, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
         SearchSummaryModel model = new SearchSummaryModel();
 
@@ -57,6 +60,7 @@ public class SearchSummaryModel {
         model.visitedQNodesTotal = searchesReportModel.visitedQNodesTotal;
         model.visitedNodesTotal = searchesReportModel.visitedNodesTotal;
         model.evaluatedGamesCounterTotal = searchesReportModel.evaluatedGamesCounterTotal;
+        model.executedMovesTotal = searchesReportModel.executedMovesTotal;
 
         return model;
     }

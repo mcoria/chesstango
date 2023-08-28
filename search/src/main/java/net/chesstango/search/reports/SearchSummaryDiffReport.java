@@ -30,8 +30,8 @@ public class SearchSummaryDiffReport {
     private static final String successRateFmt = "| %17d%% ";
     private static final String successLevelFmt = "| %18d ";
     private static final String visitedNodesFmt = "| %11d (%3d%%) ";
-
     private static final String evaluatedGamesFmt = "| %11d (%3d%%) ";
+    private static final String executedMovesFmt = "| %11d (%3d%%) ";
 
     private void print() {
         SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -101,6 +101,11 @@ public class SearchSummaryDiffReport {
         out.printf("| Eval Games ");
         out.printf(evaluatedGamesFmt, baseLineSearchSummary.evaluatedGamesCounterTotal, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(evaluatedGamesFmt, searchSummaryList.get(i).evaluatedGamesCounterTotal, searchSummaryDiffs.get(i).evaluatedGamesPercentage()));
+        out.printf("|\n");
+
+        out.printf("| Exec Moves ");
+        out.printf(executedMovesFmt, baseLineSearchSummary.executedMovesTotal, 100);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(executedMovesFmt, searchSummaryList.get(i).executedMovesTotal, searchSummaryDiffs.get(i).executedMovesPercentage()));
         out.printf("|\n");
 
         // Marco inferior de la tabla

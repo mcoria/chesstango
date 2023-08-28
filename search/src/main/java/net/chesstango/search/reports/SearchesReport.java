@@ -76,6 +76,7 @@ public class SearchesReport {
         out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
         out.printf("Visited  Total   Nodes: %8d\n", reportModel.visitedNodesTotal);
         out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedGamesCounterTotal);
+        out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
         out.printf("Max              Depth: %8d\n", reportModel.maxSearchRLevel);
         out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
         out.printf("\n");

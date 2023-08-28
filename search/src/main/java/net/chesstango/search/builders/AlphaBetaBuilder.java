@@ -294,14 +294,17 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         SearchMove searchMove;
         if (withIterativeDeepening) {
+            searchMove = new IterativeDeepening(alphaBeta);
+        } else {
+            searchMove = new NoIterativeDeepening(alphaBeta);
+        }
 
-            IterativeWrapper iterativeWrapper = new IterativeWrapper(new IterativeDeepening(alphaBeta));
+        if (withStatistics) {
+            IterativeWrapper iterativeWrapper = new IterativeWrapper(searchMove);
 
             filters.add(iterativeWrapper);
 
             searchMove = iterativeWrapper;
-        } else {
-            searchMove = new NoIterativeDeepening(alphaBeta);
         }
 
         return searchMove;
