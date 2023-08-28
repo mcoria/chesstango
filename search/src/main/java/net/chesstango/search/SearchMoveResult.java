@@ -41,6 +41,8 @@ public class SearchMoveResult {
 
     private int[] visitedNodesQuiescenceCounter;
 
+    private int executedMoves;
+
     private String epdID;
 
     public SearchMoveResult(int depth, int evaluation, Move bestMove, Move ponderMove) {

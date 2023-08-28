@@ -98,6 +98,7 @@ public class SearchesReport {
         out.printf("_____________________");
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("____________"));
         out.printf("____________");
+        out.printf("____________");
         if (longestId > 0) {
             out.printf(" %s", "_".repeat(longestId + 2));
         }
@@ -109,6 +110,7 @@ public class SearchesReport {
         out.printf("|     R Total        ");
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| QLevel %2d ", depth + 1));
         out.printf("| QTotal    ");
+        out.printf("| MovesExe  ");
         if (longestId > 0) {
             out.printf("| ID");
             out.printf(" ".repeat(longestId - 1));
@@ -124,6 +126,8 @@ public class SearchesReport {
             IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", moveDetail.visitedQNodesCounters[depth]));
             out.printf("|   %7d ", moveDetail.visitedQNodesCounter);
 
+            out.printf("|   %7d ", moveDetail.executedMoves);
+
             if (longestId > 0) {
                 out.printf("| %" + longestId + "s ", moveDetail.id);
             }
@@ -138,6 +142,8 @@ public class SearchesReport {
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|-----------"));
         out.printf("|-----------");
 
+        out.printf("|-----------");
+
         if (longestId > 0) {
             out.printf("|");
             out.printf("-".repeat(longestId + 2));
@@ -149,6 +155,8 @@ public class SearchesReport {
 
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("|   %7d ", reportModel.visitedQNodesCounter[depth]));
         out.printf("|   %7d ", reportModel.visitedQNodesTotal);
+
+        out.printf("|   %7d ", reportModel.executedMovesTotal);
 
         if (longestId > 0) {
             out.printf("|");
@@ -163,6 +171,8 @@ public class SearchesReport {
         out.printf("---------------------");
 
         IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("------------"));
+        out.printf("------------");
+
         out.printf("----------- ");
 
         if (longestId > 0) {

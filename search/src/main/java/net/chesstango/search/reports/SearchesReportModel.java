@@ -43,9 +43,10 @@ public class SearchesReportModel {
     ///////////////////// END VISITED QUIESCENCE NODES
 
     List<SearchReportModelDetail> moveDetails;
+    int executedMovesTotal;
 
     public static class SearchReportModelDetail {
-        public String id;
+        String id;
         String move;
 
         /**
@@ -73,6 +74,7 @@ public class SearchesReportModel {
 
         String principalVariation;
         int points;
+        int executedMoves;
     }
 
 
@@ -95,6 +97,7 @@ public class SearchesReportModel {
             reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
             reportModelDetail.points = searchMoveResult.getEvaluation();
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
+            reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 
             if (searchMoveResult.getRegularNodeStatistics() != null) {
                 collectStaticsRegularNodeStatic(searchesReportModel, reportModelDetail, searchMoveResult);
@@ -109,6 +112,7 @@ public class SearchesReportModel {
             }
 
             searchesReportModel.evaluatedGamesCounterTotal += reportModelDetail.evaluatedGamesCounter;
+            searchesReportModel.executedMovesTotal += reportModelDetail.executedMoves;
             searchesReportModel.moveDetails.add(reportModelDetail);
         });
 
