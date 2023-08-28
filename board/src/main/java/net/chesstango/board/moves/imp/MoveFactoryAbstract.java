@@ -152,7 +152,7 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         moveImp.setFnDoColorBoard(algoBitBoard::defaultFnDoBitBoard);
         moveImp.setFnUndoColorBoard(algoBitBoard::defaultFnUndoBitBoard);
 
-        moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrit);
+        moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrist);
     }
 
     protected void addCaptureMoveExecutors(PiecePositioned origen, PiecePositioned destino, MoveImp moveImp) {
@@ -168,7 +168,7 @@ public abstract class MoveFactoryAbstract  implements MoveFactory {
         moveImp.setFnDoColorBoard(algoBitBoard::captureFnDoBitBoard);
         moveImp.setFnUndoColorBoard(algoBitBoard::captureFnUndoBitBoard);
 
-        moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrit);
+        moveImp.setFnDoZobrist(algoZobrist::defaultFnDoZobrist);
     }
 
 }
