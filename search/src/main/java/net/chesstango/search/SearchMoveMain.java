@@ -22,9 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -133,13 +131,13 @@ public class SearchMoveMain {
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
-        //String suiteName = suitePath.getFileName().toString();
+        String suiteName = suitePath.getFileName().toString();
 
-        //Path sessionDirectory = createSessionDirectory(suitePath);
+        Path sessionDirectory = createSessionDirectory(suitePath);
 
-        //saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+        saveReport(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
-        //saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
+        saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, searchesReportModel);
 
         printReport(System.out, epdSearchReportModel, searchesReportModel);
     }
@@ -192,25 +190,31 @@ public class SearchMoveMain {
     private List<EPDSearchResult> run(List<EPDEntry> edpEntries) {
         ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
 
-        List<EPDSearchResult> epdSearchResults = Collections.synchronizedList(new LinkedList<>());
+        List<Future<EPDSearchResult>> futures = new LinkedList<>();
         for (EPDEntry epdEntry : edpEntries) {
-            executorService.submit(() -> {
-                try {
-                    EPDSearchResult epdSearchResult = run(epdEntry);
-                    if (epdSearchResult.bestMoveFound()) {
-                        System.out.printf("Success %s\n", epdEntry.fen);
-                    } else {
-                        String failedTest = String.format("Fail [%s] - best move found %s",
-                                epdEntry.text,
-                                epdSearchResult.bestMoveFoundStr()
-                        );
-                        System.out.println(failedTest);
+            Future<EPDSearchResult> future = executorService.submit(new Callable<>() {
+                @Override
+                public EPDSearchResult call() throws Exception {
+                    try {
+                        EPDSearchResult epdSearchResult = run(epdEntry);
+                        if (epdSearchResult.bestMoveFound()) {
+                            System.out.printf("Success %s\n", epdEntry.fen);
+                        } else {
+                            String failedTest = String.format("Fail [%s] - best move found %s",
+                                    epdEntry.text,
+                                    epdSearchResult.bestMoveFoundStr()
+                            );
+                            System.out.println(failedTest);
+                        }
+                        return epdSearchResult;
+                    } catch (RuntimeException e) {
+                        e.printStackTrace(System.err);
+                        throw e;
                     }
-                    epdSearchResults.add(epdSearchResult);
-                } catch (RuntimeException e) {
-                    e.printStackTrace(System.err);
                 }
             });
+
+            futures.add(future);
         }
 
         executorService.shutdown();
@@ -221,6 +225,17 @@ public class SearchMoveMain {
             System.out.println("Stopping executorService....");
             executorService.shutdownNow();
         }
+
+        List<EPDSearchResult> epdSearchResults = new LinkedList<>();
+        futures.forEach(future -> {
+            try {
+                EPDSearchResult epdSearchResult = future.get();
+                epdSearchResults.add(epdSearchResult);
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         if (epdSearchResults.isEmpty()) {
             throw new RuntimeException("No edp entry was processed");

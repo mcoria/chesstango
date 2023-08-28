@@ -99,7 +99,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public AlphaBetaBuilder withTranspositionMoveSorter() {
-        if(transpositionTable == null){
+        if (transpositionTable == null) {
             throw new RuntimeException("You must enable TranspositionTable first");
         }
         moveSorter = new TranspositionMoveSorter();
@@ -132,7 +132,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
     }
 
     public SearchBuilder withStatisticsTrackEvaluations() {
-        if(!withStatistics){
+        if (!withStatistics) {
             throw new RuntimeException("You must enable QTranspositionTable first");
         }
         withStatisticsTrackEvaluations = true;
@@ -192,8 +192,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
         // =============  quiescence setup =====================
         AlphaBetaFilter headQuiescence = null;
-        if (quiescence instanceof Quiescence) {
-            Quiescence realQuiescence = (Quiescence) quiescence;
+        if (quiescence instanceof Quiescence realQuiescence) {
             realQuiescence.setMoveSorter(qMoveSorter);
             realQuiescence.setGameEvaluator(gameEvaluator);
 
@@ -291,6 +290,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
         AlphaBeta alphaBeta = new AlphaBeta();
         alphaBeta.setAlphaBetaSearch(head);
         alphaBeta.setSearchActions(filters);
+
+
 
         return withIterativeDeepening ? new IterativeDeepening(alphaBeta) : new NoIterativeDeepening(alphaBeta);
     }
