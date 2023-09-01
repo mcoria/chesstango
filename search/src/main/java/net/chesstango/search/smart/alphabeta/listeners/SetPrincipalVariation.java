@@ -7,6 +7,7 @@ import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
+import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetPrincipalVariation implements SearchLifeCycle {
-    private Map<Long, TranspositionEntry> maxMap;
-    private Map<Long, TranspositionEntry> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private Game game;
 
     @Override
@@ -58,8 +59,8 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     public List<Move> calculatePrincipalVariation(Game game,
                                                     Move bestMove,
                                                     int depth,
-                                                    Map<Long, TranspositionEntry> maxMap,
-                                                    Map<Long, TranspositionEntry> minMap) {
+                                                    TTable maxMap,
+                                                    TTable minMap) {
 
         List<Move> principalVariation = new ArrayList<>();
 
@@ -89,7 +90,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return principalVariation;
     }
 
-    private Move readMoveFromTT(Game game, Map<Long, TranspositionEntry> maxMap, Map<Long, TranspositionEntry> minMap) {
+    private Move readMoveFromTT(Game game, TTable maxMap, TTable minMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();
@@ -112,7 +113,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return result;
     }
 
-    private Move readMoveFromQTT(Game game, Map<Long, TranspositionEntry> qMaxMap, Map<Long, TranspositionEntry> qMinMap) {
+    private Move readMoveFromQTT(Game game, TTable qMaxMap, TTable qMinMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();

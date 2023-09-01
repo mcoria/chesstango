@@ -4,20 +4,17 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-
-import java.util.Map;
-
-import net.chesstango.search.smart.transposition.TranspositionType;
-
+import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 /**
  * @author Mauricio Coria
  */
 public class QTranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, TranspositionEntry> maxMap;
-    private Map<Long, TranspositionEntry> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private Game game;
 
     @Override

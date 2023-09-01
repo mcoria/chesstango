@@ -6,6 +6,8 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class TranspositionEntryMoveSorterTest {
 
-    private Map<Long, TranspositionEntry> maxMap;
-    private Map<Long, TranspositionEntry> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private TranspositionMoveSorter moveSorter;
 
     @BeforeEach
     public void setup() {
-        maxMap = new HashMap<>();
-        minMap = new HashMap<>();
+        maxMap = new MapTTable();
+        minMap = new MapTTable();
         moveSorter = new TranspositionMoveSorter();
     }
 

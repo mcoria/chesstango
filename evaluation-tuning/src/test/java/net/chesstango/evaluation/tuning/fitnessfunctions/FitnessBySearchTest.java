@@ -8,14 +8,14 @@ import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
 import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
+import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,16 +25,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FitnessBySearchTest {
     private static final int DEPTH = 1;
     private FitnessBySearch fitnessFn;
-    private Map<Long, TranspositionEntry> maxMap;
-    private Map<Long, TranspositionEntry> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private SetMoveEvaluations setMoveEvaluations;
 
     @BeforeEach
     public void setup() {
         fitnessFn = new FitnessBySearch(null);
         setMoveEvaluations = new SetMoveEvaluations();
-        maxMap = new HashMap<>();
-        minMap = new HashMap<>();
+        maxMap = new MapTTable();
+        minMap = new MapTTable();
     }
 
     /**

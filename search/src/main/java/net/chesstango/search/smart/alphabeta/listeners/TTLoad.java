@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionType;
 
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -24,8 +25,8 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 public class TTLoad implements SearchLifeCycle {
 
     private Game game;
-    private Map<Long, TranspositionEntry> maxMap;
-    private Map<Long, TranspositionEntry> minMap;
+    private TTable maxMap;
+    private TTable minMap;
 
     private boolean initialStateLoaded = false;
 
@@ -83,7 +84,7 @@ public class TTLoad implements SearchLifeCycle {
         executorService.shutdown();
     }
 
-    private void loadTable(String fileName, Map<Long, TranspositionEntry> map) {
+    private void loadTable(String fileName, TTable map) {
         try {
             FileInputStream fis = new FileInputStream(fileName);
             BufferedInputStream bis = new BufferedInputStream(fis);

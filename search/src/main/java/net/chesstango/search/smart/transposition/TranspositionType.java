@@ -1,5 +1,8 @@
 package net.chesstango.search.smart.transposition;
 
+/**
+ * @author Mauricio Coria
+ */
 public enum TranspositionType {
     EXACT((byte) 0b00000001), LOWER_BOUND((byte) 0b00000010), UPPER_BOUND((byte) 0b00000011);
     private final byte byteValue;
