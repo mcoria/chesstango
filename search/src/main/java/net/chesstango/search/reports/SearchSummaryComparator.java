@@ -17,34 +17,21 @@ import java.util.Objects;
 public class SearchSummaryComparator {
 
     public static void main(String[] args) {
-        /*
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-v0.0.14-2023-08-24-14-36");
-        summaryComparator.addSession("depth-4-v0.0.14-2023-08-24-14-12");
-        summaryComparator.addSession("depth-5-v0.0.15-SNAPSHOT-2023-08-24-08-10-withArrayTT_1024_128-withSort");
-         */
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-4-2023-08-31-22-18");
+        summaryComparator.addSession("depth-4-2023-08-31-22-20");
 
-        /*
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-27-23-55-nada");
-        summaryComparator.addSession("depth-5-2023-08-27-23-56-IterativeDeepening");
-        summaryComparator.addSession("depth-5-2023-08-28-00-09-IterativeDeepening-TT");
-        summaryComparator.addSession("depth-5-2023-08-28-00-09-IterativeDeepening-TT-MoveSorter");
-         */
 
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-28-00-32-Q");
-        summaryComparator.addSession("depth-5-2023-08-28-00-34-Q-IterativeDeepening");
-        summaryComparator.addSession("depth-5-2023-08-28-00-36-Q-IterativeDeepening-TT");
-        summaryComparator.addSession("depth-5-2023-08-28-00-38-Q-IterativeDeepening-TT-MoveSorter");
-        //summaryComparator.addSession("depth-5-2023-08-28-00-09-IterativeDeepening-TT-MoveSorter");
 
         /*
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
+         */
 
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w2.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b2.epd");
-        */
 
-        summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
+
+        //summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");
         //summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\wac-2018.epd");
 
         /*
