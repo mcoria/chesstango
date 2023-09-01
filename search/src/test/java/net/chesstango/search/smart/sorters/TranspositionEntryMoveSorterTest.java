@@ -6,7 +6,7 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorterTest {
+public class TranspositionEntryMoveSorterTest {
 
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, TranspositionEntry> maxMap;
+    private Map<Long, TranspositionEntry> minMap;
     private TranspositionMoveSorter moveSorter;
 
     @BeforeEach
@@ -69,8 +69,8 @@ public class TranspositionMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private Transposition createTableEntry(short bestMoveEncoded) {
-        Transposition entry = new Transposition();
+    private TranspositionEntry createTableEntry(short bestMoveEncoded) {
+        TranspositionEntry entry = new TranspositionEntry();
         long bestMoveAndValue = encodedMoveAndValue(bestMoveEncoded, 1);
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);

@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,8 @@ import java.util.Map;
  * @author Mauricio Coria
  */
 public class SetTranspositionTables implements SearchLifeCycle {
-    private final Map<Long, Transposition> maxMap;
-    private final Map<Long, Transposition> minMap;
+    private final Map<Long, TranspositionEntry> maxMap;
+    private final Map<Long, TranspositionEntry> minMap;
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){

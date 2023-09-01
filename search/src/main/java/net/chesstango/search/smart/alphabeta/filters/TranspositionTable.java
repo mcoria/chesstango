@@ -7,17 +7,17 @@ import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
-import static net.chesstango.search.smart.Transposition.Type;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
 public class TranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, TranspositionEntry> maxMap;
+    private Map<Long, TranspositionEntry> minMap;
 
     private Game game;
     private int maxPly;
@@ -61,10 +61,10 @@ public class TranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            Transposition entry = maxMap.get(hash);
+            TranspositionEntry entry = maxMap.get(hash);
 
             if (entry == null) {
-                entry = new Transposition();
+                entry = new TranspositionEntry();
 
                 maxMap.put(hash, entry);
 
@@ -73,11 +73,11 @@ public class TranspositionTable implements AlphaBetaFilter {
                 if (entry.bestMoveAndValue != 0) {
                     if (searchDepth <= entry.searchDepth) {
                         // Es un valor exacto
-                        if (entry.type == Type.EXACT) {
+                        if (entry.transpositionType == TranspositionType.EXACT) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
+                        } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
+                        } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
                             return entry.bestMoveAndValue;
                         }
                     }
@@ -102,10 +102,10 @@ public class TranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            Transposition entry = minMap.get(hash);
+            TranspositionEntry entry = minMap.get(hash);
 
             if (entry == null) {
-                entry = new Transposition();
+                entry = new TranspositionEntry();
 
                 minMap.put(hash, entry);
 
@@ -114,11 +114,11 @@ public class TranspositionTable implements AlphaBetaFilter {
                 if (entry.bestMoveAndValue != 0) {
                     if (searchDepth <= entry.searchDepth) {
                         // Es un valor exacto
-                        if (entry.type == Type.EXACT) {
+                        if (entry.transpositionType == TranspositionType.EXACT) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
+                        } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
                             return entry.bestMoveAndValue;
-                        } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
+                        } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
                             return entry.bestMoveAndValue;
                         }
                     }
@@ -139,20 +139,20 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateEntry(Transposition entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateEntry(TranspositionEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
-        Type type;
+        TranspositionType transpositionType;
         if (beta <= value) {
-            type = Type.LOWER_BOUND;
+            transpositionType = TranspositionType.LOWER_BOUND;
         } else if (value <= alpha) {
-            type = Type.UPPER_BOUND;
+            transpositionType = TranspositionType.UPPER_BOUND;
         } else {
-            type = Type.EXACT;
+            transpositionType = TranspositionType.EXACT;
         }
 
         entry.searchDepth = searchDepth;
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.value = value;
-        entry.type = type;
+        entry.transpositionType = transpositionType;
     }
 }

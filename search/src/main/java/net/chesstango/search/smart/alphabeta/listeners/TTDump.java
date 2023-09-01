@@ -4,7 +4,7 @@ import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -16,15 +16,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static net.chesstango.search.smart.Transposition.Type;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 /**
  * @author Mauricio Coria
  */
 public class TTDump implements SearchLifeCycle {
     private Game game;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, TranspositionEntry> maxMap;
+    private Map<Long, TranspositionEntry> minMap;
 
     private boolean initialStateDumped = false;
 
@@ -84,7 +84,7 @@ public class TTDump implements SearchLifeCycle {
         executorService.shutdown();
     }
 
-    private void dumpTable(String fileName, Map<Long, Transposition> map) {
+    private void dumpTable(String fileName, Map<Long, TranspositionEntry> map) {
         try {
             FileOutputStream fos = new FileOutputStream(fileName);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -92,19 +92,19 @@ public class TTDump implements SearchLifeCycle {
 
             int counter = 0;
 
-            Set<Map.Entry<Long, Transposition>> entries = map.entrySet();
-            for (Map.Entry<Long, Transposition> entry: entries) {
+            Set<Map.Entry<Long, TranspositionEntry>> entries = map.entrySet();
+            for (Map.Entry<Long, TranspositionEntry> entry: entries) {
                 dos.writeLong(entry.getKey());
 
-                Transposition tableEntry = entry.getValue();
+                TranspositionEntry tableEntry = entry.getValue();
                 dos.writeInt(tableEntry.searchDepth);
                 dos.writeLong(tableEntry.bestMoveAndValue);
                 dos.writeInt(tableEntry.value);
-                dos.writeByte(Type.encode(tableEntry.type));
+                dos.writeByte(TranspositionType.encode(tableEntry.transpositionType));
 
                 dos.writeLong(tableEntry.qBestMoveAndValue);
                 dos.writeInt(tableEntry.qValue);
-                dos.writeByte(Type.encode(tableEntry.qType));
+                dos.writeByte(TranspositionType.encode(tableEntry.qTranspositionType));
 
                 counter++;
             }

@@ -2,10 +2,9 @@ package net.chesstango.search.smart;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.chesstango.board.moves.Move;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Mauricio Coria
@@ -17,9 +16,9 @@ public class SearchContext {
 
     private final int maxPly;
 
-    private Map<Long, Transposition> maxMap;
+    private Map<Long, TranspositionEntry> maxMap;
 
-    private Map<Long, Transposition> minMap;
+    private Map<Long, TranspositionEntry> minMap;
 
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;

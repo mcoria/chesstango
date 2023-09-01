@@ -7,17 +7,17 @@ import net.chesstango.search.smart.SearchContext;
 
 import java.util.Map;
 
-import static net.chesstango.search.smart.Transposition.Type;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
  */
 public class QTranspositionTable implements AlphaBetaFilter {
     private AlphaBetaFilter next;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, TranspositionEntry> maxMap;
+    private Map<Long, TranspositionEntry> minMap;
     private Game game;
 
     @Override
@@ -54,10 +54,10 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            Transposition entry = maxMap.get(hash);
+            TranspositionEntry entry = maxMap.get(hash);
 
             if (entry == null) {
-                entry = new Transposition();
+                entry = new TranspositionEntry();
 
                 maxMap.put(hash, entry);
 
@@ -65,22 +65,22 @@ public class QTranspositionTable implements AlphaBetaFilter {
             } else {
                 if (entry.bestMoveAndValue != 0) {
                     // Es un valor exacto
-                    if (entry.type == Type.EXACT) {
+                    if (entry.transpositionType == TranspositionType.EXACT) {
                         return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
+                    } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
                         return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
+                    } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
                         return entry.bestMoveAndValue;
                     }
                 }
 
                 if (entry.qBestMoveAndValue != 0) {
                     // Es un valor exacto
-                    if (entry.qType == Type.EXACT) {
+                    if (entry.qTranspositionType == TranspositionType.EXACT) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.LOWER_BOUND && beta <= entry.qValue) {
+                    } else if (entry.qTranspositionType == TranspositionType.LOWER_BOUND && beta <= entry.qValue) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.UPPER_BOUND && entry.qValue <= alpha) {
+                    } else if (entry.qTranspositionType == TranspositionType.UPPER_BOUND && entry.qValue <= alpha) {
                         return entry.qBestMoveAndValue;
                     }
                 }
@@ -102,10 +102,10 @@ public class QTranspositionTable implements AlphaBetaFilter {
             long hash = game.getChessPosition().getZobristHash();
             long bestMoveAndValue;
 
-            Transposition entry = minMap.get(hash);
+            TranspositionEntry entry = minMap.get(hash);
 
             if (entry == null) {
-                entry = new Transposition();
+                entry = new TranspositionEntry();
 
                 minMap.put(hash, entry);
 
@@ -113,22 +113,22 @@ public class QTranspositionTable implements AlphaBetaFilter {
             } else {
                 if (entry.bestMoveAndValue != 0) {
                     // Es un valor exacto
-                    if (entry.type == Type.EXACT) {
+                    if (entry.transpositionType == TranspositionType.EXACT) {
                         return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.LOWER_BOUND && beta <= entry.value) {
+                    } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
                         return entry.bestMoveAndValue;
-                    } else if (entry.type == Type.UPPER_BOUND && entry.value <= alpha) {
+                    } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
                         return entry.bestMoveAndValue;
                     }
                 }
 
                 if (entry.qBestMoveAndValue != 0) {
                     // Es un valor exacto
-                    if (entry.qType == Type.EXACT) {
+                    if (entry.qTranspositionType == TranspositionType.EXACT) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.LOWER_BOUND && beta <= entry.qValue) {
+                    } else if (entry.qTranspositionType == TranspositionType.LOWER_BOUND && beta <= entry.qValue) {
                         return entry.qBestMoveAndValue;
-                    } else if (entry.qType == Type.UPPER_BOUND && entry.qValue <= alpha) {
+                    } else if (entry.qTranspositionType == TranspositionType.UPPER_BOUND && entry.qValue <= alpha) {
                         return entry.qBestMoveAndValue;
                     }
                 }
@@ -148,19 +148,19 @@ public class QTranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateQEntry(Transposition entry, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateQEntry(TranspositionEntry entry, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
-        Type type;
+        TranspositionType transpositionType;
         if (beta <= value) {
-            type = Type.LOWER_BOUND;
+            transpositionType = TranspositionType.LOWER_BOUND;
         } else if (value <= alpha) {
-            type = Type.UPPER_BOUND;
+            transpositionType = TranspositionType.UPPER_BOUND;
         } else {
-            type = Type.EXACT;
+            transpositionType = TranspositionType.EXACT;
         }
 
         entry.qBestMoveAndValue = bestMoveAndValue;
         entry.qValue = value;
-        entry.qType = type;
+        entry.qTranspositionType = transpositionType;
     }
 }

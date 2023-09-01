@@ -14,9 +14,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static net.chesstango.search.smart.Transposition.Type;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 /**
  * @author Mauricio Coria
@@ -24,8 +24,8 @@ import net.chesstango.search.smart.Transposition;
 public class TTLoad implements SearchLifeCycle {
 
     private Game game;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private Map<Long, TranspositionEntry> maxMap;
+    private Map<Long, TranspositionEntry> minMap;
 
     private boolean initialStateLoaded = false;
 
@@ -83,7 +83,7 @@ public class TTLoad implements SearchLifeCycle {
         executorService.shutdown();
     }
 
-    private void loadTable(String fileName, Map<Long, Transposition> map) {
+    private void loadTable(String fileName, Map<Long, TranspositionEntry> map) {
         try {
             FileInputStream fis = new FileInputStream(fileName);
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -91,15 +91,15 @@ public class TTLoad implements SearchLifeCycle {
 
             while (dis.available() > 0) {
                 long key = dis.readLong();
-                Transposition tableEntry = new Transposition();
+                TranspositionEntry tableEntry = new TranspositionEntry();
                 tableEntry.searchDepth = dis.readInt();
                 tableEntry.bestMoveAndValue = dis.readLong();
                 tableEntry.value = dis.readInt();
-                tableEntry.type = Type.valueOf(dis.readByte());
+                tableEntry.transpositionType = TranspositionType.valueOf(dis.readByte());
 
                 tableEntry.qBestMoveAndValue = dis.readLong();
                 tableEntry.qValue = dis.readInt();
-                tableEntry.qType = Type.valueOf(dis.readByte());
+                tableEntry.qTranspositionType = TranspositionType.valueOf(dis.readByte());
 
                 map.put(key, tableEntry);
             }
