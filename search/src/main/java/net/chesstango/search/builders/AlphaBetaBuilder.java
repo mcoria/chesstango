@@ -17,6 +17,7 @@ import net.chesstango.search.smart.sorters.DefaultMoveSorter;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.sorters.QTranspositionMoveSorter;
 import net.chesstango.search.smart.sorters.TranspositionMoveSorter;
+import net.chesstango.search.smart.statistics.GameStatisticsListener;
 import net.chesstango.search.smart.statistics.IterativeWrapper;
 
 import java.util.ArrayList;
@@ -302,7 +303,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         if (withStatistics) {
             IterativeWrapper iterativeWrapper = new IterativeWrapper(searchMove);
 
-            filters.add(iterativeWrapper);
+            filters.add(new GameStatisticsListener());
 
             searchMove = iterativeWrapper;
         }

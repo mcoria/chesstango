@@ -23,11 +23,18 @@ public class SearchSummaryComparator {
         summaryComparator.addSession("depth-5-v0.0.15-SNAPSHOT-2023-08-24-08-10-withArrayTT_1024_128-withSort");
          */
 
+        /*
         SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-27-23-55-nada");
         summaryComparator.addSession("depth-5-2023-08-27-23-56-IterativeDeepening");
         summaryComparator.addSession("depth-5-2023-08-28-00-09-IterativeDeepening-TT");
         summaryComparator.addSession("depth-5-2023-08-28-00-09-IterativeDeepening-TT-MoveSorter");
-        //summaryComparator.addSession("depth-7-2023-08-27-12-36");
+         */
+
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-08-28-00-32-Q");
+        summaryComparator.addSession("depth-5-2023-08-28-00-34-Q-IterativeDeepening");
+        summaryComparator.addSession("depth-5-2023-08-28-00-36-Q-IterativeDeepening-TT");
+        summaryComparator.addSession("depth-5-2023-08-28-00-38-Q-IterativeDeepening-TT-MoveSorter");
+        //summaryComparator.addSession("depth-5-2023-08-28-00-09-IterativeDeepening-TT-MoveSorter");
 
         /*
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
