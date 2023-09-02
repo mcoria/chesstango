@@ -16,8 +16,8 @@ public class MapTTable implements TTable {
     }
 
     @Override
-    public void put(long key, TranspositionEntry tableEntry) {
-        table.put(key, tableEntry);
+    public TranspositionEntry allocate(long hash) {
+        return table.computeIfAbsent(hash, key -> new TranspositionEntry());
     }
 
     @Override

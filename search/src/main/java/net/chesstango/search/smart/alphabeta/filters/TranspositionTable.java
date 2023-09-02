@@ -61,9 +61,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             TranspositionEntry entry = maxMap.get(hash);
 
             if (entry == null) {
-                entry = new TranspositionEntry();
-
-                maxMap.put(hash, entry);
+                entry = maxMap.allocate(hash);
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
@@ -80,7 +78,7 @@ public class TranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
 
-            updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+            updateEntry(hash, entry, searchDepth, alpha, beta, bestMoveAndValue);
 
             return entry.bestMoveAndValue;
         }
@@ -99,9 +97,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             TranspositionEntry entry = minMap.get(hash);
 
             if (entry == null) {
-                entry = new TranspositionEntry();
-
-                minMap.put(hash, entry);
+                entry = minMap.allocate(hash);
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
@@ -118,7 +114,7 @@ public class TranspositionTable implements AlphaBetaFilter {
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
-            updateEntry(entry, searchDepth, alpha, beta, bestMoveAndValue);
+            updateEntry(hash, entry, searchDepth, alpha, beta, bestMoveAndValue);
 
             return entry.bestMoveAndValue;
         }
@@ -130,7 +126,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateEntry(TranspositionEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateEntry(long hash, TranspositionEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
         TranspositionType transpositionType;
         if (beta <= value) {
@@ -141,6 +137,7 @@ public class TranspositionTable implements AlphaBetaFilter {
             transpositionType = TranspositionType.EXACT;
         }
 
+        entry.hash = hash;
         entry.searchDepth = searchDepth;
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.value = value;

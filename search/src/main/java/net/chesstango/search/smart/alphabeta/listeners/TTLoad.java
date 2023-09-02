@@ -102,7 +102,7 @@ public class TTLoad implements SearchLifeCycle {
                 //tableEntry.qValue = dis.readInt();
                 //tableEntry.qTranspositionType = TranspositionType.valueOf(dis.readByte());
 
-                map.put(key, tableEntry);
+                //map.put(key, tableEntry);
             }
 
             dis.close();

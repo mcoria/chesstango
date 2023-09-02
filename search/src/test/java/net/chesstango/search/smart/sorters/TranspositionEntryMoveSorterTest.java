@@ -50,7 +50,14 @@ public class TranspositionEntryMoveSorterTest {
                 break;
             }
         }
-        maxMap.put(game.getChessPosition().getZobristHash(), createTableEntry(bestMoveEncoded));
+
+        long hash = game.getChessPosition().getZobristHash();
+
+
+        TranspositionEntry tableEntry = maxMap.allocate(hash);
+
+        updateTableEntry(hash, tableEntry, bestMoveEncoded);
+
 
         initMoveSorter(game);
 
@@ -64,7 +71,6 @@ public class TranspositionEntryMoveSorterTest {
         assertEquals(Square.c3, move.getTo().getSquare());
     }
 
-
     private void initMoveSorter(Game game) {
         moveSorter.beforeSearch(game, 1);
 
@@ -77,9 +83,9 @@ public class TranspositionEntryMoveSorterTest {
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private TranspositionEntry createTableEntry(short bestMoveEncoded) {
-        TranspositionEntry entry = new TranspositionEntry();
+    private TranspositionEntry updateTableEntry(long hash, TranspositionEntry entry, short bestMoveEncoded) {
         long bestMoveAndValue = encodedMoveAndValue(bestMoveEncoded, 1);
+        entry.hash = hash;
         entry.bestMoveAndValue = bestMoveAndValue;
         entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
         return entry;
