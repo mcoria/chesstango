@@ -74,9 +74,9 @@ public class TranspositionMoveSorter implements MoveSorter {
 
         short bestMoveEncoded = 0;
 
-        if(entry != null && entry.bestMoveAndValue != 0){
+        if(entry != null){
             bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
-        } else if(qentry != null &&  qentry.bestMoveAndValue != 0){
+        } else if(qentry != null){
             bestMoveEncoded = BinaryUtils.decodeMove(qentry.bestMoveAndValue);
         }
 

@@ -60,16 +60,13 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
-
-                if (entry.bestMoveAndValue != 0) {
-                    // Es un valor exacto
-                    if (entry.transpositionType == TranspositionType.EXACT) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
-                        return entry.bestMoveAndValue;
-                    }
+                // Es un valor exacto
+                if (entry.transpositionType == TranspositionType.EXACT) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
+                    return entry.bestMoveAndValue;
                 }
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
@@ -98,16 +95,13 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
-
-                if (entry.bestMoveAndValue != 0) {
-                    // Es un valor exacto
-                    if (entry.transpositionType == TranspositionType.EXACT) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
-                        return entry.bestMoveAndValue;
-                    }
+                // Es un valor exacto
+                if (entry.transpositionType == TranspositionType.EXACT) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
+                    return entry.bestMoveAndValue;
                 }
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);

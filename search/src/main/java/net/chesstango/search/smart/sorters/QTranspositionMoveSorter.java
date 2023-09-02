@@ -6,14 +6,13 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
+import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
-import net.chesstango.search.smart.alphabeta.filters.Quiescence;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -66,7 +65,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
             entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = (entry != null && entry.bestMoveAndValue != 0)  ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
+        short bestMoveEncoded = entry != null ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 
