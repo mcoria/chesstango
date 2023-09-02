@@ -28,8 +28,8 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = context.getQMaxMap();
+        this.minMap = context.getQMinMap();
     }
 
     @Override
@@ -60,6 +60,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
+
                 if (entry.bestMoveAndValue != 0) {
                     // Es un valor exacto
                     if (entry.transpositionType == TranspositionType.EXACT) {
@@ -71,23 +72,12 @@ public class QTranspositionTable implements AlphaBetaFilter {
                     }
                 }
 
-                if (entry.qBestMoveAndValue != 0) {
-                    // Es un valor exacto
-                    if (entry.qTranspositionType == TranspositionType.EXACT) {
-                        return entry.qBestMoveAndValue;
-                    } else if (entry.qTranspositionType == TranspositionType.LOWER_BOUND && beta <= entry.qValue) {
-                        return entry.qBestMoveAndValue;
-                    } else if (entry.qTranspositionType == TranspositionType.UPPER_BOUND && entry.qValue <= alpha) {
-                        return entry.qBestMoveAndValue;
-                    }
-                }
-
                 bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
 
             updateQEntry(entry, alpha, beta, bestMoveAndValue);
 
-            return entry.qBestMoveAndValue;
+            return entry.bestMoveAndValue;
         }
 
         return next.maximize(currentPly, alpha, beta);
@@ -108,6 +98,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
+
                 if (entry.bestMoveAndValue != 0) {
                     // Es un valor exacto
                     if (entry.transpositionType == TranspositionType.EXACT) {
@@ -119,23 +110,12 @@ public class QTranspositionTable implements AlphaBetaFilter {
                     }
                 }
 
-                if (entry.qBestMoveAndValue != 0) {
-                    // Es un valor exacto
-                    if (entry.qTranspositionType == TranspositionType.EXACT) {
-                        return entry.qBestMoveAndValue;
-                    } else if (entry.qTranspositionType == TranspositionType.LOWER_BOUND && beta <= entry.qValue) {
-                        return entry.qBestMoveAndValue;
-                    } else if (entry.qTranspositionType == TranspositionType.UPPER_BOUND && entry.qValue <= alpha) {
-                        return entry.qBestMoveAndValue;
-                    }
-                }
-
                 bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
             updateQEntry(entry, alpha, beta, bestMoveAndValue);
 
-            return entry.qBestMoveAndValue;
+            return entry.bestMoveAndValue;
         }
 
         return next.minimize(currentPly, alpha, beta);
@@ -156,8 +136,8 @@ public class QTranspositionTable implements AlphaBetaFilter {
             transpositionType = TranspositionType.EXACT;
         }
 
-        entry.qBestMoveAndValue = bestMoveAndValue;
-        entry.qValue = value;
-        entry.qTranspositionType = transpositionType;
+        entry.bestMoveAndValue = bestMoveAndValue;
+        entry.value = value;
+        entry.transpositionType = transpositionType;
     }
 }

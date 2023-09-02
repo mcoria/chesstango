@@ -21,6 +21,10 @@ public class SearchContext {
 
     private TTable minMap;
 
+    private TTable qMaxMap;
+
+    private TTable qMinMap;
+
     public SearchContext(int maxPly) {
         this.maxPly = maxPly;
     }

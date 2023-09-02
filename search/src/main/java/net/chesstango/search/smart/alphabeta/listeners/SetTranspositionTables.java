@@ -17,11 +17,15 @@ import java.util.Map;
 public class SetTranspositionTables implements SearchLifeCycle {
     private final TTable maxMap;
     private final TTable minMap;
+    private final TTable qMaxMap;
+    private final TTable qMinMap;
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
         this.maxMap = new MapTTable();
         this.minMap = new MapTTable();
+        this.qMaxMap = new MapTTable();
+        this.qMinMap = new MapTTable();
     }
 
     @Override
@@ -29,6 +33,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
         if(!reuseTranspositionTable) {
             this.maxMap.clear();
             this.minMap.clear();
+            this.qMaxMap.clear();
+            this.qMinMap.clear();
         }
     }
 
@@ -40,6 +46,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
     public void beforeSearchByDepth(SearchContext context) {
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
+        context.setQMaxMap(qMaxMap);
+        context.setQMinMap(qMinMap);
     }
 
     @Override
@@ -55,6 +63,8 @@ public class SetTranspositionTables implements SearchLifeCycle {
     public void reset() {
         this.maxMap.clear();
         this.minMap.clear();
+        this.qMaxMap.clear();
+        this.qMinMap.clear();
     }
 
     public void setReuseTranspositionTable(boolean reuseTranspositionTable) {

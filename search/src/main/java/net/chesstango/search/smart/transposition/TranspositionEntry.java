@@ -7,13 +7,10 @@ import java.io.Serializable;
  */
 public class TranspositionEntry implements Serializable {
     public int searchDepth;
+
     public long bestMoveAndValue;
+
     public int value;
     public TranspositionType transpositionType;
-
-
-    public long qBestMoveAndValue;
-    public int qValue;
-    public TranspositionType qTranspositionType;
 
 }

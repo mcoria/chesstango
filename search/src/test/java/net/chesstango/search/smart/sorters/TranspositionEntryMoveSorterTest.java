@@ -26,12 +26,16 @@ public class TranspositionEntryMoveSorterTest {
 
     private TTable maxMap;
     private TTable minMap;
+    private TTable qMaxMap;
+    private TTable qMinMap;
     private TranspositionMoveSorter moveSorter;
 
     @BeforeEach
     public void setup() {
         maxMap = new MapTTable();
         minMap = new MapTTable();
+        qMaxMap = new MapTTable();
+        qMinMap = new MapTTable();
         moveSorter = new TranspositionMoveSorter();
     }
 
@@ -67,6 +71,8 @@ public class TranspositionEntryMoveSorterTest {
         SearchContext context = new SearchContext(1);
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
+        context.setQMaxMap(qMaxMap);
+        context.setQMinMap(qMinMap);
 
         moveSorter.beforeSearchByDepth(context);
     }

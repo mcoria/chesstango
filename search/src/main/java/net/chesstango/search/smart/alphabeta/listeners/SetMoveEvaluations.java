@@ -76,7 +76,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
             if (entry != null && entry.searchDepth == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
                 moveEvaluation.move = move;
-                moveEvaluation.evaluation = entry.bestMoveAndValue != 0 ? BinaryUtils.decodeValue(entry.bestMoveAndValue) : BinaryUtils.decodeValue(entry.qBestMoveAndValue);
+                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 

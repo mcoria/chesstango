@@ -22,6 +22,8 @@ public class TranspositionMoveSorter implements MoveSorter {
     private Game game;
     private TTable maxMap;
     private TTable minMap;
+    private TTable qMaxMap;
+    private TTable qMinMap;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -37,6 +39,8 @@ public class TranspositionMoveSorter implements MoveSorter {
     public void beforeSearchByDepth(SearchContext context) {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
@@ -59,20 +63,21 @@ public class TranspositionMoveSorter implements MoveSorter {
         long hash = game.getChessPosition().getZobristHash();
 
         TranspositionEntry entry;
+        TranspositionEntry qentry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             entry = maxMap.get(hash);
+            qentry = qMaxMap.get(hash);
         } else {
             entry = minMap.get(hash);
+            qentry = qMinMap.get(hash);
         }
 
         short bestMoveEncoded = 0;
 
-        if(entry != null){
-            if(entry.bestMoveAndValue != 0){
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
-            } else if(entry.qBestMoveAndValue != 0){
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.qBestMoveAndValue);
-            }
+        if(entry != null && entry.bestMoveAndValue != 0){
+            bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+        } else if(qentry != null &&  qentry.bestMoveAndValue != 0){
+            bestMoveEncoded = BinaryUtils.decodeMove(qentry.bestMoveAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();

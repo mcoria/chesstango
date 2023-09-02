@@ -19,7 +19,8 @@ public class SearchSummaryComparator {
     public static void main(String[] args) {
         SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-4-2023-08-31-22-18");
         summaryComparator.addSession("depth-4-2023-08-31-22-20");
-
+        summaryComparator.addSession("depth-4-2023-09-01-07-28");
+        summaryComparator.addSession("depth-4-2023-09-02-00-10");
 
 
         /*

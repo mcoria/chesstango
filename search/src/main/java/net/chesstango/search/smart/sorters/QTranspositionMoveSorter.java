@@ -36,8 +36,8 @@ public class QTranspositionMoveSorter implements MoveSorter {
 
     @Override
     public void beforeSearchByDepth(SearchContext context) {
-        this.maxMap = context.getMaxMap();
-        this.minMap = context.getMinMap();
+        this.maxMap = context.getQMaxMap();
+        this.minMap = context.getQMinMap();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class QTranspositionMoveSorter implements MoveSorter {
             entry = minMap.get(hash);
         }
 
-        short bestMoveEncoded = (entry != null && entry.qBestMoveAndValue != 0)  ? BinaryUtils.decodeMove(entry.qBestMoveAndValue) : 0;
+        short bestMoveEncoded = (entry != null && entry.bestMoveAndValue != 0)  ? BinaryUtils.decodeMove(entry.bestMoveAndValue) : 0;
 
         List<Move> sortedMoveList = new LinkedList<>();
 
