@@ -12,6 +12,5 @@ public class TranspositionEntry implements Serializable {
 
     public long bestMoveAndValue;
 
-    public int value;
     public TranspositionType transpositionType;
 }

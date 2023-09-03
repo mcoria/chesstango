@@ -4,6 +4,7 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
+import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
@@ -11,7 +12,6 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -41,7 +41,7 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
     @Override
     public void afterSearchByDepth(SearchMoveResult result) {
-        if(result != null) {
+        if (result != null) {
             List<Move> bestMoveOptions = findBestMoveOptions(result.getBestMove(), result.getEvaluation());
             result.setBestMoveOptions(bestMoveOptions);
             result.setEvaluationCollisions(bestMoveOptions.size() - 1);
@@ -69,8 +69,11 @@ public class SetBestMoveOptions implements SearchLifeCycle {
 
             TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
-            if (entry != null && entry.searchDepth == maxPly - 1 && entry.value == bestMoveEvaluation) {
-                bestMoveOptions.add(move);
+            if (entry != null) {
+                int value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+                if (entry.searchDepth == maxPly - 1 && value == bestMoveEvaluation) {
+                    bestMoveOptions.add(move);
+                }
             }
 
             if (move.equals(bestMove)) {

@@ -263,7 +263,7 @@ public class FitnessBySearchTest {
 
         entry.hash = hash;
         entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
-        entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+        //entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
         entry.searchDepth = 0;
 
         return entry;

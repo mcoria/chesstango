@@ -87,7 +87,7 @@ public class TranspositionEntryMoveSorterTest {
         long bestMoveAndValue = encodedMoveAndValue(bestMoveEncoded, 1);
         entry.hash = hash;
         entry.bestMoveAndValue = bestMoveAndValue;
-        entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+        //entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
         return entry;
     }
 

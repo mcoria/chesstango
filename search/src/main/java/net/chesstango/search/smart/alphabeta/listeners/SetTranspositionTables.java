@@ -31,10 +31,7 @@ public class SetTranspositionTables implements SearchLifeCycle {
     @Override
     public void beforeSearch(Game game, int maxDepth) {
         if(!reuseTranspositionTable) {
-            this.maxMap.clear();
-            this.minMap.clear();
-            this.qMaxMap.clear();
-            this.qMinMap.clear();
+            reset();
         }
     }
 
