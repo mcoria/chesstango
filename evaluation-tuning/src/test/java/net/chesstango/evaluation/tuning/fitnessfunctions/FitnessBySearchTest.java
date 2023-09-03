@@ -250,19 +250,21 @@ public class FitnessBySearchTest {
     }
 
     private TranspositionEntry saveEntry(Game game, Move move, int value) {
-        TranspositionEntry entry = new TranspositionEntry();
+        TranspositionEntry entry = null;
 
-        entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
-        entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
-        entry.searchDepth = 0;
 
         long hash = game.getChessPosition().getZobristHash();
 
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            maxMap.put(hash, entry);
+            entry = maxMap.allocate(hash);
         } else {
-            minMap.put(hash, entry);
+            entry = minMap.allocate(hash);
         }
+
+        entry.hash = hash;
+        entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
+        entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+        entry.searchDepth = 0;
 
         return entry;
     }

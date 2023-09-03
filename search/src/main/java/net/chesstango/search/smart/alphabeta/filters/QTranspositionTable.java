@@ -55,8 +55,6 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
             if (entry == null) {
                 entry = maxMap.allocate(hash);
-
-                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             } else {
                 // Es un valor exacto
                 if (entry.transpositionType == TranspositionType.EXACT) {
@@ -66,11 +64,11 @@ public class QTranspositionTable implements AlphaBetaFilter {
                 } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
                     return entry.bestMoveAndValue;
                 }
-
-                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
 
-            updateQEntry(hash, entry, alpha, beta, bestMoveAndValue);
+            bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+            updateQEntry(entry, hash, alpha, beta, bestMoveAndValue);
 
             return entry.bestMoveAndValue;
         }
@@ -88,8 +86,6 @@ public class QTranspositionTable implements AlphaBetaFilter {
 
             if (entry == null) {
                 entry = minMap.allocate(hash);
-
-                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             } else {
                 // Es un valor exacto
                 if (entry.transpositionType == TranspositionType.EXACT) {
@@ -99,11 +95,11 @@ public class QTranspositionTable implements AlphaBetaFilter {
                 } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
                     return entry.bestMoveAndValue;
                 }
-
-                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
-            updateQEntry(hash, entry, alpha, beta, bestMoveAndValue);
+            bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+            updateQEntry(entry, hash, alpha, beta, bestMoveAndValue);
 
             return entry.bestMoveAndValue;
         }
@@ -115,7 +111,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateQEntry(long hash, TranspositionEntry entry, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateQEntry(TranspositionEntry entry, long hash, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
         TranspositionType transpositionType;
         if (beta <= value) {

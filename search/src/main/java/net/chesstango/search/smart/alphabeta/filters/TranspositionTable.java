@@ -62,23 +62,20 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             if (entry == null) {
                 entry = maxMap.allocate(hash);
-
-                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
-            } else {
-                if (searchDepth <= entry.searchDepth) {
-                    // Es un valor exacto
-                    if (entry.transpositionType == TranspositionType.EXACT) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
-                        return entry.bestMoveAndValue;
-                    }
+            } else if (searchDepth <= entry.searchDepth) {
+                // Es un valor exacto
+                if (entry.transpositionType == TranspositionType.EXACT) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
+                    return entry.bestMoveAndValue;
                 }
-                bestMoveAndValue = next.maximize(currentPly, alpha, beta);
             }
 
-            updateEntry(hash, entry, searchDepth, alpha, beta, bestMoveAndValue);
+            bestMoveAndValue = next.maximize(currentPly, alpha, beta);
+
+            updateEntry(entry, hash, searchDepth, alpha, beta, bestMoveAndValue);
 
             return entry.bestMoveAndValue;
         }
@@ -98,23 +95,20 @@ public class TranspositionTable implements AlphaBetaFilter {
 
             if (entry == null) {
                 entry = minMap.allocate(hash);
-
-                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
-            } else {
-                if (searchDepth <= entry.searchDepth) {
-                    // Es un valor exacto
-                    if (entry.transpositionType == TranspositionType.EXACT) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
-                        return entry.bestMoveAndValue;
-                    } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
-                        return entry.bestMoveAndValue;
-                    }
+            } else if (searchDepth <= entry.searchDepth) {
+                // Es un valor exacto
+                if (entry.transpositionType == TranspositionType.EXACT) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.LOWER_BOUND && beta <= entry.value) {
+                    return entry.bestMoveAndValue;
+                } else if (entry.transpositionType == TranspositionType.UPPER_BOUND && entry.value <= alpha) {
+                    return entry.bestMoveAndValue;
                 }
-                bestMoveAndValue = next.minimize(currentPly, alpha, beta);
             }
 
-            updateEntry(hash, entry, searchDepth, alpha, beta, bestMoveAndValue);
+            bestMoveAndValue = next.minimize(currentPly, alpha, beta);
+
+            updateEntry(entry, hash, searchDepth, alpha, beta, bestMoveAndValue);
 
             return entry.bestMoveAndValue;
         }
@@ -126,7 +120,7 @@ public class TranspositionTable implements AlphaBetaFilter {
         this.next = next;
     }
 
-    protected void updateEntry(long hash, TranspositionEntry entry, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
+    protected void updateEntry(TranspositionEntry entry, long hash, int searchDepth, int alpha, int beta, long bestMoveAndValue) {
         int value = BinaryUtils.decodeValue(bestMoveAndValue);
         TranspositionType transpositionType;
         if (beta <= value) {
