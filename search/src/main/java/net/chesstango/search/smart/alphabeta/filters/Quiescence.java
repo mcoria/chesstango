@@ -56,7 +56,7 @@ public class Quiescence implements AlphaBetaFilter {
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
-            return TranspositionEntry.encodedMoveAndValue((short) 0, maxValue);
+            return TranspositionEntry.encodedMoveAndValue(null, maxValue);
         }
 
         Move bestMove = null;
@@ -84,7 +84,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), maxValue);
+        return TranspositionEntry.encodedMoveAndValue(bestMove, maxValue);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Quiescence implements AlphaBetaFilter {
         int minValue = evaluator.evaluate(game);
 
         if (minValue <= alpha) {
-            return TranspositionEntry.encodedMoveAndValue((short) 0, minValue);
+            return TranspositionEntry.encodedMoveAndValue(null, minValue);
         }
 
         Move bestMove = null;
@@ -124,7 +124,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encodedMoveAndValue(bestMove == null ? (short) 0 : bestMove.binaryEncoding(), minValue);
+        return TranspositionEntry.encodedMoveAndValue(bestMove, minValue);
     }
 
     public static boolean isNotQuiet(Move move) {

@@ -58,7 +58,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
+            return TranspositionEntry.encodedMoveAndValue(null, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.maximize(currentPly, alpha, beta);
@@ -87,7 +87,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            return TranspositionEntry.encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
+            return TranspositionEntry.encodedMoveAndValue(bestMove, maxValue);
         }
     }
 
@@ -97,7 +97,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
+            return TranspositionEntry.encodedMoveAndValue(null, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.minimize(currentPly, alpha, beta);
@@ -126,7 +126,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            return TranspositionEntry.encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
+            return TranspositionEntry.encodedMoveAndValue(bestMove, minValue);
         }
     }
 

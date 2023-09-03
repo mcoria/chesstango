@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.transposition;
 
+import net.chesstango.board.moves.Move;
+
 import java.io.Serializable;
 
 /**
@@ -17,8 +19,10 @@ public class TranspositionEntry implements Serializable {
 
     private static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
-    public static long encodedMoveAndValue(short move, int value) {
-        long encodedMoveLng = ((long) move) << 32;
+    public static long encodedMoveAndValue(Move move, int value) {
+        short encodedMove = move != null ? move.binaryEncoding() : (short) 0;
+
+        long encodedMoveLng = ((long) encodedMove) << 32;
 
         long encodedValueLng = VALUE_MASK & value;
 
