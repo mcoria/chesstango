@@ -20,6 +20,7 @@ public class SearchSummaryComparator {
         SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-09-02-16-09");
         summaryComparator.addSession("depth-5-2023-09-02-16-59");
         summaryComparator.addSession("depth-5-2023-09-03-06-54");
+        summaryComparator.addSession("depth-5-2023-09-03-09-16");
         //
 
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");

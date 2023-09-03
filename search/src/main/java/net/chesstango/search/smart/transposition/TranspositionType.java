@@ -13,23 +13,20 @@ public enum TranspositionType {
 
 
     public static TranspositionType valueOf(byte byteValue) {
+        if (byteValue == 0) {
+            return null;
+        }
         for (TranspositionType transpositionType :
                 TranspositionType.values()) {
             if (transpositionType.byteValue == byteValue) {
                 return transpositionType;
             }
         }
-        if (byteValue == 0) {
-            return null;
-        }
         throw new RuntimeException("Unable to convert from byte to EntryType");
     }
 
-    public static byte encode(TranspositionType transpositionType) {
-        if (transpositionType == null) {
-            return 0;
-        }
-        return transpositionType.byteValue;
+    public byte binaryEncoding() {
+        return byteValue;
     }
 
 }

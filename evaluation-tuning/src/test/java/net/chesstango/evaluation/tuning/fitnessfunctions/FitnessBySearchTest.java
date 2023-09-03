@@ -11,6 +11,7 @@ import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -261,8 +262,7 @@ public class FitnessBySearchTest {
         }
 
         entry.hash = hash;
-        entry.bestMoveAndValue = TranspositionEntry.encodedMoveAndValue(move, value);
-        //entry.value = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
+        entry.bestMoveAndValue = TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, move, value);
         entry.searchDepth = 0;
 
         return entry;

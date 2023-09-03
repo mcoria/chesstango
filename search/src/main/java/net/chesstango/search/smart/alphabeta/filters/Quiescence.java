@@ -9,6 +9,7 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.util.Iterator;
 import java.util.List;
@@ -56,7 +57,7 @@ public class Quiescence implements AlphaBetaFilter {
         int maxValue = evaluator.evaluate(game);
 
         if (maxValue >= beta) {
-            return TranspositionEntry.encodedMoveAndValue(null, maxValue);
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, null, maxValue);
         }
 
         Move bestMove = null;
@@ -84,7 +85,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encodedMoveAndValue(bestMove, maxValue);
+        return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, bestMove, maxValue);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class Quiescence implements AlphaBetaFilter {
         int minValue = evaluator.evaluate(game);
 
         if (minValue <= alpha) {
-            return TranspositionEntry.encodedMoveAndValue(null, minValue);
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT,null, minValue);
         }
 
         Move bestMove = null;
@@ -124,7 +125,7 @@ public class Quiescence implements AlphaBetaFilter {
                 game = game.undoMove();
             }
         }
-        return TranspositionEntry.encodedMoveAndValue(bestMove, minValue);
+        return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, bestMove, minValue);
     }
 
     public static boolean isNotQuiet(Move move) {

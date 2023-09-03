@@ -8,6 +8,7 @@ import net.chesstango.search.StopSearchingException;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +59,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encodedMoveAndValue(null, evaluator.evaluate(game));
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, null, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.maximize(currentPly, alpha, beta);
@@ -87,7 +88,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            return TranspositionEntry.encodedMoveAndValue(bestMove, maxValue);
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, bestMove, maxValue);
         }
     }
 
@@ -97,7 +98,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return TranspositionEntry.encodedMoveAndValue(null, evaluator.evaluate(game));
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT,null, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.minimize(currentPly, alpha, beta);
@@ -126,7 +127,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            return TranspositionEntry.encodedMoveAndValue(bestMove, minValue);
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, bestMove, minValue);
         }
     }
 
