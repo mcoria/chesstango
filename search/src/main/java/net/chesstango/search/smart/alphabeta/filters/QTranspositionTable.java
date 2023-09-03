@@ -2,7 +2,6 @@ package net.chesstango.search.smart.alphabeta.filters;
 
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -55,7 +54,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = maxMap.allocate(hash);
             } else {
-                int value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+                int value = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
                 // Es un valor exacto
                 if (entry.transpositionType == TranspositionType.EXACT) {
                     return entry.bestMoveAndValue;
@@ -86,7 +85,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
             if (entry == null) {
                 entry = minMap.allocate(hash);
             } else {
-                int value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+                int value = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
                 // Es un valor exacto
                 if (entry.transpositionType == TranspositionType.EXACT) {
                     return entry.bestMoveAndValue;
@@ -112,7 +111,7 @@ public class QTranspositionTable implements AlphaBetaFilter {
     }
 
     protected void updateQEntry(TranspositionEntry entry, long hash, int alpha, int beta, long bestMoveAndValue) {
-        int value = BinaryUtils.decodeValue(bestMoveAndValue);
+        int value = TranspositionEntry.decodeValue(bestMoveAndValue);
 
         TranspositionType transpositionType;
         if (beta <= value) {

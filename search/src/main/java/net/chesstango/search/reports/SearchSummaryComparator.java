@@ -17,19 +17,19 @@ import java.util.Objects;
 public class SearchSummaryComparator {
 
     public static void main(String[] args) {
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-4-2023-08-31-22-18");
-        summaryComparator.addSession("depth-4-2023-08-31-22-20");
-        summaryComparator.addSession("depth-4-2023-09-01-07-28");
-        summaryComparator.addSession("depth-4-2023-09-02-00-10");
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-09-02-16-09");
+        summaryComparator.addSession("depth-5-2023-09-02-16-59");
+        summaryComparator.addSession("depth-5-2023-09-03-06-54");
+        //
 
-
-        /*
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b1.epd");
-         */
 
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w2.epd");
         summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b2.epd");
+
+        summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w3.epd");
+        summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-b3.epd");
 
 
         //summaryComparator.execute("C:\\Java\\projects\\chess\\chess-utils\\testing\\positions\\database\\Bratko-Kopec.epd");

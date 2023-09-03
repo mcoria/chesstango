@@ -1,4 +1,4 @@
-package net.chesstango.search.smart;
+package net.chesstango.search.smart.transposition;
 
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Mauricio Coria
  */
-public class BinaryUtilsTest {
+public class TranspositionEntryTest {
 
     @Test
     public void shift() {

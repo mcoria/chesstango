@@ -3,9 +3,6 @@ package net.chesstango.search.smart;
 import lombok.Getter;
 import lombok.Setter;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
-
-import java.util.Map;
 
 /**
  * @author Mauricio Coria

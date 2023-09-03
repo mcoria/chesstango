@@ -4,7 +4,6 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
@@ -12,7 +11,6 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -98,7 +96,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
             for (Move posibleMove : game.getPossibleMoves()) {
                 if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                     result = posibleMove;
@@ -121,7 +119,7 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
             if (bestMoveEncoded != 0) {
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {

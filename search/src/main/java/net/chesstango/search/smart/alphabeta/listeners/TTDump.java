@@ -6,6 +6,7 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -16,8 +17,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import net.chesstango.search.smart.transposition.TranspositionType;
 
 /**
  * @author Mauricio Coria

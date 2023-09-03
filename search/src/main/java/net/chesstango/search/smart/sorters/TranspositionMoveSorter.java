@@ -4,7 +4,6 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.transposition.TTable;
 import net.chesstango.search.smart.transposition.TranspositionEntry;
@@ -12,7 +11,6 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -75,9 +73,9 @@ public class TranspositionMoveSorter implements MoveSorter {
         short bestMoveEncoded = 0;
 
         if(entry != null){
-            bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+            bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
         } else if(qentry != null){
-            bestMoveEncoded = BinaryUtils.decodeMove(qentry.bestMoveAndValue);
+            bestMoveEncoded = TranspositionEntry.decodeMove(qentry.bestMoveAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();

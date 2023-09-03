@@ -6,10 +6,6 @@ import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.MapTTable;
 import net.chesstango.search.smart.transposition.TTable;
-import net.chesstango.search.smart.transposition.TranspositionEntry;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria

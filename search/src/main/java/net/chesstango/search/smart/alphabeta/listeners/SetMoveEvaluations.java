@@ -4,7 +4,6 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.transposition.TTable;
@@ -12,7 +11,6 @@ import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.OptionalInt;
 
 /**
@@ -76,7 +74,7 @@ public class SetMoveEvaluations implements SearchLifeCycle {
             if (entry != null && entry.searchDepth == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
                 moveEvaluation.move = move;
-                moveEvaluation.evaluation = BinaryUtils.decodeValue(entry.bestMoveAndValue);
+                moveEvaluation.evaluation = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 

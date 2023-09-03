@@ -1,6 +1,6 @@
 package net.chesstango.search;
 
-import net.chesstango.search.smart.BinaryUtilsTest;
+import net.chesstango.search.smart.transposition.TranspositionEntryTest;
 import net.chesstango.search.smart.IterativeDeepeningTest;
 import net.chesstango.search.smart.MoveSelectorTest;
 import net.chesstango.search.smart.sorters.DefaultMoveSorterTest;
@@ -19,7 +19,7 @@ import org.junit.platform.suite.api.Suite;
         TranspositionEntryMoveSorterTest.class,
         MoveSelectorTest.class,
         MoveComparatorTest.class,
-        BinaryUtilsTest.class
+        TranspositionEntryTest.class
 })
 public class SmartTestSuite {
 
