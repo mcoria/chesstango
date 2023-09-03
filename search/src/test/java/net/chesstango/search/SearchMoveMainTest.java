@@ -4,6 +4,7 @@ import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.search.reports.EPDSearchResult;
 import net.chesstango.search.reports.SearchesReport;
+import net.chesstango.search.smart.statistics.RNodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -162,5 +164,51 @@ public class SearchMoveMainTest {
         EPDEntry epdEntry = EPDReader.readEdpLine("2r3k1/p4p2/3Rp2p/1p2P1pK/8/1P4P1/P3Q2P/1q6 b - - bm Qb1-g6+; ce -M3; pv Qb1-g6+ Kh5-g4 Qg6-f5+ Kg4-h5 Qf5-h3+; id \"1445\";");
         epdSearchResult = finderSuite.run(epdEntry);
         assertTrue(epdSearchResult.bestMoveFound());
+    }
+
+
+    @Test
+    @Disabled
+    public void test_40H_2820() {
+        finderSuite = new SearchMoveMain(5);
+        EPDEntry epdEntry = EPDReader.readEdpLine("8/2p5/2P5/p7/k1B5/2K5/2N1p3/8 w - - bm Nc2-e1; ce +M3; pv Nc2-e1 Ka4-a3 Bc4-b3 a5-a4 Ne1-c2+; id \"2820\";");
+        epdSearchResult = finderSuite.run(epdEntry);
+        assertTrue(epdSearchResult.bestMoveFound());
+
+
+        /**
+         * Ahora se prueba el inverso
+         */
+        SearchMoveMain finderSuite1 = new SearchMoveMain(5);
+        EPDEntry epdEntry1 = EPDReader.readEdpLine("8/2n1P3/2k5/K1b5/P7/2p5/2P5/8 b - - bm Nc7-e8; ce -M3; pv Nc7-e8 Ka5-a6 Bc5-b6 a4-a5 Ne8-c7+; id \"2820\";");
+        EPDSearchResult epdSearchResult1 = finderSuite1.run(epdEntry1);
+        assertTrue(epdSearchResult1.bestMoveFound());
+
+
+        SearchMoveResult searchResult = epdSearchResult.searchResult();
+        SearchMoveResult searchResult1 = epdSearchResult1.searchResult();
+
+        int[] visitedNodesQuiescenceCounter = searchResult.getVisitedNodesQuiescenceCounter();
+        int[] visitedNodesQuiescenceCounter1 = searchResult1.getVisitedNodesQuiescenceCounter();
+
+        RNodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+        RNodeStatistics regularNodeStatistics1 = searchResult1.getRegularNodeStatistics();
+
+        int[] expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
+        int[] visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
+
+        int[] expectedNodesCounters1 = regularNodeStatistics1.expectedNodesCounters();
+        int[] visitedNodesCounters1 = regularNodeStatistics1.visitedNodesCounters();
+
+        for (int i = 0; i < 30; i++) {
+            assertEquals(expectedNodesCounters[i], expectedNodesCounters1[i]);
+            assertEquals(visitedNodesCounters[i], visitedNodesCounters1[i]);
+            assertEquals(visitedNodesQuiescenceCounter[i], visitedNodesQuiescenceCounter1[i]);
+        }
+
+        /**
+         * Esta fallando esta linea, podriamos hacer un dump de la ejecucion de los movimientos
+         */
+        assertEquals(searchResult.getExecutedMoves(), searchResult1.getExecutedMoves());
     }
 }
