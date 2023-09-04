@@ -43,7 +43,7 @@ public class SearchesReportModel {
     ///////////////////// END VISITED QUIESCENCE NODES
 
     List<SearchReportModelDetail> moveDetails;
-    int executedMovesTotal;
+    long executedMovesTotal;
 
     public static class SearchReportModelDetail {
         String id;

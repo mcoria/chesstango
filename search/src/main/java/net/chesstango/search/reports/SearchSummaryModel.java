@@ -15,10 +15,10 @@ public class SearchSummaryModel {
     long duration;
 
     @JsonProperty("searches")
-    long searches;
+    int searches;
 
     @JsonProperty("success")
-    long success;
+    int success;
 
     @JsonProperty("successRate")
     int successRate;
@@ -42,7 +42,7 @@ public class SearchSummaryModel {
     long evaluatedGamesCounterTotal;
 
     @JsonProperty("executedMovesTotal")
-    int executedMovesTotal;
+    long executedMovesTotal;
 
     public static SearchSummaryModel collectStatics(String sessionId, EpdSearchReportModel epdSearchReportModel, SearchesReportModel searchesReportModel) {
         SearchSummaryModel model = new SearchSummaryModel();
