@@ -73,7 +73,7 @@ public class SearchesReportModel {
 
 
         String principalVariation;
-        int points;
+        int evaluation;
         int executedMoves;
     }
 
@@ -95,7 +95,7 @@ public class SearchesReportModel {
             Move bestMove = searchMoveResult.getBestMove();
             reportModelDetail.id = searchMoveResult.getEpdID();
             reportModelDetail.move = String.format("%s%s", bestMove.getFrom().getSquare(), bestMove.getTo().getSquare());
-            reportModelDetail.points = searchMoveResult.getEvaluation();
+            reportModelDetail.evaluation = searchMoveResult.getEvaluation();
             reportModelDetail.principalVariation = getPrincipalVariation(searchMoveResult.getPrincipalVariation());
             reportModelDetail.executedMoves = searchMoveResult.getExecutedMoves();
 

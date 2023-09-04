@@ -308,8 +308,8 @@ public class SearchesReport {
         // Cuerpo
         for (SearchesReportModel.SearchReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("%6s:", moveDetail.move);
-            out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points);
-            if (moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON) {
+            out.printf(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.evaluation);
+            if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
                 out.printf(" MATE");
             }
             out.printf("\n");
@@ -323,8 +323,8 @@ public class SearchesReport {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("evaluations-%d.txt", fileCounter)))) {
 
                 writer.append(String.format("%6s:", moveDetail.move));
-                writer.append(String.format(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.points));
-                if (moveDetail.points == GameEvaluator.WHITE_WON || moveDetail.points == GameEvaluator.BLACK_WON) {
+                writer.append(String.format(" %s; Points = %d ", moveDetail.principalVariation, moveDetail.evaluation));
+                if (moveDetail.evaluation == GameEvaluator.WHITE_WON || moveDetail.evaluation == GameEvaluator.BLACK_WON) {
                     writer.append(String.format(" MATE"));
                 }
                 writer.append(String.format("\n"));
