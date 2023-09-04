@@ -29,6 +29,8 @@ public class ArrayTTable implements TTable {
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            transpositionArray[i].hash = 0;
+        }
     }
 }
