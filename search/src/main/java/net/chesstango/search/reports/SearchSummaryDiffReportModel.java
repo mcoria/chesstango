@@ -19,7 +19,8 @@ public class SearchSummaryDiffReportModel {
                                     int visitedQNodesPercentage,
                                     int visitedNodesPercentage,
                                     int evaluatedGamesPercentage,
-                                    int executedMovesPercentage) {
+                                    int executedMovesPercentage,
+                                    int evaluationCoincidencePercentage) {
     }
 
     public static SearchSummaryDiffReportModel createModel(String suiteName, SearchSummaryModel baseLineSearchSummary, List<SearchSummaryModel> searchSummaryList) {
@@ -46,6 +47,27 @@ public class SearchSummaryDiffReportModel {
         int visitedNodesPercentage = (int) ((searchSummary.visitedNodesTotal * 100) / baseLineSearchSummary.visitedNodesTotal);
         int evaluatedGamesPercentage = (int) ((searchSummary.evaluatedGamesCounterTotal * 100) / baseLineSearchSummary.evaluatedGamesCounterTotal);
         int executedMovesPercentage = (int) ((searchSummary.executedMovesTotal * 100) / baseLineSearchSummary.executedMovesTotal);
-        return new SearchSummaryDiff(durationPercentage, sameSearches, visitedRNodesPercentage, visitedQNodesPercentage, visitedNodesPercentage, evaluatedGamesPercentage, executedMovesPercentage);
+
+        int evaluationCoincidences = 0;
+        List<SearchSummaryModel.SearchSummaryModeDetail> baseLineSummaryModeDetailListModeDetail = baseLineSearchSummary.summaryModeDetailList;
+        List<SearchSummaryModel.SearchSummaryModeDetail> summaryModeDetailListModeDetail = searchSummary.summaryModeDetailList;
+        int baseLineSearches = baseLineSummaryModeDetailListModeDetail.size();
+        int searches = summaryModeDetailListModeDetail.size();
+        for (int i = 0; i < Math.min(baseLineSearches,searches) ; i++) {
+            SearchSummaryModel.SearchSummaryModeDetail baseMoveDetail = baseLineSummaryModeDetailListModeDetail.get(i);
+            SearchSummaryModel.SearchSummaryModeDetail moveDetail = summaryModeDetailListModeDetail.get(i);
+
+            if(baseMoveDetail.evaluation == moveDetail.evaluation){
+                evaluationCoincidences++;
+            }
+        }
+
+        int evaluationCoincidencePercentage = (evaluationCoincidences * 100) / baseLineSearches;
+
+
+
+        return new SearchSummaryDiff(durationPercentage, sameSearches, visitedRNodesPercentage, visitedQNodesPercentage, visitedNodesPercentage, evaluatedGamesPercentage, executedMovesPercentage, evaluationCoincidencePercentage);
     }
 }
+
+
