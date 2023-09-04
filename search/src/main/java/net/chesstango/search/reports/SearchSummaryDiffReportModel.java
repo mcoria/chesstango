@@ -49,8 +49,8 @@ public class SearchSummaryDiffReportModel {
         int executedMovesPercentage = (int) ((searchSummary.executedMovesTotal * 100) / baseLineSearchSummary.executedMovesTotal);
 
         int evaluationCoincidences = 0;
-        List<SearchSummaryModel.SearchSummaryModeDetail> baseLineSummaryModeDetailListModeDetail = baseLineSearchSummary.summaryModeDetailList;
-        List<SearchSummaryModel.SearchSummaryModeDetail> summaryModeDetailListModeDetail = searchSummary.summaryModeDetailList;
+        List<SearchSummaryModel.SearchSummaryModeDetail> baseLineSummaryModeDetailListModeDetail = baseLineSearchSummary.searchDetailList;
+        List<SearchSummaryModel.SearchSummaryModeDetail> summaryModeDetailListModeDetail = searchSummary.searchDetailList;
         int baseLineSearches = baseLineSummaryModeDetailListModeDetail.size();
         int searches = summaryModeDetailListModeDetail.size();
         for (int i = 0; i < Math.min(baseLineSearches,searches) ; i++) {

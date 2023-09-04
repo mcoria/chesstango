@@ -48,14 +48,16 @@ public class SearchSummaryModel {
     int executedMovesTotal;
 
 
-    @JsonProperty("summaryModeDetailList")
-    List<SearchSummaryModeDetail> summaryModeDetailList = new LinkedList<>();
+    @JsonProperty("searchDetail")
+    List<SearchSummaryModeDetail> searchDetailList = new LinkedList<>();
 
     public static class SearchSummaryModeDetail {
 
+        @JsonProperty("id")
+        public String id;
+
         @JsonProperty("move")
         public String move;
-
         @JsonProperty("pv")
         public String pv;
 
@@ -85,10 +87,11 @@ public class SearchSummaryModel {
 
         searchesReportModel.moveDetails.forEach(searchReportModelDetail -> {
             SearchSummaryModeDetail searchSummaryModeDetail = new SearchSummaryModeDetail();
+            searchSummaryModeDetail.id = searchReportModelDetail.id;
             searchSummaryModeDetail.move = searchReportModelDetail.move;
             searchSummaryModeDetail.pv = searchReportModelDetail.principalVariation;
             searchSummaryModeDetail.evaluation = searchReportModelDetail.evaluation;
-            model.summaryModeDetailList.add(searchSummaryModeDetail);
+            model.searchDetailList.add(searchSummaryModeDetail);
         });
 
         return model;
