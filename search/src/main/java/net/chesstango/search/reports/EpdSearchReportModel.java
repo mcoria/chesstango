@@ -7,8 +7,8 @@ import java.util.List;
  * @author Mauricio Coria
  */
 public class EpdSearchReportModel {
-    long searches;
-    long success;
+    int searches;
+    int success;
     int successRate;
     List<String> failedEntries;
     long duration;
@@ -18,9 +18,9 @@ public class EpdSearchReportModel {
 
         reportModel.searches = edpEntries.size();
 
-        reportModel.success = edpEntries.stream().filter(EPDSearchResult::bestMoveFound).count();
+        reportModel.success = (int) edpEntries.stream().filter(EPDSearchResult::bestMoveFound).count();
 
-        reportModel.successRate = (int) ((100 * reportModel.success) / reportModel.searches);
+        reportModel.successRate = ((100 * reportModel.success) / reportModel.searches);
 
         reportModel.duration = edpEntries.stream().mapToLong(EPDSearchResult::searchDuration).sum();
 

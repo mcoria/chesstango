@@ -5,12 +5,11 @@ import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
 import net.chesstango.search.smart.SearchSmart;
 import net.chesstango.search.smart.alphabeta.filters.AlphaBetaFilter;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.List;
 
@@ -33,8 +32,8 @@ public class AlphaBeta implements SearchSmart {
                 alphaBetaFilter.maximize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST) :
                 alphaBetaFilter.minimize(0, GameEvaluator.WHITE_LOST, GameEvaluator.BLACK_LOST);
 
-        int bestValue = BinaryUtils.decodeValue(bestMoveAndValue);
-        short bestMoveEncoded = BinaryUtils.decodeMove(bestMoveAndValue);
+        int bestValue = TranspositionEntry.decodeValue(bestMoveAndValue);
+        short bestMoveEncoded = TranspositionEntry.decodeMove(bestMoveAndValue);
 
         Move bestMove = null;
         for (Move move : game.getPossibleMoves()) {

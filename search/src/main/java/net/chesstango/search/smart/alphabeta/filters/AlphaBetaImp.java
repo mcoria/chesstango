@@ -5,9 +5,10 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.StopSearchingException;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.sorters.MoveSorter;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 
 import java.util.Iterator;
 import java.util.List;
@@ -58,7 +59,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, null, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.maximize(currentPly, alpha, beta);
@@ -75,7 +76,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.minimize(currentPly + 1, Math.max(maxValue, alpha), beta);
-                int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
+                int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue > maxValue) {
                     maxValue = currentValue;
                     bestMove = move;
@@ -87,7 +88,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), maxValue);
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, bestMove, maxValue);
         }
     }
 
@@ -97,7 +98,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
             throw new StopSearchingException();
         }
         if (!game.getStatus().isInProgress()) {
-            return BinaryUtils.encodedMoveAndValue((short) 0, evaluator.evaluate(game));
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT,null, evaluator.evaluate(game));
         }
         if (currentPly == maxPly) {
             return quiescence.minimize(currentPly, alpha, beta);
@@ -114,7 +115,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.executeMove(move);
 
                 long bestMoveAndValue = next.maximize(currentPly + 1, alpha, Math.min(minValue, beta));
-                int currentValue = BinaryUtils.decodeValue(bestMoveAndValue);
+                int currentValue = TranspositionEntry.decodeValue(bestMoveAndValue);
                 if (currentValue < minValue) {
                     minValue = currentValue;
                     bestMove = move;
@@ -126,7 +127,7 @@ public class AlphaBetaImp implements AlphaBetaFilter {
                 game = game.undoMove();
             }
 
-            return BinaryUtils.encodedMoveAndValue(bestMove.binaryEncoding(), minValue);
+            return TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, bestMove, minValue);
         }
     }
 

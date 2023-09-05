@@ -4,14 +4,13 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.OptionalInt;
 
 /**
@@ -20,8 +19,8 @@ import java.util.OptionalInt;
  * @author Mauricio Coria
  */
 public class SetMoveEvaluations implements SearchLifeCycle {
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private Game game;
     private int maxPly;
 
@@ -70,12 +69,12 @@ public class SetMoveEvaluations implements SearchLifeCycle {
 
             long hash = game.getChessPosition().getZobristHash();
 
-            Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+            TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
             if (entry != null && entry.searchDepth == maxPly - 1) {
                 SearchMoveResult.MoveEvaluation moveEvaluation = new SearchMoveResult.MoveEvaluation();
                 moveEvaluation.move = move;
-                moveEvaluation.evaluation = entry.bestMoveAndValue != 0 ? BinaryUtils.decodeValue(entry.bestMoveAndValue) : BinaryUtils.decodeValue(entry.qBestMoveAndValue);
+                moveEvaluation.evaluation = TranspositionEntry.decodeValue(entry.bestMoveAndValue);
                 moveEvaluationList.add(moveEvaluation);
             }
 

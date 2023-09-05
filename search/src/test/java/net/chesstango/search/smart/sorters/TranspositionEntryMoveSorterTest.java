@@ -6,30 +6,34 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Mauricio Coria
  */
-public class TranspositionMoveSorterTest {
+public class TranspositionEntryMoveSorterTest {
 
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private TTable maxMap;
+    private TTable minMap;
+    private TTable qMaxMap;
+    private TTable qMinMap;
     private TranspositionMoveSorter moveSorter;
 
     @BeforeEach
     public void setup() {
-        maxMap = new HashMap<>();
-        minMap = new HashMap<>();
+        maxMap = new MapTTable();
+        minMap = new MapTTable();
+        qMaxMap = new MapTTable();
+        qMinMap = new MapTTable();
         moveSorter = new TranspositionMoveSorter();
     }
 
@@ -44,7 +48,14 @@ public class TranspositionMoveSorterTest {
                 break;
             }
         }
-        maxMap.put(game.getChessPosition().getZobristHash(), createTableEntry(bestMoveEncoded));
+
+        long hash = game.getChessPosition().getZobristHash();
+
+
+        TranspositionEntry tableEntry = maxMap.allocate(hash);
+
+        updateTableEntry(hash, tableEntry, bestMoveEncoded);
+
 
         initMoveSorter(game);
 
@@ -58,22 +69,23 @@ public class TranspositionMoveSorterTest {
         assertEquals(Square.c3, move.getTo().getSquare());
     }
 
-
     private void initMoveSorter(Game game) {
         moveSorter.beforeSearch(game, 1);
 
         SearchContext context = new SearchContext(1);
         context.setMaxMap(maxMap);
         context.setMinMap(minMap);
+        context.setQMaxMap(qMaxMap);
+        context.setQMinMap(qMinMap);
 
         moveSorter.beforeSearchByDepth(context);
     }
 
-    private Transposition createTableEntry(short bestMoveEncoded) {
-        Transposition entry = new Transposition();
+    private TranspositionEntry updateTableEntry(long hash, TranspositionEntry entry, short bestMoveEncoded) {
         long bestMoveAndValue = encodedMoveAndValue(bestMoveEncoded, 1);
+        entry.hash = hash;
         entry.bestMoveAndValue = bestMoveAndValue;
-        entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
+        //entry.value = (int) (0b00000000_00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L & bestMoveAndValue);
         return entry;
     }
 

@@ -6,16 +6,16 @@ import net.chesstango.board.Square;
 import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.Transposition;
 import net.chesstango.search.smart.alphabeta.listeners.SetMoveEvaluations;
+import net.chesstango.search.smart.transposition.MapTTable;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
+import net.chesstango.search.smart.transposition.TranspositionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,16 +25,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FitnessBySearchTest {
     private static final int DEPTH = 1;
     private FitnessBySearch fitnessFn;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private SetMoveEvaluations setMoveEvaluations;
 
     @BeforeEach
     public void setup() {
         fitnessFn = new FitnessBySearch(null);
         setMoveEvaluations = new SetMoveEvaluations();
-        maxMap = new HashMap<>();
-        minMap = new HashMap<>();
+        maxMap = new MapTTable();
+        minMap = new MapTTable();
     }
 
     /**
@@ -249,20 +249,21 @@ public class FitnessBySearchTest {
         return searchResult.getMoveEvaluations();
     }
 
-    private Transposition saveEntry(Game game, Move move, int value) {
-        Transposition entry = new Transposition();
+    private TranspositionEntry saveEntry(Game game, Move move, int value) {
+        TranspositionEntry entry = null;
 
-        entry.bestMoveAndValue = BinaryUtils.encodedMoveAndValue(move.binaryEncoding(), value);
-        entry.value = BinaryUtils.decodeValue(entry.bestMoveAndValue);
-        entry.searchDepth = 0;
 
         long hash = game.getChessPosition().getZobristHash();
 
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
-            maxMap.put(hash, entry);
+            entry = maxMap.allocate(hash);
         } else {
-            minMap.put(hash, entry);
+            entry = minMap.allocate(hash);
         }
+
+        entry.hash = hash;
+        entry.bestMoveAndValue = TranspositionEntry.encodedMoveAndValue(TranspositionType.EXACT, move, value);
+        entry.searchDepth = 0;
 
         return entry;
     }

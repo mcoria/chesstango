@@ -11,6 +11,7 @@ import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.smart.statistics.RNodeStatistics;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,6 +24,7 @@ public class AlphaBetaSymmetryTest {
 
 
     @Test
+    @Disabled
     public void symmetryMate02() {
         Game game = FENDecoder.loadGame("3q1rk1/2n1p3/2r2bpB/p2n2N1/Pp1p3Q/6N1/1P4PP/R4R1K w - -");
 

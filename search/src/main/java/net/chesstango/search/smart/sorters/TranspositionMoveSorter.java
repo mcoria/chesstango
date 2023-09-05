@@ -4,14 +4,13 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
@@ -19,8 +18,10 @@ import java.util.Map;
 public class TranspositionMoveSorter implements MoveSorter {
     private static final MoveComparator moveComparator = new MoveComparator();
     private Game game;
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private TTable maxMap;
+    private TTable minMap;
+    private TTable qMaxMap;
+    private TTable qMinMap;
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
@@ -36,6 +37,8 @@ public class TranspositionMoveSorter implements MoveSorter {
     public void beforeSearchByDepth(SearchContext context) {
         this.maxMap = context.getMaxMap();
         this.minMap = context.getMinMap();
+        this.qMaxMap = context.getQMaxMap();
+        this.qMinMap = context.getQMinMap();
     }
 
     @Override
@@ -57,21 +60,22 @@ public class TranspositionMoveSorter implements MoveSorter {
     public List<Move> getSortedMoves() {
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry;
+        TranspositionEntry entry;
+        TranspositionEntry qentry;
         if (Color.WHITE.equals(game.getChessPosition().getCurrentTurn())) {
             entry = maxMap.get(hash);
+            qentry = qMaxMap.get(hash);
         } else {
             entry = minMap.get(hash);
+            qentry = qMinMap.get(hash);
         }
 
         short bestMoveEncoded = 0;
 
         if(entry != null){
-            if(entry.bestMoveAndValue != 0){
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
-            } else if(entry.qBestMoveAndValue != 0){
-                bestMoveEncoded = BinaryUtils.decodeMove(entry.qBestMoveAndValue);
-            }
+            bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
+        } else if(qentry != null){
+            bestMoveEncoded = TranspositionEntry.decodeMove(qentry.bestMoveAndValue);
         }
 
         List<Move> sortedMoveList = new LinkedList<>();

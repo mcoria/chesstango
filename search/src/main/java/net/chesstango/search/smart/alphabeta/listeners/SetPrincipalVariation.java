@@ -4,21 +4,20 @@ import net.chesstango.board.Color;
 import net.chesstango.board.Game;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.BinaryUtils;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
-import net.chesstango.search.smart.Transposition;
+import net.chesstango.search.smart.transposition.TTable;
+import net.chesstango.search.smart.transposition.TranspositionEntry;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Mauricio Coria
  */
 public class SetPrincipalVariation implements SearchLifeCycle {
-    private Map<Long, Transposition> maxMap;
-    private Map<Long, Transposition> minMap;
+    private TTable maxMap;
+    private TTable minMap;
     private Game game;
 
     @Override
@@ -58,8 +57,8 @@ public class SetPrincipalVariation implements SearchLifeCycle {
     public List<Move> calculatePrincipalVariation(Game game,
                                                     Move bestMove,
                                                     int depth,
-                                                    Map<Long, Transposition> maxMap,
-                                                    Map<Long, Transposition> minMap) {
+                                                    TTable maxMap,
+                                                    TTable minMap) {
 
         List<Move> principalVariation = new ArrayList<>();
 
@@ -89,15 +88,15 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return principalVariation;
     }
 
-    private Move readMoveFromTT(Game game, Map<Long, Transposition> maxMap, Map<Long, Transposition> minMap) {
+    private Move readMoveFromTT(Game game, TTable maxMap, TTable minMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
+        TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? maxMap.get(hash) : minMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
             for (Move posibleMove : game.getPossibleMoves()) {
                 if (posibleMove.binaryEncoding() == bestMoveEncoded) {
                     result = posibleMove;
@@ -112,15 +111,15 @@ public class SetPrincipalVariation implements SearchLifeCycle {
         return result;
     }
 
-    private Move readMoveFromQTT(Game game, Map<Long, Transposition> qMaxMap, Map<Long, Transposition> qMinMap) {
+    private Move readMoveFromQTT(Game game, TTable qMaxMap, TTable qMinMap) {
         Move result = null;
 
         long hash = game.getChessPosition().getZobristHash();
 
-        Transposition entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
+        TranspositionEntry entry = Color.WHITE.equals(game.getChessPosition().getCurrentTurn()) ? qMaxMap.get(hash) : qMinMap.get(hash);
 
         if (entry != null) {
-            short bestMoveEncoded = BinaryUtils.decodeMove(entry.bestMoveAndValue);
+            short bestMoveEncoded = TranspositionEntry.decodeMove(entry.bestMoveAndValue);
             if (bestMoveEncoded != 0) {
                 for (Move posibleMove : game.getPossibleMoves()) {
                     if (posibleMove.binaryEncoding() == bestMoveEncoded) {

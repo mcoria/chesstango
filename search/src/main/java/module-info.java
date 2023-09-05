@@ -13,6 +13,7 @@ module net.chesstango.search {
     exports net.chesstango.search.smart.alphabeta.listeners;
     exports net.chesstango.search.smart.sorters;
     exports net.chesstango.search.smart.statistics;
+    exports net.chesstango.search.smart.transposition;
 
     requires net.chesstango.evaluation;
     requires net.chesstango.board;
