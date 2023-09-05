@@ -1,5 +1,7 @@
 package net.chesstango.search.smart.transposition;
 
+import java.util.Arrays;
+
 /**
  * @author Mauricio Coria
  */
@@ -7,8 +9,9 @@ public class ArrayTTable implements TTable {
 
     private static final int ARRAY_SIZE = 1024 * 512;
     private final TranspositionEntry[] transpositionArray;
-    public ArrayTTable(){
-        transpositionArray =  new TranspositionEntry[ARRAY_SIZE];
+
+    public ArrayTTable() {
+        transpositionArray = new TranspositionEntry[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
             transpositionArray[i] = new TranspositionEntry();
         }
@@ -29,8 +32,6 @@ public class ArrayTTable implements TTable {
 
     @Override
     public void clear() {
-        for (int i = 0; i < ARRAY_SIZE; i++) {
-            transpositionArray[i].hash = 0;
-        }
+        Arrays.stream(transpositionArray).parallel().forEach(TranspositionEntry::reset);
     }
 }

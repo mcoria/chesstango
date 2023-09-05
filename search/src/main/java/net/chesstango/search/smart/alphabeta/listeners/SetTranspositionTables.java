@@ -19,10 +19,10 @@ public class SetTranspositionTables implements SearchLifeCycle {
     private boolean reuseTranspositionTable;
 
     public SetTranspositionTables(){
-        this.maxMap = new MapTTable();
-        this.minMap = new MapTTable();
-        this.qMaxMap = new MapTTable();
-        this.qMinMap = new MapTTable();
+        this.maxMap = new ArrayTTable();
+        this.minMap = new ArrayTTable();
+        this.qMaxMap = new ArrayTTable();
+        this.qMinMap = new ArrayTTable();
     }
 
     @Override

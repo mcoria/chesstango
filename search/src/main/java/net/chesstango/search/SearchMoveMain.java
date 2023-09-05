@@ -111,8 +111,6 @@ public class SearchMoveMain {
 
         boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
 
-        searchMove.reset();
-
         return new EPDSearchResult(epdEntry, bestMoveFoundStr, bestMoveFound, duration, searchResult);
     }
 

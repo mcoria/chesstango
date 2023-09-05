@@ -14,6 +14,10 @@ public class TranspositionEntry implements Serializable {
 
     public long bestMoveAndValue;
 
+    public void reset() {
+        hash = 0;
+    }
+
     private static final long VALUE_MASK = 0b00000000_00000000_00000000_00000000_11111111_11111111_11111111_11111111L;
 
     public static long encodedMoveAndValue(TranspositionType transpositionType, Move move, int value) {
@@ -43,6 +47,5 @@ public class TranspositionEntry implements Serializable {
     public static TranspositionType decodeTransposition(long encodedMoveAndValue) {
         return TranspositionType.valueOf((byte) (encodedMoveAndValue >> 48));
     }
-
 
 }
