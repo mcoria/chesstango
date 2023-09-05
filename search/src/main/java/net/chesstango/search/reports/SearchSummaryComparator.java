@@ -18,9 +18,10 @@ public class SearchSummaryComparator {
 
     public static void main(String[] args) {
         SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-09-04-18-35-full-CHT51-MapTTable");
-        summaryComparator.addSession("depth-5-2023-09-04-18-35-full-CHT51-MapTTable");
         summaryComparator.addSession("depth-5-2023-09-04-19-20-full-CHT51-ArrayTTable");
-        summaryComparator.addSession("depth-5-2023-09-04-21-17");
+        summaryComparator.addSession("depth-5-2023-09-04-22-29");
+        summaryComparator.addSession("depth-5-2023-09-04-22-54");
+        //
         //
 
         summaryComparator.execute("C:\\java\\projects\\chess\\chess-utils\\testing\\positions\\database\\mate-w1.epd");
