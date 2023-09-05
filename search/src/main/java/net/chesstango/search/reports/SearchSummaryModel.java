@@ -41,6 +41,9 @@ public class SearchSummaryModel {
     @JsonProperty("visitedNodesTotal")
     long visitedNodesTotal;
 
+    @JsonProperty("cutoffPercentageTotal")
+    int cutoffPercentageTotal;
+
     @JsonProperty("evaluatedGamesCounterTotal")
     long evaluatedGamesCounterTotal;
 
@@ -82,6 +85,7 @@ public class SearchSummaryModel {
         model.visitedRNodesTotal = searchesReportModel.visitedRNodesTotal;
         model.visitedQNodesTotal = searchesReportModel.visitedQNodesTotal;
         model.visitedNodesTotal = searchesReportModel.visitedNodesTotal;
+        model.cutoffPercentageTotal = searchesReportModel.cutoffPercentageTotal;
         model.evaluatedGamesCounterTotal = searchesReportModel.evaluatedGamesCounterTotal;
         model.executedMovesTotal = searchesReportModel.executedMovesTotal;
 

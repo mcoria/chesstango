@@ -20,7 +20,7 @@ public class SearchesReportModel {
     ///////////////////// START TOTALS
     long visitedNodesTotal;
     long expectedNodesTotal;
-    int cutoffPercentage;
+    int cutoffPercentageTotal;
 
     long evaluatedGamesCounterTotal;
     long distinctEvaluatedGamesCounterTotal;
@@ -171,7 +171,7 @@ public class SearchesReportModel {
 
         searchesReportModel.visitedNodesTotal = searchesReportModel.visitedRNodesTotal + searchesReportModel.visitedQNodesTotal;
         searchesReportModel.expectedNodesTotal = searchesReportModel.expectedRNodesTotal + searchesReportModel.expectedQNodesTotal;
-        searchesReportModel.cutoffPercentage = (int) ((100 * searchesReportModel.visitedNodesTotal) / searchesReportModel.expectedNodesTotal);
+        searchesReportModel.cutoffPercentageTotal = (int) ((100 * searchesReportModel.visitedNodesTotal) / searchesReportModel.expectedNodesTotal);
 
         return searchesReportModel;
     }

@@ -75,7 +75,7 @@ public class SearchesReport {
         out.printf("Visited         RNodes: %8d\n", reportModel.visitedRNodesTotal);
         out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
         out.printf("Visited  Total   Nodes: %8d\n", reportModel.visitedNodesTotal);
-        out.printf("Cutoff                : %3d%%\n", reportModel.cutoffPercentage);
+        out.printf("Cutoff                : %3d%%\n", reportModel.cutoffPercentageTotal);
         out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedGamesCounterTotal);
         out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
         out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);

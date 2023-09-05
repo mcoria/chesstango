@@ -33,6 +33,7 @@ public class SearchSummaryDiffReport {
     private static final String evaluatedGamesFmt = "| %11d (%3d%%) ";
     private static final String executedMovesFmt = "| %11d (%3d%%) ";
     private static final String evaluationCoincidencesFmt = "| %17d%% ";
+    private static final String cutoffFmt = "| %17d%% ";
 
     private void print() {
         SearchSummaryModel baseLineSearchSummary = reportModel.baseLineSearchSummary;
@@ -102,6 +103,12 @@ public class SearchSummaryDiffReport {
         out.printf("| Vis  Nodes   ");
         out.printf(visitedNodesFmt, baseLineSearchSummary.visitedNodesTotal, 100);
         IntStream.range(0, reportModel.elements).forEach(i -> out.printf(visitedNodesFmt, searchSummaryList.get(i).visitedNodesTotal, searchSummaryDiffs.get(i).visitedNodesPercentage()));
+        out.printf("|\n");
+
+
+        out.printf("| Cutoff       ");
+        out.printf(cutoffFmt, baseLineSearchSummary.cutoffPercentageTotal);
+        IntStream.range(0, reportModel.elements).forEach(i -> out.printf(cutoffFmt, searchSummaryList.get(i).cutoffPercentageTotal));
         out.printf("|\n");
 
         out.printf("| Eval Games   ");
