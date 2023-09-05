@@ -184,7 +184,7 @@ public class SearchMoveMain {
 
         new SearchesReport()
                 .setReportModel(searchesReportModel)
-                //.withCutoffStatics()
+                .withCutoffStatics()
                 .withNodesVisitedStatics()
                 //.withEvaluationsStatics()
                 //.withPrincipalVariation()

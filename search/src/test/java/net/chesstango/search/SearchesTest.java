@@ -27,20 +27,20 @@ public class SearchesTest {
         searchResult = null;
 
         moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(new EvaluatorSEandImp02()))
+                .withGameEvaluator(new DefaultEvaluator())
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
-                .withIterativeDeepening()
+                //.withIterativeDeepening()
 
                 .withStatistics()
 

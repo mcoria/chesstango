@@ -3,7 +3,7 @@ package net.chesstango.search.smart.alphabeta.filters;
 import net.chesstango.board.Game;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
-import net.chesstango.search.smart.statistics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.NodeStatistics;
 
 /**
  * @author Mauricio Coria
@@ -25,7 +25,7 @@ public class AlphaBetaStatistics implements AlphaBetaFilter {
     @Override
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
-            result.setRegularNodeStatistics(new RNodeStatistics(expectedNodesCounters, visitedNodesCounters));
+            result.setRegularNodeStatistics(new NodeStatistics(expectedNodesCounters, visitedNodesCounters));
         }
         this.game = null;
         this.visitedNodesCounters = null;

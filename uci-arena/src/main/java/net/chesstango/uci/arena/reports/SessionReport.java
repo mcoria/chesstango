@@ -2,7 +2,7 @@ package net.chesstango.uci.arena.reports;
 
 import net.chesstango.engine.Session;
 import net.chesstango.search.SearchMoveResult;
-import net.chesstango.search.smart.statistics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.NodeStatistics;
 import net.chesstango.uci.arena.GameResult;
 import net.chesstango.uci.arena.gui.EngineController;
 
@@ -83,7 +83,7 @@ public class SessionReport {
 
 
         searches.forEach(searchMoveResult -> {
-            RNodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
+            NodeStatistics regularNodeStatistics = searchMoveResult.getRegularNodeStatistics();
             int[] visitedRNodeCounters = regularNodeStatistics.visitedNodesCounters();
             int[] expectedRNodeCounters = regularNodeStatistics.expectedNodesCounters();
             for (int i = 0; i < visitedRNodeCounters.length; i++) {
@@ -92,7 +92,8 @@ public class SessionReport {
 
             }
 
-            int[] visitedQNodesCounters = searchMoveResult.getVisitedNodesQuiescenceCounter();
+            NodeStatistics quiescenceNodeStatistics = searchMoveResult.getQuiescenceNodeStatistics();
+            int[] visitedQNodesCounters = quiescenceNodeStatistics.visitedNodesCounters();
             for (int i = 0; i < visitedQNodesCounters.length; i++) {
                 rowModel.visitedQNodesCounters[i] += visitedQNodesCounters[i];
             }

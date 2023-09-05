@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.moves.Move;
 import net.chesstango.search.smart.statistics.EvaluationStatistics;
-import net.chesstango.search.smart.statistics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.NodeStatistics;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,9 +37,10 @@ public class SearchMoveResult {
 
     private EvaluationStatistics evaluationStatistics;
 
-    private RNodeStatistics regularNodeStatistics;
+    private NodeStatistics regularNodeStatistics;
 
-    private int[] visitedNodesQuiescenceCounter;
+    private NodeStatistics quiescenceNodeStatistics;
+
 
     private int executedMoves;
 

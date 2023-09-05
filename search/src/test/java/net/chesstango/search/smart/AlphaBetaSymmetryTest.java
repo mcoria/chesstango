@@ -10,7 +10,7 @@ import net.chesstango.evaluation.GameEvaluator;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.builders.AlphaBetaBuilder;
-import net.chesstango.search.smart.statistics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.NodeStatistics;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -61,16 +61,19 @@ public class AlphaBetaSymmetryTest {
         /**
          * Testing mirror
          */
-        RNodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
         int[] expectedNodes = regularNodeStatistics.expectedNodesCounters();
         int[] visitedNodes = regularNodeStatistics.visitedNodesCounters();
 
-        RNodeStatistics regularNodeStatisticsMirror = searchResultMirror.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatisticsMirror = searchResultMirror.getRegularNodeStatistics();
         int[] expectedNodesMirror = regularNodeStatisticsMirror.expectedNodesCounters();
         int[] visitedNodesMirror = regularNodeStatisticsMirror.visitedNodesCounters();
 
-        int[] visitedNodesQ = searchResult.getVisitedNodesQuiescenceCounter();
-        int[] visitedNodesQMirror = searchResultMirror.getVisitedNodesQuiescenceCounter();
+        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
+        int[] visitedNodesQ = quiescenceNodeStatistics.visitedNodesCounters();
+
+        NodeStatistics quiescenceNodeStatisticsMirror = searchResultMirror.getQuiescenceNodeStatistics();
+        int[] visitedNodesQMirror = quiescenceNodeStatisticsMirror.visitedNodesCounters();
         for (int i = 0; i < 30; i++) {
             assertTrue(expectedNodes[i] == expectedNodesMirror[i]);
             assertTrue(visitedNodes[i] == visitedNodesMirror[i]);

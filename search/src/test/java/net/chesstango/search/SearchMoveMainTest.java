@@ -4,7 +4,7 @@ import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.search.reports.EPDSearchResult;
 import net.chesstango.search.reports.SearchesReport;
-import net.chesstango.search.smart.statistics.RNodeStatistics;
+import net.chesstango.search.smart.statistics.NodeStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -188,11 +188,14 @@ public class SearchMoveMainTest {
         SearchMoveResult searchResult = epdSearchResult.searchResult();
         SearchMoveResult searchResult1 = epdSearchResult1.searchResult();
 
-        int[] visitedNodesQuiescenceCounter = searchResult.getVisitedNodesQuiescenceCounter();
-        int[] visitedNodesQuiescenceCounter1 = searchResult1.getVisitedNodesQuiescenceCounter();
+        NodeStatistics quiescenceNodeStatistics = searchResult.getQuiescenceNodeStatistics();
+        int[] visitedNodesQuiescenceCounter = quiescenceNodeStatistics.visitedNodesCounters();
 
-        RNodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
-        RNodeStatistics regularNodeStatistics1 = searchResult1.getRegularNodeStatistics();
+        NodeStatistics quiescenceNodeStatistics1 = searchResult1.getQuiescenceNodeStatistics();
+        int[] visitedNodesQuiescenceCounter1 = quiescenceNodeStatistics1.visitedNodesCounters();
+
+        NodeStatistics regularNodeStatistics = searchResult.getRegularNodeStatistics();
+        NodeStatistics regularNodeStatistics1 = searchResult1.getRegularNodeStatistics();
 
         int[] expectedNodesCounters = regularNodeStatistics.expectedNodesCounters();
         int[] visitedNodesCounters = regularNodeStatistics.visitedNodesCounters();
