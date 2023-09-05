@@ -22,13 +22,17 @@ public class SearchesReportModel {
     public long visitedNodesTotal;
     public long expectedNodesTotal;
     public int cutoffPercentageTotal;
+    public long executedMovesTotal;
 
+    /**
+     * Evaluation Statistics
+     */
     public long evaluatedGamesCounterTotal;
     public long distinctEvaluatedGamesCounterTotal;
     public long distinctEvaluatedGamesCounterUniqueTotal;
     public long distinctEvaluatedGamesCounterCollisionsTotal;
     public long evaluationCollisionPercentageTotal;
-    public long executedMovesTotal;
+
     ///////////////////// END TOTALS
 
 
@@ -54,7 +58,12 @@ public class SearchesReportModel {
 
     public static class SearchReportModelDetail {
         public String id;
+
         public String move;
+        public String principalVariation;
+
+        public int evaluation;
+        public int executedMoves;
 
         /**
          * Evaluation Statistics
@@ -88,10 +97,6 @@ public class SearchesReportModel {
         public int visitedQNodesCounter;
         public int[] cutoffQPercentages;
 
-
-        public String principalVariation;
-        public int evaluation;
-        public int executedMoves;
     }
 
 
