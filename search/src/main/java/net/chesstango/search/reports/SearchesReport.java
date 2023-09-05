@@ -75,9 +75,10 @@ public class SearchesReport {
         out.printf("Visited         RNodes: %8d\n", reportModel.visitedRNodesTotal);
         out.printf("Visited         QNodes: %8d\n", reportModel.visitedQNodesTotal);
         out.printf("Visited  Total   Nodes: %8d\n", reportModel.visitedNodesTotal);
+        out.printf("Cutoff                : %3d%%\n", reportModel.cutoffPercentage);
         out.printf("Evaluated        Nodes: %8d\n", reportModel.evaluatedGamesCounterTotal);
         out.printf("Executed         Moves: %8d\n", reportModel.executedMovesTotal);
-        out.printf("Max              Depth: %8d\n", reportModel.maxSearchRLevel);
+        out.printf("Max             RDepth: %8d\n", reportModel.maxSearchRLevel);
         out.printf("Max             QDepth: %8d\n", reportModel.maxSearchQLevel);
         out.printf("\n");
     }
@@ -155,7 +156,7 @@ public class SearchesReport {
 
         out.printf("| SUM    ");
         IntStream.range(0, reportModel.maxSearchRLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedRNodesCounters[depth], reportModel.expectedRNodesCounters[depth]));
-        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedQNodesCounter[depth], reportModel.expectedQNodesCounter[depth]));
+        IntStream.range(0, reportModel.maxSearchQLevel).forEach(depth -> out.printf("| %7d / %8d ", reportModel.visitedQNodesCounters[depth], reportModel.expectedQNodesCounters[depth]));
         out.printf("| %7d / %8d ", reportModel.visitedRNodesTotal, reportModel.expectedRNodesTotal);
         out.printf("| %7d / %8d ", reportModel.visitedQNodesTotal, reportModel.expectedQNodesTotal);
         out.printf("| %7d / %8d ", reportModel.visitedNodesTotal, reportModel.expectedNodesTotal);
