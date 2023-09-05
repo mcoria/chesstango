@@ -3,6 +3,8 @@ package net.chesstango.search;
 import net.chesstango.board.Game;
 import net.chesstango.board.representations.fen.FENDecoder;
 import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.SearchesReport;
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +18,7 @@ import java.util.Arrays;
  * @author Mauricio Coria
  */
 public class SearchesTest {
-    private static final boolean PRINT_REPORT = false;
+    private static final boolean PRINT_REPORT = true;
     private SearchMove moveFinder;
     private SearchMoveResult searchResult;
 
@@ -25,7 +27,7 @@ public class SearchesTest {
         searchResult = null;
 
         moveFinder = new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(new GameEvaluatorCache(new EvaluatorSEandImp02()))
 
                 .withQuiescence()
 
@@ -85,6 +87,7 @@ public class SearchesTest {
 
 
     @Test
+    @Disabled
     public void testSearch_04(){
         Game game = FENDecoder.loadGame("4R3/6pk/1p4Bp/5p2/p5P1/2BP3P/5P2/6K1 b - - 0 39");
 

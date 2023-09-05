@@ -4,7 +4,8 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
-import net.chesstango.evaluation.DefaultEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
+import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.*;
 
@@ -279,20 +280,20 @@ public class SearchMoveMain {
 
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
+                .withGameEvaluator(new GameEvaluatorCache(new EvaluatorSEandImp02()))
 
                 .withQuiescence()
 
-                .withTranspositionTable()
-                .withQTranspositionTable()
+                //.withTranspositionTable()
+                //.withQTranspositionTable()
                 //.withTranspositionTableReuse()
 
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
+                //.withTranspositionMoveSorter()
+                //.withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
-                .withIterativeDeepening()
+                //.withIterativeDeepening()
 
                 .withStatistics()
                 //.withStatisticsTrackEvaluations() //Consume demasiada memoria

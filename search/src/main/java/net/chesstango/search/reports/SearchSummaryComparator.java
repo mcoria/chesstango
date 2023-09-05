@@ -17,10 +17,11 @@ import java.util.Objects;
 public class SearchSummaryComparator {
 
     public static void main(String[] args) {
-        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-09-04-18-35-full-CHT51-MapTTable");
-        summaryComparator.addSession("depth-5-2023-09-04-19-20-full-CHT51-ArrayTTable");
-        summaryComparator.addSession("depth-5-2023-09-04-22-29");
-        summaryComparator.addSession("depth-5-2023-09-04-22-54");
+        SearchSummaryComparator summaryComparator = new SearchSummaryComparator("depth-5-2023-09-04-22-54-full-CHT-98");
+        //summaryComparator.addSession("depth-5-2023-09-04-19-20-full-CHT51-ArrayTTable");
+        //summaryComparator.addSession("depth-5-2023-09-04-22-29");
+        //summaryComparator.addSession("depth-5-2023-09-04-22-54-full-CHT-98");
+        summaryComparator.addSession("depth-5-2023-09-05-06-12-full-CHT-79-CacheEvaluations");
         //
         //
 
@@ -126,3 +127,4 @@ public class SearchSummaryComparator {
         searchSessions.add(sessionID);
     }
 }
+

@@ -3,6 +3,7 @@ package net.chesstango.search.builders;
 
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMove;
 import net.chesstango.search.smart.IterativeDeepening;
 import net.chesstango.search.smart.NoIterativeDeepening;
@@ -164,8 +165,13 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
             quiescenceStatistics = new QuiescenceStatistics();
 
-            gameEvaluator = new EvaluatorStatistics(gameEvaluator)
-                    .setTrackEvaluations(withStatisticsTrackEvaluations);
+            if(gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache) {
+                gameEvaluator = new EvaluatorCacheStatistics(gameEvaluatorCache)
+                        .setTrackEvaluations(withStatisticsTrackEvaluations);
+            } else {
+                gameEvaluator = new EvaluatorStatistics(gameEvaluator)
+                        .setTrackEvaluations(withStatisticsTrackEvaluations);
+            }
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
@@ -188,8 +194,10 @@ public class AlphaBetaBuilder implements SearchBuilder {
         filters.add(moveSorter);
         filters.add(qMoveSorter);
 
-        if (gameEvaluator instanceof EvaluatorStatistics) {
-            filters.add((EvaluatorStatistics) gameEvaluator);
+        if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
+            filters.add(evaluatorStatistics);
+        } else if (gameEvaluator instanceof EvaluatorCacheStatistics evaluatorCacheStatistics) {
+            filters.add(evaluatorCacheStatistics);
         }
 
         // =============  quiescence setup =====================
