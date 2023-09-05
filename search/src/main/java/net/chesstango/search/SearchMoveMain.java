@@ -4,6 +4,7 @@ import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
 import net.chesstango.board.representations.SANEncoder;
+import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.evaluation.evaluators.EvaluatorSEandImp02;
 import net.chesstango.search.builders.AlphaBetaBuilder;
@@ -50,7 +51,7 @@ public class SearchMoveMain {
      * 3. Filtro de archivos
      * <p>
      * Ejemplo:
-     * 5 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-w[12].epd|mate-b[12].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
+     * 5 C:\java\projects\chess\chess-utils\testing\positions\database "(mate-[wb][123].epd|Bratko-Kopec.epd|wac-2018.epd|STS*.epd)"
      *
      * @param args
      */
@@ -280,20 +281,20 @@ public class SearchMoveMain {
 
     private SearchMove buildSearchMove() {
         return new AlphaBetaBuilder()
-                .withGameEvaluator(new GameEvaluatorCache(new EvaluatorSEandImp02()))
+                .withGameEvaluator(new DefaultEvaluator())
 
                 .withQuiescence()
 
-                //.withTranspositionTable()
-                //.withQTranspositionTable()
-                //.withTranspositionTableReuse()
+                .withTranspositionTable()
+                .withQTranspositionTable()
+                .withTranspositionTableReuse()
 
-                //.withTranspositionMoveSorter()
-                //.withQTranspositionMoveSorter()
+                .withTranspositionMoveSorter()
+                .withQTranspositionMoveSorter()
 
                 //.withStopProcessingCatch()
 
-                //.withIterativeDeepening()
+                .withIterativeDeepening()
 
                 .withStatistics()
                 //.withStatisticsTrackEvaluations() //Consume demasiada memoria

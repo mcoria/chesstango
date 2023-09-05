@@ -3,6 +3,8 @@ package net.chesstango.evaluation;
 import net.chesstango.board.Game;
 
 /**
+ * No se observan ganancias significativas cuando TT está habilitado y existe riesgo de colision
+ *
  * @author Mauricio Coria
  */
 public class GameEvaluatorCache implements GameEvaluator {
