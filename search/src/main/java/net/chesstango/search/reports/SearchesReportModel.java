@@ -19,11 +19,14 @@ public class SearchesReportModel {
     // Regular vs Quiescence
     ///////////////////// START TOTALS
     long visitedNodesTotal;
+    long expectedNodesTotal;
     long evaluatedGamesCounterTotal;
     long distinctEvaluatedGamesCounterTotal;
     long distinctEvaluatedGamesCounterUniqueTotal;
     long distinctEvaluatedGamesCounterCollisionsTotal;
     long evaluationCollisionPercentageTotal;
+
+    long executedMovesTotal;
     ///////////////////// END TOTALS
 
 
@@ -46,7 +49,6 @@ public class SearchesReportModel {
     ///////////////////// END VISITED QUIESCENCE NODES
 
     List<SearchReportModelDetail> moveDetails;
-    long executedMovesTotal;
 
     public static class SearchReportModelDetail {
         String id;
@@ -66,17 +68,22 @@ public class SearchesReportModel {
         /**
          * Node Statistics
          */
+
+        long visitedNodesTotal;
+        long expectedNodesTotal;
+
+
         int[] expectedRNodesCounters;
         int expectedRNodesCounter;
         int[] visitedRNodesCounters;
         int visitedRNodesCounter;
         int[] cutoffRPercentages;
 
+
         int[] expectedQNodesCounters;
         int expectedQNodesCounter;
         int[] visitedQNodesCounters;
         int visitedQNodesCounter;
-
         int[] cutoffQPercentages;
 
 
@@ -157,6 +164,7 @@ public class SearchesReportModel {
             searchesReportModel.evaluationCollisionPercentageTotal = (100 * searchesReportModel.distinctEvaluatedGamesCounterCollisionsTotal) / searchesReportModel.distinctEvaluatedGamesCounterTotal;
         }
         searchesReportModel.visitedNodesTotal = searchesReportModel.visitedRNodesTotal + searchesReportModel.visitedQNodesTotal;
+        searchesReportModel.expectedNodesTotal = searchesReportModel.expectedRNodesTotal + searchesReportModel.expectedQNodesTotal;
 
         return searchesReportModel;
     }
@@ -187,6 +195,8 @@ public class SearchesReportModel {
                 }
             }
         }
+        reportModelDetail.visitedNodesTotal = reportModelDetail.visitedRNodesCounter;
+        reportModelDetail.expectedNodesTotal = reportModelDetail.expectedRNodesCounter;
     }
 
     private static void collectStaticsQuiescenceNodeStatistics(SearchesReportModel searchesReportModel, SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
@@ -209,6 +219,8 @@ public class SearchesReportModel {
                 }
             }
         }
+        reportModelDetail.visitedNodesTotal += reportModelDetail.visitedQNodesCounter;
+        reportModelDetail.expectedNodesTotal += reportModelDetail.expectedQNodesCounter;
     }
 
     private static void collectStaticsEvaluationStatics(SearchesReportModel searchesReportModel, SearchReportModelDetail reportModelDetail, SearchMoveResult searchMoveResult) {
