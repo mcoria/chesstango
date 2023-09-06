@@ -1,9 +1,7 @@
 package net.chesstango.search;
 
-import net.chesstango.board.moves.Move;
 import net.chesstango.board.representations.EPDEntry;
 import net.chesstango.board.representations.EPDReader;
-import net.chesstango.board.representations.SANEncoder;
 import net.chesstango.evaluation.DefaultEvaluator;
 import net.chesstango.search.builders.AlphaBetaBuilder;
 import net.chesstango.search.reports.*;
@@ -15,8 +13,6 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -36,11 +32,7 @@ import java.util.stream.Stream;
  */
 public class SearchMoveMain {
 
-    //private static final String SEARCH_SESSION_ID = "2023-08-20-18-37";
-    //private static final String SEARCH_SESSION_ID = "test";
-
     private static final String SEARCH_SESSION_ID = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm"));
-    private static final int SEARCH_THREADS = 3;
 
     /**
      * Parametros
@@ -54,6 +46,7 @@ public class SearchMoveMain {
      * @param args
      */
     public static void main(String[] args) {
+
         int depth = Integer.parseInt(args[0]);
 
         String directory = args[1];
@@ -64,24 +57,9 @@ public class SearchMoveMain {
 
         SearchMoveMain suite = new SearchMoveMain(depth);
 
-        getFiles(directory, filePattern).forEach(suite::execute);
+        getEpdFiles(directory, filePattern).forEach(suite::execute);
     }
 
-    private static List<Path> getFiles(String directory, String filePattern) {
-        String finalPattern = filePattern.replace(".", "\\.").replace("*", ".*");
-        Predicate<String> matchPredicate = Pattern.compile(finalPattern).asMatchPredicate();
-        try (Stream<Path> stream = Files.list(Paths.get(directory))) {
-            return stream
-                    .filter(file -> !Files.isDirectory(file))
-                    .filter(file -> matchPredicate.test(file.getFileName().toString()))
-                    .toList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected static final SANEncoder sanEncoder = new SANEncoder();
-    protected static final EPDReader reader = new EPDReader();
 
     protected final int depth;
 
@@ -89,46 +67,21 @@ public class SearchMoveMain {
         this.depth = depth;
     }
 
-    public boolean test(EPDEntry EPDEntry) {
-        return run(EPDEntry).bestMoveFound();
-    }
+    public void execute(Path suitePath) {
+        EPDReader reader = new EPDReader();
 
-    public EpdSearchResult run(EPDEntry epdEntry) {
-        SearchMove searchMove = buildSearchMove();
-
-        return run(searchMove, epdEntry);
-    }
-
-    public EpdSearchResult run(SearchMove searchMove, EPDEntry epdEntry) {
-
-        Instant start = Instant.now();
-
-        SearchMoveResult searchResult = searchMove.search(epdEntry.game, depth);
-
-        long duration = Duration.between(start, Instant.now()).toMillis();
-
-        searchResult.setEpdID(epdEntry.id);
-
-        Move bestMove = searchResult.getBestMove();
-
-        String bestMoveFoundStr = sanEncoder.encode(bestMove, epdEntry.game.getPossibleMoves());
-
-        boolean bestMoveFound = epdEntry.bestMoves.contains(bestMove);
-
-        return new EpdSearchResult(epdEntry, bestMoveFoundStr, bestMoveFound, duration, searchResult);
-    }
-
-    private void execute(Path suitePath) {
         List<EPDEntry> edpEntries = reader.readEdpFile(suitePath);
 
-        run(suitePath, edpEntries);
+        List<EpdSearchResult> epdSearchResults = new EpdSearch()
+                .setDepth(depth)
+                .run(edpEntries);
+
+        report(suitePath, epdSearchResults);
 
         System.gc();
     }
 
-    private void run(Path suitePath, List<EPDEntry> edpEntries) {
-
-        List<EpdSearchResult> epdSearchResults = run(edpEntries);
+    private void report(Path suitePath, List<EpdSearchResult> epdSearchResults) {
 
         EpdSearchReportModel epdSearchReportModel = EpdSearchReportModel.collectStatics(epdSearchResults);
 
@@ -144,7 +97,7 @@ public class SearchMoveMain {
 
         saveSearchSummary(sessionDirectory, suiteName, epdSearchReportModel, nodesReportModel, evaluationReportModel);
 
-        //printReport(System.out, epdSearchReportModel, searchesReportModel);
+        printReport(System.out, epdSearchReportModel, nodesReportModel);
     }
 
     private void saveSearchSummary(Path sessionDirectory, String suiteName, EpdSearchReportModel epdSearchReportModel, NodesReportModel nodesReportModel, EvaluationReportModel evaluationReportModel) {
@@ -192,77 +145,6 @@ public class SearchMoveMain {
                 .printReport(output);
     }
 
-    private List<EpdSearchResult> run(List<EPDEntry> edpEntries) {
-        ExecutorService executorService = Executors.newFixedThreadPool(SEARCH_THREADS);
-
-        BlockingQueue<SearchMove> blockingQueue = new LinkedBlockingDeque<>(SEARCH_THREADS);
-
-        for (int i = 0; i < SEARCH_THREADS; i++) {
-            blockingQueue.add(buildSearchMove());
-        }
-
-        List<Future<EpdSearchResult>> futures = new LinkedList<>();
-        for (EPDEntry epdEntry : edpEntries) {
-            Future<EpdSearchResult> future = executorService.submit(new Callable<>() {
-                @Override
-                public EpdSearchResult call() throws Exception {
-                    SearchMove searchMove = null;
-                    try {
-                        searchMove = blockingQueue.take();
-                        EpdSearchResult epdSearchResult = run(searchMove, epdEntry);
-                        if (epdSearchResult.bestMoveFound()) {
-                            System.out.printf("Success %s\n", epdEntry.fen);
-                        } else {
-                            String failedTest = String.format("Fail [%s] - best move found %s",
-                                    epdEntry.text,
-                                    epdSearchResult.bestMoveFoundStr()
-                            );
-                            System.out.println(failedTest);
-                        }
-                        return epdSearchResult;
-                    } catch (RuntimeException e) {
-                        e.printStackTrace(System.err);
-                        throw e;
-                    } finally {
-                        assert searchMove != null;
-                        blockingQueue.put(searchMove);
-                    }
-                }
-            });
-
-            futures.add(future);
-        }
-
-        executorService.shutdown();
-        try {
-            while (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
-            }
-        } catch (InterruptedException e) {
-            System.out.println("Stopping executorService....");
-            executorService.shutdownNow();
-        }
-
-        List<EpdSearchResult> epdSearchResults = new LinkedList<>();
-        futures.forEach(future -> {
-            try {
-                EpdSearchResult epdSearchResult = future.get();
-                epdSearchResults.add(epdSearchResult);
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-
-        if (epdSearchResults.isEmpty()) {
-            throw new RuntimeException("No edp entry was processed");
-        }
-
-        epdSearchResults.sort(Comparator.comparing(o -> o.epdEntry().id));
-
-
-        return epdSearchResults;
-    }
-
     private Path createSessionDirectory(Path suitePath) {
         Path parentDirectory = suitePath.getParent();
 
@@ -279,27 +161,17 @@ public class SearchMoveMain {
         return sessionDirectory;
     }
 
-    private SearchMove buildSearchMove() {
-        return new AlphaBetaBuilder()
-                .withGameEvaluator(new DefaultEvaluator())
-
-                .withQuiescence()
-
-                .withTranspositionTable()
-                .withQTranspositionTable()
-                .withTranspositionTableReuse()
-
-                .withTranspositionMoveSorter()
-                .withQTranspositionMoveSorter()
-
-                //.withStopProcessingCatch()
-
-                .withIterativeDeepening()
-
-                .withStatistics()
-                //.withStatisticsTrackEvaluations() //Consume demasiada memoria
-
-                .build();
+    private static List<Path> getEpdFiles(String directory, String filePattern) {
+        String finalPattern = filePattern.replace(".", "\\.").replace("*", ".*");
+        Predicate<String> matchPredicate = Pattern.compile(finalPattern).asMatchPredicate();
+        try (Stream<Path> stream = Files.list(Paths.get(directory))) {
+            return stream
+                    .filter(file -> !Files.isDirectory(file))
+                    .filter(file -> matchPredicate.test(file.getFileName().toString()))
+                    .toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
