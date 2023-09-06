@@ -134,9 +134,9 @@ public class AlphaBetaBuilder implements SearchBuilder {
         return this;
     }
 
-    public SearchBuilder withStatisticsTrackEvaluations() {
+    public AlphaBetaBuilder withStatisticsTrackEvaluations() {
         if (!withStatistics) {
-            throw new RuntimeException("You must enable QTranspositionTable first");
+            throw new RuntimeException("You must enable Statistics first");
         }
         withStatisticsTrackEvaluations = true;
         return this;

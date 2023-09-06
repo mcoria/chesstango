@@ -35,9 +35,7 @@ public class EvaluationReport {
     protected void print() {
         printSummary();
 
-        if (printEvaluationsStatistics) {
-            new PrintEvaluationsStatistics(out, reportModel).printEvaluationsStatistics();
-        }
+        new PrintEvaluationsStatistics(out, reportModel).printEvaluationsStatistics();
 
         if (exportEvaluations) {
             new ExportEvaluations(reportModel).exportEvaluations();

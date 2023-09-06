@@ -33,14 +33,13 @@ public class SearchMoveResult {
 
     private List<Move> principalVariation;
 
-    private Collection<MoveEvaluation> moveEvaluations;
+    private List<MoveEvaluation> moveEvaluations;
 
     private EvaluationStatistics evaluationStatistics;
 
     private NodeStatistics regularNodeStatistics;
 
     private NodeStatistics quiescenceNodeStatistics;
-
 
     private int executedMoves;
 
