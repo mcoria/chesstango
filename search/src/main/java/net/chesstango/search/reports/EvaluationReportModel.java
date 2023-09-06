@@ -19,6 +19,7 @@ public class EvaluationReportModel {
      * Evaluation Statistics
      */
     public long evaluatedPositionsCounterTotal;
+    public long evaluatedPositionsCacheHitCounterTotal;
     public long evaluatedUniquePositionsCounterTotal;
     public long evaluatedUniquePositionsValuesCounterTotal;
     public long evaluatedUniquePositionsValuesCollisionsCounterTotal;
@@ -41,6 +42,7 @@ public class EvaluationReportModel {
          */
         public Set<EvaluationEntry> evaluations;
         public long evaluatedPositionsCounter;
+        public long evaluatedPositionsCacheHitCounter;
         public long evaluatedUniquePositionsCounter;
         public long evaluatedUniquePositionsValuesCounter;
         public long evaluatedUniquePositionsValuesCollisionsCounter;
@@ -82,6 +84,10 @@ public class EvaluationReportModel {
         }
 
         this.evaluatedPositionsCounterTotal += reportModelDetail.evaluatedPositionsCounter;
+        this.evaluatedPositionsCacheHitCounterTotal += reportModelDetail.evaluatedPositionsCacheHitCounter;
+        this.evaluatedUniquePositionsCounterTotal += reportModelDetail.evaluatedUniquePositionsCounter;
+        this.evaluatedUniquePositionsValuesCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCounter;
+        this.evaluatedUniquePositionsValuesCollisionsCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter;
         this.moveDetails.add(reportModelDetail);
     }
 
@@ -90,6 +96,7 @@ public class EvaluationReportModel {
         EvaluationStatistics evaluationStatistics = searchMoveResult.getEvaluationStatistics();
 
         reportModelDetail.evaluatedPositionsCounter = evaluationStatistics.evaluationsCounter();
+        reportModelDetail.evaluatedPositionsCacheHitCounter = evaluationStatistics.cacheHitsCounter();
 
         Set<EvaluationEntry> evaluations = evaluationStatistics.evaluations();
         if (evaluations != null) {
@@ -105,10 +112,6 @@ public class EvaluationReportModel {
                 reportModelDetail.evaluationCollisionPercentage = (100 * reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter) / reportModelDetail.evaluatedUniquePositionsCounter;
             }
         }
-
-        this.evaluatedUniquePositionsCounterTotal += reportModelDetail.evaluatedUniquePositionsCounter;
-        this.evaluatedUniquePositionsValuesCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCounter;
-        this.evaluatedUniquePositionsValuesCollisionsCounterTotal += reportModelDetail.evaluatedUniquePositionsValuesCollisionsCounter;
     }
 
 }

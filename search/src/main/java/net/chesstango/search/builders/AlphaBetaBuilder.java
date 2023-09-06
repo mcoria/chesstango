@@ -165,13 +165,8 @@ public class AlphaBetaBuilder implements SearchBuilder {
 
             quiescenceStatistics = new QuiescenceStatistics();
 
-            if (gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache) {
-                gameEvaluator = new EvaluatorCacheStatistics(gameEvaluatorCache)
-                        .setTrackEvaluations(withStatisticsTrackEvaluations);
-            } else {
-                gameEvaluator = new EvaluatorStatistics(gameEvaluator)
-                        .setTrackEvaluations(withStatisticsTrackEvaluations);
-            }
+            gameEvaluator = new EvaluatorStatistics(gameEvaluator)
+                    .setTrackEvaluations(withStatisticsTrackEvaluations);
         }
 
         List<SearchLifeCycle> filters = new ArrayList<>();
@@ -194,9 +189,7 @@ public class AlphaBetaBuilder implements SearchBuilder {
         filters.add(moveSorter);
         filters.add(qMoveSorter);
 
-        if (gameEvaluator instanceof EvaluatorCacheStatistics evaluatorCacheStatistics) {
-            filters.add(evaluatorCacheStatistics);
-        } else if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
+        if (gameEvaluator instanceof EvaluatorStatistics evaluatorStatistics) {
             filters.add(evaluatorStatistics);
         }
 

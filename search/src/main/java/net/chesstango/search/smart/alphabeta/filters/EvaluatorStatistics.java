@@ -4,6 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.chesstango.board.Game;
 import net.chesstango.evaluation.GameEvaluator;
+import net.chesstango.evaluation.GameEvaluatorCache;
 import net.chesstango.search.SearchMoveResult;
 import net.chesstango.search.smart.SearchContext;
 import net.chesstango.search.smart.SearchLifeCycle;
@@ -17,8 +18,9 @@ import java.util.Set;
  * @author Mauricio Coria
  */
 public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
-    private GameEvaluator imp;
-    private long counter;
+    private final GameEvaluator imp;
+    private final GameEvaluatorCache cache;
+    private long evaluationsCounter;
     private Set<EvaluationEntry> evaluations;
 
     @Setter
@@ -26,32 +28,38 @@ public class EvaluatorStatistics implements GameEvaluator, SearchLifeCycle {
     private boolean trackEvaluations;
 
 
-    public EvaluatorStatistics(GameEvaluator instance) {
-        this.imp = instance;
+    public EvaluatorStatistics(GameEvaluator gameEvaluator) {
+        this.imp = gameEvaluator;
+        this.cache = gameEvaluator instanceof GameEvaluatorCache gameEvaluatorCache ? gameEvaluatorCache : null;
     }
 
     @Override
     public int evaluate(Game game) {
-        counter++;
+        evaluationsCounter++;
         int evaluation = imp.evaluate(game);
         if (trackEvaluations) {
-            evaluations.add(new EvaluationEntry(game.getChessPosition().getZobristHash(), evaluation));
+            long hash = game.getChessPosition().getZobristHash();
+            evaluations.add(new EvaluationEntry(hash, evaluation));
         }
         return evaluation;
     }
 
     @Override
     public void beforeSearch(Game game, int maxDepth) {
-        counter = 0;
+        evaluationsCounter = 0;
         if (trackEvaluations) {
             evaluations = new LinkedHashSet<>();
+        }
+        if (cache != null) {
+            cache.resetCacheHitsCounter();
         }
     }
 
     @Override
     public void afterSearch(SearchMoveResult result) {
         if (result != null) {
-            result.setEvaluationStatistics(new EvaluationStatistics(counter, evaluations));
+            long cacheHitsCounter = cache != null ? cache.getCacheHitsCounter() : 0;
+            result.setEvaluationStatistics(new EvaluationStatistics(evaluationsCounter, cacheHitsCounter, evaluations));
         }
     }
 

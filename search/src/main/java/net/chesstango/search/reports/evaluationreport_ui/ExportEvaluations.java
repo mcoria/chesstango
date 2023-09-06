@@ -31,9 +31,11 @@ public class ExportEvaluations {
                 }
                 writer.append(String.format("\n"));
 
-                HexFormat hexFormat = HexFormat.of().withUpperCase();
-                for (EvaluationEntry evaluation : moveDetail.evaluations) {
-                    writer.append(String.format("0x%sL\t%d\n", hexFormat.formatHex(longToByte(evaluation.key())), evaluation.value()));
+                if (moveDetail.evaluations != null) {
+                    HexFormat hexFormat = HexFormat.of().withUpperCase();
+                    for (EvaluationEntry evaluation : moveDetail.evaluations) {
+                        writer.append(String.format("0x%sL\t%d\n", hexFormat.formatHex(longToByte(evaluation.key())), evaluation.value()));
+                    }
                 }
                 writer.flush();
             } catch (IOException e) {

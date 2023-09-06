@@ -31,6 +31,7 @@ public class PrintEvaluationsStatistics {
         // Marco superior de la tabla
         out.printf(" ________");
         out.printf("______________");
+        out.printf("______________");
         out.printf("_______________");
         out.printf("_______________");
         out.printf("_______________");
@@ -43,6 +44,7 @@ public class PrintEvaluationsStatistics {
         // Nombre de las columnas
         out.printf("| Move   ");
         out.printf("| Evaluations ");
+        out.printf("| Cache Hits  ");
         out.printf("| GEvaluations ");
         out.printf("| UEvaluations ");
         out.printf("| CEvaluations ");
@@ -57,6 +59,7 @@ public class PrintEvaluationsStatistics {
         for (EvaluationReportModel.EvolutionReportModelDetail moveDetail : reportModel.moveDetails) {
             out.printf("| %6s ", moveDetail.move);
             out.printf("| %11d ", moveDetail.evaluatedPositionsCounter);
+            out.printf("| %11d ", moveDetail.evaluatedPositionsCacheHitCounter);
             out.printf("| %12d ", moveDetail.evaluatedUniquePositionsCounter);
             out.printf("| %12d ", moveDetail.evaluatedUniquePositionsValuesCounter);
             out.printf("| %12d ", moveDetail.evaluatedUniquePositionsValuesCollisionsCounter);
@@ -69,6 +72,7 @@ public class PrintEvaluationsStatistics {
 
         // Totales
         out.printf("|--------");
+        out.printf("|-------------");
         out.printf("|-------------");
         out.printf("|--------------");
         out.printf("|--------------");
@@ -83,6 +87,7 @@ public class PrintEvaluationsStatistics {
 
         out.printf("| SUM    ");
         out.printf("| %11d ", reportModel.evaluatedPositionsCounterTotal);
+        out.printf("| %11d ", reportModel.evaluatedPositionsCacheHitCounterTotal);
         out.printf("| %12d ", reportModel.evaluatedUniquePositionsCounterTotal);
         out.printf("| %12d ", reportModel.evaluatedUniquePositionsValuesCounterTotal);
         out.printf("| %12d ", reportModel.evaluatedUniquePositionsValuesCollisionsCounterTotal);
@@ -97,6 +102,7 @@ public class PrintEvaluationsStatistics {
         // Marco inferior de la tabla
         out.printf(" ---------");
         out.printf("--------------");
+        out.printf("--------------");
         out.printf("---------------");
         out.printf("---------------");
         out.printf("---------------");
@@ -107,3 +113,4 @@ public class PrintEvaluationsStatistics {
         out.printf("\n\n");
     }
 }
+

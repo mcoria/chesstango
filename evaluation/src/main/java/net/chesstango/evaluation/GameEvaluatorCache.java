@@ -1,5 +1,6 @@
 package net.chesstango.evaluation;
 
+import lombok.Getter;
 import net.chesstango.board.Game;
 
 /**
@@ -9,12 +10,12 @@ import net.chesstango.board.Game;
  */
 public class GameEvaluatorCache implements GameEvaluator {
 
+    private static final int ARRAY_SIZE = 1024 * 512;
     private final GameEvaluator imp;
     private final GameEvaluatorCacheEntry[] cache;
 
-    private long statisticCounter = 0;
-
-    private static final int ARRAY_SIZE = 1024 * 512;
+    @Getter
+    private long cacheHitsCounter = 0;
 
     public GameEvaluatorCache(GameEvaluator imp) {
         this.imp = imp;
@@ -33,20 +34,17 @@ public class GameEvaluatorCache implements GameEvaluator {
         GameEvaluatorCacheEntry entry = cache[idx];
 
         if (entry.hash != hash) {
-            statisticCounter++;
             entry.hash = hash;
             entry.evaluation = imp.evaluate(game);
+        } else {
+            cacheHitsCounter++;
         }
 
         return entry.evaluation;
     }
 
-    public void resetStatisticCounter() {
-        statisticCounter = 0;
-    }
-
-    public long getStatisticCounter() {
-        return statisticCounter;
+    public void resetCacheHitsCounter() {
+        cacheHitsCounter = 0;
     }
 
     private static class GameEvaluatorCacheEntry {
